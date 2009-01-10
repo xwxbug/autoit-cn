@@ -1,0 +1,1470 @@
+<html>
+
+<!--
+'********************************************************************
+'*
+'*  File:          Scriptomatic.hta
+'*  Author:        The Scripting Guys, Microsoft Corporation
+'*  Created:       August 2002
+'*  Modified:      July 2003 (1.0 -> 1.1 -> 2.0)
+'*                 March 2004
+'*  Version:       2.0
+'*
+'*  Description:   Scriptomatic is a WMI Scripting learning tool
+'*                 that creates example WMI scripts -- in VBScript,
+'*                 JScript, or Perl -- that retrieve instances of
+'*                 WMI managed resources that are described by
+'*                 dynamic classes in the WMI schema (also known as
+'*                 the Common Information Model or CIM).
+'*
+'* Dependencies:   There are two (that we're aware of anyway):
+'*                 1. You must run Scriptomatic on a WMI-enabled
+'*                    computer. Any Windows operating system that has
+'*                    the number 2000 or higher in its name, or XP,
+'*                    is a safe bet.
+'*                 2. And to successfully run the scripts generated
+'*                    with Scriptomatic, well, you must be
+'*                    administrator. After all, these are system
+'*                    administration scripts. This piece of advice is
+'*                    especially important if you take advantage of
+'*                    the multiple computer feature that's new to
+'*                    this version of the tool.
+'*
+'* Copyright (C) 2003 Microsoft Corporation
+'*
+'********************************************************************
+-->
+
+<title>Scriptomatic V 2.0 by The Microsoft Scripting Guys	[收集:thesnow at www.autoit.com.cn]</title>
+
+<HTA:APPLICATION 
+     ID="objScriptomatic" 
+     APPLICATIONNAME="Scriptomatic"
+     SCROLL="no"
+     SINGLEINSTANCE="yes"
+     WINDOWSTATE="normal"
+>
+<head>
+
+<style>
+BODY
+{
+   background-color: buttonface;
+   font-family: Helvetica;
+   font-size: 8pt;
+   margin-top: 2px;
+   margin-left: 8px;
+   margin-right: 3px;
+   margin-bottom: 3px;
+}
+
+.button
+{
+   font-family: Helvetica;
+   font-size: 8pt;
+   width: 40px;
+}
+
+.wmibutton
+{
+   font-family: Helvetica;
+   font-size: 8pt;
+   width: 70px;
+}
+.bigger_button
+{
+   font-family: Helvetica;
+   font-size: 8pt;
+   width: 80px;
+}
+
+textarea
+{
+   font-family: Arial;
+   font-size: 8pt;
+   margin-left: 3px;
+   margin-right: 3px;
+}
+
+select
+{
+   font-family: Arial;
+   font-size: 8pt;
+   width: 450px;
+   margin-left: 0px;
+}
+</style>
+
+'********************************************************************
+'* BEGIN_SCRIPT
+'********************************************************************
+<script language="vbscript">
+
+'************************
+'* Global State Variables
+'************************
+g_strCurrentLanguage     = "VBScript"
+g_strCurrentNamespace    = "\root\CIMV2"
+g_iCurrentNamespaceIndex = 0
+g_strOutputFormat        = "CmdLine"
+g_strWMISource           = "localhost"
+
+'********************************************************************
+'* Window_Onload
+'********************************************************************
+Sub Window_Onload
+
+   self.Focus()
+   self.ResizeTo 775,590
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' The user hasn't had a chance to select a class and generate a
+   ' script so, disable the run and save buttons because they are not
+   ' yet meaningful. The open button will not yet be responsive due to
+   ' the churning going on, so disable that for now too.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   run_button.Disabled  = True
+   save_button.Disabled = True
+   
+   code.InnerHTML = "<textarea cols=120 rows=25></textarea>"
+
+   LoadWMINamespaces
+
+End Sub
+
+'********************************************************************
+'* LoadWMINamespaces
+'********************************************************************
+Sub LoadWMINamespaces
+
+   strCsvListOfNamespaces = ""
+   Call EnumNameSpaces("root", strCsvListOfNamespaces)
+
+   arrNamespaces = Split(strCsvListOfNamespaces, ",")
+
+   strHTML = "<select style=""width:300px;"" onChange=""HandleNamespaceChange()"" name=NamespacesPulldown>"
+
+   For Each strNamespace in arrNamespaces
+
+      strHTML = strHTML & "<option value= " & Chr(34) & strNamespace & Chr(34)
+      If UCase(strNamespace) = "ROOT\CIMV2" Then
+         strHTML = strHTML & " SELECTED "
+      End If 
+      strHTML = strHTML & ">" & strNamespace
+
+   Next
+   strHTML = strHTML & "</select>"
+
+   wmi_namespaces.InnerHTML = strHTML
+   g_iCurrentNamespaceIndex = NamespacesPulldown.selectedIndex
+
+   HandleNamespaceChange
+
+End Sub
+
+'********************************************************************
+'* EnumNamespaces
+'********************************************************************
+Sub EnumNamespaces(ByVal strNamespace, ByRef tmpCsvListOfNamespaces)
+
+   If tmpCsvListOfNamespaces = "" Then
+      tmpCsvListOfNamespaces = strNamespace
+   Else
+      tmpCsvListOfNamespaces = tmpCsvListOfNamespaces & "," & strNamespace
+   End If
+
+   strComputer = "."
+   Set objWMIService = GetObject("winmgmts:\\" & g_strWMISource & "\" & strNameSpace)
+   Set colNameSpaces = objWMIService.InstancesOf("__NAMESPACE")
+
+   For Each objNameSpace In colNameSpaces
+      Call EnumNamespaces(strNameSpace & "\" & objNameSpace.Name, tmpCsvListOfNamespaces)
+   Next
+
+End Sub
+
+'********************************************************************
+'* HandleNamespaceChange
+'********************************************************************
+Sub HandleNamespaceChange
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Clear the WMI classes pulldown location.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   wmi_classes.innerHTML = "<div style=""font-size:8pt;color:red;"">请等待, 尝试载入 WMI 类命名空间 " & namespacespulldown.value & " ...</div>"
+   window.setTimeout "LoadWMIClasses()", 0, "vbscript"
+   g_strCurrentNamespace = "\" & namespacespulldown.Value
+   
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Clear the code textarea and disable run and save.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   code.InnerHTML = ""
+   run_button.Disabled = True
+   save_button.Disabled = True
+
+
+End Sub
+
+'********************************************************************
+'* LoadWMIClasses
+'*
+'* Fetch all the classes in the currently selected namespace, and
+'* populate the keys of a dictionary object with the names of all
+'* dynamic (non-association) classes. Then we transfer the keys to
+'* an array, sort the array, and finally use the sorted array to
+'* populate the WMI classes pulldown.
+'********************************************************************
+Sub LoadWMIClasses
+
+   Const SORT_KEYS  = 1
+   Const SORT_ITEMS = 2
+
+   Set objClassDictionary = CreateObject("Scripting.Dictionary")
+   Set objQualifierDictionary = CreateObject("Scripting.Dictionary")
+
+   strComputer = "."
+   Set objWMIService = GetObject("winmgmts:\\" & strComputer & g_strCurrentNamespace)
+
+   For Each objClass in objWMIService.SubclassesOf()
+
+      For Each objQualifier In objClass.Qualifiers_
+         objQualifierDictionary.Add LCase(objQualifier.Name), ""
+      Next
+
+      If objQualifierDictionary.Exists("dynamic") Then
+
+         objClassDictionary.Add objClass.Path_.Class, ""
+
+      End If
+
+      objQualifierDictionary.RemoveAll
+
+   Next
+
+   Set objQualifierDictionary = Nothing
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If the current namespace contains dynamic classes...
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If objClassDictionary.Count Then
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' Sort the dictionary.
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      SortDictionary objClassDictionary, SORT_KEYS
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' Populate the WMI classes pulldown with the sorted dictionary.
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      wmi_classes.InnerHTML = ""
+      strHTML = "<select style=""width:350px;"" onChange=""ComposeCode()"" name=ClassesPulldown>" & _
+                "<option value=""PulldownMessage"">Select a WMI class"
+
+      For Each strWMIClass in objClassDictionary.Keys
+         strHTML = strHTML & "<option value= " & Chr(34) & _
+                   strWMIClass & Chr(34) & ">" & strWMIClass
+      Next
+
+      strHTML = strHTML & "</select>"
+      wmi_classes.InnerHTML = strHTML
+
+   Else
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' And if the current namespace doesn't contain dynamic classes.
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      wmi_classes.InnerHTML = "<select style=""width:350px;"" name=ClassesPulldown>" & _
+                              "<option value=""PulldownMessage"">" & _
+                              "未在当前命名空间中发现动态类. " & _
+                              "请选择一个其它的命名空间.</select>"
+
+   End If
+
+   Set objClassDictionary = Nothing
+
+End Sub
+
+'********************************************************************
+'* ComposeCode
+'*
+'* ComposeCode simply notices the value of the global
+'* g_strCurrentLanguage and redirects to the function that knows how
+'* to compose the script in that language.
+'********************************************************************
+Sub ComposeCode
+
+   open_button.Disabled = False
+
+   Select Case g_strCurrentLanguage
+
+      Case "VBScript"
+         ComposeVBScriptCode
+      
+      Case "JScript"
+         ComposeJScriptCode
+
+      Case "Perl"
+         ComposePerlCode
+
+      Case "Python"
+         ComposePythonCode
+
+
+   End Select
+
+End Sub
+
+'********************************************************************
+'* LoadTargetComputersIntoArray
+'*
+'********************************************************************
+Function LoadTargetComputersIntoArray(strLocalComputer)
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' if there's nothing in the target computers textbox
+   ' then we'll just assume that the user wants to have the
+   ' script act against the local computer - so we'll load
+   ' up the target computer textbox with the name of the local
+   ' computer and we might as well exit the function after that
+   '''''''''''''''''''''''''''''''''''''''''''''''''''''
+   strTargetComputers = target_computers.Value
+   If Trim(strTargetComputers) = "" Then
+      target_computers.Value = strLocalComputer
+      LoadTargetComputersIntoArray = Array(strLocalComputer)
+      Exit Function
+   End If
+   
+   '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' we want any series of spaces, commas, semi-colons, colons
+   ' or carriage return/linefeeds pairs to be converted to just
+   ' a single space, comma, etc. So, we'll fire up VBScript's 
+   ' regular expression object and do the requisite replacing.
+   '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objRegExp = New RegExp
+   
+   '''''''''''''''''''''''''''
+   ' space(s) -> single space
+   '''''''''''''''''''''''''''
+   With objRegExp
+      .Pattern = " +"
+      .IgnoreCase = True
+      .Global = True
+   End With
+   
+   strTargetComputers = objRegExp.Replace(strTargetComputers, ",")
+   
+   
+   '''''''''''''''''''''''''''''''''''''
+   ' semi-colon(s) -> single semi-colon
+   '''''''''''''''''''''''''''''''''''''
+   With objRegExp
+      .Pattern = ";+"
+      .IgnoreCase = True
+      .Global = True
+   End With
+   
+   strTargetComputers = objRegExp.Replace(strTargetComputers, ",")
+   
+   '''''''''''''''''''''''''''
+   ' colon(s) -> single colon
+   '''''''''''''''''''''''''''
+   With objRegExp
+      .Pattern = ":+"
+      .IgnoreCase = True
+      .Global = True
+   End With
+   
+   strTargetComputers = objRegExp.Replace(strTargetComputers, ",")
+   
+   ''''''''''''''''''''''''''
+   ' CRLF(s) -> single CRLF
+   ''''''''''''''''''''''''''
+   With objRegExp
+      .Pattern = "(\r\n)+"
+      .IgnoreCase = True
+      .Global = True
+   End With
+   
+   strTargetComputers = objRegExp.Replace(strTargetComputers, ",")
+   
+   '''''''''''''''''''''''''''
+   ' comma(s) -> single comma
+   '''''''''''''''''''''''''''
+   With objRegExp
+      .Pattern = ",+"
+      .IgnoreCase = True
+      .Global = True
+   End With
+   
+   strTargetComputers = objRegExp.Replace(strTargetComputers, ",")
+   
+   '''''''''''''''''''''''''''''''''''''''''''''''
+   ' we might end up with a comma at the end
+   ' of strTargetComputers if the user entered extra
+   ' delimiters after the final computer name - so
+   ' let's check for that and remove it if need be.
+   '''''''''''''''''''''''''''''''''''''''''''''''
+   If Right(strTargetComputers,1) = "," Then
+      strTargetComputers = Left(strTargetComputers,Len(strTargetComputers)-1)
+   End If
+   
+   LoadTargetComputersIntoArray = Split(strTargetComputers,",")
+   
+   
+End Function
+
+
+'********************************************************************
+'* ComposeVBScriptCode
+'*
+'* When the user selects a class from the pulldown, the ComposeCode
+'* subroutine is called. It queries WMI to determine the properties
+'* of the class the user selected and uses the information to
+'* construct sample code which it puts in the main window's textarea.
+'********************************************************************
+Sub ComposeVBScriptCode
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Set global variable indicating that the scripting language the
+   ' current script is written in has been changed to VBScript.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   g_strCurrentLanguage = "VBScript"
+   bHasDates            = False
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If the user happens to select the [select something] message 
+   ' instead of a class, just disable the run and save buttons and
+   ' exit the subroutine.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If ClassesPulldown.Value = "PulldownMessage" Then
+      run_button.Disabled = True
+      save_button.Disabled = True
+      Exit Sub
+   End If
+   
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Check the Target Computer Text Input Area. If it is blank, fill
+   ' in the local computer name. If there is only a single computer
+   ' name listed, construct the code accordingly. If there are
+   ' multiple computer names (or IPs) listed, then construct the code 
+   ' accordingly.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objNetwork = CreateObject("WScript.Network")
+   strLocalComputer = objNetwork.ComputerName
+   Set objNetwork = Nothing
+   tmparrComputers = LoadTargetComputersIntoArray(strLocalComputer)
+
+   
+   '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If we check and don't find anything in the target computers textbox
+   ' we'll assume the user just wants to run the script on the local 
+   ' machine and, so, we'll just add the local computer name to the textbox
+   ' for them
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+   strArrayCommand = "arrComputers = Array(" & Chr(34)
+   For i = 0 To UBound(tmparrComputers)
+      If i > 0 Then
+         strArrayCommand = strArrayCommand & Chr(34) & "," & Chr(34)
+      End If 
+      strArrayCommand = strArrayCommand & Trim(tmparrComputers(i))
+   Next
+   strArrayCommand = strArrayCommand & Chr(34) & ")"
+
+   Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strLocalComputer & g_strCurrentNamespace)
+   Set objClass = objWMIService.Get(ClassesPulldown.Value)
+
+   strHTML = "<textarea cols=120 rows=25>"
+   strHTML = strHTML & "On Error Resume Next" & Chr(10) & Chr(10)
+   strHTML = strHTML & "Const wbemFlagReturnImmediately = &h10" & Chr(10)
+   strHTML = strHTML & "Const wbemFlagForwardOnly = &h20" & Chr(10) & Chr(10)
+   strHTML = strHTML & strArrayCommand & Chr(10)
+   strHTML = strHTML & "For Each strComputer In arrComputers" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo " & Chr(34) & "==========================================" & Chr(34) & Chr(10)
+   strHTML = strHTML & "   WScript.Echo " & Chr(34) & "Computer: " & Chr(34) & " & strComputer" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo " & Chr(34) & "==========================================" & Chr(34) & Chr(10) & Chr(10)
+   strHTML = strHTML & "   Set objWMIService = GetObject(" & Chr(34) & "winmgmts:\\" & Chr(34) & " & strComputer & " & Chr(34) & g_strCurrentNamespace & Chr(34) & ")" & Chr(10) 
+   strHTML = strHTML & "   Set colItems = objWMIService.ExecQuery(" & Chr(34) & "SELECT * FROM " & ClassesPulldown.Value & Chr(34) & ", " & Chr(34) & "WQL" & Chr(34) & ", _" & Chr(10)
+   strHTML = strHTML & "                                          wbemFlagReturnImmediately + wbemFlagForwardOnly)" & Chr(10) & Chr(10)
+   strHTML = strHTML & "   For Each objItem In colItems" & Chr(10)
+   
+   
+   For Each objProperty in objClass.Properties_
+   
+      If objProperty.IsArray = True Then
+         strHTML = strHTML & "      str" & objProperty.Name & " = Join(objItem." & objProperty.Name & ", " & Chr(34) & "," & Chr(34) & ")" & Chr(10)
+         strHTML = strHTML & "         WScript.Echo " & Chr(34) & objProperty.Name & ": " & Chr(34) & " & str" & objProperty.Name & Chr(10)
+      ElseIf objProperty.CIMTYPE = 101 Then
+         bHasDates = True
+         strHTML = strHTML & "      WScript.Echo " & Chr(34) & objProperty.Name & ": " & Chr(34) & " & WMIDateStringToDate(objItem." & objProperty.Name & ")" & Chr(10)
+      Else
+         strHTML = strHTML & "      WScript.Echo " & Chr(34) & objProperty.Name & ": " & Chr(34) & " & objItem." & objProperty.Name & Chr(10)
+      End If
+   Next
+   strHTML = strHTML & "      WScript.Echo" & Chr(10)
+   strHTML = strHTML & "   Next" & Chr(10)
+   strHTML = strHTML & "Next" & Chr(10) & Chr(10) & Chr(10)
+   
+   If bHasDates Then
+      strHTML = strHTML & "Function WMIDateStringToDate(dtmDate)" & Chr(10)
+      strHTML = strHTML & "WScript.Echo dtm: " & dtmDate & Chr(10)
+      strHTML = strHTML & Chr(9) & "WMIDateStringToDate = CDate(Mid(dtmDate, 5, 2) & ""/"" & _" & Chr(10)
+      strHTML = strHTML & Chr(9) & "Mid(dtmDate, 7, 2) & ""/"" & Left(dtmDate, 4) _" & Chr(10)
+      strHTML = strHTML & Chr(9) & "& "" "" & Mid (dtmDate, 9, 2) & "":"" & Mid(dtmDate, 11, 2) & "":"" & Mid(dtmDate,13, 2))" & Chr(10)
+      strHTML = strHTML & "End Function"
+   End If
+   strHTML = strHTML & "</textarea>"
+
+   code.InnerHTML= strHTML
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Once the code is successfully composed and put into the
+   ' textarea, ensure that the run and save buttons are enabled.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   run_button.Disabled = False
+   save_button.Disabled = False
+
+End Sub
+
+'********************************************************************
+'* ComposeJScriptCode
+'*
+'* When the user selects a class from the pulldown, the ComposeCode
+'* subroutine is called. It queries WMI to determine the properties
+'* of the class the user selected and uses the information to
+'* construct sample code which it puts in the main window's textarea.
+'********************************************************************
+Sub ComposeJScriptCode
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Set global variable indicating that the scripting language the
+   ' current script is written in has been changed to JScript.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   g_strCurrentLanguage = "JScript"
+   bHasDates            = False
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If the user happens to select the message instead of a class,
+   ' just disable the run and save buttons and exit the subroutine.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If ClassesPulldown.Value = "PulldownMessage" Then
+      run_button.disabled = True
+      save_button.disabled = True
+      Exit Sub
+   End If
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Check the Target Computer Text Input Area. If it is blank, fill
+   ' in the local computer name. If there is only a single computer
+   ' name listed, construct the code accordingly. If there are
+   ' multiple computer names (or IPs) listed, then construct the code 
+   ' accordingly.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objNetwork = CreateObject("WScript.Network")
+   strLocalComputer = objNetwork.ComputerName
+   Set objNetwork = Nothing   
+
+   tmparrComputers = LoadTargetComputersIntoArray(strLocalComputer)
+
+   strArrayCommand = "var arrComputers = new Array(" & Chr(34)
+   For i = 0 To UBound(tmparrComputers)
+      If i > 0 Then
+         strArrayCommand = strArrayCommand & Chr(34) & "," & Chr(34)
+      End If 
+      strArrayCommand = strArrayCommand & Trim(tmparrComputers(i))
+   Next
+   strArrayCommand = strArrayCommand & Chr(34) & ");"
+
+   strComputer = "."
+   Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & g_strCurrentNamespace)
+   Set objClass = objWMIService.Get(ClassesPulldown.Value)
+
+   strHTML = "<textarea cols=120 rows=25>"
+   strHTML = strHTML & "var wbemFlagReturnImmediately = 0x10;" & Chr(10)
+   strHTML = strHTML & "var wbemFlagForwardOnly = 0x20;" & Chr(10) & Chr(10)
+   strHTML = strHTML & strArrayCommand & Chr(10)
+   strHTML = strHTML & "for (i = 0; i < arrComputers.length; i++) {" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo();" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo(" & Chr(34) & "==========================================" & Chr(34) & ");" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo(" & Chr(34) & "Computer: " & Chr(34) & " + arrComputers[i]);" & Chr(10)
+   strHTML = strHTML & "   WScript.Echo(" & Chr(34) & "==========================================" & Chr(34) & ");" & Chr(10) & Chr(10)
+   strHTML = strHTML & "   var objWMIService = GetObject(" & Chr(34) & "winmgmts:\\\\" & Chr(34) & " + arrComputers[i] + " & Chr(34) & Replace(g_strCurrentNamespace, "\", "\\") & Chr(34) & ");" & Chr(10)
+   strHTML = strHTML & "   var colItems = objWMIService.ExecQuery(" & Chr(34) & "SELECT * FROM " & ClassesPulldown.Value & Chr(34) & ", " & Chr(34) & "WQL" & Chr(34) & "," & Chr(10)
+   strHTML = strHTML & "                                          wbemFlagReturnImmediately | wbemFlagForwardOnly);" & Chr(10) & Chr(10)
+   strHTML = strHTML & "   var enumItems = new Enumerator(colItems);" & Chr(10)
+   strHTML = strHTML & "   for (; !enumItems.atEnd(); enumItems.moveNext()) {" & Chr(10)
+   strHTML = strHTML & "      var objItem = enumItems.item();" & Chr(10) & Chr(10)
+   For Each objProperty in objClass.Properties_
+      If objProperty.IsArray = True Then
+         strHTML = strHTML & "      try { WScript.Echo(" & Chr(34) & objProperty.Name & ": " & Chr(34) & " + (objItem." & objProperty.Name & ".toArray()).join(" & Chr(34) & "," & Chr(34) & ")); }" & Chr(10)
+         strHTML = strHTML & "         catch(e) { WScript.Echo(" & Chr(34) & objProperty.Name & ": null" & Chr(34) & "); }" & Chr(10)
+      ElseIf objProperty.CIMTYPE = 101 Then 'the property is of type CIM_DATETIME, so handle accordingly
+         bHasDates = True
+         strHTML = strHTML & "      WScript.Echo(" & Chr(34) & objProperty.Name & ": " & Chr(34) & " + WMIDateStringToDate(objItem." & objProperty.Name & "));" & Chr(10)   
+      Else
+         strHTML = strHTML & "      WScript.Echo(" & Chr(34) & objProperty.Name & ": " & Chr(34) & " + objItem." & objProperty.Name & ");" & Chr(10)
+      End If
+   Next
+   strHTML = strHTML & "   }" & Chr(10)
+   strHTML = strHTML & "}" & Chr(10) & Chr(10)
+   
+   If bHasDates Then
+	   strHTML = strHTML & "function WMIDateStringToDate(dtmDate)" & Chr(10)
+	   strHTML = strHTML & "{" & Chr(10)
+	   strHTML = strHTML & "   if (dtmDate == null)" & Chr(10)
+	   strHTML = strHTML & "   {" & Chr(10)
+	   strHTML = strHTML & "      return ""null date"";" & Chr(10)
+	   strHTML = strHTML & "   }" & Chr(10)
+	   strHTML = strHTML & "   var strDateTime;" & Chr(10)
+	   strHTML = strHTML & "   if (dtmDate.substr(4, 1) == 0)" & Chr(10)
+	   strHTML = strHTML & "   {" & Chr(10)
+	   strHTML = strHTML & "      strDateTime = dtmDate.substr(5, 1) + ""/"";" & Chr(10)
+	   strHTML = strHTML & "   }" & Chr(10)
+	   strHTML = strHTML & "   else" & Chr(10)
+	   strHTML = strHTML & "   {" & Chr(10)
+	   strHTML = strHTML & "      strDateTime = dtmDate.substr(4, 2) + ""/"";" & Chr(10)
+	   strHTML = strHTML & "   }" & Chr(10)
+	   strHTML = strHTML & "   if (dtmDate.substr(6, 1) == 0)" & Chr(10)
+	   strHTML = strHTML & "   {" & Chr(10)
+	   strHTML = strHTML & "      strDateTime = strDateTime + dtmDate.substr(7, 1) + ""/"";" & Chr(10)
+	   strHTML = strHTML & "   }" & Chr(10)
+	   strHTML = strHTML & "   else" & Chr(10)
+	   strHTML = strHTML & "   {" & Chr(10)
+	   strHTML = strHTML & "      strDateTime = strDateTime + dtmDate.substr(6, 2) + ""/"";" & Chr(10)
+	   strHTML = strHTML & "   }" & Chr(10)
+	   strHTML = strHTML & "   strDateTime = strDateTime + dtmDate.substr(0, 4) + "" "" +" & Chr(10)
+	   strHTML = strHTML & "   dtmDate.substr(8, 2) + "":"" +" & Chr(10)
+	   strHTML = strHTML & "   dtmDate.substr(10, 2) + "":"" +" & Chr(10)
+	   strHTML = strHTML & "   dtmDate.substr(12, 2);" & Chr(10)
+	   strHTML = strHTML & "   return(strDateTime);" & Chr(10)
+	   strHTML = strHTML & "}"
+   End If
+   strHTML = strHTML & "</textarea>"
+
+   code.InnerHTML= strHTML
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Once the code is successfully composed and put into the
+   ' textarea, ensure that the run and save buttons are enabled.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   run_button.disabled  = False
+   save_button.disabled = False
+   open_button.disabled = False
+
+End Sub
+
+'********************************************************************
+'* ComposePerlCode
+'*
+'* When the user selects a class from the pulldown, the ComposeCode
+'* subroutine is called. It queries WMI to determine the properties
+'* of the class the user selected and uses the information to
+'* construct sample code which it puts in the main window's textarea.
+'********************************************************************
+Sub ComposePerlCode
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Set global variable indicating that the scripting language the
+   ' current script is written in has been changed to Perl.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   g_strCurrentLanguage = "Perl"
+   bHasDates = False
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If the user happens to select the message instead of a class,
+   ' just disable the run and save buttons and exit the subroutine.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If ClassesPulldown.Value = "PulldownMessage" Then
+      run_button.disabled = True
+      save_button.disabled = True
+      Exit Sub
+   End If
+   
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Check the Target Computer Text Input Area. If it is blank, fill
+   ' in the local computer name. If there is only a single computer
+   ' name listed, construct the code accordingly. If there are
+   ' multiple computer names (or IPs) listed, then construct the code 
+   ' accordingly.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objNetwork = CreateObject("WScript.Network")
+   strLocalComputer = objNetwork.ComputerName
+   Set objNetwork = Nothing   
+
+   tmparrComputers = LoadTargetComputersIntoArray(strLocalComputer)
+
+   strArrayCommand = "my @computers = (" & Chr(34)
+   For i = 0 To UBound(tmparrComputers)
+      If i > 0 Then
+         strArrayCommand = strArrayCommand & Chr(34) & "," & Chr(34)
+      End If 
+      strArrayCommand = strArrayCommand & Trim(tmparrComputers(i))
+   Next
+   strArrayCommand = strArrayCommand & Chr(34) & ");"
+
+   Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strLocalComputer & g_strCurrentNamespace)
+   Set objClass = objWMIService.Get(ClassesPulldown.Value)
+
+   strHTML = "<textarea cols=120 rows=25>"
+   strHTML = strHTML & "use strict;" & Chr(10)
+   strHTML = strHTML & "use Win32::OLE('in');" & Chr(10) & Chr(10)
+   strHTML = strHTML & "use constant wbemFlagReturnImmediately => 0x10;" & Chr(10)
+   strHTML = strHTML & "use constant wbemFlagForwardOnly => 0x20;" & Chr(10) & Chr(10)
+   strHTML = strHTML &  strArrayCommand & Chr(10)
+   strHTML = strHTML & "foreach my $computer (@computers) {" & Chr(10)
+   strHTML = strHTML & "   print " & Chr(34) & "\n" & Chr(34) & ";" & Chr(10)
+   strHTML = strHTML & "   print " & Chr(34) & "==========================================\n" & Chr(34) & ";" & Chr(10)
+   strHTML = strHTML & "   print " & Chr(34) & "Computer: $computer\n" & Chr(34) & ";" & Chr(10)
+   strHTML = strHTML & "   print " & Chr(34) & "==========================================\n" & Chr(34) & ";" & Chr(10) & Chr(10)
+   strHTML = strHTML & "   my $objWMIService = Win32::OLE->GetObject(" & Chr(34) & "winmgmts:\\\\$computer" & Replace(g_strCurrentNamespace, "\", "\\") & Chr(34) & ") or die " & Chr(34) & "WMI connection failed.\n" & Chr(34) & ";" & Chr(10)
+   strHTML = strHTML & "   my $colItems = $objWMIService->ExecQuery(" & Chr(34) & "SELECT * FROM " & ClassesPulldown.Value & Chr(34) & ", " & Chr(34) & "WQL" & Chr(34) & "," & Chr(10)
+   strHTML = strHTML & "                  wbemFlagReturnImmediately | wbemFlagForwardOnly);" & Chr(10) & Chr(10)
+   strHTML = strHTML & "   foreach my $objItem (in $colItems) {" & Chr(10)
+   For Each objProperty in objClass.Properties_
+      If objProperty.IsArray = True Then
+         strHTML = strHTML & "      print " & Chr(34) & objProperty.Name & ": " & Chr(34) & " . join(" & Chr(34) & "," & Chr(34) & ", (in $objItem->{" & objProperty.Name & "})) . " & Chr(34) & "\n" & Chr(34) & ";" & Chr(10)
+      ElseIf objProperty.CIMTYPE = 101 Then
+         bHasDates = True
+         strHTML = strHTML & "      print " & Chr(34) & objProperty.Name & ": $objItem->{" & objProperty.Name & "}\n" & Chr(34) & ";" & Chr(10)
+      Else
+         strHTML = strHTML & "      print " & Chr(34) & objProperty.Name & ": $objItem->{" & objProperty.Name & "}\n" & Chr(34) & ";" & Chr(10)
+      End If
+   Next
+   strHTML = strHTML & "      print " & Chr(34) & "\n" & Chr(34) & ";" & Chr(10)
+   strHTML = strHTML & "   }" & Chr(10)
+   strHTML = strHTML & "}"
+   
+   If bHasDates Then
+      strHTML = strHTML & "sub WMIDateStringToDate(strDate)" & Chr(10)
+      strHTML = strHTML & "{" & Chr(10) 
+      strHTML = strHTML & "   return ""blah"";" & Chr(10)
+      strHTML = strHTML & "}" & Chr(10)
+   End If
+   
+   
+   
+   strHTML = strHTML & "</textarea>"
+
+   code.InnerHTML= strHTML
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Once the code is successfully composed and put into the
+   ' textarea, ensure that the save button is enabled. You might
+   ' notice that we don't enable the run button. "Why?", you ask.
+   ' Truth be told, because we were to lazy to add the check to
+   ' determine if Perl is installed on the local computer. However,
+   ' if you have a version of Perl that supports the Win32::OLE
+   ' module installed, by all means, enable the run button here by
+   ' setting its Disabled property to False.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   run_button.Disabled = False
+   save_button.Disabled = False
+
+End Sub
+
+'********************************************************************
+'* ComposePythonCode 
+'********************************************************************
+Sub ComposePythonCode
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Set global variable indicating that the scripting language the
+   ' current script is written in has been changed to Python.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   g_strCurrentLanguage = "Python"
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' If the user happens to select the message instead of a class,
+   ' just disable the run and save buttons and exit the subroutine.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If ClassesPulldown.Value = "PulldownMessage" Then
+      run_button.disabled = True
+      save_button.disabled = True
+      Exit Sub
+   End If
+   
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Check the Target Computer Text Input Area. If it is blank, fill
+   ' in the local computer name. If there is only a single computer
+   ' name listed, construct the code accordingly. If there are
+   ' multiple computer names (or IPs) listed, then construct the code 
+   ' accordingly.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objNetwork = CreateObject("WScript.Network")
+   strLocalComputer = objNetwork.ComputerName
+   Set objNetwork = Nothing   
+
+   tmparrComputers = LoadTargetComputersIntoArray(strLocalComputer)
+
+   strArrayCommand = "my @computers = (" & Chr(34)
+   For i = 0 To UBound(tmparrComputers)
+      If i > 0 Then
+         strArrayCommand = strArrayCommand & Chr(34) & "," & Chr(34)
+      End If 
+      strArrayCommand = strArrayCommand & Trim(tmparrComputers(i))
+   Next
+   strArrayCommand = strArrayCommand & Chr(34) & ");"
+
+   Set objWMIService = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strLocalComputer & g_strCurrentNamespace)
+   Set objClass = objWMIService.Get(ClassesPulldown.Value)
+   
+   strHTML = "<textarea cols=120 rows=25>"
+   strHTML = strHTML & "import win32com.client" & Chr(10)
+   
+   strHTML = strHTML & "def WMIDateStringToDate(dtmDate):" & Chr(10)
+   strHTML = strHTML & "    strDateTime = """"" & Chr(10)
+   strHTML = strHTML & "    if (dtmDate[4] == 0):" & Chr(10)
+   strHTML = strHTML & "        strDateTime = dtmDate[5] + '/'" & Chr(10)
+   strHTML = strHTML & "    else:" & Chr(10)
+   strHTML = strHTML & "        strDateTime = dtmDate[4] + dtmDate[5] + '/'" & Chr(10)
+   strHTML = strHTML & "    if (dtmDate[6] == 0):" & Chr(10)
+   strHTML = strHTML & "        strDateTime = strDateTime + dtmDate[7] + '/'" & Chr(10)
+   strHTML = strHTML & "    else:" & Chr(10)
+   strHTML = strHTML & "        strDateTime = strDateTime + dtmDate[6] + dtmDate[7] + '/'" & Chr(10)
+   strHTML = strHTML & "        strDateTime = strDateTime + dtmDate[0] + dtmDate[1] + dtmDate[2] + dtmDate[3] + "" "" + dtmDate[8] + dtmDate[9] + "":"" + dtmDate[10] + dtmDate[11] +':' + dtmDate[12] + dtmDate[13]" & Chr(10)
+   strHTML = strHTML & "    return strDateTime" & Chr(10) & Chr(10)
+   
+   
+   strHTML = strHTML & "strComputer = "".""" & Chr(10)
+   strHTML = strHTML & "objWMIService = win32com.client.Dispatch(""WbemScripting.SWbemLocator"")" & Chr(10)
+   strHTML = strHTML & "objSWbemServices = objWMIService.ConnectServer(strComputer,""root\cimv2"")" & Chr(10)
+   strHTML = strHTML & "colItems = objSWbemServices.ExecQuery(""SELECT * FROM " & ClassesPulldown.Value & """)" & Chr(10)
+   strHTML = strHTML & "for objItem in colItems:" & Chr(10)
+   For Each objProperty in objClass.Properties_
+      If objProperty.IsArray Then
+         strHTML = strHTML & "    print """ & objProperty.Name & ":""" & Chr(10)
+         strHTML = strHTML & "    strList = "" """ & Chr(10)
+         strHTML = strHTML & "    try :" & Chr(10)
+         strHTML = strHTML & "        for objElem in objItem." & objProperty.Name & " :" & Chr(10)
+         strHTML = strHTML & "            strList = strList + `objElem` + "",""" & Chr(10)
+         strHTML = strHTML & "    except:" & Chr(10)
+         strHTML = strHTML & "        strList = strList + 'null'" & Chr(10)
+         strHTML = strHTML & "    print strList" & Chr(10) 
+      ElseIf objProperty.CIMTYPE = 101 Then 'date
+         strHTML = strHTML & "    if objItem." & objProperty.Name & " != None:" & Chr(10)
+         strHTML = strHTML & "        print " & Chr(34) & objProperty.Name & ":"" + WMIDateStringToDate(objItem." & objProperty.Name & ")" & Chr(10)
+      ElseIf objProperty.CIMTYPE >= 16 OR objProperty.CIMTYPE <= 21 Then
+         strHTML = strHTML & "    if objItem." & objProperty.Name & " != None:" & Chr(10)
+         strHTML = strHTML & "        print " & Chr(34) & objProperty.Name & ":"" + ` objItem." & objProperty.Name & "`" & Chr(10)
+
+      ElseIf objProperty.CIMTYPE = 11  Then
+         strHTML = strHTML & "    if objItem." & objProperty.Name & " != None:" & Chr(10)
+         strHTML = strHTML & "        print " & Chr(34) & objProperty.Name & ":"" + ` objItem." & objProperty.Name & "`" & Chr(10)
+
+      Else
+      	 strHTML = strHTML & "    if objItem." & objProperty.Name & " != None:" & Chr(10)
+         strHTML = strHTML & "        print " & Chr(34) & objProperty.Name & ":"" + objItem." & objProperty.Name & Chr(10)
+      End If
+   Next
+
+   code.InnerHTML= strHTML
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Once the code is successfully composed and put into the
+   ' textarea, ensure that the save button is enabled. You might
+   ' notice that we don't enable the run button. "Why?", you ask.
+   ' Truth be told, because we were too lazy to add the check to
+   ' determine if Perl is installed on the local computer. However,
+   ' if you have a version of Perl that supports the Win32::OLE
+   ' module installed, by all means, enable the run button here by
+   ' setting its Disabled property to False.
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   run_button.Disabled = False
+   save_button.Disabled = False
+
+End Sub
+
+'********************************************************************
+'* RunScript
+'*
+'* When the user presses the Run button, we use the WshShell
+'* object's Run method to run the code in the textarea.
+'********************************************************************
+Sub RunScript
+
+   Const ForReading = 1
+   Const ForWriting = 2
+   Const PERMISSION_DENIED = &h46
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Create temporary script file named "temp_script.sm".
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Set objFSO = CreateObject("Scripting.FileSystemObject")
+   strTmpName = "temp_script.sm"
+   Set objScript = objFSO.CreateTextFile(strTmpName)
+   objScript.Write code.InnerText
+   objScript.Close
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Start constructing the command line that will run the script...
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   If g_strOutputFormat = "CmdLine" Then
+      strCmdLine = "%COMSPEC% /k "
+   Else
+      strCmdLine = "%COMSPEC% /c "
+   End If
+   
+
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   ' Complete the command line based on the global language variable,
+   ' g_strCurrentLanguage. This determines which scripting language
+   ' engine or interpreter to use when running the script stored in
+   ' "temp_script.sm".
+   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+   Select Case g_strCurrentLanguage
+
+      Case "VBScript"
+         strCmdLine1 = strCmdLine & "cscript.exe //E:VBScript //NoLogo " & strTmpName
+  
+      Case "JScript"
+         strCmdLine1 = strCmdLine & "cscript.exe //E:JScript //NoLogo " & strTmpName
+
+      Case "Perl"
+         strCmdLine1 = strCmdLine & "perl.exe " & strTmpName
+         
+      Case "Python"
+         strCmdLine1 = strCmdLine & "python.exe " & strTmpName
+
+
+   End Select
+
+   Set objShell = CreateObject("WScript.Shell")
+   
+   If objFSO.FileExists("temp_script.exe") Then
+            objFSO.DeleteFile "temp_script.exe"
+   End If
+   
+   Select Case g_strOutputFormat
+
+      
+      Case "CmdLine"
+         objShell.Run strCmdLine1,1,True
+         If g_strCurrentLanguage = "CSharp" Then
+           
+           objShell.Run strCmdLine2
+         End If
+
+      Case "PlainText"
+         If objFSO.FileExists("Output.txt") Then
+            objFSO.DeleteFile "Output.txt"
+         End If
+         Set objOutput = objFSO.CreateTextFile("Output.txt")
+         objOutput.Close
+         objShell.Run strCmdLine1 & " >>Output.txt", , True
+         objShell.Run "notepad.exe Output.txt"
+         Set objOutput = Nothing
+
+      Case "XML"
+         If objFSO.FileExists("Output.xml") Then
+            objFSO.DeleteFile "Output.xml"
+         End If
+         Set objOutput = objFSO.CreateTextFile("Output.xml")
+         strXMLHeader = "<?xml version=""1.0""?>"
+         strXMLHeader =  strXMLHeader & "<scriptomaticOutput><results>"
+         objOutput.Close
+         Set objOutput = Nothing
+         If g_strCurrentLanguage = "CSharp" Then
+            objShell.Run strCmdLine2 & " >>Output.xml", , True
+         
+         Else
+            objShell.Run strCmdLine1 & " >>Output.xml", , True
+         End If
+         Set objOutput = objFSO.OpenTextFile("Output.xml", ForReading)
+         arrLines = Split(objOutput.ReadAll, vbCrLf)
+         objOutput.Close
+         objFSO.DeleteFile "Output.xml"
+         Set objOutput = objFSO.CreateTextFile("Output.xml", ForWriting)
+         objOutput.Write strXMLHeader
+         iComputerCount = 0
+         For i = 0 To UBound(arrLines)
+            strLine = arrLines(i)
+            If strLine <> "" AND strLine <> "==========================================" Then
+              If Left(strLine,9) = "Computer:" AND arrLines(i-1) = "==========================================" Then
+                 iComputerCount = iComputerCount + 1
+                 If iComputerCount > 1 Then
+                    objOutput.Write "</computer>"
+                 End If
+                 objOutput.Write "<computer name=""" & Right(strLine,Len(strLine)-9) & """>"
+              Else
+                 arrPropertyValue = Split(strLine, ":")
+                 objOutput.Write "<property name=""" & arrPropertyValue(0) & """>"
+                 objOutput.Write "<value>" & arrPropertyValue(1) & "</value>"
+                 objOutput.Write "</property>"
+              End If
+            End If
+         Next
+         strXMLFooter = "</computer></results></scriptomaticOutput>"
+         objOutput.Write strXMLFooter
+         objOutput.Close
+         objShell.Run "Output.xml"
+         Set objOutput = Nothing
+         
+         
+         
+      Case "HTML"
+         
+         If objFSO.FileExists("Output.htm") Then
+            objFSO.DeleteFile "Output.htm"
+         End If
+         Set objOutput = objFSO.CreateTextFile("Output.htm")
+         strHTMLHeader =  "<html><head><title>Scriptomatic HTML Output</title></head><body>" & _
+                          "<style>table {font-size: 10pt; font-family: arial;}" & _
+                          "th {background-color: buttonface; font-decoration: bold;}" & _
+                          "</style><table BORDER=""1""><tr><th>Property</th><th>Value</th></tr>"
+         objOutput.Close
+         Set objOutput = Nothing
+         If g_strCurrentLanguage = "CSharp" Then
+            objShell.Run strCmdLine2 & " >>Output.htm", , True
+         
+         Else
+            objShell.Run strCmdLine1 & " >>Output.htm", , True
+         End If
+         Set objOutput = objFSO.OpenTextFile("Output.htm", ForReading)
+         arrLines = Split(objOutput.ReadAll, vbCrLf)
+         objOutput.Close
+         objFSO.DeleteFile "Output.htm"
+         Set objOutput = objFSO.CreateTextFile("Output.htm", ForWriting)
+         objOutput.Write strHTMLHeader
+         For i = 0 To UBound(arrLines)
+            strLine = arrLines(i)
+            If strLine <> "" Then
+               If strLine <> "==========================================" Then
+                  If Left(strLine, 9) = "Computer:" Then
+                     If arrLines(i - 1) = "==========================================" Then
+                        objOutput.Write "<tr bgcolor=""yellow""><td>" & Replace(strLine, ": ", "</td><td>&nbsp;") & "</td></tr>" & vbCrLf
+                     End If
+                  Else
+                     objOutput.Write "<tr><td>" & Replace(strLine, ": ", "</td><td>&nbsp;") & "</td></tr>" & vbCrLf
+                  End If
+               End If
+            End If
+         Next
+         strHTMLFooter = "</table></body></html>"
+         objOutput.Write strHTMLFooter
+         objOutput.Close
+         objShell.Run "Output.htm"
+         Set objOutput = Nothing
+
+      Case "Excel"
+         On Error Resume Next
+         Err.Clear
+         If objFSO.FileExists("Output.csv") Then
+            objFSO.DeleteFile "Output.csv"
+         End If
+         If Err.Number = PERMISSION_DENIED Then
+            objShell.Popup "Sorry, but Scriptomatic cannot create temporary output file ""Output.csv"". " & _
+                           "Probable cause is the file already exists and is currently locked because " & _
+                           "it is still open in Excel. To fix the problem, exit Excel and run the script again." & vbCrLf & vbCrLf & _
+                           "Error information:" & vbCrLf & _
+                           "Error number: 0x" & CStr(Hex(Err.Number)) & vbCrLf & _
+                           "Error description: " & Err.Description, _
+                           0, "Scriptomatic", vbOKOnly + vbInformation
+         Else
+            Set objOutput = objFSO.CreateTextFile("Output.csv")
+            objOutput.Close
+            objShell.Run strCmdLine1 & " >>Output.csv",,True
+            Set objOutput = objFSO.OpenTextFile("Output.csv", ForReading)
+            arrLines = Split(objOutput.ReadAll, vbCrLf)
+            objOutput.Close
+            objFSO.DeleteFile "Output.csv"
+            Set objOutput = objFSO.CreateTextFile("Output.csv", ForWriting)
+            objOutput.Write "Property,Value" & vbCrLf
+            For i = 0 To UBound(arrLines)
+               strLine = arrLines(i)
+               If strLine <> "" Then
+                  If strLine <> "==========================================" Then
+                     If Left(strLine, 9) = "Computer:" Then
+                        If arrLines(i - 1) = "==========================================" Then
+                           objOutput.Write ">>> " & Replace(strLine, ": ", ",") & vbCrLf
+                        End If
+                     Else
+                        objOutput.Write Replace(strLine, ": ", ",") & vbCrLf
+                     End If
+                  End If
+               End If
+            Next
+            objOutput.Close
+            objShell.Run "Output.csv"
+            Set objOutput = Nothing
+         End If
+
+   End Select
+
+   Set objFSO = Nothing
+   Set objShell = Nothing
+
+End Sub
+
+'********************************************************************
+'* SaveScript
+'*
+'* When the user presses the Save button, we present them with an
+'* InputBox and force them to give us the full path to where they'd
+'* like to the save the script that is currently in the textarea. The
+'* user is probably quite upset with our laziness here... and...
+'* who can blame them?
+'********************************************************************
+Sub SaveScript()
+strHTML = "<html>" & "<head>"
+strHTML = strHTML & "<title>Script to Save</title>"
+strHTML = strHTML & "<script language=vbscript>"
+strHTML = strHTML & "document.execCommand ""SaveAs"""
+strHTML = strHTML & "<" & Chr(47) & "script></head><body bgcolor=buttonface>"
+strHTML = strHTML & code.InnerText
+strHTML = strHTML & "</body></html>"
+
+Set objPopup = window.open("Save As", "", "width=300,height=80")
+objPopup.document.writeln(strHTML)
+   
+End Sub
+
+'****************************************************************************
+'* when the user presses the Save button, we present them with an InputBox
+'* and force them to give us the full path to where they'd like to the save
+'* the script that is currently in the textarea. The user is probably quite
+'* upset with our laziness here....and who can blame them?
+'****************************************************************************
+
+Sub SaveScript
+
+   Set objFSO = CreateObject("Scripting.FileSystemObject")
+   strSaveFileName = InputBox("请输入一个完整的保存路径" &_
+    "来保存您的脚本" & chr(10)  & chr(13) & chr(13) & " (例如, C:\Scripts\MyScript.vbs).","保存我的脚本","C:\scripts\")
+   If strSaveFileName = "" Then
+      Exit Sub
+   End If
+
+   Set objFile = objFSO.CreateTextFile(strSaveFileName)
+   objFile.WriteLine code.InnerText
+   objFile.Close
+
+End Sub
+
+
+'********************************************************************
+'* OpenScript
+'*
+'* When the user presses the Open button, we present them with an
+'* InputBox and force them to give us the full path to the script
+'* they'd like to open. This is, of course, rather wonky, but...
+'* it's meant to be.
+'********************************************************************
+
+Sub OpenScript()
+
+strHTML = "<html><head>"
+strHTML = strHTML & "<title>Select a File...</title>"
+strHTML = strHTML & "<script language=vbscript>"
+strHTML = strHTML & "Function SubmitFileName()" & vbCrLf
+strHTML = strHTML & "opener.LoadScript(document.all.file_name.value)" & vbCrLf
+strHTML = strHTML & "close()" & vbCrLf
+strHTML = strHTML & "End Function"
+strHTML = strHTML & "<" & Chr(47) & "script>"
+strHTML = strHTML & "</head><body bgcolor=buttonface><form>"
+strHTML = strHTML & "<input style=""width:300px;"" type=file id=file_name name=file_name><br>"
+strHTML = strHTML & "<input type=button value=OK onClick=SubmitFileName()>"
+strHTML = strHTML & "<input type=button value=Cancel onClick=window.close()>"
+strHTML = strHTML & "</form></body></html>"
+
+
+Set objPopup = window.open("about:blank",null,"height=80,width=320,status=no,toolbar=no,menubar=no,location=no")
+objPopup.document.writeln(strHTML)
+
+End Sub
+
+
+Sub LoadComputerNamesFromFile()
+
+strHTML = "<html><head>"
+strHTML = strHTML & "<title>Select a File...</title>"
+strHTML = strHTML & "<script language=vbscript>"
+strHTML = strHTML & "Function SetComputersFromFile()" & vbCrLf
+strHTML = strHTML & "opener.SetComputers(document.all.computer_list.value)" & vbCrLf
+strHTML = strHTML & "close()" & vbCrLf
+strHTML = strHTML & "End Function"
+strHTML = strHTML & "<" & Chr(47) & "script>"
+strHTML = strHTML & "</head><body bgcolor=buttonface><form>"
+strHTML = strHTML & "<input style=""width:300px;"" type=file id=computer_list name=computer_list><br>"
+strHTML = strHTML & "<input type=button value=OK onClick=SetComputersFromFile()>"
+strHTML = strHTML & "</form></body></html>"
+
+
+Set objPopup = window.open("about:blank",null,"height=80,width=320,status=no,toolbar=no,menubar=no,location=no")
+objPopup.document.writeln(strHTML)
+
+End Sub
+
+
+
+Sub SetComputers(strOpenFileName)
+   Set objFSO = CreateObject("Scripting.FileSystemObject")
+   If strOpenFileName = "" Then
+      Exit Sub
+   End If
+   Set objFile = objFSO.OpenTextFile(strOpenFileName)
+   target_computers.value = objFile.ReadAll()
+End Sub
+
+
+
+Sub LoadScript(strOpenFileName)
+
+   Set objFSO = CreateObject("Scripting.FileSystemObject")
+   If strOpenFileName = "" Then
+      Exit Sub
+   End If
+
+   Set objFile = objFSO.OpenTextFile(strOpenFileName)
+   strHTML = "<textarea cols=120 rows=25>"
+   strHTML = strHTML & Replace(objFile.ReadAll(),"</textarea>","&lt;/textarea&gt;")
+   strHTML = strHTML & "</textarea>"
+   code.InnerHTML =  strHTML
+   objFile.Close
+   run_button.disabled = False
+   save_button.disabled = False
+
+End Sub
+
+
+'********************************************************************
+'* QuitScript
+'*
+'* When the user presses the Quit button, the file where we've been
+'* storing the scripts gets deleted and the main window closes. 
+'********************************************************************
+Sub QuitScript
+
+   Const PERMISSION_DENIED = &h46
+
+   On Error Resume Next
+   Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+   If objFSO.FileExists("temp_script.sm") Then
+      objFSO.DeleteFile "temp_script.sm"
+   End If
+
+   If objFSO.FileExists("Output.txt") Then
+      objFSO.DeleteFile "Output.txt"
+   End if
+
+   If objFSO.FileExists("Output.htm") Then
+      objFSO.DeleteFile "Output.htm"
+   End If
+   
+   If objFSO.FileExists("Output.xml") Then
+      objFSO.DeleteFile "Output.xml"
+   End If
+
+   If objFSO.FileExists("Output.csv") Then
+      Err.Clear
+      objFSO.DeleteFile "Output.csv"
+      If Err.Number = PERMISSION_DENIED Then
+         Set objShell = CreateObject("WScript.Shell")
+         objShell.Popup "Sorry, but Scriptomatic cannot delete temporary output file ""Output.csv"". " & _
+                        "Probable cause is the file is locked because it is still open in Excel. " & _
+                        "To remove ""Output.csv"", close Excel and delete or rename the file." & vbCrLf & vbCrLf & _
+                        "Error information:" & vbCrLf & _
+                        "Error number: 0x" & CStr(Hex(Err.Number)) & vbCrLf & _
+                        "Error description: " & Err.Description, _
+                        0, "Scriptomatic", vbOKOnly + vbInformation
+         Set objShell = Nothing
+      End If
+   End If
+   Set objFSO = Nothing
+   self.Close()
+
+End Sub
+
+'********************************************************************
+'* SortDictionary
+'* 
+'* Shell sort based on:
+'* http://support.microsoft.com/support/kb/articles/q246/0/67.asp
+'********************************************************************
+Sub SortDictionary(objDict, intSort)
+
+   Const dictKey  = 1
+   Const dictItem = 2
+
+   Dim strDict()
+   Dim objKey
+   Dim strKey, strItem
+   Dim intCount, i, j
+
+   intCount = objDict.Count
+
+   If intCount > 1 Then
+
+      ReDim strDict(intCount, 2)
+
+      i = 0
+      For Each objKey In objDict
+         strDict(i,dictKey)  = CStr(objKey)
+         strDict(i,dictItem) = CStr(objDict(objKey))
+         i = i + 1
+      Next
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' Perform a shell sort of the 2D string array
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      For i = 0 To (intCount - 2)
+         For j = i To (intCount - 1)
+            If StrComp(strDict(i,intSort), strDict(j,intSort), vbTextCompare) > 0 Then
+               strKey  = strDict(i,dictKey)
+               strItem = strDict(i,dictItem)
+               strDict(i,dictKey)  = strDict(j,dictKey)
+               strDict(i,dictItem) = strDict(j,dictItem)
+               strDict(j,dictKey)  = strKey
+               strDict(j,dictItem) = strItem
+            End If
+         Next
+      Next
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' Erase the contents of the dictionary object
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      objDict.RemoveAll
+
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      ' Repopulate the dictionary with the sorted information
+      '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      For i = 0 To (intCount - 1)
+         objDict.Add strDict(i,dictKey), strDict(i,dictItem)
+      Next
+
+   End If
+
+End Sub
+
+
+
+
+'****************************************************************************
+'* SetOutputFormat
+'****************************************************************************
+Sub SetOutputFormat(strOutput)
+
+      g_strOutputFormat = strOutput
+
+End Sub
+
+'****************************************************************************
+'* SetNamespaceToCIMV2
+'****************************************************************************
+Sub SetNamespaceToCIMV2
+   If UCase(NamespacesPulldown.Value) <> "ROOT\CIMV2" Then
+      NamespacesPulldown.selectedIndex = g_iCurrentNamespaceIndex
+      HandleNamespaceChange
+   End If
+End Sub
+
+'****************************************************************************
+'* SetWMIRepository
+'****************************************************************************
+Sub SetWMIRepository
+
+   strWMISourceName = InputBox("Please enter the computer whose WMI repository you want to read from",_
+    "Set WMI Repository Source",g_strWMISource)
+   If strWMISourceName = "" Then
+      Exit Sub
+   End If
+   g_strWMISource = Trim(strWMISourceName)
+   target_computers.Value = g_strWMISource
+   LoadWMINamespaces
+End Sub
+
+
+</script>
+'****************************************************************************
+'* END_SCRIPT
+'****************************************************************************
+
+</head>
+
+'****************************************************************************
+'* Our HTML layout - the only thing of note here is that when each of the
+'* buttons is pressed (clicked), their onClick attributes causes the
+'* appropriate subroutine to be called
+'****************************************************************************
+
+<body>
+
+<table WIDTH="700" BORDER=1>
+
+   <!--------------->
+   <!-- first row -->
+   <!--------------->
+   <tr>
+      <td VALIGN=TOP WIDTH=700 COLSPAN=2>
+         <table BORDER=0>
+         <tr>
+            <td WIDTH=300 VALIGN=TOP><div style="font-size:8pt;">WMI 命名空间</div><span id="wmi_namespaces"></span></td>
+            <td WIDTH=400 VALIGN=TOP><div style="font-size:8pt;">WMI "类"      </div><span id="wmi_classes"></span></td>
+         </tr>
+         </table>
+      </td>
+   </tr>
+   <!---------------->
+   <!-- second row -->
+   <!---------------->
+   <tr>
+      <td VALIGN=TOP WIDTH=700 COLSPAN=2>
+         <table BORDER=0>
+            <tr>
+               <td><input id=runbutton  class="button" type="button" value="运行"  name="run_button"  onClick="RunScript()"></td>
+               <td><input id=cimv2button  class="button" type="button" value="CIMv2"  name="cimv2_button"  onClick="SetNamespaceToCIMV2()"></td>
+               <td><input id=wmisourcebutton class="wmibutton" type="button" value="WMI Source" name="wmisource_button" onClick="SetWMIRepository()" title="Change computer used for WMI namespace and class information"></td>
+               <td><input id=openbutton class="button" type="button" value="打开" name="open_button" onClick="OpenScript()"></td>
+               <td><input id=savebutton class="button" type="button" value="保存" name="save_button" onClick="SaveScript()"></td>         
+               <td><input id=quitbutton class="button" type="button" value="退出" name="quit_button" onClick="QuitScript()"></td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+   <!--------------->
+   <!-- third row -->
+   <!--------------->
+   <tr>
+      <td WIDTH=600>
+         <div ID=code_header></div>
+         <div id="code" name="code"></div>
+      </td>
+      <td WIDTH=100 VALIGN=TOP>
+         <table>
+         <tr><th COLSPAN=2 style="font-size:8pt;"><hr> 输出语言 <hr></th></tr>
+         <tr><td><span style="font-size:8pt;">VBScript</span></td><td><input type="radio" name="language" onClick="ComposeVBScriptCode" CHECKED></td><tr>
+         <tr><td><span style="font-size:8pt;">Perl    </span></td><td><input type="radio" name="language" onClick="ComposePerlCode"></td></tr>
+         <tr><td><span style="font-size:8pt;">JScript </span></td><td><input type="radio" name="language" onClick="ComposeJScriptCode"></td></tr>
+         <tr><td><span style="font-size:8pt;">Python  </span></td><td><input type="radio" name="language" onClick="ComposePythonCode"></td></tr>
+
+         <tr><th COLSPAN=2 style="font-size:8pt;"><hr> 输出方式 <hr></th></tr>
+         <tr><td><span style="font-size:8pt;">命令行</span></td><td><input type="radio" name="output" onClick="SetOutputFormat('CmdLine')" CHECKED></td><tr>
+         <tr><td><span style="font-size:8pt;">Plain 文本    </span></td><td><input type="radio" name="output" onClick="SetOutputFormat('PlainText')"></td></tr>
+         <tr><td><span style="font-size:8pt;">HTML          </span></td><td><input type="radio" name="output" onClick="SetOutputFormat('HTML')"></td></tr>
+         <tr><td><span style="font-size:8pt;">Excel         </span></td><td><input type="radio" name="output" onClick="SetOutputFormat('Excel')"></td></tr>
+         <tr><td><span style="font-size:8pt;">XML           </span></td><td><input type="radio" name="output" onClick="SetOutputFormat('XML')"></td></tr>
+         </table>
+      </td>
+   </tr>
+   <!---------------->
+   <!-- fourth row -->
+   <!---------------->
+   <tr>
+      <td>
+         <div>
+         <div style="font-size:8pt;" TITLE="You can enter multiple computer names or IP addresses here. Separate them with commas...">目标计算机 (comma-delimited):</div>
+         <textarea ID=target_computers COLS=120 ROWS=5></textarea>
+         </div>
+      </td>
+      <td align="center">
+         <input class="bigger_button" TYPE=BUTTON VALUE="更新脚本" TITLE="Modifies the Script to run against all Target Computers" onClick="ComposeCode()">
+         <input class="bigger_button" TYPE=BUTTON VALUE="载入文件" onClick="LoadComputerNamesFromFile()">
+      </td>
+   </tr>
+</table>
+
+</body>
+
+</html>

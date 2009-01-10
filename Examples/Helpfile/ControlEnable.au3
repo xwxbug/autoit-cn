@@ -1,0 +1,1 @@
+ControlEnable("Untitled -", "", "MDIClient1")

@@ -1,0 +1,31 @@
+InstallShield 2003 ® Installer
+
+setup.exe /Option
+
+Install Options
+	/a
+		Add following parameters to the archived msi.
+	/v
+		Parameters used after this, are passed to the *.msi inside a package.
+Display Options
+	/s
+		Silent install *.exe packaged.
+	/qn
+		Silent install *.msi.
+	/qb
+		Silent install *.msi with progress window.
+User Options
+	AutoIt Usage
+		Create the Au3 template script.
+		Edit any variables at the start of the script, and add shortcuts, that require deletion.
+		Refer to the CMenu Help Guide. It displays sample highlighted items, to edit.
+		Compile the script, into an exe, and keep it with the installer.
+		Run the compiled exe, to install.
+		;
+		If extraction chosen, then run Identity Installer again, when complete.
+	Command line Usage
+		To silently install, use:
+		 setup.exe /s /v"/qn"
+		To silently install, if installer extracted, then use:
+		setup.msi /qn
+

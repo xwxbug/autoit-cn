@@ -1,0 +1,1 @@
+ControlClick("Untitled -", "", "MDIClient1")

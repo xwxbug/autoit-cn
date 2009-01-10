@@ -1,0 +1,1 @@
+$x = IsString("foo")

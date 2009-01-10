@@ -1,0 +1,1 @@
+ControlHide("Untitled -", "", "MDIClient1")

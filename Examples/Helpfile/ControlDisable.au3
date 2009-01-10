@@ -1,0 +1,1 @@
+ControlDisable("Untitled -", "", "MDIClient1")

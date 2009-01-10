@@ -1,0 +1,54 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# START: DO NOT CHANGE ANYTHING AFTER THIS LINE     #-#-#-#-#
+# Valiks's "Close to" MSDEV Color scheme
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+font.base=font:Verdana,size:10,$(font.override)
+font.monospace=font:Courier New,size:10
+proper.case=0
+check.updates.scite4autoit3=0
+use.tabs=1
+indent.size=4
+indent.size.*.au3=4
+tabsize=4
+#Background
+style.au3.32=style.*.32=$(font.base)
+#CaretLineBackground
+caret.line.back=#FFFED8
+# Brace highlight
+style.au3.34=fore:#0000FF
+# Brace incomplete highlight
+style.au3.35=fore:#008000,italics
+#White space
+style.au3.0=fore:#000000,back:#ffffff
+#Comment line
+style.au3.1=fore:#008000,italics,back:#ffffff
+#Comment block
+style.au3.2=fore:#008000,italics,back:#ffffff
+#Number
+style.au3.3=fore:#0000FF,back:#ffffff
+#Function
+style.au3.4=fore:#000090,back:#ffffff
+#Keyword
+style.au3.5=fore:#0000FF,back:#ffffff
+#Macro
+style.au3.6=fore:#808000,back:#ffffff
+#String
+style.au3.7=fore:#FF0000,back:#ffffff
+#Operator
+style.au3.8=fore:#FF8000,back:#ffffff
+#Variable
+style.au3.9=fore:#5A5A5A,back:#ffffff
+#Sent keys
+style.au3.10=fore:#808080,back:#ffffff
+#Pre-Processor
+style.au3.11=fore:#808000,back:#ffffff
+#Special
+style.au3.12=fore:#DC143C,back:#ffffff
+#Abbrev-Expand
+style.au3.13=fore:#FF0000,bold,back:#ffffff
+#Com Objects
+style.au3.14=fore:#993399,back:#ffffff
+#Standard UDF's
+style.au3.15=fore:#0080FF,italics,bold,back:#ffffff
+# END => DO NOT CHANGE ANYTHING BEFORE THIS LINE  #-#-#-#-#-#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#

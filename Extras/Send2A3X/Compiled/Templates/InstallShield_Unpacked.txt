@@ -1,0 +1,48 @@
+Installshield ® Installer. (unpacked)
+
+setup.exe /Option
+
+Install Options
+	/a
+		Administrator install.
+	/f1
+		Recorded file location.
+	/p
+		Installer Password.
+	/sms
+		Wait command, if second process is spawned.
+Display Options
+	/s
+		Silent install *.exe.
+	/qn
+		Silent install *.msi.
+Logging Options
+	/f2
+		Log file location.
+User Options
+	AutoIt Usage
+		Record an installation with the record button.
+		Setup.iss is saved to the installer directory.
+		Create the AutoIt template script. The setup.iss file must remain with the installer.
+		Edit any variables at the start of the script, and and shortcuts, that require deletion.
+		Refer to the CMenu Help Guide. It displays sample highlighted items, to edit.
+		Compile the script, into an exe, and keep it with the installer.
+		Run the compiled exe, to install.
+		;
+		If wishing to repack files into an archive.
+		Follow the instructions above, archive all files, and set the SFX archive, to execute the AutoIt compiled script. Use the TempMode in WinRAR.
+		;
+		If it is an MSI Installer, then run identify installer on the msi, to use an AutoIt template script.
+	Command line Usage
+		Make a recording of the installer with:
+		 PackageName.exe /r /sms /f1"c:\setup.iss"
+		The setup.iss is saved to the root of c:\ drive, as to above command.
+		Move the setup.iss to setup.exe directory.
+		But, CMenu record will save the setup.iss to the installer directory.
+		The installation files can be packed into an archive, or kept within it's own directory, unpacked.
+		To silently install, use:
+		 PackageName.exe /s /sms /f2"c:\ProgramName.log"
+		;
+		For MSI based:
+		 Msiexec /i setup.msi /qn
+

@@ -1,0 +1,14 @@
+Ghost ® Installer
+
+setup.exe  /option
+
+Install Options
+	/c
+		Add/Remove.
+	/r
+		Repair.
+	/u
+		Uninstall.
+Display Options
+	/s
+		Silent mode.

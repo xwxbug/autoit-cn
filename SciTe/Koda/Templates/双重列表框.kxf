@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<object type="TAForm" name="DualListDlg">
+	<properties>
+		<property name="Left" vt="Int16">302</property>
+		<property name="Top" vt="Int16">218</property>
+		<property name="Width" vt="Int16">360</property>
+		<property name="Height" vt="Int16">289</property>
+		<property name="Caption" vt="WString">СЎПо¶Ф»°їт</property>
+		<property name="Color" vt="Ident">clBtnFace</property>
+		<property name="Font.Charset" vt="Ident">DEFAULT_CHARSET</property>
+		<property name="Font.Color" vt="Ident">clWindowText</property>
+		<property name="Font.Height" vt="Int8">-11</property>
+		<property name="Font.Name" vt="String">MS Sans Serif</property>
+		<property name="Font.Style" vt="Set"/>
+		<property name="Icon.Data" vt="Binary">
+			<bin>0000010001002020000001000800A80800001600000028000000200000004000</bin>
+			<bin>0000010008000000000000040000000000000000000000010000000100000000</bin>
+			<bin>0000FF000000FF00FF0080808000C0C0C000FFFFFF0000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000003</bin>
+			<bin>0303030303030303030303030303030303030303030303030303030303030000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000030005</bin>
+			<bin>0303030303030303030303030303030303030303030303030303030300030005</bin>
+			<bin>0405040504050405040504050405040504050405040504050405040300030005</bin>
+			<bin>0504050405040504040000000000040000000000040000000000050300030005</bin>
+			<bin>0405040504050405040505050500040505050500040505050500040300030005</bin>
+			<bin>0504050405040504040404040404040404040404040404040404050300030005</bin>
+			<bin>0404000000000000000004050405040504040000000000000000040300030005</bin>
+			<bin>0504050505050505050005040400000405040505050505050500050300030005</bin>
+			<bin>0404050505050505050004050405000504040505050505050500040300030005</bin>
+			<bin>0504050000000505050005040404040405040505050505050500050300030005</bin>
+			<bin>0404050505050505050004050405040504040505050505050500040300030005</bin>
+			<bin>0504050000000000050005040400000405040505050505050500050300030005</bin>
+			<bin>0404050505050505050004050405000504040505050505050500040300030005</bin>
+			<bin>0504050000000005050005040404040405040500000000000500050300030005</bin>
+			<bin>0404050505050505050004050405040504040505050505050500040300030005</bin>
+			<bin>0504050000000000050005040400000405040500000005050500050300030005</bin>
+			<bin>0404050505050505050004050405000504040505050505050500040300030005</bin>
+			<bin>0504040404040404040405040404040405040404040404040404050300030005</bin>
+			<bin>0405040504050405040504050405040504050405040504050405040300030005</bin>
+			<bin>0500000000000004050405040504050405000000000000040504050300030005</bin>
+			<bin>0405040504050405040504050405040504050405040504050405040300030005</bin>
+			<bin>0505050505050505050505050505050505050505050505050505050500030000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000030001</bin>
+			<bin>0101010101010101010101010101010101010101010100040004000400030000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>000000000000000000000000000000000000000000000000000000000000FFFF</bin>
+			<bin>FFFFFFFFFFFFFFFFFFFF80000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+			<bin>000000000000000000000000000000000001FFFFFFFFFFFFFFFFFFFFFFFF</bin>
+		</property>
+		<property name="OldCreateOrder" vt="False">False</property>
+		<property name="Visible" vt="True">True</property>
+		<property name="PicturePath" vt="String">D:\007.ico</property>
+		<property name="Style" vt="Int32">-1798701056</property>
+		<property name="ExStyle" vt="Int16">256</property>
+		<property name="Version" vt="String">1.03</property>
+		<property name="Description" vt="String">Л«ЦШБР±н¶Ф»°їт</property>
+		<property name="PixelsPerInch" vt="Int8">96</property>
+		<property name="TextHeight" vt="Int8">13</property>
+	</properties>
+	<components>
+		<object type="TAList" name="ListBox1">
+			<properties>
+				<property name="Left" vt="Int8">8</property>
+				<property name="Top" vt="Int8">8</property>
+				<property name="Width" vt="Int16">137</property>
+				<property name="Height" vt="Int16">201</property>
+				<property name="Constraints.MaxHeight" vt="Int16">512</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1350762499</property>
+				<property name="ItemHeight" vt="Int8">13</property>
+				<property name="Items.Strings" vt="List">
+					<list>
+						<li vt="String">Item1</li>
+						<li vt="String">Item2</li>
+						<li vt="String">Item3</li>
+						<li vt="String">Item4</li>
+						<li vt="String">Item5</li>
+					</list>
+				</property>
+				<property name="TabOrder" vt="Int8">0</property>
+				<property name="CtrlStyle" vt="Int32">1350631427</property>
+				<property name="CtrlExStyle" vt="Int16">512</property>
+				<property name="Resizing" vt="Set"/>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button1">
+			<properties>
+				<property name="Left" vt="Int16">156</property>
+				<property name="Top" vt="Int8">15</property>
+				<property name="Width" vt="Int8">30</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="String">&gt;</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">1</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button2">
+			<properties>
+				<property name="Left" vt="Int16">156</property>
+				<property name="Top" vt="Int8">48</property>
+				<property name="Width" vt="Int8">31</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="String">&gt;&gt;</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">2</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button3">
+			<properties>
+				<property name="Left" vt="Int16">157</property>
+				<property name="Top" vt="Int8">81</property>
+				<property name="Width" vt="Int8">31</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="String">&lt;</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="Enabled" vt="False">False</property>
+				<property name="TabOrder" vt="Int8">3</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button4">
+			<properties>
+				<property name="Left" vt="Int16">157</property>
+				<property name="Top" vt="Int8">114</property>
+				<property name="Width" vt="Int8">32</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="String">&lt;&lt;</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">4</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAList" name="ListBox2">
+			<properties>
+				<property name="Left" vt="Int16">200</property>
+				<property name="Top" vt="Int8">8</property>
+				<property name="Width" vt="Int16">137</property>
+				<property name="Height" vt="Int16">201</property>
+				<property name="Constraints.MaxHeight" vt="Int16">512</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1350762499</property>
+				<property name="ItemHeight" vt="Int8">13</property>
+				<property name="TabOrder" vt="Int8">5</property>
+				<property name="CtrlStyle" vt="Int32">1350631427</property>
+				<property name="CtrlExStyle" vt="Int16">512</property>
+				<property name="Resizing" vt="Set"/>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button5">
+			<properties>
+				<property name="Left" vt="Int8">104</property>
+				<property name="Top" vt="Int16">225</property>
+				<property name="Width" vt="Int8">75</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="UTF8String">И·¶Ё(&amp;O)</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">6</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button6">
+			<properties>
+				<property name="Left" vt="Int16">184</property>
+				<property name="Top" vt="Int16">225</property>
+				<property name="Width" vt="Int8">75</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="UTF8String">ИЎПы(&amp;C)</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">7</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="Button7">
+			<properties>
+				<property name="Left" vt="Int16">264</property>
+				<property name="Top" vt="Int16">225</property>
+				<property name="Width" vt="Int8">75</property>
+				<property name="Height" vt="Int8">25</property>
+				<property name="Caption" vt="UTF8String">°пЦъ(&amp;H)</property>
+				<property name="Constraints.MaxWidth" vt="Int32">1342242816</property>
+				<property name="TabOrder" vt="Int8">8</property>
+				<property name="CtrlStyle" vt="Int32">1342259200</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+	</components>
+</object>

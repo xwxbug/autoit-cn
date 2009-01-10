@@ -1,0 +1,1 @@
+AutoItWinSetTitle("ÎÒµÄ AutoIt ´°¿Ú")

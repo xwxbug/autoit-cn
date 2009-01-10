@@ -1,0 +1,58 @@
+Installshield ® Archive For Web Installer.
+
+setup.exe /Option
+
+Install Options
+	/a
+		Add following parameters to the archived setup.exe.
+	/f1
+		Recorded file location.
+	/p
+		Installer Password.
+	/sms
+		Wait command, if second process is spawned.
+Display Options
+	/s
+		Silent install *.exe.
+	/qn
+		Silent install *.msi.
+Logging Options
+	/f2
+		Log file location.
+User Options
+	AutoIt Usage
+		The following applies for an InstallShield Web Archive intact. (setup.exe inside)
+		Record an installation with the record button.
+		Setup.iss is saved to your windows directory, but will be copied to the installer directory.
+		Create the AutoIt template script. The setup.iss file must remain with the script until compiled.
+		Edit any variables at the start of the script, and and shortcuts, that require deletion.
+		Refer to the CMenu Help Guide. It displays sample highlighted items, to edit.
+		Compile the script, into an exe, and keep it with the installer.
+		Run the compiled exe, to install.
+		;
+		The following applies for an InstallShield Web Archive intact. (setup.msi inside)
+		Unpack with WinRAR, then use Identify Installer on the setup.msi file.
+		Create the AutoIt template script.
+		Edit any variables at the start of the script, and and shortcuts, that require deletion.
+		Refer to the CMenu Help Guide. It displays sample highlighted items, to edit.
+		Compile the script, into an exe, and keep it with the installer.
+		Run the compiled exe, to install.
+		;
+		If you want to repack this archive instead?
+		First unpack the InstallShield Web Archive with WinRar.
+		Then run Identify Installer again.
+	Command line Usage
+		The following applies for an InstallShield Web Archive intact. (setup.exe inside)
+		Make a recording of the installer with the switches:
+		 PackageName.exe /s /a /r /sms /f1"c:\setup.iss"
+		The setup.iss is saved to the root of c:\ drive, as to above command (default is windows directory).
+		But, CMenu record will save the setup.iss to the installer directory.
+		Rename the setup.iss to something more relevent. e.g. ProgramName.iss
+		Then move the ProgramName.iss to the $OEM$\$$ folder. (or installer directory)
+		To silently install, use:
+		 PackageName.exe /s /a /s /sms /f1"c:\windows\ProgramName.iss" /f2"c:\ProgramName.log"
+		;
+		If you want to repack this archive instead?
+		First unpack the InstallShield Web Archive with WinRar.
+		Then run Identify Installer again.
+
