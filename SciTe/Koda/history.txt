@@ -1,3 +1,15 @@
+Beta 1.7.0.9 (2009-02-10)
+2009-02-09 - Fixed: handling of "-1" for styles in Au3import
+2009-02-09 - Added: icon selector now can select standard and small icons for the Button (thanks socratessa)
+2009-02-09 - Fixed: handling of CustomPath where was icons with index (thanks socratessa)
+2009-02-06 - Fixed: Koda can handle uncompressed 256x256 Vista icons
+2009-02-05 - Fixed: correct Align in window calculations (thanks Valik)
+2009-02-05 - Fixed: indentation when updating script (thanks Valik)
+2009-02-05 - Changed: Updown no more raise error when entering incorrect value (thanks Valik)
+2009-02-05 - Fixed: StatusBar alignment and last panel (thanks Zedna)
+2008-09-05 - Fixed: stupid bug when keys not worked properly in the main icon list (thanks Zedna)
+2008-09-04 - Changed: order of menus in code generator output to fix "main menu" issue (thanks Zedna)
+
 Beta 1.7.0.8 (2008-10-03)
 2008-09-03 - Fixed: various small fixes and cleanups in new code
 2008-09-02 - Added: Button now support coloring

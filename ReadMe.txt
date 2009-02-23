@@ -1,6 +1,6 @@
 =========================================================
 程序名称:Autoit
-程序版本:3.3.0.0 第一汉化版
+程序版本:3.3.0.0 第二汉化版
 汉化作者:thesnoW
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,81 +14,34 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-HHHHHHHHHHHHH
-     H
-     H
-HHHHHHHHHHHHH
-
-AAAAAAAAAAAAA
-     A      A
-     A      A
-AAAAAAAAAAAAA
-
-PPPPPPPPPPPPP
-     P      P
-     P      P
-     PPPPPPPP
-
-PPPPPPPPPPPPP
-     P      P
-     P      P
-     PPPPPPPP
-
-      YYYYYYY
-     Y
-YYYYY
-     Y
-      YYYYYYY
-
-
-
-
-NNNNNNNNNNNNN
-         NNN
-     NNN
- NNN
-MMMMMMMMMMMMM
-
-EEEEEEEEEEEEE
-E    E      E
-E    E      E
-E    E      E
-
-WWWWWWWWWWWWW
- WW
-    WW
- WW
-WWWWWWWWWWWWW
-
-
-
-
-      YYYYYYY
-     Y
-YYYYY
-     Y
-      YYYYYYY
-
-EEEEEEEEEEEEE
-E    E      E
-E    E      E
-E    E      E
-
-AAAAAAAAAAAAA
-     A      A
-     A      A
-AAAAAAAAAAAAA
-
-RRRRRRRRRRRRR
-     R      R
-     R      R
-   R  RRRRRRR
-RR 
-
-
-[H][!]更新:autoit工具箱使用ini配置文件定义菜单.
+Autoit:
+[H][-]移除:Send2A3X(过老)
+[H][!]更新:Autoit工具箱使用ini配置文件定义菜单.
 [H][!]更新:程序更新移除汉化版本信息.
 [H][!]说明:汉化版不再以小版本表示(如3.3.0.0.1).和官方同样表示(3.3.0.0).
+[H][!]更新:Autoit帮助汉化版本更新为SVN39
+UDFs:
+[H][!]更新:UDF帮助汉化版本更新为SVN39
+[H][+]新增:UDF: FTP.au3,用于操作FTP
+[H][-]移除:_FileListToArrayNew2g.zip,官方UDF已经存在.
+SCITE:
+[G][!]更新:更新TIDY(代码整理)到2.0.25.0
+[G][!]更新:更新Obfuscator(代码迷惑)到1.0.26.8
+[H][!]更新:更新SCITE为1.78版本.
+Koda:
+Beta 1.7.0.9 (2009-02-09)
+[G][*]修正: AU3导入时 "-1" 句柄问题.
+[G][+]新增: 可以给按钮选择一个标准的小图标(thanks socratessa)
+[G][*]修正: handling of CustomPath where was icons with index (thanks socratessa)
+[G][*]修正: Koda 可以操作未压缩的 256x256 Vista 图标
+[G][*]修正: 窗口排列计算错误 (thanks Valik)
+[G][*]修正: 在更新脚本时缩排 (thanks Valik)
+[G][*]修改: 在 Updown 控件中输入一个错误值出现的问题 (thanks Valik)
+[G][*]修正: 状态栏与最后的面板排列问题 (thanks Zedna)
+[G][*]修正: 在主图标列表中出现按键不灵的问题 (thanks Zedna)
+[G][*]修改: order of menus in code generator output to fix "main menu" issue (thanks Zedna)
+
+
 
 3.3.0.0 (17:27 2008-12-31) (正式版)
 Autoit:

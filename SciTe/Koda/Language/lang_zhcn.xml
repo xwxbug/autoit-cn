@@ -2,68 +2,70 @@
 <language>
 	<name>Chinese(Simplified)</name>
 	<nativename>简体中文</nativename>
-	<version>1.7.0.6</version>
+	<version>1.7.0.8</version>
 	<author>thesnow</author><!--http://autoit.net.cn-->
 	<icon>
-		<bin>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</bin>
+		<bin>000001000100120C000001001800F80200001600000028000000120000001800</bin>
+		<bin>00000100180000000000A0020000000000000000000000000000000000000000</bin>
 		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
-		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
+		<bin>000000000000000000000000000000000000000000000000001F20D40909CD00</bin>
+		<bin>00CC0303CE0D0DD61D1DE12F2FEE4242FA4F4FFF5050F94646EA3536D53030CA</bin>
+		<bin>2A2ABF2323B21B1BA700000000000000003838E11818D20505CC0000CC0505D0</bin>
+		<bin>1010D82121E43535F24646FC5050FE4E4EF64242E53434D22E2EC72828BC2121</bin>
+		<bin>B000000000000000005050F12F30DD1212CF0303CC0000CC0707D11414DB2626</bin>
+		<bin>E83A3AF54A4AFE5151FD4C4CF23E3FE03333CF2D2DC42626B900000000000000</bin>
+		<bin>006464FD4848EC2727D80D0ECE0109CC0102CD0A0AD41818DE2B2BEB3E3EF84D</bin>
+		<bin>4DFF5151FB4949EE3A3ADA3132CD2C2CC100000000000000006565F85E5EFA40</bin>
+		<bin>41E72024D40922CD0002CC0303CE0D0DD61D1DE12F2FEE4242FA4F4FFF5050F9</bin>
+		<bin>4646EA3635D53030CA00000000000000003B3AC76A6AFF5757F63838E11818D2</bin>
+		<bin>0514CC000ACC0505D01010D82121E43535F24646FC5050FE4E4EF64242E53434</bin>
+		<bin>D200000000000000002125A7464BD46877FF5054F12F2FDD1224CF031ACC0001</bin>
+		<bin>CD0707D11414DB2626E83A3AF54A4AFE5151FD4C4CF23E3FE000000000000000</bin>
+		<bin>000A178B2A97B259B8E9646DFD4848EC2727D80D1FCE0108CC0101CD0A0AD418</bin>
+		<bin>18DE2B2BEB3E3EF84D4DFF5151FB4949EE000000000000000000107F11719432</bin>
+		<bin>97BB6576F75E5EFA4141E71F2DD4090DCD0000CC0303CE0D0DD61D1DE12F2FEE</bin>
+		<bin>4242FA4F4FFF5050F9000000000000000000007F00127F19209D3B3BC66A6FFF</bin>
+		<bin>5782F63839E11818D20505CC0000CC0505D01010D82121E43535F24646FC5050</bin>
+		<bin>FE00000000000000000000000000000000000000000000000000000000000000</bin>
 		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
 		<bin>0000000000000000000000000000000000000000000000000000000000000000</bin>
 		<bin>0000000000000000000000000000</bin>
 	</icon>
 	<messages>
-		<msgCloseModified>%s 已被修改。关闭前是否保存？</msgCloseModified>
-		<msgAlreadyOpened>文件\n\n&quot;%s&quot;\n\n已经在设计器中打开。</msgAlreadyOpened>
-		<msgFileExists>文件 &quot;%s&quot; 已经存在。覆盖吗？</msgFileExists>
-		<msgFileExistsNoConfirm>文件已经存在。请选择其它名称。</msgFileExistsNoConfirm>
-		<msgNoActiveForm>设计器中没有活动的窗体，操作无法完成。</msgNoActiveForm>
-		<msgUnrecoverable>Koda 无法打开这个窗体，解析错误：\n\n  %s</msgUnrecoverable>
-		<msgNoKodaUpdates>您目前使用的已经是最新版本。</msgNoKodaUpdates>
-		<msgNewKodaUpdate>发现 Koda 新版本 %s%s。现在打开下载页面吗？</msgNewKodaUpdate>
-		<msgErrorUpdate>无法获取更新信息。</msgErrorUpdate>
-		<msgNoFormsInScript>脚本里未发现 Koda 生成的任何窗体。</msgNoFormsInScript>
-		<msgNoFormIdent>在脚本里不能找到目前窗体的相关代码，也许您偶然删除了标识字符。脚本未能更新！</msgNoFormIdent>
-		<msgFormHaveNoScript>这个窗体不存在关联的脚本。</msgFormHaveNoScript>
-		<msgNewNamePrompt>输入新名称：</msgNewNamePrompt>
+		<msgCloseModified>%s 已被修改.移除前是否保存?</msgCloseModified>
+		<msgAlreadyOpened>文件\n\n&quot;%s&quot;\n\n已经在设计器中打开.</msgAlreadyOpened>
+		<msgFileExists>文件 &quot;%s&quot; 已经存在.覆盖吗?</msgFileExists>
+		<msgFileExistsNoConfirm>文件已经存在.请选择其它名称.</msgFileExistsNoConfirm>
+		<msgNoActiveForm>设计器中没有活动的窗体,操作无法完成.</msgNoActiveForm>
+		<msgUnrecoverable>Koda 无法打开这个窗体,解析错误:\n\n  %s</msgUnrecoverable>
+		<msgNoKodaUpdates>您目前使用的已经是最新版本.</msgNoKodaUpdates>
+		<msgNewKodaUpdate>发现 Koda 新版本 %s%s.现在打开下载页面吗?</msgNewKodaUpdate>
+		<msgErrorUpdate>无法获取更新信息.</msgErrorUpdate>
+		<msgNoFormsInScript>脚本里未发现 Koda 生成的任何窗体.</msgNoFormsInScript>
+		<msgNoFormIdent>在脚本里不能找到目前窗体的相关代码,也许您偶然删除了标识字符.脚本未能更新!</msgNoFormIdent>
+		<msgFormHaveNoScript>这个窗体不存在关联的脚本.</msgFormHaveNoScript>
+		<msgNewNamePrompt>输入新名称:</msgNewNamePrompt>
 		<msgProjectNew>请选择一个路径并输入一个新的项目名称</msgProjectNew>
 		<msgProjectOpen>请选择项目</msgProjectOpen>
-		<msgProjectNewScript>打开存在的脚本或者新建一个脚本：</msgProjectNewScript>
-		<msgProjectNewForm>打开存在的窗体脚本或者新建一个脚本：</msgProjectNewForm>
+		<msgProjectNewScript>打开存在的脚本或者新建一个脚本:</msgProjectNewScript>
+		<msgProjectNewForm>打开存在的窗体脚本或者新建一个脚本:</msgProjectNewForm>
 		<msgSaveFormBefore>您当前的窗口没有保存. 为了使用更新功能,您必须先保存脚本. 您需要先保存窗体脚本吗?</msgSaveFormBefore>
-		<msgProjectAskClose>创建一个新的项目将回关闭当前打开的脚本和所创建的窗体. 继续吗?</msgProjectAskClose>
+		<msgProjectAskClose>创建一个新的项目将会关闭当前打开的脚本和所创建的窗体. 继续吗?</msgProjectAskClose>
 		<msgProjectFileMissing>您尝试打开一个已经不存在的项目...</msgProjectFileMissing>
-		<msgNoDatafile> styles.xml 文件丢失. 请重新安装autoit汉化版本. </msgNoDatafile>
+		<msgNoDatafile> styles.xml 文件丢失. 请重新安装Autoit汉化版本或者从Koda压缩包中提取一个. </msgNoDatafile>
+		<msgWrongIconFormat>您尝试打开的文件不是一个图标文件.</msgWrongIconFormat>
+		<msgWrongIconLibFormat>Library file you try to open have wrong format or does not contain any icons.</msgWrongIconLibFormat>
 		<msgNotImplemented>不能执行...</msgNotImplemented>
 		<msgWarningTitle>警告</msgWarningTitle>
 		<msgInfoTitle>信息</msgInfoTitle>
 		<msgConfirmTitle>确认</msgConfirmTitle>
 		<msgErrorTitle>错误</msgErrorTitle>
-		<strErrOpFailed>操作失败！</strErrOpFailed>
+		<strErrOpFailed>操作失败!</strErrOpFailed>
 		<strAssociated>关联</strAssociated>
 		<strNotAssociated>不关联</strNotAssociated>
 		<strObjInit>初始化中...</strObjInit>
-		<strObjCreatedOk>对象创建成功！</strObjCreatedOk>
-		<strObjCreatedErr>对象创建失败！</strObjCreatedErr>
+		<strObjCreatedOk>对象创建成功!</strObjCreatedOk>
+		<strObjCreatedErr>对象创建错误!</strObjCreatedErr>
 		<strDefault>默认</strDefault>
 		<strFilterAU3>Autoit 脚本文件</strFilterAU3>
 		<strFilterKXF>Koda XML 窗体</strFilterKXF>
@@ -74,6 +76,7 @@
 		<strFilterGIF>GIF 文件</strFilterGIF>
 		<strFilterICO>图标</strFilterICO>
 		<strFilterEXE>可执行文件 和 动态链接库</strFilterEXE>
+		<strFilterLIB>图标库</strFilterLIB>
 		<strColorDesigner>设计器</strColorDesigner>
 		<strColorHandle>句柄</strColorHandle>
 		<strColorHandleBorder>Handle Border</strColorHandleBorder>
@@ -81,7 +84,7 @@
 		<strColorInactiveHandleBorder>Inactive Handle Border</strColorInactiveHandleBorder>
 		<strColorMultiselHandle>Multiply Selection Handle</strColorMultiselHandle>
 		<strColorMultiselHandleBorder>Multiply Selection Handle Border</strColorMultiselHandleBorder>
-		<strColorLockedHandle>锁定控件句柄</strColorLockedHandle>
+		<strColorLockedHandle>锁定的控件句柄</strColorLockedHandle>
 		<strColorGrid>栅格</strColorGrid>
 		<strColorObjInsp>对象检查器</strColorObjInsp>
 		<strColorOIBackground>背景</strColorOIBackground>
@@ -270,7 +273,7 @@
 			<line idx="2">打开窗体...</line>
 		</cbGeneralStartup>
 		<cbGeneralBackup property="Caption">创建备份</cbGeneralBackup>
-		<cbUpdateSave property="Caption">Update button also save form</cbUpdateSave>
+		<cbUpdateSave property="Caption">更新按钮同时保存窗体</cbUpdateSave>
 		<grpDesignerOptions property="Caption">默认生成选项</grpDesignerOptions>
 		<cbCodegenPopulate property="Caption">为所有控件生成事件</cbCodegenPopulate>
 		<cbCodegenPopulate property="Hint">这将为所有控件生成变量或函数，不管有没有设置事件或者属性</cbCodegenPopulate>
@@ -350,7 +353,7 @@
 		<mnuSelectAll property="Caption">全选</mnuSelectAll>
 	</form>
 	<form name="frmAdvGenerate">
-		<caption>配置与生成(&amp;G)</caption>
+		<caption>当前窗体生成选项(&amp;G)</caption>
 		<btnSaveGenerate property="Caption">保存与生成</btnSaveGenerate>
 		<btnCancel property="Caption">取消</btnCancel>
 		<grpTemplate property="Caption">模版</grpTemplate>
@@ -395,7 +398,7 @@
 	</form>
 	<form name="frmChooseScript">
 		<caption>选择脚本</caption>
-		<lblChooseHint property="Caption">Form &quot;%s&quot; you try to open is referenced in more then one script. Please choose one you want to work with.</lblChooseHint>
+		<lblChooseHint property="Caption">Form &quot;%s&quot; you are trying to open is referenced in more then one script. Please choose the one you want to work with.</lblChooseHint>
 		<ScriptsList property="Columns">
 			<item idx="0">脚本名称</item>
 			<item idx="1">最后修改</item>
@@ -422,7 +425,7 @@
 		<mnuFormRemove property="Caption">移除窗体</mnuFormRemove>
 		<mnuFormRemove property="Hint">从当前窗体中移除当前脚本(如果文件未保存，将会被删除)</mnuFormRemove>
 		<mnuNotesEdit property="Caption">编辑注释</mnuNotesEdit>
-		<mnuNotesEdit property="Hint">Open window for editing project notes</mnuNotesEdit>
+		<mnuNotesEdit property="Hint">打开窗口编辑项目注释</mnuNotesEdit>
 	</form>
 	<form name="frmNotesEditor">
 		<caption>注释编辑器</caption>
@@ -438,7 +441,7 @@
 		<btnOK property="Caption">确定</btnOK>
 	</form>
 	<form name="frmImportDlg">
-		<caption>AU3 输入</caption>
+		<caption>AU3 导入</caption>
 		<btnCancel property="Caption">取消</btnCancel>
 		<btnProcess property="Caption">进度</btnProcess>
 		<btnLoad property="Caption">载入</btnLoad>
@@ -455,16 +458,17 @@
 	</form>
 	<form name="frmPictureEditor">
 		<caption>图片编辑器</caption>
-		<lblPath property="Caption">当前路径到图像</lblPath>
 		<btnImgOk property="Caption">确定</btnImgOk>
 		<btnImgCancel property="Caption">取消</btnImgCancel>
 		<btnImgHelp property="Caption">帮助</btnImgHelp>
 		<grpImgPicGroupBox property="Caption">选择图像</grpImgPicGroupBox>
 		<btnImgLoad property="Caption">载入(&amp;L)...</btnImgLoad>
-		<btnImgSave property="Caption">保存(&amp;S)...</btnImgSave>
 		<btnImgClear property="Caption">清除(&amp;C)</btnImgClear>
+		<cbFitImage property="Caption">图像减肥</cbFitImage>
 		<grpImages property="Caption">文件中的图像</grpImages>
-		<cbSmallIcons property="Caption">小图标</cbSmallIcons>
+		<lblViewListAs property="Caption">查看列表为:</lblViewListAs>
+		<lblPath property="Caption">自定义图像路径</lblPath>
+		<btnTest property="Caption">测试</btnTest>
 	</form>
 	<form name="frmAXObjectEditor">
 		<caption>ActiveX 对象浏览器</caption>
@@ -475,6 +479,7 @@
 		</CompList>
 		<btnOK property="Caption">确定</btnOK>
 		<btnCancel property="Caption">取消</btnCancel>
+		<btnHelp property="Caption">帮助</btnHelp>
 	</form>
 	<form name="frmGalleryBrowser">
 		<caption>窗体模版</caption>
@@ -521,7 +526,7 @@
 		<btnLVHelp property="Caption">帮助(&amp;H)</btnLVHelp>
 	</form>
 	<form name="frmCollectionEditor">
-		<caption>Columns</caption>
+		<caption/>
 		<btnAdd property="Hint">添加项目</btnAdd>
 		<btnDelete property="Hint">删除项目</btnDelete>
 		<btnUp property="Hint">上移</btnUp>
@@ -529,7 +534,7 @@
 	</form>
 	<form name="frmEventEditor">
 		<caption>事件编辑器</caption>
-		<grpNotify property="Caption">通知控件</grpNotify>
+		<grpNotify property="Caption">控件通知</grpNotify>
 		<lblNotifyState property="Caption">Current notification: %s</lblNotifyState>
 		<grpEvent property="Caption">控件事件</grpEvent>
 		<lblEventState property="Caption">Current event: %s</lblEventState>
@@ -548,14 +553,8 @@
 		<caption>图像列表编辑器</caption>
 		<btnImgOk property="Caption">确定</btnImgOk>
 		<btnImgCancel property="Caption">取消</btnImgCancel>
-		<btnImgHelp property="Caption">帮助</btnImgHelp>
+		<btnHelp property="Caption">帮助</btnHelp>
 		<grpImages property="Caption">图像于列表</grpImages>
-		<lblPath property="Caption">图像路径</lblPath>
-		<lblImageIdx property="Caption">图像索引</lblImageIdx>
-		<IconListView property="Columns">
-			<item idx="0">路径</item>
-			<item idx="1">索引</item>
-		</IconListView>
 		<btnSingleAdd property="Caption">添加一个(&amp;A)...</btnSingleAdd>
 		<btnMultiAdd property="Caption">添加库(&amp;l)...</btnMultiAdd>
 		<btnImgRemove property="Caption">移除(&amp;R)</btnImgRemove>

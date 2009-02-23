@@ -19,7 +19,7 @@
 ;
 ; Required Autoit 3.2.10.0 or higher
 ;
-; Version: 0.9 (2007-12-05)
+; Version: 0.91 (2008-09-30)
 ; 
 ;===============================================================================
 
@@ -157,7 +157,9 @@ If $hMainMenu <> 0 Then $nTopOffset = _GetSystemMetrics($SM_CYMENUSIZE)
 
 ; Start writing GUI block
 ConsoleWrite('<object type="TAForm" level="1"')
-_WriteProp("name", StringRegExpReplace(_GetWindowClass($hWindow), ":|\s", ""))
+$sWindowClass = StringRegExpReplace(_GetWindowClass($hWindow), ":|\s|#", "")
+If StringIsDigit($sWindowClass) Then $sWindowClass = "Form" & $sWindowClass
+_WriteProp("name", $sWindowClass)
 _WriteProp("Caption", _TextAddEntity(WinGetTitle($hWindow)))
 _WriteProp("Left", $aWinPos[0])
 _WriteProp("Top", $aWinPos[1])
@@ -192,7 +194,7 @@ Func EnumChildProc($hWnd, $lParam)
     Local $sCtrlClass   = _GetWindowClass($hWnd)
     Local $sCtrlType    = _GetControlType($sCtrlClass, $nCtrlStyle)
     If $sCtrlType = "" Then 
-        ConsoleWrite('<!--WARNING:Warning: unsupported control found. Skipped.')
+        ConsoleWrite('<!--WARNING:Warning: unsupported control found. Skipped.-->')
         Return 1
     EndIf
 
@@ -338,9 +340,9 @@ Func _GetControlType($sClassName, $nStyle)
         Case "Edit"
             If BitAND($nStyle, $ES_MULTILINE) Then Return "Edit"  
             Return "Input"
-        Case "msctls_progress"
+        Case "msctls_progress32"
             Return "Progress"
-        Case "msctls_trackbar"
+        Case "msctls_trackbar32"
             Return "Slider"
         Case "SysDateTimePick"
             Return "Date"            
