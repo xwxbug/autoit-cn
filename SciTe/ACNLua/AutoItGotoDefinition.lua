@@ -185,6 +185,10 @@ function AutoItGotoDefinition:GetDirectories(version)
 			table.insert(directories, directory)
 			self:DebugPrint("Ŀ¼: " .. directory)
 		end
+		for directory in string.gmatch(props["autoit3dir"] .. "\\userinclude\\", "([^;]+)") do
+			table.insert(directories, props["autoit3dir"] .. "\\userinclude\\")
+			self:DebugPrint("Ŀ¼: " .. directory)
+		end	
 	else
 		for directory in string.gmatch(props[self.DirPropBeta], "([^;]+)") do
 			table.insert(directories, directory)

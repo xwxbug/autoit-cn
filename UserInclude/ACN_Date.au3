@@ -14,7 +14,7 @@
 ; Note(s):          English only
 ;
 ;===============================================================================
-Func _DateDayOfWeek($iDayNum, $iShort = 0)
+Func _DateDayOfWeek($iDayNum = @WDAY, $iShort = 0)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
@@ -62,7 +62,7 @@ EndFunc   ;==>_DateDayOfWeek
 ; Note(s):          English only
 ;
 ;===============================================================================
-Func _DateMonthOfYear($iMonthNum, $iShort)
+Func _DateMonthOfYear($iMonthNum = @MON, $iShort = 0)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
