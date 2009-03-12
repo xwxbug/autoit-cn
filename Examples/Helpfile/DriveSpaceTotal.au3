@@ -1,2 +1,2 @@
 $var = DriveSpaceTotal( "c:\" )
-MsgBox(4096, "Total Space on C:", $var & " MB")
+MsgBox(4096, " C: µÄ¿Õ¼ä:", $var & " MB")

@@ -1,5 +1,5 @@
 $bak = ClipGet()
-MsgBox(0, "Clipboard contains:", $bak)
+MsgBox(0, "剪贴板内容:", $bak)
 
-ClipPut($bak & "additional text")
-MsgBox(0, "Clipboard contains:", ClipGet())
+ClipPut($bak & "附加文本")
+MsgBox(0, "剪贴板内容:", ClipGet())

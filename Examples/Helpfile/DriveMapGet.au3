@@ -1,7 +1,7 @@
 
-; Map X drive to \\myserver\stuff using current user
+; 使用当前用户映射 X: 驱动器到 \\myserver\stuff 
 DriveMapAdd("X:", "\\myserver\stuff")
 
-; Get details of the mapping
-MsgBox(0, "Drive X: is mapped to", DriveMapGet("X:"))
+; 获取映射详细信息
+MsgBox(0, "驱动器 X: 映射到", DriveMapGet("X:"))
 

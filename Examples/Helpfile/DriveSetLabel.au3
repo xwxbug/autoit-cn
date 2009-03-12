@@ -1,1 +1,1 @@
-DriveSetLabel("C:\", "New_Label")
+DriveSetLabel("C:\", "ÐÂ¾í±ê")

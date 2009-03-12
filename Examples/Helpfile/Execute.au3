@@ -1,2 +1,2 @@
 $a=1
-$v=Execute("$a+1")	; $v is set to 2
+$v=Execute("$a+1")	; $v ±ª…Ë÷√Œ™ 2

@@ -1,8 +1,8 @@
 $file = FileOpen("test.txt", 1)
 
-; Check if file opened for writing OK
+; 检查打开的文件是否可写
 If $file = -1 Then
-	MsgBox(0, "Error", "Unable to open file.")
+	MsgBox(0, "错误", "不能打开文件.")
 	Exit
 EndIf
 

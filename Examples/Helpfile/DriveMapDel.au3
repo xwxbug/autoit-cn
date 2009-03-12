@@ -1,6 +1,6 @@
 
-; Map X drive to \\myserver\stuff using current user
+; 使用当前用户映射 X: 驱动器到 \\myserver\stuff 
 DriveMapAdd("X:", "\\myserver\stuff")
 
-; Disconnect
+; 断开
 DriveMapDel("X:")

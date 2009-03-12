@@ -1,1 +1,2 @@
-ClipPut("I am copied to the clipboard")
+ClipPut("我被拷贝到剪贴板")
+;打开记事本,右键粘贴,看看有什么!

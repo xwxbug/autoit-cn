@@ -1,14 +1,14 @@
 $size = DirGetSize(@HomeDrive)
-Msgbox(0,"","Size(MegaBytes):" & Round($size / 1024 / 1024))
+Msgbox(0,"","大小(MB) :" & Round($size / 1024 / 1024))
 
 $size = DirGetSize(@WindowsDir, 2)
-Msgbox(0,"","Size(MegaBytes):" & Round($size / 1024 / 1024))
+Msgbox(0,"","大小(MB) :" & Round($size / 1024 / 1024))
 
 $timer	= TimerInit()
-$size	= DirGetSize("\\10.0.0.1\h$",1)
-$diff	= Round(TimerDiff($timer) / 1000)	; time in seconds
+$size	= DirGetSize("\\10.0.0.1\h$",1);试试填入一个真实路径
+$diff	= Round(TimerDiff($timer) / 1000)	; 按秒计时
 If IsArray($size) Then
-	Msgbox(0,"DirGetSize-Info","Size(Bytes):" & $size[0] & @LF _
-		& "Files:" & $size[1] & @LF & "Dirs:" & $size[2] & @LF _
-		& "TimeDiff(Sec):" & $diff)
+	Msgbox(0,"DirGetSize-信息","大小(字节):" & $size[0] & @LF _
+		& "文件:" & $size[1] & @LF & "文件夹:" & $size[2] & @LF _
+		& "用时(秒):" & $diff)
 EndIf

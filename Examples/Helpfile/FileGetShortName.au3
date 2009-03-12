@@ -1,3 +1,3 @@
 $a = FileGetShortName(@HomeDrive & "\Program Files")
-msgbox(0,"long file name", $a)
-;$a is probably "x:\PROGRA~1"
+msgbox(0,"短文件名", $a)
+;$a 可能是 "x:\PROGRA~1"

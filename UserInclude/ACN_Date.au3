@@ -14,12 +14,12 @@
 ; Note(s):          English only
 ;
 ;===============================================================================
-Func _DateDayOfWeek($iDayNum = @WDAY, $iShort = 0)
+Func _DateDayOfWeekC($iDayNum = @WDAY)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
 	Local $aDayOfWeek[8]
-	
+
 	$aDayOfWeek[1] = "星期天"
 	$aDayOfWeek[2] = "星期一"
 	$aDayOfWeek[3] = "星期二"
@@ -28,24 +28,16 @@ Func _DateDayOfWeek($iDayNum = @WDAY, $iShort = 0)
 	$aDayOfWeek[6] = "星期五"
 	$aDayOfWeek[7] = "星期六"
 	Select
-		Case Not StringIsInt($iDayNum) Or Not StringIsInt($iShort)
+		Case Not StringIsInt($iDayNum)
 			SetError(1)
 			Return ""
 		Case $iDayNum < 1 Or $iDayNum > 7
 			SetError(1)
 			Return ""
 		Case Else
-			Select
-				Case $iShort = 0
-					Return $aDayOfWeek[$iDayNum]
-				Case $iShort = 1
-					Return StringLeft($aDayOfWeek[$iDayNum], 3)
-				Case Else
-					SetError(1)
-					Return ""
-			EndSelect
+			Return $aDayOfWeek[$iDayNum]
 	EndSelect
-EndFunc   ;==>_DateDayOfWeek
+EndFunc   ;==>_DateDayOfWeekC
 
 
 ;===============================================================================
@@ -62,12 +54,12 @@ EndFunc   ;==>_DateDayOfWeek
 ; Note(s):          English only
 ;
 ;===============================================================================
-Func _DateMonthOfYear($iMonthNum = @MON, $iShort = 0)
+Func _DateMonthOfYear($iMonthNum = @MON)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
 	Local $aMonthOfYear[13]
-	
+
 	$aMonthOfYear[1] = "一月"
 	$aMonthOfYear[2] = "二月"
 	$aMonthOfYear[3] = "三月"
@@ -80,23 +72,15 @@ Func _DateMonthOfYear($iMonthNum = @MON, $iShort = 0)
 	$aMonthOfYear[10] = "十月"
 	$aMonthOfYear[11] = "十一月"
 	$aMonthOfYear[12] = "十二月"
-	
+
 	Select
-		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iShort)
+		Case Not StringIsInt($iMonthNum)
 			SetError(1)
 			Return ""
 		Case $iMonthNum < 1 Or $iMonthNum > 12
 			SetError(1)
 			Return ""
 		Case Else
-			Select
-				Case $iShort = 0
-					Return $aMonthOfYear[$iMonthNum]
-				Case $iShort = 1
-					Return StringLeft($aMonthOfYear[$iMonthNum], 3)
-				Case Else
-					SetError(1)
-					Return ""
-			EndSelect
+			Return $aMonthOfYear[$iMonthNum]
 	EndSelect
 EndFunc   ;==>_DateMonthOfYear

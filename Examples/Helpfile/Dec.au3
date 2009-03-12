@@ -1,1 +1,1 @@
-$dec = Dec("FFFF")  ;returns the number 65535
+$dec = Dec("FFFF")  ;·µ»ØÊý×Ö 65535

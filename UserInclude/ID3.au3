@@ -7,22 +7,21 @@ Dim $ID3BufferArray[1] = [0];use to buffer ID3 Data (second element to be Filena
 
 ;===============================================================================
 ; Function Name:    _ID3TagToArray()
-; Description:      Reads ID3 Tag data from mp3 file and stores tag data in an array
-;						Reads ID3v1.0, ID3v1.1, ID3v2.3, ID3v2.2($sFilter will not work for ID3v2.2)
-; Parameter(s):     $Filename 	- Filename of mp3 file include full path
-;					$iFlag		- ID3 Version to read (Default: 2 => ID3v2)
-;									1 => Read ID3v1
-;									2 => Read ID3v2
-;					$sFilter	- ID3v2 Frame Filter (Default: -1 => all frames) 
-;									If used format should be a pipe delimted string 
-;									of the Frame IDs (ie. "TIT2|TALB|TPE1|TYER|APIC")
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns the Array of tag fields and data.
-;                   On Failure - 0 and Sets @error = -1 for end-of-file, @error = 1 for other errors
-;Notes:	(Frame ID Definitions - not all may work)
-;~ AENC Audio encryption
-;~ APIC Attached picture
-;~ COMM Comments
+; Description:      从mp3文件中读取ID3标签数据并保存到一个数组中.
+;						能读取 ID3v1.0, ID3v1.1, ID3v2.3, ID3v2.2(ID3v2.2下$sFilter将失效)
+; Parameter(s):     $Filename 	- mp3文件的完整路径.
+;					$iFlag		- 要读取的ID3版本(默认: 2 => ID3v2)
+;									1 => ID3v1
+;									2 => ID3v2
+;					$sFilter	- 要获得的ID3v2的帧标识 (默认: -1 => 所有帧) 
+;									如果要使用多个帧标识,需要用"|"隔开(例如: "TIT2|TALB|TPE1|TYER|APIC")
+; Requirement(s):   无
+; Return Value(s):  成功 - 返回一个包含标签字段和数据的数组.
+;                   失败 - 返回0,并设置 @error = -1 (无ID3数据), @error = 1 (其他错误)
+;说明:	(帧标识的定义 - 不是所有的都有效)
+;~ AENC 音频编码
+;~ APIC 专辑封面
+;~ COMM 备注
 ;~ COMR Commercial frame
 ;~ ENCR Encryption method registration
 ;~ EQUA Equalization
@@ -115,13 +114,13 @@ EndFunc
 
 ;===============================================================================
 ; Function Name:    _ID3GetTagField()
-; Description:      Reads the ID3 Tag Data from an mp3 file and stores it in a Buffer and returns the Field Requested
-; Parameter(s):     $Filename 			- Filename of mp3 file include full path
-;					$sFieldIDRequest	- ID3 Field ID String of the Field to return (ie. "TIT2" for ID3v2 Title or "Title" for ID3v1 Title)
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns Field String. If multiple fields found string is delimited with @CRLF.
-;						@error = 0; @extended = number of fields found (ID3v2 can have multiple COMM Fields)
-;                   On Failure - Returns Empty String meaning $sFieldIDRequest did not match any IDs in the mp3 File
+; Description:      检查mp3文件中是否有指定的标签字段.
+; Parameter(s):     $Filename 			- mp3文件的完整路径.
+;					$sFieldIDRequest	- 要检查的ID3字段名(例如: ID3v2的 "TIT2" 或者 ID3v1 的 "Title")
+; Requirement(s):   无
+; Return Value(s):  成功 - 返回字段名字符串. 如果找到多个字段,那么字符串会用@CRLF来分隔.
+;						@error = 0; @extended = 找到的字段数量 (ID3v2 能有多个COMM字段)
+;                   失败 - 返回一个空字符串.表示mp3文件中找不到$sFieldIDRequest字段
 ;						@error = 1; @extended = 0
 ;===============================================================================
 Func _ID3GetTagField($Filename, $sFieldIDRequest)
@@ -163,11 +162,11 @@ EndFunc
 
 ;===============================================================================
 ; Function Name:    _ID3DeleteFiles()
-; Description:      Deletes any files created by ID3.au3 (ie. AlbumArt.jpeg and SongLyrics.txt)
-; Parameter(s):     None
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns 1.
-;                   On Failure - Returns 0 
+; Description:      删除任何由ID3.au3添加的文件 (例如: AlbumArt.jpeg 和 SongLyrics.txt)
+; Parameter(s):     无
+; Requirement(s):   无
+; Return Value(s):  成功 - 返回 1.
+;                   失败 - 返回 0.
 ;===============================================================================
 Func _ID3DeleteFiles()
 	
@@ -206,7 +205,7 @@ Func _ReadID3v2($Filename, ByRef $aID3V2Tag, $sFilter = -1)
 	Local $FrameIDLen
 	Local $ID3v2Version = String(Number(_StringToHex(FileRead($hFile,1)))) & "." & String(Number(_StringToHex(FileRead($hFile,1))))
 	If $sFilter == -1 Then
-		_ArrayAdd($aID3V2Tag,"Version" & "|" & "ID3v2." & $ID3v2Version)
+		_ArrayAdd($aID3V2Tag,"版本" & "|" & "ID3v2." & $ID3v2Version)
 		$aID3V2Tag[0] += 1
 	EndIf
 	
@@ -737,45 +736,45 @@ Func _ReadID3v1($Filename, ByRef $aID3V1Tag)
 	
 	Local $Title, $Artist, $Album, $Year, $Comment, $Track, $GenreID, $Genre
 	
-	$Title = _FormatString(FileRead($hfile,30))
-	_ArrayAdd($aID3V1Tag,"Title" & "|" & $Title)
+	$Title = _FormatString(FileRead($hFile,30))
+	_ArrayAdd($aID3V1Tag,"标题" & "|" & $Title)
 	$aID3V1Tag[0] += 1
 
 	$Artist = _FormatString(FileRead($hFile,30))
-	_ArrayAdd($aID3V1Tag,"Artist" & "|" & $Artist)
+	_ArrayAdd($aID3V1Tag,"艺人" & "|" & $Artist)
 	$aID3V1Tag[0] += 1
 
 	$Album = _FormatString(FileRead($hFile,30))
-	_ArrayAdd($aID3V1Tag,"Album" & "|" & $Album)
+	_ArrayAdd($aID3V1Tag,"专辑" & "|" & $Album)
 	$aID3V1Tag[0] += 1
 	
 	$Year = _FormatString(FileRead($hFile,4))
-	_ArrayAdd($aID3V1Tag,"Year" & "|" & $Year)
+	_ArrayAdd($aID3V1Tag,"年份" & "|" & $Year)
 	$aID3V1Tag[0] += 1
 	
 	$Comment = _FormatString(FileRead($hFile,28))
-	_ArrayAdd($aID3V1Tag,"Comment" & "|" & $Comment)
+	_ArrayAdd($aID3V1Tag,"注释" & "|" & $Comment)
 	$aID3V1Tag[0] += 1
 	
-	$Track = Dec(_StringToHex(FileRead($hfile,2)))
+	$Track = Dec(_StringToHex(FileRead($hFile,2)))
 	If $Track < 1000 And $Track > 0 Then
-		_ArrayAdd($aID3V1Tag,"Track" & "|" & $Track)
+		_ArrayAdd($aID3V1Tag,"音轨" & "|" & $Track)
 		$aID3V1Tag[0] += 1
 	Else
-		_ArrayAdd($aID3V1Tag,"Track" & "|" & "")
+		_ArrayAdd($aID3V1Tag,"音轨" & "|" & "")
 		$aID3V1Tag[0] += 1
 	EndIf
 		
 	$GenreID = Dec(_StringToHex(FileRead($hfile,1)))
 	$Genre = _GetGenreByID($GenreID)
-	_ArrayAdd($aID3V1Tag,"Genre" & "|" & $Genre)
+	_ArrayAdd($aID3V1Tag,"流派" & "|" & $Genre)
 	$aID3V1Tag[0] += 1
 	
 	If $Track == 0 Then
-		_ArrayAdd($aID3V1Tag,"Version" & "|" & "ID3v1.0")
+		_ArrayAdd($aID3V1Tag,"ID3版本" & "|" & "ID3v1.0")
 		$aID3V1Tag[0] += 1
 	Else
-		_ArrayAdd($aID3V1Tag,"Version" & "|" & "ID3v1.1")
+		_ArrayAdd($aID3V1Tag,"ID3版本" & "|" & "ID3v1.1")
 		$aID3V1Tag[0] += 1
 	EndIf
 	

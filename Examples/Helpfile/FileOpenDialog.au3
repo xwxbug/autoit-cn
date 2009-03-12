@@ -1,24 +1,24 @@
-$message = "Hold down Ctrl or Shift to choose multiple files."
+$message = "按下 Ctrl 或 Shift 键选择多个文件."
 
-$var = FileOpenDialog($message, @WindowsDir & "\", "Images (*.jpg;*.bmp)", 1 + 4 )
+$var = FileOpenDialog($message, @WindowsDir & "\", "图像文件 (*.jpg;*.bmp)", 1 + 4 )
 
 If @error Then
-	MsgBox(4096,"","No File(s) chosen")
+	MsgBox(4096,"","没有选择文件!")
 Else
 	$var = StringReplace($var, "|", @CRLF)
-	MsgBox(4096,"","You chose " & $var)
+	MsgBox(4096,"","你选择了:" & $var)
 EndIf
 
 
-; Multiple filter group
-$message = "Hold down Ctrl or Shift to choose multiple files."
+; 多筛选组
+$message = "按下 Ctrl 或 Shift 键选择多个文件."
 
-$var = FileOpenDialog($message, @WindowsDir & "", "Images (*.jpg;*.bmp)|Videos (*.avi;*.mpg)", 1 + 4 )
+$var = FileOpenDialog($message, @WindowsDir & "", "图像 (*.jpg;*.bmp)|视频 (*.avi;*.mpg)", 1 + 4 )
 
 If @error Then
-	MsgBox(4096,"","No File(s) chosen")
+	MsgBox(4096,"","没有选择文件!")
 Else
 	$var = StringReplace($var, "|", @CRLF)
-	MsgBox(4096,"","You chose " & $var)
+	MsgBox(4096,"","你选择了:" & $var)
 EndIf
 

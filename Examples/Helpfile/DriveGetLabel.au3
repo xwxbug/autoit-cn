@@ -1,2 +1,2 @@
 $var = DriveGetLabel( "c:\" )
-MsgBox(4096,"Volume Label: ",$var)
+MsgBox(4096,"ОэБъ: ",$var)
