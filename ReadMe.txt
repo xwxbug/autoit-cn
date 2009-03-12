@@ -1,381 +1,386 @@
+ï»¿=========================================================
+ç¨‹åºåç§°:Autoit
+ç¨‹åºç‰ˆæœ¬:3.3.X.X ç¬¬ä¸€æ±‰åŒ–ç‰ˆ
+æ±‰åŒ–ä½œè€…:thesnoW
+ä¸­æ–‡è®ºå›:http://www.autoit.net.cn
 =========================================================
-³ÌĞòÃû³Æ:Autoit
-³ÌĞò°æ±¾:3.3.X.X µÚÒ»ºº»¯°æ
-ºº»¯×÷Õß:thesnoW
-ÖĞÎÄÂÛÌ³:http://www.autoit.net.cn
+ç»¿è‰²å®‰è£…æ–¹æ³•:è§£å‹ç¼©åˆ° ä»»æ„ç›®å½•.
+ç»¿è‰²å¸è½½æ–¹æ³•:ä¸çˆ½åˆ é™¤å°±æ˜¯.
+æ­£å¸¸å®‰è£…æ–¹æ³•:ç›´æ¥è¿è¡Œè‡ªè§£å‹ç¨‹åº.
+æ­£å¸¸å¸è½½æ±‰åŒ–:ä½¿ç”¨AU3å·¥å…·ç®±>å¸®åŠ©ç›¸å…³>å¸è½½æœ¬ç¨‹åº.
+å‘½ä»¤è¡Œå®‰è£…  : "au3tool.exe /s"
+å‘½ä»¤è¡Œå¸è½½  : "au3tool.exe /u"
+autoitå·¥å…·ç®±æä¾›äº†å®‰è£…å¸è½½åŠŸèƒ½.
 =========================================================
-ÂÌÉ«°²×°·½·¨:½âÑ¹Ëõµ½ ÈÎÒâÄ¿Â¼.
-ÂÌÉ«Ğ¶ÔØ·½·¨:²»Ë¬É¾³ı¾ÍÊÇ.
-Õı³£°²×°·½·¨:Ö±½ÓÔËĞĞ×Ô½âÑ¹³ÌĞò.
-Õı³£Ğ¶ÔØºº»¯:Ê¹ÓÃAU3¹¤¾ßÏä>°ïÖúÏà¹Ø>Ğ¶ÔØ±¾³ÌĞò.
-ÃüÁîĞĞ°²×°  : "au3tool.exe /s"
-ÃüÁîĞĞĞ¶ÔØ  : "au3tool.exe /u"
-autoit¹¤¾ßÏäÌá¹©ÁË°²×°Ğ¶ÔØ¹¦ÄÜ.
+	[H]æ±‰åŒ– [G]å®˜æ–¹ [!]æ›´æ–° [*]ä¿®æ­£ [+]æ–°å¢ [-]ç§»é™¤
 =========================================================
-	[H]ºº»¯ [G]¹Ù·½ [!]¸üĞÂ [*]ĞŞÕı [+]ĞÂÔö [-]ÒÆ³ı
-=========================================================
-3.3.X.X (2009-3-X) (µÚÒ»ºº»¯°æ)
+3.3.X.X (2009-3-X) (ç¬¬ä¸€æ±‰åŒ–ç‰ˆ)
 Autoit:
-[H][+]ĞÂÔö:Microsoft Spy++ 9.0ÖĞÎÄ°æ(Ó¢ÎÄ°æ²»ÒÆ³ı)
-[H][!]¸üĞÂ:ºº»¯²¿·ÖÀı×Ó³ÌĞò.
+[H][*]ä¿®æ­£:AU3å·¥å…·ç®±æ— å¸®åŠ©çš„é—®é¢˜.
+[H][+]æ–°å¢:Microsoft Spy++ 9.0ä¸­æ–‡ç‰ˆ(è‹±æ–‡ç‰ˆä¸ç§»é™¤)
+[H][!]æ›´æ–°:æ±‰åŒ–éƒ¨åˆ†ä¾‹å­ç¨‹åº.
 Scite:
-[H][*]ĞŞÕı:ĞŞÕıCTRL+JÔÚUserInclude°üº¬Ä¿Â¼µÄÎÄ¼şÎŞ·¨Ìø×ªµÄÎÊÌâ.
+[H][+]æ–°å¢:ACNWrapper ç‰ˆæœ¬å±æ€§ä¸­,æ”¯æŒ\n \ræ¢è¡Œ, \tä¸ºåˆ¶è¡¨ç¬¦, \xtmä¸ºâ„¢, \xcpä¸ºÂ© , \xrtä¸ºÂ®.
+[H][!]æ›´æ–°:å¯¹ACNWrapperç¨‹åºçš„ä¼˜åŒ–.å¯¹è·¯å¾„æ›´æ™ºèƒ½çš„åˆ¤æ–­.
+[H][*]ä¿®æ­£:ä¿®æ­£CTRL+Jåœ¨UserIncludeåŒ…å«ç›®å½•çš„æ–‡ä»¶æ— æ³•è·³è½¬çš„é—®é¢˜.
+[G][!]æ›´æ–°:æ›´æ–°TIDY(ä»£ç æ•´ç†)åˆ°2.0.27.0
+[G][!]æ›´æ–°:æ›´æ–°Obfuscator(ä»£ç è¿·æƒ‘)åˆ°1.0.26.9
 AUF:
-[H][+]ĞÂÔö:Ö¸ÓÉACNÊÕ¼¯µÄ,±àĞ´µÄUDF.Ä¿Ç°ÓÉSxD½øĞĞSVNÎ¬»¤.
+[H][+]æ–°å¢:æŒ‡ç”±ACNæ”¶é›†çš„,ç¼–å†™çš„UDF.ç›®å‰ç”±SxDè¿›è¡ŒSVNç»´æŠ¤.
 
-3.3.0.0 (2009-2-24) (µÚ¶şºº»¯°æ)
+3.3.0.0 (2009-2-24) (ç¬¬äºŒæ±‰åŒ–ç‰ˆ)
 Autoit:
-[H][-]ÒÆ³ı:Send2A3X(¹ıÀÏ)
-[H][!]¸üĞÂ:Autoit¹¤¾ßÏäÊ¹ÓÃiniÅäÖÃÎÄ¼ş¶¨Òå²Ëµ¥.
-[H][!]¸üĞÂ:³ÌĞò¸üĞÂÒÆ³ıºº»¯°æ±¾ĞÅÏ¢.
-[H][!]ËµÃ÷:ºº»¯°æ²»ÔÙÒÔĞ¡°æ±¾±íÊ¾(Èç3.3.0.0.1).ºÍ¹Ù·½Í¬Ñù±íÊ¾(3.3.0.0).
-[H][!]¸üĞÂ:Autoit°ïÖúºº»¯°æ±¾¸üĞÂÎªSVN39
+[H][-]ç§»é™¤:Send2A3X(è¿‡è€)
+[H][!]æ›´æ–°:Autoitå·¥å…·ç®±ä½¿ç”¨inié…ç½®æ–‡ä»¶å®šä¹‰èœå•.
+[H][!]æ›´æ–°:ç¨‹åºæ›´æ–°ç§»é™¤æ±‰åŒ–ç‰ˆæœ¬ä¿¡æ¯.
+[H][!]è¯´æ˜:æ±‰åŒ–ç‰ˆä¸å†ä»¥å°ç‰ˆæœ¬è¡¨ç¤º(å¦‚3.3.0.0.1).å’Œå®˜æ–¹åŒæ ·è¡¨ç¤º(3.3.0.0).
+[H][!]æ›´æ–°:Autoitå¸®åŠ©æ±‰åŒ–ç‰ˆæœ¬æ›´æ–°ä¸ºSVN39
 UDFs:
-[H][!]¸üĞÂ:UDF°ïÖúºº»¯°æ±¾¸üĞÂÎªSVN39
-[H][+]ĞÂÔö:UDF: FTP.au3,ÓÃÓÚ²Ù×÷FTP
-[H][-]ÒÆ³ı:_FileListToArrayNew2g.zip,¹Ù·½UDFÒÑ¾­´æÔÚ.
+[H][!]æ›´æ–°:UDFå¸®åŠ©æ±‰åŒ–ç‰ˆæœ¬æ›´æ–°ä¸ºSVN39
+[H][+]æ–°å¢:UDF: FTP.au3,ç”¨äºæ“ä½œFTP
+[H][-]ç§»é™¤:_FileListToArrayNew2g.zip,å®˜æ–¹UDFå·²ç»å­˜åœ¨.
 SCITE:
-[G][!]¸üĞÂ:¸üĞÂTIDY(´úÂëÕûÀí)µ½2.0.25.0
-[G][!]¸üĞÂ:¸üĞÂObfuscator(´úÂëÃÔ»ó)µ½1.0.26.8
-[H][!]¸üĞÂ:¸üĞÂSCITEÎª1.78°æ±¾.
+[G][!]æ›´æ–°:æ›´æ–°TIDY(ä»£ç æ•´ç†)åˆ°2.0.25.0
+[G][!]æ›´æ–°:æ›´æ–°Obfuscator(ä»£ç è¿·æƒ‘)åˆ°1.0.26.8
+[H][!]æ›´æ–°:æ›´æ–°SCITEä¸º1.78ç‰ˆæœ¬.
 Koda:
 Beta 1.7.0.9 (2009-02-09)
-[G][*]ĞŞÕı: AU3µ¼ÈëÊ± "-1" ¾ä±úÎÊÌâ.
-[G][+]ĞÂÔö: ¿ÉÒÔ¸ø°´Å¥Ñ¡ÔñÒ»¸ö±ê×¼µÄĞ¡Í¼±ê(thanks socratessa)
-[G][*]ĞŞÕı: handling of CustomPath where was icons with index (thanks socratessa)
-[G][*]ĞŞÕı: Koda ¿ÉÒÔ²Ù×÷Î´Ñ¹ËõµÄ 256x256 Vista Í¼±ê
-[G][*]ĞŞÕı: ´°¿ÚÅÅÁĞ¼ÆËã´íÎó (thanks Valik)
-[G][*]ĞŞÕı: ÔÚ¸üĞÂ½Å±¾Ê±ËõÅÅ (thanks Valik)
-[G][*]ĞŞ¸Ä: ÔÚ Updown ¿Ø¼şÖĞÊäÈëÒ»¸ö´íÎóÖµ³öÏÖµÄÎÊÌâ (thanks Valik)
-[G][*]ĞŞÕı: ×´Ì¬À¸Óë×îºóµÄÃæ°åÅÅÁĞÎÊÌâ (thanks Zedna)
-[G][*]ĞŞÕı: ÔÚÖ÷Í¼±êÁĞ±íÖĞ³öÏÖ°´¼ü²»ÁéµÄÎÊÌâ (thanks Zedna)
-[G][*]ĞŞ¸Ä: order of menus in code generator output to fix "main menu" issue (thanks Zedna)
+[G][*]ä¿®æ­£: AU3å¯¼å…¥æ—¶ "-1" å¥æŸ„é—®é¢˜.
+[G][+]æ–°å¢: å¯ä»¥ç»™æŒ‰é’®é€‰æ‹©ä¸€ä¸ªæ ‡å‡†çš„å°å›¾æ ‡(thanks socratessa)
+[G][*]ä¿®æ­£: handling of CustomPath where was icons with index (thanks socratessa)
+[G][*]ä¿®æ­£: Koda å¯ä»¥æ“ä½œæœªå‹ç¼©çš„ 256x256 Vista å›¾æ ‡
+[G][*]ä¿®æ­£: çª—å£æ’åˆ—è®¡ç®—é”™è¯¯ (thanks Valik)
+[G][*]ä¿®æ­£: åœ¨æ›´æ–°è„šæœ¬æ—¶ç¼©æ’ (thanks Valik)
+[G][*]ä¿®æ”¹: åœ¨ Updown æ§ä»¶ä¸­è¾“å…¥ä¸€ä¸ªé”™è¯¯å€¼å‡ºç°çš„é—®é¢˜ (thanks Valik)
+[G][*]ä¿®æ­£: çŠ¶æ€æ ä¸æœ€åçš„é¢æ¿æ’åˆ—é—®é¢˜ (thanks Zedna)
+[G][*]ä¿®æ­£: åœ¨ä¸»å›¾æ ‡åˆ—è¡¨ä¸­å‡ºç°æŒ‰é”®ä¸çµçš„é—®é¢˜ (thanks Zedna)
+[G][*]ä¿®æ”¹: order of menus in code generator output to fix "main menu" issue (thanks Zedna)
 
 
 
-3.3.0.0 (17:27 2008-12-31) (ÕıÊ½°æ)
+3.3.0.0 (17:27 2008-12-31) (æ­£å¼ç‰ˆ)
 Autoit:
-[G][!]ËµÃ÷:Î´ĞŞ¸Ä.
-[H][!]¸üĞÂ:ºº»¯°æ±¾¶ÔVISTA/2008/7ÏµÍ³µÄ¼æÈİĞÔ.
+[G][!]è¯´æ˜:æœªä¿®æ”¹.
+[H][!]æ›´æ–°:æ±‰åŒ–ç‰ˆæœ¬å¯¹VISTA/2008/7ç³»ç»Ÿçš„å…¼å®¹æ€§.
 UDFs:
-[G][!]ËµÃ÷:ÓĞĞÂÔöº¯Êı.ÏÂÒ»¸ö°æ±¾ÔÙËµÃ÷.
+[G][!]è¯´æ˜:æœ‰æ–°å¢å‡½æ•°.ä¸‹ä¸€ä¸ªç‰ˆæœ¬å†è¯´æ˜.
 
 3.2.13.13 (1:52 2008-12-23) (Beta)
 
 AutoIt:
-[G][+]ĞÂÔö: #744: StringFromASCIIArray() ºÍ StringToASCIIArray() ÏÖÔÚÔÊĞíÖ¸¶¨±àÂë.
-[G][*]ĞŞÕı: Send() ÔÚÊ¹ÓÃ{ASC 0xNNNN}¸ñÊ½Ê±´íÎóÊÇ²åÈëÁËÒ»¸öÇ°µ¼Áã(0).
-[G][*]ĞŞÕı: DllStructSetData() ²»ÄÜÕı³£µÄÖÕÖ¹ÒÔÇ°Ê¹ÓÃµÄ×Ö·û´®»º³åÇø.
-[G][*]ĞŞÕı: #743: AutoIt µ±ÍĞÅÌº¯ÊıÊ¹ÓÃÎŞĞ§IDÊ±±ÀÀ£.
-[G][*]ĞŞÕı: #748: AutoIt Ê¹ÓÃ DllCall(0,...) Ê±±ÀÀ£.
-[G][!]¸üĞÂ: #734: StringRegExpReplace() ÎÄµµÏòºóÒıÓÃ(²Î¿¼)
-[H][!]¸üĞÂ: ¸üĞÂ´úÂëÃÔ»óÎª1.0.25.0.
-[H][!]¸üĞÂ: ¸üĞÂ´úÂëÕûÀí(TIDY)Îª2.0.24.4.
-[H][+]ĞÂÔö: ÍêÃÀÆ¤·ôDLL(USKIN3.0)
-[H][!]¸üĞÂ: skinengine(Æ¤·ôÒıÇæ3.54)
-[H][+]ĞÂÔö: skinengineµÄÊ®¼¸¶şÊ®¸öÆ¤·ô.
-[H][!]×¢Òâ: ´Ë°æ¿ªÊ¼Ä¬ÈÏÊ¹ÓÃUNICODE±àÂë±àÒë,Èç¹û²»Õı³£,ÇëĞŞ¸ÄÔ¤±àÒëĞÅÏ¢µÄ#AutoIt3Wrapper_UseAnsi=y
+[G][+]æ–°å¢: #744: StringFromASCIIArray() å’Œ StringToASCIIArray() ç°åœ¨å…è®¸æŒ‡å®šç¼–ç .
+[G][*]ä¿®æ­£: Send() åœ¨ä½¿ç”¨{ASC 0xNNNN}æ ¼å¼æ—¶é”™è¯¯æ˜¯æ’å…¥äº†ä¸€ä¸ªå‰å¯¼é›¶(0).
+[G][*]ä¿®æ­£: DllStructSetData() ä¸èƒ½æ­£å¸¸çš„ç»ˆæ­¢ä»¥å‰ä½¿ç”¨çš„å­—ç¬¦ä¸²ç¼“å†²åŒº.
+[G][*]ä¿®æ­£: #743: AutoIt å½“æ‰˜ç›˜å‡½æ•°ä½¿ç”¨æ— æ•ˆIDæ—¶å´©æºƒ.
+[G][*]ä¿®æ­£: #748: AutoIt ä½¿ç”¨ DllCall(0,...) æ—¶å´©æºƒ.
+[G][!]æ›´æ–°: #734: StringRegExpReplace() æ–‡æ¡£å‘åå¼•ç”¨(å‚è€ƒ)
+[H][!]æ›´æ–°: æ›´æ–°ä»£ç è¿·æƒ‘ä¸º1.0.25.0.
+[H][!]æ›´æ–°: æ›´æ–°ä»£ç æ•´ç†(TIDY)ä¸º2.0.24.4.
+[H][+]æ–°å¢: å®Œç¾çš®è‚¤DLL(USKIN3.0)
+[H][!]æ›´æ–°: skinengine(çš®è‚¤å¼•æ“3.54)
+[H][+]æ–°å¢: skinengineçš„åå‡ äºŒåä¸ªçš®è‚¤.
+[H][!]æ³¨æ„: æ­¤ç‰ˆå¼€å§‹é»˜è®¤ä½¿ç”¨UNICODEç¼–ç ç¼–è¯‘,å¦‚æœä¸æ­£å¸¸,è¯·ä¿®æ”¹é¢„ç¼–è¯‘ä¿¡æ¯çš„#AutoIt3Wrapper_UseAnsi=y
 
 UDFs:
-[G][!]¸üĞÂ: _SQLite 3.6.6.2 -> 3.6.7
+[G][!]æ›´æ–°: _SQLite 3.6.6.2 -> 3.6.7
 
 3.2.13.12.1 (2:04 2008-12-11) (Beta)
-NOTE:¹Ù·½Ä¿Ç°Î´·¢²¼ÎÄµµ¸üĞÂ,ÔİÊ±Í£Ö¹¸üĞÂÎÄµµ.
+NOTE:å®˜æ–¹ç›®å‰æœªå‘å¸ƒæ–‡æ¡£æ›´æ–°,æš‚æ—¶åœæ­¢æ›´æ–°æ–‡æ¡£.
 
 AutoIt:
-[G][*]ĞŞ¸Ä: #596: StringFromASCIIArray() and StringToASCIIArray() now correctly handle embedded terminators.  Also, StringToASCIIArray() no longer inserts a trailing 0 into arrays.
-[G][*]ĞŞÕı: µ±Ê¹ÓÃBinaryToString()ÖĞÓĞÎŞĞ§µÄUTF16ÊäÈë×Ö·û´®Ê±³ÌĞò±ÀÀ£.  BinaryToString() ÏÖÔÚÓĞÁËĞÂµÄ @error ´úÂëÀ´Ö§³ÖÎŞĞ§ÊäÈëµÄÕï¶Ï.
-[G][*]ĞŞÕı: ControlGetText() ÔÚÉÏÒ»¸öbetaµÄ²»ÎÈ¶¨±íÏÖ.
-[G][!]¸üĞÂ: Shutdown ÎÄµµ.
-[H][*]ĞŞÕı: SCITEºº»¯´íÎó(¸ĞĞ»kxbit)
-[H][!]¸üĞÂ: SCITEÎªSVN 2008-12-7µÄ´úÂë(Ö÷Òª¸üĞÂScintillaµÄ½¡×³ĞÔÒÔ¼°¶ÔĞÂÓïÑÔµÄÖ§³Ö,ËäÈ»ÎÒÃÇÓÃ²»×Å).
+[G][*]ä¿®æ”¹: #596: StringFromASCIIArray() and StringToASCIIArray() now correctly handle embedded terminators.  Also, StringToASCIIArray() no longer inserts a trailing 0 into arrays.
+[G][*]ä¿®æ­£: å½“ä½¿ç”¨BinaryToString()ä¸­æœ‰æ— æ•ˆçš„UTF16è¾“å…¥å­—ç¬¦ä¸²æ—¶ç¨‹åºå´©æºƒ.  BinaryToString() ç°åœ¨æœ‰äº†æ–°çš„ @error ä»£ç æ¥æ”¯æŒæ— æ•ˆè¾“å…¥çš„è¯Šæ–­.
+[G][*]ä¿®æ­£: ControlGetText() åœ¨ä¸Šä¸€ä¸ªbetaçš„ä¸ç¨³å®šè¡¨ç°.
+[G][!]æ›´æ–°: Shutdown æ–‡æ¡£.
+[H][*]ä¿®æ­£: SCITEæ±‰åŒ–é”™è¯¯(æ„Ÿè°¢kxbit)
+[H][!]æ›´æ–°: SCITEä¸ºSVN 2008-12-7çš„ä»£ç (ä¸»è¦æ›´æ–°Scintillaçš„å¥å£®æ€§ä»¥åŠå¯¹æ–°è¯­è¨€çš„æ”¯æŒ,è™½ç„¶æˆ‘ä»¬ç”¨ä¸ç€).
 UDFs:
-[G][+]ĞÂÔö: _GDIPlus_StringFormatSetAlign (monoceres)
+[G][+]æ–°å¢: _GDIPlus_StringFormatSetAlign (monoceres)
 
-[G][!]¸üĞÂ: StringAddThousandsSep params in regards to #442
-[G][!]¸üĞÂ: _SQLite 3.6.5 -> 3.6.6.2
-[G][!]¸üĞÂ: #733: _GUICtrlButton_SetImageList µÄÎÄµµ
-[G][*]ĞŞÕı: #693: _DateTimeFormat() Ê±¼ä¸ñÊ½
-[G][*]ĞŞÕı: #701: _GUICtrlListView_ClickItem() µ±µã»÷ÔÚ´íÎóµÄ¿Õ¼äÊ± $fMove = True
-[G][*]ĞŞÕı: #700: _GUICtrlTreeView_ClickItem() µ±µã»÷ÔÚ´íÎóµÄ¿Õ¼äÊ± $fMove = True
-[G][*]ĞŞÕı: #703: _GUICtrlListBox_ClickItem() µ±µã»÷ÔÚ´íÎóµÄ¿Õ¼äÊ± $fMove = True
-[G][*]ĞŞÕı: #705: _GUICtrlToolbar_ClickButton() µ±µã»÷ÔÚ´íÎóµÄ¿Õ¼äÊ± $fMove = True
-[G][*]ĞŞÕı: #707: _GUICtrlMonthCal_Create() ¿í¶ÈÓë¸ß¶È
+[G][!]æ›´æ–°: StringAddThousandsSep params in regards to #442
+[G][!]æ›´æ–°: _SQLite 3.6.5 -> 3.6.6.2
+[G][!]æ›´æ–°: #733: _GUICtrlButton_SetImageList çš„æ–‡æ¡£
+[G][*]ä¿®æ­£: #693: _DateTimeFormat() æ—¶é—´æ ¼å¼
+[G][*]ä¿®æ­£: #701: _GUICtrlListView_ClickItem() å½“ç‚¹å‡»åœ¨é”™è¯¯çš„ç©ºé—´æ—¶ $fMove = True
+[G][*]ä¿®æ­£: #700: _GUICtrlTreeView_ClickItem() å½“ç‚¹å‡»åœ¨é”™è¯¯çš„ç©ºé—´æ—¶ $fMove = True
+[G][*]ä¿®æ­£: #703: _GUICtrlListBox_ClickItem() å½“ç‚¹å‡»åœ¨é”™è¯¯çš„ç©ºé—´æ—¶ $fMove = True
+[G][*]ä¿®æ­£: #705: _GUICtrlToolbar_ClickButton() å½“ç‚¹å‡»åœ¨é”™è¯¯çš„ç©ºé—´æ—¶ $fMove = True
+[G][*]ä¿®æ­£: #707: _GUICtrlMonthCal_Create() å®½åº¦ä¸é«˜åº¦
 
 
 
 3.2.13.11 (2008-11-17) (Beta)
 
 AutoIt:
-[G][*]ĞŞÕı: #669: Dec() Àı×ÓÅÅ°æ.
-[G][*]ĞŞÕı: #659: ÎÄµµÖĞ UNC Â·¾¶(ÍøÂçÂ·¾¶)²»Ö§³ÖÊ±Ê¹ÓÃ FileSelectFolder().
-[G][*]ĞŞÕı: #671: Ê¹ÓÃ $WS_EX_MDICHILD Ê±Èç¹ûÎ´Ö¸¶¨¸¸´°¿Ú,³ÌĞò±ÀÀ£.
+[G][*]ä¿®æ­£: #669: Dec() ä¾‹å­æ’ç‰ˆ.
+[G][*]ä¿®æ­£: #659: æ–‡æ¡£ä¸­ UNC è·¯å¾„(ç½‘ç»œè·¯å¾„)ä¸æ”¯æŒæ—¶ä½¿ç”¨ FileSelectFolder().
+[G][*]ä¿®æ­£: #671: ä½¿ç”¨ $WS_EX_MDICHILD æ—¶å¦‚æœæœªæŒ‡å®šçˆ¶çª—å£,ç¨‹åºå´©æºƒ.
 
 AutoItX:
-[G][+]ĞÂÔö: COM: WinList ·½·¨.
-[G][*]ĞŞÕı: Native DLL: ·µ»Ø×Ö·û´®ÓĞÊ±»áÒâÍâÖÕÖ¹.
-[G][*]ĞŞÕı: PixelChecksum() ²»·µ»ØĞŞÕıÖµ.
+[G][+]æ–°å¢: COM: WinList æ–¹æ³•.
+[G][*]ä¿®æ­£: Native DLL: è¿”å›å­—ç¬¦ä¸²æœ‰æ—¶ä¼šæ„å¤–ç»ˆæ­¢.
+[G][*]ä¿®æ­£: PixelChecksum() ä¸è¿”å›ä¿®æ­£å€¼.
 
 UDFs:
-[G][*]ĞŞÕı: #674: _GUICtrlTab_ClickTab() µ±µã»÷ÔÚ´íÎóµÄ¿Õ¼äÊ± $fMove = True
-[G][!]¸üĞÂ: _SQLite 3.6.4 -> 3.6.5
-[G][!]¸üĞÂ: #442: _StringAddThousandsSep() ÔÊĞí¾Ö²¿ÉèÖÃ
+[G][*]ä¿®æ­£: #674: _GUICtrlTab_ClickTab() å½“ç‚¹å‡»åœ¨é”™è¯¯çš„ç©ºé—´æ—¶ $fMove = True
+[G][!]æ›´æ–°: _SQLite 3.6.4 -> 3.6.5
+[G][!]æ›´æ–°: #442: _StringAddThousandsSep() å…è®¸å±€éƒ¨è®¾ç½®
 
 3.2.13.10.1 (14:04 2008-11-12) (Beta)
 
 AutoIt:
-[G][+]ĞÂÔö: #645: IniDelete() ÏÖÔÚÖ§³ÖÄ¬ÈÏ¹Ø¼ü×ÖÎªµÚÈı¸ö²ÎÊı.
-[G][*]ĞŞÕı: #628: GuiCtrlRead($ctxmenu, $adv) ·µ»Ø´íÎóµÄÖµ (Saunders)
-[G][*]ĞŞÕı: #640: PCRE ²»Ö§³Ö \L, \l, \N, \U, or \u : ÎÄµµ¸üĞÂ
-[G][*]ĞŞÕı: StringToASCIIArray() ±ÀÀ£ (Part of issue #596).
-[G][*]ĞŞÕı: #646: Call() now sets specific @error and @extended values when it fails to find a function.
-[G][*]ĞŞ¸Ä: StringToASCIIArray() Óë StringFromASCIIArray() Ê¹ÓÃ UNICODE ´úÂë (Part of issue #596)
+[G][+]æ–°å¢: #645: IniDelete() ç°åœ¨æ”¯æŒé»˜è®¤å…³é”®å­—ä¸ºç¬¬ä¸‰ä¸ªå‚æ•°.
+[G][*]ä¿®æ­£: #628: GuiCtrlRead($ctxmenu, $adv) è¿”å›é”™è¯¯çš„å€¼ (Saunders)
+[G][*]ä¿®æ­£: #640: PCRE ä¸æ”¯æŒ \L, \l, \N, \U, or \u : æ–‡æ¡£æ›´æ–°
+[G][*]ä¿®æ­£: StringToASCIIArray() å´©æºƒ (Part of issue #596).
+[G][*]ä¿®æ­£: #646: Call() now sets specific @error and @extended values when it fails to find a function.
+[G][*]ä¿®æ”¹: StringToASCIIArray() ä¸ StringFromASCIIArray() ä½¿ç”¨ UNICODE ä»£ç  (Part of issue #596)
 AutoItX:
-[G][*]ĞŞÕı: ÉÏÒ»BETA°æ±¾ÖĞÒ»Ğ© unicode ÒıÆğµÄÏà¹ØÎÊÌâ.
+[G][*]ä¿®æ­£: ä¸Šä¸€BETAç‰ˆæœ¬ä¸­ä¸€äº› unicode å¼•èµ·çš„ç›¸å…³é—®é¢˜.
 UDFs:
-[G][+]ĞÂÔö: _StringExplode() (WeaponX)
-[G][*]ĞŞÕı: #610: _WinAPI_CreateFile() ´ò¿ªÎÄ¼şÊ§°Ü·µ»Ø´íÎóÖµ.
-[G][*]ĞŞÕı: #619: _GUICtrlListView_SetItemSelected ÄÚ´æ·ÖÅäÎÊÌâ.
-[G][*]ĞŞÕı: #617: ¸üĞÂĞŞÕı6¸ö GDI+ ImageGet °ïÖúÎÄ¼şÀı×Ó.
-[G][*]ĞŞÕı: #621: _StringAddThousandsSep ²»¹¤×÷ÓÚ¸ºÊı.
-[G][*]ĞŞÕı: #635: _GuiCtrlTab_ClickTab() ÎÄµµÁĞ±íÎ´Ê¹ÓÃ $fPopupScan ²ÎÊı.
-[G][*]ĞŞÕı: #650: ¶ªÊ§ BorderConstants.au3
-[G][*]ĞŞÕı: #656: µ±ÎÄ¼şÖ»ÓĞÒ»ĞĞÊ± _FileCountLines ·µ»Ø0µÄÎÊÌâ.
-[G][*]ĞŞ¸Ä: _Soundxxxx º¯Êı (RazerM)
-[G][*]ĞŞ¸Ä: #599: _FileListToArray ËÙ¶ÈÓÅ»¯ (code65536)
-[G][*]ĞŞ¸Ä: _SQLite 3.5.9 -> 3.6.4.
+[G][+]æ–°å¢: _StringExplode() (WeaponX)
+[G][*]ä¿®æ­£: #610: _WinAPI_CreateFile() æ‰“å¼€æ–‡ä»¶å¤±è´¥è¿”å›é”™è¯¯å€¼.
+[G][*]ä¿®æ­£: #619: _GUICtrlListView_SetItemSelected å†…å­˜åˆ†é…é—®é¢˜.
+[G][*]ä¿®æ­£: #617: æ›´æ–°ä¿®æ­£6ä¸ª GDI+ ImageGet å¸®åŠ©æ–‡ä»¶ä¾‹å­.
+[G][*]ä¿®æ­£: #621: _StringAddThousandsSep ä¸å·¥ä½œäºè´Ÿæ•°.
+[G][*]ä¿®æ­£: #635: _GuiCtrlTab_ClickTab() æ–‡æ¡£åˆ—è¡¨æœªä½¿ç”¨ $fPopupScan å‚æ•°.
+[G][*]ä¿®æ­£: #650: ä¸¢å¤± BorderConstants.au3
+[G][*]ä¿®æ­£: #656: å½“æ–‡ä»¶åªæœ‰ä¸€è¡Œæ—¶ _FileCountLines è¿”å›0çš„é—®é¢˜.
+[G][*]ä¿®æ”¹: _Soundxxxx å‡½æ•° (RazerM)
+[G][*]ä¿®æ”¹: #599: _FileListToArray é€Ÿåº¦ä¼˜åŒ– (code65536)
+[G][*]ä¿®æ”¹: _SQLite 3.5.9 -> 3.6.4.
 SCITE:
-[H][!]¸üĞÂ: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (thesnow)
+[H][!]æ›´æ–°: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (thesnow)
 11/2/2008
-[G][!]¸üĞÂ: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (Jos)
-[G][!]¸üĞÂ: Tidy.exe v2.0.23.24 (Jos)
-[G][*]ĞŞÕı: some reported report issues.
-[G][!]¸üĞÂ: Obfuscator.exe v1.0.24.23 (Jos)
-[G][*]ĞŞÕı: internal changes and fixes.
+[G][!]æ›´æ–°: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (Jos)
+[G][!]æ›´æ–°: Tidy.exe v2.0.23.24 (Jos)
+[G][*]ä¿®æ­£: some reported report issues.
+[G][!]æ›´æ–°: Obfuscator.exe v1.0.24.23 (Jos)
+[G][*]ä¿®æ­£: internal changes and fixes.
 --------------------------------------------------------------------------------------------------
 10/20/2008
-[G][!]¸üĞÂ: AutoIt3Wrapper_Gui/AutoIt3Wrapper v1.10.1.14 (Jos)
-[G][*]ĞŞÕı: Removed #RequireAdmin causing issues when running in "User" mode.
-[G][!]¸üĞÂ: Tidy.exe v2.0.23.23 (Jos)
-[G][+]ĞÂÔö: remove comments option for EndFunc and EndRegion. (see documentation for details) 
-[G][*]ĞŞÕı: recognition of ]then and )then on an line with If statement.
-[G][*]ĞŞÕı: recognition of Enum declared variable and continuation character after Global.
+[G][!]æ›´æ–°: AutoIt3Wrapper_Gui/AutoIt3Wrapper v1.10.1.14 (Jos)
+[G][*]ä¿®æ­£: Removed #RequireAdmin causing issues when running in "User" mode.
+[G][!]æ›´æ–°: Tidy.exe v2.0.23.23 (Jos)
+[G][+]æ–°å¢: remove comments option for EndFunc and EndRegion. (see documentation for details) 
+[G][*]ä¿®æ­£: recognition of ]then and )then on an line with If statement.
+[G][*]ä¿®æ­£: recognition of Enum declared variable and continuation character after Global.
 
 3.2.13.9 (12th October, 2008) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: #601: Tooltip return 0 when title length >99.
-[G][*]ĞŞÕı: #608: listView GUICtrlSetBkColor not redrawn.
-[G][*]ĞŞÕı: Regression in writing Unicode files introduced in 3.2.13.8.
+[G][*]ä¿®æ­£: #601: Tooltip return 0 when title length >99.
+[G][*]ä¿®æ­£: #608: listView GUICtrlSetBkColor not redrawn.
+[G][*]ä¿®æ­£: Regression in writing Unicode files introduced in 3.2.13.8.
 UDFs:
-[G][*]ĞŞÕı: #600: _ArraySearch fails with 2D array.
-[G][*]ĞŞÕı: #603: _FileReadToArray() does not return an array if the file contains only a single line of text.
+[G][*]ä¿®æ­£: #600: _ArraySearch fails with 2D array.
+[G][*]ä¿®æ­£: #603: _FileReadToArray() does not return an array if the file contains only a single line of text.
 
 3.2.13.8.1 (4/10/2008) (Beta)
 AutoIt:
-[G][+]ĞÂÔö: #454: $FO_UTF8 ÔÊĞí FileOpen() ÔÚÊ¹ÓÃ¶ÁÈ¡Ä£Ê½Ê±¶ÁÈ¡ UTF8 ÎÄ¼ş²»ĞèÒª BOM.
-[G][+]ĞÂÔö: $FO_UTF16_LE, $FO_UTF16_BE ÔÊĞí FileOpen() ÔÚÊ¹ÓÃ¶ÁÈ¡Ä£Ê½Ê±¶ÁÈ¡ UTF16 ÎÄ¼ş²»ĞèÒª BOM.
-[G][*]ĞŞÕı: #501: ProcessGetStats() Ê§°ÜÓÚ½ø³ÌÔËĞĞÓÚÆäËüÓÃ»§ (°üÀ¨ÏµÍ³).
-[G][*]ĞŞÕı: #92: DllStruct Êı¾İÊ¹ÓÃ char[]/wchar[] Ê±,Êı¾İ±»É¾¼õµÄÎÊÌâ.
-[G][*]ĞŞÕı: #562: Ö¸¶¨±êÌâÊôĞÔµ¼ÖÂÆäËûÊôĞÔ¶ªÊ§(´°¿Ú±êÌâÆ¥Åä).
-[G][*]ĞŞÕı: GuiCtrlSetState($graphic, $GUI_HIDE) ²»ÄÜÒş²Ø.
-[G][*]ĞŞÕı: GuiCtrlSetResizing($graphic, ) ²»ÄÜÒÆ¶¯.
-[G][*]ĞŞÕı: GuiCreate(...,²»´ø±êÌâµÄÑùÊ½) ²»ÄÜÑÏ¸ñµÄÉèÖÃ´°¿Ú´óĞ¡.
-[G][*]ĞŞÕı: GuiSetStyle(±êÌâĞŞ¸Ä) ²»ÄÜÑÏ¸ñµÄÉèÖÃ´°¿Ú´óĞ¡.
-[G][*]ĞŞÕı: GuiCtrlSetState($listviewitem) ²»ÄÜ·µ»Ø´íÎó.
-[G][*]ĞŞÕı: #569 TCPRecv ÎÄµµÀı×Ó.
-[G][*]ĞŞÕı: #589: Ò»Ğ©±È½Ï²Ù×÷²»ÄÜ·µ»Ø²¼¶ûÖµ.
-[G][*]ĞŞÕı: #583: @MSEC ÔÚÎÄµµÖĞÃèÊö´íÎó.
-[G][*]ĞŞÕı: #574: Using 0 for the SendKeyDelay or SendKeyDownDelay removes the respective delay when using Send().
-[G][*]ĞŞÕı: #542: ±ÀÀ£ÓÚÕıÔò±í´ïÊ½.
-[G][*]ĞŞÕı: #531: ¸ÄĞ´ÁËÒ»Ğ©¹ØÓÚ GUICtrlSetGraphic()µÄ×¢ÊÍ(°ïÖúÎÄµµ).
-[G][*]ĞŞÕı: #539: StringSplit() Ê¹ÓÃ±êÖ¾ 2 ²¢ÇÒ²»Æ¥Åä·Ö¸ô·û²»ÄÜ·µ»ØÍêÕû×Ö·û´®µÄÎÊÌâ(Ó¦¸Ã·µ»Ø).
-[G][*]ĞŞ¸Ä: PCRE ÕıÔò±í´ïÊ½ÒıÇæ¸üĞÂµ½ 7.8.
-[H][!]¸üĞÂ: SPY++ ¸üĞÂÎª9.0°æ(VS2008ÖĞÌáÈ¡)
+[G][+]æ–°å¢: #454: $FO_UTF8 å…è®¸ FileOpen() åœ¨ä½¿ç”¨è¯»å–æ¨¡å¼æ—¶è¯»å– UTF8 æ–‡ä»¶ä¸éœ€è¦ BOM.
+[G][+]æ–°å¢: $FO_UTF16_LE, $FO_UTF16_BE å…è®¸ FileOpen() åœ¨ä½¿ç”¨è¯»å–æ¨¡å¼æ—¶è¯»å– UTF16 æ–‡ä»¶ä¸éœ€è¦ BOM.
+[G][*]ä¿®æ­£: #501: ProcessGetStats() å¤±è´¥äºè¿›ç¨‹è¿è¡Œäºå…¶å®ƒç”¨æˆ· (åŒ…æ‹¬ç³»ç»Ÿ).
+[G][*]ä¿®æ­£: #92: DllStruct æ•°æ®ä½¿ç”¨ char[]/wchar[] æ—¶,æ•°æ®è¢«åˆ å‡çš„é—®é¢˜.
+[G][*]ä¿®æ­£: #562: æŒ‡å®šæ ‡é¢˜å±æ€§å¯¼è‡´å…¶ä»–å±æ€§ä¸¢å¤±(çª—å£æ ‡é¢˜åŒ¹é…).
+[G][*]ä¿®æ­£: GuiCtrlSetState($graphic, $GUI_HIDE) ä¸èƒ½éšè—.
+[G][*]ä¿®æ­£: GuiCtrlSetResizing($graphic, ) ä¸èƒ½ç§»åŠ¨.
+[G][*]ä¿®æ­£: GuiCreate(...,ä¸å¸¦æ ‡é¢˜çš„æ ·å¼) ä¸èƒ½ä¸¥æ ¼çš„è®¾ç½®çª—å£å¤§å°.
+[G][*]ä¿®æ­£: GuiSetStyle(æ ‡é¢˜ä¿®æ”¹) ä¸èƒ½ä¸¥æ ¼çš„è®¾ç½®çª—å£å¤§å°.
+[G][*]ä¿®æ­£: GuiCtrlSetState($listviewitem) ä¸èƒ½è¿”å›é”™è¯¯.
+[G][*]ä¿®æ­£: #569 TCPRecv æ–‡æ¡£ä¾‹å­.
+[G][*]ä¿®æ­£: #589: ä¸€äº›æ¯”è¾ƒæ“ä½œä¸èƒ½è¿”å›å¸ƒå°”å€¼.
+[G][*]ä¿®æ­£: #583: @MSEC åœ¨æ–‡æ¡£ä¸­æè¿°é”™è¯¯.
+[G][*]ä¿®æ­£: #574: Using 0 for the SendKeyDelay or SendKeyDownDelay removes the respective delay when using Send().
+[G][*]ä¿®æ­£: #542: å´©æºƒäºæ­£åˆ™è¡¨è¾¾å¼.
+[G][*]ä¿®æ­£: #531: æ”¹å†™äº†ä¸€äº›å…³äº GUICtrlSetGraphic()çš„æ³¨é‡Š(å¸®åŠ©æ–‡æ¡£).
+[G][*]ä¿®æ­£: #539: StringSplit() ä½¿ç”¨æ ‡å¿— 2 å¹¶ä¸”ä¸åŒ¹é…åˆ†éš”ç¬¦ä¸èƒ½è¿”å›å®Œæ•´å­—ç¬¦ä¸²çš„é—®é¢˜(åº”è¯¥è¿”å›).
+[G][*]ä¿®æ”¹: PCRE æ­£åˆ™è¡¨è¾¾å¼å¼•æ“æ›´æ–°åˆ° 7.8.
+[H][!]æ›´æ–°: SPY++ æ›´æ–°ä¸º9.0ç‰ˆ(VS2008ä¸­æå–)
 UDFs:
-[G][*]ĞŞÕı: #495: _GUICtrlTreeView_GetTree returns only 1 parent
-[G][+]ĞÂÔö: _WinAPI_CreatePen, _WinAPI_DrawLine, _WinAPI_LineTo, _WinAPI_MoveTo, _WinAPI_GetBkMode, _WinAPI_SetBkMode (Zedna)
-[G][*]ĞŞÕı: #503: _Date_Time_FileTimeToLocalFileTime example (cbruce)
-[G][+]ĞÂÔö: _ArrayCombinations, _ArrayPermute, _ArrayUnique (litlmike)
-[G][*]ĞŞÕı: #510: _GUICtrlListView_ClickItem: If columns inside listview exceed visible area, clicks outside of the control
-[G][+]ĞÂÔö: _GDIPlus_ImageGetFlags, _GDIPlus_ImageGetHorizontalResolution, _GDIPlus_ImageGetPixelFormat, _GDIPlus_ImageGetRawFormat
+[G][*]ä¿®æ­£: #495: _GUICtrlTreeView_GetTree returns only 1 parent
+[G][+]æ–°å¢: _WinAPI_CreatePen, _WinAPI_DrawLine, _WinAPI_LineTo, _WinAPI_MoveTo, _WinAPI_GetBkMode, _WinAPI_SetBkMode (Zedna)
+[G][*]ä¿®æ­£: #503: _Date_Time_FileTimeToLocalFileTime example (cbruce)
+[G][+]æ–°å¢: _ArrayCombinations, _ArrayPermute, _ArrayUnique (litlmike)
+[G][*]ä¿®æ­£: #510: _GUICtrlListView_ClickItem: If columns inside listview exceed visible area, clicks outside of the control
+[G][+]æ–°å¢: _GDIPlus_ImageGetFlags, _GDIPlus_ImageGetHorizontalResolution, _GDIPlus_ImageGetPixelFormat, _GDIPlus_ImageGetRawFormat
          _GDIPlus_ImageGetType, _GDIPlus_ImageGetVerticalResolution (rover)
-[G][+]ĞÂÔö: _PathGetRelative (wraithdu)
-[G][*]ĞŞÕı: #500: _ChooseColor run on 64bit
-[G][*]ĞŞÕı: #517: WinAPI UDF - bad error checking after DllCall()
-[G][+]ĞÂÔö: _WinAPI_CombineRgn, _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn, _WinAPI_SetWindowRgn (Zedna)
-[G][*]ĞŞÕı: #533: Array functions dimension check
-[G][*]ĞŞÕı:: various Timer Functions
-[G][*]ĞŞÕı: #506: _FileCountLines deal with all common line-end-chars
-[G][*]ĞŞÕı: #485: WinAPI ÔÚ°ïÖúÎÄ¼şÖĞ¶ªÊ§Ïà¹ØÁ´½Ó
-[G][*]ĞŞÕı: #571: return value doc for _GUICtrlListBox_FindString, _GUICtrlListBox_GetAnchorIndex and _GUICtrlListBox_GetText
-[G][*]ĞŞÕı: #586: _GuiCtrlListView_SetGroupInfo() destroyed group ID's.
-[G][*]ĞŞÕı: #516: _ChooseFont ÔËĞĞÓÚ 64Î» ÏµÍ³
-[G][*]ĞŞÕı: #595: _WinAPI_SetWindowsHookEx °ïÖúÎÄ¼şÏêÏ¸ĞÅÏ¢ÖĞµÄ $WH_KEYBOARD_LL
+[G][+]æ–°å¢: _PathGetRelative (wraithdu)
+[G][*]ä¿®æ­£: #500: _ChooseColor run on 64bit
+[G][*]ä¿®æ­£: #517: WinAPI UDF - bad error checking after DllCall()
+[G][+]æ–°å¢: _WinAPI_CombineRgn, _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn, _WinAPI_SetWindowRgn (Zedna)
+[G][*]ä¿®æ­£: #533: Array functions dimension check
+[G][*]ä¿®æ­£:: various Timer Functions
+[G][*]ä¿®æ­£: #506: _FileCountLines deal with all common line-end-chars
+[G][*]ä¿®æ­£: #485: WinAPI åœ¨å¸®åŠ©æ–‡ä»¶ä¸­ä¸¢å¤±ç›¸å…³é“¾æ¥
+[G][*]ä¿®æ­£: #571: return value doc for _GUICtrlListBox_FindString, _GUICtrlListBox_GetAnchorIndex and _GUICtrlListBox_GetText
+[G][*]ä¿®æ­£: #586: _GuiCtrlListView_SetGroupInfo() destroyed group ID's.
+[G][*]ä¿®æ­£: #516: _ChooseFont è¿è¡Œäº 64ä½ ç³»ç»Ÿ
+[G][*]ä¿®æ­£: #595: _WinAPI_SetWindowsHookEx å¸®åŠ©æ–‡ä»¶è¯¦ç»†ä¿¡æ¯ä¸­çš„ $WH_KEYBOARD_LL
 sqlite:
-[H][!]¸üĞÂ: sqlite3.exe ¸üĞÂÎª3.63°æ.
-[H][!]¸üĞÂ: tclsqlite3.dll ¸üĞÂÎª3.63°æ.
-[H][!]¸üĞÂ: sqlite3.dll ¸üĞÂÎª3.63°æ.
-[H][!]¸üĞÂ: sqlite3_analyzer.exe ¸üĞÂÎª3.61°æ
-[H][!]¸üĞÂ: sqlite_ÎÄµµ¸üĞÂÎª 3.63°æ.
+[H][!]æ›´æ–°: sqlite3.exe æ›´æ–°ä¸º3.63ç‰ˆ.
+[H][!]æ›´æ–°: tclsqlite3.dll æ›´æ–°ä¸º3.63ç‰ˆ.
+[H][!]æ›´æ–°: sqlite3.dll æ›´æ–°ä¸º3.63ç‰ˆ.
+[H][!]æ›´æ–°: sqlite3_analyzer.exe æ›´æ–°ä¸º3.61ç‰ˆ
+[H][!]æ›´æ–°: sqlite_æ–‡æ¡£æ›´æ–°ä¸º 3.63ç‰ˆ.
 scite:
-[H][!]¸üĞÂ: ´úÂëÃÔ»óObfuscator¸üĞÂÎª1.0.24.23°æ.
-[H][!]¸üĞÂ: ´úÂëÕûÀítidy¸üĞÂÎª2.0.23.24°æ.
-[H][!]¸üĞÂ: PCREÕıÔò±í´ïÊ½²âÊÔ¸üĞÂÎª 7.8 °æ.
+[H][!]æ›´æ–°: ä»£ç è¿·æƒ‘Obfuscatoræ›´æ–°ä¸º1.0.24.23ç‰ˆ.
+[H][!]æ›´æ–°: ä»£ç æ•´ç†tidyæ›´æ–°ä¸º2.0.23.24ç‰ˆ.
+[H][!]æ›´æ–°: PCREæ­£åˆ™è¡¨è¾¾å¼æµ‹è¯•æ›´æ–°ä¸º 7.8 ç‰ˆ.
 koda:
 Beta 1.7.0.8 (2008-10-03)
-[G][*]ĞŞÕı: Ò»Ğ©Ğ¡µÄĞŞÕıºÍ¶ÔĞÂ´úÂëµÄÇåÀí(2008-10-03)
-[G][+]ĞÂÔö: °´Å¥¿ÉÒÔÖ§³ÖÑÕÉ«(2008-10-02)
-[G][*]ĞŞ¸Ä: ÖØĞ´°´Å¥¿Ø¼şÖ§³ÖĞÂÍ¼±êµÄ´úÂë(2008-10-02)
-[G][+]ĞÂÔö: Picture editor may be invoked by doubleclick too(2008-10-01)
-[G][*]ĞŞ¸Ä: method of working with custom picture paths (changed method of loading break this anyway)(2008-10-01)
-[G][*]ĞŞ¸Ä: speedup loading of new Icon control, when icon loading from large libraries(2008-10-01)
-[G][*]ĞŞÕı: Form Captor example generated non-closed warning tag that cause conversion failure(2008-09-30)
-[G][+]ĞÂÔö: poFixed for form, where actual position not depend on form position (idea by Valik)(2008-09-30)
-[G][*]ĞŞ¸Ä: rewritten Picture Editor to support new Icon and other controls(2008-09-29)
-[G][*]ĞŞ¸Ä: rewritten Icon control (now much closer to an actual Autoit control & hi-color icons support)(2008-09-27)
-[G][+]ĞÂÔö: help handlers and ID's to all property editors(2008-09-24)
+[G][*]ä¿®æ­£: ä¸€äº›å°çš„ä¿®æ­£å’Œå¯¹æ–°ä»£ç çš„æ¸…ç†(2008-10-03)
+[G][+]æ–°å¢: æŒ‰é’®å¯ä»¥æ”¯æŒé¢œè‰²(2008-10-02)
+[G][*]ä¿®æ”¹: é‡å†™æŒ‰é’®æ§ä»¶æ”¯æŒæ–°å›¾æ ‡çš„ä»£ç (2008-10-02)
+[G][+]æ–°å¢: Picture editor may be invoked by doubleclick too(2008-10-01)
+[G][*]ä¿®æ”¹: method of working with custom picture paths (changed method of loading break this anyway)(2008-10-01)
+[G][*]ä¿®æ”¹: speedup loading of new Icon control, when icon loading from large libraries(2008-10-01)
+[G][*]ä¿®æ­£: Form Captor example generated non-closed warning tag that cause conversion failure(2008-09-30)
+[G][+]æ–°å¢: poFixed for form, where actual position not depend on form position (idea by Valik)(2008-09-30)
+[G][*]ä¿®æ”¹: rewritten Picture Editor to support new Icon and other controls(2008-09-29)
+[G][*]ä¿®æ”¹: rewritten Icon control (now much closer to an actual Autoit control & hi-color icons support)(2008-09-27)
+[G][+]æ–°å¢: help handlers and ID's to all property editors(2008-09-24)
 Beta 1.7.0.7 (2008-09-24)
-[G][*]ĞŞ¸Ä: Íê³ÉÖØĞ´Í¼±êÖ§³Ö, ÏÖÔÚÒÑ¾­Ö§³Ö¸ßÑÕÉ«Í¼±ê(2008-09-24)
-[G][*]ĞŞÕı: using wrong row when changing icon in list after deleting one of icon (¸ĞĞ» Zedna)(2008-09-5)
-[G][*]ĞŞÕı: AV when deleting (attached) context menu (long time bug)(2008-09-5)
-[G][*]ĞŞÕı: AV when deleting attached toolbar or imagelist (¸ĞĞ» Zedna)(2008-09-5)
-[G][*]ĞŞÕı: AV when invoke taborder dialog on toolbutton (¸ĞĞ» Zedna)(2008-09-5)
-[G][*]ĞŞÕı: ±êÇ©¶Ô»°¿òÖĞÃ»ÓĞ¹¤¾ßÀ¸Í¼±ê (¸ĞĞ» Zedna)(2008-09-5)
+[G][*]ä¿®æ”¹: å®Œæˆé‡å†™å›¾æ ‡æ”¯æŒ, ç°åœ¨å·²ç»æ”¯æŒé«˜é¢œè‰²å›¾æ ‡(2008-09-24)
+[G][*]ä¿®æ­£: using wrong row when changing icon in list after deleting one of icon (æ„Ÿè°¢ Zedna)(2008-09-5)
+[G][*]ä¿®æ­£: AV when deleting (attached) context menu (long time bug)(2008-09-5)
+[G][*]ä¿®æ­£: AV when deleting attached toolbar or imagelist (æ„Ÿè°¢ Zedna)(2008-09-5)
+[G][*]ä¿®æ­£: AV when invoke taborder dialog on toolbutton (æ„Ÿè°¢ Zedna)(2008-09-5)
+[G][*]ä¿®æ­£: æ ‡ç­¾å¯¹è¯æ¡†ä¸­æ²¡æœ‰å·¥å…·æ å›¾æ ‡ (æ„Ÿè°¢ Zedna)(2008-09-5)
 
 3.2.13.7.2 (9:56 2008-9-22)
 Scite:
-[H][!]¸üĞÂ: ¸üĞÂ´úÂëÃÔ»óÎª1.0.24.21.
-[H][!]¸üĞÂ: ¸üĞÂ´úÂëÕûÀí(TIDY)Îª2.0.23.20.
-[H][!]¸üĞÂ: ¸üĞÂSCITEÎªCVS 2008-9-13(ÔöÇ¿¶Ô»á»°µÄ¹ÜÀíÒÔ¼°¶Ô²¿·ÖÆäËü³ÌĞòÓïÑÔµÄ¼ÓÇ¿)
-[H][*]ĞŞÕı: SCITEÊ¹ÓÃĞ¡¼üÅÌ"-"²»ÄÜÌí¼Ó×¢ÊÍµÄÎÊÌâ.
+[H][!]æ›´æ–°: æ›´æ–°ä»£ç è¿·æƒ‘ä¸º1.0.24.21.
+[H][!]æ›´æ–°: æ›´æ–°ä»£ç æ•´ç†(TIDY)ä¸º2.0.23.20.
+[H][!]æ›´æ–°: æ›´æ–°SCITEä¸ºCVS 2008-9-13(å¢å¼ºå¯¹ä¼šè¯çš„ç®¡ç†ä»¥åŠå¯¹éƒ¨åˆ†å…¶å®ƒç¨‹åºè¯­è¨€çš„åŠ å¼º)
+[H][*]ä¿®æ­£: SCITEä½¿ç”¨å°é”®ç›˜"-"ä¸èƒ½æ·»åŠ æ³¨é‡Šçš„é—®é¢˜.
 Koda:
 Beta 1.7.0.6 (2008-09-03)
-2008-09-03 [G][*]ĞŞ¸Ä: experimental feature - not keep bitmaps inside form anymore (not supported customized paths yet)
-2008-09-03 [G][+]ĞÂÔö: code generator part for toolbar/imagelist
-2008-09-02 [G][+]ĞÂÔö: alignment for ListView columns
-2008-09-02 [G][*]ĞŞÕı: form modified flag not set when editing properties (thanks Zedna)
-2008-09-01 [G][+]ĞÂÔö: new imagelist implementation, icon resources
-2008-05-10 [G][+]ĞÂÔö: initial toolbar and imagelist implementation
+2008-09-03 [G][*]ä¿®æ”¹: experimental feature - not keep bitmaps inside form anymore (not supported customized paths yet)
+2008-09-03 [G][+]æ–°å¢: code generator part for toolbar/imagelist
+2008-09-02 [G][+]æ–°å¢: alignment for ListView columns
+2008-09-02 [G][*]ä¿®æ­£: form modified flag not set when editing properties (thanks Zedna)
+2008-09-01 [G][+]æ–°å¢: new imagelist implementation, icon resources
+2008-05-10 [G][+]æ–°å¢: initial toolbar and imagelist implementation
 
 3.2.13.7.1 (13:53 2008-8-12) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: ³ÌĞòÔ±·¸Ò»¸öµÍ¼¶´íÎó!(Runº¯Êı).
-[G][+]ĞÂÔö: #481: ÔÚSplashTextOn()ÖĞµÄÎÄ±¾±ßÉÏÏÔÊ¾11ÏñËØ. (²Î¿¼ Vista UI ÊÖ²á).
-[G][+]ĞÂÔö: #468: Ìí¼Ó @MSec ºêmacro »ñµÃµ±Ç°ÃëµÄµ±Ç°ºÁÃë.
-[G][+]ĞÂÔö: #277: @CPUArch ·µ»Ø´¦ÀíÆ÷¼æÈİĞÅÏ¢.
-[G][*]ĞŞ¸Ä: ±àÒëÓÅ»¯(DEP/Image randomization Á¬½ÓÆ÷Ñ¡Ïî).
-[H][!]ACNWrapperºº»¯¸üĞÂ,²¢Ö§³ÖÖ¸¶¨ICOÍ¼±êÎÄ¼şÊ±²»ĞèÒª¼Ó.ico¡£
+[G][*]ä¿®æ­£: ç¨‹åºå‘˜çŠ¯ä¸€ä¸ªä½çº§é”™è¯¯!(Runå‡½æ•°).
+[G][+]æ–°å¢: #481: åœ¨SplashTextOn()ä¸­çš„æ–‡æœ¬è¾¹ä¸Šæ˜¾ç¤º11åƒç´ . (å‚è€ƒ Vista UI æ‰‹å†Œ).
+[G][+]æ–°å¢: #468: æ·»åŠ  @MSec å®macro è·å¾—å½“å‰ç§’çš„å½“å‰æ¯«ç§’.
+[G][+]æ–°å¢: #277: @CPUArch è¿”å›å¤„ç†å™¨å…¼å®¹ä¿¡æ¯.
+[G][*]ä¿®æ”¹: ç¼–è¯‘ä¼˜åŒ–(DEP/Image randomization è¿æ¥å™¨é€‰é¡¹).
+[H][!]ACNWrapperæ±‰åŒ–æ›´æ–°,å¹¶æ”¯æŒæŒ‡å®šICOå›¾æ ‡æ–‡ä»¶æ—¶ä¸éœ€è¦åŠ .icoã€‚
 
 
 3.2.13.6 (30-07-2008) (Beta)
 AutoIt:
-[H][!]¸üĞÂ: TIDY(´úÂëÕûÀí)
-[H][!]¸üĞÂ: Obfuscator(´úÂëÃÔ»ó)
-[G][*]ĞŞÕı: #475: StringSplit() ¿Õ·Ö¸î·û²»¹¤×÷µÄÎÊÌâ.
-[G][*]ĞŞÕı: #464: ÑİÊ¾½Å±¾ GUICtrlCreateAvi() ²»ÄÜ¹¤×÷ÓÚ VistaµÄÎÊÌâ.
-[G][+]ĞÂÔö: #328: StringToASCIIArray(), StringFromASCIIArray() functions.
-[G][+]ĞÂÔö: New flag to Run()/RunAs() to fix issue #415 (Ìí¼ÓĞÂµÄ Constants.au3 ³£Á¿: $STDIO_INHERIT_PARENT).
-[G][+]ĞÂÔö: New flag to all Run functions for better CUI compatibility (Ìí¼ÓĞÂµÄ Constants.au3 ³£Á¿: $RUN_CREATE_NEW_CONSOLE).
-[G][*]ĞŞ¸Ä: #393: ËµÃ÷ÎÄµµÖĞ SoundSetWaveVolume() ÔÚWindows VistaÓëÆäËûÏµÍ³¹¤×÷·½Ê½²»Í¬.
-[G][*]ĞŞ¸Ä: PCRE ÕıÔò±í´ïÊ½ÒıÇæ¸üĞÂµ½7.7.
+[H][!]æ›´æ–°: TIDY(ä»£ç æ•´ç†)
+[H][!]æ›´æ–°: Obfuscator(ä»£ç è¿·æƒ‘)
+[G][*]ä¿®æ­£: #475: StringSplit() ç©ºåˆ†å‰²ç¬¦ä¸å·¥ä½œçš„é—®é¢˜.
+[G][*]ä¿®æ­£: #464: æ¼”ç¤ºè„šæœ¬ GUICtrlCreateAvi() ä¸èƒ½å·¥ä½œäº Vistaçš„é—®é¢˜.
+[G][+]æ–°å¢: #328: StringToASCIIArray(), StringFromASCIIArray() functions.
+[G][+]æ–°å¢: New flag to Run()/RunAs() to fix issue #415 (æ·»åŠ æ–°çš„ Constants.au3 å¸¸é‡: $STDIO_INHERIT_PARENT).
+[G][+]æ–°å¢: New flag to all Run functions for better CUI compatibility (æ·»åŠ æ–°çš„ Constants.au3 å¸¸é‡: $RUN_CREATE_NEW_CONSOLE).
+[G][*]ä¿®æ”¹: #393: è¯´æ˜æ–‡æ¡£ä¸­ SoundSetWaveVolume() åœ¨Windows Vistaä¸å…¶ä»–ç³»ç»Ÿå·¥ä½œæ–¹å¼ä¸åŒ.
+[G][*]ä¿®æ”¹: PCRE æ­£åˆ™è¡¨è¾¾å¼å¼•æ“æ›´æ–°åˆ°7.7.
 UDFs:
-[G][+]ĞÂÔö: _ExcelHorizontalAlignSet, _ExcelFontSetProperties, _ExcelBookAttach (litlmike)
-[G][*]ĞŞÕı: Excel Àı×Ó
-[G][+]ĞÂÔö: _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer (Zedna)
-[G][*]ĞŞÕı: #465: _DateTimeSplit µÚ¶ş¸öÄ¬ÈÏÖµÎª -1, ÏÖÔÚÄ¬ÈÏÎª 0
+[G][+]æ–°å¢: _ExcelHorizontalAlignSet, _ExcelFontSetProperties, _ExcelBookAttach (litlmike)
+[G][*]ä¿®æ­£: Excel ä¾‹å­
+[G][+]æ–°å¢: _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer (Zedna)
+[G][*]ä¿®æ­£: #465: _DateTimeSplit ç¬¬äºŒä¸ªé»˜è®¤å€¼ä¸º -1, ç°åœ¨é»˜è®¤ä¸º 0
 Aut2Exe:
-[G][+]ĞÂÔö: #460: ¸ü¶à¿ÉÄÜ³öÏÖµÄ UPX ´íÎó.
+[G][+]æ–°å¢: #460: æ›´å¤šå¯èƒ½å‡ºç°çš„ UPX é”™è¯¯.
 
 3.2.13.5 (24-07-2008) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: #449: @SystemDir ²»ÄÜ·µ»Ø SysWOW64 (64Î»ÏµÍ³ÖĞµÄ32Î»Ä£Ê½).
-[G][*]ĞŞÕı: #440: µ±½Å±¾ÒÔ EOF (0x1A)½áÊøÊ±²úÉú´íÎó.
-[G][*]ĞŞÕı: µ±Ê¹ÓÃÉÏ´ÎµÄÍ¼±ê±àÒëÊ±,±àÒëÆ÷±ÀÀ£µÄÎÊÌâ.
+[G][*]ä¿®æ­£: #449: @SystemDir ä¸èƒ½è¿”å› SysWOW64 (64ä½ç³»ç»Ÿä¸­çš„32ä½æ¨¡å¼).
+[G][*]ä¿®æ­£: #440: å½“è„šæœ¬ä»¥ EOF (0x1A)ç»“æŸæ—¶äº§ç”Ÿé”™è¯¯.
+[G][*]ä¿®æ­£: å½“ä½¿ç”¨ä¸Šæ¬¡çš„å›¾æ ‡ç¼–è¯‘æ—¶,ç¼–è¯‘å™¨å´©æºƒçš„é—®é¢˜.
 
 3.2.13.4 (19-07-2008) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: #346: FileOpenDialog/FileSaveDialog É¸Ñ¡Æ÷³¤¶ÈÏŞÖÆµÄbug.
-[G][*]ĞŞÕı: #387: µ±º¯ÊıÊ¹ÓÃÒ»¸öÎŞĞ§µÄ¾ä±úÊ±,DllClose() ºÍ DllCallbackFree() ±ÀÀ£.
+[G][*]ä¿®æ­£: #346: FileOpenDialog/FileSaveDialog ç­›é€‰å™¨é•¿åº¦é™åˆ¶çš„bug.
+[G][*]ä¿®æ­£: #387: å½“å‡½æ•°ä½¿ç”¨ä¸€ä¸ªæ— æ•ˆçš„å¥æŸ„æ—¶,DllClose() å’Œ DllCallbackFree() å´©æºƒ.
 UDFs:
-[G][+]ĞÂÔö: #334: _SQLite 3.5.9 x86 ºÍ X64 °æ±¾.
-[G][*]ĞŞÕı: #422: _GDIPlus_GraphicsSetSmoothingMode $iSmooth Ö»ÄÜ½ÓÊÜ 0 - 4, ÎÄµµÒÑ¾­¸üĞÂ.
-[G][+]ĞÂÔö: È±Ê§µÄ FrameConstants.au3
-[G][+]ĞÂÔö: Excel UDFs
-[H][!]¸üĞÂ: GuiComboBox ÎÄµµ
+[G][+]æ–°å¢: #334: _SQLite 3.5.9 x86 å’Œ X64 ç‰ˆæœ¬.
+[G][*]ä¿®æ­£: #422: _GDIPlus_GraphicsSetSmoothingMode $iSmooth åªèƒ½æ¥å— 0 - 4, æ–‡æ¡£å·²ç»æ›´æ–°.
+[G][+]æ–°å¢: ç¼ºå¤±çš„ FrameConstants.au3
+[G][+]æ–°å¢: Excel UDFs
+[H][!]æ›´æ–°: GuiComboBox æ–‡æ¡£
 Aut2Exe:
-[G][*]ĞŞÕı: #436: µ±Ê¹ÓÃGUI·½Ê½±àÒëÊ±,Ñ¹ËõµÈ¼¶ºöÂÔµÄBUG.
+[G][*]ä¿®æ­£: #436: å½“ä½¿ç”¨GUIæ–¹å¼ç¼–è¯‘æ—¶,å‹ç¼©ç­‰çº§å¿½ç•¥çš„BUG.
 
 3.2.13.3 (22-06-2008) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: #381: DirCreate() »á²úÉúÀ¬»ø±äÁ¿(¾ÉµÄBUG´øÀ´,ÔÚÓÅ»¯Ê±·¢ÏÖ).
+[G][*]ä¿®æ­£: #381: DirCreate() ä¼šäº§ç”Ÿåƒåœ¾å˜é‡(æ—§çš„BUGå¸¦æ¥,åœ¨ä¼˜åŒ–æ—¶å‘ç°).
 UDFs:
-[G][*]ĞŞÕı: #388: _GUICtrlToolbar_SetButtonSize Àı×Ó.
-[G][*]ĞŞÕı: #400: SQLite.dll.au3 @ProcessorArch Ìæ»» @OSArch
-[G][*]ĞŞÕı: #390: _viPrintf Ìæ»»·µ»ØÖµ
-[G][+]ĞÂÔö: _Timer_GetIdleTime, _WinAPI_GetWindowPlacement, _WinAPI_SetWindowPlacement (PsaltyDS)
+[G][*]ä¿®æ­£: #388: _GUICtrlToolbar_SetButtonSize ä¾‹å­.
+[G][*]ä¿®æ­£: #400: SQLite.dll.au3 @ProcessorArch æ›¿æ¢ @OSArch
+[G][*]ä¿®æ­£: #390: _viPrintf æ›¿æ¢è¿”å›å€¼
+[G][+]æ–°å¢: _Timer_GetIdleTime, _WinAPI_GetWindowPlacement, _WinAPI_SetWindowPlacement (PsaltyDS)
 
-3.2.13.2 µÚÒ»ºº»¯°æ(9:02 2008-6-20)
-[H][*]ĞŞÕı:AU3TOOLÖĞ¶Ôautoit3a.exeµÄÅĞ¶Ï.
-[H][*]ĞŞÕı:ĞŞÕıscriptomaticÖĞ²¿·Öºº»¯ÎÊÌâ.
-[H][-]ÒÆ³ı:AU3TOOLÖĞ¶ÔANSI°æ±¾µÄÖ§³Ö.¶à±àÒëÆ÷µÄÖ§³Ö.
-[H][!]¸üĞÂ:Dependency Walker¸üĞÂÎª2.2.6000.0
+3.2.13.2 ç¬¬ä¸€æ±‰åŒ–ç‰ˆ(9:02 2008-6-20)
+[H][*]ä¿®æ­£:AU3TOOLä¸­å¯¹autoit3a.exeçš„åˆ¤æ–­.
+[H][*]ä¿®æ­£:ä¿®æ­£scriptomaticä¸­éƒ¨åˆ†æ±‰åŒ–é—®é¢˜.
+[H][-]ç§»é™¤:AU3TOOLä¸­å¯¹ANSIç‰ˆæœ¬çš„æ”¯æŒ.å¤šç¼–è¯‘å™¨çš„æ”¯æŒ.
+[H][!]æ›´æ–°:Dependency Walkeræ›´æ–°ä¸º2.2.6000.0
 AutoIt:
-[G][*]ĞŞ¸Ä: @ProcessorArch ĞŞ¸ÄÎª @OSArch .²»¸ÄÓĞµãÊ¹ÈËÎó½âµÄÏÓÒÉ.(´¦ÀíÆ÷¹¹¼Ü¸ÄÎªÏµÍ³¹¹¼Ü)
-[G][*]ĞŞ¸Ä: RegRead() and RegWrite() µÄ´óĞ¡ÏŞÖÆÒÆ³ı(ÒÔÇ°°æ±¾Ê¹ÓÃ 64KB ÏŞÖÆÓÚÒ»Ğ©×¢²á±íÀàĞÍ).
-[G][*]ĞŞ¸Ä: RegRead() and RegWrite() ²»ÔÙÊ¹ÓÃ hex ×Ö·û´®ÓÚ REG_BINARY ÀàĞÍ - Ç¿ÖÆÊ¹ÓÃnative binary Êı¾İÀàĞÍ.
-[G][*]ĞŞÕı: #380: @OSVersion Ê¶±ğ Windows XP 64-bit °æ±¾.
-[G][*]ĞŞÕı: ´ÓÉÏÒ»¸öbetaÔöÇ¿ÄÚ´æ(Increased memory use since last beta).
+[G][*]ä¿®æ”¹: @ProcessorArch ä¿®æ”¹ä¸º @OSArch .ä¸æ”¹æœ‰ç‚¹ä½¿äººè¯¯è§£çš„å«Œç–‘.(å¤„ç†å™¨æ„æ¶æ”¹ä¸ºç³»ç»Ÿæ„æ¶)
+[G][*]ä¿®æ”¹: RegRead() and RegWrite() çš„å¤§å°é™åˆ¶ç§»é™¤(ä»¥å‰ç‰ˆæœ¬ä½¿ç”¨ 64KB é™åˆ¶äºä¸€äº›æ³¨å†Œè¡¨ç±»å‹).
+[G][*]ä¿®æ”¹: RegRead() and RegWrite() ä¸å†ä½¿ç”¨ hex å­—ç¬¦ä¸²äº REG_BINARY ç±»å‹ - å¼ºåˆ¶ä½¿ç”¨native binary æ•°æ®ç±»å‹.
+[G][*]ä¿®æ­£: #380: @OSVersion è¯†åˆ« Windows XP 64-bit ç‰ˆæœ¬.
+[G][*]ä¿®æ­£: ä»ä¸Šä¸€ä¸ªbetaå¢å¼ºå†…å­˜(Increased memory use since last beta).
 UDFs:
-[G][*]ĞŞÕı: #371: _GDIPlus_Startup ·µ»ØÖµ. (wraithdu)
-[G][*]ĞŞÕı: #368: _ArrayToClip ·µ»ØÖµ.
+[G][*]ä¿®æ­£: #371: _GDIPlus_Startup è¿”å›å€¼. (wraithdu)
+[G][*]ä¿®æ­£: #368: _ArrayToClip è¿”å›å€¼.
 
-3.2.13.1 µÚÒ»ºº»¯°æ(8:57 2008-6-10)
-[H][!]¸üĞÂ:¸üĞÂ´úÂëÃÔ»óÎª1.0.24.19.
+3.2.13.1 ç¬¬ä¸€æ±‰åŒ–ç‰ˆ(8:57 2008-6-10)
+[H][!]æ›´æ–°:æ›´æ–°ä»£ç è¿·æƒ‘ä¸º1.0.24.19.
 AutoIt:
-[G][+]ĞÂÔö: ĞÂµÄStringSplit()±êÖ¾ÓÃÓÚ²»·µ»Ø0Î¬µÄCOUNT.
-[G][*]ĞŞÕı: #358: °²×°Ä¿Â¼ÎÄµµ¸üÇå½à. (thanks Zedna)(ºº»¯°æ±¾²»´æÔÚ´ËÎÊÌâ).
-[G][*]ĞŞÕı: #355: Child not visible beta regression. (Thanks Ultima)
-[G][*]ĞŞÕı: #366: AutoIt ±ÀÀ£ÓÚ´íÎóµÄ±í´ïÊ½.
-[G][*]ĞŞÕı: #360: RunAs() ÔËĞĞÓÚ Windows 2000.
-[G][*]ĞŞÕı: #367: STDIO º¯ÊıÔÚ±àÒëµÄ½Å±¾ÖĞ¿ÉÒÔ¹¤×÷ÁË.
-[G][-]ÒÆ³ı: #357: @AutoItUnicode ºê.
+[G][+]æ–°å¢: æ–°çš„StringSplit()æ ‡å¿—ç”¨äºä¸è¿”å›0ç»´çš„COUNT.
+[G][*]ä¿®æ­£: #358: å®‰è£…ç›®å½•æ–‡æ¡£æ›´æ¸…æ´. (thanks Zedna)(æ±‰åŒ–ç‰ˆæœ¬ä¸å­˜åœ¨æ­¤é—®é¢˜).
+[G][*]ä¿®æ­£: #355: Child not visible beta regression. (Thanks Ultima)
+[G][*]ä¿®æ­£: #366: AutoIt å´©æºƒäºé”™è¯¯çš„è¡¨è¾¾å¼.
+[G][*]ä¿®æ­£: #360: RunAs() è¿è¡Œäº Windows 2000.
+[G][*]ä¿®æ­£: #367: STDIO å‡½æ•°åœ¨ç¼–è¯‘çš„è„šæœ¬ä¸­å¯ä»¥å·¥ä½œäº†.
+[G][-]ç§»é™¤: #357: @AutoItUnicode å®.
 UDFs:
-[G][+]ĞÂÔö: ĞÂÔö _GUICtrlTab_ClickTab (Gary)
-[G][*]ĞŞÕı: #361, #362: _GUICtrlListView_InsertItem ÎÄµµ (Zedna)
-[G][-]ÒÆ³ı: ÒÆ³ı _StringSplit, ²»ĞèÒªÁË,³ÌĞòÄÚÖÃ.
-[G][+]ĞÂÔö: _GUICtrlComboBoxEx_GetUnicode, _GUICtrlComboBoxEx_SetUnicode (Gary)
+[G][+]æ–°å¢: æ–°å¢ _GUICtrlTab_ClickTab (Gary)
+[G][*]ä¿®æ­£: #361, #362: _GUICtrlListView_InsertItem æ–‡æ¡£ (Zedna)
+[G][-]ç§»é™¤: ç§»é™¤ _StringSplit, ä¸éœ€è¦äº†,ç¨‹åºå†…ç½®.
+[G][+]æ–°å¢: _GUICtrlComboBoxEx_GetUnicode, _GUICtrlComboBoxEx_SetUnicode (Gary)
 
 3.2.13.0 (7th June, 2008) (Beta)
 AutoIt:
-[G][*]ĞŞÕı: #309: RunAs() Óë RunAsWait() ÏÖÔÚÊ¹ÓÃ @SystemDir Îª¹¤×÷Â·¾¶Ìæ´ú@WorkingDir,ÓÃ»§Ö¸¶¨µÄ¹¤×÷Â·¾¶²»ÔÙÓĞĞ§.
-[G][*]ĞŞÕı: #325: contextmenuitem ²»ÄÜ·¢ÉúÊÂ¼ş(ÊÂ¼şÄ£Ê½).
-[G][*]ĞŞÕı: #305: GUICtrlSetFont() for Combo causing highlight.
-[G][*]ĞŞÕı: #318: GUICtrlSetTip() ÓÚ TreeViewItem ±ØĞë·µ»Ø 0.
-[G][*]ĞŞÕı: #282: ±êÇ©ÇĞ»»Ê±Í¼±êÍ¸Ã÷Ë¢ĞÂ.
-[G][*]ĞŞÕı: #339: GUICtrlDelete() ±ÀÀ£.
-[G][*]ĞŞÕı: #345: @OSVersion Ê¶±ğ Windows 2008.
+[G][*]ä¿®æ­£: #309: RunAs() ä¸ RunAsWait() ç°åœ¨ä½¿ç”¨ @SystemDir ä¸ºå·¥ä½œè·¯å¾„æ›¿ä»£@WorkingDir,ç”¨æˆ·æŒ‡å®šçš„å·¥ä½œè·¯å¾„ä¸å†æœ‰æ•ˆ.
+[G][*]ä¿®æ­£: #325: contextmenuitem ä¸èƒ½å‘ç”Ÿäº‹ä»¶(äº‹ä»¶æ¨¡å¼).
+[G][*]ä¿®æ­£: #305: GUICtrlSetFont() for Combo causing highlight.
+[G][*]ä¿®æ­£: #318: GUICtrlSetTip() äº TreeViewItem å¿…é¡»è¿”å› 0.
+[G][*]ä¿®æ­£: #282: æ ‡ç­¾åˆ‡æ¢æ—¶å›¾æ ‡é€æ˜åˆ·æ–°.
+[G][*]ä¿®æ­£: #339: GUICtrlDelete() å´©æºƒ.
+[G][*]ä¿®æ­£: #345: @OSVersion è¯†åˆ« Windows 2008.
 UDFs:
-[G][*]ĞŞÕı: #285: _ChooseColor Àı×Ó (water)
-[G][*]ĞŞÕı: #299: _GUICtrlTab_SetItemText »º´æ³¤¶ÈÔö¼Ó(Unicode) (benners)
-[G][*]ĞŞÕı: #292: _EventLog__Clear ²»ÄÜÇå³ıÈÕÖ¾,È»ºó±¸·İ²ÎÊı»áÎª¿Õ.
-[G][!]¸üĞÂ: #290: _GDIPlus_DrawImagePoints (Zedna)
-[G][*]ĞŞÕı: #258: _ClipBoard_GetData
-[G][*]ĞŞÕı: #294: _FileReadToArray ÎÄ¼şÖĞÎŞ @LF µÄÊ¶±ğ.(GEOSoft)
-[G][+]ĞÂÔö: _GDIPlus_GraphicsFillPolygon (smashly)
-[G][*]ĞŞÕı: #303: Clock.au3 ÔÚ Examples\GUI\Advanced (thanks Jon)
-[G][*]ĞŞÕı: _GUICtrlListView_SetItemEx ÎÄ±¾»º´æ. (thanks wraithdu)
-[G][*]ĞŞÕı: #320: _WinNet_EnumResource struct pointers (thanks arcker)
-[G][*]ĞŞÕı: #321: _GUICtrlStatusBar_GetText »º´æ³¤¶ÈÔö¼Ó(Unicode)
-[G][+]ĞÂÔö: #332: ±¸×¢ _GUICtrlStatusBar_Create
+[G][*]ä¿®æ­£: #285: _ChooseColor ä¾‹å­ (water)
+[G][*]ä¿®æ­£: #299: _GUICtrlTab_SetItemText ç¼“å­˜é•¿åº¦å¢åŠ (Unicode) (benners)
+[G][*]ä¿®æ­£: #292: _EventLog__Clear ä¸èƒ½æ¸…é™¤æ—¥å¿—,ç„¶åå¤‡ä»½å‚æ•°ä¼šä¸ºç©º.
+[G][!]æ›´æ–°: #290: _GDIPlus_DrawImagePoints (Zedna)
+[G][*]ä¿®æ­£: #258: _ClipBoard_GetData
+[G][*]ä¿®æ­£: #294: _FileReadToArray æ–‡ä»¶ä¸­æ—  @LF çš„è¯†åˆ«.(GEOSoft)
+[G][+]æ–°å¢: _GDIPlus_GraphicsFillPolygon (smashly)
+[G][*]ä¿®æ­£: #303: Clock.au3 åœ¨ Examples\GUI\Advanced (thanks Jon)
+[G][*]ä¿®æ­£: _GUICtrlListView_SetItemEx æ–‡æœ¬ç¼“å­˜. (thanks wraithdu)
+[G][*]ä¿®æ­£: #320: _WinNet_EnumResource struct pointers (thanks arcker)
+[G][*]ä¿®æ­£: #321: _GUICtrlStatusBar_GetText ç¼“å­˜é•¿åº¦å¢åŠ (Unicode)
+[G][+]æ–°å¢: #332: å¤‡æ³¨ _GUICtrlStatusBar_Create
 
 
-3.2.12.0 µÚÒ»ºº»¯°æ(20:54 2008-5-21)(ÕıÊ½°æ)
-[H][!]¸üĞÂ:ACNWrapper Ê¹ÓÃ3.2.9.14.2±àÒë(ĞÂ°æº¯ÊıĞŞÕıºÜÂé·³)
-[H][!]¸üĞÂ:¸üĞÂUPXÎª3.03°æ±¾.
-[H][!]¸üĞÂ:TIDY(´úÂëÕûÀí)Îª2.0.23.14.
-[H][!]¸üĞÂ:Obfuscator(´úÂëÃÔ»ó)Îª1.0.24.17.
-[H][-]ÒÆ³ı:Winspector(Ò»¸ö´°¿ÚĞÅÏ¢²é¿´³ÌĞò,ºº»¯°æÖĞÒÑ°üº¬SPY++)
-[H][-]ÒÆ³ı:UserTip(ÓÃ»§ÌáÊ¾)
-[H][-]ÒÆ³ı:VS2005ImageLibrary.zip(VS2005Í¼Ïñ¿â)
-[H][-]ÒÆ³ı:²¿·ÖICONÍ¼±ê.
-[G][!]¹Ù·½¸üĞÂÇë²Î¿¼°ïÖúÎÄµµ.
+3.2.12.0 ç¬¬ä¸€æ±‰åŒ–ç‰ˆ(20:54 2008-5-21)(æ­£å¼ç‰ˆ)
+[H][!]æ›´æ–°:ACNWrapper ä½¿ç”¨3.2.9.14.2ç¼–è¯‘(æ–°ç‰ˆå‡½æ•°ä¿®æ­£å¾ˆéº»çƒ¦)
+[H][!]æ›´æ–°:æ›´æ–°UPXä¸º3.03ç‰ˆæœ¬.
+[H][!]æ›´æ–°:TIDY(ä»£ç æ•´ç†)ä¸º2.0.23.14.
+[H][!]æ›´æ–°:Obfuscator(ä»£ç è¿·æƒ‘)ä¸º1.0.24.17.
+[H][-]ç§»é™¤:Winspector(ä¸€ä¸ªçª—å£ä¿¡æ¯æŸ¥çœ‹ç¨‹åº,æ±‰åŒ–ç‰ˆä¸­å·²åŒ…å«SPY++)
+[H][-]ç§»é™¤:UserTip(ç”¨æˆ·æç¤º)
+[H][-]ç§»é™¤:VS2005ImageLibrary.zip(VS2005å›¾åƒåº“)
+[H][-]ç§»é™¤:éƒ¨åˆ†ICONå›¾æ ‡.
+[G][!]å®˜æ–¹æ›´æ–°è¯·å‚è€ƒå¸®åŠ©æ–‡æ¡£.
