@@ -17,6 +17,7 @@ autoit工具箱提供了安装卸载功能.
 3.3.X.X (2009-3-X) (第一汉化版)
 Autoit:
 [H][+]新增:Microsoft Spy++ 9.0中文版(英文版不移除)
+[H][!]更新:汉化部分例子程序.
 Scite:
 [H][*]修正:修正CTRL+J在UserInclude包含目录的文件无法跳转的问题.
 AUF:

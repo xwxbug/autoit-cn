@@ -1,41 +1,84 @@
 #include-once
-#include <ie.au3>
-;======================================================
-;
-; 函数名称:		_Thunder($url,$Filename,$Path,$comment,$ReferUrl,$startmode,$Orgin,$OrginThread)
-; 详细信息:		调用迅雷下载
-; $Url:			下载地址
-; $Filename:	保存的文件名
-; $Path:		保存的路径
-; $comment:		下载任务注释
-; $ReferUrl:	引用的URL
-; $startmode:	开始模式,True(立即)/False(手动)
-; $Orgin:		只从原始地址下载(True/False)
-; $OrginThread: 从原始地址下载线程数
-; 返回值 :		失败返回0,成功返回1
-; 作者:			thesnow(rundll32@126.com)
-;
-;======================================================
+; #INDEX# =======================================================================================================================
+; Title .........: ACN_NET
+; AutoIt Version: 3.2.13++
+; Language:       English
+; Description:    Functions that assist with Common Dialogs.
+; ===============================================================================================================================
+
+
+
+; #VARIABLES# ===================================================================================================================
+; ==============================================================================================================================
+; #CURRENT# =====================================================================================================================
+; _Thunder
+; _Flashget
+; _CMD_SetLocalIP
+; _API_Get_NetworkAdapterMAC
+; _NetworkGetInternetIP
+; _InetIsOffline()
+; _NetworkAdapterInfo
+; _WMI_SetNetworkAdapterInfo
+; _FTPOpen
+; _FTPConnect
+; _FTPPutFile
+; _FTPDelFile
+; _FTPRenameFile
+; _FTPMakeDir
+; _FTPDelDir
+; _FTPClose
+
+;==============================================================================================================================
+
+; #INTERNAL_USE_ONLY#============================================================================================================
+;==============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Thunder
+; Description ...: 调用迅雷下载
+; Syntax.........: _Thunder($url[, $Filename[, $Path[, $comment[, $ReferUrl[, $startmode[, $Orgin[, $OrginThread]]]]]]])
+; Parameters ....: 	$url          - 下载地址
+; 					$Filename:	  - 保存的文件名
+; 					$Path:		  - 保存的路径
+; 					$comment:	  - 下载任务注释
+; 					$ReferUrl:	  - 引用的URL
+; 					$startmode:	  - 开始模式,True(立即)/False(手动)
+; 					$Orgin:		  - 只从原始地址下载(True/False)
+; 					$OrginThread: - 从原始地址下载线程数
+; Return values .: 成功  - 返回1
+;                  失败  - 返回0
+; Author ........: thesnoW(rundll32@126.com)
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; Yes
+; ===============================================================================================================================
 Func _Thunder($Url, $Filename = "", $Path = "", $comment = "", $ReferUrl = "", $startmode = True, $Orgin = False, $OrginThread = 10)
-	$obj = ObjCreate("ThunderAgent.Agent")
+	Local $obj = ObjCreate("ThunderAgent.Agent")
 	If IsObj($obj) = 0 Then Return 0
 	$obj.AddTask($Url, $Filename, $Path, $comment, $ReferUrl, $startmode, $Orgin, $OrginThread);添加下载任务
 	$obj.CommitTasks() ;提交任务.
 	Return 1
 EndFunc   ;==>_Thunder
 
-;======================================================
-;
-; 函数名称:		_Flashget($url,$Path,$flashgetpath)
-; 详细信息:		调用网际快车下载
-; $url:			下载地址
-; $Path:		保存的路径
-; $flashgetpath:网际快车的路径
-; 返回值 :		失败返回0(网际快车未安装),成功返回1
-; 作者:			thesnow(rundll32@126.com)
-;
-;======================================================
-Func _Flashget($Url, $Path = "", $flashgetpath = "")
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Flashget
+; Description ...: 调用网际快车下载
+; Syntax.........: _Flashget($url[, $Path[, $flashgetpath]])
+; Parameters ....: 	$url          - 下载地址
+; 					$Path:		  - 保存的路径
+; 					$flashgetpath:- 网际快车的路径
+; Return values .: 成功  - 返回1
+;                  失败  - 返回0,网际快车未安装
+; Author ........: thesnoW(rundll32@126.com)
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; Yes
+; ===============================================================================================================================
+Func _Flashget($url, $Path = "", $flashgetpath = "")
 	If $flashgetpath = "" Then
 		$flashgetpath = RegRead("HKEY_CURRENT_USER\Software\FlashGetX\General", "AppPath")
 		If $flashgetpath = "" Then
@@ -47,19 +90,24 @@ Func _Flashget($Url, $Path = "", $flashgetpath = "")
 	Return 1
 EndFunc   ;==>_Flashget
 
+; #FUNCTION# ====================================================================================================================
+; Name...........: _CMD_SetLocalIP
+; Description ...: 设置IP地址.
+; Syntax.........: _CMD_SetLocalIP("连接名称","IP地址",["子网掩码"[, "默认网关"[, "DNS"]]])
+; Parameters ....: 	$ConName          - 连接名称
+; 					$IpADD:          IP地址
+; 					$SubMask:        子网掩码
+; 					$GateWay:        默认网关
+; 					$ConDNS:         DNS(域名解析)
+; Return values .: none
+; Author ........: thesnoW(rundll32@126.com)
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......; Yes
+; ===============================================================================================================================
 
-;======================================================
-;
-; 函数名称:        _CMD_SetLocalIP("连接名称","IP地址",["子网掩码"],["默认网关"],["DNS"])
-; 详细信息:        设置IP地址.
-; $ConName:        连接名称
-; $IpADD:          IP地址
-; $SubMask:        子网掩码
-; $GateWay:        默认网关
-; $ConDNS:         DNS(域名解析)
-; 作者:            thesnow(rundll32@126.com)
-;
-;======================================================
 Func _CMD_SetLocalIP($ConName, $IpADD, $SubMask, $GateWay, $ConDNS)
 	If $SubMask = "" Then $SubMask = "255.255.255.0"
 	If $ConName = "" And $IpADD <> "" Then
@@ -73,16 +121,20 @@ Func _CMD_SetLocalIP($ConName, $IpADD, $SubMask, $GateWay, $ConDNS)
 	EndIf
 EndFunc   ;==>_CMD_SetLocalIP
 
-
-;======================================================
-;
-; 函数名称:		_API_Get_NetworkAdapterMAC ($sIP)
-; 详细信息:		根据API得到MAC.
-; thesnow备注:	此函数是采用发送ARP方式,如果有错误的路由绑定或交换机绑定.可能得到错误的MAC.
-; $sIP:         IP地址
-; 作者:         jiexunpc
-;
-;======================================================
+; #FUNCTION# ====================================================================================================================
+; Name...........: _API_Get_NetworkAdapterMAC
+; Description ...: 根据API得到MAC.
+; Syntax.........: _API_Get_NetworkAdapterMAC($sIP)
+; Parameters ....: 	$sIP          - IP地址
+; Return values .: 	成功 - 返回MAC地址
+;					失败 - 返回 00:00:00:00:00:00
+; Author ........: jiexunpc
+; Modified.......:
+; Remarks .......: 此函数是采用发送ARP方式,如果有错误的路由绑定或交换机绑定.可能得到错误的MAC.
+; Related .......:
+; Link ..........;
+; Example .......; Yes
+; ===============================================================================================================================
 Func _API_Get_NetworkAdapterMAC($sIP)
 	Local $MAC, $MACSize
 	Local $i, $s, $r, $iIP
@@ -102,28 +154,49 @@ Func _API_Get_NetworkAdapterMAC($sIP)
 	Return $s
 EndFunc   ;==>_API_Get_NetworkAdapterMAC
 
-
-;======================================================
-;
-; 函数名称:        _NetworkGetInternetIP
-; 详细信息:        得到公网IP地址.
-; 作者:            pcbar
-;
-;======================================================
+; #FUNCTION# ====================================================================================================================
+; Name...........: _NetworkGetInternetIP
+; Description ...: 得到公网IP地址.
+; Syntax.........: _NetworkGetInternetIP()
+; Parameters ....: 
+; Return values .: 	成功 - 返回公网IP
+;					失败 - 返回 0,可能是无法连接外网或者取得IP的地址已挂.
+; Author ........: thesnoW(rundll32@126.com)
+; Modified.......:
+; Remarks .......: 此函数是采用http://www.aamailsoft.com/getip.php的数据,不保证长期有效.
+; Related .......:
+; Link ..........;
+; Example .......; Yes
+; ===============================================================================================================================
 Func _NetworkGetInternetIP()
-	;by pcbar
-	$oie = _IECreate("http://www.net.cn/static/customercare/yourIP.asp", 0, 0, 1, -1)
-	$sText = _IEBodyReadText($oie)
-	$ttext = StringRegExp($sText, '((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)', 2)
-	_IEQuit($oie)
-	If IsArray($ttext) Then
-		Return $ttext[0]
+	$nFile=InetGet('http://www.aamailsoft.com/getip.php',@TempDir & "\ip.x",1)
+	If $nFile Then
+		$nFile=FileRead(@TempDir & "\ip.x")
+		FileDelete(@TempDir & "\ip.x")
+		Return $nFile
 	Else
-		SetError(1)
+		FileDelete(@TempDir & "\ip.x")
 		Return 0
 	EndIf
 EndFunc   ;==>_NetworkGetInternetIP
 
+; #FUNCTION# ====================================================================================================================
+; Name...........: _InetIsOffline
+; Description ...: 检测机器是否离线
+; Syntax.........: _InetIsOffline()
+; Parameters ....: 
+; Return values .: 	成功 - 返回 1
+;					失败 - 返回 0
+; Author ........: thesnoW(rundll32@126.com)
+; Modified.......:
+; Remarks .......: 此函数是采用http://www.aamailsoft.com/getip.php的数据,不保证长期有效.
+; Related .......:
+; Link ..........; http://msdn.microsoft.com/en-us/library/bb776460(VS.85).aspx
+; Example .......; Yes
+; ===============================================================================================================================
+Func _InetIsOffline()
+		Return DllCall("url.dll","bool","InetIsOffline","DWORD",0)
+EndFunc
 
 ;======================================================
 ;
