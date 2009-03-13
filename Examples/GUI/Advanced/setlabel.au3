@@ -1,4 +1,4 @@
-; AutoIt Version 3.0.103
+ï»¿; AutoIt Version 3.0.103
 ; Language:       English
 ; Author:         Larry Bailey
 ; Email:          psichosis@tvn.net
@@ -18,11 +18,11 @@ Func _Main()
 	Local $Label_1, $Combo_2, $button1, $msg, $data
 
 ; Create the GUI window and controls
-GuiCreate("ÎÒµÄ GUI", 220, 157,(@DesktopWidth-191)/2, (@DesktopHeight-157)/2)
-$Label_1 = GuiCtrlCreateLabel("±êÇ©", 30, 40, 131, 21, 0x1000)
+GuiCreate("æˆ‘çš„ GUI", 220, 157,(@DesktopWidth-191)/2, (@DesktopHeight-157)/2)
+$Label_1 = GuiCtrlCreateLabel("æ ‡ç­¾", 30, 40, 131, 21, 0x1000)
 	$Combo_2 = GUICtrlCreateCombo("", 30, 60, 130, 21)
-GuiCtrlSetData($combo_2, "ÏîÄ¿1|ÏîÄ¿2|ÏîÄ¿3|ÏîÄ¿4|ÏîÄ¿5")
-$button1 = GuiCtrlCreateButton("ÉèÖÃ±êÇ©", 30, 90, 130, 20)
+GuiCtrlSetData($combo_2, "é¡¹ç›®1|é¡¹ç›®2|é¡¹ç›®3|é¡¹ç›®4|é¡¹ç›®5")
+$button1 = GuiCtrlCreateButton("è®¾ç½®æ ‡ç­¾", 30, 90, 130, 20)
 
 	; Run the GUI until it is closed
 	GUISetState()

@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, click on the
 ;				<input type=image> form element with matching alt text
 ; *******************************************************

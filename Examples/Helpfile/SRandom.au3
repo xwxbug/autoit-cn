@@ -1,2 +1,2 @@
-SRandom(12)
+﻿SRandom(12)
 $rand=Random()

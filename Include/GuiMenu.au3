@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <MenuConstants.au3>
 #include <WinAPI.au3>
 #include <StructureConstants.au3>

@@ -1,4 +1,4 @@
-; Compile this script to "ConsoleRead.exe".
+﻿; Compile this script to "ConsoleRead.exe".
 ; Open a command prompt to the directory where ConsoleRead.exe resides.
 ; Type the following on the command line:
 ;	echo Hello! | ConsoleRead.exe

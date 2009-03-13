@@ -1,4 +1,4 @@
-; A simple custom messagebox that uses the OnEvent mode
+ï»¿; A simple custom messagebox that uses the OnEvent mode
 
 #include <GUIConstantsEx.au3>
 
@@ -11,14 +11,14 @@ _Main()
 Func _Main()
 	Local $YesID, $NoID
 
-GUICreate("×Ô¶¨Òå Msgbox", 210, 80)
+GUICreate("è‡ªå®šä¹‰ Msgbox", 210, 80)
 
-$Label = GUICtrlCreateLabel("Çëµ¥»÷Ò»¸ö°´Å¥!", 10, 10)
-$YesID  = GUICtrlCreateButton("ÊÇ", 10, 50, 50, 20)
+$Label = GUICtrlCreateLabel("è¯·å•å‡»ä¸€ä¸ªæŒ‰é’®!", 10, 10)
+$YesID  = GUICtrlCreateButton("æ˜¯", 10, 50, 50, 20)
 	GUICtrlSetOnEvent($YesID, "OnYes")
-$NoID   = GUICtrlCreateButton("·ñ", 80, 50, 50, 20)
+$NoID   = GUICtrlCreateButton("å¦", 80, 50, 50, 20)
 	GUICtrlSetOnEvent($NoID, "OnNo")
-$ExitID = GUICtrlCreateButton("ÍË³ö", 150, 50, 50, 20)
+$ExitID = GUICtrlCreateButton("é€€å‡º", 150, 50, 50, 20)
 	GUICtrlSetOnEvent($ExitID, "OnExit")
 
 	GUISetOnEvent($GUI_EVENT_CLOSE, "OnExit")
@@ -32,18 +32,18 @@ EndFunc   ;==>_Main
 
 ;--------------- Functions ---------------
 Func OnYes()
-	MsgBox(0,"Äúµ¥»÷ÁË:", "ÊÇ")
+	MsgBox(0,"æ‚¨å•å‡»äº†:", "æ˜¯")
 EndFunc   ;==>OnYes
 
 Func OnNo()
-	MsgBox(0,"Äúµ¥»÷ÁË:", "·ñ")
+	MsgBox(0,"æ‚¨å•å‡»äº†:", "å¦")
 EndFunc   ;==>OnNo
 
 Func OnExit()
 	If @GUI_CtrlId = $ExitID Then
-		MsgBox(0,"Äúµ¥»÷ÁË:", "ÍË³ö")
+		MsgBox(0,"æ‚¨å•å‡»äº†:", "é€€å‡º")
 	Else
-		MsgBox(0,"Äúµ¥»÷ÁË:", "¹Ø±Õ")
+		MsgBox(0,"æ‚¨å•å‡»äº†:", "å…³é—­")
 	EndIf
 
 	Exit

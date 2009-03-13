@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <WinAPI.au3>
 #include <SecurityConstants.au3>
 #include <StructureConstants.au3>

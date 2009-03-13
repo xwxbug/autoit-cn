@@ -1,4 +1,4 @@
-#include <Array.au3>
+﻿#include <Array.au3>
 
 Dim $avArray[20]
 

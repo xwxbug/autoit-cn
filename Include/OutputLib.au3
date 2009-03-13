@@ -1,4 +1,4 @@
-; ===================================================================
+﻿; ===================================================================
 ; Project: OutputLib Library
 ; Description: Provides an interface for creating a two-pane window useful for displaying build and
 ;	progress output.

@@ -1,16 +1,16 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayAutoPause",0)	; Script will not be paused when clicking the tray icon.
 
-$valitem	= TrayCreateItem("Öµ:")
+$valitem	= TrayCreateItem("å€¼:")
 TrayCreateItem("")
-$aboutitem	= TrayCreateItem("¹ØÓÚ")
+$aboutitem	= TrayCreateItem("å…³äº")
 
 TraySetState()
 
-TrayItemSetText($TRAY_ITEM_EXIT,"ÍË³ö³ÌĞò")
-TrayItemSetText($TRAY_ITEM_PAUSE,"ÔİÍ£³ÌĞò")
+TrayItemSetText($TRAY_ITEM_EXIT,"é€€å‡ºç¨‹åº")
+TrayItemSetText($TRAY_ITEM_PAUSE,"æš‚åœç¨‹åº")
 
 While 1
 	$msg = TrayGetMsg()
@@ -18,9 +18,9 @@ While 1
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $valitem
-			TrayItemSetText($valitem,"Öµ:" & Int(Random(1,10,1)))
+			TrayItemSetText($valitem,"å€¼:" & Int(Random(1,10,1)))
 		Case $msg = $aboutitem
-			Msgbox(64,"¹ØÓÚ:","AutoIt3-ÍĞÅÌ-Àı×Ó")
+			Msgbox(64,"å…³äº:","AutoIt3-æ‰˜ç›˜-ä¾‹å­")
 	EndSelect
 WEnd
 

@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Trap COM errors so that 'Back' and 'Forward' 
 ;				outside of history bounds does not abort script 
 ;				(expect COM errors to be sent to the console)

@@ -1,4 +1,4 @@
-#include-once
+ï»¿#include-once
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
 
@@ -500,7 +500,7 @@ EndFunc   ;==>_Net_Share_SessionGetInfo
 ;                  $sPath       - Local path for the shared resource. For disks, this is the path being shared. For print queues,
 ;                  +this is the name of the print queue being shared.
 ;                  $iMaxUses    - The maximum number of concurrent connections that the  shared  resource  can  accommodate.  The
-;                  +number of connections is unlimited if the value specified is –1.
+;                  +number of connections is unlimited if the value specified is â€“1.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
@@ -736,7 +736,7 @@ EndFunc   ;==>_Net_Share_ShareGetInfo
 ;                  $sShare   - Specifies the name of the share to set information on
 ;                  $sComment - String that contains an optional comment about the shared resource
 ;                  $iMaxUses - Indicates the maximum number of connections that the  resource  can  accommodate.  The  number  of
-;                  +connections is unlimited if this value is –1.
+;                  +connections is unlimited if this value is â€“1.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)

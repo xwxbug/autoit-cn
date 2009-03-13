@@ -1,4 +1,4 @@
-Run("notepad.exe")
+﻿Run("notepad.exe")
 WinWait("Untitled")
 
 SendKeepActive("Untitled")

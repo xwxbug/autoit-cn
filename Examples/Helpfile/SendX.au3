@@ -1,4 +1,4 @@
-#include <ACN_String.au3> 
+ï»¿#include <ACN_String.au3> 
 run("notepad.exe")
-WinWaitActive("ÎŞ±êÌâ - ")
-SendX( "ÎÒÊÇÖĞ¹úÈË. ",0)
+WinWaitActive("æ— æ ‡é¢˜ - ")
+SendX( "æˆ‘æ˜¯ä¸­å›½äºº. ",0)

@@ -1,4 +1,4 @@
-Send("#r")
+﻿Send("#r")
 WinWaitActive("Run")
 Send("notepad.exe{Enter}")
 WinWaitActive("Untitled -")

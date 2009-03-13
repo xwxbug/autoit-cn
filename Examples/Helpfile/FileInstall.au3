@@ -1,3 +1,3 @@
-; ±àÒëµÄ³ÌĞòÖĞ½«°üº¬Ò»¸öÎ»Í¼ÎÄ¼ş(Â·¾¶:"C:\test.bmp"),±àÒëµÄ³ÌĞòÔËĞĞºóÊÍ·ÅÎª "D:\ mydir\test.bmp"
+ï»¿; ç¼–è¯‘çš„ç¨‹åºä¸­å°†åŒ…å«ä¸€ä¸ªä½å›¾æ–‡ä»¶(è·¯å¾„:"C:\test.bmp"),ç¼–è¯‘çš„ç¨‹åºè¿è¡Œåé‡Šæ”¾ä¸º "D:\ mydir\test.bmp"
 $b = True
 If $b = True Then FileInstall("C:\test.bmp", "D:\mydir\test.bmp")

@@ -1,11 +1,11 @@
-#region ;**** Directives created by AutoIt3Wrapper_GUI ****
+﻿#region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=filetype1.ico
 #AutoIt3Wrapper_useansi=y
 #AutoIt3Wrapper_res_comment=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_res_description=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_Res_Fileversion=1.6.6.10
 #AutoIt3Wrapper_res_fileversion_autoincrement=p
-#AutoIt3Wrapper_res_legalcopyright=Copyright � 2008 Jos van der Zande
+#AutoIt3Wrapper_res_legalcopyright=Copyright © 2008 Jos van der Zande
 #AutoIt3Wrapper_res_field=Made By|Jos van der Zande
 #AutoIt3Wrapper_res_field=Email|jdeb at autoitscript dot com
 #AutoIt3Wrapper_res_field=AutoIt Version|%AutoItVer%

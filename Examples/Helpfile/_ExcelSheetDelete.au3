@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Delete a Worksheet by String Name
 ; *****************************************************************
 #include <Excel.au3>

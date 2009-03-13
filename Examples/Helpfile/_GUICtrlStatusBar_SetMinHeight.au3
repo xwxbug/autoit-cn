@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+﻿#include <GuiConstantsEx.au3>
 #include <GuiStatusBar.au3>
 #include <WinAPI.au3>
 

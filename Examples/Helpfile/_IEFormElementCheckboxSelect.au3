@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, get reference to form, select and
 ;				deselect the checkboxes byValue.  Since $s_Name is not specified, operate
 ;				on the collection of all <input type=checkbox> elements in the form

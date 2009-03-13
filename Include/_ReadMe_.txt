@@ -1,4 +1,4 @@
-This directory contains pre-written functions for use in your AutoIt scripts.
+﻿This directory contains pre-written functions for use in your AutoIt scripts.
 
 Include the functions using:
 

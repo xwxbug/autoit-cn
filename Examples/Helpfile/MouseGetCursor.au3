@@ -1,4 +1,4 @@
-sleep(2000)  ;allow time to move mouse before reporting ID
+﻿sleep(2000)  ;allow time to move mouse before reporting ID
 
 ;create an array that tells us the meaning of an ID Number
 $IDs = StringSplit("AppStarting|Arrow|Cross|Help|IBeam|Icon|No|" & _

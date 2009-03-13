@@ -1,4 +1,4 @@
-Global Enum $E1VAR1, $E1VAR2, $E1VAR3
+﻿Global Enum $E1VAR1, $E1VAR2, $E1VAR3
 MsgBox(4096, "", "Expect 0: " & $E1VAR1)
 MsgBox(4096, "", "Expect 1: " & $E1VAR2)
 MsgBox(4096, "", "Expect 2: " & $E1VAR3)

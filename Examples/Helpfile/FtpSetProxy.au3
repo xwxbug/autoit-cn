@@ -1,8 +1,8 @@
-; ²»Ê¹ÓÃ´úÀí
+ï»¿; ä¸ä½¿ç”¨ä»£ç†
 FtpSetProxy(1)
 
-; Ê¹ÓÃ IE Ä¬ÈÏ´úÀí
+; ä½¿ç”¨ IE é»˜è®¤ä»£ç†
 FtpSetProxy(0)
 
-; Ê¹ÓÃ´úÀí "www-cache.myisp.net" ,¶Ë¿Ú 8080
+; ä½¿ç”¨ä»£ç† "www-cache.myisp.net" ,ç«¯å£ 8080
 FtpSetProxy(2, "www-cache.myisp.net:8080")

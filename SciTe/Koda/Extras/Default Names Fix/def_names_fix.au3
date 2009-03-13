@@ -1,4 +1,4 @@
-; This file is part of Koda installation
+﻿; This file is part of Koda installation
 ; This script fixes default control names in forms, created in versions pror 1.7.x.x, when option "Strip 'A' prefix" was enabled,
 ; since new versions of Koda always strip prefixes at control creation time
 

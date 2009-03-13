@@ -1,4 +1,4 @@
-InetGet("http://www.mozilla.org", "C:\foo.html")
+﻿InetGet("http://www.mozilla.org", "C:\foo.html")
 InetGet("http://www.autoitscript.com", "C:\mydownload.htm", 1)
 InetGet("ftp://ftp.mozilla.org/pub/mozilla.org/README", "README.txt", 1)
 

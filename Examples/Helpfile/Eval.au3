@@ -1,4 +1,4 @@
-Dim $a_b = 12
-$s = Eval("a" & "_" & "b")  ; $s ÉèÖÃÎª  12
+ï»¿Dim $a_b = 12
+$s = Eval("a" & "_" & "b")  ; $s è®¾ç½®ä¸º  12
 
-$s =Eval("c")  ; $s = "" Óë @error = 1
+$s =Eval("c")  ; $s = "" ä¸Ž @error = 1

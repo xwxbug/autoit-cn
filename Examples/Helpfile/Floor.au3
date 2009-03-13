@@ -1,4 +1,4 @@
-Dim $msg
+ï»¿Dim $msg
 
 $msg = ""
 
@@ -11,4 +11,4 @@ $msg = $msg & "Floor(-4.5) = " & Floor(-4.5) & @CR
 $msg = $msg & "Floor(-4.8) = " & Floor(-4.8) & @CR
 $msg = $msg & "Floor(-4) = " & Floor(-4) & @CR
 
-MsgBox(64, "²âÊÔ", $msg)
+MsgBox(64, "æµ‹è¯•", $msg)

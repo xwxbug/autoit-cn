@@ -1,4 +1,4 @@
-; AutoIt 3.0.103 example
+ï»¿; AutoIt 3.0.103 example
 ; 17 Jan 2005 - CyberSlug
 ; This script shows manual positioning of all controls;
 ;   there are much better methods of positioning...
@@ -7,117 +7,117 @@
 #include <TreeViewConstants.au3>
 
 ; GUI
-GuiCreate("GUIÀı×Ó", 400, 400)
+GuiCreate("GUIä¾‹å­", 400, 400)
 GuiSetIcon(@SystemDir & "\mspaint.exe", 0)
 
 
-; ²Ëµ¥ 
-$menu=GuiCtrlCreateMenu("²Ëµ¥1[&O]")
-GUICtrlCreateMenuItem("ÏÂÀ­²Ëµ¥[&S]",$menu)
-GuiCtrlCreateMenu("²Ëµ¥2[&T]")
-GuiCtrlCreateMenu("²Ëµ¥3[&R]")
-GuiCtrlCreateMenu("²Ëµ¥4[&F]")
+; èœå• 
+$menu=GuiCtrlCreateMenu("èœå•1[&O]")
+GUICtrlCreateMenuItem("ä¸‹æ‹‰èœå•[&S]",$menu)
+GuiCtrlCreateMenu("èœå•2[&T]")
+GuiCtrlCreateMenu("èœå•3[&R]")
+GuiCtrlCreateMenu("èœå•4[&F]")
 
 ; CONTEXT MENU
 $contextMenu = GuiCtrlCreateContextMenu()
-GuiCtrlCreateMenuItem("ÉÏÏÂÎÄ²Ëµ¥", $contextMenu)
+GuiCtrlCreateMenuItem("ä¸Šä¸‹æ–‡èœå•", $contextMenu)
 GuiCtrlCreateMenuItem("", $contextMenu) ;separator
-GuiCtrlCreateMenuItem("ÊôĞÔ[&P]", $contextMenu)
+GuiCtrlCreateMenuItem("å±æ€§[&P]", $contextMenu)
 
 ; PIC
 GuiCtrlCreatePic("logo4.gif",0,0, 169,68)
-GuiCtrlCreateLabel("Í¼Æ¬Àı×Ó:", 75, 1, 55, 15)
+GuiCtrlCreateLabel("å›¾ç‰‡ä¾‹å­:", 75, 1, 55, 15)
 GuiCtrlSetColor(-1,0xf11fff)
 
 
 ; AVI
 GuiCtrlCreateAvi("sampleAVI.avi",0, 180, 10, 32, 32, $ACS_AUTOPLAY)
-GuiCtrlCreateLabel(" AviÀı×Ó", 170, 50)
+GuiCtrlCreateLabel(" Aviä¾‹å­", 170, 50)
 
 
 ; TAB
 GuiCtrlCreateTab(240, 0, 150, 70)
-GuiCtrlCreateTabItem("µÚÒ»Ò³")
-GuiCtrlCreateLabel("Tab ±êÇ©Àı×Ó", 250, 40)
-GuiCtrlCreateTabItem("µÚ¶şÒ³")
-GuiCtrlCreateTabItem("µÚÈıÒ³")
+GuiCtrlCreateTabItem("ç¬¬ä¸€é¡µ")
+GuiCtrlCreateLabel("Tab æ ‡ç­¾ä¾‹å­", 250, 40)
+GuiCtrlCreateTabItem("ç¬¬äºŒé¡µ")
+GuiCtrlCreateTabItem("ç¬¬ä¸‰é¡µ")
 GuiCtrlCreateTabItem("")
 
 ; COMBO
-GuiCtrlCreatecombo("×éºÏ¿òÀı×Ó", 250, 80, 120, 100)
+GuiCtrlCreatecombo("ç»„åˆæ¡†ä¾‹å­", 250, 80, 120, 100)
 
 ; PROGRESS
 GuiCtrlCreateProgress(85, 80, 130, 20)
 GuiCtrlSetData(-1, 60)
-GuiCtrlCreateLabel("½ø¶ÈÌõÀı×Ó:", 5, 82)
+GuiCtrlCreateLabel("è¿›åº¦æ¡ä¾‹å­:", 5, 82)
 
 ; EDIT
-GuiCtrlCreateEdit(@CRLF & "  ±à¼­¿òÀı×Ó", 10, 110, 150, 70)
+GuiCtrlCreateEdit(@CRLF & "  ç¼–è¾‘æ¡†ä¾‹å­", 10, 110, 150, 70)
 
 ; LIST
 GuiCtrlCreateList("", 5, 190, 100, 90)
-GuiCtrlSetData(-1, "a.ÁĞ±í|b.Àı×Ó|c.ÔÚ|d.ÕâÀï", "b.ÁĞ±í")
+GuiCtrlSetData(-1, "a.åˆ—è¡¨|b.ä¾‹å­|c.åœ¨|d.è¿™é‡Œ", "b.åˆ—è¡¨")
 
 ; ICON
 GuiCtrlCreateIcon("shell32.dll", 2, 175, 120)
-GuiCtrlCreateLabel("Í¼±ê", 180, 160, 50, 20)
+GuiCtrlCreateLabel("å›¾æ ‡", 180, 160, 50, 20)
 
 ; LIST VIEW
-$listView = GuiCtrlCreateListView("ÁĞ±í²é¿´|Àı×Ó|", 110, 190, 110, 80)
-GuiCtrlCreateListViewItem("A|Ò»", $listView)
-GuiCtrlCreateListViewItem("B|¶ş", $listView)
-GuiCtrlCreateListViewItem("C|Èı", $listView)
+$listView = GuiCtrlCreateListView("åˆ—è¡¨æŸ¥çœ‹|ä¾‹å­|", 110, 190, 110, 80)
+GuiCtrlCreateListViewItem("A|ä¸€", $listView)
+GuiCtrlCreateListViewItem("B|äºŒ", $listView)
+GuiCtrlCreateListViewItem("C|ä¸‰", $listView)
 
 ; GROUP WITH RADIO BUTTONS
-GuiCtrlCreateGroup("×éÀı×Ó:", 230, 120)
-GuiCtrlCreateRadio("µ¥Ñ¡1", 250, 140, 80)
+GuiCtrlCreateGroup("ç»„ä¾‹å­:", 230, 120)
+GuiCtrlCreateRadio("å•é€‰1", 250, 140, 80)
 GuiCtrlSetState(-1, $GUI_CHECKED)
-GuiCtrlCreateRadio("µ¥Ñ¡2", 250, 165, 80)
+GuiCtrlCreateRadio("å•é€‰2", 250, 165, 80)
 GUICtrlCreateGroup ("",-99,-99,1,1)  ;close group
 
 ; UPDOWN
-GuiCtrlCreateLabel("ÉÏÏÂÀı×Ó", 350, 115)
+GuiCtrlCreateLabel("ä¸Šä¸‹ä¾‹å­", 350, 115)
 GuiCtrlCreateInput("42", 350, 130, 40, 20)
 GuiCtrlCreateUpDown(-1)
 
 ; LABEL
-GuiCtrlCreateLabel("ÂÌÉ«" & @CRLF & "±êÇ©Àı×Ó", 350, 165, 40, 40)
+GuiCtrlCreateLabel("ç»¿è‰²" & @CRLF & "æ ‡ç­¾ä¾‹å­", 350, 165, 40, 40)
 GuiCtrlSetBkColor(-1, 0x00FF00)
 
 ; SLIDER
-GuiCtrlCreateLabel("»¬¶¯Ìõ:", 235, 215)
+GuiCtrlCreateLabel("æ»‘åŠ¨æ¡:", 235, 215)
 GuiCtrlCreateSlider(270, 210, 120, 30)
 GuiCtrlSetData(-1, 30)
 
 ; INPUT
-GuiCtrlCreateInput("ÊäÈë¿òÀı×Ó", 235, 255, 130, 20)
+GuiCtrlCreateInput("è¾“å…¥æ¡†ä¾‹å­", 235, 255, 130, 20)
 
 ; DATE
 GuiCtrlCreateDate("", 5, 280, 200, 20)
-GuiCtrlCreateLabel("(ÈÕÆÚÑ¡ÔñÀı×Ó)", 10, 305, 200, 20)
+GuiCtrlCreateLabel("(æ—¥æœŸé€‰æ‹©ä¾‹å­)", 10, 305, 200, 20)
 
 ; BUTTON
-GuiCtrlCreateButton("°´Å¥Àı×Ó", 10, 330, 100, 30)
+GuiCtrlCreateButton("æŒ‰é’®ä¾‹å­", 10, 330, 100, 30)
 
 ; CHECKBOX
-GuiCtrlCreateCheckbox("¶àÑ¡°´Å¥", 130, 335, 80, 20)
+GuiCtrlCreateCheckbox("å¤šé€‰æŒ‰é’®", 130, 335, 80, 20)
 GuiCtrlSetState(-1, $GUI_CHECKED)
 
 ; TREEVIEW ONE
 $treeOne = GuiCtrlCreateTreeView(210, 290, 80, 80)
-$treeItem = GuiCtrlCreateTreeViewItem("Ê÷ĞÎÁĞ±í", $treeOne)
-GuiCtrlCreateTreeViewItem("ÏîÄ¿1", $treeItem)
-GuiCtrlCreateTreeViewItem("ÏîÄ¿2", $treeItem)
-GuiCtrlCreateTreeViewItem("×ÓÏîÄ¿1", -1)
+$treeItem = GuiCtrlCreateTreeViewItem("æ ‘å½¢åˆ—è¡¨", $treeOne)
+GuiCtrlCreateTreeViewItem("é¡¹ç›®1", $treeItem)
+GuiCtrlCreateTreeViewItem("é¡¹ç›®2", $treeItem)
+GuiCtrlCreateTreeViewItem("å­é¡¹ç›®1", -1)
 GuiCtrlSetState($treeItem, $GUI_EXPAND)
 
 ; TREEVIEW TWO
 $treeTwo = GuiCtrlCreateTreeView(295, 290, 103, 80, $TVS_CHECKBOXES)
-GuiCtrlCreateTreeViewItem("Ê÷ĞÎÁĞ±í2", $treeTwo)
-GuiCtrlCreateTreeViewItem("Ê¹ÓÃ", $treeTwo)
-GuiCtrlCreateTreeViewItem("¶àÑ¡°´Å¥", $treeTwo)
+GuiCtrlCreateTreeViewItem("æ ‘å½¢åˆ—è¡¨2", $treeTwo)
+GuiCtrlCreateTreeViewItem("ä½¿ç”¨", $treeTwo)
+GuiCtrlCreateTreeViewItem("å¤šé€‰æŒ‰é’®", $treeTwo)
 GuiCtrlSetState(-1, $GUI_CHECKED)
-GuiCtrlCreateTreeViewItem("ÑùÊ½", $treeTwo)
+GuiCtrlCreateTreeViewItem("æ ·å¼", $treeTwo)
 
 
 ; GUI MESSAGE LOOP

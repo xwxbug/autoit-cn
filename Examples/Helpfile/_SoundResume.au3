@@ -1,4 +1,4 @@
-#include <Sound.au3>
+﻿#include <Sound.au3>
 ;open sound file
 $sound = _SoundOpen(@WindowsDir & "\media\Windows XP Startup.wav", "Startup")
 If @error = 2 Then

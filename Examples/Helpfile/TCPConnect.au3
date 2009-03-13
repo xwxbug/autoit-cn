@@ -1,4 +1,4 @@
-;CLIENT!!!!!!!! Start SERVER First... dummy!!
+﻿;CLIENT!!!!!!!! Start SERVER First... dummy!!
 $g_IP = "127.0.0.1"
 
 ; Start The TCP Services

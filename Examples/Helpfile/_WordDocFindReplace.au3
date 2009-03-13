@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a word window, open a document, find "this", 
 ;				replace all occurrences with "THIS", quit without saving changes.
 ; *******************************************************

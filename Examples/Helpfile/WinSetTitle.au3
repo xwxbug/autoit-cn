@@ -1,5 +1,5 @@
-Run("notepad.exe")
+锘縍un("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
 
-WinSetTitle("[CLASS:Notepad]", "", "我新的记事本")
+WinSetTitle("[CLASS:Notepad]", "", "鎴戞柊鐨勮浜嬫湰")

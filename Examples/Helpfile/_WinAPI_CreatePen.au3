@@ -1,4 +1,4 @@
-#include <WindowsConstants.au3>
+﻿#include <WindowsConstants.au3>
 #include <WinAPI.au3>
 
 ShowCross(@DesktopWidth / 2, @DesktopHeight / 2, 20, 2, 0xFF, 3000)

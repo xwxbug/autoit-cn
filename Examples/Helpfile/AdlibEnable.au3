@@ -1,9 +1,9 @@
-AdlibEnable("myadlib")
+ï»¿AdlibEnable("myadlib")
 ;...
 Exit
 
 Func myadlib()
-	If WinActive("´íÎó") Then
+	If WinActive("é”™è¯¯") Then
 		;...
 	EndIf
 EndFunc

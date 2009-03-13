@@ -1,4 +1,4 @@
-#include <Misc.au3>
+﻿#include <Misc.au3>
 
 Dim $i_Count, $i_Index
 

@@ -1,1 +1,1 @@
-Shutdown(6)  ;Force a reboot
+﻿Shutdown(6)  ;Force a reboot

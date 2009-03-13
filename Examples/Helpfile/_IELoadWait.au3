@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open the AutoIt forum page, tab to the "View new posts"
 ;				link and activate the link with the enter key.
 ;				Then wait for the page load to complete	before moving on.

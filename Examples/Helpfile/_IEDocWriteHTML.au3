@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create an empty browser, write customer HTML to it - in this case a
 ;				FRAMESET - and then update the contents of each of the frames
 ; *******************************************************

@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - Open an existing workbook and returns its object identifier.  Then SaveAs the file under a new name, without any alerts.
 ; *****************************************************************
 #include <Excel.au3>

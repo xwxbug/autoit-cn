@@ -1,4 +1,4 @@
-; This is the INI file we will write to.  It will be created on the Desktop.
+﻿; This is the INI file we will write to.  It will be created on the Desktop.
 $sIni = @DesktopDir & "\AutoIt-Test.ini"
 
 ; Demonstrate creating a new section using a string as input.

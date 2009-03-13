@@ -1,4 +1,4 @@
-; Use no proxy
+﻿; Use no proxy
 HttpSetProxy(1)
 
 ; Use IE defaults for proxy

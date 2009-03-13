@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <StructureConstants.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>

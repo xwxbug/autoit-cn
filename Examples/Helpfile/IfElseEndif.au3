@@ -1,4 +1,4 @@
-If $var > 0 Then
+﻿If $var > 0 Then
 	MsgBox(4096,"", "Value is positive.")
 ElseIf $var < 0 Then
 	MsgBox(4096,"", "Value is negative.")

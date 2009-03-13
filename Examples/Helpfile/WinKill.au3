@@ -1,4 +1,4 @@
-
+﻿
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 Sleep(1000)

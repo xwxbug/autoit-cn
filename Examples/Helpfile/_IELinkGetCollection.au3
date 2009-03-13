@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open browser with basic example, get link collection,
 ;				loop through items and display the associated link URL references
 ; *******************************************************

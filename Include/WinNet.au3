@@ -1,4 +1,4 @@
-#include-once
+ï»¿#include-once
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
 
@@ -447,7 +447,7 @@ EndFunc   ;==>_WinNet_ConnectionDialog
 ;                  | 8 - Restore the connection at logon
 ;                  |16 - Do not restore the connection at logon
 ; Return values .: Success      - The number of the connected device.  The value is 1 for A:, 2 for B:, 3 for C: and  so  on.  If
-;                  +the user made a deviceless connection, the value is –1.
+;                  +the user made a deviceless connection, the value is â€“1.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
@@ -560,7 +560,7 @@ EndFunc   ;==>_WinNet_DisconnectDialog1
 ; Syntax.........: _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 ; Parameters ....: $hEnum       - Handle that identifies an enumeration instance.  The handle is returned by  the  _WinNet_OpenEnum
 ;                  +function.
-;                  $iCount      - Number of entries requested.  If the number requested is  –1,  the  function  returns  as  many
+;                  $iCount      - Number of entries requested.  If the number requested is  â€“1,  the  function  returns  as  many
 ;                  +entries as possible. If the function succeeds, on return the variable contains the number of entries actually
 ;                  +read
 ;                  $pBuffer     - Pointer to the buffer that receives the enumeration results.  The results are  returned  as  an

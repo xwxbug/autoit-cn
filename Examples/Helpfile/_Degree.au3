@@ -1,4 +1,4 @@
-#include <Math.au3>
+﻿#include <Math.au3>
 
 $radians = 3.14159265358979
 $degrees = _Degree($radians)

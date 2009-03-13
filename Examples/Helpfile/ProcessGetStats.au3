@@ -1,4 +1,4 @@
-; retrieve memory infos of the current running process
+﻿; retrieve memory infos of the current running process
 $mem = ProcessGetStats()
 
 ; retrieve IO infos of the current running process

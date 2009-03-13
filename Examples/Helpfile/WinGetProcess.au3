@@ -1,8 +1,8 @@
-Run("notepad.exe")
+ï»¿Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
 
 
 
 $pid = WinGetProcess("[CLASS:Notepad]")
-MsgBox(0, "½ø³Ì PID Îª", $pid)
+MsgBox(0, "è¿›ç¨‹ PID ä¸º", $pid)

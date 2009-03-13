@@ -1,4 +1,4 @@
-;;; LIBRARY.AU3 ;;;
+﻿;;; LIBRARY.AU3 ;;;
 #include-once
 
 Func myFunc()

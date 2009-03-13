@@ -1,13 +1,13 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
 
-$delitem		= TrayCreateItem("É¾³ı")
+$delitem		= TrayCreateItem("åˆ é™¤")
 TrayCreateItem("")
-$aboutitem		= TrayCreateItem("¹ØÓÚ")
+$aboutitem		= TrayCreateItem("å…³äº")
 TrayCreateItem("")
-$exititem		= TrayCreateItem("ÍË³ö")
+$exititem		= TrayCreateItem("é€€å‡º")
 
 TraySetState()
 
@@ -17,7 +17,7 @@ While 1
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $aboutitem
-			Msgbox(64,"¹ØÓÚ:","AutoIt3-ÍĞÅÌ-Àı×Ó")
+			Msgbox(64,"å…³äº:","AutoIt3-æ‰˜ç›˜-ä¾‹å­")
 		Case $msg = $delitem
 			TrayItemDelete($delitem)
 		Case $msg = $exititem

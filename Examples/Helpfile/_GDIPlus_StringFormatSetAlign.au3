@@ -1,4 +1,4 @@
-#include <GDIPlus.au3>
+﻿#include <GDIPlus.au3>
 #include <GUIConstantsEx.au3>
 
 $hWnd = GUICreate("GDI+ Example", 400, 300)

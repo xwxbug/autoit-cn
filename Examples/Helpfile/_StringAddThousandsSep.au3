@@ -1,4 +1,4 @@
-#include <String.au3>
+﻿#include <String.au3>
 $nAmount = 89996.31
 $sDelimted = _StringAddThousandsSep($nAmount)
 MsgBox(64, 'Info', $sDelimted)

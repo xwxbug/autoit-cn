@@ -1,1 +1,1 @@
-$x = IsString("foo")
+﻿$x = IsString("foo")

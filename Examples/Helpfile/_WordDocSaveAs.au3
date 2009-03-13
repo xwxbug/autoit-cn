@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a word window with a new blank document, add some text,
 ;				execute a saveas operation, then quit.
 ; *******************************************************

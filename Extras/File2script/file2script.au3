@@ -1,23 +1,23 @@
-#cs ----------------------------------------------------------------------------
+ï»¿#cs ----------------------------------------------------------------------------
 	
-	AutoIt °æ±¾: 3.2.8.1(µÚÒ»°æ)
-	½Å±¾×÷Õß:
+	AutoIt ç‰ˆæœ¬: 3.2.8.1(ç¬¬ä¸€ç‰ˆ)
+	è„šæœ¬ä½œè€…:
 	Email:
 	QQ/TM:
-	½Å±¾°æ±¾:
-	½Å±¾¹¦ÄÜ:
+	è„šæœ¬ç‰ˆæœ¬:
+	è„šæœ¬åŠŸèƒ½:
 	
 #ce ----------------------------------------------------------------------------
 
 
-#Region AutoIt3Wrapper ±àÒë²ÎÊı
+#Region AutoIt3Wrapper ç¼–è¯‘å‚æ•°
 #AutoIt3Wrapper_UseAnsi=y
 #AutoIt3Wrapper_Icon= TC.ico
 #AutoIt3Wrapper_OutFile= 
 #AutoIt3Wrapper_OutFile_Type=exe
 #AutoIt3Wrapper_Compression=4
 #AutoIt3Wrapper_UseUpx=y
-#AutoIt3Wrapper_Res_Comment= ÈÎÒâÎÄ¼ş×ª»»Îª½Å±¾(·ÇFileInstall)Ö÷ÒªÓÃÓÚUDFÖĞ°üº¬ÎÄ¼ş¡£
+#AutoIt3Wrapper_Res_Comment= ä»»æ„æ–‡ä»¶è½¬æ¢ä¸ºè„šæœ¬(éFileInstall)ä¸»è¦ç”¨äºUDFä¸­åŒ…å«æ–‡ä»¶ã€‚
 #AutoIt3Wrapper_Res_Description= thesnow
 #AutoIt3Wrapper_Res_Fileversion=3.2.11.1
 #AutoIt3Wrapper_Res_FileVersion_AutoIncrement=p
@@ -27,25 +27,25 @@
 #AutoIt3Wrapper_Run_AU3Check=
 #AutoIt3Wrapper_Run_Before=
 #AutoIt3Wrapper_Run_After=
-#EndRegion AutoIt3Wrapper ±àÒë²ÎÊıÉèÖÃÍê³É
+#EndRegion AutoIt3Wrapper ç¼–è¯‘å‚æ•°è®¾ç½®å®Œæˆ
 
-; ½Å±¾¿ªÊ¼ - ÔÚÕâºóÃæÌí¼ÓÄúµÄ´úÂë.
+; è„šæœ¬å¼€å§‹ - åœ¨è¿™åé¢æ·»åŠ æ‚¨çš„ä»£ç .
 #NoTrayIcon
-MsgBox(32,"´Ë³ÌĞò´æÔÚµÄ±ØÒª","ÔÚAUTOITÖĞ,INCLUDEÄ¿Â¼·ÅµÄUDFÈç¹ûĞèÒª°üº¬ÎÄ¼ş,Ö»ÄÜÊÇ¶ş½øÖÆĞ´Èë(°ÑÎÄ¼ş·Åµ½INCLUDEÄ¿Â¼±àÒëÊ±ÎŞ·¨ÕÒµ½ÎÄ¼ş).±¾³ÌĞò¿ÉÒÔ×ª»».")
+MsgBox(32,"æ­¤ç¨‹åºå­˜åœ¨çš„å¿…è¦","åœ¨AUTOITä¸­,INCLUDEç›®å½•æ”¾çš„UDFå¦‚æœéœ€è¦åŒ…å«æ–‡ä»¶,åªèƒ½æ˜¯äºŒè¿›åˆ¶å†™å…¥(æŠŠæ–‡ä»¶æ”¾åˆ°INCLUDEç›®å½•ç¼–è¯‘æ—¶æ— æ³•æ‰¾åˆ°æ–‡ä»¶).æœ¬ç¨‹åºå¯ä»¥è½¬æ¢.")
 
 
-$OpenFilename = FileOpenDialog("Ñ¡ÔñÄúÒª×ª»»µÄÎÄ¼ş", -1, "ËùÓĞÎÄ¼ş(*.*)")
+$OpenFilename = FileOpenDialog("é€‰æ‹©æ‚¨è¦è½¬æ¢çš„æ–‡ä»¶", -1, "æ‰€æœ‰æ–‡ä»¶(*.*)")
 If $OpenFilename = "" Then Exit
 if FileGetSize($OpenFilename) > (5 * 1024^2) Then
-	MsgBox(32,"×¢Òâ!","Õâ¸ö³ÌĞò²»ÊÇÓÃÀ´Ğ´Èë´óÎÄ¼şµÄ,ÒòÎªÎÄ¼ş´óÓÚ5M,³ÌĞò½«ÍË³ö!")
+	MsgBox(32,"æ³¨æ„!","è¿™ä¸ªç¨‹åºä¸æ˜¯ç”¨æ¥å†™å…¥å¤§æ–‡ä»¶çš„,å› ä¸ºæ–‡ä»¶å¤§äº5M,ç¨‹åºå°†é€€å‡º!")
 	Exit
 EndIf
-$SaveFilename = FileSaveDialog("Ñ¡ÔñÄúÒª±£´æµÄÎÄ¼ş", -1, "½Å±¾ÎÄ¼ş(*.au3)")
+$SaveFilename = FileSaveDialog("é€‰æ‹©æ‚¨è¦ä¿å­˜çš„æ–‡ä»¶", -1, "è„šæœ¬æ–‡ä»¶(*.au3)")
 If $SaveFilename = "" Then Exit
 if StringRight($SaveFilename,3) <> "au3" then $SaveFilename &= ".au3"
 $fileopen = FileOpen($OpenFilename, 16)
 $time=TimerInit()
-ToolTip("¿ªÊ¼×ª»»,¸ù¾İÄúÎÄ¼şµÄ´óĞ¡²»Í¬¶ø»¨µÄÊ±¼ä²»Í¬." & @CRLF & "µ±Ç°½ø¶È0%",0,0)
+ToolTip("å¼€å§‹è½¬æ¢,æ ¹æ®æ‚¨æ–‡ä»¶çš„å¤§å°ä¸åŒè€ŒèŠ±çš„æ—¶é—´ä¸åŒ." & @CRLF & "å½“å‰è¿›åº¦0%",0,0)
 $FuncName=StringReplace($OpenFilename,"/","\")
 $FuncName=StringReplace($OpenFilename,".","_")
 $FuncName=StringSplit($FuncName,"\")
@@ -53,13 +53,13 @@ FileWriteLine($SaveFilename, 'Func ' & $FuncName[$FuncName[0]] & '()')
 FileWriteLine($SaveFilename, 'Local $FileBin=""')
 $size=FileGetSize($OpenFilename)
 For $i = 1 To $size Step 100
-	ToolTip("¿ªÊ¼×ª»»,¸ù¾İÄúÎÄ¼şµÄ´óĞ¡²»Í¬¶ø»¨µÄÊ±¼ä²»Í¬." & @CRLF & "µ±Ç°½ø¶È" & Round(($i/$size),3) * 100 & "%",0,0)
+	ToolTip("å¼€å§‹è½¬æ¢,æ ¹æ®æ‚¨æ–‡ä»¶çš„å¤§å°ä¸åŒè€ŒèŠ±çš„æ—¶é—´ä¸åŒ." & @CRLF & "å½“å‰è¿›åº¦" & Round(($i/$size),3) * 100 & "%",0,0)
 	$file = FileRead($fileopen, 100)
 	FileWriteLine($SaveFilename, '$FileBin &="' & StringReplace($file, "0x", "") & '"')
 Next
 FileWriteLine($SaveFilename, 'Return Binary("0x" & $FileBin)')
 FileWriteLine($SaveFilename, 'EndFunc')
-FileWriteLine($SaveFilename & ".µ÷ÓÃ.au3", '#include <' & $SaveFilename & '>')
-FileWriteLine($SaveFilename & ".µ÷ÓÃ.au3", 'FileWrite("' & $OpenFilename & '",' & $FuncName[$FuncName[0]] & '())')
+FileWriteLine($SaveFilename & ".è°ƒç”¨.au3", '#include <' & $SaveFilename & '>')
+FileWriteLine($SaveFilename & ".è°ƒç”¨.au3", 'FileWrite("' & $OpenFilename & '",' & $FuncName[$FuncName[0]] & '())')
 ToolTip("")
-MsgBox(32, "", "ÒÑ¾­×ª»»Íê³É£¡ºÄÊ± " & TimerDiff($time)/1000 & "Ãë")
+MsgBox(32, "", "å·²ç»è½¬æ¢å®Œæˆï¼è€—æ—¶ " & TimerDiff($time)/1000 & "ç§’")

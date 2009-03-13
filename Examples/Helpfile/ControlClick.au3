@@ -1,1 +1,1 @@
-ControlClick("Untitled -", "", "MDIClient1")
+﻿ControlClick("Untitled -", "", "MDIClient1")

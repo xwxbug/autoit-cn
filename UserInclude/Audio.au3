@@ -1,4 +1,4 @@
-#cs
+﻿#cs
 Audio.au3
 Designed by Gary Frost, RazerM, and a little help from Volly
 Version info: 1.0.0.0

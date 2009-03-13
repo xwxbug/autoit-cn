@@ -1,4 +1,4 @@
-#include <GuiToolbar.au3>
+﻿#include <GuiToolbar.au3>
 #include <GuiImageList.au3>
 #include <WinAPI.au3>
 #include <GuiConstantsEx.au3>

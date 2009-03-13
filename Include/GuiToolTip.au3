@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <Memory.au3>
 #include <ToolTipConstants.au3>
 #include <StructureConstants.au3>

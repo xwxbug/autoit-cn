@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+﻿#include <GuiConstantsEx.au3>
 #include <GuiAVI.au3>
 
 Opt('MustDeclareVars', 1)

@@ -1,1 +1,1 @@
-AdlibDisable()	;¹Ø±ÕAdlib¹¦ÄÜ
+ï»¿AdlibDisable()	;å…³é—­AdlibåŠŸèƒ½

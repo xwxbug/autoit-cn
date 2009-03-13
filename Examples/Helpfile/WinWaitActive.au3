@@ -1,5 +1,5 @@
-;Wait for the window "Î´ÃüÃû" to exist and be active
-WinWaitActive("Î´ÃüÃû")
+ï»¿;Wait for the window "æœªå‘½å" to exist and be active
+WinWaitActive("æœªå‘½å")
 
-;Wait a maximum of 5 seconds for "Î´ÃüÃû" to exist and be active
-WinWaitActive("Î´ÃüÃû", "", 5)
+;Wait a maximum of 5 seconds for "æœªå‘½å" to exist and be active
+WinWaitActive("æœªå‘½å", "", 5)

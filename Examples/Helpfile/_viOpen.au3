@@ -1,4 +1,4 @@
-;- This assumes that you have instrument set to GPIB address 1
+﻿;- This assumes that you have instrument set to GPIB address 1
 ; It shows how to use the _viExecCommand function in stand alone mode and combined
 ; with _viOpen and _viClose.
 ; It also shows the _viGTL function

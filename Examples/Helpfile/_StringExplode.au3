@@ -1,4 +1,4 @@
-
+﻿
 #include <String.au3>
 #include <Array.au3>
 

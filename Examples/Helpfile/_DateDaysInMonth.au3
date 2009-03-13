@@ -1,4 +1,4 @@
-#include <Date.au3>
+ï»¿#include <Date.au3>
 
 $iDays = _DateDaysInMonth( @YEAR,@MON )
-MsgBox( 4096, "Ò»¸öÔÂµÄÌìÊı", "Õâ¸öÔÂ¹²ÓĞ " & String( $iDays ) & " Ìì.		" )
+MsgBox( 4096, "ä¸€ä¸ªæœˆçš„å¤©æ•°", "è¿™ä¸ªæœˆå…±æœ‰ " & String( $iDays ) & " å¤©.		" )

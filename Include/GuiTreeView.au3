@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <TreeViewConstants.au3>
 #include <Memory.au3>
 #include <WinAPI.au3>

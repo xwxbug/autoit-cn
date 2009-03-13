@@ -1,4 +1,4 @@
-#include <Misc.au3>
+﻿#include <Misc.au3>
 if _Singleton("test",1) = 0 Then
 	Msgbox(0,"Warning","An occurence of test is already running")
 	Exit

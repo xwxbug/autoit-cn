@@ -1,4 +1,4 @@
-If Not IsDeclared ("a") then
+﻿If Not IsDeclared ("a") then
     MsgBox(0,"", "$a is NOT declared")     ; $a has never been assigned
 EndIf
 

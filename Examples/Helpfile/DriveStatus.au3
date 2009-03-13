@@ -1,2 +1,2 @@
-$var = DriveStatus( "c:\" )
-MsgBox(4096,"״̬",$var)
+﻿$var = DriveStatus( "c:\" )
+MsgBox(4096,"状态",$var)

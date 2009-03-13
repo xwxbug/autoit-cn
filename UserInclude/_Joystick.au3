@@ -1,4 +1,4 @@
-#include <GUIConstants.au3>
+﻿#include <GUIConstants.au3>
 
 Local $joy,$coor,$h,$s,$msg
 

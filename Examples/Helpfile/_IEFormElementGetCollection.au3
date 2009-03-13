@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Get a reference to a specific form element by 0-based index.
 ;				In this case, submit a query to the Google search engine
 ; *******************************************************

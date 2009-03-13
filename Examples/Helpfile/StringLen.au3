@@ -1,2 +1,2 @@
-$len = StringLen("How long am I?")
-MsgBox(0, "×Ö·û´®³¤¶ÈÎª:", $len)
+ï»¿$len = StringLen("How long am I?")
+MsgBox(0, "å­—ç¬¦ä¸²é•¿åº¦ä¸º:", $len)

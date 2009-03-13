@@ -1,4 +1,4 @@
-; Press Esc to terminate script, Pause/Break to "pause"
+﻿; Press Esc to terminate script, Pause/Break to "pause"
 
 Global $Paused
 HotKeySet("{PAUSE}", "TogglePause")

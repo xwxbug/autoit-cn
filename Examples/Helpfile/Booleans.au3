@@ -1,3 +1,3 @@
-$bool= False
-if NOT $bool = true Then Msgbox(0,"²¼¶ûÖµ±È½Ï", "OK")
+ï»¿$bool= False
+if NOT $bool = true Then Msgbox(0,"å¸ƒå°”å€¼æ¯”è¾ƒ", "OK")
 	

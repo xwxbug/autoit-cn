@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 
 ; Julian date of today.
 $sJulDate = _DateToDayValue (@YEAR, @MON, @MDAY)

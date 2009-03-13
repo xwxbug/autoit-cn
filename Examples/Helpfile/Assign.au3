@@ -1,2 +1,2 @@
-Global $variable
-If Assign("variable", "你好!") Then MsgBox(4096, "", $variable)    ;将会输出 "你好!"
+锘縂lobal $variable
+If Assign("variable", "浣犲ソ!") Then MsgBox(4096, "", $variable)    ;灏嗕細杈撳嚭 "浣犲ソ!"

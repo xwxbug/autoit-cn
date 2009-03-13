@@ -1,17 +1,17 @@
-GUICreate("Ò»¸ö¼òµ¥µÄÉÏÏÂÎÄ²Ëµ¥!",300,200)
+ï»¿GUICreate("ä¸€ä¸ªç®€å•çš„ä¸Šä¸‹æ–‡èœå•!",300,200)
 
 $trackmenu = GuiCtrlCreateContextMenu ()
-$aboutitem = GuiCtrlCreateMenuitem ("¹ØÓÚ",$trackmenu)
+$aboutitem = GuiCtrlCreateMenuitem ("å…³äº",$trackmenu)
 ; next one creates a menu separator (line)
 GuiCtrlCreateMenuitem ("",$trackmenu)
-$exititem = GuiCtrlCreateMenuitem ("ÍË³ö",$trackmenu)
+$exititem = GuiCtrlCreateMenuitem ("é€€å‡º",$trackmenu)
 
 GuiSetState()
 
 While 1
 	$msg = GuiGetMsg()
 	If $msg = $exititem Or $msg = -3 Or $msg = -1 Then ExitLoop
-	If $msg = $aboutitem Then Msgbox(0,"¹ØÓÚ","Ò»¸ö¼òµ¥µÄÉÏÏÂÎÄ²Ëµ¥!")
+	If $msg = $aboutitem Then Msgbox(0,"å…³äº","ä¸€ä¸ªç®€å•çš„ä¸Šä¸‹æ–‡èœå•!")
 WEnd
 
 GUIDelete()

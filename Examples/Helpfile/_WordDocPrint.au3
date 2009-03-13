@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a word window, open a document, set the text,
 ;				print with defaults, and quit without saving changes.
 ; *******************************************************

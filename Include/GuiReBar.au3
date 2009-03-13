@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <WinAPI.au3>
 #include <Memory.au3>
 #include <RebarConstants.au3>

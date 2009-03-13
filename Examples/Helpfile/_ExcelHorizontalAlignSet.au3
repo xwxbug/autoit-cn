@@ -1,4 +1,4 @@
-; *****************************************************************
+﻿; *****************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier: Sets the horizontal alignment of each cell in a range.
 ; *****************************************************************
 

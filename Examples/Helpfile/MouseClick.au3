@@ -1,4 +1,4 @@
-; Double click at the current mouse pos
+﻿; Double click at the current mouse pos
 MouseClick("left")
 MouseClick("left")
 

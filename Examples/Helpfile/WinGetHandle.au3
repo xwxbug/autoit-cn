@@ -1,4 +1,4 @@
-
+ï»¿
 
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
@@ -17,7 +17,7 @@ AutoItSetOption("WinTitleMatchMode", 4)
 ; Get the handle of a notepad window that contains "this one"
 $handle = WinGetHandle("classname=Notepad", "this one")
 If @error Then
-	MsgBox(4096, "´íÎó", "²»ÄÜÕÒµ½Ö¸¶¨´°¿Ú")
+	MsgBox(4096, "é”™è¯¯", "ä¸èƒ½æ‰¾åˆ°æŒ‡å®šçª—å£")
 Else
 	; Send some text directly to this window's edit control
 	ControlSend($handle, "", "Edit1", "AbCdE")

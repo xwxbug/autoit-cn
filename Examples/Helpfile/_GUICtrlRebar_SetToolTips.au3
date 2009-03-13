@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+﻿#include <GuiConstantsEx.au3>
 #include <GuiReBar.au3>
 #include <GuiToolBar.au3>
 #include <GuiToolTip.au3>

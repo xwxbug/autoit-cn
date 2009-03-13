@@ -1,4 +1,4 @@
-#include <GUIConstants.au3>
+﻿#include <GUIConstants.au3>
 #include <ScreenCapture.au3>
 #include <WinAPI.au3>
 

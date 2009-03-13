@@ -1,4 +1,4 @@
-; ObjEvent example
+﻿; ObjEvent example
 
 ProgressOn("Example", "Loading page...")
 $oIE=ObjCreate("InternetExplorer.Application.1")	   ; Create Internet Explorer application

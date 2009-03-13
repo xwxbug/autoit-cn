@@ -1,4 +1,4 @@
-Run("notepad.exe")
+ï»¿Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 WinSetState("[CLASS:Notepad]","",@SW_MINIMIZE)
 
@@ -7,8 +7,8 @@ $state = WinGetState("[CLASS:Notepad]", "")
 
 ; Is the "minimized" value set?
 If BitAnd($state, 16) Then
-	MsgBox(0, "Àı×Ó", "¼ÇÊÂ±¾´°¿ÚÊÇ×îĞ¡»¯µÄ")
+	MsgBox(0, "ä¾‹å­", "è®°äº‹æœ¬çª—å£æ˜¯æœ€å°åŒ–çš„")
 Else
-	MsgBox(0, "Àı×Ó", "¼ÇÊÂ±¾´°¿Ú²»ÊÇ×îĞ¡»¯µÄ")	
+	MsgBox(0, "ä¾‹å­", "è®°äº‹æœ¬çª—å£ä¸æ˜¯æœ€å°åŒ–çš„")	
 EndIf
 

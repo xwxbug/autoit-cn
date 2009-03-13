@@ -1,4 +1,4 @@
-#include <Constants.au3>
+﻿#include <Constants.au3>
 #include <ButtonConstants.au3>
 #include <EditConstants.au3>
 #include <GUIConstantsEx.au3>

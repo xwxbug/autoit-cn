@@ -1,1 +1,1 @@
-IsNumber(42)
+﻿IsNumber(42)

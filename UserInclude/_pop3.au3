@@ -1,4 +1,4 @@
-;-----------------------_POP3.AU3---------------------------
+﻿;-----------------------_POP3.AU3---------------------------
 ;~ Basic functions for AU3 Scripts, based on the 1939 RFC.
 ;~ See http://www.ietf.org/rfc/rfc1939.txt
 ;~ Include version : 0.99 (March 2006, 9th).
@@ -6,7 +6,7 @@
 ;~ Author : Luc HENNINOT <lhenninot@nordnet.fr>
 ;-----------------------------------------------------------
 ;~ Int _pop3Connect (server, login, passwd [, port])	; Conects to the according pop3 server. Returns 0 for OK, -1 if error and sets @error. Server can be an IP address, or a full text name.
-;~ String _Pop3Dele(msg_number)							; Delete msg n� msg_number. Returns the server response or -1 if error, and sets @error.
+;~ String _Pop3Dele(msg_number)							; Delete msg n° msg_number. Returns the server response or -1 if error, and sets @error.
 ;~ Array _Pop3List([msg_number])						; Returns an array with the msg number and its size (octets), -1 if error ans sets @error.
 ;~ String _Pop3Noop()									; Actually, does nothing. The most interesting command from RFC 1939 ;)
 ;~ String _Pop3Quit()									; Validates your actions (dele for example) and stops the connection as it should. Returns the server response, or -1 and sets @error.

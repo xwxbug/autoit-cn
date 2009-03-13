@@ -1,4 +1,4 @@
-Run("notepad.exe")
+﻿Run("notepad.exe")
 WinWait("[CLASS:Notepad]")
 Local $hWnd = WinGetHandle("[CLASS:Notepad]")
 Local $sHWND = String($hWnd)	; Convert to a string

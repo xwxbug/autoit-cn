@@ -1,3 +1,3 @@
-$code = AscW("A")
-MsgBox(0, "´óÐ´×ÖÄ¸AµÄUNICODE´úÂëÎª:", $code)
-MsgBox(32,"×¢Òâ","ÆäÊµÕâ¸öº¯Êý»¹ÊÇÓÐÈ±ÏÝ,UNICODEÊÇÁ½¸ö×Ö½ÚÀ´±íÊ¾Ò»¸ö×Ö·ûµÄ,µ«ÊÇÎ÷Å·×Ö·ûÔÚAUTOITÖÐ»¹ÊÇÊ¹ÓÃÒ»¸ö×Ö½Ú.")
+ï»¿$code = AscW("A")
+MsgBox(0, "å¤§å†™å­—æ¯Açš„UNICODEä»£ç ä¸º:", $code)
+MsgBox(32,"æ³¨æ„","å…¶å®žè¿™ä¸ªå‡½æ•°è¿˜æ˜¯æœ‰ç¼ºé™·,UNICODEæ˜¯ä¸¤ä¸ªå­—èŠ‚æ¥è¡¨ç¤ºä¸€ä¸ªå­—ç¬¦çš„,ä½†æ˜¯è¥¿æ¬§å­—ç¬¦åœ¨AUTOITä¸­è¿˜æ˜¯ä½¿ç”¨ä¸€ä¸ªå­—èŠ‚.")

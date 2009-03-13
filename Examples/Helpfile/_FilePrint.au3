@@ -1,4 +1,4 @@
-#include <File.au3>
+﻿#include <File.au3>
 
 $file = FileOpenDialog("Print File", "", "Text Documents (*.txt)", 1)
 If @error Then Exit

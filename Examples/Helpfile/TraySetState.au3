@@ -1,14 +1,14 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
+Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
 
-$exititem		= TrayCreateItem("ÍË³ö")
+$exititem		= TrayCreateItem("é€€å‡º")
 
-TraySetIcon("¾¯¸æ")
+TraySetIcon("è­¦å‘Š")
 TraySetToolTip("SOS")
 
-TraySetState()	; ÏÔÊ¾ÍĞÅÌÍ¼±ê
+TraySetState()	; æ˜¾ç¤ºæ‰˜ç›˜å›¾æ ‡
 
 $toggle = 0
 
@@ -18,10 +18,10 @@ While 1
 		Case $msg = 0
 			Sleep(1000)
 			If $toggle = 0 Then
-				TraySetState()	; ÏÔÊ¾ÍĞÅÌÍ¼±ê
+				TraySetState()	; æ˜¾ç¤ºæ‰˜ç›˜å›¾æ ‡
 				$toggle = 1
 			Else
-				TraySetState(2)	; Òş²ØÍĞÅÌÍ¼±ê
+				TraySetState(2)	; éšè—æ‰˜ç›˜å›¾æ ‡
 				$toggle = 0
 			EndIF
 		Case $msg = $exititem

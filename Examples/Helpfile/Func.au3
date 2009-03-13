@@ -1,26 +1,26 @@
-; Èı¸ö×Ô¶¨Òåº¯ÊıµÄÊ¾Àı½Å±¾
-; ×¢Òâ±äÁ¿(variables), ´«µİ(ByRef), Óë ·µ»ØÖµ(Return)µÄÓÃ·¨
+ï»¿; ä¸‰ä¸ªè‡ªå®šä¹‰å‡½æ•°çš„ç¤ºä¾‹è„šæœ¬
+; æ³¨æ„å˜é‡(variables), ä¼ é€’(ByRef), ä¸ è¿”å›å€¼(Return)çš„ç”¨æ³•
 
 $foo = 2
 $bar = 5
-msgBox(0,"½ñÌìÊÇ " & today(), "$foo µÈÓÚ:" & $foo)
+msgBox(0,"ä»Šå¤©æ˜¯ " & today(), "$foo ç­‰äº:" & $foo)
 swap($foo, $bar)
-msgBox(0,"±äÁ¿ $foo ºÍ $bar ½»»»ºó", "ÏÖÔÚ $foo µÄÖµÊÇ£º" & $foo)
-msgBox(0,"×îºó", "3 ºÍ 4 ÖĞ½Ï´óµÄÊıÊÇ:" & max(3,4))
+msgBox(0,"å˜é‡ $foo å’Œ $bar äº¤æ¢å", "ç°åœ¨ $foo çš„å€¼æ˜¯ï¼š" & $foo)
+msgBox(0,"æœ€å", "3 å’Œ 4 ä¸­è¾ƒå¤§çš„æ•°æ˜¯:" & max(3,4))
 Exit
 
-Func swap(ByRef $a, ByRef $b)  ;½»»»Á½¸ö±äÁ¿µÄÄÚÈİ
+Func swap(ByRef $a, ByRef $b)  ;äº¤æ¢ä¸¤ä¸ªå˜é‡çš„å†…å®¹
 	Local $t
 	$t = $a
 	$a = $b
 	$b = $t
 EndFunc
 
-Func today()  ;ÒÔ mm/dd/yyyy µÄĞÎÊ½·µ»Øµ±Ç°ÈÕÆÚ
+Func today()  ;ä»¥ mm/dd/yyyy çš„å½¢å¼è¿”å›å½“å‰æ—¥æœŸ
 	return (@MON & "/" & @MDAY & "/" & @YEAR)
 EndFunc
 
-Func max($x, $y)  ;·µ»ØÁ½¸öÊıÖĞµÄ½Ï´óÖµ
+Func max($x, $y)  ;è¿”å›ä¸¤ä¸ªæ•°ä¸­çš„è¾ƒå¤§å€¼
 	If $x > $y Then
 		return $x
 	Else
@@ -28,4 +28,4 @@ Func max($x, $y)  ;·µ»ØÁ½¸öÊıÖĞµÄ½Ï´óÖµ
 	EndIf
 EndFunc
 
-;Ê¾Àı½Å±¾½áÊø
+;ç¤ºä¾‹è„šæœ¬ç»“æŸ

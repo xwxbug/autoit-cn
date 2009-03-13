@@ -1,4 +1,4 @@
-#include <Misc.au3>
+﻿#include <Misc.au3>
 
 $dll = DllOpen("user32.dll")
 

@@ -1,4 +1,4 @@
-Run("notepad.exe")
+﻿Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 Send("!{tab}")
 Sleep(1000)

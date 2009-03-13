@@ -1,4 +1,4 @@
-#include <Array.au3>
+﻿#include <Array.au3>
 
 Local $avArrayTarget[9] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Local $avArraySource[2] = [100, 200]

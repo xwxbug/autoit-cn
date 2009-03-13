@@ -1,4 +1,4 @@
-#Include <Constants.au3>
+﻿#Include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.

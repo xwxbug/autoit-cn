@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a word window, open a document, check to see if the
 ;               statusbar is visible, if it is turn it off, if it isn't turn it on.
 ; *******************************************************

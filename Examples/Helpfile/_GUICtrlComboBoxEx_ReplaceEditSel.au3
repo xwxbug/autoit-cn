@@ -1,4 +1,4 @@
-#include <GuiComboBoxEx.au3>
+﻿#include <GuiComboBoxEx.au3>
 #include <GuiImageList.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>

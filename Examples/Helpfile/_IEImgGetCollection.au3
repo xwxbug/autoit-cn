@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create browser at AutoIt homepage, get a reference to
 ;				the 6th Image on the page (note: the first image is index 0)
 ;				and display information about it

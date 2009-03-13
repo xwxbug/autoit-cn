@@ -1,4 +1,4 @@
-Dim $myArray[10][20]   ;element 0,0 to 9,19
+﻿Dim $myArray[10][20]   ;element 0,0 to 9,19
 $rows = UBound($myArray)
 $cols = UBound($myArray, 2)
 $dims = UBound($myArray, 0)

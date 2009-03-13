@@ -1,4 +1,4 @@
-#include <Array.au3>	; For _ArrayDisplay()
+﻿#include <Array.au3>	; For _ArrayDisplay()
 
 ; Convert the string to an array.
 Local $a = StringToASCIIArray("abc")

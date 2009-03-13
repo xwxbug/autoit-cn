@@ -1,4 +1,4 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <EditConstants.au3>
 #include <StaticConstants.au3>
@@ -36,7 +36,7 @@ EndFunc   ;==>Example
 
 ; Rich edit control EXAMPLE using GUICtrlCreateObj
 
-; Author: K�re Johansson
+; Author: K錼e Johansson
 ; AutoIt Version: 3.1.1.55
 ; Description: Very Simple example: Embedding RICHTEXT object
 ; Needs: MSCOMCT2.OCX in system32 but it's probably already there

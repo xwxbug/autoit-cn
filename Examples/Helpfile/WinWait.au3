@@ -1,7 +1,7 @@
-;Wait for the window "Î´ÃüÃû" to exist
+ï»¿;Wait for the window "æœªå‘½å" to exist
 
 Run("notepad")
-WinWait("Î´ÃüÃû")
+WinWait("æœªå‘½å")
 
-;Wait a maximum of 5 seconds for "Î´ÃüÃû" to exist
-WinWait("Î´ÃüÃû", "", 5)
+;Wait a maximum of 5 seconds for "æœªå‘½å" to exist
+WinWait("æœªå‘½å", "", 5)

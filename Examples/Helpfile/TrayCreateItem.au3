@@ -1,5 +1,5 @@
-; ****************
-; * µÚÒ»¸öÀı×Ó	 *
+ï»¿; ****************
+; * ç¬¬ä¸€ä¸ªä¾‹å­	 *
 ; ****************
 
 #Include <Constants.au3>
@@ -7,11 +7,11 @@
 
 Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
 
-$prefsitem	= TrayCreateItem("²ÎÊı")
+$prefsitem	= TrayCreateItem("å‚æ•°")
 TrayCreateItem("")
-$aboutitem	= TrayCreateItem("¹ØÓÚ")
+$aboutitem	= TrayCreateItem("å…³äº")
 TrayCreateItem("")
-$exititem	= TrayCreateItem("ÍË³ö")
+$exititem	= TrayCreateItem("é€€å‡º")
 
 TraySetState()
 
@@ -21,9 +21,9 @@ While 1
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $prefsitem
-			Msgbox(64, "²ÎÊı:", "ÏµÍ³°æ±¾:" & @OSVersion)
+			Msgbox(64, "å‚æ•°:", "ç³»ç»Ÿç‰ˆæœ¬:" & @OSVersion)
 		Case $msg = $aboutitem
-			Msgbox(64, "¹ØÓÚ:", "AutoIt3-ÍĞÅÌ-Àı×Ó.")
+			Msgbox(64, "å…³äº:", "AutoIt3-æ‰˜ç›˜-ä¾‹å­.")
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect
@@ -33,7 +33,7 @@ Exit
 
 
 ; *****************
-; * µÚ¶ş¸öÀı×Ó	 *
+; * ç¬¬äºŒä¸ªä¾‹å­	 *
 ; *****************
 
 #Include <Constants.au3>
@@ -42,23 +42,23 @@ Exit
 Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
 
 ; Let's create 2 radio menuitem groups
-$radio1	= TrayCreateItem("µ¥Ñ¡1", -1, -1, 1)
+$radio1	= TrayCreateItem("å•é€‰1", -1, -1, 1)
 TrayItemSetState(-1, $TRAY_CHECKED)
-$radio2	= TrayCreateItem("µ¥Ñ¡2", -1, -1, 1)
-$radio3	= TrayCreateItem("µ¥Ñ¡3", -1, -1, 1)
+$radio2	= TrayCreateItem("å•é€‰2", -1, -1, 1)
+$radio3	= TrayCreateItem("å•é€‰3", -1, -1, 1)
 
 TrayCreateItem("")	; Radio menuitem groups can be separated by a separator line or another norma menuitem
 
-$radio4	= TrayCreateItem("µ¥Ñ¡4", -1, -1, 1)
-$radio5	= TrayCreateItem("µ¥Ñ¡5", -1, -1, 1)
+$radio4	= TrayCreateItem("å•é€‰4", -1, -1, 1)
+$radio5	= TrayCreateItem("å•é€‰5", -1, -1, 1)
 TrayItemSetState(-1, $TRAY_CHECKED)
-$radio6	= TrayCreateItem("µ¥Ñ¡6", -1, -1, 1)
+$radio6	= TrayCreateItem("å•é€‰6", -1, -1, 1)
 
 TrayCreateItem("")
 
-$aboutitem	= TrayCreateItem("¹ØÓÚ")
+$aboutitem	= TrayCreateItem("å…³äº")
 TrayCreateItem("")
-$exititem	= TrayCreateItem("ÍË³ö")
+$exititem	= TrayCreateItem("é€€å‡º")
 
 TraySetState()
 
@@ -68,7 +68,7 @@ While 1
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $aboutitem
-			Msgbox(64, "¹ØÓÚ:", "AutoIt3-ÍĞÅÌ-Àı×Ó Ê¹ÓÃµ¥Ñ¡×Ó²Ëµ¥.")
+			Msgbox(64, "å…³äº:", "AutoIt3-æ‰˜ç›˜-ä¾‹å­ ä½¿ç”¨å•é€‰å­èœå•.")
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect

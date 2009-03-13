@@ -1,5 +1,5 @@
-#NoTrayIcon
-#Region ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
+ï»¿#NoTrayIcon
+#Region ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=filetype1.ico
 #AutoIt3Wrapper_Compression=4
 #AutoIt3Wrapper_Res_Comment=Help in Managing Code Snippets, Original Concept/Code by MikeOsdx, Help interfacing with SciTE by JdeB
@@ -14,7 +14,7 @@
 #AutoIt3Wrapper_Res_Field=Status|Release
 #AutoIt3Wrapper_useupx=n
 #AutoIt3Wrapper_AU3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w 7
-#EndRegion ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
+#EndRegion ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
 
 ;Code Snippet for SciTE
 #include <GUIConstantsEx.au3>
@@ -119,27 +119,27 @@ Func _MainListView(ByRef $copy_file)
 	GUIRegisterMsg($WM_DRAWITEM, 'WM_DRAWITEM_Event') ; Called by system to paint our items
 	
 	GUISetIcon(@SystemDir & "\clipbrd.exe", 0, $main_GUI)
-	$menuFile = GUICtrlCreateMenu("ÎÄ¼ş[&F]")
-	$menuItemInsert = _GUICtrlCreateMenuItem ('²åÈëÆ¬¶Ïµ½ SCITE', $menuFile, 'shell32.dll', 100)
-	$menuItemNewSnippet = _GUICtrlCreateMenuItem ('Ìí¼Ó´úÂëÎªÆ¬¶Ï', $menuFile, 'shell32.dll', 84)
+	$menuFile = GUICtrlCreateMenu("æ–‡ä»¶[&F]")
+	$menuItemInsert = _GUICtrlCreateMenuItem ('æ’å…¥ç‰‡æ–­åˆ° SCITE', $menuFile, 'shell32.dll', 100)
+	$menuItemNewSnippet = _GUICtrlCreateMenuItem ('æ·»åŠ ä»£ç ä¸ºç‰‡æ–­', $menuFile, 'shell32.dll', 84)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemClipBoard = _GUICtrlCreateMenuItem ('¸´ÖÆµ½¼ôÇĞ°å', $menuFile, @SystemDir & "\clipbrd.exe", 0)
-	$menuItemClipGet = _GUICtrlCreateMenuItem ('´Ó¼ôÇĞ°å¸´ÖÆ', $menuFile, @SystemDir & "\clipbrd.exe", 1)
+	$menuItemClipBoard = _GUICtrlCreateMenuItem ('å¤åˆ¶åˆ°å‰ªåˆ‡æ¿', $menuFile, @SystemDir & "\clipbrd.exe", 0)
+	$menuItemClipGet = _GUICtrlCreateMenuItem ('ä»å‰ªåˆ‡æ¿å¤åˆ¶', $menuFile, @SystemDir & "\clipbrd.exe", 1)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemNewCategory = _GUICtrlCreateMenuItem ('´´½¨Ò»¸öĞÂÖÖÀà', $menuFile, 'shell32.dll', 54)
+	$menuItemNewCategory = _GUICtrlCreateMenuItem ('åˆ›å»ºä¸€ä¸ªæ–°ç§ç±»', $menuFile, 'shell32.dll', 54)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemImport = _GUICtrlCreateMenuItem ('ÊäÈë <- Au3', $menuFile, 'shell32.dll', 155)
-	$menuItemExport = _GUICtrlCreateMenuItem ('Êä³ö -> Au3', $menuFile, 'shell32.dll', 132)
+	$menuItemImport = _GUICtrlCreateMenuItem ('è¾“å…¥ <- Au3', $menuFile, 'shell32.dll', 155)
+	$menuItemExport = _GUICtrlCreateMenuItem ('è¾“å‡º -> Au3', $menuFile, 'shell32.dll', 132)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemExit = _GUICtrlCreateMenuItem ('ÍË³ö[&X]', $menuFile, 'shell32.dll', 27)
+	$menuItemExit = _GUICtrlCreateMenuItem ('é€€å‡º[&X]', $menuFile, 'shell32.dll', 27)
 	
-	$menuConfig = GUICtrlCreateMenu("ÉèÖÃ[&C]")
-	$menuItemSnippets = _GUICtrlCreateMenuItem ("Ñ¡ÔñÆ¬¶ÏÎÄ¼ş¼Ğ", $menuConfig, 'shell32.dll', 38)
+	$menuConfig = GUICtrlCreateMenu("è®¾ç½®[&C]")
+	$menuItemSnippets = _GUICtrlCreateMenuItem ("é€‰æ‹©ç‰‡æ–­æ–‡ä»¶å¤¹", $menuConfig, 'shell32.dll', 38)
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
-	$menuItemSelectTreeView = _GUICtrlCreateMenuItem ('ĞŞ¸Äµ½Ê÷×´ÁĞ±í', $menuConfig, 'shell32.dll', 41)
+	$menuItemSelectTreeView = _GUICtrlCreateMenuItem ('ä¿®æ”¹åˆ°æ ‘çŠ¶åˆ—è¡¨', $menuConfig, 'shell32.dll', 41)
 
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
-	$menuItemToolTip = _GUICtrlCreateMenuItem('ÏÔÊ¾ "¼ôÇĞ°åÎÄ±¾" ',$menuConfig)
+	$menuItemToolTip = _GUICtrlCreateMenuItem('æ˜¾ç¤º "å‰ªåˆ‡æ¿æ–‡æœ¬" ',$menuConfig)
 	$chk_ToolTips = Int(IniRead($file, "~xx123Data", "Show ToolTips", 1))
 	If $chk_ToolTips = 1 Then
 		GUICtrlSetState($menuItemToolTip, $GUI_CHECKED)
@@ -148,9 +148,9 @@ Func _MainListView(ByRef $copy_file)
 	EndIf
 	
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
-	$menuDocking = _GUICtrlCreateMenu ('´°¿ÚÎ»ÖÃ', $menuConfig, 'shell32.dll', 98)
-	$menuItemDockLeft = _GUICtrlCreateMenuItem ("×ó·½", $menuDocking)
-	$menuItemDockRight = _GUICtrlCreateMenuItem ("ÓÒ·½", $menuDocking)
+	$menuDocking = _GUICtrlCreateMenu ('çª—å£ä½ç½®', $menuConfig, 'shell32.dll', 98)
+	$menuItemDockLeft = _GUICtrlCreateMenuItem ("å·¦æ–¹", $menuDocking)
+	$menuItemDockRight = _GUICtrlCreateMenuItem ("å³æ–¹", $menuDocking)
 	$DockItPos = IniRead($file, "~xx123Data", "Dock", 1)
 	If $DockItPos = 1 Then
 		GUICtrlSetState($menuItemDockLeft, $GUI_CHECKED)
@@ -172,29 +172,29 @@ Func _MainListView(ByRef $copy_file)
     _GUICtrlToolbar_SetImageList($h_ToolBar, $hImage)
 	
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_PASTE, 0)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_PASTE, "Õ³Ìùµ½SciTE")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_PASTE, "ç²˜è´´åˆ°SciTE")
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_COPY, 1)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_COPY, "´ÓSciTE¸´ÖÆ")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_COPY, "ä»SciTEå¤åˆ¶")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_NEW, 2)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_NEW, "ĞÂ·ÖÀà")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_NEW, "æ–°åˆ†ç±»")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_ABOUT, 3)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_ABOUT, "¹ØÓÚ Snippet Holder")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_ABOUT, "å…³äº Snippet Holder")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_EXIT, 4)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_EXIT, "ÍË³ö Snippet Holder")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_EXIT, "é€€å‡º Snippet Holder")
 	
-	$cat_group = GUICtrlCreateGroup("·ÖÀà", 5, 30, $PosW - 10, 60)
-	$btnNewCat = GUICtrlCreateButton("ĞÂ½¨", 70, 40, 30, 15)
+	$cat_group = GUICtrlCreateGroup("åˆ†ç±»", 5, 30, $PosW - 10, 60)
+	$btnNewCat = GUICtrlCreateButton("æ–°å»º", 70, 40, 30, 15)
 	GUICtrlSetResizing($btnNewCat, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
-	$btnRenameCat = GUICtrlCreateButton("ÖØÃüÃû", 110, 40, 30, 15)
+	$btnRenameCat = GUICtrlCreateButton("é‡å‘½å", 110, 40, 30, 15)
 	GUICtrlSetState($btnRenameCat, $GUI_DISABLE)
 	GUICtrlSetResizing($btnRenameCat, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
-	$btnDeleteCat = GUICtrlCreateButton("É¾³ı", 150, 40, 30, 15)
+	$btnDeleteCat = GUICtrlCreateButton("åˆ é™¤", 150, 40, 30, 15)
 	GUICtrlSetState($btnDeleteCat, $GUI_DISABLE)
 	GUICtrlSetResizing($btnDeleteCat, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
-	$CodeFilter = GUICtrlCreateCombo("ÁĞ³öËùÓĞ", 10, 60, $PosW - 20, 120, $CBS_DROPDOWNLIST)
+	$CodeFilter = GUICtrlCreateCombo("åˆ—å‡ºæ‰€æœ‰", 10, 60, $PosW - 20, 120, $CBS_DROPDOWNLIST)
 	GUICtrlSetResizing($CodeFilter, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKHEIGHT)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 	GUICtrlSetResizing($cat_group, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKHEIGHT)
@@ -205,7 +205,7 @@ Func _MainListView(ByRef $copy_file)
 	GUICtrlSetResizing($chk_fuzzy, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 	GUICtrlSetState($chk_fuzzy, $GUI_CHECKED)
 	
-	$Btn_Search = GUICtrlCreateButton("ËÑË÷", 170, 95, 60, 20)
+	$Btn_Search = GUICtrlCreateButton("æœç´¢", 170, 95, 60, 20)
 	GUICtrlSetState($Btn_Search, $GUI_DISABLE)
 	GUICtrlSetResizing($Btn_Search, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 	
@@ -217,19 +217,19 @@ Func _MainListView(ByRef $copy_file)
 	GUICtrlSetResizing($ListView, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
 	
 	$ContextMenuListView = GUICtrlCreateContextMenu($ListView)
-	$menuItemInsertToSciTE = GUICtrlCreateMenuitem("·¢ËÍµ½ SCITE", $ContextMenuListView)
-	$menuItemAddNewSnippet = GUICtrlCreateMenuitem("ÔÚÕâÀïÌí¼ÓĞÂÆ¬¶Ï", $ContextMenuListView)
+	$menuItemInsertToSciTE = GUICtrlCreateMenuitem("å‘é€åˆ° SCITE", $ContextMenuListView)
+	$menuItemAddNewSnippet = GUICtrlCreateMenuitem("åœ¨è¿™é‡Œæ·»åŠ æ–°ç‰‡æ–­", $ContextMenuListView)
 	GUICtrlCreateMenuitem("", $ContextMenuListView)
-	$menuItemSendToClipBoard = GUICtrlCreateMenuitem("·¢ËÍµ½¼ôÇĞ°å", $ContextMenuListView)
-	$menuItemCopyClipBoard = GUICtrlCreateMenuitem("´Ó¼ôÇĞ°å¸´ÖÆ", $ContextMenuListView)
+	$menuItemSendToClipBoard = GUICtrlCreateMenuitem("å‘é€åˆ°å‰ªåˆ‡æ¿", $ContextMenuListView)
+	$menuItemCopyClipBoard = GUICtrlCreateMenuitem("ä»å‰ªåˆ‡æ¿å¤åˆ¶", $ContextMenuListView)
 	GUICtrlCreateMenuitem("", $ContextMenuListView)
-	$menuItemPreview = GUICtrlCreateMenuitem("²é¿´/±à¼­/É¾³ıÆ¬¶Ï", $ContextMenuListView)
+	$menuItemPreview = GUICtrlCreateMenuitem("æŸ¥çœ‹/ç¼–è¾‘/åˆ é™¤ç‰‡æ–­", $ContextMenuListView)
 	GUICtrlCreateMenuitem("", $ContextMenuListView)
-	$menuItemImportSnippet = GUICtrlCreateMenuitem("ÊäÈë <- Au3", $ContextMenuListView)
-	$menuItemExportSnippet = GUICtrlCreateMenuitem("Êä³ö -> Au3", $ContextMenuListView)
+	$menuItemImportSnippet = GUICtrlCreateMenuitem("è¾“å…¥ <- Au3", $ContextMenuListView)
+	$menuItemExportSnippet = GUICtrlCreateMenuitem("è¾“å‡º -> Au3", $ContextMenuListView)
 	GUICtrlCreateMenuitem("", $ContextMenuListView)
-	$menuItemRenameSnippet = GUICtrlCreateMenuitem("ÖØÃüÃûÆ¬¶Ï", $ContextMenuListView)
-	$menuItemDeleteSnippet = GUICtrlCreateMenuitem("É¾³ıÆ¬¶Ï", $ContextMenuListView)
+	$menuItemRenameSnippet = GUICtrlCreateMenuitem("é‡å‘½åç‰‡æ–­", $ContextMenuListView)
+	$menuItemDeleteSnippet = GUICtrlCreateMenuitem("åˆ é™¤ç‰‡æ–­", $ContextMenuListView)
 	
 	$Trans_slider = GUICtrlCreateSlider($PosW - 28, 130, 20, $PosH - 160, $TBS_VERT, $WS_EX_CLIENTEDGE)
 	GUICtrlSetLimit($Trans_slider, 255, 62)  ; change min/max value
@@ -239,20 +239,20 @@ Func _MainListView(ByRef $copy_file)
 	GUICtrlSetResizing($Trans_slider, $GUI_DOCKRIGHT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKWIDTH)
 	
 	; create a child window that can slide out from the left/right
-	$GUI_Edit = GUICreate("Ô´ÎÄ¼ş ²é¿´/±à¼­ Æ¬¶Ï", 622, 506, -1, -1, $WS_CAPTION, -1, $main_GUI)
-	$EnableEdit = GUICtrlCreateCheckbox("±à¼­Ô´ÎÄ¼ş", 25, 10, 75, 15)
-	$btn_InsertScite = GUICtrlCreateButton("²åÈëµ½ SciTE", 25, 35, 120, 20)
-	$btn_ClipBoard = GUICtrlCreateButton("¸´ÖÆµ½¼ôÇĞ°å", 150, 35, 120, 20)
+	$GUI_Edit = GUICreate("æºæ–‡ä»¶ æŸ¥çœ‹/ç¼–è¾‘ ç‰‡æ–­", 622, 506, -1, -1, $WS_CAPTION, -1, $main_GUI)
+	$EnableEdit = GUICtrlCreateCheckbox("ç¼–è¾‘æºæ–‡ä»¶", 25, 10, 75, 15)
+	$btn_InsertScite = GUICtrlCreateButton("æ’å…¥åˆ° SciTE", 25, 35, 120, 20)
+	$btn_ClipBoard = GUICtrlCreateButton("å¤åˆ¶åˆ°å‰ªåˆ‡æ¿", 150, 35, 120, 20)
 	
 	$CodeEdit = GUICtrlCreateEdit("", 8, 70, 601, 371, -1, $WS_EX_CLIENTEDGE)
-	GUICtrlCreateLabel("Æ¬¶ÏÃû³Æ:", 344, 11, 85, 17)
+	GUICtrlCreateLabel("ç‰‡æ–­åç§°:", 344, 11, 85, 17)
 	$SnippetName = GUICtrlCreateInput("", 432, 8, 177, 21)
-	GUICtrlCreateLabel("Æ¬¶Ï·ÖÀà:", 344, 41, 85, 17)
+	GUICtrlCreateLabel("ç‰‡æ–­åˆ†ç±»:", 344, 41, 85, 17)
 	$SnippetCat = GUICtrlCreateCombo("", 432, 38, 177, 120)
-	$btnSaveSnippet = GUICtrlCreateButton("±£´æÆ¬¶Ï", 75, 460, 113, 33)
+	$btnSaveSnippet = GUICtrlCreateButton("ä¿å­˜ç‰‡æ–­", 75, 460, 113, 33)
 	GUICtrlSetState($btnSaveSnippet, $GUI_DISABLE)
-	$btnDelSnippet = GUICtrlCreateButton("É¾³ıÆ¬¶Ï", 260, 460, 113, 33)
-	$btnCloseSnippet = GUICtrlCreateButton("È¡Ïû", 434, 460, 113, 33)
+	$btnDelSnippet = GUICtrlCreateButton("åˆ é™¤ç‰‡æ–­", 260, 460, 113, 33)
+	$btnCloseSnippet = GUICtrlCreateButton("å–æ¶ˆ", 434, 460, 113, 33)
 	
 	_IniGetSectionNamesListView($ListView, $CodeFilter, $SnippetCat, $file)
 	
@@ -389,7 +389,7 @@ Func _MainListView(ByRef $copy_file)
 					$tmp_sel = Int(_GUICtrlListView_GetSelectedIndices($ListView))
 					$old_name = _GUICtrlListView_GetItemText($ListView, $tmp_sel)
 					$tmp_cat = _GUICtrlListView_GetItemText($ListView, $tmp_sel, 1)
-					$dtaRename = InputBox("ÖØÃüÃûÆ¬¶Ï", "ÇëÊäÈëÒ»¸öĞÂµÄÃû³Æ", $old_name, "", 240, 60)
+					$dtaRename = InputBox("é‡å‘½åç‰‡æ–­", "è¯·è¾“å…¥ä¸€ä¸ªæ–°çš„åç§°", $old_name, "", 240, 60)
 					If @error == 0 Then
 						IniDelete($file, $tmp_cat, $old_name & Chr(160))
 						IniWrite($file, $tmp_cat, $dtaRename & Chr(160), "")
@@ -398,7 +398,7 @@ Func _MainListView(ByRef $copy_file)
 						$tmp_sel = $LV_ERR
 					EndIf
 				Else
-					MsgBox(16 + 262144, "´íÎó", "ÇëÏÈ±£´æÆ¬¶Ï")
+					MsgBox(16 + 262144, "é”™è¯¯", "è¯·å…ˆä¿å­˜ç‰‡æ–­")
 				EndIf
 				
 			Case $msg = $menuItemDeleteSnippet
@@ -669,22 +669,22 @@ Func _MainTreeView(ByRef $copy_file)
 	
 	GUISetIcon(@SystemDir & "\clipbrd.exe", 0, $main_GUI)
 	
-	$menuFile = GUICtrlCreateMenu("ÎÄ¼ş[&F]")
-	$menuItemInsert = _GUICtrlCreateMenuItem ('²åÈëÆ¬¶Ïµ½ SCITE', $menuFile, 'shell32.dll', 100)
-	$menuItemNewSnippet = _GUICtrlCreateMenuItem ('Ìí¼Ó SCITE ´úÂë×÷ÎªÆ¬¶Ï', $menuFile, 'shell32.dll', 84)
+	$menuFile = GUICtrlCreateMenu("æ–‡ä»¶[&F]")
+	$menuItemInsert = _GUICtrlCreateMenuItem ('æ’å…¥ç‰‡æ–­åˆ° SCITE', $menuFile, 'shell32.dll', 100)
+	$menuItemNewSnippet = _GUICtrlCreateMenuItem ('æ·»åŠ  SCITE ä»£ç ä½œä¸ºç‰‡æ–­', $menuFile, 'shell32.dll', 84)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemClipBoard = _GUICtrlCreateMenuItem ('¸´ÖÆµ½¼ôÇĞ°å', $menuFile, @SystemDir & "\clipbrd.exe", 0)
-	$menuItemClipGet = _GUICtrlCreateMenuItem ('´Ó¼ôÇĞ°å¸´ÖÆ', $menuFile, @SystemDir & "\clipbrd.exe", 1)
+	$menuItemClipBoard = _GUICtrlCreateMenuItem ('å¤åˆ¶åˆ°å‰ªåˆ‡æ¿', $menuFile, @SystemDir & "\clipbrd.exe", 0)
+	$menuItemClipGet = _GUICtrlCreateMenuItem ('ä»å‰ªåˆ‡æ¿å¤åˆ¶', $menuFile, @SystemDir & "\clipbrd.exe", 1)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemNewCategory = _GUICtrlCreateMenuItem ('´´½¨ĞÂµÄÀàĞÍ', $menuFile, 'shell32.dll', 54)
+	$menuItemNewCategory = _GUICtrlCreateMenuItem ('åˆ›å»ºæ–°çš„ç±»å‹', $menuFile, 'shell32.dll', 54)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemImport = _GUICtrlCreateMenuItem ('ÊäÈë <- Au3', $menuFile, 'shell32.dll', 155)
-	$menuItemExport = _GUICtrlCreateMenuItem ('Êä³ö -> Au3', $menuFile, 'shell32.dll', 132)
+	$menuItemImport = _GUICtrlCreateMenuItem ('è¾“å…¥ <- Au3', $menuFile, 'shell32.dll', 155)
+	$menuItemExport = _GUICtrlCreateMenuItem ('è¾“å‡º -> Au3', $menuFile, 'shell32.dll', 132)
 	_GUICtrlCreateMenuItem ('', $menuFile) ; Separator
-	$menuItemExit = _GUICtrlCreateMenuItem ('ÍË³ö[&X]', $menuFile, 'shell32.dll', 27)
+	$menuItemExit = _GUICtrlCreateMenuItem ('é€€å‡º[&X]', $menuFile, 'shell32.dll', 27)
 	
-	$menuConfig = GUICtrlCreateMenu("ÉèÖÃ[&C]")
-	$menuItemSnippets = _GUICtrlCreateMenuItem ("Ñ¡ÔñÆ¬¶ÏÎÄ¼ş¼Ğ", $menuConfig, 'shell32.dll', 38)
+	$menuConfig = GUICtrlCreateMenu("è®¾ç½®[&C]")
+	$menuItemSnippets = _GUICtrlCreateMenuItem ("é€‰æ‹©ç‰‡æ–­æ–‡ä»¶å¤¹", $menuConfig, 'shell32.dll', 38)
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
 	$menuItemListView = _GUICtrlCreateMenuItem ('List View', $menuConfig, 'shell32.dll', 39)
 	
@@ -698,9 +698,9 @@ Func _MainTreeView(ByRef $copy_file)
 	EndIf
 	
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
-	$menuDocking = _GUICtrlCreateMenu ('ÏÔÊ¾Î»ÖÃ', $menuConfig, 'shell32.dll', 98)
-	$menuItemDockLeft = _GUICtrlCreateMenuItem ("×ó·½", $menuDocking)
-	$menuItemDockRight = _GUICtrlCreateMenuItem ("ÓÒ·½", $menuDocking)
+	$menuDocking = _GUICtrlCreateMenu ('æ˜¾ç¤ºä½ç½®', $menuConfig, 'shell32.dll', 98)
+	$menuItemDockLeft = _GUICtrlCreateMenuItem ("å·¦æ–¹", $menuDocking)
+	$menuItemDockRight = _GUICtrlCreateMenuItem ("å³æ–¹", $menuDocking)
 	$DockItPos = IniRead($file, "~xx123Data", "Dock", 1)
 	If $DockItPos = 1 Then
 		GUICtrlSetState($menuItemDockLeft, $GUI_CHECKED)
@@ -709,10 +709,10 @@ Func _MainTreeView(ByRef $copy_file)
 	EndIf
 	
 	_GUICtrlCreateMenuItem ('', $menuConfig) ; Separator
-	$menuTreeViewColor = _GUICtrlCreateMenu ('Ñ¡ÔñÊ÷ĞÎÁĞ±íÑÕÉ«', $menuConfig, 'shell32.dll', 161)
-	$menuTreeViewBKColor = _GUICtrlCreateMenuItem ('±³¾°É«', $menuTreeViewColor)
-	$menuTreeViewFGColor = _GUICtrlCreateMenuItem ("Ç°¾°É«", $menuTreeViewColor)
-	$menuTreeViewLineColor = _GUICtrlCreateMenuItem ("ĞĞÏßÑÕÉ«", $menuTreeViewColor)
+	$menuTreeViewColor = _GUICtrlCreateMenu ('é€‰æ‹©æ ‘å½¢åˆ—è¡¨é¢œè‰²', $menuConfig, 'shell32.dll', 161)
+	$menuTreeViewBKColor = _GUICtrlCreateMenuItem ('èƒŒæ™¯è‰²', $menuTreeViewColor)
+	$menuTreeViewFGColor = _GUICtrlCreateMenuItem ("å‰æ™¯è‰²", $menuTreeViewColor)
+	$menuTreeViewLineColor = _GUICtrlCreateMenuItem ("è¡Œçº¿é¢œè‰²", $menuTreeViewColor)
 	
 	$h_ToolBar = _GuiCtrlToolBar_Create ($main_GUI, $BTNS_BUTTON)
 	$hToolTip = _GUIToolTip_Create($h_ToolBar)
@@ -729,18 +729,18 @@ Func _MainTreeView(ByRef $copy_file)
     _GUICtrlToolbar_SetImageList($h_ToolBar, $hImage)
 
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_PASTE, 0)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_PASTE, "Õ³Ìùµ½SciTE")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_PASTE, "ç²˜è´´åˆ°SciTE")
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_COPY, 1)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_COPY, "´ÓSciTE¸´ÖÆ")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_COPY, "ä»SciTEå¤åˆ¶")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_NEW, 2)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_NEW, "ĞÂ·ÖÀà")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_NEW, "æ–°åˆ†ç±»")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_ABOUT, 4)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_ABOUT, "¹ØÓÚ Snippet Holder")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_ABOUT, "å…³äº Snippet Holder")
     _GUICtrlToolbar_AddButtonSep($h_ToolBar)
     _GUICtrlToolbar_AddButton($h_ToolBar, $IDM_EXIT, 5)
-	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_EXIT, "ÍË³ö Snippet Holder")
+	 _GUICtrlToolbar_SetButtonText($h_ToolBar, $IDM_EXIT, "é€€å‡º Snippet Holder")
 
 	$BackColor = IniRead($file, "~xx123Data", "BackColor", $BackColor)
 	$LineColor = IniRead($file, "~xx123Data", "LineColor", $LineColor)
@@ -753,7 +753,7 @@ Func _MainTreeView(ByRef $copy_file)
 	GUICtrlSetState($chk_fuzzy, $GUI_CHECKED)
 	GUICtrlSetResizing($chk_fuzzy, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 	
-	$Btn_Search = GUICtrlCreateButton("ËÑË÷", 170, 30, 60, 20)
+	$Btn_Search = GUICtrlCreateButton("æœç´¢", 170, 30, 60, 20)
 	GUICtrlSetState($Btn_Search, $GUI_DISABLE)
 	GUICtrlSetResizing($Btn_Search, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 	

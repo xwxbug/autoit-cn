@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 Global $Sec, $Min, $Hour, $Time
 ; calculate with time
 $StartTicks = _TimeToTicks(@HOUR,@MIN,@SEC)

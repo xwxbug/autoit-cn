@@ -1,4 +1,4 @@
-#include <Math.au3>
+﻿#include <Math.au3>
 
 $degrees = 35
 $radians = _Radian($degrees)

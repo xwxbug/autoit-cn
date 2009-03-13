@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 #include <File.au3>
 #include <String.au3>
 ;===============================================================================

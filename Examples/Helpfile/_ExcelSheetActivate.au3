@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Activate a Sheet by using the string value of the Sheet Name
 ; *****************************************************************
 #include <Excel.au3>

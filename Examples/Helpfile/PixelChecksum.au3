@@ -1,4 +1,4 @@
-; Wait until something changes in the region 0,0 to 50,50
+﻿; Wait until something changes in the region 0,0 to 50,50
 
 ; Get initial checksum
 $checksum = PixelChecksum(0,0, 50,50)

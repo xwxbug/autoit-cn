@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, get reference to form, get reference
 ;				to select element, cycle 10 times selecting options byValue, byText and byIndex
 ;				Note: You will likely need to scroll down on the page to see the changes

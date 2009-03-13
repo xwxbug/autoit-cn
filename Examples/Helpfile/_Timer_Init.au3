@@ -1,4 +1,4 @@
-#include <Timers.au3>
+﻿#include <Timers.au3>
 
 _Main()
 

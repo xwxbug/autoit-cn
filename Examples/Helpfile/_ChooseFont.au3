@@ -1,22 +1,22 @@
-#include <Misc.au3>
+ï»¿#include <Misc.au3>
 
 Local $a_font
 
 ; Example 1
 $a_font = _ChooseFont("Arial", 8)
 If (@error) Then
-	MsgBox(0, "", "´íÎó _ChooseFont: " & @error)
+	MsgBox(0, "", "é”™è¯¯ _ChooseFont: " & @error)
 Else
-	MsgBox(0, "", "×ÖÌåÃû³Æ: " & $a_font[2] & @LF & "´óĞ¡: " & $a_font[3] & @LF & "×ÖĞÎ: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR ÑÕÉ«: " & $a_font[6] & @LF & "Hex RGB ÑÕÉ«: " & $a_font[7])
+	MsgBox(0, "", "å­—ä½“åç§°: " & $a_font[2] & @LF & "å¤§å°: " & $a_font[3] & @LF & "å­—å½¢: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR é¢œè‰²: " & $a_font[6] & @LF & "Hex RGB é¢œè‰²: " & $a_font[7])
 EndIf
 
 ; Example 2
 $a_font = _ChooseFont()
 If (@error) Then
-	MsgBox(0, "", "´íÎó _ChooseFont: " & @error)
+	MsgBox(0, "", "é”™è¯¯ _ChooseFont: " & @error)
 	Exit
 Else
-	MsgBox(0, "", "×ÖÌåÃû³Æ: " & $a_font[2] & @LF & "´óĞ¡: " & $a_font[3] & @LF & "×ÖĞÎ: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR ÑÕÉ«: " & $a_font[6] & @LF & "Hex RGB ÑÕÉ«: " & $a_font[7])
+	MsgBox(0, "", "å­—ä½“åç§°: " & $a_font[2] & @LF & "å¤§å°: " & $a_font[3] & @LF & "å­—å½¢: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR é¢œè‰²: " & $a_font[6] & @LF & "Hex RGB é¢œè‰²: " & $a_font[7])
 EndIf
 
 ; Example 3
@@ -29,7 +29,7 @@ Local $Underline = BitAND($a_font[1], 4)
 Local $Strikethru = BitAND($a_font[1], 8)
 $a_font = _ChooseFont($FontName, $FontSize, $ColorRef, $FontWeight, $Italic, $Underline, $Strikethru)
 If (@error) Then
-	MsgBox(0, "", "´íÎó _ChooseFont: " & @error)
+	MsgBox(0, "", "é”™è¯¯ _ChooseFont: " & @error)
 Else
-	MsgBox(0, "", "×ÖÌåÃû³Æ: " & $a_font[2] & @LF & "´óĞ¡: " & $a_font[3] & @LF & "×ÖĞÎ: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR ÑÕÉ«: " & $a_font[6] & @LF & "Hex RGB ÑÕÉ«: " & $a_font[7])
+	MsgBox(0, "", "å­—ä½“åç§°: " & $a_font[2] & @LF & "å¤§å°: " & $a_font[3] & @LF & "å­—å½¢: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR é¢œè‰²: " & $a_font[6] & @LF & "Hex RGB é¢œè‰²: " & $a_font[7])
 EndIf

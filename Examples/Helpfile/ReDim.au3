@@ -1,4 +1,4 @@
-; Example Resizing an array
+﻿; Example Resizing an array
 Dim $I, $K, $T, $MSG
 Dim $X[4][6], $Y[4][6]
 

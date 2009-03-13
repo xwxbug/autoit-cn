@@ -1,4 +1,4 @@
-;;ÕâÊÇÒ»¸ö UDP ·şÎñÆ÷
+ï»¿;;è¿™æ˜¯ä¸€ä¸ª UDP æœåŠ¡å™¨
 ;;Start this first
 
 ; Start The UDP Services
@@ -13,7 +13,7 @@ If @error <> 0 Then Exit
 While 1
     $data = UDPRecv($socket, 50)
     If $data <> "" Then
-        MsgBox(0, "UDP Êı¾İ", $data, 1)
+        MsgBox(0, "UDP æ•°æ®", $data, 1)
     EndIf
     sleep(100)
 WEnd

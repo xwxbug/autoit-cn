@@ -1,27 +1,27 @@
-; ÕâÀïµ÷ÓÃµÄÒ»¸öº¯Êý¿ÉÒÔ½ÓÊÜÃ»ÓÐ²ÎÊý/µ÷ÓÃÃ»ÓÃ²ÎÊýµÄ×Ô¶¨Òåº¯Êýº¯Êý"Test1".
+ï»¿; è¿™é‡Œè°ƒç”¨çš„ä¸€ä¸ªå‡½æ•°å¯ä»¥æŽ¥å—æ²¡æœ‰å‚æ•°/è°ƒç”¨æ²¡ç”¨å‚æ•°çš„è‡ªå®šä¹‰å‡½æ•°å‡½æ•°"Test1".
 Call("Test1")
 
-; ÕâÀïµ÷ÓÃµÄÒ»¸öº¯Êý½ÓÊÜÒ»¸ö²ÎÊý,²¢´«µÝÁËÕâ¸ö²ÎÊý.
-Call("Test2", "À´×Ô Call() µÄÏûÏ¢!")
+; è¿™é‡Œè°ƒç”¨çš„ä¸€ä¸ªå‡½æ•°æŽ¥å—ä¸€ä¸ªå‚æ•°,å¹¶ä¼ é€’äº†è¿™ä¸ªå‚æ•°.
+Call("Test2", "æ¥è‡ª Call() çš„æ¶ˆæ¯!")
 
-; ÑÝÊ¾ÈçºÎÊ¹ÓÃÒ»¸öÌØÊâ²ÎÊýÊý×é.
+; æ¼”ç¤ºå¦‚ä½•ä½¿ç”¨ä¸€ä¸ªç‰¹æ®Šå‚æ•°æ•°ç»„.
 Global $aArgs[4]
-$aArgs[0] = "CallArgArray" ; ÕâÊÇ±ØÐèµÄ, ·ñÔò, Call() ²»³ÐÈÏÊý×éÄÚÈÝÎªÒ»¸ö²ÎÊý.
-$aArgs[1] = "ÕâÊÇÒ»¸ö×Ö·û´®"	; µÚÒ»¸ö²ÎÊýÎªÒ»¸ö×Ö·û´®
-$aArgs[2] = 47	; µÚ¶þ¸ö²ÎÊýÎªÒ»¸öÊý×Ö
+$aArgs[0] = "CallArgArray" ; è¿™æ˜¯å¿…éœ€çš„, å¦åˆ™, Call() ä¸æ‰¿è®¤æ•°ç»„å†…å®¹ä¸ºä¸€ä¸ªå‚æ•°.
+$aArgs[1] = "è¿™æ˜¯ä¸€ä¸ªå­—ç¬¦ä¸²"	; ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºä¸€ä¸ªå­—ç¬¦ä¸²
+$aArgs[2] = 47	; ç¬¬äºŒä¸ªå‚æ•°ä¸ºä¸€ä¸ªæ•°å­—
 Global $array[2]
-$array[0] = "Êý×éÔªËØ 0"
-$array[1] = "Êý×éÔªËØ 1"
-$aArgs[3] = $array	; ²ÎÊýÈýÎªÒ»¸öÊý×é
+$array[0] = "æ•°ç»„å…ƒç´  0"
+$array[1] = "æ•°ç»„å…ƒç´  1"
+$aArgs[3] = $array	; å‚æ•°ä¸‰ä¸ºä¸€ä¸ªæ•°ç»„
 
-; ÎÒÃÇ¹¹ÔìºÃÁËÕâ¸öÌØÊâÊý×é,ÏÖÔÚÎÒÃÇÀ´µ÷ÓÃÕâ¸öº¯Êý
+; æˆ‘ä»¬æž„é€ å¥½äº†è¿™ä¸ªç‰¹æ®Šæ•°ç»„,çŽ°åœ¨æˆ‘ä»¬æ¥è°ƒç”¨è¿™ä¸ªå‡½æ•°
 Call("Test3", $aArgs)
 
-; ÔõÃ´²âÊÔÒ»¸öº¯ÊýÊÇ²»ÊÇ´æÔÚ.  ¿ÉÒÔÊ¹ÓÃÏÂÃæµÄ·½·¨:
-; ¼ì²é @error ºÍ @extended ÖÐµÄ¶¨ÒåµÄÊ§°ÜÖµ.
+; æ€Žä¹ˆæµ‹è¯•ä¸€ä¸ªå‡½æ•°æ˜¯ä¸æ˜¯å­˜åœ¨.  å¯ä»¥ä½¿ç”¨ä¸‹é¢çš„æ–¹æ³•:
+; æ£€æŸ¥ @error å’Œ @extended ä¸­çš„å®šä¹‰çš„å¤±è´¥å€¼.
 Local Const $sFunction = "DoesNotExist"
 Call($sFunction)
-If @error = 0xDEAD And @extended = 0xBEEF Then MsgBox(4096, "", "º¯Êý²»´æÔÚ.")
+If @error = 0xDEAD And @extended = 0xBEEF Then MsgBox(4096, "", "å‡½æ•°ä¸å­˜åœ¨.")
 
 Func Test1()
 	MsgBox(4096, "", "Hello")
@@ -32,9 +32,9 @@ Func Test2($sMsg)
 EndFunc
 
 Func Test3($sString, $nNumber, $aArray)
-	MsgBox(4096, "", "×Ö·û´®Îª: " & @CRLF & $sString)
-	MsgBox(4096, "", "Êý×ÖÎª: "& @CRLF & $nNumber)
+	MsgBox(4096, "", "å­—ç¬¦ä¸²ä¸º: " & @CRLF & $sString)
+	MsgBox(4096, "", "æ•°å­—ä¸º: "& @CRLF & $nNumber)
 	For $i = 0 To UBound($aArray) - 1
-		MsgBox(4096, "", "Array[" & $i & "] Êý×é°üº¬:" & @CRLF & $aArray[$i])
+		MsgBox(4096, "", "Array[" & $i & "] æ•°ç»„åŒ…å«:" & @CRLF & $aArray[$i])
 	Next
 EndFunc

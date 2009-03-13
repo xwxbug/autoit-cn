@@ -1,1 +1,1 @@
-FileRecycleEmpty("C:\")
+﻿FileRecycleEmpty("C:\")

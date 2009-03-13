@@ -1,4 +1,4 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 #include <ButtonConstants.au3>
 
 Opt('MustDeclareVars', 1)

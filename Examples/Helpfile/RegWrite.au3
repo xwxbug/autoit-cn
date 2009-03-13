@@ -1,4 +1,4 @@
-; Write a single REG_SZ value
+﻿; Write a single REG_SZ value
 RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Test", "TestKey", "REG_SZ", "Hello this is a test")
 
 ; Write the REG_MULTI_SZ value of "line1" and "line2"

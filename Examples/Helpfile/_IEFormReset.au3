@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, fill in a form field and
 ;				reset the form back to default values
 ; *******************************************************

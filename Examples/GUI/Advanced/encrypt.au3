@@ -1,4 +1,4 @@
-;====================================================
+ï»¿;====================================================
 ;============= Encryption Tool With GUI =============
 ;====================================================
 ; AutoIt version: 3.0.103
@@ -18,7 +18,7 @@ Func _Main()
 	Local $EncryptButton, $DecryptButton, $string
 	#forceref $UpDownLevel
 ;~~
-$WinMain = GuiCreate('¼ÓÃÜ¹¤¾ß', 400, 400)
+$WinMain = GuiCreate('åŠ å¯†å·¥å…·', 400, 400)
 	; Creates window
 ;~~
 $EditText = GuiCtrlCreateEdit('',5,5,380,350)
@@ -31,12 +31,12 @@ $EditText = GuiCtrlCreateEdit('',5,5,380,350)
 	$UpDownLevel = GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
 	; These two make the level input with the Up|Down ability
 ;~~
-$EncryptButton = GuiCtrlCreateButton('¼ÓÃÜ', 170, 360, 105, 35)
-$DecryptButton = GuiCtrlCreateButton('½âÃÜ', 285, 360, 105, 35)
+$EncryptButton = GuiCtrlCreateButton('åŠ å¯†', 170, 360, 105, 35)
+$DecryptButton = GuiCtrlCreateButton('è§£å¯†', 285, 360, 105, 35)
 	; Encryption/Decryption buttons
 ;~~
-GUICtrlCreateLabel('ÃÜÂë', 5, 385)
-GuiCtrlCreateLabel('µÈ¼¶',110,385)
+GUICtrlCreateLabel('å¯†ç ', 5, 385)
+GuiCtrlCreateLabel('ç­‰çº§',110,385)
 	; Simple text labels so you know what is what
 ;~~
 	GUISetState()
@@ -56,7 +56,7 @@ GuiCtrlCreateLabel('µÈ¼¶',110,385)
 				$string = GUICtrlRead($EditText)
 				; Saves the editbox for later
 ;~~
-      GUICtrlSetData($EditText,'ÇëµÈ´ı¼ÓÃÜ/½âÃÜÍê³É!')
+      GUICtrlSetData($EditText,'è¯·ç­‰å¾…åŠ å¯†/è§£å¯†å®Œæˆ!')
 				; Friendly message
 ;~~
 				GUICtrlSetData($EditText, _StringEncrypt(1, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))
@@ -74,7 +74,7 @@ GuiCtrlCreateLabel('µÈ¼¶',110,385)
 				$string = GUICtrlRead($EditText)
 				; Saves the editbox for later
 ;~~
-      GUICtrlSetData($EditText,'ÇëµÈ´ı¼ÓÃÜ/½âÃÜÍê³É!')
+      GUICtrlSetData($EditText,'è¯·ç­‰å¾…åŠ å¯†/è§£å¯†å®Œæˆ!')
 				; Friendly message
 ;~~
 				GUICtrlSetData($EditText, _StringEncrypt(0, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))

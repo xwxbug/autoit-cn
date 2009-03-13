@@ -1,4 +1,4 @@
-; Demonstrates the use of StdinWrite()
+﻿; Demonstrates the use of StdinWrite()
 #include <Constants.au3>
 
 Local $foo = Run("sort.exe", @SystemDir, @SW_HIDE, $STDIN_CHILD + $STDOUT_CHILD)

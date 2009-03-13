@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <Memory.au3>
 #include <AVIConstants.au3>
 #include <SendMessage.au3>

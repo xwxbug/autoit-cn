@@ -1,4 +1,4 @@
-#include-once
+ï»¿#include-once
 #include <Array.au3>
 #include <String.au3>
 
@@ -7,21 +7,21 @@ Dim $ID3BufferArray[1] = [0];use to buffer ID3 Data (second element to be Filena
 
 ;===============================================================================
 ; Function Name:    _ID3TagToArray()
-; Description:      ´Ómp3ÎÄ¼şÖĞ¶ÁÈ¡ID3±êÇ©Êı¾İ²¢±£´æµ½Ò»¸öÊı×éÖĞ.
-;						ÄÜ¶ÁÈ¡ ID3v1.0, ID3v1.1, ID3v2.3, ID3v2.2(ID3v2.2ÏÂ$sFilter½«Ê§Ğ§)
-; Parameter(s):     $Filename 	- mp3ÎÄ¼şµÄÍêÕûÂ·¾¶.
-;					$iFlag		- Òª¶ÁÈ¡µÄID3°æ±¾(Ä¬ÈÏ: 2 => ID3v2)
+; Description:      ä»mp3æ–‡ä»¶ä¸­è¯»å–ID3æ ‡ç­¾æ•°æ®å¹¶ä¿å­˜åˆ°ä¸€ä¸ªæ•°ç»„ä¸­.
+;						èƒ½è¯»å– ID3v1.0, ID3v1.1, ID3v2.3, ID3v2.2(ID3v2.2ä¸‹$sFilterå°†å¤±æ•ˆ)
+; Parameter(s):     $Filename 	- mp3æ–‡ä»¶çš„å®Œæ•´è·¯å¾„.
+;					$iFlag		- è¦è¯»å–çš„ID3ç‰ˆæœ¬(é»˜è®¤: 2 => ID3v2)
 ;									1 => ID3v1
 ;									2 => ID3v2
-;					$sFilter	- Òª»ñµÃµÄID3v2µÄÖ¡±êÊ¶ (Ä¬ÈÏ: -1 => ËùÓĞÖ¡) 
-;									Èç¹ûÒªÊ¹ÓÃ¶à¸öÖ¡±êÊ¶,ĞèÒªÓÃ"|"¸ô¿ª(ÀıÈç: "TIT2|TALB|TPE1|TYER|APIC")
-; Requirement(s):   ÎŞ
-; Return Value(s):  ³É¹¦ - ·µ»ØÒ»¸ö°üº¬±êÇ©×Ö¶ÎºÍÊı¾İµÄÊı×é.
-;                   Ê§°Ü - ·µ»Ø0,²¢ÉèÖÃ @error = -1 (ÎŞID3Êı¾İ), @error = 1 (ÆäËû´íÎó)
-;ËµÃ÷:	(Ö¡±êÊ¶µÄ¶¨Òå - ²»ÊÇËùÓĞµÄ¶¼ÓĞĞ§)
-;~ AENC ÒôÆµ±àÂë
-;~ APIC ×¨¼­·âÃæ
-;~ COMM ±¸×¢
+;					$sFilter	- è¦è·å¾—çš„ID3v2çš„å¸§æ ‡è¯† (é»˜è®¤: -1 => æ‰€æœ‰å¸§) 
+;									å¦‚æœè¦ä½¿ç”¨å¤šä¸ªå¸§æ ‡è¯†,éœ€è¦ç”¨"|"éš”å¼€(ä¾‹å¦‚: "TIT2|TALB|TPE1|TYER|APIC")
+; Requirement(s):   æ— 
+; Return Value(s):  æˆåŠŸ - è¿”å›ä¸€ä¸ªåŒ…å«æ ‡ç­¾å­—æ®µå’Œæ•°æ®çš„æ•°ç»„.
+;                   å¤±è´¥ - è¿”å›0,å¹¶è®¾ç½® @error = -1 (æ— ID3æ•°æ®), @error = 1 (å…¶ä»–é”™è¯¯)
+;è¯´æ˜:	(å¸§æ ‡è¯†çš„å®šä¹‰ - ä¸æ˜¯æ‰€æœ‰çš„éƒ½æœ‰æ•ˆ)
+;~ AENC éŸ³é¢‘ç¼–ç 
+;~ APIC ä¸“è¾‘å°é¢
+;~ COMM å¤‡æ³¨
 ;~ COMR Commercial frame
 ;~ ENCR Encryption method registration
 ;~ EQUA Equalization
@@ -114,13 +114,13 @@ EndFunc
 
 ;===============================================================================
 ; Function Name:    _ID3GetTagField()
-; Description:      ¼ì²émp3ÎÄ¼şÖĞÊÇ·ñÓĞÖ¸¶¨µÄ±êÇ©×Ö¶Î.
-; Parameter(s):     $Filename 			- mp3ÎÄ¼şµÄÍêÕûÂ·¾¶.
-;					$sFieldIDRequest	- Òª¼ì²éµÄID3×Ö¶ÎÃû(ÀıÈç: ID3v2µÄ "TIT2" »òÕß ID3v1 µÄ "Title")
-; Requirement(s):   ÎŞ
-; Return Value(s):  ³É¹¦ - ·µ»Ø×Ö¶ÎÃû×Ö·û´®. Èç¹ûÕÒµ½¶à¸ö×Ö¶Î,ÄÇÃ´×Ö·û´®»áÓÃ@CRLFÀ´·Ö¸ô.
-;						@error = 0; @extended = ÕÒµ½µÄ×Ö¶ÎÊıÁ¿ (ID3v2 ÄÜÓĞ¶à¸öCOMM×Ö¶Î)
-;                   Ê§°Ü - ·µ»ØÒ»¸ö¿Õ×Ö·û´®.±íÊ¾mp3ÎÄ¼şÖĞÕÒ²»µ½$sFieldIDRequest×Ö¶Î
+; Description:      æ£€æŸ¥mp3æ–‡ä»¶ä¸­æ˜¯å¦æœ‰æŒ‡å®šçš„æ ‡ç­¾å­—æ®µ.
+; Parameter(s):     $Filename 			- mp3æ–‡ä»¶çš„å®Œæ•´è·¯å¾„.
+;					$sFieldIDRequest	- è¦æ£€æŸ¥çš„ID3å­—æ®µå(ä¾‹å¦‚: ID3v2çš„ "TIT2" æˆ–è€… ID3v1 çš„ "Title")
+; Requirement(s):   æ— 
+; Return Value(s):  æˆåŠŸ - è¿”å›å­—æ®µåå­—ç¬¦ä¸². å¦‚æœæ‰¾åˆ°å¤šä¸ªå­—æ®µ,é‚£ä¹ˆå­—ç¬¦ä¸²ä¼šç”¨@CRLFæ¥åˆ†éš”.
+;						@error = 0; @extended = æ‰¾åˆ°çš„å­—æ®µæ•°é‡ (ID3v2 èƒ½æœ‰å¤šä¸ªCOMMå­—æ®µ)
+;                   å¤±è´¥ - è¿”å›ä¸€ä¸ªç©ºå­—ç¬¦ä¸².è¡¨ç¤ºmp3æ–‡ä»¶ä¸­æ‰¾ä¸åˆ°$sFieldIDRequestå­—æ®µ
 ;						@error = 1; @extended = 0
 ;===============================================================================
 Func _ID3GetTagField($Filename, $sFieldIDRequest)
@@ -162,11 +162,11 @@ EndFunc
 
 ;===============================================================================
 ; Function Name:    _ID3DeleteFiles()
-; Description:      É¾³ıÈÎºÎÓÉID3.au3Ìí¼ÓµÄÎÄ¼ş (ÀıÈç: AlbumArt.jpeg ºÍ SongLyrics.txt)
-; Parameter(s):     ÎŞ
-; Requirement(s):   ÎŞ
-; Return Value(s):  ³É¹¦ - ·µ»Ø 1.
-;                   Ê§°Ü - ·µ»Ø 0.
+; Description:      åˆ é™¤ä»»ä½•ç”±ID3.au3æ·»åŠ çš„æ–‡ä»¶ (ä¾‹å¦‚: AlbumArt.jpeg å’Œ SongLyrics.txt)
+; Parameter(s):     æ— 
+; Requirement(s):   æ— 
+; Return Value(s):  æˆåŠŸ - è¿”å› 1.
+;                   å¤±è´¥ - è¿”å› 0.
 ;===============================================================================
 Func _ID3DeleteFiles()
 	
@@ -205,7 +205,7 @@ Func _ReadID3v2($Filename, ByRef $aID3V2Tag, $sFilter = -1)
 	Local $FrameIDLen
 	Local $ID3v2Version = String(Number(_StringToHex(FileRead($hFile,1)))) & "." & String(Number(_StringToHex(FileRead($hFile,1))))
 	If $sFilter == -1 Then
-		_ArrayAdd($aID3V2Tag,"°æ±¾" & "|" & "ID3v2." & $ID3v2Version)
+		_ArrayAdd($aID3V2Tag,"ç‰ˆæœ¬" & "|" & "ID3v2." & $ID3v2Version)
 		$aID3V2Tag[0] += 1
 	EndIf
 	
@@ -737,44 +737,44 @@ Func _ReadID3v1($Filename, ByRef $aID3V1Tag)
 	Local $Title, $Artist, $Album, $Year, $Comment, $Track, $GenreID, $Genre
 	
 	$Title = _FormatString(FileRead($hFile,30))
-	_ArrayAdd($aID3V1Tag,"±êÌâ" & "|" & $Title)
+	_ArrayAdd($aID3V1Tag,"æ ‡é¢˜" & "|" & $Title)
 	$aID3V1Tag[0] += 1
 
 	$Artist = _FormatString(FileRead($hFile,30))
-	_ArrayAdd($aID3V1Tag,"ÒÕÈË" & "|" & $Artist)
+	_ArrayAdd($aID3V1Tag,"è‰ºäºº" & "|" & $Artist)
 	$aID3V1Tag[0] += 1
 
 	$Album = _FormatString(FileRead($hFile,30))
-	_ArrayAdd($aID3V1Tag,"×¨¼­" & "|" & $Album)
+	_ArrayAdd($aID3V1Tag,"ä¸“è¾‘" & "|" & $Album)
 	$aID3V1Tag[0] += 1
 	
 	$Year = _FormatString(FileRead($hFile,4))
-	_ArrayAdd($aID3V1Tag,"Äê·İ" & "|" & $Year)
+	_ArrayAdd($aID3V1Tag,"å¹´ä»½" & "|" & $Year)
 	$aID3V1Tag[0] += 1
 	
 	$Comment = _FormatString(FileRead($hFile,28))
-	_ArrayAdd($aID3V1Tag,"×¢ÊÍ" & "|" & $Comment)
+	_ArrayAdd($aID3V1Tag,"æ³¨é‡Š" & "|" & $Comment)
 	$aID3V1Tag[0] += 1
 	
 	$Track = Dec(_StringToHex(FileRead($hFile,2)))
 	If $Track < 1000 And $Track > 0 Then
-		_ArrayAdd($aID3V1Tag,"Òô¹ì" & "|" & $Track)
+		_ArrayAdd($aID3V1Tag,"éŸ³è½¨" & "|" & $Track)
 		$aID3V1Tag[0] += 1
 	Else
-		_ArrayAdd($aID3V1Tag,"Òô¹ì" & "|" & "")
+		_ArrayAdd($aID3V1Tag,"éŸ³è½¨" & "|" & "")
 		$aID3V1Tag[0] += 1
 	EndIf
 		
 	$GenreID = Dec(_StringToHex(FileRead($hfile,1)))
 	$Genre = _GetGenreByID($GenreID)
-	_ArrayAdd($aID3V1Tag,"Á÷ÅÉ" & "|" & $Genre)
+	_ArrayAdd($aID3V1Tag,"æµæ´¾" & "|" & $Genre)
 	$aID3V1Tag[0] += 1
 	
 	If $Track == 0 Then
-		_ArrayAdd($aID3V1Tag,"ID3°æ±¾" & "|" & "ID3v1.0")
+		_ArrayAdd($aID3V1Tag,"ID3ç‰ˆæœ¬" & "|" & "ID3v1.0")
 		$aID3V1Tag[0] += 1
 	Else
-		_ArrayAdd($aID3V1Tag,"ID3°æ±¾" & "|" & "ID3v1.1")
+		_ArrayAdd($aID3V1Tag,"ID3ç‰ˆæœ¬" & "|" & "ID3v1.1")
 		$aID3V1Tag[0] += 1
 	EndIf
 	

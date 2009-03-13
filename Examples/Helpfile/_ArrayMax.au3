@@ -1,4 +1,4 @@
-#include <Array.au3>
+﻿#include <Array.au3>
 
 Local $avArray = StringSplit("4,2,06,8,12,5", ",")
 

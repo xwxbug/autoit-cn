@@ -1,4 +1,4 @@
-#include <GUIConstants.au3>
+﻿#include <GUIConstants.au3>
 #include <wmp.au3>
 ; == GUI generated with Koda ==
 $Form1 = GUICreate("AForm1", 518, 439, 192, 125)

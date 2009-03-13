@@ -1,4 +1,4 @@
-#include <SQLite.au3>
+﻿#include <SQLite.au3>
 #include <SQLite.dll.au3>
 
 Local $aRow

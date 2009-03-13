@@ -1,4 +1,4 @@
-; *****************************************************************************
+﻿; *****************************************************************************
 ; Example 1 - Declare a 1-dimensional array, that contains duplicate values.
 ; Use _ArrayUnique to Create a New Array that only contains the unique values.
 ; *****************************************************************************

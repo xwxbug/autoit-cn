@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Insert 1 column, then Save and Close file.
 ; *****************************************************************
 #include <Excel.au3>

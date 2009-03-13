@@ -1,4 +1,4 @@
-#include <EventLog.au3>
+﻿#include <EventLog.au3>
 
 _Main()
 

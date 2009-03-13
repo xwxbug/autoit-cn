@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, get the collection
 ;				of all INPUT tags and display the formname and type of each
 ; *******************************************************

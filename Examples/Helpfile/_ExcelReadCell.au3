@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - Write to a Cell after opening a workbook and returning its object identifier.  Read the cell, then Save and Close file.
 ; *****************************************************************
 

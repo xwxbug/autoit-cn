@@ -1,4 +1,4 @@
-;====================================================
+ï»¿;====================================================
 ;================= Example of a GUI =================
 ;====================================================
 ; AutoIt version: 3.0.103
@@ -24,16 +24,16 @@ Func _Main()
 	#forceref $Edit_1
 
 	;Create window
-GUICreate("ĞÂ GUI", $GUIWidth, $GUIHeight)
+GUICreate("æ–° GUI", $GUIWidth, $GUIHeight)
 
 	;Create an edit box with no text in it
 	$Edit_1 = GUICtrlCreateEdit("", 10, 10, 280, 190)
 
 	;Create an "OK" button
-$OK_Btn = GUICtrlCreateButton("È·¶¨", 75, 210, 70, 25)
+$OK_Btn = GUICtrlCreateButton("ç¡®å®š", 75, 210, 70, 25)
 
 	;Create a "CANCEL" button
-	$Cancel_Btn = GUICtrlCreateButton("È¡Ïû", 165, 210, 70, 25)
+	$Cancel_Btn = GUICtrlCreateButton("å–æ¶ˆ", 165, 210, 70, 25)
 
 	;Show window/Make the window visible
 	GUISetState(@SW_SHOW)
@@ -57,11 +57,11 @@ $OK_Btn = GUICtrlCreateButton("È·¶¨", 75, 210, 70, 25)
 
 				;Check if user clicked on the "OK" button
 			Case $msg = $OK_Btn
-         MsgBox(64, "ĞÂ GUI", "Äúµ¥»÷ÁË[È·¶¨]°´Å¥!")
+         MsgBox(64, "æ–° GUI", "æ‚¨å•å‡»äº†[ç¡®å®š]æŒ‰é’®!")
 
 				;Check if user clicked on the "CANCEL" button
 			Case $msg = $Cancel_Btn
-         MsgBox(64, "ĞÂ GUI", "Äúµ¥»÷ÁËÈ¡Ïû°´Å¥!")
+         MsgBox(64, "æ–° GUI", "æ‚¨å•å‡»äº†å–æ¶ˆæŒ‰é’®!")
 
 		EndSelect
 

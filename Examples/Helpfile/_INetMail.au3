@@ -1,4 +1,4 @@
-#include <INet.au3>
+﻿#include <INet.au3>
 
 $Address = InputBox('Address', 'Enter the E-Mail address to send message to')
 $Subject = InputBox('Subject', 'Enter a subject for the E-Mail')

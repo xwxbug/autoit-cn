@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example, get the collection
 ;				of all elements and display the tagname and innerText of each
 ; *******************************************************

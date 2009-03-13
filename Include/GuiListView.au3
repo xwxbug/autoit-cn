@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 
 #include <ListViewConstants.au3>
 Global Const $__LISTVIEWCONSTANT_WS_MAXIMIZEBOX = 0x00010000

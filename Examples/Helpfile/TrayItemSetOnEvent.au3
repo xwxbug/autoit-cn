@@ -1,4 +1,4 @@
-#include <Constants.au3>
+﻿#include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayOnEventMode",1)

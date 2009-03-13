@@ -1,11 +1,11 @@
-#Region ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
+ï»¿#Region ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_useansi=y
 #AutoIt3Wrapper_icon=windows.ico
-#AutoIt3Wrapper_Res_Comment=WMI ä¯ÀÀ(½Å±¾Éú³É)Æ÷
-#AutoIt3Wrapper_Res_Description=WMI ä¯ÀÀ(½Å±¾Éú³É)Æ÷
+#AutoIt3Wrapper_Res_Comment=WMI æµè§ˆ(è„šæœ¬ç”Ÿæˆ)å™¨
+#AutoIt3Wrapper_Res_Description=WMI æµè§ˆ(è„šæœ¬ç”Ÿæˆ)å™¨
 #AutoIt3Wrapper_Res_Fileversion=1.0
 #AutoIt3Wrapper_res_legalcopyright=SvenP
-#EndRegion ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
+#EndRegion ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
 #NoTrayIcon
 ; AutoIt ScriptOMatic
 ; -------------------
@@ -33,25 +33,25 @@ $g_strOutputFormat        = "Dialog"
 ;* Main GUI
 ;************************
 
-GuiCreate("AutoIt Scriptomatic ¹¤¾ß", 684, 561,(@DesktopWidth-684)/2, (@DesktopHeight-561)/2 , $WS_OVERLAPPEDWINDOW + $WS_VISIBLE + $WS_CLIPSIBLINGS)
+GuiCreate("AutoIt Scriptomatic å·¥å…·", 684, 561,(@DesktopWidth-684)/2, (@DesktopHeight-561)/2 , $WS_OVERLAPPEDWINDOW + $WS_VISIBLE + $WS_CLIPSIBLINGS)
 
 $GUI_AST_MainGroup       = GuiCtrlCreateGroup("",               10, 10,660,530)
-$GUI_WMI_NamespaceLabel  = GuiCtrlCreateLabel("WMI ÃüÃû¿Õ¼ä(Namespaces)",  20, 30,150, 20)
+$GUI_WMI_NamespaceLabel  = GuiCtrlCreateLabel("WMI å‘½åç©ºé—´(Namespaces)",  20, 30,150, 20)
 $GUI_WMI_Namespace       = GuiCtrlCreateCombo("WMI_Namespaces", 20, 50,280, 80)
-$GUI_WMI_ClassLabel      = GuiCtrlCreateLabel("WMI Àà('Class')",     320, 30,240, 20)
+$GUI_WMI_ClassLabel      = GuiCtrlCreateLabel("WMI ç±»('Class')",     320, 30,240, 20)
 $GUI_WMI_Classes         = GuiCtrlCreateCombo("WMI_Classes",   320, 50,340, 80)
 $GUI_AST_ButtonGroup     = GuiCtrlCreateGroup("",               10, 80,660, 50)
-$GUI_AST_Run             = GuiCtrlCreateButton("ÔËĞĞ",           20,100, 50, 20)
+$GUI_AST_Run             = GuiCtrlCreateButton("è¿è¡Œ",           20,100, 50, 20)
 $GUI_AST_CIMv2           = GuiCtrlCreateButton("CIMv2",         80,100, 50, 20)
 $GUI_AST_WMISource       = GuiCtrlCreateButton("WMISource",    140,100, 70, 20)
-$GUI_AST_Open            = GuiCtrlCreateButton("´ò¿ª",         220,100, 60, 20)
-$GUI_AST_Save            = GuiCtrlCreateButton("±£´æ",         290,100, 60, 20)
-$GUI_AST_Quit            = GuiCtrlCreateButton("ÍË³ö",         360,100, 60, 20)
-$GUI_AST_OptionGroup	 = GuiCtrlCreateGroup("Êä³ö",        430, 80,240, 50)
-$GUI_AST_RadioDialog	 = GuiCtrlCreateRadio("¶Ô»°¿ò",        440,100, 50, 20)
-$GUI_AST_RadioText		 = GuiCtrlCreateRadio("ÎÄ±¾",          510,100, 50, 20)
+$GUI_AST_Open            = GuiCtrlCreateButton("æ‰“å¼€",         220,100, 60, 20)
+$GUI_AST_Save            = GuiCtrlCreateButton("ä¿å­˜",         290,100, 60, 20)
+$GUI_AST_Quit            = GuiCtrlCreateButton("é€€å‡º",         360,100, 60, 20)
+$GUI_AST_OptionGroup	 = GuiCtrlCreateGroup("è¾“å‡º",        430, 80,240, 50)
+$GUI_AST_RadioDialog	 = GuiCtrlCreateRadio("å¯¹è¯æ¡†",        440,100, 50, 20)
+$GUI_AST_RadioText		 = GuiCtrlCreateRadio("æ–‡æœ¬",          510,100, 50, 20)
 $GUI_AST_RadioHTML		 = GuiCtrlCreateRadio("HTML",          570,100, 50, 20)
-$GUI_AST_ScriptCode      = GuiCtrlCreateEdit("ÔØÈëÖĞ,ÇëµÈ´ıÒ»»á¶ù...",   20,140,640,390)
+$GUI_AST_ScriptCode      = GuiCtrlCreateEdit("è½½å…¥ä¸­,è¯·ç­‰å¾…ä¸€ä¼šå„¿...",   20,140,640,390)
 
 GuiSetState()
 
@@ -105,7 +105,7 @@ Func LoadWMINamespaces()
    $strCsvListOfNamespaces = ""
    $strNameSpacesCombo=""
 
-   $strWaitNamespaces="ÇëÉÔºò, ÕıÔÚÔØÈë WMI ÃüÃû¿Õ¼ä"
+   $strWaitNamespaces="è¯·ç¨å€™, æ­£åœ¨è½½å…¥ WMI å‘½åç©ºé—´"
    GUICtrlSetData($GUI_WMI_Namespace,$strWaitNamespaces,$strWaitNamespaces)
    
    EnumNameSpaces("root", $strCsvListOfNamespaces)
@@ -160,9 +160,9 @@ Func HandleNamespaceChange()
    ; Disable the namespace combobox until class load has been completed
    GUICtrlSetState($GUI_WMI_Namespace, $GUI_DISABLE)
    
-   $strWMIWaitMsg = "ÇëÉÔºò, ³¢ÊÔÔØÈëÃüÃû¿Õ¼äÀïÃæµÄ'Àà'(class)" & $strSelectedNamespace
+   $strWMIWaitMsg = "è¯·ç¨å€™, å°è¯•è½½å…¥å‘½åç©ºé—´é‡Œé¢çš„'ç±»'(class)" & $strSelectedNamespace
    GUICtrlSetData($GUI_WMI_Classes, $strWMIWaitMsg, $strWMIWaitMsg)
-   GUICtrlSetData($GUI_AST_ScriptCode,"ÔØÈëÖĞ,ÇëµÈ´ıÒ»»á¶ù...","")
+   GUICtrlSetData($GUI_AST_ScriptCode,"è½½å…¥ä¸­,è¯·ç­‰å¾…ä¸€ä¼šå„¿...","")
    
    LoadWMIClasses()
    $g_strCurrentNamespace = "\" & $strSelectedNamespace
@@ -235,13 +235,13 @@ Func LoadWMIClasses()
 			; Populate the WMI classes pulldown with the sorted dictionary.
 			;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 	  
-			$strClassesCombo="|Ñ¡ÔñÒ»¸ö WMI Àà('class')" 
+			$strClassesCombo="|é€‰æ‹©ä¸€ä¸ª WMI ç±»('class')" 
 	  
 			For $strWMIClass in $objClassDictionary  ;  method .Keys is not an object ??
 				$strClassesCombo = $strClassesCombo & "|" & $strWMIClass
 			Next
       
-			GUICtrlSetData($GUI_WMI_Classes,$strClassesCombo,"Ñ¡ÔñÒ»¸ö WMI Àà('class')")
+			GUICtrlSetData($GUI_WMI_Classes,$strClassesCombo,"é€‰æ‹©ä¸€ä¸ª WMI ç±»('class')")
 
 		EndIf
 	EndIf
@@ -250,7 +250,7 @@ Func LoadWMIClasses()
       ;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
       ; And if the current namespace doesn't contain dynamic classes.
       ;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-	  GUICtrlSetData($GUI_WMI_Classes,"|Ã»ÓĞÔÚµ±Ç°ÃüÃû¿Õ¼äÕÒµ½¶¯Ì¬µÄÀà.|Ñ¡ÔñÒ»¸ö²»Í¬µÄÃüÃû¿Õ¼ä","")
+	  GUICtrlSetData($GUI_WMI_Classes,"|æ²¡æœ‰åœ¨å½“å‰å‘½åç©ºé—´æ‰¾åˆ°åŠ¨æ€çš„ç±».|é€‰æ‹©ä¸€ä¸ªä¸åŒçš„å‘½åç©ºé—´","")
 	  
 	EndIf
 
@@ -327,7 +327,7 @@ Func ComposeCode()
 	
 	$strSelectedClass = GUICtrlRead ( $GUI_WMI_Classes )
 	; Check if a valid class has been selected
-	If $strSelectedClass <> "Ñ¡ÔñÒ»¸ö WMI Àà('class')" Then
+	If $strSelectedClass <> "é€‰æ‹©ä¸€ä¸ª WMI ç±»('class')" Then
 
 		$bHasDates = false  ; Flag: output has date fields
 		$strHeaderStart=Chr(34)
@@ -344,7 +344,7 @@ Func ComposeCode()
 		If IsObj($objClass) Then
 			
 			$strScriptCode = ""
-			$strScriptCode = $strScriptCode & "; Éú³ÉÓÚ AutoIt Scriptomatic" & @CRLF & @CRLF
+			$strScriptCode = $strScriptCode & "; ç”Ÿæˆäº AutoIt Scriptomatic" & @CRLF & @CRLF
 			$strScriptCode = $strScriptCode & "$wbemFlagReturnImmediately = 0x10" & @CRLF
 			$strScriptCode = $strScriptCode & "$wbemFlagForwardOnly = 0x20" & @CRLF
 			$strScriptCode = $strScriptCode & '$colItems = ""' & @CRLF
@@ -403,7 +403,7 @@ Func ComposeCode()
 			Endif			
 			
 			$strScriptCode = $strScriptCode & "Else" & @CRLF
-			$strScriptCode = $strScriptCode & '   Msgbox(0,"WMI Êä³ö","No WMI Objects Found for class: " & ' & Chr(34) & $strSelectedClass & Chr(34) & ' )' & @CRLF
+			$strScriptCode = $strScriptCode & '   Msgbox(0,"WMI è¾“å‡º","No WMI Objects Found for class: " & ' & Chr(34) & $strSelectedClass & Chr(34) & ' )' & @CRLF
 				
 			$strScriptCode = $strScriptCode & "Endif" & @CRLF
 			$strScriptCode = $strScriptCode & @CRLF & @CRLF
@@ -417,7 +417,7 @@ Func ComposeCode()
 				$strScriptCode = $strScriptCode & "EndFunc"
 			EndIf
 		Else
-			$strScriptCode = "´íÎó: Ã»ÓĞ·¢ÏÖÀàÊôĞÔ:" & $g_strCurrentNamespace & "\" & $strSelectedClass
+			$strScriptCode = "é”™è¯¯: æ²¡æœ‰å‘ç°ç±»å±æ€§:" & $g_strCurrentNamespace & "\" & $strSelectedClass
 		EndIf
 		
 		GUICtrlSetData($GUI_AST_ScriptCode,$strScriptCode)
@@ -470,7 +470,7 @@ EndFunc
 ;********************************************************************
 Func SaveScript()
 	 
-   $strTmpName=FileSaveDialog("±£´æ½Å±¾",@DesktopDir,"AutoIt3 ½Å±¾ (*.au3)",16, GUICtrlRead ( $GUI_WMI_Classes ))
+   $strTmpName=FileSaveDialog("ä¿å­˜è„šæœ¬",@DesktopDir,"AutoIt3 è„šæœ¬ (*.au3)",16, GUICtrlRead ( $GUI_WMI_Classes ))
    
    if not @error and $strTmpName <> "" then
 		if StringRight($strTmpName,4) <> ".AU3" then $strTmpName=$strTmpName & ".AU3"
@@ -487,7 +487,7 @@ EndFunc
 
 Func OpenScript()
 
-   $strTmpName=FileOpenDialog("´ò¿ª½Å±¾",@DesktopDir,"AutoIt3 ½Å±¾ (*.au3)")
+   $strTmpName=FileOpenDialog("æ‰“å¼€è„šæœ¬",@DesktopDir,"AutoIt3 è„šæœ¬ (*.au3)")
 
    If not @error and $strTmpName <> "" then
 	If FileExists($strTmpName) then
@@ -530,8 +530,8 @@ EndFunc
 Func HandleOutputChange()
 	
 	$ChosenFormat = $g_strOutputFormat
-	if GUICtrlRead($GUI_AST_RadioDialog)=$GUI_CHECKED then $ChosenFormat="¶Ô»°¿ò"
-	if GUICtrlRead($GUI_AST_RadioText)=$GUI_CHECKED then $ChosenFormat="ÎÄ±¾"
+	if GUICtrlRead($GUI_AST_RadioDialog)=$GUI_CHECKED then $ChosenFormat="å¯¹è¯æ¡†"
+	if GUICtrlRead($GUI_AST_RadioText)=$GUI_CHECKED then $ChosenFormat="æ–‡æœ¬"
 	if GUICtrlRead($GUI_AST_RadioHTML)=$GUI_CHECKED then $ChosenFormat="HTML"		
 	if $ChosenFormat <> $g_strOutputFormat Then
 		$g_strOutputFormat = $ChosenFormat

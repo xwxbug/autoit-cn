@@ -1,4 +1,4 @@
-#include <GDIPlus.au3>
+﻿#include <GDIPlus.au3>
 #include <ScreenCapture.au3>
 
 Opt("MustDeclareVars", 1)

@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example, read the document HTML
 ;				(all HTML including the <HEAD> and script) and display it in a MsgBox
 ; *******************************************************

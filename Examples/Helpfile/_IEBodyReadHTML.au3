@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example, ready the body HTML,
 ;				append new HTML to the original and write it back to the browser
 ; *******************************************************

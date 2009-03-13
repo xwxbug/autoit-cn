@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a browser window and navigate to a website,
 ;				wait 5 seconds and navigate to another
 ;				wait 5 seconds and navigate to another

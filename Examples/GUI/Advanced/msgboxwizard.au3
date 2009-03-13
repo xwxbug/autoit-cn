@@ -1,4 +1,4 @@
-;===============================================================================
+ï»¿;===============================================================================
 ;
 ; Program Name:     MsgBoxWizard()
 ; Description:      Generate the MessageBox function code according to the user
@@ -27,70 +27,70 @@ Func _Main()
 	Local $TITLE, $TEXT, $Timeout
 	Local $BTNCOPY, $BTNEXIT, $BTNPREVIEW, $MSG, $sText
 
-GUICreate("MsgBox Ïòµ¼ v.1.0", 440, 540, 100, 100)  ; will create a dialog box 
+GUICreate("MsgBox å‘å¯¼ v.1.0", 440, 540, 100, 100)  ; will create a dialog box 
 
-GUICtrlCreateLabel("±êÌâ", 10, 5, 30)
+GUICtrlCreateLabel("æ ‡é¢˜", 10, 5, 30)
 	$TITLE = GUICtrlCreateInput("", 10, 20, 420, 20)
 	GUICtrlSetState(-1, $GUI_FOCUS)
-GUICtrlSetTip(-1, "ÏûÏ¢¿òÏÔÊ¾µÄ±êÌâ.")
-GUICtrlCreateLabel("ÎÄ±¾", 10, 50, 30)
+GUICtrlSetTip(-1, "æ¶ˆæ¯æ¡†æ˜¾ç¤ºçš„æ ‡é¢˜.")
+GUICtrlCreateLabel("æ–‡æœ¬", 10, 50, 30)
 	$TEXT = GUICtrlCreateEdit("", 10, 65, 420, 100, $ES_AUTOVSCROLL + $WS_VSCROLL + $ES_MULTILINE + $ES_WANTRETURN)
-GUICtrlSetTip(-1, "ÏûÏ¢¿òÏÔÊ¾µÄÎÄ±¾.")
+GUICtrlSetTip(-1, "æ¶ˆæ¯æ¡†æ˜¾ç¤ºçš„æ–‡æœ¬.")
 
-GUICtrlCreateGroup("Í¼±ê", 10, 170, 200, 130)
-$optWarning = GUICtrlCreateRadio("¾¯¸æ", 20, 190, 100, 20)
+GUICtrlCreateGroup("å›¾æ ‡", 10, 170, 200, 130)
+$optWarning = GUICtrlCreateRadio("è­¦å‘Š", 20, 190, 100, 20)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-$optInfo = GUICtrlCreateRadio("ĞÅÏ¢", 20, 210, 100, 20)
-$optCritical = GUICtrlCreateRadio("ÑÏÖØ´íÎó", 20, 230, 100, 20)
-$optQuestion = GUICtrlCreateRadio("ÎÊºÅ", 20, 250, 100, 20)
-$optNoIcon = GUICtrlCreateRadio("Ã»ÓĞ", 20, 270, 100, 20)
+$optInfo = GUICtrlCreateRadio("ä¿¡æ¯", 20, 210, 100, 20)
+$optCritical = GUICtrlCreateRadio("ä¸¥é‡é”™è¯¯", 20, 230, 100, 20)
+$optQuestion = GUICtrlCreateRadio("é—®å·", 20, 250, 100, 20)
+$optNoIcon = GUICtrlCreateRadio("æ²¡æœ‰", 20, 270, 100, 20)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-GUICtrlCreateGroup("·½Ê½", 10, 310, 200, 90)
-$optApplication = GUICtrlCreateRadio("Ó¦ÓÃ³ÌĞò", 20, 330, 100, 20)
+GUICtrlCreateGroup("æ–¹å¼", 10, 310, 200, 90)
+$optApplication = GUICtrlCreateRadio("åº”ç”¨ç¨‹åº", 20, 330, 100, 20)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-$optSysModal = GUICtrlCreateRadio("ÏµÍ³·½Ê½", 20, 350, 100, 20)
-$optTaskModal = GUICtrlCreateRadio("ÈÎÎñ·½Ê½", 20, 370, 100, 20)
+$optSysModal = GUICtrlCreateRadio("ç³»ç»Ÿæ–¹å¼", 20, 350, 100, 20)
+$optTaskModal = GUICtrlCreateRadio("ä»»åŠ¡æ–¹å¼", 20, 370, 100, 20)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-GUICtrlCreateGroup("°´Å¥", 230, 170, 200, 170)
-$optOK = GUICtrlCreateRadio("È·¶¨", 240, 190, 100, 20)
+GUICtrlCreateGroup("æŒ‰é’®", 230, 170, 200, 170)
+$optOK = GUICtrlCreateRadio("ç¡®å®š", 240, 190, 100, 20)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-$optOkCancel = GUICtrlCreateRadio("È·¶¨, È¡Ïû", 240, 210, 100, 20)
-$optYesNo = GUICtrlCreateRadio("ÊÇ, ·ñ", 240, 230, 100, 20)
-$optYesNoCancel = GUICtrlCreateRadio("ÊÇ, ·ñ, È¡Ïû", 240, 250, 100, 20)
-$optAbortRetryIgnore = GUICtrlCreateRadio("ÖÕÖ¹, ÖØÊÔ, ºöÂÔ", 240, 270, 120, 20)
-$optRetryCancel = GUICtrlCreateRadio("ÖØÊÔ, È¡Ïû", 240, 290, 100, 20)
-$optCancelRetryContinue = GUICtrlCreateRadio("È¡Ïû, ÖØÊÔ, ¼ÌĞø", 240, 310, 130, 20)
+$optOkCancel = GUICtrlCreateRadio("ç¡®å®š, å–æ¶ˆ", 240, 210, 100, 20)
+$optYesNo = GUICtrlCreateRadio("æ˜¯, å¦", 240, 230, 100, 20)
+$optYesNoCancel = GUICtrlCreateRadio("æ˜¯, å¦, å–æ¶ˆ", 240, 250, 100, 20)
+$optAbortRetryIgnore = GUICtrlCreateRadio("ç»ˆæ­¢, é‡è¯•, å¿½ç•¥", 240, 270, 120, 20)
+$optRetryCancel = GUICtrlCreateRadio("é‡è¯•, å–æ¶ˆ", 240, 290, 100, 20)
+$optCancelRetryContinue = GUICtrlCreateRadio("å–æ¶ˆ, é‡è¯•, ç»§ç»­", 240, 310, 130, 20)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-GUICtrlCreateGroup("ÆäËüÑ¡Ïî", 10, 410, 200, 90)
-$optNothing = GUICtrlCreateRadio("ÎŞ", 20, 430, 100, 20)
+GUICtrlCreateGroup("å…¶å®ƒé€‰é¡¹", 10, 410, 200, 90)
+$optNothing = GUICtrlCreateRadio("æ— ", 20, 430, 100, 20)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-$optTopMost = GUICtrlCreateRadio("×ÜÊÇÖÃ¶¥", 20, 450, 130, 20)
-$optRightJust = GUICtrlCreateRadio("´ÓÓÒµ½×óµÄÔÄ¶ÁË³Ğò", 20, 470, 150, 20)
+$optTopMost = GUICtrlCreateRadio("æ€»æ˜¯ç½®é¡¶", 20, 450, 130, 20)
+$optRightJust = GUICtrlCreateRadio("ä»å³åˆ°å·¦çš„é˜…è¯»é¡ºåº", 20, 470, 150, 20)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-GUICtrlCreateGroup("Ä¬ÈÏ°´Å¥", 230, 350, 200, 90)
-$optFirst = GUICtrlCreateRadio("µÚÒ»¸ö°´Å¥", 240, 370, 130, 20)
+GUICtrlCreateGroup("é»˜è®¤æŒ‰é’®", 230, 350, 200, 90)
+$optFirst = GUICtrlCreateRadio("ç¬¬ä¸€ä¸ªæŒ‰é’®", 240, 370, 130, 20)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-$optSecond = GUICtrlCreateRadio("µÚ¶ş¸ö°´Å¥", 240, 390, 130, 20)
+$optSecond = GUICtrlCreateRadio("ç¬¬äºŒä¸ªæŒ‰é’®", 240, 390, 130, 20)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-$optThird = GUICtrlCreateRadio("µÚÈı¸ö°´Å¥", 240, 410, 130, 20)
+$optThird = GUICtrlCreateRadio("ç¬¬ä¸‰ä¸ªæŒ‰é’®", 240, 410, 130, 20)
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-GUICtrlCreateGroup("³¬Ê±(Ãë):", 230, 450, 200, 50)
+GUICtrlCreateGroup("è¶…æ—¶(ç§’):", 230, 450, 200, 50)
 	$Timeout = GUICtrlCreateInput("", 240, 470, 100, 20, $ES_NUMBER)
-GUICtrlSetTip(-1, "Èç¹û³¬¹ı¶¨ÒåµÄÊ±¼ä,ÏûÏ¢¿ò½«»á×Ô¶¯µÄ¹Ø±Õ.")
+GUICtrlSetTip(-1, "å¦‚æœè¶…è¿‡å®šä¹‰çš„æ—¶é—´,æ¶ˆæ¯æ¡†å°†ä¼šè‡ªåŠ¨çš„å…³é—­.")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-$BTNPREVIEW = GUICtrlCreateButton("Ô¤ÀÀ(&P)", 10, 510, 100)
-GUICtrlSetTip(-1, "ÏÔÊ¾ÏûÏ¢¿ò")
-$BTNCOPY = GUICtrlCreateButton("¸´ÖÆ(&C)", 120, 510, 100)
-GUICtrlSetTip(-1, "¸´ÖÆÉú³ÉµÄ AutoIt ´úÂëµ½¼ôÇĞ°å")
-$BTNEXIT = GUICtrlCreateButton("ÍË³ö(&E)", 230, 510, 100)
-GUICtrlSetTip(-1, "ÍË³ö³ÌĞò")
+$BTNPREVIEW = GUICtrlCreateButton("é¢„è§ˆ(&P)", 10, 510, 100)
+GUICtrlSetTip(-1, "æ˜¾ç¤ºæ¶ˆæ¯æ¡†")
+$BTNCOPY = GUICtrlCreateButton("å¤åˆ¶(&C)", 120, 510, 100)
+GUICtrlSetTip(-1, "å¤åˆ¶ç”Ÿæˆçš„ AutoIt ä»£ç åˆ°å‰ªåˆ‡æ¿")
+$BTNEXIT = GUICtrlCreateButton("é€€å‡º(&E)", 230, 510, 100)
+GUICtrlSetTip(-1, "é€€å‡ºç¨‹åº")
 
 	$Button = $optOK
 

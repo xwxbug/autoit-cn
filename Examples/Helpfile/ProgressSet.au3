@@ -1,4 +1,4 @@
-ProgressOn("Progress Meter", "Increments every second", "0 percent")
+﻿ProgressOn("Progress Meter", "Increments every second", "0 percent")
 For $i = 10 to 100 step 10
 	sleep(1000)
 	ProgressSet( $i, $i & " percent")

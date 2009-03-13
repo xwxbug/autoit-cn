@@ -1,2 +1,2 @@
-$size = WinGetClientSize("[active]")
-MsgBox(0, "»î¶¯´°¿Ú¿Í»§¶Ë´óĞ¡ (¿í¶È,¸ß¶È):", $size[0] & "," & $size[1])
+ï»¿$size = WinGetClientSize("[active]")
+MsgBox(0, "æ´»åŠ¨çª—å£å®¢æˆ·ç«¯å¤§å° (å®½åº¦,é«˜åº¦):", $size[0] & "," & $size[1])

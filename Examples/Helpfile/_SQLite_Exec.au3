@@ -1,4 +1,4 @@
-#include <sqlite.au3>
+﻿#include <sqlite.au3>
 #include <sqlite.dll.au3>
 
 Local $hQuery,$aRow

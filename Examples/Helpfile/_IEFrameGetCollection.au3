@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open frameset example, get collection of frames
 ;				and loop through them displaying their source URL's
 ; *******************************************************

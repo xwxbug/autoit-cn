@@ -1,4 +1,4 @@
-$n = 18
+﻿$n = 18
 If mod($n, 2) = 0 Then
 	MsgBox(0,"", $n & " is an even number.")
 Else

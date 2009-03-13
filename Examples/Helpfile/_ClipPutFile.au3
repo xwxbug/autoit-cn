@@ -1,11 +1,11 @@
-#include <Misc.au3>
+ï»¿#include <Misc.au3>
 Local $fTest
 $fTest = _ClipPutFile(@ScriptFullPath)
 If Not $fTest Then
-	MsgBox(0,"_ClipPutFile() µ÷ÓÃÊ§°Ü","´íÎó´úÂë´æ·ÅÓÚ @error = " & @error)
+	MsgBox(0,"_ClipPutFile() è°ƒç”¨å¤±è´¥","é”™è¯¯ä»£ç å­˜æ”¾äº @error = " & @error)
 Else
-	MsgBox(0,"_ClipPutFile()","ÄÚÈİÒÑ¾­·Åµ½¼ôÇĞ°åÁË:" & ClipGet())
+	MsgBox(0,"_ClipPutFile()","å†…å®¹å·²ç»æ”¾åˆ°å‰ªåˆ‡æ¿äº†:" & ClipGet())
 EndIf
 
 
-;ºº»¯ËµÃ÷,·´ÕıÎÒÃ»ÓĞ³É¹¦...ÏµÍ³ÏÔÊ¾ÎŞ·¨¶ÁÈ¡Ô´ÅÌ...ÒÔºóÔÙÑĞ¾¿...
+;æ±‰åŒ–è¯´æ˜,åæ­£æˆ‘æ²¡æœ‰æˆåŠŸ...ç³»ç»Ÿæ˜¾ç¤ºæ— æ³•è¯»å–æºç›˜...ä»¥åå†ç ”ç©¶...

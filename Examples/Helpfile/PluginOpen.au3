@@ -1,1 +1,1 @@
-$handle = PluginOpen("example.dll")
+﻿$handle = PluginOpen("example.dll")

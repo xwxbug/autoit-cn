@@ -1,4 +1,4 @@
-;Option 1, using offset
+﻿;Option 1, using offset
 $nOffset = 1
 While 1
 	$array = StringRegExp('<test>a</test> <test>b</test> <test>c</Test>', '<(?i)test>(.*?)</(?i)test>', 1, $nOffset)

@@ -1,8 +1,8 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
 TraySetState()
-TraySetToolTip("ÕâÊÇÎÒÒ»¸öĞÂµÄÍĞÅÌ¹¤¾ßÌáÊ¾ÎÄ±¾!")
+TraySetToolTip("è¿™æ˜¯æˆ‘ä¸€ä¸ªæ–°çš„æ‰˜ç›˜å·¥å…·æç¤ºæ–‡æœ¬!")
 
 While 1
 	Sleep(10)	; Idle loop

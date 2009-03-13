@@ -1,10 +1,10 @@
-#include-once
+ï»¿#include-once
 ;======================================================
 ;
-; º¯ÊıÃû³Æ:		_Refreshicon
-; ÏêÏ¸ĞÅÏ¢:		Ë¢ĞÂ¹ØÁªÍ¼±ê.
-; ·µ»ØÖµ :		ÎŞÂÛÊÇ·ñ³É¹¦¾ù·µ»Ø1
-; ×÷Õß:			Èıºİ¾ÓÊ¿,MOD by thesnow(rundll32@126.com)
+; å‡½æ•°åç§°:		_Refreshicon
+; è¯¦ç»†ä¿¡æ¯:		åˆ·æ–°å…³è”å›¾æ ‡.
+; è¿”å›å€¼ :		æ— è®ºæ˜¯å¦æˆåŠŸå‡è¿”å›1
+; ä½œè€…:			ä¸‰ç‹ å±…å£«,MOD by thesnow(rundll32@126.com)
 ;
 ;======================================================
 Func _Refreshicon()
@@ -12,25 +12,38 @@ Func _Refreshicon()
 	RunWait ('Rundll32.exe setupapi,InstallHinfSection DefaultInstall 132 '& @TempDir & "\Refreshicon.inf",@TempDir,@SW_HIDE)
 	FileDelete (@TempDir & "\Refreshicon.inf")
 	Return 1
-EndFunc ;=>Ë¢ĞÂÏµÍ³Í¼±ê
+EndFunc ;=>åˆ·æ–°ç³»ç»Ÿå›¾æ ‡
 
-
+;======================================================
+;
+; å‡½æ•°åç§°:		_ShellAbout
+; è¯¦ç»†ä¿¡æ¯:		æ˜¾ç¤ºç³»ç»Ÿå…³äºå¯¹è¯æ¡†
+; å‚æ•°:			$hwnd	-	çˆ¶çª—å£å¥æŸ„
+;				$szApp	-	ç¨‹åºæ ‡é¢˜
+;				$szOtherStuff	-	å…¶ä»–ä¿¡æ¯
+; è¿”å›å€¼ :		æ— è¿”å›å€¼
+; ä½œè€…:			thesnow(rundll32@126.com)
+;
+;======================================================
+Func _ShellAbout($hwnd="",$szApp="",$szOtherStuff="")
+	Return DllCall("shell32.dll","int","ShellAbout","hwnd",$hwnd,"Str",$szApp,"Str",$szOtherStuff,"hwnd","")
+EndFunc
 ;===============================================================================
 ;
-; º¯ÊıÃû³Æ:		_ChangeScreenRes()
-; ÏêÏ¸ĞÅÏ¢:		ĞŞ¸Ä ÆÁÄ»·Ö±æÂÊ,Ë¢ĞÂÂÊ.
-; °æ±¾:			1.0.0.1
-; ²ÎÊı:     	$i_Width - ÆÁÄ»¿í¶È(Èç1024X768 ÖĞµÄ 1024)
-; 				$i_Height - ÆÁÄ»¸ß¶È(Èç1024X768 ÖĞµÄ 768)
-; 				$i_BitsPP -×ÀÃæÑÕÉ«Éî¶È(Èç 32BIT,32Î»)
-; 				$i_RefreshRate - ÆÁÄ»Ë¢ĞÂÂÊ(Èç 75 MHZ).
-; ĞèÇó     		AutoIt ²âÊÔ°æ > 3.1 ÒÔÉÏ
-; ·µ»ØÖµ:		³É¹¦,ÆÁÄ»¸üĞÂ,@ERROR = 0
-; 				Ê§°Ü,ÆÁÄ»²»¸üĞÂ, @ERROR = 1
-; ÂÛÌ³:			http://www.autoitscript.com/forum/index.php?showtopic=20121
-; ×÷Õß:			Original code - psandu.ro
+; å‡½æ•°åç§°:		_ChangeScreenRes()
+; è¯¦ç»†ä¿¡æ¯:		ä¿®æ”¹ å±å¹•åˆ†è¾¨ç‡,åˆ·æ–°ç‡.
+; ç‰ˆæœ¬:			1.0.0.1
+; å‚æ•°:     	$i_Width - å±å¹•å®½åº¦(å¦‚1024X768 ä¸­çš„ 1024)
+; 				$i_Height - å±å¹•é«˜åº¦(å¦‚1024X768 ä¸­çš„ 768)
+; 				$i_BitsPP -æ¡Œé¢é¢œè‰²æ·±åº¦(å¦‚ 32BIT,32ä½)
+; 				$i_RefreshRate - å±å¹•åˆ·æ–°ç‡(å¦‚ 75 MHZ).
+; éœ€æ±‚     		AutoIt æµ‹è¯•ç‰ˆ > 3.1 ä»¥ä¸Š
+; è¿”å›å€¼:		æˆåŠŸ,å±å¹•æ›´æ–°,@ERROR = 0
+; 				å¤±è´¥,å±å¹•ä¸æ›´æ–°, @ERROR = 1
+; è®ºå›:			http://www.autoitscript.com/forum/index.php?showtopic=20121
+; ä½œè€…:			Original code - psandu.ro
 ;               Modifications - PartyPooper
-; ·­Òë:			thesnow
+; ç¿»è¯‘:			thesnow
 ;
 ;===============================================================================
 Func _ChangeScreenRes($i_Width = @DesktopWidth, $i_Height = @DesktopHeight, $i_BitsPP = @DesktopDepth, $i_RefreshRate = @DesktopRefresh)

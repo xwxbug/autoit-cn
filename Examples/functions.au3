@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -10,13 +10,13 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-$answer = MsgBox(4, "AutoIt Àı×Ó", "Õâ¸ö½Å±¾½«»áµ÷ÓÃÁ½¸ö×Ô¶¨Òåº¯Êı.  ÔËĞĞ?")
+$answer = MsgBox(4, "AutoIt ä¾‹å­", "è¿™ä¸ªè„šæœ¬å°†ä¼šè°ƒç”¨ä¸¤ä¸ªè‡ªå®šä¹‰å‡½æ•°.  è¿è¡Œ?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
 If $answer = 7 Then
-    MsgBox(0, "AutoIt", "ºÃµÄ,ÔÙ¼û!")
+    MsgBox(0, "AutoIt", "å¥½çš„,å†è§!")
     Exit
 EndIf
 
@@ -28,17 +28,17 @@ TestFunc1()
 TestFunc2(20)
 
 ; Finished!
-MsgBox(0, "AutoIt Àı×Ó", "Íê³É!")
+MsgBox(0, "AutoIt ä¾‹å­", "å®Œæˆ!")
 Exit
 
 
 ; TestFunc1 
 Func TestFunc1()
-	MsgBox(0, "AutoIt Àı×Ó", "ÄÚ²¿ TestFunc1()")
+	MsgBox(0, "AutoIt ä¾‹å­", "å†…éƒ¨ TestFunc1()")
 EndFunc
 
 
 ; TestFunc2
 Func TestFunc2($var)
-	MsgBox(0, "AutoIt Àı×Ó", "ÄÚ²¿ TestFunc2() - $var Îª: " & $var)
+	MsgBox(0, "AutoIt ä¾‹å­", "å†…éƒ¨ TestFunc2() - $var ä¸º: " & $var)
 EndFunc

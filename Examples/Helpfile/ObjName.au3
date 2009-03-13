@@ -1,4 +1,4 @@
-$oInternet = ObjCreate("InternetExplorer.Application")
+﻿$oInternet = ObjCreate("InternetExplorer.Application")
 $oInternet.Navigate( "http://www.google.com" ) ; Opening a web page that contains a form
 sleep(4000)					; Give the page time to load
 

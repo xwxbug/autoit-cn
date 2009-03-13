@@ -1,4 +1,4 @@
-; Demonstrates StdioClose()
+﻿; Demonstrates StdioClose()
 #include <Constants.au3>
 
 Local $pid = Run(@ComSpec & " /c dir foo.bar", @SystemDir, @SW_HIDE, $STDERR_MERGED + $STDOUT_CHILD)

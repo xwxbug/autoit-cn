@@ -1,5 +1,5 @@
-;=========================================================
-;	´´½¨Êı¾İ½á¹¹
+ï»¿;=========================================================
+;	åˆ›å»ºæ•°æ®ç»“æ„
 ;	struct {
 ;		int				var1;
 ;		unsigned char	var2;
@@ -10,15 +10,15 @@
 $str		= "int var1;ubyte var2;uint var3;char var4[128]"
 $a			= DllStructCreate($str)
 if @error Then
-	MsgBox(0,"","DllStructCreate ·¢Éú´íÎó" & @error);
+	MsgBox(0,"","DllStructCreate å‘ç”Ÿé”™è¯¯" & @error);
 	exit
 endif
 
 ;=========================================================
-;	ÉèÖÃÊı¾İ½á¹¹ÖĞµÄÊı¾İ
+;	è®¾ç½®æ•°æ®ç»“æ„ä¸­çš„æ•°æ®
 ;	struct.var1	= -1;
 ;	struct.var2	= 255;
-;	struct.var3	= INT_MAX; -1 ½«×Ô¶¯È·¶¨ÀàĞÍ(unsigned int)
+;	struct.var3	= INT_MAX; -1 å°†è‡ªåŠ¨ç¡®å®šç±»å‹(unsigned int)
 ;	strcpy(struct.var4,"Hello");
 ;	struct.var4[0]	= 'h';
 ;=========================================================
@@ -29,10 +29,10 @@ DllStructSetData($a,"var4","Hello")
 DllStructSetData($a,"var4",Asc("h"),1)
 
 ;=========================================================
-;	ÏÔÊ¾Êı¾İ½á¹¹µÄĞÅÏ¢
+;	æ˜¾ç¤ºæ•°æ®ç»“æ„çš„ä¿¡æ¯
 ;=========================================================
-MsgBox(0,"DllStruct","Êı¾İ½á¹¹´óĞ¡: " & DllStructGetSize($a) & @CRLF & _
-		"Êı¾İ½á¹¹Ö¸Õë: " & DllStructGetPtr($a) & @CRLF & _
+MsgBox(0,"DllStruct","æ•°æ®ç»“æ„å¤§å°: " & DllStructGetSize($a) & @CRLF & _
+		"æ•°æ®ç»“æ„æŒ‡é’ˆ: " & DllStructGetPtr($a) & @CRLF & _
 		"Data:" & @CRLF & _
 		DllStructGetData($a,1) & @CRLF & _
 		DllStructGetData($a,2) & @CRLF & _
@@ -40,6 +40,6 @@ MsgBox(0,"DllStruct","Êı¾İ½á¹¹´óĞ¡: " & DllStructGetSize($a) & @CRLF & _
 		DllStructGetData($a,4))
 
 ;=========================================================
-;	ÊÍ·ÅÎªÊı¾İ½á¹¹·ÖÅäµÄÄÚ´æ
+;	é‡Šæ”¾ä¸ºæ•°æ®ç»“æ„åˆ†é…çš„å†…å­˜
 ;=========================================================
 $a=0

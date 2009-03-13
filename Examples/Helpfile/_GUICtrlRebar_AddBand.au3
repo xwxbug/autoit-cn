@@ -1,4 +1,4 @@
-#include <GuiReBar.au3>
+﻿#include <GuiReBar.au3>
 #include <GuiComboBox.au3>
 #include <GuiDateTimePicker.au3>
 #include <WindowsConstants.au3>

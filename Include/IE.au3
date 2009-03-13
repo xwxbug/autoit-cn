@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #Region Header
 #cs
 	Title:   Internet Explorer Automation UDF Library for AutoIt3

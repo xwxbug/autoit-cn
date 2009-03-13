@@ -1,4 +1,4 @@
-
+ï»¿
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
@@ -7,4 +7,4 @@ WinWaitActive("[CLASS:Notepad]")
 
 
 $text = WinGetClassList("[CLASS:Notepad]", "")
-MsgBox(0, "ÀàÁÐ±íÎª:", $text)
+MsgBox(0, "ç±»åˆ—è¡¨ä¸º:", $text)

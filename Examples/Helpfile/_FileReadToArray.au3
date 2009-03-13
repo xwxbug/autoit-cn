@@ -1,4 +1,4 @@
-#include <file.au3>
+﻿#include <file.au3>
 Dim $aRecords
 If Not _FileReadToArray("error.log",$aRecords) Then
    MsgBox(4096,"Error", " Error reading log to Array     error:" & @error)

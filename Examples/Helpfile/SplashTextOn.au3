@@ -1,4 +1,4 @@
-SplashTextOn("Title", "Message goes here.", -1, -1, -1, -1, 4, "", 24)
+﻿SplashTextOn("Title", "Message goes here.", -1, -1, -1, -1, 4, "", 24)
 Sleep(3000)
 SplashOff()
 

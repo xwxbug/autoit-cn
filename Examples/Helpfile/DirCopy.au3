@@ -1,1 +1,1 @@
-DirCopy(@MyDocumentsDir, "C:\Backups\MyDocs", 1)
+﻿DirCopy(@MyDocumentsDir, "C:\Backups\MyDocs", 1)

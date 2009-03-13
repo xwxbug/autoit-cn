@@ -1,8 +1,8 @@
-$file = FileOpen("test.txt", 1)
+О╩©$file = FileOpen("test.txt", 1)
 
-; ╪Л╡И╢Р©╙╣днд╪Чйг╥Я©ип╢
+; Фё─Ф÷╔Ф┴⌠Е╪─Г └Ф√┤Д╩╤Ф≤╞Е░╕Е▐╞Е├≥
 If $file = -1 Then
-	MsgBox(0, "╢МнС", "╡╩дэ╢Р©╙нд╪Ч.")
+	MsgBox(0, "И■≥Х╞╞", "Д╦█Х┐╫Ф┴⌠Е╪─Ф√┤Д╩╤.")
 	Exit
 EndIf
 

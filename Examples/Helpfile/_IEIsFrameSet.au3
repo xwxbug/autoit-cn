@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Display the frameset example, get frame collection,
 ;				check number of frames, display number of frames or iFrames present
 ; *******************************************************

@@ -1,2 +1,2 @@
-$var = DriveGetFileSystem( "c:\" )
-MsgBox(4096,"ÎÄ¼þÏµÍ³ÀàÐÍ:", $var)
+ï»¿$var = DriveGetFileSystem( "c:\" )
+MsgBox(4096,"æ–‡ä»¶ç³»ç»Ÿç±»åž‹:", $var)

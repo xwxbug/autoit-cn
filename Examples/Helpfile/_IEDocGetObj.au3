@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser to the AutoIt Homepage, get a reference
 ;				to the document object and display a document attribute
 ; *******************************************************

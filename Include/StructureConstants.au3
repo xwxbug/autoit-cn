@@ -1,4 +1,4 @@
-#include-once
+ï»¿#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Structures
@@ -2842,7 +2842,7 @@ Global Const $tagTBMETRICS = "int Size;int Mask;int XPad;int YPad;int XBarPad;in
 ;                  |$CONNDLG_NOT_PERSIST - Do not restore the connection at logon
 ;                  DevNum   - If the call to the _WNet_ConnectionDialog1 function is successful, this member returns  the  number
 ;                  +of the connected device. The value is 1 for A:, 2 for B:, 3 for C:, and so on.  If the user made a deviceless
-;                  +connection, the value is –1.
+;                  +connection, the value is ?.
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================

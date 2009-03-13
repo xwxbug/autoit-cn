@@ -1,3 +1,3 @@
-; This will create a tooltip in the upper left of the screen
-ToolTip("ÕâÊÇÒ»¸ö¹¤¾ßÌáÊ¾", 0, 0)
+ï»¿; This will create a tooltip in the upper left of the screen
+ToolTip("è¿™æ˜¯ä¸€ä¸ªå·¥å…·æç¤º", 0, 0)
 Sleep(2000)	; Sleep to give tooltip time to display

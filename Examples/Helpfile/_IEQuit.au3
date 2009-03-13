@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create an invisible browser window, navigate to a
 ;				website, retrieve some information and Quit
 ; *******************************************************

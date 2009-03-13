@@ -1,4 +1,4 @@
-#include <array.au3>
+﻿#include <array.au3>
 #include <_pop3.au3>
 
 ConsoleWrite(@AutoItVersion & @CRLF)

@@ -1,4 +1,4 @@
-Beta 1.7.0.9 (2009-02-10)
+﻿Beta 1.7.0.9 (2009-02-10)
 2009-02-09 - Fixed: handling of "-1" for styles in Au3import
 2009-02-09 - Added: icon selector now can select standard and small icons for the Button (thanks socratessa)
 2009-02-09 - Fixed: handling of CustomPath where was icons with index (thanks socratessa)

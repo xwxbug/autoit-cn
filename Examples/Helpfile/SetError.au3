@@ -1,4 +1,4 @@
-$result = myDiv(5, 0)
+﻿$result = myDiv(5, 0)
 If @error Then
 	MsgBox(4096,"Error", "Division by Zero")
 Else

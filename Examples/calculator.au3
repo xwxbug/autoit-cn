@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -10,13 +10,13 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-$answer = MsgBox(4, "AutoIt Àı×Ó(½öÓÉÓÚÖĞÎÄ)", "Õâ¸ö½Å±¾ÔËĞĞ¼ÆËãÆ÷ºóÊäÈë 2 x 4 x 8 x 16 ²¢ÍË³ö.  ÔËĞĞ")
+$answer = MsgBox(4, "AutoIt ä¾‹å­(ä»…ç”±äºä¸­æ–‡)", "è¿™ä¸ªè„šæœ¬è¿è¡Œè®¡ç®—å™¨åè¾“å…¥ 2 x 4 x 8 x 16 å¹¶é€€å‡º.  è¿è¡Œ")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
 If $answer = 7 Then
-    MsgBox(0, "AutoIt", "ºÃµÄ,ÔÙ¼û!")
+    MsgBox(0, "AutoIt", "å¥½çš„,å†è§!")
     Exit
 EndIf
 
@@ -26,7 +26,7 @@ Run("calc.exe")
 
 
 ; Wait for the calulator become active - it is titled "Calculator" on English systems
-WinWaitActive("¼ÆËãÆ÷")
+WinWaitActive("è®¡ç®—å™¨")
 
 
 ; Now that the calc window is active type 2 x 4 x 8 x 16
@@ -37,11 +37,11 @@ Sleep(2000)
 
 
 ; Now quit by sending a "close" request to the calc
-WinClose("¼ÆËãÆ÷")
+WinClose("è®¡ç®—å™¨")
 
 
 ; Now wait for calc to close before continuing
-WinWaitClose("¼ÆËãÆ÷")
+WinWaitClose("è®¡ç®—å™¨")
 
 
 ; Finished!

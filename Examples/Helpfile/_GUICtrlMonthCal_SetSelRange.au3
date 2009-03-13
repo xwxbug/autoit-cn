@@ -1,4 +1,4 @@
-#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
+﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiMonthCal.au3>
 #include <WindowsConstants.au3>

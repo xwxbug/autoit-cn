@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 
 Dim $MyDate
 Dim $MyTime

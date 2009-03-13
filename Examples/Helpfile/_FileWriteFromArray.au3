@@ -1,4 +1,4 @@
-#include<File.au3>
+﻿#include<File.au3>
 
 $avCommon = _FileListToArray(@CommonFilesDir)
 $avUser = _FileListToArray(@UserProfileDir)

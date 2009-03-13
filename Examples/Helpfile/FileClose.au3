@@ -1,3 +1,3 @@
-$handle = FileOpen("test.txt", 0)
+﻿$handle = FileOpen("test.txt", 0)
 
 FileClose($handle)

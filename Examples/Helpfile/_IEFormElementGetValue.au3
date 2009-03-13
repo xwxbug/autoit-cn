@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, set the value of a text
 ;				form element, retrieve and display the value from the element
 ; *******************************************************

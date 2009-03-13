@@ -1,6 +1,6 @@
-Opt("OnExitFunc", "endscript")
-MsgBox(0,"","³ÌÐòÖÐµÄµÚÒ»¸öÓï¾ä")
+ï»¿Opt("OnExitFunc", "endscript")
+MsgBox(0,"","ç¨‹åºä¸­çš„ç¬¬ä¸€ä¸ªè¯­å¥")
 
 Func endscript()
-	MsgBox(0,"","³ÌÐòÖÐµÄ×îºóÒ»¸öÓï¾ä,³ÌÐòÍË³ö·½Ê½: " & @EXITMETHOD)
+	MsgBox(0,"","ç¨‹åºä¸­çš„æœ€åŽä¸€ä¸ªè¯­å¥,ç¨‹åºé€€å‡ºæ–¹å¼: " & @EXITMETHOD)
 EndFunc

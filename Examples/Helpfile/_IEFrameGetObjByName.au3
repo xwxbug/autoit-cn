@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open iFrame example, get a reference to the iFrame
 ;				with a name of "iFrameTwo" and replace its body HTML
 ; *******************************************************

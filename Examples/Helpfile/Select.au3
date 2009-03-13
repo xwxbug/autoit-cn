@@ -1,4 +1,4 @@
-$var = 0
+﻿$var = 0
 $var2= ""
 
 Select

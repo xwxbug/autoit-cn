@@ -1,21 +1,21 @@
-;ʾ�� 1
+﻿;示例 1
 Exit
 
-;ʾ�� 2 
-; �����ű�: û�������в���
+;示例 2 
+; 结束脚本: 没有命令行参数
 If $CmdLine[0] = 0 Then Exit(1)
 
-;ʾ�� 3 
-; �򿪵�һ�����в�����ָ�����ļ�
+;示例 3 
+; 打开第一命令行参数中指定的文件
 $file = FileOpen($CmdLine[1], 0)
 
-; ����ļ��Ƿ�ɶ�
+; 检查文件是否可读
 If $file = -1 Then Exit(2)
 
-; ����ļ�Ϊ�յ�,�ű��˳�.(�ű������ǳɹ���)
+; 如果文件为空的,脚本退出.(脚本运行是成功的)
 $line = FileReadLine($file)
 If @error = -1 Then Exit
 
-;����������ļ���������
+;在这里加入文件处理代码
 FileClose($file)
-Exit ;����ǽű������һ��,���Ϳ��п���.
+Exit ;如果是脚本的最后一行,这句就可有可无.

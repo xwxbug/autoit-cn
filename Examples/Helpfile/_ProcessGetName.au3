@@ -1,4 +1,4 @@
-#include <Process.au3>
+﻿#include <Process.au3>
 
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]", "")

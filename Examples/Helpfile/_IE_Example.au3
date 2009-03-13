@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create browser windows with each of the example pages displayed.
 ;				The object variable returned can be used just as the object
 ;				variables returned by _IECreate or _IEAttach

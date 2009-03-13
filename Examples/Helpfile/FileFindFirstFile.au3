@@ -1,9 +1,9 @@
-; отй╬╣╠г╟д©б╪жпкЫспнд╪Ч╣днд╪ЧцШ
+О╩©; Ф≤╬Г╓╨Е╫⌠Е┴█Г⌡╝Е╫∙Д╦╜Ф┴─Ф°┴Ф√┤Д╩╤Г └Ф√┤Д╩╤Е░█
 $search = FileFindFirstFile("*.*")  
 
-; ╪Л╡ИкякВйг╥ЯЁи╧╕
+; Фё─Ф÷╔Ф░°Г╢╒Ф≤╞Е░╕Ф┬░Е┼÷
 If $search = -1 Then
-	MsgBox(0, "╢МнС", "ц╩спнд╪Ч/д©б╪ ф╔еДкякВ")
+	MsgBox(0, "И■≥Х╞╞", "Ф╡║Ф°┴Ф√┤Д╩╤/Г⌡╝Е╫∙ Е▄╧И┘█Ф░°Г╢╒")
 	Exit
 EndIf
 
@@ -11,8 +11,8 @@ While 1
 	$file = FileFindNextFile($search) 
 	If @error Then ExitLoop
 	
-	MsgBox(4096, "нд╪Ч:", $file)
+	MsgBox(4096, "Ф√┤Д╩╤:", $file)
 WEnd
 
-; ╧ь╠укякВ╬Д╠З
+; Е┘ЁИ≈╜Ф░°Г╢╒Е▐╔Ф÷└
 FileClose($search)

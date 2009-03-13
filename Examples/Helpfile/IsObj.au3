@@ -1,4 +1,4 @@
-$oShell = ObjCreate("shell.application")
+﻿$oShell = ObjCreate("shell.application")
 if not IsObj($oShell) then
 	Msgbox(0,"Error","$oShell is not an Object.")
 else

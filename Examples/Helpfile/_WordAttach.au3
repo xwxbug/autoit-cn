@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Attach to a word window with an open file named "Test.doc",
 ;				then display the documents full file path.
 ; *******************************************************

@@ -1,4 +1,4 @@
-StringIsFloat("1.5")  ;returns 1
+﻿StringIsFloat("1.5")  ;returns 1
 StringIsFloat("7.")   ;returns 1 since contains decimal
 StringIsFloat("-.0")  ;returns 1
 StringIsFloat("3/4")  ;returns 0 since '3' slash '4' is not a float

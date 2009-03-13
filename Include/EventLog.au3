@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <WinAPI.au3>
 #include <Security.au3>
 #include <Date.au3>

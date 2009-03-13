@@ -1,9 +1,9 @@
-$var = WinList()
+ï»¿$var = WinList()
 
 For $i = 1 to $var[0][0]
   ; Only display visble windows that have a title
   If $var[$i][0] <> "" AND IsVisible($var[$i][1]) Then
-    MsgBox(0, "ÏêÏ¸ĞÅÏ¢", "±êÌâ=" & $var[$i][0] & @LF & "¾ä±ú=" & $var[$i][1])
+    MsgBox(0, "è¯¦ç»†ä¿¡æ¯", "æ ‡é¢˜=" & $var[$i][0] & @LF & "å¥æŸ„=" & $var[$i][1])
   EndIf
 Next
 

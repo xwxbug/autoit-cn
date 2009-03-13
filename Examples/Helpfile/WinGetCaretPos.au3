@@ -1,13 +1,13 @@
-$a = WinGetCaretPos()
+ï»¿$a = WinGetCaretPos()
 If Not @error Then 
-	ToolTip("µÚÒ»¸ö²åÈë·û×ø±ê", $a[0], $a[1])
+	ToolTip("ç¬¬ä¸€ä¸ªæ’å…¥ç¬¦åæ ‡", $a[0], $a[1])
 	MouseMove($a[0],$a[1])
 EndIf
 sleep(2000)
 
 $b = _CaretPos()
 If Not @error Then 
-	ToolTip("µÚ¶ş¸ö²åÈë·û×ø±ê", $b[0], $b[1])
+	ToolTip("ç¬¬äºŒä¸ªæ’å…¥ç¬¦åæ ‡", $b[0], $b[1])
 	MouseMove($b[0],$b[1])
 EndIf
 

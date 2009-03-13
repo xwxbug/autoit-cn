@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Get a reference to a specific form element by name.
 ;				In this case, submit a query to the Google search engine
 ; *******************************************************

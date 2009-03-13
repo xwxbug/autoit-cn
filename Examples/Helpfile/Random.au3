@@ -1,4 +1,4 @@
-;Flip of coin
+﻿;Flip of coin
 If Random() < 0.5 Then  ; Returns a value between 0 and 1.
 	$msg = "Heads. 50% Win"
 Else

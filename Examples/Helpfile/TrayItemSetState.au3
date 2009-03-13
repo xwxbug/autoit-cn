@@ -1,13 +1,13 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
 
-$chkitem		= TrayCreateItem("Ñ¡ÖÐËü")
+$chkitem		= TrayCreateItem("é€‰ä¸­å®ƒ")
 TrayCreateItem("")
-$checkeditem	= TrayCreateItem("ÒÑÑ¡ÖÐ")
+$checkeditem	= TrayCreateItem("å·²é€‰ä¸­")
 TrayCreateItem("")
-$exititem		= TrayCreateItem("ÍË³ö")
+$exititem		= TrayCreateItem("é€€å‡º")
 
 TraySetState()
 

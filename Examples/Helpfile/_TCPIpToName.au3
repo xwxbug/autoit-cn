@@ -1,4 +1,4 @@
-; Example 1
+﻿; Example 1
 #include <inet.au3>
 Dim $sResult, $sIp
 TCPStartup()

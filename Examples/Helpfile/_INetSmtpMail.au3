@@ -1,4 +1,4 @@
-#include <INet.au3>
+﻿#include <INet.au3>
 
 $s_SmtpServer = "mysmtpserver.com.au"
 $s_FromName = "My Name"

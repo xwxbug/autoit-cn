@@ -1,4 +1,4 @@
-#include-once
+ï»¿#include-once
 #region Header
 #cs
 	Title: Microsoft Word Automation UDF Library for AutoIt3
@@ -1489,7 +1489,7 @@ EndFunc   ;==>_WordErrorNotify
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
 ; Remark(s):		If you specify the document name, your code can only run macros in documents
-;					related to the current context — not just any macro in any document.
+;					related to the current context ?not just any macro in any document.
 ; Author(s):        Bob Anthony (Code based off IE.au3)
 ;
 ;===============================================================================

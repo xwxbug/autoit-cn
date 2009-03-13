@@ -1,1 +1,1 @@
-ControlHide("Untitled -", "", "MDIClient1")
+﻿ControlHide("Untitled -", "", "MDIClient1")

@@ -1,4 +1,4 @@
-#include <math.au3>
+﻿#include <math.au3>
 $I_Var = InputBox('Odd or Even', 'Enter a number:')
 $I_Result = _MathCheckDiv($I_Var, 2)
 If $I_Result = -1 Or @error = 1 Then

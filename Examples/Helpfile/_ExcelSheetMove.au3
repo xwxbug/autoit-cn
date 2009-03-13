@@ -1,4 +1,4 @@
-; *****************************************************************
+﻿; *****************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Move a Sheet by using the Index Value the Sheet
 ; *****************************************************************
 #include <Excel.au3>

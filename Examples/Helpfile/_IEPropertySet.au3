@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example, check to see if the
 ;				addressbar is visible, if it is not turn it on. Then change
 ;				the text displayed in the statusbar

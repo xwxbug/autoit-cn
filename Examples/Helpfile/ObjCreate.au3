@@ -1,4 +1,4 @@
-; Example 1
+﻿; Example 1
 ;
 ; Counting the number of open shell windows
 

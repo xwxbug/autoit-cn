@@ -1,4 +1,4 @@
-#include <GuiToolbar.au3>
+﻿#include <GuiToolbar.au3>
 #include <GuiConstantsEx.au3>
 
 Opt('MustDeclareVars', 1)

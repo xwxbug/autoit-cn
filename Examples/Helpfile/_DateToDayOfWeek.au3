@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 
 ; Week day number for a given date
 $iWeekday = _DateToDayOfWeek (@YEAR, @MON, @MDAY)

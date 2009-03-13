@@ -1,4 +1,4 @@
-#include <Constants.au3>
+﻿#include <Constants.au3>
 
 Opt("TrayMenuMode", 1) ; Don't show the default tray context menu
 

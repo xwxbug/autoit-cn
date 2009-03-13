@@ -1,4 +1,4 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 #include <ButtonConstants.au3>
 
 
@@ -8,7 +8,7 @@ Func _Main()
 	Local $button1, $button2, $button3, $button4
 	Local $button5, $buttonclose
 
-GUICreate("ͼ�ΰ�ť",240,180)
+GUICreate("图形按钮",240,180)
 	$button1 = GUICtrlCreateButton("1", 0, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 5)
 	$button2 = GUICtrlCreateButton("2", 40, 00, 40, 40, $BS_ICON)
@@ -19,7 +19,7 @@ GUICreate("ͼ�ΰ�ť",240,180)
 	GUICtrlSetImage(-1, "shell32.dll", 23)
 	$button5 = GUICtrlCreateButton("5", 160, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 32)
-$buttonclose = GUICtrlCreateButton ("�ر�", 200,0,40,40,$BS_ICON)
+$buttonclose = GUICtrlCreateButton ("关闭", 200,0,40,40,$BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 28)
 	GUISetState()
 

@@ -1,1 +1,1 @@
-ControlDisable("Untitled -", "", "MDIClient1")
+﻿ControlDisable("Untitled -", "", "MDIClient1")

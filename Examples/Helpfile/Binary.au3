@@ -1,3 +1,3 @@
-$var = Binary("0x00204060")
-;$var ÎªÒ»¸ö¶ş½øÖÆ(binary)ÀàĞÍ
-msgbox(0, "¼ì²é±äÁ¿ÊÇ·ñÊÇ binary (¶ş½øÖÆ)ÀàĞÍ", IsBinary($var))
+ï»¿$var = Binary("0x00204060")
+;$var ä¸ºä¸€ä¸ªäºŒè¿›åˆ¶(binary)ç±»å‹
+msgbox(0, "æ£€æŸ¥å˜é‡æ˜¯å¦æ˜¯ binary (äºŒè¿›åˆ¶)ç±»å‹", IsBinary($var))

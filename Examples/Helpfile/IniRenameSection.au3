@@ -1,1 +1,1 @@
-$res = IniRenameSection(@ScriptDir & "My.ini", "MySection", "MyNewSection")
+﻿$res = IniRenameSection(@ScriptDir & "My.ini", "MySection", "MyNewSection")

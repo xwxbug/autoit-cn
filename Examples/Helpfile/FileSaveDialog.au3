@@ -1,21 +1,21 @@
-$MyDocsFolder = "::{450D8FBA-AD25-11D0-98A8-0800361B1103}"
+﻿$MyDocsFolder = "::{450D8FBA-AD25-11D0-98A8-0800361B1103}"
 
-$var = FileSaveDialog( "����һ������.", $MyDocsFolder, "�ű� (*.aut;*.au3)", 2)
-; ѡ�� 2 = ����ѡ��һ����Ч��·��/�ļ�,���߰���ȡ����ť,�Ի����ܹر�.
+$var = FileSaveDialog( "输入一个名称.", $MyDocsFolder, "脚本 (*.aut;*.au3)", 2)
+; 选项 2 = 除非选择一个有效的路径/文件,或者按下取消按钮,对话框不能关闭.
 
 If @error Then
-	MsgBox(4096,"","ȡ������.")
+	MsgBox(4096,"","取消保存.")
 Else
-	MsgBox(4096,"","�㱣��Ϊ��:" & $var)
+	MsgBox(4096,"","你保存为了:" & $var)
 EndIf
 
 
-; ��ɸѡ��
-$var = FileSaveDialog( "����һ������.", $MyDocsFolder, "�ű� (*.aut;*.au3)|�ı��ļ� (*.ini;*.txt)", 2)
-; ѡ�� 2 = ����ѡ��һ����Ч��·��/�ļ�,���߰���ȡ����ť,�Ի����ܹر�.
+; 多筛选项
+$var = FileSaveDialog( "输入一个名称.", $MyDocsFolder, "脚本 (*.aut;*.au3)|文本文件 (*.ini;*.txt)", 2)
+; 选项 2 = 除非选择一个有效的路径/文件,或者按下取消按钮,对话框不能关闭.
 
 If @error Then
-	MsgBox(4096,"","ȡ������.")
+	MsgBox(4096,"","取消保存.")
 Else
-	MsgBox(4096,"","�㱣��Ϊ��:" & $var)
+	MsgBox(4096,"","你保存为了:" & $var)
 EndIf

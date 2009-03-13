@@ -1,4 +1,4 @@
-#include <SendMessage.au3>
+﻿#include <SendMessage.au3>
 
 _Main()
 

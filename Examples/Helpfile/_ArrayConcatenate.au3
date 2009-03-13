@@ -1,4 +1,4 @@
-#include <Array.au3>
+﻿#include <Array.au3>
 
 Local $avArrayTarget[5] = ["JPM", "Holger", "Jon", "Larry", "Jeremy"]
 Local $avArraySource[5] = ["Valik", "Cyberslug", "Nutster", "Tylo", "JdeB"]

@@ -1,4 +1,4 @@
-;Inline SQLite3.dll, Creation Time: 2008/12/17 19:16:18
+﻿;Inline SQLite3.dll, Creation Time: 2008/12/17 19:16:18
 #include-once
 Func __SQLite_Inline_Modified()
 	Return "20081217191618" ; 2008/12/17 19:16:18

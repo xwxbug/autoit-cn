@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the form example, get reference to form, select
 ;				each radio button byValue, then deselect the last item leaving none selected.
 ;				Note: You will likely need to scroll down on the page to see the changes

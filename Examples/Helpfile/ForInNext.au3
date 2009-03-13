@@ -1,19 +1,19 @@
-;Ê¹ÓÃÒ»¸öÊı×é
+ï»¿;ä½¿ç”¨ä¸€ä¸ªæ•°ç»„
 Dim $aArray[4]
 
 $aArray[0]="a"
 $aArray[1]=0
 $aArray[2]=1.3434
-$aArray[3]="²âÊÔ"
+$aArray[3]="æµ‹è¯•"
 
 $string = ""
 FOR $element IN $aArray
 	$string = $string & $element & @CRLF
 NEXT
 
-Msgbox(0,"For..IN Êı×é²âÊÔ","½á¹û: " & @CRLF & $string)
+Msgbox(0,"For..IN æ•°ç»„æµ‹è¯•","ç»“æœ: " & @CRLF & $string)
 
-;Ê¹ÓÃÒ»¸ö¶ÔÏó¼¯ºÏ
+;ä½¿ç”¨ä¸€ä¸ªå¯¹è±¡é›†åˆ
 
 $oShell = ObjCreate("shell.application")
 $oShellWindows=$oShell.windows
@@ -25,8 +25,8 @@ if Isobj($oShellWindows) then
 	$String = $String & $Window.LocationName & @CRLF
   next
 
-  msgbox(0,"","Äú´ò¿ªÁËÏÂÁĞ´°¿Ú:" & @CRLF & $String)
+  msgbox(0,"","æ‚¨æ‰“å¼€äº†ä¸‹åˆ—çª—å£:" & @CRLF & $String)
 else
 
-  msgbox(0,"","ÄúÃ»ÓĞ´ò¿ªÍâ¿Ç´°¿Ú.")
+  msgbox(0,"","æ‚¨æ²¡æœ‰æ‰“å¼€å¤–å£³çª—å£.")
 endif

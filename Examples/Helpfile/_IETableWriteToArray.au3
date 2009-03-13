@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the table example, get a reference to the second table
 ;				on the page (index 1) and read its contents into a 2-D array
 ; *******************************************************

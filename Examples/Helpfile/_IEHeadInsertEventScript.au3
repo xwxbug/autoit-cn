@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example page, insert an
 ;				event script into the head of the document that creates
 ;				a JavaScript alert when someone clicks on the document

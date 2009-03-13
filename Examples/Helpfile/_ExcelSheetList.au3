@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, create and display an array of all the Sheet Names in the workbook
 ; *****************************************************************
 #include <Excel.au3>

@@ -1,4 +1,4 @@
-; autoit version: 3.0
+﻿; autoit version: 3.0
 ; language:       English
 ; author:         Larry Bailey
 ; email:          psichosis@tvn.net

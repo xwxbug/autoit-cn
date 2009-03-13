@@ -1,24 +1,24 @@
-$p	= DllStructCreate("dword dwOSVersionInfoSize;dword dwMajorVersion;dword dwMinorVersion;dword dwBuildNumber;dword dwPlatformId;char szCSDVersion[128]")
+ï»¿$p	= DllStructCreate("dword dwOSVersionInfoSize;dword dwMajorVersion;dword dwMinorVersion;dword dwBuildNumber;dword dwPlatformId;char szCSDVersion[128]")
 
-;ÇëÏëÏóÎªÕâÑù(C++ÑùÊ½): p->dwOSVersionInfoSize = sizeof(OSVERSIONINFO)
+;è¯·æƒ³è±¡ä¸ºè¿™æ ·(C++æ ·å¼): p->dwOSVersionInfoSize = sizeof(OSVERSIONINFO)
 DllStructSetData($p, "dwOSVersionInfoSize", DllStructGetSize($p))
 
-;¹¹³É DllCall
+;æ„æˆ DllCall
 $ret = DllCall("kernel32.dll","int","GetVersionEx","ptr",DllStructGetPtr($p))
 
 if Not $ret[0] Then
-	MsgBox(0,"DllCall ´íÎó","DllCall Ê§°Ü")
+	MsgBox(0,"DllCall é”™è¯¯","DllCall å¤±è´¥")
 	exit
 EndIf
 
-;»ñÈ¡·µ»ØÖµ
+;è·å–è¿”å›å€¼
 $major		= DllStructGetData($p,"dwMajorVersion")
 $minor		= DllStructGetData($p,"dwMinorVersion")
 $build		= DllStructGetData($p,"dwBuildNumber")
 $platform	= DllStructGetData($p,"dwPlatformId")
 $version	= DllStructGetData($p,"szCSDVersion")
 
-;ÊÍ·ÅÊı¾İ½á¹¹ËùÕ¼ÄÚ´æ
+;é‡Šæ”¾æ•°æ®ç»“æ„æ‰€å å†…å­˜
 $p =0
 
 msgbox(0,"","Major: " & $major & @CRLF & _

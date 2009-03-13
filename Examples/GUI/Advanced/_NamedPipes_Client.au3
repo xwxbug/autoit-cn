@@ -1,4 +1,4 @@
-#include <NamedPipes.au3>
+﻿#include <NamedPipes.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
 #include <StaticConstants.au3>

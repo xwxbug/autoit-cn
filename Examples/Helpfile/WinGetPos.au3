@@ -1,2 +1,2 @@
-$size = WinGetPos("[active]")
-MsgBox(0, "»î¶¯´°¿Ú×´Ì¬ (X×ø±ê,Y×ø±ê,¿í¶È,¸ß¶È):", $size[0] & ",	" & $size[1] & ",	" & $size[2] & ",	" & $size[3])
+ï»¿$size = WinGetPos("[active]")
+MsgBox(0, "æ´»åŠ¨çª—å£çŠ¶æ€ (Xåæ ‡,Yåæ ‡,å®½åº¦,é«˜åº¦):", $size[0] & ",	" & $size[1] & ",	" & $size[2] & ",	" & $size[3])

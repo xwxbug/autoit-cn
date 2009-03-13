@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 
 ; Retrieve the long name
 $sLongMonthName = _DateToMonth(@MON)

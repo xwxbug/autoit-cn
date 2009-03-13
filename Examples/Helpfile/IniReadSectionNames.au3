@@ -1,4 +1,4 @@
-$var = IniReadSectionNames(@WindowsDir & "\win.ini")
+﻿$var = IniReadSectionNames(@WindowsDir & "\win.ini")
 If @error Then 
 	MsgBox(4096, "", "Error occurred, probably no INI file.")
 Else

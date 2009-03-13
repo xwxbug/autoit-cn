@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Create a word window, open a document,
 ;               run a macro named "My Macro" with one
 ;				argument "Test", quit without saving changes.

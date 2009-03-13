@@ -1,4 +1,4 @@
-;====================================================
+ï»¿;====================================================
 ;============= Example of a child window ============
 ;====================================================
 ; AutoIt version: 3.0.103
@@ -22,14 +22,14 @@ Func _Main()
 	Local $ParentWin, $ParentWin_Pos, $ChildWin, $msg
 
 	;Create main/parent window
-$ParentWin = GUICreate("¸¸´°Ìå", $GUIWidth, $GUIHeight)
+$ParentWin = GUICreate("çˆ¶çª—ä½“", $GUIWidth, $GUIHeight)
 	;Save the position of the parent window
 	$ParentWin_Pos = WinGetPos($ParentWin, "")
 	;Show the parent window/Make the parent window visible
 	GUISetState(@SW_SHOW)
 
 	;Create child window and add the parameter to make it the child of the parent window
-$ChildWin = GUICreate("×Ó´°Ìå", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, $ParentWin_Pos[1] + 100, -1, -1, $ParentWin)
+$ChildWin = GUICreate("å­çª—ä½“", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, $ParentWin_Pos[1] + 100, -1, -1, $ParentWin)
 	;Show the child window/Make the child window visible
 	GUISetState(@SW_SHOW)
 
@@ -48,14 +48,14 @@ $ChildWin = GUICreate("×Ó´°Ìå", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, 
 			Case $msg[0] = $GUI_EVENT_CLOSE
 				;Check if user clicked on the close button of the child window
 				If $msg[1] = $ChildWin Then
-            MsgBox(64, "²âÊÔ", "Äú¹Ø±ÕÁË×Ó´°Ìå.")
+            MsgBox(64, "æµ‹è¯•", "æ‚¨å…³é—­äº†å­çª—ä½“.")
 					;Switch to the child window
 					GUISwitch($ChildWin)
 					;Destroy the child GUI including the controls
 					GUIDelete()
 					;Check if user clicked on the close button of the parent window
 				ElseIf $msg[1] = $ParentWin Then
-            MsgBox(64, "²âÊÔ", "Äú¹Ø±ÕÁË¸¸´°Ìå.")
+            MsgBox(64, "æµ‹è¯•", "æ‚¨å…³é—­äº†çˆ¶çª—ä½“.")
 					;Switch to the parent window
 					GUISwitch($ParentWin)
 					;Destroy the parent GUI including the controls

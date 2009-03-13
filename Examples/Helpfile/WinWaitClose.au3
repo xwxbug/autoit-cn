@@ -1,5 +1,5 @@
-;Wait for the window "Î´ÃüÃû" to not exist
-WinWaitClose("Î´ÃüÃû")
+ï»¿;Wait for the window "æœªå‘½å" to not exist
+WinWaitClose("æœªå‘½å")
 
-;Wait a maximum of 5 seconds for "Î´ÃüÃû" to not exist
-WinWaitClose("Î´ÃüÃû", "", 5)
+;Wait a maximum of 5 seconds for "æœªå‘½å" to not exist
+WinWaitClose("æœªå‘½å", "", 5)

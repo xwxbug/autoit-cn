@@ -1,4 +1,4 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
 
 GUICreate("My GUI")  ; will create a dialog box that when displayed is centered

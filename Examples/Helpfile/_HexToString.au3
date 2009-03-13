@@ -1,4 +1,4 @@
-#include <string.au3>
+﻿#include <string.au3>
 $String = "I like AutoIt3"
 $Hex = _StringToHex($String)
 MsgBox(0, "Hex", "Original String: " & $String & @LF & " Hex: " & $Hex)

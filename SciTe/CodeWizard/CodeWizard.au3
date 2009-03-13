@@ -1,4 +1,4 @@
-#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+ï»¿#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=..\..\Aut2Exe\Icons\orange.ico
 #AutoIt3Wrapper_Compression=4
 #AutoIt3Wrapper_Res_Comment=Generate the MessageBox, Dialogs, Color, and Fonts code according to the user choices and copy the generated code to the clipboard or Standard Output (if the command-line parameter /StdOut is provided) for later use.
@@ -9,10 +9,10 @@
 #AutoIt3Wrapper_Res_Field=Email|custompcs@charter.net
 #AutoIt3Wrapper_Res_Field=Internal Name|CodeWizard.exe
 #AutoIt3Wrapper_Res_Field=Status|Beta
-#AutoIt3Wrapper_Res_Field=HH|ºº»¯thesnow
+#AutoIt3Wrapper_Res_Field=HH|æ±‰åŒ–thesnow
 #AutoIt3Wrapper_useupx=n
 #AutoIt3Wrapper_Run_After=move "%out%" "%scriptdir%"
-#EndRegion ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
+#EndRegion ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
 #Region Compiler directives section
 ; free form resource fields ... max 15
 ; The following directives can contain:
@@ -45,7 +45,7 @@ Global $Button, $sMsgBox, $asMsgText, $sMText, $sIPwdChr, $iWidth, $iHeight, $iL
 		$sIPrompt, $sMFlag, $asFonts, $iOpt, $sOpt, $sSTText, $sSpashText, $sText, $sSTFlag, $sTitle, $sImageExt, _
 		$sSpashImage, $sTitle, $iTFlag, $sX, $sY, $sToolTip, $iToolTipIcon, $iToolTipOptions
 
-Dim $G_SZVERSION = "´úÂëÉú³ÉÏòµ¼ 1.5.2"
+Dim $G_SZVERSION = "ä»£ç ç”Ÿæˆå‘å¯¼ 1.5.2"
 Dim $sOutType = "ClipBoard"
 Dim $TITLE = $G_SZVERSION
 Dim $FOREGROUND = "Black", $BACKGROUND = "White", $GUIBACKGROUND = "Slate Gray"
@@ -72,7 +72,7 @@ EndIf
 If (Not FileExists(@ScriptDir & "\colors.ini")) Then
 	#Region --- CodeWizard generated code Start ---
 	;MsgBox features: Title=Yes, Text=Yes, Buttons=OK, Icon=Warning
-	MsgBox(48, "ÎÄ¼şÃ»ÓĞÕÒµ½", "ĞèÒªµÄÎÄ¼şÃ»ÓĞÕÒµ½:(" & @ScriptDir & "\colors.ini" & ")" & @CRLF & "" & @CRLF & "´úÂëÉú³ÉÏòµ¼½«ÍË³ö!!!")
+	MsgBox(48, "æ–‡ä»¶æ²¡æœ‰æ‰¾åˆ°", "éœ€è¦çš„æ–‡ä»¶æ²¡æœ‰æ‰¾åˆ°:(" & @ScriptDir & "\colors.ini" & ")" & @CRLF & "" & @CRLF & "ä»£ç ç”Ÿæˆå‘å¯¼å°†é€€å‡º!!!")
 	#EndRegion --- CodeWizard generated code End ---
 	Exit
 EndIf
@@ -80,7 +80,7 @@ EndIf
 $T_STR = ""
 $ARRAY = IniReadSection(@ScriptDir & "\colors.ini", "SCHEMES")
 If @error Then
-	MsgBox(4096, "·¢Éú´íÎó", ", ¶ÁÈ¡" & @ScriptDir & "\colors.ini ÎÄ¼şÊ±·¢Éú´íÎó.")
+	MsgBox(4096, "å‘ç”Ÿé”™è¯¯", ", è¯»å–" & @ScriptDir & "\colors.ini æ–‡ä»¶æ—¶å‘ç”Ÿé”™è¯¯.")
 	Exit
 Else
 	For $I = 1 To $ARRAY[0][0]
@@ -101,33 +101,33 @@ EndIf
 $MAIN_WINDOW = GUICreate($TITLE, $W_WIDTH, $W_HEIGHT)
 If Not IsDeclared('Gray') Then Dim $Gray = 0xbebebe
 GUISetBkColor($Gray)
-$MENUFILE = GUICtrlCreateMenu("ÎÄ¼ş[&F]")
-$MENUFILECLOSE = GUICtrlCreateMenuItem("ÍË³ö[&X]", $MENUFILE)
-$MENUHELP = GUICtrlCreateMenu("°ïÖú[&H]")
-$MENUHELPContents = GUICtrlCreateMenuItem("ÄÚÈİ[&O]", $MENUHELP)
-$MENUHELPABOUT = GUICtrlCreateMenuItem("¹ØÓÚ[&A]...", $MENUHELP)
+$MENUFILE = GUICtrlCreateMenu("æ–‡ä»¶[&F]")
+$MENUFILECLOSE = GUICtrlCreateMenuItem("é€€å‡º[&X]", $MENUFILE)
+$MENUHELP = GUICtrlCreateMenu("å¸®åŠ©[&H]")
+$MENUHELPContents = GUICtrlCreateMenuItem("å†…å®¹[&O]", $MENUHELP)
+$MENUHELPABOUT = GUICtrlCreateMenuItem("å…³äº[&A]...", $MENUHELP)
 
 ;==================================================================
 ; create the Top child window
 ;==================================================================
-$CONTROL_ID_WINDOW = GUICreate("¿Ø¼ş ID", $W_WIDTH - 5, 40, 0, 0, $WS_CHILD + $WS_DLGFRAME, -1, $MAIN_WINDOW)
-$LBL_CFC = GUICtrlCreateLabel("¿Ø¼ş ID (×ÖÌå/¹â±ê/¿Ø¼ş ÑÕÉ«):", 10, 10, 180, 15, $SS_RIGHT)
+$CONTROL_ID_WINDOW = GUICreate("æ§ä»¶ ID", $W_WIDTH - 5, 40, 0, 0, $WS_CHILD + $WS_DLGFRAME, -1, $MAIN_WINDOW)
+$LBL_CFC = GUICtrlCreateLabel("æ§ä»¶ ID (å­—ä½“/å…‰æ ‡/æ§ä»¶ é¢œè‰²):", 10, 10, 180, 15, $SS_RIGHT)
 $CTLID = GUICtrlCreateInput("", 190, 8, 130, 20)
-GUICtrlSetTip($CTLID, 'ÊäÈë¿Ø¼ş ID Ãû³Æ')
-$CTL_INCLUDE_COMMENTS = GUICtrlCreateCheckbox("°üº¬×¢ÊÍ¿é", 350, 10, 150, 20)
+GUICtrlSetTip($CTLID, 'è¾“å…¥æ§ä»¶ ID åç§°')
+$CTL_INCLUDE_COMMENTS = GUICtrlCreateCheckbox("åŒ…å«æ³¨é‡Šå—", 350, 10, 150, 20)
 GUICtrlSetTip($CTL_INCLUDE_COMMENTS, 'Comments/Description from Help file')
-$CTLTESTINPUT = GUICtrlCreateButton("ÊäÈëÀı×ÓÎÄ±¾", 500, 10, 120, 20)
+$CTLTESTINPUT = GUICtrlCreateButton("è¾“å…¥ä¾‹å­æ–‡æœ¬", 500, 10, 120, 20)
 GUICtrlSetTip($CTLTESTINPUT, 'Text will show in the Label to the left')
 
 ;==================================================================
 ; create the child window for the tab control
 ;==================================================================
 $TAB_WINDOW = GUICreate("TABS WINDOW", 492, $W_HEIGHT - 70, 256, 45, $WS_CHILD + $WS_DLGFRAME, -1, $MAIN_WINDOW)
-$btnTitle = GUICtrlCreateButton("±êÌâ[&T]", 10, 510, 100)
+$btnTitle = GUICtrlCreateButton("æ ‡é¢˜[&T]", 10, 510, 100)
 GUICtrlSetTip($btnTitle, "Find the Script Title")
-$btnPreview = GUICtrlCreateButton("Ô¤ÀÀ[&P]", 120, 510, 100)
+$btnPreview = GUICtrlCreateButton("é¢„è§ˆ[&P]", 120, 510, 100)
 GUICtrlSetTip($btnPreview, "Show the MessageBox/Dialog Box")
-$btnCopy = GUICtrlCreateButton("¸´ÖÆ[&C]", 230, 510, 100)
+$btnCopy = GUICtrlCreateButton("å¤åˆ¶[&C]", 230, 510, 100)
 
 If $sOutType = "Console" Then
 	GUICtrlSetTip($btnCopy, "Copy the generated AutoIt code to the Console")
@@ -135,8 +135,8 @@ Else
 	GUICtrlSetTip($btnCopy, "Copy the generated AutoIt code to the Clipboard")
 EndIf
 
-$btnExit = GUICtrlCreateButton("ÍË³ö[&E]", 340, 510, 100)
-GUICtrlSetTip($btnExit, "ÍË³öÕâ¸ö³ÌĞò")
+$btnExit = GUICtrlCreateButton("é€€å‡º[&E]", 340, 510, 100)
+GUICtrlSetTip($btnExit, "é€€å‡ºè¿™ä¸ªç¨‹åº")
 
 ;==================================================================
 ; create the tab control
@@ -146,40 +146,40 @@ $TAB = GUICtrlCreateTab(15, 5, 465, $W_HEIGHT - 110, $TCS_MULTILINE)
 ;==================================================================
 ; MessageBox Tab Item Objects
 ;==================================================================
-$tabMsgBox = GUICtrlCreateTabItem("ÏûÏ¢¿ò(MessageBox)")
+$tabMsgBox = GUICtrlCreateTabItem("æ¶ˆæ¯æ¡†(MessageBox)")
 Dim $Light_Gray = 0xd3d3d3
 GUICtrlSetBkColor($TAB, $Light_Gray)
 ;Title Group
-GUICtrlCreateGroup("±êÌâ", 20, 55, 205, 65)
+GUICtrlCreateGroup("æ ‡é¢˜", 20, 55, 205, 65)
 $txtMTitle = GUICtrlCreateInput("", 30, 85, 185, 20)
 GUICtrlSetState(-1, $GUI_FOCUS)
 GUICtrlSetTip(-1, "The title of the message box.")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Text Object
-GUICtrlCreateLabel("ÎÄ±¾", 20, 135, 30)
+GUICtrlCreateLabel("æ–‡æœ¬", 20, 135, 30)
 $txtMText = GUICtrlCreateEdit("", 20, 150, 420, 70, $ES_AUTOVSCROLL + $WS_VSCROLL + $ES_MULTILINE + $ES_WANTRETURN)
 GUICtrlSetTip(-1, "The text of the message box.")
 
 ;Icons Group
-GUICtrlCreateGroup("Í¼±ê", 235, 55, 205, 65)
+GUICtrlCreateGroup("å›¾æ ‡", 235, 55, 205, 65)
 $chkMWarning = GUICtrlCreateCheckbox("", 255, 70, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "¾¯¸æ")
+GUICtrlSetTip(-1, "è­¦å‘Š")
 GUICtrlSetImage(-1, "user32.dll", 1)
 $chkMQuestion = GUICtrlCreateCheckbox("", 295, 70, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "Ñ¯ÎÊ")
+GUICtrlSetTip(-1, "è¯¢é—®")
 GUICtrlSetImage(-1, "user32.dll", 2)
 $chkMCritical = GUICtrlCreateCheckbox("", 335, 70, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "ÑÏÖØ´íÎó")
+GUICtrlSetTip(-1, "ä¸¥é‡é”™è¯¯")
 GUICtrlSetImage(-1, "user32.dll", 3)
 $chkMInfo = GUICtrlCreateCheckbox("", 375, 70, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "ĞÅÏ¢")
+GUICtrlSetTip(-1, "ä¿¡æ¯")
 GUICtrlSetImage(-1, "user32.dll", 4)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Options Group
-GUICtrlCreateGroup("Ñ¡Ïî", 235, 320, 205, 70)
-GUICtrlCreateLabel("ÑÓÊ±", 245, 345, 40, 20)
+GUICtrlCreateGroup("é€‰é¡¹", 235, 320, 205, 70)
+GUICtrlCreateLabel("å»¶æ—¶", 245, 345, 40, 20)
 $txtMTimeout = GUICtrlCreateInput("", 245, 360, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Optional Timeout in seconds. After the timeout has elapsed the message box will be automatically closed.")
 $chkMConstants = GUICtrlCreateCheckbox("Use Constants", 340, 362, 85)
@@ -187,38 +187,38 @@ GUICtrlSetTip(-1, "Use Constants (Constants.au3) in resulting code.")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Buttons
-GUICtrlCreateGroup("°´Å¥", 20, 220, 205, 170)
-$optMOK = GUICtrlCreateRadio("È·¶¨", 30, 240, 100, 20)
+GUICtrlCreateGroup("æŒ‰é’®", 20, 220, 205, 170)
+$optMOK = GUICtrlCreateRadio("ç¡®å®š", 30, 240, 100, 20)
 GUICtrlSetState(-1, $GUI_CHECKED)
-$optMYesNo = GUICtrlCreateRadio("ÊÇ,·ñ", 30, 260, 100, 20)
-$optMOKCancel = GUICtrlCreateRadio("È·¶¨, È¡Ïû", 30, 280, 100, 20)
-$optMYesNoCancel = GUICtrlCreateRadio("ÊÇ,·ñ, È¡Ïû", 30, 300, 100, 20)
-$optMAbortRetryIgnore = GUICtrlCreateRadio("ÖÕÖ¹, ÖØÊÔ, ºöÂÔ", 30, 320, 120, 20)
-$optMRetryCancel = GUICtrlCreateRadio("ÖØÊÔ, È¡Ïû", 30, 340, 100, 20)
-$optMCancelTryContinue = GUICtrlCreateRadio("È¡Ïû, ÖØÊÔ, ¼ÌĞø", 30, 360, 150, 20)
+$optMYesNo = GUICtrlCreateRadio("æ˜¯,å¦", 30, 260, 100, 20)
+$optMOKCancel = GUICtrlCreateRadio("ç¡®å®š, å–æ¶ˆ", 30, 280, 100, 20)
+$optMYesNoCancel = GUICtrlCreateRadio("æ˜¯,å¦, å–æ¶ˆ", 30, 300, 100, 20)
+$optMAbortRetryIgnore = GUICtrlCreateRadio("ç»ˆæ­¢, é‡è¯•, å¿½ç•¥", 30, 320, 120, 20)
+$optMRetryCancel = GUICtrlCreateRadio("é‡è¯•, å–æ¶ˆ", 30, 340, 100, 20)
+$optMCancelTryContinue = GUICtrlCreateRadio("å–æ¶ˆ, é‡è¯•, ç»§ç»­", 30, 360, 150, 20)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Modality Group
-GUICtrlCreateGroup("ÏÔÊ¾Ä£¿é", 20, 400, 205, 90)
-$optApplication = GUICtrlCreateRadio("Ó¦ÓÃ³ÌĞò", 30, 420, 100, 20)
+GUICtrlCreateGroup("æ˜¾ç¤ºæ¨¡å—", 20, 400, 205, 90)
+$optApplication = GUICtrlCreateRadio("åº”ç”¨ç¨‹åº", 30, 420, 100, 20)
 GUICtrlSetState(-1, $GUI_CHECKED)
-$optMSysModal = GUICtrlCreateRadio("ÏµÍ³Ä£¿é", 30, 440, 100, 20)
-$optMTaskModal = GUICtrlCreateRadio("ÈÎÎñÄ£¿é", 30, 460, 100, 20)
+$optMSysModal = GUICtrlCreateRadio("ç³»ç»Ÿæ¨¡å—", 30, 440, 100, 20)
+$optMTaskModal = GUICtrlCreateRadio("ä»»åŠ¡æ¨¡å—", 30, 460, 100, 20)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Miscellaneous Group
-GUICtrlCreateGroup("ÆäËü²ÎÊı", 235, 400, 205, 90)
-$chkMTopMost = GUICtrlCreateCheckbox("×ÜÊÇÖÃ¶¥", 245, 425, 130, 20)
-$chkMRightJust = GUICtrlCreateCheckbox("ÓÒ¶ÔÆë±êÌâ/ÎÄ±¾", 245, 455, 150, 20)
+GUICtrlCreateGroup("å…¶å®ƒå‚æ•°", 235, 400, 205, 90)
+$chkMTopMost = GUICtrlCreateCheckbox("æ€»æ˜¯ç½®é¡¶", 245, 425, 130, 20)
+$chkMRightJust = GUICtrlCreateCheckbox("å³å¯¹é½æ ‡é¢˜/æ–‡æœ¬", 245, 455, 150, 20)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Default buttons Group
-GUICtrlCreateGroup("Ä¬ÈÏ°´Å¥", 235, 220, 205, 90)
-$optMFirst = GUICtrlCreateRadio("µÚÒ»¸ö", 245, 240, 130, 20)
+GUICtrlCreateGroup("é»˜è®¤æŒ‰é’®", 235, 220, 205, 90)
+$optMFirst = GUICtrlCreateRadio("ç¬¬ä¸€ä¸ª", 245, 240, 130, 20)
 GUICtrlSetState(-1, $GUI_CHECKED)
-$optMSecond = GUICtrlCreateRadio("µÚ¶ş¸ö", 245, 260, 130, 20)
+$optMSecond = GUICtrlCreateRadio("ç¬¬äºŒä¸ª", 245, 260, 130, 20)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$optMThird = GUICtrlCreateRadio("µÚÈı¸ö", 245, 280, 130, 20)
+$optMThird = GUICtrlCreateRadio("ç¬¬ä¸‰ä¸ª", 245, 280, 130, 20)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
@@ -228,30 +228,30 @@ GUICtrlCreateTabItem("")    ; end tabitem definition
 ;==================================================================
 ; InputBox Tab Item Objects
 ;==================================================================
-$tabInputBox = GUICtrlCreateTabItem("ÊäÈë¿ò(InputBox)")
+$tabInputBox = GUICtrlCreateTabItem("è¾“å…¥æ¡†(InputBox)")
 
 ; Text Objects
-GUICtrlCreateLabel("±êÌâ", 20, 60, 30)
+GUICtrlCreateLabel("æ ‡é¢˜", 20, 60, 30)
 $txtITitle = GUICtrlCreateInput("", 20, 75, 420, 20)
 GUICtrlSetState(-1, $GUI_FOCUS)
 GUICtrlSetTip(-1, "The title of the input box")
-GUICtrlCreateLabel("ÌáÊ¾", 20, 120, 50)
+GUICtrlCreateLabel("æç¤º", 20, 120, 50)
 $txtIPrompt = GUICtrlCreateEdit("", 20, 135, 420, 70, $ES_AUTOVSCROLL + $WS_VSCROLL + $ES_MULTILINE + $ES_WANTRETURN)
 GUICtrlSetTip(-1, "A message to the user indicating what kind of input is expected")
-GUICtrlCreateLabel("Ä¬ÈÏÎÄ±¾", 20, 230, 100)
+GUICtrlCreateLabel("é»˜è®¤æ–‡æœ¬", 20, 230, 100)
 $txtIDefault = GUICtrlCreateInput("", 20, 245, 420, 20)
 GUICtrlSetTip(-1, "The value that the input box starts with")
 
 ;Options Group
-GUICtrlCreateGroup("Ñ¡Ïî [¿ÉÑ¡]", 20, 290, 420, 70)
-GUICtrlCreateLabel("ÊäÈë¿ò¸ß¶È", 30, 310, 100)
+GUICtrlCreateGroup("é€‰é¡¹ [å¯é€‰]", 20, 290, 420, 70)
+GUICtrlCreateLabel("è¾“å…¥æ¡†é«˜åº¦", 30, 310, 100)
 $txtIChrLen = GUICtrlCreateInput("", 30, 325, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The maximum length of the input box")
-GUICtrlCreateLabel("ÃÜÂë×Ö·û", 140, 310, 100)
+GUICtrlCreateLabel("å¯†ç å­—ç¬¦", 140, 310, 100)
 $txtIPwdChr = GUICtrlCreateInput("", 140, 325, 70, 20)
 GUICtrlSetTip(-1, "The character to replace all typed characters with")
 GUICtrlSetLimit($txtIPwdChr, 1, 0)
-GUICtrlCreateLabel("³¬Ê±", 250, 310, 100)
+GUICtrlCreateLabel("è¶…æ—¶", 250, 310, 100)
 $txtITimeOut = GUICtrlCreateInput("", 250, 325, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "How many seconds to wait before automatically cancelling the InputBox")
 $chkIMandatory = GUICtrlCreateCheckbox("Mandatory", 360, 325, 70, 20)
@@ -259,17 +259,17 @@ GUICtrlSetTip(-1, "Input is Mandatory; i.e. you must enter something")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Position Group
-GUICtrlCreateGroup("×ø±ê [¿ÉÑ¡]", 20, 390, 420, 70)
-GUICtrlCreateLabel("¿í¶È", 30, 410, 100)
+GUICtrlCreateGroup("åæ ‡ [å¯é€‰]", 20, 390, 420, 70)
+GUICtrlCreateLabel("å®½åº¦", 30, 410, 100)
 $txtIWidth = GUICtrlCreateInput("", 30, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The width of the window. If defined, height must also be defined. Use -1 for default width")
-GUICtrlCreateLabel("¸ß¶È", 140, 410, 100)
+GUICtrlCreateLabel("é«˜åº¦", 140, 410, 100)
 $txtIHeight = GUICtrlCreateInput("", 140, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The height of the window. If defined, width must also be defined. Use -1 for default height")
-GUICtrlCreateLabel("×ó·½", 250, 410, 100)
+GUICtrlCreateLabel("å·¦æ–¹", 250, 410, 100)
 $txtILeft = GUICtrlCreateInput("", 250, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The left side of the input box. By default, the box is centered. If defined, top must also be defined")
-GUICtrlCreateLabel("¶¥²¿", 360, 410, 60)
+GUICtrlCreateLabel("é¡¶éƒ¨", 360, 410, 60)
 $txtITop = GUICtrlCreateInput("", 360, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The top of the input box. By default, the box is centered. If defined, left must also be defined")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
@@ -279,38 +279,38 @@ GUICtrlCreateTabItem("")    ; end tabitem definition
 ;==================================================================
 ; ToolTip Tab Item Objects
 ;==================================================================
-$tabToolTip = GUICtrlCreateTabItem("ÆøÅİÌáÊ¾(ToolTip)")
+$tabToolTip = GUICtrlCreateTabItem("æ°”æ³¡æç¤º(ToolTip)")
 
 Dim $Light_Gray = 0xd3d3d3
 GUICtrlSetBkColor($TAB, $Light_Gray)
 
 ;Title Group
-GUICtrlCreateGroup("±êÌâ", 20, 65, 205, 65)
+GUICtrlCreateGroup("æ ‡é¢˜", 20, 65, 205, 65)
 $txtTTitle = GUICtrlCreateInput("", 30, 95, 185, 20)
 GUICtrlSetState(-1, $GUI_FOCUS)
 GUICtrlSetTip(-1, "The title of the ToolTip. Requires IE5+")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Text Object
-GUICtrlCreateLabel("ÎÄ±¾", 20, 165, 30)
+GUICtrlCreateLabel("æ–‡æœ¬", 20, 165, 30)
 $txtTText = GUICtrlCreateEdit("", 20, 180, 420, 70, $ES_AUTOVSCROLL + $WS_VSCROLL + $ES_MULTILINE + $ES_WANTRETURN)
 GUICtrlSetTip(-1, "The text of the ToolTip. An empty string clears a displaying tooltip.")
 
 ;Icons Group
-GUICtrlCreateGroup("Í¼±ê", 235, 65, 205, 65)
+GUICtrlCreateGroup("å›¾æ ‡", 235, 65, 205, 65)
 $chkTWarning = GUICtrlCreateCheckbox("", 280, 80, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "¾¯¸æ")
+GUICtrlSetTip(-1, "è­¦å‘Š")
 GUICtrlSetImage(-1, "user32.dll", 1)
 $chkTCritical = GUICtrlCreateCheckbox("", 320, 80, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "ÑÏÖØ´íÎó")
+GUICtrlSetTip(-1, "ä¸¥é‡é”™è¯¯")
 GUICtrlSetImage(-1, "user32.dll", 3)
 $chkTInfo = GUICtrlCreateCheckbox("", 360, 80, 40, 40, $BS_PUSHLIKE + $BS_ICON)
-GUICtrlSetTip(-1, "ĞÅÏ¢")
+GUICtrlSetTip(-1, "ä¿¡æ¯")
 GUICtrlSetImage(-1, "user32.dll", 4)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Options Group
-GUICtrlCreateGroup("ĞÅÏ¢", 20, 290, 420, 60)
+GUICtrlCreateGroup("ä¿¡æ¯", 20, 290, 420, 60)
 $chkTBalloonTip  = GUICtrlCreateCheckbox("Balloon Tip", 60, 320, 150, 20)
 GUICtrlSetTip(-1, "Display as Balloon Tip. Requires IE5+")
 $chkTCenterTip = GUICtrlCreateCheckbox("Center the tip at the x,y coordinates", 220, 320, 200)
@@ -318,7 +318,7 @@ GUICtrlSetTip(-1, "Center the tip at the x,y coordinates instead of using them f
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Coordinates Group
-GUICtrlCreateGroup("×ø±ê [¿ÉÑ¡²ÎÊı]", 20, 390, 420, 70)
+GUICtrlCreateGroup("åæ ‡ [å¯é€‰å‚æ•°]", 20, 390, 420, 70)
 GUICtrlCreateLabel("X", 60, 430, 10)
 $txtTX = GUICtrlCreateInput("", 75, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "The x position of the tooltip.")
@@ -337,7 +337,7 @@ $tabMsgBox = GUICtrlCreateTabItem("SplashText")
 
 ; Title Group
 GUICtrlCreateGroup("", 20, 50, 420, 60)
-$chkSTTitle = GUICtrlCreateCheckbox("±êÌâÀ¸", 30, 50, 60, 20)
+$chkSTTitle = GUICtrlCreateCheckbox("æ ‡é¢˜æ ", 30, 50, 60, 20)
 GUICtrlSetTip(-1, "With Title Bar/Thin bordered titleless window")
 $lblSTTitle = GUICtrlCreateLabel("Title", 30, 80, 20)
 GUICtrlSetState(-1, $GUI_DISABLE)
@@ -350,13 +350,13 @@ GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Text
-GUICtrlCreateLabel("ÎÄ±¾", 20, 115, 50)
+GUICtrlCreateLabel("æ–‡æœ¬", 20, 115, 50)
 $txtSTText = GUICtrlCreateEdit("", 20, 130, 420, 70, $ES_AUTOVSCROLL + $WS_VSCROLL + $ES_MULTILINE + $ES_WANTRETURN)
 GUICtrlSetTip(-1, "The Text of the splash window")
 
 ;Options Group
-GUICtrlCreateGroup("Ñ¡Ïî", 20, 210, 205, 90)
-$chkSTOnTop = GUICtrlCreateCheckbox("×ÜÔÚ×îÇ°", 30, 230, 150, 20)
+GUICtrlCreateGroup("é€‰é¡¹", 20, 210, 205, 90)
+$chkSTOnTop = GUICtrlCreateCheckbox("æ€»åœ¨æœ€å‰", 30, 230, 150, 20)
 GUICtrlSetTip(-1, 'Set the "Always On Top" attribute')
 $chkSTVertical = GUICtrlCreateCheckbox("Centered vertically text", 30, 250, 150)
 GUICtrlSetTip(-1, "Centered vertically text")
@@ -376,33 +376,33 @@ GUICtrlSetTip(-1, "Text is right justified")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Fonts Group
-GUICtrlCreateGroup("×ÖÌå [¿ÉÑ¡²ÎÊı]", 20, 320, 420, 70)
-GUICtrlCreateLabel("×ÖÌåÃû³Æ", 30, 340, 100)
+GUICtrlCreateGroup("å­—ä½“ [å¯é€‰å‚æ•°]", 20, 320, 420, 70)
+GUICtrlCreateLabel("å­—ä½“åç§°", 30, 340, 100)
 $txtSTFontName = GUICtrlCreateInput("", 30, 355, 70, 20)
 GUICtrlSetTip(-1, "Font to use (OS default GUI font is used if the font is "" or is not found)")
-GUICtrlCreateLabel("×ÖÌå´óĞ¡", 140, 340, 100)
+GUICtrlCreateLabel("å­—ä½“å¤§å°", 140, 340, 100)
 $txtSTFontSize = GUICtrlCreateInput("", 140, 355, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Font size (default is 12; standard sizes are 6 8 9 10 11 12 14 16 18 20 22 24 26 28 36 48 72)")
 GUICtrlSetLimit($txtIPwdChr, 1, 0)
-GUICtrlCreateLabel("×ÖÌå¿í¶È", 250, 340, 100)
+GUICtrlCreateLabel("å­—ä½“å®½åº¦", 250, 340, 100)
 $txtSTFontWeight = GUICtrlCreateInput("", 250, 355, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Font weight (0 - 1000, default = 400 = normal). A value > 1000 is treated as zero")
-$btnSTFonts = GUICtrlCreateButton("Ñ¡Ôñ", 360, 355, 70, 20)
+$btnSTFonts = GUICtrlCreateButton("é€‰æ‹©", 360, 355, 70, 20)
 GUICtrlSetTip(-1, "Show the Fonts Selection dialog box")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Position Group
-GUICtrlCreateGroup("×ø±ê [¿ÉÑ¡]", 20, 410, 420, 70)
-GUICtrlCreateLabel("¿í¶È", 30, 430, 100)
+GUICtrlCreateGroup("åæ ‡ [å¯é€‰]", 20, 410, 420, 70)
+GUICtrlCreateLabel("å®½åº¦", 30, 430, 100)
 $txtSTWidth = GUICtrlCreateInput("", 30, 445, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Width of window in pixels (default 500)")
-GUICtrlCreateLabel("¸ß¶È", 140, 430, 100)
+GUICtrlCreateLabel("é«˜åº¦", 140, 430, 100)
 $txtSTHeight = GUICtrlCreateInput("", 140, 445, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Height of window in pixels (default 400)")
-GUICtrlCreateLabel("×ó·½", 250, 430, 100)
+GUICtrlCreateLabel("å·¦æ–¹", 250, 430, 100)
 $txtSTLeft = GUICtrlCreateInput("", 250, 445, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Position from left (in pixels) of splash window. (default is centered)")
-GUICtrlCreateLabel("¶¥²¿", 360, 430, 60)
+GUICtrlCreateLabel("é¡¶éƒ¨", 360, 430, 60)
 $txtSTTop = GUICtrlCreateInput("", 360, 445, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Position from top (in pixels) of splash window. (default is centered)")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
@@ -416,45 +416,45 @@ $tabMsgBox = GUICtrlCreateTabItem("SplashImage")
 
 ; Title Group
 GUICtrlCreateGroup("", 20, 70, 420, 60)
-$chkSITitle = GUICtrlCreateCheckbox("±êÌâÀ¸", 30, 70, 60, 20)
+$chkSITitle = GUICtrlCreateCheckbox("æ ‡é¢˜æ ", 30, 70, 60, 20)
 GUICtrlSetTip(-1, "With Title Bar/Thin bordered titleless window")
-$lblSITitle = GUICtrlCreateLabel("±êÌâ", 30, 100, 30)
+$lblSITitle = GUICtrlCreateLabel("æ ‡é¢˜", 30, 100, 30)
 GUICtrlSetState(-1, $GUI_DISABLE)
 $txtSITitle = GUICtrlCreateInput("", 60, 95, 210, 20)
 GUICtrlSetTip(-1, "The Title of the splash window")
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetState(-1, $GUI_FOCUS)
-$chkSIWinMove = GUICtrlCreateCheckbox("´°¿Ú¿ÉÒÔÒÆ¶¯", 290, 100, 140, 20)
+$chkSIWinMove = GUICtrlCreateCheckbox("çª—å£å¯ä»¥ç§»åŠ¨", 290, 100, 140, 20)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;File
-GUICtrlCreateLabel("Í¼Ïñ", 20, 195, 50)
+GUICtrlCreateLabel("å›¾åƒ", 20, 195, 50)
 $txtSIFile = GUICtrlCreateInput("", 60, 190, 300, 20)
 GUICtrlSetTip(-1, "The Text of the splash window")
-$btnSIImage = GUICtrlCreateButton("´ò¿ª...", 370, 190, 70, 20)
+$btnSIImage = GUICtrlCreateButton("æ‰“å¼€...", 370, 190, 70, 20)
 GUICtrlSetTip(-1, "Show the Open File dialog box")
 
 ;Options Group
-GUICtrlCreateGroup("Ñ¡Ïî", 20, 260, 420, 60)
-$chkSIOnTop = GUICtrlCreateCheckbox("×ÜÔÚ×îÇ°", 60, 290, 150, 20)
+GUICtrlCreateGroup("é€‰é¡¹", 20, 260, 420, 60)
+$chkSIOnTop = GUICtrlCreateCheckbox("æ€»åœ¨æœ€å‰", 60, 290, 150, 20)
 GUICtrlSetTip(-1, 'Set the "Always On Top" attribute')
 $chkSIConstants = GUICtrlCreateCheckbox("Use Constants", 320, 290, 90)
 GUICtrlSetTip(-1, "Use Constants (Constants.au3) in resulting code.")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
 ;Position Group
-GUICtrlCreateGroup("×ø±ê [¿ÉÑ¡]", 20, 390, 420, 70)
-GUICtrlCreateLabel("¿í¶È", 30, 410, 100)
+GUICtrlCreateGroup("åæ ‡ [å¯é€‰]", 20, 390, 420, 70)
+GUICtrlCreateLabel("å®½åº¦", 30, 410, 100)
 $txtSIWidth = GUICtrlCreateInput("", 30, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Width of window in pixels (default 500)")
-GUICtrlCreateLabel("¸ß¶È", 140, 410, 100)
+GUICtrlCreateLabel("é«˜åº¦", 140, 410, 100)
 $txtSIHeight = GUICtrlCreateInput("", 140, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Height of window in pixels (default 400)")
-GUICtrlCreateLabel("×ó·½", 250, 410, 100)
+GUICtrlCreateLabel("å·¦æ–¹", 250, 410, 100)
 $txtSILeft = GUICtrlCreateInput("", 250, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Position from left (in pixels) of splash window. (default is centered)")
-GUICtrlCreateLabel("¶¥²¿", 360, 410, 60)
+GUICtrlCreateLabel("é¡¶éƒ¨", 360, 410, 60)
 $txtSITop = GUICtrlCreateInput("", 360, 425, 70, 20, $ES_NUMBER)
 GUICtrlSetTip(-1, "Position from top (in pixels) of splash window. (default is centered)")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
@@ -464,48 +464,48 @@ GUICtrlCreateTabItem("")    ; end tabitem definition
 ;==================================================================
 ; create the control colors tab
 ;==================================================================
-$TAB_COLOR = GUICtrlCreateTabItem("ÑÕÉ«(Colors)")
+$TAB_COLOR = GUICtrlCreateTabItem("é¢œè‰²(Colors)")
 
 $COLORSCHEME = GUICtrlCreateCombo("", 165, 60, 125, -1, $CBS_DROPDOWNLIST) ; create first item
 GUICtrlSetData($COLORSCHEME, $T_STR, $ARRAY[1][1]) ; add other items
 GUICtrlSetTip($COLORSCHEME, "Select a color scheme")
 
-$GROUP[0] = GUICtrlCreateGroup("ÉèÖÃ¿Ø¼şÑÕÉ«", 20, 90, 230, 80)
+$GROUP[0] = GUICtrlCreateGroup("è®¾ç½®æ§ä»¶é¢œè‰²", 20, 90, 230, 80)
 GUICtrlSetFont($GROUP[0], 9, 600, -1, "Times New Roman")
-$CTLTEXTCOLOR = GUICtrlCreateButton("ÉèÖÃÎÄ±¾ÑÕÉ«", 35, 110, 90, 20)
+$CTLTEXTCOLOR = GUICtrlCreateButton("è®¾ç½®æ–‡æœ¬é¢œè‰²", 35, 110, 90, 20)
 GUICtrlSetTip($CTLTEXTCOLOR, "Set Control Text Color From List")
 $CTL_DIALOG_TEXTCOLOR = GUICtrlCreateButton("Fgnd Color Picker", 135, 110, 100, 20)
 GUICtrlSetTip($CTL_DIALOG_TEXTCOLOR, "Select Text Color From Color Dialog")
-$CTLBACKCOLOR = GUICtrlCreateButton("ÉèÖÃ±³¾°ÑÕÉ«", 35, 140, 90, 20)
+$CTLBACKCOLOR = GUICtrlCreateButton("è®¾ç½®èƒŒæ™¯é¢œè‰²", 35, 140, 90, 20)
 GUICtrlSetTip($CTLBACKCOLOR, "Set Control Background Color From List")
 $CTL_DIALOG_BACKCOLOR = GUICtrlCreateButton("Bkgnd Color Picker", 135, 140, 100, 20)
 GUICtrlSetTip($CTL_DIALOG_BACKCOLOR, "Select Background Color From Color Dialog")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
-GUICtrlCreateLabel("¿Ø¼şÎÄ±¾ÑÕÉ«:", 20, 222, 125, 15, $SS_RIGHT)
+GUICtrlCreateLabel("æ§ä»¶æ–‡æœ¬é¢œè‰²:", 20, 222, 125, 15, $SS_RIGHT)
 $CTLTEXTCODE = GUICtrlCreateEdit("0x000000", 150, 220, 55, 20, $ES_READONLY)
-GUICtrlCreateLabel("¿Ø¼ş±³¾°ÑÕÉ«:", 20, 242, 125, 15, $SS_RIGHT)
+GUICtrlCreateLabel("æ§ä»¶èƒŒæ™¯é¢œè‰²:", 20, 242, 125, 15, $SS_RIGHT)
 $CTLBKGRNDCODE = GUICtrlCreateEdit("0xFFFFFF", 150, 240, 55, 20, $ES_READONLY)
-$GROUP[1] = GUICtrlCreateGroup("´´½¨¿Ø¼şÑÕÉ«", 40, 290, 175, 90)
+$GROUP[1] = GUICtrlCreateGroup("åˆ›å»ºæ§ä»¶é¢œè‰²", 40, 290, 175, 90)
 GUICtrlSetFont($GROUP[1], 9, 600, -1, "Times New Roman")
-$CREATE_GUICTRLSETCOLOR = GUICtrlCreateButton("´´½¨ GUICtrlSetColor", 65, 315, 130, 20)
+$CREATE_GUICTRLSETCOLOR = GUICtrlCreateButton("åˆ›å»º GUICtrlSetColor", 65, 315, 130, 20)
 GUICtrlSetTip($CREATE_GUICTRLSETCOLOR, 'Sets the text color of a control.' & @CRLF & @CRLF & 'GUICtrlSetColor ( controlID, textcolor)' & @CRLF & @CRLF & 'Parameters' & @CRLF & 'controlID The control identifier (controlID) as returned by a GUICtrlCreate... function.' & @CRLF & 'textcolor The RGB color to use.')
-$CREATE_GUICTRLSETBKCOLOR = GUICtrlCreateButton("´´½¨ GUICtrlSetBkColor", 65, 345, 130, 20)
+$CREATE_GUICTRLSETBKCOLOR = GUICtrlCreateButton("åˆ›å»º GUICtrlSetBkColor", 65, 345, 130, 20)
 GUICtrlSetTip($CREATE_GUICTRLSETBKCOLOR, 'Sets the background color of a control.' & @CRLF & @CRLF & 'GUICtrlSetBkColor ( controlID, backgroundcolor )' & @CRLF & @CRLF & 'Parameters' & @CRLF & 'controlID The control identifier (controlID) as returned by a GUICtrlCreate... function.' & @CRLF & 'backgroundcolor The RGB color to use.')
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 $FONTSELECTED[2] = "Times New Roman"
 $FONTSELECTED[3] = 10
-$GROUP[6] = GUICtrlCreateGroup("ÉèÖÃ GUI ÑÕÉ«", 260, 90, 170, 80)
+$GROUP[6] = GUICtrlCreateGroup("è®¾ç½® GUI é¢œè‰²", 260, 90, 170, 80)
 GUICtrlSetFont($GROUP[6], 9, 600, -1, "Times New Roman")
 $GUIBACKCOLOR = GUICtrlCreateButton("Set Back Color", 300, 110, 90, 20)
 GUICtrlSetTip($GUIBACKCOLOR, "Set GUI Background Color From List")
 $GUI_DIALOG_BACKCOLOR = GUICtrlCreateButton("Color Picker", 300, 140, 90, 20)
 GUICtrlSetTip($GUI_DIALOG_BACKCOLOR, "Select GUI Color From Color Dialog")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
-GUICtrlCreateLabel("GUI ±³¾°ÑÕÉ«:", 250, 222, 125, 15, $SS_RIGHT)
+GUICtrlCreateLabel("GUI èƒŒæ™¯é¢œè‰²:", 250, 222, 125, 15, $SS_RIGHT)
 $GUIBKGRNDCODE = GUICtrlCreateEdit("0x708090", 380, 220, 55, 20, $ES_READONLY)
-$GROUP[7] = GUICtrlCreateGroup("´´½¨ GUI ´úÂë", 260, 290, 175, 60)
+$GROUP[7] = GUICtrlCreateGroup("åˆ›å»º GUI ä»£ç ", 260, 290, 175, 60)
 GUICtrlSetFont($GROUP[7], 9, 600, -1, "Times New Roman")
-$CREATE_GUISETBKCOLOR = GUICtrlCreateButton("´´½¨ GUISetBkColor", 285, 315, 130, 20)
+$CREATE_GUISETBKCOLOR = GUICtrlCreateButton("åˆ›å»º GUISetBkColor", 285, 315, 130, 20)
 GUICtrlSetTip($CREATE_GUISETBKCOLOR, 'Sets the background color of the GUI window.' & @CRLF & @CRLF & 'GUISetBkColor ( background [, winhandle] )' & @CRLF & @CRLF & 'Parameters' & @CRLF & 'background Background color of the dialog box.' & @CRLF & 'winhandle [optional] Windows handle as returned by GUICreate (default is the previously used window).')
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
@@ -514,34 +514,34 @@ GUICtrlCreateTabItem("")    ; end tabitem definition
 ;==================================================================
 ; create the control fonts tab
 ;==================================================================
-$TAB_FONTS_CURSORS = GUICtrlCreateTabItem("¿Ø¼ş ×ÖÌå/¹â±ê")
-$GROUP[2] = GUICtrlCreateGroup("ÉèÖÃ×ÖÌå", 40, 60, 175, 130)
+$TAB_FONTS_CURSORS = GUICtrlCreateTabItem("æ§ä»¶ å­—ä½“/å…‰æ ‡")
+$GROUP[2] = GUICtrlCreateGroup("è®¾ç½®å­—ä½“", 40, 60, 175, 130)
 GUICtrlSetFont($GROUP[2], 9, 600, -1, "Times New Roman")
-$CTRLSELECTFONTS = GUICtrlCreateButton("Ñ¡Ôñ", 90, 80, 70, 20)
+$CTRLSELECTFONTS = GUICtrlCreateButton("é€‰æ‹©", 90, 80, 70, 20)
 GUICtrlSetTip($CTRLSELECTFONTS, "Show the Fonts Selection dialog box")
-GUICtrlCreateLabel("×ÖÌåÃû³Æ", 55, 105, 100)
+GUICtrlCreateLabel("å­—ä½“åç§°", 55, 105, 100)
 $CTRLFONTNAME = GUICtrlCreateInput("Times New Roman", 55, 120, 140, 20, $ES_READONLY)
 GUICtrlSetTip($CTRLFONTNAME, "Font to use")
-GUICtrlCreateLabel("×ÖÌå´óĞ¡", 55, 145, 100)
+GUICtrlCreateLabel("å­—ä½“å¤§å°", 55, 145, 100)
 $CTRLFONTSIZE = GUICtrlCreateInput("10", 55, 160, 70, 20, $ES_NUMBER)
 GUICtrlSetTip($CTRLFONTSIZE, "Font size (default is 10; standard sizes are 6 8 9 10 11 12 14 16 18 20 22 24 26 28 36 48 72)")
-GUICtrlCreateLabel("×ÖÌå¿í¶È", 130, 145, 100)
+GUICtrlCreateLabel("å­—ä½“å®½åº¦", 130, 145, 100)
 $CTRLFONTWEIGHT = GUICtrlCreateInput("400", 130, 160, 70, 20, $ES_NUMBER)
 GUICtrlSetTip($CTRLFONTWEIGHT, "Font weight (0 - 1000, default = 400 = normal). A value > 1000 is treated as zero")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
-$GROUP[3] = GUICtrlCreateGroup("´´½¨×ÖÌå´úÂë", 40, 320, 175, 60)
+$GROUP[3] = GUICtrlCreateGroup("åˆ›å»ºå­—ä½“ä»£ç ", 40, 320, 175, 60)
 GUICtrlSetFont($GROUP[3], 9, 600, -1, "Times New Roman")
 $CREATE_GUICTRLSETFONT = GUICtrlCreateButton("Create GUICtrlSetFont", 65, 345, 130, 20)
 GUICtrlSetTip($CREATE_GUICTRLSETFONT, 'Sets the font for a control.' & @CRLF & @CRLF & 'GUICtrlSetFont (controlID, size [, weight [, attribute [, fontname]]] )' & @CRLF & @CRLF & 'Parameters' & @CRLF & 'controlID The control identifier (controlID) as returned by a GUICtrlCreate... function.' & @CRLF & 'size Fontsize (default is 9).' & @CRLF & 'weight [optional] Font weight (default 400 = normal).' & @CRLF & 'attribute [optional] To define italic:2 underlined:4 strike:8 char format (add together the values of all the styles required, 2+4 = italic and underlined).' & @CRLF & 'fontname [optional] The name of the font to use.')
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
 
-$GROUP[4] = GUICtrlCreateGroup("ÉèÖÃ¹â±ê", 260, 60, 175, 250)
+$GROUP[4] = GUICtrlCreateGroup("è®¾ç½®å…‰æ ‡", 260, 60, 175, 250)
 GUICtrlSetFont($GROUP[4], 9, 600, -1, "Times New Roman")
 $CTLSETCURSOR = GUICtrlCreateCombo("APPSTARTING", 295, 80, 130, 220, $CBS_SORT + $CBS_SIMPLE) ; create first item
 GUICtrlSetData($CTLSETCURSOR, "ARROW|CROSS|HELP|IBEAM|ICON|NO|SIZE|SIZEALL|SIZENESW|SIZENS|SIZENWSE|SIZEWE|UPARROW|WAIT", "ARROW") ; add other items
 GUICtrlSetTip($CTLSETCURSOR, "Show Control cursor, hold cursor for sample label")
 GUICtrlCreateGroup("", -99, -99, 1, 1)  ;close group
-$GROUP[5] = GUICtrlCreateGroup("´´½¨¹â±ê´úÂë", 260, 320, 175, 60)
+$GROUP[5] = GUICtrlCreateGroup("åˆ›å»ºå…‰æ ‡ä»£ç ", 260, 320, 175, 60)
 GUICtrlSetFont($GROUP[5], 9, 600, -1, "Times New Roman")
 $CREATE_GUICTRLSETCURSOR = GUICtrlCreateButton("Create GUICtrlSetCursor", 280, 345, 130, 20)
 GUICtrlSetTip($CREATE_GUICTRLSETCURSOR, 'Sets mouse cursor icon for a particular control.' & @CRLF & @CRLF & 'GUICtrlSetCursor ( controlID, cursorID )' & @CRLF & @CRLF & 'Parameters' & @CRLF & 'controlID The control identifier (controlID) as returned by a GUICtrlCreate... function.' & @CRLF & 'cursorID cursor ID as used by Windows SetCursor API (use -1 for the default cursor for the control)')
@@ -559,7 +559,7 @@ GUICtrlSetColor($TEST_LABEL, $BLACK)
 If Not IsDeclared('White') Then Dim $WHITE = 0xFFFFFF
 GUICtrlSetBkColor($TEST_LABEL, $WHITE)
 GUICtrlSetFont($TEST_LABEL, 9, 400, -1, "Times New Roman")
-$LV_FILELIST = GUICtrlCreateListView("Ãû³Æ|Hex Öµ", 17, 120, 215, $W_HEIGHT - 202, BitOR($LVS_SINGLESEL, $LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER), BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_HEADERDRAGDROP, $LVS_EX_REGIONAL))
+$LV_FILELIST = GUICtrlCreateListView("åç§°|Hex å€¼", 17, 120, 215, $W_HEIGHT - 202, BitOR($LVS_SINGLESEL, $LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER), BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_HEADERDRAGDROP, $LVS_EX_REGIONAL))
 _BuildList($LV_FILELIST, $ARRAY[1][1])
 If Not IsDeclared('Slate_Gray') Then Dim $SLATE_GRAY = 0x708090
 GUISetBkColor($SLATE_GRAY)
@@ -994,13 +994,13 @@ EndFunc   ;==>_SendCode
 
 Func _About($TITLE, $MAIN_WINDOW)
 	Local $CLOSE, $LABEL, $LABEL2, $MSG, $ABOUT_WINDOW
-	Local $ABOUT_TEXT = "´úÂëÉú³ÉÏòµ¼" & @CRLF & _
+	Local $ABOUT_TEXT = "ä»£ç ç”Ÿæˆå‘å¯¼" & @CRLF & _
 			"Purpose / Logic:" & @CRLF & _
 			"   Help in Creating MessageBox, Dialogs, Colors, Fonts, Cursors for GUI" & @CRLF & @CRLF & _
 			"Modifications:" & @CRLF & _
-			"      03/14/05 - ¿ªÊ¼±àĞ´" & @CRLF & _
-			"      ×îºóĞŞ¸ÄÈÕÆÚ: 12/19/05" & @CRLF & @CRLF & _
-			"¿ª·¢Ğ¡×é:"
+			"      03/14/05 - å¼€å§‹ç¼–å†™" & @CRLF & _
+			"      æœ€åä¿®æ”¹æ—¥æœŸ: 12/19/05" & @CRLF & @CRLF & _
+			"å¼€å‘å°ç»„:"
 	Local $ABOUT_AUTHOR = "Gary Frost/Giuseppe Criaco"
 	Local $MAILTO = "Gary.Frost@arnold.af.mil;CustomPCs@charter.com;gcriaco@quipo.it"
 	$ABOUT_WINDOW = GUICreate($TITLE, 500, 250, -1, -1, -1, -1, $MAIN_WINDOW)
@@ -1010,7 +1010,7 @@ Func _About($TITLE, $MAIN_WINDOW)
 	#EndRegion --- CodeWizard generated code End ---
 	$LABEL = GUICtrlCreateLabel($ABOUT_TEXT, 10, 10, 450, 125)
 	$LABEL2 = _GuiCtrlCreateHyperlink($ABOUT_AUTHOR, 27, 130, 443, 20, 0x0000ff, 'E-Mail ' & $MAILTO & " (comments/questions)")
-	$CLOSE = GUICtrlCreateButton("¹Ø±Õ", 200, 190, 85, 20)
+	$CLOSE = GUICtrlCreateButton("å…³é—­", 200, 190, 85, 20)
 	GUISetState()
 	Do
 		$MSG = GUIGetMsg()

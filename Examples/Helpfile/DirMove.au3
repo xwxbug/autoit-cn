@@ -1,1 +1,1 @@
-DirMove(@MyDocumentsDir, "C:\Backups\MyDocs")
+﻿DirMove(@MyDocumentsDir, "C:\Backups\MyDocs")

@@ -1,4 +1,4 @@
-#include <GuiToolbar.au3>
+﻿#include <GuiToolbar.au3>
 #include <GuiMenu.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>

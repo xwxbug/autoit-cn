@@ -1,4 +1,4 @@
-;Places the input box in the top left corner displaying the characters as they 
+﻿;Places the input box in the top left corner displaying the characters as they 
 ;are typed.
 $answer = InputBox("Question", "Where were you born?", "Planet Earth", "", _
 	-1, -1, 0, 0)

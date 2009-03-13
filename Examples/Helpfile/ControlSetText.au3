@@ -1,3 +1,3 @@
-Run("notepad.exe")
+锘縍un("notepad.exe")
 WinWaitActive("[CLASS:Notepad]","")
-ControlSetText("[CLASS:Notepad]", "", "Edit1", "这里是设置的文本" )
+ControlSetText("[CLASS:Notepad]", "", "Edit1", "杩欓噷鏄缃殑鏂囨湰" )

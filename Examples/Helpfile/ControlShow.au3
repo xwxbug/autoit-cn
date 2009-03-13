@@ -1,1 +1,1 @@
-ControlShow("Untitled -", "", "MDIClient1")
+﻿ControlShow("Untitled -", "", "MDIClient1")

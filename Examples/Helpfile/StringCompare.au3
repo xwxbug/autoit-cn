@@ -1,8 +1,8 @@
-$result = StringCompare("MELÓN", "melón")
+ï»¿$result = StringCompare("MELè¦°", "melé«‡")
 MsgBox(0, "StringCompare Result (mode 0):", $result)
 
-$result = StringCompare("MELÓN", "melón", 1)
+$result = StringCompare("MELè¦°", "melé«‡", 1)
 MsgBox(0, "StringCompare Result (mode 1):", $result)
 
-$result = StringCompare("MELÓN", "melón", 2)
+$result = StringCompare("MELè¦°", "melé«‡", 2)
 MsgBox(0, "StringCompare Result (mode 2):", $result)

@@ -1,4 +1,4 @@
-;- This assumes that you have instrument set to GPIB address 3
+﻿;- This assumes that you have instrument set to GPIB address 3
 ; If you have an instrument in a different address change "GPIB::3::0" to the
 ; corresponding descriptor. Do the same for the call to _viOpen
 ; It shows how to use the _viExecCommand function in stand alone mode and combined

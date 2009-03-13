@@ -1,5 +1,5 @@
-Opt("WinTitleMatchMode", 2) ; 匹配子字符串
+锘縊pt("WinTitleMatchMode", 2) ; 鍖归厤瀛愬瓧绗︿覆
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
-WinSetTrans("[CLASS:Notepad]", "", 170) ; 让记事本半透明.
+WinSetTrans("[CLASS:Notepad]", "", 170) ; 璁╄浜嬫湰鍗婇�忔槑.

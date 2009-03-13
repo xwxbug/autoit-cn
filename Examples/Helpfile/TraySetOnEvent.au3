@@ -1,8 +1,8 @@
-#include <Constants.au3>
+ï»¿#include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayOnEventMode",1)
-Opt("TrayMenuMode",1)	;Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
+Opt("TrayMenuMode",1)	;é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
 
 $exit = TrayCreateItem("Exit")
 TrayItemSetOnEvent(-1,"ExitEvent")

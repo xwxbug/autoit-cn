@@ -1,4 +1,4 @@
-#include <File.au3>
+﻿#include <File.au3>
 
 $find = "BEFORE"
 $replace = "AFTER"

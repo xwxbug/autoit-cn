@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <WinAPI.au3>
 
 Global Const $MF_BYCOMMAND			= 0x00000000

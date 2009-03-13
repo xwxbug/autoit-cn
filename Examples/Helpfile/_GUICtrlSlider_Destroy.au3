@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+﻿#include <GuiConstantsEx.au3>
 #include <GuiSlider.au3>
 
 Opt('MustDeclareVars', 1)

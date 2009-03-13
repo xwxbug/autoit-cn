@@ -1,4 +1,4 @@
-Run("notepad.exe")
+О╩©Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 ControlSetText("[CLASS:Notepad]","","[CLASSNN:Edit1]",Random(0,1000))
 Sleep(500)
@@ -6,4 +6,4 @@ Sleep(500)
 
 
 $text = WinGetText("[CLASS:Notepad]", "")
-MsgBox(0, "╤ах║╣днд╠╬н╙:","╤ах║╣╫╣днд╠╬н╙: " & $text)
+MsgBox(0, "Х╞╩Е▐√Г └Ф√┤Ф°╛Д╦╨:","Х╞╩Е▐√Е┬╟Г └Ф√┤Ф°╛Д╦╨: " & $text)

@@ -1,4 +1,4 @@
-#include<process.au3>
+﻿#include<process.au3>
 
 Dim $i_Priority_Level, $i_Notepad_PID, $i_ArrayItem
 Dim $a_RunLevels[3] = [0, 2, 4] ;low, normal, high priorities

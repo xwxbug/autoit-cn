@@ -1,2 +1,2 @@
-$ver = FileGetVersion("Explorer.exe")
-MsgBox(0, "×ÊÔ´¹ÜÀíÆ÷°æ±¾", $ver)
+ï»¿$ver = FileGetVersion("Explorer.exe")
+MsgBox(0, "èµ„æºç®¡ç†å™¨ç‰ˆæœ¬", $ver)

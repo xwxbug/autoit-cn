@@ -1,4 +1,4 @@
-; A simple custom messagebox that uses the MessageLoop mode
+﻿; A simple custom messagebox that uses the MessageLoop mode
 
 #include <GUIConstantsEx.au3>
 

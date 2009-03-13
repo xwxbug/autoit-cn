@@ -1,4 +1,4 @@
-;;This is the UDP Client
+ï»¿;;This is the UDP Client
 ;;Start the server first
 
 ; Start The UDP Services
@@ -14,9 +14,9 @@ $n=0
 While 1
     Sleep(2000)
     $n = $n + 1
-    $status = UDPSend($socket, "ÏûÏ¢ #" & $n)
+    $status = UDPSend($socket, "æ¶ˆæ¯ #" & $n)
     If $status = 0 then 
-        MsgBox(0, "´íÎó", "µ±·¢ËÍ UDP ÏûÏ¢Ê±·¢Éú´íÎó: " & @error)
+        MsgBox(0, "é”™è¯¯", "å½“å‘é€ UDP æ¶ˆæ¯æ—¶å‘ç”Ÿé”™è¯¯: " & @error)
         Exit
     EndIf
 WEnd

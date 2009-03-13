@@ -1,4 +1,4 @@
-; ***************************************************************
+﻿; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Return the Active Sheet Name
 ; *****************************************************************
 #include <Excel.au3>

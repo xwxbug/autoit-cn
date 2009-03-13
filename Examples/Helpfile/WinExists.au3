@@ -1,7 +1,7 @@
-Run("notepad.exe")
+ï»¿Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
 
-If WinExists("ÎŞ±êÌâ - ¼ÇÊÂ±¾") Then
-	MsgBox(0, "", "¼ÇÊÂ±¾´°¿Ú´æÔÚ")
+If WinExists("æ— æ ‡é¢˜ - è®°äº‹æœ¬") Then
+	MsgBox(0, "", "è®°äº‹æœ¬çª—å£å­˜åœ¨")
 EndIf

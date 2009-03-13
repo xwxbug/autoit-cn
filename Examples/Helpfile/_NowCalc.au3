@@ -1,4 +1,4 @@
-#include <Date.au3>
+﻿#include <Date.au3>
 
 ; Calculated the number of seconds since EPOCH (1970/01/01 00:00:00) 
 $iDateCalc = _DateDiff( 's',"1970/01/01 00:00:00",_NowCalc())

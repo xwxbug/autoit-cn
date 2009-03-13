@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <TabConstants.au3>
 #include <Memory.au3>
 #include <SendMessage.au3>

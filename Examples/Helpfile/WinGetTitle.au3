@@ -1,7 +1,7 @@
-Run("notepad.exe")
+锘縍un("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
 
 
 $title = WinGetTitle("[CLASS:Notepad]", "")
-MsgBox(0, "完整的标题为:", $title)
+MsgBox(0, "瀹屾暣鐨勬爣棰樹负:", $title)

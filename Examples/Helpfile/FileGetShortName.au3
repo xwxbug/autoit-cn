@@ -1,3 +1,3 @@
-$a = FileGetShortName(@HomeDrive & "\Program Files")
-msgbox(0,"¶ÌÎÄ¼şÃû", $a)
-;$a ¿ÉÄÜÊÇ "x:\PROGRA~1"
+ï»¿$a = FileGetShortName(@HomeDrive & "\Program Files")
+msgbox(0,"çŸ­æ–‡ä»¶å", $a)
+;$a å¯èƒ½æ˜¯ "x:\PROGRA~1"

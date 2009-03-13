@@ -1,4 +1,4 @@
-#Region AutoIt3Wrapper directives section
+ï»¿#Region AutoIt3Wrapper directives section
 ;** This is a list of compiler directives used by AutoIt3Wrapper.exe.
 ;** comment the lines you don't need or else it will override the default settings
 ;===============================================================================================================
@@ -11,8 +11,8 @@
 ;** AUT2EXE settings
 #AutoIt3Wrapper_Icon=                           ;Filename of the Ico file to use
 #AutoIt3Wrapper_OutFile=                        ;Target exe/a3x filename.
-#AutoIt3Wrapper_OutFile_Type=                   ;a3x=small AutoIt3 file;  exe=Standalone executable (Default)
-#AutoIt3Wrapper_Compression=                    ;Compression parameter 0-4  0=Low 2=normal 4=High. Default=2
+#AutoIt3Wrapper_OutFile_Type=                   ;a3x=small AutoIt3 file; Â exe=Standalone executable (Default)
+#AutoIt3Wrapper_Compression=                    ;Compression parameter 0-4 Â 0=Low 2=normal 4=High. Default=2
 #AutoIt3Wrapper_UseUpx=                         ;(Y/N) Compress output program.  Default=Y
 #AutoIt3Wrapper_Change2CUI=                     ;(Y/N) Change output program to CUI in stead of GUI. Default=N
 ;===============================================================================================================
@@ -68,9 +68,9 @@
 ;===============================================================================================================
 ; RUN BEFORE AND AFTER definitions
 ; The following directives can contain: these variables
-;   %in% , %out%, %icon% which will be replaced by the fullpath\filename.
-;   %scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
-;   %fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
+; Â Â %in% , %out%, %icon% which will be replaced by the fullpath\filename.
+; Â Â %scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
+; Â Â %fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
 ;   %scitedir% will be replaced by the SciTE program directory
 ;   %autoitdir% will be replaced by the AutoIt3 program directory
 #AutoIt3Wrapper_Run_Before=                     ;process to run before compilation - you can have multiple records that will be processed in sequence

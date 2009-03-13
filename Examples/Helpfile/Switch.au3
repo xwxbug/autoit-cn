@@ -1,4 +1,4 @@
-Switch @HOUR
+﻿Switch @HOUR
 Case 6 To 11
 	$msg = "Good Morning"
 Case 12 To 17

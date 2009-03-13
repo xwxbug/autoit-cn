@@ -1,4 +1,4 @@
-; *** Demo to show a timer window
+﻿; *** Demo to show a timer window
 #include <GUIConstantsEx.au3>
 #include <Date.au3>
 

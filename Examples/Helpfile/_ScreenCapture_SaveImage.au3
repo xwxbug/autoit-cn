@@ -1,4 +1,4 @@
-#include <ScreenCapture.au3>
+﻿#include <ScreenCapture.au3>
 
 _Main()
 

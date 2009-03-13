@@ -1,4 +1,4 @@
-; *******************************************************
+﻿; *******************************************************
 ; Example 1 - Open a browser with the basic example page, insert text
 ;		in and around the first Paragraph tag and display Body HTML
 ; *******************************************************

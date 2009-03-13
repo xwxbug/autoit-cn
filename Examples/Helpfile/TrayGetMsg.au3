@@ -1,15 +1,15 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
+Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
 
-$settingsitem	= TrayCreateMenu("ÉèÖÃ")
-$displayitem	= TrayCreateItem("ÏÔÊ¾", $settingsitem)
-$printeritem	= TrayCreateItem("´òÓ¡", $settingsitem)
+$settingsitem	= TrayCreateMenu("è®¾ç½®")
+$displayitem	= TrayCreateItem("æ˜¾ç¤º", $settingsitem)
+$printeritem	= TrayCreateItem("æ‰“å°", $settingsitem)
 TrayCreateItem("")
-$aboutitem		= TrayCreateItem("¹ØÓÚ")
+$aboutitem		= TrayCreateItem("å…³äº")
 TrayCreateItem("")
-$exititem		= TrayCreateItem("ÍË³ö")
+$exititem		= TrayCreateItem("é€€å‡º")
 
 TraySetState()
 
@@ -19,7 +19,7 @@ While 1
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $aboutitem
-			Msgbox(64,"¹ØÓÚ:","AutoIt3-ÍĞÅÌ-Àı×Ó")
+			Msgbox(64,"å…³äº:","AutoIt3-æ‰˜ç›˜-ä¾‹å­")
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect

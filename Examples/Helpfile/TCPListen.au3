@@ -1,4 +1,4 @@
-;SERVER!! Start Me First !!!!!!!!!!!!!!!
+﻿;SERVER!! Start Me First !!!!!!!!!!!!!!!
 $g_IP = "127.0.0.1"
 
 ; Start The TCP Services

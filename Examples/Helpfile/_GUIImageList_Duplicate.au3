@@ -1,4 +1,4 @@
-#AutoIt3Wrapper_au3check_parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w 7
+﻿#AutoIt3Wrapper_au3check_parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w 7
 #include <GuiConstantsEx.au3>
 #include <WinAPI.au3>
 #include <GuiListView.au3>

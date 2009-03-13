@@ -1,4 +1,4 @@
-$var = IniReadSection("C:\Temp\myfile.ini", "section2")
+﻿$var = IniReadSection("C:\Temp\myfile.ini", "section2")
 If @error Then 
 	MsgBox(4096, "", "Error occurred, probably no INI file.")
 Else

@@ -1,7 +1,7 @@
-#Include <Constants.au3>
+ï»¿#Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
+Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
 
 $exititem		= TrayCreateItem("Exit")
 

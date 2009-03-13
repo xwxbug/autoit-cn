@@ -1,4 +1,4 @@
-; Example getting an Object using it's class name
+﻿; Example getting an Object using it's class name
 ;
 ; Excel must be activated for this example to be successfull
 

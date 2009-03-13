@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+﻿#include <GuiConstantsEx.au3>
 #include <GDIPlus.au3>
 #include <ScreenCapture.au3>
 

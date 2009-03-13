@@ -1,4 +1,4 @@
-$server = 'ftp.example.com'
+﻿$server = 'ftp.example.com'
 $username = 'secretusers'
 $pass = 'hiddenpass'
 

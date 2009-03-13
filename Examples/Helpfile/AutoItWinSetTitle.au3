@@ -1,1 +1,1 @@
-AutoItWinSetTitle("ÎÒµÄ AutoIt ´°¿Ú")
+ï»¿AutoItWinSetTitle("æˆ‘çš„ AutoIt çª—å£")

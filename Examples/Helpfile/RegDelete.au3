@@ -1,1 +1,1 @@
-RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE", "TestKey")
+﻿RegDelete("HKEY_LOCAL_MACHINE\SOFTWARE", "TestKey")

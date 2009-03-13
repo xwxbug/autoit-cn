@@ -1,4 +1,4 @@
-#include-once
+﻿#include-once
 #include <Array.au3>
 ;#include <_debug.au3> Added func to end of this udf.
 ; ------------------------------------------------------------------------------
