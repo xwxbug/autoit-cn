@@ -392,11 +392,11 @@ Func _StringProper($s_Str)
 		$s_CurChar = StringMid($s_Str, $iX, 1)
 		Select
 			Case $CapNext = 1
-				If StringRegExp($s_CurChar, '[a-zA-Z?殰灍]') Then
+				If StringRegExp($s_CurChar, '[a-zA-ZÀ-ÿšœžŸ]') Then
 					$s_CurChar = StringUpper($s_CurChar)
 					$CapNext = 0
 				EndIf
-			Case Not StringRegExp($s_CurChar, '[a-zA-Z?殰灍]')
+			Case Not StringRegExp($s_CurChar, '[a-zA-ZÀ-ÿšœžŸ]')
 				$CapNext = 1
 			Case Else
 				$s_CurChar = StringLower($s_CurChar)
