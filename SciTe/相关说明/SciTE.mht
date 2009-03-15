@@ -1,0 +1,3788 @@
+From: <ÓÉ Microsoft Internet Explorer 5 ±£´æ>
+Subject: SciTE
+Date: Tue, 8 Feb 2005 21:21:28 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_001D_01C50E24.26C89BE0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5512
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_001D_01C50E24.26C89BE0
+Content-Type: text/html;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.scintilla.org/SciTEDoc.html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<?xml version=3D"1.0"?><HTML =
+xmlns=3D"http://www.w3.org/1999/xhtml"><HEAD><TITLE>SciTE</TITLE>
+<META content=3D"MSHTML 6.00.2900.5512" name=3DGENERATOR>
+<META content=3DSciTE name=3Dgenerator>
+<META http-equiv=3DContent-Type content=3D"text/html; charset=3Dgb2312">
+<STYLE type=3Dtext/css>TABLE {
+	BORDER-RIGHT: #1f1f1f 1px solid; BORDER-TOP: #1f1f1f 1px solid; =
+BORDER-LEFT: #1f1f1f 1px solid; BORDER-BOTTOM: #1f1f1f 1px solid; =
+BORDER-COLLAPSE: collapse
+}
+TD {
+	BORDER-RIGHT: #1f1f1f 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: =
+#1f1f1f 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 1px; BORDER-LEFT: =
+#1f1f1f 1px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #1f1f1f 1px solid
+}
+TH {
+	BORDER-RIGHT: #1f1f1f 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: =
+#1f1f1f 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 1px; BORDER-LEFT: =
+#1f1f1f 1px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #1f1f1f 1px solid
+}
+.windowsonly {
+	BACKGROUND: #ebf3ff
+}
+.gtkonly {
+	BACKGROUND: #ffffe7
+}
+.example {
+	FONT-WEIGHT: bold; COLOR: #008000
+}
+DIV.example {
+	BORDER-RIGHT: #c0d7c0 1px solid; PADDING-RIGHT: 0.6em; BORDER-TOP: =
+#c0d7c0 1px solid; PADDING-LEFT: 0.6em; FONT-SIZE: 80%; BACKGROUND: =
+#f7fcf7; PADDING-BOTTOM: 0.3em; MARGIN: 0.3em 3em; BORDER-LEFT: #c0d7c0 =
+1px solid; PADDING-TOP: 0.3em; BORDER-BOTTOM: #c0d7c0 1px solid
+}
+H3 {
+	BORDER-RIGHT: #ffcc00 2px solid; PADDING-RIGHT: 5px; BORDER-TOP: =
+#ffcc00 2px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; BORDER-LEFT: =
+#ffcc00 2px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffcc00 2px solid; =
+BACKGROUND-COLOR: #fff7ee
+}
+.header {
+	BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; =
+BORDER-LEFT: #cccccc 1px solid; BORDER-BOTTOM: #cccccc 1px solid
+}
+.headerlinks {
+	BORDER-RIGHT: #ff0000 0px solid; PADDING-RIGHT: 7px; BORDER-TOP: =
+#ff0000 0px solid; PADDING-LEFT: 7px; FONT-SIZE: 120%; PADDING-BOTTOM: =
+7px; BORDER-LEFT: #ff0000 0px solid; PADDING-TOP: 7px; BORDER-BOTTOM: =
+#ff0000 0px solid; BACKGROUND-COLOR: #cccccc
+}
+</STYLE>
+</HEAD>
+<BODY text=3D#000000 bgColor=3D#ffffff>
+<TABLE=20
+style=3D"BORDER-RIGHT: #ff0000 0px solid; BORDER-TOP: #ff0000 0px solid; =
+BORDER-LEFT: #ff0000 0px solid; BORDER-BOTTOM: #ff0000 0px solid"=20
+cellSpacing=3D0 cellPadding=3D0 width=3D"100%" bgColor=3D#000000 =
+summary=3Dbanner=20
+border=3D0>
+  <TBODY>
+  <TR>
+    <TD><IMG height=3D64 alt=3D"Scintilla icon"=20
+      src=3D"http://www.scintilla.org/SciTEIco.png" width=3D64 =
+border=3D3> </TD>
+    <TD><A style=3D"COLOR: white; TEXT-DECORATION: none"=20
+      href=3D"http://www.scintilla.org/index.html"><FONT size=3D5>SciTE=20
+      Documentation</FONT></A> </TD></TR></TBODY></TABLE>
+<TABLE class=3Dheader width=3D"100%" summary=3Dheader>
+  <TBODY>
+  <TR>
+    <TD class=3Dheaderlinks><A=20
+      href=3D"http://scintilla.sourceforge.net/SciTEFAQ.html">Frequently =
+Asked=20
+      Questions</A>&nbsp;&nbsp; <A=20
+      =
+href=3D"http://scintilla.sourceforge.net/SciTELua.html">Scripting</A>&nbs=
+p;&nbsp;=20
+      <A href=3D"http://www.scintilla.org/SciTERegEx.html">Regular=20
+      Expressions</A>&nbsp;&nbsp; </TD></TR></TBODY></TABLE>
+<H3>Standard Editing </H3>
+<P>Text editing in SciTE works similarly to most Macintosh or Windows =
+editors=20
+with the added feature of automatic syntax styling. SciTE can hold =
+multiple=20
+files in memory at one time but only one file will be visible. =
+Rectangular=20
+blocks of text can be selected in SciTE by holding down the Alt key on =
+Windows=20
+or the Ctrl key on GTK+ while dragging the mouse over the text. </P>
+<P>There are two panes in SciTE, the editing pane and the output pane. =
+The=20
+output pane is located either to the right of the editing pane or below =
+it.=20
+Initially it is of zero size, but it can be made larger by dragging the =
+divider=20
+between it and the editing pane. The Options | Vertical Split command =
+can be=20
+used to move the output pane beneath the editing pane. </P>
+<P>SciTE can perform commands to compile or run source files with the =
+output=20
+from these commands directed into the output pane. </P>
+<P>For example, if <A href=3D"http://www.python.org/">Python</A> is =
+installed on=20
+the machine, open a new document, type: </P>
+<BLOCKQUOTE><KBD>print "Hi" </KBD></BLOCKQUOTE>
+<P>as that document's text. </P>Save the document as printhi.py. <BR>The =
+
+document should now appear coloured as SciTE is using the file's =
+extension to=20
+decide upon the syntax styling to use:=20
+<BLOCKQUOTE><CODE><B><FONT color=3D#000080>print </FONT></B><I><FONT=20
+  color=3D#800080>"hi"</FONT></I> </CODE></BLOCKQUOTE>Perform the Tools =
+| Go=20
+command.<BR>The output window will be made visible if it is not already =
+visible=20
+and will show:<BR>
+<BLOCKQUOTE><CODE><FONT color=3D#0000ff>&gt;python -u=20
+  printhi.py</FONT><BR>hi<BR><FONT color=3D#0000ff>&gt;Exit code: =
+0</FONT>=20
+</CODE></BLOCKQUOTE>The first blue line is from SciTE showing the =
+command it=20
+will use to run the program. The black line is the output from running =
+the=20
+Python program. The last blue line is from SciTE showing that the =
+program has=20
+finished and displaying its exit code. An exit code of zero indicates a=20
+successful run. <BR>
+<P>SciTE partially understands the error messages produced by Python, =
+GCC,=20
+Visual C++, Borland C++, PHP and other tools which use the same format =
+as one of=20
+these. To see this, add a mistake to the Python file by adding a second =
+line to=20
+make the file: </P>
+<BLOCKQUOTE><CODE><SPAN style=3D"FONT-WEIGHT: bold; COLOR: =
+#000080">print=20
+  </SPAN><SPAN style=3D"COLOR: #800080; FONT-STYLE: =
+italic">"hi"</SPAN><BR>mistake=20
+  </CODE></BLOCKQUOTE>
+<P>Perform the Tools | Go command. The results should look like: </P>
+<BLOCKQUOTE><PRE><SPAN style=3D"COLOR: #0000ff">&gt;python -u =
+printhi.py</SPAN>
+hi
+Traceback (innermost last):
+  <SPAN style=3D"COLOR: #ff0000">File "printhi.py", line 2, in ?</SPAN>
+    mistake
+NameError: mistake
+<SPAN style=3D"COLOR: #0000ff">&gt;Exit code: 1</SPAN>
+</PRE></BLOCKQUOTE>
+<P>While it is easy to see where the problem is in this simple case, =
+when a file=20
+is larger the Tools | Next Message command can be used to view each of =
+the=20
+reported errors. Upon performing Tools | Next Message, the first error =
+message=20
+in the output pane is highlighted with a yellow background, and an error =
+
+indicator is displayed for the appropriate line in the editing pane. The =
+caret=20
+is moved to this line and the pane is scrolled if needed to show the =
+line. SciTE=20
+now looks like this: </P><IMG alt=3D"SciTE after running Python =
+interpreter"=20
+src=3D"http://www.scintilla.org/PrintHi.png">=20
+<P>SciTE understands both the file name and line number parts of error =
+messages=20
+in most cases so can open another file (such as a header file) if errors =
+were=20
+caused by that file. This feature may not work where the file name is=20
+complicated by containing spaces or ".." </P>
+<P>If command execution has failed and is taking too long to complete =
+then the=20
+Tools | Stop Executing command can be used. </P>
+<H3>Command subsystem </H3>
+<P>Tools can be executed in various modes by SciTE which are called=20
+"subsystems". Different subsystems are supported on Windows and GTK+. =
+The=20
+default subsystem is 0. </P>
+<P>
+<TABLE class=3Dwindowsonly cellSpacing=3D0 cellPadding=3D0=20
+summary=3D"Command line commands" border=3D1>
+  <THEAD>
+  <TR>
+    <TD colSpan=3D3>Windows</TD></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD>0</TD>
+    <TD>console</TD>
+    <TD>Command line programs<BR>Do not use for GUI programs as their =
+windows=20
+      will not be visible.</TD></TR>
+  <TR>
+    <TD>1</TD>
+    <TD>windows</TD>
+    <TD>Programs that create their own windows</TD></TR>
+  <TR>
+    <TD>2</TD>
+    <TD>shellexec</TD>
+    <TD>Run using ShellExecute<BR>A good way to open HTML files and =
+similar as=20
+      it handles this similarly to a user opening the file from the =
+shell.</TD></TR>
+  <TR>
+    <TD>3</TD>
+    <TD>lua<BR>director</TD>
+    <TD>Internal extension or director extension</TD></TR>
+  <TR>
+    <TD>4</TD>
+    <TD>htmlhelp</TD>
+    <TD>Open in HtmlHelp program<BR>Two part command separated by ! with =
+the=20
+      first part being the topic to search for and the second the name =
+of the=20
+      help file </TD></TR>
+  <TR>
+    <TD>5</TD>
+    <TD>winhelp</TD>
+    <TD>Open with WinHelp function<BR>Two part command similar to =
+subsystem=20
+    4</TD></TR></TBODY></TABLE></P>
+<P>
+<TABLE class=3Dgtkonly cellSpacing=3D0 cellPadding=3D0 =
+summary=3D"Command line commands"=20
+border=3D1>
+  <THEAD>
+  <TR>
+    <TD colSpan=3D3>GTK+</TD></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD>0</TD>
+    <TD>console</TD>
+    <TD>Execute tool and wait for it to finish</TD></TR>
+  <TR>
+    <TD>2</TD>
+    <TD>shellexec</TD>
+    <TD>Execute in background</TD></TR></TBODY></TABLE></P>
+<H3>Command line arguments </H3>
+<P>Command line arguments to SciTE include file names, commands and =
+properties.=20
+Commands and properties are preceded by "-" and are differentiated by =
+the use in=20
+commands of ':' as the first character that is not '.' or alphabetic. =
+Properties=20
+use the syntax used in property set files and override any properties =
+set in=20
+property files. If there is no value given for a property, it is set to =
+1.=20
+Double quotes may be placed around arguments that contain spaces but =
+they must=20
+be placed around the whole argument, not just around a file name, so =
+"-open:x=20
+y.txt" works but -open:"x y.txt" doesn't. On Linux, the standard shell =
+quoting=20
+is available. The "-p" argument causes SciTE to print the file and then =
+exit.=20
+</P>
+<P>For <SPAN class=3Dwindowsonly>Windows</SPAN>:<BR>The command line =
+arguments "-"=20
+and "--" (without the quotes) are special in that they read the stdin =
+stream=20
+into the last buffer ("-"), or the output pane ("--"))<BR>The command =
+line=20
+argument "-@" (without the quotes) is special in that file names are =
+read from=20
+stdin and opened.<BR><B>Note:</B> when reading stdin into the output =
+pane, when=20
+the property split.vertical is 0, the output pane is increased to its =
+maximum=20
+height. When the property split.vertical is 1, the output pane is =
+increased to=20
+approximately half of the screen width.<BR><B>Note:</B> If stdin is not=20
+redirected, these arguments are effectively ignored. </P>
+<P>For example,=20
+<DIV class=3Dexample>SciTE "-font.base=3Dfont:MS Gothic,size:11" =
+-save.recent=20
+ScintillaGTK.cxx </DIV>starts SciTE, opens ScintillaGTK.cxx, loads the =
+recent=20
+file list, and uses 11 point MS Gothic as the base font.<BR>A group of=20
+properties can be saved as a property set file (with the extension=20
+".properties") and the import command used on the command line:<BR>
+<DIV class=3Dexample>SciTE "-import c:\os\web_work" SciTEDoc.html </DIV>
+<P></P>A few commands are currently available although this will expand =
+in the=20
+future. These commands are available: <BR>
+<TABLE cellSpacing=3D0 cellPadding=3D0 summary=3D"Command line commands" =
+border=3D1>
+  <THEAD>
+  <TR>
+    <TH>Command</TH>
+    <TH>Argument</TH></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD>close:</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>cwd:</TD>
+    <TD>change working directory</TD></TR>
+  <TR>
+    <TD>find:</TD>
+    <TD>search text</TD></TR>
+  <TR>
+    <TD>goto:</TD>
+    <TD>line number[,column number]</TD></TR>
+  <TR>
+    <TD>open:</TD>
+    <TD>file name</TD></TR>
+  <TR>
+    <TD>quit:</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>replaceall:</TD>
+    <TD>search text\000replacement text</TD></TR>
+  <TR>
+    <TD>saveas:</TD>
+    <TD>file name</TD></TR></TBODY></TABLE><BR>Commands use C style =
+escape sequences=20
+which include:=20
+<TABLE cellSpacing=3D0 cellPadding=3D0 summary=3D"Command line escape =
+sequences"=20
+border=3D1>
+  <THEAD>
+  <TR>
+    <TH>Escape Sequence</TH>
+    <TH>Meaning</TH></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD>\\</TD>
+    <TD>backslash</TD></TR>
+  <TR>
+    <TD>\a</TD>
+    <TD>bell</TD></TR>
+  <TR>
+    <TD>\b</TD>
+    <TD>backspace</TD></TR>
+  <TR>
+    <TD>\f</TD>
+    <TD>form feed</TD></TR>
+  <TR>
+    <TD>\n</TD>
+    <TD>new line</TD></TR>
+  <TR>
+    <TD>\r</TD>
+    <TD>carriage return</TD></TR>
+  <TR>
+    <TD>\t</TD>
+    <TD>tab</TD></TR>
+  <TR>
+    <TD>\v</TD>
+    <TD>vertical tab</TD></TR>
+  <TR>
+    <TD>\&lt;ooo&gt;</TD>
+    <TD>octal number specified by 1, 2, or 3 digits</TD></TR>
+  <TR>
+    <TD>\x&lt;hh&gt;</TD>
+    <TD>hexadecimal number specified by 2 =
+digits</TD></TR></TBODY></TABLE>The=20
+following opens /big/icon.txt:<BR>
+<DIV class=3Dexample>SciTE -open:/big/icon.txt </DIV>On Windows, the =
+following=20
+opens C:\Program Files\SciTE\SciTEDoc.html and goes to the 123rd =
+line:<BR>
+<DIV class=3Dexample>SciTE "-open:C:\\Program =
+Files\\SciTE\\SciTEDoc.html"=20
+-goto:123 </DIV>
+<P>Command line arguments are evaluated left to right in two phases =
+because=20
+opening files requires the user interface to be available and there is =
+also a=20
+need to set some user interface properties before the user interface is=20
+displayed. The first phase process arguments until just before the first =
+file=20
+name would be opened. The second phase processes the remaining =
+arguments. </P>
+<P>So, if you need to perform e.g. a find: or a goto: command on a file, =
+you=20
+must put the command after the filename, to allow SciTE to open the file =
+before=20
+performing the command. </P>
+<P>For <SPAN class=3Dwindowsonly>Windows</SPAN>:<BR>If any simple file =
+name on the=20
+command line matches a directory name, the file open dialog appears - =
+this is=20
+dependant upon the property "open.dialog.in.file.directory"<BR><BR>If =
+the=20
+property "buffers" is greater than one and the file name matches either =
+a=20
+existing file or by means of a wildcard search, one or more files, the =
+matching=20
+files are loaded up to the property "buffers" count. Directories are not =
+
+considered a match in this case<BR><BR>If the file name is an extension, =
+
+optionally preceded by a path, and no such simple file name exists, the =
+file=20
+open dialog appears, with the given extension as the filter.<BR><BR>If =
+the file=20
+name contains no extension, the property "source.default.extensions" is =
+used to=20
+provide default extensions to attempt to match the file name to an =
+existing=20
+file. </P>
+<H3>Buffers </H3>
+<P>SciTE may be configured to use between 1 and 100 buffers each =
+containing a=20
+file. The default is 1 and this effectively turns off buffers. With more =
+than=20
+one buffer, the Buffers menu can be used to switch between buffers, =
+either by=20
+selecting the file name or using the Previous (F6) and Next (Shift+F6) =
+commands.=20
+Setting more than 10 buffers may cause problems as some menus are fixed =
+in=20
+length and thus files beyond that length may not be accessible. </P>
+<P>When all the buffers contain files, then opening a new file causes a =
+buffer=20
+to be reused which may require a file to be saved. In this case an alert =
+is=20
+displayed to ensure the user wants the file saved. </P>
+<H3>Sessions </H3>
+<P>A session is a list of file names. You can save a complete set of =
+your=20
+currently opened buffers as a session for fast batch-loading in the =
+future.=20
+Sessions are stored as properties files with the extension ".session". =
+</P>
+<P>Use File | Load Session and File | Save Session to load/save =
+sessions. You=20
+can turn on/off "last session autoloading" using SciTE properties =
+variable=20
+"save.session". </P>
+<P>If "buffers" variable is set to "0" session management is turned off. =
+</P>
+<P>Loading previously saved session will close your currently opened =
+buffers.=20
+However you will not lose your edits, because you will be asked to save =
+unsaved=20
+buffers first. </P>
+<P>Opening a specific file from command line overrides "save.session" =
+variable=20
+state. When you start SciTE loading a specific file from command line =
+last=20
+session will not restore even if "save.session" variable is set to "1". =
+This=20
+makes "save.session" safe to use - you will never open a couple of files =
+when=20
+you are trying to open just one, specific file. </P>
+<P>By setting "session.bookmarks" and "session.folds" variables =
+bookmarks and=20
+folding states of the currently opened buffers are saved in session =
+files and=20
+restored when sessions are loaded. </P>
+<H3>Languages understood by SciTE </H3>
+<P>SciTE currently is able to syntax style these languages (* denotes =
+support=20
+for folding): </P>
+<UL>
+  <LI>Abaqus*=20
+  <LI>Ada=20
+  <LI>ANS.1 MIB definition files*=20
+  <LI>APDL=20
+  <LI>Assembler (NASM, MASM)=20
+  <LI>Asymptote*=20
+  <LI>AutoIt*=20
+  <LI>Avenue*=20
+  <LI>Batch files (MS-DOS)=20
+  <LI>Baan*=20
+  <LI>Bash*=20
+  <LI>BlitzBasic*=20
+  <LI>Bullant*=20
+  <LI>C/C++/C#*=20
+  <LI>Clarion*=20
+  <LI>cmake*=20
+  <LI>conf (Apache)*=20
+  <LI>CSound*=20
+  <LI>CSS*=20
+  <LI>diff files*=20
+  <LI>E-Script*=20
+  <LI>Eiffel*=20
+  <LI>Erlang*=20
+  <LI>Flagship (Clipper / XBase)*=20
+  <LI>Flash (ActionScript)*=20
+  <LI>Fortran*=20
+  <LI>Forth*=20
+  <LI>GAP*=20
+  <LI>Haskell=20
+  <LI>HTML*=20
+  <LI>HTML with embedded JavaScript, VBScript, PHP and ASP*=20
+  <LI>Gui4Cli*=20
+  <LI>IDL - both MSIDL and XPIDL*=20
+  <LI>INI, properties* and similar=20
+  <LI>InnoSetup*=20
+  <LI>Java*=20
+  <LI>JavaScript*=20
+  <LI>LISP*=20
+  <LI>LOT*=20
+  <LI>Lout*=20
+  <LI>Lua*=20
+  <LI>Make=20
+  <LI>Matlab*=20
+  <LI>Metapost*=20
+  <LI>MMIXAL=20
+  <LI>MSSQL=20
+  <LI>nnCron=20
+  <LI>NSIS*=20
+  <LI>Objective Caml*=20
+  <LI>Opal=20
+  <LI>Octave*=20
+  <LI>Pascal/Delphi*=20
+  <LI>Perl, most of it except for some ambiguous cases*=20
+  <LI>PL/M*=20
+  <LI>Progress*=20
+  <LI>PostScript*=20
+  <LI>POV-Ray*=20
+  <LI>PowerBasic*=20
+  <LI>PureBasic*=20
+  <LI>Python*=20
+  <LI>R*=20
+  <LI>Rebol*=20
+  <LI>Ruby*=20
+  <LI>Scheme*=20
+  <LI>scriptol*=20
+  <LI>Specman E*=20
+  <LI>Spice=20
+  <LI>Smalltalk=20
+  <LI>SQL and PLSQL=20
+  <LI>TADS3*=20
+  <LI>TeX and LaTeX=20
+  <LI>Tcl/Tk*=20
+  <LI>VB and VBScript*=20
+  <LI>Verilog*=20
+  <LI>VHDL*=20
+  <LI>XML*=20
+  <LI>YAML* </LI></UL>
+<P>Running and building commands for some of these languages have been =
+set up=20
+but should be checked as they will have to be modified to work for many =
+people.=20
+</P>
+<P>To keep menus to a reasonable length some languages are included but =
+have=20
+been commented out in global options. These should be enabled by =
+removing the=20
+comment character '#'. </P>
+<P>Language settings are determined from the file extension but this can =
+be=20
+changed by selecting another language from the Language menu. The =
+language menu=20
+can be changed with the menu.language property. </P>
+<H3>Find and Replace </H3>
+<P>SciTE has options to allow searching for words, regular expressions, =
+matching=20
+case, in the reverse direction, wrapping around the end of the document. =
+C style=20
+backslash escapes which are listed in the command line arguments =
+section, may be=20
+used to search and replace control characters. Replacements can be made=20
+individually, over the current selection or over the whole file. When =
+regular=20
+expressions are used tagged subexpressions can be used in the =
+replacement text.=20
+Regular expressions will not match across a line end. </P>
+<P>SciTE supports <A =
+href=3D"http://www.scintilla.org/SciTERegEx.html">basic=20
+regular expressions</A> with tagging. </P>
+<H3>Keyboard commands </H3>
+<P>Keyboard commands in SciTE mostly follow common Windows and GTK+ =
+conventions.=20
+All movement keys (arrows, page up/down, home and end) allow to extend =
+or reduce=20
+a stream selection when holding the Shift key, and a rectangular =
+selection when=20
+holding the Shift and Alt keys. Some keys may not be available with some =
+
+national keyboards or because they are taken by the system such as by a =
+window=20
+manager on GTK+. The user.shortcuts setting may be used to assign a key =
+to a=20
+function. Note that Home key behaviour is changed by the vc.home.key =
+option.=20
+Keyboard equivalents of menu commands are listed in the menus. Some less =
+common=20
+commands with no menu equivalent are: </P>
+<TABLE cellSpacing=3D0 cellPadding=3D0 summary=3D"Keyboard commands" =
+border=3D1>
+  <TBODY>
+  <TR>
+    <TD>Magnify text size.</TD>
+    <TD>Ctrl+Keypad+</TD></TR>
+  <TR>
+    <TD>Reduce text size.</TD>
+    <TD>Ctrl+Keypad-</TD></TR>
+  <TR>
+    <TD>Restore text size to normal.</TD>
+    <TD>Ctrl+Keypad/</TD></TR>
+  <TR>
+    <TD>Cycle through recent files.</TD>
+    <TD>Ctrl+Tab</TD></TR>
+  <TR>
+    <TD>Indent block.</TD>
+    <TD>Tab</TD></TR>
+  <TR>
+    <TD>Dedent block.</TD>
+    <TD>Shift+Tab</TD></TR>
+  <TR>
+    <TD>Delete to start of word.</TD>
+    <TD>Ctrl+BackSpace</TD></TR>
+  <TR>
+    <TD>Delete to end of word.</TD>
+    <TD>Ctrl+Delete</TD></TR>
+  <TR>
+    <TD>Delete to start of line.</TD>
+    <TD>Ctrl+Shift+BackSpace</TD></TR>
+  <TR>
+    <TD>Delete to end of line.</TD>
+    <TD>Ctrl+Shift+Delete</TD></TR>
+  <TR>
+    <TD>Go to start of document.</TD>
+    <TD>Ctrl+Home</TD></TR>
+  <TR>
+    <TD>Extend selection to start of document.</TD>
+    <TD>Ctrl+Shift+Home</TD></TR>
+  <TR>
+    <TD>Go to start of display line.</TD>
+    <TD>Alt+Home</TD></TR>
+  <TR>
+    <TD>Extend selection to start of display line.</TD>
+    <TD>Alt+Shift+Home</TD></TR>
+  <TR>
+    <TD>Go to end of document.</TD>
+    <TD>Ctrl+End</TD></TR>
+  <TR>
+    <TD>Extend selection to end of document.</TD>
+    <TD>Ctrl+Shift+End</TD></TR>
+  <TR>
+    <TD>Go to end of display line.</TD>
+    <TD>Alt+End</TD></TR>
+  <TR>
+    <TD>Extend selection to end of display line.</TD>
+    <TD>Alt+Shift+End</TD></TR>
+  <TR>
+    <TD>Expand or contract a fold point.</TD>
+    <TD>Ctrl+Keypad*</TD></TR>
+  <TR>
+    <TD>Create or delete a bookmark.</TD>
+    <TD>Ctrl+F2</TD></TR>
+  <TR>
+    <TD>Go to next bookmark.</TD>
+    <TD>F2</TD></TR>
+  <TR>
+    <TD>Select to next bookmark.</TD>
+    <TD>Alt+F2</TD></TR>
+  <TR>
+    <TD>Find selection.</TD>
+    <TD>Ctrl+F3</TD></TR>
+  <TR>
+    <TD>Find selection backwards.</TD>
+    <TD>Ctrl+Shift+F3</TD></TR>
+  <TR>
+    <TD>Scroll up.</TD>
+    <TD>Ctrl+Up</TD></TR>
+  <TR>
+    <TD>Scroll down.</TD>
+    <TD>Ctrl+Down</TD></TR>
+  <TR>
+    <TD>Line cut.</TD>
+    <TD>Ctrl+L</TD></TR>
+  <TR>
+    <TD>Line copy.</TD>
+    <TD>Ctrl+Shift+T</TD></TR>
+  <TR>
+    <TD>Line delete.</TD>
+    <TD>Ctrl+Shift+L</TD></TR>
+  <TR>
+    <TD>Line transpose with previous.</TD>
+    <TD>Ctrl+T</TD></TR>
+  <TR>
+    <TD>Selection duplicate.</TD>
+    <TD>Ctrl+D</TD></TR>
+  <TR>
+    <TD>Find matching preprocessor conditional, skipping nested =
+ones.</TD>
+    <TD>Ctrl+K</TD></TR>
+  <TR>
+    <TD>Select to matching preprocessor conditional.</TD>
+    <TD>Ctrl+Shift+K</TD></TR>
+  <TR>
+    <TD>Find matching preprocessor conditional backwards, skipping =
+nested=20
+    ones.</TD>
+    <TD>Ctrl+J</TD></TR>
+  <TR>
+    <TD>Select to matching preprocessor conditional backwards.</TD>
+    <TD>Ctrl+Shift+J</TD></TR>
+  <TR>
+    <TD>Previous paragraph. Shift extends selection.</TD>
+    <TD>Ctrl+[</TD></TR>
+  <TR>
+    <TD>Next paragraph. Shift extends selection.</TD>
+    <TD>Ctrl+]</TD></TR>
+  <TR>
+    <TD>Previous word. Shift extends selection.</TD>
+    <TD>Ctrl+Left</TD></TR>
+  <TR>
+    <TD>Next word. Shift extends selection.</TD>
+    <TD>Ctrl+Right</TD></TR>
+  <TR>
+    <TD>Previous word part. Shift extends selection</TD>
+    <TD>Ctrl+/</TD></TR>
+  <TR>
+    <TD>Next word part. Shift extends selection.</TD>
+    <TD>Ctrl+\</TD></TR>
+  <TR>
+    <TD>Rectangular block selection.</TD>
+    <TD>Alt+Shift+Movement</TD></TR></TBODY></TABLE>
+<H3>Abbreviations </H3>
+<P>To use an abbreviation, type it and use the Expand Abbreviation =
+command or=20
+the Ctrl+B key. The abbreviation is replaced by an expansion defined in =
+the=20
+Abbreviations file. You can open the Abbreviations file with a command =
+in the=20
+Options menu and add abbreviations. There is a default abbreviations =
+file but a=20
+different abbreviations file can be set for particular file extensions. =
+</P>
+<P>Each line in the files looks like "abbreviation=3Dexpansion".<BR>The=20
+abbreviations names can have any character (except perhaps control =
+chars, surely=20
+for CR and LF), including high Ascii chars (accented chars).<BR>Names =
+have=20
+properties files limits: they cannot start with sharp (#) or space or =
+tab (but=20
+can have spaces inside); and they cannot have '=3D' character=20
+inside.<BR>Abbreviations names are limited to 32 characters. It is =
+probably=20
+enough for <EM>abbreviations</EM>...<BR></P>
+<P>An expansion may contain new line characters indicated by '\n' and a =
+caret=20
+position indicated by the '|' character. To include a literal '|' =
+character, use=20
+'||'.<BR>Some simple examples are included in the distributed =
+Abbreviations=20
+file.<BR>When expanding, the names don't need to be separated from the =
+previous=20
+text. Ie. if you define '=A8=A6' as '&amp;eacute;', you can expand it =
+inside a=20
+word.<BR>If a name is the ending of another one, only the shorter will =
+ever be=20
+expanded. Ie. if you define 'ring' and 'gathering', the later will see =
+only the=20
+'ring' part expanded. </P>
+<H3>Folding </H3>
+<P>SciTE supports folding for many languages (see the list of languages=20
+understood by SciTE for more information.) Fold points are based upon=20
+indentation for Python and on counting braces for the other languages. =
+The fold=20
+point markers can be clicked to expand and contract folds. =
+Ctrl+Shift+Click in=20
+the fold margin will expand or contract all the top level folds. =
+Ctrl+Click on a=20
+fold point to toggle it and perform the same operation on all children.=20
+Shift+Click on a fold point to show all children. </P>
+<H3>Properties file </H3>
+<P>Much of SciTE's behaviour can be changed by editing the properties =
+files.=20
+</P>
+<P>There are four properties files used:=20
+<UL>
+  <LI>Local properties file called "SciTE.properties" which may be =
+present in=20
+  the same directory as the file being edited.=20
+  <LI>Directory properties file called "SciTEDirectory.properties" which =
+may be=20
+  present in the same or in a parent directory as the file being edited. =
+
+  <LI>User properties file called "SciTEUser.properties" on Windows and=20
+  ".SciTEUser.properties" on GTK+=20
+  <LI>Global properties file called "SciTEGlobal.properties" </LI></UL>
+<P></P>
+<P>Settings in the local properties file override those in the directory =
+
+properties file which overrides those in the user properties file which =
+override=20
+those in the global properties files. Environment variables are also =
+available=20
+as properties and these are overridden by an explicit setting in one of =
+the=20
+properties files. </P>
+<P>The directory properties file can be used as project options file =
+where user=20
+commands and compile, build commands should work in the same manner in=20
+subdirectories of a project. The benefit is that local properties files =
+in=20
+subdirectories can be replaced by one properties file which is located =
+at the=20
+root of the project. The evalution of the directory properties file is =
+disabled=20
+by default and must be enabled by setting the variable=20
+properties.directory.enable to 1 in the user or global properties file. =
+</P>
+<P>The user properties file is intended for customisation by the user, =
+leaving=20
+the global properties file to contain the default options distributed =
+with=20
+SciTE. The main use of the local properties files is to change the =
+effects of=20
+the Compile, Build and Go commands for the files in a directory. For =
+example, I=20
+use the javac compiler from the Java Development Kit for most work, so=20
+SciTEGlobal.properties sets the command for compiling .java files to =
+"javac". If=20
+I want to use the jvc compiler for the files in one directory, then the=20
+SciTE.properties file in that directory contains an entry setting the =
+command to=20
+"jvc". </P>
+<P>On Windows, the global properties file is located in the directory of =
+the=20
+executable. The user properties file is looked for in the user profile =
+directory=20
+as set in the USERPROFILE environment variable, or in the directory of =
+the=20
+executable if USERPROFILE is not set. For GTK+ the user properties file =
+is found=20
+in the user's home directory and the global properties in a directory =
+set at=20
+build time - normally /usr/share/scite. If the "SciTE_HOME" environment =
+variable=20
+is set on either Windows or GTK+ then it is where both the global and =
+user=20
+properties files are found. </P>
+<P>There are commands in the Options menu for opening each of the =
+properties=20
+files. </P>
+<P>The files are in approximately the same format as Java properties =
+files which=20
+have a simple text format. Lines that start with '#' or that are =
+completely=20
+blank are comments. Other lines are of the form </P>
+<P>variable=3Dvalue </P>
+<P>For long values, a '\' character at the end of the line continues =
+that value=20
+on the next line. Space characters are significant so <SPAN=20
+class=3Dexample>x&nbsp;=3D1</SPAN> defines a variable called "x&nbsp;". =
+Values may=20
+include the values of other variables by using $(variablename). There =
+are some=20
+variables set by the environment to access the name of the current file =
+as well:=20
+</P>
+<TABLE cellSpacing=3D0 cellPadding=3D0=20
+summary=3D"Variables set by the environment for use in property files" =
+border=3D1>
+  <THEAD>
+  <TR>
+    <TH>Name</TH>
+    <TH>Meaning</TH></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD>FilePath</TD>
+    <TD>full path of the current file</TD></TR>
+  <TR>
+    <TD>FileDir</TD>
+    <TD>directory of the current file without a trailing slash</TD></TR>
+  <TR>
+    <TD>FileName</TD>
+    <TD>base name of the current file</TD></TR>
+  <TR>
+    <TD>FileExt</TD>
+    <TD>extension of the current file</TD></TR>
+  <TR>
+    <TD>FileNameExt</TD>
+    <TD>$(FileName).$(FileExt)</TD></TR>
+  <TR>
+    <TD>SessionPath</TD>
+    <TD>full path of the current session</TD></TR>
+  <TR>
+    <TD>CurrentSelection</TD>
+    <TD>value of the currently selected text</TD></TR>
+  <TR>
+    <TD>CurrentWord</TD>
+    <TD>value of word which the caret is within or near</TD></TR>
+  <TR>
+    <TD>Replacements</TD>
+    <TD>number of replacements made by last Replace command</TD></TR>
+  <TR>
+    <TD>SelectionStartColumn</TD>
+    <TD>column where selection starts</TD></TR>
+  <TR>
+    <TD>SelectionStartLine</TD>
+    <TD>line where selection starts</TD></TR>
+  <TR>
+    <TD>SelectionEndColumn</TD>
+    <TD>column where selection ends</TD></TR>
+  <TR>
+    <TD>SelectionEndLine</TD>
+    <TD>line where selection ends</TD></TR>
+  <TR>
+    <TD>CurrentMessage</TD>
+    <TD>most recently selected output pane message</TD></TR>
+  <TR>
+    <TD>SciteDefaultHome</TD>
+    <TD>directory in which the Global Options file is found</TD></TR>
+  <TR>
+    <TD>SciteUserHome</TD>
+    <TD>directory in which the User Options file is found</TD></TR>
+  <TR>
+    <TD>SciteDirectoryHome</TD>
+    <TD>directory in which the Directory Options file is=20
+found</TD></TR></TBODY></TABLE>
+<P>Some features use file name patterns to see which variable to use. =
+For=20
+example, the lexer variable can be specialised for a particular file, or =
+a group=20
+of files based upon wildcard matching =
+so:<BR><B>lexer.makefile=3Dmakefile</B>=20
+indicates that the lexer called "makefile" should be used on files =
+called=20
+"makefile".<BR><B>lexer.*.cxx=3Dcpp</B> indicates that the lexer called =
+"cpp"=20
+should be used on files with a "cxx" extension.<BR>Variable substitution =
+is=20
+available on the left hand side of file pattern assignments and look =
+like=20
+this:<BR><B>file.patterns.html=3D*.html;*.htm;*.asp;*.shtml</B><BR><B>com=
+mand.go.$(file.patterns.html)=3Dfile://$(FilePath)</B>=20
+</P>
+<P>Wildcard matching only works where the wildcard is at the start of a =
+file=20
+specification, so "*.mak" will match "proj.mak" but "Makefile*" will not =
+match=20
+"Makefile.in". </P>
+<H3>Importing properties files and conditional logic </H3>
+<P>The 'import' statement includes a properties file as if the text were =
+inline=20
+at that point. The imported properties file must be in the same =
+directory as the=20
+current file and a properties extension is assumed. Therefore a "import =
+Lua"=20
+statement in c:\os\scite\bin\SciTEGlobal.properties will import=20
+c:\os\scite\bin\Lua.properties. </P>
+<P>The 'if' statement takes one argument which is a symbol that may be =
+defined=20
+earlier in this property set file or in a base property set. If the =
+symbol=20
+evaluates to '0' then the test fails. An empty string or not present =
+symbol=20
+evaluates to 0. Into the very top property set is inserted one of =
+'PLAT_GTK'=20
+with value '1' or 'PLAT_WIN' with value '1'. If the test succeeds then =
+following=20
+indented statements are executed. When a non-indented statement is found =
+the if=20
+clause is finished. Only simple set statements are allowed in if =
+clauses. The=20
+evaluation of if statements occurs at read time, not at evaluation time. =
+</P>
+<H3>Command parameters and prompting </H3>
+<P>SciTE has 4 properties $(1) .. $(4) which can be used to run commands =
+with=20
+changeable parameters. To set the parameter values, use the View | =
+Parameters=20
+command to view the modeless Parameters dialog which shows the current =
+values of=20
+these parameters and allows setting new values. The accelerator keys for =
+the=20
+main window remain active while this dialog is displayed, so it can be =
+used to=20
+rapidly run a command several times with different parameters. =
+Alternatively, a=20
+command can be made to display the modal Parameters dialog when executed =
+by=20
+starting the command with a '*' which is otherwise ignored. If the =
+modeless=20
+Parameters dialog is already visible, then the '*' is ignored. </P>
+<H3>Encodings </H3>
+<P>SciTE will automatically detect the encoding scheme used for Unicode =
+files=20
+that start with a Byte Order Mark (BOM). The UTF-8 and UCS-2 encodings =
+are=20
+recognized including both Little Endian and Big Endian variants of =
+UCS-2. </P>
+<P>UTF-8 files will also be recognised when they contain a coding cookie =
+on one=20
+of the first two lines. A coding cookie looks similar to "coding: utf-8" =
+
+("coding" followed by ':' or '=3D', optional whitespace, optional quote, =
+"utf-8")=20
+and is normally contained in a comment:<BR>
+<DIV class=3Dexample># -*- coding: utf-8 -*-</DIV>For XML there is a=20
+declaration:<BR>
+<DIV class=3Dexample>&lt;?xml version=3D'1.0' =
+encoding=3D'utf-8'?&gt;</DIV>
+<P></P>
+<P>For other encodings set the code.page and character.set properties. =
+</P>
+<H3>Defined variables in properties files </H3>
+<P>Some properties are only available on <SPAN =
+class=3Dwindowsonly>Windows</SPAN>=20
+or <SPAN class=3Dgtkonly>GTK+</SPAN>. </P>
+<TABLE cellSpacing=3D0 cellPadding=3D1 summary=3D"Defined variables in =
+property files"=20
+border=3D1>
+  <TBODY>
+  <TR>
+    =
+<TD>position.left<BR>position.top<BR>position.width<BR>position.height<BR=
+>position.maximize=20
+    </TD>
+    <TD>Set the initial window size and position. If these are omitted =
+then=20
+      the environment's defaults are used. If the width or height are -1 =
+or the=20
+      position.maximize property is set then the window is maximised. =
+</TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>position.tile </TD>
+    <TD>If there is another copy of SciTE open, set the initial window=20
+      position to be with the left side at position.left + =
+position.width so=20
+      that most of the time you can see both copies at once without =
+overlap.=20
+      Works nicely if position.left set to 0 and position.width set to =
+half of=20
+      the screen width. </TD></TR>
+  <TR>
+    <TD>buffers </TD>
+    <TD>Set to a number between 1 and 100 to configure that many =
+buffers.=20
+      Values outside this range are clamped to be within the range. The =
+default=20
+      is 1 which turns off UI features concerned with buffers.<BR>This =
+value is=20
+      read only once, early in the startup process and only from the =
+global=20
+      properties files. So after changing it, restart SciTE to see the =
+effect.=20
+    </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>buffers.zorder.switching </TD>
+    <TD>This setting chooses the ordering of buffer switching when =
+Ctrl+Tab=20
+      pressed. Set to 1, the buffers are selected in the order of their =
+previous=20
+      selection otherwise they are chosen based on the buffer number. =
+</TD></TR>
+  <TR>
+    <TD>are.you.sure<BR>are.you.sure.for.build </TD>
+    <TD>The classic GUI question. Normally, when SciTE is about to close =
+a=20
+      file which has unsaved edits it asks this annoying question. To =
+turn off=20
+      the question, set are.you.sure to 0 and files will be =
+automatically saved=20
+      without bothering the user. To abandon edits to a file use the New =
+
+      command. New always asks "Are you sure?" giving an opportunity to =
+not save=20
+      the file.<BR>When running or building a file, its most likely that =
+you=20
+      want the file to be saved first. To enable a confirmation dialog =
+for=20
+      performing Compile, Build or Go commands, set =
+are.you.sure.for.build=3D1.=20
+  </TD></TR>
+  <TR>
+    <TD>save.all.for.build </TD>
+    <TD>SciTE normally saves the current buffer when performing a =
+Compile,=20
+      Build, or Go command. To save all buffers set =
+save.all.for.build=3D1 </TD></TR>
+  <TR>
+    <TD>view.whitespace<BR>view.indentation.whitespace </TD>
+    <TD>Setting view.whitespace to 1 makes SciTE start up with =
+whitespace=20
+      visible.<BR>Setting view.indentation.whitespace to 0 hides visible =
+
+      whitespace inside indentation. </TD></TR>
+  <TR>
+    <TD>whitespace.fore<BR>whitespace.back </TD>
+    <TD>Sets the colours used for displaying all visible whitespace,=20
+      overriding any styling applied by the lexer. </TD></TR>
+  <TR>
+    =
+<TD>view.indentation.guides<BR>view.indentation.examine<BR>view.indentati=
+on.examine.<I>filepattern</I><BR>highlight.indentation.guides=20
+    </TD>
+    <TD>Setting view.indentation.guides to 1 displays dotted vertical =
+lines=20
+      within indentation white space every indent.size =
+columns.<BR>Setting=20
+      view.indentation.examine to 1 to display guides within real =
+indentation=20
+      whitespace only, 2 according to the next non-empty line (good for =
+Python)=20
+      or 3 according to both the next and previous non-empty lines (good =
+for=20
+      most languages).<BR>Setting highlight.indentation.guides to 1 =
+highlights=20
+      the indentation guide associated with a brace when that brace is=20
+      highlighted. </TD></TR>
+  <TR>
+    <TD>view.eol </TD>
+    <TD>Setting this to 1 makes SciTE display the characters that make =
+up line=20
+      ends. This looks similar to (CR), (LF), or (CR)(LF). This is =
+useful when=20
+      using files created on another operating system with software that =
+is=20
+      picky about line ends. </TD></TR>
+  <TR>
+    <TD>eol.mode </TD>
+    <TD>The default EOL mode (characters that make up line ends) depends =
+on=20
+      your platform. You can overwrite this behaviour by setting the =
+property to=20
+
+      <DIV class=3Dexample>LF for UNIX format<BR>CR for Macintosh =
+format<BR>CRLF=20
+      for DOS/Windows format</DIV>As you see, Windows combines the best =
+of the=20
+      other worlds ;-) </TD></TR>
+  <TR>
+    <TD>eol.auto </TD>
+    <TD>This setting overrides the eol.mode value and chooses the end of =
+line=20
+      character sequence based on the current contents of the file when =
+it is=20
+      opened. The line ending used the most in the file is chosen. =
+</TD></TR>
+  <TR>
+    <TD>blank.margin.left<BR>blank.margin.right </TD>
+    <TD>There is a blank margin on both sides of the text. It is drawn =
+in the=20
+      background colour of default text. This defaults to one pixel for =
+both=20
+      left and right sides but may be altered with these settings. =
+</TD></TR>
+  <TR>
+    <TD>margin.width </TD>
+    <TD>Setting this to a number makes SciTE display a selection margin =
+to the=20
+      left of the text. The value is the number of pixels wide the =
+selection=20
+      margin should be. Line markers are displayed in the selection =
+margin area.=20
+    </TD></TR>
+  <TR>
+    <TD>fold.margin.colour<BR>fold.margin.highlight.colour </TD>
+    <TD>These two properties defined the fold margin colour and fold =
+margin=20
+      highlight colour. If they are not defined (left commented out) the =
+colours=20
+      for the fold margin will default to a reasonable pair of colours. =
+On=20
+      Windows, the system colours are used to make the fold margin =
+appear like=20
+      the background of scroll bars. As an example, with <SPAN=20
+      class=3Dexample>fold.margin.colour=3D#FF0000</SPAN> and <SPAN=20
+      class=3Dexample>fold.margin.highlight.colour=3D#0000FF</SPAN>, the =
+fold margin=20
+      is a mixture of red and blue. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>full.screen.hides.menu </TD>
+    <TD>Setting this to 1 hides the menu bar when the Full Screen =
+command is=20
+      used on Windows. On GTK+ the menu is always visible. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>minimize.to.tray </TD>
+    <TD>Setting this to 1 minimizes SciTE to the system tray rather than =
+to=20
+      the task bar. </TD></TR>
+  <TR>
+    <TD>line.margin.visible<BR>line.margin.width </TD>
+    <TD>SciTE is able to display a column of line numbers to the left of =
+the=20
+      selection margin. Setting line.margin.visible to 1 makes this =
+column=20
+      visible at startup. The line.margin.width property controls how =
+much space=20
+      is reserved for the line numbers, in terms of the number of digits =
+that=20
+      can be displayed. To specify that the margin should expand if =
+needed to=20
+      accomodate larger line numbers, add a '+' after the number of =
+digits, e.g.=20
+      <SPAN class=3Dexample>line.margin.width=3D3+</SPAN>. </TD></TR>
+  <TR>
+    <TD>tabbar.visible<BR>tabbar.hide.one </TD>
+    <TD>Setting tabbar.visible to 1 makes the tab bar visible at start =
+up on=20
+      Windows. The buffers property must be set to a value greater than =
+1 for=20
+      this option to work. Setting tabbar.hide.one to 1 hides the tab =
+bar until=20
+      there is more than one tab. Works on Windows and GTK+ 2.x but not =
+GTK+=20
+      1.x. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>tabbar.multiline </TD>
+    <TD>Setting tabbar.multiline uses multiple lines for the tab bar =
+</TD></TR>
+  <TR>
+    <TD>toolbar.visible </TD>
+    <TD>Setting this to 1 makes the tool bar visible at start up. =
+</TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>toolbar.detachable </TD>
+    <TD>Setting this to 1 makes the tool bar detachable from the main =
+window.=20
+    </TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>toolbar.usestockicons </TD>
+    <TD>SciTE has a built-in icon set for the toolbar, setting this to 1 =
+makes=20
+      SciTE more integrated in the GNOME desktop by using the icons =
+provided by=20
+      the current theme used in GNOME. </TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>menubar.detachable </TD>
+    <TD>Setting this to 1 makes the menu bar detachable from the main =
+window.=20
+    </TD></TR>
+  <TR>
+    <TD>undo.redo.lazy </TD>
+    <TD>Setting this to 1 changes the technique used to determine when =
+to=20
+      enable or disable tool bar buttons to be less accurate. This may =
+improve=20
+      performance on slow machines. </TD></TR>
+  <TR>
+    <TD>statusbar.visible </TD>
+    <TD>Setting this to 1 makes the status bar visible at start up. =
+</TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>statusbar.number<BR>statusbar.text.<I>number</I> </TD>
+    <TD>The statusbar.text.1 option defines the information displayed in =
+the=20
+      status bar by default on all platforms. Property values may be =
+used in=20
+      this text using the $() syntax. Commonly used properties are: =
+ReadOnly,=20
+      EOLMode, BufferLength, NbOfLines (in buffer), SelLength (chars), =
+SelHeight=20
+      (lines). Extra properties defined for the status bar are =
+LineNumber,=20
+      ColumnNumber, and OverType which is either "OVR" or "INS" =
+depending on the=20
+      overtype status. You can also use file properties, which, unlike =
+those=20
+      above, are not updated on each keystroke: FileName or FileNameExt, =
+
+      FileDate and FileTime and FileAttr. Plus CurrentDate and=20
+      CurrentTime.<BR>On Windows only, further texts may be set as=20
+      statusbar.text.2 .. and these may be cycled between by clicking =
+the status=20
+      bar.<BR>The statusbar.number option defines how many texts are to =
+be=20
+      cycled through. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>use.palette </TD>
+    <TD>Setting this to 1 makes SciTE use a palette to enable it to =
+display=20
+      more colours on 8 bit displays. Without this option SciTE will =
+only=20
+      display with colours already available which is normally the 20 =
+colour=20
+      Windows system palette. The downside of turning on this option is =
+that=20
+      there will be some flashing as windows are activated. This option =
+has no=20
+      effect on GTK+ where a palette is always used. </TD></TR>
+  <TR>
+    <TD>buffered.draw </TD>
+    <TD>Setting this to 0 rather than the default 1 makes SciTE draw =
+output=20
+      directly to the screen rather than into a buffer bitmap first and =
+then to=20
+      the screen. Buffered drawing flickers less but is slower. =
+</TD></TR>
+  <TR>
+    <TD>two.phase.draw </TD>
+    <TD>Two phase drawing is a better but slower way of drawing text. In =
+
+      single phase drawing each run of characters in one style is drawn =
+along=20
+      with its background. If a character overhangs the end of a run, =
+such as in=20
+      "<I>V</I>_" where the "<I>V</I>" is in a different style from the =
+"_",=20
+      then this can cause the right hand side of the "<I>V</I>" to be =
+overdrawn=20
+      by the background of the "_" which cuts it off. Two phase drawing =
+fixes=20
+      this by drawing all the backgrounds first and then drawing the =
+text in=20
+      transparent mode. Two phase drawing may flicker more than single =
+phase=20
+      unless buffered drawing is on. The default is for drawing to be =
+two phase.=20
+    </TD></TR>
+  <TR>
+    <TD>load.on.activate<BR>save.on.deactivate </TD>
+    <TD>The load.on.activate property causes SciTE to check whether the=20
+      current file has been updated by another process whenever it is =
+activated.=20
+      This is useful when another editor such as a WYSIWYG HTML editor, =
+is being=20
+      used in conjunction with SciTE.<BR>The save.on.deactivate property =
+causes=20
+      SciTE to save the file whenever the SciTE application loses focus. =
+This is=20
+      useful when developing web pages and you want to often check the=20
+      appearance of the page in a browser. </TD></TR>
+  <TR>
+    <TD>are.you.sure.on.reload </TD>
+    <TD>When both this and load.on.activate are set to 1, SciTE will ask =
+if=20
+      you really want to reload the modified file, giving you the chance =
+to keep=20
+      the file as it is. By default this property is disabled, causing =
+SciTE to=20
+      reload the file without bothering you. </TD></TR>
+  <TR>
+    <TD>reload.preserves.undo </TD>
+    <TD>When set to 1, reloading a file does not delete all the undo =
+history.=20
+      This is useful when load.on.activate is used in conjunction with =
+filter=20
+      commands. </TD></TR>
+  <TR>
+    <TD>check.if.already.open </TD>
+    <TD>This option allows opening files in an existing instance of =
+SciTE=20
+      rather than always opening a new instance. When this option is set =
+and=20
+      SciTE is started, it checks to see if there are any other =
+instances of=20
+      SciTE open. If there is, another instance is asked to open the =
+file and=20
+      become active and the new instance exits. On Windows, the instance =
+with=20
+      the Options | Open Files Here menu item checked opens the file. On =
+GTK+,=20
+      an arbitrary instance opens the file. </TD></TR>
+  <TR>
+    <TD>read.only </TD>
+    <TD>When this option is set then opened documents are initially read =
+only.=20
+      New files are not affected by this setting. </TD></TR>
+  <TR>
+    <TD>quit.on.close.last </TD>
+    <TD>If this option is set, SciTE will close when its last buffer has =
+been=20
+      closed, e.g. with File/Close. (By default, if this option is not =
+set,=20
+      SciTE will remain open and will create a new blank document when =
+its last=20
+      buffer is closed.) </TD></TR>
+  <TR>
+    <TD>selection.fore<BR>selection.back<BR>selection.alpha </TD>
+    <TD>Sets the colours used for displaying selected text. If one of =
+these is=20
+      not set then that attribute is not changed for the selection. The =
+default=20
+      is to show the selection by changing the background to light grey =
+and=20
+      leaving the foreground the same as when it was not selected. The=20
+      translucency of the selection is set with selection.alpha with an =
+alpha of=20
+      256 turning translucency off. </TD></TR>
+  <TR>
+    <TD>caret.fore </TD>
+    <TD>Sets the colour used for the caret. </TD></TR>
+  <TR>
+    <TD>caret.line.back<BR>caret.line.back.alpha </TD>
+    <TD>Sets the background colour and translucency used for line =
+containing=20
+      the caret. Translucency ranges from 0 for completely transparent =
+to 255=20
+      for opaque with 256 being opaque and not using translucent drawing =
+code=20
+      which may be slower. </TD></TR>
+  <TR>
+    <TD>caret.period </TD>
+    <TD>Sets the rate at which the caret blinks. The value is the time =
+in=20
+      milliseconds that the caret is visible before it is switched to =
+invisible.=20
+      It then stays invisible for the same period before appearing =
+again. A=20
+      value of 0 stops the caret from blinking. </TD></TR>
+  <TR>
+    <TD>caret.width </TD>
+    <TD>Sets the width of the caret in pixels. Only values of 1, 2, or 3 =
+work.=20
+    </TD></TR>
+  <TR>
+    =
+<TD>caret.policy.xslop<BR>caret.policy.width<BR>caret.policy.xstrict<BR>c=
+aret.policy.xeven<BR>caret.policy.xjumps<BR><BR>caret.policy.yslop<BR>car=
+et.policy.lines<BR>caret.policy.ystrict<BR>caret.policy.yeven<BR>caret.po=
+licy.yjumps<BR></TD>
+    <TD>
+      <P>If slop is set, we can define a slop value: width for xslop, =
+lines for=20
+      yslop.<BR>This value defines an unwanted zone (UZ) where the caret =
+is...=20
+      unwanted.<BR>This zone is defined as a number of pixels near the =
+vertical=20
+      margins, and as a number of lines near the horizontal =
+margins.<BR>By=20
+      keeping the caret away from the edges, it is seen within its =
+context, so=20
+      it is likely that the identifier that the caret is on can be =
+completely=20
+      seen, and that the current line is seen with some of the lines =
+following=20
+      it which are often dependent on that line.</P>
+      <P>If strict is set, the policy is enforced... strictly.<BR>The =
+caret is=20
+      centred on the display if slop is not set, and cannot go in the UZ =
+if slop=20
+      is set.</P>
+      <P>If jumps is set, the display is moved more energetically so the =
+caret=20
+      can move in the same direction longer before the policy is applied =
+
+      again.<BR>'3UZ' notation is used to indicate three time the size =
+of the UZ=20
+      as a distance to the margin.</P>
+      <P>If even is not set, instead of having symmetrical UZs, the left =
+and=20
+      bottom UZs are extended up to right and top UZs =
+respectively.<BR>This way,=20
+      we favour the displaying of useful information: the begining of =
+lines,=20
+      where most code reside, and the lines after the caret, eg. the =
+body of a=20
+      function.</P>
+      <P>See the table below to see how these settings =
+interact.<BR>Default:=20
+      xslop, yslop, xeven, yeven=3D1, width=3D50, all others =3D =
+0.</P></TD></TR>
+  <TR>
+    =
+<TD>visible.policy.strict<BR>visible.policy.slop<BR>visible.policy.lines =
+
+    </TD>
+    <TD>Determines how the display area is determined after a Go to =
+command or=20
+      equivalent such as a Find or Next Message. Options are similar to=20
+      caret.policy.*. </TD></TR>
+  <TR>
+    <TD>edge.mode<BR>edge.column<BR>edge.colour<BR></TD>
+    <TD>Indicates long lines. The default edge.mode, 0, does not =
+indicate long=20
+      lines. An edge.mode of 1 uses a vertical line to indicate the =
+specified=20
+      column and an edge.mode of 2 changes the background colour of =
+characters=20
+      beyond that column. For proportional fonts, an edge.mode of 2 is =
+more=20
+      useful than 1. </TD></TR>
+  <TR>
+    <TD>control.char.symbol </TD>
+    <TD>Sets the character to use to indicate control characters. If not =
+set,=20
+      control characters are shown as mnemonics. </TD></TR>
+  <TR>
+    <TD>error.marker.fore<BR>error.marker.back </TD>
+    <TD>The colours used to indicate error and warning lines in both the =
+edit=20
+      and output panes are set with these two values. If there is a =
+margin on a=20
+      pane then a symbol is displayed in the margin to indicate the =
+error=20
+      message for the output pane or the line causing the error message =
+for the=20
+      edit pane. The error.marker.back is used as the fill colour of the =
+symbol=20
+      and the error.marker.fore as the outline colour. If there is no =
+margin=20
+      then the background to the line is set to the error.marker.back =
+colour.=20
+  </TD></TR>
+  <TR>
+    <TD>bookmark.fore<BR>bookmark.back<BR>bookmark.alpha </TD>
+    <TD>The colours used to display bookmarks in the margin. If =
+bookmark.fore=20
+      is not set then a blue sphere is used. When the margin is turned =
+off,=20
+      bookmarks are shown by a change in the background colour of the =
+line with=20
+      the translucency set with bookmark.alpha. </TD></TR>
+  <TR>
+    <TD>find.mark </TD>
+    <TD>If set, then the Mark All command in the Find dialog will draw=20
+      translucent boxes over each string found. </TD></TR>
+  <TR>
+    <TD>error.select.line </TD>
+    <TD>When a command execution produces error messages, and you step =
+with F4=20
+      key through the matching source lines, this option selects the =
+line where=20
+      the error occurs. Most useful if the error message contains the =
+column of=20
+      error too as the selection will start at the column of the error. =
+The=20
+      error message must contain the column and must be understood by =
+SciTE=20
+      (currently only supported for HTML Tidy). The tab size assumed by =
+the=20
+      external tool must match the tab size of your source file for =
+correct=20
+      column reporting. </TD></TR>
+  <TR>
+    <TD>openpath.<I>filepattern</I></TD>
+    <TD>Defines a path for the Open Selected Filename command in the =
+File=20
+      menu. The path is searched if the selected filename doesn't =
+contain an=20
+      absolute path or the file is not found in the document directory. =
+The=20
+      directories in openpath are separated by ';' on Windows and ':' on =
+
+      GTK+.<BR>An openpath setting may look like:=20
+      <DIV=20
+      =
+class=3Dexample>openpath.*.txt=3Dc:\dos\;f:\;<BR>openpath.$(file.patterns=
+.cpp)=3D$(cpp_includes)</DIV></TD></TR>
+  <TR>
+    <TD>open.suffix.<I>filepattern</I></TD>
+    <TD>Defines a suffix to add to the selected file name for the Open=20
+      Selected Filename command in the File menu. This is used in =
+languages=20
+      where the suffix is not given when accessing a file. An example is =
+python=20
+      where "import xlib" will most often mean to import from a file =
+called=20
+      "xlib.py".<BR>An open.suffix setting may look like:<BR>
+      <DIV class=3Dexample>open.suffix.*.py=3D.py</DIV></TD></TR>
+  <TR>
+    <TD>strip.trailing.spaces </TD>
+    <TD>Strips trailing white spaces from the file while saving. =
+</TD></TR>
+  <TR>
+    <TD>ensure.final.line.end </TD>
+    <TD>Ensures file ends with a line end when saved. </TD></TR>
+  <TR>
+    <TD>ensure.consistent.line.ends </TD>
+    <TD>Ensures all lines end with the current Line End Characters =
+setting=20
+      when saved. </TD></TR>
+  <TR>
+    <TD>abbreviations.<I>filepattern</I> </TD>
+    <TD>Loads an abbreviations file for a particular language overriding =
+the=20
+      default abbreviations file. For example,=20
+      <DIV=20
+      =
+class=3Dexample>abbreviations.*.c=3D$(SciteUserHome)/c_abbrev.properties<=
+BR></DIV></TD></TR>
+  <TR>
+    <TD>api.<I>filepattern</I> </TD>
+    <TD>Loads a set of API files for a particular language. If there is =
+more=20
+      than one API file then the file names are separated by ';'. API =
+files=20
+      contain a sorted list of identifiers and function prototypes, one =
+per=20
+      line. If there are multiple files then each file should end with a =
+line=20
+      end or the next file's first line will merge with the previous =
+file's last=20
+      line. The "Complete Symbol" command looks at the characters before =
+the=20
+      caret and displayed the subset of the API file starting with that =
+string.=20
+      When an opening brace is typed, the file is searched for the text=20
+      preceding the caret and if a function prototype is found then it =
+is=20
+      displayed as a calltip. For example, the setting=20
+      <DIV class=3Dexample>api.*.c=3Dw.api<BR></DIV>could be used with a =
+w.api file=20
+      containing=20
+      <DIV class=3Dexample>fclose(FILE* =
+fileClose)<BR>FILE<BR>fopen(const char*=20
+      szFileName, const char* szMode)<BR>fpos_t<BR>fread(void* buf, =
+size_t size,=20
+      size_t count, FILE* file)<BR>fseek(FILE* file, long lnOffset, int=20
+      nOrigin)<BR></DIV>to provide autocompletion and calltips for some =
+of the C=20
+      file functions. It is best to use the full path to the API file as =
+
+      otherwise the current directory is used. See the Creating API =
+files=20
+      section for ways to create API files. </TD></TR>
+  <TR>
+    <TD>autocomplete.choose.single </TD>
+    <TD>When set to 1 and an autocompletion list is invoked and there is =
+only=20
+      one element in that list then that element is automatically =
+chosen. This=20
+      means that the matched element is inserted and the list is not =
+displayed.=20
+    </TD></TR>
+  <TR>
+    =
+<TD>autocomplete.<I>lexer</I>.ignorecase<BR>autocomplete.*.ignorecase =
+</TD>
+    <TD>When set to 1 the API file is searched in a case insensitive way =
+to=20
+      find elements for autocompletion lists. Otherwise matches only =
+occur if=20
+      case also matches. The * form is used if there is no lexer =
+specific=20
+      setting. </TD></TR>
+  <TR>
+    =
+<TD>autocomplete.<I>lexer</I>.start.characters<BR>autocomplete.*.start.ch=
+aracters=20
+    </TD>
+    <TD>If this setting is not empty, typing any of the characters will =
+cause=20
+      autocompletion to start. For example, if=20
+      autocomplete.python.start.characters=3D. and the API file for =
+Python=20
+      contains "string.rjust" and "string.replace" then typing "string." =
+will=20
+      cause the autocompletion to display both identifiers. The * form =
+is used=20
+      if there is no lexer specific setting. </TD></TR>
+  <TR>
+    <TD>autocomplete.<I>lexer</I>.fillups<BR>autocomplete.*.fillups =
+</TD>
+    <TD>If this setting is not empty, typing any of the characters will =
+cause=20
+      autocompletion to complete. For example, if =
+autocomplete.python.fillups=3D(=20
+      and the API file for Python contains "string.replace" then typing=20
+      "string.r(" will cause "string.replace(" to be inserted. The * =
+form is=20
+      used if there is no lexer specific setting. </TD></TR>
+  <TR>
+    <TD>autocompleteword.automatic </TD>
+    <TD>If this setting is 1 then when typing a word, if only one word =
+in the=20
+      document starts with that string then an autocompletion list is =
+displayed=20
+      with that word so it can be chosen by pressing Tab. </TD></TR>
+  <TR>
+    <TD>calltip.<I>lexer</I>.ignorecase<BR>calltip.*.ignorecase </TD>
+    <TD>When set to 1 the API file is searched in a case insensitive way =
+to=20
+      find the function which will have its signature displayed as a =
+calltip.=20
+      The * form is use if there is no lexer specific setting. =
+</TD></TR>
+  <TR>
+    =
+<TD>calltip.<I>lexer</I>.word.characters<BR>calltip.*.word.characters =
+</TD>
+    <TD>To determine the identifier to look up for calltips, a search is =
+
+      performed allowing the characters in this set to be included in =
+the=20
+      identifier. While the same setting can be used as for =
+word.characters,=20
+      sometimes additional characters may be allowed. For example, in =
+Python,=20
+      '.' is not normally considered part of a word when selecting text, =
+but it=20
+      is good to allow "string.replace" to show a calltip so=20
+      calltip.python.word.characters=3D._$(chars.alpha) would be a =
+reasonable=20
+      setting. The * form is used if there is no lexer specific setting. =
+</TD></TR>
+  <TR>
+    =
+<TD>calltip.<I>lexer</I>.parameters.start<BR>calltip.<I>lexer</I>.paramet=
+ers.end<BR>calltip.<I>lexer</I>.parameters.separators<BR>calltip.*.parame=
+ters.start<BR>calltip.*.parameters.end<BR>calltip.*.parameters.separators=
+=20
+    </TD>
+    <TD>Allows you to specify characters which start, end and separate=20
+      parameters. For most common languages, it's usually left brace for =
+start,=20
+      right brace for end and comma or semicolon for separator. E.g. CSS =
+has=20
+      colon for start, space for separator and nothing for end. You can =
+specify=20
+      more characters for each property. The * form is used if there is =
+no lexer=20
+      specific setting. </TD></TR>
+  <TR>
+    <TD>calltip.<I>lexer</I>.end.definition<BR>calltip.*.end.definition =
+</TD>
+    <TD>API files may contain explanatory text after each function =
+definition.=20
+      To display the explanation on a second line, set this property to =
+the=20
+      character used at the end of the definition part. For most =
+languages, this=20
+      is ')'. The * form is used if there is no lexer specific setting. =
+</TD></TR>
+  <TR>
+    <TD>xml.auto.close.tags </TD>
+    <TD>For XML and HTML, setting this property to 1 will automatically =
+insert=20
+      the corresponding end tag when '&gt;' is typed to end a start tag. =
+Type=20
+      "&lt;td&gt;" and the result will be "&lt;td&gt;&lt;/td&gt;" with =
+the caret=20
+      placed between the tags. </TD></TR>
+  <TR>
+    <TD>html.tags.case.sensitive </TD>
+    <TD>For XML and HTML, setting this property to 1 will make tags =
+match in a=20
+      case sensitive way which is the expected behaviour for XML and =
+XHTML.=20
+  </TD></TR>
+  <TR>
+    <TD>asp.default.language </TD>
+    <TD>Script in ASP code is initially assumed to be in JavaScript. To =
+change=20
+      this to VBScript set asp.default.language to 2. Python is 3. =
+</TD></TR>
+  <TR>
+    <TD>lexer.cpp.allow.dollars </TD>
+    <TD>Set to 0 to disallow the '$' character in identifiers with the =
+cpp=20
+      lexer. </TD></TR>
+  <TR>
+    <TD>lexer.xml.allow.scripts </TD>
+    <TD>Set to 0 to disable scripts in XML. </TD></TR>
+  <TR>
+    <TD>lexer.errorlist.value.separate </TD>
+    <TD>For lines in the output pane that are matches from Find in Files =
+or=20
+      GCC-style diagnostics, style the path and line number separately =
+from the=20
+      rest of the line with style 21 used for the rest of the line. This =
+allows=20
+      matched text to be more easily distinguished from its location. =
+</TD></TR>
+  <TR>
+    <TD>sql.backslash.escapes </TD>
+    <TD>Enables backslash as an escape character in SQL. </TD></TR>
+  <TR>
+    <TD>styling.within.preprocessor </TD>
+    <TD>For C++ code, determines whether all preprocessor code is styled =
+in=20
+      the preprocessor style (0, the default) or only from the initial # =
+to the=20
+      end of the command word(1). </TD></TR>
+  <TR>
+    <TD>tab.timmy.whinge.level </TD>
+    <TD>For Python code, checks whether indenting is consistent. The =
+default,=20
+      0 turns off indentation checking, 1 checks whether each line is=20
+      potentially inconsistent with the previous line, 2 checks whether =
+any=20
+      space characters occur before a tab character in the indentation, =
+3 checks=20
+      whether any spaces are in the indentation, and 4 checks for any =
+tab=20
+      characters in the indentation. <BR>1 is a good level to use. =
+</TD></TR>
+  <TR>
+    <TD>user.shortcuts </TD>
+    <TD>Define keys that perform commands. This is a '|' delimited list =
+of=20
+      keys and the commands they produce. The commands are either <A=20
+      href=3D"http://www.scintilla.org/CommandValues.html">string or =
+numeric=20
+      IDs</A>. Numeric IDs above 2000 are Scintilla commands and are =
+sent to the=20
+      focussed pane. Named IDs and numeric IDs below 2000 are SciTE menu =
+
+      commands. The modifiers are Ctrl, Shift, and Alt and the named =
+keys are=20
+      Left, Right, Up, Down, Insert, End, Home, Enter, Space, Tab, =
+KeypadPlus,=20
+      KeypadMinus, KeypadMultiply, KeypadDivide, Escape, Delete, PageUp, =
+
+      PageDown, Slash, Question, Equal, Win. <BR>
+      <DIV=20
+      =
+class=3Dexample>user.shortcuts=3D\<BR>Ctrl+Shift+I|IDM_OPEN|\<BR>Ctrl+Shi=
+ft+Left|IDM_CLOSE|<BR></DIV>This=20
+      property is only read at start up. <BR></TD></TR>
+  <TR>
+    <TD>user.context.menu </TD>
+    <TD>Define additional commands for the context menu. This is a '|'=20
+      delimited list of menu items and the commands they produce with =
+commands=20
+      defined as in user.shortcuts. An empty item produces a separator. =
+<BR>
+      <DIV class=3Dexample>user.context.menu=3D\<BR>||\<BR>Next=20
+      File|IDM_NEXTFILE|\<BR>Prev File|IDM_PREVFILE|<BR></DIV></TD></TR>
+  <TR>
+    <TD>magnification<BR>output.magnification </TD>
+    <TD>Sets the initial magnification factor of the edit and output =
+panes.=20
+      This is useful when you want to change the size of text globally, =
+such as=20
+      after changing the screen resolution without having to touch every =
+style=20
+      setting. 0 is default, negative values makes the size smaller and =
+positive=20
+      values make it larger. </TD></TR>
+  <TR>
+    =
+<TD>split.vertical<BR>output.horizontal.size<BR>output.vertical.size<BR>o=
+utput.initial.hide=20
+    </TD>
+    <TD>If split.vertical is set to 1 then the output pane is to the =
+right of=20
+      the editing pane, if set to 0 then the output pane is below the =
+editing=20
+      pane. The output.*.size settings determine the initial size of the =
+output=20
+      pane. If output.initial.hide is 1, then the output pane is hidden =
+when=20
+      SciTE first starts up even when output.*.size is set; otherwise =
+the output=20
+      pane is shown at startup. </TD></TR>
+  <TR>
+    <TD>clear.before.execute </TD>
+    <TD>If set to 1 then the output pane is cleared before any tool =
+commands=20
+      are run. </TD></TR>
+  <TR>
+    =
+<TD>horizontal.scrollbar<BR>horizontal.scroll.width<BR>horizontal.scroll.=
+width.tracking<BR>output.horizontal.scrollbar<BR>output.horizontal.scroll=
+.width<BR>output.horizontal.scroll.width.tracking<BR>output.scroll<BR>end=
+.at.last.line=20
+    </TD>
+    <TD>If horizontal.scrollbar set to 0 then the edit pane's horizontal =
+
+      scrollbar is not displayed.<BR>horizontal.scroll.width is the =
+document=20
+      width assumed for scrolling.<BR>Similarly, =
+output.horizontal.scrollbar and=20
+      output.horizontal.scroll.width controls the horizontal scroll bar =
+of the=20
+      output pane.<BR>The horizontal scroll bar widths can automatically =
+grow as=20
+      needed to ensure all displayed lines can be fully scrolled with=20
+      horizontal.scroll.width.tracking and=20
+      output.horizontal.scroll.width.tracking.<BR>To stop the output =
+pane from=20
+      automatically scrolling, set output.scroll to 0. To have the =
+output pane=20
+      scroll and return back to the line of the executed command, set=20
+      output.scroll to 1. If you want the output pane to scroll and =
+remain at=20
+      the bottom after execution, set output.scroll to 2.<BR>The =
+vertical scroll=20
+      range is normally set so that maximum scroll position has the last =
+line at=20
+      the bottom of the view. Set end.at.last.line to 0 to allow =
+scrolling one=20
+      page below the last line. </TD></TR>
+  <TR>
+    <TD>wrap<BR>output.wrap </TD>
+    <TD>If wrap set to 1 then the edit pane is dynamically line wrapped. =
+If=20
+      output.wrap set to 1 then the output pane is dynamically line =
+wrapped.=20
+      These options have a high performance cost which is proportional =
+to the=20
+      amount of text so should be turned off for large documents on slow =
+
+      machines. </TD></TR>
+  <TR>
+    <TD>wrap.style </TD>
+    <TD>Chooses between word wrapping (1, the default) and character =
+wrapping=20
+      (2). Character wrapping is a better choice for Asian languages =
+with no=20
+      spaces between words. </TD></TR>
+  <TR>
+    <TD>wrap.visual.flags </TD>
+    <TD>Flags to display markers at end and begin of wrapped lines for =
+visual=20
+      identify them. Set to 0 to not display markers (default). Set to 1 =
+to=20
+      display markers at end of wrapped lines, to 2 to display markers =
+at begin=20
+      of wrapped lines and to 3 to display markers at begin and end. =
+</TD></TR>
+  <TR>
+    <TD>wrap.visual.flags.location </TD>
+    <TD>Flags to set the location of the display markers (if enabled) =
+near to=20
+      text or near to border. Set to 0 to have begin and end markers =
+near to=20
+      border (default). Set to 1 to have end markers near text, to 2 to =
+have=20
+      begin markers near text and to 3 to have all markers near text. =
+</TD></TR>
+  <TR>
+    <TD>wrap.visual.startindent </TD>
+    <TD>Sets the indention of continued wrapped lines to better visually =
+
+      identify the wrapping. Default is 0 (no indention). Note if=20
+      wrap.visual.flags is 2 or 3 (begin marker displayed) the line is =
+indented=20
+      at least 1, even if wrap.visual.startindent is still 0. </TD></TR>
+  <TR>
+    <TD>wrap.aware.home.end.keys</TD>
+    <TD>This property changes the behavior of the home and end keys when =
+
+      dynamic line wrapping is turned on. When set to 0 (the default), =
+the Home=20
+      and End keys will move the caret to the very beginning / end of =
+the=20
+      'logical' line, whether or not the line is wrapped over multiple =
+lines in=20
+      the display. When this property is set to 1, the caret moves to =
+the end of=20
+      the current 'display' line if you press End once, or to the very =
+end of=20
+      the 'logical' line if you press End again. Likewise, the Home key =
+moves=20
+      first to the beginning of the 'display' line, then on to the very=20
+      beginning of the line. In a pane where dynamic line-wrapping is =
+not=20
+      enabled, this setting has no effect. </TD></TR>
+  <TR>
+    <TD>cache.layout<BR>output.cache.layout </TD>
+    <TD>A large proportion of the time spent in the editor is used to =
+lay out=20
+      text prior to drawing it. This information often stays static =
+between=20
+      repaints so can be cached with these settings. There are four =
+levels of=20
+      caching. 0 is no caching, 1 caches the line that the caret is on, =
+2 caches=20
+      the visible page as well as the caret, and 3 caches the whole =
+document.=20
+      The more that is cached, the greater the amount of memory used, =
+with 3=20
+      using large amounts of memory, 7 times the size of the text in the =
+
+      document. However, level 3 dramatically speeds up dynamic wrapping =
+by=20
+      around 25 times on large source files so is a very good option to =
+use when=20
+      wrapping is turned on and memory is plentiful. </TD></TR>
+  <TR>
+    <TD>open.filter </TD>
+    <TD>This is a complex expression used for determining the file types =
+that=20
+      will be available in the open file dialog. For each type of file, =
+there is=20
+      some explanatory text, a '|' character, some file patterns, and =
+another=20
+      '|' character. In the distributed SciTEGlobal.properties file, the =
+line=20
+      continuation character '\', is used to spread these items out, one =
+per=20
+      line. These file types appear in the "Files of type:" pull down. =
+The first=20
+      item is the default, so you may wish to change the first item to =
+include=20
+      the file types you commonly open.<BR>On GTK+, this option only =
+works for=20
+      GTK+ 2.4 or later. </TD></TR>
+  <TR>
+    <TD>max.file.size </TD>
+    <TD>To avoid accidentally loading huge files on slow media, or just =
+to=20
+      ensure SciTE is used only to edit human readable code, the user =
+can set=20
+      the max.file.size property to specify a limit to file loading. If =
+unset or=20
+      set to 0, there is no limit. If set to a given size in bytes and =
+if a file=20
+      to load exceeds this limit, the user is asked if the file should =
+be=20
+      loaded. If accepted, the file is read as usual. If rejected then =
+no action=20
+      is taken (no file loaded, no buffer created). </TD></TR>
+  <TR>
+    <TD>save.deletes.first </TD>
+    <TD>Causes files to be deleted before being opened for saving. Can =
+be used=20
+      on Windows to ensure saving under a different capitalisation =
+changes the=20
+      files capitalisation rather than silently using the old =
+capitalisation.=20
+  </TD></TR>
+  <TR>
+    <TD>save.session<BR>save.recent<BR>save.position </TD>
+    <TD>If you set save.session, the list of currently opened buffers =
+will be=20
+      saved on exit in a session file. When you start SciTE next time =
+(without=20
+      specifying a file name on the command line) the last session will =
+be=20
+      restored automatically.<BR>For GTK+, the file is called =
+".SciTE.session"=20
+      and is located in the directory given by the SciTE_HOME =
+environment=20
+      variable and if that is not set, the value of the HOME environment =
+
+      variable and if that is not set, the top level directory. For =
+Windows, the=20
+      file is called "SciTE.session" and is located in the directory =
+given by=20
+      the SciTE_HOME environment variable and if that is not set, the =
+value of=20
+      the USERPROFILE environment variable and if that is not set, the =
+directory=20
+      of the SciTE executable.<BR>Setting save.recent causes the most =
+recently=20
+      used files list to be saved on exit in the session file and read =
+at start=20
+      up.<BR>Setting save.position causes the SciTE window position on =
+the=20
+      desktop to be saved on exit in the session file and restored at =
+start up.=20
+    </TD></TR>
+  <TR>
+    <TD>session.bookmarks<BR>session.folds </TD>
+    <TD>Setting session.bookmarks causes bookmarks to be saved in =
+session=20
+      files. If you set session.folds then the folding state will be =
+saved in=20
+      session files. When loading a session file bookmarks and/or folds =
+are=20
+      restored. Folding states are not restored if fold.on.open is set. =
+</TD></TR>
+  <TR>
+    <TD>open.dialog.in.file.directory </TD>
+    <TD>Setting open.dialog.in.file.directory causes the open dialog to=20
+      initially display the same directory as the current file. If it is =
+not set=20
+      then the system default is used which on Windows 2000 is the last=20
+      directory visited by the open dialog in any instance of SciTE. =
+This is=20
+      hard to use with multiple instances of SciTE. <BR>Some versions of =
+GTK+=20
+      may also set an unexpected directory. </TD></TR>
+  <TR>
+    =
+<TD>find.replace.matchcase<BR>find.replace.regexp<BR>find.replace.wrap<BR=
+>find.replace.escapes=20
+    </TD>
+    <TD>These properties define the initial conditions for find and =
+replace=20
+      commands. The find.replace.matchcase property turns of the "Match =
+case"=20
+      option, find.replace.regexp the "Regular expression" option,=20
+      find.replace.wrap the "Wrap around" option and =
+find.replace.escapes the=20
+      "Transform backslash expressions" option.<BR></TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>find.replacewith.focus </TD>
+    <TD>If the find.replacewith.focus property is set, the Replace With =
+input=20
+      box is focused in the Replace dialog if Find What is non-empty. =
+</TD></TR>
+  <TR>
+    <TD>find.replace.regexp.posix </TD>
+    <TD>Change behavior of Regular expression search. If set to 0 (the=20
+      default), characters '(' and ')' must be escaped by '\' to behave =
+as=20
+      regexp meta characters. If set to 1, these characters are meta =
+characters=20
+      itself. </TD></TR>
+  <TR>
+    <TD>find.replace.advanced </TD>
+    <TD>Enables Replace in Buffers command <SPAN class=3Dwindowsonly>and =
+Search=20
+      only in this style checkbox. If enabled, searches can be =
+restricted to a=20
+      particular style (e.g. strings).</SPAN> </TD></TR>
+  <TR>
+    <TD>find.command<BR><SPAN class=3Dwindowsonly>find.input</SPAN> =
+</TD>
+    <TD>The Find in Files command works in a similar way to the building =
+
+      commands executing a command line tool with output redirected to =
+the=20
+      output pane. If the command produces output understood by one of =
+the error=20
+      output passes, as does grep, then the F4 and Shift+F4 keys can be =
+used to=20
+      move through all the matches. The $(find.what), $(find.files), and =
+
+      $(find.directory) variables can be used for the values from the =
+Find in=20
+      Files dialog.<BR>There are some scripts that implement this =
+feature in=20
+      Perl better than grep does itself <A=20
+      href=3D"http://jenda.krynicky.cz/#SciteFind">here</A> and <A=20
+      href=3D"http://www.forusers.com/forme/finder.zip">here</A>. This =
+command=20
+      line works with Cygwin on Windows, with modifications to suit the =
+Cygwin=20
+      installation directory:<BR>
+      <DIV class=3Dexample>find.command=3Dcmd /c c:\cygwin\bin\find=20
+      "$(find.directory)" -name "$(find.files)" -print0 | =
+c:\cygwin\bin\xargs -0=20
+      fgrep -G -n "$(find.what)" </DIV>On Windows, the find string can =
+be given=20
+      to the find command through its standard input stream to avoid =
+problems=20
+      with quote interpretation. To do this, specify find.input to be =
+the search=20
+      string, $(find.what). <BR>If find.command is empty then SciTE's =
+own search=20
+      code is used. This only does a simple search without regular =
+expressions=20
+      and is faster than running an external program. </TD></TR>
+  <TR>
+    <TD>find.files </TD>
+    <TD>This is the default set of files to search through using the =
+Find in=20
+      Files command. The find.files property can contain a list of sets =
+of files=20
+      separated by '|' like "*.cxx *.h|*.py *.pyw|*.html" which adds =
+three=20
+      entries to the history and uses the first as the default =
+value.<BR>The=20
+      evaluation of this setting is a little unusual in that each entry =
+in the=20
+      value from the property files is appended to the end of the =
+history if=20
+      that entry is not already present. This means that opening files =
+from=20
+      different directories will result in any local setting of =
+find.files being=20
+      added to the list. </TD></TR>
+  <TR>
+    <TD>find.in.dot </TD>
+    <TD>If find.in.dot is 1 then Find in Files searches in directories =
+that=20
+      start with '.'. The default behaviour is to prevent SciTE finding =
+matches=20
+      in the unmodified versions of files kept by Subversion in .svn=20
+      subdirectories. </TD></TR>
+  <TR>
+    <TD>find.in.binary </TD>
+    <TD>If find.in.binary is 1 then Find in Files displays matches in =
+binary=20
+      files. For Find in Files, a binary file is a file that contains a =
+NUL byte=20
+      in the first 64K block read from the file. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>find.in.files.close.on.find </TD>
+    <TD>Set to 0 to prevent the Find in Files dialog from closing when =
+"Find"=20
+      pressed. </TD></TR>
+  <TR>
+    <TD>code.page<BR>output.code.page </TD>
+    <TD>To support a DBCS language such as Japanese, a code page can be =
+set=20
+      here. This ensures that double byte characters are always treated =
+as a=20
+      unit so the caret is never located between the two bytes of a =
+double byte=20
+      character.<BR><BR>
+      <TABLE>
+        <THEAD>
+        <TR>
+          <TH>Code page</TH>
+          <TH>Value</TH></TR></THEAD>
+        <TBODY>
+        <TR>
+          <TD>Default (single byte character set)</TD>
+          <TD align=3Dright>0</TD></TR>
+        <TR>
+          <TD>UTF-8</TD>
+          <TD align=3Dright>65001</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Japanese Shift-JIS</TD>
+          <TD align=3Dright>932</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Simplified Chinese GBK</TD>
+          <TD align=3Dright>936</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Traditional Chinese Big5</TD>
+          <TD align=3Dright>950</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Korean</TD>
+          <TD align=3Dright>949</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Korean Johab</TD>
+          <TD align=3Dright>1361</TD></TR></TBODY></TABLE>All of these =
+may work on=20
+      Windows. On GTK+, this option should only be 0 or 65001 where =
+SciTE only=20
+      supports single byte character sets and Unicode.<BR>Setting =
+code.page to=20
+      65001 starts Unicode mode and the document is treated as a =
+sequence of=20
+      characters expressed as UTF-8. Display is performed by converting =
+to the=20
+      platform's normal Unicode encoding first so characters from any =
+language=20
+      will be displayed. Correct glyphs will only be displayed if fonts =
+are=20
+      chosen that contain the appropriate glyphs. Tahoma is a good =
+choice on=20
+      Windows 2000. <BR>This property can <EM>not</EM> set a single byte =
+
+      character set.<BR>For GTK+ 1.x, the locale should be set to a =
+Unicode=20
+      locale by setting the LC_CTYPE property. For an English machine =
+this can=20
+      be<BR>
+      <DIV class=3Dexample>LC_CTYPE=3Den_US.UTF-8 </DIV>Fonts with an =
+"iso10646"=20
+      registry should be used in a font set. Font sets are a '|' =
+separated list=20
+      of partial font specifications where each partial font =
+specification can=20
+      be in the form of foundry-fontface-charsetregistry-encoding *OR*=20
+      fontface-charsetregistry-encoding *OR* foundry-fontface *OR* =
+fontface. An=20
+      example is "misc-fixed-iso10646-1|*".<BR>If output.code.page is =
+set then=20
+      it is used for the output pane which otherwise matches the edit =
+pane.=20
+  </TD></TR>
+  <TR>
+    <TD>character.set </TD>
+    <TD>This setting allows changing the character set that is asked for =
+when=20
+      setting up fonts. Not all of the values will work on all=20
+platforms.<BR><BR>
+      <TABLE>
+        <THEAD>
+        <TR>
+          <TH>Character set</TH>
+          <TH>Value</TH></TR></THEAD>
+        <TBODY>
+        <TR>
+          <TD>Default</TD>
+          <TD align=3Dright>0</TD></TR>
+        <TR>
+          <TD>Japanese</TD>
+          <TD align=3Dright>128</TD></TR>
+        <TR>
+          <TD>Chinese GB2312</TD>
+          <TD align=3Dright>134</TD></TR>
+        <TR>
+          <TD>Chinese BIG5</TD>
+          <TD align=3Dright>136</TD></TR>
+        <TR>
+          <TD>Korean</TD>
+          <TD align=3Dright>129</TD></TR>
+        <TR>
+          <TD>Greek</TD>
+          <TD align=3Dright>161</TD></TR>
+        <TR>
+          <TD>Eastern European</TD>
+          <TD align=3Dright>238</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Baltic</TD>
+          <TD align=3Dright>186</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Turkish</TD>
+          <TD align=3Dright>162</TD></TR>
+        <TR>
+          <TD>Hebrew</TD>
+          <TD align=3Dright>177</TD></TR>
+        <TR>
+          <TD>Arabic</TD>
+          <TD align=3Dright>178</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Thai</TD>
+          <TD align=3Dright>222</TD></TR>
+        <TR class=3Dwindowsonly>
+          <TD>Vietnamese</TD>
+          <TD align=3Dright>163</TD></TR>
+        <TR>
+          <TD>Cyrillic (CP1251 on Windows, KOI8-R on GTK+)</TD>
+          <TD align=3Dright>204</TD></TR>
+        <TR class=3Dgtkonly>
+          <TD>Cyrillic (CP1251 on GTK+)</TD>
+          <TD align=3Dright>1251</TD></TR>
+        <TR class=3Dgtkonly>
+          <TD>European with Euro (ISO 8859-15)</TD>
+          <TD align=3Dright>1000</TD></TR></TBODY></TABLE>All of these =
+values except=20
+      for 1251 and 1000 may work on Windows, but on GTK+ Baltic, =
+Turkish, Thai=20
+      and Vietnamese will probably not work. Please send email if you =
+use one of=20
+      these settings and it works or doesn't or if you have information =
+on how=20
+      to support other languages. </TD></TR>
+  <TR>
+    =
+<TD>comment.block.<I>lexer</I><BR>comment.block.at.line.start.<I>lexer</I=
+><BR>comment.stream.start.<I>lexer</I><BR>comment.stream.end.<I>lexer</I>=
+<BR>comment.box.start.<I>lexer</I><BR>comment.box.middle.<I>lexer</I><BR>=
+comment.box.end.<I>lexer</I>=20
+    </TD>
+    <TD>These settings are for the comment commands in the Edit menu and =
+are=20
+      defined separately for each lexer. Not all languages support both =
+stream=20
+      and block comments.<BR>Block comments are comments that start with =
+a=20
+      particular string and continue until the end of line. The =
+comment.block=20
+      property sets the string to be inserted or deleted at the start of =
+the=20
+      selected lines when the Block Comment or Uncomment command is =
+performed.=20
+      To make this command perform sensibly over a range of text that =
+already=20
+      contains comments and other code, the string can be defined to =
+contain a=20
+      character such as '~' that is not used in real comments.<BR>Set=20
+      comment.block.at.line.start to "1" to place block comment symbols =
+at the=20
+      start of the lines, instead of just before the first non-blank =
+character=20
+      of the lines.<BR>Stream comments start with a particular string =
+and end=20
+      with another particular string and may continue over line ends. =
+These are=20
+      defined with comment.stream.start and comment.stream.end. <BR>Box =
+comments=20
+      are a form of stream comment that takes several lines and uses =
+different=20
+      strings for the start, end and other lines in the range. These are =
+defined=20
+      with comment.box.start, comment.box.middle and comment.box.end. =
+</TD></TR>
+  <TR>
+    =
+<TD>preprocessor.symbol.<I>filepattern</I><BR>preprocessor.start.<I>filep=
+attern</I><BR>preprocessor.middle.<I>filepattern</I><BR>preprocessor.end.=
+<I>filepattern</I>=20
+    </TD>
+    <TD>These settings make the preprocessor conditional movement and=20
+      selection commands work. The character that defines preprocessor =
+lines is=20
+      defined by preprocessor.symbol. The preprocessor keywords that =
+make up the=20
+      start (if), middle (else), and end (endif) of preprocessor =
+conditionals=20
+      are defined by the other three properties. There may be multiple =
+values=20
+      for each of these, as, for example, C uses "if", "ifdef", and =
+"ifndef" to=20
+      begin preprocessor conditionals. </TD></TR>
+  <TR>
+    <TD>lexer.<I>filepattern</I> </TD>
+    <TD>A lexer splits a file up into syntactic pieces. SciTE can then =
+display=20
+      these pieces in different visual styles. Several lexers are =
+available in=20
+      SciTE for some of the popular programming languages such as =
+Python, Java,=20
+      C/C++, JavaScript and VB. Often several file extensions (.cpp, =
+.cc, .h)=20
+      can map to one language (C++) and hence one lexer. These settings=20
+      associate a file name with a lexer. </TD></TR>
+  <TR>
+    <TD>shbang.<I>command</I> </TD>
+    <TD>On Unix, command files often have no extension and instead =
+specify the=20
+      interpreter to use for the file in an initial line that starts =
+with "#!".=20
+      When the lexer can not be otherwise determined and the file starts =
+with=20
+      "#!", the initial line is split up into words and each word is =
+prepended=20
+      with "shbang.". If a property with this name exists then it is =
+treated as=20
+      the extension of the file. For example, <SPAN=20
+      class=3Dexample>shbang.python=3Dpy</SPAN> will be triggered by an =
+initial line=20
+      <SPAN class=3Dexample>#!/usr/bin/env python</SPAN> so the file =
+will be=20
+      treated as Python. </TD></TR>
+  <TR>
+    <TD>lexerpath.<I>filepattern</I> </TD>
+    <TD>Specifies the path to an external lexer module that will be =
+loaded=20
+      into Scintilla. </TD></TR>
+  <TR>
+    =
+<TD>keywords.<I>filepattern</I><BR>keywords2.<I>filepattern</I><BR>keywor=
+ds3.<I>filepattern</I><BR>keywords4.<I>filepattern</I><BR>keywords5.<I>fi=
+lepattern</I><BR>keywords6.<I>filepattern</I><BR>keywords7.<I>filepattern=
+</I><BR>keywords8.<I>filepattern</I><BR>keywords9.<I>filepattern</I><BR>k=
+eywordclass.<I>lexer</I>=20
+    </TD>
+    <TD>Most of the lexers differentiate between names and keywords and =
+use=20
+      the keywords variables to do so. To avoid repeating the keyword =
+list for=20
+      each file extension, where several file extensions are used for =
+one=20
+      language, a keywordclass variable is defined in the distributed =
+properties=20
+      file although this is just a convention. Some lexers define a =
+second set=20
+      of keywords which will be displayed in a different style to the =
+first set=20
+      of keywords. This is used in the HTML lexer to display JavaScript =
+keywords=20
+      in a different style to HTML tags and attributes.<BR>Keywords can =
+be=20
+      prefix based so ^GTK_ will treat all words that start with GTK_ as =
+
+      keywords. </TD></TR>
+  <TR>
+    <TD>default.file.ext </TD>
+    <TD>Defines the language mode used before the file has a name. For=20
+      example, if default.file.ext=3D.py, then when the New command is =
+used to=20
+      create a new file then Python syntax styling is used. </TD></TR>
+  <TR>
+    <TD>word.characters.<I>filepattern</I> </TD>
+    <TD>Defines which characters can be parts of words. The default =
+value here=20
+      is all the alphabetic and numeric characters and the underscore =
+which is a=20
+      reasonable value for languages such as C++. </TD></TR>
+  <TR>
+    <TD>whitespace.characters.<I>filepattern</I> </TD>
+    <TD>Defines which characters are considered whitespace. The default =
+value=20
+      is that initially set up by Scintilla, which is space and all =
+chars less=20
+      than 0x20. Setting this property allows you to force Scintilla to =
+consider=20
+      other characters as whitespace (e.g. punctuation) during such =
+activities=20
+      as cursor navigation (ctrl+left/right). </TD></TR>
+  <TR>
+    =
+<TD>style.*.<I>stylenumber</I><BR>style.<I>lexer</I>.<I>stylenumber</I>=20
+</TD>
+    <TD>The lexers determine a style number for each lexical type, such =
+as=20
+      keyword, comment or number. These settings determine the visual =
+style to=20
+      be used for each style number of each lexer.<BR>The value of each =
+setting=20
+      is a set of ',' separated fields, some of which have a subvalue =
+after a=20
+      ':'. The fields are font, size, fore, back, italics, notitalics, =
+bold,=20
+      notbold, eolfilled, noteolfilled, underlined, notunderlined, and =
+case. The=20
+      font field has a subvalue which is the name of the font, the fore =
+and back=20
+      have colour subvalues, the size field has a numeric size subvalue, =
+the=20
+      case field has a subvalue of 'm', 'u', or 'l' for mixed, upper or =
+lower=20
+      case, and the bold, italics and eolfilled fields have no subvalue. =
+The=20
+      value "fore:#FF0000,font:Courier,size:14" represents 14 point, red =
+Courier=20
+      text.<BR>A global style can be set up using =
+style.*.<I>stylenumber</I>.=20
+      Any style options set in the global style will be inherited by =
+each lexer=20
+      style unless overridden.<BR>On GTK+ 2, Pango anti-aliased fonts =
+can be=20
+      chosen by prefixing the font name with "!", such as "font:!Sans". =
+</TD></TR>
+  <TR>
+    =
+<TD>style.<I>lexer</I>.32<BR>style.<I>lexer</I>.33<BR>style.<I>lexer</I>.=
+34<BR>style.<I>lexer</I>.35<BR>style.<I>lexer</I>.36<BR>style.<I>lexer</I=
+>.37=20
+    </TD>
+    <TD>As well as the styles generated by the lexer, there are other =
+numbered=20
+      styles used.<BR>Style 32 is the default style and its features =
+will be=20
+      inherited by all other styles unless overridden.<BR>Style 33 is =
+used to=20
+      display line numbers in the margin.<BR>Styles 34 and 35 are used =
+to=20
+      display matching and non-matching braces respectively.<BR>Style 36 =
+is used=20
+      for displaying control characters. This is not a full style as the =
+
+      foreground and background colours for control characters are =
+determined by=20
+      their lexical state rather than this style.<BR>Style 37 is used =
+for=20
+      displaying indentation guides. Only the fore and back are =
+used.<BR>A * can=20
+      be used instead of a lexer to indicate a global style setting. =
+</TD></TR>
+  <TR>
+    =
+<TD>braces.check<BR>braces.sloppy<BR>style.<I>lexer</I>.34<BR>style.<I>le=
+xer</I>.35<BR>braces.<I>lexer</I>.style=20
+    </TD>
+    <TD>Brace highlighting is a feature that shows the range of a brace =
+when=20
+      the caret is positioned immediately after it. It is especially =
+useful when=20
+      complex nested braces are used. The characters '(', ')', '[', ']', =
+'{',=20
+      and '}' are considered braces. The feature defaults to off =
+(because it=20
+      slows cursor movement) unless braces.check is set to 1. If =
+braces.sloppy=20
+      is set to 1 then if there is no brace before the caret then the =
+character=20
+      after the caret is checked. The highlighting is performed by =
+displaying=20
+      the braces in style number 34 or in style number 35 if there is no =
+
+      matching brace. While this is a full style, to avoid partial =
+display of=20
+      the braces, it is best to make this style differ from the standard =
+style=20
+      of braces only in foreground and background colour. Only braces =
+with style=20
+      set to braces.<I>lexer</I>.style (which defaults to 0) are =
+candidates for=20
+      brace match highlighting. </TD></TR>
+  <TR>
+    <TD>font.monospace </TD>
+    <TD>Defines, with the same syntax as the style properties, the font =
+name=20
+      and size to be used when the Use Monospaced Font command is =
+performed.=20
+  </TD></TR>
+  <TR>
+    =
+<TD>command.compile.<I>filepattern</I><BR>command.compile.subsystem.<I>fi=
+lepattern</I><BR>command.build.<I>filepattern</I><BR>command.build.subsys=
+tem.<I>filepattern</I><BR>command.build.directory.<I>filepattern</I><BR>c=
+ommand.go.<I>filepattern</I><BR>command.go.subsystem.<I>filepattern</I>=20
+    </TD>
+    <TD>These settings choose which commands to execute when the =
+Compile,=20
+      Build or Go menu items are selected. The subsystem options =
+determine for=20
+      Windows whether the tools are run as command line(0), windowed(1), =
+through=20
+      ShellExecute(2), or through the director interface(3).<BR>When =
+source=20
+      files are in a different directory to that they should be built =
+in, the=20
+      command.build.directory property can be set to change to a =
+particular=20
+      directory before performing the build. </TD></TR>
+  <TR>
+    =
+<TD>command.go.needs.<I>filepattern</I><BR>command.go.needs.subsystem.<I>=
+filepattern</I>=20
+    </TD>
+    <TD>Sometimes a file must be compiled or built before it can be run. =
+If=20
+      this is the case, this setting indicates what command needs to be =
+run to=20
+      perform the compile or build step before running the file. When a =
+file is=20
+      compiled, this is noted and future runs will not perform a compile =
+or=20
+      build. To make a 'compile and go' Go command for .c files:=20
+      <DIV =
+class=3Dexample>command.go.*.c=3D$(FileName)<BR>command.go.needs.*.c=3Dg+=
++=20
+      $(FileNameExt) -o $(FileName)<BR></DIV></TD></TR>
+  <TR>
+    =
+<TD>command.name.<I>number</I>.<I>filepattern</I><BR>command.<I>number</I=
+>.<I>filepattern</I><BR>command.is.filter.<I>number</I>.<I>filepattern</I=
+><BR>command.subsystem.<I>number</I>.<I>filepattern</I><BR>command.save.b=
+efore.<I>number</I>.<I>filepattern</I><BR><SPAN=20
+      =
+class=3Dwindowsonly>command.input.<I>number</I>.<I>filepattern</I></SPAN>=
+<BR><SPAN=20
+      =
+class=3Dwindowsonly>command.replace.selection.<I>number</I>.<I>filepatter=
+n</I></SPAN><BR><SPAN=20
+      =
+class=3Dwindowsonly>command.quiet.<I>number</I>.<I>filepattern</I></SPAN>=
+<BR>command.mode.<I>number</I>.<I>filepattern</I><BR>command.shortcut.<I>=
+number</I>.<I>filepattern</I>=20
+    </TD>
+    <TD>Extra commands can be added to the Tools menu. For example to =
+include=20
+      the 'astyle' indenter, the properties file could contain=20
+      <DIV =
+class=3Dexample>command.name.0.*.cc=3DIndent<BR>command.0.*.cc=3Dastyle=20
+      -taO $(FileNameExt)<BR>command.is.filter.0.*.cc=3D1</DIV>The first =
+line=20
+      defines the string that will appear in the Tools menu (immediately =
+below=20
+      'Go'). The second line is the command string, similar to those of =
+the=20
+      compile, build, and go commands. The optional command.is.filter =
+property=20
+      states that the command modifies the current file so it may need =
+to be=20
+      read in after performing the command if load.on.activate is =
+set.<BR>If=20
+      command.save.before is set to 1, SciTE automatically saves the =
+file before=20
+      execution. If it is set to 2, SciTE will not save the file, =
+otherwise=20
+      SciTE asks you. On Windows, the optional command.input property =
+specifies=20
+      text that will be piped to the command. This may reference other=20
+      properties; for example, <SPAN=20
+      class=3Dexample>command.input.0.*.cc=3D$(CurrentSelection)</SPAN> =
+would pipe=20
+      the current selection to the command processes. The command.input =
+property=20
+      is only supported for subsystem 0 (command line =
+programs).<BR><BR>On=20
+      Windows, the optional command.replace.selection can be used to =
+specify=20
+      that the command output should replace the current selection (or =
+be=20
+      inserted at the cursor location, if there is no selection). This =
+property=20
+      has three available settings: 0, the default, means do not replace =
+the=20
+      selection. 1 means replace the selection when the command =
+finishes. 2=20
+      means replace the selection only if the command finishes with an =
+exit code=20
+      of 0. If the user cancels the command via "Tools / Stop =
+Executing", the=20
+      selection will not be replaced even in mode 1. Note, commands run=20
+      asynchronously, so you are not prevented from modifying the =
+document or=20
+      even switching buffers while a command is running. However, please =
+bear in=20
+      mind that command.replace.selection will send the output to =
+whatever=20
+      window is active <I>when the command completes</I>.<BR>A final =
+command=20
+      property that is currently supported only on windows is =
+command.quiet. A=20
+      value of 1 indicates that the command I/O should not be echoed to =
+the=20
+      output pane. This may be useful in combination with command.input =
+and=20
+      command.replace.selection.<BR><BR>The command.mode property is a=20
+      comma-separated list of flags / settings. Each mode setting can =
+have an=20
+      argument, separated from the setting name by a colon. For most of =
+these,=20
+      the argument portion is optional; if the setting name appears =
+without an=20
+      argument, this works the same as "setting:yes". If a setting is =
+included=20
+      in the command.mode but also appears as a separate command =
+property, the=20
+      mode property will be overridden. Similarly, if a single setting =
+appears=20
+      more than once with different arguments, the last valid argument =
+takes=20
+      priority. The supported command.mode settings are:=20
+      <DIV class=3Dexample>filter - accepts keyword arguments yes and =
+no<BR>quiet=20
+      - accepts keyword arguments yes and no<BR>replaceselection - =
+accepts yes,=20
+      no, and auto<BR>savebefore - accepts yes, no, and =
+prompt<BR>subsystem -=20
+      console, windows, shellexec, lua, director, winhelp, =
+htmlhelp<BR>groupundo=20
+      - yes or no </DIV>Currently, all of these except groupundo are =
+based on=20
+      individual properties with similar names, and so are not described =
+
+      separately here. The groupundo setting works with subsystem 3 (lua =
+/=20
+      director), and indicates that SciTE should treat any changes made =
+by the=20
+      command as a single undo action. A command that uses the groupundo =
+setting=20
+      should not change which buffer is active in the editor.<BR>The=20
+      command.shortcut property allows you to specify a keyboard =
+shortcut for=20
+      the command. By default, commands 0 to 9 have keyboard shortcuts =
+Ctrl+0 to=20
+      Ctrl+9 respectively, but this can be overridden. For commands =
+numbered=20
+      higher than 9, there is no default keyboard shortcut. The notation =
+used to=20
+      specify keyboard shortcuts is the same as for the user.shortcuts =
+property,=20
+      described elsewhere in this document.<BR><BR>If the text of a =
+command=20
+      starts with '*' then the Parameters dialog is displayed to prompt =
+for=20
+      parameters before executing the command. The initial '*' is not =
+included=20
+      in the command that is executed.<BR><BR>The command number can be =
+in the=20
+      range of 0 to 99. Command numbers 0 to 9 are assigned Ctrl+Number=20
+      shortcuts. Internally these commands use IDs starting from 1100=20
+      (IDM_TOOLS) which can be used in user.shortcuts and =
+user.context.menu as:=20
+      <DIV class=3Dexample>user.context.menu=3DIndent|1100|</DIV>If =
+command.name is=20
+      empty then no item is added to the Tools menu. This can be used =
+for=20
+      commands that are only in the context menu or user shortcuts. =
+</TD></TR>
+  <TR>
+    =
+<TD>command.help.<I>filepattern</I><BR>command.help.subsystem.<I>filepatt=
+ern</I>=20
+    </TD>
+    <TD>Defines a command to be executed when the help command is =
+invoked or=20
+      F1 pressed. On Windows, this often uses subsystem 4 as described =
+above. On=20
+      Linux, running man or a browser are common ways of displaying =
+help. The=20
+      word at the cursor is copied to $(CurrentWord) and this is often a =
+good=20
+      argument to the help application. The subsystem property works in =
+the same=20
+      way as for other commands. </TD></TR>
+  <TR>
+    <TD>command.scite.help<BR>command.scite.help.subsystem </TD>
+    <TD>Defines a command to be executed for help on the SciTE program =
+itself=20
+      which normally means displaying this file in a browser. </TD></TR>
+  <TR class=3Dgtkonly>
+    =
+<TD>command.print.<I>filepattern</I><BR>command.print.subsystem.<I>filepa=
+ttern</I>=20
+    </TD>
+    <TD>Defines a command to be executed when print is invoked on GTK+. =
+</TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>win95.death.delay </TD>
+    <TD>On Windows 95, there can be a delay between a process completing =
+and=20
+      all of its piped output being available. By waiting this number of =
+
+      milliseconds, we can be sure to see all the output. Defaults to =
+500 but=20
+      may need to be higher for slower machines. </TD></TR>
+  <TR>
+    <TD>time.commands </TD>
+    <TD>When a command is completed, print the time it took in seconds. =
+</TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>print.magnification </TD>
+    <TD>Printing is normally done with the same settings as screen =
+display. To=20
+      make the printing larger or smaller, the print.magnification =
+setting is=20
+      added to the size of every font when printed. To get a good=20
+      miniaturisation of text, set print.magnification to -4. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>print.colour.mode </TD>
+    <TD>Some people prefer light coloured text on a black background on =
+screen=20
+      but dark text on white on paper. If print.colour.mode is set to 1 =
+then=20
+      each colour is inverted for printing. If set to 2 then printing =
+produces=20
+      black text on white background. 3 forces the background to white =
+and 4=20
+      forces the default background to white. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>print.margins </TD>
+    <TD>Specify the default margins on the printer on Windows in left =
+right=20
+      top bottom order. Units depends on your locale, either hundredths =
+of=20
+      millimetres or thousandths of inches. You can see which units by =
+the units=20
+      used in the page setup dialog. This property is only read at start =
+up.=20
+  </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>print.header.format<BR>print.footer.format </TD>
+    <TD>These settings determine what will be printed if anything as =
+headers=20
+      and footers. Property settings can be substituted into the values =
+using=20
+      the $(property) syntax. There are some extra properties set up =
+while=20
+      printing: CurrentPage, FileTime, FileDate, CurrentDate, and =
+CurrentTime=20
+      (at start of printing). Common properties to use in headers and =
+footers=20
+      are FileNameExt and FilePath.<BR>A header setting may look =
+like:<BR>
+      <DIV class=3Dexample>print.header.format=3D$(FileNameExt) - =
+Printed on=20
+      $(CurrentDate),$(CurrentTime) - Page $(CurrentPage) =
+</DIV></TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>print.header.style<BR>print.footer.style </TD>
+    <TD>These settings determine the style of the header and footer =
+using the=20
+      same format as other styles in SciTE. Only the fore, back, font, =
+size,=20
+      bold, italics, and underlined attributes are supported. </TD></TR>
+  <TR>
+    <TD>export.keep.ext </TD>
+    <TD>This property determines how the file name (for example,=20
+      LineMarker.cxx) is transformed when exporting to include the =
+appropriate=20
+      export format extension - .html for HTML and .rtf for RTF. If=20
+      export.keep.ext is the default, 0, then the current extension is =
+replaced=20
+      (LineMarker.html). If it is 1, then the export format extension is =
+added=20
+      (LineMarker.cxx.html). If it is 2 then the final '.' is replaced =
+by '_'=20
+      and the export format extension added (LineMarker_cxx.html). =
+</TD></TR>
+  <TR>
+    =
+<TD>export.html.wysiwyg<BR>export.html.tabs<BR>export.html.folding<BR>exp=
+ort.html.styleused<BR>export.html.title.fullpath=20
+    </TD>
+    <TD>When export.html.wysiwyg is set to 0 then exporting to a HTML =
+file=20
+      produces a smaller file but which is less completely specified so =
+may look=20
+      more different to the on screen display. When export.html.tabs is =
+set to 1=20
+      and export.html.wysiwyg is set to 0 then tab characters in the =
+file are=20
+      exported as tab characters rather than a sequence of space=20
+      characters.<BR>The exported file can be made to fold in browsers =
+that=20
+      support CSS well (Mozilla and Internet Explorer) by setting=20
+      export.html.folding to 1. Only export styles actually used when=20
+      export.html.styleused set to 1. The full path name of the file is =
+put in=20
+      the title, instead of just the file name when =
+export.html.title.fullpath=20
+      set to 1. </TD></TR>
+  <TR>
+    =
+<TD>export.rtf.wysiwyg<BR>export.rtf.tabs<BR>export.rtf.font.face<BR>expo=
+rt.rtf.font.size<BR>export.rtf.tabsize=20
+    </TD>
+    <TD>When export.rtf.wysiwyg is set to 0 then exporting to a RTF file =
+
+      produces a smaller file but which is less completely specified so =
+may look=20
+      more different to the on screen display. When export.rtf.tabs is =
+set to 1=20
+      and export.rtf.wysiwyg is set to 0 then tab characters in the file =
+are=20
+      exported as tab characters rather than a sequence of space =
+characters.=20
+      <BR>export.rtf.font.face and export.rtf.font.size can be used to =
+select a=20
+      particular font and size for the exported RTF file. =
+export.rtf.tabsize can=20
+      be set to use a different tab size than that defined by the =
+tabsize=20
+      setting. </TD></TR>
+  <TR>
+    =
+<TD>export.pdf.magnification<BR>export.pdf.font<BR>export.pdf.pagesize<BR=
+>export.pdf.margins=20
+    </TD>
+    <TD>export.pdf.magnification is a value that is added to the font =
+size of=20
+      the default screen style in use. A positive value increases the =
+PDF=20
+      document's font size, and vice versa.<BR>export.pdf.font accepts a =
+
+      one-word parameter that selects one of the default PDF fonts: =
+Courier,=20
+      Helvetica or Times. Helvetica is the default. Helvetica and Times =
+do not=20
+      line wrap, Courier line wraps.<BR>export.pdf.pagesize is used to =
+set the=20
+      document's page size, using points (1/72th of an inch) as the =
+unit. E.g.=20
+      Letter paper (8.5 inch x 11 inch) is specified using the values=20
+      612,792.<BR>export.pdf.margins sets the widths of the page =
+margins.=20
+      Margins defaults to 72 points, or 1 inch.<BR>The PDF exporter is=20
+      necessarily feature-limited because PDF is a document archival =
+format.=20
+      Supporting a full set of features will bloat SciTE. Wrapping =
+Helvetica or=20
+      Times adequately isn't possible without the complexities of font =
+metrics=20
+      and kerning. The PDF produced uses WinAnsiEncoding, so =
+pre-encoding has to=20
+      be done before exporting to PDF, if you want to use extended =
+characters.=20
+    </TD></TR>
+  <TR>
+    <TD>export.xml.collapse.spaces<BR>export.xml.collapse.lines </TD>
+    <TD>export.xml.collapse.spaces and export.xml.collapse.lines are =
+flags=20
+      that control how empty lines and runs of space characters are =
+converted=20
+      into XML. The flags are enabled if set to 1. Tab characters are =
+always=20
+      converted by the XML exporter into spaces according to the tabsize =
+
+      property. </TD></TR>
+  <TR>
+    <TD>fold<BR>fold.margin.width<BR>fold.symbols<BR>fold.on.open </TD>
+    <TD>Options to control folding. Folding is turned on be setting fold =
+to 1.=20
+      The fold.symbols setting chooses between four ways of showing =
+folding. Set=20
+      to 0 (the default) for MacOS style arrows to indicate contracted =
+(facing=20
+      right) and expanded (facing down); 1 to display contracted folds =
+with "+"=20
+      and expanded with "-"; 2 for a flattened tree control with round =
+headers=20
+      and rounded joins; 3 for a flattened tree control with square =
+headers. To=20
+      automatically fold files as much as possible when loaded, set =
+fold.on.open=20
+      to 1. </TD></TR>
+  <TR>
+    <TD>fold.flags </TD>
+    <TD>Not really documented ;) bit flags which may go away. 2, 4, 8, =
+and 16=20
+      control drawing lines above and below folding lines if expanded or =
+not=20
+      expanded. Set to 64 to help debug folding by showing hexadecimal =
+fold=20
+      levels in margin. </TD></TR>
+  <TR>
+    <TD>fold.compact<BR></TD>
+    <TD>For HTML, XML, Lua and C++ and similar files, turning this =
+option on=20
+      leads to blank lines following the end of an element folding with =
+that=20
+      element. Defaults to on. </TD></TR>
+  <TR>
+    <TD>fold.html </TD>
+    <TD>Folding is turned on or off for HTML and XML files with this =
+option.=20
+      The fold option must also be on for folding to occur. </TD></TR>
+  <TR>
+    <TD>fold.html.preprocessor </TD>
+    <TD>Folding is turned on or off for scripts embedded in HTML files =
+with=20
+      this option. The default is on. </TD></TR>
+  <TR>
+    <TD>fold.hypertext.comment </TD>
+    <TD>Allow folding for comments in scripts embedded in HTML. The =
+default is=20
+      off. </TD></TR>
+  <TR>
+    <TD>fold.hypertext.heredoc </TD>
+    <TD>Allow folding for heredocs in scripts embedded in HTML. The =
+default is=20
+      off. </TD></TR>
+  <TR>
+    <TD>fold.comment </TD>
+    <TD>This option enables folding multi-line comments and explicit =
+fold=20
+      points when using the C++ lexer. Explicit fold points allows =
+adding extra=20
+      folding by placing a //{ comment at the start and a //} at the end =
+of a=20
+      section that should fold. </TD></TR>
+  <TR>
+    <TD>fold.at.else </TD>
+    <TD>This option enables C++ folding on a "} else {" line of an if=20
+      statement. </TD></TR>
+  <TR>
+    <TD>fold.preprocessor </TD>
+    <TD>This option enables folding preprocessor directives when using =
+the C++=20
+      lexer. Includes C#'s explicit #region and #endregion folding =
+directives.=20
+    </TD></TR>
+  <TR>
+    <TD>fold.quotes.python </TD>
+    <TD>This option enables folding multi-line quoted strings when using =
+the=20
+      Python lexer. </TD></TR>
+  <TR>
+    <TD>fold.perl.package<BR>fold.perl.pod </TD>
+    <TD>These options enable folding packages or Pod blocks when using =
+the=20
+      Perl lexer. </TD></TR>
+  <TR>
+    <TD>title.full.path </TD>
+    <TD>Chooses how the file name is displayed in the title bar. When 0=20
+      (default) the file name is displayed. When 1 the full path is =
+displayed.=20
+      When 2 the window title displays "filename in directory". =
+</TD></TR>
+  <TR>
+    <TD>title.show.buffers </TD>
+    <TD>When set to 1 shows the current buffer number in the title bar. =
+</TD></TR>
+  <TR>
+    =
+<TD>tabsize<BR>tab.size.<I>filepattern</I><BR>indent.size<BR>indent.size.=
+<I>filepattern</I><BR>use.tabs<BR>use.tabs.<I>filepattern</I><BR>indent.a=
+uto<BR>tab.indents<BR>backspace.unindents=20
+    </TD>
+    <TD>Sets the size of a tab as a multiple of the size of a space =
+character=20
+      in the style of the default style definition. The indent size is =
+the size=20
+      to use when performing automatic indentation and may be different =
+from the=20
+      tab size. Many people use a tab size of 8 but 4 character =
+indentation.=20
+      When creating indentation, use.tabs determines whether the =
+indentation is=20
+      made up purely from space characters or from a mix of tabs and =
+spaces=20
+      using as many tabs as possible. <BR>The global tabsize, =
+indent.size, and=20
+      use.tabs properties can be overridden for files that match a =
+pattern by=20
+      using the file pattern forms: <BR>
+      <DIV class=3Dexample>indent.size.*.pas=3D3</DIV>If indent.auto is =
+set then=20
+      indent.size and use.tabs are set according to the contents of the =
+opened=20
+      document.<BR>The properties file settings apply to newly opened =
+files but=20
+      remain constant once the file is open unless changed using the =
+Change=20
+      Indentation Settings dialog.<BR>If tab.indents is set then =
+pressing tab=20
+      within indentation whitespace indents by indent.size rather than =
+inserting=20
+      a tab character. If backspace.unindents then pressing backspace =
+within=20
+      indentation whitespace unindents by indent.size rather than =
+deleting the=20
+      character before the caret. </TD></TR>
+  <TR>
+    =
+<TD>indent.automatic<BR>indent.opening<BR>indent.closing<BR>indent.mainta=
+in.<I>filepattern</I>=20
+    </TD>
+    <TD>Determines the look of automatic indentation. Automatic =
+indentation is=20
+      turned on with indent.automatic=3D1. To indent a brace line after =
+a compound=20
+      statement start set indent.opening=3D1, likewise for the =
+terminating brace.=20
+      So with both set to 0:=20
+      <DIV class=3Dexample>if=20
+      (c)<BR>{<BR>&nbsp;&nbsp;&nbsp;&nbsp;s;<BR>}<BR></DIV>And with both =
+set to=20
+      1:=20
+      <DIV class=3Dexample>if=20
+      =
+(c)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;s;<BR>&nbsp;&=
+nbsp;&nbsp;&nbsp;}<BR></DIV>Automatic=20
+      indentation may be changed to simply repeat the indentation of the =
+
+      previous line for some files with =
+indent.maintain.<I>filepattern</I>=3D1=20
+      which overrides the other language specific settings. </TD></TR>
+  <TR>
+    =
+<TD>statement.indent.<I>filepattern</I><BR>statement.end.<I>filepattern</=
+I><BR>statement.lookback.<I>filepattern</I><BR>block.start.<I>filepattern=
+</I><BR>block.end.<I>filepattern</I>=20
+    </TD>
+    <TD>Each of these settings starts with a style number and then a set =
+of=20
+      words or characters that define how to recognise that feature. If =
+there is=20
+      a second space in the setting then it is a set of words, otherwise =
+a set=20
+      of characters. The set of keywords used to indicate the start of a =
+
+      compound statement is defined in statement.indent. For example:=20
+      <DIV class=3Dexample>statement.indent.$(file.patterns.cpp)=3D5 if =
+else while=20
+      </DIV>says that for C++ the words "if", "else", and "while" in =
+keyword=20
+      style, 5, start compound statements which leads to the next line =
+being=20
+      indented if no other factors affect it. However, if a statement =
+end is=20
+      found on the same line then the next line is not indented. For C++ =
+the=20
+      statement end is the semicolon in the operator style, so this is =
+defined:=20
+      <DIV class=3Dexample>statement.end.$(file.patterns.cpp)=3D10 ; =
+</DIV>The=20
+      number of lines looked at to determine indentation can be set with =
+
+      statement.lookback. This can be used either to bound the amount of =
+time=20
+      spent on this task or to specify that only the last line be =
+examined for=20
+      indentation.<BR>The block.start and block.end properties define =
+the=20
+      language elements used to bracket groups of statements. In C++ =
+these are=20
+      '{' and '}'. </TD></TR>
+  <TR>
+    <TD>vc.home.key </TD>
+    <TD>Chooses the behaviour of the Home and Shift+Home keys. 1, the =
+default=20
+      is like Visual C++ moving the caret to the end of the line =
+indentation=20
+      unless already there, in which case it moves to the start of the =
+line. 0=20
+      moves to the start of the line. </TD></TR>
+  <TR class=3Dwindowsonly>
+    =
+<TD>warning.findwrapped<BR>warning.notfound<BR>warning.wrongfile<BR>warni=
+ng.executeok<BR>warning.executeko<BR>warning.nootherbookmark=20
+    </TD>
+    <TD>Allows for sounds to be played and the window to be flashed on =
+Windows=20
+      when particular events occur. The values consist of three items =
+separated=20
+      by ',': flash duration, sound and sound duration. If sound is a =
+number=20
+      then it is treated as a pitch and played for the duration in =
+milliseconds.=20
+      Otherwise it is treated as a path to a sound file that is played. =
+If you=20
+      do not want a flash, specify 0 for flash duration. For example,=20
+      <DIV =
+class=3Dexample>warning.wrongfile=3D0,C:\Windows\Media\SFX\Glass.wav=20
+      </DIV>will play the glass sound if open selected is given a bad =
+file name.=20
+      The findwrapped warning occurs when a find operation wraps past =
+either end=20
+      of the file, notfound when the find or preprocessor conditional =
+move=20
+      commands fail to find a match, executeok when a command such as =
+build=20
+      executes successfully, executeko when a command fails, and =
+nootherbookmark=20
+      when there is no bookmark to find. </TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>fileselector.width<BR>fileselector.height </TD>
+    <TD>For the GTK+ version determines the initial size of the file =
+selector=20
+      dialog invoked by the Open and Save commands. Setting has no =
+effect on=20
+      Windows. </TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>fileselector.show.hidden </TD>
+    <TD>On GTK+ setting this to 1 makes the file selector dialog invoked =
+by=20
+      the Open command show hidden files automatically. </TD></TR>
+  <TR>
+    <TD>locale.properties </TD>
+    <TD>Set the name of the localisation file. For a multi-user =
+installation=20
+      this allows each user to set a preferred user interface language. =
+</TD></TR>
+  <TR>
+    <TD>translation.missing </TD>
+    <TD>When using a localised version, if a term is not found in the=20
+      locale.properties translation file then use the value of=20
+      translation.missing instead. By setting this to a marker such as =
+"***" it=20
+      is easier to check where terms have not been provided with =
+translations.=20
+    </TD></TR>
+  <TR>
+    <TD>menu.language </TD>
+    <TD>Defines the entries in the Language menu and the file extensions =
+they=20
+      map to. Each menu item is defined by 3 elements, language name, =
+extension=20
+      and an optional keyboard equivalent. Each element is terminated by =
+'|'.=20
+      For example:<BR>H&amp;ypertext|html|F12|<BR>Menu items may be =
+commented=20
+      out by prefixing the name with '#'. </TD></TR>
+  <TR class=3Dgtkonly>
+    <TD>menukey.* </TD>
+    <TD>The menukey.* settings allow the user to redefine accelerator =
+keys for=20
+      menus without having to resort to modifying the SciTE source code. =
+The=20
+      syntax for the setting is:=20
+      <DIV =
+class=3Dexample>menukey.menu_title.menu_name=3D&lt;modifier&gt;key=20
+      </DIV>For example, the File | Exit command accelerator could be =
+specifed=20
+      as follows:=20
+      <DIV class=3Dexample>menukey.file.exit=3D&lt;control&gt;Q =
+</DIV>Note that=20
+      spaces in menu titles and names must be converted to underscores, =
+and=20
+      trailing ellipses removed. For example, "File | Save As...." is =
+referenced=20
+      as "menukey.file.save_as". <BR><BR>Multiple modifiers may be =
+specified,=20
+      though each must be surrounded by angle brackets. The recognized =
+modifiers=20
+      are the same as for the user.shortcuts setting described above. =
+The=20
+      recognized named keys are also the same as for user.shortcuts, =
+with the=20
+      addition of "none" to indicate that no accelerator key should be =
+defined=20
+      for a particular menu. </TD></TR>
+  <TR class=3Dwindowsonly>
+    <TD>source.default.extensions </TD>
+    <TD>If the name specified on the command line cannot be found as a=20
+      directory or file - including a wild-card search, the contents of =
+the=20
+      property are treated as default extensions to be used to locate =
+the file=20
+      name.<BR>An example is:=20
+      .cxx|.cpp|.c|.hxx|.hpp|.h|.bat|.txt|.lua<BR>Attempting to open=20
+      win32\SciTEWin would open win32\SciTEWin.cxx since it matches =
+before=20
+      win32\SciTEWin.h <BR>If the property contains an entry such as=20
+      Bar.cxx|.cxx and you attempt to open win32\SciTEWin, it will open=20
+      ScTEWinBar.cxx since that is the first match. </TD></TR>
+  <TR>
+    =
+<TD>ext.lua.startup.script<BR>ext.lua.auto.reload<BR>ext.lua.reset<BR>ext=
+ension.<I>filepattern</I>=20
+    </TD>
+    <TD>The ext.lua properties are specific to the <A=20
+      href=3D"http://www.scintilla.org/SciTELua.html">SciTE Lua =
+Scripting=20
+      Extension</A>. The extension.<I>filepattern</I> property is part =
+of the=20
+      generic <A =
+href=3D"http://www.scintilla.org/SciTEExtension.html">SciTE=20
+      Extension Interface</A> but is currently only used by the Lua =
+Scripting=20
+      Extension. <BR>The ext.lua.startup.script property defines the =
+filename of=20
+      a Lua script that will be loaded when SciTE starts to set up the =
+global=20
+      state for Lua. You should use an absolute path for this property, =
+but can=20
+      reference the $(SciteDefaultHome) or $(SciteUserHome) properties. =
+Global=20
+      event handlers, command functions, as well as other functions and =
+objects=20
+      can be defined here. <BR>The ext.lua.auto.reload property =
+determines what=20
+      happens if you save the startup script, or the active extension =
+script,=20
+      from within SciTE. If it is set to 0 (the default), the startup =
+script=20
+      only applied at startup time or when you switch buffers (depending =
+on=20
+      ext.lua.reset), and changes to the extension script are only =
+applied when=20
+      you switch buffers. If ext.lua.auto.reload is set to 1, SciTE will =
+
+      re-initialize the global scope immediately when either script is =
+saved=20
+      from within SciTE. <I>Even when ext.lua.auto.reload is enabled, =
+SciTE will=20
+      not notice if the files are changed from outside the current SciTE =
+
+      instance. For that, see ext.lua.reset below.</I> <BR>The =
+ext.lua.reset=20
+      property is primarily for debugging. If ext.lua.reset is 0 (the =
+default),=20
+      the startup script property is checked only once - when SciTE =
+starts. If=20
+      ext.lua.reset is changed to 1, SciTE will check the startup script =
+
+      property, and reload the new startup script, each time you switch =
+buffers.=20
+      As such, it has a different (larger) set of side effects than=20
+      ext.lua.auto.reload. In some situations it will make sense for =
+both=20
+      auto.reload and reset to be enabled, but usually =
+ext.lua.auto.reload alone=20
+      will suffice. <I>The ext.lua.reset property may go away in an =
+upcoming=20
+      version if SciTE, perhaps to be replaced with a new setting for=20
+      ext.lua.auto.reload=3D2.</I> <BR>Aside from =
+ext.lua.startup.script, the=20
+      extension.<I>filepattern</I> property provides a way to load =
+additional=20
+      functions and event handlers that may be specific to a given file =
+type. If=20
+      the extension property value ends in .lua and names a file that =
+exists,=20
+      the Lua extension evaluates the script so that event handlers and =
+commands=20
+      defined in the script are available while that buffer is active. =
+Functions=20
+      and objects defined through ext.lua.startup.script are still =
+accessible,=20
+      unless they are overridden. <BR>The extension property can also =
+define=20
+      behavior that is specific to a given directory. If a bare filename =
+(no=20
+      path) is specified in the extension property, SciTE looks for the =
+file in=20
+      the standard property file locations, starting with the local =
+directory.=20
+      This can be very useful in combination with a local =
+SciTE.properties file.=20
+    </TD></TR>
+  <TR>
+    <TD>caret.sticky </TD>
+    <TD>Controls when the last position of the caret on the line is =
+modified.=20
+      When set to 1, the position is not modified when you type a =
+character, a=20
+      tab, paste the clipboard content or press backspace. The default =
+is 0=20
+      which turns off this feature. </TD></TR>
+  <TR>
+    <TD>properties.directory.enable </TD>
+    <TD>Enables or disables the evaluation of the directory properties =
+file.=20
+      The default is 0 which disables the evaluation. Any other value =
+enables=20
+      this properties file. </TD></TR></TBODY></TABLE>
+<P>caret.policy.{x|y}&lt;param&gt; interaction: </P>
+<TABLE cellSpacing=3D0 cellPadding=3D1 summary=3D"Caret policy" =
+border=3D1>
+  <TBODY>
+  <TR>
+    <TH>slop</TH>
+    <TH>strict</TH>
+    <TH>jumps</TH>
+    <TH>even</TH>
+    <TH>Caret can go to the margin</TH>
+    <TH>When reaching limit<BR>(going out of visibility =
+or<BR>&nbsp;going into=20
+      the UZ)<BR>display is...</TH></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret on top/on right</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>Yes</TD>
+    <TD>moved by one position</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret on top/on right</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>Yes</TD>
+    <TD>centred on the caret</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>-</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Caret is always on top/on right of display</TD>
+    <TD>-</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>-</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>No, caret is always centred</TD>
+    <TD>-</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret out of the asymmetrical UZ</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret out of the UZ</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret at 3UZ of the top or right margin</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>Yes</TD>
+    <TD>moved to put caret at 3UZ of the margin</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>-</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>Caret is always at UZ of top/right margin</TD>
+    <TD>-</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD>No, kept out of UZ</TD>
+    <TD>moved by one position</TD></TR>
+  <TR>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>1</TD>
+    <TD align=3Dmiddle>0</TD>
+    <TD>No, kept out of UZ</TD>
+    <TD>moved to put caret at 3UZ of the =
+margin</TD></TR></TBODY></TABLE>
+<H3>Supporting a new language </H3>
+<P>For languages very similar to existing supported languages, which may =
+only=20
+differ in a minor feature such as the keywords used, the existing lexers =
+can=20
+often be reused. The set of keywords can then be changed to suit the new =
+
+language. Java and JavaScript could have reasonably reused the C++ =
+lexer. The=20
+Java lexer was added only to support doc comments. </P>
+<P>For languages that can not be lexed with the existing lexers, a new =
+lexer can=20
+be coded in C++.&nbsp; These can either be built into Scintilla, or put =
+into an=20
+external module and loaded when SciTE runs (See lexerpath).</P><A=20
+href=3D"http://www.scintilla.org/SciTELexer.html">Installing a lexer =
+into=20
+SciTE</A> <BR><A=20
+href=3D"http://www.scintilla.org/SciTEExternalLexer.html">Creating and =
+installing=20
+an external lexer</A><BR>
+<P>The open.filter should be modified to include the file extensions =
+used for=20
+the new language and entries added for command.compile, command.build,=20
+command.go and command.go.needs for the language. </P>
+<H3>Creating API files </H3>
+<P>The .api files can be generated by hand or by using a program. There =
+are also=20
+<A =
+href=3D"http://groups.google.com/group/scite-interest/web/extras">downloa=
+dable=20
+ready-to-use .api files.</A> </P>
+<P>For C/C++ headers, an API file can be generated using <A=20
+href=3D"http://ctags.sourceforge.net/">ctags</A> and then the <A=20
+href=3D"http://www.scintilla.org/tags2api.py">tags2api Python script</A> =
+(which=20
+assumes C/C++ source) on the tags file to grab complete multiple line =
+function=20
+prototypes. Some common headers surround parameter lists with a __P =
+macro and=20
+may have comments. The <A=20
+href=3D"http://www.scintilla.org/cleanapi.cc">cleanapi</A> utility may =
+be used on=20
+these files. </P>
+<P>To generate an API file for Python modules, there is a <A=20
+href=3D"http://www.scintilla.org/gen_python_api.zip">gen_python =
+script</A>. </P>
+<P>To generate an API file for Java classes, there is a <A=20
+href=3D"http://www.scintilla.org/ApiBuilder.java">ApiBuilder.java</A> =
+program.=20
+</P>
+<H3>Open Selected Filename </H3>
+<P>This command opens the file for the file name selected in either the =
+edit or=20
+output pane. It uses the current selection or searches around the caret =
+to try=20
+to find a file name based on which characters are normally used in a =
+path. If=20
+there is no extension then an extension may be inferred from the current =
+file=20
+using the open.suffix property which defaults to .properties in a =
+.properties=20
+file. If the file name is followed by a number (in a format similar to =
+ctags,=20
+grep output, or Visual Studio messages) then that line is displayed in =
+the=20
+opened file. If the file name is an absolute path then it is opened =
+directly=20
+otherwise it is looked for in the current directory and then in the =
+directory=20
+specified by the openpath property. On Windows, web, ftp, mail and news =
+URLs are=20
+handled by opening their associated application. </P>
+<H3>SciTE in other languages </H3>
+<P>SciTE can be and has been <A=20
+href=3D"http://groups.google.com/group/scite-interest/web/translations">t=
+ranslated=20
+into other languages</A>. </P>
+<H3>Building SciTE </H3>
+<P>The procedure for building and installing SciTE is described in the =
+README=20
+file in the scite directory. </P>
+<H3>Extending SciTE </H3>
+<P>There are two formal extension interfaces for SciTE, the <A=20
+href=3D"http://www.scintilla.org/SciTEExtension.html">SciTE Extension=20
+Interface</A> is for extending SciTE with code compiled into the SciTE=20
+executable and the <A =
+href=3D"http://www.scintilla.org/SciTEDirector.html">SciTE=20
+Director Interface</A> is for manipulating SciTE on Windows from another =
+
+application. </P></BODY></HTML>
+
+------=_NextPart_000_001D_01C50E24.26C89BE0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://www.scintilla.org/SciTEIco.png
+
+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
+YII=
+
+------=_NextPart_000_001D_01C50E24.26C89BE0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://www.scintilla.org/PrintHi.png
+
+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
+
+------=_NextPart_000_001D_01C50E24.26C89BE0--

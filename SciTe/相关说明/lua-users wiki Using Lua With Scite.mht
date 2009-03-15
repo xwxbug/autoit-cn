@@ -1,0 +1,809 @@
+From: <ÓÉ Microsoft Internet Explorer 5 ±£´æ>
+Subject: lua-users wiki: Using Lua With Scite
+Date: Tue, 8 Feb 2005 21:17:18 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_000F_01C50E23.923099B0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5512
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_000F_01C50E23.923099B0
+Content-Type: text/html;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://lua-users.org/wiki/UsingLuaWithScite
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>lua-users wiki: Using Lua With Scite</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dgb2312"><LINK=20
+href=3D"http://lua-users.org/styles/main.css" type=3Dtext/css =
+rel=3Dstylesheet>
+<META content=3D"MSHTML 6.00.2900.5512" name=3DGENERATOR></HEAD>
+<BODY>
+<TABLE width=3D"100%" border=3D0>
+  <TBODY>
+  <TR>
+    <TD align=3Dleft width=3D"100%">
+      <H1><A title=3D"List pages referring to UsingLuaWithScite"=20
+      =
+href=3D"http://lua-users.org/cgi-bin/wiki.pl?action=3Dsearch&amp;string=3D=
+UsingLuaWithScite&amp;body=3D1">Using=20
+      Lua With Scite</A></H1></TD>
+    <TD align=3Dright>
+      <TABLE cellSpacing=3D0 cellPadding=3D0 width=3D"1%" border=3D0>
+        <TBODY>
+        <TR>
+          <TD><A href=3D"http://lua-users.org/"><IMG height=3D40=20
+            alt=3D"lua-users home" =
+src=3D"http://lua-users.org/images/nav-logo.png"=20
+            width=3D177 border=3D0></A></TD></TR>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=3D0 cellPadding=3D0 width=3D"100%" =
+border=3D0>
+              <TBODY>
+              <TR>
+                <TD><IMG height=3D40 alt=3D""=20
+                  src=3D"http://lua-users.org/images/nav-elbow.png" =
+width=3D48></TD>
+                <TD vAlign=3Dcenter noWrap width=3D"100%"><A class=3Dnav =
+
+                  =
+href=3D"http://lua-users.org/wiki/">wiki</A></TD></TR></TBODY></TABLE></T=
+D></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR=20
+clear=3Dall>Any <EM>global Lua function</EM> can be used as a SciTE =
+command. These=20
+functions appear on the Tools Menu, and may have an associated shortcut =
+key.=20
+<P>Here is a simple example; put this in your properties file (could be=20
+local,user or global):=20
+<P><PRE>command.name.1.*=3DLoad Lua
+command.1.*=3Ddofile $(FilePath)
+command.subsystem.1.*=3D3
+</PRE>
+<P>You will now have a menu item called 'Load Lua' on the Tools menu, =
+and by=20
+default it will have a shortcut Ctrl+1. <CODE>command.subsystem</CODE> =
+must be=20
+set to 3, which is the Lua extension. In this case, the global Lua =
+function is=20
+<CODE>dofile</CODE> which has been kept in SciTE's Lua 5 precisely =
+because it's=20
+so useful in this case; please note that there is no argument list after =
+
+<CODE>dofile</CODE>. There can be at most one argument passed to your =
+function,=20
+but like anything in a SciTE properties file, it can contain references =
+to other=20
+SciTE properties, like <CODE>FilePath</CODE>, which is the full path of =
+the=20
+currently shown file. (See the section called 'Properties File' in the =
+SciTE=20
+manual for a full list of these dynamic properties)=20
+<P>Now, if you edit a file containing this:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dlibrary>print</SPAN> (<SPAN =
+class=3Dstring>"Hello, World!"</SPAN>)
+</PRE>
+<P>and pressed Ctrl+1, "Hello, World" will be shown in the SciTE output =
+window.=20
+If you have modified this file, then SciTE will prompt you first to =
+save; this=20
+is the default behaviour. This is a powerful way to begin Lua =
+programming in the=20
+SciTE environment.=20
+<P>There is a potential problem with this definition; some other script =
+may have=20
+defined the command 1; you can have commands from 0 to 9 with this =
+method, bound=20
+to Ctrl+0 .. Ctrl+9. But you can use any number less than 50 in these=20
+definitions, as long as you give an explicit shortcut key:=20
+<P><PRE>command.name.11.*=3DLoad Lua
+command.11.*=3Ddofile $(FilePath)
+command.subsystem.11.*=3D3
+command.mode.11.*=3Dsavebefore:yes
+command.shortcut.11.*=3DF9
+</PRE>
+<P>You <EM>can</EM> rebind a key that has already been defined by SciTE =
+or=20
+Scintilla. There are a lot of these, so consult the documentation.=20
+<P><EM>Here is an alternative which doesn't require the document to be =
+on disk -=20
+it executes all the source in the current buffer:</EM> =
+<PRE>command.name.1.*=3DRun Document as Lua Extension
+command.1.*=3Ddostring dostring(editor:GetText())
+command.subsystem.1.*=3D3
+command.mode.1.*=3Dsavebefore:no
+</PRE>
+<P>
+<P>
+<H3>A simple SciTE Macro</H3>
+<P>Put this in a Lua file (say test.lua) in your home directory=20
+<P><PRE class=3Dcode><SPAN class=3Dkeyword>function</SPAN> =
+make_uppercase()
+  <SPAN class=3Dkeyword>local</SPAN> sel =3D editor:GetSelText()
+  editor:ReplaceSel(<SPAN class=3Dlibrary>string.upper</SPAN>(sel))
+<SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>and in your properties file, put this=20
+<P><PRE>ext.lua.startup.script=3D$(SciteUserHome)/test.lua
+
+command.name.12.*=3DMake Selection Uppercase
+command.12.*=3Dmake_uppercase
+command.subsystem.12.*=3D3
+command.mode.12.*=3Dsavebefore:no
+command.shortcut.12.*=3DCtrl+M
+</PRE>
+<P>Now, after selecting text, you can make it uppercase with Ctrl+M. =
+Because of=20
+the <CODE>savebefore:no</CODE>, it won't prompt you to save first before =
+
+executing.=20
+<P>OK, it's true that SciTE already has such an operation. But you can =
+do just=20
+about anything with Lua in SciTE! I would suggest that a good way to =
+learn is to=20
+experiment using the <CODE>dofile</CODE> trick.=20
+<P>
+<H3>Looking up the correct form of a Scintilla function</H3>
+<P>The best reference for the Lua Scintilla bindings is=20
+<CODE>scintilla.iface</CODE>, which is in the Scintilla include =
+directory. If=20
+you look for <CODE>GetLength</CODE> you will find:=20
+<P><PRE> # Returns the number of characters in the document.
+ get int GetLength=3D2006(,)
+</PRE>
+<P>The 'get' means that there is a read-only property called=20
+<CODE>Length</CODE>. It will be called like this: =
+<CODE>editor.Length</CODE>.=20
+<P>whereas looking for <CODE>GetText</CODE> we get:=20
+<P><PRE> # Retrieve all the text in the document.
+ # Returns number of characters retrieved.
+ fun int GetText=3D2182(int length, stringresult text)
+</PRE>
+<P>So <CODE>GetText</CODE> is a plain function, which is passed a =
+string. It=20
+will be <CODE>editor:GetText()</CODE> - note the colon!=20
+<P>The Lua bindings are not always consistent, for example=20
+<CODE>GetSelText</CODE> is a function, not a property.=20
+<P>An annotated version of the Scintilla documentation for the Lua =
+interface can=20
+be found here: <A=20
+href=3D"http://scite-interest.googlegroups.com/web/ScintillaSciteDoc.html=
+">http://scite-interest.googlegroups.com/web/ScintillaSciteDoc.html</A>=20
+
+<P>
+<P>
+<H3>Getting and Modifying Document Text</H3>
+<P><CODE>editor:GetText()</CODE> will return the full text of the =
+current=20
+document, and <CODE>editor:SetText(s)</CODE> will replace the current =
+contents=20
+of the document with the string <CODE>s</CODE>.=20
+<P><CODE>editor:GetLine(n)</CODE> will get all the text of the line=20
+<CODE>n</CODE>, including any end-of-line characters. Remember that =
+under=20
+Windows there will be two of these ('\r\n'); all line numbers are =
+zero-based.=20
+The following is a simple function to remove the end-of-line characters: =
+
+<P><PRE class=3Dcode>  <SPAN class=3Dcomment>-- removes end-of-line =
+characters in a string</SPAN>
+  <SPAN class=3Dkeyword>function</SPAN> Chomp(line)
+    <SPAN class=3Dkeyword>return</SPAN> <SPAN =
+class=3Dlibrary>string.gsub</SPAN>(line, <SPAN =
+class=3Dstring>"[\r\n]+$"</SPAN>, <SPAN class=3Dstring>""</SPAN>)
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P><CODE>editor:GetSelText()</CODE> will retrieve the currently selected =
+text.=20
+<P>The length of the document in characters is =
+<CODE>editor.Length</CODE> and in=20
+lines is <CODE>editor.LineCount</CODE>; note the different syntax used =
+here,=20
+since <CODE>Length</CODE> and <CODE>LineCount</CODE> are =
+<EM>properties</EM>.=20
+Another example is <CODE>editor.CharAt[p]</CODE> which will get the=20
+<EM>character</EM> at position <CODE>p</CODE>. This will be the =
+character code,=20
+so use <CODE>string.char(ch)</CODE> to generate a string:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dcomment>-- returns the character at =
+position p as a string</SPAN>
+  <SPAN class=3Dkeyword>function</SPAN> char_at(p)
+     <SPAN class=3Dkeyword>return</SPAN> <SPAN =
+class=3Dlibrary>string.char</SPAN>(editor.CharAt[p])
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P><CODE>editor:textrange(p1,p2)</CODE> will get the text between=20
+<CODE>p1</CODE> and <CODE>p2</CODE>; (this is a SciTE pane function). So =
+an=20
+alternative way to get the character as a string at a position =
+<CODE>p</CODE> is=20
+<CODE>editor:textrange(p,p+1)</CODE>.=20
+<P><CODE>editor:ClearAll()</CODE> will clear the document.=20
+<P><CODE>editor:AppendText(s)</CODE> will append <CODE>s</CODE> to the =
+end of=20
+the document, and <CODE>editor:InsertText(p,s)</CODE> will insert =
+<CODE>s</CODE>=20
+at the position <CODE>p</CODE>; a position of -1 means the =
+<EM>current</EM>=20
+position. This is where the caret is currently displayed; in all cases, =
+please=20
+note that <CODE>InsertText</CODE> won't scroll the text into view.=20
+<CODE>editor:ScrollCaret()</CODE> will do that for you.=20
+<P><CODE>editor:ReplaceSel(s)</CODE> will replace the selection with=20
+<CODE>s</CODE>. Here is a function that will enclose the selected text =
+in bold=20
+tags:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dkeyword>function</SPAN> make_bold()
+    <SPAN class=3Dkeyword>local</SPAN> txt =3D editor:GetSelText();
+    editor:ReplaceSel(<SPAN =
+class=3Dstring>'&lt;b&gt;'</SPAN>..txt..<SPAN =
+class=3Dstring>'&lt;/b&gt;'</SPAN>)
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>
+<H3>Selection and Position Information</H3>
+<P>To move to a new position, use <CODE>editor:GotoPos(p)</CODE> or=20
+<CODE>editor:GotoLine(l)</CODE>. They will always make the caret =
+visible.=20
+<P>Given a position <CODE>p</CODE>, =
+<CODE>editor:LineFromPosition(p)</CODE> will=20
+give you the line, and <CODE>editor:PositionFromLine(l)</CODE> will give =
+you the=20
+position at the <EM>start</EM> of the line. If you need the position at =
+line=20
+end, use <CODE>editor.LineEndPosition[l]</CODE> (note that properties =
+are=20
+accessed as if they were arrays).=20
+<P><CODE>editor.CurrentPos</CODE> will return the current caret =
+position; this=20
+is a <EM>writeable</EM> property, so <CODE>editor.CurrentPos =3D =
+p</CODE> also=20
+works, but it doesn't have the same meaning as =
+<CODE>editor:GotoPos(p)</CODE>.=20
+The selection in Scintilla is between the <EM>anchor</EM> and the=20
+<EM>position</EM>, so if there was an existing selection, then setting =
+the=20
+position directly would change the selection. =
+<CODE>editor:SetSel(p1,p2)</CODE>=20
+is the best way to explicitly set the selection.=20
+<P>To find out the currently visible part of the document, use=20
+<CODE>editor.FirstVisibleLine</CODE> to find out the starting line =
+number, and=20
+<CODE>editor.LinesOnScreen</CODE> to find out the number of lines =
+visible on the=20
+page.=20
+<P><CODE>center_pos()</CODE> is a useful function that uses this =
+information to=20
+center the display around a position.=20
+<P><PRE class=3Dcode> <SPAN class=3Dcomment>-- this centers the cursor =
+position</SPAN>
+ <SPAN class=3Dkeyword>function</SPAN> center_pos(line)
+  <SPAN class=3Dkeyword>if</SPAN> <SPAN class=3Dkeyword>not</SPAN> line =
+<SPAN class=3Dkeyword>then</SPAN>=20
+     <SPAN class=3Dcomment>-- this is the current line</SPAN>
+     line =3D editor:LineFromPosition(editor.CurrentPos)
+  <SPAN class=3Dkeyword>end</SPAN>
+  <SPAN class=3Dkeyword>local</SPAN> top =3D editor.FirstVisibleLine
+  <SPAN class=3Dkeyword>local</SPAN> middle =3D top + =
+editor.LinesOnScreen/2
+  editor:LineScroll(0,line - middle)
+ <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>
+<H3>SciTE Properties</H3>
+<P>There is a pseudo-array called <CODE>props</CODE> which can access =
+any=20
+defined SciTE property. For example, <CODE>props['FilePath']</CODE> will =
+give=20
+you the full path to the file currently being edited. Here is a very =
+simple=20
+function which will swap a C++ file with its header, assuming that the=20
+extensions are only .cpp and .h:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dkeyword>function</SPAN> =
+swap_header()
+    <SPAN class=3Dkeyword>local</SPAN> cpp_ext =3D <SPAN =
+class=3Dstring>'cpp'</SPAN>
+    <SPAN class=3Dkeyword>local</SPAN> h_ext =3D <SPAN =
+class=3Dstring>'h'</SPAN>
+    <SPAN class=3Dkeyword>local</SPAN> f =3D props[<SPAN =
+class=3Dstring>'FileName'</SPAN>]    <SPAN class=3Dcomment>-- e.g =
+'test'</SPAN>
+    <SPAN class=3Dkeyword>local</SPAN> ext =3D props[<SPAN =
+class=3Dstring>'FileExt'</SPAN>]   <SPAN class=3Dcomment>-- e.g =
+'cpp'</SPAN>
+    <SPAN class=3Dkeyword>local</SPAN> path =3D props[<SPAN =
+class=3Dstring>'FileDir'</SPAN>]  <SPAN class=3Dcomment>-- e.g. =
+'/home/steve/progs'</SPAN>
+    <SPAN class=3Dkeyword>if</SPAN> ext =3D=3D cpp_ext <SPAN =
+class=3Dkeyword>then</SPAN>
+       ext =3D h_ext
+    <SPAN class=3Dkeyword>elseif</SPAN> ext =3D=3D h_ext <SPAN =
+class=3Dkeyword>then</SPAN>
+       ext =3D cpp_ext
+    <SPAN class=3Dkeyword>end</SPAN>
+    scite.Open(path..<SPAN class=3Dstring>'/'</SPAN>..f..<SPAN =
+class=3Dstring>'.'</SPAN>..ext)
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>Please see the section called 'Properties File' in the SciTE =
+documentation=20
+for a full list of properties set by the environment.=20
+<P>Remember that parameters as defined by <CODE>View|Parameters</CODE> =
+are=20
+accessable as prop[1],prop[2],prop[3] and prop[4].=20
+<P>You can of course access any defined properties, for example=20
+<CODE>props['position.height']</CODE> will give the initial height of =
+the SciTE=20
+window. Special properties may be defined which are meant to be read =
+only by=20
+scripts. To make <CODE>swop_header()</CODE> more general, define a =
+property=20
+called 'cpp.swop.ext' to be your C++ source extension of choice and set=20
+<CODE>cpp_ext</CODE> to this. <PRE class=3Dcode>  <SPAN =
+class=3Dkeyword>local</SPAN> cpp_ext =3D props[<SPAN =
+class=3Dstring>'cpp.swop.ext'</SPAN>]
+  ...
+</PRE>Then define 'cpp.swop.ext=3Dcxx' (or whatever) in your Local =
+properties=20
+file.=20
+<P>It is possible for a script to change properties, although of course =
+this=20
+will be only temporary. Here is something that makes life easier for =
+script=20
+developers; normally, each Lua function to be called needs to be =
+specified in a=20
+property file, but there's no reason why those properties can't be=20
+autogenerated. Here is the important part of <CODE>scite_Command</CODE> =
+from <A=20
+href=3D"http://lua-users.org/wiki/SciteExtMan">SciteExtMan</A>.=20
+<P><PRE class=3Dcode>     <SPAN class=3Dcomment>-- we are fed something =
+like 'Process File|ProcessFile|Ctrl+M'</SPAN>
+     <SPAN class=3Dkeyword>local</SPAN> name,cmd,shortcut =3D =
+split3(v,<SPAN class=3Dstring>'|'</SPAN>)
+     <SPAN class=3Dkeyword>local</SPAN> which =3D <SPAN =
+class=3Dstring>'.'</SPAN>..idx..<SPAN class=3Dstring>'.*'</SPAN>
+     props[<SPAN class=3Dstring>'command.name'</SPAN>..which] =3D name
+     props[<SPAN class=3Dstring>'command'</SPAN>..which] =3D cmd    =20
+     props[<SPAN class=3Dstring>'command.subsystem'</SPAN>..which] =3D =
+<SPAN class=3Dstring>'3'</SPAN>
+     props[<SPAN class=3Dstring>'command.mode'</SPAN>..which] =3D <SPAN =
+class=3Dstring>'savebefore:no'</SPAN>
+     props[<SPAN class=3Dstring>'command.shortcut'</SPAN>..which] =3D =
+shortcut
+</PRE>
+<P>
+<H3>Searching and Replacing</H3>
+<P>To find text in the current document, use =
+<CODE>editor:findtext()</CODE>. It=20
+returns two positions representing the returned range, nil if no match =
+is=20
+possible. This function prints out all lines having some given text:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dkeyword>function</SPAN> =
+all_lines_with_text(txt,flags)
+    <SPAN class=3Dkeyword>if</SPAN> <SPAN class=3Dkeyword>not</SPAN> =
+flags <SPAN class=3Dkeyword>then</SPAN> flags =3D 0 <SPAN =
+class=3Dkeyword>end</SPAN>
+    <SPAN class=3Dkeyword>local</SPAN> s,e =3D =
+editor:findtext(txt,flags,0)
+    <SPAN class=3Dkeyword>while</SPAN> s <SPAN class=3Dkeyword>do</SPAN> =
+
+      <SPAN class=3Dkeyword>local</SPAN> l =3D =
+editor:LineFromPosition(s)
+      trace(l..<SPAN class=3Dstring>' '</SPAN>..editor:GetLine(l))
+      s,e =3D editor:findtext(txt,flags,e+1)
+    <SPAN class=3Dkeyword>end</SPAN>   =20
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>(Here I'm using <CODE>trace()</CODE> instead of <CODE>print()</CODE> =
+because=20
+the line already has a line feed)=20
+<P>The <EM>search flags</EM> are a combination of SCFIND_MATCHCASE,=20
+SCFIND_WHOLEWORD, SCFIND_WORDSTART, and SCFIND_REGEXP. By default, the =
+search is=20
+a plain case-sensitive search.=20
+<CODE>all_lines_with_text('for',SCFIND_WHOLEWORD)</CODE> would show all=20
+for-statements in a C file, =
+<CODE>all_lines_with_text('^#',SCFIND_REGEXP)</CODE>=20
+would show all preprocessor statements (i.e. all occurances of '#' which =
+occur=20
+at the start of the line). Please note that SciTE regular expressions =
+are=20
+different from Lua's - see 'Searching' in <A=20
+href=3D"http://scintilla.sourceforge.net/ScintillaDoc.html">http://scinti=
+lla.sourceforge.net/ScintillaDoc.html</A>=20
+for details.=20
+<P>The easiest way to do a search-and-replace is using=20
+<CODE>editor:match()</CODE>, which gives us an iterator:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dkeyword>function</SPAN> =
+replace_all(target,repl)
+    editor:BeginUndoAction()
+    <SPAN class=3Dkeyword>for</SPAN> m <SPAN class=3Dkeyword>in</SPAN> =
+editor:match(target) <SPAN class=3Dkeyword>do</SPAN>
+      m:replace(repl)
+    <SPAN class=3Dkeyword>end</SPAN>
+    editor:EndUndoAction()
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P><CODE>Using BeginUndoAction()</CODE> is the general way to make sure =
+that a=20
+number of changes can be undone at once.=20
+<P>
+<H3>Markers</H3>
+<P>SciTE uses markers to implement things like bookmarks and for marking =
+lines=20
+with errors. There are 32 possible markers, and Scintilla makes markers =
+0 to 24=20
+available for general use; SciTE uses 0 for error lines and 1 for =
+bookmarks. For=20
+example, <CODE>editor:MarkerAdd(line,1)</CODE> will put a bookmark at=20
+<CODE>line</CODE>, and SciTE will treat it just like any other bookmark, =
+since=20
+it finds bookmarks using the internal Scintilla list. Please remember, =
+as=20
+always, that Scintilla counts lines from zero.=20
+<P>Here is a useful function for defining a custom marker:=20
+<P><PRE class=3Dcode>  <SPAN class=3Dkeyword>local</SPAN> colours =3D =
+{red =3D <SPAN class=3Dstring>"#FF0000"</SPAN>, blue =3D <SPAN =
+class=3Dstring>'#0000FF'</SPAN>, green =3D <SPAN =
+class=3Dstring>'#00FF00'</SPAN>,pink =3D<SPAN =
+class=3Dstring>"#FFAAAA"</SPAN> ,
+					black =3D <SPAN class=3Dstring>'#000000'</SPAN>, lightblue =3D =
+<SPAN class=3Dstring>'#AAAAFF'</SPAN>,lightgreen =3D <SPAN =
+class=3Dstring>'#AAFFAA'</SPAN>}
+
+  <SPAN class=3Dkeyword>function</SPAN> colour_parse(str)
+    <SPAN class=3Dkeyword>if</SPAN> sub(str,1,1) ~=3D <SPAN =
+class=3Dstring>'#'</SPAN> <SPAN class=3Dkeyword>then</SPAN>
+      str =3D colours[str]
+    <SPAN class=3Dkeyword>end</SPAN>
+    <SPAN class=3Dkeyword>return</SPAN> <SPAN =
+class=3Dlibrary>tonumber</SPAN>(sub(str,6,7)..sub(str,4,5)..sub(str,2,4),=
+16)
+  <SPAN class=3Dkeyword>end</SPAN>
+
+  <SPAN class=3Dkeyword>function</SPAN> marker_define(idx,typ,fore,back)
+    editor:MarkerDefine(idx,typ)
+    <SPAN class=3Dkeyword>if</SPAN> fore <SPAN =
+class=3Dkeyword>then</SPAN> editor:MarkerSetFore(idx,colour_parse(fore)) =
+<SPAN class=3Dkeyword>end</SPAN>
+    <SPAN class=3Dkeyword>if</SPAN> back <SPAN =
+class=3Dkeyword>then</SPAN> editor:MarkerSetBack(idx,colour_parse(back)) =
+<SPAN class=3Dkeyword>end</SPAN>
+  <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>
+<P>
+<H3>User Lists</H3>
+<P>These are drop-down lists which allow the user to choose from a =
+number of=20
+items, which SciTE uses for 'Complete Symbol', etc. They are not =
+difficult to=20
+use; you supply a string with a specified separator character, and the=20
+<CODE>OnUserListSelection</CODE> event is fired when the user selects an =
+item.=20
+<P><PRE class=3Dcode> <SPAN class=3Dkeyword>function</SPAN> =
+UserListShow(list)
+   <SPAN class=3Dkeyword>local</SPAN> s =3D <SPAN =
+class=3Dstring>''</SPAN>
+   <SPAN class=3Dkeyword>local</SPAN> sep =3D <SPAN =
+class=3Dstring>';'</SPAN>
+   <SPAN class=3Dkeyword>local</SPAN> n =3D <SPAN =
+class=3Dlibrary>table.getn</SPAN>(list)
+   <SPAN class=3Dkeyword>for</SPAN> i =3D 1,n-1 <SPAN =
+class=3Dkeyword>do</SPAN>
+      s =3D s..list[i]..sep
+   <SPAN class=3Dkeyword>end</SPAN>
+   s =3D s..list[n]
+   editor.AutoCSeparator =3D <SPAN =
+class=3Dlibrary>string.byte</SPAN>(sep)
+   editor:UserListShow(12,s)
+   editor.AutoCSeparator =3D <SPAN =
+class=3Dlibrary>string.byte</SPAN>(<SPAN class=3Dstring>' '</SPAN>)
+ <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>The tricky thing here is that the property =
+<CODE>AutoCSeparator</CODE> is=20
+passed a <EM>character code</EM>, not a string. The '12' is just a =
+number that=20
+SciTE doesn't use internally.=20
+<P>Here is an event handler which assumes that the strings represent Lua =
+scripts=20
+in some directory. The idea here is to present the user with a list of=20
+little-used 'once-off' scripts, which would otherwise clutter the Tools =
+menu.=20
+<P><PRE class=3Dcode> <SPAN class=3Dkeyword>function</SPAN> =
+OnUserListSelection(tp,script)
+   <SPAN class=3Dkeyword>if</SPAN> tp =3D=3D 12 <SPAN =
+class=3Dkeyword>then</SPAN>=20
+      <SPAN class=3Dlibrary>dofile</SPAN>(path..<SPAN =
+class=3Dstring>'/'</SPAN>..script..<SPAN class=3Dstring>'.lua'</SPAN>)
+   <SPAN class=3Dkeyword>end</SPAN>
+ <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>Building up the list of files requires a little work. Here is a =
+non-Windows=20
+solution to this problem:=20
+<P><PRE class=3Dcode> <SPAN class=3Dkeyword>function</SPAN> =
+GetFiles(mask)
+   <SPAN class=3Dkeyword>local</SPAN> files =3D {}
+   <SPAN class=3Dkeyword>local</SPAN> tmpfile =3D <SPAN =
+class=3Dstring>'/tmp/stmp.txt'</SPAN>
+   <SPAN class=3Dlibrary>os.execute</SPAN>(<SPAN class=3Dstring>'ls -1 =
+'</SPAN>..mask..<SPAN class=3Dstring>' &gt; '</SPAN>..tmpfile)
+   <SPAN class=3Dkeyword>local</SPAN> f =3D <SPAN =
+class=3Dlibrary>io.open</SPAN>(tmpfile)
+   <SPAN class=3Dkeyword>if</SPAN> <SPAN class=3Dkeyword>not</SPAN> f =
+<SPAN class=3Dkeyword>then</SPAN> <SPAN class=3Dkeyword>return</SPAN> =
+files <SPAN class=3Dkeyword>end</SPAN> =20
+   <SPAN class=3Dkeyword>local</SPAN> k =3D 1
+   <SPAN class=3Dkeyword>for</SPAN> line <SPAN class=3Dkeyword>in</SPAN> =
+f:lines() <SPAN class=3Dkeyword>do</SPAN>
+      files[k] =3D line
+      k =3D k + 1
+   <SPAN class=3Dkeyword>end</SPAN>
+   f:close()
+   <SPAN class=3Dkeyword>return</SPAN> files
+ <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>Code that works on both Unix and Windows is a little tricky. See=20
+<CODE>scite_Files()</CODE> in <A=20
+href=3D"http://lua-users.org/wiki/SciteExtMan">SciteExtMan</A> for a =
+more complete=20
+solution.=20
+<P>
+<H3>Indicators</H3>
+<P>Indicators are not currently used in SciTE, but scripts can easily =
+add them.=20
+They could be used by a spell check utility to underline misspelt words =
+with a=20
+red line, or dodgy syntax with a squiggly green line. There are three =
+available=20
+indicators with the usual SciTE settings. Here is a function which will =
+use the=20
+given indicator (0,1 or 2) to underline <CODE>len</CODE> characters =
+starting at=20
+<CODE>pos</CODE>.=20
+<P><PRE class=3Dcode> <SPAN class=3Dkeyword>function</SPAN> =
+underline_text(pos,len,ind)
+   <SPAN class=3Dkeyword>local</SPAN> es =3D editor.EndStyled
+   editor:StartStyling(pos,INDICS_MASK)
+   editor:SetStyling(len,INDIC0_MASK + ind)
+   editor:SetStyling(2,31)
+ <SPAN class=3Dkeyword>end</SPAN>
+</PRE>
+<P>To remove underlining, use <CODE>underline_text(pos,len,-1)</CODE>. =
+The last=20
+<CODE>SetStyling()</CODE> call is necessary to restore the lexer state; =
+31 is=20
+the mask for the lower 5 bits, which are used for styling. The defaults =
+can be=20
+changed, if necessary.=20
+<P>The default indicators are=20
+<P><PRE>   0 green squiggly line
+   1 light blue line of small T shapes
+   2 light red line
+</PRE>
+<P>The available indicator styles are <PRE>  INDIC_PLAIN   Underlined =
+with a single, straight line.
+  INDIC_SQUIGGLE  	A squiggly underline.
+  INDIC_TT  A line of small T shapes.
+  INDIC_DIAGONAL  	Diagonal hatching.
+  INDIC_STRIKE  	Strike out.
+  INDIC_HIDDEN	An indicator with no visual effect.
+  INDIC_BOX 	A rectangle around the text.
+</PRE>
+<P>
+<H3>Indicators with version 1.70 and maybe previous</H3>You have these =
+flags=20
+available : <PRE>   0 resets the style
+   INDIC0_MASK green word processing-like line
+   INDIC1_MASK bizarre blue line
+   INDIC2_MASK blue round background box
+</PRE>And you case use it like this : <PRE =
+class=3Dcode>editor:StartStyling(editor.SelectionStart,INDICS_MASK)
+editor:SetStyling(<SPAN =
+class=3Dlibrary>string.len</SPAN>(editor:GetSelText()),flag)
+</PRE>
+<HR>
+<A href=3D"http://lua-users.org/wiki/FindPage">FindPage</A> =A1=A4 <A=20
+href=3D"http://lua-users.org/wiki/RecentChanges">RecentChanges</A> =
+=A1=A4 <A=20
+href=3D"http://lua-users.org/cgi-bin/wiki.pl?action=3Deditprefs">preferen=
+ces</A><BR><A=20
+href=3D"http://lua-users.org/cgi-bin/wiki.pl?action=3Dedit&amp;id=3DUsing=
+LuaWithScite">edit</A>=20
+=A1=A4 <A=20
+href=3D"http://lua-users.org/cgi-bin/wiki.pl?action=3Dhistory&amp;id=3DUs=
+ingLuaWithScite">history</A><BR>Last=20
+edited April 10, 2008 7:49 am GMT <A=20
+href=3D"http://lua-users.org/cgi-bin/wiki.pl?action=3Dbrowse&amp;diff=3D1=
+&amp;id=3DUsingLuaWithScite">(diff)</A>=20
+</BODY></HTML>
+
+------=_NextPart_000_000F_01C50E23.923099B0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://lua-users.org/images/nav-logo.png
+
+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
+
+------=_NextPart_000_000F_01C50E23.923099B0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://lua-users.org/images/nav-elbow.png
+
+iVBORw0KGgoAAAANSUhEUgAAADAAAAAoCAYAAAC4h3lxAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
+hklEQVR42u3TsQmAQAyF4SgnWp0DiPM4iPM4hbO4hmB1pYJgY/Gs7e+Ew/+VKZJ8gZgip+smhXDq
+q5SWeQAAAAAAAAAAAAAAAAAg27jYDSXZth12XXf0ZauqtL5vX7VCkmIOGYbZ1nVPcu2mcbYso3lf
+pwPwAwAAAAAAAAAAAAAAAADwF8ADzh3T/PxicksAAAAASUVORK5CYII=
+
+------=_NextPart_000_000F_01C50E23.923099B0
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://lua-users.org/styles/main.css
+
+BODY {
+	BACKGROUND: white; COLOR: navy
+}
+A:link {
+	COLOR: #df6c00
+}
+A:active {
+	COLOR: maroon
+}
+A:visited {
+	COLOR: maroon
+}
+A.nav {
+	FONT-WEIGHT: bold; FONT-SIZE: 22px; COLOR: navy; FONT-FAMILY: Arial, =
+sans-serif; TEXT-DECORATION: none
+}
+BODY.preview {
+	BACKGROUND: url(/images/preview-bg.png) white
+}
+PRE.code {
+	COLOR: black
+}
+SPAN.comment {
+	COLOR: #00a000
+}
+SPAN.string {
+	COLOR: #009090
+}
+SPAN.keyword {
+	FONT-WEIGHT: bold; COLOR: navy
+}
+SPAN.library {
+	COLOR: #900090
+}
+DD PRE.code {
+	PADDING-LEFT: 1em; MARGIN-LEFT: -1em; BORDER-LEFT: maroon 1px dotted
+}
+
+------=_NextPart_000_000F_01C50E23.923099B0--

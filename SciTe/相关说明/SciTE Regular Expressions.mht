@@ -1,0 +1,411 @@
+From: <ÓÉ Microsoft Internet Explorer 5 ±£´æ>
+Subject: SciTE Regular Expressions
+Date: Tue, 8 Feb 2005 21:20:06 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0018_01C50E23.F61E1CE0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5512
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0018_01C50E23.F61E1CE0
+Content-Type: text/html;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.scintilla.org/SciTERegEx.html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<?xml version=3D"1.0"?><HTML =
+xmlns=3D"http://www.w3.org/1999/xhtml"><HEAD><TITLE>SciTE Regular =
+Expressions</TITLE>
+<META content=3D"MSHTML 6.00.2900.5512" name=3DGENERATOR>
+<META http-equiv=3DContent-Type content=3D"text/html; charset=3Dgb2312">
+<STYLE type=3Dtext/css>H3 {
+	BACKGROUND-COLOR: #fec
+}
+.ref {
+	COLOR: #80c
+}
+CODE {
+	FONT-WEIGHT: bold
+}
+DT {
+	MARGIN-TOP: 15px
+}
+</STYLE>
+</HEAD>
+<BODY text=3D#000000 bgColor=3D#ffffff>
+<TABLE cellSpacing=3D0 cellPadding=3D0 width=3D"100%" bgColor=3D#000000 =
+border=3D0>
+  <TBODY>
+  <TR>
+    <TD><IMG height=3D64 alt=3D"Scintilla icon"=20
+      src=3D"http://www.scintilla.org/SciTEIco.png" width=3D64 =
+border=3D3> </TD>
+    <TD><A style=3D"COLOR: white; TEXT-DECORATION: none"=20
+      href=3D"http://www.scintilla.org/index.html"><FONT =
+size=3D5>Regular=20
+      Expressions</FONT></A> </TD></TR></TBODY></TABLE>
+<H2>Regular Expressions in SciTE </H2>
+<H3>Purpose</H3>
+<P>Regular expressions can be used for searching for patterns rather =
+than=20
+literals. For example, it is possible to search for variables in SciTE =
+property=20
+files, which look like $(name.subname) with the regular=20
+expression:<BR><CODE>\$([a-z.]+)</CODE> (or <CODE>\$\([a-z.]+\)</CODE> =
+in posix=20
+mode). </P>
+<P>Replacement with regular expressions allows complex transformations =
+with the=20
+use of tagged expressions. For example, pairs of numbers separated by a =
+','=20
+could be reordered by replacing the regular=20
+expression:<BR><CODE>\([0-9]+\),\([0-9]+\)</CODE> (or=20
+<CODE>([0-9]+),([0-9]+)</CODE> in posix mode, or even=20
+<CODE>(\d+),(\d+)</CODE>)<BR>with:<BR><CODE>\2,\1</CODE> </P>
+<H3>Syntax</H3>
+<P>Regular expression syntax depends on a parameter:=20
+find.replace.regexp.posix<BR>If set to 0, syntax uses the old Unix style =
+where=20
+<CODE>\(</CODE> and <CODE>\)</CODE> mark capturing sections while =
+<CODE>(</CODE>=20
+and <CODE>)</CODE> are themselves.<BR>If set to 1, syntax uses the more =
+common=20
+style where <CODE>(</CODE> and <CODE>)</CODE> mark capturing sections =
+while=20
+<CODE>\(</CODE> and <CODE>\)</CODE> are plain parentheses. </P>
+<DL>
+  <DT><SPAN class=3Dref>[1]</SPAN> char=20
+  <DD>matches itself, unless it is a special character (metachar): =
+<CODE>. \ [ ]=20
+  * + ^ $</CODE> and <CODE>( )</CODE> in posix mode.=20
+  <DT><SPAN class=3Dref>[2]</SPAN> <CODE>.</CODE>=20
+  <DD>matches any character.=20
+  <DT><SPAN class=3Dref>[3]</SPAN> <CODE>\</CODE>=20
+  <DD>matches the character following it, except:=20
+  <UL>
+    <LI><CODE>\a</CODE>, <CODE>\b</CODE>, <CODE>\f</CODE>, =
+<CODE>\n</CODE>,=20
+    <CODE>\r</CODE>, <CODE>\t</CODE>, <CODE>\v</CODE> match the =
+corresponding C=20
+    escape char, respectively BEL, BS, FF, LF, CR, TAB and VT;<BR>Note =
+that=20
+    <CODE>\r</CODE> and <CODE>\n</CODE> are never matched because in =
+Scintilla,=20
+    regular expression searches are made line per line (stripped of =
+end-of-line=20
+    chars).=20
+    <LI>if not in posix mode, when followed by a left or right round =
+bracket=20
+    (see <SPAN class=3Dref>[7]</SPAN>);=20
+    <LI>when followed by a digit 1 to 9 (see <SPAN =
+class=3Dref>[8]</SPAN>);=20
+    <LI>when followed by a left or right angle bracket (see <SPAN=20
+    class=3Dref>[9]</SPAN>);=20
+    <LI>when followed by d, D, s, S, w or W (see <SPAN =
+class=3Dref>[10]</SPAN>);=20
+    <LI>when followed by x and two hexa digits (see <SPAN=20
+    class=3Dref>[11]</SPAN>); </LI></UL>Backslash is used as an escape =
+character for=20
+  all other meta-characters, and itself.=20
+  <DT><SPAN class=3Dref>[4]</SPAN> <CODE>[</CODE>set<CODE>]</CODE>=20
+  <DD>matches one of the characters in the set. If the first character =
+in the=20
+  set is <CODE>^</CODE>, it matches the characters NOT in the set, i.e.=20
+  complements the set. A shorthand <CODE>S-E</CODE> (start dash end) is =
+used to=20
+  specify a set of characters S up to E, inclusive. The special =
+characters=20
+  <CODE>]</CODE> and <CODE>-</CODE> have no special meaning if they =
+appear as=20
+  the first chars in the set. To include both, put - first: =
+<CODE>[-]A-Z]</CODE>=20
+  (or just backslash them).=20
+  <TABLE>
+    <TBODY>
+    <TR>
+      <TD>example</TD>
+      <TD>match</TD></TR>
+    <TR>
+      <TD><CODE>[-]|]</CODE></TD>
+      <TD>matches these 3 chars,</TD></TR>
+    <TR>
+      <TD><CODE>[]-|]</CODE></TD>
+      <TD>matches from ] to | chars</TD></TR>
+    <TR>
+      <TD><CODE>[a-z]</CODE></TD>
+      <TD>any lowercase alpha</TD></TR>
+    <TR>
+      <TD><CODE>[^-]]</CODE></TD>
+      <TD>any char except - and ]</TD></TR>
+    <TR>
+      <TD><CODE>[^A-Z]</CODE></TD>
+      <TD>any char except uppercase alpha</TD></TR>
+    <TR>
+      <TD><CODE>[a-zA-Z]</CODE></TD>
+      <TD>any alpha</TD></TR></TBODY></TABLE>
+  <DT><SPAN class=3Dref>[5]</SPAN> <CODE>*</CODE>=20
+  <DD>any regular expression form <SPAN class=3Dref>[1]</SPAN> to <SPAN=20
+  class=3Dref>[4]</SPAN> (except <SPAN class=3Dref>[7]</SPAN>, <SPAN=20
+  class=3Dref>[8]</SPAN> and <SPAN class=3Dref>[9]</SPAN> forms of <SPAN =
+
+  class=3Dref>[3]</SPAN>), followed by closure char (<CODE>*</CODE>) =
+matches zero=20
+  or more matches of that form.=20
+  <DT><SPAN class=3Dref>[6]</SPAN> <CODE>+</CODE>=20
+  <DD>same as <SPAN class=3Dref>[5]</SPAN>, except it matches one or =
+more. Both=20
+  <SPAN class=3Dref>[5]</SPAN> and <SPAN class=3Dref>[6]</SPAN> are =
+greedy (they=20
+  match as much as possible).=20
+  <DT><SPAN class=3Dref>[7]</SPAN>=20
+  <DD>a regular expression in the form <SPAN class=3Dref>[1]</SPAN> to =
+<SPAN=20
+  class=3Dref>[12]</SPAN>, enclosed as <CODE>\(<I>form</I>\)</CODE> (or=20
+  <CODE>(<I>form</I>)</CODE> with posix flag) matches what <I>form</I> =
+matches.=20
+  The enclosure creates a set of tags, used for <SPAN =
+class=3Dref>[8]</SPAN> and=20
+  for pattern substitution. The tagged forms are numbered starting from =
+1.=20
+  <DT><SPAN class=3Dref>[8]</SPAN>=20
+  <DD>a <CODE>\</CODE> followed by a digit 1 to 9 matches whatever a =
+previously=20
+  tagged regular expression (<SPAN class=3Dref>[7]</SPAN>) matched.=20
+  <DT><SPAN class=3Dref>[9]</SPAN> <CODE>\&lt; \&gt;</CODE>=20
+  <DD>a regular expression starting with a <CODE>\&lt;</CODE> construct =
+and/or=20
+  ending with a <CODE>\&gt;</CODE> construct, restricts the pattern =
+matching to=20
+  the beginning of a word, and/or the end of a word. A word is defined =
+to be a=20
+  character string beginning and/or ending with the characters A-Z a-z =
+0-9 and=20
+  _. Scintilla extends this definition by user setting. The word must =
+also be=20
+  preceded and/or followed by any character outside those mentioned.=20
+  <DT><SPAN class=3Dref>[10]</SPAN> <CODE>\l</CODE>=20
+  <DD>a backslash followed by d, D, s, S, w or W, becomes a character =
+class=20
+  (both inside and outside sets []).=20
+  <UL>
+    <LI>d: decimal digits=20
+    <LI>D: any char except decimal digits=20
+    <LI>s: whitespace (space, \t \n \r \f \v)=20
+    <LI>S: any char except whitespace (see above)=20
+    <LI>w: alphanumeric &amp; underscore (changed by user setting)=20
+    <LI>W: any char except alphanumeric &amp; underscore (see above) =
+</LI></UL>
+  <DT><SPAN class=3Dref>[11]</SPAN> <CODE>\xHH</CODE>=20
+  <DD>a backslash followed by x and two hexa digits, becomes the =
+character whose=20
+  Ascii code is equal to these digits. If not followed by two digits, it =
+is 'x'=20
+  char itself.=20
+  <DT><SPAN class=3Dref>[12]</SPAN>=20
+  <DD>a composite regular expression xy where x and y are in the form =
+<SPAN=20
+  class=3Dref>[1]</SPAN> to <SPAN class=3Dref>[10]</SPAN> matches the =
+longest match=20
+  of x followed by a match for y.=20
+  <DT><SPAN class=3Dref>[13]</SPAN> <CODE>^ $</CODE>=20
+  <DD>a regular expression starting with a ^ character and/or ending =
+with a $=20
+  character, restricts the pattern matching to the beginning of the =
+line, or the=20
+  end of line. [anchors] Elsewhere in the pattern, ^ and $ are treated =
+as=20
+  ordinary characters. </DD></DL>
+<H3>Acknowledgments</H3>
+<P>Most of this documentation was originally written by Ozan S.=20
+Yigit.<BR>Additions by Neil Hodgson and Philippe Lhoste.<BR>All of this =
+document=20
+is in the public domain. </P></BODY></HTML>
+
+------=_NextPart_000_0018_01C50E23.F61E1CE0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://www.scintilla.org/SciTEIco.png
+
+iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAnMklEQVR4XqxVeVBTVxfPQnaSEGIg
+CzELi0KAAsbUDUQyUUEFS2AUbVFxQdE6g+BCVT4+y7gVS4VaOyNIFYNLFB0HQdQipSAOVI2WRQVZ
+BRM0xkgCyXsv7/XNdEYcY4Y/vu93Z968e8659/7OnN+Zgw0ICEQwKNDPv5j4/cQ+YXXawwiCwDCB
+TLeOmsSyqLFRI4k6hS2QGod7SRTaW/0LNIbpHfS85aIoKMo03AnY3hMJRMzHwGKcgUXXZ7xY7EcR
+OMQlv8nZwzAMQhCB4knnSHwj4tiC6WHRKVN4oik8X57IX9+jI5EIPJGMwRZw+H54LCCWxdA8BFND
+4ygMPp0bgiEwQRB08dSEzZnVxzucq9MIulzDATtwBLK/fJlv2KJARSyD5e3NE2IRiO3pOWY202gU
+DGimUEgSf1m3rlYWPsf8ZtCLN5VKpVGpTBwCiIOVRIq7UKbyCY3HEFkgBEIO6PMsJgPOpcfFbTDs
+sAPANHkcZ2oYnU6jM9z7O5ri1Kubas5MCw5jMim6Ju3i5WrTyKuh3s5FiSvfjQx2PribuC5L3/2E
+SHITiMSWtwMwaBH6KXAY0D76hucfKQpfwRbPsQMgAiOTFMHJjXMOd10RBAAAEp07P3H7wPOHqvhE
+w0DniydNuYWnKs+WMli8bbuyb1eepdHYQh8+j897b9I3VmvzT57HwUhF8f7kzVlMD8+6y0U8YUjY
+3K+spr4XuloPDs9L4IeBxwCrRRye7CFU2O32iTRcE/9gxbmK+FQzDofdZuNKQqITUhuun846UHzv
+VmVXe+uRk6dvast6O/6IjFa5kwhYIstmswz3Pk76OjngiyW1leU2qyVl4yajof+nnLWh8gWZh8uG
+eh6WH11tHx9Vbz3O9vZpazhn6NX5yZdyhEEocwiCbXYbMsHw/yEhEAAgGBFNV0TGrtae/O+O3MNP
+dY1tj1oXJ6SGh/hWV15wI9L8pD4sImwx9kCgrbm+OXq+wtsTZzL278tYyfHm/lB6hULzOHFgnaYo
+d0PO8TXZxe9Ghm5XFBgGuxIyfpmXkPm0ueLPS3vIVI/ZyQVB0ZkODOVDfyNOwnCRAPL59gXsAAaL
+9xJIktIyNUV7IpWLIhfMunn1GgaBViTGDnX1E6lcdzoHGDdz6G7TQ1URc1Pb27oHnvYdLjjI5U8j
+kFnH8g7h8W7Hyy/5BYZ3tTf/uOsbkhtj+yFNTOIWQ2/H6Vzlo3pNlPq7lJxaiXRm5+/FPQ+vBCt3
+8AMXWywWtBT/UwVQRRJJVCyesOdo6akj2SjpvXl5NRe1rwbbyGSSQh7xalhvfvPcZOzr69Oj8SuS
+l+nuX+juuJu7N0/E8yrVXOb6BL/sbdm5Xv24taVIczl1az6V5nnnaklh1nIczpFdVL1AvcvQpxvp
+uW/R/42h0hZu0YiCVQ+qDgx01JPIFARG0GngQuSTJWAbt4n8w8fGwbXf/qelrurtyLBqaWpYgPBW
+TTWFIeCLvmQxSXgclkCkL1yy6aUBGB+HY6IiCAQ3ugf/nY1VcuaGIthr9840CLKRyPSSwqPasopV
+G9el784xvu4aGmgvP5Z+7dfvlcvTs07chxzY2xfzb/22rbJgiTtLkLzvXmTSITJDYrVaP2jJKQPX
+CaCFQ1s2JikDhAlcYYB6VVKVVkOgcGbLZXY7rB8x2cbQIXsPHYm+UmnErGUtrU1/NZ6vq2uUiL3z
+j52dqUzpf3Ynf//m6zca4mPnFf58Tq5cL5VFlhXv3bEmhecjOnGlISltnzRg3uuXz8qPpFeV7J+h
+TNlwsH6GKgMd0oNParrvlpiNwzFp52bE58N4d4vVArvQEu4fPq0EHOqu7c+MGZHtsc2MsQ3GLLay
+E1qtSbKELInKFiopS0UqHinaiRItpE0qpBCleuxFopBk3xnGmP18R97v/a7r+97rO9dxXa77bPfy
+u5fzP/MfqVBovJoeTonW19XoE7i791vHwiKXvThiaWk8OTEjISos4C0xmYvz8wIKGc+i/5ob/4YS
+QrV1dsO17o6mA+2vGPPjPB739NmMispPrs7rfNxMvreWcTnsrva6xDB/+vS4Z/CBwJhzXAH3R0d1
+26cnWcfWd9Y9s/ON3ZvaIq2sNz7Q2F6dXpxqzJgdtg56Ji6FXViYX1H7/yvAvyMmm+0Xear0Xqow
+RsjVzendqxes+QH0KikCTLcIwchIj4yswjaPw8Njk3A+WVNDRFxujalXSWldxet6cTHMlavZRE1T
+c9vD0lj148fPVL1tsrExyS4o1tbboKO/A6u67tbV7CsJR8UkJWKvPnUPTSco6ahrmuKklb5XlXfU
+5Bo7hG8KukMy8RFCi/6sz2soCsWslpeVlV3O1v+3aZKp/+qay11NnaRO0jLf6JKW9waLU3J2D+QA
+YGxmq712sybNfH6BNzw8Q1671XXPeQVl7aysOwCA7u4hN78kmr6DrCxWT890enoREosev9MgG8rK
+YWVk5VVUyY9f/jMjAL8YwDs4A4tThkQ5eby6psGpa3VFzeDmW3ZI3BNtvfVYHAEuwRPUrL3+Pnxz
+LiJryt7/+navlE12YQoEZRKJsswk+d+dBitR1P/KttI4NYBEb/fd11hTikSLWW5yRAgQGiQaiznB
+WZrh84E8VlpVc8OH1zc4zMm3tbXLKtBURLIGJ4c+I1EocWni3Qev+XyEp/t6/92BQkIYWTklsrZ1
+/u2ie/mvUEjByZSD3vvjV0sqa1AddM0DRifRFY/vTI0NGji4uRzKVaFtFkKh5bDqEkie0MS34fbX
+muY+CuZ7WWhxgBCiz9NZLNb/ByEBQJP0NwEE2mKzXdvn7+JiEkS8JIMhaGxumKfTmcx5BmMBg0ZI
+IXr4nAVpvBZTxPjX72UUHY8/AoMjkebwl6xCWsrhrKz7kBh7LDT+ZJa+ke3iwkjjh0fJsfuOhUaz
+2dx9h0Mu3Xtlau899ru1JNvjxa2jl6Otn14/LiVL2BVzLzS9xS+qQFJSuv/b6y+VacUp5j310JWT
+7COrlWiOi8xFxgLjP0OIpElx9I3WM7W3dQ6oaJvAEUjyWIU31Z+mpjny8gpycjgdy7CO3lkAQEZG
+lqaWmf3OBHWqVUhIBPjTip422Tj4QmBAeKip09q+9kMilweiYy9CYPwBEtXN5+zZzM8Vn8cbR0B5
++5KzTyxOQUVOXoGmZ2Ptcnxf2I2EG9+Tn/HOlgDvmHJ1qgXcDZ4rjyVoUM237r8ffpNj7XMBh1fU
+IJH/A4Rg1CfpbRj5+dnQ3Ky7rYnPXQAAkCmawhik6Gpxdb3tiirEqrKncOYOVzdj29gvnx7BFFZa
+Vvbz1xgkbrPVnZsaQAAgK6e6zXn3gYjYf+q70EKIM0mR+0PijUy3u3mfXaDPPrgRtc/ZquzRC1Ex
+keATf0edL3E9WGGz44yIsOyPvm+5yY73Ttn//tZAMnTwOFFrsTODZrjDyStlf/hVLHKy+eEBSbye
+urYlEID/YAGttRYHztyRl8ffLK49l1kA1b/J1q2x5RsAwMI+KvrMPTmsoru7/4q+Pbz3ysnj1Ena
+ZluCz18uhhUYJNbUNEdF/+2397SSChUajULV/1jfAekcHnhZ3a+ta77s0zLy0BpUvQ0XC5ur+kBx
+G3jQDAKiH+AJ6rJyOBgGYFdUJjn5ph3PX4gpAHGF/PNPOH4h183Wu+EVlCBXGlRjKk0H6n6lo/4d
++Mlr1/d3tqIwEjR9M/rstKg4fmB0aWhgBI4aWDgU5JwGAu4iWnl8igspIfv8V4vL+QclysnIpZ+L
+yr1VCIkbNxpu2uI0OtDKZEzzBbxVImJZOSU9fZNIIcT6jarRieckpXA4pbXrNoW5huQODTNyk2M+
+f2yEHm+1wysg4YUqxYqydtsW+yCvI2UaRNXfH27++pQ1OdQ/uogR1/FZhTNBolbBU+ZnhhiLrJWQ
++j8WUFZRO3bphZHldiXyxubfC4kZBQR1Y4jd7JvLgfJCxi34vxptS8TJ5zduFv+5AAP/8Gv2LlFQ
+JVCje/YET84sG4HLFRyOSsLhlW23Bto5R23fGU7VMs5/UDXNB8Nc8P7bTHL6R3f/TDINWgMPDSKP
+VXTwjMuqZF1/Cy6/AZdegH0xrzfb+lH0rODO0AfwiurrnE4EX548eBsEnOs3sY9SUdMjqGhLy8it
+WGBZAA0NMk3fPLOiX0FFi6Ci1TaylHzxBo6gLo9TflTWCgD4p75NWcPEbk8hVX+rqekGJpMDie8+
+fMUrKC+7LHX9ZpeE4JCYubklSF9a4iSlPfUNua6zZiMclZGR0yAbFZV19zPBdzqo62G5+sZBvuGQ
+BlnfweNsUMzr1JzfRy+1pZVyz5WCk4XMjW6JCoqkFQ+GitM1tN/idNDz6IeQa/ORecAv+buWiduy
+QtVIKwLQXHfvheI++sKTV4DLcO1DC7mFL3F4JYp5mO+x8j888d0OPNbQc4Yw1aSsafo6D4kQ935+
+IbomrneLqlXJlnCH3f4RkHs4xFhk+/ofg9EDRhhL68DgqAL3wOzQI+mf+pjNY+BtD+/k5TfBh+6F
+HXsVGldn7xSpRjaHM9daeBy+1nOmBCQ+AeHXhrcHZOyLuRsQeT/hWm9Kdp+jX5aiqra1X1b4zaUj
+hcBud7KKqtq/BNh/8DD0m8ctDMgE7J3j9MqPX5XJ6zcEPFYmavX0jgIAUi49XVaJPMH7QP7dx5/p
+dBYk0ueX3IPzIPdQndBrN249dOthB4fDh0MTU8zd+0/7huUGHnpobOkFJZeTw5tYOJe30mv6wKsf
+4PlnwXavBJjs4dqVrkBQNTBzOZv9E8oQ/xDEPgB/l4ODZ9+ZbfQm61hhcYpQuZA9Neo6l0PF0feH
+aVq6y04M4Sy6SlxKVhGNQSIAkFEynJqcV9fQMNi4f6KzmLU48/bdx+UouVkffsnBUT2+do+ePLor
+MzMXEiUlREI9qfylESEhYZp5qIHJxhuX4lPSbrM5AnlZ0RuZJ7V0tUofHPnZWQUEfCm8gYGZZ00t
+vbOlExbIXCTSNTzB1vuMlIyyoanrjl3nXPxvevnEfv1Y2PQosbP2DovBmJ5BCKms19gQjRFT+NfN
+BoCF6b5PRQc/PUiWkFNapqipa55MTVtrsa2yn6eoSiHq2F++VcQAwOtgPlS5ElE74EQdhwtgO3zy
+YUBcKV5ZF2rLcpPn9Cx7xWtj4s57hNyOTqlVIupBxKsQqYWlXXAFE4ARJn/vgRR1soFTYGH8hfat
+uzLUSWtwCqrbdp28WbVwtwHc+gDSy/lZxVNufmk2DoEqarorwRQeTSSbux4qO5THOXwXHLoDdsbU
+rnM8QtM1P576POlq457DxYYWu4hqGihY9CJRQggMrBuEpOQp7PnBzq+dUDCiNB1ehDQsoj43f2hv
+74aU4KDtna1veUsTwqIyfLzLkVMFDAYbjUaeSorWoOgWZocz50dlsMpa648+r+w7efoOfUmAWoWK
+SY5Jz69VJmALckLq36TOzYwI+NyxCQZreGhmXsAXIIRFUIxVUuLKer19nTD+woOE0Kv+kiGoqumw
+hmsQI58lhWfQaISSzgZz7wu2wXkkgw3f29+/L0seG2jiw/U6+uviki8oqOq0LAFzO2/oeYamW+YE
+oPxtI0FVzz1xmEix9PYNA3/a3v3Lrnkl7+2e0AwYK48cTebyl+mDw5MW6x2IJCOPozVOQUVy8ooK
+BGJo9KV+NuheAG1T4NL9BhLFGMZNR7fIsNOtt5783u6TStG2sPM8nVrCuFABUstA3D26/9H8XcFp
+aXlD5/OGUvNHo85UHUws99iXstX3b5+ED1H3ObFPwfES7t5zr0w2OcG8pqiogtAz2pB4OQ+LV22d
+mffafxB6iQrZon1gdpbFd9p/38r1LDyVpGXVP8kDAAwMTplvPepw6JOCMg0CydEz5suvJZgTYGvv
+Gku4+8sv9hmMJzDd6ltsDYi/cywtr+Y7o3kcfBwCBe8m81937Ym87uKXCF0RzoEdQsXOJfzsM/aF
+N+D0c5BUAk49XTp6vs7Icqequg50XHg69F04DSqOZuTknfgmpYb7ZBQMc3incsqUlIkILT3TpEt3
+cApKnxob07PziGokqtH2S7efMQC4XTWlQl4HtzB1vRSf+Zn/h9HfUzxrtwjIPU3P5PYHurVXbPW7
+NkiHg32TLD19K3iYhdNen5hbAUcSYKIwsdj+6MNYTT943QMqeoBfZLaCEgminKq91jckoaKx98yd
+X2En74afyoq41pdQDE4Wg/jHYE9y6xpLXyxeBYap/04Iilg8zLc0fSvn++WVHyd4pf1A39gSoUBQ
+ulhYBYev595p7+g0dQqG8yw2bqMLQO/4kqoahahpuO/yEElnw7PS9yuMevuFwyyxJ+mZV0QmjJ40
+HbPfM9wlAOYBeF3fZ+MR7xB8z2zrQZk/hY25zd59sVfza/pfdoHiDvCgFcTfaD6ZWZxaMp9b3uMe
+dFqDsvaPmvGwHNrilXwkf+7EM3D8GYh9zN1/ofnoxWfRF979ndeRWTIQmt5/u5KubWAPHf3oxdqU
+p33WznsRUKi7r1sISqTguDQmAH4xRSvZoKELAhgcjDnr6P93eHINPMB4nd0fG4D+oVm3kMueaZN4
+Fa3liOR5af+VoXdfRiYFYJgPmqaBrecZOB8WC1t9z3sfKtq0PQJGHu8D1wqaeAWtIL8JFH0FQQnF
+kGMoIdwBMqRONdux+1T0+edpxRPFneBKHUiqAGeqQNoHcKdLkPFy+kDiU6+Dtz1D0/AEFRJV/0hq
+6Ra3GE1tC4SikkrO83qihq6RpdP4Eu/+ywZYkMLrW17VNICoGJx43jboGnAYKmmd7f6KZvoSe7ny
+7BqY3OwcCC2rTNkUnjVvutkDuv6btuFfHNDNBOVfxtdt9vI+/MQtKJuqtwliHXq8266op3WMK+VD
+ec0gpwFkfgSRl5psd0bEnMkveN114EjK45rJ/QlPnQNSNjsFmtvu2n36+bXWxYpp8J0NRvmgqOmb
+/a5IgpI6BAu8EsgvewUei1VAGFs5n39Qt97Oh6yl/+J9YxcdwOE1Zg7ht/q/dvUs1zz9PIKKJlSS
+eVATbUNUbsELPgAcADKyH0IgbQt9vtH7DtQiRPaB9B9VPfOdTNA2D+qnQcKN9zCRQ+4pWiYxSffj
+U55abnJVImr5xxbcqOfebAXZLeBGw9L99+Nb3YIgDqE6VlIyNAs8DqLAwHzDtVsFb/qZb2dB9QQo
+7QFpz4fcQi5qUA2XXQJHgAKgVovLdDY2GW5ynafPvXr2EiuO0FlrrKhtIs5tS029AGAtjUNqapJE
+ZcgIDH6m90Xa2eOjo2MYBCJyv0ds2m0prG7PhxQYvMkW8f3feyPc7D43dWFEEaJiCLud6xx9I8i6
+ll4BcQP9XblXDne21aFRSAxzhCQ0LiPBVlZFkCkiGvrYiNNJppvWi6wWExERk8FqGK13M9sS6Oh7
+RlPfo3dKouVTpxgXMTfFoS8ipPGKVi6H/BPf2vhdVNK0xAgLI61sfJiMmcgzOdHexpJ/YV/Ufvzn
+3bva1hEOb+bDo8zS1zX62upv65rSb1SsllaveRgljaNsD7sf5y0v95eoAIG4kP0i41SoqKSqhUvm
+h6d7mfMjayy8zmccpxDloFR8gPj9a/Rc2o1XxTnw86i+sbWp1Q6slOBBYd7ISO/esMgdvv6S0qIs
+PmKWiWCzWayR2eqKt1qGjj9//l4lLjkzOyUuKiJAAinJRR11hb5FqbmRaQFGGSAwLBaPucCsuL4B
+LSmt1N3ZyFnkQ+4X6DOP7j/y9Nvd8O1xR/sXDodz/2WvNk19o6UxQ5h6ITUV8gQkjGrf9/x+n3z7
+5iUJCdGIQMe+Tr8JvvXP73ULs4OysFo1ifBz99+1e+ee/X4iIkI4ooJvRBACsAz01iwugTdl2d86
+WuE2srK41qYfunqDciTVRcyqRQYCIEX4YgpYikHOxeietko+nwsE/H8/iqGEYMMAAEi6FqtltNR0
+HZAYGSAQIEwst+saOwYdueHpf8Jkg8caA8uWHk7hq441GzxhBjEOaEjNrmHwwBwPbPOJg7FlW3DB
+eqdDEIJhcTcX+YAFwAybX1A1SlTXlscqeUSUr3eKhQg2WudcWPmrfnC+gw6+0ME3Bnhc3adBXgN3
+oNAMr+U8qf7YH5+Usy/oiJqmvulmr5Q7jbc+CnI+gMwacLlCcODvf4w3+RGUNfEE1ZU8sNzlVzoe
+oh/SlYk0mLWQ8IZPNfQY+92yO+xi+rloNr03LCJh245dMUcCvjS8Ut1aPtsSn5F+1szcaKB/ZLeX
+k0vQxaf556YHm40czhppCe8L8Vm1Cs3k8NLPZDS3fqes3VFREIJCocNPvy+9d4jNnj+afFuFRmSz
+EWwWYrCvX2yhjY/EtTbX1FYWD48MQFOgkCgsTgXmf0ObYEMz058jGC4HapaPRoK52XER0DvU95XN
+Fxsf+THyrXJmevxfDzTIZcuIi4mh0LBhVg32feHy0ZpqKmgJ0sO7GfSpRd/dh4SFReBE1uLUiaPh
+w2MIOVlCYlJWzwxlkbEIrSovJfqo6MmxiKipScCaRweFH4s6frm3/QUAAhv35H8qc3q7PkmIy/V+
+aX12K3/sN4s+jRCTJPLx2+pael8+L5qYHCPTjBISz4XH3Lh5vxxqjSCH/NlUPvolp7ftLX16ampq
+jsMVmmWTsOSdJF1Ln/DUv2SVHN0iNPXsxMT/Qv7BFeQdSaFq41VNxke6NXSdTQ0NcwsfMgdfuHoc
+3OUbfS8vuZVhO9F4nEPvOpjRtk1fTkgI1dzPOxW5kTHTo7+rraPEms+hH77ar4+fE5eUhS7b8PHd
+s0eZVnZh967tEREV2bUnoeTh1dmZobhT1/5StJjnSvF4CAGfPzsztt1KpKLiPY/RXfW2YXjwxyKD
+Dv6oFomCJhGSwVHU9JyxqiYYESk+nwctAtlFgsXJ4Q41Iq4kP0laVmFiqF1CQhwFVw39/Ieia93e
+XAa/I1BpppBSWpLT/f2zu0ckkSAhJCwJXai/pfp+QcHiAl8LK7TLI1AYs2qZLmALi8q1t40mxfkN
+DwwvzvNoNJOQqOsL9A4+n+2x+0Rby5uJ8T4PnyM/u3tOhlvUv0oXxywyGXPQHZ+/Z/+eEimtau/p
+bmWzl2SxquoUQ1OLLVr6dgRlirAQsvNTbm1RyOfKc+O/6pcYM0tM+uIiZ7U0ZWxOymzHBQWynaSE
+BGQVDf+gXiHmkIBd8/qOjfOR9hoRDnspN/tE3IlcL2viRK/Bj4l6Fhr/pvYWlzm5wzXY1tpziTE3
+jJlBIXjwdQxMVvf+aM2/fcHLL1pUWBiDAGt0bVYFYISEBI2fKra5BPEB+kF+irb2Wkdr87xbcbKK
+ukokC/hsJSFNXLc1HiuN1tUlaqsgB6ZZI2N8DILf39+joWU5Oc1EIUFd7RMJDOtz6z02iylNWANf
+yOFtBCUkPD/eJoDmgkiiUrWXbYcSoZqGNLw5tzc07ef3hprK+zw+12Grv5t75I/uzxcvhNL0d0zz
+cFMdNw/E5BtQDQCC2ze5kJ64nStAm1u417y+RtbeLE3QV8OLGJps5fKXbyr9P1u/NJaYmG28cfWU
+rb2bq6vrmaTYsbER952eOFVLlKjS0MSSAIHmw8k89sxE76+OMogQHncJiURJ/oVXVKXCi42VfQBS
+Qr21JAYyyWQudX2rR6LQImJyPNYkBr0MK9TKDxH4HAaSPSAirlBafMXYfBteQQ0BENWVRc1N1epE
+HcdtwbML80J/mXJ5nDevHo8yl9gsNkFcxG93LAbJQUlQ4ZEoYTGYiaorH8+yOLNTg2zmnDyW6OoT
+96Xtq5HJFh1drbAQv0W2UFBYYkdHR0Hu2StnXD6UpkwOtvDYCzwuW1xKUcss0Mg2Tk3HSVQCOz83
+1vnlbXv908zTzrcTzCfGfo6ODLA5zM3bDsGd56f7EAIeYiUSUWnaK88eXD5Sz9TjY2W2tb2/sgrl
+zq0TPC5ntZhkZFQ+Tp7w4nnWoHhQ/xsXYQzKObiQ1Ve2YbO/gEPv7mn+OU5vqX+BBosaaz3a3mc6
+ep9rqLwSeCB1bnqGy0fwBQAnv/paRrSjg6OsjEh2do64mLiNjQ1Nz3x6Cb/ZXKl/eq614eevESYA
+CIhkgWCZHRZjYnrk69RwG3Nh/L8fvQD8Yjk9PSmNI08NtYmtFobTVgTQWXm44fF46jSbsaHOidGe
+wLDMob6Gshc5MP+p6zoHBp7GCHGrWydbmqumO9I3u5371tGsqSBiaxMA3QAmzI9tzdVPTm5ySal+
+EmNlF9pcV0j9r0qtNbZt6wqLFCmSesu2ZCmRZcev+iHbcuPETeLGTdIlyKtdX9vSDBiQofvVtfs1
+bBiG/el+Zkh+DFtXYF3arsCArQvaZKvT5tEkc16Om8TxI7FlW5YlWS/rQYoUHyJ3SMl2DCMDdmWI
+vDBx7/ede853jnivf7e/ZxuCmjGclEqgIvL05HW9nHrt9Tch9C9fuXRteDSbDILggB9DTINXOL0B
+h6sVJx2g3VrdrioPSyeYbKiQXeS5rFjMmc02jLDS6SBBECqtCoFKUwoFbteLP7l64X2nb+B7r/zg
+q3//+eHYdb2e2P/j84N+h46svhmkz50atFqreo7+4erH331u4I193zlR4vKSxH419CeZqltaeOD2
+tozf/Xzw4FuZxCzPFfzdz+OEnRf4kowUi9zjiW9QmY5Eonv2v9Toc8cYsxnnZqaneY55NHGLzqUt
+jjq7qw02SlR50KGa8eGKawBlUSjEJz4CIdYhalMVqMbpWiGA4DiWXAp1bT04MXpWxNzP79wTi8zm
+86nleMjT4kVlLNDtNHvbRi9/bDEbKc/Bsaun8OoOe3WTLNB13mdKxWWDvW528lp3/+uJaNDp8ukx
+/ezMuCjkFBkcVl0HR3Wdu36nb8uWVGRidPReMjZdZGkUNz3j7z967L3mrh1Op2t85MvY7NV8cppj
+4hCcVluVKBRJygxKmpobkvi85vtI5btdWwHlif3JzQ3bJJENR2Kdbe29PQPnvvggHg/597xtM3sO
+vLyvudVz6dzfPzz582ePnF6YvpeY+svAa793Wyw2LKOUWBmVF5bCkfAcZDGT1ROcuOio7TEZaFni
+ZZmAYpkyOcDLpVJJ4NncckTg6UjoPl8sAAQDYeobeM23pTE0foHhlImxOxASKkYUbWztD4cmFVkC
+racoSislKvgReEEH/Sc5sCzb1ffyQvBuMp3aGuhva9s2NPRpOrU4eOyj1PzXR4//sKujYfzOV6ff
++4Wv75eZdHRx9KR/8Ne+hi6LMIWoh7c43ETdvXsDJUwUQSQWp9y+5pJQAISikEdQUqfDSbNT0dwc
+FN1d1yawScgkMw+HoPzUY5jZbPUHdrtrTFeuXEqlYmWk9Y098ViQwFHgs3r+QI0fp7NWvcJn5WAX
+juPh+fGeviPL8WkecQrs0vbth+KJ8PitM77AT0cufiijWEffnv2HD53/629khfL2/iw69dnsw7No
+VcDm8IhsimMyNosFw0jS7k1GZxCUkGXFbKuLLs4SppqOzq6Glk6ScrJsnmWh6onkcjlblRsqGgUY
+lGSOYyILjzweH7xDh2KPpnNgXjqXMOAYiAqitdWTaNoKrLTVpYCt4mJReLb/1WDwIW5y15rFLY09
+N2+cjy3N290BVMc+98KBnQeOc0z+X3/744ObX9Y0vWSpbtUJcSE/AT/RnTVbhEIEHIC0OMdGh+yu
+Vp7nimy+pnYzZbRnluPjd8+1dO77ztEf6XDnyJUzWZpDURzcApZEOw4mlSRBp5OdtZuXIvPwMq/E
+hnH9iousEgC06wms8dAkWWY5KdB3MLQQZPIJ3yZve8euyYkbk5PD8C8DCRulvdv2vUVR5kyWvj9y
+NTV3EdWJIBdVzlZEbzBivM1qQRFAA9aQbe72qfuXerYfuvzF75o693qbX7hx4fRycvbwq+907Dj+
+yak3aZqhzC4QU6+vJZ1lZFnFxksKvF0uJO5gqISiqGZxDbTWlDKBjs7ustUrnNZv2UPODfQdicZC
+yVTMYcR6AvuSUAQ+uCSKPBjMaHL07jpRVVWL4o54Io7IUZOReDj2AJXS7qbd8YWRWk+bAWElPlsq
+qbrOi1LXwInzH73j3uTd+/33r3327qOJ25TR1u7viy2GYtEZmLSp2e/a3H5/9BtJLKIoBj6FIILB
+YEA1q1c8BNFpXUTRKUiHv0enbMC+8ixwYApsd98rqXQ6svjIqGc7O3fiuPHB2JVcNq5ora5lf0ND
+t17h6WxYIOslzCNl/hOd/9a//djotQ92H353cfq2kTIK3LI2JcxpANvX1bdYagOXz/4WpgkEtrs9
+vqEv/wGjwfYuTtWkoxNckQaMJEkaCALAIOhKpGqWhzsEVSlVCKwdEd2wHJIosmyhrrGfpKyhaBpH
+WacFr3U3LoYfs7KZJIlIcBgedrubXa46qK0YJks5vFZn9/DQyYHDvxobPtPcfSgSvE6avSarMx+7
+TVI2UVIrGS1kJTqfhKm6u7cuhh8FZ8YBl91mL7DFksSBYkLUahlMI46iGgMN7woHcKGecn8D+nW+
+VOSKBsJS1+APzY2X8E2knmtsaCSoasLmNZi82XTEajFgqJhLRnLJab0e4ziaR52izrgc+vqNtz//
+5OSLTc/s4AuR8MJsu38nD8rPcgRpMVmcLMciwFv905dKCJOPcvkFRWJVt0H1ALESlRoijcOaIyHQ
+IAaUdeif6k4C5HGGqW8dFNlEPJmAmINdOoRPcmw+HH7E0JnyHDCrw+FyVHlQPS6XRIbJMfQyKKa/
+d8/M1EiBybS29cJP23QqFujtF2XT9NRtnDDJap4zF+ikyDMEYSApozbamqsoWkM0DmuaiSDYevTK
+/zgli+MGm82+FLqFYCaH3SoUl78d/pQ0uhx2i6++s8jRgkKByJqp0vzjW8GZeyRlqnY2gONBmEI5
+J0mYwWCUjSVLdVN8KQpDS6hN5At8kdajisViSSTmIAWZLRa9BlHTGWiyTobkVUm8qi/JcoWD9gDS
+3tn9FPQbPavSZDVLcFBHme2bZAVPL03C8FU13lpPq1DMZ7NxUPq+ve+Clgcf/DOTCtW4GoCLwNME
+aYVlwTADJAUob3CyhsvPs0xSLgkwgsFAgFaW5yrDLccrfJc9Z20dELTiWmUCcNlwTHaDW20gBovO
+87ysJm4MXIUt0IjeaHc2EygLcEsST+dTUBs73P5MfCoeHoUQIihHQ/vg43tnQccQPSnyeUkoAGZw
+d71er6x4BbLGAe7KLCoqpGgcKpQQZC2RPcX2G68bQ0ORJFEQ1I029T2Z3qRDCTa3YDLXVLk7JD4D
+yEAD4MFMak6rRyVt9UFd4A+WA18zuTax1lnpwV1llvUcZLkS0BUC623/fx7DV1Y/5V9Fspp6EFEU
+4RvwKooql4AVuqhmNqixAcfquE/cV1R+PQVdGXRFISocYMiKKP0X+Y2+NGDMy7cAAAAASUVORK5C
+YII=
+
+------=_NextPart_000_0018_01C50E23.F61E1CE0--

@@ -19,8 +19,10 @@ Autoit:
 [H][*]修正:AU3工具箱无帮助的问题.
 [H][+]新增:Microsoft Spy++ 9.0中文版(英文版不移除)
 [H][!]更新:汉化部分例子程序.
+[H][!]更新:Autoit工具箱增加帮助项目,以及解决SVN更新后直接安装的问题.
 Scite:
 [H][-]移除:移除部分过时或者不工作的工具
+[H][!]更新:ACNWrapper 支持对控制台输出文本的替换(用于汉化),参考 SciTe\ACNWrapper\TranslateError.ini
 [H][+]新增:ACNWrapper 版本属性中,支持\n \r换行, \t为制表符, \xtm为™, \xcp为© , \xrt为®.
 [H][!]更新:对ACNWrapper程序的优化.对路径更智能的判断.
 [H][*]修正:修正CTRL+J在UserInclude包含目录的文件无法跳转的问题.
