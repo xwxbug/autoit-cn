@@ -35,15 +35,21 @@
 ;
 
 #Region - Include and Declarations
-#include <GUIConstants.au3>
-#include <Constants.au3>
-#include <Misc.au3>
-#include <Inet.au3>
+#include <WindowsConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <StaticConstants.au3> 
+#include <TabConstants.au3> 
+#include <EditConstants.au3>
+#include <ButtonConstants.au3>
+#include <ComboConstants.au3>
+#include <ListViewConstants.au3>
 #include <GuiListView.au3>
+#include <Misc.au3>
+#include <INet.au3>
 
 Global $Button, $sMsgBox, $asMsgText, $sMText, $sIPwdChr, $iWidth, $iHeight, $iLeft, $iTop, $sInputBox, _
 		$sIPrompt, $sMFlag, $asFonts, $iOpt, $sOpt, $sSTText, $sSpashText, $sText, $sSTFlag, $sTitle, $sImageExt, _
-		$sSpashImage, $sTitle, $iTFlag, $sX, $sY, $sToolTip, $iToolTipIcon, $iToolTipOptions
+		$sSpashImage, $sTitle, $iTFlag, $sX, $sY, $sToolTip, $iToolTipIcon, $iToolTipOptions,$TIP_ICONASTERISK,$MB_OK=0,$OPT_MATCHANY
 
 Dim $G_SZVERSION = "代码生成向导 1.5.2"
 Dim $sOutType = "ClipBoard"
@@ -80,7 +86,7 @@ EndIf
 $T_STR = ""
 $ARRAY = IniReadSection(@ScriptDir & "\colors.ini", "SCHEMES")
 If @error Then
-	MsgBox(4096, "发生错误", ", 读取" & @ScriptDir & "\colors.ini 文件时发生错误.")
+	MsgBox(4096, "发生错误", "读取 " & @ScriptDir & "\colors.ini 文件时发生错误.")
 	Exit
 Else
 	For $I = 1 To $ARRAY[0][0]
@@ -598,7 +604,7 @@ Do
 			_BuildList($LV_FILELIST, ControlGetText($TAB_WINDOW, "", $COLORSCHEME))
 		
 		Case $MSG = $CTLTEXTCOLOR ; change control textcolor
-			If (_GUICtrlListViewGetSelectedCount ($LV_FILELIST)) Then
+			If (_GUICtrlListView_GetSelectedCount ($LV_FILELIST)) Then
 				_SetTestControl($TEST_WINDOW, $LV_FILELIST, $TEST_LABEL, $CTLTEXTCODE, $FOREGROUND, $BACKGROUND, 1)
 			EndIf
 		
@@ -610,7 +616,7 @@ Do
 			EndIf
 		
 		Case $MSG = $CTLBACKCOLOR ; change control backcolor
-			If (_GUICtrlListViewGetSelectedCount ($LV_FILELIST)) Then
+			If (_GUICtrlListView_GetSelectedCount ($LV_FILELIST)) Then
 				_SetTestControl($TEST_WINDOW, $LV_FILELIST, $TEST_LABEL, $CTLBKGRNDCODE, $FOREGROUND, $BACKGROUND)
 			EndIf
 		
@@ -636,10 +642,10 @@ Do
 					GUICtrlRead($CTLBKGRNDCODE)), "", $BACKGROUND, ")"))
 		
 		Case $MSG = $GUIBACKCOLOR ; change gui backcolor
-			If (_GUICtrlListViewGetSelectedCount ($LV_FILELIST)) Then
-				$GUIBACKGROUND = _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 0)
-				GUISetBkColor(_GUICtrlListViewGetItemText ($LV_FILELIST, -1, 1))
-				GUICtrlSetData($GUIBKGRNDCODE, _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 1))
+			If (_GUICtrlListView_GetSelectedCount ($LV_FILELIST)) Then
+				$GUIBACKGROUND = _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 0)
+				GUISetBkColor(_GUICtrlListView_GetItemText ($LV_FILELIST, -1, 1))
+				GUICtrlSetData($GUIBKGRNDCODE, _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 1))
 			EndIf
 		
 		Case $MSG = $GUI_DIALOG_BACKCOLOR
@@ -789,12 +795,12 @@ GUIDelete($MAIN_WINDOW)
 Func _SetTestControl($TEST_WINDOW, $LV_FILELIST, $TEST_LABEL, $CTL, ByRef $FOREGROUND, ByRef $BACKGROUND, $SET_FG = 0, $COLORPICKER = 0)
 	Local $HEXCODE
 	If ($SET_FG And Not $COLORPICKER) Then
-		$HEXCODE = _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 1)
-		$FOREGROUND = _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 0)
+		$HEXCODE = _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 1)
+		$FOREGROUND = _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 0)
 		GUICtrlSetColor($TEST_LABEL, $HEXCODE)
 	ElseIf (Not $COLORPICKER) Then
-		$HEXCODE = _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 1)
-		$BACKGROUND = _GUICtrlListViewGetItemText ($LV_FILELIST, -1, 0)
+		$HEXCODE = _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 1)
+		$BACKGROUND = _GUICtrlListView_GetItemText ($LV_FILELIST, -1, 0)
 		GUICtrlSetBkColor($TEST_LABEL, $HEXCODE)
 	ElseIf ($SET_FG And $COLORPICKER) Then
 		$HEXCODE = $FOREGROUND
@@ -933,7 +939,7 @@ EndFunc   ;==>_CreateFooter
 Func _BuildList($LV, $SCHEME)
 	Local $LVM_SETCOLUMNWIDTH = 0x101E
 	Local $X, $COLORS
-	_GUICtrlListViewDeleteAllItems ($LV)
+	_GUICtrlListView_DeleteAllItems ($LV)
 	$COLORS = IniReadSection(@ScriptDir & "\colors.ini", $SCHEME)
 	If Not @error Then
 		Local $ARRAY
@@ -2361,7 +2367,7 @@ Func _GetScriptTitle()
 		EndIf
 	Else
 		;MsgBox features: Title=Yes, Text=Yes, Buttons=OK, Icon=Critical
-		MsgBox($MB_OK + $MB_ICONHAND, "CodeWizard", "No Script Titles (*.au3) found")
+		MsgBox($MB_OK, "CodeWizard", "No Script Titles (*.au3) found")
 		Return ""
 	EndIf
 EndFunc   ;==>_GetScriptTitle
