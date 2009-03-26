@@ -13,6 +13,6 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArrayAdd()")
+_ArrayDisplay($avArray, "$avArray 原先的数据 _ArrayAdd()")
 _ArrayAdd($avArray, "Brian")
-_ArrayDisplay($avArray, "$avArray AFTER _ArrayAdd()")
+_ArrayDisplay($avArray, "$avArray 添加后的数据 _ArrayAdd()")

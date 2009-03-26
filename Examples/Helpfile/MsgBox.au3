@@ -1,1 +1,1 @@
-﻿MsgBox(4096, "Test", "This box will time out in 10 seconds", 10)
+﻿MsgBox(4096, "测试", "这个消息框将会显示10秒", 10)

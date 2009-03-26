@@ -36,7 +36,7 @@ EndFunc   ;==>Example
 
 ; Rich edit control EXAMPLE using GUICtrlCreateObj
 
-; Author: K錼e Johansson
+; Author: Kåre Johansson
 ; AutoIt Version: 3.1.1.55
 ; Description: Very Simple example: Embedding RICHTEXT object
 ; Needs: MSCOMCT2.OCX in system32 but it's probably already there

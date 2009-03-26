@@ -5,7 +5,7 @@
 #Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
+Opt("TrayMenuMode",1)	; 默认托盘菜单项目(脚本已暂停/退出脚本) (Script Paused/Exit) 将不显示.
 
 $prefsitem	= TrayCreateItem("参数")
 TrayCreateItem("")
@@ -39,7 +39,7 @@ Exit
 #Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
+Opt("TrayMenuMode",1)	; 默认托盘菜单项目(脚本已暂停/退出脚本) (Script Paused/Exit) 将不显示.
 
 ; Let's create 2 radio menuitem groups
 $radio1	= TrayCreateItem("单选1", -1, -1, 1)

@@ -1,7 +1,9 @@
-﻿;Wait for the window "未命名" to exist
+﻿Run("notepad.exe")
 
-Run("notepad")
-WinWait("未命名")
+;等待记事本窗口出现
+;WinWait("未命名")
+WinWait("[CLASS:Notepad]")
 
-;Wait a maximum of 5 seconds for "未命名" to exist
-WinWait("未命名", "", 5)
+;等待记事本窗口出现,等待5秒，如果仍未出现.脚本继续
+;WinWait("未命名", "", 5)
+WinWait("[CLASS:Notepad]", "", 5)

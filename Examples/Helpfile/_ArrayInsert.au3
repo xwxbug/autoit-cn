@@ -13,6 +13,6 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArrayInsert()")
+_ArrayDisplay($avArray, "$avArray 前 _ArrayInsert()")
 _ArrayInsert($avArray, 4, "New")
-_ArrayDisplay($avArray, "$avArray AFTER _ArrayInsert()")
+_ArrayDisplay($avArray, "$avArray 后 _ArrayInsert()")

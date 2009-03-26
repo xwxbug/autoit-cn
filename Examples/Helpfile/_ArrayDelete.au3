@@ -13,6 +13,6 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArrayDelete()")
+_ArrayDisplay($avArray, "$avArray 原 _ArrayDelete()")
 _ArrayDelete($avArray, 8)
-_ArrayDisplay($avArray, "$avArray AFTER _ArrayDelete()")
+_ArrayDisplay($avArray, "$avArray 后 _ArrayDelete()")

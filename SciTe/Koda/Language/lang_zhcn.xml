@@ -133,6 +133,7 @@
 		<btnTAvi property="Hint">动画(Avi)</btnTAvi>
 		<btnTTrayMenu property="Hint">托盘图标(Tray Menu)</btnTTrayMenu>
 		<btnTDummy property="Hint">Dummy 控件</btnTDummy>
+		<btnTControlGroup property="Hint">控件组</btnTControlGroup>
 		<tabWin32 property="Caption">Win32控件</tabWin32>
 		<btnTSlider property="Hint">滑动条(Slider)</btnTSlider>
 		<btnTProgress property="Hint">进度条(Progress)</btnTProgress>

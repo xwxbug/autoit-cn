@@ -1,5 +1,7 @@
-﻿;Wait for the window "未命名" to not exist
-WinWaitClose("未命名")
+﻿Run("notepad.exe")
+WinWaitActive("[CLASS:Notepad]")
+;等待记事本窗口被关闭
+WinWaitClose("[CLASS:Notepad]")
 
-;Wait a maximum of 5 seconds for "未命名" to not exist
-WinWaitClose("未命名", "", 5)
+;等待记事本窗口被关闭,最大等5秒,如果任然未关闭,脚本继续
+WinWaitClose("[CLASS:Notepad]", "", 5)

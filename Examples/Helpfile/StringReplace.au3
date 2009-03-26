@@ -1,4 +1,4 @@
-﻿$text = StringReplace("this is a line of text", " ", "-")
+﻿$text = StringReplace("这 是 一 行 文 本", " ", "-")
 $numreplacements = @extended
-MsgBox(0, "New string is", $text)
-MsgBox(0, "The number of replacements done was", $numreplacements)
+MsgBox(0, "新字符串为:", $text)
+MsgBox(0, "共替换的数量为:", $numreplacements)

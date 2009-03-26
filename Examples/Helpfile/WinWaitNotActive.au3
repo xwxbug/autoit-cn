@@ -1,5 +1,10 @@
-﻿;Wait for the window "未命名" to not be active
-WinWaitNotActive("未命名")
+﻿Run("notepad.exe")
+WinWaitActive("[CLASS:Notepad]")
 
-;Wait a maximum of 5 seconds for "未命名" to not be active
-WinWaitNotActive("未命名", "", 5)
+;等待记事本窗口为不活动状态,如果一直是活动状态,脚本暂停
+;WinWaitNotActive("未命名")
+WinWaitNotActive("[CLASS:Notepad]")
+
+;等待记事本窗口为不活动状态(延迟5秒,5秒后不管如何,脚本继续)
+;WinWaitNotActive("未命名", "", 5)
+WinWaitNotActive("[CLASS:Notepad]", "", 5)

@@ -1,5 +1,5 @@
 ﻿; *****************************************************************************
-; Example 1 - Declare a 1-dimensional array, and create an array showing the Possible Combinations
+; 例子 1 - 定义一个一维数组, 并创建一个数组显示可能的合并
 ; *****************************************************************************
 #include <Array.au3>
 

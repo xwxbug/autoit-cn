@@ -23,9 +23,9 @@ Exit
 Func SpecialEvent()
 	Select
 		Case @TRAY_ID = $TRAY_EVENT_PRIMARYDOUBLE
-			Msgbox(64,"SpecialEvent-Info","Primary mouse button double clicked.")
+			Msgbox(64,"SpecialEvent-Info","主鼠标键双击.")
 		Case @TRAY_ID = $TRAY_EVENT_SECONDARYUP
-			Msgbox(64,"SpecialEvent-Info","Secondary mouse button clicked.")
+			Msgbox(64,"SpecialEvent-Info","次鼠标键双击.")
 	EndSelect
 EndFunc
 

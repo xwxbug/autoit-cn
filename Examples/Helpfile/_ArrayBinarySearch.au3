@@ -1,7 +1,7 @@
 ﻿#include <Array.au3>
 
 ;===============================================================================
-; Example 1 (using a manually-defined array)
+; 例子 1 (使用一个手动定义的数组)
 ;===============================================================================
 Local $avArray[10]
 
@@ -16,44 +16,44 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-; sort the array to be able to do a binary search
+; 对数组进行排序
 _ArraySort($avArray)
 
-; display sorted array
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort()")
+; 显示排序后的数组
+_ArrayDisplay($avArray, "$avArray 排序后 _ArraySort()")
 
-; lookup existing entry
+; 查找存在的项目
 $iKeyIndex = _ArrayBinarySearch($avArray, "Jon")
 If Not @error Then
-   MsgBox(0,'Entry found',' Index: ' & $iKeyIndex)
+   MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-   MsgBox(0,'Entry Not found',' Error: ' & @error)
+   MsgBox(0,'项目未找到',' 错误: ' & @error)
 EndIf
 
-; lookup non-existing entry
+; 查找不存在的项目
 $iKeyIndex = _ArrayBinarySearch($avArray, "Unknown")
 If Not @error Then
-   MsgBox(0,'Entry found',' Index: ' & $iKeyIndex)
+   MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-   MsgBox(0,'Entry Not found',' Error: ' & @error)
+   MsgBox(0,'项目未找到',' 错误: ' & @error)
 EndIf
 
 
 ;===============================================================================
-; Example 2 (using an array returned by StringSplit())
+; 例子 2 (使用一个 StringSplit() 函数返回的数组)
 ;===============================================================================
 $avArray = StringSplit("a,b,d,c,e,f,g,h,i", ",")
 
-; sort the array to be able to do a binary search
-_ArraySort($avArray, 0, 1) ; start at index 1 to skip $avArray[0]
+; 对数组排序
+_ArraySort($avArray, 0, 1) ; 从索引 1 开始,跳过 $avArray[0]
 
-; display sorted array
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort()")
+; 显示排序的数组
+_ArrayDisplay($avArray, "$avArray 排序后 _ArraySort()")
 
- ; start at index 1 to skip $avArray[0]
+ ; 开始于索引 1 跳过 $avArray[0]
 $iKeyIndex = _ArrayBinarySearch($avArray, "c", 1)
 If Not @error Then
-   Msgbox(0,'Entry found',' Index: ' & $iKeyIndex)
+   Msgbox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-   Msgbox(0,'Entry Not found',' Error: ' & @error)
+   Msgbox(0,'项目未找到',' 错误: ' & @error)
 EndIf
