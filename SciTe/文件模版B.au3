@@ -8,7 +8,7 @@
 #AutoIt3Wrapper_Run_Debug_Mode=                 ;(Y/N) 运行脚本于控制图调试. 默认=N
 ;===============================================================================================================
 ;** AUT2EXE 设置
-#AutoIt3Wrapper_Icon=                           ;需要使用的图标(路径)名称
+#AutoIt3Wrapper_Icon=                           ;需要使用的图标(路径)名称,支持EXE,DLL,ICO
 #AutoIt3Wrapper_OutFile=                        ;目标 exe/a3x 文件名.
 #AutoIt3Wrapper_OutFile_Type=exe                ;a3x=小型 AutoIt3 文件; exe=标准可执行文件(默认)
 #AutoIt3Wrapper_Compression=                    ;压缩参数 0-4 ?=低 2=中 4=高 默认=2

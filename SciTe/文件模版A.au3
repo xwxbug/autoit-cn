@@ -1,6 +1,6 @@
 ﻿#Region AutoIt3Wrapper 预编译参数(常用参数)
 #AutoIt3Wrapper_UseAnsi=N									;编码
-#AutoIt3Wrapper_Icon= 										;图标
+#AutoIt3Wrapper_Icon= 										;图标,支持EXE,DLL,ICO
 #AutoIt3Wrapper_OutFile=									;输出文件名
 #AutoIt3Wrapper_OutFile_Type=exe							;文件类型
 #AutoIt3Wrapper_Compression=4								;压缩等级
