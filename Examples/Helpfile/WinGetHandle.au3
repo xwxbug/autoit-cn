@@ -2,9 +2,7 @@
 WinWaitActive("[CLASS:Notepad]")
 ControlSetText("[CLASS:Notepad]","","[CLASSNN:Edit1]","this one")
 
-; Identify the Notepad window that contains the text "this one" and get a handle to it
 
-; Change into the WinTitleMatchMode that supports classnames and handles
 AutoItSetOption("WinTitleMatchMode", 4)
 
 ; 得到包括 "this one" 内容的记事本窗口的句柄

@@ -1,3 +1,3 @@
-﻿TCPStartup()	; To start TCP services
+﻿TCPStartup()	; 开始 TCP 服务
 
-TCPShutdown ( )	; To stop TCP services
+TCPShutdown ( )	; 停止 TCP 服务

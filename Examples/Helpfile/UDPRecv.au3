@@ -1,11 +1,11 @@
 ﻿;;这是一个 UDP 服务器
-;;Start this first
+;;请先运行服务端
 
-; Start The UDP Services
+; 开始 UDP 服务
 ;==============================================
 UDPStartup()
 
-; Bind to a SOCKET
+; 绑定到一个套接字(SOCKET)
 ;==============================================
 $socket = UDPBind("127.0.0.1", 65532)
 If @error <> 0 Then Exit

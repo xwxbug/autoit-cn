@@ -1,7 +1,7 @@
 ﻿#Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; Default tray menu items (Script Paused/Exit) will not be shown.
+Opt("TrayMenuMode",1)	; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示. 
 
 $delitem		= TrayCreateItem("删除")
 TrayCreateItem("")

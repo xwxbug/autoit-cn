@@ -1,24 +1,24 @@
 ﻿#include <Constants.au3>
 
-Opt("TrayMenuMode", 1) ; Don't show the default tray context menu
+Opt("TrayMenuMode", 1) ; 不显示默认关联菜单
 
 Global Const $MIM_APPLYTOSUBMENUS	= 0x80000000
 Global Const $MIM_BACKGROUND		= 0x00000002
 
 TraySetIcon("shell32.dll", 21)
-TraySetToolTip("This is just a small example to show that colored tray menus" & @LF & "are easy possible under Windows 2000 and higher.")
+TraySetToolTip("这里有一个小例子显示带颜色的托盘图标" & @LF & "只需你的系统高于 Windows 2000 就能看到.")
 
-$OptionsMenu	= TrayCreateMenu("Options")
-$OnTopItem		= TrayCreateItem("Always On Top", $OptionsMenu)
+$OptionsMenu	= TrayCreateMenu("选项")
+$OnTopItem		= TrayCreateItem("总在最前", $OptionsMenu)
 TrayItemSetState(-1, $TRAY_CHECKED)
-$RepeatItem		= TrayCreateItem("Repeat Always", $OptionsMenu)
+$RepeatItem		= TrayCreateItem("总是重复", $OptionsMenu)
 TrayCreateItem("")
-$AboutItem		= TrayCreateItem("About")
+$AboutItem		= TrayCreateItem("关于")
 TrayCreateItem("")
-$ExitItem		= TrayCreateItem("Exit Sample")
+$ExitItem		= TrayCreateItem("退出例子")
 
-SetMenuColor(0, 0xEEBB99)   ; BGR color value, '0' means the tray context menu handle itself
-SetMenuColor($OptionsMenu, 0x66BB99); BGR color value
+SetMenuColor(0, 0xEEBB99)   ; BGR 颜色值, '0' 的意思是托盘关联菜单自己.
+SetMenuColor($OptionsMenu, 0x66BB99); BGR 颜色值
 
 While 1
 	$Msg = TrayGetMsg()
@@ -28,16 +28,16 @@ While 1
 			ExitLoop
         
 		Case $AboutItem
-			Msgbox(64, "About...", "Colored tray menu sample")
+			Msgbox(64, "关于...", "带颜色的托盘图标例子")
 	EndSwitch   
 WEnd
 
 Exit
 
 
-; Apply the color to the menu
+; 应用菜单颜色
 Func SetMenuColor($nMenuID, $nColor)
-	$hMenu  = TrayItemGetHandle($nMenuID) ; Get the internal menu handle
+	$hMenu  = TrayItemGetHandle($nMenuID) ; 得到内部菜单句柄
 	
 	$hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $nColor)
 	$hBrush = $hBrush[0]

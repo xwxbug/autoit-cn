@@ -1,1 +1,1 @@
-﻿TCPStartup ( )	; To start TCP services
+﻿TCPStartup ( )	; 开始 TCP 服务

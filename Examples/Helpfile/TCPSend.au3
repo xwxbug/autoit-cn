@@ -4,52 +4,52 @@ Opt('MustDeclareVars', 1)
 
 ;==============================================
 ;==============================================
-;CLIENT! Start Me after starting the SERVER!!!!!!!!!!!!!!!
+;客户端! 运行我之后运行服务端!!!!!!!!!!!!!!!
 ;==============================================
 ;==============================================
 
 Example()
 
 Func Example()
-	; Set Some reusable info
+	; 设置一些常用信息
 	;--------------------------
 	Local $ConnectedSocket, $szData
-	; Set $szIPADDRESS to wherever the SERVER is. We will change a PC name into an IP Address
+	; 设置 $szIPADDRESS 为服务器IP. 这里使用本地的机器名称转换为 IP 地址
 ;	Local $szServerPC = @ComputerName
 ;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
 	Local $szIPADDRESS = @IPAddress1
 	Local $nPORT = 33891
 
-	; Start The TCP Services
+	; 开始 TCP 服务
 	;==============================================
 	TCPStartup()
 
-	; Initialize a variable to represent a connection
+	; 初始化一个变量描述连接
 	;==============================================
 	$ConnectedSocket = -1
 
-	;Attempt to connect to SERVER at its IP and PORT 33891
+	;尝试连接到服务器IP的 33891 端口.
 	;=======================================================
 	$ConnectedSocket = TCPConnect($szIPADDRESS, $nPORT)
 
-	; If there is an error... show it
+	; 如果发生了错误... 显示出来
 	If @error Then
-		MsgBox(4112, "Error", "TCPConnect failed with WSA error: " & @error)
-		; If there is no error loop an inputbox for data
-		;   to send to the SERVER.
+		MsgBox(4112, "错误", "TCPConnect 失败于 WSA 错误: " & @error)
+		; 如果这里没有错误,就循环一个 inputbox 用于发送数据
+		; 到服务器
 	Else
-		;Loop forever asking for data to send to the SERVER
+		;不断循环,每次将询问发送什么数据给服务器
 		While 1
-			; InputBox for data to transmit
-			$szData = InputBox("Data for Server", @LF & @LF & "Enter data to transmit to the SERVER:")
+			; 使用 InputBox 得到要发送的数据 
+			$szData = InputBox("发送数据给服务器", @LF & @LF & "输入一个要发送给服务器的数据:")
 
-			; If they cancel the InputBox or leave it blank we exit our forever loop
+			; 如果点击了 InputBox 的取消按钮或者使用一个空数据将退出这个循环
 			If @error Or $szData = "" Then ExitLoop
 
-			; We should have data in $szData... lets attempt to send it through our connected socket.
+			; 我们确保在 $szData 中有数据... 然后尝试通过连接发送数据.
 			TCPSend($ConnectedSocket, $szData)
 
-			; If the send failed with @error then the socket has disconnected
+			; 如果发送失败(@error)将断开连接
 			;----------------------------------------------------------------
 			If @error Then ExitLoop
 		WEnd

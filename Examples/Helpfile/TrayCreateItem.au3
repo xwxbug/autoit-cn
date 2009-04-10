@@ -47,7 +47,7 @@ TrayItemSetState(-1, $TRAY_CHECKED)
 $radio2	= TrayCreateItem("单选2", -1, -1, 1)
 $radio3	= TrayCreateItem("单选3", -1, -1, 1)
 
-TrayCreateItem("")	; Radio menuitem groups can be separated by a separator line or another norma menuitem
+TrayCreateItem("")	; 单选按钮可以使用分隔符进行分割,或者其它类型的菜单项目.
 
 $radio4	= TrayCreateItem("单选4", -1, -1, 1)
 $radio5	= TrayCreateItem("单选5", -1, -1, 1)

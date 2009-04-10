@@ -13,7 +13,7 @@ While 1
 	If $msg = $exititem Then ExitLoop
 	$diff = TimerDiff($start)
 	If $diff > 1000 Then
-		$num = -Random(0,100,1)	; negative to use ordinal numbering
+		$num = -Random(0,100,1)	; 负的随机数
 		ToolTip("#icon=" & $num)
 		TraySetIcon("Shell32.dll",$num)
 		$start = TimerInit()

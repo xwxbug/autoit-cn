@@ -1,7 +1,7 @@
 ﻿#Include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayAutoPause",0)	; Script will not be paused when clicking the tray icon.
+Opt("TrayAutoPause",0)	; 当点击托盘图标时脚本不会暂停.
 
 $valitem	= TrayCreateItem("值:")
 TrayCreateItem("")

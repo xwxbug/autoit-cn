@@ -13,16 +13,16 @@ EndIf
 
 sleep(2000)
 
-; More reliable method to get caret coords in MDI text editors.
+; 得到 MDI 文本编辑器的一些可靠方法.
 Func _CaretPos()
 	Local $x_adjust =  5
 	Local $y_adjust = 40
 
-	Opt("CaretCoordMode", 0)              ;relative mode
-	Local $c = WinGetCaretPos()           ;relative caret coords
-	Local $w = WinGetPos("")              ;window's coords
-	Local $f = ControlGetFocus("","")     ;text region "handle"
-	Local $e = ControlGetPos("", "", $f)  ;text region coords
+	Opt("CaretCoordMode", 0)              ;相对模式
+	Local $c = WinGetCaretPos()           ;相对插入符坐标
+	Local $w = WinGetPos("")              ;窗口坐标
+	Local $f = ControlGetFocus("","")     ;文本区域 "句柄"
+	Local $e = ControlGetPos("", "", $f)  ;文本区域坐标
 
 	Local $t[2]
 	If IsArray($c) and IsArray($w) and IsArray($e) Then

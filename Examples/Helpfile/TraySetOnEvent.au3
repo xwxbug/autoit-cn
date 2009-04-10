@@ -13,7 +13,7 @@ TraySetOnEvent($TRAY_EVENT_SECONDARYUP,"SpecialEvent")
 TraySetState()
 
 While 1
-	Sleep(10)	; Idle loop
+	Sleep(10)	; 空闲循环
 WEnd
 
 Exit

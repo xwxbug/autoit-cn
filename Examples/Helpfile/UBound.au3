@@ -1,12 +1,12 @@
-﻿Dim $myArray[10][20]   ;element 0,0 to 9,19
+﻿Dim $myArray[10][20]   ;元素 0,0 to 9,19
 $rows = UBound($myArray)
 $cols = UBound($myArray, 2)
 $dims = UBound($myArray, 0)
 
 MsgBox(0, "The " & $dims & "-dimensional array has", _
-	$rows & " rows, " & $cols & " columns")
+	$rows & " 行, " & $cols & " 列")
 
-;Display $myArray's contents
+;显示 $myArray's 内容
 $output = ""
 For $r = 0 to UBound($myArray,1) - 1
 	$output = $output & @LF
@@ -14,4 +14,4 @@ For $r = 0 to UBound($myArray,1) - 1
 		$output = $output & $myArray[$r][$c] & " "
 	Next
 Next
-MsgBox(4096,"Array Contents", $output)
+MsgBox(4096,"数组内容", $output)

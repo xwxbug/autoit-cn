@@ -1,11 +1,11 @@
-﻿;;This is the UDP Client
-;;Start the server first
+﻿;;这是一个 UDP 客户端
+;;请先运行服务端
 
-; Start The UDP Services
+; 开始 UDP 服务
 ;==============================================
 UDPStartup()
 
-; Open a "SOCKET"
+; 打开一个"套接字"("SOCKET")
 ;==============================================
 $socket = UDPOpen("127.0.0.1", 65532)
 If @error <> 0 Then Exit
