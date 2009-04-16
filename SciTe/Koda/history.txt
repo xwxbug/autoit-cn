@@ -1,3 +1,7 @@
+Beta 1.7.0.11 (2009-04-12) RC2
+2009-03-25 - Fixed: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
+2009-03-25 - Fixed: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
+
 Beta 1.7.0.10 (2009-03-25) RC1
 2009-03-25 - Fixed: various small translation fixes
 2009-03-19 - Fixed: Import - bad ClientWidth, ClientHeight, Position [FS#36] (thanks Zedna)
