@@ -17,6 +17,9 @@ autoit工具箱提供了安装卸载功能.
 3.3.X.0 (2009-X-X) (第一汉化版)
 Autoit:
 [H][+]新增:工具箱支持在线更新汉化版本(测试阶段)
+KODA:
+[G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
+[G][*]修正: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
 
 3.3.0.0 (2009-4-4) (第三汉化版)
 Autoit:
