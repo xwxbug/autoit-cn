@@ -1,1 +1,1 @@
-﻿$var = Int(10.793) ;$var is the integer 10
+﻿$var = Int(10.793) ;$var 为整数值 10

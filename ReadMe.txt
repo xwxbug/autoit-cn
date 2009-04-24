@@ -17,6 +17,11 @@ autoit工具箱提供了安装卸载功能.
 3.3.X.0 (2009-X-X) (第一汉化版)
 Autoit:
 [H][+]新增:工具箱支持在线更新汉化版本(测试阶段)
+[H][!]更新:更新汉化的例子.
+[H][!]更新:更新汉化的帮助.
+Scite:
+[H][!]更新:更新SCITE为1.78 CVS 1.355版本.
+[H][+]新增:增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
 KODA:
 [G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
 [G][*]修正: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)

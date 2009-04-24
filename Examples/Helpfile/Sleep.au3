@@ -1,1 +1,1 @@
-﻿Sleep(5000) ;five seconds
+﻿Sleep(5000) ;暂停5秒

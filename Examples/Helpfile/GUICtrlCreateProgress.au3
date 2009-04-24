@@ -10,7 +10,7 @@ Func Example()
 	
 	GUICreate("我的 GUI 进度条", 220, 100, 100, 200)
 	$progressbar1 = GUICtrlCreateProgress(10, 10, 200, 20)
-	GUICtrlSetColor(-1, 32250); not working with Windows XP Style
+	GUICtrlSetColor(-1, 32250); 在 Windows XP 样式下不工作
 	$progressbar2 = GUICtrlCreateProgress(10, 40, 200, 20, $PBS_SMOOTH)
 	$button = GUICtrlCreateButton("开始", 75, 70, 70, 20)
 	GUISetState()
@@ -29,7 +29,7 @@ Func Example()
 				
 				If $m = $button Then
 					GUICtrlSetData($button, "继续")
-					$s = $i;save the current bar-position to $s
+					$s = $i;保存当前坐标到 $s
 					ExitLoop
 				Else
 					$s = 0

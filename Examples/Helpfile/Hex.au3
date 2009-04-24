@@ -1,1 +1,1 @@
-﻿$result = Hex(1033, 4)  ;returns "0409"
+﻿$result = Hex(1033, 4)  ;将返回 "0409"

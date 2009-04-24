@@ -1,7 +1,5 @@
-﻿; flashes the window 4 times with a break in between each one of 1/2 second
+﻿; 闪烁4次,每次闪烁间隔0.5秒
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
-
-
 
 WinFlash("[CLASS:Notepad]","", 4, 500) 
