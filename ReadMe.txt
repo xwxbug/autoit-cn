@@ -25,6 +25,8 @@ Scite:
 KODA:
 [G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
 [G][*]修正: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
+ADF:
+[H][+]新增:_API_CoInitialize,_API_DllRegisterServer,_API_DllUnregisterServer三个ADF.用于注册DLL.
 
 3.3.0.0 (2009-4-4) (第三汉化版)
 Autoit:
