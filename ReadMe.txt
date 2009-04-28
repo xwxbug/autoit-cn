@@ -20,7 +20,7 @@ Autoit:
 [H][!]更新:更新汉化的例子.
 [H][!]更新:更新汉化的帮助.
 Scite:
-[H][!]更新:更新SCITE为1.78 CVS 1.355版本.
+[H][!]更新:更新SCITE为1.78 20090427版本.
 [H][+]新增:增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
 KODA:
 [G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)

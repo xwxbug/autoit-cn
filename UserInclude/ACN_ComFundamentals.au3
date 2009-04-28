@@ -15,7 +15,7 @@ Global Const $SELFREG_E_FALSE = -2147221008
 ;                  Const $S_OK =0		The registry entries were created successfully.
 ;                  Const $SELFREG_E_TYPELIB = -2147220992	The server was unable to complete the registration of all the type libraries used by its classes.
 ;                  RPC_E_CHANGED_MODE	A previous call to CoInitializeEx specified the concurrency model for this thread as multithread apartment (MTA). This could also indicate that a change from neutral-threaded apartment to single-threaded apartment has occurred.
-;                  -1					ÌØÊâ,ÎŞ·¨¼ÓÔØDLL,Ò²Ğí²¢²»ÊÇDLLÎÄ¼ş.
+;                  -1					ç‰¹æ®Š,æ— æ³•åŠ è½½DLL,ä¹Ÿè®¸å¹¶ä¸æ˜¯DLLæ–‡ä»¶.
 ; Author ........: thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......:
@@ -33,15 +33,15 @@ EndFunc
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _API_DllRegisterServer
-; Description ...: ×¢²áDLLÎÄ¼ş
+; Description ...: æ³¨å†ŒDLLæ–‡ä»¶
 ; Syntax.........: _API_DllRegisterServer($file)
-; Parameters ....: $File:		  - DLLÎÄ¼şÃû
+; Parameters ....: $File:		  - DLLæ–‡ä»¶å
 ; Return values .: This function can return the standard return values E_OUTOFMEMORY and E_UNEXPECTED, as well as the following values.
 ;                  Const $S_OK =0		The registry entries were created successfully.
 ;                  Const $SELFREG_E_TYPELIB = -2147220992	The server was unable to complete the registration of all the type libraries used by its classes.
 ;                  Const $SELFREG_E_CLASS = -2147220991		The server was unable to complete the registration of all the object classes. 
 ;                  Const $SELFREG_E_FALSE = -2147221008		CoInitialize has not been called
-;                  -1					ÌØÊâ,ÎŞ·¨¼ÓÔØDLL,Ò²Ğí²¢²»ÊÇDLLÎÄ¼ş.
+;                  -1					ç‰¹æ®Š,æ— æ³•åŠ è½½DLL,ä¹Ÿè®¸å¹¶ä¸æ˜¯DLLæ–‡ä»¶.
 ; Author ........: thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......:
@@ -59,16 +59,16 @@ EndFunc
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _API_DllUnregisterServer
-; Description ...: Ğ¶ÔØDLLÎÄ¼ş
+; Description ...: å¸è½½DLLæ–‡ä»¶
 ; Syntax.........: _API_DllUnregisterServer($file)
-; Parameters ....: $File:		  - DLLÎÄ¼şÃû
+; Parameters ....: $File:		  - DLLæ–‡ä»¶å
 ; Return values .: This function can return the standard return values E_OUTOFMEMORY and E_UNEXPECTED, as well as the following values.
 ;                  Const $S_OK =0		The registry entries were deleted successfully.
 ;                  Const $S_FALSE =1	Unregistration of this server's known entries was successful, but other entries still exist for this server's classes.
 ;                  Const $SELFREG_E_TYPELIB = -2147220992	The server was unable to remove the entries of all the type libraries used by its classes.
 ;                  Const $SELFREG_E_CLASS = -2147220991		The server was unable to remove the entries of all the object classes.
 ;                  Const $SELFREG_E_FALSE = -2147221008		CoInitialize has not been called
-;                  -1					ÌØÊâ,ÎŞ·¨¼ÓÔØDLL,Ò²Ğí²¢²»ÊÇDLLÎÄ¼ş.
+;                  -1					ç‰¹æ®Š,æ— æ³•åŠ è½½DLL,ä¹Ÿè®¸å¹¶ä¸æ˜¯DLLæ–‡ä»¶.
 ; Author ........: thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......:
