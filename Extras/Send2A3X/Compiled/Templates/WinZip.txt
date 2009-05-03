@@ -1,5 +1,0 @@
-WinZip SFX ® Archive
-
-CMenu Options
-		Extract the files then run Identify Installer again.
-
