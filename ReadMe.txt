@@ -20,14 +20,22 @@ Autoit:
 [H][!]更新:更新汉化的例子.
 [H][!]更新:更新汉化的帮助.
 Scite:
-[H][!]更新:更新SCITE为1.78 20090427版本.
+[G][!]更新:更新Obfuscator(代码迷惑)到1.0.26.11
+[H][!]更新:更新SCITE为1.78 20090513版本.
+[H][+]新增:SCITE可以使用一个名为skin.msstyles的皮肤.
+[H][!]更新:SCITE工具栏美化.
 [H][+]新增:增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
 KODA:
+[G][!]更新: 更新到 Release 1.7.1.0 (2009-04-27)
+[G][*]修正: AV when resetting Style/ExStyle [FS#48] (thanks Zedna)
+[G][*]修正: Resizing - generated code is wrong (default) [FS#47] (thanks Zedna)
+[G][+]新增: hotkey property for Dummy control [FS#45] (thanks BaKaMu)
+[G][*]修正: removed some unnecessary properties
 [G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
 [G][*]修正: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
 ADF:
-[H][+]新增:_API_CoInitialize,_API_DllRegisterServer,_API_DllUnregisterServer三个ADF.用于注册DLL.
-[H][+]新增:AddFontResourceA,AddFontResourceW,RemoveFontResourceA,RemoveFontResourceW,WM_FONTCHANGE五个ADF.用于注册字体.
+[H][+]新增: _API_CoInitialize,_API_DllRegisterServer,_API_DllUnregisterServer三个ADF.用于注册DLL.
+[H][+]新增: AddFontResourceA,AddFontResourceW,RemoveFontResourceA,RemoveFontResourceW,WM_FONTCHANGE五个ADF.用于注册字体.
 
 3.3.0.0 (2009-4-4) (第三汉化版)
 Autoit:

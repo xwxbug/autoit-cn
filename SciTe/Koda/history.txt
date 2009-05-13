@@ -1,3 +1,9 @@
+Release 1.7.1.0 (2009-04-27)
+2009-04-19 - Fixed: AV when resetting Style/ExStyle [FS#48] (thanks Zedna)
+2009-04-17 - Fixed: Resizing - generated code is wrong (default) [FS#47] (thanks Zedna)
+2009-04-13 - Added: hotkey property for Dummy control [FS#45] (thanks BaKaMu)
+2009-04-12 - Fixed: removed some unnecessary properties
+
 Beta 1.7.0.11 (2009-04-12) RC2
 2009-03-25 - Fixed: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
 2009-03-25 - Fixed: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
