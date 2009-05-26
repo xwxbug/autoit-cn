@@ -3,7 +3,6 @@
 Opt("CaretCoordMode", 1)        ;1=绝对位置, 0=相对位置, 2=客户区
 Opt("ExpandEnvStrings", 0)      ;0=不展开, 1=展开
 Opt("ExpandVarStrings", 0)      ;0=不展开, 1=展开
-Opt("FtpBinaryMode", 1)         ;1=二进制, 0=ASCII
 Opt("GUICloseOnESC", 1)         ;1=按下 ESC 将不关闭窗口, 0=按下 ESC 将关闭窗口
 Opt("GUICoordMode", 1)          ;1=绝对位置, 0=相对位置, 2=单元格
 Opt("GUIDataSeparatorChar","|") ;"|"为默认

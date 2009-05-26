@@ -1,5 +1,4 @@
-﻿#Include <Constants.au3>
-#NoTrayIcon
+﻿#NoTrayIcon
 
 TraySetPauseIcon("shell32.dll",12)
 TraySetState()

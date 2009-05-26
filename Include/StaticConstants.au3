@@ -1,12 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Static (label, pic, icon) Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Static_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#Label">GUI control Label/Static styles</a> and Pic, Icon constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 ; Label/Pic/Icon
 Global Const $SS_LEFT = 0
 Global Const $SS_CENTER = 1
@@ -35,3 +37,4 @@ Global Const $GUI_SS_DEFAULT_LABEL = 0
 Global Const $GUI_SS_DEFAULT_GRAPHIC = 0
 Global Const $GUI_SS_DEFAULT_ICON = $SS_NOTIFY
 Global Const $GUI_SS_DEFAULT_PIC = $SS_NOTIFY
+; ===============================================================================================================================

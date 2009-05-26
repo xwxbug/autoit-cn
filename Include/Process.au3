@@ -1,27 +1,27 @@
-﻿; Include Version:1.59  (04/20/2006)
-#include-once
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.0
-; Language:       English
-; Description:    Functions that assist with process management.
-;
-; ------------------------------------------------------------------------------
+﻿#include-once
 
-;===============================================================================
-;
-; Description -   Returns a string containing the process name that belongs to a given PID.
-; Syntax -        _ProcessGetName( $iPID )
-; Parameters -    $iPID - The PID of a currently running process
-; Requirements -  None.
-; Return Values - Success - The name of the process
-;                 Failure - Blank string and sets @error
+; #INDEX# =======================================================================================================================
+; Title .........: Process
+; AutoIt Version : 3.0
+; Language ......: English
+; Description ...: Functions that assist with Process management.
+; Author(s) .....: Erifash, Wouter, Matthew Tucker, Jeremy Landes, Valik
+; Dll ...........: kernel32.dll
+; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _ProcessGetName
+; Description ...: Returns a string containing the process name that belongs to a given PID.
+; Syntax.........: _ProcessGetName( $iPID )
+; Parameters ....: $$iPID - The PID of a currently running process
+; Return values .: Success      - The name of the process
+;                  Failure      - Blank string and sets @error
 ;                       1 - Process doesn't exist
 ;                       2 - Error getting process list
 ;                       3 - No processes found
-; Author(s) -     Erifash <erifash [at] gmail [dot] com>, Wouter van Kesteren.
-; Notes -         Supplementary to ProcessExists().
-;===============================================================================
+; Author ........: Erifash <erifash [at] gmail [dot] com>, Wouter van Kesteren.
+; Remarks .......: Supplementary to ProcessExists().
+; ===============================================================================================================================
 Func _ProcessGetName($i_PID)
 	If Not ProcessExists($i_PID) Then
 		SetError(1)
@@ -37,14 +37,12 @@ Func _ProcessGetName($i_PID)
 	Return ''
 EndFunc   ;==>_ProcessGetName
 
-;===============================================================================
-;
-; Function Name:    _ProcessGetPriority()
-; Description:      Get the  priority of an open process
-; Parameter(s):     $vProcess      - PID or name of a process.
-; Requirement(s):   AutoIt Beta v3.1.1.61+
-;                   kernel32.dll (included with Windows)
-; Return Value(s):  On Success - Returns integer corressponding to
+; #FUNCTION# ====================================================================================================================
+; Name...........: _ProcessGetPriority
+; Description ...: Get the  priority of an open process.
+; Syntax.........:  _ProcessGetPriority($vProcess)
+; Parameters ....: $vProcess      - PID or name of a process.
+; Return values .: Success      - Returns integer corressponding to
 ;                   the processes's priority:
 ;                     0 - Idle/Low
 ;                     1 - Below Normal (Not supported on Windows 95/98/ME)
@@ -52,11 +50,10 @@ EndFunc   ;==>_ProcessGetName
 ;                     3 - Above Normal (Not supported on Windows 95/98/ME)
 ;                     4 - High
 ;                     5 - Realtime
-; On Failure:       Returns -1 and sets @Error to 1
-; Author(s):        Matthew Tucker
-;                   Valik added Pid or Processname logic
-;===============================================================================
-;
+;                  Failure      -1 and sets @Error to 1
+; Author ........: Matthew Tucker
+; Modifier ......: Valik added Pid or Processname logic
+; ===============================================================================================================================
 Func _ProcessGetPriority($vProcess)
 	Local $i_PID = ProcessExists($vProcess)
 	If Not $i_PID Then
@@ -88,18 +85,15 @@ Func _ProcessGetPriority($vProcess)
 
 EndFunc   ;==>_ProcessGetPriority
 
-;===============================================================================
-;
-; Description:      Executes a DOS command in a hidden command window.
-; Syntax:           _RunDOS( $sCommand )
-; Parameter(s):     $sCommand - Command to execute
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns the exit code of the command
-;                   On Failure - Returns 0 and sets @error to non-zero.
-; Author(s):        Jeremy Landes <jlandes at landeserve dot com>
-; Note(s):          None
-;
-;===============================================================================
+; #FUNCTION# ====================================================================================================================
+; Name...........: _RunDOS
+; Description ...: Executes a DOS command in a hidden command window.
+; Syntax.........: _RunDOS($sCommand)
+; Parameters ....: $sCommand - Command to execute
+; Return values .: Success      - the exit code of the command
+;                  Failure      - 0 and sets @Error to non-zero
+; Author ........: Jeremy Landes <jlandes at landeserve dot com>
+; ===============================================================================================================================
 Func _RunDOS($sCommand)
 	Local $nResult = RunWait(@ComSpec & " /C " & $sCommand, "", @SW_HIDE)
 	Return SetError(@error, @extended, $nResult)

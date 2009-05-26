@@ -1,11 +1,12 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    ListBox Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: ListBox_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#List">GUI control ListBox styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
 ; #STYLES# ======================================================================================================================
 Global Const $LBS_NOTIFY = 0x00000001 ; Notifies whenever the user clicks or double clicks a string

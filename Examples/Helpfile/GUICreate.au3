@@ -25,15 +25,16 @@ EndFunc   ;==>Example1
 ; example 2
 Func Example2()
 	Local $gui, $background, $pic, $basti_stay, $msg
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\logo4.gif"
+	Local $sFile = "..\GUI\logo4.gif"
 	
 	$gui = GUICreate("Background", 400, 100)
 	; background picture
-	$background = GUICtrlCreatePic(@SystemDir & "\oobe\images\mslogo.jpg", 0, 0, 400, 100)
+	$background = GUICtrlCreatePic("..\GUI\msoobe.jpg", 0, 0, 400, 100)
+		
 	GUISetState(@SW_SHOW)
 
 	; transparent MDI child window
-	$pic = GUICreate("", 169, 68, 0, 0, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
+	$pic = GUICreate("", 169, 68, 20, 20, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
 	; transparent pic
 	$basti_stay = GUICtrlCreatePic($sFile, 0, 0, 169, 68)
 	GUISetState(@SW_SHOW)

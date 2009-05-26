@@ -1,30 +1,35 @@
 ﻿#include-once
+
+#include <ImageListConstants.au3>
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
-#include <ImageListConstants.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Image List
-; Description ...: An image list is a collection of images of the same size, each of which can be referred to by its index. Image
+; Title .........: ImageList
+; Description ...: Functions that assist with ImageList control management.
+;                  An image list is a collection of images of the same size, each of which can be referred to by its index. Image
 ;                  lists are used to efficiently manage large sets of icons or bitmaps. All images in an image list are contained
 ;                  in a single, wide bitmap in screen device format.  An image list can also include  a  monochrome  bitmap  that
 ;                  contains masks used to draw images transparently (icon style).
-; Author ........: Paul Campbell (PaulIA)
+; Author(s)......: Paul Campbell (PaulIA)
+; Dll(s) ........: ComCtl32.dll
 ; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 Global Const $__IMAGELISTCONSTANT_IMAGE_BITMAP = 0
 Global Const $__IMAGELISTCONSTANT_LR_LOADFROMFILE = 0x0010
+; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Not documented at this time
-; ===============================================================================================================================
+;
 ;_GUIImageList_DragShowNolock
 ;_GUIImageList_Merge
 ;_GUIImageList_Replace
 ;_GUIImageList_SetDragCursorImage
 ;_GUIImageList_SetOverlayImage
 ; ===============================================================================================================================
+
 ; #CURRENT# =====================================================================================================================
 ;_GUIImageList_Add
 ;_GUIImageList_AddMasked
@@ -57,7 +62,6 @@ Global Const $__IMAGELISTCONSTANT_LR_LOADFROMFILE = 0x0010
 ;_GUIImageList_SetImageCount
 ;_GUIImageList_Swap
 ; ===============================================================================================================================
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUIImageList_Add
@@ -73,9 +77,9 @@ Global Const $__IMAGELISTCONSTANT_LR_LOADFROMFILE = 0x0010
 ; Modified.......:
 ; Remarks .......: This function copies the bitmap to an internal data structure.  Be sure to use the _WinAPI_DeleteObject  function
 ;                  to delete hImage and hMask after the function returns.
-; Related .......:  _GUIImageList_AddMasked
-; Link ..........;
-; Example .......; Yes
+; Related .......:  _GUIImageList_AddMasked, _GUIImageList_AddBitmap, _GUIImageList_AddIcon
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Add($hWnd, $hImage, $hMask = 0)
 	Local $aResult
@@ -100,8 +104,8 @@ EndFunc   ;==>_GUIImageList_Add
 ; Remarks .......: This function copies the bitmap to an internal data structure.  Be sure to use the _WinAPI_DeleteObject  function
 ;                  to delete hImage after the function returns. Bitmaps with color depth greater than 8 bpp are not supported.
 ; Related .......:  _GUIImageList_Add
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_AddMasked($hWnd, $hImage, $iMask = 0)
 	Local $aResult
@@ -123,8 +127,8 @@ EndFunc   ;==>_GUIImageList_AddMasked
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Add, _GUIImageList_AddIcon
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_AddBitmap($hWnd, $sImage, $sMask = "")
 	Local $hImage, $hMask = 0, $aSize, $iResult
@@ -157,8 +161,8 @@ EndFunc   ;==>_GUIImageList_AddBitmap
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Add, _GUIImageList_AddBitmap
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_AddIcon($hWnd, $sFile, $iIndex = 0, $fLarge = False)
 	Local $tIcon, $iResult, $hIcon
@@ -194,8 +198,8 @@ EndFunc   ;==>_GUIImageList_AddIcon
 ;                  messages, you can move the drag image by using the ImageList_DragMove function. To end the drag operation, you
 ;                  can use the ImageList_EndDrag function.
 ; Related .......:  _GUIImageList_EndDrag
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_BeginDrag($hWnd, $iTrack, $iXHotSpot, $iYHotSpot)
 	Local $aResult
@@ -217,8 +221,8 @@ EndFunc   ;==>_GUIImageList_BeginDrag
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Swap
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Copy($hWnd, $iSource, $iDestination)
 	Local $aResult
@@ -254,8 +258,8 @@ EndFunc   ;==>_GUIImageList_Copy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Destroy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Create($iCX = 16, $iCY = 16, $iColor = 4, $iOptions = 0, $iInitial = 4, $iGrow = 4)
 	Local $aColor[7] = [$ILC_COLOR, $ILC_COLOR4, $ILC_COLOR8, $ILC_COLOR16, $ILC_COLOR24, $ILC_COLOR32, $ILC_COLORDDB]
@@ -280,8 +284,8 @@ EndFunc   ;==>_GUIImageList_Create
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Create
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Destroy($hWnd)
 	Local $aResult
@@ -301,8 +305,8 @@ EndFunc   ;==>_GUIImageList_Destroy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_DestroyIcon($hIcon)
 	Return _WinAPI_DestroyIcon($hIcon)
@@ -322,9 +326,9 @@ EndFunc   ;==>_GUIImageList_DestroyIcon
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUIImageList_BeginDrag
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_BeginDrag, _GUIImageList_DragEnter
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_DragEnter($hWnd, $iX, $iY)
 	Local $aResult
@@ -344,8 +348,8 @@ EndFunc   ;==>_GUIImageList_DragEnter
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_EndDrag
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_DragLeave($hWnd)
 	Local $aResult
@@ -358,7 +362,8 @@ EndFunc   ;==>_GUIImageList_DragLeave
 ; Name...........: _GUIImageList_DragMove
 ; Description ...: Moves the image that is being dragged during a drag-and-drop operation
 ; Syntax.........: _GUIImageList_DragMove($hWnd, $iX, $iY)
-; Parameters ....: $iX          - The x-coordinate at which to display the drag image.
+; Parameters ....: $hWnd        - Handle to the control.
+;                  $iX          - The x-coordinate at which to display the drag image.
 ;                  +The coordinate is relative to the upper-left corner of the window, not the client area
 ;                  $iY          - The y-coordinate at which to display the drag image.
 ;                  +The coordinate is relative to the upper-left corner of the window, not the client area
@@ -368,8 +373,8 @@ EndFunc   ;==>_GUIImageList_DragLeave
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_DragMove($iX, $iY)
 	Local $aResult
@@ -391,8 +396,8 @@ EndFunc   ;==>_GUIImageList_DragMove
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUIImageList_DragShowNolock($fShow)
 	Local $aResult
@@ -421,8 +426,8 @@ EndFunc   ;==>_GUIImageList_DragShowNolock
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_DrawEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Draw($hWnd, $iIndex, $hDC, $iX, $iY, $iStyle = 0)
 	Local $iFlags, $aResult
@@ -465,8 +470,8 @@ EndFunc   ;==>_GUIImageList_Draw
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_Draw
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_DrawEx($hWnd, $iIndex, $hDC, $iX, $iY, $iDX = 0, $iDY = 0, $iRGBBk = 0xFFFFFFFF, $iRGBFg = 0xFFFFFFFF, $iStyle = 0)
 	Local $iFlags, $aResult
@@ -496,8 +501,8 @@ EndFunc   ;==>_GUIImageList_DrawEx
 ; Remarks .......: All information contained in the original image list for normal images is copied to the new image list.
 ;                  Overlay images are not copied.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Duplicate($hWnd)
 	Local $aResult
@@ -515,9 +520,9 @@ EndFunc   ;==>_GUIImageList_Duplicate
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:  _GUIImageList_BeginDrag
-; Link ..........;
-; Example .......; Yes
+; Related .......:  _GUIImageList_BeginDrag, _GUIImageList_DragLeave
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_EndDrag()
 	DllCall("ComCtl32.dll", "none", "ImageList_EndDrag")
@@ -533,8 +538,8 @@ EndFunc   ;==>_GUIImageList_EndDrag
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_SetBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetBkColor($hWnd)
 	Local $aResult
@@ -561,8 +566,8 @@ EndFunc   ;==>_GUIImageList_GetBkColor
 ; Remarks .......: It is the responsibility of the calling application to destroy the icon returned from this function
 ;                  using _GUIImageList_DestroyIcon
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetIcon($hWnd, $iIndex, $iStyle = 0)
 	Local $iFlags, $aResult
@@ -587,9 +592,9 @@ EndFunc   ;==>_GUIImageList_GetIcon
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUIImageList_GetIconSize, _GUIImageList_GetIconWidth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_GetIconSize, _GUIImageList_GetIconWidth, _GUIImageList_GetIconSizeEx
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetIconHeight($hWnd)
 	Local $aSize
@@ -609,9 +614,9 @@ EndFunc   ;==>_GUIImageList_GetIconHeight
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUIImageList_GetIconHeight, _GUIImageList_GetIconSizeEx, _GUIImageList_GetIconWidth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_GetIconHeight, _GUIImageList_GetIconSizeEx, _GUIImageList_GetIconWidth, _GUIImageList_SetIconSize
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetIconSize($hWnd)
 	Local $tPoint, $aSize[2]
@@ -633,8 +638,8 @@ EndFunc   ;==>_GUIImageList_GetIconSize
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_GetIconHeight, _GUIImageList_GetIconSize, _GUIImageList_GetIconWidth
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetIconSizeEx($hWnd)
 	Local $tPoint, $pPointX, $pPointY, $aResult
@@ -656,9 +661,9 @@ EndFunc   ;==>_GUIImageList_GetIconSizeEx
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUIImageList_GetIconHeight, _GUIImageList_GetIconSize
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_GetIconHeight, _GUIImageList_GetIconSize, _GUIImageList_GetIconSizeEx
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetIconWidth($hWnd)
 	Local $aSize
@@ -676,9 +681,9 @@ EndFunc   ;==>_GUIImageList_GetIconWidth
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_SetImageCount
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetImageCount($hWnd)
 	Local $aResult
@@ -699,8 +704,8 @@ EndFunc   ;==>_GUIImageList_GetImageCount
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagIMAGEINFO
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_GetImageInfoEx($hWnd, $iIndex)
 	Local $tImage, $aResult
@@ -728,8 +733,8 @@ EndFunc   ;==>_GUIImageList_GetImageInfoEx
 ;                  The mask for the new image is the result of performing a logical OR operation on the masks
 ;                  of the two existing images.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUIImageList_Merge($hWnd1, $iIndex1, $hwnd2, $iIndex2, $iDX, $iDY)
 	Local $aResult
@@ -754,8 +759,8 @@ EndFunc   ;==>_GUIImageList_Merge
 ;                  For example, if you remove the image at index 0, then image 1 becomes image 0, image 2 becomes
 ;                  image 1, and so on.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Remove($hWnd, $iIndex = -1)
 	Local $aResult
@@ -780,8 +785,8 @@ EndFunc   ;==>_GUIImageList_Remove
 ; Remarks .......: The _GUIImageList_Replace function copies the bitmap to an internal data structure.
 ;                  Be sure to use the _WinAPI_DeleteObject function to delete $hImage and $hMask after the function returns.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUIImageList_Replace($hWnd, $iIndex, $hImage, $hMask = 0)
 	Local $aResult
@@ -805,8 +810,8 @@ EndFunc   ;==>_GUIImageList_Replace
 ;                  created by the CreateIcon function. You do not need to destroy hIcon if it was loaded by the LoadIcon function
 ;                  the system automatically frees an icon resource when it is no longer needed.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_ReplaceIcon($hWnd, $iIndex, $hIcon)
 	Local $aResult
@@ -828,8 +833,8 @@ EndFunc   ;==>_GUIImageList_ReplaceIcon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUIImageList_GetBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_SetBkColor($hWnd, $iClrBk)
 	Local $aResult
@@ -853,8 +858,8 @@ EndFunc   ;==>_GUIImageList_SetBkColor
 ; Remarks .......: Creates a new drag image by combining the specified image (typically a mouse cursor image)
 ;                  with the current drag image
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUIImageList_SetDragCursorImage($hWnd, $iDrag, $iDXHotSpot, $iDYHotSpot)
 	Local $aResult
@@ -876,8 +881,8 @@ EndFunc   ;==>_GUIImageList_SetDragCursorImage
 ; Modified.......:
 ; Remarks .......: All images in an image list have the same dimensions
 ; Related .......: _GUIImageList_GetIconSize
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_SetIconSize($hWnd, $iCX, $iCY)
 	Local $aResult
@@ -902,8 +907,8 @@ EndFunc   ;==>_GUIImageList_SetIconSize
 ;+
 ;                  If you decrease the size of an image list by using this function, the truncated images are freed.
 ; Related .......: _GUIImageList_GetImageCount
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_SetImageCount($hWnd, $iNewCount)
 	Local $aResult
@@ -933,8 +938,8 @@ EndFunc   ;==>_GUIImageList_SetImageCount
 ;+
 ;                  A call to this method fails and returns $E_INVALIDARG unless the image list is created using a mask.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUIImageList_SetOverlayImage($hWnd, $iImage, $iOverlay)
 	Local $aResult
@@ -955,9 +960,9 @@ EndFunc   ;==>_GUIImageList_SetOverlayImage
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIImageList_Copy
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIImageList_Swap($hWnd, $iSource, $iDestination)
 	Local $aResult

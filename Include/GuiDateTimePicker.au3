@@ -1,28 +1,30 @@
 ﻿#include-once
+
+#include <DateTimeConstants.au3>
 #include <Memory.au3>
 #include <WinAPI.au3>
-#include <DateTimeConstants.au3>
 #include <StructureConstants.au3>
 #include <SendMessage.au3>
 #include <UDFGlobalID.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Date Time Picker
-; Description ...: A date and time picker (DTP) control provides a simple and intuitive interface through which to exchange date
+; Title .........: Date_Time_Picker
+; Description ...: Functions that assist with date and time picker (DTP) control management.
+;                  A date and time picker (DTP) control provides a simple and intuitive interface through which to exchange date
 ;                  and time information with a user.  For example, with a DTP control you can ask the user to enter a date and
 ;                  then retrieve his or her selection with ease.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $_DTP_ghDTLastWnd
 Global $Debug_DTP = False
-Global Const $__DTPCONSTANT_WS_VISIBLE = 0x10000000
-Global Const $__DTPCONSTANT_WS_CHILD = 0x40000000
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 Global Const $__DTPCONSTANT_ClassName = "SysDateTimePick32"
 ; ===============================================================================================================================
 
-;===============================================================================
 ; #CURRENT# =====================================================================================================================
 ;_GUICtrlDTP_Create
 ;_GUICtrlDTP_Destroy
@@ -41,12 +43,6 @@ Global Const $__DTPCONSTANT_ClassName = "SysDateTimePick32"
 ;_GUICtrlDTP_SetSystemTime
 ;_GUICtrlDTP_SetSystemTimeEx
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
-; For internal use only
-; ===============================================================================================================================
-;_GUICtrlDTP_DebugPrint
-;_GUICtrlDTP_ValidateClassName
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlDTP_Create
@@ -75,40 +71,18 @@ Global Const $__DTPCONSTANT_ClassName = "SysDateTimePick32"
 ; Modified.......: Gary Frost
 ; Remarks .......: This function is for Advanced users and for learning how the control works.
 ; Related .......: _GUICtrlDTP_Destroy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_Create($hWnd, $iX, $iY, $iWidth = 120, $iHeight = 21, $iStyle = 0x00000000, $iExStyle = 0x00000000)
-	$iStyle = BitOR($iStyle, $__DTPCONSTANT_WS_CHILD, $__DTPCONSTANT_WS_VISIBLE)
+	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 	Local $nCtrlID
 
-	$nCtrlID = _UDF_GetNextGlobalID($hWnd)
+	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Return _WinAPI_CreateWindowEx($iExStyle, $__DTPCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 EndFunc   ;==>_GUICtrlDTP_Create
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlDTP_DebugPrint
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlDTP_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
-; Parameters ....: $sText       - String to printed to console
-;                  $iLine       - Line number function was called from
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlDTP_DebugPrint($sText, $iLine = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_GUICtrlDTP_DebugPrint
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlDTP_Destroy
@@ -121,11 +95,11 @@ EndFunc   ;==>_GUICtrlDTP_DebugPrint
 ; Modified.......:
 ; Remarks .......: Restricted to only be used on Date Time Picker create with _GUICtrlDTP_Create
 ; Related .......: _GUICtrlDTP_Create
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_Destroy(ByRef $hWnd)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 
 	Local $iResult, $Destroyed
 
@@ -135,7 +109,7 @@ Func _GUICtrlDTP_Destroy(ByRef $hWnd)
 				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 				Local $hParent = _WinAPI_GetParent($hWnd)
 				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = _UDF_FreeGlobalID($hParent, $nCtrlID)
+				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
 				If Not $iResult Then
 					; can check for errors here if needed, for debug
 				EndIf
@@ -170,11 +144,11 @@ EndFunc   ;==>_GUICtrlDTP_Destroy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_SetMCColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCColor($hWnd, $iIndex)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $DTM_GETMCCOLOR, $iIndex)
 EndFunc   ;==>_GUICtrlDTP_GetMCColor
 
@@ -189,8 +163,8 @@ EndFunc   ;==>_GUICtrlDTP_GetMCColor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_SetMCFont
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCFont($hWnd)
 	_WinAPI_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -211,11 +185,11 @@ EndFunc   ;==>_GUICtrlDTP_GetMCFont
 ;                  sent on destruction). So your application must not rely on a static handle to the DTP control's child month
 ;                  calendar.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMonthCal($hWnd)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $DTM_GETMONTHCAL)
 EndFunc   ;==>_GUICtrlDTP_GetMonthCal
 
@@ -243,8 +217,8 @@ EndFunc   ;==>_GUICtrlDTP_GetMonthCal
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_SetRange
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetRange($hWnd)
 	Local $tRange, $aRange[14]
@@ -278,11 +252,11 @@ EndFunc   ;==>_GUICtrlDTP_GetRange
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_SetRangeEx, $tagDTPRANGE
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetRangeEx($hWnd)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iRange, $pRange, $tRange, $pMemory, $tMemMap, $iResult
 
 	$tRange = DllStructCreate($tagDTPRANGE)
@@ -317,9 +291,9 @@ EndFunc   ;==>_GUICtrlDTP_GetRangeEx
 ; Modified.......:
 ; Remarks .......: @Error is set to $GDT_VALID if the time information was successfully returned, $GDT_NONE if the control was
 ;                  set to the $DTS_SHOWNONE style and the control check box was not selected or $GDT_ERROR if an error occured.
-; Related .......: _GUICtrlDTP_SetSystemTime
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlDTP_SetSystemTime, _GUICtrlDTP_GetSystemTimeEx
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetSystemTime($hWnd)
 	Local $tDate, $aDate[6]
@@ -344,12 +318,12 @@ EndFunc   ;==>_GUICtrlDTP_GetSystemTime
 ; Modified.......:
 ; Remarks .......: @Error is set to $GDT_VALID if the time information was successfully returned, $GDT_NONE if the control was
 ;                  set to the $DTS_SHOWNONE style and the control check box was not selected or $GDT_ERROR if an error occured.
-; Related .......: _GUICtrlDTP_GetSystemTime, $tagDTPTIME
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlDTP_GetSystemTime, _GUICtrlDTP_SetSystemTimeEx, $tagDTPTIME
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetSystemTimeEx($hWnd)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iDate, $pDate, $tDate, $pMemory, $tMemMap, $iResult
 
 	$tDate = DllStructCreate($tagDTPTIME)
@@ -401,11 +375,11 @@ EndFunc   ;==>_GUICtrlDTP_GetSystemTimeEx
 ;                  control tracks locale changes when it is using the default format string.  If you set a custom format string,
 ;                  it will not be updated in response to locale changes.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetFormat($hWnd, $sFormat)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $tMemMap, $iMemory, $pMemory, $iResult
 
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
@@ -439,11 +413,11 @@ EndFunc   ;==>_GUICtrlDTP_SetFormat
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetMCColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCColor($hWnd, $iIndex, $iColor)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $DTM_SETMCCOLOR, $iIndex, $iColor)
 EndFunc   ;==>_GUICtrlDTP_SetMCColor
 
@@ -459,11 +433,11 @@ EndFunc   ;==>_GUICtrlDTP_SetMCColor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetMCFont
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCFont($hWnd, $hFont, $fRedraw = True)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	_SendMessage($hWnd, $DTM_SETMCFONT, $hFont, $fRedraw, 0, "hwnd")
 EndFunc   ;==>_GUICtrlDTP_SetMCFont
 
@@ -493,11 +467,11 @@ EndFunc   ;==>_GUICtrlDTP_SetMCFont
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetRange
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRange($hWnd, ByRef $aRange)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $tRange
 
 	$tRange = DllStructCreate($tagDTPRANGE)
@@ -530,11 +504,11 @@ EndFunc   ;==>_GUICtrlDTP_SetRange
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetRangeEx, $tagDTPRANGE
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iRange, $pRange, $pMemory, $tMemMap, $iFlags, $iResult
 
 	$pRange = DllStructGetPtr($tRange)
@@ -571,11 +545,11 @@ EndFunc   ;==>_GUICtrlDTP_SetRangeEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetSystemTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTime($hWnd, ByRef $aDate)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $tDate
 
 	$tDate = DllStructCreate($tagDTPTIME)
@@ -603,11 +577,11 @@ EndFunc   ;==>_GUICtrlDTP_SetSystemTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlDTP_GetSystemTimeEx, $tagDTPTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate, $fFlag = False)
-	If $Debug_DTP Then _GUICtrlDTP_ValidateClassName($hWnd)
+	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iFlag, $iDate, $pDate, $pMemory, $tMemMap, $iResult
 
 	$pDate = DllStructGetPtr($tDate)
@@ -627,21 +601,3 @@ Func _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate, $fFlag = False)
 	EndIf
 	Return $iResult <> 0
 EndFunc   ;==>_GUICtrlDTP_SetSystemTimeEx
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlDTP_ValidateClassName
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlDTP_ValidateClassName($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlDTP_ValidateClassName($hWnd)
-	_GUICtrlDTP_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	_WinAPI_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-EndFunc   ;==>_GUICtrlDTP_ValidateClassName

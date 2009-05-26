@@ -1,15 +1,18 @@
 ﻿#include-once
+
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Windows Networking
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: The Windows Networking (WNet) functions allow you to implement networking  capabilities  in  your  application
+; Title .........: WindowsNetworking
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Windows Networking management.
+;                  The Windows Networking (WNet) functions allow you to implement networking  capabilities  in  your  application
 ;                  without making allowances for a particular network  provider  or  physical  network  implementation.  This  is
 ;                  because the WNet functions are network independent.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
+; Dll(s) ........: Mpr.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -115,7 +118,6 @@ Global Const $WNNC_NET_QUINCY = 0x00380000
 Global Const $WNNC_CRED_MANAGER = 0xFFFF0000
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_WinNet_AddConnection
 ;_WinNet_AddConnection2
@@ -142,9 +144,9 @@ Global Const $WNNC_CRED_MANAGER = 0xFFFF0000
 ;_WinNet_UseConnection
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_WinNet_NETRESOURCEToArray
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__WinNet_NETRESOURCEToArray
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinNet_AddConnection
@@ -164,8 +166,8 @@ Global Const $WNNC_CRED_MANAGER = 0xFFFF0000
 ;                  WNet_AddConnection2 or the WNet_AddConnection3 function.  A successful connection is persistent  meaning  that
 ;                  the system automatically restores the connection during subsequent logon operations.
 ; Related .......: _WinNet_AddConnection2, _WinNet_AddConnection3
-; Link ..........; @@MsdnLink@@ WNetAddConnectionA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetAddConnectionA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection($sLocalName, $sRemoteName, $sPassword = 0)
 	Local $pPassWord, $tPassword, $aResult
@@ -213,8 +215,8 @@ EndFunc   ;==>_WinNet_AddConnection
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_AddConnection, _WinNet_AddConnection3
-; Link ..........; @@MsdnLink@@ WNetAddConnection2A
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetAddConnection2A
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection2($sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $pLocalName, $tLocalName, $pRemoteName, $tRemoteName, $pUserName, $tUserName
@@ -292,8 +294,8 @@ EndFunc   ;==>_WinNet_AddConnection2
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_AddConnection, _WinNet_AddConnection2
-; Link ..........; @@MsdnLink@@ WNetAddConnection3A
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetAddConnection3A
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $pLocalName, $tLocalName, $pRemoteName, $tRemoteName, $pUserName, $tUserName
@@ -353,8 +355,8 @@ EndFunc   ;==>_WinNet_AddConnection3
 ; Remarks .......: This function is provided for compatibility with 16-bit versions of  Windows. Other Windows-based applications
 ;                  should call the WNet_CancelConnection2 function.
 ; Related .......: _WinNet_CancelConnection2
-; Link ..........; @@MsdnLink@@ WNetCancelConnectionA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetCancelConnectionA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CancelConnection($sName, $fForce = True)
 	Local $aResult
@@ -381,8 +383,8 @@ EndFunc   ;==>_WinNet_CancelConnection
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_CancelConnection
-; Link ..........; @@MsdnLink@@ WNetCancelConnection2A
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetCancelConnection2A
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CancelConnection2($sName, $fUpdate = True, $fForce = True)
 	Local $aResult
@@ -403,8 +405,8 @@ EndFunc   ;==>_WinNet_CancelConnection2
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_OpenEnum
-; Link ..........; @@MsdnLink@@ WNetCloseEnum
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetCloseEnum
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CloseEnum($hEnum)
 	Local $aResult
@@ -424,8 +426,8 @@ EndFunc   ;==>_WinNet_CloseEnum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_ConnectionDialog1
-; Link ..........; @@MsdnLink@@ WNetConnectionDialog
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetConnectionDialog
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_ConnectionDialog($hWnd)
 	Local $aResult
@@ -439,7 +441,7 @@ EndFunc   ;==>_WinNet_ConnectionDialog
 ; Description ...: Starts a general browsing dialog box for connecting to network resources
 ; Syntax.........: _WinNet_ConnectionDialog1($hWnd[, $sRemoteName = ""[, $iFlags = 2]])
 ; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
-;                  $RemoteName  - Name of the network resource to connect to
+;                  $sRemoteName - Name of the network resource to connect to
 ;                  $iFlags      - Dialog box options. Can be one or more of the following:
 ;                  | 1 - Display a read-only path instead of allowing the user to type in a path
 ;                  | 2 - Enter the most recently used paths into the combination box
@@ -452,8 +454,8 @@ EndFunc   ;==>_WinNet_ConnectionDialog
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_ConnectionDialog
-; Link ..........; @@MsdnLink@@ WNetConnectionDialog1
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetConnectionDialog1
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_ConnectionDialog1($hWnd, $sRemoteName = "", $iFlags = 2)
 	Local $pConnect, $tConnect, $pRemoteName, $tRemoteName, $pResource, $tResource, $iDialog, $aResult
@@ -495,8 +497,8 @@ EndFunc   ;==>_WinNet_ConnectionDialog1
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_DisconnectDialog1
-; Link ..........; @@MsdnLink@@ WNetDisconnectDialog
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetDisconnectDialog
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_DisconnectDialog($hWnd)
 	Local $aResult
@@ -511,7 +513,7 @@ EndFunc   ;==>_WinNet_DisconnectDialog
 ; Syntax.........: _WinNet_DisconnectDialog1($hWnd, $sLocalName[, $sRemoteName = ""[, $iFlags = 1]])
 ; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
 ;                  $sLocalName  - Name of a local device, such as "F:" or "LPT1"
-;                  $RemoteName  - Name of the network resource to disconnect.  This member can be 0 if $LocalName  is  specified.
+;                  $sRemoteName - Name of the network resource to disconnect.  This member can be 0 if $LocalName  is  specified.
 ;                  +When sLocalName is  specified,  the  connection  to  the  network  resource  redirected  from  sLocalName  is
 ;                  +disconnected.
 ;                  $iFlags      - Flags describing the connection. Can be a combination of:
@@ -524,8 +526,8 @@ EndFunc   ;==>_WinNet_DisconnectDialog
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_DisconnectDialog
-; Link ..........; @@MsdnLink@@ WNetDisconnectDialog1
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetDisconnectDialog1
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_DisconnectDialog1($hWnd, $sLocalName, $sRemoteName = "", $iFlags = 1)
 	Local $pLocalName, $tLocalName, $pRemoteName, $tRemoteName, $tDialog, $iOptions, $aResult
@@ -575,8 +577,8 @@ EndFunc   ;==>_WinNet_DisconnectDialog1
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinNet_OpenEnum, $tagNETRESOURCE
-; Link ..........; @@MsdnLink@@ WNetEnumResourceA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetEnumResourceA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 	Local $tData, $pCount, $pBufSize, $aResult
@@ -589,7 +591,7 @@ Func _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 	$aResult = DllCall("Mpr.dll", "dword", "WNetEnumResourceA", "hwnd", $hEnum, "ptr", $pCount, "ptr", $pBuffer, "ptr", $pBufSize)
 	$iCount = DllStructGetData($tData, "Count")
 	$iBufSize = DllStructGetData($tData, "BufSize")
-	Return SetError($aResult[0], 0, $aResult = 0)
+	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_WinNet_EnumResource
 
 ; #FUNCTION# ====================================================================================================================
@@ -602,8 +604,8 @@ EndFunc   ;==>_WinNet_EnumResource
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetConnectionA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetConnectionA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetConnection($sLocalName)
 	Local $pBuffer, $tBuffer, $pBufSize, $tBufSize, $aResult
@@ -641,8 +643,8 @@ EndFunc   ;==>_WinNet_GetConnection
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ MultinetGetConnectionPerformanceA
-; Example .......;
+; Link ..........: @@MsdnLink@@ MultinetGetConnectionPerformanceA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
 	Local $tLocalName, $tRemoteName, $pResource, $tResource, $tInfo, $aInfo[4], $aResult
@@ -682,8 +684,8 @@ EndFunc   ;==>_WinNet_GetConnectionPerformance
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetLastErrorA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetLastErrorA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetLastError(ByRef $iError, ByRef $sError, ByRef $sName)
 	Local $pError, $tError, $pErrorBuf, $tErrorBuf, $pNameBuf, $tNameBuf, $aResult
@@ -724,8 +726,8 @@ EndFunc   ;==>_WinNet_GetLastError
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetNetworkInformationA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetNetworkInformationA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetNetworkInformation($sName)
 	Local $pInfo, $tInfo, $aInfo[6], $aResult
@@ -755,8 +757,8 @@ EndFunc   ;==>_WinNet_GetNetworkInformation
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetProviderNameA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetProviderNameA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetProviderName($iType)
 	Local $pBuffer, $tBuffer, $pSize, $tSize, $aResult
@@ -816,8 +818,8 @@ EndFunc   ;==>_WinNet_GetProviderName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetResourceInformationA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetResourceInformationA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetResourceInformation($sRemoteName, $sProvider = "", $iType = 0)
 	Local $iBuffer, $pBuffer, $tBuffer, $iRemote, $pRemote, $tRemote, $aResource, $pResource, $tResource
@@ -853,7 +855,7 @@ Func _WinNet_GetResourceInformation($sRemoteName, $sProvider = "", $iType = 0)
 
 	$aResult = DllCall("Mpr.dll", "dword", "WNetGetResourceInformationA", "ptr", $pResource, "ptr", $pBuffer, "ptr", $pBufSize, "ptr", $pSystem)
 
-	$aResource = _WinNet_NETRESOURCEToArray($pBuffer)
+	$aResource = __WinNet_NETRESOURCEToArray($pBuffer)
 	$pSystem = DllStructGetData($tData, "System")
 	$tSystem = DllStructCreate("char Text[4096]", $pSystem)
 	$aResource[8] = DllStructGetData($tSystem, "Size")
@@ -902,8 +904,8 @@ EndFunc   ;==>_WinNet_GetResourceInformation
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetResourceParentA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetResourceParentA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetResourceParent($sRemoteName, $sProvider, $iType = 0)
 	Local $iBuffer, $pBuffer, $tBuffer, $iRemote, $pRemote, $tRemote, $pResource, $tResource
@@ -936,7 +938,7 @@ Func _WinNet_GetResourceParent($sRemoteName, $sProvider, $iType = 0)
 
 	$aResult = DllCall("Mpr.dll", "dword", "WNetGetResourceParentA", "ptr", $pResource, "ptr", $pBuffer, "ptr", $pBufSize)
 
-	Return SetError($aResult[0], 0, _WinNet_NETRESOURCEToArray($pBuffer))
+	Return SetError($aResult[0], 0, __WinNet_NETRESOURCEToArray($pBuffer))
 EndFunc   ;==>_WinNet_GetResourceParent
 
 ; #FUNCTION# ====================================================================================================================
@@ -952,8 +954,8 @@ EndFunc   ;==>_WinNet_GetResourceParent
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetUniversalNameA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetUniversalNameA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetUniversalName($sLocalPath)
 	Local $iLocal, $pLocal, $tLocal, $iBuffer, $pBuffer, $tBuffer, $tRemote, $pText, $tText
@@ -1001,8 +1003,8 @@ EndFunc   ;==>_WinNet_GetUniversalName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetGetUserA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetGetUserA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetUser($sName)
 	Local $iBuffer, $pBuffer, $tBuffer, $tData, $pBufSize, $aResult
@@ -1020,10 +1022,10 @@ Func _WinNet_GetUser($sName)
 	Return SetError($aResult[0], 0, DllStructGetData($tBuffer, "Text"))
 EndFunc   ;==>_WinNet_GetUser
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _WinNet_NETRESOURCEToArray
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __WinNet_NETRESOURCEToArray
 ; Description ...: Returns an array from a $tagNETRESOURCE structure
-; Syntax.........: _WinNet_NETRESOURCEToArray($pResource)
+; Syntax.........: __WinNet_NETRESOURCEToArray($pResource)
 ; Parameters ....: $pResource   - Pointer to a $tagNETRESOURCE structure
 ; Return values .: Success      - Array with the following format:
 ;                  |$aResource[0] - Scope of enumeration:
@@ -1061,10 +1063,10 @@ EndFunc   ;==>_WinNet_GetUser
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called by the end user
 ; Related .......: $tagNETRESOURCE
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _WinNet_NETRESOURCEToArray($pResource)
+Func __WinNet_NETRESOURCEToArray($pResource)
 	Local $iFlag, $iResult, $pText, $tText, $tResource, $aResource[9]
 
 	$tResource = DllStructCreate($tagNETRESOURCE, $pResource)
@@ -1108,7 +1110,7 @@ Func _WinNet_NETRESOURCEToArray($pResource)
 		$aResource[7] = DllStructGetData($tText, "Text")
 	EndIf
 	Return $aResource
-EndFunc   ;==>_WinNet_NETRESOURCEToArray
+EndFunc   ;==>__WinNet_NETRESOURCEToArray
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinNet_OpenEnum
@@ -1136,9 +1138,9 @@ EndFunc   ;==>_WinNet_NETRESOURCEToArray
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinNet_EnumResource, $tagNETRESOURCE
-; Link ..........; @@MsdnLink@@ WNetOpenEnum
-; Example .......;
+; Related .......: _WinNet_EnumResource, _WinNet_CloseEnum, $tagNETRESOURCE
+; Link ..........: @@MsdnLink@@ WNetOpenEnum
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_OpenEnum($iScope, $iType, $iUsage, $pResource, ByRef $hEnum)
 	Local $iFlags, $pEnum, $tEnum, $aResult
@@ -1182,8 +1184,8 @@ EndFunc   ;==>_WinNet_OpenEnum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetRestoreConnectionW
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetRestoreConnectionW
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_RestoreConnection($sDevice = "", $hWnd = 0, $fUseUI = True)
 	Local $pDevice, $tDevice, $aResult
@@ -1237,8 +1239,8 @@ EndFunc   ;==>_WinNet_RestoreConnection
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WNetUseConnectionA
-; Example .......;
+; Link ..........: @@MsdnLink@@ WNetUseConnectionA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $iLocalName, $pLocalName, $tLocalName, $iRemoteName, $pRemoteName, $tRemoteName, $iFlags

@@ -1,12 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    ScrollBar constants
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: ScrollBar_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants for ScrollBar functions.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 Global Const $SIF_POS = 0x4
 Global Const $SIF_PAGE = 0x2
 Global Const $SIF_RANGE = 0x1
@@ -45,3 +47,4 @@ Global Const $ESB_ENABLE_BOTH = 0x0
 Global Const $OBJID_HSCROLL = 0xFFFFFFFA
 Global Const $OBJID_VSCROLL = 0xFFFFFFFB
 Global Const $OBJID_CLIENT = 0xFFFFFFFC
+; ===============================================================================================================================

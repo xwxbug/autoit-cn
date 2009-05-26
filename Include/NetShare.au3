@@ -1,15 +1,18 @@
 ﻿#include-once
+
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Network Share
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: The network share functions control shared resources.  A shared resource is a local resource on a server  (for
+; Title .........: Network_Share
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Network Share.
+;                  The network share functions control shared resources.  A shared resource is a local resource on a server  (for
 ;                  example, a disk directory, print device, or named pipe) that can be accessed by users and applications on  the
 ;                  network.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
+; Dll(s) ........: NetAPI32.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -21,7 +24,6 @@ Global Const $STYPE_TEMPORARY = 0x40000000
 Global Const $STYPE_SPECIAL = 0x80000000
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_Net_Share_ConnectionEnum
 ;_Net_Share_FileClose
@@ -42,15 +44,15 @@ Global Const $STYPE_SPECIAL = 0x80000000
 ;_Net_Share_StatisticsGetWrk
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_Net_Share_APIBufferFree
-;_Str_Set_Char
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__Net_Share_APIBufferFree
+;__Str_Set_Char
+; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _Net_Share_APIBufferFree
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Net_Share_APIBufferFree
 ; Description ...: Frees the memory that network management functions return
-; Syntax.........: _Net_Share_APIBufferFree($pBuffer)
+; Syntax.........: __Net_Share_APIBufferFree($pBuffer)
 ; Parameters ....: $pBuffer     - Pointer to a buffer returned by another network management function
 ; Return values .: Success      - True
 ;                  Failure      - False
@@ -58,15 +60,15 @@ Global Const $STYPE_SPECIAL = 0x80000000
 ; Modified.......:
 ; Remarks .......: This function is used internally by the NetShare module to free network management buffers
 ; Related .......:
-; Link ..........; @@MsdnLink@@ NetApiBufferFree
-; Example .......;
+; Link ..........: @@MsdnLink@@ NetApiBufferFree
+; Example .......:
 ; ===============================================================================================================================
-Func _Net_Share_APIBufferFree($pBuffer)
+Func __Net_Share_APIBufferFree($pBuffer)
 	Local $aResult
 
 	$aResult = DllCall("NetAPI32.dll", "int", "NetApiBufferFree", "ptr", $pBuffer)
 	Return $aResult[0] = 0
-EndFunc   ;==>_Net_Share_APIBufferFree
+EndFunc   ;==>__Net_Share_APIBufferFree
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Net_Share_ConnectionEnum
@@ -98,8 +100,8 @@ EndFunc   ;==>_Net_Share_APIBufferFree
 ; Modified.......:
 ; Remarks .......: Administrator, Server or Print Operator or Power User group membership is required to execute this function
 ; Related .......: _Net_Share_FileEnum, _Net_Share_SessionEnum, _Net_Share_ShareEnum
-; Link ..........; @@MsdnLink@@ NetConnectionEnum
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetConnectionEnum
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ConnectionEnum($sServer, $sQualifier)
 	Local $iI, $pInfo, $tInfo, $iCount, $aResult
@@ -126,7 +128,7 @@ Func _Net_Share_ConnectionEnum($sServer, $sQualifier)
 		$pInfo += DllStructGetSize($tInfo)
 	Next
 
-	_Net_Share_APIBufferFree($aResult[4])
+	__Net_Share_APIBufferFree($aResult[4])
 	Return SetError($aResult[0], 0, $aInfo)
 EndFunc   ;==>_Net_Share_ConnectionEnum
 
@@ -143,8 +145,8 @@ EndFunc   ;==>_Net_Share_ConnectionEnum
 ; Modified.......:
 ; Remarks .......: Only members of the Administrators or Server Operators local group can execute this function
 ; Related .......:
-; Link ..........; @@MsdnLink@@ NetFileClose
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetFileClose
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_FileClose($sServer, $iFileID)
 	Local $aResult
@@ -184,8 +186,8 @@ EndFunc   ;==>_Net_Share_FileClose
 ; Modified.......:
 ; Remarks .......: Only members of the Administrators or Server Operators local group can execute this function
 ; Related .......: _Net_Share_ConnectionEnum, _Net_Share_SessionEnum, _Net_Share_ShareEnum
-; Link ..........; @@MsdnLink@@ NetFileEnum
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetFileEnum
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_FileEnum($sServer = "", $sBaseName = "", $sUserName = "")
 	Local $iI, $iCount, $pInfo, $tInfo, $aResult
@@ -210,7 +212,7 @@ Func _Net_Share_FileEnum($sServer = "", $sBaseName = "", $sUserName = "")
 		$pInfo += DllStructGetSize($tInfo)
 	Next
 
-	_Net_Share_APIBufferFree($aResult[5])
+	__Net_Share_APIBufferFree($aResult[5])
 	Return SetError($aResult[0], 0, $aInfo)
 EndFunc   ;==>_Net_Share_FileEnum
 
@@ -239,8 +241,8 @@ EndFunc   ;==>_Net_Share_FileEnum
 ; Modified.......:
 ; Remarks .......: Administrator, Server or Print Operator or Power User group membership is required to execute this function
 ; Related .......: _Net_Share_SessionGetInfo, _Net_Share_ShareGetInfo
-; Link ..........; @@MsdnLink@@ NetFileGetInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetFileGetInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_FileGetInfo($sServer, $iFileID)
 	Local $tInfo, $aInfo[5], $aResult
@@ -257,7 +259,7 @@ Func _Net_Share_FileGetInfo($sServer, $iFileID)
 		$aInfo[2] = DllStructGetData($tInfo, "Locks")
 		$aInfo[3] = _WinAPI_WideCharToMultiByte(DllStructGetData($tInfo, "PathName"))
 		$aInfo[4] = _WinAPI_WideCharToMultiByte(DllStructGetData($tInfo, "UserName"))
-		_Net_Share_APIBufferFree($aResult[4])
+		__Net_Share_APIBufferFree($aResult[4])
 	EndIf
 
 	Return SetError($aResult[0], 0, $aInfo)
@@ -280,20 +282,20 @@ EndFunc   ;==>_Net_Share_FileGetInfo
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_PermStr($iPerm)
 	Local $sType
 
 	$sType = "-------"
-	If BitAND($iPerm, 1) Then _Str_Set_Char($sType, 1, "R")
-	If BitAND($iPerm, 2) Then _Str_Set_Char($sType, 2, "W")
-	If BitAND($iPerm, 4) Then _Str_Set_Char($sType, 3, "C")
-	If BitAND($iPerm, 8) Then _Str_Set_Char($sType, 4, "E")
-	If BitAND($iPerm, 16) Then _Str_Set_Char($sType, 5, "D")
-	If BitAND($iPerm, 32) Then _Str_Set_Char($sType, 6, "A")
-	If BitAND($iPerm, 64) Then _Str_Set_Char($sType, 7, "P")
+	If BitAND($iPerm, 1) Then __Str_Set_Char($sType, 1, "R")
+	If BitAND($iPerm, 2) Then __Str_Set_Char($sType, 2, "W")
+	If BitAND($iPerm, 4) Then __Str_Set_Char($sType, 3, "C")
+	If BitAND($iPerm, 8) Then __Str_Set_Char($sType, 4, "E")
+	If BitAND($iPerm, 16) Then __Str_Set_Char($sType, 5, "D")
+	If BitAND($iPerm, 32) Then __Str_Set_Char($sType, 6, "A")
+	If BitAND($iPerm, 64) Then __Str_Set_Char($sType, 7, "P")
 	Return $sType
 EndFunc   ;==>_Net_Share_PermStr
 
@@ -313,8 +315,8 @@ EndFunc   ;==>_Net_Share_PermStr
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ResourceStr($iResource)
 	Local $sResource = "Unknown"
@@ -356,8 +358,8 @@ EndFunc   ;==>_Net_Share_ResourceStr
 ; Remarks .......: Only members of the Administrators or Server Operators local group can execute this function.  You  must  pass
 ;                  either $sClientName or $sUserName (or both) for this function to work.
 ; Related .......: _Net_Share_ShareDel
-; Link ..........; @@MsdnLink@@ NetSessionDel
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetSessionDel
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_SessionDel($sServer = "", $sClientName = "", $sUserName = "")
 	Local $aResult
@@ -396,8 +398,8 @@ EndFunc   ;==>_Net_Share_SessionDel
 ; Modified.......:
 ; Remarks .......: Only members of the Administrators or Server Operators local group can execute this function
 ; Related .......: _Net_Share_ConnectionEnum, _Net_Share_FileEnum, _Net_Share_ShareEnum
-; Link ..........; @@MsdnLink@@ NetSessionEnum
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetSessionEnum
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_SessionEnum($sServer = "", $sClientName = "", $sUserName = "")
 	Local $iI, $iCount, $pInfo, $tInfo, $aResult
@@ -426,7 +428,7 @@ Func _Net_Share_SessionEnum($sServer = "", $sClientName = "", $sUserName = "")
 		$pInfo += DllStructGetSize($tInfo)
 	Next
 
-	_Net_Share_APIBufferFree($aResult[5])
+	__Net_Share_APIBufferFree($aResult[5])
 	Return SetError($aResult[0], 0, $aInfo)
 EndFunc   ;==>_Net_Share_SessionEnum
 
@@ -454,8 +456,8 @@ EndFunc   ;==>_Net_Share_SessionEnum
 ; Modified.......:
 ; Remarks .......: Only members of the Administrators or Server Operators local group can execute this function
 ; Related .......: _Net_Share_FileGetInfo, _Net_Share_ShareGetInfo
-; Link ..........; @@MsdnLink@@ NetSessionGetInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetSessionGetInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_SessionGetInfo($sServer, $sClientName, $sUserName)
 	Local $aInfo[8], $tInfo, $aResult
@@ -476,7 +478,7 @@ Func _Net_Share_SessionGetInfo($sServer, $sClientName, $sUserName)
 		$aInfo[4] = DllStructGetData($tInfo, "Idle")
 		$aInfo[5] = DllStructGetData($tInfo, "Flags")
 		$aInfo[6] = _WinAPI_WideCharToMultiByte(DllStructGetData($tInfo, "TypeName"))
-		_Net_Share_APIBufferFree($aResult[5])
+		__Net_Share_APIBufferFree($aResult[5])
 	EndIf
 
 	Return SetError($aResult[0], 0, $aInfo)
@@ -496,8 +498,8 @@ EndFunc   ;==>_Net_Share_SessionGetInfo
 ;                  |$STYPE_IPC       - IPC
 ;                  |$STYPE_SPECIAL   - Special share reserved for IPC$ or remote administration of the server
 ;                  |$STYPE_TEMPORARY - A temporary share
-;                  $sComment    - String that contains an optional comment about the shared resource
 ;                  $sPath       - Local path for the shared resource. For disks, this is the path being shared. For print queues,
+;                  $sComment    - String that contains an optional comment about the shared resource
 ;                  +this is the name of the print queue being shared.
 ;                  $iMaxUses    - The maximum number of concurrent connections that the  shared  resource  can  accommodate.  The
 ;                  +number of connections is unlimited if the value specified is –1.
@@ -508,8 +510,8 @@ EndFunc   ;==>_Net_Share_SessionGetInfo
 ; Remarks .......: Only members of the Administrators, System Operators, or Power Users local group can add file  shares  with  a
 ;                  call to this function. The Print Operator can add printer shares.
 ; Related .......: _Net_Share_ShareCheck, _Net_Share_ShareDel
-; Link ..........; @@MsdnLink@@ NetApiBufferFree
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetApiBufferFree
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareAdd($sServer, $sShare, $iType, $sPath, $sComment = "", $iMaxUses = -1)
 	Local $tData, $tInfo, $pShare, $pPath, $pComment, $aResult
@@ -558,8 +560,8 @@ EndFunc   ;==>_Net_Share_ShareAdd
 ; Modified.......:
 ; Remarks .......: No special group membership is required to successfully execute this function
 ; Related .......: _Net_Share_ShareAdd, _Net_Share_ShareDel
-; Link ..........; @@MsdnLink@@ NetShareCheck
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetShareCheck
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareCheck($sServer, $sShare)
 	Local $aResult
@@ -586,9 +588,9 @@ EndFunc   ;==>_Net_Share_ShareCheck
 ; Remarks .......: Only members of the Administrators, Server Operators, or  Power  Users  local  group,  or  those  with  Server
 ;                  Operator group membership, can successfully delete file shares with this  function.  The  Print  Operator  can
 ;                  delete printer shares.
-; Related .......: _Net_Share_ShareAdd, _Net_Share_ShareCheck
-; Link ..........; @@MsdnLink@@ NetShareDel
-; Example .......; Yes
+; Related .......: _Net_Share_ShareAdd, _Net_Share_ShareCheck, _Net_Share_SessionDel
+; Link ..........: @@MsdnLink@@ NetShareDel
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareDel($sServer, $sShare)
 	Local $aResult
@@ -634,8 +636,8 @@ EndFunc   ;==>_Net_Share_ShareDel
 ; Remarks .......: Administrator, Power User, Print Operator, or Server Operator group membership is  required  to  execute  this
 ;                  function.
 ; Related .......: _Net_Share_FileEnum, _Net_Share_SessionEnum
-; Link ..........; @@MsdnLink@@ NetShareEnum
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetShareEnum, _Net_Share_ConnectionEnum
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareEnum($sServer = "")
 	Local $iI, $iCount, $pInfo, $tInfo, $aResult
@@ -663,7 +665,7 @@ Func _Net_Share_ShareEnum($sServer = "")
 		$pInfo += DllStructGetSize($tInfo)
 	Next
 
-	_Net_Share_APIBufferFree($aResult[3])
+	__Net_Share_APIBufferFree($aResult[3])
 	Return $aInfo
 EndFunc   ;==>_Net_Share_ShareEnum
 
@@ -701,8 +703,8 @@ EndFunc   ;==>_Net_Share_ShareEnum
 ; Remarks .......: Only members of the Administrators, Server Operators, or Power Users local  group,  or  those  with  Print  or
 ;                  Server Operator group membership, can successfully execute this function.
 ; Related .......: _Net_Share_FileGetInfo, _Net_Share_SessionGetInfo, _Net_Share_ShareSetInfo
-; Link ..........; @@MsdnLink@@ NetShareGetInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetShareGetInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareGetInfo($sServer, $sShare)
 	Local $aInfo[8], $tInfo, $aResult
@@ -722,7 +724,7 @@ Func _Net_Share_ShareGetInfo($sServer, $sShare)
 		$aInfo[5] = DllStructGetData($tInfo, "CurrentUses")
 		$aInfo[6] = _WinAPI_WideCharToMultiByte(DllStructGetData($tInfo, "Path"))
 		$aInfo[7] = _WinAPI_WideCharToMultiByte(DllStructGetData($tInfo, "Password"))
-		_Net_Share_APIBufferFree($aResult[4])
+		__Net_Share_APIBufferFree($aResult[4])
 	EndIf
 	Return SetError($aResult[0], 0, $aInfo)
 EndFunc   ;==>_Net_Share_ShareGetInfo
@@ -745,8 +747,8 @@ EndFunc   ;==>_Net_Share_ShareGetInfo
 ;                  membership, can successfully execute this function.  The Print Operator can set information only about Printer
 ;                  shares.
 ; Related .......: _Net_Share_ShareGetInfo
-; Link ..........; @@MsdnLink@@ NetShareSetInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetShareSetInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_ShareSetInfo($sServer, $sShare, $sComment, $iMaxUses)
 	Local $tData, $pInfo, $tInfo, $pComment, $aResult
@@ -795,8 +797,8 @@ EndFunc   ;==>_Net_Share_ShareSetInfo
 ; Remarks .......: No special group membership is required to obtain workstation statistics.  Only members of the  Administrators
 ;                  or Server Operators local group can successfully execute this function on a remote server.
 ; Related .......: _Net_Share_StatisticsGetWrk
-; Link ..........; @@MsdnLink@@ NetStatisticsGet
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetStatisticsGet
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_StatisticsGetSvr($sServer = "")
 	Local $pService, $tService, $tStatInfo, $aResult, $aStats[15]
@@ -824,7 +826,7 @@ Func _Net_Share_StatisticsGetSvr($sServer = "")
 	$aStats[13] = DllStructGetData($tStatInfo, "ReqBufNeed")
 	$aStats[14] = DllStructGetData($tStatInfo, "BigBufNeed")
 
-	_Net_Share_APIBufferFree($aResult[5])
+	__Net_Share_APIBufferFree($aResult[5])
 	Return $aStats
 EndFunc   ;==>_Net_Share_StatisticsGetSvr
 
@@ -885,8 +887,8 @@ EndFunc   ;==>_Net_Share_StatisticsGetSvr
 ; Remarks .......: No special group membership is required to obtain workstation statistics.  Only members of the  Administrators
 ;                  or Server Operators local group can successfully execute this function on a remote server.
 ; Related .......: _Net_Share_StatisticsGetSvr
-; Link ..........; @@MsdnLink@@ NetStatisticsGet
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ NetStatisticsGet
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Net_Share_StatisticsGetWrk($sWorkStation = "")
 	Local $pService, $tService, $tStatInfo, $aResult, $aStats[40]
@@ -939,14 +941,14 @@ Func _Net_Share_StatisticsGetWrk($sWorkStation = "")
 	$aStats[38] = DllStructGetData($tStatInfo, "FailedUseCount")
 	$aStats[39] = DllStructGetData($tStatInfo, "CurrentCommands")
 
-	_Net_Share_APIBufferFree($aResult[5])
+	__Net_Share_APIBufferFree($aResult[5])
 	Return $aStats
 EndFunc   ;==>_Net_Share_StatisticsGetWrk
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _Str_Set_Char
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Str_Set_Char
 ; Description ...: Sets a specified character in a string
-; Syntax.........: _Str_Set_Char(ByRef $sText, $iIndex, $sChar)
+; Syntax.........: __Str_Set_Char(ByRef $sText, $iIndex, $sChar)
 ; Parameters ....: $sText       - Text to be changed
 ;                  $iIndex      - Character position in string
 ;                  $sChar       - Character to replace
@@ -955,9 +957,9 @@ EndFunc   ;==>_Net_Share_StatisticsGetWrk
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _Str_Set_Char(ByRef $sText, $iIndex, $sChar)
+Func __Str_Set_Char(ByRef $sText, $iIndex, $sChar)
 	$sText = StringLeft($sText, $iIndex - 1) & $sChar & StringMid($sText, $iIndex + StringLen($sChar))
-EndFunc   ;==>_Str_Set_Char
+EndFunc   ;==>__Str_Set_Char

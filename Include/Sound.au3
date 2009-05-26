@@ -1,20 +1,35 @@
-﻿#include <Date.au3>
+﻿#include-once
+
+#include <Date.au3>
 #include <File.au3>
 #include <String.au3>
-;===============================================================================
-;
-; Function Name:   _SoundOpen
-; Description::    Opens a sound file for use with other _Sound functions
-; Parameter(s):    $sFile - The sound file, $sAlias[optional] - a name such as sound1,
+
+; #INDEX# =======================================================================================================================
+; Title .........: Sound
+; AutoIt Version : 3.2 ++
+; Language ......: English
+; Description ...: Functions that assist with Sound management.
+; Author(s) .....: RazerM, Melba23, Simucal, PsaltyDS
+; Dll ...........: winmm.dll
+; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundOpen
+; Description ...: Opens a sound file for use with other _Sound functions
+; Syntax.........: _SoundOpen($sFile[, $sAlias = ""])
+; Parameters ....: $sFile - The sound file, $sAlias[optional] - a name such as sound1,
 ;				   if you do not specify one it is randomly generated
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): string(the sound id) - Success, 0 - Failure
+; Return values .: Success      - string (the sound id)
+;                  Failure      - 0
 ;				   @extended <> 0 - open failed, @error = 2 - File doesn't exist,
 ;				   @error = 3 - alias contains whitespace
-; Author(s):       RazerM, Melba23, some code by Simucal, PsaltyDS
-;
-;===============================================================================
-;
+; Author ........: RazerM, Melba23, some code by Simucal, PsaltyDS
+; Modified.......: 
+; Remarks .......:
+; Related .......: _SoundClose, _SoundLength, _SoundPause, _SoundPlay, _SoundPos, _SoundResume, _SoundStatus, _SoundStop
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundOpen($sFile, $sAlias = "")
 	;Declare variables
 	Local $aSndID[3], $sSndID, $iCurrentPos, $iRet, $asAlias, $fTryNextMethod = False, $hFile
@@ -135,20 +150,23 @@ Func _SoundOpen($sFile, $sAlias = "")
 	$aSndID[1] = $iVBRRatio
 	$aSndID[2] = 0
 
-	Return SetError(0, $iRet, $aSndID)
+	Return SetError($iRet<>0, $iRet, $aSndID)
 EndFunc   ;==>_SoundOpen
 
-;===============================================================================
-;
-; Function Name:   _SoundClose
-; Description::    Closes a sound
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 and @error = 1 - Failure
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundClose
+; Description ...: Closes a sound
+; Syntax.........: _SoundClose($aFile)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen
+; Return values .: Success      - 1
+;                  Failure      - 0 and @error =1
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundClose($aSndID)
 	If Not IsArray($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
@@ -160,20 +178,21 @@ Func _SoundClose($aSndID)
 	EndIf
 EndFunc   ;==>_SoundClose
 
-;===============================================================================
-;
-; Function Name:   _SoundPlay
-; Description::    Plays a sound from the current position (beginning is the default)
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundPlay
+; Description ...: Plays a sound from the current position (beginning is the default)
+; Syntax.........:_SoundPlay($aSndID[, $fWait = 0])
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
 ;				   $fWait - If set to 1 the script will wait for the sound to finish before continuing
-;						 - If set to 0 the script will continue while the sound is playing
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 - Failure
-;				   @error = 2 - $fWait is invalid, @error = 1 - play failed
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; Return values .: Success      - 1
+;                  Failure      - 0, @error = 1 - play failed, @error = 2 - $fWait is invalid
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......: _SoundPause, _SoundStop, _SoundSeek, _SoundOpen, _SoundResume
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundPlay($aSndID, $fWait = 0)
 	;Declare variables
 	Local $iRet, $vTemp
@@ -182,7 +201,7 @@ Func _SoundPlay($aSndID, $fWait = 0)
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -202,24 +221,27 @@ Func _SoundPlay($aSndID, $fWait = 0)
 	EndIf
 EndFunc   ;==>_SoundPlay
 
-;===============================================================================
-;
-; Function Name: _SoundStop
-; Description::    Stops the sound
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 and @error = 1 - Failure,
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundStop
+; Description ...: Stops the sound
+; Syntax.........: _SoundClose($sFile)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
+; Return values .: Success      - 1
+;                  Failure      - 0 and @error = 1
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundStop($aSndID)
 	;Declare variables
 	Local $iRet, $iRet2, $vTemp
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp, 0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -235,24 +257,27 @@ Func _SoundStop($aSndID)
 	EndIf
 EndFunc   ;==>_SoundStop
 
-;===============================================================================
-;
-; Function Name:   _SoundPause
-; Description::    Pauses the sound
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 and @error = 1 - Failure,
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundPause
+; Description ...: Pauses the sound
+; Syntax.........: _SoundPause($aSndID)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
+; Return values .: Success      - 1
+;                  Failure      - 0 and @error = 1
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......: _SoundResume, _SoundOpen, _SoundPlay
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundPause($aSndID)
 	;Declare variables
 	Local $iRet, $vTemp
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp, 0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -266,24 +291,27 @@ Func _SoundPause($aSndID)
 	EndIf
 EndFunc   ;==>_SoundPause
 
-;===============================================================================
-;
-; Function Name:   _SoundResume
-; Description::    Resumes the sound after being paused
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 and @error = 1 - Failure,
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundResume
+; Description ...: Resumes the sound after being paused
+; Syntax.........: _SoundResume($aSndID)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
+; Return values .: Success      - 1
+;                  Failure      - 0 and @error = 1
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundResume($aSndID)
 	;Declare variables
 	Local $iRet, $vTemp
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -297,19 +325,21 @@ Func _SoundResume($aSndID)
 	EndIf
 EndFunc   ;==>_SoundResume
 
-;===============================================================================
-;
-; Function Name:   _SoundLength
-; Description::    Returns the length of the sound in the format hh:mm:ss
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file,
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundLength
+; Description ...: Returns the length of the sound in the format hh:mm:ss
+; Syntax.........: _SoundLength($aSndID[, $iMode = 1])
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file,
 ;				   $iMode = 1 - hh:mm:ss, $iMode = 2 - milliseconds
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): Length of the sound - Success, 0 and @error = 1 - $iMode is invalid
-; Author(s):       RazerM, Melba23
-; Mofified:        jpm
-;
-;===============================================================================
-;
+; Return values .: Success      - Length of the sound
+;                  Failure      - 0 and @error = 1 - $iMode is invalid
+; Author ........: RazerM, Melba23
+; Modified.......: jpm
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundLength($aSndID, $iMode = 1)
 	;Declare variables
 	Local $iSndLenMs, $iSndLenMin, $iSndLenHour, $iSndLenSecs, $sSndLenFormat, $vTemp = ""
@@ -343,24 +373,27 @@ Func _SoundLength($aSndID, $iMode = 1)
 	If $iMode = 2 Then Return $iSndLenMs
 EndFunc   ;==>_SoundLength
 
-;===============================================================================
-;
-; Function Name:   _SoundSeek
-; Description::    Seeks the sound to a specified time
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen (must NOT be a file), $iHour, $iMin, $iSec
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): 1 - Success, 0 and @error = 1 - Failure,
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundSeek
+; Description ...: Seeks the sound to a specified time
+; Syntax.........:  _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen (must NOT be a file), $iHour, $iMin, $iSec
+; Return values .: Success      - 1
+;                  Failure      - 0 and @error = 1
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 	;Declare variables
 	Local $iMs = 0, $iRet, $vTemp
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 	
@@ -386,24 +419,25 @@ Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 	EndIf
 EndFunc   ;==>_SoundSeek
 
-;===============================================================================
-;
-; Function Name:   _SoundStatus
-; Description::    All devices can return the "not ready", "paused", "playing", and "stopped" values.
-;				   Some devices can return the additional "open", "parked", "recording", and "seeking" values.(MSDN)
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): Sound Status
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundStatus
+; Description ...: All devices can return the "not ready", "paused", "playing", and "stopped" values.
+; Syntax.........: _SoundStatus($aSndID)
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
+; Return values .: Sound Status
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......: Some devices can return the additional "open", "parked", "recording", and "seeking" values.(MSDN)
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundStatus($aSndID)
 	Local $vTemp
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -411,18 +445,21 @@ Func _SoundStatus($aSndID)
 	Return __mciSendString("status " & $aSndID[0] & " mode", 255)
 EndFunc   ;==>_SoundStatus
 
-;===============================================================================
-;
-; Function Name:   _SoundPos
-; Description::    Returns the current position of the song
-; Parameter(s):    $aSndID - Sound ID returned by _SoundOpen or sound file,
+; #FUNCTION# ====================================================================================================================
+; Name...........: _SoundPos
+; Description ...: Returns the current position of the song
+; Syntax.........: _SoundPos($aSndID[, $iMode = 1])
+; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file,
 ;				   $iMode = 1 - hh:mm:ss, $iMode = 2 - milliseconds
-; Requirement(s):  AutoIt 3.2 ++
-; Return Value(s): Current Position - Success, @error = 1 - $iMode is invalid
-; Author(s):       RazerM, Melba23
-;
-;===============================================================================
-;
+; Return values .: Success      - Current Position
+;                  Failure      - 0 and @error = 1 - $iMode is invalid
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _SoundPos($aSndID, $iMode = 1)
 	;Declare variables
 	Local $iSndPosMs, $iSndPosMin, $iSndPosHour, $iSndPosSecs, $sSndPosFormat, $vTemp
@@ -431,7 +468,7 @@ Func _SoundPos($aSndID, $iMode = 1)
 	If Not IsArray($aSndID) Then
 		If Not FileExists($aSndID) Then Return SetError(3, 0, 0) ; invalid file/alias
 		$vTemp = FileGetShortName($aSndID)
-		Dim $aSndID[1] = [$vTemp]
+		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
@@ -453,7 +490,16 @@ Func _SoundPos($aSndID, $iMode = 1)
 	If $iMode = 2 Then Return $iSndPosMs
 EndFunc   ;==>_SoundPos
 
-;internal functions
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __mciSendString
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __mciSendString($string[, $iLen = 0])
+; Author ........: RazerM, Melba23
+; Modified.......: 
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func __mciSendString($string, $iLen = 0)
 	Local $iRet
 	$iRet = DllCall("winmm.dll", "int", "mciSendStringA", "str", $string, "str", "", "long", $iLen, "long", 0)
@@ -468,18 +514,20 @@ Func __RandomStr($LEN)
 	Return $string
 EndFunc   ;==>__RandomStr
 
-;===============================================================================
-;
-; Function Name:   [private] __ReadTLENFromMP3
-; Description::    Used internally within this file, not for general use
-; Parameter(s):    $sTag - >= 1024 bytes from 'read raw' mode.
-; Requirement(s):  File must be an mp3 AFAIK
-; Return Value(s): Sound length (hh:mm:ss) - Success, 0 and @error = 1 - Failure
-; Author(s):       Melba23
-; Modified:        RazerM
-;
-;===============================================================================
-;
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __ReadTLENFromMP3
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __ReadTLENFromMP3($sTag)
+; Parameters ....: $sTag - >= 1024 bytes from 'read raw' mode.
+; Return values .: Success      - Sound length (hh:mm:ss)
+;                  Failure      - 0 ans=d @error = 1
+; Author ........: Melba23
+; Modified.......: RazerM
+; Remarks .......: File must be an mp3 AFAIK
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func __ReadTLENFromMP3($sTag)
 	Local $iTemp, $sTemp, $iLengthMs, $iLengthHour, $iLengthMin, $iLengthSecs
 
@@ -510,18 +558,20 @@ Func __ReadTLENFromMP3($sTag)
 	EndIf
 EndFunc   ;==>__ReadTLENFromMP3
 
-;===============================================================================
-;
-; Function Name:   [private] __ReadXingFromMP3
-; Description::    Used internally within this file, not for general use
-; Parameter(s):    $sTag - first 5156 bytes from 'read raw' mode.
-; Requirement(s):  File must be an mp3 AFAIK
-; Return Value(s): Sound length (hh:mm:ss) - Success, 0 and @error = 1 - Failure
-; Author(s):       Melba23
-; Modified:        RazerM
-;
-;===============================================================================
-;
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __ReadXingFromMP3
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __ReadXingFromMP3($sTag)
+; Parameters ....: $sTag - first 5156 bytes from 'read raw' mode.
+; Return values .: Success      - Sound length (hh:mm:ss)
+;                  Failure      - 0 and @error = 1
+; Author ........: Melba23
+; Modified.......: RazerM
+; Remarks .......: File must be an mp3 AFAIK
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func __ReadXingFromMP3($sTag)
 	Local $iXingPos, $iFlags, $iFrames, $sHeader, $iMPEGByte, $iFreqByte, $iMPEGVer, $iLayerNum, $iSamples, $iFreqNum, $iFrequency, $iLengthMs, $iLengthHours, $iLengthMins, $iLengthSecs
 

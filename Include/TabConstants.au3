@@ -1,11 +1,12 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Tab Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Tab_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#Tab">GUI control Tab styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
 ; #STYLES# ======================================================================================================================
 Global Const $TCS_BOTTOM = 0x00000002 ; Tabs appear at the bottom of the control
@@ -35,9 +36,6 @@ Global Const $TCS_EX_FLATSEPARATORS = 0x00000001 ; The tab control will draw sep
 Global Const $TCS_EX_REGISTERDROP = 0x00000002 ; The tab control generates TCN_GETOBJECT notification messages
 ; ===============================================================================================================================
 
-; Error checking
-Global Const $TC_ERR = -1
-
 ; #CONSTANTS# ===================================================================================================================
 Global Const $TCHT_NOWHERE = 0x00000001
 Global Const $TCHT_ONITEMICON = 0x00000002
@@ -54,6 +52,12 @@ Global Const $TCIF_ALLDATA = 0x0000001B
 ; item states
 Global Const $TCIS_BUTTONPRESSED = 0x00000001
 Global Const $TCIS_HIGHLIGHTED = 0x00000002
+
+; Error checking
+Global Const $TC_ERR = -1
+
+; Control default styles
+Global Const $GUI_SS_DEFAULT_TAB = 0
 ; ===============================================================================================================================
 
 ; #MESSAGES# ====================================================================================================================
@@ -70,7 +74,6 @@ Global Const $TCM_GETEXTENDEDSTYLE = ($TCM_FIRST + 53)
 Global Const $TCM_GETIMAGELIST = ($TCM_FIRST + 2)
 Global Const $TCM_GETITEMA = ($TCM_FIRST + 5)
 Global Const $TCM_GETITEMW = ($TCM_FIRST + 60)
-Global Const $TCM_GETITEM = $TCM_GETITEMA
 Global Const $TCM_GETITEMCOUNT = ($TCM_FIRST + 4)
 Global Const $TCM_GETITEMRECT = ($TCM_FIRST + 10)
 Global Const $TCM_GETROWCOUNT = ($TCM_FIRST + 44)
@@ -81,11 +84,9 @@ Global Const $TCM_HIGHLIGHTITEM = ($TCM_FIRST + 51)
 Global Const $TCM_HITTEST = ($TCM_FIRST + 13)
 Global Const $TCM_INSERTITEMA = ($TCM_FIRST + 7)
 Global Const $TCM_INSERTITEMW = ($TCM_FIRST + 62)
-Global Const $TCM_INSERTITEM = $TCM_INSERTITEMA
 Global Const $TCM_REMOVEIMAGE = ($TCM_FIRST + 42)
 Global Const $TCM_SETITEMA = ($TCM_FIRST + 6)
 Global Const $TCM_SETITEMW = ($TCM_FIRST + 61)
-Global Const $TCM_SETITEM = $TCM_SETITEMA
 Global Const $TCM_SETITEMEXTRA = ($TCM_FIRST + 14)
 Global Const $TCM_SETITEMSIZE = $TCM_FIRST + 41
 Global Const $TCM_SETCURFOCUS = ($TCM_FIRST + 48)
@@ -97,6 +98,7 @@ Global Const $TCM_SETPADDING = ($TCM_FIRST + 43)
 Global Const $TCM_SETTOOLTIPS = ($TCM_FIRST + 46)
 Global Const $TCCM_SETUNICODEFORMAT = ($TCCM_FIRST + 5)
 Global Const $TCM_SETUNICODEFORMAT = $TCCM_SETUNICODEFORMAT
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $TCN_FIRST = -550
@@ -107,5 +109,3 @@ Global Const $TCN_SELCHANGE = ($TCN_FIRST - 1)
 Global Const $TCN_SELCHANGING = ($TCN_FIRST - 2)
 ; ===============================================================================================================================
 
-; Control default styles
-Global Const $GUI_SS_DEFAULT_TAB = 0

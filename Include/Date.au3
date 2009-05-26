@@ -1,26 +1,30 @@
 ﻿#include-once
+
 #include <Memory.au3>
 #include <WinAPI.au3>
-#include <Security.au3>
 #include <StructureConstants.au3>
+#include <Security.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Date
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: There are five time formats: System, File, Local, MS-DOS and Windows.  Time related functions return  time  in
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Date/Time management.
+;                  There are five time formats: System, File, Local, MS-DOS and Windows.  Time related functions return  time  in
 ;                  one of these formats.  You can also use the time functions  to  convert  between  time  formats  for  ease  of
 ;                  comparison and display
+; Author(s) .....: JdeB, jlandes, exodius, PaulIA, Tuape, SlimShady, GaryFrost, /dev/null, Marc
+; Dll(s) ........: Kernel32.dll
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $__DATECONSTANT_TOKEN_ADJUST_PRIVILEGES = 0x00000020
 Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
-
-;==============================================================================================================================
-; #NO_DOC_FUNCTION# =============================================================================================================
-; Not working/documented/implimented at this time
 ; ===============================================================================================================================
+
+; #NO_DOC_FUNCTION# =============================================================================================================
+; Not working/documented/implemented at this time
+;
 ;_DateLastWeekdayNum
 ;_DateLastMonthNum
 ;_DateLastMonthYear
@@ -30,7 +34,7 @@ Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
 ;_Date_JulianDayNo
 ;_JulianToDate
 ;_WeekNumber
-;__DaysInMonth
+;_DaysInMonth
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -95,12 +99,12 @@ Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
 ;_Date_Time_TzSpecificLocalTimeToSystemTime
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_DateIsMonth
-;_DateIsYear
-;_DateMonthOfYear
-;_Date_Time_CloneSystemTime
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__DateIsMonth
+;__DateIsYear
+;__DateMonthOfYear
+;__Date_Time_CloneSystemTime
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _DateAdd
@@ -125,9 +129,9 @@ Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
 ; Modified.......:
 ; Remarks .......: The function will not return an invalid date.
 ;                   When 3 months is are to '2004/1/31' then the result will be 2004/04/30
-; Related .......: _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateDiff, _DateTimeSplit, _DateToDayOfWeek, _DateToDayOfWeekISO, _DateToDayValue, _DayValueToDate
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateAdd($sType, $iValToAdd, $sDate)
 	Local $asTimePart[4]
@@ -139,18 +143,15 @@ Func _DateAdd($sType, $iValToAdd, $sDate)
 	; Verify that $sType is Valid
 	$sType = StringLeft($sType, 1)
 	If StringInStr("D,M,Y,w,h,n,s", $sType) = 0 Or $sType = "" Then
-		SetError(1)
-		Return (0)
+		Return SetError(1,0,0)
 	EndIf
 	; Verify that Value to Add  is Valid
 	If Not StringIsInt($iValToAdd) Then
-		SetError(2)
-		Return (0)
+		Return SetError(2,0,0)
 	EndIf
 	; Verify If InputDate is valid
 	If Not _DateIsValid($sDate) Then
-		SetError(3)
-		Return (0)
+		Return SetError(3,0,0)
 	EndIf
 	; split the date and time into arrays
 	_DateTimeSplit($sDate, $asDatePart, $asTimePart)
@@ -241,9 +242,9 @@ EndFunc   ;==>_DateAdd
 ; Author ........: Jeremy Landes <jlandes at landeserve dot com>
 ; Modified.......:
 ; Remarks .......: This function returns English day names only.
-; Related .......: _DateDaysInMonth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateDaysInMonth, _DateToDayOfWeek, _DateToDayOfWeekISO
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDayOfWeek($iDayNum, $iShort = 0)
 	;==============================================
@@ -260,11 +261,9 @@ Func _DateDayOfWeek($iDayNum, $iShort = 0)
 	$aDayOfWeek[7] = "Saturday"
 	Select
 		Case Not StringIsInt($iDayNum) Or Not StringIsInt($iShort)
-			SetError(1)
-			Return ""
+			Return SetError(1,0,"")
 		Case $iDayNum < 1 Or $iDayNum > 7
-			SetError(1)
-			Return ""
+			Return SetError(1,0,"")
 		Case Else
 			Select
 				Case $iShort = 0
@@ -272,8 +271,7 @@ Func _DateDayOfWeek($iDayNum, $iShort = 0)
 				Case $iShort = 1
 					Return StringLeft($aDayOfWeek[$iDayNum], 3)
 				Case Else
-					SetError(1)
-					Return ""
+					Return SetError(1,0,"")
 			EndSelect
 	EndSelect
 EndFunc   ;==>_DateDayOfWeek
@@ -291,21 +289,20 @@ EndFunc   ;==>_DateDayOfWeek
 ; Author ........: Jeremy Landes <jlandes at landeserve dot com>
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateDayOfWeek
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDaysInMonth($iYear, $iMonthNum)
 	Local $aiNumDays
 	$aiNumDays = "31,28,31,30,31,30,31,31,30,31,30,31"
 	$aiNumDays = StringSplit($aiNumDays, ",")
-	If _DateIsMonth($iMonthNum) And _DateIsYear($iYear) Then
+	If __DateIsMonth($iMonthNum) And __DateIsYear($iYear) Then
 		If _DateIsLeapYear($iYear) Then $aiNumDays[2] = $aiNumDays[2] + 1
-		SetError(0)
 		Return $aiNumDays[$iMonthNum]
 	Else
-		SetError(1)
-		Return 0
+		
+		Return SetError(1,0,0)
 	EndIf
 EndFunc   ;==>_DateDaysInMonth
 
@@ -332,9 +329,9 @@ EndFunc   ;==>_DateDaysInMonth
 ; Author ........: Jos van der Zande
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _DateAdd
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateAdd, _DateTimeSplit, _DateToDayOfWeek, _DateToDayOfWeekISO, _DateToDayValue, _DayValueToDate
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDiff($sType, $sStartDate, $sEndDate)
 	Local $asStartDatePart[4]
@@ -351,18 +348,15 @@ Func _DateDiff($sType, $sStartDate, $sEndDate)
 	; Verify that $sType is Valid
 	$sType = StringLeft($sType, 1)
 	If StringInStr("d,m,y,w,h,n,s", $sType) = 0 Or $sType = "" Then
-		SetError(1)
-		Return (0)
+		Return SetError(1,0,0)
 	EndIf
 	; Verify If StartDate is valid
 	If Not _DateIsValid($sStartDate) Then
-		SetError(2)
-		Return (0)
+		Return SetError(2,0,0)
 	EndIf
 	; Verify If EndDate is valid
 	If Not _DateIsValid($sEndDate) Then
-		SetError(3)
-		Return (0)
+		Return SetError(3,0,0)
 	EndIf
 	; split the StartDate and Time into arrays
 	_DateTimeSplit($sStartDate, $asStartDatePart, $asStartTimePart)
@@ -429,8 +423,8 @@ EndFunc   ;==>_DateDiff
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateIsLeapYear($iYear)
 	If StringIsInt($iYear) Then
@@ -443,15 +437,14 @@ Func _DateIsLeapYear($iYear)
 				Return 0
 		EndSelect
 	Else
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 EndFunc   ;==>_DateIsLeapYear
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _DateIsMonth
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __DateIsMonth
 ; Description ...: Checks a given number to see if it is a valid month.
-; Syntax.........: _DateIsMonth($iNumber)
+; Syntax.........: __DateIsMonth($iNumber)
 ; Parameters ....: $iNumber - Month number to check.
 ; Return values .: Success - Returns 1 if month is valid.
 ;                  Failure - Returns 0
@@ -459,10 +452,10 @@ EndFunc   ;==>_DateIsLeapYear
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _DateIsMonth($iNumber)
+Func __DateIsMonth($iNumber)
 	If StringIsInt($iNumber) Then
 		If $iNumber >= 1 And $iNumber <= 12 Then
 			Return 1
@@ -472,7 +465,7 @@ Func _DateIsMonth($iNumber)
 	Else
 		Return 0
 	EndIf
-EndFunc   ;==>_DateIsMonth
+EndFunc   ;==>__DateIsMonth
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _DateIsValid
@@ -488,8 +481,8 @@ EndFunc   ;==>_DateIsMonth
 ;                  "yyyy-mm-dd[ hh:mm[:ss]]" or "yyyy-mm-dd[Thh:mm[:ss]]"
 ;                  "yyyy.mm.dd[ hh:mm[:ss]]" or "yyyy.mm.dd[Thh:mm[:ss]]"
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateIsValid($sDate)
 	Local $asDatePart[4]
@@ -545,10 +538,10 @@ Func _DateIsValid($sDate)
 EndFunc   ;==>_DateIsValid
 
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _DateIsYear
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __DateIsYear
 ; Description ...: Checks a given number to see if it is a valid year.
-; Syntax.........: _DateIsYear($iNumber)
+; Syntax.........: __DateIsYear($iNumber)
 ; Parameters ....: $iNumber - Year number to check.
 ; Return values .: Success - Returns 1 if year is valid.
 ;                  Failure - Returns 0
@@ -556,10 +549,10 @@ EndFunc   ;==>_DateIsValid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _DateIsYear($iNumber)
+Func __DateIsYear($iNumber)
 	If StringIsInt($iNumber) Then
 		If StringLen($iNumber) = 4 Then
 			Return 1
@@ -569,7 +562,7 @@ Func _DateIsYear($iNumber)
 	Else
 		Return 0
 	EndIf
-EndFunc   ;==>_DateIsYear
+EndFunc   ;==>__DateIsYear
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Name...........: _DateLastWeekdayNum
@@ -582,8 +575,8 @@ EndFunc   ;==>_DateIsYear
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateLastWeekdayNum($iWeekdayNum)
 	;==============================================
@@ -593,11 +586,9 @@ Func _DateLastWeekdayNum($iWeekdayNum)
 
 	Select
 		Case Not StringIsInt($iWeekdayNum)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iWeekdayNum < 1 Or $iWeekdayNum > 7
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iWeekdayNum = 1 Then
 				$iLastWeekdayNum = 7
@@ -620,8 +611,8 @@ EndFunc   ;==>_DateLastWeekdayNum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateLastMonthNum($iMonthNum)
 	;==============================================
@@ -631,11 +622,9 @@ Func _DateLastMonthNum($iMonthNum)
 
 	Select
 		Case Not StringIsInt($iMonthNum)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iMonthNum = 1 Then
 				$iLastMonthNum = 12
@@ -660,8 +649,8 @@ EndFunc   ;==>_DateLastMonthNum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateLastMonthYear($iMonthNum, $iYear)
 	;==============================================
@@ -671,11 +660,9 @@ Func _DateLastMonthYear($iMonthNum, $iYear)
 
 	Select
 		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iYear)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iMonthNum = 1 Then
 				$iLastYear = $iYear - 1
@@ -688,10 +675,10 @@ Func _DateLastMonthYear($iMonthNum, $iYear)
 	EndSelect
 EndFunc   ;==>_DateLastMonthYear
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _DateMonthOfYear
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __DateMonthOfYear
 ; Description ...: Returns the name of the month, based on the specified month.
-; Syntax.........: _DateMonthOfYear($iMonthNum, $iShort)
+; Syntax.........: __DateMonthOfYear($iMonthNum, $iShort)
 ; Parameters ....: $iMonthNum - Month number
 ;                  $iShort    - Format:
 ;                  |0 - Long name of the month
@@ -702,10 +689,10 @@ EndFunc   ;==>_DateLastMonthYear
 ; Modified.......:
 ; Remarks .......: English only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _DateMonthOfYear($iMonthNum, $iShort)
+Func __DateMonthOfYear($iMonthNum, $iShort)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
@@ -726,11 +713,9 @@ Func _DateMonthOfYear($iMonthNum, $iShort)
 
 	Select
 		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iShort)
-			SetError(1)
-			Return ""
+			Return SetError(1,0,"")
 		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return ""
+			Return SetError(1,0,"")
 		Case Else
 			Select
 				Case $iShort = 0
@@ -738,11 +723,10 @@ Func _DateMonthOfYear($iMonthNum, $iShort)
 				Case $iShort = 1
 					Return StringLeft($aMonthOfYear[$iMonthNum], 3)
 				Case Else
-					SetError(1)
-					Return ""
+					Return SetError(1,0,"")
 			EndSelect
 	EndSelect
-EndFunc   ;==>_DateMonthOfYear
+EndFunc   ;==>__DateMonthOfYear
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Name...........: _DateNextWeekdayNum
@@ -755,8 +739,8 @@ EndFunc   ;==>_DateMonthOfYear
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateNextWeekdayNum($iWeekdayNum)
 	;==============================================
@@ -766,11 +750,9 @@ Func _DateNextWeekdayNum($iWeekdayNum)
 
 	Select
 		Case Not StringIsInt($iWeekdayNum)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iWeekdayNum < 1 Or $iWeekdayNum > 7
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iWeekdayNum = 7 Then
 				$iNextWeekdayNum = 1
@@ -793,8 +775,8 @@ EndFunc   ;==>_DateNextWeekdayNum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateNextMonthNum($iMonthNum)
 	;==============================================
@@ -804,11 +786,9 @@ Func _DateNextMonthNum($iMonthNum)
 
 	Select
 		Case Not StringIsInt($iMonthNum)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iMonthNum = 12 Then
 				$iNextMonthNum = 1
@@ -833,8 +813,8 @@ EndFunc   ;==>_DateNextMonthNum
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _DateNextMonthYear($iMonthNum, $iYear)
 	;==============================================
@@ -844,11 +824,9 @@ Func _DateNextMonthYear($iMonthNum, $iYear)
 
 	Select
 		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iYear)
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return 0
+			Return SetError(1,0,0)
 		Case Else
 			If $iMonthNum = 12 Then
 				$iNextYear = $iYear + 1
@@ -882,9 +860,9 @@ EndFunc   ;==>_DateNextMonthYear
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _NowDate, _NowTime
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateTimeFormat($sDate, $sType)
 	Local $asDatePart[4]
@@ -897,13 +875,11 @@ Func _DateTimeFormat($sDate, $sType)
 	Local $lngX
 	; Verify If InputDate is valid
 	If Not _DateIsValid($sDate) Then
-		SetError(1)
-		Return ("")
+		Return SetError(1,0,"")
 	EndIf
 	; input validation
 	If $sType < 0 Or $sType > 5 Or Not IsInt($sType) Then
-		SetError(2)
-		Return ("")
+		Return SetError(2,0,"")
 	EndIf
 	; split the date and time into arrays
 	_DateTimeSplit($sDate, $asDatePart, $asTimePart)
@@ -990,8 +966,8 @@ Func _DateTimeFormat($sDate, $sType)
 		$sTempDate = StringReplace($sTempDate, "@@@", _DateDayOfWeek($iWday, 1))
 		$sTempDate = StringReplace($sTempDate, "@@", $asDatePart[3])
 		$sTempDate = StringReplace($sTempDate, "@", StringReplace(StringLeft($asDatePart[3], 1), "0", "") & StringRight($asDatePart[3], 1))
-		$sTempDate = StringReplace($sTempDate, "####", _DateMonthOfYear($asDatePart[2], 0))
-		$sTempDate = StringReplace($sTempDate, "###", _DateMonthOfYear($asDatePart[2], 1))
+		$sTempDate = StringReplace($sTempDate, "####", __DateMonthOfYear($asDatePart[2], 0))
+		$sTempDate = StringReplace($sTempDate, "###", __DateMonthOfYear($asDatePart[2], 1))
 		$sTempDate = StringReplace($sTempDate, "##", $asDatePart[2])
 		$sTempDate = StringReplace($sTempDate, "#", StringReplace(StringLeft($asDatePart[2], 1), "0", "") & StringRight($asDatePart[2], 1))
 		$sTempDate = StringReplace($sTempDate, "&&&&", $asDatePart[1])
@@ -1060,8 +1036,8 @@ EndFunc   ;==>_DateTimeFormat
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _DayValueToDate, _DateAdd, _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateTimeSplit($sDate, ByRef $asDatePart, ByRef $iTimePart)
 	Local $sDateTime
@@ -1110,8 +1086,8 @@ EndFunc   ;==>_DateTimeSplit
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _DateToDayOfWeekISO, _DateDayOfWeek, _DayValueToDate, _DateAdd, _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateToDayOfWeek($iYear, $iMonth, $iDay)
 	Local $i_aFactor
@@ -1120,8 +1096,7 @@ Func _DateToDayOfWeek($iYear, $iMonth, $iDay)
 	Local $i_dFactor
 	; Verify If InputDate is valid
 	If Not _DateIsValid($iYear & "/" & $iMonth & "/" & $iDay) Then
-		SetError(1)
-		Return ("")
+		Return SetError(1,0,"")
 	EndIf
 	$i_aFactor = Int((14 - $iMonth) / 12)
 	$i_yFactor = $iYear - $i_aFactor
@@ -1145,14 +1120,13 @@ EndFunc   ;==>_DateToDayOfWeek
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _DateToDayOfWeek, _DateDayOfWeek, _DayValueToDate, _DateAdd, _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateToDayOfWeekISO($iYear, $iMonth, $iDay)
 	Local $idow = _DateToDayOfWeek($iYear, $iMonth, $iDay)
 	If @error Then
-		SetError(1)
-		Return ""
+		Return SetError(1,0,"")
 	EndIf
 	If $idow >= 2 Then Return $idow - 2
 	Return 6
@@ -1173,8 +1147,8 @@ EndFunc   ;==>_DateToDayOfWeekISO
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _DayValueToDate, _DateAdd, _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateToDayValue($iYear, $iMonth, $iDay)
 	Local $i_aFactor
@@ -1185,8 +1159,7 @@ Func _DateToDayValue($iYear, $iMonth, $iDay)
 	Local $iJulianDate
 	; Verify If InputDate is valid
 	If Not _DateIsValid(StringFormat("%04d/%02d/%02d", $iYear, $iMonth, $iDay)) Then
-		SetError(1)
-		Return ("")
+		Return SetError(1,0,"")
 	EndIf
 	If $iMonth < 3 Then
 		$iMonth = $iMonth + 12
@@ -1204,7 +1177,7 @@ EndFunc   ;==>_DateToDayValue
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _DateToMonth
 ; Description ...: Returns the name of the Month, based on the specified month number.
-; Syntax.........: _DateToMonth($iMonthNum[, $ishort = 0])
+; Syntax.........: _DateToMonth($iMonth[, $ishort = 0])
 ; Parameters ....: $iMonth - Month number (1 = January, 12 = December).
 ;                  $ishort   - 1 of the Following:
 ;                  |0 - Long name of the Month.
@@ -1217,10 +1190,10 @@ EndFunc   ;==>_DateToDayValue
 ; Modified.......:
 ; Remarks .......: This function returns English day names only.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _DateToMonth($iMonthNum, $iShort = 0)
+Func _DateToMonth($iMonth, $iShort = 0)
 	;==============================================
 	; Local Constant/Variable Declaration Section
 	;==============================================
@@ -1228,21 +1201,18 @@ Func _DateToMonth($iMonthNum, $iShort = 0)
 	Local $aMonthNumberAbbrev[13] = ["", "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
 
 	Select
-		Case Not StringIsInt($iMonthNum)
-			SetError(1)
-			Return ""
-		Case $iMonthNum < 1 Or $iMonthNum > 12
-			SetError(1)
-			Return ""
+		Case Not StringIsInt($iMonth)
+			Return SetError(1,0,"")
+		Case $iMonth < 1 Or $iMonth > 12
+			Return SetError(1,0,"")
 		Case Else
 			Select
 				Case $iShort = 0
-					Return $aMonthNumber[$iMonthNum]
+					Return $aMonthNumber[$iMonth]
 				Case $iShort = 1
-					Return $aMonthNumberAbbrev[$iMonthNum]
+					Return $aMonthNumberAbbrev[$iMonth]
 				Case Else
-					SetError(1)
-					Return ""
+					Return SetError(1,0,"")
 			EndSelect
 	EndSelect
 EndFunc   ;==>_DateToMonth
@@ -1262,9 +1232,9 @@ EndFunc   ;==>_DateToMonth
 ; Author ........: Jos van der Zande
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _DateToDayValue, _DateAdd, _DateDiff
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateToDayValue, _DateAdd, _DateDiff, _DateTimeSplit, _DateToDayOfWeek, _DateToDayOfWeekISO
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DayValueToDate($iJulianDate, ByRef $iYear, ByRef $iMonth, ByRef $iDay)
 	Local $i_zFactor
@@ -1278,8 +1248,7 @@ Func _DayValueToDate($iJulianDate, ByRef $iYear, ByRef $iMonth, ByRef $iDay)
 	Local $i_fFactor
 	; check for valid input date
 	If $iJulianDate < 0 Or Not IsNumber($iJulianDate) Then
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 	; calculte the date
 	$i_zFactor = Int($iJulianDate + 0.5)
@@ -1325,8 +1294,8 @@ EndFunc   ;==>_DayValueToDate
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _Date_JulianDayNo($iYear, $iMonth, $iDay)
 	Local $sFullDate
@@ -1336,12 +1305,11 @@ Func _Date_JulianDayNo($iYear, $iMonth, $iDay)
 	; Verify If InputDate is valid
 	$sFullDate = StringFormat("%04d/%02d/%02d", $iYear, $iMonth, $iDay)
 	If Not _DateIsValid($sFullDate) Then
-		SetError(1)
-		Return ""
+		Return SetError(1,0,"")
 	EndIf
 	; Build JDay value
 	$iJDay = 0
-	$aiDaysInMonth = __DaysInMonth($iYear)
+	$aiDaysInMonth = _DaysInMonth($iYear)
 	For $iCntr = 1 To $iMonth - 1
 		$iJDay = $iJDay + $aiDaysInMonth[$iCntr]
 	Next
@@ -1363,8 +1331,8 @@ EndFunc   ;==>_Date_JulianDayNo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _JulianToDate($iJDay, $sSep = "/")
 	Local $aiDaysInMonth
@@ -1379,11 +1347,10 @@ Func _JulianToDate($iJDay, $sSep = "/")
 	$iMaxDays = 365
 	If _DateIsLeapYear($iYear) Then $iMaxDays = 366
 	If $iDays > $iMaxDays Then
-		SetError(1)
-		Return ""
+		Return SetError(1,0,"")
 	EndIf
 	; Convert to regular date
-	$aiDaysInMonth = __DaysInMonth($iYear)
+	$aiDaysInMonth = _DaysInMonth($iYear)
 	$iMonth = 1
 	While $iDays > $aiDaysInMonth[$iMonth]
 		$iDays = $iDays - $aiDaysInMonth[$iMonth]
@@ -1403,9 +1370,9 @@ EndFunc   ;==>_JulianToDate
 ; Modified.......:
 ; Remarks .......: If Date format isn't found in the registry it returns the date in the mm/dd/yyyy format.
 ;                  If Time format isn't found in the registry it returns the time in the hh:mm:ss format.
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _NowDate, _NowTime
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Now()
 	Return (_DateTimeFormat(@YEAR & "/" & @MON & "/" & @MDAY & " " & @HOUR & ":" & @MIN & ":" & @SEC, 0))
@@ -1420,9 +1387,9 @@ EndFunc   ;==>_Now
 ; Author ........: Jos van der Zande
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _NowDate, _NowTime
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _NowCalc()
 	Return (@YEAR & "/" & @MON & "/" & @MDAY & " " & @HOUR & ":" & @MIN & ":" & @SEC)
@@ -1437,9 +1404,9 @@ EndFunc   ;==>_NowCalc
 ; Author ........: Jos van der Zande
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _NowDate, _NowTime
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _NowCalcDate()
 	Return (@YEAR & "/" & @MON & "/" & @MDAY)
@@ -1455,8 +1422,8 @@ EndFunc   ;==>_NowCalcDate
 ; Modified.......:
 ; Remarks .......: If Date format isn't found in the registry it returns the date in the mm/dd/yyyy format.
 ; Related .......: _DateTimeFormat, _Now, _NowCalc, _NowCalcDate, _NowTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _NowDate()
 	Return (_DateTimeFormat(@YEAR & "/" & @MON & "/" & @MDAY, 0))
@@ -1473,9 +1440,9 @@ EndFunc   ;==>_NowDate
 ; Author ........: Jos van der Zande
 ; Modified.......:
 ; Remarks .......: If Date format isn't found in the registry it returns the date in the mm/dd/yyyy format.
-; Related .......: _DateTimeFormat, _Now, _NowCalc, _NowCalcDate
-; Link ..........;
-; Example .......; Yes
+; Related .......: _DateTimeFormat, _Now, _NowCalc, _NowCalcDate, _NowDate
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _NowTime($sType = 3)
 	If $sType < 3 Or $sType > 5 Then $sType = 3
@@ -1494,13 +1461,13 @@ EndFunc   ;==>_NowTime
 ;                  @Error - 0 - No error.
 ;                  |1 - Failure
 ;                  @extended - GetLastError()
-;                  |Error code(s): http://msdn.microsoft.com/library/default.asp?url=/library/en-us/debug/base/system_error_codes.asp
+;                  |Error code(s): http://msdn.microsoft.com/en-us/library/ms681381.aspx
 ; Author ........: /dev/null
 ; Modified.......:
 ; Remarks .......: If the optional parameters (iMonth,iYear) are NOT defined, the function will not change the current value!
 ; Related .......: _SetTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 
@@ -1541,9 +1508,7 @@ Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 	If @error = 0 Then
 		If $iRetval[0] = 0 Then
 			Local $lastError = DllCall("kernel32.dll", "int", "GetLastError")
-			SetExtended($lastError[0])
-			SetError(1)
-			Return 0
+			Return SetError(1,$lastError[0],0)
 		Else
 			Return 1
 		EndIf
@@ -1551,8 +1516,7 @@ Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 		;== If DllCall was UNsuccessfull, return an error
 		;============================================================================
 	Else
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 
 EndFunc   ;==>_SetDate
@@ -1569,13 +1533,13 @@ EndFunc   ;==>_SetDate
 ;                  @Error - 0 - No error.
 ;                  |1 - Failure
 ;                  @extended - GetLastError()
-;                  |Error code(s): http://msdn.microsoft.com/library/default.asp?url=/library/en-us/debug/base/system_error_codes.asp
+;                  |Error code(s): http://msdn.microsoft.com/en-us/library/ms681381.aspx
 ; Author ........: /dev/null
 ; Modified.......:
 ; Remarks .......: If the optional parameter (iSecond) is NOT defined, the function will not change the current value!
 ; Related .......: _SetDate
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _SetTime($iHour, $iMinute, $iSecond = 0)
 
@@ -1616,9 +1580,7 @@ Func _SetTime($iHour, $iMinute, $iSecond = 0)
 	If @error = 0 Then
 		If $iRetval[0] = 0 Then
 			Local $lastError = DllCall("kernel32.dll", "int", "GetLastError")
-			SetExtended($lastError[0])
-			SetError(1)
-			Return 0
+			Return SetError(1,$lastError[0],0)
 		Else
 			Return 1
 		EndIf
@@ -1626,8 +1588,7 @@ Func _SetTime($iHour, $iMinute, $iSecond = 0)
 		;== If DllCall was UNsuccessfull, return an error
 		;============================================================================
 	Else
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 
 EndFunc   ;==>_SetTime
@@ -1648,8 +1609,8 @@ EndFunc   ;==>_SetTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _TimeToTicks
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _TicksToTime($iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs)
 	If Number($iTicks) > 0 Then
@@ -1667,8 +1628,7 @@ Func _TicksToTime($iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs)
 		$iSecs = 0
 		Return 1
 	Else
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 EndFunc   ;==>_TicksToTime
 
@@ -1687,8 +1647,8 @@ EndFunc   ;==>_TicksToTime
 ; Modified.......: SlimShady: added the default time and made parameters optional
 ; Remarks .......:
 ; Related .......: _TicksToTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _TimeToTicks($iHours = @HOUR, $iMins = @MIN, $iSecs = @SEC)
 	;==============================================
@@ -1700,8 +1660,7 @@ Func _TimeToTicks($iHours = @HOUR, $iMins = @MIN, $iSecs = @SEC)
 		$iTicks = 1000 * ((3600 * $iHours) + (60 * $iMins) + $iSecs)
 		Return $iTicks
 	Else
-		SetError(1)
-		Return 0
+		Return SetError(1,0,0)
 	EndIf
 EndFunc   ;==>_TimeToTicks
 
@@ -1721,22 +1680,19 @@ EndFunc   ;==>_TimeToTicks
 ; Modified.......: JdeB: modified to UDF standards & Doc., Change calculation logic.
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
 	Local $idow, $iDow0101
 
 	; Check for erroneous input in $Day, $Month & $Year
 	If $iDay > 31 Or $iDay < 1 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	ElseIf $iMonth > 12 Or $iMonth < 1 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	ElseIf $iYear < 1 Or $iYear > 2999 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	EndIf
 
 	$idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
@@ -1776,8 +1732,8 @@ EndFunc   ;==>_WeekNumberISO
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 	Local $iDow0101, $iDow0101ny
@@ -1786,17 +1742,13 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 
 	; Check for erroneous input in $Day, $Month & $Year
 	If $iDay > 31 Or $iDay < 1 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	ElseIf $iMonth > 12 Or $iMonth < 1 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	ElseIf $iYear < 1 Or $iYear > 2999 Then
-		SetError(1)
-		Return -1
+		Return SetError(1,0,-1)
 	ElseIf $iWeekStart < 1 Or $iWeekStart > 2 Then
-		SetError(2)
-		Return -1
+		Return SetError(2,0,-1)
 	EndIf
 	;
 	;$idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
@@ -1844,9 +1796,9 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 EndFunc   ;==>_WeekNumber
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
-; Name...........: __DaysInMonth
+; Name...........: _DaysInMonth
 ; Description ...: returns an Array that contains the numbers of days per month
-; Syntax.........: __DaysInMonth($iYear)
+; Syntax.........: _DaysInMonth($iYear)
 ; Parameters ....: $iYear      - Year value
 ; Return values .: Success - Array that contains the numbers of days per month
 ;                  Failure - none
@@ -1854,30 +1806,30 @@ EndFunc   ;==>_WeekNumber
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func __DaysInMonth($iYear)
+Func _DaysInMonth($iYear)
 	Local $aiDays
 	$aiDays = StringSplit("31,28,31,30,31,30,31,31,30,31,30,31", ",")
 	If _DateIsLeapYear($iYear) Then $aiDays[2] = 29
 	Return $aiDays
-EndFunc   ;==>__DaysInMonth
+EndFunc   ;==>_DaysInMonth
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _Date_Time_CloneSystemTime
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Date_Time_CloneSystemTime
 ; Description ...: Clones a tagSYSTEMTIME structure
-; Syntax.........: _Date_Time_CloneSystemTime($pSystemTime)
+; Syntax.........: __Date_Time_CloneSystemTime($pSystemTime)
 ; Parameters ....: $pSystemTime - Pointer to a tagSYSTEMTIME structure
 ; Return values .: Success      - tagSYSTEMTIME structure containing the cloned system time
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally by Auto3Lib
 ; Related .......: $tagSYSTEMTIME
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _Date_Time_CloneSystemTime($pSystemTime)
+Func __Date_Time_CloneSystemTime($pSystemTime)
 	Local $tSystemTime1, $tSystemTime2
 
 	$tSystemTime1 = DllStructCreate($tagSYSTEMTIME, $pSystemTime)
@@ -1891,7 +1843,7 @@ Func _Date_Time_CloneSystemTime($pSystemTime)
 	DllStructSetData($tSystemTime2, "MSeconds", DllStructGetData($tSystemTime1, "MSeconds"))
 	DllStructSetData($tSystemTime2, "DOW", DllStructGetData($tSystemTime1, "DOW"))
 	Return $tSystemTime2
-EndFunc   ;==>_Date_Time_CloneSystemTime
+EndFunc   ;==>__Date_Time_CloneSystemTime
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Date_Time_CompareFileTime
@@ -1907,14 +1859,14 @@ EndFunc   ;==>_Date_Time_CloneSystemTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_CompareFileTime($pFileTime1, $pFileTime2)
 	Local $aResult
 
 	$aResult = DllCall("Kernel32.dll", "int", "CompareFileTime", "ptr", $pFileTime1, "ptr", $pFileTime2)
-	Return SetError(0, 0, $aResult[0])
+	Return SetError(@error, @extended, $aResult[0])
 EndFunc   ;==>_Date_Time_CompareFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -1922,20 +1874,20 @@ EndFunc   ;==>_Date_Time_CompareFileTime
 ; Description ...: Converts MS-DOS date and time values to a file time
 ; Syntax.........: _Date_Time_DOSDateTimeToFileTime($iFatDate, $iFatTime)
 ; Parameters ....: $iFatDate    - The MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1?31)
+;                  |Bits  0- 4 Day of the month (1–31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iFatTime     - Ths MS-DOS time, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0?59)
-;                  |Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0–59)
+;                  |Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Return values .: Success      - $tagFILETIME structure that receives the converted file time
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_FileTimeToDosDateTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateTimeToFileTime($iFatDate, $iFatTime)
 	Local $pTime, $tTime, $aResult
@@ -1951,7 +1903,7 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToFileTime
 ; Description ...: Decode a DOS date to an array
 ; Syntax.........: _Date_Time_DOSDateToArray($iDosDate)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1?31)
+;                  |Bits  0- 4 Day of the month (1–31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ; Return values .: Success      - Array with the following format:
@@ -1961,9 +1913,9 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToFileTime
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_DOSTimeToArray
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_DOSTimeToArray, _Date_Time_DOSDateTimeToArray
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateToArray($iDosDate)
 	Local $aDate[3]
@@ -1979,13 +1931,13 @@ EndFunc   ;==>_Date_Time_DOSDateToArray
 ; Description ...: Decode a DOS date/time to an array
 ; Syntax.........: _Date_Time_DOSDateTimeToArray($iDosDate, $iDosTime)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1?31)
+;                  |Bits  0- 4 Day of the month (1–31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0?59)
-;                  |Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0–59)
+;                  |Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Month
 ;                  |[1] - Day
@@ -1997,8 +1949,8 @@ EndFunc   ;==>_Date_Time_DOSDateToArray
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_DOSDateToArray, _Date_Time_DOSTimeToArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateTimeToArray($iDosDate, $iDosTime)
 	Local $aDate[6]
@@ -2017,20 +1969,20 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToArray
 ; Description ...: Decode a DOS date to a string
 ; Syntax.........: _Date_Time_DOSDateTimeToStr($iDosDate, $iDosTime)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1?31)
+;                  |Bits  0- 4 Day of the month (1–31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0?59)
-;                  |Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0–59)
+;                  |Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Return values .: Success      - Date/time string formatted as mm/dd/yyyy hh:mm:ss
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_DOSDateToStr, _Date_Time_DOSTimeToStr
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateTimeToStr($iDosDate, $iDosTime)
 	Local $aDate
@@ -2044,16 +1996,16 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToStr
 ; Description ...: Decode a DOS date to a string
 ; Syntax.........: _Date_Time_DOSDateToStr($iDosDate)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1?31)
+;                  |Bits  0- 4 Day of the month (1–31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ; Return values .: Success      - Date string formatted as mm/dd/yyyy
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_DOSTimeToStr
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_DOSTimeToStr, _Date_Time_DOSDateTimeToStr
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateToStr($iDosDate)
 	Local $aDate
@@ -2068,8 +2020,8 @@ EndFunc   ;==>_Date_Time_DOSDateToStr
 ; Syntax.........: _Date_Time_DOSTimeToArray($iDosTime)
 ; Parameters ....: $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0?59)
-;                  |Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0–59)
+;                  |Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Hour
 ;                  |[1] - Minute
@@ -2077,9 +2029,9 @@ EndFunc   ;==>_Date_Time_DOSDateToStr
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_DOSDateToArray
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_DOSDateToArray, _Date_Time_DOSDateTimeToArray
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSTimeToArray($iDosTime)
 	Local $aTime[3]
@@ -2096,15 +2048,15 @@ EndFunc   ;==>_Date_Time_DOSTimeToArray
 ; Syntax.........: _Date_Time_DOSTimeToStr($iDosTime)
 ; Parameters ....: $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0?59)
-;                  |Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0–59)
+;                  |Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Return values .: Success       - Time string formatted as hh:mm:ss
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_DOSDateToStr
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_DOSDateToStr, _Date_Time_DOSDateTimeToStr
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSTimeToStr($iDosTime)
 	Local $aTime
@@ -2129,8 +2081,8 @@ EndFunc   ;==>_Date_Time_DOSTimeToStr
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_EncodeSystemTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_EncodeFileTime($iMonth, $iDay, $iYear, $iHour = 0, $iMinute = 0, $iSecond = 0, $iMSeconds = 0)
 	Local $tSystemTime
@@ -2149,14 +2101,14 @@ EndFunc   ;==>_Date_Time_EncodeFileTime
 ;                  $iHour       - Hour
 ;                  $iMinute     - Minute
 ;                  $iSecond     - Second
-;                  $iMSecond    - Milliseconds
+;                  $iMSeconds   - Milliseconds
 ; Return values .: Success      - $tagSYSTEMTIME structure
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_EncodeFileTime, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_EncodeSystemTime($iMonth, $iDay, $iYear, $iHour = 0, $iMinute = 0, $iSecond = 0, $iMSeconds = 0)
 	Local $tSystemTime
@@ -2190,34 +2142,41 @@ EndFunc   ;==>_Date_Time_EncodeSystemTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToArray(ByRef $tFileTime)
-	Local $tSystemTime
-
-	$tSystemTime = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tFileTime))
+	If ((DllStructGetData($tFileTime, 1) + DllStructGetData($tFileTime, 2)) = 0) Then Return SetError(1, 0, 0)
+	Local $tSystemTime = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tFileTime))
+	If @error Then Return SetError(@error, @extended, 0)
+	
 	Return _Date_Time_SystemTimeToArray($tSystemTime)
 EndFunc   ;==>_Date_Time_FileTimeToArray
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Date_Time_FileTimeToStr
 ; Description ...: Decode a file time to a date/time string
-; Syntax.........: _Date_Time_FileTimeToStr(ByRef $tFileTime)
+; Syntax.........: _Date_Time_FileTimeToStr(ByRef $tFileTime[, $bFmt = 0])
 ; Parameters ....: $tFileTime   - $tagFILETIME structure
-; Return values .: Success      - Date/time string formatted as mm/dd/yyyy hh:mm:ss
+;                  $bFmt        - 0 returns mm/dd/yyyy hh:mm:ss (Default)
+;                  |1 returns yyyy/mm/dd hh:mm:ss
+; Return values .: Success      - Date/time string formatted according to $bFmt
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _Date_Time_FileTimeToStr(ByRef $tFileTime)
-	Local $aDate
-
-	$aDate = _Date_Time_FileTimeToArray($tFileTime)
-	Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2], $aDate[3], $aDate[4], $aDate[5])
+Func _Date_Time_FileTimeToStr(ByRef $tFileTime, $bFmt = 0)
+	Local $aDate = _Date_Time_FileTimeToArray($tFileTime)
+	If @error Then Return SetError(@error, @extended, "")
+	
+	If $bFmt Then
+		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aDate[2], $aDate[1], $aDate[0], $aDate[3], $aDate[4], $aDate[5])
+	Else
+		Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2], $aDate[3], $aDate[4], $aDate[5])
+	EndIf
 EndFunc   ;==>_Date_Time_FileTimeToStr
 
 ; #FUNCTION# ====================================================================================================================
@@ -2227,19 +2186,19 @@ EndFunc   ;==>_Date_Time_FileTimeToStr
 ; Parameters ....: $pFileTime   - Pointer to a $tagFILETIME structure containing the file time to convert to MS-DOS format
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - MS-DOS date, packed as follows:
-;                  | Bits  0- 4 Day of the month (1?31)
+;                  | Bits  0- 4 Day of the month (1–31)
 ;                  | Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  | Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  |[1] - MS-DOS time, packed as follows:
 ;                  | Bits  0- 4 Second divided by 2
-;                  | Bits  5-10 Minute (0?59)
-;                  | Bits 11-15 Hour (0?23 on a 24-hour clock)
+;                  | Bits  5-10 Minute (0–59)
+;                  | Bits 11-15 Hour (0–23 on a 24-hour clock)
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_FileTimeToLocalFileTime, _Date_Time_FileTimeToSystemTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_FileTimeToLocalFileTime, _Date_Time_FileTimeToSystemTime, _Date_Time_DOSDateTimeToFileTime, $tagFILETIME
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToDOSDateTime($pFileTime)
 	Local $aDate[2], $aResult
@@ -2260,9 +2219,9 @@ EndFunc   ;==>_Date_Time_FileTimeToDOSDateTime
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_FileTimeToDosDateTime, _Date_Time_FileTimeToSystemTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_FileTimeToDosDateTime, _Date_Time_FileTimeToSystemTime, _Date_Time_LocalFileTimeToFileTime, $tagFILETIME
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToLocalFileTime($pFileTime)
 	Local $tLocal, $aResult
@@ -2283,8 +2242,8 @@ EndFunc   ;==>_Date_Time_FileTimeToLocalFileTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_FileTimeToDosDateTime, _Date_Time_FileTimeToLocalFileTime, $tagFILETIME, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToSystemTime($pFileTime)
 	Local $tSystTime, $aResult
@@ -2312,8 +2271,8 @@ EndFunc   ;==>_Date_Time_FileTimeToSystemTime
 ;                  function may not return the same file time information set using SetFileTime.  NTFS delays updates to the last
 ;                  access time for a file by up to one hour after the last access.
 ; Related .......: _Date_Time_SetFileTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetFileTime($hFile)
 	Local $pCT, $pLA, $pLM, $aDate[3], $aResult
@@ -2338,8 +2297,8 @@ EndFunc   ;==>_Date_Time_GetFileTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_SetLocalTime, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetLocalTime()
 	Local $tSystTime
@@ -2359,8 +2318,8 @@ EndFunc   ;==>_Date_Time_GetLocalTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_SetSystemTime, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTime()
 	Local $tSystTime
@@ -2386,8 +2345,8 @@ EndFunc   ;==>_Date_Time_GetSystemTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_SetSystemTimeAdjustment
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimeAdjustment()
 	Local $aInfo[3], $aResult
@@ -2409,8 +2368,8 @@ EndFunc   ;==>_Date_Time_GetSystemTimeAdjustment
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimeAsFileTime()
 	Local $tFileTime
@@ -2433,8 +2392,8 @@ EndFunc   ;==>_Date_Time_GetSystemTimeAsFileTime
 ; Modified.......:
 ; Remarks .......: Minimum OS: Windows XP, 2003, Vista or Longhorn
 ; Related .......: $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimes()
 	Local $pIdle, $pKernel, $pUser, $aInfo[3], $aResult
@@ -2460,8 +2419,8 @@ EndFunc   ;==>_Date_Time_GetSystemTimes
 ; Remarks .......: The elapsed time is stored as a DWORD value.  The time will wrap around to zero if Windows is run continuously
 ;                  for 49.7 days.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetTickCount()
 	Local $aResult
@@ -2495,13 +2454,13 @@ EndFunc   ;==>_Date_Time_GetTickCount
 ;                  +daylight saving time occurs.
 ;                  |[7] - The bias value to be used during local time translations that occur during daylight saving  time.  This
 ;                  +value is added to the value of the Bias member to form the bias used during  daylight  saving  time.  In most
-;                  +time zones this value is ?60.
+;                  +time zones this value is –60.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _Date_Time_SetTimeZoneInformation, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetTimeZoneInformation()
 	Local $tTimeZone, $aInfo[8], $aResult
@@ -2511,10 +2470,10 @@ Func _Date_Time_GetTimeZoneInformation()
 	$aInfo[0] = $aResult[0]
 	$aInfo[1] = DllStructGetData($tTimeZone, "Bias")
 	$aInfo[2] = _WinAPI_WideCharToMultiByte(DllStructGetPtr($tTimeZone, "StdName"))
-	$aInfo[3] = _Date_Time_CloneSystemTime(DllStructGetPtr($tTimeZone, "StdDate"))
+	$aInfo[3] = __Date_Time_CloneSystemTime(DllStructGetPtr($tTimeZone, "StdDate"))
 	$aInfo[4] = DllStructGetData($tTimeZone, "StdBias")
 	$aInfo[5] = _WinAPI_WideCharToMultiByte(DllStructGetPtr($tTimeZone, "DayName"))
-	$aInfo[6] = _Date_Time_CloneSystemTime(DllStructGetPtr($tTimeZone, "DayDate"))
+	$aInfo[6] = __Date_Time_CloneSystemTime(DllStructGetPtr($tTimeZone, "DayDate"))
 	$aInfo[7] = DllStructGetData($tTimeZone, "DayBias")
 	Return $aInfo
 EndFunc   ;==>_Date_Time_GetTimeZoneInformation
@@ -2532,8 +2491,8 @@ EndFunc   ;==>_Date_Time_GetTimeZoneInformation
 ;                  daylight saving time, this function will take daylight saving time into account, even if the time you are
 ;                  converting is in standard time.
 ; Related .......: _Date_Time_FileTimeToLocalFileTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_LocalFileTimeToFileTime($pLocalTime)
 	Local $tFileTime, $aResult
@@ -2568,8 +2527,8 @@ EndFunc   ;==>_Date_Time_LocalFileTimeToFileTime
 ;                  function may not return the same file time information set using SetFileTime.  NTFS delays updates to the last
 ;                  access time for a file by up to one hour after the last access.
 ; Related .......: _Date_Time_GetFileTime, $tagFILETIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetFileTime($hFile, $pCreateTime, $pLastAccess, $pLastWrite)
 	Local $aResult
@@ -2589,14 +2548,14 @@ EndFunc   ;==>_Date_Time_SetFileTime
 ; Modified.......:
 ; Remarks .......: The SetLocalTime function enables the SE_SYSTEMTIME_NAME privilege before changing the local time.
 ; Related .......: _Date_Time_GetLocalTime, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetLocalTime($pSystemTime)
 	Local $aResult
 
 	$aResult = DllCall("Kernel32.dll", "int", "SetLocalTime", "ptr", $pSystemTime)
-	If $aResult[0] = 0 Then Return SetError(True, 0, False)
+	If $aResult[0] = 0 Then Return SetError(1, 0, False)
 	; The system uses UTC internally.  When you call SetLocalTime, the system uses the current time zone information to perform the
 	; conversion, incuding the daylight saving time setting.  The system uses the daylight saving time setting of the current time,
 	; not the new time you are setting.  This is a "feature" according to Microsoft.  In order to get around this, we have to  call
@@ -2616,8 +2575,8 @@ EndFunc   ;==>_Date_Time_SetLocalTime
 ; Modified.......:
 ; Remarks .......: The SetLocalTime function enables the SE_SYSTEMTIME_NAME privilege before changing the local time
 ; Related .......: _Date_Time_GetSystemTime, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetSystemTime($pSystemTime)
 	Local $aResult
@@ -2644,8 +2603,8 @@ EndFunc   ;==>_Date_Time_SetSystemTime
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _Date_Time_GetSystemTimeAdjustment
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetSystemTimeAdjustment($iAdjustment, $fDisabled)
 	Local $hToken, $aResult
@@ -2685,15 +2644,15 @@ EndFunc   ;==>_Date_Time_SetSystemTimeAdjustment
 ;                  +standard time to daylight saving time occurs.
 ;                  $iDayBias    - The bias value to be used during local time translation that occur during daylight saving time.
 ;                  +This value is added to the value of the Bias member to form the bias used during daylight saving time.  In
-;                  +most time zones this value is ?60.
+;                  +most time zones this value is –60.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _Date_Time_GetTimeZoneInformation, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, $sDayName, $tDayDate, $iDayBias)
 	Local $hToken, $tStdName, $tDayName, $tZoneInfo, $aResult
@@ -2744,8 +2703,8 @@ EndFunc   ;==>_Date_Time_SetTimeZoneInformation
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToArray(ByRef $tSystemTime)
 	Local $aInfo[8]
@@ -2766,19 +2725,25 @@ EndFunc   ;==>_Date_Time_SystemTimeToArray
 ; Description ...: Decode a system time to a date string
 ; Syntax.........: _Date_Time_SystemTimeToDateStr(ByRef $tSystemTime)
 ; Parameters ....: $tSystemTime - $tagSYSTEMTIME structure
-; Return values .: Success      - Date string formatted as mm/dd/yyyy
+;                  $bFmt        - 0 returns mm/dd/yyyy (Default)
+;                  |1 returns yyyy/mm/dd
+; Return values .: Success      - Date string formatted according to $bFmt
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_SystemTimeToTimeStr, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_SystemTimeToTimeStr, _Date_Time_SystemTimeToDateTimeStr, $tagSYSTEMTIME
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _Date_Time_SystemTimeToDateStr(ByRef $tSystemTime)
-	Local $aInfo
-
-	$aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
-	Return StringFormat("%02d/%02d/%04d", $aInfo[0], $aInfo[1], $aInfo[2])
+Func _Date_Time_SystemTimeToDateStr(ByRef $tSystemTime, $bFmt = 0)
+	Local $aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
+	If @error Then Return SetError(@error, @extended, "")
+	
+	If $bFmt Then
+		Return StringFormat("%04d/%02d/%02d", $aInfo[2], $aInfo[1], $aInfo[0])
+	Else
+		Return StringFormat("%02d/%02d/%04d", $aInfo[0], $aInfo[1], $aInfo[2])
+	EndIf
 EndFunc   ;==>_Date_Time_SystemTimeToDateStr
 
 ; #FUNCTION# ====================================================================================================================
@@ -2786,19 +2751,25 @@ EndFunc   ;==>_Date_Time_SystemTimeToDateStr
 ; Description ...: Decode a system time to a date/time string
 ; Syntax.........: _Date_Time_SystemTimeToDateTimeStr(ByRef $tSystemTime)
 ; Parameters ....: $tSystemTime - $tagSYSTEMTIME structure
-; Return values .: Success      - Date/time string formatted as mm/dd/yyyy hh:nn:ss
+;                  $bFmt        - 0 returns mm/dd/yyyy hh:mm:ss (Default)
+;                  |1 returns yyyy/mm/dd hh:mm:ss
+; Return values .: Success      - Date/time string according to $bFmt
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Date_Time_SystemTimeToDateStr, _Date_Time_SystemTimeToTimeStr, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _Date_Time_SystemTimeToDateTimeStr(ByRef $tSystemTime)
-	Local $aInfo
-
-	$aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
-	Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aInfo[0], $aInfo[1], $aInfo[2], $aInfo[3], $aInfo[4], $aInfo[5])
+Func _Date_Time_SystemTimeToDateTimeStr(ByRef $tSystemTime, $bFmt = 0)
+	Local $aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
+	If @error Then Return SetError(@error, @extended, "")
+	
+	If $bFmt Then
+		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aInfo[2], $aInfo[1], $aInfo[0], $aInfo[3], $aInfo[4], $aInfo[5])
+	Else
+		Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aInfo[0], $aInfo[1], $aInfo[2], $aInfo[3], $aInfo[4], $aInfo[5])
+	EndIf
 EndFunc   ;==>_Date_Time_SystemTimeToDateTimeStr
 
 ; #FUNCTION# ====================================================================================================================
@@ -2811,8 +2782,8 @@ EndFunc   ;==>_Date_Time_SystemTimeToDateTimeStr
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagFILETIME, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToFileTime($pSystemTime)
 	Local $tFileTime, $aResult
@@ -2831,9 +2802,9 @@ EndFunc   ;==>_Date_Time_SystemTimeToFileTime
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Date_Time_SystemTimeToDateStr, $tagSYSTEMTIME
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Date_Time_SystemTimeToDateStr, _Date_Time_SystemTimeToDateTimeStr, $tagSYSTEMTIME
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToTimeStr(ByRef $tSystemTime)
 	Local $aInfo
@@ -2855,8 +2826,8 @@ EndFunc   ;==>_Date_Time_SystemTimeToTimeStr
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSYSTEMTIME, $tagTIME_ZONE_INFORMATION
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToTzSpecificLocalTime($pUTC, $pTimeZone = 0)
 	Local $tLocalTime, $aResult
@@ -2879,8 +2850,8 @@ EndFunc   ;==>_Date_Time_SystemTimeToTzSpecificLocalTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSYSTEMTIME, $tagTIME_ZONE_INFORMATION
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_TzSpecificLocalTimeToSystemTime($pLocalTime, $pTimeZone = 0)
 	Local $tUTC, $aResult

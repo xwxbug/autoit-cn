@@ -2,9 +2,10 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Debug
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: Functions to help script debugging
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions to help script debugging.
+; Author(s) .....: Nutster, Jpm, Valik
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
@@ -12,10 +13,37 @@ Global $g_hWndDbg = 0 ; Variable to keep track of the Notepad window used for De
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
+;_Assert
 ;_DebugBugReportEnv
 ;_DebugOut
 ;_DebugSetup
 ; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Assert
+; Description ...: Display a message if assertion fails.
+; Syntax.........:  _Assert($bCondition, $sMsg, $bExit = True, $nCode = 0x7FFFFFFF, $sLine = @ScriptLineNumber)
+; Parameters ....: $sCondition - IN - The condition that must evaluate to true.
+;                  $bExit - IN/OPTIONAL - If true, the script is aborted.
+;                  $nCode - IN/OPTIONAL - The exit code to use if the script is aborted.
+;                  $sLine - IN/OPTIONAL - Displays the line number where the assertion failed.  If this value is not
+;                                         changed, then the default value will show the correct line.
+; Return values .: The result of the condition (Only valid when not exiting).
+; Author ........: Valik
+; Modified.......: jpm
+; Remarks .......: @error and @extended are not destroyed on return.
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
+Func _Assert($sCondition, $bExit = True, $nCode = 0x7FFFFFFF, $sLine = @ScriptLineNumber, Const $curerr = @error,  Const $curext = @extended)
+Local $bCondition = Execute($sCondition)
+If Not $bCondition Then
+		MsgBox(16+262144, "Autoit Assert", "Assertion Failed (Line " & $sLine & "): " & @CRLF & @CRLF & $sCondition)
+		If $bExit Then Exit $nCode
+	EndIf
+	Return SetError($curerr, $curext, $bCondition)
+EndFunc	; _Assert()
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _DebugBugReportEnv
@@ -25,19 +53,19 @@ Global $g_hWndDbg = 0 ; Variable to keep track of the Notepad window used for De
 ; Return values .: Returns a string containing all information needed to submit.
 ; Author ........: Jean-Paul Mesnage (jpm)
 ; Modified.......:
-; Remarks .......: Must be used to submit a Bug Report
+; Remarks .......: @error and @extended are not destroyed on return
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _DebugBugReportEnv($err = @error, $ext = @extended)
+Func _DebugBugReportEnv(Const $curerr = @error, Const $curext = @extended)
 	Local $AutoItX64 = ""
 	If @AutoItX64 Then $AutoItX64 = " X64"
 	Local $Compiled = ""
 	If @Compiled Then $Compiled = " Compiled"
 	Local $OsServicePack = ""
 	If @OSServicePack Then $OsServicePack = "/" & @OSServicePack
-	Return SetError($err, $ext, "Environment = " & @AutoItVersion & $AutoItX64 & $Compiled & " under  " & @OSVersion & $OsServicePack & " " & @OSArch)
+	Return SetError($curerr, $curext, "Environment = " & @AutoItVersion & $AutoItX64 & $Compiled & " under  " & @OSVersion & $OsServicePack & " " & @OSArch)
 EndFunc   ;==>_DebugBugReportEnv
 
 ; #FUNCTION# ====================================================================================================================
@@ -57,8 +85,8 @@ EndFunc   ;==>_DebugBugReportEnv
 ; Modified.......:
 ; Remarks .......: Before calling this function, _DebugSetup must be called first to create the Notepad window.
 ; Related .......: _DebugSetup
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugOut(Const $sOutput, Const $bActivate = False, Const $curerr = @error, Const $curext = @extended)
 	If IsNumber($sOutput) = 0 And IsString($sOutput) = 0 And IsBool($sOutput) = 0 Then
@@ -93,8 +121,8 @@ EndFunc   ;==>_DebugOut
 ; Remarks .......: This must be called in your program before any _DebugOut() calls.
 ;                  Microsoft Notepad in the %PATH%
 ; Related .......: _DebugOut
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugSetup(Const $sTitle = "Debug Info", Const $bBugReportInfos = False)
 	Local $pNotepad ; process ID of the Notepad started by this function
@@ -115,8 +143,7 @@ Func _DebugSetup(Const $sTitle = "Debug Info", Const $bBugReportInfos = False)
 	EndIf
 
 	$pNotepad = Run("Notepad.exe")
-	WinWait("[CLASS:Notepad]")
-	$g_hWndDbg = WinGetHandle("[CLASS:Notepad]")
+	$g_hWndDbg = WinWait("[CLASS:Notepad]")
 	If $pNotepad <> WinGetProcess($g_hWndDbg) Then
 		Return SetError(3, 0, 0)
 	EndIf

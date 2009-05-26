@@ -1,23 +1,40 @@
 ﻿#include-once
 
+#include <WinAPI.au3>
+
 ; #INDEX# =======================================================================================================================
 ; Title .........: UDF Global ID
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description:    Global ID Gerneration for UDFs
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Global ID Generation for UDFs.
+; Author(s) .....: Gary Frost
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $_UDF_GlobalIDs_OFFSET = 2
 Global Const $_UDF_GlobalID_MAX_WIN = 16
 Global Const $_UDF_STARTID = 10000
 Global Const $_UDF_GlobalID_MAX_IDS = 55535
-Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_UDF_GlobalIDs_OFFSET + 1] ; [index][0] = HWND, [index][1] = NEXT ID
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _UDF_GetNextGlobalID
+Global Const $__UDFGUICONSTANT_WS_VISIBLE = 0x10000000
+Global Const $__UDFGUICONSTANT_WS_CHILD = 0x40000000
+; ===============================================================================================================================
+
+; #VARIABLES# ===================================================================================================================
+Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_UDF_GlobalIDs_OFFSET + 1] ; [index][0] = HWND, [index][1] = NEXT ID
+; ===============================================================================================================================
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__UDF_GetNextGlobalID
+;__UDF_FreeGlobalID
+;__UDF_DebugPrint
+;__UDF_ValidateClassName
+; ===============================================================================================================================
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __UDF_GetNextGlobalID
 ; Description ...: Used for setting controlID to UDF controls
-; Syntax.........: _UDF_GetNextGlobalID($hWnd)
+; Syntax.........: __UDF_GetNextGlobalID($hWnd)
 ; Parameters ....: $hWnd      - handle to Main Window
 ; Return values .: Success - Control ID
 ;                  Failure - 0 and @error is set, @extended may be set
@@ -25,10 +42,10 @@ Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_U
 ; Modified.......:
 ; Remarks .......: For Internal Use Only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _UDF_GetNextGlobalID($hWnd)
+Func __UDF_GetNextGlobalID($hWnd)
 	Local $nCtrlID, $iUsedIndex = -1, $fAllUsed = True
 
 	; check if window still exists
@@ -89,12 +106,12 @@ Func _UDF_GetNextGlobalID($hWnd)
 	$_UDF_GlobalIDs_Used[$iUsedIndex][1] += 1
 	$_UDF_GlobalIDs_Used[$iUsedIndex][($nCtrlID - 10000) + $_UDF_GlobalIDs_OFFSET] = $nCtrlID
 	Return $nCtrlID
-EndFunc   ;==>_UDF_GetNextGlobalID
+EndFunc   ;==>__UDF_GetNextGlobalID
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _UDF_FreeGlobalID
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __UDF_FreeGlobalID
 ; Description ...: Used for freeing controlID used for UDF controls
-; Syntax.........: _UDF_FreeGlobalID($hWnd, $iGlobalID)
+; Syntax.........: __UDF_FreeGlobalID($hWnd, $iGlobalID)
 ; Parameters ....: $hWnd      - handle to Main Window
 ;                  $iGlobalID - Control ID to free up for re-use if needed
 ; Return values .: None
@@ -102,10 +119,10 @@ EndFunc   ;==>_UDF_GetNextGlobalID
 ; Modified.......:
 ; Remarks .......: For Internal Use Only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _UDF_FreeGlobalID($hWnd, $iGlobalID)
+Func __UDF_FreeGlobalID($hWnd, $iGlobalID)
 	; invalid udf global id passed in
 	If $iGlobalID - $_UDF_STARTID < 0 Or $iGlobalID - $_UDF_STARTID > $_UDF_GlobalID_MAX_IDS Then Return SetError(-1, 0, False)
 
@@ -124,4 +141,44 @@ Func _UDF_FreeGlobalID($hWnd, $iGlobalID)
 	Next
 	; $hWnd wasn't found in the used list
 	Return SetError(-2, 0, False)
-EndFunc   ;==>_UDF_FreeGlobalID
+EndFunc   ;==>__UDF_FreeGlobalID
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __UDF_DebugPrint; Description ...: Used for debugging when creating examples
+; Syntax.........: __UDF_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
+; Parameters ....: $sText       - String to printed to console
+;                  $iLine       - Line number function was called from
+; Return values .: None
+; Author ........: Gary Frost (gafrost)
+; Modified.......:
+; Remarks .......: For Internal Use Only
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func __UDF_DebugPrint($sText, $iLine = @ScriptLineNumber, $err=@error, $ext=@extended)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
+			"+======================================================" & @LF)
+	Return SetError($err, $ext, 1)
+EndFunc   ;==>__UDF_DebugPrint
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __UDF_ValidateClassName
+; Description ...: Used for debugging when creating examples
+; Syntax.........: __UDF_ValidateClassName($hWnd, $sType)
+; Parameters ....: $hWnd        - Handle to the control
+; Return values .: None
+; Author ........: Gary Frost
+; Modified.......:
+; Remarks .......: For Internal Use Only
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func __UDF_ValidateClassName($hWnd, $sType)
+	__UDF_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
+	_WinAPI_ValidateClassName($hWnd, $sType)
+EndFunc   ;==>__UDF_ValidateClassName

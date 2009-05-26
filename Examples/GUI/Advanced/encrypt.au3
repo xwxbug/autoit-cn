@@ -18,10 +18,10 @@ Func _Main()
 	Local $EncryptButton, $DecryptButton, $string
 	#forceref $UpDownLevel
 ;~~
-$WinMain = GuiCreate('加密工具', 400, 400)
+$WinMain = GUICreate('加密工具', 400, 400)
 	; Creates window
 ;~~
-$EditText = GuiCtrlCreateEdit('',5,5,380,350)
+	$EditText = GUICtrlCreateEdit('', 5, 5, 380, 350)
 	; Creates main edit
 ;~~
 	$InputPass = GUICtrlCreateInput('', 5, 360, 100, 20, 0x21)
@@ -31,12 +31,12 @@ $EditText = GuiCtrlCreateEdit('',5,5,380,350)
 	$UpDownLevel = GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
 	; These two make the level input with the Up|Down ability
 ;~~
-$EncryptButton = GuiCtrlCreateButton('加密', 170, 360, 105, 35)
-$DecryptButton = GuiCtrlCreateButton('解密', 285, 360, 105, 35)
+$EncryptButton = GUICtrlCreateButton('加密', 170, 360, 105, 35)
+$DecryptButton = GUICtrlCreateButton('解密', 285, 360, 105, 35)
 	; Encryption/Decryption buttons
 ;~~
 GUICtrlCreateLabel('密码', 5, 385)
-GuiCtrlCreateLabel('等级',110,385)
+GUICtrlCreateLabel('等级',110,385)
 	; Simple text labels so you know what is what
 ;~~
 	GUISetState()

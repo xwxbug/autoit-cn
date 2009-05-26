@@ -1,36 +1,39 @@
 ﻿#include-once
 
 #include <ListViewConstants.au3>
-Global Const $__LISTVIEWCONSTANT_WS_MAXIMIZEBOX = 0x00010000
-Global Const $__LISTVIEWCONSTANT_WS_MINIMIZEBOX = 0x00020000
+#include <GuiHeader.au3>
 #include <Array.au3>
 #include <Memory.au3>
 #include <WinAPI.au3>
-#include <GuiHeader.au3>
 #include <StructureConstants.au3>
 #include <SendMessage.au3>
 #include <UDFGlobalID.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListView
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: A ListView control is a window that displays a collection of items; each item consists of an icon and a label.
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with ListView control management.
+;                  A ListView control is a window that displays a collection of items; each item consists of an icon and a label.
 ;                  ListView controls provide several ways to arrange and display items. For example, additional information about
 ;                  each item can be displayed in columns to the right of the icon and label.
-; Added Functions by Paul Campbell (PaulIA) from Auto3Lib project
+; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $_lv_ghLastWnd
 Global $Debug_LV = False
-Global Const $__LISTVIEWCONSTANT_ClassName = "SysListView32"
+
 ; for use with the sort call back functions
 Global $iLListViewSortInfoSize = 11
 Global $aListViewSortInfo[1][$iLListViewSortInfoSize]
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
+Global Const $__LISTVIEWCONSTANT_ClassName = "SysListView32"
+Global Const $__LISTVIEWCONSTANT_WS_MAXIMIZEBOX = 0x00010000
+Global Const $__LISTVIEWCONSTANT_WS_MINIMIZEBOX = 0x00020000
 Global Const $__LISTVIEWCONSTANT_GUI_RUNDEFMSG = 'GUI_RUNDEFMSG'
-Global Const $__LISTVIEWCONSTANT_WS_VISIBLE = 0x10000000
-Global Const $__LISTVIEWCONSTANT_WS_CHILD = 0x40000000
 Global Const $__LISTVIEWCONSTANT_WM_SETREDRAW = 0x000B
 Global Const $__LISTVIEWCONSTANT_WM_SETFONT = 0x0030
 Global Const $__LISTVIEWCONSTANT_WM_NOTIFY = 0x004E
@@ -47,16 +50,12 @@ Global Const $__LISTVIEWCONSTANT_VK_NEXT = 0x22
 Global Const $__LISTVIEWCONSTANT_VK_PRIOR = 0x21
 Global Const $__LISTVIEWCONSTANT_VK_RIGHT = 0x27
 Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
-
 ; ===============================================================================================================================
 
-;==============================================================================================================================
-; ===============================================================================================================================
-; depricated functions will no longer work
-; ===============================================================================================================================
 ; #OLD_FUNCTIONS#================================================================================================================
 ; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-; ===============================================================================================================================
+;
+; deprecated functions will no longer work
 ;_GUICtrlListViewCopyItems                ; --> _GUICtrlListView_CopyItems
 ;_GUICtrlListViewDeleteAllItems           ; --> _GUICtrlListView_DeleteAllItems
 ;_GUICtrlListViewDeleteColumn             ; --> _GUICtrlListView_DeleteColumn
@@ -104,7 +103,7 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Not working/documented/implimented at this time
-; ===============================================================================================================================
+;
 ;_GUICtrlListView_GetEmptyText
 ;_GUICtrlListView_GetGroupState
 ;_GUICtrlListView_GetInsertMark
@@ -279,20 +278,18 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ;_GUICtrlListView_UnRegisterSortCallBack
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_GUICtrlListView_ArrayDelete
-;_GUICtrlListView_DebugPrint
-;_GUICtrlListView_Draw
-;_GUICtrlListView_GetItemOverlayImage
-;_GUICtrlListView_IndexToOverlayImageMask
-;_GUICtrlListView_IndexToStateImageMask
-;_GUICtrlListView_OverlayImageMaskToIndex
-;_GUICtrlListView_SetItemOverlayImage
-;_GUICtrlListView_Sort
-;_GUICtrlListView_StateImageMaskToIndex
-;_GUICtrlListView_ReverseColorOrder
-;_GUICtrlListView_ValidateClassName
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__GUICtrlListView_ArrayDelete
+;__GUICtrlListView_Draw
+;__GUICtrlListView_GetItemOverlayImage
+;__GUICtrlListView_IndexToOverlayImageMask
+;__GUICtrlListView_IndexToStateImageMask
+;__GUICtrlListView_OverlayImageMaskToIndex
+;__GUICtrlListView_SetItemOverlayImage
+;__GUICtrlListView_Sort
+;__GUICtrlListView_StateImageMaskToIndex
+;__GUICtrlListView_ReverseColorOrder
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_AddArray
@@ -313,11 +310,11 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $tMemMap, $pMemory, $pText, $iI, $iJ
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -427,8 +424,8 @@ EndFunc   ;==>_GUICtrlListView_AddArray
 ; Modified.......:
 ; Remarks .......: The alignment of the leftmost column is always left justified
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddColumn($hWnd, $sText, $iWidth = 50, $iAlign = -1, $iImage = -1, $fOnRight = False)
 	Return _GUICtrlListView_InsertColumn($hWnd, _GUICtrlListView_GetColumnCount($hWnd), $sText, $iWidth, $iAlign, $iImage, $fOnRight)
@@ -448,8 +445,8 @@ EndFunc   ;==>_GUICtrlListView_AddColumn
 ; Modified.......:
 ; Remarks .......: You can not use this function to insert subitems. Use _GUICtrlListView_AddSubItem to insert subitems.
 ; Related .......: _GUICtrlListView_AddSubItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddItem($hWnd, $sText, $iImage = -1, $iParam = 0)
 	Return _GUICtrlListView_InsertItem($hWnd, $sText, -1, $iImage, $iParam)
@@ -470,11 +467,11 @@ EndFunc   ;==>_GUICtrlListView_AddItem
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_AddItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddSubItem($hWnd, $iIndex, $sText, $iSubItem, $iImage = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iMask, $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -544,12 +541,12 @@ EndFunc   ;==>_GUICtrlListView_AddSubItem
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Setting the size of the control based on the dimensions provided by this message can optimize redraw and
 ;                  reduce flicker.
-; Related .......: _GUICtrlListView_ApproximateViewWidth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_ApproximateViewWidth, _GUICtrlListView_ApproximateViewRect
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewHeight($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return BitShift((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 16)
 	Else
@@ -576,11 +573,11 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewHeight
 ; Remarks .......: Setting the size of the control based on the dimensions provided by this message can optimize redraw and
 ;                  reduce flicker.
 ; Related .......: _GUICtrlListView_ApproximateViewHeight, _GUICtrlListView_ApproximateViewWidth
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewRect($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iView, $aView[2]
 	If IsHWnd($hWnd) Then
 		$iView = _SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))
@@ -608,12 +605,12 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewRect
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Setting the size of the control based on the dimensions provided by this message can optimize redraw and
 ;                  reduce flicker.
-; Related .......: _GUICtrlListView_ApproximateViewHeight
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_ApproximateViewHeight, _GUICtrlListView_ApproximateViewRect
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewWidth($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return BitAND((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 0xFFFF)
 	Else
@@ -637,11 +634,11 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewWidth
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_Arrange($hWnd, $iArrange = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $aArrange[4] = [$LVA_DEFAULT, $LVA_ALIGNLEFT, $LVA_ALIGNTOP, $LVA_SNAPTOGRID]
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ARRANGE, $aArrange[$iArrange]) <> 0
@@ -651,9 +648,9 @@ Func _GUICtrlListView_Arrange($hWnd, $iArrange = 0)
 EndFunc   ;==>_GUICtrlListView_Arrange
 
 ; #INTERNAL_USE_ONLY#==============================================================================
-; Name...........: _GUICtrlListView_ArrayDelete
+; Name...........: __GUICtrlListView_ArrayDelete
 ; Description ...: Deletes the specified element from the given array, returning the adjusted array.
-; Syntax.........: _GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
+; Syntax.........: __GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
 ; Parameters ....: $avArray     - The array from which an element is to be deleted
 ;                  $iElement    - The index of the element to be deleted
 ; Return values .: Success - Returns 1 and the original Array is updated
@@ -662,10 +659,10 @@ EndFunc   ;==>_GUICtrlListView_Arrange
 ; Modified.......: Array is passed via Byref  - Jos van der zande, for exclusive use with listview sort - GaryFrost
 ; Remarks .......: For Internal Use Only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; =================================================================================================
-Func _GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
+Func __GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
 	Local $iCntr = 0, $iUpper = 0
 
 	If (Not IsArray($avArray)) Then
@@ -708,7 +705,7 @@ Func _GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
 	$avArray = $avNewArray
 	SetError(0)
 	Return 1
-EndFunc   ;==>_GUICtrlListView_ArrayDelete
+EndFunc   ;==>__GUICtrlListView_ArrayDelete
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_BeginUpdate
@@ -721,11 +718,11 @@ EndFunc   ;==>_GUICtrlListView_ArrayDelete
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_EndUpdate
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_BeginUpdate($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $__LISTVIEWCONSTANT_WM_SETREDRAW) = 0
@@ -740,12 +737,12 @@ EndFunc   ;==>_GUICtrlListView_BeginUpdate
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Windows XP only
-; Related .......: _GUICtrlListView_EditLabel
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_EditLabel, _GUICtrlListView_GetEditControl
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_CancelEditLabel($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_CANCELEDITLABEL)
 	Else
@@ -768,11 +765,11 @@ EndFunc   ;==>_GUICtrlListView_CancelEditLabel
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_ClickItem($hWnd, $iIndex, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $aPos, $tRect, $iX, $iY, $tPoint, $iMode
 
@@ -806,13 +803,13 @@ EndFunc   ;==>_GUICtrlListView_ClickItem
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_CopyItems($hWnd_Source, $hWnd_Destination, $fDelFlag = False)
 	If $Debug_LV Then
-		_GUICtrlListView_ValidateClassName($hWnd_Source)
-		_GUICtrlListView_ValidateClassName($hWnd_Destination)
+		__UDF_ValidateClassName($hWnd_Source, $__LISTVIEWCONSTANT_ClassName)
+		__UDF_ValidateClassName($hWnd_Destination, $__LISTVIEWCONSTANT_ClassName)
 	EndIf
 	Local $a_indices, $i, $items, $tItem = DllStructCreate($tagLVITEM), $iIndex
 	Local $cols = _GUICtrlListView_GetColumnCount($hWnd_Source)
@@ -943,9 +940,9 @@ EndFunc   ;==>_GUICtrlListView_CopyItems
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......: This function is for Advanced users and for learning how the control works.
-; Related .......: _GUICtrlListView_Destroy
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_Destroy, _GUICtrlListView_SetBkImage
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_Create($hWnd, $sHeaderText, $iX, $iY, $iWidth = 150, $iHeight = 150, $iStyle = 0x0000000D, $iExStyle = 0x00000000, $fCoInit = False)
 	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlListViewCreate 1st parameter")
@@ -973,29 +970,29 @@ Func _GUICtrlListView_Create($hWnd, $sHeaderText, $iX, $iY, $iWidth = 150, $iHei
 	$str_len = StringLen($sHeaderText)
 	If $str_len Then $sHeaderText = StringSplit($sHeaderText, $SeparatorChar)
 
-	$iStyle = BitOR($__LISTVIEWCONSTANT_WS_CHILD, $__LISTVIEWCONSTANT_WS_VISIBLE, $iStyle)
+	$iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE, $iStyle)
 
 	;=========================================================================================================
 	If $fCoInit Then
 		$aResult = DllCall('ole32.dll', 'long', 'CoInitializeEx', 'int', 0, 'long', $COINIT_APARTMENTTHREADED)
 		Switch $aResult[0]
 			Case $S_OK
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("The COM library was initialized successfully on the calling thread.")
+				If $Debug_LV Then __UDF_DebugPrint("The COM library was initialized successfully on the calling thread.")
 			Case $S_FALSE
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("The COM library is already initialized on the calling thread.")
+				If $Debug_LV Then __UDF_DebugPrint("The COM library is already initialized on the calling thread.")
 			Case $RPC_E_CHANGED_MODE
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("A previous call to CoInitializeEx specified a different concurrency model for the calling thread," & @LF & _
+				If $Debug_LV Then __UDF_DebugPrint("A previous call to CoInitializeEx specified a different concurrency model for the calling thread," & @LF & _
 						"-->or the thread that called CoInitializeEx currently belongs to the neutral threaded apartment.")
 			Case $E_INVALIDARG
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("Invalid Arg")
+				If $Debug_LV Then __UDF_DebugPrint("Invalid Arg")
 			Case $E_OUTOFMEMORY
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("Out of memory")
+				If $Debug_LV Then __UDF_DebugPrint("Out of memory")
 			Case $E_UNEXPECTED
-				If $Debug_LV Then _GUICtrlListView_DebugPrint("Unexpected error")
+				If $Debug_LV Then __UDF_DebugPrint("Unexpected error")
 		EndSwitch
 	EndIf
 	;=========================================================================================================
-	$nCtrlID = _UDF_GetNextGlobalID($hWnd)
+	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	$hList = _WinAPI_CreateWindowEx($iExStyle, $__LISTVIEWCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
@@ -1023,11 +1020,11 @@ EndFunc   ;==>_GUICtrlListView_Create
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: You are responsible for destroying the image list when it is no longer needed
 ; Related .......: _GUICtrlListView_DrawDragImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_CreateDragImage($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $tMemMap, $pMemory, $iPoint, $pPoint, $tPoint, $aDrag[3]
 
 	$tPoint = DllStructCreate($tagPOINT)
@@ -1063,35 +1060,13 @@ EndFunc   ;==>_GUICtrlListView_CreateDragImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_CreateSolidBitMap($hWnd, $iColor, $iWidth, $iHeight)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Return _WinAPI_CreateSolidBitmap($hWnd, $iColor, $iWidth, $iHeight)
 EndFunc   ;==>_GUICtrlListView_CreateSolidBitMap
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_DebugPrint
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlListView_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
-; Parameters ....: $sText       - String to printed to console
-;                  $iLine       - Line number function was called from
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlListView_DebugPrint($sText, $iLine = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_GUICtrlListView_DebugPrint
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_DeleteAllItems
@@ -1104,11 +1079,11 @@ EndFunc   ;==>_GUICtrlListView_DebugPrint
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_DeleteItem, _GUICtrlListView_DeleteItemsSelected
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteAllItems($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $ctrlID, $index
 	If _GUICtrlListView_GetItemCount($hWnd) == 0 Then Return True
 	If IsHWnd($hWnd) Then
@@ -1138,11 +1113,11 @@ EndFunc   ;==>_GUICtrlListView_DeleteAllItems
 ;                  If you must delete column zero, insert a zero length dummy
 ;                  column zero, and delete column one and above
 ; Related .......: _GUICtrlListView_InsertColumn
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteColumn($hWnd, $iCol)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_DELETECOLUMN, $iCol) <> 0
 	Else
@@ -1162,11 +1137,11 @@ EndFunc   ;==>_GUICtrlListView_DeleteColumn
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_DeleteAllItems, _GUICtrlListView_DeleteItemsSelected
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItem($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $ctrlID
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
@@ -1188,11 +1163,11 @@ EndFunc   ;==>_GUICtrlListView_DeleteItem
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_DeleteItem, _GUICtrlListView_DeleteAllItems
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItemsSelected($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $i, $ItemCount
 
 	$ItemCount = _GUICtrlListView_GetItemCount($hWnd)
@@ -1220,11 +1195,11 @@ EndFunc   ;==>_GUICtrlListView_DeleteItemsSelected
 ; Modified.......:
 ; Remarks .......: Restricted to only be used on ListViews created with _GUICtrlListView_Create
 ; Related .......: _GUICtrlListView_Create
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_Destroy(ByRef $hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $Destroyed, $iResult
 
 	If _WinAPI_IsClassName($hWnd, $__LISTVIEWCONSTANT_ClassName) Then
@@ -1233,7 +1208,7 @@ Func _GUICtrlListView_Destroy(ByRef $hWnd)
 				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 				Local $hParent = _WinAPI_GetParent($hWnd)
 				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = _UDF_FreeGlobalID($hParent, $nCtrlID)
+				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
 				If Not $iResult Then
 					; can check for errors here if needed, for debug
 				EndIf
@@ -1250,10 +1225,10 @@ Func _GUICtrlListView_Destroy(ByRef $hWnd)
 	Return SetError(2, 2, False)
 EndFunc   ;==>_GUICtrlListView_Destroy
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_Draw
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_Draw
 ; Description ...: Draws an image list item in the specified device context
-; Syntax.........: _GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY[, $iStyle=0])
+; Syntax.........: __GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY[, $iStyle=0])
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iIndex      - Zero based index of the image to draw
 ;                  $hDC         - Handle to the destination device context
@@ -1270,10 +1245,10 @@ EndFunc   ;==>_GUICtrlListView_Destroy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY, $iStyle = 0)
+Func __GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY, $iStyle = 0)
 	Local $iFlags, $aResult
 
 	If BitAND($iStyle, 1) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_TRANSPARENT)
@@ -1282,7 +1257,7 @@ Func _GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY, $iStyle = 0)
 	If BitAND($iStyle, 8) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_MASK)
 	$aResult = DllCall("ComCtl32.dll", "int", "ImageList_Draw", "hwnd", $hWnd, "int", $iIndex, "hwnd", $hDC, "int", $iX, "int", $iY, "uint", $iFlags)
 	Return $aResult[0] <> 0
-EndFunc   ;==>_GUICtrlListView_Draw
+EndFunc   ;==>__GUICtrlListView_Draw
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_DrawDragImage
@@ -1298,15 +1273,15 @@ EndFunc   ;==>_GUICtrlListView_Draw
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_CreateDragImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DrawDragImage(ByRef $hWnd, ByRef $aDrag)
 	Local $tPoint, $hDC
 	$hDC = _WinAPI_GetWindowDC($hWnd)
 	$tPoint = _WinAPI_GetMousePos(True, $hWnd)
 	_WinAPI_InvalidateRect($hWnd)
-	_GUICtrlListView_Draw($aDrag[0], 0, $hDC, DllStructGetData($tPoint, "X"), DllStructGetData($tPoint, "Y"))
+	__GUICtrlListView_Draw($aDrag[0], 0, $hDC, DllStructGetData($tPoint, "X"), DllStructGetData($tPoint, "Y"))
 	_WinAPI_ReleaseDC($hWnd, $hDC)
 EndFunc   ;==>_GUICtrlListView_DrawDragImage
 
@@ -1323,11 +1298,11 @@ EndFunc   ;==>_GUICtrlListView_DrawDragImage
 ; Remarks .......: When the user completes or cancels editing, the edit control is destroyed and the handle is no longer valid.
 ;                  You can subclass the edit control, but you should not destroy it.
 ; Related .......: _GUICtrlListView_CancelEditLabel
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_EditLabel($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
 	If IsHWnd($hWnd) Then
@@ -1363,12 +1338,12 @@ EndFunc   ;==>_GUICtrlListView_EditLabel
 ; Remarks .......: Minimum operating systems Windows XP.
 ;+
 ;                  This function is not supported under the $LVS_OWNERDATA style.
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetGroupViewEnabled
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_EnableGroupView($hWnd, $fEnable = True)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ENABLEGROUPVIEW, $fEnable)
 	Else
@@ -1387,11 +1362,11 @@ EndFunc   ;==>_GUICtrlListView_EnableGroupView
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_BeginUpdate
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_EndUpdate($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $__LISTVIEWCONSTANT_WM_SETREDRAW, 1) = 0
@@ -1410,11 +1385,11 @@ EndFunc   ;==>_GUICtrlListView_EndUpdate
 ; Modified.......:
 ; Remarks .......: If $fPartialOK parameter is TRUE, no scrolling occurs if the item is at least partially visible
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_EnsureVisible($hWnd, $iIndex, $fPartialOK = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ENSUREVISIBLE, $iIndex, $fPartialOK)
 	Else
@@ -1440,8 +1415,8 @@ EndFunc   ;==>_GUICtrlListView_EnsureVisible
 ; Remarks .......: The search is case insensitive. Unlike _GUICtrlListView_FindText, this function will search all subitems for the text
 ;                  as well.
 ; Related .......: _GUICtrlListView_FindText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindInText($hWnd, $sText, $iStart = -1, $fWrapOK = True, $fReverse = False)
 	Local $iI, $iJ, $iCount, $iColumns, $sList
@@ -1504,12 +1479,12 @@ EndFunc   ;==>_GUICtrlListView_FindInText
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
-; Related .......: _GUICtrlListView_FindParam, $tagLVFINDINFO
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_FindParam, _GUICtrlListView_FindNearest, $tagLVFINDINFO
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindItem($hWnd, $iStart, ByRef $tFindInfo, $sText = "")
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $tBuffer, $pBuffer, $iFindInfo, $pFindInfo, $pMemory, $tMemMap, $pText, $iResult
 
 	$iBuffer = StringLen($sText) + 1
@@ -1563,8 +1538,8 @@ EndFunc   ;==>_GUICtrlListView_FindItem
 ; Modified.......:
 ; Remarks .......: This function is supported only by large icon and small icon modes
 ; Related .......: _GUICtrlListView_FindItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindNearest($hWnd, $iX, $iY, $iDir = 0, $iStart = -1, $fWrapOK = True)
 	Local $tFindInfo, $iFlags, $aDir[8] = [$__LISTVIEWCONSTANT_VK_LEFT, $__LISTVIEWCONSTANT_VK_RIGHT, $__LISTVIEWCONSTANT_VK_UP, $__LISTVIEWCONSTANT_VK_DOWN, $__LISTVIEWCONSTANT_VK_HOME, $__LISTVIEWCONSTANT_VK_END, $__LISTVIEWCONSTANT_VK_PRIOR, $__LISTVIEWCONSTANT_VK_NEXT]
@@ -1582,7 +1557,7 @@ EndFunc   ;==>_GUICtrlListView_FindNearest
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_FindParam
 ; Description ...: Searches for an item with the specified lParam
-; Syntax.........: _GUICtrlListView_FindParam($hWnd, $iPara[, $iStart = -1])
+; Syntax.........: _GUICtrlListView_FindParam($hWnd, $iParam[, $iStart = -1])
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iParam      - Param value to search for
 ;                  $iStart      - Zero based index of the item to begin the search with or -1 to start from  the  beginning.  The
@@ -1593,8 +1568,8 @@ EndFunc   ;==>_GUICtrlListView_FindNearest
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_FindItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindParam($hWnd, $iParam, $iStart = -1)
 	Local $tFindInfo
@@ -1622,8 +1597,8 @@ EndFunc   ;==>_GUICtrlListView_FindParam
 ; Remarks .......: The search is case insensitive. The search is performed on the item only. Use _GUICtrlListView_FindInText if you want
 ;                  to search for the text in subitems.
 ; Related .......: _GUICtrlListView_FindInText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindText($hWnd, $sText, $iStart = -1, $fPartialOK = True, $fWrapOK = True)
 	Local $tFindInfo, $iFlags
@@ -1646,18 +1621,18 @@ EndFunc   ;==>_GUICtrlListView_FindText
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetBkColor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $v_color
 	If IsHWnd($hWnd) Then
 		$v_color = _SendMessage($hWnd, $LVM_GETBKCOLOR)
 	Else
 		$v_color = GUICtrlSendMsg($hWnd, $LVM_GETBKCOLOR, 0, 0)
 	EndIf
-	Return _GUICtrlListView_ReverseColorOrder($v_color)
+	Return __GUICtrlListView_ReverseColorOrder($v_color)
 EndFunc   ;==>_GUICtrlListView_GetBkColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -1677,11 +1652,11 @@ EndFunc   ;==>_GUICtrlListView_GetBkColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetBkImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetBkImage($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $pBuffer, $tBuffer, $pMemory, $tMemMap, $pText, $iImage, $pImage, $tImage, $aImage[4], $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -1759,11 +1734,11 @@ EndFunc   ;==>_GUICtrlListView_GetBkImage
 ;                  to a specific item.  The callback mask is zero by default, meaning that the control stores all item state
 ;                  information.
 ; Related .......: _GUICtrlListView_SetCallBackMask
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetCallbackMask($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iFlags = 0, $iMask
 
 	$iMask = _SendMessage($hWnd, $LVM_GETCALLBACKMASK)
@@ -1798,12 +1773,12 @@ EndFunc   ;==>_GUICtrlListView_GetCallbackMask
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
-; Related .......: _GUICtrlListView_SetColumn
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetColumnn, _GUICtrlListView_JustifyColumn
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumn($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $aColumn[9], $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -1877,12 +1852,12 @@ EndFunc   ;==>_GUICtrlListView_GetColumn
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnCount($hWnd)
 ;~ 	Local Const $HDM_GETITEMCOUNT = 0x1200
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Return _SendMessage(_GUICtrlListView_GetHeader($hWnd), 0x1200)
 EndFunc   ;==>_GUICtrlListView_GetColumnCount
 
@@ -1896,9 +1871,9 @@ EndFunc   ;==>_GUICtrlListView_GetColumnCount
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlListView_SetColumnOrder
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetColumnOrder, _GUICtrlListView_SetColumnOrderArray
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnOrder($hWnd)
 	Local $a_cols = _GUICtrlListView_GetColumnOrderArray($hWnd), $s_cols = ""
@@ -1924,11 +1899,11 @@ EndFunc   ;==>_GUICtrlListView_GetColumnOrder
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetColumnOrderArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnOrderArray($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iI, $iBuffer, $pBuffer, $tBuffer, $iColumns, $pMemory, $tMemMap
 
 	$iColumns = _GUICtrlListView_GetColumnCount($hWnd)
@@ -1969,11 +1944,11 @@ EndFunc   ;==>_GUICtrlListView_GetColumnOrderArray
 ; Remarks .......: If this message is sent to a list-view control with the $LVS_REPORT style
 ;                  and the specified column doesn't exist, the return value is undefined.
 ; Related .......: _GUICtrlListView_SetColumnWidth
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnWidth($hWnd, $iCol)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETCOLUMNWIDTH, $iCol)
 	Else
@@ -1992,11 +1967,11 @@ EndFunc   ;==>_GUICtrlListView_GetColumnWidth
 ; Remarks .......: If the current view is icon or small icon view, the return value is the total number
 ;                  of items in the list-view control.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetCounterPage($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETCOUNTPERPAGE)
 	Else
@@ -2016,9 +1991,9 @@ EndFunc   ;==>_GUICtrlListView_GetCounterPage
 ; Remarks .......: When label editing begins, an edit control is created, positioned, and initialized.  Before displayed, the
 ;                  control sends its parent window an $LVN_BEGINLABELEDIT notification message.
 ;+
-;                  If you want to customize label editing implement a handler for $LVN_BEGINLABELEDIT and have it send an
-;                  $LVM_GETEDITCONTROL message to the control. If a label is being edited, the return value will be a handle
-;                  to the edit control. Use this handle to customize the edit control by sending the usual EM_XXX messages.
+;                  If you want to customize label editing implement a handler for $LVN_BEGINLABELEDITA,  $LVN_BEGINLABELEDITAW
+;                  and have it send an $LVM_GETEDITCONTROL message to the control. If a label is being edited, the return value
+;                  will be a handle to the edit control. Use this handle to customize the edit control by sending the usual EM_XXX messages.
 ;+
 ;                  When the user completes or cancels editing, the edit control is destroyed and the handle is no longer valid.
 ;                  You can subclass the edit control, but you should not destroy it.  To cancel editing, send the control a
@@ -2027,11 +2002,11 @@ EndFunc   ;==>_GUICtrlListView_GetCounterPage
 ;                  The control item  being edited is the currently focused item. To find an item based on its state, use the
 ;                  $LVM_GETNEXTITEM message.
 ; Related .......: _GUICtrlListView_CancelEditLabel
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetEditControl($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETEDITCONTROL)
 	Else
@@ -2050,11 +2025,11 @@ EndFunc   ;==>_GUICtrlListView_GetEditControl
 ; Modified.......:
 ; Remarks .......: Minimum OS: Windows Vista
 ; Related .......:
-; Link ..........; @@MsdnLink@@ LVM_GETEMPTYTEXT
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ LVM_GETEMPTYTEXT
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetEmptyText($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $tText = DllStructCreate("char[4096]")
 	Local $iResult, $iText, $pText, $pMemory, $pBuffer = DllStructGetPtr($tText), $tMemMap
 
@@ -2086,11 +2061,11 @@ EndFunc   ;==>_GUICtrlListView_GetEmptyText
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetExtendedListViewStyle
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetExtendedListViewStyle($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETEXTENDEDLISTVIEWSTYLE)
 	Else
@@ -2108,11 +2083,11 @@ EndFunc   ;==>_GUICtrlListView_GetExtendedListViewStyle
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetFocusedGroup($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETFOCUSEDGROUP)
 	Else
@@ -2130,11 +2105,11 @@ EndFunc   ;==>_GUICtrlListView_GetFocusedGroup
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupCount($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETGROUPCOUNT)
 	Else
@@ -2157,12 +2132,12 @@ EndFunc   ;==>_GUICtrlListView_GetGroupCount
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems: Windows XP
-; Related .......: _GUICtrlListView_SetGroupInfo
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetGroupInfo, _GUICtrlListView_GetGroupInfoByIndex
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupInfo($hWnd, $iGroupID)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iGroup, $pGroup, $tGroup, $aGroup[2], $tMemMap, $pMemory, $iResult
 
 	$tGroup = DllStructCreate($tagLVGROUP)
@@ -2211,11 +2186,11 @@ EndFunc   ;==>_GUICtrlListView_GetGroupInfo
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......: _GUICtrlListView_SetGroupInfo, _GUICtrlListView_GetGroupInfo
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupInfoByIndex($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iGroup, $pGroup, $tGroup, $aGroup[2], $tMemMap, $pMemory, $iResult
 
 	$tGroup = DllStructCreate($tagLVGROUP)
@@ -2268,11 +2243,11 @@ EndFunc   ;==>_GUICtrlListView_GetGroupInfoByIndex
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupRect($hWnd, $iGroupID, $iGet = $LVGGR_GROUP)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iGroup, $pGroup, $tGroup, $aGroup[4], $tMemMap, $pMemory, $iResult
 
 	$tGroup = DllStructCreate($tagRECT)
@@ -2319,11 +2294,11 @@ EndFunc   ;==>_GUICtrlListView_GetGroupRect
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupState($hWnd, $iGroupID, $iMask)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETGROUPSTATE, $iGroupID, $iMask)
@@ -2344,11 +2319,11 @@ EndFunc   ;==>_GUICtrlListView_GetGroupState
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_EnableGroupView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupViewEnabled($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ISGROUPVIEWENABLED) <> 0
 	Else
@@ -2366,11 +2341,11 @@ EndFunc   ;==>_GUICtrlListView_GetGroupViewEnabled
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHeader($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHEADER)
 	Else
@@ -2389,11 +2364,11 @@ EndFunc   ;==>_GUICtrlListView_GetHeader
 ; Modified.......:
 ; Remarks .......: A list-view control uses hot tracking and hover selection when the $LVS_EX_TRACKSELECT style is set.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHotCursor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOTCURSOR, 0, 0, 0, "wparam", "lparam", "hwnd")
 	Else
@@ -2411,11 +2386,11 @@ EndFunc   ;==>_GUICtrlListView_GetHotCursor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetHotItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHotItem($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOTITEM)
 	Else
@@ -2436,11 +2411,11 @@ EndFunc   ;==>_GUICtrlListView_GetHotItem
 ; Remarks .......: The hover time only affects list-view controls that have the $LVS_EX_TRACKSELECT, $LVS_EX_ONECLICKACTIVATE,
 ;                  or $LVS_EX_TWOCLICKACTIVATE extended list-view style.
 ; Related .......: _GUICtrlListView_SetHoverTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHoverTime($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOVERTIME)
 	Else
@@ -2463,11 +2438,11 @@ EndFunc   ;==>_GUICtrlListView_GetHoverTime
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetImageList
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetImageList($hWnd, $iImageList)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $aImageList[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0, 0, "wparam", "lparam", "hwnd")
@@ -2491,11 +2466,11 @@ EndFunc   ;==>_GUICtrlListView_GetImageList
 ;                  An insertion point can appear only if the control is in icon view, small icon view, or tile view,
 ;                  and is not in group view mode.
 ; Related .......: _GUICtrlListView_SetInsertMark
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMark($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iMark, $pMark, $tMark, $pMemory, $tMemMap, $aMark[2], $iResult
 
 	$tMark = DllStructCreate($tagLVINSERTMARK)
@@ -2530,11 +2505,11 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMark
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_SetInsertMarkColor
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMarkColor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETINSERTMARKCOLOR, $LVSIL_STATE)
 	Else
@@ -2557,11 +2532,11 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMarkColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMarkRect($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[5]
 
 	$tRect = DllStructCreate($tagRECT)
@@ -2602,11 +2577,11 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMarkRect
 ;                  A time-out period is associated with each character that the user types. If the time-out period
 ;                  elapses before the user types another character, the incremental search string is reset.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetISearchString($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -2681,9 +2656,9 @@ EndFunc   ;==>_GUICtrlListView_GetISearchString
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlListView_SetItem
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetItem, _GUICtrlListView_GetItemEx
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItem($hWnd, $iIndex, $iSubItem = 0)
 	Local $iState, $tItem, $aItem[8]
@@ -2699,8 +2674,8 @@ Func _GUICtrlListView_GetItem($hWnd, $iIndex, $iSubItem = 0)
 	If BitAND($iState, $LVIS_DROPHILITED) <> 0 Then $aItem[0] = BitOR($aItem[0], 2)
 	If BitAND($iState, $LVIS_FOCUSED) <> 0 Then $aItem[0] = BitOR($aItem[0], 4)
 	If BitAND($iState, $LVIS_SELECTED) <> 0 Then $aItem[0] = BitOR($aItem[0], 8)
-	$aItem[1] = _GUICtrlListView_OverlayImageMaskToIndex($iState)
-	$aItem[2] = _GUICtrlListView_StateImageMaskToIndex($iState)
+	$aItem[1] = __GUICtrlListView_OverlayImageMaskToIndex($iState)
+	$aItem[2] = __GUICtrlListView_StateImageMaskToIndex($iState)
 	$aItem[3] = _GUICtrlListView_GetItemText($hWnd, $iIndex, $iSubItem)
 	$aItem[4] = DllStructGetData($tItem, "Image")
 	$aItem[5] = DllStructGetData($tItem, "Param")
@@ -2721,11 +2696,11 @@ EndFunc   ;==>_GUICtrlListView_GetItem
 ; Modified.......: Siao for external control
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemChecked
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemChecked($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $tLVITEM = DllStructCreate($tagLVITEM)
 	Local $iResult, $tMemMap, $pMemory, $pItem, $iSize
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -2777,11 +2752,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemChecked
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemCount
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemCount($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETITEMCOUNT)
 	Else
@@ -2801,11 +2776,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemCount
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemCut
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemCut($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_CUT) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemCut
 
@@ -2821,11 +2796,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemCut
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemDropHilited
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemDropHilited($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_DROPHILITED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemDropHilited
 
@@ -2841,11 +2816,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemDropHilited
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItem, $tagLVITEM
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemEx($hWnd, ByRef $tItem)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iItem, $pItem, $pMemory, $tMemMap, $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -2891,11 +2866,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemFocused
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemFocused($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_FOCUSED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemFocused
 
@@ -2910,8 +2885,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemFocused
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_SetItemGroupID
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemGroupID($hWnd, $iIndex)
 	Local $tItem
@@ -2936,8 +2911,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemGroupID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemImage($hWnd, $iIndex, $iSubItem = 0)
 	Local $tItem
@@ -2961,8 +2936,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemIndent
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemIndent($hWnd, $iIndex)
 	Local $tItem
@@ -2974,23 +2949,23 @@ Func _GUICtrlListView_GetItemIndent($hWnd, $iIndex)
 	Return DllStructGetData($tItem, "Indent")
 EndFunc   ;==>_GUICtrlListView_GetItemIndent
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_GetItemOverlayImage
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_GetItemOverlayImage
 ; Description ...: Gets the overlay image that is superimposed over the item's icon image
-; Syntax.........: _GUICtrlListView_GetItemOverlayImage($hWnd, $iIndex)
+; Syntax.........: __GUICtrlListView_GetItemOverlayImage($hWnd, $iIndex)
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iIndex      - Zero based index of the item
 ; Return values .: Success      - Zero based image index
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_SetItemOverlayImage
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_SetItemOverlayImage
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_GetItemOverlayImage($hWnd, $iIndex)
+Func __GUICtrlListView_GetItemOverlayImage($hWnd, $iIndex)
 	Return BitShift(_GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_OVERLAYMASK), 8)
-EndFunc   ;==>_GUICtrlListView_GetItemOverlayImage
+EndFunc   ;==>__GUICtrlListView_GetItemOverlayImage
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_GetItemParam
@@ -3003,8 +2978,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemOverlayImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemParam
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemParam($hWnd, $iIndex)
 	Local $tItem
@@ -3028,12 +3003,12 @@ EndFunc   ;==>_GUICtrlListView_GetItemParam
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
-; Related .......: _GUICtrlListView_SetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetItemPosition, _GUICtrlListView_GetItemPositionX, _GUICtrlListView_GetItemPositionY
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemPosition($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $aPoint[2], $iResult
 
 	$tPoint = DllStructCreate($tagPOINT)
@@ -3068,8 +3043,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemPosition
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemPositionX($hWnd, $iIndex)
 	Local $aPoint = _GUICtrlListView_GetItemPosition($hWnd, $iIndex)
@@ -3087,8 +3062,8 @@ EndFunc   ;==>_GUICtrlListView_GetItemPositionX
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemPositionY($hWnd, $iIndex)
 	Local $aPoint = _GUICtrlListView_GetItemPosition($hWnd, $iIndex)
@@ -3115,11 +3090,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemPositionY
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemRectEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemRect($hWnd, $iIndex, $iPart = 3)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $tRect, $aRect[4]
 
 	$tRect = _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $iPart)
@@ -3147,11 +3122,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemRect
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemRect, $tagRECT
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $iPart = 3)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap
 
 	$tRect = DllStructCreate($tagRECT)
@@ -3186,11 +3161,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemRectEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetItemSelected
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSelected($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_SELECTED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemSelected
 
@@ -3209,11 +3184,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemSelected
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemSpacingX, _GUICtrlListView_GetItemSpacingY
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacing($hWnd, $fSmall = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iSpace, $aSpace[2]
 	If IsHWnd($hWnd) Then
 		$iSpace = _SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall)
@@ -3238,11 +3213,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacing
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemSpacing
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacingX($hWnd, $fSmall = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return BitAND(_SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall, 0), 0xFFFF)
 	Else
@@ -3263,11 +3238,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacingX
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemSpacing
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacingY($hWnd, $fSmall = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return BitShift(_SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall, 0), 16)
 	Else
@@ -3294,11 +3269,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacingY
 ; Remarks .......: An items state information includes a set of bit flags as well as image list indexes that indicate the item's
 ;                  state image and overlay image
 ; Related .......: _GUICtrlListView_SetItemState
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemState($hWnd, $iIndex, $iMask)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETITEMSTATE, $iIndex, $iMask)
 	Else
@@ -3316,9 +3291,9 @@ EndFunc   ;==>_GUICtrlListView_GetItemState
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlListView_GetItemStateImage
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetItemStateImage
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemStateImage($hWnd, $iIndex)
 	Return BitShift(_GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_STATEIMAGEMASK), 12)
@@ -3336,12 +3311,12 @@ EndFunc   ;==>_GUICtrlListView_GetItemStateImage
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: To retrieve the item text, set iSubItem to zero. To retrieve the text of a subitem, set iSubItem to the one
 ;                  based subitem's index.
-; Related .......: _GUICtrlListView_SetItemText
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetItemText, _GUICtrlListView_GetItemTextArray, _GUICtrlListView_GetItemTextString
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemText($hWnd, $iIndex, $iSubItem = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -3405,11 +3380,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemText
 ; Modified.......:
 ; Remarks .......: If $iItem = -1 then will attempt to get the Currently Selected item.
 ; Related .......: _GUICtrlListView_SetItemText, _GUICtrlListView_GetItemText, _GUICtrlListView_GetItemTextString
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemTextArray($hWnd, $iItem = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $vItems[1], $SeparatorChar = Opt('GUIDataSeparatorChar')
 	$vItems = _GUICtrlListView_GetItemTextString($hWnd, $iItem)
 	If @error Or $vItems = "" Then Return SetError($LV_ERR, $LV_ERR, $vItems)
@@ -3428,24 +3403,23 @@ EndFunc   ;==>_GUICtrlListView_GetItemTextArray
 ; Modified.......:
 ; Remarks .......: If $iItem = -1 then will attempt to get the Currently Selected item.
 ; Related .......: _GUICtrlListView_SetItemText, _GUICtrlListView_GetItemText, _GUICtrlListView_GetItemTextArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemTextString($hWnd, $iItem = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
-	Local $sRow = "", $SeparatorChar = Opt('GUIDataSeparatorChar')
-	If $iItem <> -1 Then ; get row
-		For $x = 0 To _GUICtrlListView_GetColumnCount($hWnd) - 1
-			$sRow &= _GUICtrlListView_GetItemText($hWnd, $iItem, $x) & $SeparatorChar
-		Next
-		Return StringTrimRight($sRow, 1)
-	Else ; get current row selected
-		For $x = 0 To _GUICtrlListView_GetColumnCount($hWnd) - 1
-			$sRow &= _GUICtrlListView_GetItemText($hWnd, _GUICtrlListView_GetNextItem($hWnd), $x) & $SeparatorChar
-		Next
-		Return StringTrimRight($sRow, 1)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+	Local $sRow = "", $SeparatorChar = Opt('GUIDataSeparatorChar'), $iSelected
+	If $iItem = -1 Then
+		$iSelected = _GUICtrlListView_GetNextItem($hWnd) ; get current row selected
+	Else
+		$iSelected = $iItem ; get row
 	EndIf
+	For $x = 0 To _GUICtrlListView_GetColumnCount($hWnd) - 1
+		$sRow &= _GUICtrlListView_GetItemText($hWnd, $iSelected, $x) & $SeparatorChar
+	Next
+	Return StringTrimRight($sRow, 1)
 EndFunc   ;==>_GUICtrlListView_GetItemTextString
+
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_GetNextItem
@@ -3471,11 +3445,11 @@ EndFunc   ;==>_GUICtrlListView_GetItemTextString
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetNextItem($hWnd, $iStart = -1, $iSearch = 0, $iState = 8)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iFlags, $aSearch[5] = [$LVNI_ALL, $LVNI_ABOVE, $LVNI_BELOW, $LVNI_TOLEFT, $LVNI_TORIGHT]
 
 	$iFlags = $aSearch[$iSearch]
@@ -3500,11 +3474,11 @@ EndFunc   ;==>_GUICtrlListView_GetNextItem
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetWorkAreas
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetNumberOfWorkAreas($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $tMemMap, $pMemory
 
 	$tBuffer = DllStructCreate("int Data")
@@ -3538,11 +3512,11 @@ EndFunc   ;==>_GUICtrlListView_GetNumberOfWorkAreas
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetOriginX, _GUICtrlListView_GetOriginY
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOrigin($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $aOrigin[2], $iResult
 
 	$tPoint = DllStructCreate($tagPOINT)
@@ -3575,8 +3549,8 @@ EndFunc   ;==>_GUICtrlListView_GetOrigin
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetOrigin
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOriginX($hWnd)
 	Local $aOrigin = _GUICtrlListView_GetOrigin($hWnd)
@@ -3593,8 +3567,8 @@ EndFunc   ;==>_GUICtrlListView_GetOriginX
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetOrigin
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOriginY($hWnd)
 	Local $aOrigin = _GUICtrlListView_GetOrigin($hWnd)
@@ -3611,11 +3585,11 @@ EndFunc   ;==>_GUICtrlListView_GetOriginY
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP. Control must have the $LVS_EX_BORDERSELECT extended window style set
 ; Related .......: _GUICtrlListView_SetOutlineColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOutlineColor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETOUTLINECOLOR)
 	Else
@@ -3634,11 +3608,11 @@ EndFunc   ;==>_GUICtrlListView_GetOutlineColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_SetSelectedColumn
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedColumn($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTEDCOLUMN)
 	Else
@@ -3656,11 +3630,11 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedColumn
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedCount($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTEDCOUNT)
 	Else
@@ -3692,11 +3666,11 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedCount
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedIndices($hWnd, $fArray = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $sIndices, $aIndices[1] = [0]
 	Local $iResult, $iCount = _GUICtrlListView_GetItemCount($hWnd)
 	For $iItem = 0 To $iCount
@@ -3737,11 +3711,11 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedIndices
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: The selection mark is the item index from which a multiple selection starts
 ; Related .......: _GUICtrlListView_SetSelectionMark
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectionMark($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTIONMARK)
 	Else
@@ -3763,11 +3737,11 @@ EndFunc   ;==>_GUICtrlListView_GetSelectionMark
 ;                  width as the column width in the SetColumnWidth function the string will be truncated.  To retrieve the column
 ;                  width that can contain the string without truncating it, you must add padding to the returned string width.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetStringWidth($hWnd, $sString)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap, $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -3827,11 +3801,11 @@ EndFunc   ;==>_GUICtrlListView_GetStringWidth
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: This function is used only with controls that use the $LVS_REPORT style
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSubItemRect($hWnd, $iIndex, $iSubItem, $iPart = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[4], $aPart[2] = [$LVIR_BOUNDS, $LVIR_ICON]
 
 	$tRect = DllStructCreate($tagRECT)
@@ -3869,11 +3843,11 @@ EndFunc   ;==>_GUICtrlListView_GetSubItemRect
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetTextBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTextBkColor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTEXTBKCOLOR)
 	Else
@@ -3891,11 +3865,11 @@ EndFunc   ;==>_GUICtrlListView_GetTextBkColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetTextColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTextColor($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTEXTCOLOR)
 	Else
@@ -3913,11 +3887,11 @@ EndFunc   ;==>_GUICtrlListView_GetTextColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetToolTips
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetToolTips($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return HWnd(_SendMessage($hWnd, $LVM_GETTOOLTIPS))
 	Else
@@ -3936,11 +3910,11 @@ EndFunc   ;==>_GUICtrlListView_GetToolTips
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTopIndex($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTOPINDEX)
 	Else
@@ -3959,11 +3933,11 @@ EndFunc   ;==>_GUICtrlListView_GetTopIndex
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetUnicodeFormat($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETUNICODEFORMAT) <> 0
 	Else
@@ -3986,12 +3960,12 @@ EndFunc   ;==>_GUICtrlListView_GetUnicodeFormat
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
-; Related .......: _GUICtrlListView_SetView
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_SetView, _GUICtrlListView_GetViewDetails, _GUICtrlListView_GetViewLarge, _GUICtrlListView_GetViewList, _GUICtrlListView_GetViewSmall, _GUICtrlListView_GetViewTile
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetView($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $view
 	If IsHWnd($hWnd) Then
 		$view = _SendMessage($hWnd, $LVM_GETVIEW)
@@ -4025,8 +3999,8 @@ EndFunc   ;==>_GUICtrlListView_GetView
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewDetails($hWnd)
 	Return _GUICtrlListView_GetView($hWnd) = 0
@@ -4043,8 +4017,8 @@ EndFunc   ;==>_GUICtrlListView_GetViewDetails
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewLarge($hWnd)
 	Return _GUICtrlListView_GetView($hWnd) = 1
@@ -4061,8 +4035,8 @@ EndFunc   ;==>_GUICtrlListView_GetViewLarge
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewList($hWnd)
 	Return _GUICtrlListView_GetView($hWnd) = 2
@@ -4079,8 +4053,8 @@ EndFunc   ;==>_GUICtrlListView_GetViewList
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewSmall($hWnd)
 	Return _GUICtrlListView_GetView($hWnd) = 3
@@ -4097,8 +4071,8 @@ EndFunc   ;==>_GUICtrlListView_GetViewSmall
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewTile($hWnd)
 	Return _GUICtrlListView_GetView($hWnd) = 4
@@ -4118,11 +4092,11 @@ EndFunc   ;==>_GUICtrlListView_GetViewTile
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: The control must be in icon or small icon view
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewRect($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iView, $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[4] = [0, 0, 0, 0]
 
 	$iView = _GUICtrlListView_GetView($hWnd)
@@ -4162,11 +4136,11 @@ EndFunc   ;==>_GUICtrlListView_GetViewRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SetColumnWidth
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_HideColumn($hWnd, $iCol)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETCOLUMNWIDTH, $iCol) <> 0
 	Else
@@ -4196,11 +4170,11 @@ EndFunc   ;==>_GUICtrlListView_HideColumn
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_SubItemHitTest
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_HitTest($hWnd, $iX = -1, $iY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iFlags, $iTest, $tTest, $pTest, $pMemory, $tMemMap, $aTest[10]
 	Local $iMode, $aPos, $tPoint
 
@@ -4245,39 +4219,39 @@ Func _GUICtrlListView_HitTest($hWnd, $iX = -1, $iY = -1)
 	Return $aTest
 EndFunc   ;==>_GUICtrlListView_HitTest
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_IndexToOverlayImageMask
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_IndexToOverlayImageMask
 ; Description ...: Converts an image index to a overlay image mask
-; Syntax.........: _GUICtrlListView_IndexToOverlayImageMask($iIndex)
+; Syntax.........: __GUICtrlListView_IndexToOverlayImageMask($iIndex)
 ; Parameters ....: $iIndex      - One based overlay index
 ; Return values .: Success      - Image index mask
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_OverlayImageMaskToIndex
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_OverlayImageMaskToIndex
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_IndexToOverlayImageMask($iIndex)
+Func __GUICtrlListView_IndexToOverlayImageMask($iIndex)
 	Return BitShift($iIndex, -8)
-EndFunc   ;==>_GUICtrlListView_IndexToOverlayImageMask
+EndFunc   ;==>__GUICtrlListView_IndexToOverlayImageMask
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_IndexToStateImageMask
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_IndexToStateImageMask
 ; Description ...: Converts an image index to a state image mask
-; Syntax.........: _GUICtrlListView_IndexToStateImageMask($iIndex)
+; Syntax.........: __GUICtrlListView_IndexToStateImageMask($iIndex)
 ; Parameters ....: $iIndex      - One based image index
 ; Return values .: Success      - Image index mask
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_StateImageMaskToIndex
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_StateImageMaskToIndex
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_IndexToStateImageMask($iIndex)
+Func __GUICtrlListView_IndexToStateImageMask($iIndex)
 	Return BitShift($iIndex, -12)
-EndFunc   ;==>_GUICtrlListView_IndexToStateImageMask
+EndFunc   ;==>__GUICtrlListView_IndexToStateImageMask
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_InsertColumn
@@ -4299,11 +4273,11 @@ EndFunc   ;==>_GUICtrlListView_IndexToStateImageMask
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: The alignment of the leftmost column is always left-justified; it cannot be changed
 ; Related .......: _GUICtrlListView_DeleteColumn
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertColumn($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = -1, $iImage = -1, $fOnRight = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $iMask, $iFmt, $iResult
 	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -4387,11 +4361,11 @@ EndFunc   ;==>_GUICtrlListView_InsertColumn
 ;+
 ;                  A group cannot be inserted into an empty control.
 ; Related .......: _GUICtrlListView_SetItemGroupID
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertGroup($hWnd, $iIndex, $iGroupID, $sHeader, $iAlign = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iHeader, $pHeader, $tHeader, $iGroup, $pGroup, $tGroup, $pMemory, $tMemMap, $pText, $iMask, $iResult
 	Local $aAlign[3] = [$LVGA_HEADER_LEFT, $LVGA_HEADER_CENTER, $LVGA_HEADER_RIGHT]
 
@@ -4447,11 +4421,11 @@ EndFunc   ;==>_GUICtrlListView_InsertGroup
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: You can not use this function to insert subitems. Use _GUICtrlListView_SetItemText to insert subitems.
 ; Related .......: _GUICtrlListView_SetItemText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertItem($hWnd, $sText, $iIndex = -1, $iImage = -1, $iParam = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iMask, $iResult
 	If $iIndex = -1 Then $iIndex = 999999999
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -4524,11 +4498,11 @@ EndFunc   ;==>_GUICtrlListView_InsertItem
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetInsertMark
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertMarkHitTest($hWnd, $iX = -1, $iY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iPoint, $pPoint, $tPoint, $iMark, $tMark, $pMark, $pMemM, $pMemP, $tMemMap, $aTest[2]
 	Local $iMode, $aPos
 
@@ -4582,11 +4556,11 @@ EndFunc   ;==>_GUICtrlListView_InsertMarkHitTest
 ; Modified.......:
 ; Remarks .......: Minimum operating systems: Windows Vista
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_IsItemVisible($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ISITEMVISIBLE, $iIndex) <> 0
@@ -4611,11 +4585,11 @@ EndFunc   ;==>_GUICtrlListView_IsItemVisible
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetColumn, _GUICtrlListView_SetColumn
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_JustifyColumn($hWnd, $iIndex, $iAlign = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $iMask, $iFmt, $iResult
 	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -4672,11 +4646,11 @@ EndFunc   ;==>_GUICtrlListView_JustifyColumn
 ;                  The ListView control can tag an item with an ID when the item is created.  You can use this ID to guarantee
 ;                  uniqueness during the lifetime of the control.
 ; Related .......: _GUICtrlListView_MapIndexToID
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_MapIDToIndex($hWnd, $iID)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MAPIDTOINDEX, $iID)
 	Else
@@ -4701,11 +4675,11 @@ EndFunc   ;==>_GUICtrlListView_MapIDToIndex
 ;                  The ListView control can tag an item with an ID when the item is created.  You can use this ID to guarantee
 ;                  uniqueness during the lifetime of the control.
 ; Related .......: _GUICtrlListView_MapIDToIndex
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_MapIndexToID($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MAPINDEXTOID, $iIndex)
 	Else
@@ -4725,11 +4699,11 @@ EndFunc   ;==>_GUICtrlListView_MapIndexToID
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_MoveGroup($hWnd, $iGroupID, $iIndex = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MOVEGROUP, $iGroupID, $iIndex)
 	Else
@@ -4737,22 +4711,22 @@ Func _GUICtrlListView_MoveGroup($hWnd, $iGroupID, $iIndex = -1)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_MoveGroup
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_OverlayImageMaskToIndex
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_OverlayImageMaskToIndex
 ; Description ...: Converts an overlay image mask to an image index
-; Syntax.........: _GUICtrlListView_OverlayImageMaskToIndex($iMask)
+; Syntax.........: __GUICtrlListView_OverlayImageMaskToIndex($iMask)
 ; Parameters ....: $iMask       - Image index mask
 ; Return values .: Success      - Image index
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_IndexToOverlayImageMask
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_IndexToOverlayImageMask
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_OverlayImageMaskToIndex($iMask)
+Func __GUICtrlListView_OverlayImageMaskToIndex($iMask)
 	Return BitShift(BitAND($LVIS_OVERLAYMASK, $iMask), 8)
-EndFunc   ;==>_GUICtrlListView_OverlayImageMaskToIndex
+EndFunc   ;==>__GUICtrlListView_OverlayImageMaskToIndex
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_RedrawItems
@@ -4767,11 +4741,11 @@ EndFunc   ;==>_GUICtrlListView_OverlayImageMaskToIndex
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: The specified items are not actually redrawn until the control receives a $WM_PAINT message to repaint.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_RedrawItems($hWnd, $iFirst, $iLast)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_REDRAWITEMS, $iFirst, $iLast) <> 0
 	Else
@@ -4799,11 +4773,11 @@ EndFunc   ;==>_GUICtrlListView_RedrawItems
 ;                  This is an alternative to the _GUICtrlListView_SimpleSort.
 ;                  This function will sort listviews that have icons, checkboxes, sub-item icons
 ; Related .......: _GUICtrlListView_UnRegisterSortCallBack, _GUICtrlListView_SortItems
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_RegisterSortCallBack($hWnd, $fNumbers = True, $fArrows = True)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iIndex, $hHeader
 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
@@ -4818,7 +4792,7 @@ Func _GUICtrlListView_RegisterSortCallBack($hWnd, $fNumbers = True, $fArrows = T
 	$aListViewSortInfo[$iIndex][1] = $hWnd ; Handle/ID of listview
 
 	$aListViewSortInfo[$iIndex][2] = _
-			DllCallbackRegister("_GUICtrlListView_Sort", "int", "int;int;hwnd") ; Handle of callback
+			DllCallbackRegister("__GUICtrlListView_Sort", "int", "int;int;hwnd") ; Handle of callback
 	$aListViewSortInfo[$iIndex][3] = -1 ; $nColumn
 	$aListViewSortInfo[$iIndex][4] = -1 ; nCurCol
 	$aListViewSortInfo[$iIndex][5] = 1 ; $nSortDir
@@ -4841,11 +4815,11 @@ EndFunc   ;==>_GUICtrlListView_RegisterSortCallBack
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_RemoveGroup
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_RemoveAllGroups($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_REMOVEALLGROUPS)
 	Else
@@ -4864,12 +4838,12 @@ EndFunc   ;==>_GUICtrlListView_RemoveAllGroups
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
-; Related .......: _GUICtrlListView_RemoveGroup
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_RemoveAllGroups
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_RemoveGroup($hWnd, $iGroupID)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_REMOVEGROUP, $iGroupID)
 	Else
@@ -4877,23 +4851,23 @@ Func _GUICtrlListView_RemoveGroup($hWnd, $iGroupID)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_RemoveGroup
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_ReverseColorOrder
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_ReverseColorOrder
 ; Description ...: Convert Hex RGB or BGR Color to Hex RGB or BGR Color
-; Syntax.........: _GUICtrlListView_ReverseColorOrder($iColor)
+; Syntax.........: __GUICtrlListView_ReverseColorOrder($iColor)
 ; Parameters ....: $iColor      - Color to convert
 ; Return values .: Color        - Hex RGB or BGR Color
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: This function is used interanally only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_ReverseColorOrder($iColor)
+Func __GUICtrlListView_ReverseColorOrder($iColor)
 	Local $tc = Hex(String($iColor), 6)
 	Return '0x' & StringMid($tc, 5, 2) & StringMid($tc, 3, 2) & StringMid($tc, 1, 2)
-EndFunc   ;==>_GUICtrlListView_ReverseColorOrder
+EndFunc   ;==>__GUICtrlListView_ReverseColorOrder
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_Scroll
@@ -4913,11 +4887,11 @@ EndFunc   ;==>_GUICtrlListView_ReverseColorOrder
 ;                  for $iDY, the list will be scrolled by 16 pixels (1 line). If 7 is passed for $iDY, the list will be
 ;                  scrolled 0 pixels (0 lines).
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_Scroll($hWnd, $iDX, $iDY)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SCROLL, $iDX, $iDY) <> 0
 	Else
@@ -4937,11 +4911,11 @@ EndFunc   ;==>_GUICtrlListView_Scroll
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetBkColor($hWnd, $iColor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iResult
 	If IsHWnd($hWnd) Then
 		$iResult = _SendMessage($hWnd, $LVM_SETBKCOLOR, 0, $iColor)
@@ -4972,12 +4946,12 @@ EndFunc   ;==>_GUICtrlListView_SetBkColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Call CoUninitialize when the application is terminating.
 ;                  At this time this function only works with _GUICtrlListView_Create or External ListViews.
-; Related .......: _GUICtrlListView_Create, _GUICtrlListView_SetBkImage
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_Create, _GUICtrlListView_GetBkImage
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetBkImage($hWnd, $sURL = "", $iStyle = 0, $iXOffset = 0, $iYOffset = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then Return SetError($LV_ERR, $LV_ERR, False)
 	Local $iBuffer, $pBuffer, $tBuffer, $iImage, $pImage, $tImage, $pMemory, $tMemMap, $pText, $iResult
 	Local $aStyle[2] = [$LVBKIF_STYLE_NORMAL, $LVBKIF_STYLE_TILE]
@@ -5055,11 +5029,11 @@ EndFunc   ;==>_GUICtrlListView_SetBkImage
 ;                  callback item designation, which applies to a specific item.  The callback mask is zero by default, meaning
 ;                  that the control stores all item state information.
 ; Related .......: _GUICtrlListView_GetCallbackMask
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetCallBackMask($hWnd, $iMask)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iFlags
 
 	If BitAND($iMask, 1) <> 0 Then $iFlags = BitOR($iFlags, $LVIS_CUT)
@@ -5094,12 +5068,12 @@ EndFunc   ;==>_GUICtrlListView_SetCallBackMask
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
-; Related .......: _GUICtrlListView_GetColumn
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetColumn, _GUICtrlListView_JustifyColumn
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumn($hWnd, $iIndex, $sText, $iWidth = -1, $iAlign = -1, $iImage = -1, $fOnRight = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $iMask, $iFmt, $iResult
 	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -5178,8 +5152,8 @@ EndFunc   ;==>_GUICtrlListView_SetColumn
 ; Modified.......:
 ; Remarks .......: Columns are zero-based
 ; Related .......: _GUICtrlListView_GetColumnOrder, _GUICtrlListView_SetColumnOrderArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumnOrder($hWnd, $sOrder)
 	Local $SeparatorChar = Opt('GUIDataSeparatorChar')
@@ -5203,11 +5177,11 @@ EndFunc   ;==>_GUICtrlListView_SetColumnOrder
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetColumnOrder, _GUICtrlListView_GetColumnOrderArray, _GUICtrlListView_SetColumnOrder
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumnOrderArray($hWnd, $aOrder)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iI, $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap, $iResult
 
 	$tBuffer = DllStructCreate("int[" & $aOrder[0] & "]")
@@ -5249,12 +5223,12 @@ EndFunc   ;==>_GUICtrlListView_SetColumnOrderArray
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlListView_GetColumnWidth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetColumnWidth, _GUICtrlListView_HideColumn
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumnWidth($hWnd, $iCol, $iWidth)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETCOLUMNWIDTH, $iCol, $iWidth)
 	Else
@@ -5294,11 +5268,11 @@ EndFunc   ;==>_GUICtrlListView_SetColumnWidth
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetExtendedListViewStyle
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetExtendedListViewStyle($hWnd, $iExStyle, $iExMask = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iResult
 	If IsHWnd($hWnd) Then
 		$iResult = _SendMessage($hWnd, $LVM_SETEXTENDEDLISTVIEWSTYLE, $iExMask, $iExStyle)
@@ -5336,12 +5310,12 @@ EndFunc   ;==>_GUICtrlListView_SetExtendedListViewStyle
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
-; Related .......: _GUICtrlListView_GetGroupInfo
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetGroupInfo, _GUICtrlListView_GetGroupInfoByIndex
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetGroupInfo($hWnd, $iGroupID, $sHeader, $iAlign = 0, $iState = $LVGS_NORMAL)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iHeader, $pHeader, $tHeader, $iGroup, $pGroup, $tGroup, $pMemory, $tMemMap, $pText, $iMask, $iResult
 	Local $aAlign[3] = [$LVGA_HEADER_LEFT, $LVGA_HEADER_CENTER, $LVGA_HEADER_RIGHT]
 
@@ -5402,11 +5376,11 @@ EndFunc   ;==>_GUICtrlListView_SetGroupInfo
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Currently not tested
 ; Related .......: _GUICtrlListView_GetHotCursor
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHotCursor($hWnd, $hCursor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor, 0, "wparam", "hwnd", "hwnd")
 	Else
@@ -5426,11 +5400,11 @@ EndFunc   ;==>_GUICtrlListView_SetHotCursor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetHotItem
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHotItem($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOTITEM, $iIndex)
 	Else
@@ -5452,11 +5426,11 @@ EndFunc   ;==>_GUICtrlListView_SetHotItem
 ; Remarks .......: The hover time only affects list-view controls that have the $LVS_EX_TRACKSELECT,
 ;                  $LVS_EX_ONECLICKACTIVATE, or $LVS_EX_TWOCLICKACTIVATE extended list-view style
 ; Related .......: _GUICtrlListView_GetHoverTime
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHoverTime($hWnd, $iTime)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOVERTIME, 0, $iTime)
 	Else
@@ -5480,11 +5454,11 @@ EndFunc   ;==>_GUICtrlListView_SetHoverTime
 ;                  that do not overlap, the $iCX or $iCY values must include the size of the icon, plus the amount of empty space
 ;                  desired between icons. Values that do not include the width of the icon will result in overlaps.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetIconSpacing($hWnd, $iCX, $iCY)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iResult, $aPadding[2]
 
 	If IsHWnd($hWnd) Then
@@ -5517,11 +5491,11 @@ EndFunc   ;==>_GUICtrlListView_SetIconSpacing
 ;                  style. If you use this message to replace one image list with another your application must explicitly destroy
 ;                  all image lists other than the current one.
 ; Related .......: _GUICtrlListView_GetImageList
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetImageList($hWnd, $hHandle, $iType = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $aType[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 
 	If IsHWnd($hWnd) Then
@@ -5545,11 +5519,11 @@ EndFunc   ;==>_GUICtrlListView_SetImageList
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInfoTip($hWnd, $iIndex, $sText, $iSubItem = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $iInfo, $pInfo, $tInfo, $pMemory, $tMemMap, $pText, $iResult
 
 	$tBuffer = _WinAPI_MultiByteToWideChar($sText)
@@ -5599,11 +5573,11 @@ EndFunc   ;==>_GUICtrlListView_SetInfoTip
 ;                  An insertion point can only appear if the control is in icon view, small icon view,  or  tile
 ;                  view, and not in group view mode.
 ; Related .......: _GUICtrlListView_GetInsertMark
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInsertMark($hWnd, $iIndex, $fAfter = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iMark, $pMark, $tMark, $pMemory, $tMemMap, $iResult
 
 	$tMark = DllStructCreate($tagLVINSERTMARK)
@@ -5640,11 +5614,11 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMark
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetInsertMarkColor
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInsertMarkColor($hWnd, $iColor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETINSERTMARKCOLOR, 0, $iColor)
 	Else
@@ -5657,8 +5631,8 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMarkColor
 ; Description ...: Sets some or all of a item's attributes
 ; Syntax.........: _GUICtrlListView_SetItem($hWnd, $sText[, $iIndex = 0[, $iSubItem = 0[, $iImage = -1[, $iParam = -1[, $iIndent = -1]]]]])
 ; Parameters ....: $hWnd        - Handle to the control
-;                  $iIndex      - The zero-based index of the item
 ;                  $sText       - Item text
+;                  $iIndex      - The zero-based index of the item
 ;                  $iSubItem    - One based index of the subitem or zero if this refers to an item
 ;                  $iImage      - Zero base index of the item's icon in the control's image list
 ;                  $iParam      - Value specific to the item
@@ -5669,8 +5643,8 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMarkColor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItem, _GUICtrlListView_SetItemEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItem($hWnd, $sText, $iIndex = 0, $iSubItem = 0, $iImage = -1, $iParam = -1, $iIndent = -1)
 	Local $iBuffer, $pBuffer, $tBuffer, $tItem, $iMask
@@ -5715,11 +5689,11 @@ EndFunc   ;==>_GUICtrlListView_SetItem
 ; Modified.......:
 ; Remarks .......: Use only on controls that have the $LVS_EX_CHECKBOXES extended style
 ; Related .......: _GUICtrlListView_GetItemChecked
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemChecked($hWnd, $iIndex, $fCheck = True)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iItem, $pItem, $tItem, $pMemory, $tMemMap, $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -5815,11 +5789,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemChecked
 ; Remarks .......: Causes the control to allocate its internal data structures for the specified number of items.
 ;                  This prevents the control from having to allocate the data structures every time an item is added.
 ; Related .......: _GUICtrlListView_GetItemCount
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemCount($hWnd, $iItems)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETITEMCOUNT, $iItems, BitOR($LVSICF_NOINVALIDATEALL, $LVSICF_NOSCROLL)) <> 0
 	Else
@@ -5840,8 +5814,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemCount
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemCut
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemCut($hWnd, $iIndex, $fEnabled = True)
 	Local $iStateMask = 0
@@ -5863,8 +5837,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemCut
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemDropHilited
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemDropHilited($hWnd, $iIndex, $fEnabled = True)
 	Local $iStateMask = 0
@@ -5891,11 +5865,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemDropHilited
 ;                  Text member to specify the text.  You cannot set the State or Param members for subitems because subitems do
 ;                  not have these attributes.
 ; Related .......: _GUICtrlListView_SetItem, $tagLVITEM
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemEx($hWnd, ByRef $tItem)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iItem, $pItem, $iBuffer, $pBuffer, $pMemory, $tMemMap, $pText, $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
@@ -5939,8 +5913,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemFocused
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemFocused($hWnd, $iIndex, $fEnabled = True)
 	Local $iStateMask = 0
@@ -5961,9 +5935,9 @@ EndFunc   ;==>_GUICtrlListView_SetItemFocused
 ; Author ........: Yoan Roblet (Arcker), Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: Minimum operating systems Windows XP.
-; Related .......: _GUICtrlListView_GetItemGroupID
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetItemGroupID, _GUICtrlListView_InsertGroup
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemGroupID($hWnd, $iIndex, $iGroupID)
 	Local $tItem
@@ -5989,8 +5963,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemGroupID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemImage($hWnd, $iIndex, $iImage, $iSubItem = 0)
 	Local $tItem
@@ -6016,8 +5990,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemIndent
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemIndent($hWnd, $iIndex, $iIndent)
 	Local $tItem
@@ -6029,10 +6003,10 @@ Func _GUICtrlListView_SetItemIndent($hWnd, $iIndex, $iIndent)
 	Return _GUICtrlListView_SetItemEx($hWnd, $tItem)
 EndFunc   ;==>_GUICtrlListView_SetItemIndent
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_SetItemOverlayImage
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_SetItemOverlayImage
 ; Description ...: Sets the overlay image is superimposed over the item's icon image
-; Syntax.........: _GUICtrlListView_SetItemOverlayImage($hWnd, $iIndex, $iImage)
+; Syntax.........: __GUICtrlListView_SetItemOverlayImage($hWnd, $iIndex, $iImage)
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iIndex      - Zero based index of the item
 ;                  $iImage      - One based overlay image index
@@ -6041,13 +6015,13 @@ EndFunc   ;==>_GUICtrlListView_SetItemIndent
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_GetItemOverlayImage
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_GetItemOverlayImage
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_SetItemOverlayImage($hWnd, $iIndex, $iImage)
-	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, _GUICtrlListView_IndexToOverlayImageMask($iImage), $LVIS_OVERLAYMASK)
-EndFunc   ;==>_GUICtrlListView_SetItemOverlayImage
+Func __GUICtrlListView_SetItemOverlayImage($hWnd, $iIndex, $iImage)
+	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, __GUICtrlListView_IndexToOverlayImageMask($iImage), $LVIS_OVERLAYMASK)
+EndFunc   ;==>__GUICtrlListView_SetItemOverlayImage
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_SetItemParam
@@ -6062,8 +6036,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemOverlayImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemParam
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemParam($hWnd, $iIndex, $iParam)
 	Local $tItem
@@ -6089,12 +6063,12 @@ EndFunc   ;==>_GUICtrlListView_SetItemParam
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: If the control has the $LVS_AUTOARRANGE style, the items in the control are arranged after the position of the
 ;                  item is set. The control must be in icon or small icon view mode.
-; Related .......: _GUICtrlListView_GetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetItemPosition, _GUICtrlListView_Arrange, _GUICtrlListView_SetItemPosition32
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemPosition($hWnd, $iIndex, $iCX, $iCY)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETITEMPOSITION, $iIndex, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF))) <> 0
 	Else
@@ -6119,11 +6093,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemPosition
 ;+
 ;                  This message differs from the _GUICtrlListView_SetItemPosition function in that it uses 32-bit coordinates.
 ; Related .......: _GUICtrlListView_SetItemPosition
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemPosition32($hWnd, $iIndex, $iCX, $iCY)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $iResult
 
 	$tPoint = DllStructCreate($tagPOINT)
@@ -6160,11 +6134,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemPosition32
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemSelected
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemSelected($hWnd, $iIndex, $fSelected = True, $fFocused = False)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $tstruct = DllStructCreate($tagLVITEM)
 	Local $pItem = DllStructGetPtr($tstruct)
 	Local $iResult, $iSelected = 0, $iFocused = 0, $iSize, $tMemMap, $pMemory
@@ -6200,8 +6174,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemSelected
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemState
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemState($hWnd, $iIndex, $iState, $iStateMask)
 	Local $tItem
@@ -6227,8 +6201,8 @@ EndFunc   ;==>_GUICtrlListView_SetItemState
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetItemStateImage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemStateImage($hWnd, $iIndex, $iImage)
 	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, BitShift($iImage, -12), $LVIS_STATEIMAGEMASK)
@@ -6247,12 +6221,12 @@ EndFunc   ;==>_GUICtrlListView_SetItemStateImage
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost), added code by Ultima to set row text
 ; Remarks .......: If $iSubItem = -1 row is set
-; Related .......: _GUICtrlListView_GetItemText
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlListView_GetItemText, _GUICtrlListView_GetItemTextArray, _GUICtrlListView_GetItemTextString, _GUICtrlListView_InsertItem
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemText($hWnd, $iIndex, $sText, $iSubItem = 0)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iResult
 	Local $i_cols, $a_text, $SeparatorChar = Opt('GUIDataSeparatorChar')
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
@@ -6328,11 +6302,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemText
 ;+
 ;                  Control must have the $LVS_EX_BORDERSELECT extended window style set
 ; Related .......: _GUICtrlListView_GetOutlineColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetOutlineColor($hWnd, $iColor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETOUTLINECOLOR, 0, $iColor)
 	Else
@@ -6351,11 +6325,11 @@ EndFunc   ;==>_GUICtrlListView_SetOutlineColor
 ; Modified.......:
 ; Remarks .......: Columns are Zero based index
 ; Related .......: _GUICtrlListView_GetSelectedColumn
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetSelectedColumn($hWnd, $iCol)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_SETSELECTEDCOLUMN, $iCol)
 		_WinAPI_InvalidateRect($hWnd)
@@ -6378,11 +6352,11 @@ EndFunc   ;==>_GUICtrlListView_SetSelectedColumn
 ; Remarks .......: The selection mark is the item index from which a multiple selection starts.  This message does not affect the
 ;                  selection state of the item.
 ; Related .......: _GUICtrlListView_GetSelectionMark
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetSelectionMark($hWnd, $iIndex)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETSELECTIONMARK, 0, $iIndex)
 	Else
@@ -6402,11 +6376,11 @@ EndFunc   ;==>_GUICtrlListView_SetSelectionMark
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetTextBkColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetTextBkColor($hWnd, $iColor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETTEXTBKCOLOR, 0, $iColor) <> 0
 	Else
@@ -6426,11 +6400,11 @@ EndFunc   ;==>_GUICtrlListView_SetTextBkColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetTextColor
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetTextColor($hWnd, $iColor)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iResult
 	If IsHWnd($hWnd) Then
 		$iResult = _SendMessage($hWnd, $LVM_SETTEXTCOLOR, 0, $iColor)
@@ -6453,11 +6427,11 @@ EndFunc   ;==>_GUICtrlListView_SetTextColor
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetToolTips
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetToolTips($hWnd, $hToolTip)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return HWnd(_SendMessage($hWnd, $LVM_SETTOOLTIPS, 0, $hToolTip, 0, "wparam", "hwnd", "hwnd"))
 	Else
@@ -6477,11 +6451,11 @@ EndFunc   ;==>_GUICtrlListView_SetToolTips
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetUnicodeFormat($hWnd, $fUnicode)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETUNICODEFORMAT, $fUnicode)
 	Else
@@ -6506,11 +6480,11 @@ EndFunc   ;==>_GUICtrlListView_SetUnicodeFormat
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Minimum operating systems Windows XP.
 ; Related .......: _GUICtrlListView_GetView
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetView($hWnd, $iView)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $aView[5] = [$LV_VIEW_DETAILS, $LV_VIEW_ICON, $LV_VIEW_LIST, $LV_VIEW_SMALLICON, $LV_VIEW_TILE]
 
 	If IsHWnd($hWnd) Then
@@ -6534,11 +6508,11 @@ EndFunc   ;==>_GUICtrlListView_SetView
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_GetNumberOfWorkAreas
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetWorkAreas($hWnd, $iLeft, $iTop, $iRight, $iBottom)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iRect, $pRect, $tRect, $tMemMap, $pMemory
 
 	$tRect = DllStructCreate($tagRECT)
@@ -6574,16 +6548,17 @@ EndFunc   ;==>_GUICtrlListView_SetWorkAreas
 ;                  |[0]         - First Column
 ;                  |[1]         - Second Column
 ;                  |[n]         - Last Column
+;                  $iCol        - Column number
 ; Return values .: None
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: This is a basic sort fuction, for advanced sort see GUICtrlRegisterListViewSort
 ; Related .......: GUICtrlRegisterListViewSort
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $x, $Y, $Z, $b_desc, $columns, $items, $v_item, $temp_item, $iFocused = -1
 	Local $SeparatorChar = Opt('GUIDataSeparatorChar')
 	If _GUICtrlListView_GetItemCount($hWnd) Then
@@ -6643,10 +6618,10 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_SimpleSort
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_Sort
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_Sort
 ; Description ...: Our sorting callback funtion
-; Syntax.........: _GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
+; Syntax.........: __GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
 ; Parameters ....: $nItem1      - Param of 1st item
 ;                  $nItem2      - Param of 2nd item
 ;                  $hWnd        - Handle of the control
@@ -6655,10 +6630,10 @@ EndFunc   ;==>_GUICtrlListView_SimpleSort
 ; Modified.......:
 ; Remarks .......: For Internal Use Only
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
+Func __GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
 	Local $iIndex, $tInfo, $val1, $val2, $nResult
 	$tInfo = DllStructCreate($tagLVFINDINFO)
 	DllStructSetData($tInfo, "Flags", $LVFI_PARAM)
@@ -6702,7 +6677,7 @@ Func _GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
 	$nResult = $nResult * $aListViewSortInfo[$iIndex][5] ; $nSortDir
 
 	Return $nResult
-EndFunc   ;==>_GUICtrlListView_Sort
+EndFunc   ;==>__GUICtrlListView_Sort
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_SortItems
@@ -6718,8 +6693,8 @@ EndFunc   ;==>_GUICtrlListView_Sort
 ;                  A down-arrow/up-arrow is drawn on column selected for Windows XP and above if the option was set
 ;                  when calling _GUICtrlListView_RegisterSortCallBack
 ; Related .......: _GUICtrlListView_RegisterSortCallBack
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SortItems($hWnd, $iCol)
 	Local $iResult, $iIndex, $pFunction, $hHeader, $iFormat
@@ -6761,22 +6736,22 @@ Func _GUICtrlListView_SortItems($hWnd, $iCol)
 	Return $iResult <> 0
 EndFunc   ;==>_GUICtrlListView_SortItems
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_StateImageMaskToIndex
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_StateImageMaskToIndex
 ; Description ...: Converts a state image mask to an image index
-; Syntax.........: _GUICtrlListView_StateImageMaskToIndex($iMask)
+; Syntax.........: __GUICtrlListView_StateImageMaskToIndex($iMask)
 ; Parameters ....: $iMask       - State image mask
 ; Return values .: Success      - One base state image index
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: This function is used internally and should not normally be called
-; Related .......: _GUICtrlListView_IndexToStateImageMask
-; Link ..........;
-; Example .......;
+; Related .......: __GUICtrlListView_IndexToStateImageMask
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GUICtrlListView_StateImageMaskToIndex($iMask)
+Func __GUICtrlListView_StateImageMaskToIndex($iMask)
 	Return BitShift(BitAND($iMask, $LVIS_STATEIMAGEMASK), 12)
-EndFunc   ;==>_GUICtrlListView_StateImageMaskToIndex
+EndFunc   ;==>__GUICtrlListView_StateImageMaskToIndex
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_SubItemHitTest
@@ -6801,11 +6776,11 @@ EndFunc   ;==>_GUICtrlListView_StateImageMaskToIndex
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_HitTest
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SubItemHitTest($hWnd, $iX = -1, $iY = -1)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	Local $iTest, $pTest, $tTest, $pMemory, $tMemMap, $iFlags, $aTest[11]
 
 	If $iX = -1 Then $iX = _WinAPI_GetMousePosX(True, $hWnd)
@@ -6853,37 +6828,19 @@ EndFunc   ;==>_GUICtrlListView_SubItemHitTest
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlListView_RegisterSortCallBack
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_UnRegisterSortCallBack($hWnd)
-	If $Debug_LV Then _GUICtrlListView_ValidateClassName($hWnd)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	For $x = 1 To $aListViewSortInfo[0][0]
 		If $hWnd = $aListViewSortInfo[$x][1] Then
 			DllCallbackFree($aListViewSortInfo[$x][2])
-			_GUICtrlListView_ArrayDelete($aListViewSortInfo, $x)
+			__GUICtrlListView_ArrayDelete($aListViewSortInfo, $x)
 			$aListViewSortInfo[0][0] -= 1
 			ExitLoop
 		EndIf
 	Next
 EndFunc   ;==>_GUICtrlListView_UnRegisterSortCallBack
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlListView_ValidateClassName
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlListView_ValidateClassName($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlListView_ValidateClassName($hWnd)
-	_GUICtrlListView_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	_WinAPI_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-EndFunc   ;==>_GUICtrlListView_ValidateClassName

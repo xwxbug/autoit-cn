@@ -1,12 +1,14 @@
 ﻿#include-once
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.1.1 (beta)
-; Language:       English
-; Description:    DateTime Control Constants.
-;
-; ------------------------------------------------------------------------------
 
+; #INDEX# =======================================================================================================================
+; Title .........: DateTime_Constants
+; AutoIt Version : 3.1.1 (beta)
+; Language ......: English
+; Description ...: Constants for <a href="../appendix/GUIStyles.htm#Date">GUI control Date styles</a> and much more.
+; Author(s) .....: Valik, Gary Frost
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 ; Date
 Global Const $DTS_SHORTDATEFORMAT = 0
 Global Const $DTS_UPDOWN = 1
@@ -90,6 +92,7 @@ Global Const $MCM_SETSELRANGE = ($MCM_FIRST + 6)
 Global Const $MCM_SETTODAY = ($MCM_FIRST + 12)
 Global Const $MCM_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $MCM_SIZERECTTOMIN = ($MCM_FIRST + 29)
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $MCN_FIRST = -746
@@ -98,7 +101,6 @@ Global Const $MCN_GETDAYSTATE = ($MCN_FIRST - 1) ; Request information about how
 Global Const $MCN_SELECT = ($MCN_FIRST) ; The user makes an explicit date selection
 Global Const $MCN_VIEWCHANGE = ($MCN_FIRST - 4)
 ; ===============================================================================================================================
-
 
 Global Const $MCSC_BACKGROUND = 0
 Global Const $MCSC_MONTHBK = 4
@@ -120,6 +122,7 @@ Global Const $DTM_GETMCCOLOR = $DTM_FIRST + 7
 Global Const $DTM_GETMONTHCAL = $DTM_FIRST + 8
 Global Const $DTM_SETMCFONT = $DTM_FIRST + 9
 Global Const $DTM_GETMCFONT = $DTM_FIRST + 10
+Global Const $DTM_SETFORMATW = $DTM_FIRST + 50 ; [Unicode]
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================

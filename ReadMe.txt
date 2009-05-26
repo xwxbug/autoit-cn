@@ -1,6 +1,6 @@
 =========================================================
 程序名称:Autoit
-程序版本:3.3.X.X 第一汉化版
+程序版本:3.3.1.0 第一汉化版
 汉化作者:thesnoW
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,25 +14,116 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.X.0 (2009-X-X) (第一汉化版)
+3.3.1.0 (2009-5-26) (第一汉化版)
+注意:因为官方文档包未发布,帮助文件有部分函数不是最新状态.将在下一个汉化版中补齐.
 Autoit:
-[H][+]新增:工具箱支持在线更新汉化版本(测试阶段)
-[H][!]更新:更新汉化的例子.
-[H][!]更新:更新汉化的帮助.
+[H][+]新增: 工具箱支持在线更新汉化版本(测试阶段,请不要使用)
+[H][!]更新: 更新汉化的例子.
+[H][!]更新: 更新汉化的帮助.
+[G][+]新增: #757: Set defaults for MouseClick()'s x/y parameters.
+[G][+]新增: #764: ProcessWait() , WinWait(), WinWaitActive, WinActivate(), WinActive(), WinMove() 当成功时返回进程句柄.
+[G][+]新增: #414: 更好的操作 OnAutoItStart/OnAutoItExit, 现在使用 #OnAutoItStartRegister, OnAutoItExitRegister() 和 OnAutoItExitUnRegister().
+[G][+]新增: 更好的操作 AdlibEnable/AdlibDisable, 现在使用 AdlibRegister(), AdlibUnRegister() 和 AdlibDisable().
+[G][+]新增: #351: 反向 PixelSearch().
+[G][+]新增: #769: FileFlush() 函数.
+[G][+]新增: #333: #NoAutoIt3Execute 可以关闭 /AutoIt3ExecuteScript 或者 /AutoIt3ExecuteLine.
+[G][+]新增: #604: $GUI_BKCOLOR_TRANSPARENT (背景透明)可以用于标签,组,多选,单选控件.
+[G][+]新增: #135: FileSetPos(), FileGetPos() 函数用于移动设置文件指针.
+[G][+]新增: #582: GUICtrlSetTip() 可以用于设置标签项目控件(TabItem). (Thanks ProgAndy)
+[G][+]新增: #699: Shutdown() 现在当失败时返回 @error=GetLastError().
+[G][+]新增: #461: StringReplace() 可以从右到左匹配,当 occurrence <0 as for StringInStr().
+[G][+]新增: GUICtrlSetColor() and GUICtrlSetBkColor() for Combo Controls.
+[G][+]新增: GUI 没有标题栏 (no $WS_CAPTION) 可以使用鼠标移动窗体.
+[G][+]新增: #815: 临时变量可以传递 ByRef.
+[G][+]新增: #837: FileFindNextFile() 设置 @extended ,如果返回的项目是一个目录. (Thanks pdaughe)
+[G][+]新增: #839: Shutdown() 函数重写,更好的工作于非交互式用户.
+[G][+]新增: Shutdown() 现在可以定义理由代码(WINDOWS 2003及以上需要).
+[G][+]新增: #846: _PathFull() now supports strange but valid syntax where drives do not  have a trailing slash.
+[G][+]新增: #869: @MUILang 宏帮助 MUI 环境脚本. (Thanks Emiel Wieldraaijer)
+[G][+]新增: #918: 添加一个质量参数到 GUICtrlSetFont() 和 GUISetFont().
+[G][+]新增: ProcessClose() 当错误时返回信息.
+[G][*]修正: CtrlSetStyle listview on non selected tab. (Thanks Ultima)
+[G][*]修正: #763: GUICtrlCreateIcon() 当错误时创建空图标. (Thanks Jos)
+[G][*]修正: no mouse move when invalid button used in MouseClick() or MouseClickDrag().
+[G][*]修正: #779: infinite loop on Exit due to GUICreate() child badly created.
+[G][*]修正: #774: GuiCtrlSetBkColor() 显示错误的label. (Thanks MvGulik)
+[G][*]修正: #790: Windows region constant $ERROR rename in $ERRORREGION.
+[G][*]修正: StringInStr("aaa", "aa", 2) 不返回 0.
+[G][*]修正: #802: 按高度属性搜索控件.
+[G][*]修正: Checkbox 或者 radio 在标签(tab)上绘图错误. (Thanks einaman)
+[G][*]修正: #816: data for GUI date control doc clarification. (Thanks anonymous)
+[G][*]修正: #819: 崩溃于事件日志函数.
+[G][*]修正: #814: InetGet() 当通过的代理需要认证会失败.
+[G][*]修正: #813: bad handling of Windows advanced matching for [HANDLE:...] in X64 version. (Thanks bsobottke@nero.com)
+[G][*]修正: #863: DirMove() extra dot. (Thanks dRsrb)
+[G][*]修正: #867: UDPRecv() 可以从 IP/Port 返回. (Thanks Martin, livewire)
+[G][*]修正: #886: More explicit documentation that operator == is a forced string comparison.
+[G][*]修正: #885: Default compared to False returned True instead of False.
+[G][*]修正: #888: Send("{}}") .
+[G][*]修正: #916: Line inversion in INet.au3
+[G][*]修正: DllCall() 返回 64-bit int. (Thanks wraithdu)
+[G][*]修正: GuiCtrlSetImage() 自后 GUI 被重设大小. (Thanks JackDinn)
+[G][*]修正: DirMove() 返回值错误于XP.
+[G][*]修正: #931: 无效的 GUICtrlSetResizing() 于图形控件. (Thanks martin)
+[G][*]修正: #934: MouseGetCursor() hogging mouse double click. (Thanks martin)
+[G][*]修正: #615: 许可更新,减小部分限制(注:原先的许可是Autoit所生成的文件也是属于Autoit Team的).
+[G][*]修正: #919: 添加 ConsoleWrite(), ConsoleWriteError() 和 StdinWrite() 的备注,regarding how those functions handle binary data and non-ANSI characters.
+[G][*]修正: #897: StringToASCIIArray() 为什么不能接受二进制输入的文档说明 (首先转换为字符串).
+[G][*]修正: #937: Opt("TrayMenuMode",1) 出现错误但事件句柄
+[G][*]修改: It is now possible to read from files opened for writing.
+[G][*]修改: PCRE 正则表达式引擎更新到 7.9.
+[G][*]修改: #899: ShellExecute[Wait]() no longer uses "open" as the default verb.  See remarks section for those functions for more information.
+[G][*]修改: Inet 函数被重新,有以下附加修改:
+	- 移除: URLDownloadToFile() 为 InetGet()的一个别名.
+	- 新增: HttpSetUserAgent(), InetClose(), InetGetInfo() and InetRead() functions.
+	- 新增: InetGet() 可以支持多个文件背景下载.
+	- 新增: #408: 新标准由于忽略HTTPS连接中的 SSL 错误.
+	- 新增: #884: 模式0中使用更好但代理支持.
+	- 新增: #949: user-agent 可以被修改.
+	- 修改: InetGet() returns a handle which must be closed.
+	- 修改: @InetGetBytes, @InetGetActive 和 InetGet("abort") 已经没有存在的意义,故移除于特性.
+AU3Info:
+[G][+]新增: #140: 工具栏按钮信息.
 Scite:
-[G][!]更新:更新Obfuscator(代码迷惑)到1.0.26.11
-[H][!]更新:更新SCITE为1.78 20090513版本.
-[H][+]新增:SCITE可以使用一个名为skin.msstyles的皮肤.
-[H][!]更新:SCITE工具栏美化.
-[H][+]新增:增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
+[G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.11
+[H][!]更新: 更新SCITE为1.78 20090513版本.
+[H][+]新增: SCITE可以使用一个名为skin.msstyles的皮肤.
+[H][!]更新: SCITE工具栏美化.
+[H][+]新增: 增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
 KODA:
 [G][!]更新: 更新到 Release 1.7.1.0 (2009-04-27)
 [G][*]修正: AV when resetting Style/ExStyle [FS#48] (thanks Zedna)
-[G][*]修正: Resizing - generated code is wrong (default) [FS#47] (thanks Zedna)
-[G][+]新增: hotkey property for Dummy control [FS#45] (thanks BaKaMu)
-[G][*]修正: removed some unnecessary properties
+[G][*]修正: Resizing - 生成代码错误 (default) [FS#47] (thanks Zedna)
+[G][+]新增: Dummy 控件热键属性[FS#45] (thanks BaKaMu)
+[G][*]修正: 移除一些多余属性
 [G][*]修正: TAObj control loose it's dimensions after reloading [FS#40] (thanks BaKaMu)
-[G][*]修正: font for the TAdate control is not generating [FS#39] (thanks BaKaMu)
+[G][*]修正: TAdate 控件设置但字体步生成 [FS#39] (thanks BaKaMu)
+UDFs:
+[G][+]新增: _GDIPlus_BrushGetSolidColor, _GDIPlus_BrushSetSolidColor (smashly)
+[G][+]新增: $tagWIN32_FIND_DATA 和相应但属性常量.
+[G][+]新增: #868: _WinAPI_GetLayeredWindowAttributes(), _WinAPI_SetLayeredWindowAttributes(). (Thanks Prog@ndy)
+[G][+]新增: _Date_Time_ ... Str() 可以返回日期为 yyyy/mm/dd.
+[G][+]新增: #271: FTPEx.au3 添加于 _FTP_...(). (Thanks ProgAndy, Wouter)
+[G][+]新增: #932: 鼠标事件常量于 WinDowsConstants.au3. (Thanks Spiff59)
+[G][+]新增: #952: _ArrayDisplay() 扩展参数,由于处理列头文本. (Thanks Zedna)
+[G][+]新增: #957: _Assert() 于 Debug.au3. (Thanks Nutster)
+[G][*]修正: #755: _FileReadToArray() 移除空终止行.
+[G][*]修正: #773: _GUICtrlStatusBar_SetParts 文档错误 (Thanks Zedna)
+[G][*]修正: #786: _SQLite_Exec() 不能返回 @error. (Thanks tayoufabrice)
+[G][*]修正: _ClipBoard_SetData 添加文档
+[G][*]修正: #793: _WinNet_EnumResource 错误总是返回
+[G][*]修正: _StringAddThousandsSep adding leading comma with negative numbers (Zedna)
+[G][*]修正: #809: _Soundxxx() 第一个参数最为文件名.
+[G][*]修正: #850: _ExcelReadSheetToArray 不能工作于德文版 Excel 2003 (Prog@ndy) 注意: 未在其它语言中测试
+[G][*]修正: #887: 相关段可以基于调节(帮助文件).
+[G][*]修正: #958: _ArrayDisplay - 调节窗口宽度后错误居中.
+[G][*]修正: #951: _ArrayDisplay() 为 nb 项目 >4000 时做出速度改进. (Thanks Zedna)
+[G][*]修正: _SoundOpen() 设置 @error 于 MCI 错误.
+[G][*]修改: _StringBetween 移除最后一个可选参数 (不再需要)(SmOke_N)
+[G][!]更新: Excel 文档 (litlmike)
+[G][!]更新: _SQLite 3.6.7 -> 3.6.14.1
+[G][!]更新: _ArrayCombinations, _ArrayPermute, _ArrayUnique (litlmike)
+[G][-]移除: _WinAPI_MakeDWord
 ADF:
 [H][+]新增: _API_CoInitialize,_API_DllRegisterServer,_API_DllUnregisterServer三个ADF.用于注册DLL.
 [H][+]新增: AddFontResourceA,AddFontResourceW,RemoveFontResourceA,RemoveFontResourceW,WM_FONTCHANGE五个ADF.用于注册字体.

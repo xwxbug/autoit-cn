@@ -1,18 +1,20 @@
 ﻿#include-once
-#include <WinAPI.au3>
+
 #include <SecurityConstants.au3>
+#include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Security
-; Description ...: This module contains various security related functions used in Auto3Lib.
-; Author ........: Paul Campbell (PaulIA)
+; Description ...: Functions that assist with Security management.
+; Author(s) .....: Paul Campbell (PaulIA)
+; Dll(s) ........: Advapi32.dll
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $__SECURITYCONTANT_FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
+; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_Security__AdjustTokenPrivileges
 ;_Security__GetAccountSid
@@ -31,7 +33,6 @@ Global Const $__SECURITYCONTANT_FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
 ;_Security__SidTypeStr
 ;_Security__StringSidToSid
 ; ===============================================================================================================================
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Security__AdjustTokenPrivileges
@@ -53,8 +54,8 @@ Global Const $__SECURITYCONTANT_FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
 ; Remarks .......: This function cannot add new privileges to an access token. It can only enable or disable the token's existing
 ;                  privileges.
 ; Related .......: $tagTOKEN_PRIVILEGES
-; Link ..........; @@MsdnLink@@ AdjustTokenPrivileges
-; Example .......;
+; Link ..........: @@MsdnLink@@ AdjustTokenPrivileges
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__AdjustTokenPrivileges($hToken, $fDisableAll, $pNewState, $iBufferLen, $pPrevState = 0, $pRequired = 0)
 	Local $aResult
@@ -79,8 +80,8 @@ EndFunc   ;==>_Security__AdjustTokenPrivileges
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__LookupAccountSid
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__GetAccountSid($sAccount, $sSystem = "")
 	Local $aAcct
@@ -102,8 +103,8 @@ EndFunc   ;==>_Security__GetAccountSid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__IsValidSid
-; Link ..........; @@MsdnLink@@ GetLengthSid
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetLengthSid
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__GetLengthSid($pSID)
 	Local $aResult
@@ -127,8 +128,8 @@ EndFunc   ;==>_Security__GetLengthSid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetTokenInformation
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetTokenInformation
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__GetTokenInformation($hToken, $iClass)
 	Local $pBuffer, $tBuffer, $aResult
@@ -160,8 +161,8 @@ EndFunc   ;==>_Security__GetTokenInformation
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__OpenThreadTokenEx
-; Link ..........; @@MsdnLink@@ ImpersonateSelf
-; Example .......;
+; Link ..........: @@MsdnLink@@ ImpersonateSelf
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__ImpersonateSelf($iLevel = 2)
 	Local $aResult
@@ -181,8 +182,8 @@ EndFunc   ;==>_Security__ImpersonateSelf
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__GetLengthSid
-; Link ..........; @@MsdnLink@@ IsValidSid
-; Example .......;
+; Link ..........: @@MsdnLink@@ IsValidSid
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__IsValidSid($pSID)
 	Local $aResult
@@ -217,8 +218,8 @@ EndFunc   ;==>_Security__IsValidSid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__LookupAccountSid
-; Link ..........; @@MsdnLink@@ LookupAccountName
-; Example .......;
+; Link ..........: @@MsdnLink@@ LookupAccountName
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__LookupAccountName($sAccount, $sSystem = "")
 	Local $tData, $pDomain, $pSID, $pSize1, $pSize2, $pSNU, $aResult, $aAcct[3]
@@ -263,9 +264,9 @@ EndFunc   ;==>_Security__LookupAccountName
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Security__LookupAccountName
-; Link ..........; @@MsdnLink@@ LookupAccountSid
-; Example .......;
+; Related .......: _Security__LookupAccountName, _Security__GetAccountSid
+; Link ..........: @@MsdnLink@@ LookupAccountSid
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__LookupAccountSid($vSID)
 	Local $tData, $pDomain, $pName, $pSID, $tSID, $pSize1, $pSize2, $pSNU, $aResult, $aAcct[3]
@@ -307,8 +308,8 @@ EndFunc   ;==>_Security__LookupAccountSid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ LookupPrivilegeValue
-; Example .......;
+; Link ..........: @@MsdnLink@@ LookupPrivilegeValue
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__LookupPrivilegeValue($sSystem, $sName)
 	Local $tData, $aResult
@@ -331,8 +332,8 @@ EndFunc   ;==>_Security__LookupPrivilegeValue
 ; Modified.......:
 ; Remarks .......: Close the access token handle returned by calling _WinAPI_CloseHandle
 ; Related .......: _Security__OpenThreadToken
-; Link ..........; @@MsdnLink@@ OpenProcessToken
-; Example .......;
+; Link ..........: @@MsdnLink@@ OpenProcessToken
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__OpenProcessToken($hProcess, $iAccess)
 	Local $aResult
@@ -359,9 +360,9 @@ EndFunc   ;==>_Security__OpenProcessToken
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Security__OpenThreadTokenEx
-; Link ..........; @@MsdnLink@@ OpenThreadToken
-; Example .......;
+; Related .......: _Security__OpenThreadTokenEx, _Security__OpenProcessToken
+; Link ..........: @@MsdnLink@@ OpenThreadToken
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__OpenThreadToken($iAccess, $hThread = 0, $fOpenAsSelf = False)
 	Local $tData, $pToken, $aResult
@@ -391,9 +392,9 @@ EndFunc   ;==>_Security__OpenThreadToken
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Security__OpenThreadToken
-; Link ..........;
-; Example .......;
+; Related .......: _Security__OpenThreadToken, _Security__ImpersonateSelf
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__OpenThreadTokenEx($iAccess, $hThread = 0, $fOpenAsSelf = False)
 	Local $hToken
@@ -426,8 +427,8 @@ EndFunc   ;==>_Security__OpenThreadTokenEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__SetPrivilege($hToken, $sPrivilege, $fEnable)
 	Local $pRequired, $tRequired, $iLUID, $iAttributes, $iCurrState, $pCurrState, $tCurrState, $iPrevState, $pPrevState, $tPrevState
@@ -476,8 +477,8 @@ EndFunc   ;==>_Security__SetPrivilege
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__StringSidToSid
-; Link ..........; @@MsdnLink@@ ConvertSidToStringSid
-; Example .......;
+; Link ..........: @@MsdnLink@@ ConvertSidToStringSid
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__SidToStringSid($pSID)
 	Local $tPtr, $tBuffer, $sSID, $aResult
@@ -504,8 +505,8 @@ EndFunc   ;==>_Security__SidToStringSid
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__SidTypeStr($iType)
 	Switch $iType
@@ -543,8 +544,8 @@ EndFunc   ;==>_Security__SidTypeStr
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Security__SidToStringSid
-; Link ..........; @@MsdnLink@@ ConvertStringSidToSid
-; Example .......;
+; Link ..........: @@MsdnLink@@ ConvertStringSidToSid
+; Example .......:
 ; ===============================================================================================================================
 Func _Security__StringSidToSid($sSID)
 	Local $tPtr, $iSize, $tBuffer, $tSID, $aResult

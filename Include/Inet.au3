@@ -1,23 +1,25 @@
 ﻿#include-once
+
 #include <Date.au3>
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.0
-; Language:       English
-; Description:    Functions that assist with Internet.
-;
-; ------------------------------------------------------------------------------
-;===============================================================================
-;
-; Function Name:    _GetIP()
-; Description:      Get public IP address of a network/computer.
-; Parameter(s):     None
-; Requirement(s):   Internet access.
-; Return Value(s):  On Success - Returns the public IP Address
-;                   On Failure - -1  and sets @ERROR = 1
-; Author(s):        Larry/Ezzetabi & Jarvis Stubblefield
-;
-;===============================================================================
+
+; #INDEX# =======================================================================================================================
+; Title .........: Edit Constants
+; AutoIt Version : 3.0
+; Language ......: English
+; Description ...: Functions that assist with Internet.
+; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida
+; Dll ...........: wininet.dll, Ws2_32.dll, msvcrt.dll
+; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _GetIP
+; Description ...: Get public IP address of a network/computer.
+; Parameters ....: None
+; Return values .: On Success - Returns the public IP Address
+;                  On Failure - -1  and sets @ERROR = 1
+; Author ........: Larry/Ezzetabi & Jarvis Stubblefield
+; Remarks .......: Internet access.
+; ===============================================================================================================================
 Func _GetIP()
 	Local $ip, $t_ip
 	If InetGet("http://checkip.dyndns.org/?rnd1=" & Random(1, 65536) & "&rnd2=" & Random(1, 65536), @TempDir & "\~ip.tmp") Then
@@ -45,22 +47,18 @@ Func _GetIP()
 	Return -1
 EndFunc   ;==>_GetIP
 
-;===============================================================================
-;
-; Function Name:    _INetExplorerCapable()
-; Description:      Convert a string to IE capable line
-; Parameter(s):     $s_IEString - String to convert to a capable IExplorer line
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns the converted string
-;                   On Failure - Blank String and @error = 1
-; Author(s):        Wes Wolfe-Wolvereness <Weswolf at aol dot com>
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _INetExplorerCapable
+; Description ...: Convert a string to IE capable line
+; Parameters ....: $s_IEString - String to convert to a capable IExplorer line
+; Return values .: On Success - Returns the converted string
+;                  On Failure - Blank String and @error = 1
+; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
+; ===============================================================================================================================
 Func _INetExplorerCapable($s_IEString)
 	If StringLen($s_IEString) <= 0 Then
-		Return ''
 		SetError(1)
+		Return ''
 	Else
 		Local $s_IEReturn
 		Local $i_IECount
@@ -77,17 +75,14 @@ Func _INetExplorerCapable($s_IEString)
 	EndIf
 EndFunc   ;==>_INetExplorerCapable
 
-;===============================================================================
-;
-; Function Name:    _INetGetSource()
-; Description:      Gets the source from an URL without writing a temp file.
-; Parameter(s):     $s_URL = The URL of the site.
-; Requirement(s):   DllCall/Struct & WinInet.dll
-; Return Value(s):  On Success - Returns the source code.
-;                   On Failure - 0  and sets @ERROR = 1
-; Author(s):        Wouter van Kesteren.
-;
-;===============================================================================
+; #FUNCTION# ====================================================================================================================
+; Name...........: _INetGetSource
+; Description ...: Gets the source from an URL without writing a temp file.
+; Parameters ....: $s_URL = The URL of the site.
+; Return values .: On Success - Returns the source code.
+;                  On Failure - 0  and sets @ERROR = 1
+; Author ........: Wouter van Kesteren.
+; ===============================================================================================================================
 Func _INetGetSource($s_URL, $s_Header = '')
 
 	If StringLeft($s_URL, 7) <> 'http://' And StringLeft($s_URL, 8) <> 'https://' Then $s_URL = 'http://' & $s_URL
@@ -125,20 +120,16 @@ Func _INetGetSource($s_URL, $s_Header = '')
 	Return $s_Buf
 EndFunc   ;==>_INetGetSource
 
-;===============================================================================
-;
-; Function Name:    _INetMail()
-; Description:      Open default mail client with given Address/Subject/Body
-; Parameter(s):     $s_MailTo    - Address for E-Mail
-;                   $s_Subject   - Subject <Weswolf at aol dot com>of E-Mail
-;                   $s_MailBody  - Body of E-Mail
-; Requirement(s):   _INetExplorerCapable
-; Return Value(s):  On Success - Process ID of e-mail client
-;                   On Failure - Returns 0 and sets @error to non-zero.
-; Author(s):        Wes Wolfe-Wolvereness <Weswolf at aol dot com>
-;
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
+; Name...........: _INetMail
+; Description ...: Open default mail client with given Address/Subject/Body
+; Parameters ....: $s_MailTo    - Address for E-Mail
+;                  $s_Subject   - Subject <Weswolf at aol dot com>of E-Mail
+;                  $s_MailBody  - Body of E-Mail
+; Return values .: On Success - Process ID of e-mail client
+;                  On Failure - Returns 0 and sets @error to non-zero.
+; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
+; ===============================================================================================================================
 Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
 	Local $prev = opt("ExpandEnvStrings", 1)
 	Local $var = RegRead('HKCR\mailto\shell\open\command', "")
@@ -148,22 +139,20 @@ Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
 	Return SetError($nError, $nExtended, $ret)
 EndFunc   ;==>_INetMail
 
-;===============================================================================
-;
-; Function Name:    _INetSmtpMail()
-; Description:      Sends an email using SMTP over TCP IP.
-; Parameter(s):     $s_SmtpServer	- SMTP server to be used for sending email
-;                   $s_FromName		- Name of sender
-;                   $s_FromAddress	- eMail address of sender
-;                   $s_ToAddress	- Address that email is to be sent to
-;                   $s_Subject		- Subject of eMail
-;					$as_Body		- Single dimension array containing the body of eMail as strings
-;					$s_helo			- Helo identifier (default @COMPUTERNAME) sometime needed by smtp server
-;					$s_first		- send before Helo identifier (default @CRLF) sometime needed by smtp server
-;					$b_trace		- trace on a splash window (default 0 = no trace)
-; Requirement(s):   None
-; Return Value(s):  On Success - Returns 1
-;                   On Failure - 0  and sets
+; #FUNCTION# ====================================================================================================================
+; Name...........: _INetSmtpMail
+; Description ...: Sends an email using SMTP over TCP IP.
+; Parameters ....: $s_SmtpServer	- SMTP server to be used for sending email
+;                  $s_FromName		- Name of sender
+;                  $s_FromAddress	- eMail address of sender
+;                  $s_ToAddress	- Address that email is to be sent to
+;                  $s_Subject		- Subject of eMail
+;				   $as_Body		- Single dimension array containing the body of eMail as strings
+;				   $s_helo			- Helo identifier (default @COMPUTERNAME) sometime needed by smtp server
+;				   $s_first		- send before Helo identifier (default @CRLF) sometime needed by smtp server
+;				   $b_trace		- trace on a splash window (default 0 = no trace)
+; Return values .: On Success - Returns 1
+;                  On Failure - 0  and sets
 ;											@ERROR = 1		-	Invalid Parameters
 ;											@ERROR = 2		-	Unable to start TCP
 ;											@ERROR = 3		-	Unable to resolve IP
@@ -171,12 +160,9 @@ EndFunc   ;==>_INetMail
 ;											@ERROR = 5x		-	Cannot open SMTP session
 ;											@ERROR = 50x	-	Cannot send body
 ;											@ERROR = 5000	-	Cannot close SMTP session
-; Authors:        Original function to send email via TCP 	- Asimzameer
-;					Conversion to UDF						- Walkabout
-;					Correction	Helo, timeout, trace		- Jpm
-;					Correction send before Helo				- Jpm
-;
-;===============================================================================
+; Author ........: Asimzameer, Walkabout
+; Modified.......: Jpm
+; ===============================================================================================================================
 Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_Subject = "", $as_Body = "", $s_helo = "", $s_first=" ", $b_trace = 0)
 
 	Local $v_Socket
@@ -243,13 +229,13 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	$s_ReplyCode[5] = "250"
 
 	; open stmp session
-	If _SmtpSend($v_Socket, $s_Send[0], $s_ReplyCode[0], $b_trace, "220", $s_first) Then
+	If __SmtpSend($v_Socket, $s_Send[0], $s_ReplyCode[0], $b_trace, "220", $s_first) Then
 		SetError(50)
 		Return 0
 	EndIf
 	; send header
 	For $i_Count = 1 To UBound($s_Send) - 2
-		If _SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
+		If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
 			SetError(50 + $i_Count)
 			Return 0
 		EndIf
@@ -260,7 +246,7 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 		; correct line beginning with a dot
 		If StringLeft($as_Body[$i_Count], 1) = "." Then $as_Body[$i_Count] = "." & $as_Body[$i_Count]
 
-		If _SmtpSend($v_Socket, $as_Body[$i_Count] & @CRLF, "", $b_trace) Then
+		If __SmtpSend($v_Socket, $as_Body[$i_Count] & @CRLF, "", $b_trace) Then
 			SetError(500 + $i_Count)
 			Return 0
 		EndIf
@@ -268,7 +254,7 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 
 	; close the smtp session
 	$i_Count = UBound($s_Send) - 1
-	If _SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
+	If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
 		SetError(5000)
 		Return 0
 	EndIf
@@ -278,23 +264,36 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	Return 1
 EndFunc   ;==>_INetSmtpMail
 
-; internals routines----------------------------------
-Func _SmtpTrace($str, $timeout = 0)
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __SmtpTrace
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __SmtpTrace($str[, $timeout = 0])
+; Author ........: Asimzameer, Walkabout
+; Modified.......: Jpm
+; ===============================================================================================================================
+Func __SmtpTrace($str, $timeout = 0)
 	Local $W_TITLE = "SMTP trace"
-	Local $g_smtptrace = ControlGetText($W_TITLE, "", "Static1")
+	Local $s_SmtpTrace = ControlGetText($W_TITLE, "", "Static1")
 	$str = StringLeft(StringReplace($str, @CRLF, ""), 70)
-	$g_smtptrace &= @HOUR & ":" & @MIN & ":" & @SEC & " " & $str & @LF
+	$s_SmtpTrace &= @HOUR & ":" & @MIN & ":" & @SEC & " " & $str & @LF
 	If WinExists($W_TITLE) Then
-		ControlSetText($W_TITLE, "", "Static1", $g_smtptrace)
+		ControlSetText($W_TITLE, "", "Static1", $s_SmtpTrace)
 	Else
-		SplashTextOn($W_TITLE, $g_smtptrace, 400, 500, 500, 100, 4 + 16, "", 8)
+		SplashTextOn($W_TITLE, $s_SmtpTrace, 400, 500, 500, 100, 4 + 16, "", 8)
 	EndIf
 	If $timeout Then Sleep($timeout * 1000)
-EndFunc   ;==>_SmtpTrace
+EndFunc   ;==>__SmtpTrace
 
-Func _SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply="", $s_first="")
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __SmtpSend
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace[, $s_IntReply=""[, $s_first=""]])
+; Author ........: Asimzameer, Walkabout
+; Modified.......: Jpm
+; ===============================================================================================================================
+Func __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply="", $s_first="")
     Local $s_Receive, $i, $timer
-    If $b_trace Then _SmtpTrace($s_Send)
+    If $b_trace Then __SmtpTrace($s_Send)
 
     If $s_IntReply <> ""  Then
 
@@ -312,7 +311,7 @@ Func _SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply="", $s_fi
         $timer = TimerInit()
         While StringLeft($s_Receive,StringLen($s_IntReply)) <> $s_IntReply And TimerDiff($timer) < 45000
             $s_Receive = TCPRecv($v_Socket, 1000)
-            If $b_trace And $s_Receive <> "" Then _SmtpTrace("intermediate->" & $s_Receive)
+            If $b_trace And $s_Receive <> "" Then __SmtpTrace("intermediate->" & $s_Receive)
         WEnd
     EndIf
 
@@ -334,31 +333,30 @@ Func _SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply="", $s_fi
 
     If $s_ReplyCode <> "" Then
         ; Check replycode
-        If $b_trace Then _SmtpTrace($i & " <- " & $s_Receive)
+        If $b_trace Then __SmtpTrace($i & " <- " & $s_Receive)
 
         If StringLeft($s_Receive, StringLen($s_ReplyCode)) <> $s_ReplyCode Then
             TCPCloseSocket($v_Socket)
             TCPShutdown()
-            If $b_trace Then _SmtpTrace("<-> " & $s_ReplyCode, 5)
+            If $b_trace Then __SmtpTrace("<-> " & $s_ReplyCode, 5)
             Return 2; bad receive code
         EndIf
     EndIf
 
     Return 0
-EndFunc   ;==>_SmtpSend
+EndFunc   ;==>__SmtpSend
 
-;===============================================================================
-;
-; Description:      Resolves IP adress to Hostname
-; CallTip:			_TCPIpToName($sIp, [$iOption = 0], [$hDll_Ws2_32 = "Ws2_32.dll"])
-; Parameter(s):     $sIp - Ip Adress in dotted (v4) Format
-;					$iOption - Optional, Default = 0
+; #FUNCTION# ====================================================================================================================
+; Name...........: _TCPIpToName
+; Description ...: Resolves IP adress to Hostname
+; Syntax ........:	_TCPIpToName($sIp, [[$iOption = 0], $hDll_Ws2_32 = "Ws2_32.dll"]])
+; Parameters ....: $sIp - Ip Adress in dotted (v4) Format
+;				   $iOption - Optional, Default = 0
 ;						0 = Return String Hostname
 ;						1 = Return Array (see Notes)
-;                   $hDll_Ws2_32 - Optional, Handle to Ws2_32.dll
-; Requirement(s):   AutoIt 3.2.1.12+, Successfull TCPStartup
-; Return Value(s):  On Success - Hostname or Array (see Notes)
-;                   On Failure - ""  and Set
+;                  $hDll_Ws2_32 - Optional, Handle to Ws2_32.dll
+; Return values .: On Success - Hostname or Array (see Notes)
+;                  On Failure - ""  and Set
 ;                                   @ERROR to:  1 - inet_addr DllCall Failed
 ;                                               2 - inet_addr Failed
 ;                                               3 - gethostbyaddr DllCall Failed
@@ -366,17 +364,15 @@ EndFunc   ;==>_SmtpSend
 ;												5 - gethostbyaddr Failed, WSAGetLastError Failed
 ;												6 - strlen/sZStringRead Failed
 ;												7 - Error reading Aliases Array
-; Author(s):        Florian Fida
-; Note(s):			A successfull WSAStartup (Done by TCPStartup) is required.
+; Author ........: Florian Fida
+; Remarks .......: A successfull WSAStartup (Done by TCPStartup) is required.
 ;					if $iOption = 1 then the returned Array looks Like this:
 ;						$aResult[0] = Number of elemets
 ;						$aResult[1] = "Hostname"
 ;						$aResult[2] = "Alias 1"
 ;						$aResult[3] = "Alias 2"
 ;						...
-;
-;===============================================================================
-
+; ===============================================================================================================================
 Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 	Local $vbinIP, $vaDllCall, $vptrHostent, $vHostent, $sHostnames, $vh_aliases, $i
 	Local $INADDR_NONE = 0xffffffff, $AF_INET = 2, $sSeperator = @CR
@@ -414,7 +410,12 @@ Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 	EndIf
 EndFunc   ;==>_TCPIpToName
 
-; Internal
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __TCPIpToName_szStringRead
+; Description ...: Used internally within this file, not for general use
+; Syntax.........: __TCPIpToName_szStringRead($iszPtr[, $iLen = -1[, $hDll_msvcrt = "msvcrt.dll"]])
+; Author ........: Florian Fida
+; ===============================================================================================================================
 Func __TCPIpToName_szStringRead($iszPtr, $iLen = -1, $hDll_msvcrt = "msvcrt.dll")
 	Local $aStrLen, $vszString
 	If $iszPtr < 1 Then Return "" ; Null Pointer

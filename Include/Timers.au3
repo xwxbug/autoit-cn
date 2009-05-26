@@ -2,20 +2,21 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Timers
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: An application uses a timer to schedule an event for a window after a specified time has elapsed.
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Timers management.
+;                  An application uses a timer to schedule an event for a window after a specified time has elapsed.
 ;                  Each time the specified interval (or time-out value) for a timer elapses, the system notifies the window
 ;                  associated with the timer. Because a timer's accuracy depends on the system clock rate and how often the
 ;                  application retrieves messages from the message queue, the time-out value is only approximate.
-; Author ........: Gary Frost
+; Author(s) .....: Gary Frost
+; Dll(s) ........: user32.dll, kernel32.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $_Timers_aTimerIDs[1][3]
 ; ===============================================================================================================================
 
-; ===============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_Timer_Diff
 ;_Timer_GetIdleTime
@@ -26,9 +27,9 @@ Global $_Timers_aTimerIDs[1][3]
 ;_Timer_SetTimer
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_Timer_QueryPerformanceCounter
-;_Timer_QueryPerformanceFrequency
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__Timer_QueryPerformanceCounter
+;__Timer_QueryPerformanceFrequency
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
@@ -40,15 +41,15 @@ Global $_Timers_aTimerIDs[1][3]
 ; Author ........: Gary Frost, original by Toady
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Timer_Diff
-; Link ..........;
-; Example .......; Yes
+; Related .......: _Timer_Init
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_Diff($iTimeStamp)
-	Return 1000 * (_Timer_QueryPerformanceCounter() - $iTimeStamp) / _Timer_QueryPerformanceFrequency()
+	Return 1000 * (__Timer_QueryPerformanceCounter() - $iTimeStamp) / __Timer_QueryPerformanceFrequency()
 EndFunc   ;==>_Timer_Diff
 
-; #FUNCTION#;===============================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _Timer_GetIdleTime
 ; Description ...: Returns the number of ticks since last user activity (i.e. KYBD/Mouse)
 ; Syntax.........: _Timer_GetIdleTime()
@@ -62,9 +63,9 @@ EndFunc   ;==>_Timer_Diff
 ;                  of this function to be after the rollover.  If this happens, @extended = 1 and the
 ;                  returned value is ticks since rollover occured.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
-;;==========================================================================================
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
 Func _Timer_GetIdleTime()
 	; Get ticks at last activity
 	Local $tStruct = DllStructCreate("uint;dword");
@@ -96,8 +97,8 @@ EndFunc   ;==>_Timer_GetIdleTime
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Timer_SetTimer
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_GetTimerID($iwParam)
 	Local $_iTimerID = Dec(Hex($iwParam, 8)), $iMax = UBound($_Timers_aTimerIDs) - 1
@@ -117,11 +118,11 @@ EndFunc   ;==>_Timer_GetTimerID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _Timer_Diff
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_Init()
-	Return _Timer_QueryPerformanceCounter()
+	Return __Timer_QueryPerformanceCounter()
 EndFunc   ;==>_Timer_Init
 
 ; #FUNCTION# ====================================================================================================================
@@ -136,8 +137,8 @@ EndFunc   ;==>_Timer_Init
 ; Modified.......: Squirrely1
 ; Remarks .......: The _Timer_KillAllTimers function does not remove WM_TIMER messages already posted to the message queue
 ; Related .......: _Timer_KillTimer, _Timer_SetTimer
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillAllTimers($hWnd)
 	Local $iResult, $hCallBack = 0, $iNumTimers = $_Timers_aTimerIDs[0][0]
@@ -174,8 +175,8 @@ EndFunc   ;==>_Timer_KillAllTimers
 ; Modified.......: Squirrely1
 ; Remarks .......: The _Timer_KillTimer function does not remove WM_TIMER messages already posted to the message queue
 ; Related .......: _Timer_KillAllTimers, _Timer_SetTimer
-; Link ..........; @@MsdnLink@@ KillTimer
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ KillTimer
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillTimer($hWnd, $iTimerID)
 	Local $iResult[1] = [0], $hCallBack = 0, $iUBound = UBound($_Timers_aTimerIDs) - 1
@@ -203,47 +204,47 @@ Func _Timer_KillTimer($hWnd, $iTimerID)
 	Return $iResult[0] <> 0
 EndFunc   ;==>_Timer_KillTimer
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _Timer_QueryPerformanceCounter
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Timer_QueryPerformanceCounter
 ; Description ...: Retrieves the current value of the high-resolution performance counter
-; Syntax.........: _Timer_QueryPerformanceCounter()
+; Syntax.........: __Timer_QueryPerformanceCounter()
 ; Parameters ....:
 ; Return values .: Success - Current performance-counter value, in counts
 ;                  Failure - -1
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _Timer_QueryPerformanceFrequency
-; Link ..........; @@MsdnLink@@ QueryPerformanceCounter
-; Example .......;
+; Related .......: __Timer_QueryPerformanceFrequency
+; Link ..........: @@MsdnLink@@ QueryPerformanceCounter
+; Example .......:
 ; ===============================================================================================================================
-Func _Timer_QueryPerformanceCounter()
+Func __Timer_QueryPerformanceCounter()
 	Local $tperf = DllStructCreate("int64")
 	DllCall("kernel32.dll", "int", "QueryPerformanceCounter", "ptr", DllStructGetPtr($tperf))
 	If @error Then Return SetError(-1, -1, -1)
 	Return DllStructGetData($tperf, 1)
-EndFunc   ;==>_Timer_QueryPerformanceCounter
+EndFunc   ;==>__Timer_QueryPerformanceCounter
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _Timer_QueryPerformanceFrequency
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Timer_QueryPerformanceFrequency
 ; Description ...: Retrieves the current value of the high-resolution performance counter
-; Syntax.........: _Timer_QueryPerformanceFrequency()
+; Syntax.........: __Timer_QueryPerformanceFrequency()
 ; Parameters ....:
 ; Return values .: Success - Current performance-counter frequency, in counts per second
 ;                  Failure - 0
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: If the installed hardware does not support a high-resolution performance counter, the return can be zero.
-; Related .......: _Timer_QueryPerformanceCounter
-; Link ..........; @@MsdnLink@@ QueryPerformanceCounter
-; Example .......;
+; Related .......: __Timer_QueryPerformanceCounter
+; Link ..........: @@MsdnLink@@ QueryPerformanceCounter
+; Example .......:
 ; ===============================================================================================================================
-Func _Timer_QueryPerformanceFrequency()
+Func __Timer_QueryPerformanceFrequency()
 	Local $tperf = DllStructCreate("int64")
 	DllCall("kernel32.dll", "int", "QueryPerformanceFrequency", "ptr", DllStructGetPtr($tperf))
 	If @error Then Return SetError(-1, -1, 0)
 	Return DllStructGetData($tperf, 1)
-EndFunc   ;==>_Timer_QueryPerformanceFrequency
+EndFunc   ;==>__Timer_QueryPerformanceFrequency
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Timer_SetTimer
@@ -263,8 +264,8 @@ EndFunc   ;==>_Timer_QueryPerformanceFrequency
 ; Modified.......: Squirrely1
 ; Remarks .......:
 ; Related .......: _Timer_KillTimer, _Timer_KillAllTimers, _Timer_GetTimerID
-; Link ..........; @@MsdnLink@@ SetTimer
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetTimer
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_SetTimer($hWnd, $iElapse = 250, $sTimerFunc = "", $iTimerID = -1)
 	Local $iResult[1], $pTimerFunc = 0, $hCallBack = 0, $iIndex = $_Timers_aTimerIDs[0][0] + 1

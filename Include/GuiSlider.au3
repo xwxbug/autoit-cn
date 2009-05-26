@@ -1,30 +1,32 @@
 ﻿#include-once
+
 #include <SliderConstants.au3>
-#include <StructureConstants.au3>
 #include <WinAPI.au3>
+#include <StructureConstants.au3>
 #include <SendMessage.au3>
 #include <UDFGlobalID.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Slider
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description:    Functions that assist with Slider Control "Trackbar".
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Slider Control "Trackbar" management.
+; Author(s) .....: Gary Frost (gafrost)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $_ghSLastWnd
 Global $Debug_S = False
-Global Const $_SLIDERCONSTANT_ClassName = "msctls_trackbar32"
-Global Const $_SLIDERCONSTANT_WS_VISIBLE = 0x10000000
-Global Const $_SLIDERCONSTANT_WS_CHILD = 0x40000000
-;==============================================================================================================================
 ; ===============================================================================================================================
-; depricated functions will no longer work
+
+; #CONSTANTS# ===================================================================================================================
+Global Const $__SLIDERCONSTANT_ClassName = "msctls_trackbar32"
 ; ===============================================================================================================================
+
 ; #OLD_FUNCTIONS#================================================================================================================
 ; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-; ===============================================================================================================================
+;
+; deprecated functions will no longer work
 ;_GUICtrlSliderClearTics                  ; --> _GUICtrlSlider_ClearTics
 ;_GUICtrlSliderGetLineSize                ; --> _GUICtrlSlider_GetLineSize
 ;_GUICtrlSliderGetNumTics                 ; --> _GUICtrlSlider_GetNumTics
@@ -36,11 +38,6 @@ Global Const $_SLIDERCONSTANT_WS_CHILD = 0x40000000
 ;_GUICtrlSliderSetPageSize                ; --> _GUICtrlSlider_SetPageSize
 ;_GUICtrlSliderSetPos                     ; --> _GUICtrlSlider_SetPos
 ;_GUICtrlSliderSetTicFreq                 ; --> _GUICtrlSlider_SetTicFreq
-; ===============================================================================================================================
-
-; #NO_DOC_FUNCTION# =============================================================================================================
-; Not working/documented/implimented at this time
-; ===============================================================================================================================
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -87,11 +84,6 @@ Global Const $_SLIDERCONSTANT_WS_CHILD = 0x40000000
 ;_GUICtrlSlider_SetUnicodeFormat
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_GUICtrlSlider_DebugPrint
-;_GUICtrlSlider_ValidateClassName
-;==============================================================================================================================
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlSlider_ClearSel
 ; Description ...: Clears the current selection range
@@ -102,11 +94,11 @@ Global Const $_SLIDERCONSTANT_WS_CHILD = 0x40000000
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelEnd, _GUICtrlSlider_SetSelStart
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_ClearSel($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_CLEARSEL, True)
@@ -122,11 +114,11 @@ EndFunc   ;==>_GUICtrlSlider_ClearSel
 ; Modified.......:
 ; Remarks .......: This does not remove the first and last tick marks, which are created automatically
 ; Related .......: _GUICtrlSlider_SetTic, _GUICtrlSlider_SetTicFreq
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_ClearTics($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_CLEARTICS, True)
@@ -170,8 +162,8 @@ EndFunc   ;==>_GUICtrlSlider_ClearTics
 ; Modified.......:
 ; Remarks .......: This function is for Advanced users and for learning how the control works.
 ; Related .......: _GUICtrlSlider_Destroy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Create($hWnd, $iX, $iY, $iWidth = 100, $iHeight = 20, $iStyle = 0x0001, $iExStyle = 0x00000000)
 	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlSlider_Create 1st parameter")
@@ -183,39 +175,17 @@ Func _GUICtrlSlider_Create($hWnd, $iX, $iY, $iWidth = 100, $iHeight = 20, $iStyl
 	If $iStyle = -1 Then $iStyle = 0x0001
 	If $iExStyle = -1 Then $iExStyle = 0x00000000
 
-	$iStyle = BitOR($iStyle, $_SLIDERCONSTANT_WS_CHILD, $_SLIDERCONSTANT_WS_VISIBLE)
+	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
-	$nCtrlID = _UDF_GetNextGlobalID($hWnd)
+	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hSlider = _WinAPI_CreateWindowEx($iExStyle, $_SLIDERCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
+	$hSlider = _WinAPI_CreateWindowEx($iExStyle, $__SLIDERCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_GUICtrlSlider_SetUnicodeFormat($hSlider, False)
 	_SendMessage($hSlider, $TBM_SETRANGE, True, _WinAPI_MakeLong(0, 100));  // min. & max. positions
 	_GUICtrlSlider_SetTicFreq($hSlider, 5)
 	Return $hSlider
 EndFunc   ;==>_GUICtrlSlider_Create
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlSlider_DebugPrint
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlSlider_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
-; Parameters ....: $sText       - String to printed to console
-;                  $iLine       - Line number function was called from
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlSlider_DebugPrint($sText, $iLine = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_GUICtrlSlider_DebugPrint
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlSlider_Destroy
@@ -228,21 +198,21 @@ EndFunc   ;==>_GUICtrlSlider_DebugPrint
 ; Modified.......:
 ; Remarks .......: Restricted to only be used on slider created with _GUICtrlSlider_Create
 ; Related .......: _GUICtrlSlider_Create
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Destroy(ByRef $hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 
 	Local $Destroyed, $iResult
 
-	If _WinAPI_IsClassName($hWnd, $_SLIDERCONSTANT_ClassName) Then
+	If _WinAPI_IsClassName($hWnd, $__SLIDERCONSTANT_ClassName) Then
 		If IsHWnd($hWnd) Then
 			If _WinAPI_InProcess($hWnd, $_ghSLastWnd) Then
 				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 				Local $hParent = _WinAPI_GetParent($hWnd)
 				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = _UDF_FreeGlobalID($hParent, $nCtrlID)
+				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
 				If Not $iResult Then
 					; can check for errors here if needed, for debug
 				EndIf
@@ -264,7 +234,7 @@ EndFunc   ;==>_GUICtrlSlider_Destroy
 ; Description ...: Retrieves the handle to a slider control buddy window at a given location
 ; Syntax.........: _GUICtrlSlider_GetBuddy($hWnd, $fLocation)
 ; Parameters ....: $hWnd        - Handle to the control
-;                  $fLocatioon  - Which buddy window handle will be retrieved. This value can be one of the following:
+;                  $fLocation   - Which buddy window handle will be retrieved. This value can be one of the following:
 ;                  | True       - Retrieves the handle to the buddy to the left of the slider.
 ;                  +If the slider control uses the $TBS_VERT style, the message will retrieve the buddy above the slider.
 ;                  |False       - Retrieves the handle to the buddy to the right of the slider.
@@ -275,11 +245,11 @@ EndFunc   ;==>_GUICtrlSlider_Destroy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetBuddy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetBuddy($hWnd, $fLocation)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETBUDDY, $fLocation, 0, 0, "wparam", "lparam", "hwnd")
@@ -299,8 +269,8 @@ EndFunc   ;==>_GUICtrlSlider_GetBuddy
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetChannelRectEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetChannelRect($hWnd)
 	Local $aRect[4], $tRect
@@ -316,18 +286,18 @@ EndFunc   ;==>_GUICtrlSlider_GetChannelRect
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlSlider_GetChannelRectEx
 ; Description ...: Retrieves the size and position of the bounding rectangle for a sliders's channel
-; Syntax.........: _GUICtrlSlider_GetChannelRect($hWnd)
+; Syntax.........: _GUICtrlSlider_GetChannelRectEx($hWnd)
 ; Parameters ....: $hWnd        - Handle to the control
 ; Return values .: Success      - $tagRECT structure that receives the channel coordinates
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetChannelRect, $tagRECT
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetChannelRectEx($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect
@@ -346,11 +316,11 @@ EndFunc   ;==>_GUICtrlSlider_GetChannelRectEx
 ; Modified.......:
 ; Remarks .......: The default setting for the line size is 1
 ; Related .......: _GUICtrlSlider_SetLineSize
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetLineSize($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETLINESIZE)
@@ -359,7 +329,7 @@ EndFunc   ;==>_GUICtrlSlider_GetLineSize
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlSlider_GetLogicalTics
 ; Description ...: Retrieves an array that contains the logical positions of the tick marks for a slider
-; Syntax.........: _GUICtrlSlider_GetPTics($hWnd)
+; Syntax.........: _GUICtrlSlider_GetLogicalTics($hWnd)
 ; Parameters ....: $hWnd        - Handle to the control
 ; Return values .: Success      - Returns array logical positions
 ;                  Failure      - @error is set
@@ -374,11 +344,11 @@ EndFunc   ;==>_GUICtrlSlider_GetLineSize
 ;                  the first and last tick marks created by the slider. The logical positions can be any of the integer
 ;                  values in the sliders's range of minimum to maximum slider positions.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetLogicalTics($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $pArray, $tArray, $iArraySize
@@ -408,11 +378,11 @@ EndFunc   ;==>_GUICtrlSlider_GetLogicalTics
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetTicFreq
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetNumTics($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETNUMTICS)
@@ -428,11 +398,11 @@ EndFunc   ;==>_GUICtrlSlider_GetNumTics
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetPageSize
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetPageSize($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETPAGESIZE)
@@ -448,11 +418,11 @@ EndFunc   ;==>_GUICtrlSlider_GetPageSize
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetPos
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetPos($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETPOS)
@@ -470,8 +440,8 @@ EndFunc   ;==>_GUICtrlSlider_GetPos
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetRange, _GUICtrlSlider_GetRangeMax, _GUICtrlSlider_GetRangeMin
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetRange($hWnd)
 	Local $aMinMax[2]
@@ -489,12 +459,12 @@ EndFunc   ;==>_GUICtrlSlider_GetRange
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlSlider_SetRangeMax
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_SetRangeMax, _GUICtrlSlider_GetRange
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetRangeMax($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETRANGEMAX)
@@ -509,12 +479,12 @@ EndFunc   ;==>_GUICtrlSlider_GetRangeMax
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlSlider_SetRangeMin
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_SetRangeMin, _GUICtrlSlider_GetRange
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetRangeMin($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETRANGEMIN)
@@ -532,8 +502,8 @@ EndFunc   ;==>_GUICtrlSlider_GetRangeMin
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelEnd, _GUICtrlSlider_SetSelStart
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetSel($hWnd)
 	Local $aSelStartEnd[2]
@@ -553,11 +523,11 @@ EndFunc   ;==>_GUICtrlSlider_GetSel
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetSelEnd
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetSelEnd($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETSELEND)
@@ -573,11 +543,11 @@ EndFunc   ;==>_GUICtrlSlider_GetSelEnd
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetSelStart
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetSelStart($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETSELSTART)
@@ -593,11 +563,11 @@ EndFunc   ;==>_GUICtrlSlider_GetSelStart
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetThumbLength
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbLength($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTHUMBLENGTH)
@@ -617,8 +587,8 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbLength
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetThumbRectEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbRect($hWnd)
 	Local $aRect[4], $tRect
@@ -641,11 +611,11 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetThumbRect, $tagRECT
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbRectEx($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect
@@ -668,11 +638,11 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbRectEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetTic
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetTic($hWnd, $iTic)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTIC, $iTic)
@@ -695,11 +665,11 @@ EndFunc   ;==>_GUICtrlSlider_GetTic
 ;                  from their tick position on the slider. If the difference between _GUICtrlSlider_GetRangeMin and
 ;                  _GUICtrlSlider_GetRangeMax is less than two, then there is no valid index and this message will fail.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetTicPos($hWnd, $iTic)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTICPOS, $iTic)
@@ -716,11 +686,11 @@ EndFunc   ;==>_GUICtrlSlider_GetTicPos
 ; Modified.......:
 ; Remarks .......: If the slider control does not use the $TBS_TOOLTIPS style, the return value is 0.
 ; Related .......: _GUICtrlSlider_SetToolTips
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetToolTips($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTOOLTIPS, 0, 0, 0, "wparam", "lparam", "hwnd")
@@ -737,11 +707,11 @@ EndFunc   ;==>_GUICtrlSlider_GetToolTips
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_SetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetUnicodeFormat($hWnd)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETUNICODEFORMAT) <> 0
@@ -763,11 +733,11 @@ EndFunc   ;==>_GUICtrlSlider_GetUnicodeFormat
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetBuddy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetBuddy($hWnd, $fLocation, $hBuddy)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	If Not IsHWnd($hBuddy) Then $hBuddy = GUICtrlGetHandle($hBuddy)
 
@@ -785,11 +755,11 @@ EndFunc   ;==>_GUICtrlSlider_SetBuddy
 ; Modified.......:
 ; Remarks .......: The default setting for the line size is 1
 ; Related .......: _GUICtrlSlider_GetLineSize
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetLineSize($hWnd, $iLineSize)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETLINESIZE, 0, $iLineSize)
@@ -806,11 +776,11 @@ EndFunc   ;==>_GUICtrlSlider_SetLineSize
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetPageSize
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetPageSize($hWnd, $iPageSize)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETPAGESIZE, 0, $iPageSize)
@@ -827,11 +797,11 @@ EndFunc   ;==>_GUICtrlSlider_SetPageSize
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetPos
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetPos($hWnd, $iPosition)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETPOS, True, $iPosition)
@@ -850,11 +820,11 @@ EndFunc   ;==>_GUICtrlSlider_SetPos
 ; Remarks .......: If the current slider position is outside the new range, the _GUICtrlSlider_SetRange function
 ;                  sets the slider position to the new maximum or minimum value.
 ; Related .......: _GUICtrlSlider_GetRange, _GUICtrlSlider_SetRangeMax, _GUICtrlSlider_SetRangeMin
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRange($hWnd, $iMinimum, $iMaximum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGE, True, _WinAPI_MakeLong($iMinimum, $iMaximum))
@@ -872,11 +842,11 @@ EndFunc   ;==>_GUICtrlSlider_SetRange
 ; Remarks .......: If the current slider position is greater than the new maximum, the _GUICtrlSlider_SetRangeMax function
 ;                  sets the slider position to the new maximum value.
 ; Related .......: _GUICtrlSlider_GetRangeMax, _GUICtrlSlider_SetRange, _GUICtrlSlider_SetRangeMin
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRangeMax($hWnd, $iMaximum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGEMAX, True, $iMaximum)
@@ -894,11 +864,11 @@ EndFunc   ;==>_GUICtrlSlider_SetRangeMax
 ; Remarks .......: If the current slider position is less than the new minimum, the _GUICtrlSlider_SetRangeMin function
 ;                  sets the slider position to the new minimum value.
 ; Related .......: _GUICtrlSlider_GetRangeMin, _GUICtrlSlider_SetRange, _GUICtrlSlider_SetRangeMax
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRangeMin($hWnd, $iMinimum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGEMIN, True, $iMinimum)
@@ -917,12 +887,12 @@ EndFunc   ;==>_GUICtrlSlider_SetRangeMin
 ; Remarks .......: This function is ignored if the slider does not have the $TBS_ENABLESELRANGE style.
 ;                  _GUICtrlSlider_SetSel allows you to restrict the pointer to only a portion of the range
 ;                  available to the slider.
-; Related .......: _GUICtrlSlider_GetSel, _GUICtrlSlider_SetSelEnd, _GUICtrlSlider_SetSelStart
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_GetSel, _GUICtrlSlider_SetSelEnd, _GUICtrlSlider_SetSelStart, _GUICtrlSlider_ClearSel
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSel($hWnd, $iMinimum, $iMaximum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSEL, True, _WinAPI_MakeLong($iMinimum, $iMaximum))
@@ -938,12 +908,12 @@ EndFunc   ;==>_GUICtrlSlider_SetSel
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlSlider_GetSelEnd, _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelStart
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_GetSelEnd, _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelStart, _GUICtrlSlider_ClearSel, _GUICtrlSlider_GetSel
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSelEnd($hWnd, $iMaximum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSELEND, True, $iMaximum)
@@ -959,12 +929,12 @@ EndFunc   ;==>_GUICtrlSlider_SetSelEnd
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlSlider_GetSelStart, _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelEnd
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_GetSelStart, _GUICtrlSlider_SetSel, _GUICtrlSlider_SetSelEnd, _GUICtrlSlider_ClearSel, _GUICtrlSlider_GetSel
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSelStart($hWnd, $iMinimum)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSELSTART, True, $iMinimum)
@@ -981,11 +951,11 @@ EndFunc   ;==>_GUICtrlSlider_SetSelStart
 ; Modified.......:
 ; Remarks .......: This function is ignored if the trackbar does not have the $TBS_FIXEDLENGTH style
 ; Related .......: _GUICtrlSlider_GetThumbLength
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetThumbLength($hWnd, $iLength)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTHUMBLENGTH, $iLength)
@@ -1004,12 +974,12 @@ EndFunc   ;==>_GUICtrlSlider_SetThumbLength
 ; Modified.......:
 ; Remarks .......: A slider creates its own first and last tick marks.
 ;                  Do not use this message to set the first and last tick marks.
-; Related .......: _GUICtrlSlider_GetTic
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_GetTic, _GUICtrlSlider_ClearTics
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTic($hWnd, $iPosition)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTIC, 0, $iPosition)
@@ -1025,12 +995,12 @@ EndFunc   ;==>_GUICtrlSlider_SetTic
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The slider must have the $TBS_AUTOTICKS style to use this function
-; Related .......: _GUICtrlSlider_GetNumTics
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlSlider_GetNumTics, _GUICtrlSlider_ClearTics
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTicFreq($hWnd, $iFreg)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTICFREQ, $iFreg)
@@ -1052,11 +1022,11 @@ EndFunc   ;==>_GUICtrlSlider_SetTicFreq
 ; Modified.......:
 ; Remarks .......: Use the $TBS_TOOLTIPS style display ToolTips
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTipSide($hWnd, $fLocation)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTIPSIDE, $fLocation)
@@ -1074,11 +1044,11 @@ EndFunc   ;==>_GUICtrlSlider_SetTipSide
 ; Remarks .......: When a slidert control is created with the $TBS_TOOLTIPS style, it creates a default ToolTip control
 ;                  that appears next to the slider, displaying the slider's current position.
 ; Related .......: _GUICtrlSlider_GetToolTips
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetToolTips($hWnd, $hWndTT)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTOOLTIPS, $hWndTT, 0, 0, "hwnd")
@@ -1097,30 +1067,12 @@ EndFunc   ;==>_GUICtrlSlider_SetToolTips
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlSlider_GetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetUnicodeFormat($hWnd, $fUnicode)
-	If $Debug_S Then _GUICtrlSlider_ValidateClassName($hWnd)
+	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETUNICODEFORMAT, $fUnicode) <> 0
 EndFunc   ;==>_GUICtrlSlider_SetUnicodeFormat
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlSlider_ValidateClassName
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlSlider_ValidateClassName($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlSlider_ValidateClassName($hWnd)
-	_GUICtrlSlider_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	_WinAPI_ValidateClassName($hWnd, $_SLIDERCONSTANT_ClassName)
-EndFunc   ;==>_GUICtrlSlider_ValidateClassName

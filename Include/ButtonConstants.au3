@@ -1,12 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Button (Group, Radio, Checkbox, Button) Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Button_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants for <a href="../appendix/GUIStyles.htm#Button">GUI control Button styles</a> and Group, Radio, Checkbox.
+; Author(s) .....: Valik
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 ; Group
 Global Const $BS_GROUPBOX = 0x0007
 
@@ -115,3 +117,4 @@ Global Const $BST_UNCHECKED = 0x0
 Global Const $BST_FOCUS = 0x8
 Global Const $BST_PUSHED = 0x4
 Global Const $BST_DONTCLICK = 0x000080
+; ===============================================================================================================================

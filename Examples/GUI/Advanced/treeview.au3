@@ -14,9 +14,9 @@ Func _Main()
 
 	#forceref $cmditem, $miscitem, $effect2, $effect4, $effect5, $style1, $style2, $style3
 
-GUICreate("GUI 之 treeviews",340,200,-1,-1,BitOr($WS_MINIMIZEBOX,$WS_MAXIMIZEBOX,$WS_GROUP,$WS_CAPTION,$WS_POPUP,$WS_SYSMENU))
+GUICreate("GUI 之 treeviews",340,200,-1,-1,BitOR($WS_MINIMIZEBOX,$WS_MAXIMIZEBOX,$WS_GROUP,$WS_CAPTION,$WS_POPUP,$WS_SYSMENU))
 
-$maintree = GUICtrlCreateTreeView (10,10,120,150)
+	$maintree = GUICtrlCreateTreeView(10, 10, 120, 150)
 $aboutitem = GUICtrlCreateTreeViewItem ("关于",$maintree)
 $generalitem = GUICtrlCreateTreeViewItem ("常规",$maintree)
 $toolsitem = GUICtrlCreateTreeViewItem ("工具",$maintree)

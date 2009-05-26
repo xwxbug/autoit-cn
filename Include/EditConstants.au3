@@ -1,14 +1,15 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Language:       English
-; Description:    Edit Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Edit_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#Edit">GUI control Edit/Input styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
-; Styles
+; #CONSTANTS# ===================================================================================================================
+;Styles
 Global Const $ES_LEFT = 0
 Global Const $ES_CENTER = 1
 Global Const $ES_RIGHT = 2
@@ -116,3 +117,4 @@ Global Const $__EDITCONSTANT_WS_VSCROLL = 0x00200000
 Global Const $__EDITCONSTANT_WS_HSCROLL = 0x00100000
 Global Const $GUI_SS_DEFAULT_EDIT = BitOR($ES_WANTRETURN, $__EDITCONSTANT_WS_VSCROLL, $__EDITCONSTANT_WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL)
 Global Const $GUI_SS_DEFAULT_INPUT = BitOR($ES_LEFT, $ES_AUTOHSCROLL)
+; ===============================================================================================================================

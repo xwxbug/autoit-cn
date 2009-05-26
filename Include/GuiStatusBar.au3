@@ -1,38 +1,37 @@
 ﻿#include-once
+
+#include <StatusBarConstants.au3>
 #include <Memory.au3>
 #include <WinAPI.au3>
-#include <StatusBarConstants.au3>
 #include <SendMessage.au3>
 #include <UDFGlobalID.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: StatusBar
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description:    A status bar is a horizontal window at the bottom of a parent window in which an application can display
-;                 various kinds of status information.  The status bar can be divided into parts to display more than one type
-;                 of information
-;
-; Added Functions by Paul Campbell (PaulIA) from Auto3Lib project
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with StatusBar control management.
+;                  A status bar is a horizontal window at the bottom of a parent window in which an application can display
+;                  various kinds of status information.  The status bar can be divided into parts to display more than one type
+;                  of information
+; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $__ghSBLastWnd
 Global $Debug_SB = False
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 Global Const $__STATUSBARCONSTANT_ClassName = "msctls_statusbar32"
-Global Const $__STATUSBARCONSTANT_WS_VISIBLE = 0x10000000
-Global Const $__STATUSBARCONSTANT_WS_CHILD = 0x40000000
 Global Const $__STATUSBARCONSTANT_WM_SIZE = 0x05
 Global Const $__STATUSBARCONSTANT_CLR_DEFAULT = 0xFF000000
 ; ===============================================================================================================================
 
-;===============================================================================
-;===============================================================================
-; depricated functions will no longer work
-;===============================================================================
 ; #OLD_FUNCTIONS#================================================================================================================
 ; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-; ===============================================================================================================================
+;
+; deprecated functions will no longer work
 ;_GUICtrlStatusBarCreate                ; --> _GUICtrlStatusBar_Create
 ;_GUICtrlStatusBarCreateProgress        ; --> for backward compatibilty only (won't be documented)
 ;_GUICtrlStatusBarDelete                ; --> _GUICtrlStatusBar_Destroy
@@ -91,11 +90,6 @@ Global Const $__STATUSBARCONSTANT_CLR_DEFAULT = 0xFF000000
 ;_GUICtrlStatusBar_ShowHide
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_GUICtrlStatusBar_DebugPrint
-;_GUICtrlStatusBar_ValidateClassName
-;==============================================================================================================================
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlStatusBar_Create
 ; Description ...: Create a statusbar
@@ -121,13 +115,13 @@ Global Const $__STATUSBARCONSTANT_CLR_DEFAULT = 0xFF000000
 ; Modified.......: Gary Frost
 ; Remarks .......: If using GUICtrlCreateMenu then use _GUICtrlStatusBar_Create after GUICtrlCreateMenu
 ; Related .......: _GUICtrlStatusBar_Destroy
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_Create($hWnd, $vPartEdge = -1, $vPartText = "", $iStyles = -1, $iExStyles = 0x00000000)
 	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlStatusBar_Create 1st parameter")
 
-	Local $aPartWidth[1], $aPartText[1], $hWndSBar, $x, $iStyle = BitOR($__STATUSBARCONSTANT_WS_CHILD, $__STATUSBARCONSTANT_WS_VISIBLE)
+	Local $aPartWidth[1], $aPartText[1], $hWndSBar, $x, $iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 	Local $iExStyle, $iLast, $nCtrlID
 
 	If $iStyles = -1 Then $iStyles = 0x00000000
@@ -171,10 +165,10 @@ Func _GUICtrlStatusBar_Create($hWnd, $vPartEdge = -1, $vPartText = "", $iStyles 
 		$iExStyle = $iExStyles
 	EndIf
 
-	$nCtrlID = _UDF_GetNextGlobalID($hWnd)
+	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	If @OSTYPE = "WIN32_WINDOWS" Then ; not sure if we want this in here for older systems
+	If @OSType = "WIN32_WINDOWS" Then ; not sure if we want this in here for older systems
 		$hWndSBar = DllCall("comctl32.dll", "hwnd", "CreateStatusWindow", "long", $iStyle, "str", "", "hwnd", $hWnd, "int", $nCtrlID)
 		$hWndSBar = HWnd($hWndSBar[0])
 	Else
@@ -190,28 +184,6 @@ Func _GUICtrlStatusBar_Create($hWnd, $vPartEdge = -1, $vPartText = "", $iStyles 
 	Return $hWndSBar
 EndFunc   ;==>_GUICtrlStatusBar_Create
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlStatusBar_DebugPrint
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlStatusBar_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
-; Parameters ....: $sText       - String to printed to console
-;                  $iLine       - Line number function was called from
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlStatusBar_DebugPrint($sText, $iLine = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_GUICtrlStatusBar_DebugPrint
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlStatusBar_Destroy
 ; Description ...: Delete the control
@@ -223,11 +195,11 @@ EndFunc   ;==>_GUICtrlStatusBar_DebugPrint
 ; Modified.......:
 ; Remarks .......: Restricted to only be used on StatusBar created with _GUICtrlStatusBar_Create
 ; Related .......: _GUICtrlStatusBar_Create
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_Destroy(ByRef $hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $Destroyed, $iResult
 
 	If _WinAPI_IsClassName($hWnd, $__STATUSBARCONSTANT_ClassName) Then
@@ -236,7 +208,7 @@ Func _GUICtrlStatusBar_Destroy(ByRef $hWnd)
 				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 				Local $hParent = _WinAPI_GetParent($hWnd)
 				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = _UDF_FreeGlobalID($hParent, $nCtrlID)
+				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
 				If Not $iResult Then
 					; can check for errors here if needed, for debug
 				EndIf
@@ -267,8 +239,8 @@ EndFunc   ;==>_GUICtrlStatusBar_Destroy
 ; Modified.......:
 ; Remarks .......: You can embed ANY control in the status bar, not just the usual Progress Bar
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_EmbedControl($hWnd, $iPart, $hControl, $iFit = 4)
 	Local $aRect, $iBarX, $iBarY, $iBarW, $iBarH, $iConX, $iConY, $iConW, $iConH, $iPadX, $iPadY
@@ -320,11 +292,11 @@ EndFunc   ;==>_GUICtrlStatusBar_EmbedControl
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetBordersHorz, _GUICtrlStatusBar_GetBordersRect, _GUICtrlStatusBar_GetBordersVert
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetBorders($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $ret, $borders_struct, $borders_struct_pointer, $struct_MemMap, $Memory_pointer, $iSize, $aBorders[3]
 
 	$borders_struct = DllStructCreate($tagBORDERS)
@@ -358,8 +330,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetBorders
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetBorders, _GUICtrlStatusBar_GetBordersRect, _GUICtrlStatusBar_GetBordersVert
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetBordersHorz($hWnd)
 	Local $aBorders
@@ -378,8 +350,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetBordersHorz
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetBorders, _GUICtrlStatusBar_GetBordersHorz, _GUICtrlStatusBar_GetBordersVert
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetBordersRect($hWnd)
 	Local $aBorders
@@ -398,8 +370,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetBordersRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetBorders, _GUICtrlStatusBar_GetBordersHorz, _GUICtrlStatusBar_GetBordersRect
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetBordersVert($hWnd)
 	Local $aBorders
@@ -418,11 +390,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetBordersVert
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetCount($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $SB_GETPARTS)
 EndFunc   ;==>_GUICtrlStatusBar_GetCount
 
@@ -435,9 +407,9 @@ EndFunc   ;==>_GUICtrlStatusBar_GetCount
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost) Removed dot notation
 ; Remarks .......:
-; Related .......: _GUICtrlStatusBar_GetWidth
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlStatusBar_GetWidth, _GUICtrlStatusBar_SetMinHeight
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetHeight($hWnd)
 	Local $tRect
@@ -458,12 +430,12 @@ EndFunc   ;==>_GUICtrlStatusBar_GetHeight
 ; Author ........: Steve Podhajecki <gehossafats at netmdc dotcom>
 ; Modified.......: Gary Frost (GaryFrost)
 ; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlStatusBar_SetIcon
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetIcon($hWnd, $iIndex = 0)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $SB_GETICON, $iIndex, 0, 0, "wparam", "lparam", "hwnd")
 EndFunc   ;==>_GUICtrlStatusBar_GetIcon
 
@@ -481,11 +453,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetIcon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_SetParts
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetParts($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $iI, $iCount, $iParts, $pParts, $tParts, $pMemory, $tMemMap
 
 	$iCount = _GUICtrlStatusBar_GetCount($hWnd)
@@ -522,8 +494,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetParts
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetRectEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetRect($hWnd, $iPart)
 	Local $tRect, $aRect[4]
@@ -548,11 +520,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetRect, $tagRECT
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetRectEx($hWnd, $iPart)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap, $iResult
 
 	$tRect = DllStructCreate($tagRECT)
@@ -580,11 +552,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetRectEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_SetText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetText($hWnd, $iPart)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap
 	Local $fUnicode = _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
 
@@ -633,12 +605,12 @@ EndFunc   ;==>_GUICtrlStatusBar_GetText
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlStatusBar_GetTextLength
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlStatusBar_GetTextLength, _GUICtrlStatusBar_GetTextLengthEx
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetTextFlags($hWnd, $iPart)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	If _GUICtrlStatusBar_GetUnicodeFormat($hWnd) Then
 		Return _SendMessage($hWnd, $SB_GETTEXTLENGTHW, $iPart)
 	Else
@@ -656,9 +628,9 @@ EndFunc   ;==>_GUICtrlStatusBar_GetTextFlags
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _GUICtrlStatusBar_GetTextLengthEx
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUICtrlStatusBar_GetTextLengthEx, _GUICtrlStatusBar_GetTextFlags
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetTextLength($hWnd, $iPart)
 	Return _WinAPI_LoWord(_GUICtrlStatusBar_GetTextFlags($hWnd, $iPart))
@@ -680,8 +652,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetTextLength
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetTextFlags, _GUICtrlStatusBar_GetTextLength
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetTextLengthEx($hWnd, $iPart)
 	Return _WinAPI_HiWord(_GUICtrlStatusBar_GetTextFlags($hWnd, $iPart))
@@ -698,11 +670,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetTextLengthEx
 ; Modified.......: Gary Frost (GaryFrost)
 ; Remarks .......: The status bar must be created with the $SBARS_TOOLTIPS style to enable ToolTips
 ; Related .......: _GUICtrlStatusBar_SetTipText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetTipText($hWnd, $iPart)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $pBuffer, $tBuffer, $pMemory, $tMemMap
 	Local $fUnicode = _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
 
@@ -716,14 +688,14 @@ Func _GUICtrlStatusBar_GetTipText($hWnd, $iPart)
 		If $fUnicode Then
 			_SendMessage($hWnd, $SB_GETTIPTEXTW, _WinAPI_MakeLong($iPart, 4096), $pBuffer, 0, "wparam", "ptr")
 		Else
-			_SendMessage($hWnd, $SB_GETTIPTEXT, _WinAPI_MakeLong($iPart, 4096), $pBuffer, 0, "wparam", "ptr")
+			_SendMessage($hWnd, $SB_GETTIPTEXTA, _WinAPI_MakeLong($iPart, 4096), $pBuffer, 0, "wparam", "ptr")
 		EndIf
 	Else
 		$pMemory = _MemInit($hWnd, 4096, $tMemMap)
 		If $fUnicode Then
 			_SendMessage($hWnd, $SB_GETTIPTEXTW, _WinAPI_MakeLong($iPart, 4096), $pMemory, 0, "wparam", "ptr")
 		Else
-			_SendMessage($hWnd, $SB_GETTIPTEXT, _WinAPI_MakeLong($iPart, 4096), $pMemory, 0, "wparam", "ptr")
+			_SendMessage($hWnd, $SB_GETTIPTEXTA, _WinAPI_MakeLong($iPart, 4096), $pMemory, 0, "wparam", "ptr")
 		EndIf
 		_MemRead($tMemMap, $pMemory, $pBuffer, 4096)
 		_MemFree($tMemMap)
@@ -742,11 +714,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetTipText
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_SetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $SB_GETUNICODEFORMAT) <> 0
 EndFunc   ;==>_GUICtrlStatusBar_GetUnicodeFormat
 
@@ -761,8 +733,8 @@ EndFunc   ;==>_GUICtrlStatusBar_GetUnicodeFormat
 ; Modified.......: Gary Frost (gafrost) Removed dot notation
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetHeight
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetWidth($hWnd, $iPart)
 	Local $tRect
@@ -782,11 +754,11 @@ EndFunc   ;==>_GUICtrlStatusBar_GetWidth
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_SetSimple
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_IsSimple($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $SB_ISSIMPLE) <> 0
 EndFunc   ;==>_GUICtrlStatusBar_IsSimple
 
@@ -800,11 +772,11 @@ EndFunc   ;==>_GUICtrlStatusBar_IsSimple
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_Resize($hWnd)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	_SendMessage($hWnd, $__STATUSBARCONSTANT_WM_SIZE)
 EndFunc   ;==>_GUICtrlStatusBar_Resize
 
@@ -820,11 +792,11 @@ EndFunc   ;==>_GUICtrlStatusBar_Resize
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......: Returns RGB COLORREF color, color passed in must be BGR Hex color or RGB COLORREF
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetBkColor($hWnd, $iColor)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	$iColor = _SendMessage($hWnd, $SB_SETBKCOLOR, 0, $iColor)
 	If $iColor = $__STATUSBARCONSTANT_CLR_DEFAULT Then Return '0x' & Hex($__STATUSBARCONSTANT_CLR_DEFAULT)
 	Return $iColor
@@ -837,17 +809,18 @@ EndFunc   ;==>_GUICtrlStatusBar_SetBkColor
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iPart       - Zero based part index. If the control is in simple mode, this field is ignored.
 ;                  $hIcon       - Handle to the icon. If this value is -1, the icon is removed.
+;                  $sIconFile  - Icon filename to be used.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetIcon
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetIcon($hWnd, $iPart, $hIcon = -1, $sIconFile = "")
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $tIcon, $result
 	If $hIcon = -1 Then ; Remove Icon
 		Return _SendMessage($hWnd, $SB_SETICON, $iPart, $hIcon, 0, "wparam", "hwnd") <> 0
@@ -874,11 +847,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetIcon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetHeight
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetMinHeight($hWnd, $iMinHeight)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	_SendMessage($hWnd, $SB_SETMINHEIGHT, $iMinHeight)
 	_GUICtrlStatusBar_Resize($hWnd)
 EndFunc   ;==>_GUICtrlStatusBar_SetMinHeight
@@ -891,18 +864,22 @@ EndFunc   ;==>_GUICtrlStatusBar_SetMinHeight
 ;                  $iaParts     - Number of parts, can be an zero based array of ints in the following format:
 ;                  |$iaParts[0] - Right edge of part #1
 ;                  |$iaParts[1] - Right edge of part #2
-;                  |$iaParts[n] - Right edge of parn n
+;                  |$iaParts[n] - Right edge of part n
+;                  $iaPartWidth - Size of parts, can be an zero based array of ints in the following format:
+;                  |$iaPartWidth[0] - width part #1
+;                  |$iaPartWidth[1] - width of part #2
+;                  |$iaPartWidth[n] - width of part n
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: If an element is -1, the right edge of the corresponding part extends to the border of the window.
 ; Related .......: _GUICtrlStatusBar_GetParts
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetParts($hWnd, $iaParts = -1, $iaPartWidth = 25)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $struct_parts, $iParts = 1
 	Local $struct_parts_pointer, $struct_MemMap, $iSize, $Memory_pointer
 
@@ -961,11 +938,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetParts
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_IsSimple
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetSimple($hWnd, $fSimple = True)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	_SendMessage($hWnd, $SB_SIMPLE, $fSimple)
 EndFunc   ;==>_GUICtrlStatusBar_SetSimple
 
@@ -988,11 +965,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetSimple
 ; Modified.......: Gary Frost (gafrost) re-written also added $iUFlag
 ; Remarks .......: Set $iPart to $SB_SIMPLEID for simple statusbar
 ; Related .......: _GUICtrlStatusBar_GetText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetText($hWnd, $sText = "", $iPart = 0, $iUFlag = 0)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $ret, $struct_String, $sBuffer_pointer, $struct_MemMap, $Memory_pointer, $iBuffer
 	Local $fUnicode = _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
 
@@ -1037,11 +1014,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetText
 ; Modified.......:
 ; Remarks .......: The status bar must have been created with the $SBARS_TOOLTIPS style to enable ToolTips
 ; Related .......: _GUICtrlStatusBar_GetTipText
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetTipText($hWnd, $iPart, $sText)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Local $struct_String, $sBuffer_pointer, $struct_MemMap, $Memory_pointer, $iBuffer
 	Local $fUnicode = _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
 
@@ -1058,7 +1035,7 @@ Func _GUICtrlStatusBar_SetTipText($hWnd, $iPart, $sText)
 		If $fUnicode Then
 			_SendMessage($hWnd, $SB_SETTIPTEXTW, $iPart, $sBuffer_pointer, 0, "wparam", "ptr")
 		Else
-			_SendMessage($hWnd, $SB_SETTIPTEXT, $iPart, $sBuffer_pointer, 0, "wparam", "ptr")
+			_SendMessage($hWnd, $SB_SETTIPTEXTA, $iPart, $sBuffer_pointer, 0, "wparam", "ptr")
 		EndIf
 	Else
 		$Memory_pointer = _MemInit($hWnd, $iBuffer, $struct_MemMap)
@@ -1066,7 +1043,7 @@ Func _GUICtrlStatusBar_SetTipText($hWnd, $iPart, $sText)
 		If $fUnicode Then
 			_SendMessage($hWnd, $SB_SETTIPTEXTW, $iPart, $Memory_pointer, 0, "wparam", "ptr")
 		Else
-			_SendMessage($hWnd, $SB_SETTIPTEXT, $iPart, $Memory_pointer, 0, "wparam", "ptr")
+			_SendMessage($hWnd, $SB_SETTIPTEXTA, $iPart, $Memory_pointer, 0, "wparam", "ptr")
 		EndIf
 		_MemFree($struct_MemMap)
 	EndIf
@@ -1085,11 +1062,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetTipText
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GUICtrlStatusBar_GetUnicodeFormat
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_SetUnicodeFormat($hWnd, $fUnicode = True)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $SB_SETUNICODEFORMAT, $fUnicode)
 EndFunc   ;==>_GUICtrlStatusBar_SetUnicodeFormat
 
@@ -1107,31 +1084,13 @@ EndFunc   ;==>_GUICtrlStatusBar_SetUnicodeFormat
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_ShowHide($hWnd, $iState)
-	If $Debug_SB Then _GUICtrlStatusBar_ValidateClassName($hWnd)
+	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 	If $iState <> @SW_HIDE And $iState <> @SW_SHOW Then Return SetError(1, 1, 0)
 	Local $v_ret = DllCall("user32.dll", "int", "ShowWindow", "hwnd", HWnd($hWnd), "int", $iState)
 	If Not @error And IsArray($v_ret) Then Return $v_ret[0]
 	Return SetError(2, 2, 0)
 EndFunc   ;==>_GUICtrlStatusBar_ShowHide
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GUICtrlStatusBar_ValidateClassName
-; Description ...: Used for debugging when creating examples
-; Syntax.........: _GUICtrlStatusBar_ValidateClassName($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _GUICtrlStatusBar_ValidateClassName($hWnd)
-	_GUICtrlStatusBar_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	_WinAPI_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
-EndFunc   ;==>_GUICtrlStatusBar_ValidateClassName

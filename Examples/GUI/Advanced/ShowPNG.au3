@@ -20,7 +20,7 @@ GUISetState()
 
 ; Load PNG image
 _GDIPlus_StartUp()
-$hImage   = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Torus.png")
+$hImage   = _GDIPlus_ImageLoadFromFile("..\Torus.png")
 
 ; Draw PNG image
 $hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)

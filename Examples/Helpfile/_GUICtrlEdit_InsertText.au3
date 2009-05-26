@@ -10,7 +10,7 @@ $Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True 
 _Main()
 
 Func _Main()
-	Local $StatusBar, $hEdit
+	Local $hEdit
 	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 	
 	; Create GUI
@@ -25,7 +25,7 @@ Func _Main()
 	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
 	
 	; Insert text
-	_GUICtrlEdit_InsertText($hEdit, "*** Execellent UDFs ***" & @CRLF & @CRLF, 0)
+	_GUICtrlEdit_InsertText($hEdit, "*** Excellent UDFs ***" & @CRLF & @CRLF, 0)
 	
 	; Loop until user exits
 	Do

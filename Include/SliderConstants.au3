@@ -1,13 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Slider Constants
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Slider_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#Slider">GUI control Slider styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
-; Styles
+; #STYLES# ======================================================================================================================
 Global Const $TBS_AUTOTICKS = 0x0001
 Global Const $TBS_BOTH = 0x0008
 Global Const $TBS_BOTTOM = 0x0000
@@ -24,6 +25,11 @@ Global Const $TBS_TOP = 0x0004
 Global Const $TBS_TOOLTIPS = 0x100
 Global Const $TBS_VERT = 0x0002
 
+; Control default styles
+Global Const $GUI_SS_DEFAULT_SLIDER = $TBS_AUTOTICKS
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 ; Custom Draw Values (Custom Draw values, for example, are specified in the dwItemSpec member of the NMCUSTOMDRAW structure)
 Global Const $TBCD_CHANNEL = 0x3 ;Identifies the channel that the trackbar control's thumb marker slides along.
 Global Const $TBCD_THUMB = 0x2 ;Identifies the trackbar control's thumb marker. This is the part of the control that the user moves
@@ -72,6 +78,4 @@ Global Const $TBTS_BOTTOM = 2
 Global Const $TBTS_LEFT = 1
 Global Const $TBTS_RIGHT = 3
 Global Const $TBTS_TOP = 0
-
-; Control default styles
-Global Const $GUI_SS_DEFAULT_SLIDER = $TBS_AUTOTICKS
+; ===============================================================================================================================

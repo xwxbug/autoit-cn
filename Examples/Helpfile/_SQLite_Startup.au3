@@ -3,7 +3,7 @@
 
 Local $sSQliteDll
 $sSQliteDll = _SQLite_Startup ()
-If @error > 0 Then
+If @error Then
 	MsgBox(16, "SQLite Error", "SQLite.dll Can't be Loaded!")
 	Exit - 1
 EndIf

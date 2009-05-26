@@ -1,12 +1,14 @@
 ﻿#include-once
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    ListView Constants.
-;
-; ------------------------------------------------------------------------------
 
-; Styles
+; #INDEX# =======================================================================================================================
+; Title .........: ListView_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#ListView">GUI control ListView styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
+
+; #STYLES# ======================================================================================================================
 Global Const $LVS_ALIGNLEFT = 0x0800 ; Items are left aligned in icon and small icon view
 Global Const $LVS_ALIGNMASK = 0x0c00 ; Determines the control's current alignment
 Global Const $LVS_ALIGNTOP = 0x0000 ; Items are aligned at the top in icon and small icon view
@@ -61,7 +63,9 @@ Global Const $LVS_EX_TRANSPARENTSHADOWTEXT = 0x00800000 ; Vista - Enable shadow 
 Global Const $LVS_EX_TWOCLICKACTIVATE = 0x00000080 ; Sends an $LVN_ITEMACTIVATE message when the user double clicks an item
 Global Const $LVS_EX_UNDERLINECOLD = 0x00001000 ; Causes non-hot items to be displayed with underlined text
 Global Const $LVS_EX_UNDERLINEHOT = 0x00000800 ; Causes hot items to be displayed with underlined text
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 ; Group state - Vista
 Global Const $LVGS_NORMAL = 0x00000000
 Global Const $LVGS_COLLAPSED = 0x00000001
@@ -184,6 +188,7 @@ Global Const $LVIS_FOCUSED = 0x0001
 Global Const $LVIS_OVERLAYMASK = 0x0F00
 Global Const $LVIS_SELECTED = 0x0002
 Global Const $LVIS_STATEIMAGEMASK = 0xF000
+; ===============================================================================================================================
 
 ; #MESSAGES# ====================================================================================================================
 Global Const $LVM_APPROXIMATEVIEWRECT = ($LVM_FIRST + 64)
@@ -326,6 +331,7 @@ Global Const $LVM_SORTITEMS = ($LVM_FIRST + 48)
 Global Const $LVM_SORTITEMSEX = ($LVM_FIRST + 81)
 Global Const $LVM_SUBITEMHITTEST = ($LVM_FIRST + 57)
 Global Const $LVM_UPDATE = ($LVM_FIRST + 42)
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $LVN_FIRST = -100
@@ -333,7 +339,6 @@ Global Const $LVN_LAST = -199
 Global Const $LVN_BEGINDRAG = ($LVN_FIRST - 9) ; A drag and drop involving the left mouse button is being initiated
 Global Const $LVN_BEGINLABELEDITA = ($LVN_FIRST - 5) ; The label editting is starting
 Global Const $LVN_BEGINLABELEDITW = ($LVN_FIRST - 75) ; [Unicode] The label editting is starting
-Global Const $LVN_BEGINLABELEDIT = $LVN_BEGINLABELEDITA
 Global Const $LVN_BEGINRDRAG = ($LVN_FIRST - 11) ; A drag and drop involving the right mouse button is being initiated
 Global Const $LVN_BEGINSCROLL = ($LVN_FIRST - 80)
 Global Const $LVN_COLUMNCLICK = ($LVN_FIRST - 8) ; A column was clicked
@@ -343,7 +348,6 @@ Global Const $LVN_DELETEALLITEMS = ($LVN_FIRST - 4) ; All items are about to be 
 Global Const $LVN_DELETEITEM = ($LVN_FIRST - 3) ; An item is about to be deleted
 Global Const $LVN_ENDLABELEDITA = ($LVN_FIRST - 6) ; The label editting is ending
 Global Const $LVN_ENDLABELEDITW = ($LVN_FIRST - 76) ; [Unicode] The label editting is ending
-Global Const $LVN_ENDLABELEDIT = $LVN_ENDLABELEDITA
 Global Const $LVN_ENDSCROLL = ($LVN_FIRST - 81)
 Global Const $LVN_GETDISPINFOA = ($LVN_FIRST - 50) ; Request for the parent to provide information
 Global Const $LVN_GETDISPINFOW = ($LVN_FIRST - 77) ; [Unicode] Request for the parent to provide information
@@ -351,7 +355,6 @@ Global Const $LVN_GETDISPINFO = $LVN_GETDISPINFOA
 Global Const $LVN_GETEMPTYMARKUP = ($LVN_FIRST - 87) ; Vista - when the control has no items
 Global Const $LVN_GETINFOTIPA = ($LVN_FIRST - 57)
 Global Const $LVN_GETINFOTIPW = ($LVN_FIRST - 58)
-Global Const $LVN_GETINFOTIP = $LVN_GETINFOTIPA
 Global Const $LVN_HOTTRACK = ($LVN_FIRST - 21) ; The user moved the mouse over an item
 Global Const $LVN_INCREMENTALSEARCHA = ($LVN_FIRST - 62)
 Global Const $LVN_INCREMENTALSEARCHW = ($LVN_FIRST - 63)
@@ -369,7 +372,6 @@ Global Const $LVN_ODFINDITEM = $LVN_ODFINDITEMA
 Global Const $LVN_ODSTATECHANGED = ($LVN_FIRST - 15) ; The state of an item or range of items in a virtual control has changed
 Global Const $LVN_SETDISPINFOA = ($LVN_FIRST - 51) ; Sent to the parent when it needs to update item information
 Global Const $LVN_SETDISPINFOW = ($LVN_FIRST - 78) ; [Unicode] Sent to the parent when it needs to update item information
-Global Const $LVN_SETDISPINFO = $LVN_SETDISPINFOA
 ; ===============================================================================================================================
 
 

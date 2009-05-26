@@ -15,7 +15,7 @@ Func Example1()
 	GUICreate("My GUI picture", 350, 300, -1, -1, $WS_SIZEBOX + $WS_SYSMENU)  ; will create a dialog box that when displayed is centered
 
 	GUISetBkColor(0xE0FFFF)
-	$n = GUICtrlCreatePic(@SystemDir & "\oobe\images\mslogo.jpg", 50, 50, 200, 50)
+	$n = GUICtrlCreatePic("..\GUI\mslogo.jpg", 50, 50, 200, 50)
 
 	GUISetState()
 
@@ -27,7 +27,6 @@ Func Example1()
 	WEnd
 
 
-;~ GUISetState ()
 	; resize the control
 	$n = GUICtrlSetPos($n, 50, 50, 200, 100)
 	; Run the GUI until the dialog is closed
@@ -45,8 +44,8 @@ Func Example2()
 	Local $msg
 	
 	$gui = GUICreate("test transparentpic", 200, 100)
-	$pic = GUICreate("", 68, 71, 10, 10, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
-	GUICtrlCreatePic(@SystemDir & "\oobe\images\merlin.gif", 0, 0, 0, 0)
+	$pic = GUICreate("", 68, 71, 10, 20, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
+	GUICtrlCreatePic("..\GUI\merlin.gif", 0, 0, 0, 0)
 
 	GUISetState(@SW_SHOW, $pic)
 	GUISetState(@SW_SHOW, $gui)
@@ -98,11 +97,11 @@ EndFunc   ;==>up
 Global $hGUI, $hImage, $hGraphic, $hImage1
 
 ; Create GUI
-$hGUI = GUICreate("Show PNG", 350, 301)
+$hGUI = GUICreate("Show PNG", 250, 250)
 
 ; Load PNG image
 _GDIPlus_StartUp()
-$hImage   = _GDIPlus_ImageLoadFromFile("MAIN.png")
+$hImage   = _GDIPlus_ImageLoadFromFile("..\GUI\Torus.png")
 $hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 
 GUIRegisterMsg($WM_PAINT, "MY_WM_PAINT")

@@ -1,12 +1,14 @@
 ﻿#include-once
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Language:       English
-; Description:    StatusBar Constants.
-;
-; ------------------------------------------------------------------------------
 
+; #INDEX# =======================================================================================================================
+; Title .........: StatusBar_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants for StatusBar functions.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 ;=== Status Bar Styles
 Global Const $SBARS_SIZEGRIP = 0x100
 Global Const $SBT_TOOLTIPS = 0x800
@@ -32,7 +34,6 @@ Global Const $SB_GETTEXTLENGTHW = ($__STATUSBARCONSTANT_WM_USER + 12)
 Global Const $SB_GETTEXTLENGTH = $SB_GETTEXTLENGTHA
 Global Const $SB_GETTIPTEXTA = ($__STATUSBARCONSTANT_WM_USER + 18)
 Global Const $SB_GETTIPTEXTW = ($__STATUSBARCONSTANT_WM_USER + 19)
-Global Const $SB_GETTIPTEXT = $SB_GETTIPTEXTA
 Global Const $SB_GETUNICODEFORMAT = 0x2000 + 6
 
 Global Const $SB_ISSIMPLE = ($__STATUSBARCONSTANT_WM_USER + 14)
@@ -46,11 +47,11 @@ Global Const $SB_SETTEXTW = ($__STATUSBARCONSTANT_WM_USER + 11)
 Global Const $SB_SETTEXT = $SB_SETTEXTA
 Global Const $SB_SETTIPTEXTA = ($__STATUSBARCONSTANT_WM_USER + 16)
 Global Const $SB_SETTIPTEXTW = ($__STATUSBARCONSTANT_WM_USER + 17)
-Global Const $SB_SETTIPTEXT = $SB_SETTIPTEXTA
 Global Const $SB_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $SB_SIMPLE = ($__STATUSBARCONSTANT_WM_USER + 9)
 
 Global Const $SB_SIMPLEID = 0xff
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $SBN_SIMPLEMODECHANGE = 0xFFFFFC90 ; Sent when the simple mode changes due to a $SB_SIMPLE message

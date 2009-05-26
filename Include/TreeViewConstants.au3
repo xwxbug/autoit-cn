@@ -1,12 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    TreeView Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: TreeView_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm#TreeView">GUI control TreeView styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 ; Styles
 Global Const $TVS_HASBUTTONS = 0x00000001 ; Displays plus (+) and minus (-) buttons next to parent items
 Global Const $TVS_HASLINES = 0x00000002 ; Uses lines to show the hierarchy of items
@@ -25,6 +27,9 @@ Global Const $TVS_NOSCROLL = 0x00002000 ; Disables both horizontal and vertical 
 Global Const $TVS_NONEVENHEIGHT = 0x00004000 ; Sets item height with the $TVM_SETITEMHEIGHT message
 Global Const $TVS_NOHSCROLL = 0x00008000 ; Disables horizontal scrolling in the control
 Global Const $TVS_DEFAULT = 0x00000037 ; Default control style
+
+; Control default styles
+Global Const $GUI_SS_DEFAULT_TREEVIEW = BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS)
 
 ; Expand flags
 Global Const $TVE_COLLAPSE = 0x0001
@@ -114,7 +119,6 @@ Global Const $TVTA_INSERT = 3
 ; Messages to send to TreeView
 Global Const $TV_FIRST = 0x1100
 Global Const $TVM_INSERTITEMA = $TV_FIRST + 0
-Global Const $TVM_INSERTITEM = $TVM_INSERTITEMA
 Global Const $TVM_DELETEITEM = $TV_FIRST + 1
 Global Const $TVM_EXPAND = $TV_FIRST + 2
 Global Const $TVM_GETITEMRECT = $TV_FIRST + 4
@@ -126,11 +130,8 @@ Global Const $TVM_SETIMAGELIST = $TV_FIRST + 9
 Global Const $TVM_GETNEXTITEM = $TV_FIRST + 10
 Global Const $TVM_SELECTITEM = $TV_FIRST + 11
 Global Const $TVM_GETITEMA = $TV_FIRST + 12
-Global Const $TVM_GETITEM = $TVM_GETITEMA
 Global Const $TVM_SETITEMA = $TV_FIRST + 13
-Global Const $TVM_SETITEM = $TVM_SETITEMA
 Global Const $TVM_EDITLABELA = $TV_FIRST + 14
-Global Const $TVM_EDITLABEL = $TVM_EDITLABELA
 Global Const $TVM_GETEDITCONTROL = $TV_FIRST + 15
 Global Const $TVM_GETVISIBLECOUNT = $TV_FIRST + 16
 Global Const $TVM_HITTEST = $TV_FIRST + 17
@@ -140,7 +141,6 @@ Global Const $TVM_ENSUREVISIBLE = $TV_FIRST + 20
 Global Const $TVM_SORTCHILDRENCB = $TV_FIRST + 21
 Global Const $TVM_ENDEDITLABELNOW = $TV_FIRST + 22
 Global Const $TVM_GETISEARCHSTRINGA = $TV_FIRST + 23
-Global Const $TVM_GETISEARCHSTRING = $TVM_GETISEARCHSTRINGA
 Global Const $TVM_SETTOOLTIPS = $TV_FIRST + 24
 Global Const $TVM_GETTOOLTIPS = $TV_FIRST + 25
 Global Const $TVM_SETINSERTMARK = $TV_FIRST + 26
@@ -166,34 +166,23 @@ Global Const $TVM_GETISEARCHSTRINGW = $TV_FIRST + 64
 Global Const $TVM_EDITLABELW = $TV_FIRST + 65
 Global Const $TVM_GETUNICODEFORMAT = 0x2000 + 6
 Global Const $TVM_SETUNICODEFORMAT = 0x2000 + 5
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $TVN_FIRST = -400
 Global Const $TVN_SELCHANGINGA = $TVN_FIRST - 1
-Global Const $TVN_SELCHANGING = $TVN_SELCHANGINGA
 Global Const $TVN_SELCHANGEDA = $TVN_FIRST - 2
-Global Const $TVN_SELCHANGED = $TVN_SELCHANGEDA
 Global Const $TVN_GETDISPINFOA = $TVN_FIRST - 3
-Global Const $TVN_GETDISPINFO = $TVN_GETDISPINFOA
 Global Const $TVN_SETDISPINFOA = $TVN_FIRST - 4
-Global Const $TVN_SETDISPINFO = $TVN_SETDISPINFOA
 Global Const $TVN_ITEMEXPANDINGA = $TVN_FIRST - 5
-Global Const $TVN_ITEMEXPANDING = $TVN_ITEMEXPANDINGA
 Global Const $TVN_ITEMEXPANDEDA = $TVN_FIRST - 6
-Global Const $TVN_ITEMEXPANDED = $TVN_ITEMEXPANDEDA
 Global Const $TVN_BEGINDRAGA = $TVN_FIRST - 7
-Global Const $TVN_BEGINDRAG = $TVN_BEGINDRAGA
 Global Const $TVN_BEGINRDRAGA = $TVN_FIRST - 8
-Global Const $TVN_BEGINRDRAG = $TVN_BEGINRDRAGA
 Global Const $TVN_DELETEITEMA = $TVN_FIRST - 9
-Global Const $TVN_DELETEITEM = $TVN_DELETEITEMA
 Global Const $TVN_BEGINLABELEDITA = $TVN_FIRST - 10
-Global Const $TVN_BEGINLABELEDIT = $TVN_BEGINLABELEDITA
 Global Const $TVN_ENDLABELEDITA = $TVN_FIRST - 11
-Global Const $TVN_ENDLABELEDIT = $TVN_ENDLABELEDITA
 Global Const $TVN_KEYDOWN = $TVN_FIRST - 12
 Global Const $TVN_GETINFOTIPA = $TVN_FIRST - 13
-Global Const $TVN_GETINFOTIP = $TVN_GETINFOTIPA
 Global Const $TVN_GETINFOTIPW = $TVN_FIRST - 14
 Global Const $TVN_SINGLEEXPAND = $TVN_FIRST - 15
 Global Const $TVN_SELCHANGINGW = $TVN_FIRST - 50
@@ -208,6 +197,3 @@ Global Const $TVN_DELETEITEMW = $TVN_FIRST - 58
 Global Const $TVN_BEGINLABELEDITW = $TVN_FIRST - 59
 Global Const $TVN_ENDLABELEDITW = $TVN_FIRST - 60
 ; ===============================================================================================================================
-
-; Control default styles
-Global Const $GUI_SS_DEFAULT_TREEVIEW = BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS)

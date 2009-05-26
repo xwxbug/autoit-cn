@@ -4,10 +4,11 @@
 ; Title .........: Color
 ; AutoIt Version : 3.2.3++
 ; Language ..... : English
-; Description ...: This module contains various functions that assist with color management.
+; Description ...: Functions that assist with color management.
+; Author(s) .....: Ultima, Jon
 ; =================================================================================================
 
-; #VARIABLES# =====================================================================================
+; #CONSTANTS# =====================================================================================
 Global Const $_COLORCONSTANTS_HSLMAX = 240
 Global Const $_COLORCONSTANTS_RGBMAX = 255
 ; =================================================================================================
@@ -34,9 +35,9 @@ Global Const $_COLORCONSTANTS_RGBMAX = 255
 ; Author ........: Ultima
 ; Modified.......:
 ; Remarks .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
-; Related .......: _ColorConvertHSLtoRGB
-; Link ..........;
-; Example .......; Yes
+; Related .......: _ColorConvertRGBtoHSL
+; Link ..........:
+; Example .......: Yes
 ; =================================================================================================
 Func _ColorConvertHSLtoRGB($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
@@ -86,8 +87,8 @@ EndFunc   ;==>_ColorConvertHSLtoRGB
 ; Modified.......:
 ; Remarks .......: For Internal Use Only
 ; Related .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; =================================================================================================
 Func __ColorConvertHueToRGB($nA, $nB, $nH)
 	If $nH < 0 Then $nH += 1
@@ -110,8 +111,8 @@ EndFunc   ;==>__ColorConvertHueToRGB
 ; Modified.......:
 ; Remarks .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M18#text18">EasyRGB - Color mathematics and conversion formulas.</a>
 ; Related .......: _ColorConvertHSLtoRGB
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; =================================================================================================
 Func _ColorConvertRGBtoHSL($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
@@ -177,8 +178,8 @@ EndFunc   ;==>_ColorConvertRGBtoHSL
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _ColorGetGreen, _ColorGetRed
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; =================================================================================================
 Func _ColorGetBlue($nColor)
 	Return BitAND($nColor, 0xFF)
@@ -194,8 +195,8 @@ EndFunc   ;==>_ColorGetBlue
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _ColorGetBlue, _ColorGetRed
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; =================================================================================================
 Func _ColorGetGreen($nColor)
 	Return BitAND(BitShift($nColor, 8), 0xFF)
@@ -211,8 +212,8 @@ EndFunc   ;==>_ColorGetGreen
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _ColorGetBlue, _ColorGetGreen
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; =================================================================================================
 Func _ColorGetRed($nColor)
 	Return BitAND(BitShift($nColor, 16), 0xFF)

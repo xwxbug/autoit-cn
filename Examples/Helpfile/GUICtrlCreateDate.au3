@@ -6,6 +6,7 @@ Opt('MustDeclareVars', 1)
 Example1()
 Example2()
 Example3()
+Example4()
 
 ; example1
 Func Example1()
@@ -28,8 +29,8 @@ EndFunc   ;==>Example1
 Func Example2()
 	Local $n, $msg
 
-	GUICreate("My GUI get time")
-	$n = GUICtrlCreateDate("", 20, 20, 100, 20, $DTS_TIMEFORMAT)
+	GUICreate("My GUI get date", 200, 200, 800, 200)
+	$n = GUICtrlCreateDate("", 10, 10, 100, 20, $DTS_SHORTDATEFORMAT)
 	GUISetState()
 
 	; Run the GUI until the dialog is closed
@@ -37,7 +38,7 @@ Func Example2()
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
 
-	MsgBox(0, "Time", GUICtrlRead($n))
+	MsgBox(0, "Date", GUICtrlRead($n))
 	GUIDelete()
 EndFunc   ;==>Example2
 
@@ -49,8 +50,8 @@ Func Example3()
 	$date = GUICtrlCreateDate("1953/04/25", 10, 10, 185, 20)
 
 	; to select a specific default format
-	$DTM_SETFORMAT_ = 0x1032
-	$style = "yyyy/MM/dd HH:mm:s"
+	$DTM_SETFORMAT_ = 0x1032	; $DTM_SETFORMATW
+	$style = "yyyy/MM/dd HH:mm:ss"
 	GUICtrlSendMsg($date, $DTM_SETFORMAT_, 0, $style)
 
 	GUISetState()
@@ -59,3 +60,20 @@ Func Example3()
 
 	MsgBox(0, "Time", GUICtrlRead($date))
 EndFunc   ;==>Example3
+
+; example4
+Func Example4()
+	Local $n, $msg
+
+	GUICreate("My GUI get time", 200, 200, 800, 200)
+	$n = GUICtrlCreateDate("", 20, 20, 100, 20, $DTS_TIMEFORMAT)
+	GUISetState()
+
+	; Run the GUI until the dialog is closed
+	Do
+		$msg = GUIGetMsg()
+	Until $msg = $GUI_EVENT_CLOSE
+
+	MsgBox(0, "Time", GUICtrlRead($n))
+	GUIDelete()
+EndFunc   ;==>Example4

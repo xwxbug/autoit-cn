@@ -118,37 +118,37 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
 					; No return value
-				Case $TVN_BEGINDRAG, $TVN_BEGINDRAGW
+				Case $TVN_BEGINDRAGA, $TVN_BEGINDRAGW
 					_DebugPrint("$TVN_BEGINDRAG")
-				Case $TVN_BEGINLABELEDIT, $TVN_BEGINLABELEDITW
+				Case $TVN_BEGINLABELEDITA, $TVN_BEGINLABELEDITW
 					_DebugPrint("$TVN_BEGINLABELEDIT")
 					MsgBox(4160, "Information", "Edit Control Handle: " & _GUICtrlTreeView_GetEditControl($hTreeView))
-				Case $TVN_BEGINRDRAG, $TVN_BEGINRDRAGW
+				Case $TVN_BEGINRDRAGA, $TVN_BEGINRDRAGW
 					_DebugPrint("$TVN_BEGINRDRAG")
-				Case $TVN_DELETEITEM, $TVN_DELETEITEMW
+				Case $TVN_DELETEITEMA, $TVN_DELETEITEMW
 					_DebugPrint("$TVN_DELETEITEM")
-				Case $TVN_ENDLABELEDIT, $TVN_ENDLABELEDITW
+				Case $TVN_ENDLABELEDITA, $TVN_ENDLABELEDITW
 					_DebugPrint("$TVN_ENDLABELEDIT")
 					Local $tInfo = DllStructCreate($tagNMHDR & ";" & $tagTVITEMEX, $ilParam)
 					If DllStructGetData($tInfo, "Text") <> 0 Then
 						Local $tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))
 						_GUICtrlTreeView_SetText($hTreeView, _GUICtrlTreeView_GetSelection($hTreeView), DllStructGetData($tBuffer, "Text"))
 					EndIf
-				Case $TVN_GETDISPINFO, $TVN_GETDISPINFOW
+				Case $TVN_GETDISPINFOA, $TVN_GETDISPINFOW
 					_DebugPrint("$TVN_GETDISPINFO")
-				Case $TVN_GETINFOTIP, $TVN_GETINFOTIPW
+				Case $TVN_GETINFOTIPA, $TVN_GETINFOTIPW
 					_DebugPrint("$TVN_GETINFOTIP")
 				Case $TVN_ITEMEXPANDED, $TVN_ITEMEXPANDEDW
 					_DebugPrint("$TVN_ITEMEXPANDED")
-				Case $TVN_ITEMEXPANDING, $TVN_ITEMEXPANDINGW
+				Case $TVN_ITEMEXPANDINGA, $TVN_ITEMEXPANDINGW
 					_DebugPrint("$TVN_ITEMEXPANDING")
 				Case $TVN_KEYDOWN
 					_DebugPrint("$TVN_KEYDOWN")
-				Case $TVN_SELCHANGED, $TVN_SELCHANGEDW
+				Case $TVN_SELCHANGEDA, $TVN_SELCHANGEDW
 					_DebugPrint("$TVN_SELCHANGED")
-				Case $TVN_SELCHANGING, $TVN_SELCHANGINGW
+				Case $TVN_SELCHANGINGA, $TVN_SELCHANGINGW
 					_DebugPrint("$TVN_SELCHANGING")
-				Case $TVN_SETDISPINFO, $TVN_SETDISPINFOW
+				Case $TVN_SETDISPINFOA, $TVN_SETDISPINFOW
 					_DebugPrint("$TVN_SETDISPINFO")
 				Case $TVN_SINGLEEXPAND
 					_DebugPrint("$TVN_SINGLEEXPAND")

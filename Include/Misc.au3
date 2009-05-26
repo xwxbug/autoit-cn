@@ -1,20 +1,23 @@
 ﻿#include-once
-#include <StructureConstants.au3>
+
 #include <FontConstants.au3>
+#include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Misc
-; AutoIt Version: 3.1.1++
-; Language:       English
-; Description:    Functions that assist with Common Dialogs.
+; AutoIt Version : 3.1.1++
+; Language ......: English
+; Description ...: Functions that assist with Common Dialogs.
+; Author(s) .....: Gary Frost, Florian Fida (Piccaso), Dale (Klaatu) Thompson, Valik, ezzetabi, Jon, Paul Campbell (PaulIA)
+; Dll(s) ........: comdlg32.dll, user32.dll, kernel32.dll, advapi32.dll, gdi32.dll
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $__MISCCONSTANT_CC_ANYCOLOR = 0x100
 Global Const $__MISCCONSTANT_CC_FULLOPEN = 0x2
 Global Const $__MISCCONSTANT_CC_RGBINIT = 0x1
+; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_ChooseColor
 ;_ChooseFont
@@ -24,14 +27,13 @@ Global Const $__MISCCONSTANT_CC_RGBINIT = 0x1
 ;_Singleton
 ;_IsPressed
 ;_VersionCompare
-;==============================================================================================================================
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_MISC_GetDC
-;_MISC_GetDeviceCaps
-;_MISC_ReleaseDC
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__MISC_GetDC
+;__MISC_GetDeviceCaps
+;__MISC_ReleaseDC
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ChooseColor
@@ -53,8 +55,8 @@ Global Const $__MISCCONSTANT_CC_RGBINIT = 0x1
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ChooseColor($iReturnType = 0, $iColorRef = 0, $iRefType = 0, $hWndOwnder = 0)
 	Local $custcolors = "int[16]", $tcc, $tChoose, $color_picked, $iResult
@@ -119,8 +121,8 @@ EndFunc   ;==>_ChooseColor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ChooseFont($sFontName = "Courier New", $iPointSize = 10, $iColorRef = 0, $iFontWeight = 0, $iItalic = False, $iUnderline = False, $iStrikethru = False, $hWndOwner = 0)
 	Local $tLogFont, $tChooseFont, $lngDC, $lfHeight, $iResult
@@ -128,9 +130,9 @@ Func _ChooseFont($sFontName = "Courier New", $iPointSize = 10, $iColorRef = 0, $
 	Local $attributes, $size, $weight, $colorref, $color_picked
 
 
-	$lngDC = _MISC_GetDC(0)
-	$lfHeight = Round(($iPointSize * _MISC_GetDeviceCaps($lngDC, $LOGPIXELSX)) / 72, 0)
-	_MISC_ReleaseDC(0, $lngDC)
+	$lngDC = __MISC_GetDC(0)
+	$lfHeight = Round(($iPointSize * __MISC_GetDeviceCaps($lngDC, $LOGPIXELSX)) / 72, 0)
+	__MISC_ReleaseDC(0, $lngDC)
 
 	$tChooseFont = DllStructCreate($tagCHOOSEFONT)
 	$tLogFont = DllStructCreate($tagLOGFONT)
@@ -190,8 +192,8 @@ EndFunc   ;==>_ChooseFont
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ClipPutFile($sFile, $sSeperator = "|")
 	Local $vDllCallTmp, $nGlobMemSize, $hGlobal, $DROPFILES, $i, $hLock
@@ -253,8 +255,8 @@ EndFunc   ;==>_ClipPutFile
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Iif($fTest, $vTrueVal, $vFalseVal)
 	If $fTest Then
@@ -278,8 +280,8 @@ EndFunc   ;==>_Iif
 ; Modified.......:
 ; Remarks .......: Use _MouseTrap() with no params to release the Mouse Cursor
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _MouseTrap($iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0)
 	Local $iResult, $tRect
@@ -316,8 +318,8 @@ EndFunc   ;==>_MouseTrap
 ; Modified.......:
 ; Remarks .......: You can place the object in a namespace by prefixing your object name with either "Global\" or "Local\".  "Global\" objects combined with the flag 2 are useful in multi-user environments.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _Singleton($sOccurenceName, $iFlag = 0)
 	Local Const $ERROR_ALREADY_EXISTS = 183
@@ -492,8 +494,8 @@ EndFunc   ;==>_Singleton
 ;                  DC \
 ;                  DD ]
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _IsPressed($sHexKey, $vDLL = 'user32.dll')
 	; $hexKey must be the value of one of the keys.
@@ -519,8 +521,8 @@ EndFunc   ;==>_IsPressed
 ; Remarks .......: This will try to use a numerical comparison but fall back on a lexicographical comparison.
 ;                  See @extended for details about which type was performed.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _VersionCompare($sVersion1, $sVersion2)
 	If $sVersion1 = $sVersion2 Then Return 0
@@ -560,32 +562,32 @@ Func _VersionCompare($sVersion1, $sVersion2)
 	Return 0
 EndFunc   ;==>_VersionCompare
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _MISC_GetDC
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __MISC_GetDC
 ; Description ...: Retrieves a handle of a display device context for the client area a window
-; Syntax.........: _MISC_GetDC($hWnd)
+; Syntax.........: __MISC_GetDC($hWnd)
 ; Parameters ....: $hWnd        - Handle of window
 ; Return values .: Success      - The device context for the given window's client area
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: After painting with a common device context, the _MISC_ReleaseDC function must be called to release the DC
+; Remarks .......: After painting with a common device context, the __MISC_ReleaseDC function must be called to release the DC
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDC
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetDC
+; Example .......:
 ; ===============================================================================================================================
-Func _MISC_GetDC($hWnd)
+Func __MISC_GetDC($hWnd)
 	Local $aResult
 
 	$aResult = DllCall("User32.dll", "hwnd", "GetDC", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, 0, 0)
 	Return $aResult[0]
-EndFunc   ;==>_MISC_GetDC
+EndFunc   ;==>__MISC_GetDC
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _MISC_GetDeviceCaps
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __MISC_GetDeviceCaps
 ; Description ...: Retrieves device specific information about a specified device
-; Syntax.........: _MISC_GetDeviceCaps($hDC, $iIndex)
+; Syntax.........: __MISC_GetDeviceCaps($hDC, $iIndex)
 ; Parameters ....: $hDC         - Identifies the device context
 ;                  $iIndex      - Specifies the item to return
 ; Return values .: Success      - The value of the desired item
@@ -593,35 +595,35 @@ EndFunc   ;==>_MISC_GetDC
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDeviceCaps
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetDeviceCaps
+; Example .......:
 ; ===============================================================================================================================
-Func _MISC_GetDeviceCaps($hDC, $iIndex)
+Func __MISC_GetDeviceCaps($hDC, $iIndex)
 	Local $aResult
 
 	$aResult = DllCall("GDI32.dll", "int", "GetDeviceCaps", "hwnd", $hDC, "int", $iIndex)
 	Return $aResult[0]
-EndFunc   ;==>_MISC_GetDeviceCaps
+EndFunc   ;==>__MISC_GetDeviceCaps
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _MISC_ReleaseDC
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __MISC_ReleaseDC
 ; Description ...: Releases a device context
-; Syntax.........: _MISC_ReleaseDC($hWnd, $hDC)
+; Syntax.........: __MISC_ReleaseDC($hWnd, $hDC)
 ; Parameters ....: $hWnd        - Handle of window
 ;                  $hDC         - Identifies the device context to be released
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: The application must call the _MISC_ReleaseDC function for each call to the _WinAPI_GetWindowDC function  and  for
+; Remarks .......: The application must call the __MISC_ReleaseDC function for each call to the _WinAPI_GetWindowDC function  and  for
 ;                  each call to the _WinAPI_GetDC function that retrieves a common device context.
 ; Related .......: _WinAPI_GetDC, _WinAPI_GetWindowDC
-; Link ..........; @@MsdnLink@@ ReleaseDC
-; Example .......;
+; Link ..........: @@MsdnLink@@ ReleaseDC
+; Example .......:
 ; ===============================================================================================================================
-Func _MISC_ReleaseDC($hWnd, $hDC)
+Func __MISC_ReleaseDC($hWnd, $hDC)
 	Local $aResult
 
 	$aResult = DllCall("User32.dll", "int", "ReleaseDC", "hwnd", $hWnd, "hwnd", $hDC)
 	Return $aResult[0] <> 0
-EndFunc   ;==>_MISC_ReleaseDC
+EndFunc   ;==>__MISC_ReleaseDC

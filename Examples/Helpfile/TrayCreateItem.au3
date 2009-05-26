@@ -2,7 +2,6 @@
 ; * 第一个例子	 *
 ; ****************
 
-#Include <Constants.au3>
 #NoTrayIcon
 
 Opt("TrayMenuMode",1)	; 默认托盘菜单项目(脚本已暂停/退出脚本) (Script Paused/Exit) 将不显示.

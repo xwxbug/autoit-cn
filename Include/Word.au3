@@ -1,21 +1,24 @@
 ﻿#include-once
-#region Header
-#cs
-	Title: Microsoft Word Automation UDF Library for AutoIt3
-	Filename: Word.au3
-	Description: A collection of functions for creating, attaching to, reading from and manipulating Microsoft Word
-	Author: Bob Anthony
-	Version: V1.0-1
-	Last Update: 4/14/07
-	Requirements: AutoIt v3.2.0.1 or higher, Developed/Tested on WindowsXP Pro with Microsoft Word 2003
-	Notes: Errors associated with incorrect objects will be common user errors.
-	Special thanks to DaleHohm for letting me base this code off his IE.au3 Library!
-	Update History:	http://www.autoitscript.com/fileman/users/Big_Daddy/libraries/word/history.htm
-#ce
-#endregion
-#region Global Variables and Constants
-Global Const $WordAU3VersionInfo[6] = ["V", 1, 0, 1, "20070414", "V1.0-1"]
-Global Const $WORD_LSFW_LOCK = 1, $WORD_LSFW_UNLOCK = 2
+
+; #INDEX# =======================================================================================================================
+; Title .........: Microsoft Word Automation UDF Library for AutoIt3
+; AutoIt Version : 3.2.0.1++
+; Language ......: English
+; Description ...: A collection of functions for creating, attaching to, reading from and manipulating Microsoft Word.
+; Author(s) .....: Bob Anthony (Code based off IE.au3)
+; Dll ...........: user32.dll
+; ===============================================================================================================================
+
+; ------------------------------------------------------------------------------
+;	Version: V1.0-1
+;	Last Update: 4/14/07
+;	Requirements: AutoIt v3.2.0.1 or higher, Developed/Tested on WindowsXP Pro with Microsoft Word 2003
+;	Notes: Errors associated with incorrect objects will be common user errors.
+;	Special thanks to DaleHohm for letting me base this code off his IE.au3 Library!
+;	Update History:	http://www.autoitscript.com/fileman/users/Big_Daddy/libraries/word/history.htm
+; ------------------------------------------------------------------------------
+
+; #VARIABLES# ===================================================================================================================
 Global $__WordAU3Debug = False
 Global $_WordErrorNotify = True
 Global $oWordErrorHandler, $sWordUserErrorHandler
@@ -31,6 +34,11 @@ Global _; Com Error Handler Status Strings
 		$WordComErrorLastDllError, _
 		$WordComErrorComObj, _
 		$WordComErrorOutput
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
+Global Const $WordAU3VersionInfo[6] = ["V", 1, 0, 1, "20070414", "V1.0-1"]
+Global Const $WORD_LSFW_LOCK = 1, $WORD_LSFW_UNLOCK = 2
 ;
 ; Enums
 ;
@@ -53,35 +61,31 @@ Global Enum Step * 2 _; NotificationMethod
 		$_WordNotifyMethod_Console = 1, _
 		$_WordNotifyMethod_ToolTip, _
 		$_WordNotifyMethod_MsgBox
-#endregion
-#region Core Functions
-;===============================================================================
-;
-; Function Name:    _WordCreate()
-; Description:      Create a Microsoft Office Word Object
-; Parameter(s):     $s_FilePath		- Optional: specifies the file on open upon creation (See Remarks)
-;					$f_tryAttach	- Optional: specifies whether to try to attach to an existing window
+; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordCreate()
+; Description ...: Create a Microsoft Office Word Object
+; Parameters ....: $s_FilePath		- Optional: specifies the file on open upon creation (See Remarks)
+;				   $f_tryAttach	- Optional: specifies whether to try to attach to an existing window
 ;										0 = (Default) do not try to attach
 ;										1 = Try to attach to an existing window
-;					$f_visible 		- Optional: specifies whether the window will be visible
+;				   $f_visible 		- Optional: specifies whether the window will be visible
 ;										0 = Window is hidden
 ;										1 = (Default) Window is visible
-;					$f_takeFocus	- Optional: specifies whether to bring the attached window to focus
+;				   $f_takeFocus	- Optional: specifies whether to bring the attached window to focus
 ;										0 =  Do Not Bring window into focus
 ;										1 = (Default) bring window into focus
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns an object variable pointing to a Word.Application object
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns an object variable pointing to a Word.Application object
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Set to true (1) or false (0) depending on the success of $f_tryAttach
-; Remark(s):		File will be created if it does not exist.
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; Remarks .......: File will be created if it does not exist.
+; ===============================================================================================================================
 Func _WordCreate($s_FilePath = "", $f_tryAttach = 0, $f_visible = 1, $f_takeFocus = 1)
 	Local $o_Result, $o_object, $o_win, $h_hwnd, $result, $f_mustUnlock = 0, $i_ErrorStatusCode = $_WordStatus_Success
 
@@ -150,30 +154,26 @@ Func _WordCreate($s_FilePath = "", $f_tryAttach = 0, $f_visible = 1, $f_takeFocu
 	Return $o_object
 EndFunc   ;==>_WordCreate
 
-;===============================================================================
-;
-; Function Name:    _WordAttach()
-; Description:		Attach to the first existing instance of Microsoft Word where the
-;					search string matches based on the selected mode.
-; Parameter(s):     $s_string	- String to search for
-;					$s_mode		- Optional: specifies search mode
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordAttach()
+; Description ...: Attach to the first existing instance of Microsoft Word where the
+;				   search string matches based on the selected mode.
+; Parameters ....: $s_string	- String to search for
+;				   $s_mode		- Optional: specifies search mode
 ;									FileName	= Name of the open document
 ;									FilePath	= (Default) Full path to the open document
 ;									HWND 		= hwnd of the word window
 ;									Text 		= Text from the body of the document
 ;									Title		= Title of the word window
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-;					On Success	- Returns an object variable pointing to the Word.Application object
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns an object variable pointing to the Word.Application object
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;								- 7 ($_WordStatus_NoMatch) = No Match
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordAttach($s_string, $s_mode = "FilePath")
 	$s_mode = StringLower($s_mode)
 
@@ -272,34 +272,30 @@ Func _WordAttach($s_string, $s_mode = "FilePath")
 	EndSwitch
 EndFunc   ;==>_WordAttach
 
-;===============================================================================
-;
-; Function Name:    _WordQuit()
-; Description:      Close the window and remove the object reference to it
-; Parameter(s):     $o_object			- Object variable of a Word.Application
-;					$i_SaveChanges		- Optional: specifies the save action for the document
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordQuit()
+; Description ...: Close the window and remove the object reference to it
+; Parameters ....: $o_object			- Object variable of a Word.Application
+;				   $i_SaveChanges		- Optional: specifies the save action for the document
 ;											 0 = Do not save changes
 ;											-1 = Save changes
 ;											-2 = (Default) Prompt to save changes
-;					$i_OriginalFormat	- Optional: specifies the save format for the document
+;				   $i_OriginalFormat	- Optional: specifies the save format for the document
 ;											0 = Word Document
 ;											1 = (Default) Original Document Format
 ;											2 = Prompt User
-;					$f_RouteDocument	- Optional: specifies whether to route the document to the next recipient
+;				   $f_RouteDocument	- Optional: specifies whether to route the document to the next recipient
 ;											0 = (Default) do not route
 ;											1 = route to next recipient
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordQuit(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 1, $f_RouteDocument = 0)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordQuit", "$_WordStatus_InvalidDataType")
@@ -318,36 +314,31 @@ Func _WordQuit(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 1, $f_R
 	SetError($_WordStatus_Success)
 	Return 1
 EndFunc   ;==>_WordQuit
-#endregion
-#region Document Functions
-;===============================================================================
-;
-; Function Name:    _WordDocAdd()
-; Description:      Returns an object variable representing a new empty document
-; Parameter(s):     $o_object		- Object variable of a Word.Application object
-;					$i_DocumentType	- Optional: specifies the new document type
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocAdd()
+; Description ...: Returns an object variable representing a new empty document
+; Parameters ....: $o_object		- Object variable of a Word.Application object
+;				   $i_DocumentType	- Optional: specifies the new document type
 ;										0 = (Default) blank document
 ;										1 = Web page
 ;										2 = Email Message (need to figure out why this doesn't open)
 ;										3 = Frameset
 ;										4 = XML Document
-;					$s_Template		- Optional: specifies name of the template to be used for the new document
+;				   $s_Template		- Optional: specifies name of the template to be used for the new document
 ;										"" = (Default) normal template is used
-;					$f_NewTemplate	- Optional: specifies whether to open the document as a template
+;				   $f_NewTemplate	- Optional: specifies whether to open the document as a template
 ;										0 = (Default) do not open as template
 ;										1 = open as template
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns an object variable pointing to a Word.Application, document object
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns an object variable pointing to a Word.Application, document object
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocAdd(ByRef $o_object, $i_DocumentType = 0, $s_Template = "", $f_NewTemplate = 0)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocAdd", "$_WordStatus_InvalidDataType")
@@ -374,17 +365,16 @@ Func _WordDocAdd(ByRef $o_object, $i_DocumentType = 0, $s_Template = "", $f_NewT
 	Return $o_doc
 EndFunc   ;==>_WordDocAdd
 
-;===============================================================================
-;
-; Function Name:    _WordDocOpen()
-; Description:      Opens a Microsoft Word Document
-; Parameter(s):     $o_object				- Object variable of a Word.Application object
-;					$s_FilePath				- Full path of the document to open (See Remarks)
-;					$f_ConfirmConversions	- Optional: Specifies whether to display the Convert File dialog box
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocOpen()
+; Description ...: Opens a Microsoft Word Document
+; Parameters ....: $o_object				- Object variable of a Word.Application object
+;				   $s_FilePath				- Full path of the document to open (See Remarks)
+;				   $f_ConfirmConversions	- Optional: Specifies whether to display the Convert File dialog box
 ;												if the file isn't in Microsoft Word format.
 ;												0 = (Default) Do not display
 ;												1 = Display
-;					$i_Format				- Optional: The file converter to be used to open the document.
+;				   $i_Format				- Optional: The file converter to be used to open the document.
 ;												0 = (Default) The existing format
 ;												1 = Microsoft Word Document format
 ;												2 = Microsoft Word Template format
@@ -394,34 +384,31 @@ EndFunc   ;==>_WordDocAdd
 ;												6 = Microsoft Word format that is backward compatible with earlier versions of Microsoft Word
 ;												7 = HTML format
 ;												8 = XML format
-;					$f_ReadOnly				- Optional: Specifies whether to open the document as read-only.
+;				   $f_ReadOnly				- Optional: Specifies whether to open the document as read-only.
 ;												Note: This argument doesn't override the read-only recommended setting on a saved document.
 ;												0 = (Default) Open as Read/Write
 ;												1 = Open as Read Only
-;					$f_Revert				- Optional: Controls what happens if $s_FilePath is an open document.
+;				   $f_Revert				- Optional: Controls what happens if $s_FilePath is an open document.
 ;												0 = (Default) Activate the open document
 ;												1 = Discard any unsaved changes to the open document and reopen the file
-;					$f_AddToRecentFiles		- Optional: Specifies whether to add the file name to the list of recently used
+;				   $f_AddToRecentFiles		- Optional: Specifies whether to add the file name to the list of recently used
 ;												files at the bottom of the File menu.
 ;												0 = (Default) Do not add
 ;												1 = Add
-;					$s_PasswordDocument		- Optional: The password for opening the document.
+;				   $s_PasswordDocument		- Optional: The password for opening the document.
 ;												"" = (Default) Null
-;					$s_WritePasswordDocument- Optional: The password for saving changes to the document.
+;				   $s_WritePasswordDocument- Optional: The password for saving changes to the document.
 ;												"" = (Default) Null
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns an object variable pointing to a Word.Application, document object
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns an object variable pointing to a Word.Application, document object
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Remark(s):		File will be created if it does not exist.
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; Remarks .......: File will be created if it does not exist.
+; ===============================================================================================================================
 Func _WordDocOpen(ByRef $o_object, $s_FilePath, $f_ConfirmConversions = 0, $i_Format = 0, $f_ReadOnly = 0, $f_Revert = 0, $f_AddToRecentFiles = 0, $s_PasswordDocument = "", $s_WritePasswordDocument = "")
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocOpen", "$_WordStatus_InvalidDataType")
@@ -468,24 +455,20 @@ Func _WordDocOpen(ByRef $o_object, $s_FilePath, $f_ConfirmConversions = 0, $i_Fo
 	Return $o_doc
 EndFunc   ;==>_WordDocOpen
 
-;===============================================================================
-;
-; Function Name:    _WordDocSave()
-; Description:      Saves a previously opened document
-; Parameter(s):     $o_object			- Object variable of a Word.Application, document object
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocSave()
+; Description ...: Saves a previously opened document
+; Parameters ....: $o_object			- Object variable of a Word.Application, document object
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Remark(s):		If a document hasn't been saved before, the Save As dialog box prompts the user for a file name
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Remarks .......: If a document hasn't been saved before, the Save As dialog box prompts the user for a file name
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocSave(ByRef $o_object)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocSave", "$_WordStatus_InvalidDataType")
@@ -510,15 +493,14 @@ Func _WordDocSave(ByRef $o_object)
 	Return 1
 EndFunc   ;==>_WordDocSave
 
-;===============================================================================
-;
-; Function Name:    _WordDocSaveAs()
-; Description:      Saves the specified document with a new name or format.
-; Parameter(s):     $o_object				- Object variable of a Word.Application, document object
-;					$s_FilePath				- Optional: The full file path for saving the document. (See Remarks)
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocSaveAs()
+; Description ...: Saves the specified document with a new name or format.
+; Parameters ....: $o_object				- Object variable of a Word.Application, document object
+;				   $s_FilePath				- Optional: The full file path for saving the document. (See Remarks)
 ;												"" = (Default) If the document has never been saved,
 ;													the default name is used (for example, Document1.doc)
-;					$i_Format				- Optional: The format in which the document is saved.
+;				   $i_Format				- Optional: The format in which the document is saved.
 ;												0 = (Default) Microsoft Word format
 ;												1 = Microsoft Word template format
 ;												2 = Microsoft Windows text format
@@ -531,34 +513,31 @@ EndFunc   ;==>_WordDocSave
 ;												9 = Web archive format
 ;												10 = Filtered HTML format
 ;												11 = Extensible Markup Language (XML) format
-;					$f_ReadOnlyRecommended	- Optional: Specifies whether to have Microsoft Word suggest
+;				   $f_ReadOnlyRecommended	- Optional: Specifies whether to have Microsoft Word suggest
 ;												read-only status whenever the document is opened.
 ;												0 = (Default) Do not suggest read only
 ;												1 = Suggest read only
-;					$f_AddToRecentFiles		- Optional: Specifies whether to add the file name to the list of recently used
+;				   $f_AddToRecentFiles		- Optional: Specifies whether to add the file name to the list of recently used
 ;												files at the bottom of the File menu.
 ;												0 = (Default) Do not add
 ;												1 = Add
-;					$f_LockComments			- Optional: Specifies whether to lock the document for comments.
+;				   $f_LockComments			- Optional: Specifies whether to lock the document for comments.
 ;												0 = (Default) Do not lock for comments
 ;												1 = Lock for comments
-;					$s_Password				- Optional: A password string for opening the document. (See Remarks)
-;					$s_WritePassword		- Optional: A password string for saving changes to the document. (See Remarks)
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+;				   $s_Password				- Optional: A password string for opening the document. (See Remarks)
+;				   $s_WritePassword		- Optional: A password string for saving changes to the document. (See Remarks)
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Remark(s):		If a document with the specified file name already exists, the document is overwritten without the user being prompted first.
-;					Avoid using hard-coded passwords in your applications. If a password is required in a procedure,
-;					request the password from the user, store it in a variable, and then use the variable in your code.
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; Remarks .......: If a document with the specified file name already exists, the document is overwritten without the user being prompted first.
+;				   Avoid using hard-coded passwords in your applications. If a password is required in a procedure,
+;				   request the password from the user, store it in a variable, and then use the variable in your code.
+; ===============================================================================================================================
 Func _WordDocSaveAs(ByRef $o_object, $s_FilePath = "", $i_Format = 0, $f_ReadOnlyRecommended = 0, $f_AddToRecentFiles = 0, $f_LockComments = 0, $s_Password = "", $s_WritePassword = "")
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocSaveAs", "$_WordStatus_InvalidDataType")
@@ -586,33 +565,29 @@ Func _WordDocSaveAs(ByRef $o_object, $s_FilePath = "", $i_Format = 0, $f_ReadOnl
 	Return 1
 EndFunc   ;==>_WordDocSaveAs
 
-;===============================================================================
-;
-; Function Name:    _WordDocClose()
-; Description:      Closes a previously opened word document
-; Parameter(s):     $o_object			- Object variable of a Word.Application, document object
-;					$i_SaveChanges		- Optional: specifies the save action for the document
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocClose()
+; Description ...: Closes a previously opened word document
+; Parameters ....: $o_object			- Object variable of a Word.Application, document object
+;				   $i_SaveChanges		- Optional: specifies the save action for the document
 ;											 0 = Do not save changes
 ;											-1 = Save changes
 ;											-2 = (Default) Prompt to save changes
-;					$i_OriginalFormat	- Optional: specifies the save format for the document
+;				   $i_OriginalFormat	- Optional: specifies the save format for the document
 ;											0 = Word Document
 ;											1 = Original Document Format
 ;											2 = (Default) Prompt User
-;					$f_RouteDocument	- Optional: specifies whether to route the document to the next recipient
+;				   $f_RouteDocument	- Optional: specifies whether to route the document to the next recipient
 ;										0 = (Default) do not route
 ;										1 = route to next recipient
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocClose(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 2, $f_RouteDocument = 0)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocClose", "$_WordStatus_InvalidDataType")
@@ -631,28 +606,24 @@ Func _WordDocClose(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 2, 
 	Return 1
 EndFunc   ;==>_WordDocClose
 
-;===============================================================================
-;
-; Function Name:    _WordDocGetCollection()
-; Description:		Returns a collection object containing all documents
-; Parameter(s):		$o_object	- Object variable of a Word.Application object
-;					$v_index	- Optional: Specifies whether to return a collection or indexed instance.
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocGetCollection()
+; Description ...: Returns a collection object containing all documents
+; Parameters ....: $o_object	- Object variable of a Word.Application object
+;				   $v_index	- Optional: Specifies whether to return a collection or indexed instance.
 ;									-1 = (Default) Returns a collection
 ;									 0 = Returns the Active Document
 ;									 The document name or index number to return (1 based)
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns an object collection of all documents, @EXTENDED = document count
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success 	- Returns an object collection of all documents, @EXTENDED = document count
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;								- 7 ($_WordStatus_NoMatch) = No Match
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocGetCollection(ByRef $o_object, $v_index = -1)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocGetCollection", "$_WordStatus_InvalidDataType")
@@ -703,11 +674,10 @@ Func _WordDocGetCollection(ByRef $o_object, $v_index = -1)
 	EndIf
 EndFunc   ;==>_WordDocGetCollection
 
-;===============================================================================
-;
-; Function Name:    _WordDocFindReplace()
-; Description:      Runs the specified find and replace operation.
-; Parameter(s):     $o_object			- Object variable of a Word.Application, document object
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocFindReplace()
+; Description ...: Runs the specified find and replace operation.
+; Parameters ....: $o_object			- Object variable of a Word.Application, document object
 ;					$s_FindText			- Optional: The text to be searched for. (See Remarks)
 ;											"" = (Default) Used to search for formatting only.
 ;					$s_ReplaceWith		- Optional: The replacement text. (See Remarks)
@@ -747,19 +717,16 @@ EndFunc   ;==>_WordDocGetCollection
 ;					$f_Format			- Optional: Specifies whether to have the find operation locate formatting in addition to or instead of the find text.
 ;											0 = (Default) Do not locate formatting
 ;											1 = Locate formatting
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;								- 7 ($_WordStatus_NoMatch) = No Match
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocFindReplace(ByRef $o_object, $s_FindText = "", $s_ReplaceWith = "", $i_Replace = 2, $v_SearchRange = 0, $f_MatchCase = 0, $f_MatchWholeWord = 0, $f_MatchWildcards = 0, $f_MatchSoundsLike = 0, $f_MatchAllWordForms = 0, $f_Forward = 1, $i_Wrap = 1, $f_Format = 0)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocFindReplace", "$_WordStatus_InvalidDataType")
@@ -810,11 +777,10 @@ Func _WordDocFindReplace(ByRef $o_object, $s_FindText = "", $s_ReplaceWith = "",
 	EndIf
 EndFunc   ;==>_WordDocFindReplace
 
-;===============================================================================
-;
-; Function Name:    _WordDocPrint()
-; Description:      Prints all or part of the specified document.
-; Parameter(s):     $o_object		- Object variable of a Word.Application, document object
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocPrint()
+; Description ...: Prints all or part of the specified document.
+; Parameters ....: $o_object		- Object variable of a Word.Application, document object
 ;					$f_Background	- Optional: Specifies whether to have the script continue while
 ;										Microsoft Word prints the document. (See Remarks)
 ;										0 = (Default) Wait for document to print
@@ -851,9 +817,8 @@ EndFunc   ;==>_WordDocFindReplace
 ;										5 = Key assignments in the current document
 ;										6 = An envelope
 ;										7 = Current document content including markup
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 2 ($_WordStatus_ComError) = Com Error
@@ -861,12 +826,10 @@ EndFunc   ;==>_WordDocFindReplace
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Remark(s):		Specifying $f_Background does NOT pause the script until the document is finished printing,
-;					it only pauses until Microsoft Word finishes sending the document to the printer.
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; Remarks .......: Specifying $f_Background does NOT pause the script until the document is finished printing,
+;				   it only pauses until Microsoft Word finishes sending the document to the printer.
+; ===============================================================================================================================
 Func _WordDocPrint(ByRef $o_object, $f_Background = 0, $i_Copies = 1, $i_Orientation = -1, $f_Collate = 1, $s_Printer = "", $i_Range = 0, $i_From = "", $i_To = "", $s_Pages = "", $i_PageType = 0, $i_Item = 0)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocPrint", "$_WordStatus_InvalidDataType")
@@ -971,15 +934,14 @@ Func _WordDocPrint(ByRef $o_object, $f_Background = 0, $i_Copies = 1, $i_Orienta
 	EndSwitch
 EndFunc   ;==>_WordDocPrint
 
-;===============================================================================
-;
-; Function Name:    _WordDocPropertyGet()
-; Description:      Returns a select property of the Word Document.
-; Parameter(s):     $o_object	- Object variable of a Word.Application, document object
-;					$v_property	- Property selection
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocPropertyGet()
+; Description ...: Returns a select property of the Word Document.
+; Parameters ....: $o_object	- Object variable of a Word.Application, document object
+;				   $v_property	- Property selection
 ; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Value of selected Property
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Value of selected Property
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 2 ($_WordStatus_ComError) = Com Error
@@ -987,10 +949,8 @@ EndFunc   ;==>_WordDocPrint
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocPropertyGet(ByRef $o_object, $v_property)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocPropertyGet", "$_WordStatus_InvalidDataType")
@@ -1079,16 +1039,14 @@ Func _WordDocPropertyGet(ByRef $o_object, $v_property)
 	EndSwitch
 EndFunc   ;==>_WordDocPropertyGet
 
-;===============================================================================
-;
-; Function Name:    _WordDocPropertySet()
-; Description:      Set a select property of the Word Document.
-; Parameter(s):     $o_object	- Object variable of a Word.Application, document object
-;					$v_property	- Property selection
-;					$v_newvalue	- The new value to be set into the Word Document Property
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocPropertySet()
+; Description ...: Set a select property of the Word Document.
+; Parameters ....: $o_object	- Object variable of a Word.Application, document object
+;				   $v_property	- Property selection
+;				   $v_newvalue	- The new value to be set into the Word Document Property
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 2 ($_WordStatus_ComError) = Com Error
@@ -1096,10 +1054,8 @@ EndFunc   ;==>_WordDocPropertyGet
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocPropertySet(ByRef $o_object, $v_property, $v_newvalue)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocPropertySet", "$_WordStatus_InvalidDataType")
@@ -1181,26 +1137,22 @@ Func _WordDocPropertySet(ByRef $o_object, $v_property, $v_newvalue)
 	EndSwitch
 EndFunc   ;==>_WordDocPropertySet
 
-;===============================================================================
-;
-; Function Name:    _WordDocLinkGetCollection()
-; Description:		Returns a collection object containing all links in the document
-; Parameter(s):		$o_object	- Object variable of an Word.Application, document object
-;					$i_index	- Optional: specifies whether to return a collection or indexed instance
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocLinkGetCollection()
+; Description ...: Returns a collection object containing all links in the document
+; Parameters ....: $o_object - Object variable of an Word.Application, document object
+;				   $i_index	 - Optional: specifies whether to return a collection or indexed instance
 ;								- Positive integer returns an indexed instance (1 based)
 ;								- -1 = (Default) returns a collection
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns an object collection of all links in the document, @EXTENDED = link count
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success 	- Returns an object collection of all links in the document, @EXTENDED = link count
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;								- 7 ($_WordStatus_NoMatch) = No Match
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocLinkGetCollection(ByRef $o_object, $i_index = -1)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocLinkGetCollection", "$_WordStatus_InvalidDataType")
@@ -1235,36 +1187,32 @@ Func _WordDocLinkGetCollection(ByRef $o_object, $i_index = -1)
 	EndSelect
 EndFunc   ;==>_WordDocLinkGetCollection
 
-;===============================================================================
-;
-; Function Name:    _WordDocAddLink()
-; Description:      Add a hyperlink to the document
-; Parameter(s):     $o_object			- Object variable of a Word.Application, document object
-;					$o_Anchor			- Optional: The text or graphic that you want turned into a hyperlink.
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocAddLink()
+; Description ...: Add a hyperlink to the document
+; Parameters ....: $o_object			- Object variable of a Word.Application, document object
+;				   $o_Anchor			- Optional: The text or graphic that you want turned into a hyperlink.
 ;											"" = (Default) Uses entire document as range
-;					$s_Address			- Optional: The address for the specified link. The address can be an
+;				   $s_Address			- Optional: The address for the specified link. The address can be an
 ;											e-mail address, an Internet address, or a file name.
 ;											"" = (Default) Link to the specified document is used
-;					$s_SubAddress		- Optional: The name of a location within the destination file, such as
+;				   $s_SubAddress		- Optional: The name of a location within the destination file, such as
 ;											a bookmark, named range, or slide number.
-;					$s_ScreenTip		- Optional: The text that appears as a ScreenTip when the mouse pointer is
+;				   $s_ScreenTip		- Optional: The text that appears as a ScreenTip when the mouse pointer is
 ;											positioned over the specified hyperlink.
 ;											"" = (Default) Uses value of $s_Address
-;					$s_TextToDisplay	- Optional: The display text of the specified hyperlink. The value of this
+;				   $s_TextToDisplay	- Optional: The display text of the specified hyperlink. The value of this
 ;											argument replaces the text or graphic specified by Anchor.
 ;											"" = (Default) Uses value of $s_Address
-;					$s_Target			- Optional: The name of the frame or window in which you want to load the specified hyperlink.
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+;				   $s_Target			- Optional: The name of the frame or window in which you want to load the specified hyperlink.
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocAddLink(ByRef $o_object, $o_Anchor = "", $s_Address = "", $s_SubAddress = "", $s_ScreenTip = "", $s_TextToDisplay = "", $s_Target = "")
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocAddLink", "$_WordStatus_InvalidDataType")
@@ -1291,24 +1239,22 @@ Func _WordDocAddLink(ByRef $o_object, $o_Anchor = "", $s_Address = "", $s_SubAdd
 	Return 1
 EndFunc   ;==>_WordDocAddLink
 
-;===============================================================================
-;
-; Function Name:    _WordDocAddPicture()
-; Description:      Add a picture to the document
-; Parameter(s):     $o_object			- Object variable of a Word.Application, document object.
-;					$s_FilePath			- The path and file name of the picture.
-;					$f_LinkToFile		- Optional: Specifies whether to link the picture to the file from which it was created.
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordDocAddPicture()
+; Description ...: Add a picture to the document
+; Parameters ....: $o_object			- Object variable of a Word.Application, document object.
+;				   $s_FilePath			- The path and file name of the picture.
+;				   $f_LinkToFile		- Optional: Specifies whether to link the picture to the file from which it was created.
 ;											0 = (Default) Make the picture an independent copy of the file
 ;											1 = Link the picture to the file from which it was created
-;					$f_SaveWithDocument	- Optional: Specifies whether to save the linked picture with the document.
+;				   $f_SaveWithDocument	- Optional: Specifies whether to save the linked picture with the document.
 ;											0 = (Default) Do not save the linked picture with the document
 ;											1 = Save the linked picture with the document
-;					$o_Range			- Optional: The location where the picture will be placed in the text.
+;				   $o_Range			- Optional: The location where the picture will be placed in the text.
 ;											"" = (Default) The picture is placed automatically
 ;											Any range object
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns an object variable pointing to a Word.Application, shape object
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success	- Returns an object variable pointing to a Word.Application, shape object
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 2 ($_WordStatus_ComError) = Com Error
@@ -1316,10 +1262,8 @@ EndFunc   ;==>_WordDocAddLink
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordDocAddPicture(ByRef $o_object, $s_FilePath, $f_LinkToFile = 0, $f_SaveWithDocument = 0, $o_Range = "")
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordDocAddPicture", "$_WordStatus_InvalidDataType")
@@ -1385,24 +1329,20 @@ Func _WordDocAddPicture(ByRef $o_object, $s_FilePath, $f_LinkToFile = 0, $f_Save
 			Return 0
 	EndSwitch
 EndFunc   ;==>_WordDocAddPicture
-#endregion
-#region Error Handling
-;===============================================================================
-;
+
+; #FUNCTION# ====================================================================================================================
 ; Function Name:   _WordErrorHandlerRegister()
-; Description:		Register and enable a user COM error handler
-; Parameter(s):		$s_functionName - String variable with the name of a user-defined COM error handler
+; Description ...: Register and enable a user COM error handler
+; Parameters ....: $s_functionName - String variable with the name of a user-defined COM error handler
 ;									  defaults to the internal COM error handler in this UDF
 ; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; Return values .: On Success 	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordErrorHandlerRegister($s_functionName = "__WordInternalErrorHandler")
 	$sWordUserErrorHandler = $s_functionName
 	$oWordErrorHandler = ""
@@ -1418,41 +1358,33 @@ Func _WordErrorHandlerRegister($s_functionName = "__WordInternalErrorHandler")
 	EndIf
 EndFunc   ;==>_WordErrorHandlerRegister
 
-;===============================================================================
-;
+; #FUNCTION# ====================================================================================================================
 ; Function Name:   _WordErrorHandlerDeRegister()
-; Description:		Disable a registered user COM error handler
-; Parameter(s):		None
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns 1
-;                   On Failure	- None
-; Author(s):        Bob Anthony (Code based off IE.au3)
+; Description ...: Disable a registered user COM error handler
+; Parameters ....: None
+; Return values .: On Success 	- Returns 1
+;                  On Failure	- None
+; Author ........: Bob Anthony
 ;
-;===============================================================================
-;
+; ===============================================================================================================================
 Func _WordErrorHandlerDeRegister()
 	$sWordUserErrorHandler = ""
 	$oWordErrorHandler = ""
 	SetError($_WordStatus_Success)
 	Return 1
 EndFunc   ;==>_WordErrorHandlerDeRegister
-#endregion
-#region Utility Functions
-;===============================================================================
-;
+
+; #FUNCTION# ====================================================================================================================
 ; Function Name:   _WordErrorNotify()
-; Description:		Specifies whether Word.au3 automatically notifies of Warnings and Errors (to the console)
-; Parameter(s):		$f_notify	- Optional: specifies whether notification should be on or off
+; Description ...: Specifies whether Word.au3 automatically notifies of Warnings and Errors (to the console)
+; Parameters ....: $f_notify	- Optional: specifies whether notification should be on or off
 ;								- -1 = (Default) return current setting
 ;								- True = Turn On
 ;								- False = Turn Off
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- If $f_notify = -1, returns the current notification setting, else returns 1
-;                   On Failure	- Returns 0
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Return values .: On Success 	- If $f_notify = -1, returns the current notification setting, else returns 1
+;                  On Failure	- Returns 0
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordErrorNotify($f_notify = -1)
 	Switch Number($f_notify)
 		Case (-1)
@@ -1469,31 +1401,27 @@ Func _WordErrorNotify($f_notify = -1)
 	EndSwitch
 EndFunc   ;==>_WordErrorNotify
 
-;===============================================================================
-;
-; Function Name:    _WordMacroRun()
-; Description:      Runs a Visual Basic macro
-; Parameter(s):     $o_object			- Object variable of a Word.Application object
-;					$s_MacroName		- The name of the macro. Can be any combination of template,
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordMacroRun()
+; Description ...: Runs a Visual Basic macro
+; Parameters ....: $o_object			- Object variable of a Word.Application object
+;				   $s_MacroName		- The name of the macro. Can be any combination of template,
 ;											module, and macro name. (See Remarks)
-;					$v_Arg1				- Optional: The first parameter to pass to the macro
+;				   $v_Arg1				- Optional: The first parameter to pass to the macro
 ;					...					...
-;					$v_Arg30			- Optional: The thirtieth parameter to pass to the macro
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+;				   $v_Arg30			- Optional: The thirtieth parameter to pass to the macro
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 1 ($_WordStatus_GeneralError) = General Error
 ;								- 2 ($_WordStatus_ComError) = Com Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;					@Extended	- Contains invalid parameter number
-; Remark(s):		If you specify the document name, your code can only run macros in documents
-;					related to the current context ?not just any macro in any document.
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; Remarks .......: If you specify the document name, your code can only run macros in documents
+;				   related to the current context — not just any macro in any document.
+; ===============================================================================================================================
 Func _WordMacroRun(ByRef $o_object, $s_MacroName, $v_Arg1 = Default, $v_Arg2 = Default, $v_Arg3 = Default, $v_Arg4 = Default, $v_Arg5 = Default, $v_Arg6 = Default, $v_Arg7 = Default, $v_Arg8 = Default, $v_Arg9 = Default, $v_Arg10 = Default, $v_Arg11 = Default, $v_Arg12 = Default, $v_Arg13 = Default, $v_Arg14 = Default, $v_Arg15 = Default, $v_Arg16 = Default, $v_Arg17 = Default, $v_Arg18 = Default, $v_Arg19 = Default, $v_Arg20 = Default, $v_Arg21 = Default, $v_Arg22 = Default, $v_Arg23 = Default, $v_Arg24 = Default, $v_Arg25 = Default, $v_Arg26 = Default, $v_Arg27 = Default, $v_Arg28 = Default, $v_Arg29 = Default, $v_Arg30 = Default)
 
 	If Not IsObj($o_object) Then
@@ -1566,24 +1494,20 @@ Func _WordMacroRun(ByRef $o_object, $s_MacroName, $v_Arg1 = Default, $v_Arg2 = D
 	EndSwitch
 EndFunc   ;==>_WordMacroRun
 
-;===============================================================================
-;
-; Function Name:    _WordPropertyGet()
-; Description:      Returns a select property of the Word Application
-; Parameter(s):     $o_object	- Object variable of a Word.Application
-;					$s_property	- Property selection
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Value of selected Property
-;                   On Failure	- Returns 0 and sets @ERROR
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordPropertyGet()
+; Description ...: Returns a select property of the Word Application
+; Parameters ....: $o_object	- Object variable of a Word.Application
+;				   $s_property	- Property selection
+; Return values .: On Success	- Value of selected Property
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordPropertyGet(ByRef $o_object, $s_Property)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordPropertyGet", "$_WordStatus_InvalidDataType")
@@ -1698,25 +1622,21 @@ Func _WordPropertyGet(ByRef $o_object, $s_Property)
 	EndSwitch
 EndFunc   ;==>_WordPropertyGet
 
-;===============================================================================
-;
-; Function Name:    _WordPropertySet()
-; Description:      Set a select property of the Word Application
-; Parameter(s):     $o_object	- Object variable of a Word.Application Object
-;					$s_property	- Property selection
-;					$v_newvalue	- The new value to be set into the Word Application Property
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success	- Returns 1
-;                   On Failure	- Returns 0 and sets @ERROR
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WordPropertySet()
+; Description ...: Set a select property of the Word Application
+; Parameters ....: $o_object	- Object variable of a Word.Application Object
+;				   $s_property	- Property selection
+;				   $v_newvalue	- The new value to be set into the Word Application Property
+; Return values .: On Success	- Returns 1
+;                  On Failure	- Returns 0 and sets @ERROR
 ;					@ERROR		- 0 ($_WordStatus_Success) = No Error
 ;								- 3 ($_WordStatus_InvalidDataType) = Invalid Data Type
 ;								- 4 ($_WordStatus_InvalidObjectType) = Invalid Object Type
 ;								- 5 ($_WordStatus_InvalidValue) = Invalid Value
 ;					@Extended	- Contains invalid parameter number
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _WordPropertySet(ByRef $o_object, $s_Property, $v_newvalue)
 	If Not IsObj($o_object) Then
 		__WordErrorNotify("Error", "_WordPropertySet", "$_WordStatus_InvalidDataType")
@@ -1829,26 +1749,21 @@ Func _WordPropertySet(ByRef $o_object, $s_Property, $v_newvalue)
 			Return 0
 	EndSwitch
 EndFunc   ;==>_WordPropertySet
-#endregion
-#region General Functions
-;===============================================================================
-;
-; Function Name:    _Word_VersionInfo()
-; Description:		Returns an array of information about the Word.au3 version
-; Parameter(s):     None
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns an array ($WordAU3VersionInfo)
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _Word_VersionInfo()
+; Description ...: Returns an array of information about the Word.au3 version
+; Parameters ....: None
+; Return values .: On Success 	- Returns an array ($WordAU3VersionInfo)
 ;								- $WordAU3VersionInfo[0] = Release Type (T=Test or V=Production)
 ;								- $WordAU3VersionInfo[1] = Major Version
 ;								- $WordAU3VersionInfo[2] = Minor Version
 ;								- $WordAU3VersionInfo[3] = Sub Version
 ;								- $WordAU3VersionInfo[4] = Release Date (YYYYMMDD)
 ;								- $WordAU3VersionInfo[5] = Display Version (e.g. T0.1-0)
-;                   On Failure	- None
-; Author(s):        Bob Anthony (Code based off IE.au3)
-;
-;===============================================================================
-;
+;                  On Failure	- None
+; Author ........: Bob Anthony
+; ===============================================================================================================================
 Func _Word_VersionInfo()
 	__WordErrorNotify("Information", "_Word_VersionInfo", "version " & _
 			$WordAU3VersionInfo[0] & _
@@ -1858,20 +1773,15 @@ Func _Word_VersionInfo()
 	SetError($_WordStatus_Success)
 	Return $WordAU3VersionInfo
 EndFunc   ;==>_Word_VersionInfo
-#endregion
-#region Internal Functions
-;===============================================================================
-;
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Function Name:   __WordGetHWND()
-; Description:		Returns the hwnd of a word object
-; Parameter(s):		None
-; Requirement(s):   AutoIt3 Beta with COM support (post 3.1.1)
-; Return Value(s):  On Success 	- Returns 1
-;                   On Failure	- None
+; Description ...: Returns the hwnd of a word object
+; Parameters ....: None
+; Return values .: On Success 	- Returns 1
+;                  On Failure	- None
 ; Author(s):        Bob Anthony
-;
-;===============================================================================
-;
+; ===============================================================================================================================
 Func __WordGetHWND(ByRef $o_object)
 	If Not IsObj($o_object) Then
 		SetError($_WordStatus_InvalidDataType, 1)
@@ -1976,19 +1886,15 @@ Func __WordInternalErrorHandler()
 	Return
 EndFunc   ;==>__WordInternalErrorHandler
 
-;===============================================================================
-;
-; Function Name:    __WordLockSetForegroundWindow()
-; Description:		Locks (and Unlocks) current Foreground Window focus to prevent a new window
-;					from stealing it (e.g. when creating invisible window)
-; Parameter(s):		$nLockCode	- 1 Lock Foreground Window Focus, 2 Unlock Foreground Window Focus
-; Requirement(s):   Windows 2000/Windows ME or higher
-; Return Value(s):  On Success 	- 1
-;                   On Failure 	- 0  and sets @ERROR and @EXTENDED to non-zero values
-; Author(s):        Valik
-;
-;===============================================================================
-;
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __WordLockSetForegroundWindow()
+; Description ...: Locks (and Unlocks) current Foreground Window focus to prevent a new window
+;				   from stealing it (e.g. when creating invisible window)
+; Parameters ....: $nLockCode	- 1 Lock Foreground Window Focus, 2 Unlock Foreground Window Focus
+; Return values .: On Success 	- 1
+;                  On Failure 	- 0  and sets @ERROR and @EXTENDED to non-zero values
+; Author ........:  Valik
+; ===============================================================================================================================
 Func __WordLockSetForegroundWindow($nLockCode)
 	Local $aRet = DllCall("user32.dll", "int", "LockSetForegroundWindow", "int", $nLockCode)
 	If @error Then
@@ -1998,10 +1904,10 @@ Func __WordLockSetForegroundWindow($nLockCode)
 	Return $aRet[0]
 EndFunc   ;==>__WordLockSetForegroundWindow
 
-;===============================================================================
-; Function Name:	__WordIsObjType()
-; Description:		Check to see if an object variable is of a specific type
-; Author(s):		Bob Anthony (Code based off IE.au3)
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __WordIsObjType()
+; Description ...: Check to see if an object variable is of a specific type
+; Author ........: Bob Anthony
 ;===============================================================================
 Func __WordIsObjType(ByRef $o_object, $s_type)
 	If Not IsObj($o_object) Then
@@ -2059,4 +1965,3 @@ Func __WordIsObjType(ByRef $o_object, $s_type)
 	EndIf
 
 EndFunc   ;==>__WordIsObjType
-#endregion

@@ -1,12 +1,14 @@
 ﻿#include-once
+
 #include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Pipes
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Named Pipes.
+;                  A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe
 ;                  clients.  All instances of a named pipe share the same pipe name, but each instance has its  own  buffers  and
 ;                  handles, and provides a separate conduit for  client  server  communication.  The  use  of  instances  enables
 ;                  multiple pipe clients to use the same named pipe simultaneously.  Any process can access named pipes,  subject
@@ -16,7 +18,8 @@
 ;                  process that connects to an instance of a named pipe. Named pipes can be used to provide communication between
 ;                  processes on the same computer or between processes on different computers across a  network.  If  the  server
 ;                  service is running, all named pipes are accessible remotely.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
+; Dll(s) ........: Kernel32.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -45,7 +48,6 @@ Global Const $WRITE_OWNER = 0x00080000
 Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_NamedPipes_CallNamedPipe
 ;_NamedPipes_ConnectNamedPipe
@@ -59,10 +61,6 @@ Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 ;_NamedPipes_TransactNamedPipe
 ;_NamedPipes_WaitNamedPipe
 ; ===============================================================================================================================
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-;
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _NamedPipes_CallNamedPipe
@@ -88,8 +86,8 @@ Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 ;                  of GENERIC_READ | GENERIC_WRITE, and an inherit handle flag of False.  CallNamedPipe fails if the  pipe  is  a
 ;                  byte-type pipe.
 ; Related .......: _NamedPipes_WaitNamedPipe, _NamedPipes_TransactNamedPipe
-; Link ..........; @@MsdnLink@@ CallNamedPipe
-; Example .......;
+; Link ..........: @@MsdnLink@@ CallNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CallNamedPipe($sPipeName, $pInpBuf, $iInpSize, $pOutBuf, $iOutSize, ByRef $iRead, $iTimeOut = 0)
 	Local $tRead, $aResult
@@ -121,8 +119,8 @@ EndFunc   ;==>_NamedPipes_CallNamedPipe
 ;                  and the call to ConnectNamedPipe. In this situation, there is a good connection between client and server even
 ;                  though the function returns zero.
 ; Related .......: _NamedPipes_CreateNamedPipe, $tagOVERLAPPED
-; Link ..........; @@MsdnLink@@ ConnectNamedPipe
-; Example .......;
+; Link ..........: @@MsdnLink@@ ConnectNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_ConnectNamedPipe($hNamedPipe, $pOverlapped = 0)
 	Local $aResult
@@ -177,9 +175,9 @@ EndFunc   ;==>_NamedPipes_ConnectNamedPipe
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _NamedPipes_ConnectNamedPipe
-; Link ..........; @@MsdnLink@@ CreateNamedPipe
-; Example .......;
+; Related .......: _NamedPipes_ConnectNamedPipe, _NamedPipes_CreatePipe
+; Link ..........: @@MsdnLink@@ CreateNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CreateNamedPipe($sName, $iAccess = 2, $iFlags = 2, $iACL = 0, $iType = 1, $iRead = 1, $iWait = 0, $iMaxInst = 25, _
 		$iOutBufSize = 4096, $iInpBufSize = 4096, $iDefTimeout = 5000, $pSecurity = 0)
@@ -242,8 +240,8 @@ EndFunc   ;==>_NamedPipes_CreateNamedPipe
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _NamedPipes_CreateNamedPipe
-; Link ..........; @@MsdnLink@@ CreatePipe
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreatePipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CreatePipe(ByRef $hReadPipe, ByRef $hWritePipe, $tSecurity = 0, $iSize = 0)
 	Local $pSecurity, $tPipes, $aResult
@@ -271,8 +269,8 @@ EndFunc   ;==>_NamedPipes_CreatePipe
 ;                  pipe closed.  The client receives an error the next time it attempts to access the  pipe.  A  client  that  is
 ;                  forced off a pipe must still use the CloseHandle function to close its end of the pipe.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ DisconnectNamedPipe
-; Example .......;
+; Link ..........: @@MsdnLink@@ DisconnectNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_DisconnectNamedPipe($hNamedPipe)
 	Local $aResult
@@ -299,8 +297,8 @@ EndFunc   ;==>_NamedPipes_DisconnectNamedPipe
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _NamedPipes_SetNamedPipeHandleState
-; Link ..........; @@MsdnLink@@ GetNamedPipeHandleState
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetNamedPipeHandleState
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_GetNamedPipeHandleState($hNamedPipe)
 	Local $tBuffer, $tInt, $pState, $pCurInst, $pMaxCount, $pTimeOut, $aState[6]
@@ -338,8 +336,8 @@ EndFunc   ;==>_NamedPipes_GetNamedPipeHandleState
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetNamedPipeInfo
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetNamedPipeInfo
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_GetNamedPipeInfo($hNamedPipe)
 	Local $tInt, $pFlags, $pOutSize, $pInpSize, $pMaxInst, $aInfo[5]
@@ -374,8 +372,8 @@ EndFunc   ;==>_NamedPipes_GetNamedPipeInfo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ PeekNamedPipe
-; Example .......;
+; Link ..........: @@MsdnLink@@ PeekNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_PeekNamedPipe($hNamedPipe)
 	Local $pBuffer, $tBuffer, $tInt, $pRead, $pTotal, $pLeft, $aInfo[4]
@@ -414,8 +412,8 @@ EndFunc   ;==>_NamedPipes_PeekNamedPipe
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _NamedPipes_GetNamedPipeHandleState
-; Link ..........; @@MsdnLink@@ SetNamedPipeHandleState
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetNamedPipeHandleState
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_SetNamedPipeHandleState($hNamedPipe, $iRead, $iWait, $iBytes = 0, $iTimeOut = 0)
 	Local $iMode, $tInt, $pMode, $pBytes, $pTimeOut, $aResult
@@ -460,9 +458,9 @@ EndFunc   ;==>_NamedPipes_SetNamedPipeHandleState
 ; Modified.......:
 ; Remarks .......: TransactNamedPipe fails if the server did not create the pipe as a message-type pipe or if the pipe handle  is
 ;                  not in message-read mode.
-; Related .......: $tagOVERLAPPED
-; Link ..........; @@MsdnLink@@ TransactNamedPipe
-; Example .......;
+; Related .......: $tagOVERLAPPED, _NamedPipes_CallNamedPipe
+; Link ..........: @@MsdnLink@@ TransactNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_TransactNamedPipe($hNamedPipe, $pInpBuf, $iInpSize, $pOutBuf, $iOutSize, $pOverlapped = 0)
 	Local $pRead, $tRead
@@ -489,9 +487,9 @@ EndFunc   ;==>_NamedPipes_TransactNamedPipe
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: If no instances of the specified named pipe exist the WaitNamedPipe function returns immediately
-; Related .......:
-; Link ..........; @@MsdnLink@@ WaitNamedPipe
-; Example .......;
+; Related .......: _NamedPipes_CallNamedPipe
+; Link ..........: @@MsdnLink@@ WaitNamedPipe
+; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_WaitNamedPipe($sPipeName, $iTimeOut = 0)
 	Local $aResult

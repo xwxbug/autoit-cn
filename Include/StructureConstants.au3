@@ -1,12 +1,12 @@
 ﻿#include-once
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Structures
-; AutoIt Version: 3.2.++
-; Description:    Structures.
+; Title .........: Structures_Constants
+; AutoIt Version : 3.2.++
+; Description ...: Constants for Windows API functions.
+; Author(s) .....: Paul Campbell (PaulIA), Gary Frost, Jpm
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #LISTING# =====================================================================================================================
 ;$tagNMHDR
 ;$tagCOMBOBOXEXITEM
@@ -98,9 +98,10 @@
 ;$tagPROCESS_INFORMATION
 ;$tagSTARTUPINFO
 ;$tagSECURITY_ATTRIBUTES
+;$tagWIN32_FIND_DATA
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;$tagCOMBOBOXINFO
 ;$tagEDITBALLOONTIP
 ;$tagEVENTREAD
@@ -155,7 +156,7 @@
 ;$tagNETINFOSTRUCT
 ;$tagREMOTENAMEINFO
 ;$tagTOOLINFO
-;================================================================================================================================
+; ===============================================================================================================================
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHDR
@@ -173,7 +174,7 @@ Global Const $tagNMHDR = "hwnd hWndFrom;int IDFrom;int Code"
 ; ComboBox Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCOMBOBOXINFO
 ; Description ...: Contains combo box status information
 ; Fields ........: cbSize      - The size, in bytes, of the structure. The calling application must set this to sizeof(COMBOBOXINFO).
@@ -308,7 +309,7 @@ Global Const $tagNMCOMBOBOXEX = $tagNMHDR & ";int Mask;int Item;ptr Text;int Tex
 ;                  MaxDOW     - Maximum day of week
 ;                  MaxDay     - Maximum day
 ;                  MaxHour    - Maximum hour
-;                  MaxMaxute  - Maximum Minute
+;                  MaxMinute  - Maximum Minute
 ;                  MaxSecond  - Maximum second
 ;                  MaxMSecond - Maximum milliseconds
 ;                  MinValid   - If True, minimum data is valid
@@ -447,7 +448,7 @@ Global Const $tagNMDATETIMESTRING = $tagNMHDR & ";ptr UserString;short Year;shor
 ; Edit Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagEDITBALLOONTIP
 ; Description ...: Contains information about a balloon tip
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -494,7 +495,7 @@ Global Const $tagEVENTLOGRECORD = "int Length;int Reserved;int RecordNumber;int 
 		"short EventType;short NumStrings;short EventCategory;short ReservedFlags;int ClosingRecordNumber;int StringOffset;" & _
 		"int UserSidLength;int UserSidOffset;int DataLength;int DataOffset"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagEVENTREAD
 ; Description ...: tagEVENTREAD structure
 ; Fields ........: Buffer    - Buffer for the data read from the event log
@@ -626,7 +627,7 @@ Global Const $tagGDIPPENCODERPARAMS = "dword Count;byte Params[0]"
 ; Header Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagHDHITTESTINFO
 ; Description ...: Contains information about a hit test
 ; Fields ........: X     - Horizontal postion to be hit test, in client coordinates
@@ -658,7 +659,7 @@ Global Const $tagHDHITTESTINFO = "int X;int Y;int Flags;int Item"
 ; ===============================================================================================================================
 Global Const $tagHDITEM = "int Mask;int XY;ptr Text;hwnd hBMP;int TextMax;int Fmt;int Param;int Image;int Order;int Type;ptr pFilter;int State"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagHDLAYOUT
 ; Description ...: Contains information used to set the size and position of the control
 ; Fields ........: Rect      - Pointer to a RECT structure that contains the rectangle that the header control will occupy
@@ -668,7 +669,7 @@ Global Const $tagHDITEM = "int Mask;int XY;ptr Text;hwnd hBMP;int TextMax;int Fm
 ; ===============================================================================================================================
 Global Const $tagHDLAYOUT = "ptr Rect;ptr WindowPos"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagHDTEXTFILTER
 ; Description ...: Contains information about header control text filters
 ; Fields ........: Text    - Pointer to the buffer containing the filter
@@ -769,7 +770,7 @@ Global Const $tagNMIPADDRESS = $tagNMHDR & ";int Field;int Value"
 ; ListView Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVBKIMAGE
 ; Description ...: Contains information about the background image of a list-view control
 ; Fields ........: Flags      - This member may be one or more of the following flags.  You can use the LVBKIF_SOURCE_MASK value
@@ -807,7 +808,7 @@ Global Const $tagNMIPADDRESS = $tagNMHDR & ";int Field;int Value"
 ; ===============================================================================================================================
 Global Const $tagLVBKIMAGE = "int Flags;hwnd hBmp;int Image;int ImageMax;int XOffPercent;int YOffPercent"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVCOLUMN
 ; Description ...: Contains information about a column in report view
 ; Fields ........: Mask    - Variable specifying which members contain valid information.  This member can be zero,  or  one  or
@@ -841,7 +842,7 @@ Global Const $tagLVBKIMAGE = "int Flags;hwnd hBmp;int Image;int ImageMax;int XOf
 ; ===============================================================================================================================
 Global Const $tagLVCOLUMN = "int Mask;int Fmt;int CX;ptr Text;int TextMax;int SubItem;int Image;int Order"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVFINDINFO
 ; Description ...: Contains information used when searching for a list-view item
 ; Fields ........: Flags     - Type of search to perform. This member can be set to one or more of the following values:
@@ -875,7 +876,7 @@ Global Const $tagLVCOLUMN = "int Mask;int Fmt;int CX;ptr Text;int TextMax;int Su
 ; ===============================================================================================================================
 Global Const $tagLVFINDINFO = "int Flags;ptr Text;int Param;int X;int Y;int Direction"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVGROUP
 ; Description ...: Used to set and retrieve groups
 ; Fields ........: Size      - Size of this structure, in bytes
@@ -928,7 +929,7 @@ Global Const $tagLVGROUP = "int Size;int Mask;ptr Header;int HeaderMax;ptr Foote
 ; ===============================================================================================================================
 Global Const $tagLVHITTESTINFO = "int X;int Y;int Flags;int Item;int SubItem"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVINSERTMARK
 ; Description ...: Used to describe insertion points
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -1212,7 +1213,7 @@ Global Const $tagNMLVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 ; ===============================================================================================================================
 Global Const $tagNMLVSCROLL = $tagNMHDR & ";int DX;int DY"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVSETINFOTIP
 ; Description ...: Provides information about tooltip text that is to be set
 ; Fields ........: Size    - Size of this structure, in bytes
@@ -1304,7 +1305,7 @@ Global Const $tagMCMONTHRANGE = "short MinYear;short MinMonth;short MinDOW;short
 ;                  MaxDOW      - DOW
 ;                  MaxDay      - Day
 ;                  MaxHour     - Hour
-;                  MaxMaxute   - Maxute
+;                  MaxMinute   - Minute
 ;                  MaxSecond   - Seconds
 ;                  MaxMSeconds - Milliseconds
 ;                  MinSet      - A minimum limit is set for the control
@@ -1331,7 +1332,7 @@ Global Const $tagMCRANGE = "short MinYear;short MinMonth;short MinDOW;short MinD
 ;                  MaxDOW      - DOW
 ;                  MaxDay      - Day
 ;                  MaxHour     - Hour
-;                  MaxMaxute   - Maxute
+;                  MaxMinute   - Minute
 ;                  MaxSecond   - Seconds
 ;                  MaxMSeconds - Milliseconds
 ; Author ........: Paul Campbell (PaulIA)
@@ -1430,7 +1431,7 @@ Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;in
 ; ===============================================================================================================================
 Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTCITEM
 ; Description ...: Specifies or receives the attributes of a tab item
 ; Fields ........: Mask      - Value that specifies which members to retrieve or set:
@@ -1453,7 +1454,7 @@ Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 ; ===============================================================================================================================
 Global Const $tagTCITEM = "int Mask;int State;int StateMask;ptr Text;int TextMax;int Image;int Param"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTCHITTESTINFO
 ; Description ...: Contains information about a hit test
 ; Fields ........: X     - X position to hit test
@@ -1583,7 +1584,7 @@ Global Const $tagNMTREEVIEW = $tagNMHDR & ";int Action;int OldMask;int OldhItem;
 ;                  |  $CDIS_SHOWKEYBOARDCUES - The item is a keyboard cue
 ;                  ItemParam - Application defined item data
 ;                  ClrText   - The color that will be used to display text foreground in the control
-;                  CltTextBk - The color that will be used to display text background in the control
+;                  ClrTextBk - The color that will be used to display text background in the control
 ;                  Level     - Zero based level of the item being drawn
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......: $CDxx_ constants require WindowsConstants.au3
@@ -1662,7 +1663,7 @@ Global Const $tagNMTVGETINFOTIP = $tagNMHDR & ";ptr Text;int TextMax;hwnd hItem;
 ; ===============================================================================================================================
 Global Const $tagTVHITTESTINFO = "int X;int Y;int Flags;int Item"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTVINSERTSTRUCT
 ; Description ...: Contains information used to add a new item to a tree-view control
 ; Fields ........: Parent        - Handle to the parent item. If this member is $TVI_ROOT, the item is inserted at the root
@@ -1722,7 +1723,7 @@ Global Const $tagNMTVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 ; ToolTip Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagNMTTDISPINFO
 ; Description ...: Contains information used in handling the $TTN_GETDISPINFO notification message
 ; Fields ........: $tagNMHDR - Contains information about a notification message
@@ -1745,7 +1746,7 @@ Global Const $tagNMTVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 ; ===============================================================================================================================
 Global Const $tagNMTTDISPINFO = $tagNMHDR & ";ptr pText;char aText[80];hwnd Instance;int Flags;int Param"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTOOLINFO
 ; Description ...: Contains information about a tool in a ToolTip contr
 ; Fields ........: Size    - Size of this structure, in bytes
@@ -1773,7 +1774,7 @@ Global Const $tagNMTTDISPINFO = $tagNMHDR & ";ptr pText;char aText[80];hwnd Inst
 ; ===============================================================================================================================
 Global Const $tagTOOLINFO = "int Size;int Flags;hwnd hWnd;int ID;int Left;int Top;int Right;int Bottom;hwnd hInst;ptr Text;int Param;ptr Reserved"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTTGETTITLE
 ; Description ...: Provides information about the title of a tooltip control
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -1785,7 +1786,7 @@ Global Const $tagTOOLINFO = "int Size;int Flags;hwnd hWnd;int ID;int Left;int To
 ; ===============================================================================================================================
 Global Const $tagTTGETTITLE = "int Size;int Bitmap;int TitleMax;ptr Title"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTTHITTESTINFO
 ; Description ...: Contains information that a ToolTip control uses to determine whether a point is in the bounding rectangle of the specified tool
 ; Fields ........: Tool     - Handle to the tool or window with the specified tool
@@ -1916,7 +1917,7 @@ Global Const $tagTOKEN_PRIVILEGES = "int Count;int64 LUID;int Attributes"
 ; ===============================================================================================================================
 Global Const $tagIMAGEINFO = "hwnd hBitmap;hwnd hMask;int Unused1;int Unused2;int Left;int Top;int Right;int Bottom"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagIMAGELISTDRAWPARAMS
 ; Description ...: Contains information about an image list draw operation and is used with the ImageList Draw function
 ; Fields ........: Size    - Size of this structure, in bytes
@@ -1982,7 +1983,7 @@ Global Const $tagIMAGELISTDRAWPARAMS = "int Size;hwnd hWnd;int Image;hwnd hDC;in
 ; Memory Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMEMMAP
 ; Description ...: Contains information about the memory
 ; Fields ........: hProc - Handle to the external process
@@ -1998,7 +1999,7 @@ Global Const $tagMEMMAP = "hwnd hProc;int Size;ptr Mem"
 ; Menu Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMDINEXTMENU
 ; Description ...: tagMDINEXTMENU structure
 ; Fields ........: hMenuIn   - Receives a handle to the current menu
@@ -2009,7 +2010,7 @@ Global Const $tagMEMMAP = "hwnd hProc;int Size;ptr Mem"
 ; ===============================================================================================================================
 Global Const $tagMDINEXTMENU = "hwnd hMenuIn;hwnd hMenuNext;hwnd hWndNext"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUBARINFO
 ; Description ...: tagMENUBARINFO structure
 ; Fields ........: Size     - Specifies the size, in bytes, of the structure
@@ -2025,7 +2026,7 @@ Global Const $tagMDINEXTMENU = "hwnd hMenuIn;hwnd hMenuNext;hwnd hWndNext"
 ; ===============================================================================================================================
 Global Const $tagMENUBARINFO = "int Size;int Left;int Top;int Right;int Bottom;int hMenu;int hWndMenu;int Focused"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUEX_TEMPLATE_HEADER
 ; Description ...: tagMENUEX_TEMPLATE_HEADER structure
 ; Fields ........: Version - Template version number. This member must be 1 for extended menu templates.
@@ -2037,7 +2038,7 @@ Global Const $tagMENUBARINFO = "int Size;int Left;int Top;int Right;int Bottom;i
 ; ===============================================================================================================================
 Global Const $tagMENUEX_TEMPLATE_HEADER = "short Version;short Offset;int HelpID"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUEX_TEMPLATE_ITEM
 ; Description ...: tagMENUEX_TEMPLATE_ITEM structure
 ; Fields ........: HelpID  - Help identifier for a drop down menu or submenu.  This member, which is included only for items that
@@ -2059,7 +2060,7 @@ Global Const $tagMENUEX_TEMPLATE_HEADER = "short Version;short Offset;int HelpID
 ; ===============================================================================================================================
 Global Const $tagMENUEX_TEMPLATE_ITEM = "int HelpID;int Type;int State;int MenuID;short ResInfo;ptr Text"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUGETOBJECTINFO
 ; Description ...: tagMENUGETOBJECTINFO structure
 ; Fields ........: Flags - Position of the mouse cursor with respect to the item indicated by Pos. It can be one of the following
@@ -2149,7 +2150,7 @@ Global Const $tagMENUINFO = "int Size;int Mask;int Style;int YMax;int hBack;int 
 Global Const $tagMENUITEMINFO = "int Size;int Mask;int Type;int State;int ID;int SubMenu;int BmpChecked;int BmpUnchecked;" & _
 		"int ItemData;ptr TypeData;int CCH;int BmpItem"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUITEMTEMPLATE
 ; Description ...: tagMENUITEMTEMPLATE structure
 ; Fields ........: Option - Specifies one or more of the following predefined menu options that control  the  appearance  of  the
@@ -2168,7 +2169,7 @@ Global Const $tagMENUITEMINFO = "int Size;int Mask;int Type;int State;int ID;int
 ; ===============================================================================================================================
 Global Const $tagMENUITEMTEMPLATE = "short Option;short ID;ptr String"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUITEMTEMPLATEHEADER
 ; Description ...: tagMENUITEMTEMPLATEHEADER structure
 ; Fields ........: Version - Specifies the version number. This member must be zero.
@@ -2179,7 +2180,7 @@ Global Const $tagMENUITEMTEMPLATE = "short Option;short ID;ptr String"
 ; ===============================================================================================================================
 Global Const $tagMENUITEMTEMPLATEHEADER = "short Version;short Offset"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTPMPARAMS
 ; Description ...: tagTPMPARAMS structure
 ; Fields ........: Size   - Size of structure, in bytes
@@ -2197,7 +2198,7 @@ Global Const $tagTPMPARAMS = "short Version;short Offset"
 ; Net Share Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCONNECTION_INFO_1
 ; Description ...: tagCONNECTION_INFO_1 structure
 ; Fields ........: ID       - Specifies a connection identification number
@@ -2219,7 +2220,7 @@ Global Const $tagTPMPARAMS = "short Version;short Offset"
 ; ===============================================================================================================================
 Global Const $tagCONNECTION_INFO_1 = "int ID;int Type;int Opens;int Users;int Time;ptr Username;ptr NetName"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagFILE_INFO_3
 ; Description ...: tagFILE_INFO_3 structure
 ; Fields ........: ID          - The identification number assigned to the resource when it is opened
@@ -2235,7 +2236,7 @@ Global Const $tagCONNECTION_INFO_1 = "int ID;int Type;int Opens;int Users;int Ti
 ; ===============================================================================================================================
 Global Const $tagFILE_INFO_3 = "int ID;int Permissions;int Locks;ptr Pathname;ptr Username"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagSESSION_INFO_2
 ; Description ...: tagSESSION_INFO_2 structure
 ; Fields ........: CName     - Unicode string specifying the name of the computer that established the session
@@ -2252,7 +2253,7 @@ Global Const $tagFILE_INFO_3 = "int ID;int Permissions;int Locks;ptr Pathname;pt
 ; ===============================================================================================================================
 Global Const $tagSESSION_INFO_2 = "ptr CName;ptr Username;int Opens;int Time;int Idle;int Flags;ptr TypeName"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagSESSION_INFO_502
 ; Description ...: tagSESSION_INFO_502 structure
 ; Fields ........: CName     - Unicode string specifying the name of the computer that established the session
@@ -2270,7 +2271,7 @@ Global Const $tagSESSION_INFO_2 = "ptr CName;ptr Username;int Opens;int Time;int
 ; ===============================================================================================================================
 Global Const $tagSESSION_INFO_502 = "ptr CName;ptr Username;int Opens;int Time;int Idle;int Flags;ptr TypeName;ptr Transport"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagSHARE_INFO_2
 ; Description ...: tagSHARE_INFO_2 structure
 ; Fields ........: NetName     - Unicode string specifying the share name of a resource
@@ -2300,7 +2301,7 @@ Global Const $tagSESSION_INFO_502 = "ptr CName;ptr Username;int Opens;int Time;i
 ; ===============================================================================================================================
 Global Const $tagSHARE_INFO_2 = "ptr NetName;int Type;ptr Remark;int Permissions;int MaxUses;int CurrentUses;ptr Path;ptr Password"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagSTAT_SERVER_0
 ; Description ...: tagSTAT_SERVER_0
 ; Fields ........: Start      - Indicates the time when statistics collection started.  The value is  stored  as  the  number  of
@@ -2325,7 +2326,7 @@ Global Const $tagSHARE_INFO_2 = "ptr NetName;int Type;ptr Remark;int Permissions
 Global Const $tagSTAT_SERVER_0 = "int Start;int FOpens;int DevOpens;int JobsQueued;int SOpens;int STimedOut;int SErrorOut;" & _
 		"int PWErrors;int PermErrors;int SysErrors;int64 ByteSent;int64 ByteRecv;int AvResponse;int ReqBufNeed;int BigBufNeed"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagSTAT_WORKSTATION_0
 ; Description ...: tagSTAT_WORKSTATION_0
 ; Fields ........: StartTime         - Specifies the time statistics collection started.  The value is stored as  the  number  of
@@ -2443,7 +2444,7 @@ Global Const $tagTIME_ZONE_INFORMATION = "long Bias;byte StdName[64];ushort StdD
 ; ProgressBar Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagPBRANGE
 ; Description ...: Contains information about the high and low limits of a progress bar control
 ; Fields ........: Low          - Low limit for the progress bar control
@@ -2621,7 +2622,7 @@ Global Const $tagNMREBARCHEVRON = $tagNMHDR & ";uint uBand;uint wID;int lParam;i
 Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;int CLeft;int CTop;int CRight;int CBottom;" & _
 		"int BLeft;int BTop;int BRight;int BBottom"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagREBARINFO
 ; Description ...: Contains information that describes rebar control characteristics
 ; Fields ........: cbSize         - Size of this structure, in bytes. Your application must fill this member before sending any messages that use the address of this structure as a parameter.
@@ -2633,7 +2634,7 @@ Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;int CLeft;
 ; ===============================================================================================================================
 Global Const $tagREBARINFO = "uint cbSize;uint fMask;hwnd himl"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagRBHITTESTINFO
 ; Description ...: Contains information specific to a hit test operation
 ; Fields ........: X - Specifies the x-coordinate of the point
@@ -2671,7 +2672,7 @@ Global Const $tagRBHITTESTINFO = "int X;int Y;uint flags;int iBand"
 ; ===============================================================================================================================
 Global Const $tagCOLORSCHEME = "int Size;int BtnHighlight;int BtnShadow"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTBADDBITMAP
 ; Description ...: Adds a bitmap that contains button images to a toolbar
 ; Fields ........: hInst - Handle to the module instance with the executable file that contains a bitmap resource.  To use bitmap
@@ -2786,7 +2787,7 @@ Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;short 
 ; ===============================================================================================================================
 Global Const $tagTBBUTTONINFO = "int Size;int Mask;int Command;int Image;byte State;byte Style;short CX;int Param;ptr Text;int TextMax"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTBINSERTMARK
 ; Description ...: Contains information on the insertion mark in a toolbar control
 ; Fields ........: Button - Zero based index of the insertion mark. If this member is -1, there is no insertion mark
@@ -2800,7 +2801,7 @@ Global Const $tagTBBUTTONINFO = "int Size;int Mask;int Command;int Image;byte St
 ; ===============================================================================================================================
 Global Const $tagTBINSERTMARK = "int Button;int Flags"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTBMETRICS
 ; Description ...: Defines the metrics of a toolbar that are used to shrink or expand toolbar items
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -2824,7 +2825,7 @@ Global Const $tagTBMETRICS = "int Size;int Mask;int XPad;int YPad;int XBarPad;in
 ; Windows Networking Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCONNECTDLGSTRUCT
 ; Description ...: tagCONNECTDLGSTRUCT structure
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -2842,13 +2843,13 @@ Global Const $tagTBMETRICS = "int Size;int Mask;int XPad;int YPad;int XBarPad;in
 ;                  |$CONNDLG_NOT_PERSIST - Do not restore the connection at logon
 ;                  DevNum   - If the call to the _WNet_ConnectionDialog1 function is successful, this member returns  the  number
 ;                  +of the connected device. The value is 1 for A:, 2 for B:, 3 for C:, and so on.  If the user made a deviceless
-;                  +connection, the value is ?.
+;                  +connection, the value is –1.
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagCONNECTDLGSTRUCT = "int Size;hwnd hWnd;ptr Resource;int Flags;int DevNum"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagDISCDLGSTRUCT
 ; Description ...: tagDISCDLGSTRUCT structure
 ; Fields ........: Size       - Size of this structure, in bytes
@@ -2871,7 +2872,7 @@ Global Const $tagCONNECTDLGSTRUCT = "int Size;hwnd hWnd;ptr Resource;int Flags;i
 ; ===============================================================================================================================
 Global Const $tagDISCDLGSTRUCT = "int Size;hwnd hWnd;ptr LocalName;ptr RemoteName;int Flags"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagNETCONNECTINFOSTRUCT
 ; Description ...: tagNETCONNECTINFOSTRUCT structure
 ; Fields ........: Size        - Size of this structure, in bytes
@@ -2894,7 +2895,7 @@ Global Const $tagDISCDLGSTRUCT = "int Size;hwnd hWnd;ptr LocalName;ptr RemoteNam
 ; ===============================================================================================================================
 Global Const $tagNETCONNECTINFOSTRUCT = "int Size;int Flags;int Speed;int Delay;int OptDataSize"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagNETINFOSTRUCT
 ; Description ...: tagNETINFOSTRUCT structure
 ; Fields ........: Size     - Size of this structure, in bytes
@@ -2953,7 +2954,7 @@ Global Const $tagNETINFOSTRUCT = "int Size;int Version;int Status;int Char;int H
 ; ===============================================================================================================================
 Global Const $tagNETRESOURCE = "int Scope;int Type;int DisplayType;int Usage;ptr LocalName;ptr RemoteName;ptr Comment;ptr Provider"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagREMOTENAMEINFO
 ; Description ...: tagREMOTENAMEINFO structure
 ; Fields ........: Universal  - Pointer to the null-terminated UNC name string that identifies a network resource
@@ -3172,7 +3173,7 @@ Global Const $tagBITMAPINFO = "dword Size;long Width;long Height;ushort Planes;u
 ; ===============================================================================================================================
 Global Const $tagBLENDFUNCTION = "byte Op;byte Flags;byte Alpha;byte Format"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagBORDERS
 ; Description ...: Structure that recieves the current widths of the horizontal and vertical borders of a status window
 ; Fields ........: BX - Width of the horizontal border
@@ -3183,7 +3184,7 @@ Global Const $tagBLENDFUNCTION = "byte Op;byte Flags;byte Alpha;byte Format"
 ; ===============================================================================================================================
 Global Const $tagBORDERS = "int BX;int BY;int RX"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCHOOSECOLOR
 ; Description ...: Contains information the _ChooseColor function uses to initialize the Color dialog box
 ; Fields ........: Size           - Specifies the size, in bytes, of the structure
@@ -3222,7 +3223,7 @@ Global Const $tagBORDERS = "int BX;int BY;int RX"
 Global Const $tagCHOOSECOLOR = "dword Size;hwnd hWndOwnder;hwnd hInstance;int rgbResult;int_ptr CustColors;dword Flags;int_ptr lCustData;" & _
 		"ptr lpfnHook;ptr lpTemplateName"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCHOOSEFONT
 ; Description ...: Contains information that the _ChooseFont function uses to initialize the Font dialog box
 ; Fields ........: Size           - Specifies the size, in bytes, of the structure
@@ -3299,7 +3300,7 @@ Global Const $tagCHOOSECOLOR = "dword Size;hwnd hWndOwnder;hwnd hInstance;int rg
 Global Const $tagCHOOSEFONT = "dword Size;hwnd hWndOwner;hwnd hDC;ptr LogFont;int PointSize;dword Flags;int rgbColors;int_ptr CustData;" & _
 		"ptr fnHook;ptr TemplateName;hwnd hInstance;ptr szStyle;ushort FontType;int SizeMin;int SizeMax"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTEXTMETRIC
 ; Description ...: Contains basic information about a physical font. All sizes are specified in logical units, that is, they depend on the current mapping mode of the display context.
 ; Fields ........: tmHeight - Specifies the height (ascent + descent) of characters.
@@ -3356,7 +3357,7 @@ Global Const $tagTEXTMETRIC = "long tmHeight;long tmAscent;long tmDescent;long t
 		"char tmFirstChar;char tmLastChar;char tmDefaultChar;char tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" & _
 		"byte tmPitchAndFamily;byte tmCharSet"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCURSORINFO
 ; Description ...: Contains global cursor information
 ; Fields ........: Size    - Specifies the size, in bytes, of the structure
@@ -3371,7 +3372,7 @@ Global Const $tagTEXTMETRIC = "long tmHeight;long tmAscent;long tmDescent;long t
 ; ===============================================================================================================================
 Global Const $tagCURSORINFO = "int Size;int Flags;hwnd hCursor;int X;int Y"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagDISPLAY_DEVICE
 ; Description ...: Receives information about the display device
 ; Fields ........: Size   - Specifies the size, in bytes, of the structure
@@ -3392,7 +3393,7 @@ Global Const $tagCURSORINFO = "int Size;int Flags;hwnd hCursor;int X;int Y"
 ; ===============================================================================================================================
 Global Const $tagDISPLAY_DEVICE = "int Size;char Name[32];char String[128];int Flags;char ID[128];char Key[128]"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagFLASHWINDOW
 ; Description ...: Contains the flash status for a window and the number of times the system should flash the window
 ; Fields ........: Size    - The size of the structure, in bytes
@@ -3423,7 +3424,7 @@ Global Const $tagFLASHWINDOW = "int Size;hwnd hWnd;int Flags;int Count;int TimeO
 ; ===============================================================================================================================
 Global Const $tagGUID = "int Data1;short Data2;short Data3;byte Data4[8]"
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagICONINFO
 ; Description ...: Contains information about an icon or a cursor
 ; Fields ........: Icon     - Specifies the contents of the structure:
@@ -3689,5 +3690,29 @@ Global Const $tagSTARTUPINFO = "int Size;ptr Reserved1;ptr Desktop;ptr Title;int
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagSECURITY_ATTRIBUTES = "int Length;ptr Descriptor;int InheritHandle"
+
+; ===============================================================================================================================
+; *******************************************************************************************************************************
+; FileFind Structures
+; *******************************************************************************************************************************
+; ===============================================================================================================================
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagWIN32_FIND_DATA
+; Description ...: Contains the data found when finding a file
+; Fields ........: dwFileAttributes   - The file attributes of a file.
+;                  ftCreationTime     - A FILETIME structure that specifies when a file or directory was created.
+;                  ftLastAccessTime   - A FILETIME structure that specifies when the file was last read from, written to, or for executable files, run.
+;                  ftLastWriteTime    - A FILETIME structure that specifies when when the file was last written to, truncated, or overwritten.
+;                  nFileSizeHigh      - The high-order DWORD value of the file size, in bytes.
+;                  nFileSizeLow       - The low-order DWORD value of the file size, in bytes.
+;                  dwReserved0        - If the dwFileAttributes member includes the $FILE_ATTRIBUTE_REPARSE_POINT attribute,
+;                  +this member specifies the reparse tag.
+;                  dwReserved1        - Reserved.
+;                  cFileName          - The name of the file.
+;                  cAlternateFileName - An alternative name for the file, the classic 8.3 (filename.ext) file name format.
+; Author ........: Jpm
+; Remarks .......: ANSI version must be used.
+; ===============================================================================================================================
+Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; char cFileName[260]; char cAlternateFileName[14];"
 
 ; == Leave this line at the end of the file =====================================================================================

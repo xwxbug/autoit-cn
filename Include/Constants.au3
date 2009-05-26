@@ -1,22 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Author(s):      Jeremy Landes <jlandes at landeserve dot com>
-;                 David Nuttall <danuttall at rocketmail dot com>
-;                 Philip Gump   <cyberslug at autoitscript dot com>
-;                 Holger Kotsch   <Holger dot Kotsch at GMX dot de>
-;                 Dave...
-; Description:    This file is meant to be included in an AutoIt v3 script to
-;                 provide access to these constants.
-;
-; ------------------------------------------------------------------------------
-
-
+; #INDEX# =======================================================================================================================
+; Title .........: Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants to be included in an AutoIt v3 script.
+; Author(s) .....: JLandes, Nutster, CyberSlug, Holger, ...
 ; ===============================================================================================================================
-; AutoIt Options Constants
-; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 ; Sets the way coords are used in the mouse and pixel functions
 Global Const $OPT_COORDSRELATIVE = 0 ; Relative coords to the active window
 Global Const $OPT_COORDSABSOLUTE = 1 ; Absolute screen coordinates (default)
@@ -36,9 +28,7 @@ Global Const $OPT_MATCHANY = 2 ; Match any substring in the title
 Global Const $OPT_MATCHEXACT = 3 ; Match the title exactly
 Global Const $OPT_MATCHADVANCED = 4 ; Use advanced window matching (deprecated)
 
-; ===============================================================================================================================
 ; Common Control Styles
-; ===============================================================================================================================
 Global Const $CCS_TOP = 0x1
 Global Const $CCS_NOMOVEY = 0x2
 Global Const $CCS_BOTTOM = 0x3
@@ -52,10 +42,7 @@ Global Const $CCS_LEFT = 0x00000081
 Global Const $CCS_NOMOVEX = 0x00000082
 Global Const $CCS_RIGHT = 0x00000083
 
-; ===============================================================================================================================
 ; DrawIconEx Constants
-; ===============================================================================================================================
-
 Global Const $DI_MASK = 0x0001
 Global Const $DI_IMAGE = 0x0002
 Global Const $DI_NORMAL = 0x0003
@@ -63,10 +50,7 @@ Global Const $DI_COMPAT = 0x0004
 Global Const $DI_DEFAULTSIZE = 0x0008
 Global Const $DI_NOMIRROR = 0x0010
 
-; ===============================================================================================================================
 ; EnumDisplayDevice Constants
-; ===============================================================================================================================
-
 Global Const $DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001
 Global Const $DISPLAY_DEVICE_MULTI_DRIVER = 0x00000002
 Global Const $DISPLAY_DEVICE_PRIMARY_DEVICE = 0x00000004
@@ -77,11 +61,7 @@ Global Const $DISPLAY_DEVICE_DISCONNECT = 0x02000000
 Global Const $DISPLAY_DEVICE_REMOTE = 0x04000000
 Global Const $DISPLAY_DEVICE_MODESPRUNED = 0x08000000
 
-; ===============================================================================================================================
-
-; ===============================================================================================================================
 ; Dir Constants
-; ===============================================================================================================================
 Global Const $DDL_ARCHIVE = 0x20
 Global Const $DDL_DIRECTORY = 0x10
 Global Const $DDL_DRIVES = 0x4000
@@ -91,9 +71,7 @@ Global Const $DDL_READONLY = 0x1
 Global Const $DDL_READWRITE = 0x0
 Global Const $DDL_SYSTEM = 0x4
 
-; ===============================================================================================================================
 ; File Constants
-; ===============================================================================================================================
 ; Indicates file copy and install options
 Global Const $FC_NOOVERWRITE = 0 ; Do not overwrite existing files (default)
 Global Const $FC_OVERWRITE = 1 ; Overwrite existing files
@@ -160,19 +138,13 @@ Global Const $GENERIC_EXECUTE = 0x20000000
 Global Const $GENERIC_WRITE = 0x40000000
 Global Const $GENERIC_READ = 0x80000000
 
-; ===============================================================================================================================
 ; FlashWindowEx Constants
-; ===============================================================================================================================
-
 Global Const $FLASHW_CAPTION = 0x00000001
 Global Const $FLASHW_TRAY = 0x00000002
 Global Const $FLASHW_TIMER = 0x00000004
 Global Const $FLASHW_TIMERNOFG = 0x0000000C
 
-; ===============================================================================================================================
 ; FormatMessage Constants
-; ===============================================================================================================================
-
 Global Const $FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x0100
 Global Const $FORMAT_MESSAGE_IGNORE_INSERTS = 0x0200
 Global Const $FORMAT_MESSAGE_FROM_STRING = 0x0400
@@ -180,10 +152,7 @@ Global Const $FORMAT_MESSAGE_FROM_HMODULE = 0x0800
 Global Const $FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
 Global Const $FORMAT_MESSAGE_ARGUMENT_ARRAY = 0x2000
 
-; ===============================================================================================================================
 ; GetWindows Constants
-; ===============================================================================================================================
-
 Global Const $GW_HWNDFIRST = 0
 Global Const $GW_HWNDLAST = 1
 Global Const $GW_HWNDNEXT = 2
@@ -191,10 +160,7 @@ Global Const $GW_HWNDPREV = 3
 Global Const $GW_OWNER = 4
 Global Const $GW_CHILD = 5
 
-; ===============================================================================================================================
 ; GetWindowLong Constants
-; ===============================================================================================================================
-
 Global Const $GWL_WNDPROC = 0xFFFFFFFC
 Global Const $GWL_HINSTANCE = 0xFFFFFFFA
 Global Const $GWL_HWNDPARENT = 0xFFFFFFF8
@@ -203,10 +169,7 @@ Global Const $GWL_STYLE = 0xFFFFFFF0
 Global Const $GWL_EXSTYLE = 0xFFFFFFEC
 Global Const $GWL_USERDATA = 0xFFFFFFEB
 
-; ===============================================================================================================================
 ; Standard Icon Index Constants
-; ===============================================================================================================================
-
 Global Const $STD_CUT = 0
 Global Const $STD_COPY = 1
 Global Const $STD_PASTE = 2
@@ -223,10 +186,7 @@ Global Const $STD_FIND = 12
 Global Const $STD_REPLACE = 13
 Global Const $STD_PRINT = 14
 
-; ===============================================================================================================================
 ; Image Load Constants
-; ===============================================================================================================================
-
 Global Const $LR_DEFAULTCOLOR = 0x0000
 Global Const $LR_MONOCHROME = 0x0001
 Global Const $LR_COLOR = 0x0002
@@ -241,18 +201,12 @@ Global Const $LR_CREATEDIBSECTION = 0x2000
 Global Const $LR_COPYFROMRESOURCE = 0x4000
 Global Const $LR_SHARED = 0x8000
 
-; ===============================================================================================================================
 ; Image Type Constants
-; ===============================================================================================================================
-
 Global Const $IMAGE_BITMAP = 0
 Global Const $IMAGE_ICON = 1
 Global Const $IMAGE_CURSOR = 2
 
-; ===============================================================================================================================
 ; Keyboard Constants
-; ===============================================================================================================================
-
 ; Changes how keys are processed
 Global Const $KB_SENDSPECIAL = 0 ; Special characters indicate key presses (default)
 Global Const $KB_SENDRAW = 1 ; Keys are sent raw
@@ -261,18 +215,12 @@ Global Const $KB_SENDRAW = 1 ; Keys are sent raw
 Global Const $KB_CAPSOFF = 0 ; Caps Lock is off
 Global Const $KB_CAPSON = 1 ; Caps Lock is on
 
-; ===============================================================================================================================
 ; LoadLibraryEx Constants
-; ===============================================================================================================================
-
 Global Const $DONT_RESOLVE_DLL_REFERENCES = 0x01
 Global Const $LOAD_LIBRARY_AS_DATAFILE = 0x02
 Global Const $LOAD_WITH_ALTERED_SEARCH_PATH = 0x08
 
-; ===============================================================================================================================
 ; Reserved IDs for System Objects
-; ===============================================================================================================================
-
 Global Const $OBJID_WINDOW = 0x00000000
 Global Const $OBJID_SYSMENU = 0xFFFFFFFF
 Global Const $OBJID_TITLEBAR = 0xFFFFFFFE
@@ -287,10 +235,7 @@ Global Const $OBJID_CURSOR = 0xFFFFFFF7
 Global Const $OBJID_ALERT = 0xFFFFFFF6
 Global Const $OBJID_SOUND = 0xFFFFFFF5
 
-; ===============================================================================================================================
 ; Virtual Keys Constants
-; ===============================================================================================================================
-
 Global Const $VK_DOWN = 0x28
 Global Const $VK_END = 0x23
 Global Const $VK_HOME = 0x24
@@ -300,10 +245,7 @@ Global Const $VK_PRIOR = 0x21
 Global Const $VK_RIGHT = 0x27
 Global Const $VK_UP = 0x26
 
-; ===============================================================================================================================
 ; Message Box Constants
-; ===============================================================================================================================
-
 ; Indicates the buttons displayed in the message box
 Global Const $MB_OK = 0 ; One push button: OK
 Global Const $MB_OKCANCEL = 1 ; Two push buttons: OK and Cancel
@@ -345,10 +287,7 @@ Global Const $IDTRYAGAIN = 10 ; Try Again button was selected
 Global Const $IDCONTINUE = 11 ; Continue button was selected
 
 
-; ===============================================================================================================================
 ; Progress and Splash Constants
-; ===============================================================================================================================
-
 ; Indicates properties of the displayed progress or splash dialog
 Global Const $DLG_NOTITLE = 1 ; Titleless window
 Global Const $DLG_NOTONTOP = 2 ; Without "always on top" attribute
@@ -358,10 +297,7 @@ Global Const $DLG_MOVEABLE = 16 ; Window can be moved
 Global Const $DLG_TEXTVCENTER = 32 ; Splash text centered vertically
 
 
-; ===============================================================================================================================
 ; Tray Tip Constants
-; ===============================================================================================================================
-
 ; Indicates the type of Balloon Tip to display
 Global Const $TIP_ICONNONE = 0 ; No icon (default)
 Global Const $TIP_ICONASTERISK = 1 ; Info icon
@@ -370,10 +306,7 @@ Global Const $TIP_ICONHAND = 3 ; Error icon
 Global Const $TIP_NOSOUND = 16 ; No sound
 
 
-; ===============================================================================================================================
 ; Mouse Constants
-; ===============================================================================================================================
-
 ; Indicates current mouse cursor
 Global Const $IDC_UNKNOWN = 0 ; Unknown cursor
 Global Const $IDC_APPSTARTING = 1 ; Standard arrow and small hourglass
@@ -401,10 +334,7 @@ Global Const $IDI_QUESTION = 32514 ; Question-mark icon
 Global Const $IDI_WINLOGO = 32517 ; Windows logo icon. Windows XP: Application icon
 
 
-; ===============================================================================================================================
 ; Process Constants
-; ===============================================================================================================================
-
 ; Indicates the type of shutdown
 Global Const $SD_LOGOFF = 0 ; Logoff
 Global Const $SD_SHUTDOWN = 1 ; Shutdown
@@ -412,10 +342,7 @@ Global Const $SD_REBOOT = 2 ; Reboot
 Global Const $SD_FORCE = 4 ; Force
 Global Const $SD_POWERDOWN = 8 ; Power down
 
-; ===============================================================================================================================
 ; OpenProcess Constants
-; ===============================================================================================================================
-
 Global Const $PROCESS_TERMINATE = 0x00000001
 Global Const $PROCESS_CREATE_THREAD = 0x00000002
 Global Const $PROCESS_SET_SESSIONID = 0x00000004
@@ -431,10 +358,7 @@ Global Const $PROCESS_SUSPEND_RESUME = 0x00000800
 Global Const $PROCESS_ALL_ACCESS = 0x001F0FFF
 
 
-; ===============================================================================================================================
 ; String Constants
-; ===============================================================================================================================
-
 ; Indicates if string operations should be case sensitive
 Global Const $STR_NOCASESENSE = 0 ; Not case sensitive (default)
 Global Const $STR_CASESENSE = 1 ; Case sensitive
@@ -445,10 +369,7 @@ Global Const $STR_STRIPTRAILING = 2 ; Strip trailing whitespace
 Global Const $STR_STRIPSPACES = 4 ; Strip double (or more) spaces between words
 Global Const $STR_STRIPALL = 8 ; Strip all spaces (over-rides all other flags)
 
-; ===============================================================================================================================
 ; Token Constants
-; ===============================================================================================================================
-
 Global Const $TOKEN_ASSIGN_PRIMARY = 0x00000001
 Global Const $TOKEN_DUPLICATE = 0x00000002
 Global Const $TOKEN_IMPERSONATE = 0x00000004
@@ -459,10 +380,7 @@ Global Const $TOKEN_ADJUST_GROUPS = 0x00000040
 Global Const $TOKEN_ADJUST_DEFAULT = 0x00000080
 Global Const $TOKEN_ADJUST_SESSIONID = 0x00000100
 
-; ===============================================================================================================================
 ; Tray Constants
-; ===============================================================================================================================
-
 ; Tray predefined ID's
 Global Const $TRAY_ITEM_EXIT = 3
 Global Const $TRAY_ITEM_PAUSE = 4
@@ -490,10 +408,7 @@ Global Const $TRAY_EVENT_MOUSEOUT = -12
 Global Const $TRAY_EVENT_PRIMARYDOUBLE = -13
 Global Const $TRAY_EVENT_SECONDARYDOUBLE = -14
 
-; ===============================================================================================================================
 ; Run Constants
-; ===============================================================================================================================
-
 Global Const $STDIN_CHILD = 1
 Global Const $STDOUT_CHILD = 2
 Global Const $STDERR_CHILD = 4
@@ -501,10 +416,7 @@ Global Const $STDERR_MERGED = 8
 Global Const $STDIO_INHERIT_PARENT = 0x10
 Global Const $RUN_CREATE_NEW_CONSOLE = 0x10000
 
-; ===============================================================================================================================
 ; Colour Constants
-; ===============================================================================================================================
-
 ; Colour Constants RGB Hex
 Global Const $COLOR_AQUA = 0x00FFFF
 Global Const $COLOR_BLACK = 0x000000
@@ -514,7 +426,6 @@ Global Const $COLOR_FUCHSIA = 0xFF00FF
 Global Const $COLOR_GRAY = 0x808080
 Global Const $COLOR_GREEN = 0x008000
 Global Const $COLOR_LIME = 0x00FF00
-;~ Global Const $COLOR_MAROON                       = 0x800000
 Global Const $COLOR_MAROON = 0x8B1C62
 Global Const $COLOR_MEDBLUE = 0x0002C4
 Global Const $COLOR_MEDGRAY = 0xA0A0A4
@@ -561,10 +472,7 @@ Global Const $CC_ANYCOLOR = 0x100
 Global Const $CC_FULLOPEN = 0x2
 Global Const $CC_RGBINIT = 0x1
 
-; ===============================================================================================================================
 ; Mouse Event Constants
-; ===============================================================================================================================
-
 Global Const $MOUSEEVENTF_ABSOLUTE = 0x8000 ; Specifies that the dx and dy parameters contain normalized absolute coordinates
 Global Const $MOUSEEVENTF_MOVE = 0x1 ; Specifies that movement occurred
 Global Const $MOUSEEVENTF_LEFTDOWN = 0x2 ; Specifies that the left button changed to down
@@ -577,10 +485,7 @@ Global Const $MOUSEEVENTF_WHEEL = 0x800 ; Specifies that the wheel has been move
 Global Const $MOUSEEVENTF_XDOWN = 0x80 ; Specifies that an X button was pressed
 Global Const $MOUSEEVENTF_XUP = 0x100 ; Specifies that an X button was released
 
-; ===============================================================================================================================
 ; Reg Value type Constants
-; ===============================================================================================================================
-
 Global Const $REG_NONE = 0
 Global Const $REG_SZ = 1
 Global Const $REG_EXPAND_SZ = 2
@@ -593,18 +498,13 @@ Global Const $REG_RESOURCE_LIST = 8
 Global Const $REG_FULL_RESOURCE_DESCRIPTOR = 9
 Global Const $REG_RESOURCE_REQUIREMENTS_LIST = 10
 
-; ===============================================================================================================================
 ; Z order
-; ===============================================================================================================================
 Global Const $HWND_BOTTOM = 1 ; Places the window at the bottom of the Z order
 Global Const $HWND_NOTOPMOST = -2 ; Places the window above all non-topmost windows
 Global Const $HWND_TOP = 0 ; Places the window at the top of the Z order
 Global Const $HWND_TOPMOST = -1 ; Places the window above all non-topmost windows
 
-; ===============================================================================================================================
 ; SetWindowPos Constants
-; ===============================================================================================================================
-
 Global Const $SWP_NOSIZE = 0x0001
 Global Const $SWP_NOMOVE = 0x0002
 Global Const $SWP_NOZORDER = 0x0004
@@ -622,10 +522,7 @@ Global Const $SWP_DEFERERASE = 0x2000
 Global Const $SWP_ASYNCWINDOWPOS = 0x4000
 
 
-; ===============================================================================================================================
 ; language identifiers
-; ===============================================================================================================================
-
 Global Const $LANG_AFRIKAANS = 0x36
 Global Const $LANG_ALBANIAN = 0x1c
 Global Const $LANG_ARABIC = 0x1
@@ -698,9 +595,7 @@ Global Const $LANG_URDU = 0x20
 Global Const $LANG_UZBEK = 0x43
 Global Const $LANG_VIETNAMESE = 0x2a
 
-; ===============================================================================================================================
 ; sublanguage identifiers
-; ===============================================================================================================================
 Global Const $SUBLANG_ARABIC_ALGERIA = 0x5
 Global Const $SUBLANG_ARABIC_BAHRAIN = 0xf
 Global Const $SUBLANG_ARABIC_EGYPT = 0x3

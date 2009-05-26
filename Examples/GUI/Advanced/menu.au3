@@ -11,17 +11,17 @@ Func _Main()
 
 GUICreate("GUI 菜单",300,200)
 
-$filemenu = GuiCtrlCreateMenu ("文件(&F)")
-$fileitem = GuiCtrlCreateMenuitem ("打开(&O)...",$filemenu)
-$recentfilesmenu = GuiCtrlCreateMenu ("历史文件(&R)",$filemenu)
+$filemenu = GUICtrlCreateMenu ("文件(&F)")
+$fileitem = GUICtrlCreateMenuItem ("打开(&O)...",$filemenu)
+$recentfilesmenu = GUICtrlCreateMenu ("历史文件(&R)",$filemenu)
 	$separator1 = GUICtrlCreateMenuItem("", $filemenu)
-$exititem = GuiCtrlCreateMenuitem ("退出(&X)",$filemenu)
-$helpmenu = GuiCtrlCreateMenu ("帮助(&H)")
-$aboutitem = GuiCtrlCreateMenuitem ("关于(&A)",$helpmenu)
+$exititem = GUICtrlCreateMenuItem ("退出(&X)",$filemenu)
+$helpmenu = GUICtrlCreateMenu ("帮助(&H)")
+$aboutitem = GUICtrlCreateMenuItem ("关于(&A)",$helpmenu)
 
-$okbutton = GuiCtrlCreateButton ("确定",50,130,70,20)
+$okbutton = GUICtrlCreateButton ("确定",50,130,70,20)
 
-$cancelbutton = GuiCtrlCreateButton ("取消",180,130,70,20)
+$cancelbutton = GUICtrlCreateButton ("取消",180,130,70,20)
 
 	GUISetState()
 
@@ -44,7 +44,7 @@ $cancelbutton = GuiCtrlCreateButton ("取消",180,130,70,20)
 			MsgBox(0, "单击","您单击了[确定]按钮!")
 
 			Case $msg = $aboutitem
-			Msgbox(0,"关于","GUI 菜单测试")
+			MsgBox(0,"关于","GUI 菜单测试")
 		EndSelect
 	WEnd
 

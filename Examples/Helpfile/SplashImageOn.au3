@@ -1,4 +1,4 @@
-﻿$destination = @Systemdir & "\oobe\images\mslogo.jpg"
+﻿$destination = "..\GUI\mslogo.jpg"
 
 SplashImageOn("Splash Screen", $destination,250,50)
 Sleep(3000)

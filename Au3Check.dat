@@ -1,23 +1,24 @@
 $CmdLine
 $CmdLineRaw
-*COM_EventObj
 
 @AppDataCommonDir @AppDataDir @AutoItExe @AutoItPID @AutoItVersion @AutoItX64 @COM_EventObj @CommonFilesDir @Compiled @ComputerName 
 @ComSpec @CPUArch @CR @CRLF @DesktopCommonDir @DesktopDepth @DesktopDir @DesktopHeight @DesktopRefresh @DesktopWidth 
 @DocumentsCommonDir @error @exitCode @exitMethod @extended @FavoritesCommonDir @FavoritesDir @GUI_CtrlHandle @GUI_CtrlId @GUI_DragFile 
-@GUI_DragId @GUI_DropId @GUI_WinHandle @HomeDrive @HomePath @HomeShare @HotKeyPressed @HOUR @InetGetActive @InetGetBytesRead 
-@IPAddress1 @IPAddress2 @IPAddress3 @IPAddress4 @KBLayout @LF @LogonDNSDomain @LogonDomain @LogonServer @MDAY 
-@MIN @MON @MSEC @MyDocumentsDir @NumParams @OSArch @OSBuild @OSLang @OSServicePack @OSType 
-@OSVersion @ProgramFilesDir @ProgramsCommonDir @ProgramsDir @ScriptDir @ScriptFullPath @ScriptLineNumber @ScriptName @SEC @StartMenuCommonDir 
-@StartMenuDir @StartupCommonDir @StartupDir @SW_DISABLE @SW_ENABLE @SW_HIDE @SW_LOCK @SW_MAXIMIZE @SW_MINIMIZE @SW_RESTORE 
-@SW_SHOW @SW_SHOWDEFAULT @SW_SHOWMAXIMIZED @SW_SHOWMINIMIZED @SW_SHOWMINNOACTIVE @SW_SHOWNA @SW_SHOWNOACTIVATE @SW_SHOWNORMAL @SW_UNLOCK @SystemDir 
-@TAB @TempDir @TRAY_ID @TrayIconFlashing @TrayIconVisible @UserName @UserProfileDir @WDAY @WindowsDir @WorkingDir 
-@YDAY @YEAR 
+@GUI_DragId @GUI_DropId @GUI_WinHandle @HomeDrive @HomePath @HomeShare @HotKeyPressed @HOUR @IPAddress1 @IPAddress2 
+@IPAddress3 @IPAddress4 @KBLayout @LF @LogonDNSDomain @LogonDomain @LogonServer @MDAY @MIN @MON 
+@MSEC @MUILang @MyDocumentsDir @NumParams @OSArch @OSBuild @OSLang @OSServicePack @OSType @OSVersion 
+@ProgramFilesDir @ProgramsCommonDir @ProgramsDir @ScriptDir @ScriptFullPath @ScriptLineNumber @ScriptName @SEC @StartMenuCommonDir @StartMenuDir 
+@StartupCommonDir @StartupDir @SW_DISABLE @SW_ENABLE @SW_HIDE @SW_LOCK @SW_MAXIMIZE @SW_MINIMIZE @SW_RESTORE @SW_SHOW 
+@SW_SHOWDEFAULT @SW_SHOWMAXIMIZED @SW_SHOWMINIMIZED @SW_SHOWMINNOACTIVE @SW_SHOWNA @SW_SHOWNOACTIVATE @SW_SHOWNORMAL @SW_UNLOCK @SystemDir @TAB 
+@TempDir @TRAY_ID @TrayIconFlashing @TrayIconVisible @UserName @UserProfileDir @WDAY @WindowsDir @WorkingDir @YDAY 
+@YEAR 
 
 !Abs 1 1
 !ACos 1 1
-!AdlibDisable 0 0
+!AdlibDisable 0 1
 !AdlibEnable 1 2
+!AdlibRegister 1 2
+!AdlibUnRegister 1 1
 !Asc 1 1
 !AscW 1 1
 !ASin 1 1
@@ -110,8 +111,10 @@ $CmdLineRaw
 !FileExists 1 1
 !FileFindFirstFile 1 1
 !FileFindNextFile 1 1
+!FileFlush 1 1
 !FileGetAttrib 1 1
 !FileGetLongName 1 2
+!FileGetPos 1 1
 !FileGetShortcut 1 1
 !FileGetShortName 1 2
 !FileGetSize 1 1
@@ -128,6 +131,7 @@ $CmdLineRaw
 !FileSaveDialog 3 6
 !FileSelectFolder 2 5
 !FileSetAttrib 2 3
+!FileSetPos 3 3
 !FileSetTime 2 4
 !FileWrite 2 2
 !FileWriteLine 2 2
@@ -177,7 +181,7 @@ $CmdLineRaw
 !GUICtrlSetData 2 3
 !GUICtrlSetDefBkColor 1 2
 !GUICtrlSetDefColor 1 2
-!GUICtrlSetFont 2 5
+!GUICtrlSetFont 2 6
 !GUICtrlSetGraphic 2 8
 !GUICtrlSetImage 2 4
 !GUICtrlSetLimit 2 3
@@ -196,7 +200,7 @@ $CmdLineRaw
 !GUISetBkColor 1 2
 !GUISetCoord 2 5
 !GUISetCursor 0 3
-!GUISetFont 1 5
+!GUISetFont 1 6
 !GUISetHelp 1 2
 !GUISetIcon 1 3
 !GUISetOnEvent 2 3
@@ -207,9 +211,12 @@ $CmdLineRaw
 !Hex 1 2
 !HotKeySet 1 2
 !HttpSetProxy 1 4
+!HttpSetUserAgent 1 1
 !HWnd 1 1
-!InetGet 1 4
-!InetGetSize 1 1
+!InetClose 1 1
+!InetGet 1 2
+!InetGetInfo 0 2
+!InetGetSize 1 2
 !IniDelete 2 3
 !IniRead 4 4
 !IniReadSection 2 2
@@ -250,6 +257,8 @@ $CmdLineRaw
 !ObjEvent 1 3
 !ObjGet 1 2
 !ObjName 1 2
+!OnAutoItExitRegister 1 1
+!OnAutoItExitUnregister 1 1
 !Opt 1 2
 !Ping 1 2
 !PixelChecksum 4 6
@@ -285,7 +294,7 @@ $CmdLineRaw
 !SetExtended 1 2
 !ShellExecute 1 5
 !ShellExecuteWait 1 5
-!Shutdown 1 1
+!Shutdown 1 2
 !Sin 1 1
 !Sleep 1 1
 !SoundPlay 1 2
@@ -400,11 +409,13 @@ $CmdLineRaw
 !WinWaitClose 1 3
 !WinWaitNotActive 1 3
 
+%AdlibDisable 1 <UDF>
 %AdlibEnable 1 <UDF>
+%AdlibRegister 1 <UDF>
+%AdlibUnRegister 1 <UDF>
 %AutoItSetOption 1 CaretCoordMode
 %AutoItSetOption 1 ExpandEnvStrings
 %AutoItSetOption 1 ExpandVarStrings
-%AutoItSetOption 1 FtpBinaryMode
 %AutoItSetOption 1 GUICloseOnESC
 %AutoItSetOption 1 GUICoordMode
 %AutoItSetOption 1 GUIDataSeparatorChar
@@ -513,10 +524,11 @@ $CmdLineRaw
 %MouseUp 1 primary
 %MouseUp 1 right
 %MouseUp 1 secondary
+%OnAutoItExitRegister 1 <UDF>
+%OnAutoItExitUnRegister 1 <UDF>
 %Opt 1 CaretCoordMode
 %Opt 1 ExpandEnvStrings
 %Opt 1 ExpandVarStrings
-%Opt 1 FtpBinaryMode
 %Opt 1 GUICloseOnESC
 %Opt 1 GUICoordMode
 %Opt 1 GUIDataSeparatorChar
@@ -549,6 +561,7 @@ $CmdLineRaw
 %RegWrite 3 REG_DWORD
 %RegWrite 3 REG_EXPAND_SZ
 %RegWrite 3 REG_MULTI_SZ
+%RegWrite 3 REG_QWORD
 %RegWrite 3 REG_SZ
 %TrayItemSetOnEvent 2 <UDF>
 %TraySetOnEvent 2 <UDF>

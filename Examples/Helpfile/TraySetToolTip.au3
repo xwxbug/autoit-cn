@@ -1,5 +1,4 @@
-﻿#Include <Constants.au3>
-#NoTrayIcon
+﻿#NoTrayIcon
 
 TraySetState()
 TraySetToolTip("这是我一个新的托盘工具提示文本!")

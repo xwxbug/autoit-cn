@@ -2,22 +2,17 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: SendMessage
-; AutoIt Version: 3.1.1++
-; Language:       English
-; Description:    Functions that assist SendMessage calls.
+; AutoIt Version : 3.1.1++
+; Language ......: English
+; Description ...: Functions that assist SendMessage calls.
+; Author(s) .....: Valik, Gary Frost
+; Dll(s) ........: user32.dll
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
-
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_SendMessage
 ;_SendMessageA
-;==============================================================================================================================
 ; ===============================================================================================================================
-
-; #INTERNAL_USE_ONLY#============================================================================================================
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SendMessage
@@ -43,8 +38,8 @@
 ; Modified.......: Gary Frost (GaryFrost) aka gafrost
 ; Remarks .......:
 ; Related .......: _SendMessageA, DllCall
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _SendMessage($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lparam")
 	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessage", "hwnd", $hWnd, "int", $iMsg, $wParamType, $wParam, $lParamType, $lParam)
@@ -77,8 +72,8 @@ EndFunc   ;==>_SendMessage
 ; Modified.......: Gary Frost (GaryFrost) aka gafrost
 ; Remarks .......:
 ; Related .......: _SendMessage, DllCall
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _SendMessageA($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lparam")
 	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessageA", "hwnd", $hWnd, "int", $iMsg, $wParamType, $wParam, $lParamType, $lParam)

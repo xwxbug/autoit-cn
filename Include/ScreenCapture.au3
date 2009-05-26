@@ -1,14 +1,16 @@
 ﻿#include-once
-#include <WinAPI.au3>
+
 #include <GDIPlus.au3>
+#include <WinAPI.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: Screen Capture
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: This module allows you to copy the screen or a region of the screen and save it to file. Depending on the type
+; Title .........: ScreenCapture
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Screen Capture management.
+;                  This module allows you to copy the screen or a region of the screen and save it to file. Depending on the type
 ;                  of image, you can set various image parameters such as pixel format, quality and compression.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
@@ -16,12 +18,14 @@ Global $giBMPFormat = $GDIP_PXF24RGB
 Global $giJPGQuality = 100
 Global $giTIFColorDepth = 24
 Global $giTIFCompression = $GDIP_EVTCOMPRESSIONLZW
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 Global Const $__SCREENCAPTURECONSTANT_SM_CXSCREEN = 0
 Global Const $__SCREENCAPTURECONSTANT_SM_CYSCREEN = 1
 Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_ScreenCapture_Capture
 ;_ScreenCapture_CaptureWnd
@@ -31,7 +35,6 @@ Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ;_ScreenCapture_SetTIFColorDepth
 ;_ScreenCapture_SetTIFCompression
 ; ===============================================================================================================================
-;==============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ScreenCapture_Capture
@@ -54,11 +57,12 @@ Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ;+
 ;                  Requires GDI+: GDI+ requires a redistributable for applications  that
 ;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
-; Related .......: _WinAPI_DeleteObject
-; Link ..........;
-; Example .......; Yes
+; Related .......: _WinAPI_DeleteObject, _ScreenCapture_SaveImage
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
+	ConsoleWrite('@@ (64) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_Capture()' & @CR) ;### Function Trace
 	Local $iH, $iW, $hWnd, $hDDC, $hCDC, $hBMP, $aCursor, $aIcon, $hIcon
 
 	If $iRight = -1 Then $iRight = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CXSCREEN)
@@ -115,11 +119,12 @@ EndFunc   ;==>_ScreenCapture_Capture
 ;                  Requires GDI+: GDI+ requires a redistributable for applications  that
 ;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; Credits .......: Thanks to SmOke_N for his suggestion for capturing part of the client window
 ; ===============================================================================================================================
 Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
+	ConsoleWrite('@@ (126) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_CaptureWnd()' & @CR) ;### Function Trace
 	Local $tRect
 
 	$tRect = _WinAPI_GetWindowRect($hWnd)
@@ -153,16 +158,17 @@ EndFunc   ;==>_ScreenCapture_CaptureWnd
 ;                  Requires GDI+: GDI+ requires a redistributable for applications  that
 ;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
 ; Related .......: _ScreenCapture_Capture
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
+	ConsoleWrite('@@ (164) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SaveImage()' & @CR) ;### Function Trace
 	Local $hClone, $sCLSID, $tData, $sExt, $hImage, $pParams, $tParams, $iResult, $iX, $iY
 
 	_GDIPlus_Startup()
 	If @error Then Return SetError(-1, -1, False)
 
-	$sExt = StringUpper(_GDIPlus_ExtractFileExt($sFileName))
+	$sExt = StringUpper(__GDIPlus_ExtractFileExt($sFileName))
 	$sCLSID = _GDIPlus_EncodersGetCLSID($sExt)
 	If $sCLSID = "" Then Return SetError(-2, -2, False)
 	$hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
@@ -213,10 +219,11 @@ EndFunc   ;==>_ScreenCapture_SaveImage
 ; Modified.......:
 ; Remarks .......: If not explicitly set, BMP screen captures default to 24 bpp
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SetBMPFormat($iFormat)
+	ConsoleWrite('@@ (225) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetBMPFormat()' & @CR) ;### Function Trace
 	Switch $iFormat
 		Case 0
 			$giBMPFormat = $GDIP_PXF16RGB555
@@ -243,10 +250,11 @@ EndFunc   ;==>_ScreenCapture_SetBMPFormat
 ; Modified.......:
 ; Remarks .......: If not explicitly set, JPEG screen captures default to a quality level of 100
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetJPGQuality($iQuality)
+	ConsoleWrite('@@ (256) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetJPGQuality()' & @CR) ;### Function Trace
 	If $iQuality < 0 Then $iQuality = 0
 	If $iQuality > 100 Then $iQuality = 100
 	$giJPGQuality = $iQuality
@@ -265,10 +273,11 @@ EndFunc   ;==>_ScreenCapture_SetJPGQuality
 ; Modified.......:
 ; Remarks .......: If not explicitly set, TIFF screen captures default to 24 bits
 ; Related .......: _ScreenCapture_SetTIFCompression
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFColorDepth($iDepth)
+	ConsoleWrite('@@ (279) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetTIFColorDepth()' & @CR) ;### Function Trace
 	Switch $iDepth
 		Case 24
 			$giTIFColorDepth = 24
@@ -292,10 +301,11 @@ EndFunc   ;==>_ScreenCapture_SetTIFColorDepth
 ; Modified.......:
 ; Remarks .......: If not explicitly set, TIF screen captures default to LZW compression
 ; Related .......: _ScreenCapture_SetTIFColorDepth
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFCompression($iCompress)
+	ConsoleWrite('@@ (307) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetTIFCompression()' & @CR) ;### Function Trace
 	Switch $iCompress
 		Case 1
 			$giTIFCompression = $GDIP_EVTCOMPRESSIONNONE

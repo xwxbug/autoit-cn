@@ -1,11 +1,12 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Header Constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Header_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants for Header functions.
+; Author(s) .....: Valik, Gary Frost
+; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $HDF_LEFT = 0x00000000
@@ -56,7 +57,7 @@ Global Const $HDM_EDITFILTER = $HDM_FIRST + 23
 Global Const $HDM_GETBITMAPMARGIN = $HDM_FIRST + 21
 Global Const $HDM_GETFOCUSEDITEM = $HDM_FIRST + 27
 Global Const $HDM_GETIMAGELIST = $HDM_FIRST + 9
-Global Const $HDM_GETITEM = $HDM_FIRST + 3
+Global Const $HDM_GETITEMA = $HDM_FIRST + 3
 Global Const $HDM_GETITEMW = $HDM_FIRST + 11
 Global Const $HDM_GETITEMCOUNT = $HDM_FIRST + 0
 Global Const $HDM_GETITEMDROPDOWNRECT = $HDM_FIRST + 25
@@ -65,7 +66,7 @@ Global Const $HDM_GETORDERARRAY = $HDM_FIRST + 17
 Global Const $HDM_GETOVERFLOWRECT = $HDM_FIRST + 26
 Global Const $HDM_GETUNICODEFORMAT = 0x2000 + 6
 Global Const $HDM_HITTEST = $HDM_FIRST + 6
-Global Const $HDM_INSERTITEM = $HDM_FIRST + 1
+Global Const $HDM_INSERTITEMA = $HDM_FIRST + 1
 Global Const $HDM_INSERTITEMW = $HDM_FIRST + 10
 Global Const $HDM_LAYOUT = $HDM_FIRST + 5
 Global Const $HDM_ORDERTOINDEX = $HDM_FIRST + 15
@@ -74,7 +75,7 @@ Global Const $HDM_SETFILTERCHANGETIMEOUT = $HDM_FIRST + 22
 Global Const $HDM_SETFOCUSEDITEM = $HDM_FIRST + 28
 Global Const $HDM_SETHOTDIVIDER = $HDM_FIRST + 19
 Global Const $HDM_SETIMAGELIST = $HDM_FIRST + 8
-Global Const $HDM_SETITEM = $HDM_FIRST + 4
+Global Const $HDM_SETITEMA = $HDM_FIRST + 4
 Global Const $HDM_SETITEMW = $HDM_FIRST + 12
 Global Const $HDM_SETORDERARRAY = $HDM_FIRST + 18
 Global Const $HDM_SETUNICODEFORMAT = 0x2000 + 5

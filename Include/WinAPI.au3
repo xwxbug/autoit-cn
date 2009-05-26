@@ -1,18 +1,23 @@
 ﻿#include-once
 
-#include <Security.au3>
 #include <StructureConstants.au3>
+#include <Security.au3>
 #include <SendMessage.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Windows API
-; Description ...: This module contains various Windows API calls that have been translated to AutoIt functions.
-; Author ........: Paul Campbell (PaulIA)
+; AutoIt Version : 3.2
+; Description ...: Windows API calls that have been translated to AutoIt functions.
+; Author(s) .....: Paul Campbell (PaulIA)
+; Dll ...........: Kernel32.dll, User32.dll, GDI32.dll, comdlg32.dll, Shell32.dll, Ole32.dll, WinSpool.drv
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $winapi_gaInProcess[64][2] = [[0, 0]]
 Global $winapi_gaWinList[64][2] = [[0, 0]]
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 Global Const $__WINAPCONSTANT_WM_SETFONT = 0x0030
 Global Const $__WINAPCONSTANT_FW_NORMAL = 400
 Global Const $__WINAPCONSTANT_DEFAULT_CHARSET = 1
@@ -26,26 +31,17 @@ Global Const $__WINAPCONSTANT_TOKEN_QUERY = 0x00000008
 Global Const $__WINAPCONSTANT_LOGPIXELSX = 88
 Global Const $__WINAPCONSTANT_LOGPIXELSY = 90
 
-; ===============================================================================================================================
 ; FlashWindowEx Constants
-; ===============================================================================================================================
-
 Global Const $__WINAPCONSTANT_FLASHW_CAPTION = 0x00000001
 Global Const $__WINAPCONSTANT_FLASHW_TRAY = 0x00000002
 Global Const $__WINAPCONSTANT_FLASHW_TIMER = 0x00000004
 Global Const $__WINAPCONSTANT_FLASHW_TIMERNOFG = 0x0000000C
 
-; ===============================================================================================================================
 ; GetWindows Constants
-; ===============================================================================================================================
-
 Global Const $__WINAPCONSTANT_GW_HWNDNEXT = 2
 Global Const $__WINAPCONSTANT_GW_CHILD = 5
 
-; ===============================================================================================================================
 ; DrawIconEx Constants
-; ===============================================================================================================================
-
 Global Const $__WINAPCONSTANT_DI_MASK = 0x0001
 Global Const $__WINAPCONSTANT_DI_IMAGE = 0x0002
 Global Const $__WINAPCONSTANT_DI_NORMAL = 0x0003
@@ -53,10 +49,7 @@ Global Const $__WINAPCONSTANT_DI_COMPAT = 0x0004
 Global Const $__WINAPCONSTANT_DI_DEFAULTSIZE = 0x0008
 Global Const $__WINAPCONSTANT_DI_NOMIRROR = 0x0010
 
-; ===============================================================================================================================
 ; EnumDisplayDevice Constants
-; ===============================================================================================================================
-
 Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001
 Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_PRIMARY_DEVICE = 0x00000004
 Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_MIRRORING_DRIVER = 0x00000008
@@ -64,9 +57,7 @@ Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_VGA_COMPATIBLE = 0x00000010
 Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_REMOVABLE = 0x00000020
 Global Const $__WINAPCONSTANT_DISPLAY_DEVICE_MODESPRUNED = 0x08000000
 
-; ===============================================================================================================================
 ; File Constants
-; ===============================================================================================================================
 Global Const $__WINAPCONSTANT_CREATE_NEW = 1
 Global Const $__WINAPCONSTANT_CREATE_ALWAYS = 2
 Global Const $__WINAPCONSTANT_OPEN_EXISTING = 3
@@ -86,9 +77,7 @@ Global Const $__WINAPCONSTANT_GENERIC_EXECUTE = 0x20000000
 Global Const $__WINAPCONSTANT_GENERIC_WRITE = 0x40000000
 Global Const $__WINAPCONSTANT_GENERIC_READ = 0x80000000
 
-; ===============================================================================================================================
 ; Stock Object Constants
-; ===============================================================================================================================
 Global Const $NULL_BRUSH = 5 ; Null brush (equivalent to HOLLOW_BRUSH)
 Global Const $NULL_PEN = 8 ; NULL pen. The null pen draws nothing
 Global Const $BLACK_BRUSH = 4 ; Black brush
@@ -110,23 +99,17 @@ Global Const $SYSTEM_FONT = 13 ; System font. By default, the system uses the sy
 Global Const $SYSTEM_FIXED_FONT = 16 ; Fixed-pitch (monospace) system font. This stock object is provided only for compatibility with 16-bit Windows versions earlier than 3.0
 Global Const $DEFAULT_PALETTE = 15 ; Default palette. This palette consists of the static colors in the system palette
 
-; ===============================================================================================================================
 ; conversion type
-; ===============================================================================================================================
 Global Const $MB_PRECOMPOSED = 0x1
 Global Const $MB_COMPOSITE = 0x2
 Global Const $MB_USEGLYPHCHARS = 0x4
 
-; ===============================================================================================================================
 ;translucency flags
-; ===============================================================================================================================
 Global Const $ULW_ALPHA = 0x2
 Global Const $ULW_COLORKEY = 0x1
 Global Const $ULW_OPAQUE = 0x4
 
-; ===============================================================================================================================
 ;Window Hooks
-; ===============================================================================================================================
 Global Const $WH_CALLWNDPROC = 4
 Global Const $WH_CALLWNDPROCRET = 12
 Global Const $WH_CBT = 5
@@ -143,16 +126,12 @@ Global Const $WH_MSGFILTER = -1
 Global Const $WH_SHELL = 10
 Global Const $WH_SYSMSGFILTER = 6
 
-; ===============================================================================================================================
 ;Window Placement
-; ===============================================================================================================================
 Global Const $WPF_ASYNCWINDOWPLACEMENT = 0x4
 Global Const $WPF_RESTORETOMAXIMIZED = 0x2
 Global Const $WPF_SETMINPOSITION = 0x1
 
-; ===============================================================================================================================
 ;flags for $tagKBDLLHOOKSTRUCT
-; ===============================================================================================================================
 Global Const $KF_EXTENDED = 0x100
 Global Const $KF_ALTDOWN = 0x2000
 Global Const $KF_UP = 0x8000
@@ -161,9 +140,7 @@ Global Const $LLKHF_INJECTED = 0x10
 Global Const $LLKHF_ALTDOWN = BitShift($KF_ALTDOWN, 8)
 Global Const $LLKHF_UP = BitShift($KF_UP, 8)
 
-; ===============================================================================================================================
 ;flags for $tagOPENFILENAME
-; ===============================================================================================================================
 Global Const $OFN_ALLOWMULTISELECT = 0x200
 Global Const $OFN_CREATEPROMPT = 0x2000
 Global Const $OFN_DONTADDTORECENT = 0x2000000
@@ -191,16 +168,14 @@ Global Const $OFN_READONLY = 0x1
 Global Const $OFN_SHAREAWARE = 0x4000
 Global Const $OFN_SHOWHELP = 0x10
 Global Const $OFN_EX_NOPLACESBAR = 0x1
-
 ; ===============================================================================================================================
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
-; Not working/documented/implimented at this time
-; ===============================================================================================================================
+; Not working/documented/implemented at this time
+;
 ;_WinAPI_GetWindowRgn
 ; ===============================================================================================================================
 
-; ===============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_WinAPI_AttachConsole
 ;_WinAPI_AttachThreadInput
@@ -281,6 +256,7 @@ Global Const $OFN_EX_NOPLACESBAR = 0x1
 ;_WinAPI_GetFileSizeEx
 ;_WinAPI_GetLastError
 ;_WinAPI_GetLastErrorMessage
+;_WinAPI_GetLayeredWindowAttributes
 ;_WinAPI_GetModuleHandle
 ;_WinAPI_GetMousePos
 ;_WinAPI_GetMousePosX
@@ -326,10 +302,10 @@ Global Const $OFN_EX_NOPLACESBAR = 0x1
 ;_WinAPI_LoadString
 ;_WinAPI_LocalFree
 ;_WinAPI_LoWord
-;_WinAPI_MakeDWord
 ;_WinAPI_MAKELANGID
 ;_WinAPI_MAKELCID
 ;_WinAPI_MakeLong
+;_WinAPI_MakeQWord
 ;_WinAPI_MessageBeep
 ;_WinAPI_MsgBox
 ;_WinAPI_Mouse_Event
@@ -365,6 +341,7 @@ Global Const $OFN_EX_NOPLACESBAR = 0x1
 ;_WinAPI_SetFont
 ;_WinAPI_SetHandleInformation
 ;_WinAPI_SetLastError
+;_WinAPI_SetLayeredWindowAttributes
 ;_WinAPI_SetParent
 ;_WinAPI_SetProcessAffinityMask
 ;_WinAPI_SetSysColors
@@ -398,12 +375,12 @@ Global Const $OFN_EX_NOPLACESBAR = 0x1
 ;_WinAPI_ValidateClassName
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;_WinAPI_EnumWindowsAdd
 ;_WinAPI_EnumWindowsChild
 ;_WinAPI_EnumWindowsInit
 ;_WinAPI_ParseFileDialogPath
-;==============================================================================================================================
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_AttachConsole
@@ -416,8 +393,8 @@ Global Const $OFN_EX_NOPLACESBAR = 0x1
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ AttachConsole
-; Example .......;
+; Link ..........: @@MsdnLink@@ AttachConsole
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_AttachConsole($iProcessID = -1)
 	Local $aResult
@@ -442,8 +419,8 @@ EndFunc   ;==>_WinAPI_AttachConsole
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ AttachThreadInput
-; Example .......;
+; Link ..........: @@MsdnLink@@ AttachThreadInput
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_AttachThreadInput($iAttach, $iAttachTo, $fAttach)
 	Local $aResult
@@ -466,8 +443,8 @@ EndFunc   ;==>_WinAPI_AttachThreadInput
 ; Modified.......:
 ; Remarks .......: Muting and volume control have no effect on Beep. You will still hear the tone.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ Beep
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ Beep
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_Beep($iFreq = 500, $iDuration = 1000)
 	Local $aResult
@@ -522,8 +499,8 @@ EndFunc   ;==>_WinAPI_Beep
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ BitBlt
-; Example .......;
+; Link ..........: @@MsdnLink@@ BitBlt
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_BitBlt($hDestDC, $iXDest, $iYDest, $iWidth, $iHeight, $hSrcDC, $iXSrc, $iYSrc, $iROP)
 	Local $aResult
@@ -551,8 +528,8 @@ EndFunc   ;==>_WinAPI_BitBlt
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_SetWindowsHookEx, $tagKBDLLHOOKSTRUCT
-; Link ..........; @@MsdnLink@@ CallNextHookEx
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CallNextHookEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CallNextHookEx($hhk, $iCode, $wParam, $lParam)
 	Local $iResult = DllCall("user32.dll", "lparam", "CallNextHookEx", "hwnd", $hhk, "int", $iCode, "wparam", $wParam, "lparam", $lParam)
@@ -584,8 +561,8 @@ EndFunc   ;==>_WinAPI_CallNextHookEx
 ;                 new window procedure to the previous window procedure by calling _WinAPI_CallWindowProc. This allows the application to create a chain
 ;                 of window procedures
 ; Related .......: DllCallbackRegister, _WinAPI_SetWindowLong
-; Link ..........; @@MsdnLink@@ CallWindowProc
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CallWindowProc
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CallWindowProc($lpPrevWndFunc, $hWnd, $Msg, $wParam, $lParam)
 	Local $aResult
@@ -597,8 +574,8 @@ EndFunc   ;==>_WinAPI_CallWindowProc
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_Check
 ; Description ...: Displays any errors produced by the AutoIt library
-; Syntax.........: _WinAPI_Check($sFunction, $fError, $vError[, $fTranslate = False])
-; Parameters ....: $Function     - Name of function
+; Syntax.........: _WinAPI_Check($sFunction, $fError, $iError[, $fTranslate = False])
+; Parameters ....: $sFunction     - Name of function
 ;                  $fError       - True if error occurred
 ;                  $iError       - Error code
 ;                  $fTranslate   - Translate error using _WinAPI_GetLastErrorMessage
@@ -609,13 +586,13 @@ EndFunc   ;==>_WinAPI_CallWindowProc
 ;                  It is used in functions that normally should not fail or where there is no clear corrective action that can be
 ;                  taken if an error is generated.
 ; Related .......: _WinAPI_GetLastErrorMessage
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
-Func _WinAPI_Check($sFunction, $fError, $vError, $fTranslate = False)
+Func _WinAPI_Check($sFunction, $fError, $iError, $fTranslate = False)
 	If $fError Then
-		If $fTranslate Then $vError = _WinAPI_GetLastErrorMessage()
-		_WinAPI_ShowError($sFunction & ": " & $vError)
+		If $fTranslate Then $iError = _WinAPI_GetLastErrorMessage()
+		_WinAPI_ShowError($sFunction & ": " & $iError)
 	EndIf
 EndFunc   ;==>_WinAPI_Check
 
@@ -631,8 +608,8 @@ EndFunc   ;==>_WinAPI_Check
 ; Remarks .......: The function replaces the client coordinates in the  $tagPOINT  structure  with  the  screen  coordinates.  The
 ;                  screen coordinates are relative to the upper-left corner of the screen.
 ; Related .......: _WinAPI_ScreenToClient, $tagPOINT
-; Link ..........; @@MsdnLink@@ ClientToScreen
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ClientToScreen
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ClientToScreen($hWnd, ByRef $tPoint)
 	Local $pPoint, $aResult
@@ -654,8 +631,8 @@ EndFunc   ;==>_WinAPI_ClientToScreen
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ CloseHandle
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CloseHandle
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CloseHandle($hObject)
 	Local $aResult
@@ -682,15 +659,15 @@ EndFunc   ;==>_WinAPI_CloseHandle
 ;                  |NULLREGION - The region is empty.
 ;                  |SIMPLEREGION - The region is a single rectangle.
 ;                  |COMPLEXREGION - The region is more than a single rectangle.
-;                  |ERROR - No region is created.
+;                  |ERRORREGION - No region is created.
 ;                  Failure      - 0
 ; Author ........: Zedna
 ; Modified.......:
 ; Remarks .......: The two regions are combined according to the specified mode.
 ;                  The three regions need not be distinct. For example, the hrgnSrc1 parameter can equal the hrgnDest parameter.
 ; Related .......: _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn, _WinAPI_SetWindowRgn
-; Link ..........; @@MsdnLink@@ CombineRgn
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CombineRgn
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CombineRgn($hRgnDest, $hRgnSrc1, $hRgnSrc2, $iCombineMode)
 	Local $aResult = DllCall("gdi32.dll", "int", "CombineRgn", "hwnd", $hRgnDest, "hwnd", $hRgnSrc1, "hwnd", $hRgnSrc2, "int", $iCombineMode)
@@ -709,8 +686,8 @@ EndFunc   ;==>_WinAPI_CombineRgn
 ; Modified.......:
 ; Remarks .......: Can return general error strings for any of the common dialog box functions.
 ; Related .......: _WinAPI_GetOpenFileName, _WinAPI_GetSaveFileName
-; Link ..........; @@MsdnLink@@ CommDlgExtendedError
-; Example .......;
+; Link ..........: @@MsdnLink@@ CommDlgExtendedError
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CommDlgExtendedError()
 	Local Const $CDERR_DIALOGFAILURE = 0xFFFF
@@ -787,8 +764,8 @@ EndFunc   ;==>_WinAPI_CommDlgExtendedError
 ;                  If the other module is freed, the application icon will still be able to use the icon.  Before  closing,  call
 ;                  the _WinAPI_DestroyIcon function to free any system resources associated with the icon.
 ; Related .......: _WinAPI_DestroyIcon
-; Link ..........; @@MsdnLink@@ CopyIcon
-; Example .......;
+; Link ..........: @@MsdnLink@@ CopyIcon
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CopyIcon($hIcon)
 	Local $aResult
@@ -815,8 +792,8 @@ EndFunc   ;==>_WinAPI_CopyIcon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ CreateBitmap
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateBitmap
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateBitmap($iWidth, $iHeight, $iPlanes = 1, $iBitsPerPel = 1, $pBits = 0)
 	Local $aResult
@@ -838,9 +815,9 @@ EndFunc   ;==>_WinAPI_CreateBitmap
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: When you no longer need the bitmap, call the _WinAPI_DeleteObject function to delete it
-; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ CreateCompatibleBitmap
-; Example .......;
+; Related .......: _WinAPI_DeleteObject, _WinAPI_CreateSolidBitmap
+; Link ..........: @@MsdnLink@@ CreateCompatibleBitmap
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateCompatibleBitmap($hDC, $iWidth, $iHeight)
 	Local $aResult
@@ -862,8 +839,8 @@ EndFunc   ;==>_WinAPI_CreateCompatibleBitmap
 ; Modified.......:
 ; Remarks .......: When you no longer need the memory DC, call the _WinAPI_DeleteDC function
 ; Related .......: _WinAPI_DeleteDC
-; Link ..........; @@MsdnLink@@ CreateCompatibleDC
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateCompatibleDC
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateCompatibleDC($hDC)
 	Local $aResult
@@ -898,8 +875,8 @@ EndFunc   ;==>_WinAPI_CreateCompatibleDC
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSECURITY_ATTRIBUTES
-; Link ..........; @@MsdnLink@@ CreateEvent
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateEvent
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateEvent($pAttributes = 0, $fManualReset = True, $fInitialState = True, $sName = "")
 	Local $aResult
@@ -942,8 +919,8 @@ EndFunc   ;==>_WinAPI_CreateEvent
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSECURITY_ATTRIBUTES, _WinAPI_CloseHandle, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ CreateFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CreateFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateFile($sFileName, $iCreation, $iAccess = 4, $iShare = 0, $iAttributes = 0, $pSecurity = 0)
 	Local $iDA = 0, $iSM = 0, $iCD = 0, $iFA = 0, $aResult
@@ -1042,7 +1019,7 @@ EndFunc   ;==>_WinAPI_CreateFile
 ;                  |$CLIP_STROKE_PRECIS    - Not used by the font mapper, but is returned when raster, vector, or TrueType fonts are enumerated
 ;                  |Windows NT/2000/XP: For compatibility, this value is always returned when enumerating fonts
 ;                  |$CLIP_TT_ALWAYS        - Not used
-;                  $fdwQuality         - Specifies the output quality, It can be one of the following values:
+;                  $nQuality               - Specifies the output quality, It can be one of the following values:
 ;                  |$ANTIALIASED_QUALITY    - Windows NT 4.0 and later: Font is antialiased, or smoothed, if the font supports it and the size of the font is not too small or too large.
 ;                  |Windows 95 with Plus!, Windows 98/Me: The display must greater than 8-bit color, it must be a single plane device, it cannot be a palette display, and it cannot be in a multiple display monitor setup.
 ;                  |In addition, you must select a TrueType font into a screen DC prior to using it in a DIBSection, otherwise antialiasing does not happen
@@ -1072,8 +1049,8 @@ EndFunc   ;==>_WinAPI_CreateFile
 ; Remarks .......: When you no longer need the font, call the _WinAPI_DeleteObject function to delete it
 ;                  Needs FontConstants.au3 for pre-defined constants.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ CreateFont
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ CreateFont
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateFont($nHeight, $nWidth, $nEscape = 0, $nOrientn = 0, $fnWeight = $__WINAPCONSTANT_FW_NORMAL, $bItalic = False, $bUnderline = False, $bStrikeout = False, $nCharset = $__WINAPCONSTANT_DEFAULT_CHARSET, $nOutputPrec = $__WINAPCONSTANT_OUT_DEFAULT_PRECIS, $nClipPrec = $__WINAPCONSTANT_CLIP_DEFAULT_PRECIS, $nQuality = $__WINAPCONSTANT_DEFAULT_QUALITY, $nPitch = 0, $szFace = 'Arial')
 	Local $tBuffer = DllStructCreate("char FontName[" & StringLen($szFace) + 1 & "]")
@@ -1101,8 +1078,8 @@ EndFunc   ;==>_WinAPI_CreateFont
 ;                  an existing physical font. If it fails to find an exact match it provides an alternative whose characteristics
 ;                  match as many of the requested characteristics as possible.
 ; Related .......: $tagLOGFONT
-; Link ..........; @@MsdnLink@@ CreateFontIndirect
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateFontIndirect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateFontIndirect($tLogFont)
 	Local $aResult
@@ -1137,9 +1114,9 @@ EndFunc   ;==>_WinAPI_CreateFontIndirect
 ;                  If the value specified by the nWidth parameter is zero, a line drawn with the created pen always is a single pixel wide regardless of the current transformation.
 ;                  If the value specified by nWidth is greater than 1, the fnPenStyle parameter must be PS_NULL, PS_SOLID, or PS_INSIDEFRAME.
 ;                  When you no longer need the pen, call the DeleteObject function to delete it.
-; Related .......: _WinAPI_MoveTo, _WinAPI_LineTo, _WinAPI_SelectObject, _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ CreatePen
-; Example .......; Yes
+; Related .......: _WinAPI_MoveTo, _WinAPI_LineTo, _WinAPI_SelectObject, _WinAPI_DeleteObject, _WinAPI_DrawLine, _WinAPI_GetBkMode, _WinAPI_SetBkMode
+; Link ..........: @@MsdnLink@@ CreatePen
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreatePen($iPenStyle, $iWidth, $nColor)
 	Local $hPen = DllCall("gdi32.dll", "hwnd", "CreatePen", "int", $iPenStyle, "int", $iWidth, "int", $nColor)
@@ -1169,8 +1146,8 @@ EndFunc   ;==>_WinAPI_CreatePen
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSECURITY_ATTRIBUTES, $tagSTARTUPINFO, $tagPROCESS_INFORMATION
-; Link ..........; @@MsdnLink@@ CreateProcess
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateProcess
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateProcess($sAppName, $sCommand, $pSecurity, $pThread, $fInherit, $iFlags, $pEnviron, $sDir, $pStartupInfo, $pProcess)
 	Local $pAppName, $tAppName, $pCommand, $tCommand, $pDir, $tDir, $aResult
@@ -1211,9 +1188,9 @@ EndFunc   ;==>_WinAPI_CreateProcess
 ; Remarks .......: When you no longer need the HRGN object call the _WinAPI_DeleteObject function to delete it.
 ;                  Region coordinates are represented as 27-bit signed integers.
 ;                  The region will be exclusive of the bottom and right edges.
-; Related .......: _WinAPI_CreateRoundRectRgn, _WinAPI_SetWindowRgn, _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ CreateRectRgn
-; Example .......; Yes
+; Related .......: _WinAPI_CreateRoundRectRgn, _WinAPI_SetWindowRgn, _WinAPI_DeleteObject, _WinAPI_CombineRgn
+; Link ..........: @@MsdnLink@@ CreateRectRgn
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateRectRgn($iLeftRect, $iTopRect, $iRightRect, $iBottomRect)
 	Local $hRgn = DllCall("gdi32.dll", "hwnd", "CreateRectRgn", "int", $iLeftRect, "int", $iTopRect, "int", $iRightRect, "int", $iBottomRect)
@@ -1237,9 +1214,9 @@ EndFunc   ;==>_WinAPI_CreateRectRgn
 ; Modified.......:
 ; Remarks .......: When you no longer need the HRGN object call the _WinAPI_DeleteObject function to delete it.
 ;                  Region coordinates are represented as 27-bit signed integers.
-; Related .......: _WinAPI_CreateRectRgn, _WinAPI_SetWindowRgn, _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ CreateRoundRectRgn
-; Example .......; Yes
+; Related .......: _WinAPI_CreateRectRgn, _WinAPI_SetWindowRgn, _WinAPI_DeleteObject, _WinAPI_CombineRgn
+; Link ..........: @@MsdnLink@@ CreateRoundRectRgn
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateRoundRectRgn($iLeftRect, $iTopRect, $iRightRect, $iBottomRect, $iWidthEllipse, $iHeightEllipse)
 	Local $hRgn = DllCall("gdi32.dll", "hwnd", "CreateRoundRectRgn", "int", $iLeftRect, "int", $iTopRect, "int", $iRightRect, "int", $iBottomRect, _
@@ -1261,8 +1238,8 @@ EndFunc   ;==>_WinAPI_CreateRoundRectRgn
 ; Modified.......: Gary Frost (Release DC)
 ; Remarks .......:
 ; Related .......: _WinAPI_CreateCompatibleBitmap
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateSolidBitmap($hWnd, $iColor, $iWidth, $iHeight)
 	Local $iI, $iSize, $tBits, $tBMI, $hDC, $hBmp
@@ -1296,8 +1273,8 @@ EndFunc   ;==>_WinAPI_CreateSolidBitmap
 ; Modified.......:
 ; Remarks .......: When you no longer need the HBRUSH object call the _WinAPI_DeleteObject function to delete it
 ; Related .......:
-; Link ..........; @@MsdnLink@@ CreateSolidBrush
-; Example .......;
+; Link ..........: @@MsdnLink@@ CreateSolidBrush
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateSolidBrush($nColor)
 	Local $hBrush = DllCall('gdi32.dll', 'hwnd', 'CreateSolidBrush', 'int', $nColor)
@@ -1326,9 +1303,9 @@ EndFunc   ;==>_WinAPI_CreateSolidBrush
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ CreateWindowEx
-; Example .......;
+; Related .......: _WinAPI_DestroyWindow
+; Link ..........: @@MsdnLink@@ CreateWindowEx
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateWindowEx($iExStyle, $sClass, $sName, $iStyle, $iX, $iY, $iWidth, $iHeight, $hParent, $hMenu = 0, $hInstance = 0, $pParam = 0)
 	Local $aResult
@@ -1353,8 +1330,8 @@ EndFunc   ;==>_WinAPI_CreateWindowEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ DefWindowProc
-; Example .......;
+; Link ..........: @@MsdnLink@@ DefWindowProc
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DefWindowProc($hWnd, $iMsg, $iwParam, $ilParam)
 	Local $aResult
@@ -1375,9 +1352,9 @@ EndFunc   ;==>_WinAPI_DefWindowProc
 ; Modified.......:
 ; Remarks .......: An application must not delete a DC whose handle was obtained by calling the _WinAPI_GetDC function.  Instead, it
 ;                  must call the _WinAPI_ReleaseDC function to free the DC.
-; Related .......: _WinAPI_GetDC, _WinAPI_ReleaseDC
-; Link ..........; @@MsdnLink@@ DeleteDC
-; Example .......;
+; Related .......: _WinAPI_GetDC, _WinAPI_ReleaseDC, _WinAPI_CreateCompatibleDC
+; Link ..........: @@MsdnLink@@ DeleteDC
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DeleteDC($hDC)
 	Local $aResult
@@ -1398,9 +1375,9 @@ EndFunc   ;==>_WinAPI_DeleteDC
 ; Modified.......:
 ; Remarks .......: Do not delete a drawing object while it is still  selected  into  a  device  context.  When  a  pattern  brush
 ;                  is deleted the bitmap associated with the brush is not deleted. The bitmap must be deleted independently.
-; Related .......:
-; Link ..........; @@MsdnLink@@ DeleteObject
-; Example .......; Yes
+; Related .......: _GDIPlus_BitmapCloneArea, _GDIPlus_BitmapCreateFromFile, _GDIPlus_BitmapCreateFromGraphics, _GDIPlus_BitmapCreateFromHBITMAP, _GDIPlus_BitmapCreateHBITMAPFromBitmap, _GDIPlus_BitmapLockBits, _GDIPlus_BitmapUnlockBits, _ScreenCapture_Capture, _ScreenCapture_CaptureWnd, _WinAPI_CreateCompatibleBitmap, _WinAPI_CreatePen, _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn
+; Link ..........: @@MsdnLink@@ DeleteObject
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_DeleteObject($hObject)
 	Local $aResult
@@ -1420,9 +1397,9 @@ EndFunc   ;==>_WinAPI_DeleteObject
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ DestroyIcon
-; Example .......;
+; Related .......: _WinAPI_CopyIcon, _WinAPI_LoadShell32Icon
+; Link ..........: @@MsdnLink@@ DestroyIcon
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DestroyIcon($hIcon)
 	Local $aResult
@@ -1443,8 +1420,8 @@ EndFunc   ;==>_WinAPI_DestroyIcon
 ; Modified.......:
 ; Remarks .......: You cannot use _WinAPI_DestroyWindow to destroy a window created by a different thread
 ; Related .......: _WinAPI_CreateWindowEx
-; Link ..........; @@MsdnLink@@ DestroyWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ DestroyWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DestroyWindow($hWnd)
 	Local $aResult
@@ -1499,8 +1476,8 @@ EndFunc   ;==>_WinAPI_DestroyWindow
 ; Modified.......:
 ; Remarks .......: Needs BorderConstants.au3 for pre-defined constants
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ DrawEdge
-; Example .......;
+; Link ..........: @@MsdnLink@@ DrawEdge
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawEdge($hDC, $ptrRect, $nEdgeType, $grfFlags)
 	Local $bResult = DllCall('user32.dll', 'int', 'DrawEdge', 'hwnd', $hDC, 'ptr', $ptrRect, 'int', $nEdgeType, 'int', $grfFlags)
@@ -1561,8 +1538,8 @@ EndFunc   ;==>_WinAPI_DrawEdge
 ; Modified.......:
 ; Remarks .......: Needs FrameConstants.au3 for pre-defined constants
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ DrawFrameControl
-; Example .......;
+; Link ..........: @@MsdnLink@@ DrawFrameControl
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawFrameControl($hDC, $ptrRect, $nType, $nState)
 	Local $bResult = DllCall('user32.dll', 'int', 'DrawFrameControl', 'hwnd', $hDC, 'ptr', $ptrRect, 'int', $nType, 'int', $nState)
@@ -1584,8 +1561,8 @@ EndFunc   ;==>_WinAPI_DrawFrameControl
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_DrawIconEx
-; Link ..........; @@MsdnLink@@ DrawIcon
-; Example .......;
+; Link ..........: @@MsdnLink@@ DrawIcon
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawIcon($hDC, $iX, $iY, $hIcon)
 	Local $aResult
@@ -1630,8 +1607,8 @@ EndFunc   ;==>_WinAPI_DrawIcon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_DrawIcon
-; Link ..........; @@MsdnLink@@ DrawIconEx
-; Example .......;
+; Link ..........: @@MsdnLink@@ DrawIconEx
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawIconEx($hDC, $iX, $iY, $hIcon, $iWidth = 0, $iHeight = 0, $iStep = 0, $hBrush = 0, $iFlags = 3)
 	Local $iOptions, $aResult
@@ -1672,8 +1649,8 @@ EndFunc   ;==>_WinAPI_DrawIconEx
 ; Modified.......:
 ; Remarks .......: Internally calls _WinAPI_MoveTo() and _WinAPI_LineTo(), see _WinAPI_LineTo() for details
 ; Related .......: _WinAPI_MoveTo, _WinAPI_LineTo, _WinAPI_SelectObject, _WinAPI_CreatePen
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_DrawLine($hDC, $iX1, $iY1, $iX2, $iY2)
 	_WinAPI_MoveTo($hDC, $iX1, $iY1)
@@ -1731,9 +1708,9 @@ EndFunc   ;==>_WinAPI_DrawLine
 ;                  specified. If the selected font is too large, DrawText does not attempt to substitute a smaller font.
 ;+
 ;                  Needs WindowsConstants.au3 for pre-defined constants
-; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ DrawText
-; Example .......; Yes
+; Related .......: $tagRECT, _WinAPI_GetBkMode, _WinAPI_SetBkMode
+; Link ..........: @@MsdnLink@@ DrawText
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_DrawText($hDC, $sText, ByRef $tRect, $iFlags)
 	Local $aResult
@@ -1757,8 +1734,8 @@ EndFunc   ;==>_WinAPI_DrawText
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ EnableWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ EnableWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_EnableWindow($hWnd, $fEnable = True)
 	Local $aResult
@@ -1791,8 +1768,8 @@ EndFunc   ;==>_WinAPI_EnableWindow
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ EnumDisplayDevices
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ EnumDisplayDevices
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_EnumDisplayDevices($sDevice, $iDevNum)
 	Local $pName, $tName, $iDevice, $pDevice, $tDevice, $iN, $iFlags, $aResult, $aDevice[5]
@@ -1841,8 +1818,8 @@ EndFunc   ;==>_WinAPI_EnumDisplayDevices
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_EnumWindowsPopup, _WinAPI_EnumWindowsTop
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindows($fVisible = True)
 	_WinAPI_EnumWindowsInit()
@@ -1850,7 +1827,7 @@ Func _WinAPI_EnumWindows($fVisible = True)
 	Return $winapi_gaWinList
 EndFunc   ;==>_WinAPI_EnumWindows
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _WinAPI_EnumWindowsAdd
 ; Description ...: Adds window information to the windows enumeration list
 ; Syntax.........: _WinAPI_EnumWindowsAdd($hWnd[, $sClass = ""])
@@ -1861,8 +1838,8 @@ EndFunc   ;==>_WinAPI_EnumWindows
 ; Modified.......:
 ; Remarks .......: This function is used internally by the windows enumeration functions
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsAdd($hWnd, $sClass = "")
 	Local $iCount
@@ -1878,7 +1855,7 @@ Func _WinAPI_EnumWindowsAdd($hWnd, $sClass = "")
 	$winapi_gaWinList[$iCount][1] = $sClass
 EndFunc   ;==>_WinAPI_EnumWindowsAdd
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _WinAPI_EnumWindowsChild
 ; Description ...: Enumerates child windows of a specific window
 ; Syntax.........: _WinAPI_EnumWindowsChild($hWnd[, $fVisible = True])
@@ -1891,8 +1868,8 @@ EndFunc   ;==>_WinAPI_EnumWindowsAdd
 ; Modified.......:
 ; Remarks .......: This function is used internally by the windows enumeration functions
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsChild($hWnd, $fVisible = True)
 	$hWnd = _WinAPI_GetWindow($hWnd, $__WINAPCONSTANT_GW_CHILD)
@@ -1905,7 +1882,7 @@ Func _WinAPI_EnumWindowsChild($hWnd, $fVisible = True)
 	WEnd
 EndFunc   ;==>_WinAPI_EnumWindowsChild
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _WinAPI_EnumWindowsInit
 ; Description ...: Initializes the windows enumeration list
 ; Syntax.........: _WinAPI_EnumWindowsInit()
@@ -1915,8 +1892,8 @@ EndFunc   ;==>_WinAPI_EnumWindowsChild
 ; Modified.......:
 ; Remarks .......: This function is used internally by the windows enumeration functions
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsInit()
 	ReDim $winapi_gaWinList[64][2]
@@ -1939,8 +1916,8 @@ EndFunc   ;==>_WinAPI_EnumWindowsInit
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_EnumWindows, _WinAPI_EnumWindowsTop
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsPopup()
 	Local $hWnd, $sClass
@@ -1980,8 +1957,8 @@ EndFunc   ;==>_WinAPI_EnumWindowsPopup
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_EnumWindows, _WinAPI_EnumWindowsPopup
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsTop()
 	Local $hWnd
@@ -1999,14 +1976,14 @@ EndFunc   ;==>_WinAPI_EnumWindowsTop
 ; Name...........: _WinAPI_ExpandEnvironmentStrings
 ; Description ...: Expands environment variable strings and replaces them with their defined values
 ; Syntax.........: _WinAPI_ExpandEnvironmentStrings($sString)
-; Parameters ....: $sStrings    - String to convert for environment variables
+; Parameters ....: $sString     - String to convert for environment variables
 ; Return values .: Success      - Converted string
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ExpandEnvironmentStringsA
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ExpandEnvironmentStringsA
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ExpandEnvironmentStrings($sString)
 	Local $tText, $aResult
@@ -2029,14 +2006,14 @@ EndFunc   ;==>_WinAPI_ExpandEnvironmentStrings
 ;                  +file. If this parameter is 0, no small icons are extracted from the file.
 ;                  $iIcons      - Specifies the number of icons to extract from the file
 ; Return values .: Success      - If iIndex is -1, pLarge parameter is 0, and pSmall is 0, then the return value is the number of
-;                  +icons contained in the specified file.  Otherwise, the return value  is  the  number  of  icons  successfully
-;                  +extracted from the file.
+;                  |icons contained in the specified file.  Otherwise, the return value  is  the  number  of  icons  successfully
+;                  |extracted from the file.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ExtractIconEx
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ExtractIconEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ExtractIconEx($sFile, $iIndex, $pLarge, $pSmall, $iIcons)
 	Local $aResult
@@ -2059,8 +2036,8 @@ EndFunc   ;==>_WinAPI_ExtractIconEx
 ;                  An application that encounters an unexpected error should terminate by freeing all its  memory  and  returning
 ;                  from its main message loop.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ FatalAppExit
-; Example .......;
+; Link ..........: @@MsdnLink@@ FatalAppExit
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FatalAppExit($sMessage)
 	DllCall("Kernel32.dll", "none", "FatalAppExit", "uint", 0, "str", $sMessage)
@@ -2082,8 +2059,8 @@ EndFunc   ;==>_WinAPI_FatalAppExit
 ;                  Additionally, you may retrieve a handle to one of the stock brushes by using the _WinAPI_GetStockObject function.
 ;                  If specifying a color value for the $hBrush parameter, it must be one of the standard system colors (the value 1 must be added to the chosen color)
 ; Related .......:
-; Link ..........; @@MsdnLink@@ FillRect
-; Example .......;
+; Link ..........: @@MsdnLink@@ FillRect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FillRect($hDC, $ptrRect, $hBrush)
 	Local $bResult
@@ -2100,16 +2077,16 @@ EndFunc   ;==>_WinAPI_FillRect
 ; Name...........: _WinAPI_FindExecutable
 ; Description ...: Retrieves the name of the executable file associated with the specified file name
 ; Syntax.........: _WinAPI_FindExecutable($sFileName[, $sDirectory = ""])
-; Parameters ....: $FileName    - Fully qualified path to existing file
-;                  $Directory   - Default directory
-; Return values .: Success      - Full path to the executable file started when an "open" by  association  is  run  on  the  file
-;                  +specified or blank if no association was found.
+; Parameters ....: $sFileName    - Fully qualified path to existing file
+;                  $sDirectory   - Default directory
+; Return values .: Success      - Full path to the executable file started when an "open" by association is run on the file
+;                  |specified or blank if no association was found.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ FindExecutable
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ FindExecutable
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_FindExecutable($sFileName, $sDirectory = "")
 	Local $tText
@@ -2128,15 +2105,15 @@ EndFunc   ;==>_WinAPI_FindExecutable
 ;                  +this parameter is an atom, it must be a global atom created by a call to  the  GlobalAddAtom  function.   The
 ;                  +atom, a 16-bit value, must be placed in the low-order word of the $sClassName string and the high-order  word
 ;                  +must be zero.
-;                  $WindowName  - A string that specifies the window name.  If this parameter is blank, all window names match.
+;                  $sWindowName  - A string that specifies the window name.  If this parameter is blank, all window names match.
 ; Return values .: Success      - The handle to the window
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ FindWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ FindWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FindWindow($sClassName, $sWindowName)
 	Local $aResult
@@ -2163,8 +2140,8 @@ EndFunc   ;==>_WinAPI_FindWindow
 ; Remarks .......: This function does not change the active state of the window. To flash the window a specified number of times,
 ;                  use the FlashWindowEx function.
 ; Related .......: _WinAPI_FlashWindowEx
-; Link ..........; @@MsdnLink@@ FlashWindow
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ FlashWindow
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_FlashWindow($hWnd, $fInvert = True)
 	Local $aResult
@@ -2197,8 +2174,8 @@ EndFunc   ;==>_WinAPI_FlashWindow
 ;                  inactive caption bar changes to an active caption bar; an active caption bar changes to  an  inactive  caption
 ;                  bar.
 ; Related .......: _WinAPI_FlashWindow
-; Link ..........; @@MsdnLink@@ FlashWindowEx
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ FlashWindowEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_FlashWindowEx($hWnd, $iFlags = 3, $iCount = 3, $iTimeout = 0)
 	Local $iMode = 0, $iFlash, $pFlash, $tFlash, $aResult
@@ -2230,8 +2207,8 @@ EndFunc   ;==>_WinAPI_FlashWindowEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_FloatToInt($nFloat)
 	Local $tFloat, $tInt
@@ -2256,8 +2233,8 @@ EndFunc   ;==>_WinAPI_FloatToInt
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ FlushFileBuffers
-; Example .......;
+; Link ..........: @@MsdnLink@@ FlushFileBuffers
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FlushFileBuffers($hFile)
 	Local $aResult
@@ -2285,8 +2262,8 @@ EndFunc   ;==>_WinAPI_FlushFileBuffers
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ FormatMessageA
-; Example .......;
+; Link ..........: @@MsdnLink@@ FormatMessageA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FormatMessage($iFlags, $pSource, $iMessageID, $iLanguageID, $pBuffer, $iSize, $vArguments)
 	Local $aResult
@@ -2311,8 +2288,8 @@ EndFunc   ;==>_WinAPI_FormatMessage
 ; Remarks .......: The brush identified by the $hBrush parameter must have been created by using the _WinAPI_CreateSolidBrush function,
 ;                  or retrieved by using the _WinAPI_GetStockObject function
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ FrameRect
-; Example .......;
+; Link ..........: @@MsdnLink@@ FrameRect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_FrameRect($hDC, $ptrRect, $hBrush)
 	Local $bResult = DllCall('user32.dll', 'int', 'FrameRect', 'hwnd', $hDC, 'ptr', $ptrRect, 'hwnd', $hBrush)
@@ -2330,9 +2307,9 @@ EndFunc   ;==>_WinAPI_FrameRect
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_LoadLibrary
-; Link ..........; @@MsdnLink@@ FreeLibrary
-; Example .......; Yes
+; Related .......: _WinAPI_LoadLibrary, _WinAPI_LoadLibraryEx, _WinAPI_LoadString
+; Link ..........: @@MsdnLink@@ FreeLibrary
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_FreeLibrary($hModule)
 	Local $aResult
@@ -2359,8 +2336,8 @@ EndFunc   ;==>_WinAPI_FreeLibrary
 ; Modified.......:
 ; Remarks .......: Needs WindowsConstants.au3 for pre-definded constants
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetAncestor
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetAncestor
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetAncestor($hWnd, $iFlags = 1)
 	Local $aResult
@@ -2375,15 +2352,15 @@ EndFunc   ;==>_WinAPI_GetAncestor
 ; Description ...: Determines whether a key is up or down at the time the function is called
 ; Syntax.........: _WinAPI_GetAsyncKeyState($iKey)
 ; Parameters ....: $iKey        - Key to test for
-; Return values .: Success      - If the most significant bit is set the key is down, and if the least significant  bit  is  set,
-;                  +the key was pressed after the previous call to GetAsyncKeyState.  The return value is zero  if  a  window  in
-;                  +another thread or process currently has the keyboard focus.
+; Return values .: Success      - If the most significant bit is set the key is down, and if the least significant bit is set,
+;                  |the key was pressed after the previous call to GetAsyncKeyState.  The return value is zero if a window in
+;                  |another thread or process currently has the keyboard focus.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetAsyncKeyState
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetAsyncKeyState
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetAsyncKeyState($iKey)
 	Local $aResult
@@ -2404,8 +2381,8 @@ EndFunc   ;==>_WinAPI_GetAsyncKeyState
 ; Modified.......:
 ; Remarks .......: The background mix mode of a device context affects text, hatched brushes, and pen styles that are not solid lines.
 ; Related .......: _WinAPI_SetBkMode, _WinAPI_DrawText, _WinAPI_CreatePen, _WinAPI_SelectObject
-; Link ..........; @@MsdnLink@@ GetBkMode
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetBkMode
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetBkMode($hDC)
 	Local $aResult = DllCall("gdi32.dll", "int", "GetBkMode", "ptr", $hDC)
@@ -2423,8 +2400,8 @@ EndFunc   ;==>_WinAPI_GetBkMode
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetClassName
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetClassName
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetClassName($hWnd)
 	Local $aResult
@@ -2444,8 +2421,8 @@ EndFunc   ;==>_WinAPI_GetClassName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetClientWidth
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetClientHeight($hWnd)
 	Local $tRect
@@ -2464,8 +2441,8 @@ EndFunc   ;==>_WinAPI_GetClientHeight
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetClientHeight
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetClientWidth($hWnd)
 	Local $tRect
@@ -2484,8 +2461,8 @@ EndFunc   ;==>_WinAPI_GetClientWidth
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ GetClientRect
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetClientRect
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetClientRect($hWnd)
 	Local $tRect, $aResult
@@ -2506,8 +2483,8 @@ EndFunc   ;==>_WinAPI_GetClientRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetCurrentProcessID
-; Link ..........; @@MsdnLink@@ GetCurrentProcess
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetCurrentProcess
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetCurrentProcess()
 	Local $aResult
@@ -2526,9 +2503,9 @@ EndFunc   ;==>_WinAPI_GetCurrentProcess
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_GetWindowThreadProcessID
-; Link ..........; @@MsdnLink@@ GetCurrentProcessId
-; Example .......; Yes
+; Related .......: _WinAPI_GetWindowThreadProcessID, _WinAPI_GetCurrentProcess
+; Link ..........: @@MsdnLink@@ GetCurrentProcessId
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetCurrentProcessID()
 	Local $aResult
@@ -2549,8 +2526,8 @@ EndFunc   ;==>_WinAPI_GetCurrentProcessID
 ; Remarks .......: A pseudo handle is a special constant that is interpreted as the current thread handle. The calling thread can
 ;                  use this handle to specify itself whenever a thread handle is required.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetCurrentThread
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetCurrentThread
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetCurrentThread()
 	Local $aResult
@@ -2570,8 +2547,8 @@ EndFunc   ;==>_WinAPI_GetCurrentThread
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetCurrentThreadId
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetCurrentThreadId
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetCurrentThreadId()
 	Local $aResult
@@ -2596,8 +2573,8 @@ EndFunc   ;==>_WinAPI_GetCurrentThreadId
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetCursorInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetCursorInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetCursorInfo()
 	Local $iCursor, $tCursor, $aResult, $aCursor[5]
@@ -2625,9 +2602,9 @@ EndFunc   ;==>_WinAPI_GetCursorInfo
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: After painting with a common device context, the _WinAPI_ReleaseDC function must be called to release the DC
-; Related .......:
-; Link ..........; @@MsdnLink@@ GetDC
-; Example .......; Yes
+; Related .......: _WinAPI_DeleteDC, _WinAPI_ReleaseDC
+; Link ..........: @@MsdnLink@@ GetDC
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetDC($hWnd)
 	Local $aResult
@@ -2647,8 +2624,8 @@ EndFunc   ;==>_WinAPI_GetDC
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDesktopWindow
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetDesktopWindow
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetDesktopWindow()
 	Local $aResult
@@ -2669,8 +2646,8 @@ EndFunc   ;==>_WinAPI_GetDesktopWindow
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDeviceCaps
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetDeviceCaps
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetDeviceCaps($hDC, $iIndex)
 	Local $aResult
@@ -2695,16 +2672,16 @@ EndFunc   ;==>_WinAPI_GetDeviceCaps
 ;                  +the following values:
 ;                  |$DIB_PAL_COLORS - The color table should consist of an array of 16-bit indexes into the current palette
 ;                  |$DIB_RGB_COLORS - The color table should consist of literal red, green, blue values
-; Return values .: Success      - If pBits is not 0 and the function succeeds, the return value  is  the  number  of  scan  lines
-;                  +copied from the bitmap.  If pBits is 0 and GetDIBits successfully fills the structure, the  return  value  is
-;                  +True.
+; Return values .: Success      - If pBits is not 0 and the function succeeds, the return value is the number of scan lines
+;                  |copied from the bitmap.  If pBits is 0 and GetDIBits successfully fills the structure, the return value is
+;                  |True.
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagBITMAPINFO
-; Link ..........; @@MsdnLink@@ GetDIBits
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetDIBits
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBI, $iUsage)
 	Local $aResult
@@ -2730,8 +2707,8 @@ EndFunc   ;==>_WinAPI_GetDIBits
 ;                  if $hWnd identifies a top-level window, top-level windows cannot have identifiers and such a return  value  is
 ;                  never valid.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDlgCtrlID
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetDlgCtrlID
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetDlgCtrlID($hWnd)
 	Local $aResult
@@ -2755,8 +2732,8 @@ EndFunc   ;==>_WinAPI_GetDlgCtrlID
 ;                  the $hWnd parameter specifies a parent window and the child window has a unique identifier, GetDlgItem returns
 ;                  a valid handle to the child window.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetDlgItem
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetDlgItem
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetDlgItem($hWnd, $iItemID)
 	Local $aResult
@@ -2777,8 +2754,8 @@ EndFunc   ;==>_WinAPI_GetDlgItem
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetFocus
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetFocus
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetFocus()
 	Local $aResult
@@ -2798,8 +2775,8 @@ EndFunc   ;==>_WinAPI_GetFocus
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetForegroundWindow
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetForegroundWindow
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetForegroundWindow()
 	Local $aResult
@@ -2847,8 +2824,8 @@ EndFunc   ;==>_WinAPI_GetForegroundWindow
 ; Remarks .......: This function creates bitmaps for the bitmask and color members.  You must manage  these  bitmaps  and  delete
 ;                  them when they are no longer necessary.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetIconInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetIconInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetIconInfo($hIcon)
 	Local $tInfo, $aResult, $aIcon[6]
@@ -2875,8 +2852,8 @@ EndFunc   ;==>_WinAPI_GetIconInfo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ GetFileSizeEx
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetFileSizeEx
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetFileSizeEx($hFile)
 	Local $tSize
@@ -2896,8 +2873,8 @@ EndFunc   ;==>_WinAPI_GetFileSizeEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetLastErrorMessage
-; Link ..........; @@MsdnLink@@ GetLastError
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetLastError
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetLastError()
 	Local $aResult
@@ -2916,9 +2893,9 @@ EndFunc   ;==>_WinAPI_GetLastError
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_GetLastError
-; Link ..........;
-; Example .......;
+; Related .......: _WinAPI_GetLastError, _WinAPI_Check
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetLastErrorMessage()
 	Local $tText
@@ -2928,6 +2905,45 @@ Func _WinAPI_GetLastErrorMessage()
 	Return DllStructGetData($tText, "Text")
 EndFunc   ;==>_WinAPI_GetLastErrorMessage
 
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetLayeredWindowAttributes
+; Description ...: Gets Layered Window Attributes
+; Syntax.........: _WinAPI_GetLayeredWindowAttributes($hWnd, ByRef $i_transcolor, ByRef $Transparency[, $asColorRef = False])
+; Parameters ....: $hwnd - Handle of GUI to work on
+;                  $i_transcolor - Returns Transparent color ( dword as 0x00bbggrr  or string "0xRRGGBB")
+;                  $Transparency - Returns Transparancy of GUI
+;                  $isColorRef   - If True, $i_transcolor will be a COLORREF( 0x00bbggrr ), else an RGB-Color
+; Return values .: Success - Usage of LWA_ALPHA and LWA_COLORKEY (use BitAnd)
+;                  Failure - Error: 0
+;                  |@error: 1 to 3 - Error from DllCall
+;                  |@error: 4 - Function did not succeed
+;                  |@extended contains _WinAPI_GetLastError
+; Author ........: Prog@ndy
+; Modified.......:
+; Remarks .......: use _WinAPI_GetLastErrorMessage to get more information
+; Related .......: _WinAPI_SetLayeredWindowAttributes, _WinAPI_GetLastError
+; Link ..........: @@MsdnLink@@ GetLayeredWindowAttributes
+; Example .......: Yes
+; ===============================================================================================================================
+Func _WinAPI_GetLayeredWindowAttributes($hWnd, ByRef $i_transcolor, ByRef $Transparency, $asColorRef = False)
+	$i_transcolor = -1
+	$Transparency = -1
+	Local $Ret = DllCall("user32.dll", "int", "GetLayeredWindowAttributes", "hwnd", $hWnd, "long*", $i_transcolor, "byte*", $Transparency, "long*", 0)
+	Select
+		Case @error
+			Return SetError(@error, 0, 0)
+		Case $Ret[0] = 0
+			Return SetError(4, _WinAPI_GetLastError(), 0)
+		Case Else
+			If Not $asColorRef Then
+				$Ret[2] = Hex(String($Ret[2]), 6)
+				$Ret[2] = '0x' & StringMid($Ret[2], 5, 2) & StringMid($Ret[2], 3, 2) & StringMid($Ret[2], 1, 2)
+			EndIf
+			$i_transcolor = $Ret[2]
+			$Transparency = $Ret[3]
+			Return $Ret[4]
+	EndSelect
+EndFunc   ;==>_WinAPI_GetLayeredWindowAttributes
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetModuleHandle
 ; Description ...: Returns a module handle for the specified module
@@ -2943,8 +2959,8 @@ EndFunc   ;==>_WinAPI_GetLastErrorMessage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetModuleHandle
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetModuleHandle
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetModuleHandle($sModuleName)
 	Local $tText, $aResult
@@ -2971,9 +2987,9 @@ EndFunc   ;==>_WinAPI_GetModuleHandle
 ; Modified.......:
 ; Remarks .......: This function takes into account the current MouseCoordMode setting when  obtaining  the  mouse  position.  It
 ;                  will also convert screen to client coordinates based on the parameters passed.
-; Related .......: $tagPOINT
-; Link ..........;
-; Example .......; Yes
+; Related .......: $tagPOINT, _WinAPI_GetMousePosX, _WinAPI_GetMousePosY
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetMousePos($fToClient = False, $hWnd = 0)
 	Local $iMode, $aPos, $tPoint
@@ -3000,8 +3016,8 @@ EndFunc   ;==>_WinAPI_GetMousePos
 ; Remarks .......: This function takes into account the current MouseCoordMode setting when  obtaining  the  mouse  position.  It
 ;                  will also convert screen to client coordinates based on the parameters passed.
 ; Related .......: _WinAPI_GetMousePos
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetMousePosX($fToClient = False, $hWnd = 0)
 	Local $tPoint
@@ -3022,8 +3038,8 @@ EndFunc   ;==>_WinAPI_GetMousePosX
 ; Remarks .......: This function takes into account the current MouseCoordMode setting when  obtaining  the  mouse  position.  It
 ;                  will also convert screen to client coordinates based on the parameters passed.
 ; Related .......: _WinAPI_GetMousePos
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetMousePosY($fToClient = False, $hWnd = 0)
 	Local $tPoint
@@ -3049,15 +3065,15 @@ EndFunc   ;==>_WinAPI_GetMousePosY
 ;                  |If $pObject is 0 the function return value is the number of bytes required to store the information it writes
 ;                  +to the buffer for the specified graphics object.
 ; Return values .: Success      - If $pObject is a valid pointer, the return value is the number of bytes stored into the buffer.
-;                  +If the function succeeds, and $pObject is 0, the return value is the number of bytes  required  to  hold  the
-;                  +information the function would store into the buffer.
+;                  |If the function succeeds, and $pObject is 0, the return value is the number of bytes required to hold the
+;                  |information the function would store into the buffer.
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetObject
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetObject
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetObject($hObject, $iSize, $pObject)
 	Local $aResult
@@ -3094,9 +3110,9 @@ EndFunc   ;==>_WinAPI_GetObject
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......:
-; Related .......: $tagOPENFILENAME, _WinAPI_GetSaveFileName
-; Link ..........; @@MsdnLink@@ GetOpenFileName
-; Example .......; Yes
+; Related .......: $tagOPENFILENAME, _WinAPI_GetSaveFileName, _WinAPI_CommDlgExtendedError
+; Link ..........: @@MsdnLink@@ GetOpenFileName
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetOpenFileName($sTitle = "", $sFilter = "All files (*.*)", $sInitalDir = ".", $sDefaultFile = "", $sDefaultExt = "", $iFilterIndex = 1, $iFlags = 0, $iFlagsEx = 0, $hwndOwner = 0)
 	Local $iPathLen = 4096 ; Max chars in returned string
@@ -3193,8 +3209,8 @@ EndFunc   ;==>_WinAPI_GetOpenFileName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagOVERLAPPED
-; Link ..........; @@MsdnLink@@ GetOverlappedResult
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetOverlappedResult
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetOverlappedResult($hFile, $pOverlapped, ByRef $iBytes, $fWait = False)
 	Local $pRead, $tRead, $aResult
@@ -3217,8 +3233,8 @@ EndFunc   ;==>_WinAPI_GetOverlappedResult
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetParent
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetParent
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetParent($hWnd)
 	Local $aResult
@@ -3242,8 +3258,8 @@ EndFunc   ;==>_WinAPI_GetParent
 ; Remarks .......: An affinity mask is a bit mask in which each bit represents a processor on which the threads  of  the  process
 ;                  are allowed to run.  For example, if you pass a mask of 0x05, processors 1 and 3 are allowed to run.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetProcessAffinityMask
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetProcessAffinityMask
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetProcessAffinityMask($hProcess)
 	Local $pProcess, $tProcess, $pSystem, $tSystem, $aResult, $aMask[3]
@@ -3286,9 +3302,9 @@ EndFunc   ;==>_WinAPI_GetProcessAffinityMask
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......:
-; Related .......: $tagOPENFILENAME, _WinAPI_GetOpenFileName
-; Link ..........; @@MsdnLink@@ GetSaveFileName
-; Example .......; Yes
+; Related .......: $tagOPENFILENAME, _WinAPI_GetOpenFileName, _WinAPI_CommDlgExtendedError
+; Link ..........: @@MsdnLink@@ GetSaveFileName
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetSaveFileName($sTitle = "", $sFilter = "All files (*.*)", $sInitalDir = ".", $sDefaultFile = "", $sDefaultExt = "", $iFilterIndex = 1, $iFlags = 0, $iFlagsEx = 0, $hwndOwner = 0)
 	Local $iPathLen = 4096 ; Max chars in returned string
@@ -3372,8 +3388,8 @@ EndFunc   ;==>_WinAPI_GetSaveFileName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetStockObject
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetStockObject
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetStockObject($iObject)
 	Local $aResult
@@ -3399,8 +3415,8 @@ EndFunc   ;==>_WinAPI_GetStockObject
 ;                  set a standard handle with lesser access.  If an application does not have associated  standard  handles,  the
 ;                  return value is 0.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetStdHandle
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetStdHandle
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetStdHandle($iStdHandle)
 	Local $aHandle[3] = [-10, -11, -12], $aResult
@@ -3463,9 +3479,9 @@ EndFunc   ;==>_WinAPI_GetStdHandle
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: Requires WindowsConstants.au3 for above constants.
-; Related .......:
-; Link ..........; @@MsdnLink@@ GetSysColor
-; Example .......; Yes
+; Related .......: _WinAPI_SetSysColors
+; Link ..........: @@MsdnLink@@ GetSysColor
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_GetSysColor($iIndex)
 	Local $aResult
@@ -3486,8 +3502,8 @@ EndFunc   ;==>_WinAPI_GetSysColor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetSysColorBrush
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetSysColorBrush
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetSysColorBrush($iIndex)
 	Local $aResult
@@ -3508,8 +3524,8 @@ EndFunc   ;==>_WinAPI_GetSysColorBrush
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetSystemMetrics
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetSystemMetrics
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetSystemMetrics($iIndex)
 	Local $aResult
@@ -3530,8 +3546,8 @@ EndFunc   ;==>_WinAPI_GetSystemMetrics
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagSIZE
-; Link ..........; @@MsdnLink@@ GetTextExtentPoint32
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetTextExtentPoint32
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetTextExtentPoint32($hDC, $sText)
 	Local $tSize, $iSize, $aResult
@@ -3580,8 +3596,8 @@ EndFunc   ;==>_WinAPI_GetTextExtentPoint32
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindow($hWnd, $iCmd)
 	Local $aResult
@@ -3605,9 +3621,9 @@ EndFunc   ;==>_WinAPI_GetWindow
 ;                  dimensions of various parts of the nonclient area, such as  the  title  bar,  menu,  and  scroll  bars.  After
 ;                  painting is complete, the _WinAPI_ReleaseDC function must be called to release the device context.  Not releasing
 ;                  the window device context has serious effects on painting requested by applications.
-; Related .......:
-; Link ..........; @@MsdnLink@@ GetWindowDC
-; Example .......;
+; Related .......: _WinAPI_ReleaseDC
+; Link ..........: @@MsdnLink@@ GetWindowDC
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowDC($hWnd)
 	Local $aResult
@@ -3627,8 +3643,8 @@ EndFunc   ;==>_WinAPI_GetWindowDC
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetWindowWidth
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowHeight($hWnd)
 	Local $tRect
@@ -3657,9 +3673,9 @@ EndFunc   ;==>_WinAPI_GetWindowHeight
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
-; Related .......:
-; Link ..........; @@MsdnLink@@ GetWindowLong
-; Example .......;
+; Related .......: _WinAPI_SetWindowLong
+; Link ..........: @@MsdnLink@@ GetWindowLong
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowLong($hWnd, $iIndex)
 	Local $aResult
@@ -3680,8 +3696,8 @@ EndFunc   ;==>_WinAPI_GetWindowLong
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_SetWindowPlacement, $tagWINDOWPLACEMENT
-; Link ..........; @@MsdnLink@@ GetWindowPlacement
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetWindowPlacement
+; Example .......: Yes
 ; =============================================================================================
 Func _WinAPI_GetWindowPlacement($hWnd)
 	; Create struct to receive data
@@ -3710,8 +3726,8 @@ EndFunc   ;==>_WinAPI_GetWindowPlacement
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ GetWindowRect
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetWindowRect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowRect($hWnd)
 	Local $tRect
@@ -3732,7 +3748,7 @@ EndFunc   ;==>_WinAPI_GetWindowRect
 ;                  |NULLREGION - The region is empty.
 ;                  |SIMPLEREGION - The region is a single rectangle.
 ;                  |COMPLEXREGION - The region is more than one rectangle.
-;                  |ERROR - The specified window does not have a region, or an error occurred while attempting to return the region.
+;                  |ERRORREGION - The specified window does not have a region, or an error occurred while attempting to return the region.
 ;                  Failure      - 0
 ; Author ........: Zedna
 ; Modified.......:
@@ -3742,8 +3758,8 @@ EndFunc   ;==>_WinAPI_GetWindowRect
 ;                  The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
 ;                  To set the window region of a window, call the SetWindowRgn function.
 ; Related .......: _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn, _WinAPI_CombineRgn, _WinAPI_SetWindowRgn
-; Link ..........; @@MsdnLink@@ GetWindowRgn
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetWindowRgn
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowRgn($hWnd, $hRgn)
 	Local $aResult = DllCall("user32.dll", "int", "GetWindowRgn", "hwnd", $hWnd, "hwnd", $hRgn)
@@ -3761,8 +3777,8 @@ EndFunc   ;==>_WinAPI_GetWindowRgn
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GetWindowText
-; Example .......;
+; Link ..........: @@MsdnLink@@ GetWindowText
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowText($hWnd)
 	Local $aResult
@@ -3782,9 +3798,9 @@ EndFunc   ;==>_WinAPI_GetWindowText
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ GetWindowThreadProcessId
-; Example .......;
+; Related .......: _WinAPI_GetCurrentProcessID
+; Link ..........: @@MsdnLink@@ GetWindowThreadProcessId
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowThreadProcessId($hWnd, ByRef $iPID)
 	Local $pPID, $tPID, $aResult
@@ -3807,8 +3823,8 @@ EndFunc   ;==>_WinAPI_GetWindowThreadProcessId
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetWindowHeight
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowWidth($hWnd)
 	Local $tRect
@@ -3829,8 +3845,8 @@ EndFunc   ;==>_WinAPI_GetWindowWidth
 ; Modified.......:
 ; Remarks .......: This function extracts the X/Y values from a $tagPOINT structure
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetXYFromPoint(ByRef $tPoint, ByRef $iX, ByRef $iY)
 	$iX = DllStructGetData($tPoint, "X")
@@ -3854,8 +3870,8 @@ EndFunc   ;==>_WinAPI_GetXYFromPoint
 ; Modified.......:
 ; Remarks .......: Unlike the AutoIt MemGetStats() function, this function returns the values in bytes
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GlobalMemStatus
-; Example .......;
+; Link ..........: @@MsdnLink@@ GlobalMemStatus
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GlobalMemStatus()
 	Local $iMem, $pMem, $tMem, $aMem[7]
@@ -3886,8 +3902,8 @@ EndFunc   ;==>_WinAPI_GlobalMemStatus
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_StringFromGUID, $tagGUID
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GUIDFromString($sGUID)
 	Local $tGUID
@@ -3909,8 +3925,8 @@ EndFunc   ;==>_WinAPI_GUIDFromString
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_StringFromGUID, $tagGUID
-; Link ..........; @@MsdnLink@@ CLSIDFromString
-; Example .......;
+; Link ..........: @@MsdnLink@@ CLSIDFromString
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GUIDFromStringEx($sGUID, $pGUID)
 	Local $tData, $aResult
@@ -3930,9 +3946,9 @@ EndFunc   ;==>_WinAPI_GUIDFromStringEx
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_LoWord
-; Link ..........;
-; Example .......; Yes
+; Related .......: _WinAPI_LoWord, _WinAPI_MakeLong
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_HiWord($iLong)
 	Return BitShift($iLong, 16)
@@ -3952,8 +3968,8 @@ EndFunc   ;==>_WinAPI_HiWord
 ; Remarks .......: This is one of the key functions to the control memory mapping technique.  It checks the process ID of the
 ;                  window to determine if it belongs to the current process, which means it can be accessed without mapping the control memory.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_InProcess($hWnd, ByRef $hLastWnd)
 	Local $iI, $iCount, $iProcessID
@@ -3988,8 +4004,8 @@ EndFunc   ;==>_WinAPI_InProcess
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_IntToFloat($iInt)
 	Local $tFloat, $tInt
@@ -4011,9 +4027,9 @@ EndFunc   ;==>_WinAPI_IntToFloat
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Used for checking correct $hWnd is passed into function
-; Related .......:
-; Link ..........;
-; Example .......;
+; Related .......: _WinAPI_ValidateClassName
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_IsClassName($hWnd, $sClassName)
 	Local $sSeperator, $aClassName, $sClassCheck
@@ -4041,8 +4057,8 @@ EndFunc   ;==>_WinAPI_IsClassName
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ IsWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ IsWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_IsWindow($hWnd)
 	Local $aResult
@@ -4064,8 +4080,8 @@ EndFunc   ;==>_WinAPI_IsWindow
 ; Remarks .......: The visibility state of a window is indicated by the $WS_VISIBLE style bit. When $WS_VISIBLE is set, the window
 ;                  is displayed and subsequent drawing into it is displayed as long as the window has the $WS_VISIBLE style.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ IsWindowVisible
-; Example .......;
+; Link ..........: @@MsdnLink@@ IsWindowVisible
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_IsWindowVisible($hWnd)
 	Local $aResult
@@ -4091,8 +4107,8 @@ EndFunc   ;==>_WinAPI_IsWindowVisible
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ InvalidateRect
-; Example .......;
+; Link ..........: @@MsdnLink@@ InvalidateRect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_InvalidateRect($hWnd, $tRect = 0, $fErase = True)
 	Local $pRect, $aResult
@@ -4117,8 +4133,8 @@ EndFunc   ;==>_WinAPI_InvalidateRect
 ; Remarks .......: The line is drawn by using the current pen and, if the pen is a geometric pen, the current brush.
 ;                  If LineTo succeeds, the current position is set to the specified ending point.
 ; Related .......: _WinAPI_MoveTo, _WinAPI_DrawLine, _WinAPI_SelectObject, _WinAPI_CreatePen
-; Link ..........; @@MsdnLink@@ LineTo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ LineTo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_LineTo($hDC, $iX, $iY)
 	Local $aResult = DllCall("gdi32.dll", "int", "LineTo", "int", $hDC, "int", $iX, "int", $iY)
@@ -4139,8 +4155,8 @@ EndFunc   ;==>_WinAPI_LineTo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ LoadBitmap
-; Example .......;
+; Link ..........: @@MsdnLink@@ LoadBitmap
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_LoadBitmap($hInstance, $sBitmap)
 	Local $aResult, $sType = "int"
@@ -4205,8 +4221,8 @@ EndFunc   ;==>_WinAPI_LoadBitmap
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-definded constants
 ; Related .......:
-; Link ..........; @@MsdnLink@@ LoadImage
-; Example .......;
+; Link ..........: @@MsdnLink@@ LoadImage
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_LoadImage($hInstance, $sImage, $iType, $iXDesired, $iYDesired, $iLoad)
 	Local $aResult, $sType = "int"
@@ -4229,9 +4245,9 @@ EndFunc   ;==>_WinAPI_LoadImage
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_LoadLibraryEx
-; Link ..........; @@MsdnLink@@ LoadLibraryA
-; Example .......;
+; Related .......: _WinAPI_LoadLibraryEx, _WinAPI_FreeLibrary
+; Link ..........: @@MsdnLink@@ LoadLibraryA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_LoadLibrary($sFileName)
 	Local $aResult
@@ -4262,9 +4278,9 @@ EndFunc   ;==>_WinAPI_LoadLibrary
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
-; Related .......: _WinAPI_LoadLibrary, _WinAPI_FreeLibrary
-; Link ..........; @@MsdnLink@@ LoadLibraryExA
-; Example .......; Yes
+; Related .......: _WinAPI_LoadLibrary, _WinAPI_FreeLibrary, _WinAPI_LoadString
+; Link ..........: @@MsdnLink@@ LoadLibraryExA
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_LoadLibraryEx($sFileName, $iFlags = 0)
 	Local $aResult
@@ -4285,8 +4301,8 @@ EndFunc   ;==>_WinAPI_LoadLibraryEx
 ; Modified.......:
 ; Remarks .......: When you are done with the icon, call _WinAPI_DestroyIcon to release the icon handle
 ; Related .......: _WinAPI_DestroyIcon
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_LoadShell32Icon($iIconID)
 	Local $iIcons, $tIcons, $pIcons
@@ -4311,8 +4327,8 @@ EndFunc   ;==>_WinAPI_LoadShell32Icon
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_LoadLibraryEx, _WinAPI_FreeLibrary
-; Link ..........; @@MsdnLink@@ LoadString
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ LoadString
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_LoadString($hInstance, $iStringId)
 	Local $iResult, $iBufferMax = 4096
@@ -4332,8 +4348,8 @@ EndFunc   ;==>_WinAPI_LoadString
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ LocalFree
-; Example .......;
+; Link ..........: @@MsdnLink@@ LocalFree
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_LocalFree($hMem)
 	Local $aResult
@@ -4352,31 +4368,13 @@ EndFunc   ;==>_WinAPI_LocalFree
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_HiWord
-; Link ..........;
-; Example .......; Yes
+; Related .......: _WinAPI_HiWord, _WinAPI_MakeLong
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_LoWord($iLong)
 	Return BitAND($iLong, 0xFFFF)
 EndFunc   ;==>_WinAPI_LoWord
-
-; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_MakeDWord
-; Description ...: Returns a DWord value from two int values
-; Syntax.........: _WinAPI_MakeDWord($HiWord, $LoWord)
-; Parameters ....: $HiWord      - Hi word
-;                  $LoWord      - Low word
-; Return values .: Success      - DWord value
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........;
-; Example .......;
-; ===============================================================================================================================
-Func _WinAPI_MakeDWord($HiWord, $LoWord)
-	Return BitOR($LoWord * 0x10000, BitAND($HiWord, 0xFFFF))
-EndFunc   ;==>_WinAPI_MakeDWord
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_MAKELANGID
@@ -4389,8 +4387,8 @@ EndFunc   ;==>_WinAPI_MakeDWord
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MAKELANGID($lgidPrimary, $lgidSub)
 	Return BitOR(BitShift($lgidSub, -10), $lgidPrimary)
@@ -4407,8 +4405,8 @@ EndFunc   ;==>_WinAPI_MAKELANGID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MAKELCID($lgid, $srtid)
 	Return BitOR(BitShift($srtid, -16), $lgid)
@@ -4425,12 +4423,34 @@ EndFunc   ;==>_WinAPI_MAKELCID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_HiWord, _WinAPI_LoWord
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MakeLong($iLo, $iHi)
 	Return BitOR(BitShift($iHi, -16), BitAND($iLo, 0xFFFF))
 EndFunc   ;==>_WinAPI_MakeLong
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_MakeQWord
+; Description ...: Returns a QWORD value from two int values
+; Syntax.........: _WinAPI_MakeQWord($HiDWORD, $LoDWORD)
+; Parameters ....: $HiDWORD         - Hi DWORD (int)
+;                  $LoDWORD         - Low DWORD (int)
+; Return values .: Success      - QWORD (int64) value
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........;
+; Example .......;
+; ===============================================================================================================================
+Func _WinAPI_MakeQWord($LoDWORD, $HiDWORD)
+	Local $tInt64 = DllStructCreate("uint64")
+	Local $tDwords = DllStructCreate("dword;dword", DllStructGetPtr($tInt64))
+	DllStructSetData($tDwords, 1, $LoDWORD)
+	DllStructSetData($tDwords, 2, $HiDWORD)
+	Return DllStructGetData($tInt64, 1)
+EndFunc   ;==>_WinAPI_MakeQWord
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_MessageBeep
@@ -4453,8 +4473,8 @@ EndFunc   ;==>_WinAPI_MakeLong
 ;                  sound.  If it cannot play the system default sound, the function produces a standard beep  sound  through  the
 ;                  computer speaker.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ MessageBeep
-; Example .......;
+; Link ..........: @@MsdnLink@@ MessageBeep
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MessageBeep($iType = 1)
 	Local $iSound, $aResult
@@ -4491,8 +4511,8 @@ EndFunc   ;==>_WinAPI_MessageBeep
 ; Remarks .......: This function produces (IMO) a better looking message box.  It also makes sure that BlockInput is  turned  off
 ;                  so the user can move the mouse.
 ; Related .......: _WinAPI_ShowMsg
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MsgBox($iFlags, $sTitle, $sText)
 	BlockInput(0)
@@ -4538,8 +4558,8 @@ EndFunc   ;==>_WinAPI_MsgBox
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
 ; Related .......:
-; Link ..........; @@MsdnLink@@ mouse_event
-; Example .......;
+; Link ..........: @@MsdnLink@@ mouse_event
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_Mouse_Event($iFlags, $iX = 0, $iY = 0, $iData = 0, $iExtraInfo = 0)
 	DllCall("User32.dll", "none", "mouse_event", "int", $iFlags, "int", $iX, "int", $iY, "int", $iData, "int", $iExtraInfo)
@@ -4557,9 +4577,9 @@ EndFunc   ;==>_WinAPI_Mouse_Event
 ; Author ........: Zedna
 ; Modified.......:
 ; Remarks .......: The MoveTo function affects all drawing functions.
-; Related .......: _WinAPI_LineTo, _WinAPI_DrawLine, _WinAPI_SelectObject
-; Link ..........; @@MsdnLink@@ MoveToEx
-; Example .......; Yes
+; Related .......: _WinAPI_LineTo, _WinAPI_DrawLine, _WinAPI_SelectObject, _WinAPI_CreatePen
+; Link ..........: @@MsdnLink@@ MoveToEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_MoveTo($hDC, $iX, $iY)
 	Local $aResult = DllCall("gdi32.dll", "int", "MoveToEx", "int", $hDC, "int", $iX, "int", $iY, "ptr", 0)
@@ -4586,8 +4606,8 @@ EndFunc   ;==>_WinAPI_MoveTo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ MoveWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ MoveWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MoveWindow($hWnd, $iX, $iY, $iWidth, $iHeight, $fRepaint = True)
 	Local $aResult
@@ -4610,8 +4630,8 @@ EndFunc   ;==>_WinAPI_MoveWindow
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ MulDiv
-; Example .......;
+; Link ..........: @@MsdnLink@@ MulDiv
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MulDiv($iNumber, $iNumerator, $iDenominator)
 	Local $aResult
@@ -4638,9 +4658,9 @@ EndFunc   ;==>_WinAPI_MulDiv
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_WideCharToMultiByte
-; Link ..........; @@MsdnLink@@ MultiByteToWideChar
-; Example .......;
+; Related .......: _WinAPI_WideCharToMultiByte, _WinAPI_MultiByteToWideCharEx
+; Link ..........: @@MsdnLink@@ MultiByteToWideChar
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MultiByteToWideChar($sText, $iCodePage = 0, $iFlags = 0)
 	Local $iText, $pText, $tText
@@ -4674,8 +4694,8 @@ EndFunc   ;==>_WinAPI_MultiByteToWideChar
 ; Modified.......:
 ; Remarks .......: The byte structure must be at least twice the length of $sText
 ; Related .......: _WinAPI_MultiByteToWideChar
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MultiByteToWideCharEx($sText, $pText, $iCodePage = 0, $iFlags = 0)
 	Local $aResult
@@ -4701,8 +4721,8 @@ EndFunc   ;==>_WinAPI_MultiByteToWideCharEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ OpenProcess
-; Example .......;
+; Link ..........: @@MsdnLink@@ OpenProcess
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
 	Local $hToken, $aResult
@@ -4732,7 +4752,7 @@ Func _WinAPI_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_OpenProcess
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _WinAPI_ParseFileDialogPath
 ; Description ...: Returns array from the path string
 ; Syntax.........: _WinAPI_ParseFileDialogPath($sPath)
@@ -4742,8 +4762,8 @@ EndFunc   ;==>_WinAPI_OpenProcess
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ParseFileDialogPath($sPath)
 	Local $aFiles[3], $stemp
@@ -4766,8 +4786,8 @@ EndFunc   ;==>_WinAPI_ParseFileDialogPath
 ; Modified.......:
 ; Remarks .......: This function is used to get the click position for many of the click functions
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_PointFromRect(ByRef $tRect, $fCenter = True)
 	Local $iX1, $iY1, $iX2, $iY2, $tPoint
@@ -4801,8 +4821,8 @@ EndFunc   ;==>_WinAPI_PointFromRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ PostMessageA
-; Example .......;
+; Link ..........: @@MsdnLink@@ PostMessageA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_PostMessage($hWnd, $iMsg, $iwParam, $ilParam)
 	Local $aResult
@@ -4822,8 +4842,8 @@ EndFunc   ;==>_WinAPI_PostMessage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_PrimaryLangId($lgid)
 	Return BitAND($lgid, 0x3FF)
@@ -4841,8 +4861,8 @@ EndFunc   ;==>_WinAPI_PrimaryLangId
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagRECT, $tagPOINT
-; Link ..........; @@MsdnLink@@ PtInRect
-; Example .......;
+; Link ..........: @@MsdnLink@@ PtInRect
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_PtInRect(ByRef $tRect, ByRef $tPoint)
 	Local $iX, $iY, $aResult
@@ -4869,8 +4889,8 @@ EndFunc   ;==>_WinAPI_PtInRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagOVERLAPPED, _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ ReadFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ReadFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ReadFile($hFile, $pBuffer, $iToRead, ByRef $iRead, $pOverlapped = 0)
 	Local $aResult, $pRead, $tRead
@@ -4897,8 +4917,8 @@ EndFunc   ;==>_WinAPI_ReadFile
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_WriteProcessMemory
-; Link ..........; @@MsdnLink@@ ReadProcessMemory
-; Example .......;
+; Link ..........: @@MsdnLink@@ ReadProcessMemory
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ReadProcessMemory($hProcess, $pBaseAddress, $pBuffer, $iSize, ByRef $iRead)
 	Local $pRead, $tRead, $aResult
@@ -4922,8 +4942,8 @@ EndFunc   ;==>_WinAPI_ReadProcessMemory
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagRect
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_RectIsEmpty(ByRef $tRect)
 	Return (DllStructGetData($tRect, "Left") = 0) And (DllStructGetData($tRect, "Top") = 0) And _
@@ -4967,8 +4987,8 @@ EndFunc   ;==>_WinAPI_RectIsEmpty
 ;+
 ;                  Needs WindowsConstants.au3 for pre-defined constants
 ; Related .......: $tagRECT
-; Link ..........; @@MsdnLink@@ RedrawWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ RedrawWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_RedrawWindow($hWnd, $tRect = 0, $hRegion = 0, $iFlags = 5)
 	Local $pRect, $aResult
@@ -4992,8 +5012,8 @@ EndFunc   ;==>_WinAPI_RedrawWindow
 ;                  applications. If two different applications register the same message string, the applications return the same
 ;                  message  value. The message remains registered until the session ends.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ RegisterWindowMessage
-; Example .......;
+; Link ..........: @@MsdnLink@@ RegisterWindowMessage
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_RegisterWindowMessage($sMessage)
 	Local $aResult
@@ -5014,8 +5034,8 @@ EndFunc   ;==>_WinAPI_RegisterWindowMessage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ReleaseCapture
-; Example .......;
+; Link ..........: @@MsdnLink@@ ReleaseCapture
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ReleaseCapture()
 	Local $aResult
@@ -5037,9 +5057,9 @@ EndFunc   ;==>_WinAPI_ReleaseCapture
 ; Modified.......:
 ; Remarks .......: The application must call the _WinAPI_ReleaseDC function for each call to the _WinAPI_GetWindowDC function  and  for
 ;                  each call to the _WinAPI_GetDC function that retrieves a common device context.
-; Related .......: _WinAPI_GetDC, _WinAPI_GetWindowDC
-; Link ..........; @@MsdnLink@@ ReleaseDC
-; Example .......; Yes
+; Related .......: _WinAPI_GetDC, _WinAPI_GetWindowDC, _WinAPI_DeleteDC
+; Link ..........: @@MsdnLink@@ ReleaseDC
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ReleaseDC($hWnd, $hDC)
 	Local $aResult
@@ -5063,8 +5083,8 @@ EndFunc   ;==>_WinAPI_ReleaseDC
 ;                  $tagPOINT structure to compute client coordinates.  It then replaces the screen  coordinates  with  the  client
 ;                  coordinates. The new coordinates are relative to the upper-left corner of the specified window's client area.
 ; Related .......: _WinAPI_ClientToScreen, $tagPOINT
-; Link ..........; @@MsdnLink@@ ScreenToClient
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ScreenToClient
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ScreenToClient($hWnd, ByRef $tPoint)
 	Local $aResult
@@ -5085,9 +5105,9 @@ EndFunc   ;==>_WinAPI_ScreenToClient
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ SelectObject
-; Example .......; Yes
+; Related .......: _WinAPI_CreatePen, _WinAPI_DrawLine, _WinAPI_GetBkMode, _WinAPI_LineTo, _WinAPI_MoveTo, _WinAPI_SetBkMode
+; Link ..........: @@MsdnLink@@ SelectObject
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SelectObject($hDC, $hGDIObj)
 	Local $aResult
@@ -5109,8 +5129,8 @@ EndFunc   ;==>_WinAPI_SelectObject
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetBkColor
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetBkColor
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetBkColor($hDC, $iColor)
 	Local $aResult
@@ -5137,8 +5157,8 @@ EndFunc   ;==>_WinAPI_SetBkColor
 ;                  SetBkMode does not affect lines drawn using a pen created by the ExtCreatePen function.
 ;                  The $iBkMode parameter can also be set to driver-specific values. GDI passes such values to the device driver and otherwise ignores them.
 ; Related .......: _WinAPI_GetBkMode, _WinAPI_DrawText, _WinAPI_CreatePen, _WinAPI_SelectObject
-; Link ..........; @@MsdnLink@@ SetBkMode
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetBkMode
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetBkMode($hDC, $iBkMode)
 	Local $aResult = DllCall("gdi32.dll", "int", "SetBkMode", "ptr", $hDC, "int", $iBkMode)
@@ -5157,8 +5177,8 @@ EndFunc   ;==>_WinAPI_SetBkMode
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetCapture
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetCapture
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetCapture($hWnd)
 	Local $aResult
@@ -5179,8 +5199,8 @@ EndFunc   ;==>_WinAPI_SetCapture
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetCursor
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetCursor
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetCursor($hCursor)
 	Local $aResult
@@ -5204,8 +5224,8 @@ EndFunc   ;==>_WinAPI_SetCursor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetDefaultPrinterA
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetDefaultPrinterA
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetDefaultPrinter($sPrinter)
 	Local $aResult
@@ -5242,8 +5262,8 @@ EndFunc   ;==>_WinAPI_SetDefaultPrinter
 ;                  for bottom up DIBs is the lower left corner of the bitmap; the origin for top down  DIBs  is  the  upper  left
 ;                  corner of the bitmap.
 ; Related .......: $tagBITMAPINFO
-; Link ..........; @@MsdnLink@@ SetDIBits
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetDIBits
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBMI, $iColorUse = 0)
 	Local $aResult
@@ -5254,7 +5274,7 @@ Func _WinAPI_SetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBMI, $iC
 	Return SetError($aResult[0] = 0, _WinAPI_GetLastError(), $aResult[0] <> 0)
 EndFunc   ;==>_WinAPI_SetDIBits
 
-; #FUNCTION# ;===============================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetEndOfFile
 ; Description ...: Sets the physical file size for the specified file to the current position of the file pointer.
 ; Syntax.........: _WinAPI_SetEndOfFile($hFile)
@@ -5268,9 +5288,9 @@ EndFunc   ;==>_WinAPI_SetDIBits
 ;                  +If the file is extended, the contents of the file between the old end of the file and the new end of the file are not defined.
 ;                  +This function sets the file size.
 ; Related .......: _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ SetEndOfFile
-; Example .......; Yes
-; ==========================================================================================
+; Link ..........: @@MsdnLink@@ SetEndOfFile
+; Example .......: Yes
+; ===============================================================================================================================
 Func _WinAPI_SetEndOfFile($hFile)
 	Local $aResult
 
@@ -5293,8 +5313,8 @@ EndFunc   ;==>_WinAPI_SetEndOfFile
 ;                  for the specified event object by calling one of the wait functions, can be released when the  object's  state
 ;                  is signaled.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetEvent
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetEvent
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetEvent($hEvent)
 	Local $aResult
@@ -5303,7 +5323,7 @@ Func _WinAPI_SetEvent($hEvent)
 	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
 EndFunc   ;==>_WinAPI_SetEvent
 
-; #FUNCTION# ;===============================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetFilePointer
 ; Description ...: Moves the file pointer of the specified file
 ; Syntax.........: _WinAPI_SetFilePointer($hFile, $iPos[, $iMethod = 0])
@@ -5327,9 +5347,9 @@ EndFunc   ;==>_WinAPI_SetEvent
 ;                  +This function stores the file pointer in LONG value. To work with file pointers that are larger than a single LONG value, it must be used the SetFilePointerEx function.
 ;                  +File pointer is the position in the file to read/write to/from by _WinAPI_ReadFile/_WinAPI_WriteFile
 ; Related .......: _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_WriteFile
-; Link ..........; @@MsdnLink@@ SetFilePointer
-; Example .......; Yes
-; ==========================================================================================
+; Link ..........: @@MsdnLink@@ SetFilePointer
+; Example .......: Yes
+; ===============================================================================================================================
 Func _WinAPI_SetFilePointer($hFile, $iPos, $iMethod = 0)
 	Local $aResult
 
@@ -5351,8 +5371,8 @@ EndFunc   ;==>_WinAPI_SetFilePointer
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetFocus
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetFocus
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetFocus($hWnd)
 	Local $aResult
@@ -5374,8 +5394,8 @@ EndFunc   ;==>_WinAPI_SetFocus
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetFont($hWnd, $hFont, $fRedraw = True)
 	_SendMessage($hWnd, $__WINAPCONSTANT_WM_SETFONT, $hFont, $fRedraw, 0, "hwnd")
@@ -5394,8 +5414,8 @@ EndFunc   ;==>_WinAPI_SetFont
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetHandleInformation
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetHandleInformation
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetHandleInformation($hObject, $iMask, $iFlags)
 	Local $aResult
@@ -5416,19 +5436,55 @@ EndFunc   ;==>_WinAPI_SetHandleInformation
 ; Remarks .......: The last error code is kept in thread local storage so that multiple threads do  not  overwrite  each  other's
 ;                  values.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetLastError
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetLastError
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetLastError($iErrCode)
 	DllCall("Kernel32.dll", "none", "SetLastError", "dword", $iErrCode)
 EndFunc   ;==>_WinAPI_SetLastError
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_SetLayeredWindowAttributes
+; Description ...: Sets Layered Window Attributes
+; Syntax.........: _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlages = 0x03[, $isColorRef = False]]])
+; Parameters ....: $hwnd - Handle of GUI to work on
+;                  $i_transcolor - Transparent color
+;                  $Transparency - Set Transparancy of GUI
+;                  $isColorRef - If True, $i_transcolor is a COLORREF( 0x00bbggrr ), else an RGB-Color
+; Return values .: Success - 1
+;                  @Error - 0
+;                  |@error: 1 to 3 - Error from DllCall
+;                  |@error: 4 - Function did not succeed - use _WinAPI_GetLastErrorMessage to get more information
+; Author ........: Prog@ndy
+; Modified.......:
+; Remarks .......:
+; Related .......: _WinAPI_GetLayeredWindowAttributes, _WinAPI_GetLastError
+; Link ..........: @@MsdnLink@@ SetLayeredWindowAttributes
+; Example .......: Yes
+; ===============================================================================================================================
+Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 255, $dwFlages = 0x03, $isColorRef = False)
+	If $dwFlages = Default Or $dwFlages = "" Or $dwFlages < 0 Then $dwFlages = 0x03
+	If Not $isColorRef Then
+		$i_transcolor = Hex(String($i_transcolor), 6)
+		$i_transcolor = Execute('0x00' & StringMid($i_transcolor, 5, 2) & StringMid($i_transcolor, 3, 2) & StringMid($i_transcolor, 1, 2))
+	EndIf
+	Local $Ret = DllCall("user32.dll", "int", "SetLayeredWindowAttributes", "hwnd", $hWnd, "long", $i_transcolor, "byte", $Transparency, "long", $dwFlages)
+	Select
+		Case @error
+			Return SetError(@error, 0, 0)
+		Case $Ret[0] = 0
+			Return SetError(4, _WinAPI_GetLastError(), 0)
+		Case Else
+			Return 1
+	EndSelect
+EndFunc   ;==>_WinAPI_SetLayeredWindowAttributes
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetParent
 ; Description ...: Changes the parent window of the specified child window
 ; Syntax.........: _WinAPI_SetParent($hWndChild, $hWndParent)
 ; Parameters ....: $hWndChild   - Window handle of child window
-;                  $hNewParent  - Handle to the new parent window. If 0, the desktop window becomes the new parent window.
+;                  $hWndParent  - Handle to the new parent window. If 0, the desktop window becomes the new parent window.
 ; Return values .: Success      - A handle to the previous parent window
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
@@ -5436,8 +5492,8 @@ EndFunc   ;==>_WinAPI_SetLastError
 ; Remarks .......: An application can use the SetParent function to set the parent window  of  a  pop-up,  overlapped,  or  child
 ;                  window.  The new parent window and the child window must belong to the same application.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetParent
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetParent
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetParent($hWndChild, $hWndParent)
 	Local $aResult
@@ -5460,8 +5516,8 @@ EndFunc   ;==>_WinAPI_SetParent
 ; Remarks .......: An affinity mask is a bit mask in which each bit represents a processor on which the threads  of  the  process
 ;                  are allowed to run.  For example, if you pass a mask of 0x05, processors 1 and 3 are allowed to run.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetProcessAffinityMask
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetProcessAffinityMask
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetProcessAffinityMask($hProcess, $iMask)
 	Local $iResult
@@ -5483,8 +5539,8 @@ EndFunc   ;==>_WinAPI_SetProcessAffinityMask
 ; Modified.......:
 ; Remarks .......: See _WinAPI_GetSysColor for list of Element indexes and requirements.
 ; Related .......: _WinAPI_GetSysColor
-; Link ..........; @@MsdnLink@@ SetSysColors
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetSysColors
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetSysColors($vElements, $vColors)
 	Local $isEArray = IsArray($vElements), $isCArray = IsArray($vColors)
@@ -5536,8 +5592,8 @@ EndFunc   ;==>_WinAPI_SetSysColors
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetTextColor
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetTextColor
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetTextColor($hDC, $iColor)
 	Local $aResult
@@ -5569,9 +5625,9 @@ EndFunc   ;==>_WinAPI_SetTextColor
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
-; Related .......: _WinAPI_GetWindowLong
-; Link ..........; @@MsdnLink@@ SetWindowLong
-; Example .......;
+; Related .......: _WinAPI_GetWindowLong, _WinAPI_CallWindowProc
+; Link ..........: @@MsdnLink@@ SetWindowLong
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowLong($hWnd, $iIndex, $iValue)
 	Local $aResult
@@ -5593,8 +5649,8 @@ EndFunc   ;==>_WinAPI_SetWindowLong
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetWindowPlacement, $tagWINDOWPLACEMENT
-; Link ..........; @@MsdnLink@@ SetWindowPlacement
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetWindowPlacement
+; Example .......: Yes
 ; ===============================================================================================
 Func _WinAPI_SetWindowPlacement($hWnd, $pWindowPlacement)
 	; Make DLL call
@@ -5643,8 +5699,8 @@ EndFunc   ;==>_WinAPI_SetWindowPlacement
 ; Modified.......:
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetWindowPos
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetWindowPos
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowPos($hWnd, $hAfter, $iX, $iY, $iCX, $iCY, $iFlags)
 	Local $aResult
@@ -5677,8 +5733,8 @@ EndFunc   ;==>_WinAPI_SetWindowPos
 ;                  The system does not make a copy of the region. Thus, you should not make any further function calls with this region handle.
 ;                  In particular, do not delete this region handle. The system deletes the region handle when it no longer needed.
 ; Related .......: _WinAPI_CreateRectRgn, _WinAPI_CreateRoundRectRgn, _WinAPI_CombineRgn
-; Link ..........; @@MsdnLink@@ SetWindowRgn
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetWindowRgn
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowRgn($hWnd, $hRgn, $bRedraw = True)
 	Local $aResult = DllCall("user32.dll", "int", "SetWindowRgn", "hwnd", $hWnd, "hwnd", $hRgn, "int", $bRedraw)
@@ -5720,8 +5776,8 @@ EndFunc   ;==>_WinAPI_SetWindowRgn
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_UnhookWindowsHookEx, _WinAPI_CallNextHookEx, DllCallbackRegister, DllCallbackGetPtr, DllCallbackFree
-; Link ..........; @@MsdnLink@@ SetWindowsHookEx
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ SetWindowsHookEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowsHookEx($idHook, $lpfn, $hmod, $dwThreadId = 0)
 	Local $hwndHook = DllCall("user32.dll", "hwnd", "SetWindowsHookEx", "int", $idHook, "ptr", $lpfn, "hwnd", $hmod, "dword", $dwThreadId)
@@ -5744,8 +5800,8 @@ EndFunc   ;==>_WinAPI_SetWindowsHookEx
 ;                  however, SetWindowText sets the text for the control, not for the list box entries.  To  set  the  text  of  a
 ;                  control in another process, send the $WM_SETTEXT message directly instead of calling SetWindowText.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SetWindowText
-; Example .......;
+; Link ..........: @@MsdnLink@@ SetWindowText
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowText($hWnd, $sText)
 	Local $aResult
@@ -5767,8 +5823,8 @@ EndFunc   ;==>_WinAPI_SetWindowText
 ;                  cursor is displayed only if the display count is greater than or equal to 0.  If a  mouse  is  installed,  the
 ;                  initial display count is 0. If no mouse is installed, the display count is -1.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ShowCursor
-; Example .......;
+; Link ..........: @@MsdnLink@@ ShowCursor
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowCursor($fShow)
 	Local $aResult
@@ -5791,8 +5847,8 @@ EndFunc   ;==>_WinAPI_ShowCursor
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_ShowMsg
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowError($sText, $fExit = True)
 	_WinAPI_MsgBox(266256, "Error", $sText)
@@ -5808,9 +5864,9 @@ EndFunc   ;==>_WinAPI_ShowError
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_ShowError
-; Link ..........;
-; Example .......;
+; Related .......: _WinAPI_ShowError, _WinAPI_MsgBox
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowMsg($sText)
 	_WinAPI_MsgBox(64 + 4096, "Information", $sText)
@@ -5840,8 +5896,8 @@ EndFunc   ;==>_WinAPI_ShowMsg
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ShowWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ ShowWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowWindow($hWnd, $iCmdShow = 5)
 	Local $aResult
@@ -5860,16 +5916,16 @@ EndFunc   ;==>_WinAPI_ShowWindow
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _WinAPI_GUIDFromString, $tagGUID
-; Link ..........; @@MsdnLink@@ StringFromGUID2
-; Example .......;
+; Related .......: _WinAPI_GUIDFromString, _WinAPI_GUIDFromStringEx, $tagGUID
+; Link ..........: @@MsdnLink@@ StringFromGUID2
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_StringFromGUID($pGUID)
 	Local $aResult
 
 	$aResult = DllCall("Ole32.dll", "int", "StringFromGUID2", "ptr", $pGUID, "wstr", "", "int", 40)
 	If @error Then Return SetError(@error, 0, 0)
-	Return SetError($aResult[0] <> 0, 0, $aResult[2])
+	Return SetError($aResult[0] = 0, 0, $aResult[2])
 EndFunc   ;==>_WinAPI_StringFromGUID
 
 ; #FUNCTION# ====================================================================================================================
@@ -5882,8 +5938,8 @@ EndFunc   ;==>_WinAPI_StringFromGUID
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SubLangId($lgid)
 	Return BitShift($lgid, 10)
@@ -5907,8 +5963,8 @@ EndFunc   ;==>_WinAPI_SubLangId
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ SystemParametersInfo
-; Example .......;
+; Link ..........: @@MsdnLink@@ SystemParametersInfo
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SystemParametersInfo($iAction, $iParam = 0, $vParam = 0, $iWinIni = 0)
 	Local $aResult
@@ -5928,8 +5984,8 @@ EndFunc   ;==>_WinAPI_SystemParametersInfo
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_TwipsPerPixelX()
 	Local $lngDC, $TwipsPerPixelX
@@ -5949,8 +6005,8 @@ EndFunc   ;==>_WinAPI_TwipsPerPixelX
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_TwipsPerPixelY()
 	Local $lngDC, $TwipsPerPixelY
@@ -5971,8 +6027,8 @@ EndFunc   ;==>_WinAPI_TwipsPerPixelY
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_SetWindowsHookEx, DllCallbackFree
-; Link ..........; @@MsdnLink@@ UnhookWindowsHookEx
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ UnhookWindowsHookEx
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_UnhookWindowsHookEx($hhk)
 	Local $iResult = DllCall("user32.dll", "int", "UnhookWindowsHookEx", "hwnd", $hhk)
@@ -6006,9 +6062,9 @@ EndFunc   ;==>_WinAPI_UnhookWindowsHookEx
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: $tagBLENDFUNCTION, $tagPOINT, $tagSIZE, $tagBLENDFUNCTION
-; Link ..........; @@MsdnLink@@ UpdateLayeredWindow
-; Example .......;
+; Related .......: $tagBLENDFUNCTION, $tagPOINT, $tagSIZE
+; Link ..........: @@MsdnLink@@ UpdateLayeredWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_UpdateLayeredWindow($hWnd, $hDCDest, $pPTDest, $pSize, $hDCSrce, $pPTSrce, $iRGB, $pBlend, $iFlags)
 	Local $aResult
@@ -6030,8 +6086,8 @@ EndFunc   ;==>_WinAPI_UpdateLayeredWindow
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ UpdateWindow
-; Example .......;
+; Link ..........: @@MsdnLink@@ UpdateWindow
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_UpdateWindow($hWnd)
 	Local $aResult
@@ -6060,8 +6116,8 @@ EndFunc   ;==>_WinAPI_UpdateWindow
 ;                  the child process, the parent process can use this function to determine when the child's  initialization  has
 ;                  been completed. This function can be used at any time, not just during application startup.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WaitForInputIdle
-; Example .......;
+; Link ..........: @@MsdnLink@@ WaitForInputIdle
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WaitForInputIdle($hProcess, $iTimeout = -1)
 	Local $aResult
@@ -6088,8 +6144,8 @@ EndFunc   ;==>_WinAPI_WaitForInputIdle
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_WaitForSingleObject
-; Link ..........; @@MsdnLink@@ WaitForMultipleObjects
-; Example .......;
+; Link ..........: @@MsdnLink@@ WaitForMultipleObjects
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WaitForMultipleObjects($iCount, $pHandles, $fWaitAll = False, $iTimeout = -1)
 	Local $aResult
@@ -6112,8 +6168,8 @@ EndFunc   ;==>_WinAPI_WaitForMultipleObjects
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_WaitForMultipleObjects
-; Link ..........; @@MsdnLink@@ WaitForSingleObject
-; Example .......;
+; Link ..........: @@MsdnLink@@ WaitForSingleObject
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WaitForSingleObject($hHandle, $iTimeout = -1)
 	Local $aResult
@@ -6140,8 +6196,8 @@ EndFunc   ;==>_WinAPI_WaitForSingleObject
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_MultiByteToWideChar
-; Link ..........; @@MsdnLink@@ WideCharToMultiByte
-; Example .......;
+; Link ..........: @@MsdnLink@@ WideCharToMultiByte
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WideCharToMultiByte($pUnicode, $iCodePage = 0)
 	Local $aResult
@@ -6167,8 +6223,8 @@ EndFunc   ;==>_WinAPI_WideCharToMultiByte
 ; Remarks .......: The WindowFromPoint function does not retrieve the handle of a hidden or disabled window, even if the point is
 ;                  within the window.
 ; Related .......: $tagPOINT
-; Link ..........; @@MsdnLink@@ WindowFromPoint
-; Example .......;
+; Link ..........: @@MsdnLink@@ WindowFromPoint
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WindowFromPoint(ByRef $tPoint)
 	Local $iX, $iY, $aResult
@@ -6192,8 +6248,8 @@ EndFunc   ;==>_WinAPI_WindowFromPoint
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ WriteConsole
-; Example .......;
+; Link ..........: @@MsdnLink@@ WriteConsole
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WriteConsole($hConsole, $sText)
 	Local $aResult
@@ -6217,8 +6273,8 @@ EndFunc   ;==>_WinAPI_WriteConsole
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagOVERLAPPED, _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_GetFileSizeEx, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer
-; Link ..........; @@MsdnLink@@ WriteFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ WriteFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_WriteFile($hFile, $pBuffer, $iToWrite, ByRef $iWritten, $pOverlapped = 0)
 	Local $pWritten, $tWritten, $aResult
@@ -6246,8 +6302,8 @@ EndFunc   ;==>_WinAPI_WriteFile
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_ReadProcessMemory
-; Link ..........; @@MsdnLink@@ WriteProcessMemory
-; Example .......;
+; Link ..........: @@MsdnLink@@ WriteProcessMemory
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WriteProcessMemory($hProcess, $pBaseAddress, $pBuffer, $iSize, ByRef $iWritten, $sBuffer = "ptr")
 	Local $pWritten, $tWritten, $aResult
@@ -6272,8 +6328,8 @@ EndFunc   ;==>_WinAPI_WriteProcessMemory
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_IsClassName
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_ValidateClassName($hWnd, $sClassNames)
 	Local $aClassNames, $sSeperator = Opt("GUIDataSeparatorChar"), $sText

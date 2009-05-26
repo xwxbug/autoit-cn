@@ -65,7 +65,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $hWndFrom
 		Case $hWndListView
 			Switch $iCode
-				Case $LVN_BEGINLABELEDIT, $LVN_BEGINLABELEDITW ; Start of label editing for an item
+				Case $LVN_BEGINLABELEDITA, $LVN_BEGINLABELEDITW ; Start of label editing for an item
 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 					_DebugPrint("$LVN_BEGINLABELEDIT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
@@ -97,7 +97,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
 					; No return value
-				Case $LVN_ENDLABELEDIT, $LVN_ENDLABELEDITW ; The end of label editing for an item
+				Case $LVN_ENDLABELEDITA, $LVN_ENDLABELEDITW ; The end of label editing for an item
 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 					If (DllStructGetData($tInfo, "Text") <> 0) Then
 						Local $tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))

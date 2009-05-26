@@ -1,12 +1,14 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Windows constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Windows_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: <a href="../appendix/GUIStyles.htm">GUI control Windows styles</a> and much more constants.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
+; #CONSTANTS# ===================================================================================================================
 ; Window Styles
 Global Const $WS_TILED = 0
 Global Const $WS_OVERLAPPED = 0
@@ -196,10 +198,7 @@ Global Const $WM_CTLCOLOR = 0x19
 
 Global Const $MN_GETHMENU = 0x01E1
 
-; ===============================================================================================================================
 ; Windows Notification Message Constants
-; ===============================================================================================================================
-
 Global Const $NM_FIRST = 0
 
 Global Const $NM_OUTOFMEMORY = $NM_FIRST - 1
@@ -222,13 +221,24 @@ Global Const $NM_LDOWN = $NM_FIRST - 20
 Global Const $NM_RDOWN = $NM_FIRST - 21
 Global Const $NM_THEMECHANGED = $NM_FIRST - 22
 
-Global Const $WM_LBUTTONUP = 0x202
 Global Const $WM_MOUSEMOVE = 0x200
+Global Const $WM_LBUTTONDOWN = 0x201
+Global Const $WM_LBUTTONUP = 0x202
+Global Const $WM_LBUTTONDBLCLK = 0x203
+Global Const $WM_RBUTTONDOWN = 0x204
+Global Const $WM_RBUTTONUP = 0x205
+Global Const $WM_RBUTTONDBLCK = 0x206
+Global Const $WM_MBUTTONDOWN = 0x207
+Global Const $WM_MBUTTONUP = 0x208
+Global Const $WM_MBUTTONDBLCK = 0x209
+Global Const $WM_MOUSEWHEEL = 0x020A
+Global Const $WM_XBUTTONDOWN = 0x020B
+Global Const $WM_XBUTTONUP = 0x020C
+Global Const $WM_XBUTTONDBLCLK = 0x020D
+Global Const $WM_MOUSEHWHEEL = 0x020E
 
-; ===============================================================================================================================
+
 ; Pen styles
-; ===============================================================================================================================
-
 Global Const $PS_SOLID = 0
 Global Const $PS_DASH = 1
 Global Const $PS_DOT = 2
@@ -237,39 +247,30 @@ Global Const $PS_DASHDOTDOT = 4
 Global Const $PS_NULL = 5
 Global Const $PS_INSIDEFRAME = 6
 
-; ===============================================================================================================================
-; Region's combine modes Constants
-; ===============================================================================================================================
+; Layered attributes Constants
+Global Const $LWA_ALPHA = 0x2
+Global Const $LWA_COLORKEY = 0x1
 
+; Region's combine modes Constants
 Global Const $RGN_AND = 1
 Global Const $RGN_OR = 2
 Global Const $RGN_XOR = 3
 Global Const $RGN_DIFF = 4
 Global Const $RGN_COPY = 5
 
-; ===============================================================================================================================
 ; Type of the resulting region from region's combine
-; ===============================================================================================================================
-
-Global Const $ERROR = 0
+Global Const $ERRORREGION = 0
 Global Const $NULLREGION = 1
 Global Const $SIMPLEREGION = 2
 Global Const $COMPLEXREGION = 3
 
-; ===============================================================================================================================
 ; Background mix modes
-; ===============================================================================================================================
-
 Global Const $TRANSPARENT = 1
 Global Const $OPAQUE = 2
 
-; ===============================================================================================================================
 ; Common Control Messages
-; ===============================================================================================================================
 
-; ===============================================================================================================================
 ; Messages to send to controls
-; ===============================================================================================================================
 Global Const $CCM_FIRST = 0x2000
 Global Const $CCM_GETUNICODEFORMAT = ($CCM_FIRST + 6)
 Global Const $CCM_SETUNICODEFORMAT = ($CCM_FIRST + 5)
@@ -279,18 +280,12 @@ Global Const $CCM_GETCOLORSCHEME = $CCM_FIRST + 3
 Global Const $CCM_GETDROPTARGET = $CCM_FIRST + 4
 Global Const $CCM_SETWINDOWTHEME = $CCM_FIRST + 11
 
-; ===============================================================================================================================
 ; GetAncestor Constants
-; ===============================================================================================================================
-
 Global Const $GA_PARENT = 1
 Global Const $GA_ROOT = 2
 Global Const $GA_ROOTOWNER = 3
 
-; ===============================================================================================================================
 ; GetSystemMetrics Constants
-; ===============================================================================================================================
-
 Global Const $SM_CXSCREEN = 0
 Global Const $SM_CYSCREEN = 1
 Global Const $SM_CXVSCROLL = 2
@@ -383,10 +378,7 @@ Global Const $SM_SHUTTINGDOWN = 0x2000
 Global Const $SM_REMOTECONTROL = 0x2001
 Global Const $SM_CARETBLINKINGENABLED = 0x2002
 
-; ===============================================================================================================================
 ; Ternary raster operations
-; ===============================================================================================================================
-
 Global Const $BLACKNESS = 0x00000042 ; Fills the destination rectangle using the color associated with index 0 in the physical palette
 Global Const $CAPTUREBLT = 0X40000000 ; Includes any window that are layered on top of your window in the resulting image
 Global Const $DSTINVERT = 0x00550009 ; Inverts the destination rectangle
@@ -405,9 +397,7 @@ Global Const $SRCINVERT = 0x00660046 ; Combines the colors of the source and des
 Global Const $SRCPAINT = 0x00EE0086 ; Combines the colors of the source and destination rectangles by using the Boolean OR operator
 Global Const $WHITENESS = 0x00FF0062 ; Fills the destination rectangle using the color associated with index 1 in the physical palette
 
-; ===============================================================================================================================
 ; DrawText Constants
-; ===============================================================================================================================
 ;~ Global Const $DT_TOP = 0x00000000
 ;~ Global Const $DT_LEFT = 0x00000000
 ;~ Global Const $DT_CENTER = 0x00000001
@@ -449,10 +439,7 @@ Global Const $DT_VCENTER = 0x4
 Global Const $DT_WORDBREAK = 0x10
 Global Const $DT_WORD_ELLIPSIS = 0x40000
 
-; ===============================================================================================================================
 ; RedrawWindow Constants
-; ===============================================================================================================================
-
 Global Const $RDW_ERASE = 0x0004 ; Causes the window to receive a WM_ERASEBKGND message when the window is repainted
 Global Const $RDW_FRAME = 0x0400 ; Causes any part of the nonclient area of the window that intersects the update region to receive a WM_NCPAINT message
 Global Const $RDW_INTERNALPAINT = 0x0002 ; Causes a WM_PAINT message to be posted to the window regardless of whether any portion of the window is invalid
@@ -466,9 +453,7 @@ Global Const $RDW_UPDATENOW = 0x0100 ; Causes the affected windows to receive WM
 Global Const $RDW_ALLCHILDREN = 0x0080 ; Includes child windows in the repainting operation
 Global Const $RDW_NOCHILDREN = 0x0040 ; Excludes child windows from the repainting operation
 
-; ===============================================================================================================================
 ; Clipboard Constants
-; ===============================================================================================================================
 Global Const $WM_RENDERFORMAT = 0x00000305 ; Sent if the owner has delayed rendering a specific clipboard format
 Global Const $WM_RENDERALLFORMATS = 0x00000306 ; Sent if the owner has delayed rendering clipboard formats
 Global Const $WM_DESTROYCLIPBOARD = 0x00000307 ; Sent when a call to EmptyClipboard empties the clipboard
@@ -479,12 +464,8 @@ Global Const $WM_SIZECLIPBOARD = 0x0000030B ; Sent when the clipboard viewer's c
 Global Const $WM_ASKCBFORMATNAME = 0x0000030C ; Sent to request the name of a $CF_OWNERDISPLAY clipboard format
 Global Const $WM_CHANGECBCHAIN = 0x0000030D ; Sent when a window is being removed from the chain
 Global Const $WM_HSCROLLCLIPBOARD = 0x0000030E ; Sent when an event occurs in the viewer's horizontal scroll bar
-; ===============================================================================================================================
 
-; ===============================================================================================================================
 ; WM_NCHITTEST and MOUSEHOOKSTRUCT Mouse Position Codes
-; ===============================================================================================================================
-
 Global Const $HTERROR = -2
 Global Const $HTTRANSPARENT = -1
 Global Const $HTNOWHERE = 0
@@ -515,10 +496,7 @@ Global Const $HTOBJECT = 19
 Global Const $HTCLOSE = 20
 Global Const $HTHELP = 21
 
-; ===============================================================================================================================
 ; Windows Color Constants
-; ===============================================================================================================================
-
 Global Const $COLOR_SCROLLBAR = 0
 Global Const $COLOR_BACKGROUND = 1
 Global Const $COLOR_ACTIVECAPTION = 2
@@ -557,10 +535,7 @@ Global Const $COLOR_3DHIGHLIGHT = 20
 Global Const $COLOR_3DHILIGHT = 20
 Global Const $COLOR_BTNHILIGHT = 20
 
-; ===============================================================================================================================
 ; Standard Resource Identifier Constants
-; ===============================================================================================================================
-
 Global Const $HINST_COMMCTRL = -1
 
 Global Const $IDB_STD_SMALL_COLOR = 0
@@ -570,9 +545,7 @@ Global Const $IDB_VIEW_LARGE_COLOR = 5
 Global Const $IDB_HIST_SMALL_COLOR = 8
 Global Const $IDB_HIST_LARGE_COLOR = 9
 
-; ===============================================================================================================================
-; Flags for $tagSTARTUPINO structure (Process and Thread structues)
-; ===============================================================================================================================
+; Flags for $tagSTARTUPINFO structure (Process and Thread structures)
 Global Const $STARTF_FORCEOFFFEEDBACK = 0x80
 Global Const $STARTF_FORCEONFEEDBACK = 0x40
 Global Const $STARTF_RUNFULLSCREEN = 0x20
@@ -584,10 +557,24 @@ Global Const $STARTF_USESHOWWINDOW = 0x1
 Global Const $STARTF_USESIZE = 0x2
 Global Const $STARTF_USESTDHANDLES = 0x100
 
-; ===============================================================================================================================
-; Drawstate Constants
-; ===============================================================================================================================
+;~ ; File attributes in $tagWIN32_FIND_DATA structure
+;~ Global Const $FILE_ATTRIBUTE_ARCHIVE = 0x20
+;~ Global Const $FILE_ATTRIBUTE_COMPRESSED = 0x800
+;~ Global Const $FILE_ATTRIBUTE_DEVICE = 0x40
+;~ Global Const $FILE_ATTRIBUTE_DIRECTORY = 0x10
+;~ Global Const $FILE_ATTRIBUTE_ENCRYPTED = 0x4000
+;~ Global Const $FILE_ATTRIBUTE_HIDDEN = 0x2
+;~ Global Const $FILE_ATTRIBUTE_NORMAL = 0x80
+;~ Global Const $FILE_ATTRIBUTE_NOT_CONTENT_INDEXED = 0x2000
+;~ Global Const $FILE_ATTRIBUTE_OFFLINE = 0x1000
+;~ Global Const $FILE_ATTRIBUTE_READONLY = 0x1
+;~ Global Const $FILE_ATTRIBUTE_REPARSE_POINT = 0x400
+;~ Global Const $FILE_ATTRIBUTE_SPARSE_FILE = 0x200
+;~ Global Const $FILE_ATTRIBUTE_SYSTEM = 0x4
+;~ Global Const $FILE_ATTRIBUTE_TEMPORARY = 0x100
+;~ Global Const $FILE_ATTRIBUTE_VIRTUAL= 0x10000
 
+; Drawstate Constants
 Global Const $CDDS_PREPAINT = 0x00000001
 Global Const $CDDS_POSTPAINT = 0x00000002
 Global Const $CDDS_PREERASE = 0x00000003
@@ -598,10 +585,8 @@ Global Const $CDDS_ITEMPOSTPAINT = 0x00010002
 Global Const $CDDS_ITEMPREERASE = 0x00010003
 Global Const $CDDS_ITEMPOSTERASE = 0x00010004
 Global Const $CDDS_SUBITEM = 0x00020000
-; ===============================================================================================================================
-; Itemstate Constants
-; ===============================================================================================================================
 
+; Itemstate Constants
 Global Const $CDIS_SELECTED = 0x00000001
 Global Const $CDIS_GRAYED = 0x00000002
 Global Const $CDIS_DISABLED = 0x00000004
@@ -617,10 +602,7 @@ Global Const $CDIS_NEARHOT = 0x0400
 Global Const $CDIS_OTHERSIDEHOT = 0x0800
 Global Const $CDIS_DROPHILITED = 0x1000
 
-; ===============================================================================================================================
 ; Custom Draw Return Constants
-; ===============================================================================================================================
-
 Global Const $CDRF_DODEFAULT = 0x00000000
 Global Const $CDRF_NEWFONT = 0x00000002
 Global Const $CDRF_SKIPDEFAULT = 0x00000004
@@ -634,3 +616,4 @@ Global Const $CDRF_SKIPPOSTPAINT = 0x00000100
 
 ; Control default styles
 Global Const $GUI_SS_DEFAULT_GUI = BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU)
+; ===============================================================================================================================

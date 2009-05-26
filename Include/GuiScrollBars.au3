@@ -1,21 +1,23 @@
 ﻿#include-once
+
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ScrollBar
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: A scroll bar consists of a shaded shaft with an arrow button at each end and a scroll box (sometimes called a thumb)
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with ScrollBar management.
+;                  A scroll bar consists of a shaded shaft with an arrow button at each end and a scroll box (sometimes called a thumb)
 ;                  between the arrow buttons. A scroll bar represents the overall length or width of a data object in a window's client
 ;                  area, the scroll box represents the portion of the object that is visible in the client area. The position of the
 ;                  scroll box changes whenever the user scrolls a data object to display a different portion of it. The system also adjusts
 ;                  the size of a scroll bar's scroll box so that it indicates what portion of the entire data object is currently visible
 ;                  in the window. If most of the object is visible, the scroll box occupies most of the scroll bar shaft. Similarly,
 ;                  if only a small portion of the object is visible, the scroll box occupies a small part of the scroll bar shaft.
-; Author ........: Gary Frost
+; Author(s) .....: Gary Frost
 ; ===============================================================================================================================
 
-; #VARIABLES# ===================================================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $_SCROLLBARCONSTANTS_SB_HORZ = 0
 Global Const $_SCROLLBARCONSTANTS_SB_VERT = 1
 Global Const $_SCROLLBARCONSTANTS_SB_BOTH = 3
@@ -27,7 +29,9 @@ Global Const $_SCROLLBARCONSTANTS_SIF_ALL = BitOR($_SCROLLBARCONSTANTS_SIF_RANGE
 Global Const $_SCROLLBARCONSTANTS_ESB_ENABLE_BOTH = 0x0
 Global Const $_SCROLLBARCONSTANTS_WS_CHILD = 0x40000000
 Global Const $_SCROLLBARCONSTANTS_WS_VISIBLE = 0x10000000
+; ===============================================================================================================================
 
+; #VARIABLES# ===================================================================================================================
 ;0 = hwnd;1 = xClientMax;2 cxChar;3 = cyChar;4 cxClient;5 = cyClient,6 = iHMax;7 = iVMax
 Global $aSB_WindowInfo[1][8]
 ; ===============================================================================================================================
@@ -60,9 +64,6 @@ Global $aSB_WindowInfo[1][8]
 ;_GUIScrollBars_ShowScrollBar
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; ===============================================================================================================================
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUIScrollBars_EnableScrollBar
 ; Description ...: Enable/Disable scrollbar
@@ -89,8 +90,8 @@ Global $aSB_WindowInfo[1][8]
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_ShowScrollBar
-; Link ..........; @@MsdnLink@@ EnableScrollBar
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ EnableScrollBar
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_EnableScrollBar($hWnd, $wSBflags = $_SCROLLBARCONSTANTS_SB_BOTH, $wArrows = $_SCROLLBARCONSTANTS_ESB_ENABLE_BOTH)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, False)
@@ -113,9 +114,9 @@ EndFunc   ;==>_GUIScrollBars_EnableScrollBar
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
-; Related .......: $tagSCROLLBARINFO
-; Link ..........; @@MsdnLink@@ GetScrollBarInfo
-; Example .......; Yes
+; Related .......: $tagSCROLLBARINFO, _GUIScrollBars_GetScrollBarRect, _GUIScrollBars_GetScrollBarRGState, _GUIScrollBars_GetScrollBarXYLineButton, _GUIScrollBars_GetScrollBarXYThumbBottom, _GUIScrollBars_GetScrollBarXYThumbTop
+; Link ..........: @@MsdnLink@@ GetScrollBarInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarInfoEx($hWnd, $idObject)
 	Local $tSCROLLBARINFO = DllStructCreate($tagSCROLLBARINFO)
@@ -144,8 +145,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarInfoEx
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollBarInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarRect($hWnd, $idObject)
 	Local $aRect[4]
@@ -179,8 +180,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarRect
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollBarInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarRGState($hWnd, $idObject)
 	Local $aRGState[6]
@@ -207,8 +208,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarRGState
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollBarInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarXYLineButton($hWnd, $idObject)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -231,8 +232,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarXYLineButton
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollBarInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarXYThumbTop($hWnd, $idObject)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -255,8 +256,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarXYThumbTop
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollBarInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollBarXYThumbBottom($hWnd, $idObject)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -281,8 +282,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarXYThumbBottom
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx, $tagSCROLLINFO, _GUIScrollBars_SetScrollInfo
-; Link ..........; @@MsdnLink@@ GetScrollInfo
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetScrollInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfo($hWnd, $fnBar, ByRef $tSCROLLINFO)
 	Local $iResult
@@ -305,9 +306,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfo
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
-; Related .......: _GUIScrollBars_GetScrollInfo, $tagSCROLLINFO
-; Link ..........; @@MsdnLink@@ GetScrollInfo
-; Example .......; Yes
+; Related .......: _GUIScrollBars_GetScrollInfo, $tagSCROLLINFO, _GUIScrollBars_GetScrollInfoMax, _GUIScrollBars_GetScrollInfoMin, _GUIScrollBars_GetScrollInfoPage, _GUIScrollBars_GetScrollInfoPos, _GUIScrollBars_GetScrollInfoTrackPos
+; Link ..........: @@MsdnLink@@ GetScrollInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
@@ -332,8 +333,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoEx
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoPage($hWnd, $fnBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -356,8 +357,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoPage
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoPos($hWnd, $fnBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -380,8 +381,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoPos
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoMin($hWnd, $fnBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -404,8 +405,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoMin
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoMax($hWnd, $fnBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -428,8 +429,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoMax
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_GetScrollInfoEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollInfoTrackPos($hWnd, $fnBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -453,8 +454,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoTrackPos
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_SetScrollInfoPos
-; Link ..........; @@MsdnLink@@ GetScrollPos
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetScrollPos
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollPos($hWnd, $nBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -481,8 +482,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollPos
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_SetScrollRange
-; Link ..........; @@MsdnLink@@ GetScrollRange
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GetScrollRange
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_GetScrollRange($hWnd, $nBar)
 	Local $Min_Max[2]
@@ -508,8 +509,8 @@ EndFunc   ;==>_GUIScrollBars_GetScrollRange
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_Init($hWnd, $iHMax = -1, $ivMax = -1)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, 0)
@@ -592,8 +593,8 @@ EndFunc   ;==>_GUIScrollBars_Init
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ ScrollWindow
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ScrollWindow
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_ScrollWindow($hWnd, $iXAmount, $iYAmount)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, False)
@@ -617,9 +618,9 @@ EndFunc   ;==>_GUIScrollBars_ScrollWindow
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
-; Related .......: _GUIScrollBars_GetScrollInfo
-; Link ..........; @@MsdnLink@@ SetScrollInfo
-; Example .......; Yes
+; Related .......: _GUIScrollBars_GetScrollInfo, _GUIScrollBars_SetScrollInfoMax, _GUIScrollBars_SetScrollInfoMin, _GUIScrollBars_SetScrollInfoPage, _GUIScrollBars_SetScrollInfoPos
+; Link ..........: @@MsdnLink@@ SetScrollInfo
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollInfo($hWnd, $fnBar, $tSCROLLINFO, $fRedraw = True)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -645,8 +646,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfo
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_SetScrollInfo, _GUIScrollBars_SetScrollRange
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollInfoMin($hWnd, $fnBar, $nMin)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -677,8 +678,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoMin
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_SetScrollInfo, _GUIScrollBars_SetScrollRange
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollInfoMax($hWnd, $fnBar, $nMax)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -708,8 +709,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoMax
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_SetScrollInfo
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollInfoPage($hWnd, $fnBar, $nPage)
 	If Not IsHWnd($hWnd) Then Return SetError(-1, -1, -1)
@@ -733,9 +734,9 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoPage
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
-; Related .......: _GUIScrollBars_SetScrollInfo
-; Link ..........;
-; Example .......; Yes
+; Related .......: _GUIScrollBars_SetScrollInfo, _GUIScrollBars_GetScrollPos
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollInfoPos($hWnd, $fnBar, $nPos)
 	Local $index = -1, $yChar, $xChar, $xyPos
@@ -783,9 +784,9 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoPos
 ; Author ........: Gary Frost
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
-; Related .......: _GUIScrollBars_SetScrollInfoMin, _GUIScrollBars_SetScrollInfoMax
-; Link ..........; @@MsdnLink@@ SetScrollRange
-; Example .......; Yes
+; Related .......: _GUIScrollBars_SetScrollInfoMin, _GUIScrollBars_SetScrollInfoMax, _GUIScrollBars_GetScrollRange
+; Link ..........: @@MsdnLink@@ SetScrollRange
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_SetScrollRange($hWnd, $nBar, $nMinPos, $nMaxPos)
 	Local $iResult = DllCall("user32.dll", "int", "SetScrollRange", "hwnd", $hWnd, "int", $nBar, "int", $nMinPos, "int", $nMaxPos, "int", True)
@@ -810,8 +811,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollRange
 ; Modified.......:
 ; Remarks .......: Above constants require ScrollBarConstants.au3
 ; Related .......: _GUIScrollBars_EnableScrollBar
-; Link ..........; @@MsdnLink@@ ShowScrollBar
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ ShowScrollBar
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUIScrollBars_ShowScrollBar($hWnd, $nBar, $fShow = True)
 	Local $iResult = DllCall("user32.dll", "int", "ShowScrollBar", "hwnd", $hWnd, "int", $nBar, "int", $fShow)

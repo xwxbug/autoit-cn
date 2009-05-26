@@ -1,19 +1,23 @@
 ﻿#include-once
-#include <WinAPI.au3>
+
 #include <GDIPlusConstants.au3>
+#include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
-; Title .........: GDI+
-; AutoIt Version: 3.2.3++
-; Language:       English
-; Description ...: Microsoft Windows GDI+ is a class-based API for C/C++ programmers. It enables applications to use graphics and
-;                  formatted text on both the video display and the printer. Applications based on the Microsoft Win32 API do not
-;                  access graphics hardware directly. Instead, GDI+ interacts with device drivers on behalf of applications. GDI+
-;                  can be used in all Windows-based applications.  GDI+ is new technology that is included in Windows XP and  the
-;                  Windows Server 2003.  It is required as a redistributable for applications that run on the Windows NT 4.0 SP6,
+; Title .........: GDIPlus
+; AutoIt Version : 3.2.3++
+; Language ......: English
+; Description ...: Functions that assist with Microsoft Windows GDI+ management.
+;                  It enables applications to use graphics and formatted text on both the video display and the printer.
+;                  Applications based on the Microsoft Win32 API do not access graphics hardware directly.
+;                  Instead, GDI+ interacts with device drivers on behalf of applications.
+;                  GDI+ can be used in all Windows-based applications.
+;                  GDI+ is new technology that is included in Windows XP and  the Windows Server 2003.
+;                  It is required as a redistributable for applications that run on the Windows NT 4.0 SP6,
 ;                  Windows 2000, Windows 98, and Windows Me operating systems.
 ; Author ........: Paul Campbell (PaulIA)
+; Dll ...........: GDIPlus.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
@@ -24,7 +28,6 @@ Global $giGDIPRef = 0
 Global $giGDIPToken = 0
 ; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_GDIPlus_ArrowCapCreate
 ;_GDIPlus_ArrowCapDispose
@@ -47,7 +50,9 @@ Global $giGDIPToken = 0
 ;_GDIPlus_BrushClone
 ;_GDIPlus_BrushCreateSolid
 ;_GDIPlus_BrushDispose
+;_GDIPlus_BrushGetSolidColor
 ;_GDIPlus_BrushGetType
+;_GDIPlus_BrushSetSolidColor
 ;_GDIPlus_CustomLineCapDispose
 ;_GDIPlus_Decoders
 ;_GDIPlus_DecodersGetCount
@@ -136,14 +141,14 @@ Global $giGDIPToken = 0
 ;_GDIPlus_StringFormatSetAlign
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-;_GDIPlus_BrushDefCreate
-;_GDIPlus_BrushDefDispose
-;_GDIPlus_ExtractFileExt
-;_GDIPlus_LastDelimiter
-;_GDIPlus_PenDefCreate
-;_GDIPlus_PenDefDispose
-;==============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+;__GDIPlus_BrushDefCreate
+;__GDIPlus_BrushDefDispose
+;__GDIPlus_ExtractFileExt
+;__GDIPlus_LastDelimiter
+;__GDIPlus_PenDefCreate
+;__GDIPlus_PenDefDispose
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ArrowCapCreate
@@ -160,8 +165,8 @@ Global $giGDIPToken = 0
 ; Modified.......: Gary Frost
 ; Remarks .......: After you are done with the object, call _GDIPlus_ArrowCapDispose to release the object resources
 ; Related .......: _GDIPlus_ArrowCapDispose
-; Link ..........; @@MsdnLink@@ GdipCreateAdjustableArrowCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateAdjustableArrowCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapCreate($nHeight, $nWidth, $fFilled = True)
 	Local $iHeight, $iWidth, $aResult
@@ -184,8 +189,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ArrowCapCreate
-; Link ..........; @@MsdnLink@@ GdipDeleteCustomLineCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeleteCustomLineCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapDispose($hCap)
 	Local $aResult
@@ -206,8 +211,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ArrowCapSetFillState
-; Link ..........; @@MsdnLink@@ GdipGetAdjustableArrowCapFillState
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetAdjustableArrowCapFillState
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapGetFillState($hArrowCap)
 	Local $aResult
@@ -228,8 +233,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetFillState
 ; Modified.......: Gary Frost
 ; Remarks .......: The height is the distance from the base of the arrow to its vertex
 ; Related .......: _GDIPlus_ArrowCapSetHeight
-; Link ..........; @@MsdnLink@@ GdipGetAdjustableArrowCapHeight
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetAdjustableArrowCapHeight
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapGetHeight($hArrowCap)
 	Local $aResult
@@ -258,8 +263,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetHeight
 ;                  equal to or greater than the height of the arrow cap, the cap does not appear at all.  The value of the middle
 ;                  inset affects the arrow cap only if the arrow cap is filled.
 ; Related .......: _GDIPlus_ArrowCapSetMiddleInset
-; Link ..........; @@MsdnLink@@ GdipGetAdjustableArrowCapMiddleInset
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetAdjustableArrowCapMiddleInset
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapGetMiddleInset($hArrowCap)
 	Local $aResult
@@ -280,8 +285,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetMiddleInset
 ; Modified.......: Gary Frost
 ; Remarks .......: The width is the distance between the endpoints of the base of the arrow
 ; Related .......: _GDIPlus_ArrowCapSetWidth
-; Link ..........; @@MsdnLink@@ GdipGetAdjustableArrowCapWidth
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetAdjustableArrowCapWidth
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapGetWidth($hArrowCap)
 	Local $aResult
@@ -305,8 +310,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetWidth
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ArrowCapGetFillState
-; Link ..........; @@MsdnLink@@ GdipSetAdjustableArrowCapFillState
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetAdjustableArrowCapFillState
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapSetFillState($hArrowCap, $fFilled = True)
 	Local $aResult
@@ -328,8 +333,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetFillState
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ArrowCapGetHeight
-; Link ..........; @@MsdnLink@@ GdipSetAdjustableArrowCapHeight
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetAdjustableArrowCapHeight
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapSetHeight($hArrowCap, $nHeight)
 	Local $iHeight, $aResult
@@ -360,8 +365,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetHeight
 ;                  equal to or greater than the height of the arrow cap, the cap does not appear at all.  The value of the middle
 ;                  inset affects the arrow cap only if the arrow cap is filled.
 ; Related .......: _GDIPlus_ArrowCapGetMiddleInset
-; Link ..........; @@MsdnLink@@ GdipSetAdjustableArrowCapMiddleInset
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetAdjustableArrowCapMiddleInset
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapSetMiddleInset($hArrowCap, $nInset)
 	Local $iInset, $aResult
@@ -384,8 +389,8 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetMiddleInset
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ArrowCapGetWidth
-; Link ..........; @@MsdnLink@@ GdipSetAdjustableArrowCapWidth
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetAdjustableArrowCapWidth
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ArrowCapSetWidth($hArrowCap, $nWidth)
 	Local $iWidth, $aResult
@@ -425,9 +430,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetWidth
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Bitmap object, call _WinAPI_DeleteObject to release the resources
-; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipCloneBitmapAreaI
-; Example .......; Yes
+; Related .......: _WinAPI_DeleteObject, _GDIPlus_ImageGetPixelFormat
+; Link ..........: @@MsdnLink@@ GdipCloneBitmapAreaI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCloneArea($hBmp, $iLeft, $iTop, $iWidth, $iHeight, $iFormat = 0x00021808)
 	Local $aResult
@@ -449,8 +454,8 @@ EndFunc   ;==>_GDIPlus_BitmapCloneArea
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Bitmap object, call _WinAPI_DeleteObject to release the resources
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipCreateBitmapFromFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateBitmapFromFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCreateFromFile($sFileName)
 	Local $aResult
@@ -473,8 +478,8 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromFile
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Bitmap object, call _WinAPI_DeleteObject to release the resources
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipCreateBitmapFromGraphics
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipCreateBitmapFromGraphics
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCreateFromGraphics($iWidth, $iHeight, $hGraphics)
 	Local $aResult
@@ -497,8 +502,8 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromGraphics
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Bitmap object, call _WinAPI_DeleteObject to release the resources
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipCreateBitmapFromHBITMAP
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateBitmapFromHBITMAP
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCreateFromHBITMAP($hBmp, $hPal = 0)
 	Local $aResult
@@ -520,8 +525,8 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromHBITMAP
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Bitmap object, call _WinAPI_DeleteObject to release the resources
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipCreateHBITMAPFromBitmap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateHBITMAPFromBitmap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCreateHBITMAPFromBitmap($hBitmap, $iARGB = 0xFF000000)
 	Local $aResult
@@ -542,8 +547,8 @@ EndFunc   ;==>_GDIPlus_BitmapCreateHBITMAPFromBitmap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDisposeImage
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipDisposeImage
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapDispose($hBitmap)
 	Local $aResult
@@ -584,9 +589,9 @@ EndFunc   ;==>_GDIPlus_BitmapDispose
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the locked portion, call _GDIPlus_BitmapUnlockBits to release the locked region
-; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipBitmapLockBits
-; Example .......;
+; Related .......: _WinAPI_DeleteObject, _GDIPlus_ImageGetPixelFormat
+; Link ..........: @@MsdnLink@@ GdipBitmapLockBits
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iRight, $iBottom, $iFlags = 1, $iFormat = 0x00022009)
 	Local $pData, $tData, $pRect, $tRect, $aResult
@@ -609,15 +614,15 @@ EndFunc   ;==>_GDIPlus_BitmapLockBits
 ; Description ...: Unlocks a portion of a bitmap that was locked by _GDIPlus_BitmapLockBits
 ; Syntax.........: _GDIPlus_BitmapUnlockBits($hBitmap, $tBitmapData)
 ; Parameters ....: $hBitmap     - Handle to a bitmap object
-;                  $pBitmapData - $tagGDIPBITMAPDATA structure previously passed to _GDIPlus_BitmapLockBits
+;                  $tBitmapData - $tagGDIPBITMAPDATA structure previously passed to _GDIPlus_BitmapLockBits
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the locked portion, call _GDIPlus_BitmapUnlockBits to release the locked region
 ; Related .......: _WinAPI_DeleteObject
-; Link ..........; @@MsdnLink@@ GdipBitmapUnlockBits
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipBitmapUnlockBits
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapUnlockBits($hBitmap, $tBitmapData)
 	Local $aResult
@@ -638,8 +643,8 @@ EndFunc   ;==>_GDIPlus_BitmapUnlockBits
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Brush object, call _GDIPlus_BrushDispose to release the resources
 ; Related .......: _GDIPlus_BrushDispose
-; Link ..........; @@MsdnLink@@ GdipCloneBrush
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCloneBrush
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BrushClone($hBrush)
 	Local $aResult
@@ -660,8 +665,8 @@ EndFunc   ;==>_GDIPlus_BrushClone
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Brush object, call _GDIPlus_BrushDispose to release the resources
 ; Related .......: _GDIPlus_BrushDispose
-; Link ..........; @@MsdnLink@@ GdipCreateSolidFill
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateSolidFill
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BrushCreateSolid($iARGB = 0xFF000000)
 	Local $aResult
@@ -681,9 +686,9 @@ EndFunc   ;==>_GDIPlus_BrushCreateSolid
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......:
-; Related .......: _GDIPlus_BrushCreateSolid
-; Link ..........; @@MsdnLink@@ GdipDeleteBrush
-; Example .......; Yes
+; Related .......: _GDIPlus_BrushCreateSolid, _GDIPlus_BrushClone
+; Link ..........: @@MsdnLink@@ GdipDeleteBrush
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BrushDispose($hBrush)
 	Local $aResult
@@ -692,6 +697,28 @@ Func _GDIPlus_BrushDispose($hBrush)
 	If @error Then Return SetError(@error, @extended, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_BrushDispose
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _GDIPlus_BrushGetSolidColor
+; Description ...: Get the color of a Solid Brush object
+; Syntax.........: _GDIPlus_BrushGetSolidColor($hBrush, [$iARGB = 0xFF000000])
+; Parameters ....: $hBrush      - Handle to a Brush object
+; Return values .: Success      - Brush color
+;                  Failure      - -1 and @error is set
+; Author ........:
+; Modified.......: smashly
+; Remarks .......:
+; Related .......:
+; Link ..........: @@MsdnLink@@ GdipGetSolidFillColor
+; Example .......: Yes
+; ===============================================================================================================================
+Func _GDIPlus_BrushGetSolidColor($hBrush)
+	Local $aResult
+
+	$aResult = DllCall($ghGDIPDll, "int", "GdipGetSolidFillColor", "hwnd", $hBrush, "int*", 0)
+	If @error Then Return SetError(@error, @extended, -1)
+	Return SetError($aResult[0], 0, $aResult[2])
+EndFunc   ;==>_GDIPlus_BrushGetSolidColor
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_BrushGetType
@@ -709,8 +736,8 @@ EndFunc   ;==>_GDIPlus_BrushDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipGetBrushType
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetBrushType
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BrushGetType($hBrush)
 	Local $aResult
@@ -719,6 +746,29 @@ Func _GDIPlus_BrushGetType($hBrush)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return SetError($aResult[0], 0, $aResult[2])
 EndFunc   ;==>_GDIPlus_BrushGetType
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _GDIPlus_BrushSetSolidColor
+; Description ...: Set the color of a Solid Brush object
+; Syntax.........: _GDIPlus_BrushSetSolidColor($hBrush, [$iARGB = 0xFF000000])
+; Parameters ....: $hBrush      - Handle to a Brush object
+;                  $iARGB       - Alpha, Red, Green and Blue components of brush
+; Return values .: Success      - True
+;                  Failure      - False
+; Author ........:
+; Modified.......: smashly
+; Remarks .......:
+; Related .......:
+; Link ..........: @@MsdnLink@@ GdipSetSolidFillColor
+; Example .......: Yes
+; ===============================================================================================================================
+Func _GDIPlus_BrushSetSolidColor($hBrush, $iARGB = 0xFF000000)
+	Local $aResult
+
+	$aResult = DllCall($ghGDIPDll, "int", "GdipSetSolidFillColor", "hwnd", $hBrush, "int", $iARGB)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetError($aResult[0], 0, $aResult[0] = 0)
+EndFunc   ;==>_GDIPlus_BrushSetSolidColor
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_CustomLineCapDispose
@@ -731,8 +781,8 @@ EndFunc   ;==>_GDIPlus_BrushGetType
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDeleteCustomLineCap
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipDeleteCustomLineCap
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_CustomLineCapDispose($hCap)
 	Local $aResult
@@ -767,8 +817,8 @@ EndFunc   ;==>_GDIPlus_CustomLineCapDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_Encoders
-; Link ..........; @@MsdnLink@@ GdipGetImageDecoders
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageDecoders
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_Decoders()
 	Local $iI, $iCount, $iSize, $pBuffer, $tBuffer, $tCodec, $aResult, $aInfo[1][14]
@@ -814,8 +864,8 @@ EndFunc   ;==>_GDIPlus_Decoders
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_DecodersGetSize
-; Link ..........; @@MsdnLink@@ GdipGetImageDecodersSize
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageDecodersSize
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_DecodersGetCount()
 	Local $aResult
@@ -836,8 +886,8 @@ EndFunc   ;==>_GDIPlus_DecodersGetCount
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_DecodersGetCount
-; Link ..........; @@MsdnLink@@ GdipGetImageDecodersSize
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageDecodersSize
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_DecodersGetSize()
 	Local $aResult
@@ -851,7 +901,7 @@ EndFunc   ;==>_GDIPlus_DecodersGetSize
 ; Name...........: _GDIPlus_DrawImagePoints
 ; Description ...: Draws an image at a specified location.
 ; Syntax.........: _GDIPlus_DrawImagePoints($hGraphic, $hImage, $nULX, $nULY, $nURX, $nURY, $nLLX, $nLLY[, $count = 3])
-; Parameters ....: $hGraphics   - Handle to a Graphics object
+; Parameters ....: $hGraphic    - Handle to a Graphics object
 ;                  $hImage      - Handle to an Image object
 ;                  $nULX        - The X coordinate of the upper left corner of the source image
 ;                  $nULY        - The Y coordinate of the upper left corner of the source image
@@ -870,8 +920,8 @@ EndFunc   ;==>_GDIPlus_DecodersGetSize
 ;                  height of the image, are calculated using the three given coordinates.
 ;                  The image is scaled to fit the parallelogram.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawImagePoints
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawImagePoints
+; Example .......: Yes
 ; ===============================================================================
 Func _GDIPlus_DrawImagePoints($hGraphic, $hImage, $nULX, $nULY, $nURX, $nURY, $nLLX, $nLLY, $count = 3)
 	Local $tPoint, $pPoint, $aResult
@@ -917,8 +967,8 @@ EndFunc   ;==>_GDIPlus_DrawImagePoints
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_Decoders
-; Link ..........; @@MsdnLink@@ GdipGetImageEncoders
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageEncoders
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_Encoders()
 	Local $iI, $iCount, $iSize, $pBuffer, $tBuffer, $tCodec, $aResult, $aInfo[1][14]
@@ -964,8 +1014,8 @@ EndFunc   ;==>_GDIPlus_Encoders
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipGetImageEncoders
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageEncoders
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_EncodersGetCLSID($sFileExt)
 	Local $iI, $aEncoders
@@ -988,8 +1038,8 @@ EndFunc   ;==>_GDIPlus_EncodersGetCLSID
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_EncodersGetSize
-; Link ..........; @@MsdnLink@@ GdipGetImageEncodersSize
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageEncodersSize
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_EncodersGetCount()
 	Local $aResult
@@ -1011,8 +1061,8 @@ EndFunc   ;==>_GDIPlus_EncodersGetCount
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_EncodersGetParamListSize, $tagGDIPENCODERPARAMS
-; Link ..........; @@MsdnLink@@ GdipGetEncoderParameterList
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetEncoderParameterList
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_EncodersGetParamList($hImage, $sEncoder)
 	Local $iSize, $pBuffer, $tBuffer, $pGUID, $tGUID, $aResult
@@ -1040,8 +1090,8 @@ EndFunc   ;==>_GDIPlus_EncodersGetParamList
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_EncodersGetParamList
-; Link ..........; @@MsdnLink@@ GdipGetEncoderParameterListSize
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetEncoderParameterListSize
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_EncodersGetParamListSize($hImage, $sEncoder)
 	Local $pGUID, $tGUID, $aResult
@@ -1064,8 +1114,8 @@ EndFunc   ;==>_GDIPlus_EncodersGetParamListSize
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_EncodersGetCount
-; Link ..........; @@MsdnLink@@ GdipGetImageEncodersSize
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageEncodersSize
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_EncodersGetSize()
 	Local $aResult
@@ -1101,8 +1151,8 @@ EndFunc   ;==>_GDIPlus_EncodersGetSize
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Font object, call _GDIPlus_FontDispose to release the resources
 ; Related .......: _GDIPlus_FontDispose
-; Link ..........; @@MsdnLink@@ GdipCreateFont
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateFont
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_FontCreate($hFamily, $nSize, $iStyle = 0, $iUnit = 3)
 	Local $iSize, $aResult
@@ -1124,8 +1174,8 @@ EndFunc   ;==>_GDIPlus_FontCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_FontCreate
-; Link ..........; @@MsdnLink@@ GdipDeleteFont
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeleteFont
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_FontDispose($hFont)
 	Local $aResult
@@ -1146,8 +1196,8 @@ EndFunc   ;==>_GDIPlus_FontDispose
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Font Family object, call _GDIPlus_FontFamilyDispose to release the resources
 ; Related .......: _GDIPlus_FontFamilyDispose
-; Link ..........; @@MsdnLink@@ GdipCreateFontFamilyFromName
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateFontFamilyFromName
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_FontFamilyCreate($sFamily)
 	Local $aResult
@@ -1168,8 +1218,8 @@ EndFunc   ;==>_GDIPlus_FontFamilyCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_FontFamilyCreate
-; Link ..........; @@MsdnLink@@ GdipDeleteFontFamily
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeleteFontFamily
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_FontFamilyDispose($hFamily)
 	Local $aResult
@@ -1191,8 +1241,8 @@ EndFunc   ;==>_GDIPlus_FontFamilyDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipGraphicsClear
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGraphicsClear
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsClear($hGraphics, $iARGB = 0xFF000000)
 	Local $aResult
@@ -1213,8 +1263,8 @@ EndFunc   ;==>_GDIPlus_GraphicsClear
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Graphics object, call _GDIPlus_GraphicsDispose to release the resources
 ; Related .......: _GDIPlus_GraphicsDispose
-; Link ..........; @@MsdnLink@@ GdipCreateFromHDC
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateFromHDC
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsCreateFromHDC($hDC)
 	Local $aResult
@@ -1235,8 +1285,8 @@ EndFunc   ;==>_GDIPlus_GraphicsCreateFromHDC
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the Graphics object, call _GDIPlus_GraphicsDispose to release the resources
 ; Related .......: _GDIPlus_GraphicsDispose
-; Link ..........; @@MsdnLink@@ GdipCreateFromHWND
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateFromHWND
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsCreateFromHWND($hWnd)
 	Local $aResult
@@ -1256,9 +1306,9 @@ EndFunc   ;==>_GDIPlus_GraphicsCreateFromHWND
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDeleteGraphics
-; Example .......; Yes
+; Related .......: _GDIPlus_GraphicsCreateFromHDC, _GDIPlus_GraphicsCreateFromHWND
+; Link ..........: @@MsdnLink@@ GdipDeleteGraphics
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDispose($hGraphics)
 	Local $aResult
@@ -1289,20 +1339,20 @@ EndFunc   ;==>_GDIPlus_GraphicsDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawArcI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawArcI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawArc($hGraphics, $iX, $iY, $iWidth, $iHeight, $nStartAngle, $nSweepAngle, $hPen = 0)
 	Local $iStart, $iSweep, $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$iStart = _WinAPI_FloatToInt($nStartAngle)
 	$iSweep = _WinAPI_FloatToInt($nSweepAngle)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawArcI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight, "int", $iStart, "int", $iSweep)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawArc
@@ -1330,18 +1380,18 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawArc
 ; Remarks .......: A Bezier spline does not pass through its control points. The control points act as magnets, pulling the curve
 ;                  in certain directions to influence the way the spline bends.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawBezierI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawBezierI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawBezier($hGraphics, $iX1, $iY1, $iX2, $iY2, $iX3, $iY3, $iX4, $iY4, $hPen = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawBezierI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX1, "int", $iY1, _
 			"int", $iX2, "int", $iY2, "int", $iX3, "int", $iY3, "int", $iX4, "int", $iY4)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawBezier
@@ -1368,8 +1418,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawBezier
 ; Remarks .......: In a closed cardinal spline, the curve continues through the last point in the points array and connects  with
 ;                  the first point in the array. The array of points must contain a minimum of three elements.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawClosedCurveI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawClosedCurveI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawClosedCurve($hGraphics, $aPoints, $hPen = 0)
 	Local $iI, $iCount, $pPoints, $tPoints, $aResult, $tmpError, $tmpExError
@@ -1382,11 +1432,11 @@ Func _GDIPlus_GraphicsDrawClosedCurve($hGraphics, $aPoints, $hPen = 0)
 		DllStructSetData($tPoints, 1, $aPoints[$iI][1], (($iI - 1) * 2) + 2)
 	Next
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawClosedCurveI", "hwnd", $hGraphics, "hwnd", $hPen, "ptr", $pPoints, "int", $iCount)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawClosedCurve
@@ -1413,8 +1463,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawClosedCurve
 ; Remarks .......: A segment is defined as a curve that connects two consecutive points in the cardinal spline.  The ending point
 ;                  of each segment is the starting point for the next.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawCurveI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawCurveI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawCurve($hGraphics, $aPoints, $hPen = 0)
 	Local $iI, $iCount, $pPoints, $tPoints, $aResult, $tmpError, $tmpExError
@@ -1427,11 +1477,11 @@ Func _GDIPlus_GraphicsDrawCurve($hGraphics, $aPoints, $hPen = 0)
 		DllStructSetData($tPoints, 1, $aPoints[$iI][1], (($iI - 1) * 2) + 2)
 	Next
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawCurveI", "hwnd", $hGraphics, "hwnd", $hPen, "ptr", $pPoints, "int", $iCount)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawCurve
@@ -1453,18 +1503,18 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawCurve
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawEllipseI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawEllipseI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawEllipse($hGraphics, $iX, $iY, $iWidth, $iHeight, $hPen = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawEllipseI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawEllipse
@@ -1483,8 +1533,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawEllipse
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawImageI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawImageI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawImage($hGraphics, $hImage, $iX, $iY)
 	Local $aResult
@@ -1510,8 +1560,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImage
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawImageRectI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawImageRectI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawImageRect($hGraphics, $hImage, $iX, $iY, $iW, $iH)
 	Local $aResult
@@ -1541,8 +1591,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRect
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawImageRectRectI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawImageRectRectI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawImageRectRect($hGraphics, $hImage, $iSrcX, $iSrcY, $iSrcWidth, $iSrcHeight, $iDstX, $iDstY, $iDstWidth, $iDstHeight, $iUnit = 2)
 	Local $aResult
@@ -1571,17 +1621,17 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRect
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawLineI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawLineI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawLine($hGraphics, $iX1, $iY1, $iX2, $iY2, $hPen = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawLineI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX1, "int", $iY1, "int", $iX2, "int", $iY2)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawLine
@@ -1609,20 +1659,20 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawLine
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawPieI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawPieI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawPie($hGraphics, $iX, $iY, $iWidth, $iHeight, $nStartAngle, $nSweepAngle, $hPen = 0)
 	Local $iStart, $iSweep, $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$iStart = _WinAPI_FloatToInt($nStartAngle)
 	$iSweep = _WinAPI_FloatToInt($nSweepAngle)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawPieI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight, "int", $iStart, "int", $iSweep)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawPie
@@ -1648,8 +1698,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawPie
 ; Modified.......: Gary Frost
 ; Remarks .......: If the first and last points are not identical, a line is drawn between them to close the polygon
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawPolygonI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawPolygonI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawPolygon($hGraphics, $aPoints, $hPen = 0)
 	Local $iI, $iCount, $pPoints, $tPoints, $aResult, $tmpError, $tmpExError
@@ -1662,11 +1712,11 @@ Func _GDIPlus_GraphicsDrawPolygon($hGraphics, $aPoints, $hPen = 0)
 		DllStructSetData($tPoints, 1, $aPoints[$iI][1], (($iI - 1) * 2) + 2)
 	Next
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawPolygonI", "hwnd", $hGraphics, "hwnd", $hPen, "ptr", $pPoints, "int", $iCount)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawPolygon
@@ -1688,18 +1738,18 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawPolygon
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDrawRectangleI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawRectangleI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawRect($hGraphics, $iX, $iY, $iWidth, $iHeight, $hPen = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_PenDefCreate($hPen)
+	__GDIPlus_PenDefCreate($hPen)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipDrawRectangleI", "hwnd", $hGraphics, "hwnd", $hPen, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_PenDefDispose()
+	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsDrawRect
@@ -1731,8 +1781,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawRect
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GDIPlus_GraphicsDrawStringEx
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawString($hGraphics, $sString, $nX, $nY, $sFont = "Arial", $nSize = 10, $iFormat = 0)
 	Local $hBrush, $iError, $hFamily, $hFont, $hFormat, $aInfo, $tLayout, $bResult
@@ -1768,8 +1818,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawString
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_GraphicsDrawString, $tagGDIPRECTF
-; Link ..........; @@MsdnLink@@ GdipDrawString
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDrawString
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsDrawStringEx($hGraphics, $sString, $hFont, $tLayout, $hFormat, $hBrush)
 	Local $pLayout, $aResult
@@ -1802,8 +1852,8 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawStringEx
 ; Remarks .......: In a closed cardinal spline, the curve continues through the last point in the points array and connects  with
 ;                  the first point in the array. The array of points must contain a minimum of three elements.
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipFillClosedCurveI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipFillClosedCurveI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsFillClosedCurve($hGraphics, $aPoints, $hBrush = 0)
 	Local $iI, $iCount, $pPoints, $tPoints, $aResult, $tmpError, $tmpExError
@@ -1816,11 +1866,11 @@ Func _GDIPlus_GraphicsFillClosedCurve($hGraphics, $aPoints, $hBrush = 0)
 		DllStructSetData($tPoints, 1, $aPoints[$iI][1], (($iI - 1) * 2) + 2)
 	Next
 
-	_GDIPlus_BrushDefCreate($hBrush)
+	__GDIPlus_BrushDefCreate($hBrush)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipFillClosedCurveI", "hwnd", $hGraphics, "hwnd", $hBrush, "ptr", $pPoints, "int", $iCount)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_BrushDefDispose()
+	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsFillClosedCurve
@@ -1841,18 +1891,18 @@ EndFunc   ;==>_GDIPlus_GraphicsFillClosedCurve
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipFillEllipseI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipFillEllipseI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsFillEllipse($hGraphics, $iX, $iY, $iWidth, $iHeight, $hBrush = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_BrushDefCreate($hBrush)
+	__GDIPlus_BrushDefCreate($hBrush)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipFillEllipseI", "hwnd", $hGraphics, "hwnd", $hBrush, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_BrushDefDispose()
+	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsFillEllipse
@@ -1879,20 +1929,20 @@ EndFunc   ;==>_GDIPlus_GraphicsFillEllipse
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipFillPieI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipFillPieI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsFillPie($hGraphics, $iX, $iY, $iWidth, $iHeight, $nStartAngle, $nSweepAngle, $hBrush = 0)
 	Local $iStart, $iSweep, $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_BrushDefCreate($hBrush)
+	__GDIPlus_BrushDefCreate($hBrush)
 	$iStart = _WinAPI_FloatToInt($nStartAngle)
 	$iSweep = _WinAPI_FloatToInt($nSweepAngle)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipFillPieI", "hwnd", $hGraphics, "hwnd", $hBrush, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight, "int", $iStart, "int", $iSweep)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_BrushDefDispose()
+	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsFillPie
@@ -1918,8 +1968,8 @@ EndFunc   ;==>_GDIPlus_GraphicsFillPie
 ; Modified.......: smashly
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipFillPolygonI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipFillPolygonI
+; Example .......: Yes
 ; ===============================================================================================
 Func _GDIPlus_GraphicsFillPolygon($hGraphics, $aPoints, $hBrush = 0)
 	Local $iI, $iCount, $pPoints, $tPoints, $aResult, $tmpError, $tmpExError
@@ -1932,12 +1982,12 @@ Func _GDIPlus_GraphicsFillPolygon($hGraphics, $aPoints, $hBrush = 0)
 		DllStructSetData($tPoints, 1, $aPoints[$iI][1], (($iI - 1) * 2) + 2)
 	Next
 
-	_GDIPlus_BrushDefCreate($hBrush)
+	__GDIPlus_BrushDefCreate($hBrush)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipFillPolygonI", "hWnd", $hGraphics, "hWnd", $hBrush, _
 			"ptr", $pPoints, "int", $iCount, "int", "FillModeAlternate")
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_BrushDefDispose()
+	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsFillPolygon
@@ -1958,18 +2008,18 @@ EndFunc   ;==>_GDIPlus_GraphicsFillPolygon
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipFillRectangleI
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipFillRectangleI
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsFillRect($hGraphics, $iX, $iY, $iWidth, $iHeight, $hBrush = 0)
 	Local $aResult, $tmpError, $tmpExError
 
-	_GDIPlus_BrushDefCreate($hBrush)
+	__GDIPlus_BrushDefCreate($hBrush)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipFillRectangleI", "hwnd", $hGraphics, "hwnd", $hBrush, "int", $iX, "int", $iY, _
 			"int", $iWidth, "int", $iHeight)
 	$tmpError = @error
 	$tmpExError = @extended
-	_GDIPlus_BrushDefDispose()
+	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExError, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_GraphicsFillRect
@@ -1986,8 +2036,8 @@ EndFunc   ;==>_GDIPlus_GraphicsFillRect
 ; Remarks .......: Each call to the _GDIPlus_GraphicsGetDC should be paired with a call to the _GDIPlus_GraphicsReleaseDC.  Do not call
 ;                  any methods of the Graphics object between the calls.
 ; Related .......: _GDIPlus_GraphicsReleaseDC
-; Link ..........; @@MsdnLink@@ GdipGetDC
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipGetDC
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsGetDC($hGraphics)
 	Local $aResult
@@ -2011,8 +2061,8 @@ EndFunc   ;==>_GDIPlus_GraphicsGetDC
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_GraphicsSetSmoothingMode
-; Link ..........; @@MsdnLink@@ GdipGetSmoothingMode
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipGetSmoothingMode
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsGetSmoothingMode($hGraphics)
 	Local $aResult
@@ -2046,8 +2096,8 @@ EndFunc   ;==>_GDIPlus_GraphicsGetSmoothingMode
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: $tagGDIPRECTF
-; Link ..........; @@MsdnLink@@ GdipMeasureString
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipMeasureString
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsMeasureString($hGraphics, $sString, $hFont, $tLayout, $hFormat)
 	Local $pLayout, $pRectF, $tRectF, $aResult, $aInfo[3]
@@ -2076,8 +2126,8 @@ EndFunc   ;==>_GDIPlus_GraphicsMeasureString
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_GraphicsGetDC
-; Link ..........; @@MsdnLink@@ GdipReleaseDC
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipReleaseDC
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsReleaseDC($hGraphics, $hDC)
 	Local $aResult
@@ -2099,8 +2149,8 @@ EndFunc   ;==>_GDIPlus_GraphicsReleaseDC
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipSetWorldTransform
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetWorldTransform
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsSetTransform($hGraphics, $hMatrix)
 	Local $aResult
@@ -2125,8 +2175,8 @@ EndFunc   ;==>_GDIPlus_GraphicsSetTransform
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_GraphicsGetSmoothingMode
-; Link ..........; @@MsdnLink@@ GdipSetSmoothingMode
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipSetSmoothingMode
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsSetSmoothingMode($hGraphics, $iSmooth)
 	Local $aResult
@@ -2147,8 +2197,8 @@ EndFunc   ;==>_GDIPlus_GraphicsSetSmoothingMode
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipDisposeImage
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDisposeImage
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageDispose($hImage)
 	Local $aResult
@@ -2158,7 +2208,7 @@ Func _GDIPlus_ImageDispose($hImage)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_GDIPlus_ImageDispose
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetFlags
 ; Description ...: Returns enumeration of pixel data attributes contained in an image
 ; Syntax.........: _GDIPlus_ImageGetFlags($hImage)
@@ -2174,8 +2224,8 @@ EndFunc   ;==>_GDIPlus_ImageDispose
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ;                  Use BitAND on returned integer flag set with GdipGetImageFlags constants
 ; Related .......: _GDIPlus_ImageGetPixelFormat
-; Link ..........; @@MsdnLink@@ GdipGetImageFlags
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageFlags
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetFlags($hImage)
 	Local $aResult, $aFlag[2] = [0, ""], $iError = 0
@@ -2223,8 +2273,8 @@ EndFunc   ;==>_GDIPlus_ImageGetFlags
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipGetImageGraphicsContext
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageGraphicsContext
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetGraphicsContext($hImage)
 	Local $aResult
@@ -2245,8 +2295,8 @@ EndFunc   ;==>_GDIPlus_ImageGetGraphicsContext
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ImageGetWidth
-; Link ..........; @@MsdnLink@@ GdipGetImageHeight
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageHeight
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetHeight($hImage)
 	Local $aResult
@@ -2256,7 +2306,7 @@ Func _GDIPlus_ImageGetHeight($hImage)
 	Return SetError($aResult[0], 0, $aResult[2])
 EndFunc   ;==>_GDIPlus_ImageGetHeight
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetHorizontalResolution
 ; Description ...: Returns horizontal resolution in DPI (pixels per inch) of an image
 ; Syntax.........: _GDIPlus_ImageGetHorizontalResolution($hImage)
@@ -2269,8 +2319,8 @@ EndFunc   ;==>_GDIPlus_ImageGetHeight
 ; Modified.......:
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ; Related .......: _GDIPlus_ImageGetVerticalResolution
-; Link ..........; @@MsdnLink@@ GdipGetImageHorizontalResolution
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageHorizontalResolution
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetHorizontalResolution($hImage)
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 0, 0)
@@ -2282,7 +2332,7 @@ Func _GDIPlus_ImageGetHorizontalResolution($hImage)
 	Return SetError($aResult[0], 0, Round($aResult[2]))
 EndFunc   ;==>_GDIPlus_ImageGetHorizontalResolution
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetPixelFormat
 ; Description ...: Returns pixel format of an image: Bits per pixel, Alpha channels, RGB, Grayscale, Indexed etc.
 ; Syntax.........: _GDIPlus_ImageGetPixelFormat($hImage)
@@ -2297,8 +2347,8 @@ EndFunc   ;==>_GDIPlus_ImageGetHorizontalResolution
 ; Modified.......:
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ; Related .......: _GDIPlus_ImageGetFlags, _GDIPlus_BitmapLockBits, _GDIPlus_BitmapCloneArea
-; Link ..........; @@MsdnLink@@ GdipGetImagePixelFormat
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImagePixelFormat
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetPixelFormat($hImage)
 	Local $aResult, $aFormat[2] = [0, ""], $iError = 0
@@ -2331,7 +2381,7 @@ Func _GDIPlus_ImageGetPixelFormat($hImage)
 	Return SetError($aResult[0], 3, $aFormat)
 EndFunc   ;==>_GDIPlus_ImageGetPixelFormat
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetRawFormat
 ; Description ...: Returns file format GUID and image format name of an image
 ; Syntax.........: _GDIPlus_ImageGetRawFormat($hImage)
@@ -2346,11 +2396,11 @@ EndFunc   ;==>_GDIPlus_ImageGetPixelFormat
 ; Modified.......:
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ; Related .......: _GDIPlus_ImageGetType
-; Link ..........; @@MsdnLink@@ GdipGetImageRawFormat
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageRawFormat
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetRawFormat($hImage)
-	Local $aResult1, $aResult2, $tStruc, $aGuid[2], $iError = 0
+	Local $aResult1, $sResult2, $tStruc, $aGuid[2], $iError = 0
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 1, $aGuid)
 	Local $aImageType[11][2] = _
 			[["UNDEFINED", $GDIP_IMAGEFORMAT_UNDEFINED], _
@@ -2372,20 +2422,19 @@ Func _GDIPlus_ImageGetRawFormat($hImage)
 	$iError = @error
 	If @error Or (Not IsArray($aResult1)) Or (Not IsPtr($aResult1[2])) Or _
 			(Not $aResult1[2]) Then Return SetError($iError, 3, $aGuid)
-	$aResult2 = DllCall("Ole32.dll", "int", "StringFromGUID2", "ptr", $aResult1[2], "wstr", "", "int", 40)
-	$iError = @error
-	If @error Or (Not IsArray($aResult2)) Or (Not $aResult2[2]) Then Return SetError($iError, 4, $aGuid)
+	$sResult2 = _WinAPI_StringFromGUID($aResult1[2])		
+	If @error Then Return SetError(@error, 4, $aGuid)
 	For $i = 0 To 10
-		If $aImageType[$i][1] == $aResult2[2] Then
+		If $aImageType[$i][1] == $sResult2 Then
 			$aGuid[0] = $aImageType[$i][1]
 			$aGuid[1] = $aImageType[$i][0]
 			Return SetError($aResult1[0], 0, $aGuid)
 		EndIf
 	Next
-	Return SetError($aResult2[0], 5, $aGuid)
+	Return SetError(-1, 5, $aGuid)
 EndFunc   ;==>_GDIPlus_ImageGetRawFormat
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetType
 ; Description ...: Returns type (bitmap or metafile) of an image
 ; Syntax.........: _GDIPlus_ImageGetType($hImage)
@@ -2401,8 +2450,8 @@ EndFunc   ;==>_GDIPlus_ImageGetRawFormat
 ; Modified.......:
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ; Related .......: _GDIPlus_ImageGetRawFormat
-; Link ..........; @@MsdnLink@@ GdipGetImageType
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageType
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetType($hImage)
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 0, -1)
@@ -2413,7 +2462,7 @@ Func _GDIPlus_ImageGetType($hImage)
 	Return SetError($aResult[0], 0, $aResult[2])
 EndFunc   ;==>_GDIPlus_ImageGetType
 
-; #FUNCTION# ;===================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_ImageGetVerticalResolution
 ; Description ...: Returns horizontal resolution in DPI (pixels per inch) of an image
 ; Syntax.........: _GDIPlus_ImageGetVerticalResolution($hImage)
@@ -2426,8 +2475,8 @@ EndFunc   ;==>_GDIPlus_ImageGetType
 ; Modified.......:
 ; Remarks .......: @error 4 relies on GDI+ UDF return of -1 or 0 instead of image handle for errors
 ; Related .......: _GDIPlus_ImageGetHorizontalResolution
-; Link ..........; @@MsdnLink@@ GdipGetImageVerticalResolution
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageVerticalResolution
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetVerticalResolution($hImage)
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 0, 0)
@@ -2450,8 +2499,8 @@ EndFunc   ;==>_GDIPlus_ImageGetVerticalResolution
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ImageGetHeight
-; Link ..........; @@MsdnLink@@ GdipGetImageWidth
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetImageWidth
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetWidth($hImage)
 	Local $aResult
@@ -2471,9 +2520,9 @@ EndFunc   ;==>_GDIPlus_ImageGetWidth
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost/martin
 ; Remarks .......:
-; Related .......: _GDIPlus_ImageSaveToFile
-; Link ..........; @@MsdnLink@@ GdipLoadImageFromFile
-; Example .......; Yes
+; Related .......: _GDIPlus_ImageSaveToFile, _GDIPlus_ImageSaveToFileEx
+; Link ..........: @@MsdnLink@@ GdipLoadImageFromFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageLoadFromFile($sFileName)
 	Local $aResult
@@ -2495,13 +2544,13 @@ EndFunc   ;==>_GDIPlus_ImageLoadFromFile
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ImageLoadFromFile, _GDIPlus_ImageSaveToFileEx
-; Link ..........; @@MsdnLink@@ GdipSaveImageToFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSaveImageToFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageSaveToFile($hImage, $sFileName)
 	Local $sCLSID, $sExt
 
-	$sExt = _GDIPlus_ExtractFileExt($sFileName)
+	$sExt = __GDIPlus_ExtractFileExt($sFileName)
 	$sCLSID = _GDIPlus_EncodersGetCLSID($sExt)
 	If $sCLSID = "" Then Return SetError(-1, 0, False)
 	Return _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, 0)
@@ -2521,8 +2570,8 @@ EndFunc   ;==>_GDIPlus_ImageSaveToFile
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_ImageLoadFromFile, _GDIPlus_ImageSaveToFile, $tagGDIPPENCODERPARAMS
-; Link ..........; @@MsdnLink@@ GdipSaveImageToFile
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSaveImageToFile
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sEncoder, $pParams = 0)
 	Local $pGUID, $tGUID, $aResult
@@ -2545,8 +2594,8 @@ EndFunc   ;==>_GDIPlus_ImageSaveToFileEx
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the matrix, call _GDIPlus_MatrixDispose to release the resources
 ; Related .......: _GDIPlus_MatrixDispose
-; Link ..........; @@MsdnLink@@ GdipCreateMatrix
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreateMatrix
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_MatrixCreate()
 	Local $aResult
@@ -2567,8 +2616,8 @@ EndFunc   ;==>_GDIPlus_MatrixCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_MatrixCreate
-; Link ..........; @@MsdnLink@@ GdipDeleteMatrix
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeleteMatrix
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_MatrixDispose($hMatrix)
 	Local $aResult
@@ -2593,8 +2642,8 @@ EndFunc   ;==>_GDIPlus_MatrixDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipRotateMatrix
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipRotateMatrix
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_MatrixRotate($hMatrix, $nAngle, $fAppend = False)
 	Local $iAngle, $aResult
@@ -2621,8 +2670,8 @@ EndFunc   ;==>_GDIPlus_MatrixRotate
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipScaleMatrix
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipScaleMatrix
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_MatrixScale($hMatrix, $nScaleX, $nScaleY, $fOrder = False)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipScaleMatrix", "ptr", $hMatrix, "float", $nScaleX, "float", $nScaleY, "int", $fOrder)
@@ -2646,8 +2695,8 @@ EndFunc   ;==>_GDIPlus_MatrixScale
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ GdipTranslateMatrix
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipTranslateMatrix
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_MatrixTranslate($hMatrix, $nOffsetX, $nOffsetY, $fAppend = False)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTranslateMatrix", "ptr", $hMatrix, "float", $nOffsetX, "float", $nOffsetY, "int", $fAppend)
@@ -2687,8 +2736,8 @@ EndFunc   ;==>_GDIPlus_MatrixTranslate
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GDIPlus_ParamInit, $tagGDIPPENCODERPARAMS
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ParamAdd(ByRef $tParams, $sGUID, $iCount, $iType, $pValues)
 	Local $tParam
@@ -2714,8 +2763,8 @@ EndFunc   ;==>_GDIPlus_ParamAdd
 ;                  function is used to initialize an encoder parameter list that can then be passed to _GDIPlus_Param add to add the
 ;                  actual parameters.
 ; Related .......: _GDIPlus_ParamAdd, $tagGDIPPENCODERPARAMS
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ParamInit($iCount)
 	If $iCount <= 0 Then Return SetError(-1, -1, 0)
@@ -2742,8 +2791,8 @@ EndFunc   ;==>_GDIPlus_ParamInit
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the pen, call _GDIPlus_PenDispose to release the resources
 ; Related .......: _GDIPlus_PenDispose
-; Link ..........; @@MsdnLink@@ GdipCreatePen1
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipCreatePen1
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenCreate($iARGB = 0xFF000000, $nWidth = 1, $iUnit = 2)
 	Local $iWidth, $aResult
@@ -2765,8 +2814,8 @@ EndFunc   ;==>_GDIPlus_PenCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenCreate
-; Link ..........; @@MsdnLink@@ GdipDeletePen
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeletePen
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenDispose($hPen)
 	Local $aResult
@@ -2789,8 +2838,8 @@ EndFunc   ;==>_GDIPlus_PenDispose
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetAlignment
-; Link ..........; @@MsdnLink@@ GdipGetPenMode
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenMode
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetAlignment($hPen)
 	Local $aResult
@@ -2811,8 +2860,8 @@ EndFunc   ;==>_GDIPlus_PenGetAlignment
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetColor
-; Link ..........; @@MsdnLink@@ GdipGetPenColor
-; Example .......;
+; Link ..........: @@MsdnLink@@ GdipGetPenColor
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetColor($hPen)
 	Local $aResult
@@ -2833,8 +2882,8 @@ EndFunc   ;==>_GDIPlus_PenGetColor
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetCustomEndCap
-; Link ..........; @@MsdnLink@@ GdipGetPenCustomEndCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenCustomEndCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetCustomEndCap($hPen)
 	Local $aResult
@@ -2858,8 +2907,8 @@ EndFunc   ;==>_GDIPlus_PenGetCustomEndCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetDashCap
-; Link ..........; @@MsdnLink@@ GdipGetPenDashCap197819
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenDashCap197819
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetDashCap($hPen)
 	Local $aResult
@@ -2886,8 +2935,8 @@ EndFunc   ;==>_GDIPlus_PenGetDashCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetDashStyle
-; Link ..........; @@MsdnLink@@ GdipGetPenDashStyle
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenDashStyle
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetDashStyle($hPen)
 	Local $aResult
@@ -2918,8 +2967,8 @@ EndFunc   ;==>_GDIPlus_PenGetDashStyle
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetEndCap
-; Link ..........; @@MsdnLink@@ GdipGetPenEndCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenEndCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetEndCap($hPen)
 	Local $aResult
@@ -2940,8 +2989,8 @@ EndFunc   ;==>_GDIPlus_PenGetEndCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenSetWidth
-; Link ..........; @@MsdnLink@@ GdipGetPenWidth
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipGetPenWidth
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenGetWidth($hPen)
 	Local $aResult
@@ -2965,8 +3014,8 @@ EndFunc   ;==>_GDIPlus_PenGetWidth
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetAlignment
-; Link ..........; @@MsdnLink@@ GdipSetPenMode
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenMode
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetAlignment($hPen, $iAlignment = 0)
 	Local $aResult
@@ -2987,9 +3036,9 @@ EndFunc   ;==>_GDIPlus_PenSetAlignment
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......:
-; Related .......:
-; Link ..........; @@MsdnLink@@ GdipSetPenColor
-; Example .......;
+; Related .......: _GDIPlus_PenGetColor
+; Link ..........: @@MsdnLink@@ GdipSetPenColor
+; Example .......:
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetColor($hPen, $iARGB)
 	Local $aResult
@@ -3014,8 +3063,8 @@ EndFunc   ;==>_GDIPlus_PenSetColor
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetDashCap
-; Link ..........; @@MsdnLink@@ GdipSetPenDashCap197819
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenDashCap197819
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetDashCap($hPen, $iDash = 0)
 	Local $aResult
@@ -3037,8 +3086,8 @@ EndFunc   ;==>_GDIPlus_PenSetDashCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetCustomEndCap
-; Link ..........; @@MsdnLink@@ GdipSetPenCustomEndCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenCustomEndCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetCustomEndCap($hPen, $hEndCap)
 	Local $aResult
@@ -3066,8 +3115,8 @@ EndFunc   ;==>_GDIPlus_PenSetCustomEndCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetDashStyle
-; Link ..........; @@MsdnLink@@ GdipSetPenDashStyle
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenDashStyle
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetDashStyle($hPen, $iStyle = 0)
 	Local $aResult
@@ -3099,8 +3148,8 @@ EndFunc   ;==>_GDIPlus_PenSetDashStyle
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetEndCap
-; Link ..........; @@MsdnLink@@ GdipSetPenEndCap
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenEndCap
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetEndCap($hPen, $iEndCap)
 	Local $aResult
@@ -3122,8 +3171,8 @@ EndFunc   ;==>_GDIPlus_PenSetEndCap
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_PenGetWidth
-; Link ..........; @@MsdnLink@@ GdipSetPenWidth
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetPenWidth
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_PenSetWidth($hPen, $nWidth)
 	Local $iWidth, $aResult
@@ -3147,8 +3196,8 @@ EndFunc   ;==>_GDIPlus_PenSetWidth
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: $tagGDIPRECTF
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_RectFCreate($nX = 0, $nY = 0, $nWidth = 0, $nHeight = 0)
 	Local $tRectF
@@ -3172,8 +3221,8 @@ EndFunc   ;==>_GDIPlus_RectFCreate
 ; Modified.......:
 ; Remarks .......: You must dispose of all of your GDI+ objects before you call _GDIPlus_Shutdown
 ; Related .......: _GDIPlus_Startup
-; Link ..........; @@MsdnLink@@ GdiplusShutdown
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdiplusShutdown
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_Shutdown()
 	If $ghGDIPDll = 0 Then Return SetError(-1, -1, False)
@@ -3199,8 +3248,8 @@ EndFunc   ;==>_GDIPlus_Shutdown
 ; Remarks .......: Call _GDIPlus_Startup before you create any GDI+ objects.  GDI+ requires a redistributable for applications  that
 ;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
 ; Related .......: _GDIPlus_Shutdown
-; Link ..........; @@MsdnLink@@ GdiplusStartup
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdiplusStartup
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_Startup()
 	Local $pInput, $tInput, $pToken, $tToken, $aResult
@@ -3237,15 +3286,15 @@ EndFunc   ;==>_GDIPlus_Startup
 ;                  |0x2000 - Specifies that only entire lines are laid out in the layout rectangle
 ;                  |0x4000 - Specifies that characters overhanging the layout rectangle and text  extending  outside  the  layout
 ;                  +rectangle are allowed to show
-;                  $iLandID     - The language to use
+;                  $iLangID     - The language to use
 ; Return values .: Success      - Handle to a string format object
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; Remarks .......: When you are done with the String Format object, call _GDIPlus_StringFormatDispose to release the resources
-; Related .......: _GDIPlus_StringFormatDispose
-; Link ..........; @@MsdnLink@@ GdipCreateStringFormat
-; Example .......; Yes
+; Related .......: _GDIPlus_StringFormatDispose, _GDIPlus_StringFormatSetAlign
+; Link ..........: @@MsdnLink@@ GdipCreateStringFormat
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_StringFormatCreate($iFormat = 0, $iLangID = 0)
 	Local $aResult
@@ -3266,8 +3315,8 @@ EndFunc   ;==>_GDIPlus_StringFormatCreate
 ; Modified.......: Gary Frost
 ; Remarks .......:
 ; Related .......: _GDIPlus_StringFormatCreate
-; Link ..........; @@MsdnLink@@ GdipDeleteStringFormat
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipDeleteStringFormat
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_StringFormatDispose($hFormat)
 	Local $aResult
@@ -3282,7 +3331,7 @@ EndFunc   ;==>_GDIPlus_StringFormatDispose
 ; Description ...: Sets the text alignment of a string format object
 ; Syntax.........: _GDIPlus_StringFormatSetAlign($hStringFormat,$iFlag)
 ; Parameters ....: $hStringFormat	- The string format object which is aligned
-;                  $iFlags     - The alignment can be one of the following:
+;                  $iFlag           - The alignment can be one of the following:
 ;                  |0 - The text is aligned to the left
 ;                  |1 - The text is centered
 ;                  |2 - The text is aligned to the right
@@ -3292,8 +3341,8 @@ EndFunc   ;==>_GDIPlus_StringFormatDispose
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _GDIPlus_StringFormatCreate
-; Link ..........; @@MsdnLink@@ GdipSetStringFormatAlign
-; Example .......; Yes
+; Link ..........: @@MsdnLink@@ GdipSetStringFormatAlign
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_StringFormatSetAlign($hStringFormat, $iFlag)
 	Local $aResult
@@ -3303,50 +3352,50 @@ Func _GDIPlus_StringFormatSetAlign($hStringFormat, $iFlag)
 	Return SetError(1, 0, 0)
 EndFunc   ;==>_GDIPlus_StringFormatSetAlign
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_BrushDefCreate
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_BrushDefCreate
 ; Description ...: Create a default Brush object if needed
-; Syntax.........: _GDIPlus_BrushDefCreate(ByRef $hBrush)
+; Syntax.........: __GDIPlus_BrushDefCreate(ByRef $hBrush)
 ; Parameters ....: $hBrush      - Handle to a Brush object
 ; Return values .: Success      - $hBrush or a default Brush object
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_BrushDefCreate(ByRef $hBrush)
+Func __GDIPlus_BrushDefCreate(ByRef $hBrush)
 	If $hBrush = 0 Then
 		$ghGDIPBrush = _GDIPlus_BrushCreateSolid()
 		$hBrush = $ghGDIPBrush
 	EndIf
-EndFunc   ;==>_GDIPlus_BrushDefCreate
+EndFunc   ;==>__GDIPlus_BrushDefCreate
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_BrushDefDispose
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_BrushDefDispose
 ; Description ...: Free default Brush object
-; Syntax.........: _GDIPlus_BrushDefDispose()
+; Syntax.........: __GDIPlus_BrushDefDispose()
 ; Parameters ....:
 ; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_BrushDefDispose()
+Func __GDIPlus_BrushDefDispose()
 	If $ghGDIPBrush <> 0 Then
 		_GDIPlus_BrushDispose($ghGDIPBrush)
 		$ghGDIPBrush = 0
 	EndIf
-EndFunc   ;==>_GDIPlus_BrushDefDispose
+EndFunc   ;==>__GDIPlus_BrushDefDispose
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_ExtractFileExt
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_ExtractFileExt
 ; Description ...: Extracts the extension part of the given filename
-; Syntax.........: _GDIPlus_ExtractFileExt($sFileName[, $fNoDot = True])
+; Syntax.........: __GDIPlus_ExtractFileExt($sFileName[, $fNoDot = True])
 ; Parameters ....: $sFileName   - Filename
 ;                  $fNoDot      - Determines whether the filename/extension separator is returned
 ;                  | True - The separator is returned with the extension
@@ -3357,13 +3406,13 @@ EndFunc   ;==>_GDIPlus_BrushDefDispose
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_ExtractFileExt($sFileName, $fNoDot = True)
+Func __GDIPlus_ExtractFileExt($sFileName, $fNoDot = True)
 	Local $iIndex
 
-	$iIndex = _GDIPlus_LastDelimiter(".\:", $sFileName)
+	$iIndex = __GDIPlus_LastDelimiter(".\:", $sFileName)
 	If ($iIndex > 0) And (StringMid($sFileName, $iIndex, 1) = '.') Then
 		If $fNoDot Then
 			Return StringMid($sFileName, $iIndex + 1)
@@ -3373,12 +3422,12 @@ Func _GDIPlus_ExtractFileExt($sFileName, $fNoDot = True)
 	Else
 		Return ""
 	EndIf
-EndFunc   ;==>_GDIPlus_ExtractFileExt
+EndFunc   ;==>__GDIPlus_ExtractFileExt
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_LastDelimiter
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_LastDelimiter
 ; Description ...: Returns the index of the right most whole character that matches any character in a delimiter string
-; Syntax.........: _GDIPlus_LastDelimiter($sDelimiters, $sString)
+; Syntax.........: __GDIPlus_LastDelimiter($sDelimiters, $sString)
 ; Parameters ....: $sDelimiters - Delimiters
 ;                  $String      - String to be searched
 ; Return values .: Success      - Right most whole character that matches one of the delimiters
@@ -3386,10 +3435,10 @@ EndFunc   ;==>_GDIPlus_ExtractFileExt
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_LastDelimiter($sDelimiters, $sString)
+Func __GDIPlus_LastDelimiter($sDelimiters, $sString)
 	Local $iI, $iN, $sDelimiter
 
 	For $iI = 1 To StringLen($sDelimiters)
@@ -3397,44 +3446,44 @@ Func _GDIPlus_LastDelimiter($sDelimiters, $sString)
 		$iN = StringInStr($sString, $sDelimiter, 0, -1)
 		If $iN > 0 Then Return $iN
 	Next
-EndFunc   ;==>_GDIPlus_LastDelimiter
+EndFunc   ;==>__GDIPlus_LastDelimiter
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_PenDefCreate
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_PenDefCreate
 ; Description ...: Create a default Pen object if needed
-; Syntax.........: _GDIPlus_PenDefCreate(ByRef $hPen)
+; Syntax.........: __GDIPlus_PenDefCreate(ByRef $hPen)
 ; Parameters ....: $hPen        - Handle to a pen object
 ; Return values .: Success      - $hPen or a default pen object
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_PenDefCreate(ByRef $hPen)
+Func __GDIPlus_PenDefCreate(ByRef $hPen)
 	If $hPen = 0 Then
 		$ghGDIPPen = _GDIPlus_PenCreate()
 		$hPen = $ghGDIPPen
 	EndIf
-EndFunc   ;==>_GDIPlus_PenDefCreate
+EndFunc   ;==>__GDIPlus_PenDefCreate
 
-; #INTERNAL_USE_ONLY#============================================================================================================
-; Name...........: _GDIPlus_PenDefDispose
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GDIPlus_PenDefDispose
 ; Description ...: Free default Pen object
-; Syntax.........: _GDIPlus_PenDefDispose()
+; Syntax.........: __GDIPlus_PenDefDispose()
 ; Parameters ....:
 ; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_PenDefDispose()
+Func __GDIPlus_PenDefDispose()
 	If $ghGDIPPen <> 0 Then
 		_GDIPlus_PenDispose($ghGDIPPen)
 		$ghGDIPPen = 0
 	EndIf
-EndFunc   ;==>_GDIPlus_PenDefDispose
+EndFunc   ;==>__GDIPlus_PenDefDispose

@@ -1,5 +1,4 @@
-﻿#include <Constants.au3>
-#NoTrayIcon
+﻿#NoTrayIcon
 
 Opt("TrayOnEventMode",1)
 Opt("TrayMenuMode",1)	; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示. 

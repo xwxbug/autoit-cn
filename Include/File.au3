@@ -2,9 +2,11 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: File
-; AutoIt Version: 33.0
-; Language:       English
+; AutoIt Version : 3.2
+; Language ......: English
 ; Description ...: Functions that assist with files and directories.
+; Author(s) .....: Brian Keene, SolidSnake, erifash, Jon, JdeB, Jeremy Landes, MrCreatoR, cdkid, Valik,Erik Pilsits, Kurt, Dale
+; Dll(s) ........: shell32.dll
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -24,7 +26,6 @@
 ;_TempFile
 ; ===============================================================================================================================
 
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _FileCountLines
 ; Description ...: Returns the number of lines in the specified file.
@@ -38,8 +39,8 @@
 ; Modified.......: Xenobiologist, Gary
 ; Remarks .......: It does not count a final @LF as a line.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileCountLines($sFilePath)
 ;~ 	Local $N = FileGetSize($sFilePath) - 1
@@ -79,8 +80,8 @@ EndFunc   ;==>_FileCountLines
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: .FileOpen
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileCreate($sFilePath)
 	;==============================================
@@ -130,12 +131,10 @@ EndFunc   ;==>_FileCreate
 ;                                $array[3] = 3rd File\Folder
 ;                                $array[n] = nth File\Folder
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
+; Note ..........: Special Thanks to Helge and Layer for help with the $iFlag update speed optimization by code65536, pdaughe
 ; ===============================================================================================================================
-;Special Thanks to Helge and Layer for help with the $iFlag update
-; speed optimization by code65536
-;===============================================================================
 Func _FileListToArray($sPath, $sFilter = "*", $iFlag = 0)
 	Local $hSearch, $sFile, $asFileList[1]
 	If Not FileExists($sPath) Then Return SetError(1, 1, "")
@@ -150,8 +149,11 @@ Func _FileListToArray($sPath, $sFilter = "*", $iFlag = 0)
 			SetError(0)
 			ExitLoop
 		EndIf
-		If $iFlag = 1 And StringInStr(FileGetAttrib($sPath & "\" & $sFile), "D") <> 0 Then ContinueLoop
-		If $iFlag = 2 And StringInStr(FileGetAttrib($sPath & "\" & $sFile), "D") = 0 Then ContinueLoop
+		If $iFlag = 1 And @extended Then
+			ContinueLoop		; File only
+		Else
+			If $iFlag = 2 And @extended = 0 Then ContinueLoop	; folder only
+		EndIf
 		$asFileList[0] += 1
 		If UBound($asFileList) <= $asFileList[0] Then ReDim $asFileList[UBound($asFileList) * 2]
 		$asFileList[$asFileList[0]] = $sFile
@@ -173,8 +175,8 @@ EndFunc   ;==>_FileListToArray
 ; Modified.......:
 ; Remarks .......: Uses the ShellExecute function of shell32.dll.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FilePrint($s_File, $i_Show = @SW_HIDE)
 	Local $a_Ret = DllCall("shell32.dll", "long", "ShellExecute", _
@@ -207,8 +209,8 @@ EndFunc   ;==>_FilePrint
 ; Modified.......: Jpm - fixed empty line at the end, Gary Fixed file contains only 1 line.
 ; Remarks .......: $aArray[0] will contain the number of records read into the array.
 ; Related .......: _FileWriteFromArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileReadToArray($sFilePath, ByRef $aArray)
 	Local $hFile, $aFile
@@ -216,7 +218,10 @@ Func _FileReadToArray($sFilePath, ByRef $aArray)
 	If $hFile = -1 Then Return SetError(1, 0, 0);; unable to open the file
 	;; Read the file and remove any trailing white spaces
 	$aFile = FileRead($hFile, FileGetSize($sFilePath))
-	$aFile = StringStripWS($aFile, 2)
+;~ 	$aFile = StringStripWS($aFile, 2)
+	; remove last line separator if any at the end of the file
+	If StringRight($aFile, 1) = @LF Then $aFile = StringTrimRight($aFile, 1)
+	If StringRight($aFile, 1) = @CR Then $aFile = StringTrimRight($aFile, 1)
 	FileClose($hFile)
 	If StringInStr($aFile, @LF) Then
 		$aArray = StringSplit(StringStripCR($aFile), @LF)
@@ -252,8 +257,8 @@ EndFunc   ;==>_FileReadToArray
 ;                  To use other write modes, like append or Unicode formats, open the file with FileOpen() first and pass the file handle instead.
 ;                  If a file handle is passed, the file will still be open after writing.
 ; Related .......: _FileReadToArray
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0)
 	; Check if we have a valid array as input
@@ -297,11 +302,11 @@ EndFunc   ;==>_FileWriteFromArray
 ; Name...........: _FileWriteLog
 ; Description ...: Writes current date,time and the specified text to a log file.
 ; Syntax.........: _FileWriteLog($sLogPath, $sLogMsg[, $iFlag = -1])
-; Parameters ....: $sFilePath - Path and filename of the file to be written to
+; Parameters ....: $sLogPath  - Path and filename of the file to be written to
 ;                  $sLogMsg   - Message to be written to the log file
 ;                  $iFlag     - [Optional] - Flag that defines if $sLogMsg will be written to the end of file, or to the begining.
 ;                  |If $iFlag = -1 (default) $sLogMsg will be written to the end of file.
-;                  |If $iFlag <> -1 $sLogMsg will be written to begining of file.
+;                  |If $iFlag &lt;&gt; -1 $sLogMsg will be written to begining of file.
 ; Return values .: Success - Returns a 1
 ;                  Failure - Returns a 0
 ;                  @Error  - 0 = No error.
@@ -311,8 +316,8 @@ EndFunc   ;==>_FileWriteFromArray
 ; Modified.......: MrCreatoR - added $iFlag parameter
 ; Remarks .......:
 ; Related .......: .FileOpen
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteLog($sLogPath, $sLogMsg, $iFlag = -1)
 	;==============================================
@@ -360,8 +365,8 @@ EndFunc   ;==>_FileWriteLog
 ; Modified.......:
 ; Remarks .......: If _FileWriteToLine is called with $fOverWrite as 1 and $sText as "", it will delete the line.
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteToLine($sFile, $iLine, $sText, $fOverWrite = 0)
 	If $iLine <= 0 Then Return SetError(4, 0, 0)
@@ -401,21 +406,19 @@ EndFunc   ;==>_FileWriteToLine
 ; Name...........: _PathFull
 ; Description ...: Creates a path based on the relative path you provide. The newly created absolute path is returned
 ; Syntax.........: _PathFull($sRelativePath)
-; Parameters ....: $szRelPath - The relative path to be created
+; Parameters ....: $sRelativePath - The relative path to be created
 ; Return values .: Success - Returns the newly created absolute path.
 ; Author ........: Valik (Original function and modification to rewrite), tittoproject (Rewrite)
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _PathMake, _PathSplit, .DirCreate, .FileChangeDir
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
+; Notes .........: UNC paths are supported.
+;                  Pass "\" to get the root drive of $sBasePath.
+;                  Pass "" or "." to return $sBasePath.
+;                  A relative path will be built relative to $sBasePath.  To bypass this behavior, use an absolute path.
 ; ===============================================================================================================================
-; Note(s):          UNC paths are supported.
-;                   Pass "\" to get the root drive of $sBasePath.
-;                   Pass "" or "." to return $sBasePath.
-;                   A relative path will be built relative to $sBasePath.  To bypass this behavior, use an absolute path.
-;
-;===============================================================================
 Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
 	If Not $sRelativePath Or $sRelativePath = "." Then Return $sBasePath
 
@@ -446,6 +449,18 @@ Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
 	; except for get out as fast as possible.  We've also screwed up our
 	; variables so we definitely need to quit.
 	If $i = 3 Then Return ""
+
+	; A path with a driver but no slash (e.g. C:Path\To\File) has the following
+	; behavior.  If the relative drive is the same as the $BasePath drive then
+	; insert the base path.  If the drives differ then just insert a leading
+	; slash to make the path valid.
+	If Not StringLeft($sFullPath, 1) <> "\" Then
+		If StringLeft($sFullPathConst, 2) = StringLeft($sBasePath, 2) Then
+			$sFullPath = $sBasePath & "\" & $sFullPath
+		Else
+			$sFullPath = "\" & $sFullPath
+		EndIf
+	EndIf
 
 	; Build an array of the path parts we want to use.
 	Local $aTemp = StringSplit($sFullPath, "\")
@@ -496,9 +511,9 @@ EndFunc   ;==>_PathFull
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
-;==========================================================================================
-;                  Original function by Yann Perrin <yann.perrin+clef@gmail.com> and
+; Notes .........: Original function by Yann Perrin <yann.perrin+clef@gmail.com> and
 ;                  Lahire Biette <tuxmouraille@gmail.com>, authors of C.A.F.E. Mod.
+; ===============================================================================================================================
 Func _PathGetRelative($sFrom, $sTo)
 	Local $asFrom, $asTo, $iDiff, $sRelPath, $i
 
@@ -551,8 +566,8 @@ EndFunc   ;==>_PathGetRelative
 ; Modified.......:
 ; Remarks .......: The path will still be built with what is passed. This doesn't check the validity of the path created, it could contain characters which are invalid on your filesystem.
 ; Related .......: _PathFull, _PathSplit, .DirCreate, .FileChangeDir
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _PathMake($szDrive, $szDir, $szFName, $szExt)
 	; Format $szDrive, if it's not a UNC server name, then just get the drive letter and add a colon
@@ -592,8 +607,8 @@ EndFunc   ;==>_PathMake
 ; Modified.......:
 ; Remarks .......: This function does not take a command line string. It works on paths, not paths with arguments.
 ; Related .......: _PathFull, _PathMake
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _PathSplit($szPath, ByRef $szDrive, ByRef $szDir, ByRef $szFName, ByRef $szExt)
 	; Set local strings to null (We use local strings in case one of the arguments is the same variable)
@@ -677,8 +692,8 @@ EndFunc   ;==>_PathSplit
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCaseness = 0, $fOccurance = 1)
 
@@ -756,8 +771,8 @@ EndFunc   ;==>_ReplaceStringInFile
 ; Modified.......: Hans Harder - Added Optional parameters
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......; Yes
+; Link ..........:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _TempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExtension = ".tmp", $i_RandomLength = 7)
 	Local $s_TempName

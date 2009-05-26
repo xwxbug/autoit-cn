@@ -1,11 +1,12 @@
 ﻿#include-once
 
-; ------------------------------------------------------------------------------
-;
-; AutoIt Version: 3.2
-; Description:    Rebar constants.
-;
-; ------------------------------------------------------------------------------
+; #INDEX# =======================================================================================================================
+; Title .........: Rebar_Constants
+; AutoIt Version : 3.2
+; Language ......: English
+; Description ...: Constants for Rebar functions.
+; Author(s) .....: Valik, Gary Frost, ...
+; ===============================================================================================================================
 
 ; #MESSAGES# ====================================================================================================================
 Global Const $__REBARCONSTANT_WM_USER = 0X400
@@ -52,6 +53,7 @@ Global Const $RB_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $RB_SETWINDOWTHEME = 0x2000 + 11
 Global Const $RB_SHOWBAND = ($__REBARCONSTANT_WM_USER + 35)
 Global Const $RB_SIZETORECT = ($__REBARCONSTANT_WM_USER + 23)
+; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $RBN_FIRST = (-831)
@@ -67,6 +69,7 @@ Global Const $RBN_GETOBJECT = ($RBN_FIRST - 1)
 Global Const $RBN_HEIGHTCHANGE = ($RBN_FIRST - 0)
 Global Const $RBN_LAYOUTCHANGED = ($RBN_FIRST - 2)
 Global Const $RBN_MINMAX = ($RBN_FIRST - 21)
+; ===============================================================================================================================
 
 ; #STYLES# ======================================================================================================================
 Global Const $RBS_AUTOSIZE = 0x2000
@@ -120,3 +123,4 @@ Global Const $RBHT_NOWHERE = 0x1
 Global Const $RBNM_ID = 0x1
 Global Const $RBNM_LPARAM = 0x4
 Global Const $RBNM_STYLE = 0x2
+; ===============================================================================================================================

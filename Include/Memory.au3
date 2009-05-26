@@ -1,25 +1,25 @@
 ﻿#include-once
-#include <WinAPI.au3>
+
 #include <MemoryConstants.au3>
+#include <WinAPI.au3>
 #include <StructureConstants.au3>
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Memory
-; Description ...: The memory manager implements virtual memory, provides a core set of services such  as  memory  mapped  files,
+; Description ...: Functions that assist with Memory management.
+;                  The memory manager implements virtual memory, provides a core set of services such  as  memory  mapped  files,
 ;                  copy-on-write memory, large memory support, and underlying support for the cache manager.
-; Author ........: Paul Campbell (PaulIA)
+; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
-; ===============================================================================================================================
+; #CONSTANTS# ===================================================================================================================
+;
 ; OpenProcess Constants
-; ===============================================================================================================================
-
-; #VARIABLES# ===================================================================================================================
 Global Const $__MEMORYCONSTANT_PROCESS_VM_OPERATION = 0x00000008
 Global Const $__MEMORYCONSTANT_PROCESS_VM_READ = 0x00000010
 Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
+; ===============================================================================================================================
 
-;==============================================================================================================================
 ; #CURRENT# =====================================================================================================================
 ;_MemGlobalAlloc
 ;_MemGlobalFree
@@ -35,14 +35,14 @@ Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
 ;_MemVirtualFreeEx
 ; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;_MemFree
 ;_MemInit
 ;_MemRead
 ;_MemWrite
-;==============================================================================================================================
+; ===============================================================================================================================
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemFree
 ; Description ...: Releases a memory map structure for a control
 ; Syntax.........: _MemFree(ByRef $tMemMap)
@@ -53,8 +53,8 @@ Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
 ; Modified.......:
 ; Remarks .......: This function is used internally by Auto3Lib and should not normally be called
 ; Related .......: _MemInit
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemFree(ByRef $tMemMap)
 	Local $hProcess, $pMemory, $bResult
@@ -98,9 +98,9 @@ EndFunc   ;==>_MemFree
 ;                  boundary. To execute dynamically generated code, use the _MemVirtualAlloc function to allocate memory and the
 ;                  _Mem_VirtualProtect function to grant $PAGE_EXECUTE access.  To  free  the  memory,  use  the  _MemGlobalFree
 ;                  function. It is not safe to free memory allocated with _MemGlobalAlloc using _Mem_LocalFree.
-; Related .......: _MemGlobalLock, _MemGlobalSize, _MemVirtualAlloc
-; Link ..........; @@MsdnLink@@ GlobalAlloc
-; Example .......;
+; Related .......: _MemGlobalLock, _MemGlobalSize, _MemVirtualAlloc, _MemGlobalFree
+; Link ..........: @@MsdnLink@@ GlobalAlloc
+; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalAlloc($iBytes, $iFlags = 0)
 	Local $aResult
@@ -120,8 +120,8 @@ EndFunc   ;==>_MemGlobalAlloc
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemGlobalAlloc
-; Link ..........; @@MsdnLink@@ GlobalFree
-; Example .......;
+; Link ..........: @@MsdnLink@@ GlobalFree
+; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalFree($hMem)
 	Local $aResult
@@ -141,8 +141,8 @@ EndFunc   ;==>_MemGlobalFree
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemGlobalUnlock
-; Link ..........; @@MsdnLink@@ GlobalLock
-; Example .......;
+; Link ..........: @@MsdnLink@@ GlobalLock
+; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalLock($hMem)
 	Local $aResult
@@ -161,9 +161,9 @@ EndFunc   ;==>_MemGlobalLock
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _MemGlobalAlloc
-; Link ..........; @@MsdnLink@@ GlobalSize
-; Example .......;
+; Related .......: _MemGlobalAlloc, _MemGlobalAlloc
+; Link ..........: @@MsdnLink@@ GlobalSize
+; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalSize($hMem)
 	Local $aResult
@@ -182,8 +182,8 @@ EndFunc   ;==>_MemGlobalSize
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemGlobalLock
-; Link ..........; @@MsdnLink@@ GlobalUnlock
-; Example .......;
+; Link ..........: @@MsdnLink@@ GlobalUnlock
+; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalUnlock($hMem)
 	Local $aResult
@@ -192,7 +192,7 @@ Func _MemGlobalUnlock($hMem)
 	Return $aResult[0]
 EndFunc   ;==>_MemGlobalUnlock
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemInit
 ; Description ...: Initializes a tagMEMMAP structure for a control
 ; Syntax.........: _MemInit($hWnd, $iSize, ByRef $tMemMap)
@@ -205,8 +205,8 @@ EndFunc   ;==>_MemGlobalUnlock
 ; Modified.......:
 ; Remarks .......: This function is used internally by Auto3Lib and should not normally be called
 ; Related .......: _MemFree
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemInit($hWnd, $iSize, ByRef $tMemMap)
 	Local $iAccess, $iAlloc, $pMemory, $hProcess, $iProcessID
@@ -246,8 +246,8 @@ EndFunc   ;==>_MemInit
 ; Remarks .......: This function produces (IMO) a better looking message box.  It also makes sure that BlockInput is  turned  off
 ;                  so the user can move the mouse.
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemMsgBox($iFlags, $sTitle, $sText)
 	BlockInput(0)
@@ -266,14 +266,14 @@ EndFunc   ;==>_MemMsgBox
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........; @@MsdnLink@@ RtlMoveMemory
-; Example .......;
+; Link ..........: @@MsdnLink@@ RtlMoveMemory
+; Example .......:
 ; ===============================================================================================================================
 Func _MemMoveMemory($pSource, $pDest, $iLength)
 	DllCall("Kernel32.dll", "none", "RtlMoveMemory", "ptr", $pDest, "ptr", $pSource, "dword", $iLength)
 EndFunc   ;==>_MemMoveMemory
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemRead
 ; Description ...: Transfer memory from external address space to internal address space
 ; Syntax.........: _MemRead(ByRef $tMemMap, $pSrce, $pDest, $iSize)
@@ -287,8 +287,8 @@ EndFunc   ;==>_MemMoveMemory
 ; Modified.......:
 ; Remarks .......: This function is used internally by Auto3Lib and should not normally be called
 ; Related .......: _MemWrite
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemRead(ByRef $tMemMap, $pSrce, $pDest, $iSize)
 	Local $iRead
@@ -309,15 +309,15 @@ EndFunc   ;==>_MemRead
 ; Modified.......:
 ; Remarks .......:
 ; Related .......:
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemShowError($sText, $fExit = True)
 	_MemMsgBox(16 + 4096, "Error", $sText)
 	If $fExit Then Exit
 EndFunc   ;==>_MemShowError
 
-; #INTERNAL_USE_ONLY#============================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemWrite
 ; Description ...: Transfer memory to external address space from internal address space
 ; Syntax.........: _MemWrite(ByRef $tMemMap, $pSrce[, $pDest = 0[, $iSize = 0[, $sSrce = "ptr"]]])
@@ -332,8 +332,8 @@ EndFunc   ;==>_MemShowError
 ; Modified.......:
 ; Remarks .......: This function is used internally by Auto3Lib and should not normally be called
 ; Related .......: _MemRead
-; Link ..........;
-; Example .......;
+; Link ..........:
+; Example .......:
 ; ===============================================================================================================================
 Func _MemWrite(ByRef $tMemMap, $pSrce, $pDest = 0, $iSize = 0, $sSrce = "ptr")
 	Local $iWritten
@@ -369,9 +369,9 @@ EndFunc   ;==>_MemWrite
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
-; Related .......: _MemVirtualFree
-; Link ..........; @@MsdnLink@@ VirtualAlloc
-; Example .......;
+; Related .......: _MemVirtualFree, _MemGlobalAlloc
+; Link ..........: @@MsdnLink@@ VirtualAlloc
+; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualAlloc($pAddress, $iSize, $iAllocation, $iProtect)
 	Local $aResult
@@ -384,7 +384,8 @@ EndFunc   ;==>_MemVirtualAlloc
 ; Name...........: _MemVirtualAllocEx
 ; Description ...: Reserves a region of memory within the virtual address space of a specified process
 ; Syntax.........: _MemVirtualAllocEx($hProcess, $pAddress, $iSize, $iAllocation, $iProtect)
-; Parameters ....: $pAddress    - Specifies the desired starting address of the region to allocate
+; Parameters ....: $hProcess    - Handle to process
+;                  $pAddress    - Specifies the desired starting address of the region to allocate
 ;                  $iSize       - Specifies the size, in bytes, of th  region
 ;                  $iAllocation - Specifies the type of allocation:
 ;                  |$MEM_COMMIT   - Allocates physical storage in memory or in the paging file on disk for the  specified  region
@@ -406,8 +407,8 @@ EndFunc   ;==>_MemVirtualAlloc
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemVirtualFreeEx
-; Link ..........; @@MsdnLink@@ VirtualAllocEx
-; Example .......;
+; Link ..........: @@MsdnLink@@ VirtualAllocEx
+; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualAllocEx($hProcess, $pAddress, $iSize, $iAllocation, $iProtect)
 	Local $aResult
@@ -431,8 +432,8 @@ EndFunc   ;==>_MemVirtualAllocEx
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemVirtualAlloc
-; Link ..........; @@MsdnLink@@ VirtualFree
-; Example .......;
+; Link ..........: @@MsdnLink@@ VirtualFree
+; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualFree($pAddress, $iSize, $iFreeType)
 	Local $aResult
@@ -457,8 +458,8 @@ EndFunc   ;==>_MemVirtualFree
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _MemVirtualAllocEx
-; Link ..........; @@MsdnLink@@ VirtualFreeEx
-; Example .......;
+; Link ..........: @@MsdnLink@@ VirtualFreeEx
+; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualFreeEx($hProcess, $pAddress, $iSize, $iFreeType)
 	Local $aResult
