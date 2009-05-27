@@ -214,7 +214,7 @@ $CmdLineRaw
 !HttpSetUserAgent 1 1
 !HWnd 1 1
 !InetClose 1 1
-!InetGet 1 2
+!InetGet 1 4
 !InetGetInfo 0 2
 !InetGetSize 1 2
 !IniDelete 2 3
