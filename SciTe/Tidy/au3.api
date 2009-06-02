@@ -45,7 +45,9 @@ With?4
 #cs?2
 #include?2
 #include-once?2
+#NoAutoIt3Execute?2
 #NoTrayIcon?2
+#OnAutoItStartRegister?2
 #RequireAdmin?2
 #AutoIt3Wrapper_Add_Constants?1
 #AutoIt3Wrapper_Au3Check_Parameters?1
@@ -125,8 +127,6 @@ With?4
 @HomeShare?3
 @HotKeyPressed?3
 @HOUR?3
-@InetGetActive?3
-@InetGetBytesRead?3
 @IPAddress1?3
 @IPAddress2?3
 @IPAddress3?3
@@ -140,6 +140,7 @@ With?4
 @MIN?3
 @MON?3
 @MSEC?3
+@MUILang?3
 @MyDocumentsDir?3
 @NumParams?3
 @OSArch?3
@@ -191,8 +192,10 @@ With?4
 @YEAR?3
 Abs ( expression ) Calculates the absolute value of a number.
 ACos ( expression ) Calculates the arcCosine of a number.
-AdlibDisable ( ) Disables the adlib functionality.
-AdlibEnable ( "function" [, time] ) Enables Adlib functionality.
+AdlibDisable ( [ "function"]) Disables the adlib functionality.
+AdlibEnable ( "function" [, time] ) Registers an Adlib function.
+AdlibRegister ( "function" [, time] ) Registers an Adlib function.
+AdlibUnRegister ( "function" ) Unregisters an adlib function.
 Asc ( "char" ) Returns the ASCII code of a character.
 AscW ( "char" ) Returns the unicode code of a character.
 ASin ( expression ) Calculates the arcsine of a number.
@@ -201,7 +204,6 @@ ATan ( expression ) Calculates the arctangent of a number.
 AutoItSetOption ( "CaretCoordMode", param ) Sets the way coords are used in the caret functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 AutoItSetOption ( "ExpandEnvStrings", param ) Changes how literal strings and % symbols are interpreted.  By default strings are treated literally, this option allows you to use %environment% variables inside strings, e.g., "The temp directory is: %temp%". 1 = expand environment variables (similar to AutoIt v2) 0 = do not expand environment variables (default) Without this option the usual way would be: 	"The temp directory is: " & EnvGet("temp") 
 AutoItSetOption ( "ExpandVarStrings", param ) Changes how literal strings and variable/macro ($ and @) symbols are interpreted.  By default strings are treated literally, this option allows you to use variables and macros inside strings, e.g., "The value of var1 is $var1$". 1 = expand variables (when in this mode and you want to use a literal $ or @ then double it up: "This is a single dollar $$ sign". 0 = do not expand variables (default) 
-AutoItSetOption ( "FtpBinaryMode", param ) Changes how FTP files are transferred. 1 = Binary (default) 0 = ASCII 
 AutoItSetOption ( "GUICloseOnESC", param ) When ESC is pressed on a GUI the $GUI_EVENT_CLOSE message is sent.  This option toggles this behavior on and off. 1 = Send the $GUI_EVENT_CLOSE message when ESC is pressed (default). 0 = Don't send the $GUI_EVENT_CLOSE message when ESC is pressed. 
 AutoItSetOption ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positionining relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
 AutoItSetOption ( "GUIDataSeparatorChar", param ) Define the character which delimits subitems in GUICtrlSetData. The default character is '|'. 
@@ -213,7 +215,7 @@ AutoItSetOption ( "MouseClickDownDelay", param ) Alters the length a click is he
 AutoItSetOption ( "MouseClickDragDelay", param ) Alters the length of the brief pause at the start and end of a mouse drag operation. Time in milliseconds to pause (default=250). 
 AutoItSetOption ( "MouseCoordMode", param ) Sets the way coords are used in the mouse functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 AutoItSetOption ( "MustDeclareVars", param ) If this option is used then all variables must be pre-declared with Dim, Local or Global before they can be used - removes the chance for misspelled variables causing bugs. 1 = Variables must be pre-declared 0 = Variables don't need to be pre-declared (default) 
-AutoItSetOption ( "OnExitFunc", param ) Sets the name of the function called when AutoIt exits (default is OnAutoItExit). 
+AutoItSetOption ( "OnExitFunc", param ) this option is no more needed use OnAutoItExitRegister(). 
 AutoItSetOption ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 AutoItSetOption ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 AutoItSetOption ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
@@ -328,7 +330,7 @@ DriveGetLabel ( "path" ) Returns Volume Label of a drive, if it has one.
 DriveGetSerial ( "path" ) Returns Serial Number of a drive.
 DriveGetType ( "path" ) Returns drive type.
 DriveMapAdd ( "device", "remote share" [, flags [, "user" [, "password"]]] ) Maps a network drive.
-DriveMapDel ( "device" ) Disconnects a network drive.
+DriveMapDel ( "drive" ) Disconnects a network drive.
 DriveMapGet ( "device" ) Retrieves the details of a mapped drive.
 DriveSetLabel ( "path", "label" ) Sets the Volume Label of a drive.
 DriveSpaceFree ( "path" ) Returns the free disk space of a path in Megabytes.
@@ -349,8 +351,10 @@ FileDelete ( "path" ) Delete one or more files.
 FileExists ( "path" ) Checks if a file or directory exists.
 FileFindFirstFile ( "filename" ) Returns a search "handle" according to file search string.
 FileFindNextFile ( search ) Returns a filename according to a previous call to FileFindFirstFile.
+FileFlush ( handle ) Flushes the file's buffer to disk.
 FileGetAttrib ( "filename" ) Returns a code string representing a file's attributes.
 FileGetLongName ( "file" [, flag] ) Returns the long path+name of the path+name passed.
+FileGetPos ( handle ) Retrieves the current file position.
 FileGetShortcut ( "lnk" ) Retrieves details about a shortcut.
 FileGetShortName ( "file" [, flag] ) Returns the 8.3 short path+name of the path+name passed.
 FileGetSize ( "filename" ) Returns the size of a file in bytes.
@@ -363,10 +367,11 @@ FileOpenDialog ( "title", "init dir", "filter" [, options [, "default name" [, h
 FileRead ( filehandle or "filename" [, count] ) Read in a number of characters from a previously opened text file.
 FileReadLine ( filehandle or "filename" [, line] ) Read in a line of text from a previously opened text file.
 FileRecycle ( "source" ) Sends a file or directory to the recycle bin.
-FileRecycleEmpty ( ["drive"] ) Empties the recycle bin.
+FileRecycleEmpty ( ["source"] ) Empties the recycle bin.
 FileSaveDialog ( "title", "init dir", "filter" [, options [, "default name" [, hwnd]]] ) Initiates a Save File Dialog.
 FileSelectFolder ( "dialog text", "root dir" [, flag [, "initial dir" [, hwnd]]] ) Initiates a Browse For Folder dialog.
 FileSetAttrib ( "file pattern", "+-RASHNOT" [, recurse] ) Sets the attributes of one or more files.
+FileSetPos ( handle, offset, origin ) Sets the current file position.
 FileSetTime ( "file pattern", "time" [, type [, recurse] ] ) Sets the timestamp of one of more files.
 FileWrite ( filehandle or "filename", "line" ) Append a line of text to the end of a previously opened text file.
 FileWriteLine ( filehandle or "filename", "line" ) Append a line of text to the end of a previously opened text file.
@@ -416,7 +421,7 @@ GUICtrlSetCursor ( controlID, cursorID ) Sets the mouse cursor icon for a partic
 GUICtrlSetData ( controlID, data [, default] ) Modifies the data for a control.
 GUICtrlSetDefBkColor ( defbkcolor [, winhandle] ) Sets the default background color of all the controls of the GUI window.
 GUICtrlSetDefColor ( deftextcolor [, winhandle] ) Sets the default text color of all the controls of the GUI window.
-GUICtrlSetFont (controlID, size [, weight [, attribute [, fontname]]] ) Sets the font for a control.
+GUICtrlSetFont (controlID, size [, weight [, attribute [, fontname[, quality]]]] ) Sets the font for a control.
 GUICtrlSetGraphic ( controlID, type [, par1  [, ... par6]] ) Modifies the data for a control.
 GUICtrlSetImage ( controlID, filename [, iconname [, icontype]] ) Sets the bitmap or icon image to use for a control.
 GUICtrlSetLimit ( controlID, max [, min] ) Limits the number of characters/pixels for a control.
@@ -435,7 +440,7 @@ GUISetAccelerators ( accelerators [, winhandle] ) Sets the accelerator table to 
 GUISetBkColor ( background [, winhandle] ) Sets the background color of the GUI window.
 GUISetCoord ( left, top [, width [, height [, winhandle]]] ) Sets absolute coordinates for the next control.
 GUISetCursor ( [cursorID [, override [, winhandle]]] ) Sets the mouse cursor icon for a GUI window.
-GUISetFont (size [, weight [, attribute [, fontname [, winhandle]]]] ) Sets the default font for a GUI window.
+GUISetFont (size [, weight [, attribute [, fontname [, winhandle[, quality]]]]] ) Sets the default font for a GUI window.
 GUISetHelp ( helpfile [, winhandle] ) Sets an executable file that will be run when F1 is pressed.
 GUISetIcon ( iconfile [, iconID [, winhandle]] ) Sets the icon used in a GUI window.
 GUISetOnEvent ( specialID, "function" [, winhandle] ) Defines a user function to be called when a system button is clicked.
@@ -446,9 +451,13 @@ GUISwitch ( winhandle [, tabitemID] ) Switches the current window used for GUI f
 Hex ( expression [, length] ) Returns a string representation of an integer or of a binary type converted to hexadecimal.
 HotKeySet ( "key" [, "function"] ) Sets a hotkey that calls a user function.
 HttpSetProxy ( mode [, "proxy:port" [, "username", "password"]] ) Sets the internet proxy to use for http access.
+HttpSetUserAgent ( "user agent" ) Sets the user-agent string sent with InetGet() requests.
 HWnd ( expression ) Converts an expression into an HWND handle.
-InetGet ( "URL" [,"filename" [, reload [, background]]] ) Downloads a file from the internet using the http or ftp protocol.
-InetGetSize ( "URL" ) Returns the size (in bytes) of a file located on the internet.
+InetClose ( handle ) Closes a handle returned from InetGet().
+InetGet ( "URL" [, options ] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
+InetGet ( "URL" [,"filename" [, options [, background]]] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
+InetGetInfo ( [ handle [, index ]] ) Returns detailed data for a handle returned from InetGet().
+InetGetSize ( "URL" [, options ] ) Returns the size (in bytes) of a file located on the internet.
 IniDelete ( "filename", "section" [, "key"] ) Deletes a value from a standard format .ini file.
 IniRead ( "filename", "section", "key", "default" ) Reads a value from a standard format .ini file.
 IniReadSection ( "filename", "section" ) Reads all key/value pairs from a section in a standard format .ini file.
@@ -490,10 +499,11 @@ ObjEvent ( $ObjectVar, "functionprefix" [, "interface name"] ) Handles incoming 
 ObjEvent ( "AutoIt.Error" [, "function name"] ) Handles incoming events from the given Object.
 ObjGet ( "filename" [, "classname"] ) Retrieves a reference to a COM object from an existing process or filename.
 ObjName ( $Objectvariable [,Flag] ) Returns the name or interface description of an Object
+OnAutoItExitRegister ( "function" ) Registers a function to be called when AutoIt exits.
+OnAutoItExitUnregister ( "function" ) UnRegisters a function that was called when AutoIt exits.
 Opt ( "CaretCoordMode", param ) Sets the way coords are used in the caret functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 Opt ( "ExpandEnvStrings", param ) Changes how literal strings and % symbols are interpreted.  By default strings are treated literally, this option allows you to use %environment% variables inside strings, e.g., "The temp directory is: %temp%". 1 = expand environment variables (similar to AutoIt v2) 0 = do not expand environment variables (default) Without this option the usual way would be: 	"The temp directory is: " & EnvGet("temp") 
 Opt ( "ExpandVarStrings", param ) Changes how literal strings and variable/macro ($ and @) symbols are interpreted.  By default strings are treated literally, this option allows you to use variables and macros inside strings, e.g., "The value of var1 is $var1$". 1 = expand variables (when in this mode and you want to use a literal $ or @ then double it up: "This is a single dollar $$ sign". 0 = do not expand variables (default) 
-Opt ( "FtpBinaryMode", param ) Changes how FTP files are transferred. 1 = Binary (default) 0 = ASCII 
 Opt ( "GUICloseOnESC", param ) When ESC is pressed on a GUI the $GUI_EVENT_CLOSE message is sent.  This option toggles this behavior on and off. 1 = Send the $GUI_EVENT_CLOSE message when ESC is pressed (default). 0 = Don't send the $GUI_EVENT_CLOSE message when ESC is pressed. 
 Opt ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positionining relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
 Opt ( "GUIDataSeparatorChar", param ) Define the character which delimits subitems in GUICtrlSetData. The default character is '|'. 
@@ -505,7 +515,7 @@ Opt ( "MouseClickDownDelay", param ) Alters the length a click is held down befo
 Opt ( "MouseClickDragDelay", param ) Alters the length of the brief pause at the start and end of a mouse drag operation. Time in milliseconds to pause (default=250). 
 Opt ( "MouseCoordMode", param ) Sets the way coords are used in the mouse functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 Opt ( "MustDeclareVars", param ) If this option is used then all variables must be pre-declared with Dim, Local or Global before they can be used - removes the chance for misspelled variables causing bugs. 1 = Variables must be pre-declared 0 = Variables don't need to be pre-declared (default) 
-Opt ( "OnExitFunc", param ) Sets the name of the function called when AutoIt exits (default is OnAutoItExit). 
+Opt ( "OnExitFunc", param ) this option is no more needed use OnAutoItExitRegister(). 
 Opt ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 Opt ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 Opt ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
@@ -546,17 +556,17 @@ RegEnumVal ( "keyname", instance ) Reads the name of a value according to it's i
 RegRead ( "keyname", "valuename" ) Reads a value from the registry.
 RegWrite ( "keyname" [,"valuename", "type", value] ) Creates a key or value in the registry.
 Round ( expression [, decimalplaces]  ) Returns a number rounded to a specified number of decimal places.
-Run ( "filename" [, "workingdir" [, show_flag[, opt_flag ]]] ) Runs an external program.
-RunAs ( "username", "domain", "password", logon_flag, "filename" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program under the context of a different user.
-RunAsWait ( "username", "domain", "password", logon_flag, "filename" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program under the context of a different user and pauses script execution until the program finishes.
-RunWait ( "filename" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program and pauses script execution until the program finishes.
+Run ( "program" [, "workingdir" [, show_flag[, opt_flag ]]] ) Runs an external program.
+RunAs ( "username", "domain", "password", logon_flag, "program" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program under the context of a different user.
+RunAsWait ( "username", "domain", "password", logon_flag, "program" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program under the context of a different user and pauses script execution until the program finishes.
+RunWait ( "program" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program and pauses script execution until the program finishes.
 Send ( "keys" [, flag] ) Sends simulated keystrokes to the active window.
 SendKeepActive ( "title" [, "text"] ) Attempts to keep a specified window active during Send().
 SetError ( code [, extended [, return value]] ) Manually set the value of the @error macro.
 SetExtended ( code [, return value] ) Manually set the value of the @extended macro.
 ShellExecute ( "filename" [, "parameters" [, "workingdir" [, "verb" [, showflag]]]] ) Runs an external program using the ShellExecute API.
 ShellExecuteWait ( "filename" [, "parameters" [, "workingdir" [, "verb" [, showflag]]]] ) Runs an external program using the ShellExecute API and pauses script execution until it finishes.
-Shutdown ( code ) Shuts down the system.
+Shutdown ( code [, reason] ) Shuts down the system.
 Sin ( expression ) Calculates the sine of a number.
 Sleep ( delay ) Pause script execution.
 SoundPlay ( "filename" [, wait] ) Play a sound file.
@@ -575,7 +585,7 @@ String ( expression ) Returns the string representation of an expression.
 StringAddCR ( "string" ) Takes a string and prefixes all linefeed characters ( Chr(10) ) with a carriage return character ( Chr(13) ).
 StringCompare ( "string1", "string2" [, casesense] ) Compares two strings with options.
 StringFormat ( "format control", var1 [, ... var32] ) Returns a formatted string (similar to the C sprintf() function).
-StringFromASCIIArray ( array, [ start [, end ] ] ) Converts an array of ASCII values to a string.
+StringFromASCIIArray ( array, [ start [, end [, encoding ] ] ] ) Converts an array of ASCII codes to a string.
 StringInStr ( "string", "substring" [, casesense [, occurrence [, start [, count]]]] ) Checks if a string contains a given substring.
 StringIsAlNum ( "string" ) Checks if a string contains only alphanumeric characters.
 StringIsAlpha ( "string" ) Checks if a string contains only alphabetic characters.
@@ -593,12 +603,12 @@ StringLower ( "string" ) Converts a string to lowercase.
 StringMid ( "string", start [, count] ) Extracts a number of characters from a string.
 StringRegExp ( "test", "pattern" [, flag ] [, offset ] ] ) Check if a string fits a given regular expression pattern.
 StringRegExpReplace ( "test", "pattern", "replace", [ count ] ) Replace text in a string based on regular expressions.
-StringReplace ( "string", "searchstring" or start, "replacestring" [, count [, casesense]] ) Replaces substrings in a string.
+StringReplace ( "string", "searchstring" or start, "replacestring" [, occurrence [, casesense]] ) Replaces substrings in a string.
 StringRight ( "string", count ) Returns a number of characters from the right-hand side of a string.
 StringSplit ( "string", "delimiters" [, flag ] ) Splits up a string into substrings depending on the given delimiters.
 StringStripCR ( "string" ) Removes all carriage return values ( Chr(13) ) from a string.
 StringStripWS ( "string", flag ) Strips the white space in a string.
-StringToASCIIArray ( "string", [ start [, end ] ] ) Converts a string to an array containing the ASCII values of each character.
+StringToASCIIArray ( "string", [ start [, end [, encoding ] ] ] ) Converts a string to an array containing the ASCII code of each character.
 StringToBinary ( expression [, flag] ) Converts a string into binary data.
 StringTrimLeft ( "string", count ) Trims a number of characters from the left hand side of a string.
 StringTrimRight ( "string", count ) Trims a number of characters from the right hand side of a string.
@@ -627,9 +637,9 @@ TrayItemSetOnEvent ( itemID, "function" ) Defines a user-defined function to be 
 TrayItemSetState ( controlID, state ) Sets the state of a tray menu/item control.
 TrayItemSetText ( controlID, text ) Sets the itemtext of a tray menu/item control.
 TraySetClick ( flag ) Sets the clickmode of the tray icon - what mouseclicks will display the tray menu.
-TraySetIcon ( [iconfile [, iconID] ) Loads/Sets a specified tray icon.
+TraySetIcon ( [filename [, iconID] ) Loads/Sets a specified tray icon.
 TraySetOnEvent ( specialID, "function" ) Defines a user function to be called when a special tray action happens.
-TraySetPauseIcon ( [iconfile [, iconID] ) Loads/Sets a specified tray pause icon.
+TraySetPauseIcon ( [filename [, iconID] ) Loads/Sets a specified tray pause icon.
 TraySetState ( [ flag ] ) Sets the state of the tray icon.
 TraySetToolTip ( [text] ) (Re)Sets the tooltip text for the tray icon.
 TrayTip ( "title", "text", timeout [, option] ) Displays a balloon tip from the AutoIt Icon. (2000/XP only)
@@ -670,17 +680,12 @@ WinWait ( "title" [, "text" [, timeout]] ) Pauses execution of the script until 
 WinWaitActive ( "title" [, "text" [, timeout]] ) Pauses execution of the script until the requested window is active.
 WinWaitClose ( "title" [, "text" [, timeout]] ) Pauses execution of the script until the requested window does not exist.
 WinWaitNotActive ( "title" [, "text" [, timeout]] ) Pauses execution of the script until the requested window is not active.
-$array = _ExcelReadArray ($oExcel, $iStartRow, $iStartColumn, $iNumCells, $iDirection = 0, $iIndexBase = 0) Create an array from a row or column of the active worksheet. (Requires: #Include <Excel.au3>)
-$oExcel = _ExcelBookNew ($fVisible = 1) Creates new workbook and returns its object identifier. (Requires: #Include <Excel.au3>)
-$oExcel = _ExcelBookOpen ($sFilePath[, $fVisible = 1[, $fReadOnly = False[, $sPassword = ""[, $sWritePassword = ""]]]]) Opens an existing workbook and returns its object identifier. (Requires: #Include <Excel.au3>)
-$string = _ExcelSheetNameGet ($oExcel) Return the name of the active sheet. (Requires: #Include <Excel.au3>)
-$val = _ExcelReadCell ($oExcel, $sRangeOrRow[, $iColumn = 1]) Read information from the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
 _ArrayAdd (ByRef $avArray, $vValue) Adds a specified value at the end of an existing array. (Requires: #Include <Array.au3>)
 _ArrayBinarySearch (Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0]]) Uses the binary search algorithm to search through a 1-dimensional array. (Requires: #Include <Array.au3>)
 _ArrayCombinations (ByRef $avArray, $iSet[, $sDelim = ""]) Returns an Array of the Combinations of a Set of Elements from a Selected Array (Requires: #Include <Array.au3>)
 _ArrayConcatenate (ByRef $avArrayTarget, Const ByRef $avArraySource) Concatenate two arrays. (Requires: #Include <Array.au3>)
 _ArrayDelete (ByRef $avArray, $iElement) Deletes the specified element from the given array. (Requires: #Include <Array.au3>)
-_ArrayDisplay (Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"]]]]]) Displays given 1D or 2D array array in a listview. (Requires: #Include <Array.au3>)
+_ArrayDisplay (Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"[, $sHeader = "|"]]]]]]) Displays given 1D or 2D array array in a listview. (Requires: #Include <Array.au3>)
 _ArrayFindAll (Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iSubItem = 0]]]]]) Find the indices of all ocurrences of a search query between two points in a 1D or 2D array using _ArraySearch(). (Requires: #Include <Array.au3>)
 _ArrayInsert (ByRef $avArray, $iElement[, $vValue = ""]) Add a new value at the specified position. (Requires: #Include <Array.au3>)
 _ArrayMax (Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]]) Returns the highest value held in an array. (Requires: #Include <Array.au3>)
@@ -698,6 +703,7 @@ _ArrayToClip (Const ByRef $avArray[, $iStart = 0[, $iEnd = 0]]) Sends the conten
 _ArrayToString (Const ByRef $avArray[, $sDelim = "|"[, $iStart = 0[, $iEnd = 0]]]) Places the elements of an array into a single string, separated by the specified delimiter. (Requires: #Include <Array.au3>)
 _ArrayTrim (ByRef $avArray, $iTrimNum[, $iDirection = 0[, $iStart = 0[, $iEnd = 0]]]) Trims a certain number of characters from all elements in an array. (Requires: #Include <Array.au3>)
 _ArrayUnique ($aArray[, $iDimension = 1[, $iBase = 0[, $iCase = 0[, $vDelim = "|"]]]]) Returns the Unique Elements of a 1-dimensional array. (Requires: #Include <Array.au3>)
+_Assert ($sCondition [,$bExit = True [,$nCode = 0x7FFFFFFF [,$sLine = @ScriptLineNumber]]]) Display a message if assertion fails. (Requires: #include <Debug.au3>)
 _ChooseColor ([$iReturnType = 0[, $iColorRef = 0[, $iRefType = 0[, $hWndOwnder = 0]]]]) Creates a Color dialog box that enables the user to select a color (Requires: #Include <Misc.au3>)
 _ChooseFont ([$sFontName = "Courier New"[, $iPointSize = 10[, $iColorRef = 0[, $iFontWeight = 0[, $iItalic = False[, $iUnderline = False[, $iStrikethru = False[, $hWndOwner = 0]]]]]]]]) Creates a Font dialog box that enables the user to choose attributes for a logical font. (Requires: #Include <Misc.au3>)
 _ClipBoard_ChangeChain ($hRemove, $hNewNext) Removes a specified window from the chain of clipboard viewers (Requires: #Include <Clipboard.au3>)
@@ -739,7 +745,7 @@ _Date_Time_EncodeSystemTime ($iMonth, $iDay, $iYear[, $iHour = 0[, $iMinute = 0[
 _Date_Time_FileTimeToArray (ByRef $tFileTime) Decode a file time to an array (Requires: #Include <Date.au3>)
 _Date_Time_FileTimeToDOSDateTime ($pFileTime) Converts MS-DOS date and time values to a file time (Requires: #Include <Date.au3>)
 _Date_Time_FileTimeToLocalFileTime ($pFileTime) Converts a file time based on the Coordinated Universal Time to a local file time (Requires: #Include <Date.au3>)
-_Date_Time_FileTimeToStr (ByRef $tFileTime) Decode a file time to a date/time string (Requires: #Include <Date.au3>)
+_Date_Time_FileTimeToStr (ByRef $tFileTime[, $bFmt = 0]) Decode a file time to a date/time string (Requires: #Include <Date.au3>)
 _Date_Time_FileTimeToSystemTime ($pFileTime) Converts a file time to system time format (Requires: #Include <Date.au3>)
 _Date_Time_GetFileTime ($hFile) Retrieves the date and time that a file was created, accessed and modified (Requires: #Include <Date.au3>)
 _Date_Time_GetLocalTime () Retrieves the current local date and time (Requires: #Include <Date.au3>)
@@ -756,8 +762,8 @@ _Date_Time_SetSystemTime ($pSystemTime) Sets the current system time and date, e
 _Date_Time_SetSystemTimeAdjustment ($iAdjustment, $fDisabled) Enables or disables periodic time adjustments to the system's time of day clock (Requires: #Include <Date.au3>)
 _Date_Time_SetTimeZoneInformation ($iBias, $sStdName, $tStdDate, $iStdBias, $sDayName, $tDayDate, $iDayBias) Sets the current time zone settings (Requires: #Include <Date.au3>)
 _Date_Time_SystemTimeToArray (ByRef $tSystemTime) Decode a system time to an array (Requires: #Include <Date.au3>)
-_Date_Time_SystemTimeToDateStr (ByRef $tSystemTime) Decode a system time to a date string (Requires: #Include <Date.au3>)
-_Date_Time_SystemTimeToDateTimeStr (ByRef $tSystemTime) Decode a system time to a date/time string (Requires: #Include <Date.au3>)
+_Date_Time_SystemTimeToDateStr (ByRef $tSystemTime[, $bFmt = 0]) Decode a system time to a date string (Requires: #Include <Date.au3>)
+_Date_Time_SystemTimeToDateTimeStr (ByRef $tSystemTime[, $bFmt = 0]) Decode a system time to a date/time string (Requires: #Include <Date.au3>)
 _Date_Time_SystemTimeToFileTime ($pSystemTime) Converts a system time to file time format (Requires: #Include <Date.au3>)
 _Date_Time_SystemTimeToTimeStr (ByRef $tSystemTime) Decode a system time to a time string (Requires: #Include <Date.au3>)
 _Date_Time_SystemTimeToTzSpecificLocalTime ($pUTC[, $pTimeZone = 0]) Converts a UTC time to a specified time zone's corresponding local time (Requires: #Include <Date.au3>)
@@ -773,10 +779,10 @@ _DateTimeSplit ($sDate, ByRef $asDatePart, ByRef $iTimePart) Split a string cont
 _DateToDayOfWeek ($iYear, $iMonth, $iDay) Returns the weekdaynumber for a given date. (Requires: #Include <Date.au3>)
 _DateToDayOfWeekISO ($iYear, $iMonth, $iDay) Returns the ISO weekdaynumber for a given date. (Requires: #Include <Date.au3>)
 _DateToDayValue ($iYear, $iMonth, $iDay) Returns the daynumber since since noon 4713 BC January 1 for a given Gregorian date. (Requires: #Include <Date.au3>)
-_DateToMonth ($iMonthNum[, $ishort = 0]) Returns the name of the Month, based on the specified month number. (Requires: #Include <Date.au3>)
+_DateToMonth ($iMonth[, $ishort = 0]) Returns the name of the Month, based on the specified month number. (Requires: #Include <Date.au3>)
 _DayValueToDate ($iJulianDate, ByRef $iYear, ByRef $iMonth, ByRef $iDay) Add the given days since noon 4713 BC January 1 and returns the Gregorian date. (Requires: #Include <Date.au3>)
 _DebugBugReportEnv ( ) Outputs a string containing information for Bug report submission. (Requires: #include <Debug.au3>)
-_DebugOut ( $sOutput, $bActivate ) Displays output on a Notepad session started by _DebugSetup() (Requires: #include <Debug.au3>)
+_DebugOut ( $sOutput[, $bActivate] ) Displays output on a Notepad session started by _DebugSetup() (Requires: #include <Debug.au3>)
 _DebugSetup ( $sTitle ) Setups up a debug session by opening a Notepad window for writing by _DebugOut() (Requires: #include <Debug.au3>)
 _Degree ( $nRadians ) Converts radians to degrees. (Requires: #include <Math.au3>)
 _EventLog__Backup ($hEventLog, $sFileName) Saves the event log to a backup file (Requires: #Include <EventLog.au3>)
@@ -792,29 +798,34 @@ _EventLog__OpenBackup ($sServerName, $sFileName) Opens a handle to a backup even
 _EventLog__Read ($hEventLog[, $fRead = True[, $fForward = True[, $iOffset = 0]]]) Reads an entry from the event log (Requires: #Include <EventLog.au3>)
 _EventLog__RegisterSource ($sServerName, $sSourceName) Retrieves a registered handle to the specified event log (Requires: #Include <EventLog.au3>)
 _EventLog__Report ($hEventLog, $iType, $iCategory, $iEventID, $sUserName, $sDesc, $aData) Writes an entry at the end of the specified event log (Requires: #Include <EventLog.au3>)
-_ExcelBookAttach ($s_string, $s_mode = "FilePath") Attach to the first existing instance of Microsoft Excel where the search string matches based on the selected mode. (Requires: #Include <Excel.au3>)
-_ExcelBookClose ($oExcel, $fSave = 1, $fAlerts = 0) Closes the active workbook and removes the specified Excel object. (Requires: #Include <Excel.au3>)
-_ExcelBookSave ($oExcel, $fAlerts = 0) Saves the active workbook of the specified Excel object. (Requires: #Include <Excel.au3>)
-_ExcelBookSaveAs ($oExcel, $sFilePath, $sType = "xls", $fAlerts = 0, $fOverWrite = 0, $sPassword = "", $sWritePassword = "", $iAccessMode = 1, $iConflictResolution = 2) Saves the active workbook of the specified Excel object with a new filename and/or type. (Requires: #Include <Excel.au3>)
-_ExcelColumnDelete ($oExcel, $iColumn, $iNumCols) Delete a number of columns from the active worksheet. (Requires: #Include <Excel.au3>)
-_ExcelColumnInsert ($oExcel, $iColumn, $iNumCols) Insert a number of columns into the active worksheet. (Requires: #Include <Excel.au3>)
-_ExcelFontSetProperties ($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1, $f = False, $fItalic = False, $fUnderline = False) Set the bold, italic, and underline font properties of a range in an Excel object. (Requires: #Include <Excel.au3>)
-_ExcelHorizontalAlignSet ($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1, $sHorizAlign = "left") Set the horizontal alignment of each cell in a range. (Requires: #Include <Excel.au3>)
-_ExcelHyperlinkInsert ($oExcel, $sLinkText, $sAddress, $sScreenTip, $sRangeOrRow, $iColumn = 1) Inserts a hyperlink into the active page. (Requires: #Include <Excel.au3>)
-_ExcelNumberFormat ($oExcel, $sFormat, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1) Applies the specified formatting to the cells in the specified R1C1 Range. (Requires: #Include <Excel.au3>)
-_ExcelReadSheetToArray ($oExcel, [$iStartRow , $iStartColumn [, $iRowCnt, $iColCnt], [$iColShift]]) Create a 2D array from the rows/columns of the active worksheet. (Requires: #Include <Excel.au3>)
-_ExcelRowDelete ($oExcel, $iRow, $iNumRows) Delete a number of rows from the active worksheet. (Requires: #Include <Excel.au3>)
-_ExcelRowInsert ($oExcel, $iRow, $iNumRows) Insert a number of rows into the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelBookAttach ($s_string[, $s_mode = "FilePath"]) Attach to the first existing instance of Microsoft Excel where the search string matches based on the selected mode. (Requires: #Include <Excel.au3>)
+_ExcelBookClose ($oExcel[, $fSave = 1[, $fAlerts = 0]]) Closes the active workbook and removes the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelBookNew ([$fVisible = 1]) Creates new workbook and returns its object identifier. (Requires: #Include <Excel.au3>)
+_ExcelBookOpen ($sFilePath[, $fVisible = 1[, $fReadOnly = False[, $sPassword = ""[, $sWritePassword = ""]]]]) Opens an existing workbook and returns its object identifier. (Requires: #Include <Excel.au3>)
+_ExcelBookSave ($oExcel[, $fAlerts = 0]) Saves the active workbook of the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelBookSaveAs ($oExcel, $sFilePath[, $sType = "xls"[, $fAlerts = 0[, $fOverWrite = 0[, $sPassword = ""[, $sWritePassword = ""[, $iAccessMode = 1[, $iConflictResolution = 2]]]]]]]) Saves the active workbook of the specified Excel object with a new filename and/or type. (Requires: #Include <Excel.au3>)
+_ExcelColumnDelete ($oExcel, $iColumn[, $iNumCols = 1]) Delete a number of columns from the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelColumnInsert ($oExcel, $iColumn[, $iNumCols = 1]) Insert a number of columns into the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelFontSetProperties ($oExcel, $sRangeOrRowStart[, $iColStart = 1[, $iRowEnd = 1[, $iColEnd = 1[, $fBold = False[, $fItalic = False[, $fUnderline = False]]]]]]) Set the bold, italic, and underline font properties of a range in an Excel object. (Requires: #Include <Excel.au3>)
+_ExcelHorizontalAlignSet ($oExcel, $sRangeOrRowStart[, $iColStart = 1[, $iRowEnd = 1[, $iColEnd = 1[, $sHorizAlign = "left"]]]]) Set the horizontal alignment of each cell in a range. (Requires: #Include <Excel.au3>)
+_ExcelHyperlinkInsert ($oExcel, $sLinkText, $sAddress, $sScreenTip, $sRangeOrRow[, $iColumn = 1]) Inserts a hyperlink into the active page. (Requires: #Include <Excel.au3>)
+_ExcelNumberFormat ($oExcel, $sFormat, $sRangeOrRowStart[, $iColStart = 1[, $iRowEnd = 1[, $iColEnd = 1]]]) Applies the specified formatting to the cells in the specified R1C1 Range. (Requires: #Include <Excel.au3>)
+_ExcelReadArray ($oExcel, $iStartRow, $iStartColumn, $iNumCells[, $iDirection = 0[, $iIndexBase = 0]]) Create an array from a row or column of the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelReadCell ($oExcel, $sRangeOrRow[, $iColumn = 1]) Read information from the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelReadSheetToArray ($oExcel[, $iStartRow = 1[, $iStartColumn = 1[, $iRowCnt = 0[, $iColCnt = 0[, $iColShift = False]]]]]) Create a 2D array from the rows/columns of the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelRowDelete ($oExcel, $iRow[, $iNumRows = 1]) Delete a number of rows from the active worksheet. (Requires: #Include <Excel.au3>)
+_ExcelRowInsert ($oExcel, $iRow[, $iNumRows = 1]) Insert a number of rows into the active worksheet. (Requires: #Include <Excel.au3>)
 _ExcelSheetActivate ($oExcel, $vSheet) Activate the specified sheet by string name or by number. (Requires: #Include <Excel.au3>)
-_ExcelSheetAddNew ($oExcel, $sName) Add new sheet to workbook - optionally with a name. (Requires: #Include <Excel.au3>)
-_ExcelSheetDelete ($oExcel, $vSheet) Delete the specified sheet by string name or by number. (Requires: #Include <Excel.au3>)
+_ExcelSheetAddNew ($oExcel[, $sName = ""]) Add new sheet to workbook - optionally with a name. (Requires: #Include <Excel.au3>)
+_ExcelSheetDelete ($oExcel, $vSheet[, $fAlerts = False]) Delete the specified sheet by string name or by number. (Requires: #Include <Excel.au3>)
 _ExcelSheetList ($oExcel) Return a list of all sheets in workbook, by name, as an array. (Requires: #Include <Excel.au3>)
-_ExcelSheetMove ($oExcel, $vMoveSheet, $vRelativeSheet, $fBefore) Move the specified sheet before another specified sheet. (Requires: #Include <Excel.au3>)
+_ExcelSheetMove ($oExcel, $vMoveSheet[, $vRelativeSheet = 1[, $fBefore = True]]) Move the specified sheet before another specified sheet. (Requires: #Include <Excel.au3>)
+_ExcelSheetNameGet ($oExcel) Return the name of the active sheet. (Requires: #Include <Excel.au3>)
 _ExcelSheetNameSet ($oExcel, $sSheetName) Set the name of the active sheet. (Requires: #Include <Excel.au3>)
-_ExcelWriteArray ($oExcel, $iStartRow, $iStartColumn, $aArray, $iDirection = 0, $iIndexBase = 0) Write an array to a row or column on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
-_ExcelWriteCell ($oExcel, $sValue, $sRangeOrRow, $iColumn = 1) Write information to a cell on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
-_ExcelWriteFormula ($oExcel, $iRow, $iColumn, $sFormula) Write a formula to a cell on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
-_ExcelWriteSheetFromArray ($oExcel, ByRef $aArray [, $iStartRow = 1, $iStartColumn = 1 [, $iRowBase = 1, $iColBase = 1]]) Writes a 2D array to the active worksheet (Requires: #Include <Excel.au3>)
+_ExcelWriteArray ($oExcel, $iStartRow, $iStartColumn, $aArray[, $iDirection = 0[, $iIndexBase = 0]]) Write an array to a row or column on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelWriteCell ($oExcel, $sValue, $sRangeOrRow[, $iColumn = 1]) Write information to a cell on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelWriteFormula ($oExcel, $sFormula, $sRangeOrRow[, $iColumn = 1]) Write a formula to a cell on the active worksheet of the specified Excel object. (Requires: #Include <Excel.au3>)
+_ExcelWriteSheetFromArray ($oExcel, ByRef $aArray[, $iStartRow = 1[, $iStartColumn = 1[, $iRowBase = 1[, $iColBase = 1]]]]) Writes a 2D array to the active worksheet (Requires: #Include <Excel.au3>)
 _FileCountLines ($sFilePath) Returns the number of lines in the specified file. (Requires: #Include <File.au3>)
 _FileCreate ($sFilePath) Creates or zero's out the length of the file specified. (Requires: #Include <File.au3>)
 _FileListToArray ($sPath[, $sFilter = "*"[, $iFlag = 0]]) Lists files and\or folders in a specified path (Similar to using Dir with the /B Switch) (Requires: #Include <File.au3>)
@@ -823,6 +834,32 @@ _FileReadToArray ($sFilePath, ByRef $aArray) Reads the specified file into an ar
 _FileWriteFromArray ($File, $a_Array[, $i_Base = 0[, $i_UBound = 0]]) Writes Array records to the specified file. (Requires: #Include <File.au3>)
 _FileWriteLog ($sLogPath, $sLogMsg[, $iFlag = -1]) Writes current date,time and the specified text to a log file. (Requires: #Include <File.au3>)
 _FileWriteToLine ($sFile, $iLine, $sText[, $fOverWrite = 0]) Writes text to a specific line in a file. (Requires: #Include <File.au3>)
+_FTP_Close ($l_InternetSession) Closes the _FTP_Open session. (Requires: #Include <FTPEx.au3>)
+_FTP_Command ($l_FTPSession, $s_FTPCommand[, $l_Flags = 0x00000001[, $l_ExpectResponse = 0[, $l_Context = 0]]]) Sends a command to an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_Connect ($l_InternetSession, $s_ServerName, $s_Username, $s_Password[, $i_Passive = 0[, $i_ServerPort = 0[, $l_Service = 1[, $l_Flags = 0[, $l_Context = 0]]]]]) Connects to an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_DirCreate ($l_FTPSession, $s_Remote) Makes an Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_DirDelete ($l_FTPSession, $s_Remote) Delete's an Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_DirGetCurrent ($l_FTPSession) Get Current Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_DirPutContents ($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut) Puts an folder on an FTP server. Recursivley if selected. (Requires: #Include <FTPEx.au3>)
+_FTP_DirSetCurrent ($l_FTPSession, $s_Remote) Set Current Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileClose ($l_InternetSession) Closes the Handle returned by _FTP_FileOpen. (Requires: #Include <FTPEx.au3>)
+_FTP_FileDelete ($l_FTPSession, $s_RemoteFile) Delete an file from an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileGet ($l_FTPSession, $s_RemoteFile, $s_LocalFile[, $fFailIfExists = False,[ $dwFlagsAndAttributes = 0[, $l_Flags = 0[, $l_Context = 0]]]]) Get file from a FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileGetSize ($l_FTPSession, $s_FileName) Gets filesize of a file on the FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileOpen ($hConnect, $lpszFileName[, $dwAccess = 0x80000000[, $dwFlags = 2[, $dwContext = 0]]]) Initiates access to a remote file on an FTP server for reading or writing. (Requires: #Include <FTPEx.au3>)
+_FTP_FilePut ($l_FTPSession, $s_LocalFile, $s_RemoteFile[, $l_Flags = 0[, $l_Context = 0]]) Puts an file on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileRead ($h_File, $dwNumberOfBytesToRead) Reads data from a handle opened by _FTP_FileOpen() (Requires: #Include <FTPEx.au3>)
+_FTP_FileRename ($l_FTPSession, $s_Existing, $s_New) Renames an file on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FileTimeLoHiToStr ($LoDWORD, $HiDWORD[, $bFmt = 0]) Closes the _FTP_Open session. (Requires: #Include <FTPEx.au3>)
+_FTP_FindFileClose ($h_Handle) Delete FindFile Handle. (Requires: #Include <FTPEx.au3>)
+_FTP_FindFileFirst ($l_FTPSession, $s_RemotePath, ByRef $h_Handle[, $l_Flags = 0[, $l_Context = 0]]) Find First File on an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_FindFileNext ($h_Handle) Find Next File on an FTP server. (Requires: #Include <FTPEx.au3>)
+_Ftp_ListToArray ($l_FTPSession[, $Return_Type = 0[, $l_Flags = 0]]) Get Filenames, Directories or Both of current remote directory. (Requires: #Include <FTPEx.au3>)
+_Ftp_ListToArray2D ($l_FTPSession[, $Return_Type = 0[, $l_Flags = 0]]) Get Filenames and filesizes of current remote directory. (Requires: #Include <FTPEx.au3>)
+_FTP_ListToArrayEx ($l_FTPSession[, $Return_Type = 0[, $l_Flags = 0[, $b_Fmt = 1]]]) Get names, sizes, attributes aand times of files/dir of current remote directory. (Requires: #Include <FTPEx.au3>)
+_FTP_Open ($s_Agent[, $l_AccessType = 1[, $s_ProxyName = ''[, $s_ProxyBypass = ''[, $l_Flags = 0]]]] ) Opens an FTP session. (Requires: #Include <FTPEx.au3>)
+_FTP_ProgressDownload ($l_FTPSession, $s_LocalFile, $s_RemoteFile[, $FunctionToCall = ""]) Downloads a file in Binary Mode and shows a Progress window or by Calling a User defined Function. (Requires: #Include <FTPEx.au3>)
+_FTP_ProgressUpload ($l_FTPSession, $s_LocalFile, $s_RemoteFile[, $FunctionToCall = ""]) Uploads a file in Binary Mode and shows a Progress window or by Calling a User defined Function (Requires: #Include <FTPEx.au3>)
 _GDIPlus_ArrowCapCreate ($nHeight, $nWidth[, $fFilled = True]) Creates an adjustable arrow line cap with the specified height and width (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ArrowCapDispose ($hCap) Release an adjustable arrow line cap object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ArrowCapGetFillState ($hArrowCap) Determines whether the arrow cap is filled (Requires: #Include <GDIPlus.au3>)
@@ -844,7 +881,9 @@ _GDIPlus_BitmapUnlockBits ($hBitmap, $tBitmapData) Unlocks a portion of a bitmap
 _GDIPlus_BrushClone ($hBrush) Clone a Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushCreateSolid ([$iARGB = 0xFF000000]) Create a solid Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushDispose ($hBrush) Release a Brush object (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_BrushGetSolidColor ($hBrush, [$iARGB = 0xFF000000]) Get the color of a Solid Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushGetType ($hBrush) Retrieve the type of Brush object (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_BrushSetSolidColor ($hBrush, [$iARGB = 0xFF000000]) Set the color of a Solid Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_CustomLineCapDispose ($hCap) Release a custom line cap object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_Decoders () Get an array of information about the available image decoders (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_DecodersGetCount () Get the number of available image decoders (Requires: #Include <GDIPlus.au3>)
@@ -905,6 +944,8 @@ _GDIPlus_ImageSaveToFileEx ($hImage, $sFileName, $sEncoder[, $pParams = 0]) Save
 _GDIPlus_MatrixCreate () Creates and initializes a Matrix object that represents the identity matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixDispose ($hMatrix) Release a matrix object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixRotate ($hMatrix, $nAngle[, $fAppend = False]) Updates a matrix with the product of itself and a rotation matrix (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_MatrixRotate ($hMatrix, $nScaleX, $nScaleY[, $fAppend = False]) Updates a matrix with the product of itself and a scaling matrix (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_MatrixTranslate ($hMatrix, $nOffsetX, $nOffsetY[, $fAppend = False]) Updates a matrix with the product of itself and a translation matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ParamAdd (ByRef $tParams, $sGUID, $iCount, $iType, $pValues) Add a value to an enocder parameter list (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ParamInit ($iCount) Initialize an encoder parameter list (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_PenCreate ([$iARGB = 0xFF000000[, $nWidth = 1[, $iUnit = 2]]]) Create a pen object (Requires: #Include <GDIPlus.au3>)
@@ -928,6 +969,7 @@ _GDIPlus_Shutdown () Clean up resources used by Microsoft Windows GDI+ (Requires
 _GDIPlus_Startup () Initialize Microsoft Windows GDI+ (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_StringFormatCreate ([$iFormat = 0[, $iLangID = 0]]) Create a String Format object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_StringFormatDispose ($hFormat) Release a String Format object (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_StringFormatSetAlign ($hStringFormat,$iFlag) Sets the text alignment of a string format object (Requires: #Include <GDIPlus.au3>)
 _GetIP ( ) Get public IP address of a network/computer. (Requires: #include <INet.au3>)
 _GUICtrlAVI_Close ($hWnd) Closes an AVI clip (Requires: #Include <GuiAVI.au3>)
 _GUICtrlAVI_Create ($hWnd[, $sFile = ""[, $subfileid = -1[, $iX = 0[, $iY = 0[, $iWidth = 0[, $iHeight = 0[, $iStyle = 0x00000006[, $iExStyle = 0x00000000]]]]]]]]) Creates an AVI control (Requires: #Include <GuiAVI.au3>)
@@ -958,7 +1000,7 @@ _GUICtrlButton_SetCheck ($hWnd[, $iState = $BST_CHECKED]]) Sets the check state 
 _GUICtrlButton_SetDontClick ($hWnd[, $fState = True]) Sets the state of $BST_DONTCLICK flag on a button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetFocus ($hWnd[, $fFocus = True]) Sets the keyboard focus to the specified button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetImage ($hWnd, $sImageFile[, $nIconId = -1[, $fLarge = False]]) Sets the check state of a radio button or check box (Requires: #Include <GuiButton.au3>)
-_GUICtrlButton_SetImageList ($hWnd, $hImage[, $nAlign = 0[, $iLeft = 1[, $iTop = 1[, $iRight = 1[, $iBottom = 1]]]]]) Sets the check state of a radio button or check box (Requires: #Include <GuiButton.au3>)
+_GUICtrlButton_SetImageList ($hWnd, $hImage[, $nAlign = 0[, $iLeft = 1[, $iTop = 1[, $iRight = 1[, $iBottom = 1]]]]]) Assigns an image list to a button control (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetNote ($hWnd, $sNote) Sets the text of the note associated with a command link button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetShield ($hWnd[, $fRequired = True]) Sets the elevation required state for a specified button or command link to display an elevated icon (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetSize ($hWnd, $iWidth, $iHeight) Sets the size of the button (Requires: #Include <GuiButton.au3>)
@@ -1041,7 +1083,7 @@ _GUICtrlComboBoxEx_GetEditSel ($hWnd) Gets the starting and ending character pos
 _GUICtrlComboBoxEx_GetEditText ($hWnd) Get the text from the edit control of a ComboBoxEx (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_GetExtendedStyle ($hWnd) Gets the extended styles that are in use for a ComboBoxEx control (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_GetExtendedUI ($hWnd) Determines whether a ComboBox has the default user interface or the extended user interface (Requires: #Include <GuiComboBoxEx.au3>)
-_GUICtrlComboBoxEx_GetImageList ($hWnd, $iImageList) Retrieves the handle to an image list assigned to a ComboBoxEx control (Requires: #Include <GuiComboBoxEx.au3>)
+_GUICtrlComboBoxEx_GetImageList ($hWnd) Retrieves the handle to an image list assigned to a ComboBoxEx control (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_GetItem ($hWnd, $iIndex) Retrieves an item's attributes (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_GetItemEx ($hWnd, ByRef $tItem) Retrieves some or all of an item's attributes (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_GetItemHeight ($hWnd, $iComponent = -1) Determines the height of list items or the selection field in a ComboBox (Requires: #Include <GuiComboBoxEx.au3>)
@@ -1074,7 +1116,7 @@ _GUICtrlComboBoxEx_SetEditText ($hWnd, $sText) Set the text of the edit control 
 _GUICtrlComboBoxEx_SetExtendedStyle ($hWnd, $iExStyle[, $iExMask = 0]) Sets extended styles within a ComboBoxEx control (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_SetExtendedUI ($hWnd[, $fExtended = False]) Select either the default user interface or the extended user interface (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_SetImageList ($hWnd, $hHandle) Sets an image list for a ComboBoxEx control (Requires: #Include <GuiComboBoxEx.au3>)
-_GUICtrlComboBoxEx_SetItem ($hWnd, $sText[, $iIndex = 0[, $iImage = -1[, $iSelecteImage = -1[, $iOverlayImage = -1[, $iIndent = -1[, $iParam = -1]]]]]]) Sets some or all of a item's attributes (Requires: #Include <GuiComboBoxEx.au3>)
+_GUICtrlComboBoxEx_SetItem ($hWnd, $sText[, $iIndex = 0[, $iImage = -1[, $iSelectedImage = -1[, $iOverlayImage = -1[, $iIndent = -1[, $iParam = -1]]]]]]) Sets some or all of a item's attributes (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_SetItemEx ($hWnd, ByRef $tItem) Sets some or all of a item's attributes (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_SetItemHeight ($hWnd, $iComponent, $iHeight) Set the height of list items or the selection field in a ComboBox (Requires: #Include <GuiComboBoxEx.au3>)
 _GUICtrlComboBoxEx_SetItemImage ($hWnd, $iIndex, $iImage) Sets the index of the item's icon in the control's image list (Requires: #Include <GuiComboBoxEx.au3>)
@@ -1291,7 +1333,7 @@ _GUICtrlListView_EnsureVisible ($hWnd, $iIndex[, $fPartialOK = False]) Ensures t
 _GUICtrlListView_FindInText ($hWnd, $sText[, $iStart = -1[, $fWrapOK = True[, $fReverse = False]]]) Searches for an item that contains the specified text anywhere in its text (Requires: #Include <GuiListView.au3>)
 _GUICtrlListView_FindItem ($hWnd, $iStart, ByRef $tFindInfo[, $sText = ""]) Searches for an item with the specified characteristics (Requires: #Include <GuiListView.au3>)
 _GUICtrlListView_FindNearest ($hWnd, $iX, $iY[, $iDir = 0[, $iStart = -1[, $fWrapOK = True]]]) Finds the item nearest to the position specified (Requires: #Include <GuiListView.au3>)
-_GUICtrlListView_FindParam ($hWnd, $iPara[, $iStart = -1]) Searches for an item with the specified lParam (Requires: #Include <GuiListView.au3>)
+_GUICtrlListView_FindParam ($hWnd, $iParam[, $iStart = -1]) Searches for an item with the specified lParam (Requires: #Include <GuiListView.au3>)
 _GUICtrlListView_FindText ($hWnd, $sText[, $iStart = -1[, $fPartialOK = True[, $fWrapOK = True]]]) Searches for an item with the specified text (Requires: #Include <GuiListView.au3>)
 _GUICtrlListView_GetBkColor ($hWnd) Retrieves the background color of a list-view control (Requires: #Include <GuiListView.au3>)
 _GUICtrlListView_GetBkImage ($hWnd) Retrieves the background image in the control (Requires: #Include <GuiListView.au3>)
@@ -1628,11 +1670,12 @@ _GUICtrlSlider_Create ($hWnd, $iX, $iY[, $iWidth = 100[, $iHeight = 20[, $iStyle
 _GUICtrlSlider_Destroy (ByRef $hWnd) Delete the control (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetBuddy ($hWnd, $fLocation) Retrieves the handle to a slider control buddy window at a given location (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetChannelRect ($hWnd) Retrieves the size and position of the bounding rectangle for a sliders's channel (Requires: #Include <GuiSlider.au3>)
+_GUICtrlSlider_GetChannelRectEx ($hWnd) Retrieves the size and position of the bounding rectangle for a sliders's channel (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetLineSize ($hWnd) Retrieves the number of logical positions the slider moves (Requires: #Include <GuiSlider.au3>)
+_GUICtrlSlider_GetLogicalTics ($hWnd) Retrieves an array that contains the logical positions of the tick marks for a slider (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetNumTics ($hWnd) Retrieves the number of tick marks from a slider (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetPageSize ($hWnd) Retrieves the number of logical positions the slider moves (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetPos ($hWnd) Retrieves the logical position the slider (Requires: #Include <GuiSlider.au3>)
-_GUICtrlSlider_GetPTics ($hWnd) Retrieves an array that contains the logical positions of the tick marks for a slider (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetRange ($hWnd) Retrieves the maximum and minimum position for the slider (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetRangeMax ($hWnd) Retrieves the maximum position for the slider (Requires: #Include <GuiSlider.au3>)
 _GUICtrlSlider_GetRangeMin ($hWnd) Retrieves the minimum position for the slider (Requires: #Include <GuiSlider.au3>)
@@ -2199,31 +2242,31 @@ _SendMessageA ($hWnd, $iMsg[, $wParam = 0[, $lParam = 0[, $iReturn = 0[, $wParam
 _SetDate ($iDay[, $iMonth = 0[, $iYear = 0]]) Sets the current date of the system (Requires: #Include <Date.au3>)
 _SetTime ($iHour, $iMinute[, $iSecond = 0]) Sets the current time of the system (Requires: #Include <Date.au3>)
 _Singleton ($sOccurenceName[, $iFlag = 0]) Enforce a design paradigm where only one instance of the script may be running. (Requires: #Include <Misc.au3>)
-_SoundClose ( $sSnd_id ) Closes a sound previously opened with _SoundOpen. (Requires: #include <Sound.au3>)
-_SoundLength ( $sSnd_id [, $iMode ] ) Returns the length of the soundfile. (Requires: #include <Sound.au3>)
-_SoundOpen ( $hFile [, $sAlias ] ) Opens a sound file for use with other _Sound functions. (Requires: #include <Sound.au3>)
-_SoundPause ( $sSnd_id ) Pause a playing sound. (Requires: #include <Sound.au3>)
-_SoundPlay ( $sSnd_id [, $fWait ] ) Play a sound file. (Requires: #include <Sound.au3>)
-_SoundPos ( $sSnd_id [, $iMode ] ) Returns the current position of the sound. (Requires: #include <Sound.au3>)
-_SoundResume ( $sSnd_id ) Resume a paused sound. (Requires: #include <Sound.au3>)
-_SoundSeek ( $sSnd_id, $iHour, $iMin, $iSec ) Seeks the sound to the specified position  (Requires: #include <Sound.au3>)
-_SoundStatus ( $sSnd_id ) Returns the status of the sound  (Requires: #include <Sound.au3>)
-_SoundStop ( $sSnd_id ) Stop a playing sound. (Requires: #include <Sound.au3>)
+_SoundClose ( $aSnd_id ) Closes a sound previously opened with _SoundOpen. (Requires: #include <Sound.au3>)
+_SoundLength ( $aSnd_id [, $iMode ] ) Returns the length of the soundfile. (Requires: #include <Sound.au3>)
+_SoundOpen ( $sFile [, $sAlias ] ) Opens a sound file for use with other _Sound functions. (Requires: #include <Sound.au3>)
+_SoundPause ( $aSnd_id ) Pause a playing sound. (Requires: #include <Sound.au3>)
+_SoundPlay ( $aSnd_id [, $fWait ] ) Play a sound file. (Requires: #include <Sound.au3>)
+_SoundPos ( $aSnd_id [, $iMode ] ) Returns the current position of the sound. (Requires: #include <Sound.au3>)
+_SoundResume ( $aSnd_id ) Resume a paused sound. (Requires: #include <Sound.au3>)
+_SoundSeek ( $aSnd_id, $iHour, $iMin, $iSec ) Seeks the sound to the specified position  (Requires: #include <Sound.au3>)
+_SoundStatus ( $aSnd_id ) Returns the status of the sound  (Requires: #include <Sound.au3>)
+_SoundStop ( $aSnd_id ) Stop a playing sound. (Requires: #include <Sound.au3>)
 _SQLite_Changes ( [ $hDB ] ) Returns number of changes (excluding triggers) of the last transaction (Requires: #include <SQLite.au3>)
 _SQLite_Close ( [ $hDB ] ) Close a SQLite database. (Requires: #include <SQLite.au3>)
-_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $fReturn = False ]] ) Returns or prints a 2Dimensional array formated to Console (Requires: #include <SQLite.au3>)
+_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $nReturn = 0 ]] ) Returns or prints a 2Dimensional array formated to Console (Requires: #include <SQLite.au3>)
 _SQLite_Encode ( $vData ) Encodes strings or binary data for use in SQLite query's (Requires: #include <SQLite.au3>)
 _SQLite_ErrCode ( [ $hDB ] ) Returns last error code (numeric) (Requires: #include <SQLite.au3>)
 _SQLite_ErrMsg ( [ $hDB ] ) Returns a string describing in english the error condition for the most recent sqlite3_* API call (Requires: #include <SQLite.au3>)
 _SQLite_Escape ( $sString [, $iBuffSize ] ) Escapes a string (Requires: #include <SQLite.au3>)
 _SQLite_Exec ( $hDB, $sSQL [, $sCallBack ] ) Executes a SQLite query, does not handle results. (Requires: #include <SQLite.au3>)
 _SQLite_FetchData ( $hQuery, ByRef $aRow [, $fBinary ] ) Fetches 1 row of data from a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
-_SQLite_FetchNames ( $hQuery, ByRef $aNames ) Read out the table names of a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
+_SQLite_FetchNames ( $hQuery, ByRef $aNames ) Read out the Column names of a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
 _SQLite_GetTable ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize = 64 ] ) Passes Out a 1Dimensional Array Containing Tablenames and Data of Executed Query. (Requires: #include <SQLite.au3>)
-_SQLite_GetTable2d ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize [, $fSwichDimensions = False ]] ) Passes out a 2Dimensional array containing table names and data of executed Query (Requires: #include <SQLite.au3>)
+_SQLite_GetTable2d ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize [, $fSwichDimensions = False ]] ) Passes out a 2Dimensional array containing Column names and Data of executed Query (Requires: #include <SQLite.au3>)
 _SQLite_LastInsertRowID ( [ $hDB ] ) Returns the ROWID of the most recent insert in the database (Requires: #include <SQLite.au3>)
 _SQLite_LibVersion ( ) Returns the version number of the library (Requires: #include <SQLite.au3>)
-_SQLite_Open ( [ $sDatabase_Filename = ":memory:" ] ) Opens/creates a SQLite database. (Requires: #include <SQLite.au3>)
+_SQLite_Open ( [ $sDatabase_Filename = ":memory:" [,$iAccessMode [,$iEncoding ]]] ) Opens/creates a SQLite database. (Requires: #include <SQLite.au3>)
 _SQLite_Query ( $hDB, $sSQL, ByRef $hQuery ) Prepares a SQLite Query (Requires: #include <SQLite.au3>)
 _SQLite_QueryFinalize ( $hQuery ) Finalizes an _SQLite_Query() based query. The query is interrupted. (Requires: #include <SQLite.au3>)
 _SQLite_QueryReset ( $hQuery ) Reset a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
@@ -2234,13 +2277,14 @@ _SQLite_Shutdown ( ) Unloads SQLite.dll (Requires: #include <SQLite.au3>)
 _SQLite_SQLiteExe ( $sDatabaseFile, $sInput, ByRef $sOutput [, $sSQLiteExeFilename = "SQLite3.exe" ] ) Executes commands in SQLite.exe (Requires: #include <SQLite.au3>)
 _SQLite_Startup ( [ $sDll_Filename = "sqlite3.dll" ] ) Loads SQLite.dll (Requires: #include <SQLite.au3>)
 _SQLite_TotalChanges ( [ $hDB ] ) Returns number of all changes (including triggers) of all transactions (Requires: #include <SQLite.au3>)
-_StringAddThousandsSep ($sString[, $sThousands = ","[, $sDecimal = "."]]) Returns the original numbered string with the Thousands delimiter inserted. (Requires: #Include <String.au3>)
-_StringBetween ($sString, $sStart, $sEnd[, $vCase = -1[, $iSRE = -1]]) Returns the string between the start search string and the end search string. (Requires: #Include <String.au3>)
+_StringAddThousandsSep ($s_string[, $i_convert_lcid = -1[, $i_current_lcid = -1]]) Returns the original numbered string with the Thousands and or Decimal delimiter(s) inserted. (Requires: #Include <String.au3>)
+_StringBetween ($s_String, $s_Start, $s_End[, $v_Case = -1]) Returns the string between the start search string and the end search string. (Requires: #Include <String.au3>)
 _StringEncrypt ($i_Encrypt, $s_EncryptText, $s_EncryptPassword[, $i_EncryptLevel = 1]) An RC4 based string encryption function. (Requires: #Include <String.au3>)
-_StringInsert ($s_String, $s_String, $i_Position) Inserts a string within another string. (Requires: #Include <String.au3>)
-_StringProper ($s_Str) Changes a string to proper case, same a =Proper function in Excel (Requires: #Include <String.au3>)
+_StringExplode ($sString, $sDelimiter [, $iLimit] ) Splits up a string into substrings depending on the given delimiters as PHP Explode v5. (Requires: #Include <String.au3>)
+_StringInsert ($s_String, $s_InsertString, $i_Position) Inserts a string within another string. (Requires: #Include <String.au3>)
+_StringProper ($s_String) Changes a string to proper case, same a =Proper function in Excel (Requires: #Include <String.au3>)
 _StringRepeat ($sString, $iRepeatCount) Repeats a string a specified number of times. (Requires: #Include <String.au3>)
-_StringReverse ($sString) Reverses the contents of the specified string. (Requires: #Include <String.au3>)
+_StringReverse ($s_String) Reverses the contents of the specified string. (Requires: #Include <String.au3>)
 _StringToHex ($strChar) Convert a string to a hex string. (Requires: #Include <String.au3>)
 _TCPIpToName ( $sIp [,$iOption = 0 [, $hDll_Ws2_32 = "Ws2_32.dll" ]] ) Resolves IP adress to Hostname(s) (Requires: #include <iNet.au3>)
 _TempFile ([$s_DirectoryName = @TempDir[, $s_FilePrefix = "~"[, $s_FileExtension = ".tmp"[, $i_RandomLength = 7]]]]) Generate a name for a temporary file. The file is guaranteed not to exist yet. (Requires: #Include <File.au3>)
@@ -2259,6 +2303,7 @@ _viExecCommand ( $h_session, $s_command, $i_timeout_ms = -1 ) Send a Command/Que
 _viFindGpib ( ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_results = 0 ) Send a Command/Query to an Instrument/Device through the VISA interface (GPIB / TCP) (Requires: #include <Visa.au3>)
 _viGpibBusReset ( ) GPIB BUS "reset": Use this function when the GPIB BUS gets stuck for some reason. You might be lucky and resolve the problem by calling this function (Requires: #include <Visa.au3>)
 _viGTL ( $h_session ) Go To Local mode: Instruments that accept this command will exit the "Remote Control mode" and go to "Local mode". If the instrument is already in "Local mode" this is simply ignored. Normally, if an instrument does not support this command it will simply stay in the "Remote Control mode" (Requires: #include <Visa.au3>)
+_viInteractiveControl ($s_command_save_filename = "") Interactive VISA control to test your SCPI commands. (Requires: #include <Visa.au3>)
 _viOpen ( $s_visa_address, $s_visa_secondary_address = 0 ) Opens a VISA connection to an Instrument/Device (Requires: #include <Visa.au3>)
 _viSetAttribute ( $h_session, $i_attribute, $i_value ) Set any VISA attribute This function, which is called by _viSetTimeout, can ALSO be used to set the other VISA specific attributes. Read the VISA documentation for more information and a list of VISA attributes and their corresponding values. (Requires: #include <Visa.au3>)
 _viSetTimeout ( $h_session, $i_timeout_ms ) Sets the VISA timeout in MILISECONDS (Requires: #include <Visa.au3>)
@@ -2269,7 +2314,7 @@ _WinAPI_Beep ($iFreq = 500, $iDuration = 1000) Generates simple tones on the spe
 _WinAPI_BitBlt ($hDestDC, $iXDest, $iYDest, $iWidth, $iHeight, $hSrcDC, $iXSrc, $iYSrc, $iROP) Performs a bit-block transfer of color data (Requires: #Include <WinAPI.au3>)
 _WinAPI_CallNextHookEx ($hhk, $iCode, $wParam, $lParam) Passes the hook information to the next hook procedure in the current hook chain (Requires: #Include <WinAPI.au3>)
 _WinAPI_CallWindowProc ($lpPrevWndFunc, $hWnd, $Msg, $wParam, $lParam) Passes the hook information to the next hook procedure in the current hook chain (Requires: #Include <WinAPI.au3>)
-_WinAPI_Check ($sFunction, $fError, $vError[, $fTranslate = False]) Displays any errors produced by the AutoIt library (Requires: #Include <WinAPI.au3>)
+_WinAPI_Check ($sFunction, $fError, $iError[, $fTranslate = False]) Displays any errors produced by the AutoIt library (Requires: #Include <WinAPI.au3>)
 _WinAPI_ClientToScreen ($hWnd, ByRef $tPoint) Converts the client coordinates of a specified point to screen coordinates (Requires: #Include <WinAPI.au3>)
 _WinAPI_CloseHandle ($hObject) Closes an open object handle (Requires: #Include <WinAPI.au3>)
 _WinAPI_CombineRgn ($hRgnDest, $hRgnSrc1, $hRgnSrc2, $iCombineMode) Combines two regions and stores the result in a third region (Requires: #Include <WinAPI.au3>)
@@ -2342,6 +2387,7 @@ _WinAPI_GetForegroundWindow () Returns the handle of the foreground window (Requ
 _WinAPI_GetIconInfo ($hIcon) Retrieves information about the specified icon or cursor (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetLastError () Returns the calling thread's lasterror code value (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetLastErrorMessage () Returns the calling threads last error message (Requires: #Include <WinAPI.au3>)
+_WinAPI_GetLayeredWindowAttributes ($hWnd, ByRef $i_transcolor, ByRef $Transparency[, $asColorRef = False]) Gets Layered Window Attributes (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetModuleHandle ($sModuleName) Returns a module handle for the specified module (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetMousePos ([$fToClient = False], $hWnd = 0]]) Returns the current mouse position (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetMousePosX ([$fToClient = False[, $hWnd = 0]]) Returns the current mouse X position (Requires: #Include <WinAPI.au3>)
@@ -2387,10 +2433,10 @@ _WinAPI_LoadShell32Icon ($iIconID) Extracts an icon from the Shell32.dll file (R
 _WinAPI_LoadString ($hInstance, $iStringId) loads a string resource from the executable file associated with a specified module (Requires: #Include <WinAPI.au3>)
 _WinAPI_LocalFree ($hMem) Frees the specified local memory object and invalidates its handle (Requires: #Include <WinAPI.au3>)
 _WinAPI_LoWord ($iLong) Returns the low word of a longword (Requires: #Include <WinAPI.au3>)
-_WinAPI_MakeDWord ($HiWord, $LoWord) Returns a DWord value from two int values (Requires: #Include <WinAPI.au3>)
 _WinAPI_MAKELANGID ($lgidPrimary, $lgidSub) Construct language id from a primary language id and a sublanguage id (Requires: #Include <WinAPI.au3>)
 _WinAPI_MAKELCID ($lgid, $srtid) Construct locale id from a language id and a sort id (Requires: #Include <WinAPI.au3>)
 _WinAPI_MakeLong ($iLo, $iHi) Returns a longint value from two int values (Requires: #Include <WinAPI.au3>)
+_WinAPI_MakeQWord ($HiDWORD, $LoDWORD) Returns a QWORD value from two int values (Requires: #Include <WinAPI.au3>)
 _WinAPI_MessageBeep ([$iType = 1]) Plays a waveform sound (Requires: #Include <WinAPI.au3>)
 _WinAPI_Mouse_Event ($iFlags[, $iX = 0[, $iY = 0[, $iData = 0[, $iExtraInfo = 0]]]]) Synthesizes mouse motion and button clicks (Requires: #Include <WinAPI.au3>)
 _WinAPI_MoveTo ($hDC, $iX, $iY) Updates the current position to the specified point (Requires: #Include <WinAPI.au3>)
@@ -2426,6 +2472,7 @@ _WinAPI_SetFocus ($hWnd) Sets the keyboard focus to the specified window (Requir
 _WinAPI_SetFont ($hWnd, $hFont[, $fRedraw = True]) Sets a window font (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetHandleInformation ($hObject, $iMask, $iFlags) Sets certain properties of an object handle (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetLastError ($iErrCode) Sets the last-error code for the calling thread (Requires: #Include <WinAPI.au3>)
+_WinAPI_SetLayeredWindowAttributes ($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlages = 0x03[, $isColorRef = False]]]) Sets Layered Window Attributes (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetParent ($hWndChild, $hWndParent) Changes the parent window of the specified child window (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetProcessAffinityMask ($hProcess, $iMask) Sets a processor affinity mask for the threads of a specified process (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetSysColors ($vElements, $vColors) Obtains information about the display devices in a system (Requires: #Include <WinAPI.au3>)

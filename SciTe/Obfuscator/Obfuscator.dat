@@ -1,5 +1,6 @@
 Functionname,Parameter to check,0=check for function/1=check for Variable
 adlibenable,1,0
+adlibregister,1,0
 call,1,0
 dllcallbackregister,1,0
 eval,1,1

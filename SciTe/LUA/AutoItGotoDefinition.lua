@@ -52,7 +52,7 @@ function AutoItGotoDefinition:GotoDefinition(version)
 	-- Get the current word.
 	local func = self:GetWord()
 	if func == "" then
-		print("光标下无任何文本.")
+		print("Cursor not on any text.")
 		return
 	end
 
@@ -89,7 +89,7 @@ function AutoItGotoDefinition:GotoDefinition(version)
 				for i = start, stop, step do
 					current = directories[i] .. k
 					if self:FileExists(current) then
-						self:DebugPrint("扫描中: " .. current)
+						self:DebugPrint("Scanning: " .. current)
 						if self:ContainsFunction(func, current) and self:ShowFunction(func, directories[i] .. k) then
 							-- If we found and showed the function, stop
 							-- processing.
@@ -112,7 +112,7 @@ function AutoItGotoDefinition:GotoDefinition(version)
 
 	-- The function wasn't found.
 	if not found then
-		print("不能找到函数定义:" .. func)
+		print("Unable to find function definition: " .. func)
 	end
 end	-- GotoDefinition()
 
@@ -153,12 +153,12 @@ function AutoItGotoDefinition:GetIncludes(file, files)
 		-- Force lower case
 		local include = line:match(pattern_library)
 		if include and not files[include] then
-			self:DebugPrint("包含: " .. include)
+			self:DebugPrint("Include: " .. include)
 			files[include] = { IsLibrary=true, Processed=false }
 		else
 			include = line:match(pattern_local)
 			if include and not files[include] then
-				self:DebugPrint("包含: " .. include)
+				self:DebugPrint("Include: " .. include)
 				files[include] = { IsLibrary=false, Processed=false }
 			end
 		end
@@ -183,16 +183,12 @@ function AutoItGotoDefinition:GetDirectories(version)
 	if version ~= "beta" then 
 		for directory in string.gmatch(props[self.DirProp], "([^;]+)") do
 			table.insert(directories, directory)
-			self:DebugPrint("目录: " .. directory)
+			self:DebugPrint("directory: " .. directory)
 		end
-		for directory in string.gmatch(props["autoit3dir"] .. "\\userinclude\\", "([^;]+)") do
-			table.insert(directories, props["autoit3dir"] .. "\\userinclude\\")
-			self:DebugPrint("目录: " .. directory)
-		end	
 	else
 		for directory in string.gmatch(props[self.DirPropBeta], "([^;]+)") do
 			table.insert(directories, directory)
-			self:DebugPrint("目录: " .. directory)
+			self:DebugPrint("directory: " .. directory)
 		end
 	end
 	-- Ensure all directories have a trailing backslash.
