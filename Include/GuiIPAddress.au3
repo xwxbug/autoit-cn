@@ -83,7 +83,7 @@ Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY = 2
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeigth = 25, $iStyles = 0x00000000, $iExstyles = 0x00000000)
+Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeight = 25, $iStyles = 0x00000000, $iExstyles = 0x00000000)
 	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlIpAddress_Create 1st parameter")
 
 	Local $hIPAddress, $iStyle, $nCtrlID
@@ -102,7 +102,7 @@ Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeigth = 25, $iS
 	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hIPAddress = _WinAPI_CreateWindowEx($iExstyles, $__IPADDRESSCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeigth, $hWnd, $nCtrlID)
+	$hIPAddress = _WinAPI_CreateWindowEx($iExstyles, $__IPADDRESSCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_WinAPI_SetFont($hIPAddress, _WinAPI_GetStockObject($__IPADDRESSCONSTANT_DEFAULT_GUI_FONT))
 
 	Return $hIPAddress
@@ -342,7 +342,7 @@ Func _GUICtrlIpAddress_SetEx($hWnd, $tIP)
 		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1")), _
 		BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3"))))
 EndFunc   ;==>_GUICtrlIpAddress_SetEx
-		
+
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlIpAddress_SetFocus
 ; Description ...: Sets the keyboard focus to the specified field in the IP address control

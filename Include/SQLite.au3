@@ -1,5 +1,5 @@
 ﻿#include-once
-#AutoIt3Wrapper_plugin_funcs=__SQLite_Inline_Version, __SQLite_Inline_Modified, __SQLite_Inline_SQLite3Dll
+#IgnoreFunc __SQLite_Inline_Version, __SQLite_Inline_Modified, __SQLite_Inline_SQLite3Dll
 
 #include <Array.au3> 	; Using: _ArrayCreate(),_ArrayAdd(),_ArrayDelete(),_ArraySearch()
 #include <File.au3> 	; Using: _TempFile()
@@ -36,7 +36,7 @@
 ; _SQLite_FetchData
 ; _SQLite_Query
 ; _SQLite_SetTimeout
-; _SQLite_SaveMode
+; _SQLite_SafeMode
 ; _SQLite_QueryFinalize
 ; _SQLite_QueryReset
 ; _SQLite_FetchNames
@@ -57,6 +57,7 @@
 ;__SQLite_szFree
 ;__SQLite_StringToUtf8Struct
 ;__SQLite_Utf8StructToString
+;__SQLite_ConsoleWrite
 ; ===============================================================================================================================
 
 #comments-start
@@ -116,6 +117,8 @@
 	04.05.09	Added _SQLite_Open() accepts a third parameter for UTF8/UTF16 encoding mode (Only use at creation time). (jpm)
 				Warn: _SQLite_Open() is using now Filename that are Unicode as SQLite expects. Previous version was sending only Filenames with
 					  ASCII characters so previously script can have create valid ASCII filenames no more unreachable.
+	25.05.09	_SQLite_Startup extra parameter to force UTF8 char on SciTE console with output.code.page=65001.
+	09.06.09	_SQLite_SaveMode renamed to _SQLite_SafeMode().
 #comments-end
 
 ; #CONSTANTS# ===================================================================================================================
@@ -162,14 +165,16 @@ Global Const $SQLITE_ENCODING_UTF16be = 2	; /* Database will be created if not e
 ; #VARIABLES# ===================================================================================================================
 Global $g_hDll_SQLite = 0
 Global $g_hDB_SQLite = 0
+Global $g_bUTF8ErrorMsg_SQLite = False
 Global $g_avSafeMode_SQLite = _ArrayCreate(1, _ArrayCreate(''), _ArrayCreate(''), 0, _ArrayCreate(''))
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SQLite_Startup
 ; Description ...: Loads SQLite.dll
-; Syntax.........: _SQLite_Startup($sDll_Filename = "")
+; Syntax.........: _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False)
 ; Parameters ....: $sDll_Filename - Optional, Dll Filename
+;                  $bUTF8ErrorMsg - Optional, to force ConsoleWrite to display UTF8 chars
 ; Return values .: On Success - Returns path to SQLite3.dll
 ;                  On Failure - Returns empty string
 ;                   @error Value(s):	1 - Error Loading Dll
@@ -177,8 +182,11 @@ Global $g_avSafeMode_SQLite = _ArrayCreate(1, _ArrayCreate(''), _ArrayCreate('')
 ; Modified.......: jpm
 ; Remarks .......: _SQLite_Startup([$sDll_Filename]) Loads SQLite3.dll
 ; ===============================================================================================================================
-Func _SQLite_Startup($sDll_Filename = "")
+Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False)
 	Local $fUseInline = True
+	If IsKeyword($bUTF8ErrorMsg) Then $bUTF8ErrorMsg = False
+	$g_bUTF8ErrorMsg_SQLite = $bUTF8ErrorMsg
+
 	If IsKeyword($sDll_Filename) Or $sDll_Filename = "" Or $sDll_Filename = -1 Then
 		If @AutoItX64 = 0 Then
 			$sDll_Filename = "sqlite3.dll"
@@ -304,7 +312,7 @@ EndFunc   ;==>_SQLite_Open
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;                    1 - Error Calling SQLite API 'sqlite3_get_table'
 ;					 2 - Error Calling SQLite API 'sqlite3_free_table'
-;					 3 - Call Prevented by SaveMode
+;					 3 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jchd
 ; ===============================================================================================================================
@@ -361,7 +369,7 @@ EndFunc   ;==>_SQLite_GetTable
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_exec'
-;					 2 - Call Prevented by SaveMode
+;					 2 - Call Prevented by SafeMode
 ;					 3 - Error Processing Callback
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jchd
@@ -415,7 +423,7 @@ EndFunc   ;==>_SQLite_LibVersion
 ; Parameters ....: $hDB - Optional, An Open Database, Default is the Last Opened Database
 ; Return values .: Returns ROWID
 ; @error Value(s):	1 - Error Calling SQLite API 'sqlite3_last_insert_rowid'
-; 					2 - Call Prevented by SaveMode
+; 					2 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_LastInsertRowID($hDB = -1)
@@ -433,7 +441,7 @@ EndFunc   ;==>_SQLite_LastInsertRowID
 ; Parameters ....: $hDB - Optional, An Open Database, Default is the Last Opened Database
 ; Return values .: Returns number of Changes
 ;                   @error Value(s):	1 - Error Calling SQLite API 'sqlite3_changes'
-; 					2 - Call Prevented by SaveMode
+; 					2 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_Changes($hDB = -1)
@@ -451,7 +459,7 @@ EndFunc   ;==>_SQLite_Changes
 ; Parameters ....: $hDB - Optional, An Open Database, Default is the Last Opened Database
 ; Return values .: Returns number of Total Changes
 ; @error Value(s):	1 - Error Calling SQLite API 'sqlite3_total_changes'
-; 					2 - Call Prevented by SaveMode
+; 					2 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_TotalChanges($hDB = -1)
@@ -503,13 +511,13 @@ EndFunc   ;==>_SQLite_ErrMsg
 ; Syntax.........: _SQLite_Display2DResult($aResult, $iCellWidth = 0, $nReturn = 0)
 ; Parameters ....: $aResult - The Array of data to be displayed
 ;				   $iCellWidth - Optional, Specifies the size of a Data Field
-;				   $nReturn - Optional, If true The Formated String is returned
+;				   $bReturn - Optional, If true The Formated String is returned
 ; Return values .: none or Formated String
 ;                   @error Value(s):	1 - $aResult is no Array or has wrong Dimension
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jchd
 ; ===============================================================================================================================
-Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $nReturn = 0)
+Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $bReturn = False)
 	Local $iCol, $iRow, $sOut, $aiCellWidth, $iCellWidthUsed
 	If Not IsArray($aResult) Or UBound($aResult, 0) <> 2 Then
 		Return SetError(1, 0, "")
@@ -531,23 +539,19 @@ Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $nReturn = 0)
 			Else
 				$iCellWidthUsed = $iCellWidth
 			EndIf
-			If $nReturn = 1 Then
+			If $bReturn Then
 				$sOut &= StringFormat(" %-" & $iCellWidthUsed & "s ", $aResult[$iCol][$iRow])
-			ElseIf $nReturn = 0 Then
-				ConsoleWrite(StringFormat(" %-" & $iCellWidthUsed & "s ", $aResult[$iCol][$iRow]))
 			Else
-				; can be used when sending to application such SCiTE configured with output.code.page=65001
-				Local $tStr8 = __SQLite_StringToUtf8Struct(StringFormat(" %-" & $iCellWidthUsed & "s ", $aResult[$iCol][$iRow]))
-				ConsoleWrite(DllStructGetData($tStr8, 1))
+				__SQLite_ConsoleWrite(StringFormat(" %-" & $iCellWidthUsed & "s ", $aResult[$iCol][$iRow]))
 			EndIf
 		Next
-		If $nReturn = 1 Then
+		If $bReturn Then
 			$sOut &= @CRLF
 		Else
 			ConsoleWrite(@CR)
 		EndIf
 	Next
-	If $nReturn Then Return $sOut
+	If $bReturn Then Return $sOut
 EndFunc   ;==>_SQLite_Display2DResult
 
 ; #FUNCTION# ====================================================================================================================
@@ -566,7 +570,7 @@ EndFunc   ;==>_SQLite_Display2DResult
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_get_table'
 ;					 2 - Error Calling SQLite API 'sqlite3_free_table'
-;					 3 - Call Prevented by SaveMode
+;					 3 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian), blink314
 ; Modified.......: jchd
 ; ===============================================================================================================================
@@ -651,13 +655,13 @@ EndFunc   ;==>_SQLite_GetTable2d
 ; Name...........: _SQLite_SetTimeout
 ; Description ...: Sets Timeout for busy handler
 ; Syntax.........: _SQLite_SetTimeout($hDB = -1, $iTimeout = 1000)
-; Parameters ....: $hDB - An Open Database, Use -1 To use Last Opened Database
-;                  $iTimeout - Timeout [msec]
+; Parameters ....: $hDB - Optional, An Open Database, Use -1 To use Last Opened Database
+;                  $iTimeout - Optional, Timeout [msec]
 ; Return values .: On Success - Returns $SQLITE_OK
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_busy_timeout'
-;					 2 - Call prevented by SaveMode
+;					 2 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_SetTimeout($hDB = -1, $iTimeout = 1000)
@@ -724,7 +728,7 @@ EndFunc   ;==>_SQLite_Query
 ;					 4 - Error Calling SQLite API 'sqlite3_column_type'
 ;					 5 - Error Calling SQLite API 'sqlite3_column_bytes'
 ;					 6 - Error Calling SQLite API 'sqlite3_column_blob'
-;					 7 - Call prevented by SaveMode
+;					 7 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jchd
 ; ===============================================================================================================================
@@ -778,12 +782,12 @@ EndFunc   ;==>_SQLite_FetchData
 ; Name...........: _SQLite_Close
 ; Description ...: Closes a open Database, Waits until SQLite <> $SQLITE_BUSY until 'global Timeout' has elapsed
 ; Syntax.........: _SQLite_Close($hDB = -1)
-; Parameters ....: $hDB - Optional Database Handle
+; Parameters ....: $hDB - Optional, Database Handle
 ; Return values .: On Success - Returns $SQLITE_OK
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_close'
-;					 2 - Call prevented by SaveMode
+;					 2 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_Close($hDB = -1)
@@ -801,25 +805,25 @@ Func _SQLite_Close($hDB = -1)
 EndFunc   ;==>_SQLite_Close
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SQLite_SaveMode
-; Description ...: Disable or Enable Save Mode
-; Syntax.........: _SQLite_SaveMode($fSaveModeState)
-; Parameters ....: $fSaveModeState	- True or False to enable or disable SafeMode
+; Name...........: _SQLite_SafeMode
+; Description ...: Disable or Enable Safe Mode
+; Syntax.........: _SQLite_SafeMode($fSafeModeState)
+; Parameters ....: $fSafeModeState	- True or False to enable or disable SafeMode
 ; Return values .: On Success - Returns $SQLITE_OK
 ;                  On Failure - Returns $SQLITE_MISUSE
-;                   @error Value(s):	1 - Error Interpreting $fSaveModeState Parameter
+;                   @error Value(s):	1 - Error Interpreting $fSafeModeState Parameter
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
-Func _SQLite_SaveMode($fSaveModeState)
-	If $fSaveModeState = False Then
+Func _SQLite_SafeMode($fSafeModeState)
+	If $fSafeModeState = False Then
 		$g_avSafeMode_SQLite[0] = False
-	ElseIf $fSaveModeState = True Then
+	ElseIf $fSafeModeState = True Then
 		$g_avSafeMode_SQLite[0] = True
 	Else
 		Return SetError(1, 0, $SQLITE_MISUSE)
 	EndIf
 	Return $SQLITE_OK
-EndFunc   ;==>_SQLite_SaveMode
+EndFunc   ;==>_SQLite_SafeMode
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SQLite_QueryFinalize
@@ -830,7 +834,7 @@ EndFunc   ;==>_SQLite_SaveMode
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_finalize'
-;					 2 - Call prevented by SaveMode
+;					 2 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_QueryFinalize($hQuery)
@@ -852,7 +856,7 @@ EndFunc   ;==>_SQLite_QueryFinalize
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_reset'
-;					 2 - Call prevented by SaveMode
+;					 2 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; ===============================================================================================================================
 Func _SQLite_QueryReset($hQuery)
@@ -875,7 +879,7 @@ EndFunc   ;==>_SQLite_QueryReset
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_column_count'
 ;					 2 - Error Calling SQLite API 'sqlite3_column_name16'
-;					 3 - Call prevented by SaveMode
+;					 3 - Call prevented by SafeMode
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jchd
 ; ===============================================================================================================================
@@ -910,7 +914,7 @@ EndFunc   ;==>_SQLite_FetchNames
 ;                   @error Value(s):	-1 - SQLite Reported an Error (Check Return value)
 ;					 1 - Error Calling SQLite API 'sqlite3_get_table'
 ;					 2 - Error Calling SQLite API 'sqlite3_free_table'
-;					 3 - Call Prevented by SaveMode
+;					 3 - Call Prevented by SafeMode
 ; Author ........: piccaso (Fida Florian), jchd
 ; ===============================================================================================================================
 Func _SQLite_QuerySingleRow($hDB, $sSQL, ByRef $aRow)
@@ -936,7 +940,7 @@ EndFunc   ;==>_SQLite_QuerySingleRow
 ; Parameters ....: $sDatabaseFile - Database Filename
 ;				   $sInput - Commands for SQLite.exe
 ;				   $sOutput - Raw Output from SQLite.exe
-;				   $sSQLiteExeFilename - optional, Path to SQlite3.exe (-1 is default)
+;				   $sSQLiteExeFilename - Optional, Path to SQlite3.exe (-1 is default)
 ; Return values .: On Success - Returns $SQLITE_OK
 ;                  On Failure - Return Value can be compared against $SQLITE_* Constants
 ;                  @error Value(s):	1 - Can't create new Database
@@ -978,7 +982,7 @@ Func _SQLite_SQLiteExe($sDatabaseFile, $sInput, ByRef $sOutput, $sSQLiteExeFilen
 		Local $nErrorLevel = RunWait($sCmd, @WorkingDir, @SW_HIDE)
 		If $fDebug = True Then
 			Local $nErrorTemp = @error
-			ConsoleWrite('@@ Debug(_SQLite_SQLiteExe) : $sCmd = ' & $sCmd & @LF & '>ErrorLevel: ' & $nErrorLevel & @LF)
+			__SQLite_ConsoleWrite('@@ Debug(_SQLite_SQLiteExe) : $sCmd = ' & $sCmd & @LF & '>ErrorLevel: ' & $nErrorLevel & @LF)
 			SetError($nErrorTemp)
 		EndIf
 		If @error = 1 Or $nErrorLevel = 1 Then
@@ -1038,7 +1042,7 @@ EndFunc   ;==>_SQLite_Encode
 ; Description ...: Escapes a String
 ; Syntax.........: _SQLite_Escape($sString, $iBuffSize = Default)
 ; Parameters ....: $sString - String to escape.
-;				   $iBuffSize - Optional
+;				   $iBuffSize - Optional, buffer size
 ; Return values .: On Success - Returns Escaped String
 ;                  On Failure - Returns Empty String
 ;                   @error Value(s):	1 - Error Calling SQLite API 'sqlite3_mprintf'
@@ -1057,7 +1061,7 @@ Func _SQLite_Escape($sString, $iBuffSize = Default)
 EndFunc   ;==>_SQLite_Escape
 
 #region		SQLite.au3 Internal Functions
-; $g_avSafeMode_SQLite[0] -> Savemode State (boolean)
+; $g_avSafeMode_SQLite[0] -> Safemode State (boolean)
 ; $g_avSafeMode_SQLite[1] -> Array containing known $hDB handles
 ; $g_avSafeMode_SQLite[2] -> Array containing known $hQuery handles
 ; $g_avSafeMode_SQLite[3] -> pseudo dll handle for 'msvcrt.dll'
@@ -1102,14 +1106,14 @@ Func __SQLite_VersCmp($sFile, $sVersion)
 EndFunc   ;==>__SQLite_VersCmp
 
 Func __SQLite_hDbg()
-	ConsoleWrite("State : " & $g_avSafeMode_SQLite[0] & @CR)
+	__SQLite_ConsoleWrite("State : " & $g_avSafeMode_SQLite[0] & @CR)
 	Local $aTmp = $g_avSafeMode_SQLite[1]
 	For $i = 0 To UBound($aTmp) - 1
-		ConsoleWrite("$g_avSafeMode_SQLite[hDB]     -> [" & $i & "]" & $aTmp[$i] & @CR)
+		__SQLite_ConsoleWrite("$g_avSafeMode_SQLite[hDB]     -> [" & $i & "]" & $aTmp[$i] & @CR)
 	Next
 	$aTmp = $g_avSafeMode_SQLite[2]
 	For $i = 0 To UBound($aTmp) - 1
-		ConsoleWrite("$g_avSafeMode_SQLite[hQuery]  -> [" & $i & "]" & $aTmp[$i] & @CR)
+		__SQLite_ConsoleWrite("$g_avSafeMode_SQLite[hQuery]  -> [" & $i & "]" & $aTmp[$i] & @CR)
 	Next
 EndFunc   ;==>__SQLite_hDbg
 
@@ -1121,7 +1125,7 @@ Func __SQLite_ReportError($hDB, $sFunction, $sQuery = Default, $sError = Default
 	$sOut &= "--> Function: " & $sFunction & @LF
 	If $sQuery <> "" Then $sOut &= "--> Query:    " & $sQuery & @LF
 	$sOut &= "--> Error:    " & $sError & @LF
-	ConsoleWrite($sOut & @LF)
+	__SQLite_ConsoleWrite($sOut & @LF)
 	If Not IsKeyword($vReturnValue) Then Return $vReturnValue
 EndFunc   ;==>__SQLite_ReportError
 
@@ -1184,5 +1188,24 @@ Func __SQLite_Utf8StructToString($tText)
 	If @error Then Return SetError(2, @error, "") ; Dllcall error
 	Return($aResult[5])
 EndFunc   ;==>__SQLite_Utf8StructToString
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __SQLite_ConsoleWrite
+; Description ...: write an ANSI or UNICODE String to Console
+; Syntax.........: __SQLite_ConsoleWrite($sText)
+; Parameters ....: $sText - Unicode String
+; Return values .: none
+; Author ........: jchd
+; Modified.......: jpm
+; ===============================================================================================================================
+Func __SQLite_ConsoleWrite($sText)
+	If $g_bUTF8ErrorMsg_SQLite Then
+		; can be used when sending to application such SCiTE configured with output.code.page=65001
+		Local $tStr8 = __SQLite_StringToUtf8Struct($sText)
+		ConsoleWrite(DllStructGetData($tStr8, 1))
+	Else
+		ConsoleWrite($sText)
+	EndIf
+EndFunc   ;==>__SQLite_ConsoleWrite
 
 #endregion 	SQLite.au3 Internal Functions

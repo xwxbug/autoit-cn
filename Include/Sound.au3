@@ -24,7 +24,7 @@
 ;				   @extended <> 0 - open failed, @error = 2 - File doesn't exist,
 ;				   @error = 3 - alias contains whitespace
 ; Author ........: RazerM, Melba23, some code by Simucal, PsaltyDS
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......: _SoundClose, _SoundLength, _SoundPause, _SoundPlay, _SoundPos, _SoundResume, _SoundStatus, _SoundStop
 ; Link ..........:
@@ -36,7 +36,7 @@ Func _SoundOpen($sFile, $sAlias = "")
 	Local $szDrive, $szDir, $szFName, $szExt, $iSndLenMs, $iSndLenMin, $iSndLenHour, $iSndLenSecs
 	Local $sSndDirName, $sSndFileName, $sSndDirShortName, $oShell, $oShellDir, $oShellDirFile, $sRaw, $aInfo
 	Local $sTrackLength, $iSoundTicks, $iActualTicks, $iVBRRatio, $aiTime, $sTag
-	
+
 	;check for file
 	If Not FileExists($sFile) Then Return SetError(2, 0, 0)
 	;search for whitespace by character
@@ -50,11 +50,11 @@ Func _SoundOpen($sFile, $sAlias = "")
 	Else
 		$sSndID = $sAlias
 	EndIf
-	
+
 	If StringInStr($sSndID, '!') Then Return SetError(3, 0, 0) ;invalid file/alias
-	
+
 	$aSndID[0] = $sSndID
-	
+
 	_PathSplit($sFile, $szDrive, $szDir, $szFName, $szExt)
 
 	If $szDrive = "" Then
@@ -91,7 +91,7 @@ Func _SoundOpen($sFile, $sAlias = "")
 	Else
 		$fTryNextMethod = True
 	EndIf
-	
+
 	If $fTryNextMethod Then
 		$fTryNextMethod = False
 		If $szExt = ".mp3" Then
@@ -104,7 +104,7 @@ Func _SoundOpen($sFile, $sAlias = "")
 			$fTryNextMethod = True
 		EndIf
 	EndIf
-	
+
 	If $fTryNextMethod Then
 		$fTryNextMethod = False
 		If $szExt = ".mp3" Then
@@ -122,21 +122,21 @@ Func _SoundOpen($sFile, $sAlias = "")
 		__mciSendString("set " & $aSndID[0] & " time format miliseconds")
 		;receive length of sound
 		$iSndLenMs = __mciSendString("status " & $aSndID[0] & " length", 255)
-		
+
 		;assign modified data to variables
 		_TicksToTime($iSndLenMs, $iSndLenHour, $iSndLenMin, $iSndLenSecs)
-		
+
 		;assign formatted data to $sSndLenFormat
 		$sTrackLength = StringFormat("%02i:%02i:%02i", $iSndLenHour, $iSndLenMin, $iSndLenSecs)
 	EndIf
-	
+
 	; Convert Track_Length to mSec
 	$aiTime = StringSplit($sTrackLength, ":")
 	$iActualTicks = _TimeToTicks($aiTime[1], $aiTime[2], $aiTime[3])
-	
+
 	;tell mci to use time in milliseconds
 	__mciSendString("set " & $aSndID[0] & " time format miliseconds")
-	
+
 	;;Get estimated length
 	$iSoundTicks = __mciSendString("status " & $aSndID[0] & " length", 255)
 
@@ -146,7 +146,7 @@ Func _SoundOpen($sFile, $sAlias = "")
 	Else ;Set correction ratio for VBR operations
 		$iVBRRatio = $iSoundTicks / $iActualTicks
 	EndIf
-	
+
 	$aSndID[1] = $iVBRRatio
 	$aSndID[2] = 0
 
@@ -161,7 +161,7 @@ EndFunc   ;==>_SoundOpen
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and @error =1
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -187,7 +187,7 @@ EndFunc   ;==>_SoundClose
 ; Return values .: Success      - 1
 ;                  Failure      - 0, @error = 1 - play failed, @error = 2 - $fWait is invalid
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......: _SoundPause, _SoundStop, _SoundSeek, _SoundOpen, _SoundResume
 ; Link ..........:
@@ -224,12 +224,12 @@ EndFunc   ;==>_SoundPlay
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SoundStop
 ; Description ...: Stops the sound
-; Syntax.........: _SoundClose($sFile)
+; Syntax.........: _SoundStop($sFile)
 ; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and @error = 1
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -265,7 +265,7 @@ EndFunc   ;==>_SoundStop
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and @error = 1
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......: _SoundResume, _SoundOpen, _SoundPlay
 ; Link ..........:
@@ -299,7 +299,7 @@ EndFunc   ;==>_SoundPause
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and @error = 1
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -351,7 +351,7 @@ Func _SoundLength($aSndID, $iMode = 1)
 		Dim $aSndID[3]
 		$aSndID = _SoundOpen($vTemp)
 	EndIf
-	
+
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
 
 	;tell mci to use time in milliseconds
@@ -359,15 +359,15 @@ Func _SoundLength($aSndID, $iMode = 1)
 	;receive length of sound
 	$iSndLenMs = Number(__mciSendString("status " & $aSndID[0] & " length", 255))
 	If $aSndID[1] <> 0 Then $iSndLenMs = Round($iSndLenMs / $aSndID[1])
-	
+
 	If $vTemp <> "" Then _SoundClose($aSndID) ;if user called _SoundLength with a filename
-	
+
 	;assign modified data to variables
 	_TicksToTime($iSndLenMs, $iSndLenHour, $iSndLenMin, $iSndLenSecs)
-	
+
 	;assign formatted data to $sSndLenFormat
 	$sSndLenFormat = StringFormat("%02i:%02i:%02i", $iSndLenHour, $iSndLenMin, $iSndLenSecs)
-	
+
 	;return correct variable
 	If $iMode = 1 Then Return $sSndLenFormat
 	If $iMode = 2 Then Return $iSndLenMs
@@ -381,7 +381,7 @@ EndFunc   ;==>_SoundLength
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and @error = 1
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -396,7 +396,7 @@ Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 		Dim $aSndID[3] = [$vTemp,0,0]
 	EndIf
 	If StringInStr($aSndID[0], '!') Then Return SetError(3, 0, 0) ; invalid file/alias
-	
+
 	;prepare mci to receive time in milliseconds
 	__mciSendString("set " & $aSndID[0] & " time format miliseconds")
 	;modify the $iHour, $iMin and $iSec parameters to be in milliseconds
@@ -426,7 +426,7 @@ EndFunc   ;==>_SoundSeek
 ; Parameters ....: $aSndID - Sound ID returned by _SoundOpen or sound file
 ; Return values .: Sound Status
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......: Some devices can return the additional "open", "parked", "recording", and "seeking" values.(MSDN)
 ; Related .......:
 ; Link ..........:
@@ -454,7 +454,7 @@ EndFunc   ;==>_SoundStatus
 ; Return values .: Success      - Current Position
 ;                  Failure      - 0 and @error = 1 - $iMode is invalid
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -479,7 +479,7 @@ Func _SoundPos($aSndID, $iMode = 1)
 	If $aSndID[1] <> 0 Then
 		$iSndPosMs -= $aSndID[2]
 	EndIf
-	
+
 	;modify data and assign to variables
 	_TicksToTime($iSndPosMs, $iSndPosHour, $iSndPosMin, $iSndPosSecs)
 
@@ -495,7 +495,7 @@ EndFunc   ;==>_SoundPos
 ; Description ...: Used internally within this file, not for general use
 ; Syntax.........: __mciSendString($string[, $iLen = 0])
 ; Author ........: RazerM, Melba23
-; Modified.......: 
+; Modified.......:
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
@@ -550,7 +550,7 @@ Func __ReadTLENFromMP3($sTag)
 
 	If $iLengthMs > 0 Then
 		_TicksToTime($iLengthMs, $iLengthHour, $iLengthMin, $iLengthSecs)
-		
+
 		;Convert to hh:mm:ss and return
 		Return StringFormat("%02i:%02i:%02i", $iLengthHour, $iLengthMin, $iLengthSecs)
 	Else
@@ -597,7 +597,7 @@ Func __ReadXingFromMP3($sTag)
 	; Decode them
 	; 8 = MPEG-1, 0 = MPEG-2
 	$iMPEGVer = BitAND($iMPEGByte, 8)
-	
+
 	; 2 = Layer III, 4 = Layer II, 6 = Layer I
 	$iLayerNum = BitAND($iMPEGByte, 6)
 

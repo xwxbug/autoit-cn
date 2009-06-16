@@ -299,14 +299,14 @@ EndFunc   ;==>_ArrayDelete
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ArrayDisplay
 ; Description ...: Displays given 1D or 2D array array in a listview.
-; Syntax.........: _ArrayDisplay(Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"]]]]])
+; Syntax.........: _ArrayDisplay(Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"[, $sHeader = ""]]]]]])
 ; Parameters ....: $avArray    - Array to display
 ;                  $sTitle     - [optional] Title to use for window
 ;                  $iItemLimit - [optional] Maximum number of listview items (rows) to show
 ;                  $iTranspose - [optional] If set differently than default, will transpose the array if 2D
 ;                  $sSeparator - [optional] Change Opt("GUIDataSeparatorChar") on-the-fly
 ;                  $sReplace   - [optional] String to replace any occurrence of $sSeparator with in each array element
-;                  $header     - [optional] Header column names
+;                  $sheader     - [optional] Header column names
 ; Return values .: Success - 1
 ;                  Failure - 0, sets @error:
 ;                  |1 - $avArray is not an array

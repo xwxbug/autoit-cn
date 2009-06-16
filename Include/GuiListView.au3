@@ -5818,10 +5818,10 @@ EndFunc   ;==>_GUICtrlListView_SetItemCount
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemCut($hWnd, $iIndex, $fEnabled = True)
-	Local $iStateMask = 0
+	Local $iState = 0
 
-	If $fEnabled Then $iStateMask = $LVIS_CUT
-	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $LVIS_CUT, $iStateMask)
+	If $fEnabled Then $iState = $LVIS_CUT
+	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $iState, $LVIS_CUT)
 EndFunc   ;==>_GUICtrlListView_SetItemCut
 
 ; #FUNCTION# ====================================================================================================================
@@ -5841,10 +5841,10 @@ EndFunc   ;==>_GUICtrlListView_SetItemCut
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemDropHilited($hWnd, $iIndex, $fEnabled = True)
-	Local $iStateMask = 0
+	Local $iState = 0
 
-	If $fEnabled Then $iStateMask = $LVIS_DROPHILITED
-	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $LVIS_DROPHILITED, $iStateMask)
+	If $fEnabled Then $iState = $LVIS_DROPHILITED
+	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $iState, $LVIS_DROPHILITED)
 EndFunc   ;==>_GUICtrlListView_SetItemDropHilited
 
 ; #FUNCTION# ====================================================================================================================
@@ -5917,10 +5917,10 @@ EndFunc   ;==>_GUICtrlListView_SetItemEx
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemFocused($hWnd, $iIndex, $fEnabled = True)
-	Local $iStateMask = 0
+	Local $iState = 0
 
-	If $fEnabled Then $iStateMask = $LVIS_FOCUSED
-	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $LVIS_FOCUSED, $iStateMask)
+	If $fEnabled Then $iState = $LVIS_FOCUSED
+	Return _GUICtrlListView_SetItemState($hWnd, $iIndex, $iState, $LVIS_FOCUSED)
 EndFunc   ;==>_GUICtrlListView_SetItemFocused
 
 ; #FUNCTION# ====================================================================================================================

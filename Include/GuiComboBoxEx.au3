@@ -397,6 +397,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_FindStringExact
 ; Description ...: Gets information about the specified ComboBox
 ; Syntax.........: _GUICtrlComboBoxEx_GetComboBoxInfo($hWnd, ByRef $tInfo)
 ; Parameters ....: $hWnd        - Handle to control
+;				   $tInfo 		- The information about the ComboBox.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)

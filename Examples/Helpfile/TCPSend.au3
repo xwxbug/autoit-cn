@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+﻿Opt('MustDeclareVars', 1)
 
 ;==============================================
 ;==============================================

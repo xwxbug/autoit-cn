@@ -14,7 +14,6 @@ Opt("MouseClickDownDelay", 10)  ;10 毫秒
 Opt("MouseClickDragDelay", 250) ;250 毫秒
 Opt("MouseCoordMode", 1)        ;1=绝对位置, 0=相对位置, 2=客户区
 Opt("MustDeclareVars", 0)       ;0=不必声明, 1=必须预先声明
-Opt("OnExitFunc","OnAutoItExit");"OnAutoItExit" 应用
 Opt("PixelCoordMode", 1)        ;1=绝对位置, 0=相对位置, 2=客户区
 Opt("SendAttachMode", 0)        ;0=不捆绑, 1=捆绑
 Opt("SendCapslockMode", 1)      ;1=保存并恢复, 0=不保存

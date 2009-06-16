@@ -61,34 +61,34 @@ Global Const $__FTPCONSTANT_FILE_ATTRIBUTE_NORMAL		= 0x00000080
 ; Old Function/Name                     ; --> New Function/Name/Replacement(s)
 ;
 ; deprecated functions will no longer work, no parameter change just renaming unless stated
-;_FTP_DownloadProgress					; --> _FTP_ProgressDownload			
-;_FTP_UploadProgress					; --> _FTP_ProgressUpload			
+;_FTP_DownloadProgress					; --> _FTP_ProgressDownload
+;_FTP_UploadProgress					; --> _FTP_ProgressUpload
 ;_FTPClose								; --> _FTP_Close
-;_FTPCloseFile							; --> _FTP_FileClose	
-;_FTPCommand							; --> _FTP_Command	
-;_FTPConnect							; --> _FTP_Connect	
+;_FTPCloseFile							; --> _FTP_FileClose
+;_FTPCommand							; --> _FTP_Command
+;_FTPConnect							; --> _FTP_Connect
 ;_FTPDelDir								; --> _FTP_DirDelete
-;_FTPDelFile							; --> _FTP_FileDelete	
+;_FTPDelFile							; --> _FTP_FileDelete
 ;_FTPFileFindClose						; --> _FTP_FindFileClose		; $l_DllStruct suppression
-;_FTPFileFindFirst						; --> _FTP_FindFileFirst		; $l_DllStruct suppression		
-;_FTPFileFindNext						; --> _FTP_FindFileNext			; $l_DllStruct suppression		
-;_FTPFileSizeLoHi						; --> _FTP_FileSizeLoHi		
+;_FTPFileFindFirst						; --> _FTP_FindFileFirst		; $l_DllStruct suppression
+;_FTPFileFindNext						; --> _FTP_FindFileNext			; $l_DllStruct suppression
+;_FTPFileSizeLoHi						; --> _FTP_FileSizeLoHi
 ;_FTPFilesListto2DArray					; --> _FTP_ListToArray2D
-;_FTPFilesListtoArray					; --> _FTP_ListToArray		
-;_FTPFilesListtoArrayEx					; --> _FTP_ListToArrayEx		; $b_Fmt added			
-;_FTPFileTimeLoHi						; --> _WinAPI_MakeQWord			; parameter inversion			
-;_FTPFileTimeLoHiToStr					; --> _FTP_FileTimeLoHiToStr	; new optional parameter for type of format			
-;_FTPGetCurrentDir						; --> _FTP_DirGetCurrent		
-;_FTPGetFile							; --> _FTP_FileGet	
-;_FTPGetFileSize						; --> _FTP_FileGetSize		
-;_FTPMakeDir							; --> _FTP_DirCreate	
+;_FTPFilesListtoArray					; --> _FTP_ListToArray
+;_FTPFilesListtoArrayEx					; --> _FTP_ListToArrayEx		; $b_Fmt added
+;_FTPFileTimeLoHi						; --> _WinAPI_MakeQWord			; parameter inversion
+;_FTPFileTimeLoHiToStr					; --> _FTP_FileTimeLoHiToStr	; new optional parameter for type of format
+;_FTPGetCurrentDir						; --> _FTP_DirGetCurrent
+;_FTPGetFile							; --> _FTP_FileGet
+;_FTPGetFileSize						; --> _FTP_FileGetSize
+;_FTPMakeDir							; --> _FTP_DirCreate
 ;_FTPOpen								; --> _FTP_Open
-;_FTPOpenFile							; --> _FTP_FileOpen	
-;_FTPPutFile							; --> _FTP_FilePut	
-;_FTPPutFolderContents					; --> _FTP_DirPutContents			
-;_FTPReadFile							; --> _FTP_FileRead	
-;_FTPRenameFile							; --> _FTP_FileRename	
-;_FtpSetCurrentDir						; --> _FTP_DirSetCurrent		
+;_FTPOpenFile							; --> _FTP_FileOpen
+;_FTPPutFile							; --> _FTP_FilePut
+;_FTPPutFolderContents					; --> _FTP_DirPutContents
+;_FTPReadFile							; --> _FTP_FileRead
+;_FTPRenameFile							; --> _FTP_FileRename
+;_FtpSetCurrentDir						; --> _FTP_DirSetCurrent
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -154,9 +154,9 @@ EndFunc   ;==>_FTP_Close
 ; Syntax.........: _FTP_Command($l_FTPSession, $s_FTPCommand[, $l_Flags = 0x00000001[, $l_ExpectResponse = 0[, $l_Context = 0]]])
 ; Parameters ....: $l_FTPSession    - as returned by _FTP_Connect().
 ;                  $s_FTPCommand    - Command string to send to FTP Server
-;                  $l_Flags         - $FTP_TRANSFER_TYPE_ASCII or $FTP_TRANSFER_TYPE_BINARY
-;                  $l_ExpectResponse   - Data socket for response in Async mode
-;                  $s_Context         -  A pointer to a variable that contains an application-defined
+;                  $l_Flags         - Optional, $FTP_TRANSFER_TYPE_ASCII or $FTP_TRANSFER_TYPE_BINARY
+;                  $l_ExpectResponse  - Optional, Data socket for response in Async mode
+;                  $l_Context         -  Optional, A pointer to a variable that contains an application-defined
 ;                      value used to identify the application context in callback operations
 ;                      The $l_ExpectResponse parameter must be set to TRUE for phFtpCommand to be filled.
 ;                      -> Parameter removed, is returned as @extended
@@ -176,7 +176,7 @@ Func _FTP_Command($l_FTPSession, $s_FTPCommand, $l_Flags = $FTP_TRANSFER_TYPE_AS
 
 	Local $ai_FTPCommand = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'FtpCommand', 'hwnd', $l_FTPSession, 'long', $l_ExpectResponse, 'long', $l_Flags, 'str', $s_FTPCommand, 'ulong_ptr', $l_Context, 'dword*', 0)
 	If @error Or $ai_FTPCommand[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
-	
+
 	Return SetError(0, $ai_FTPCommand[6], $ai_FTPCommand[0])
 
 EndFunc   ;==>_FTP_Command
@@ -189,11 +189,11 @@ EndFunc   ;==>_FTP_Command
 ;                  $s_ServerName 		- Server name/ip.
 ;                  $s_Username  		- Username.
 ;                  $s_Password			- Password.
-;                  $i_Passive			- Passive mode?.
-;                  $i_ServerPort  		- Server port ( 0 is default (21) )
-;				   $l_Service			- I dont got a clue what this does.
-;				   $l_Flags			    - Special flags.
-;				   $l_Context			- I dont got a clue what this does.
+;                  $i_Passive			- Optional, Passive mode?.
+;                  $i_ServerPort  		- Optional, Server port ( 0 is default (21) )
+;				   $l_Service			- Optional, I dont got a clue what this does.
+;				   $l_Flags			    - Optional, Special flags.
+;				   $l_Context			- Optional, I dont got a clue what this does.
 ; Return values .: Success      - Returns an indentifier
 ;                  Failure      - 0  and sets @ERROR
 ; Author ........: Wouter van Kesteren
@@ -305,11 +305,12 @@ Func _FTP_DirPutContents($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b
 
 	If StringRight($s_LocalFolder,1) == "\" Then $s_LocalFolder = StringTrimRight($s_LocalFolder,1)
 	; Shows the filenames of all files in the current directory.
-	$search = FileFindFirstFile($s_LocalFolder & "\*.*")
+	Local $search = FileFindFirstFile($s_LocalFolder & "\*.*")
 
 	; Check if the search was successful
 	If $search = -1 Then Return SetError(1, 0, 0)
 
+	Local $File
 	While 1
 		$File = FileFindNextFile($search)
 		If @error Then ExitLoop
@@ -406,10 +407,10 @@ EndFunc   ;==>_FTP_FileDelete
 ; Parameters ....: $l_FTPSession    - as returned by _FTP_Connect().
 ;                  $s_RemoteFile    - The remote Location for the file.
 ;                  $s_LocalFile     - The local file.
-;                  $fFailIfExists   - True: do not overwrite existing (default = False)
-;                  $dwFlagsAndAttributes - File attributes for the new file.
-;                  $l_Flags         - as in _FTP_FileOpen().
-;                  $l_Context       - (Not Used) in case someone can use it.
+;                  $fFailIfExists   - Optional, True: do not overwrite existing (default = False)
+;                  $dwFlagsAndAttributes - Optional, File attributes for the new file.
+;                  $l_Flags         - Optional, as in _FTP_FileOpen().
+;                  $l_Context       - Optional, (Not Used) in case someone can use it.
 ; Return values .: Success      - 1
 ;                  Failure      - 0  and sets @ERROR
 ; Author ........: Wouter van Kesteren
@@ -454,7 +455,7 @@ Func _FTP_FileGetSize($l_FTPSession, $s_FileName)
 		DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetCloseHandle', 'hwnd', $ai_FTPGetSizeHandle[0])
 		Return SetError(-1, $lasterror, 0)
 	EndIf
-	
+
 	DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetCloseHandle', 'hwnd', $ai_FTPGetSizeHandle[0])
 
 	Return _WinAPI_MakeQWord($ai_FTPGetFileSize[2], $ai_FTPGetFileSize[0])
@@ -467,9 +468,9 @@ EndFunc   ;==>_FTP_FileGetSize
 ; Syntax.........: _FTP_FileOpen($hConnect, $lpszFileName[, $dwAccess = 0x80000000[, $dwFlags = 2[, $dwContext = 0]]])
 ; Parameters ....: $hConnect     - as returned by _FTP_Connect().
 ;                  $lpszFileName - String of the ftp file to open.
-;                  $dwAccess     - GENERIC_READ or GENERIC_WRITE (Default is GENERIC_READ).
-;                  $dwFlags      - Settings for the transfer see notes below (Default is 2 for FTP_TRANSFER_TYPE_BINARY).
-;                  $dwContext    - (Not Used) See notes below.
+;                  $dwAccess     - Optional, GENERIC_READ or GENERIC_WRITE (Default is GENERIC_READ).
+;                  $dwFlags      - Optional, Settings for the transfer see notes below (Default is 2 for FTP_TRANSFER_TYPE_BINARY).
+;                  $dwContext    - Optional, (Not Used) See notes below.
 ; Return values .: Success      - Returns the handle to ftp file for read with _FTP_FileRead()
 ;                  Failure      - 0 and sets @error to non-zero
 ; Author ........: joeyb1275
@@ -518,8 +519,8 @@ EndFunc   ;==>_FTP_FileOpen
 ; Parameters ....: $l_FTPSession	- as returned by _FTP_Connect().
 ;                  $s_LocalFile 	- The local file.
 ;                  $s_RemoteFile  	- The remote Location for the file.
-;                  $l_Flags         - as in _FTP_FileOpen().
-;                  $l_Context       - (Not Used) in case someone can use it.
+;                  $l_Flags         - Optional, as in _FTP_FileOpen().
+;                  $l_Context       - Optional, (Not Used) in case someone can use it.
 ; Return values .: Success      - 1
 ;                  Failure      - 0 and sets @error to non-zero
 ; Author ........: Wouter van Kesteren
@@ -609,7 +610,7 @@ EndFunc   ;==>_FTP_FileRename
 ; Syntax.........: _FTP_FileTimeLoHiToStr($LoDWORD, $HiDWORD[, $bFmt = 0])
 ; Parameters ....: $LoDWORD - FileTime Low
 ;                  $HiDWORD - File Time Hi
-;                  $bFmt    - 0 returns mm/dd/yyyy hh:mm:ss (Default)
+;                  $bFmt    - Optional, 0 returns mm/dd/yyyy hh:mm:ss (Default)
 ;                  |1 returns yyyy/mm/dd hh:mm:ss
 ; Return values .: Success      - DateTime according to $bFmt
 ;                  Failure      - "" (empty String)
@@ -696,7 +697,7 @@ Func _FTP_FindFileFirst($l_FTPSession, $s_RemotePath, ByRef $h_Handle, $l_Flags 
 	If @error Or $ai_FTPFirstFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), $ai_FTPFirstFile)
 
 	$h_Handle = $ai_FTPFirstFile[0]
-	
+
 	Local $a_FTPFileList[12]
 	$a_FTPFileList[0] = 11
 	$a_FTPFileList[1] = DllStructGetData($l_DllStruct, "dwFileAttributes")
@@ -744,7 +745,7 @@ EndFunc   ;==>_FTP_FindFileFirst
 Func _FTP_FindFileNext($h_Handle)
 
 	Local $l_DllStruct = DllStructCreate($tagWIN32_FIND_DATA)
-	
+
 	Local $a_FTPFileList[1]
 	$a_FTPFileList[0] = 0
 
@@ -774,8 +775,8 @@ EndFunc   ;==>_FTP_FindFileNext
 ; Description ...: Get Filenames, Directories or Both of current remote directory.
 ; Syntax.........: _FTP_ListToArray($l_FTPSession[, $Return_Type = 0, $l_Flags = 0]])
 ; Parameters ....: $l_FTPSession  - as returned by _FTP_Connect().
-;				   $Return_type   - 0 = Both Files and Directories, 1 = Directories, 2 = Files.
-;                  $l_Flags       - see _FTP_FindFileFirst().
+;				   $Return_type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
+;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
 ; Return values .: Success      - An array containing the names. Array[0] contain the number of found entries.
 ;                  Failure      - Array[0] = 0
 ; Author ........: Beast, Prog@ndy
@@ -794,8 +795,8 @@ EndFunc   ;==>_FTP_ListToArray
 ; Description ...: Get Filenames and filesizes of current remote directory.
 ; Syntax.........: _FTP_ListToArray2D($l_FTPSession[, $Return_Type = 0[, $l_Flags = 0]]])
 ; Parameters ....: $l_FTPSession  - as returned by _FTP_Connect().
-;                  $Return_Type   - 0 = Both Files and Directories, 1 = Directories, 2 = Files.
-;                  $l_Flags       - see _FTP_FindFileFirst().
+;                  $Return_Type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
+;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
 ; Return values .: Success      - 2D Array with names and size.  Array[0][0] contain the number of found entries.
 ;                  Failure      - Array[0][0] = 0
 ; Author ........: Prog@ndy
@@ -817,9 +818,9 @@ EndFunc   ;==>_FTP_ListToArray2D
 ; Description ...: Get names, sizes, attributes aand times of files/dir of current remote directory.
 ; Syntax.........: _FTP_ListToArrayEx($l_FTPSession[, $Return_Type = 0[, $l_Flags = 0[, $b_Fmt = 1]]])
 ; Parameters ....: $l_FTPSession  - as returned by _FTP_Connect().
-;				   $Return_type   - 0 = Both Files and Directories, 1 = Directories, 2 = Files.
-;                  $l_Flags       - see _FTP_FindFileFirst().
-;                  $b_Fmt         - type on the date strings : 1 = yyyy/mm/dd, 0 = mm/dd/yyyy.
+;				   $Return_type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
+;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
+;                  $b_Fmt         - Optional, type on the date strings : 1 = yyyy/mm/dd, 0 = mm/dd/yyyy.
 ; Return values .: Success      - returns a 2D Array, see remarks.
 ;                  Failure      - Array[0][0] = 0.
 ; Author ........: Beast, Prog@ndy
@@ -868,8 +869,8 @@ EndFunc   ;==>_FTP_ListToArrayEx
 ;                   Values for $l_Flags
 ;                   	$INTERNET_FLAG_ASYNC -> Makes only asynchronous requests on handles descended
 ;                                  from the handle returned from this function.
-;                   	$INTERNET_FLAG_FROM_CACHE -> Does not make network requests. 
-;                                 All entities are returned from the cache. 
+;                   	$INTERNET_FLAG_FROM_CACHE -> Does not make network requests.
+;                                 All entities are returned from the cache.
 ;                                 If the requested item is not in the cache, a suitable error,
 ;                                 such as ERROR_FILE_NOT_FOUND, is returned.
 ; Related .......:
@@ -933,7 +934,7 @@ EndFunc   ;==>_FTP_Open
 ; Example .......:
 ; ===============================================================================================================================
 Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionToCall = "")
-	Local $ai_ftpopenfile, $ai_InternetCloseHandle, $fhandle, $glen, $last, $x, $parts, $buffer, $ai_FTPread, $result, $out, $i
+	Local $ai_InternetCloseHandle, $glen, $last, $x, $parts, $buffer, $ai_FTPread, $result, $out, $i, $ret
 	Local $fhandle = FileOpen($s_LocalFile, 18)
 	If @error Then Return SetError(-1, 0, 0)
 
@@ -966,9 +967,9 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 				$x = $last
 		EndSelect
 
-		Local $ai_FTPread = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetReadFile', 'ptr', $ai_ftpopenfile[0], 'ptr', DllStructGetPtr($buffer), 'int', $x, 'dword*', $out)
+		$ai_FTPread = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetReadFile', 'ptr', $ai_ftpopenfile[0], 'ptr', DllStructGetPtr($buffer), 'int', $x, 'dword*', $out)
 		If @error Or $ai_FTPread[0] = 0 Then
-			local $lasterror = _WinAPI_GetLastError()
+			Local $lasterror = _WinAPI_GetLastError()
 			$ai_InternetCloseHandle = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetCloseHandle', 'ptr', $ai_ftpopenfile[0])
 			FileClose($fhandle)
 
@@ -1057,8 +1058,8 @@ EndFunc   ;==>_FTP_ProgressDownload
 ; Example .......:
 ; ===============================================================================================================================
 Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionToCall = "")
-	Local $ai_ftpopenfile, $ai_InternetCloseHandle, $fhandle, $glen, $last, $x, $parts, $buffer, $ai_ftpwrite, $result, $out, $i
-	
+	Local $ai_InternetCloseHandle, $glen, $last, $x, $parts, $buffer, $ai_ftpwrite, $result, $out, $i, $ret
+
 	Local $ai_ftpopenfile = DllCall($GLOBAL_FTP_WININETHANDLE, 'ptr', 'FtpOpenFile', 'hwnd', $l_FTPSession, 'str', $s_RemoteFile, 'dword', $__FTPCONSTANT_GENERIC_WRITE, 'dword', $FTP_TRANSFER_TYPE_BINARY, 'ulong_ptr', 0)
 	If @error Or $ai_ftpopenfile[0] = 0 Then Return SetError(-3, _WinAPI_GetLastError(), 0)
 
@@ -1091,7 +1092,7 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 		EndSelect
 		DllStructSetData($buffer, 1, FileRead($fhandle, $x))
 
-		Local $ai_ftpwrite = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetWriteFile', 'ptr', $ai_ftpopenfile[0], 'ptr', DllStructGetPtr($buffer), 'int', $x, 'dword*', $out)
+		$ai_ftpwrite = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetWriteFile', 'ptr', $ai_ftpopenfile[0], 'ptr', DllStructGetPtr($buffer), 'int', $x, 'dword*', $out)
 		If @error Or $ai_ftpwrite[0] = 0 Then
 			Local $lasterror = _WinAPI_GetLastError()
 			$ai_InternetCloseHandle = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetCloseHandle', 'ptr', $ai_ftpopenfile[0])
@@ -1135,7 +1136,7 @@ EndFunc   ;==>_FTP_ProgressUpload
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __FTP_ListToArray
-; Description ...: 
+; Description ...:
 ; Syntax.........: __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1, $ArrayCount = 6)
 ; Parameters ....:
 ; Return values .: an 2D array with the requested info defined by $ArrayCount
@@ -1147,28 +1148,28 @@ EndFunc   ;==>_FTP_ProgressUpload
 ;                  [5] File Access time
 ; Author ........: Beast, Prog@ndy
 ; Modified.......: jpm (to be use by external UDFs)
-; Remarks .......: 
+; Remarks .......:
 ; Related .......:
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
 Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1, $ArrayCount = 6)
-	Local $WIN32_FIND_DATA, $ret, $FileTime, $IsDir
+	Local $WIN32_FIND_DATA, $FileTime, $IsDir, $callFindNext
 	Local $DirectoryIndex = 0, $FileIndex = 0
-	
+
 	If $ArrayCount = 1 Then
 		Local $FileArray[1], $DirectoryArray[1]
 	Else
 		Local $FileArray[1][$ArrayCount], $DirectoryArray[1][$ArrayCount]
 	EndIf
-	
+
 	If $Return_Type < 0 Or $Return_Type > 2 Then Return SetError(1, 0, $FileArray)
-	
+
 ;~ Global Const $tagWIN32_FIND_DATA = "DWORD dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; DWORD nFileSizeHigh; DWORD nFileSizeLow; dword dwReserved0; dword dwReserved1; CHAR cFileName[260]; CHAR cAlternateFileName[14];"
 	$WIN32_FIND_DATA = DllStructCreate($tagWIN32_FIND_DATA)
 	Local $callFindFirst = DllCall($GLOBAL_FTP_WININETHANDLE, 'hwnd', 'FtpFindFirstFile', 'hwnd', $l_FTPSession, 'str', "", 'ptr', DllStructGetPtr($WIN32_FIND_DATA), 'dword', $l_Flags, 'ulong_ptr', 0)
 	If Not $callFindFirst[0] Then Return SetError(1, _WinAPI_GetLastError(), 0)
-	
+
 	Do
 		$IsDir = BitAND(DllStructGetData($WIN32_FIND_DATA, "dwFileAttributes"), $__FTPCONSTANT_FILE_ATTRIBUTE_DIRECTORY) = $__FTPCONSTANT_FILE_ATTRIBUTE_DIRECTORY
 		If $IsDir And ($Return_Type <> 2) Then
@@ -1179,11 +1180,11 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 			Else
 				ReDim $DirectoryArray[$DirectoryIndex + 1][$ArrayCount]
 				$DirectoryArray[$DirectoryIndex][0] = DllStructGetData($WIN32_FIND_DATA, "cFileName")
-				
+
 				$DirectoryArray[$DirectoryIndex][1] = _WinAPI_MakeQWord(DllStructGetData($WIN32_FIND_DATA, "nFileSizeLow"), DllStructGetData($WIN32_FIND_DATA, "nFileSizeHigh"))
 				If $ArrayCount = 6 Then
 					$DirectoryArray[$DirectoryIndex][2] = DllStructGetData($WIN32_FIND_DATA, "dwFileAttributes")
-					
+
 					$FileTime = DllStructCreate("dword;dword", DllStructGetPtr($WIN32_FIND_DATA, "ftLastWriteTime"))
 					$DirectoryArray[$DirectoryIndex][3] = _Date_Time_FileTimeToStr( $FileTime ,$bFmt)
 					$FileTime = DllStructCreate("dword;dword", DllStructGetPtr($WIN32_FIND_DATA, "ftCreationTime"))
@@ -1200,11 +1201,11 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 			Else
 				ReDim $FileArray[$FileIndex + 1][$ArrayCount]
 				$FileArray[$FileIndex][0] = DllStructGetData($WIN32_FIND_DATA, "cFileName")
-				
+
 				$FileArray[$FileIndex][1] = _WinAPI_MakeQWord(DllStructGetData($WIN32_FIND_DATA, "nFileSizeLow"), DllStructGetData($WIN32_FIND_DATA, "nFileSizeHigh"))
 				If $ArrayCount = 6 Then
 					$FileArray[$FileIndex][2] = DllStructGetData($WIN32_FIND_DATA, "dwFileAttributes")
-					
+
 					$FileTime = DllStructCreate("dword;dword", DllStructGetPtr($WIN32_FIND_DATA, "ftLastWriteTime"))
 					$FileArray[$FileIndex][3] = _Date_Time_FileTimeToStr( $FileTime ,$bFmt)
 					$FileTime = DllStructCreate("dword;dword", DllStructGetPtr($WIN32_FIND_DATA, "ftCreationTime"))
@@ -1214,12 +1215,12 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 				EndIf
 			EndIf
 		EndIf
-		
+
 		$callFindNext = DllCall($GLOBAL_FTP_WININETHANDLE, 'int', 'InternetFindNextFile', 'hwnd', $callFindFirst[0], 'ptr', DllStructGetPtr($WIN32_FIND_DATA))
 	Until Not $callFindNext[0]
-	
+
 	DllCall($GLOBAL_FTP_WININETHANDLE, "int", "InternetCloseHandle", "hwnd", $callFindFirst[0])
-	
+
 	If $ArrayCount = 1 Then
 		$DirectoryArray[0] = $DirectoryIndex
 		$FileArray[0] = $FileIndex
@@ -1227,7 +1228,7 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 		$DirectoryArray[0][0] = $DirectoryIndex
 		$FileArray[0][0] = $FileIndex
 	EndIf
-	
+
 	Switch $Return_Type
 		Case 0
 			If $ArrayCount = 1 Then
@@ -1258,7 +1259,7 @@ EndFunc   ;==>__FTP_ListToArray
 ; Description ...: DllOpen wininet.dll
 ; Syntax.........: __FTP_Init()
 ; Parameters ....:
-; Return values .: 
+; Return values .:
 ; Author ........:
 ; Modified.......:
 ; Remarks .......:

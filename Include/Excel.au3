@@ -372,7 +372,7 @@ EndFunc   ;==>_ExcelBookSaveAs
 Func _ExcelBookClose($oExcel, $fSave = 1, $fAlerts = 0)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	Local $sObjName, $fDisplayAlerts, $fScreenUpdating
-	
+
 	$sObjName = ObjName($oExcel)
 
 	If $fSave > 1 Then $fSave = 1
@@ -487,7 +487,7 @@ EndFunc   ;==>_ExcelWriteFormula
 ;                  $iStartColumn - The table column to start writing the array to
 ;                  $aArray - The array to write into the sheet
 ;                  $iDirection - The direction to write the array (0=right, 1=down)
-;                  $fIndexBase - Specify an array index base of either 0 or 1
+;                  $iIndexBase - Specify an array index base of either 0 or 1
 ; Return values .: Success      - Returns 1
 ;                  Failure		- Returns 0 and sets @error on errors:
 ;                  |@error=1     - Specified object does not exist
@@ -693,7 +693,7 @@ EndFunc   ;==>_ExcelReadCell
 ;                  $iStartColumn - The table column to start reading the array from
 ;                  $iNumCells - The number of cells to read into the array
 ;                  $iDirection - The direction of the cells to read into array (0=right, 1=down)
-;                  $fIndexBase - Specify whether array created is to have index base of either 0 or 1
+;                  $iIndexBase - Specify whether array created is to have index base of either 0 or 1
 ; Return values .: Success      - Returns an array with the specified cell contents
 ;                  Failure		- Returns 0 and sets @error on errors:
 ;                  |@error=1     - Specified object does not exist

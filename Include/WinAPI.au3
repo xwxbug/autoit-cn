@@ -2912,7 +2912,7 @@ EndFunc   ;==>_WinAPI_GetLastErrorMessage
 ; Parameters ....: $hwnd - Handle of GUI to work on
 ;                  $i_transcolor - Returns Transparent color ( dword as 0x00bbggrr  or string "0xRRGGBB")
 ;                  $Transparency - Returns Transparancy of GUI
-;                  $isColorRef   - If True, $i_transcolor will be a COLORREF( 0x00bbggrr ), else an RGB-Color
+;                  $asColorRef   - If True, $i_transcolor will be a COLORREF( 0x00bbggrr ), else an RGB-Color
 ; Return values .: Success - Usage of LWA_ALPHA and LWA_COLORKEY (use BitAnd)
 ;                  Failure - Error: 0
 ;                  |@error: 1 to 3 - Error from DllCall
@@ -5446,10 +5446,11 @@ EndFunc   ;==>_WinAPI_SetLastError
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetLayeredWindowAttributes
 ; Description ...: Sets Layered Window Attributes
-; Syntax.........: _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlages = 0x03[, $isColorRef = False]]])
+; Syntax.........: _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlags = 0x03[, $isColorRef = False]]])
 ; Parameters ....: $hwnd - Handle of GUI to work on
 ;                  $i_transcolor - Transparent color
 ;                  $Transparency - Set Transparancy of GUI
+;				   $dwFlags - Flags.
 ;                  $isColorRef - If True, $i_transcolor is a COLORREF( 0x00bbggrr ), else an RGB-Color
 ; Return values .: Success - 1
 ;                  @Error - 0
@@ -5462,13 +5463,13 @@ EndFunc   ;==>_WinAPI_SetLastError
 ; Link ..........: @@MsdnLink@@ SetLayeredWindowAttributes
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 255, $dwFlages = 0x03, $isColorRef = False)
-	If $dwFlages = Default Or $dwFlages = "" Or $dwFlages < 0 Then $dwFlages = 0x03
+Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 255, $dwFlags = 0x03, $isColorRef = False)
+	If $dwFlags = Default Or $dwFlags = "" Or $dwFlags < 0 Then $dwFlags = 0x03
 	If Not $isColorRef Then
 		$i_transcolor = Hex(String($i_transcolor), 6)
 		$i_transcolor = Execute('0x00' & StringMid($i_transcolor, 5, 2) & StringMid($i_transcolor, 3, 2) & StringMid($i_transcolor, 1, 2))
 	EndIf
-	Local $Ret = DllCall("user32.dll", "int", "SetLayeredWindowAttributes", "hwnd", $hWnd, "long", $i_transcolor, "byte", $Transparency, "long", $dwFlages)
+	Local $Ret = DllCall("user32.dll", "int", "SetLayeredWindowAttributes", "hwnd", $hWnd, "long", $i_transcolor, "byte", $Transparency, "long", $dwFlags)
 	Select
 		Case @error
 			Return SetError(@error, 0, 0)
@@ -6219,19 +6220,19 @@ EndFunc   ;==>_WinAPI_WideCharToMultiByte
 ; Return values .: Success      - The handle of the window thatcontains the point
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Gary Frost
 ; Remarks .......: The WindowFromPoint function does not retrieve the handle of a hidden or disabled window, even if the point is
 ;                  within the window.
 ; Related .......: $tagPOINT
 ; Link ..........: @@MsdnLink@@ WindowFromPoint
-; Example .......:
+; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_WindowFromPoint(ByRef $tPoint)
 	Local $iX, $iY, $aResult
 
 	$iX = DllStructGetData($tPoint, "X")
 	$iY = DllStructGetData($tPoint, "Y")
-	$aResult = DllCall("User32.dll", "hwnd", "WindowFromPoint", "int", $iX, "int", $iY)
+	$aResult = DllCall("User32.dll", "hwnd", "WindowFromPoint", "long", $iX, "long", $iY)
 	If @error Then Return SetError(@error, 0, 0)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WindowFromPoint

@@ -450,11 +450,11 @@ Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
 	; variables so we definitely need to quit.
 	If $i = 3 Then Return ""
 
-	; A path with a driver but no slash (e.g. C:Path\To\File) has the following
+	; A path with a drive but no slash (e.g. C:Path\To\File) has the following
 	; behavior.  If the relative drive is the same as the $BasePath drive then
 	; insert the base path.  If the drives differ then just insert a leading
 	; slash to make the path valid.
-	If Not StringLeft($sFullPath, 1) <> "\" Then
+	If StringLeft($sFullPath, 1) <> "\" Then
 		If StringLeft($sFullPathConst, 2) = StringLeft($sBasePath, 2) Then
 			$sFullPath = $sBasePath & "\" & $sFullPath
 		Else

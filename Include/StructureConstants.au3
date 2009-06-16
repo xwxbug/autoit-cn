@@ -218,7 +218,7 @@ Global Const $tagCOMBOBOXINFO = "dword Size;int EditLeft;int EditTop;int EditRig
 ;                  |CBEIF_SELECTEDIMAGE - The iSelectedImage member is valid or must be filled in.
 ;                  |CBEIF_TEXT          - The pszText member is valid or must be filled in.
 ;                  Item                 - The zero-based index of the item.
-;                  pszText              - A pointer to a character buffer that contains or receives the item's text.
+;                  Text              - A pointer to a character buffer that contains or receives the item's text.
 ;                  TextMax              - The length of pszText, in TCHARs. If text information is being set, this member is ignored.
 ;                  Image                - The zero-based index of an image within the image list.
 ;                  SelectedImage        - The zero-based index of an image within the image list.
@@ -275,7 +275,7 @@ Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";int fChanged;int NewSelection;char
 ;                  |CBEIF_SELECTEDIMAGE - The iSelectedImage member is valid or must be filled in.
 ;                  |CBEIF_TEXT          - The pszText member is valid or must be filled in.
 ;                  Item                 - The zero-based index of the item.
-;                  pszText              - A pointer to a character buffer that contains or receives the item's text.
+;                  Text              - A pointer to a character buffer that contains or receives the item's text.
 ;                  TextMax              - The length of pszText, in TCHARs. If text information is being set, this member is ignored.
 ;                  Image                - The zero-based index of an image within the image list.
 ;                  SelectedImage        - The zero-based index of an image within the image list.
@@ -341,7 +341,7 @@ Global Const $tagDTPTIME = "short Year;short Month;short DOW;short Day;short Hou
 ; Name...........: $tagNMDATETIMECHANGE
 ; Description ...: Contains information about a change that has taken place in a date and time picker (DTP) control
 ; Fields ........: $tagNMHDR - Contains information about a notification message
-;                  Flags   - Indicates if the control is set to "no date" status.  This flag also specifies whether the  contents
+;                  Flag   - Indicates if the control is set to "no date" status.  This flag also specifies whether the  contents
 ;                  +of the date are valid and contain current time information. This value can be one of the following:
 ;                  | $GDT_NONE  - The control is set to "no date" status
 ;                  | $GDT_VALID - The control is not set to the "no date" status
@@ -1275,6 +1275,7 @@ Global Const $tagMCHITTESTINFO = "int Size;int X;int Y;int Hit;short Year;short 
 ;                  MinMinute   - Minute
 ;                  MinSecond   - Seconds
 ;                  MinMSeconds - Milliseconds
+;                  MaxYear 	   - Year
 ;                  MaxMonth    - Month
 ;                  MaxDOW      - DOW
 ;                  MaxDay      - Day
@@ -1301,6 +1302,7 @@ Global Const $tagMCMONTHRANGE = "short MinYear;short MinMonth;short MinDOW;short
 ;                  MinMinute   - Minute
 ;                  MinSecond   - Seconds
 ;                  MinMSeconds - Milliseconds
+;                  MaxYear 	   - Year
 ;                  MaxMonth    - Month
 ;                  MaxDOW      - DOW
 ;                  MaxDay      - Day
@@ -1328,6 +1330,7 @@ Global Const $tagMCRANGE = "short MinYear;short MinMonth;short MinDOW;short MinD
 ;                  MinMinute   - Minute
 ;                  MinSecond   - Seconds
 ;                  MinMSeconds - Milliseconds
+;                  MaxYear 	   - Year
 ;                  MaxMonth    - Month
 ;                  MaxDOW      - DOW
 ;                  MaxDay      - Day
@@ -1840,7 +1843,7 @@ Global Const $tagNMMOUSE = $tagNMHDR & ";dword ItemSpec;dword ItemData;int X;int
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagPOINT = "int X;int Y"
+Global Const $tagPOINT = "long X;long Y"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagRECT
@@ -2699,6 +2702,8 @@ Global Const $tagTBADDBITMAP = "int hInst;int ID"
 ;                  idCommand - Command identifier associated with the button. This identifier is used in a WM_COMMAND message when the button is chosen
 ;                  fsState   - Button state flags. This member can be a combination of the values listed in Toolbar Button States
 ;                  fsStyle   - Button style. This member can be a combination of the button style values listed in Toolbar Control and Button Styles
+;				   bReserved1	- Reserved.  Do not use.
+;				   bReserved2	- Reserved.  Do not use.
 ;                  dwData    - Application-defined value
 ;                  iString   - Zero-based index of the button string, or a pointer to a string buffer that contains text for the button
 ;                  cchText  - Count of characters in the button text

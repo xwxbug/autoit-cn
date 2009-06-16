@@ -15,8 +15,6 @@ $CmdLineRaw
 
 !Abs 1 1
 !ACos 1 1
-!AdlibDisable 0 1
-!AdlibEnable 1 2
 !AdlibRegister 1 2
 !AdlibUnRegister 1 1
 !Asc 1 1
@@ -217,6 +215,7 @@ $CmdLineRaw
 !InetGet 1 4
 !InetGetInfo 0 2
 !InetGetSize 1 2
+!InetRead 1 2
 !IniDelete 2 3
 !IniRead 4 4
 !IniReadSection 2 2
@@ -261,7 +260,7 @@ $CmdLineRaw
 !OnAutoItExitUnregister 1 1
 !Opt 1 2
 !Ping 1 2
-!PixelChecksum 4 6
+!PixelChecksum 4 7
 !PixelGetColor 2 3
 !PixelSearch 5 8
 !PluginClose 1 1
@@ -374,7 +373,7 @@ $CmdLineRaw
 !UBound 1 2
 !UDPBind 2 2
 !UDPCloseSocket 1 1
-!UDPOpen 2 2
+!UDPOpen 2 3
 !UDPRecv 2 3
 !UDPSend 2 2
 !UDPShutdown 0 0
@@ -409,8 +408,6 @@ $CmdLineRaw
 !WinWaitClose 1 3
 !WinWaitNotActive 1 3
 
-%AdlibDisable 1 <UDF>
-%AdlibEnable 1 <UDF>
 %AdlibRegister 1 <UDF>
 %AdlibUnRegister 1 <UDF>
 %AutoItSetOption 1 CaretCoordMode
@@ -427,7 +424,6 @@ $CmdLineRaw
 %AutoItSetOption 1 MouseClickDragDelay
 %AutoItSetOption 1 MouseCoordMode
 %AutoItSetOption 1 MustDeclareVars
-%AutoItSetOption 1 OnExitFunc
 %AutoItSetOption 1 PixelCoordMode
 %AutoItSetOption 1 SendAttachMode
 %AutoItSetOption 1 SendCapslockMode
@@ -540,7 +536,6 @@ $CmdLineRaw
 %Opt 1 MouseClickDragDelay
 %Opt 1 MouseCoordMode
 %Opt 1 MustDeclareVars
-%Opt 1 OnExitFunc
 %Opt 1 PixelCoordMode
 %Opt 1 SendAttachMode
 %Opt 1 SendCapslockMode

@@ -6,8 +6,8 @@
 #AutoIt3Wrapper_Res_Comment=http://www.autoit.net.cn
 #AutoIt3Wrapper_Res_Description=AutoIt v3
 #AutoIt3Wrapper_res_field=QQ|133333542
-#AutoIt3Wrapper_Res_Fileversion=3.2.11.2
-#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
+#AutoIt3Wrapper_Res_Fileversion=3.3.1.1
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=n
 #AutoIt3Wrapper_useupx=n
 #AutoIt3Wrapper_Run_AU3Check=y
 #EndRegion ;**** 参数创建于 AutoIt3Wrapper_GUI ****
@@ -26,6 +26,7 @@
 ;    - /noproxy   	使用直接连接(不使用 IE 代理)
 ;
 ; History:
+;  - 1.50 - Rewrote the code to new Inet... functions (InetClose, InetGetInfo) (by Prog@ndy)
 ;  - 1.41 - Added error message when dowload is not working (by JPM)
 ;  - 1.40 - Fixed a bug where the updater crashed if AU3 was not already installed (by erebus)
 ;         - Fixed some display bugs, occured if AU3 was not already installed (by erebus)
@@ -98,6 +99,8 @@ Global $i_Res, $pos, $i_ReleaseSizeKB, $i_BetaSizeKB, $i_PreBetaSizeKB, $i_DnPer
 Global $s_DnBytes, $s_DnSize,$i_Response, $tmp, $s_DefFileName, $len
 Global $i_ProgOn, $i_StatusPercent
 
+Global $i_InetGetHandle
+
 ; ========================================
 ; 			读取注册表设置
 ; ========================================
@@ -130,8 +133,8 @@ If _StringInArray($CmdLine, '/noproxy') Then HttpSetProxy(1)
 If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or _StringInArray($CmdLine, '/prebeta') Then
 	Opt('TrayIconHide', 0)
 	_Status('更新检查中...')
-	InetGet($s_DatFile, $s_DatFile_Local, 1)
-	If @InetGetBytesRead = -1 Then
+	InetGet($s_DatFile, $s_DatFile_Local, 1 )
+	If @error<>0 Then
 		_Status('不能连接到站点', '请检查您的网络连接')
 		Sleep(4000)
 		Exit
@@ -151,12 +154,14 @@ If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or 
 		$i_DownSize = $i_PreBetaSize
 	EndIf
 	If $s_AutoUpdate Then
-		InetGet($s_AutoUpdate, $s_DownTemp, 1, 1)
-		$s_DownSize = Round($i_ReleaseSize / 1024) & ' KB'
-		While @InetGetActive
-			_Status('下载更新', '', @InetGetBytesRead, $i_DownSize)
-		WEnd
+		$i_InetGetHandle = InetGet($s_AutoUpdate, $s_DownTemp, 1, 1)
+		$s_DownSize = Round($i_DownSize / 1024) & ' KB'
+		Do
+			_Status('下载更新中', '', InetGetInfo($i_InetGetHandle, 0), $i_DownSize)
+		Until InetGetInfo($i_InetGetHandle, 2)
 		_Status('下载完成', '启动安装程序')
+		InetClose($i_InetGetHandle)
+		$i_InetGetHandle=-1
 		Sleep(1000)
 		If _StringInArray($CmdLine, '/silent') Then
 			_Start('"' & $s_DownTemp & '" /S')
@@ -251,9 +256,9 @@ $lb_Mn_DwnToTtl = GUICtrlCreateLabel('下载到:', 5, 195, 290, 15, $SS_LEFTNOWO
 $lb_Mn_DwnToTxt = GUICtrlCreateLabel('', 5, 210, 290, 15, $SS_LEFTNOWORDWRAP)
 $pg_Mn_Progress = GUICtrlCreateProgress(5, 225, 340, 20)
 $lb_Mn_Progress = GUICtrlCreateLabel('', 5, 250, 290, 15)
-$bt_Mn_OpenFile = GUICtrlCreateButton('打开[&O]', 105, 275, 75, 25)
+$bt_Mn_OpenFile = GUICtrlCreateButton('打开[&O]', 75, 275, 75, 25)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$bt_Mn_OpenFolder = GUICtrlCreateButton('打开文件夹[&F]', 185, 275, 75, 25)
+$bt_Mn_OpenFolder = GUICtrlCreateButton('打开文件夹[&F]', 155, 275, 95, 25)
 GUICtrlSetState(-1, $GUI_DISABLE)
 $a_DownDisplay = StringSplit($lb_Mn_DwnToTtl & '.' & _
 		$lb_Mn_DwnToTxt & '.' & _
@@ -290,15 +295,15 @@ If _StringInArray($CmdLine, '/noproxy') Then GUICtrlSetState($me_Mn_Proxy, $GUI_
 GUISetState(@SW_SHOW, $gui_Main)
 ; 下载更新文件
 If $b_Download_UpdateDat Then
-	InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
+	$i_InetGetHandle = InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
 Else
 	FileCopy(@ScriptDir & '\update.dat', $s_DatFile_Local) ; to test locally
 EndIf
 ; Harness GUI Events
 While 1
 	$a_GMsg = GUIGetMsg(1)
-	If Not @InetGetActive And Not $i_DatFileLoaded Then
-		If @InetGetBytesRead = -1 And $b_Download_UpdateDat Then
+	If Not $i_DatFileLoaded And  InetGetInfo($i_InetGetHandle,2) Then
+		If InetGetInfo($i_InetGetHandle,3) = False And $b_Download_UpdateDat Then
 			$i_Res = MsgBox(5 + 16 + 8192, '出错啦!', '无法连接到官方服务器.' & @LF & _
 					'请尝试下列操作:' & @LF & _
 					' - 确认电脑已经连接到因特网' & @LF & _
@@ -306,7 +311,7 @@ While 1
 					' - 登录 官方网站或者中文论坛 进行软件下载' & @LF & _
 					' - 确认官方或者中文论坛还没有倒闭	ε|^_^|з')
 			If $i_Res = 4 Then
-				InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
+				$i_InetGetHandle = InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
 			Else
 				Exit
 			EndIf
@@ -366,14 +371,15 @@ While 1
 		EndIf
 	EndIf
 	If $i_DnInitiated Then
-		If @InetGetActive Then
-			$i_DnPercent = Int(@InetGetBytesRead / $i_DownSize * 100)
-			$s_DnBytes = Round(@InetGetBytesRead / 1024) & ' KB'
+		If Not InetGetInfo($i_InetGetHandle, 2) Then
+			$i_DnPercent = Int(InetGetInfo($i_InetGetHandle, 0) / $i_DownSize * 100)
+			$s_DnBytes = Round(InetGetInfo($i_InetGetHandle, 0) / 1024) & ' KB'
 			$s_DnSize = Round($i_DownSize / 1024) & ' KB'
 			GUICtrlSetData($pg_Mn_Progress, $i_DnPercent)
 			GUICtrlSetData($lb_Mn_Progress, '下载进度: ' & $i_DnPercent & '% (' & $s_DnBytes & ' of ' & $s_DnSize & ')')
 		Else
 			GUICtrlSetData($pg_Mn_Progress, 100)
+			InetClose($i_InetGetHandle)
 			If Not FileMove($s_DownTemp, $s_DownPath, 1) Then
 				MsgBox(16 + 8192, '错误', '移动文件错误.')
 				GUICtrlSetData($lb_Mn_Progress, '错误')
@@ -439,7 +445,7 @@ While 1
 				_Start('"' & $s_DownPath & '"')
 				Exit
 			Case $a_GMsg[0] = $bt_Mn_OpenFolder
-				_Start('"' & @WindowsDir & '\explorer.exe" /select,"' & $s_DownPath & '"')
+				_Start('"' & EnvGet('windir') & '\explorer.exe" /select,"' & $s_DownPath & '"')
 				Exit
 				; Menu items
 			Case $a_GMsg[0] = $me_Mn_Proxy
@@ -488,7 +494,7 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 		Return
 	EndIf
 
-	InetGet($s_DownUrl, $s_DownTemp, 1, 1)
+	$i_InetGetHandle = InetGet($s_DownUrl, $s_DownTemp, 1, 1)
 	$s_DownPath = FileSaveDialog('另存为', $s_DefDownDir, '可执行文件 (*.exe)', 16, $s_DownName)
 	If Not @error Then
 		If Not (StringRight($s_DownPath, 4) = '.exe') Then
@@ -510,7 +516,7 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 		GUICtrlSetData($bt_Mn_Close, '取消')
 		$i_DnInitiated = 1
 	Else
-		InetGet('abort')
+		InetClose($i_InetGetHandle)
 		FileDelete($s_DownTemp)
 	EndIf
 EndFunc   ;==>_DownloadFile
@@ -523,7 +529,7 @@ Func _CancelDownload($i_Flag = 0)
 				'是否真的要取消下载?')
 		If $i_Response = 6 Then
 			$i_DnInitiated = 0
-			InetGet('abort')
+			InetClose($i_InetGetHandle)
 			FileDelete($s_DownTemp)
 			If $i_Flag = 1 Then
 				Exit

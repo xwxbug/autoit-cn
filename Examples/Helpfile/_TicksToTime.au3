@@ -17,7 +17,7 @@ Func _Main()
 	GUISetState()
 	;Start timer
 	$timer = TimerInit()
-	AdlibEnable("Timer", 50)
+	AdlibRegister("Timer", 50)
 	;
 	While 1
 		;FileWriteLine("debug.log",@min & ":" & @sec & " ==> before")

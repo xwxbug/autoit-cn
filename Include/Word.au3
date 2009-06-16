@@ -1408,7 +1408,7 @@ EndFunc   ;==>_WordErrorNotify
 ;				   $s_MacroName		- The name of the macro. Can be any combination of template,
 ;											module, and macro name. (See Remarks)
 ;				   $v_Arg1				- Optional: The first parameter to pass to the macro
-;					...					...
+;					$v_Argn			- ...
 ;				   $v_Arg30			- Optional: The thirtieth parameter to pass to the macro
 ; Return values .: On Success	- Returns 1
 ;                  On Failure	- Returns 0 and sets @ERROR

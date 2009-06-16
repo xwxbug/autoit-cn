@@ -154,7 +154,7 @@ EndFunc   ;==>_NamedPipes_ConnectNamedPipe
 ;                  $iType       - Pipe type mode. Must be one of the following:
 ;                  |0 - Data is written to the pipe as a stream of bytes
 ;                  |1 - Data is written to the pipe as a stream of messages
-;                  $Read        - Pipe read mode. Must be one of the following:
+;                  $iRead        - Pipe read mode. Must be one of the following:
 ;                  |0 - Data is read from the pipe as a stream of bytes
 ;                  |1 - Data is read from the pipe as a stream of messages
 ;                  $iWait       - Pipe wait mode. Must be one of the following:

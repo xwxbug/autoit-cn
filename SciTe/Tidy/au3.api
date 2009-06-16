@@ -192,8 +192,6 @@ With?4
 @YEAR?3
 Abs ( expression ) Calculates the absolute value of a number.
 ACos ( expression ) Calculates the arcCosine of a number.
-AdlibDisable ( [ "function"]) Disables the adlib functionality.
-AdlibEnable ( "function" [, time] ) Registers an Adlib function.
 AdlibRegister ( "function" [, time] ) Registers an Adlib function.
 AdlibUnRegister ( "function" ) Unregisters an adlib function.
 Asc ( "char" ) Returns the ASCII code of a character.
@@ -215,7 +213,6 @@ AutoItSetOption ( "MouseClickDownDelay", param ) Alters the length a click is he
 AutoItSetOption ( "MouseClickDragDelay", param ) Alters the length of the brief pause at the start and end of a mouse drag operation. Time in milliseconds to pause (default=250). 
 AutoItSetOption ( "MouseCoordMode", param ) Sets the way coords are used in the mouse functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 AutoItSetOption ( "MustDeclareVars", param ) If this option is used then all variables must be pre-declared with Dim, Local or Global before they can be used - removes the chance for misspelled variables causing bugs. 1 = Variables must be pre-declared 0 = Variables don't need to be pre-declared (default) 
-AutoItSetOption ( "OnExitFunc", param ) this option is no more needed use OnAutoItExitRegister(). 
 AutoItSetOption ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 AutoItSetOption ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 AutoItSetOption ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
@@ -376,7 +373,7 @@ FileSetTime ( "file pattern", "time" [, type [, recurse] ] ) Sets the timestamp 
 FileWrite ( filehandle or "filename", "line" ) Append a line of text to the end of a previously opened text file.
 FileWriteLine ( filehandle or "filename", "line" ) Append a line of text to the end of a previously opened text file.
 Floor ( expression ) Returns a number rounded down to the closest integer.
-FtpSetProxy ( mode [, "proxy:port" [, "username", "password"]] ) Sets the internet proxy to use for ftp access.
+FtpSetProxy ( mode [, "proxy:port" [, "username" [, "password"]]] ) Sets the internet proxy to use for ftp access.
 GUICreate ( "title" [, width [, height [, left [, top [, style [, exStyle [, parent]]]]]]] ) Create a GUI window.
 GUICtrlCreateAvi ( filename, subfileid, left, top [, width [, height [, style [,  exStyle]]]] ) Creates an AVI video control for the GUI.
 GUICtrlCreateButton ( "text", left, top [, width [, height [, style [, exStyle]]]] ) Creates a Button control for the GUI.
@@ -450,14 +447,14 @@ GUIStartGroup ( [winhandle] ) Defines that any subsequent controls that are crea
 GUISwitch ( winhandle [, tabitemID] ) Switches the current window used for GUI functions.
 Hex ( expression [, length] ) Returns a string representation of an integer or of a binary type converted to hexadecimal.
 HotKeySet ( "key" [, "function"] ) Sets a hotkey that calls a user function.
-HttpSetProxy ( mode [, "proxy:port" [, "username", "password"]] ) Sets the internet proxy to use for http access.
+HttpSetProxy ( mode [, "proxy:port" [, "username" [, "password"]]] ) Sets the internet proxy to use for http access.
 HttpSetUserAgent ( "user agent" ) Sets the user-agent string sent with InetGet() requests.
 HWnd ( expression ) Converts an expression into an HWND handle.
 InetClose ( handle ) Closes a handle returned from InetGet().
-InetGet ( "URL" [, options ] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
 InetGet ( "URL" [,"filename" [, options [, background]]] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
 InetGetInfo ( [ handle [, index ]] ) Returns detailed data for a handle returned from InetGet().
 InetGetSize ( "URL" [, options ] ) Returns the size (in bytes) of a file located on the internet.
+InetRead ( "URL" [, options ] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
 IniDelete ( "filename", "section" [, "key"] ) Deletes a value from a standard format .ini file.
 IniRead ( "filename", "section", "key", "default" ) Reads a value from a standard format .ini file.
 IniReadSection ( "filename", "section" ) Reads all key/value pairs from a section in a standard format .ini file.
@@ -465,7 +462,7 @@ IniReadSectionNames ( "filename" ) Reads all sections in a standard format .ini 
 IniRenameSection ( "filename", "section", "new section" [, flag] ) Renames a section in a standard format .ini file.
 IniWrite ( "filename", "section", "key", "value" ) Writes a value to a standard format .ini file.
 IniWriteSection ( "filename", "section", "data" [, index ] ) Writes a section to a standard format .ini file.
-InputBox ( "title", "Prompt" [, "Default" [, "password char" [, width, height [, left, top [, timeOut [, hwnd]]]]]] ) Displays an input box to ask the user to enter a string.
+InputBox ( "title", "prompt" [, "default" [, "password char" [, width, height [, left, top [, timeOut [, hwnd]]]]]] ) Displays an input box to ask the user to enter a string.
 Int ( expression ) Returns the integer (whole number) representation of an expression.
 IsAdmin ( ) Checks if the current user has full administrator privileges.
 IsArray ( variable ) Checks if a variable is an array type.
@@ -515,7 +512,6 @@ Opt ( "MouseClickDownDelay", param ) Alters the length a click is held down befo
 Opt ( "MouseClickDragDelay", param ) Alters the length of the brief pause at the start and end of a mouse drag operation. Time in milliseconds to pause (default=250). 
 Opt ( "MouseCoordMode", param ) Sets the way coords are used in the mouse functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
 Opt ( "MustDeclareVars", param ) If this option is used then all variables must be pre-declared with Dim, Local or Global before they can be used - removes the chance for misspelled variables causing bugs. 1 = Variables must be pre-declared 0 = Variables don't need to be pre-declared (default) 
-Opt ( "OnExitFunc", param ) this option is no more needed use OnAutoItExitRegister(). 
 Opt ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 Opt ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 Opt ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
@@ -533,7 +529,7 @@ Opt ( "WinTextMatchMode", param ) Alters the method that is used to match window
 Opt ( "WinTitleMatchMode", param ) Alters the method that is used to match window titles during search operations. 1 = Match the title from the start (default) 2 = Match any substring in the title 3 = Exact title match 4 = Advanced mode, see <a href="../intro/windowsadvanced.htm">Window Titles & Text (Advanced)</a> -1 to -4 = force lower case match according to other type of match. 
 Opt ( "WinWaitDelay", param ) Alters how long a script should briefly pause after a successful window-related operation. Time in milliseconds to pause (default=250). 
 Ping ( address or hostname [, timeout] ) Pings a host and returns the roundtrip-time.
-PixelChecksum ( left, top, right, bottom [, step [,hwnd]] ) Generates a checksum for a region of pixels.
+PixelChecksum ( left, top, right, bottom [, step [, hwnd [, mode]]] ) Generates a checksum for a region of pixels.
 PixelGetColor (  x , y [, hwnd] ) Returns a pixel color according to x,y pixel coordinates.
 PixelSearch ( left, top, right, bottom, color [, shade-variation [, step [, hwnd]]] ) Searches a rectangle of pixels for the pixel color provided.
 PluginClose ( dllhandle ) Close a plugin file.
@@ -554,7 +550,7 @@ RegDelete ( "keyname" [, "valuename"] ) Deletes a key or value from the registry
 RegEnumKey ( "keyname", instance ) Reads the name of a subkey according to it's instance.
 RegEnumVal ( "keyname", instance ) Reads the name of a value according to it's instance.
 RegRead ( "keyname", "valuename" ) Reads a value from the registry.
-RegWrite ( "keyname" [,"valuename", "type", value] ) Creates a key or value in the registry.
+RegWrite ( "keyname" [,"valuename" [, "type" [, value]]] ) Creates a key or value in the registry.
 Round ( expression [, decimalplaces]  ) Returns a number rounded to a specified number of decimal places.
 Run ( "program" [, "workingdir" [, show_flag[, opt_flag ]]] ) Runs an external program.
 RunAs ( "username", "domain", "password", logon_flag, "program" [, "workingdir" [, show_flag [, opt_flag ]]] ) Runs an external program under the context of a different user.
@@ -603,7 +599,7 @@ StringLower ( "string" ) Converts a string to lowercase.
 StringMid ( "string", start [, count] ) Extracts a number of characters from a string.
 StringRegExp ( "test", "pattern" [, flag ] [, offset ] ] ) Check if a string fits a given regular expression pattern.
 StringRegExpReplace ( "test", "pattern", "replace", [ count ] ) Replace text in a string based on regular expressions.
-StringReplace ( "string", "searchstring" or start, "replacestring" [, occurrence [, casesense]] ) Replaces substrings in a string.
+StringReplace ( "string", "searchstring/start", "replacestring" [, occurrence [, casesense]] ) Replaces substrings in a string.
 StringRight ( "string", count ) Returns a number of characters from the right-hand side of a string.
 StringSplit ( "string", "delimiters" [, flag ] ) Splits up a string into substrings depending on the given delimiters.
 StringStripCR ( "string" ) Removes all carriage return values ( Chr(13) ) from a string.
@@ -646,7 +642,7 @@ TrayTip ( "title", "text", timeout [, option] ) Displays a balloon tip from the 
 UBound ( Array [, Dimension] ) Returns the size of array dimensions.
 UDPBind ( IPAddr, port ) Create a socket bound to an incoming connection.
 UDPCloseSocket ( socketarray ) Close a UDP socket.
-UDPOpen ( IPAddr, port ) Open a socket connected to an existing server .
+UDPOpen ( IPAddr, port [, flag] ) Open a socket connected to an existing server .
 UDPRecv ( socketarray, maxlen [, flag] ) Receives data from a opened socket
 UDPSend ( socketarray, data) Sends data on an opened socket
 UDPShutdown ( ) Stops TCP/UDP services.
@@ -685,7 +681,7 @@ _ArrayBinarySearch (Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0]]) U
 _ArrayCombinations (ByRef $avArray, $iSet[, $sDelim = ""]) Returns an Array of the Combinations of a Set of Elements from a Selected Array (Requires: #Include <Array.au3>)
 _ArrayConcatenate (ByRef $avArrayTarget, Const ByRef $avArraySource) Concatenate two arrays. (Requires: #Include <Array.au3>)
 _ArrayDelete (ByRef $avArray, $iElement) Deletes the specified element from the given array. (Requires: #Include <Array.au3>)
-_ArrayDisplay (Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"[, $sHeader = "|"]]]]]]) Displays given 1D or 2D array array in a listview. (Requires: #Include <Array.au3>)
+_ArrayDisplay (Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"[, $sHeader = ""]]]]]]) Displays given 1D or 2D array array in a listview. (Requires: #Include <Array.au3>)
 _ArrayFindAll (Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iSubItem = 0]]]]]) Find the indices of all ocurrences of a search query between two points in a 1D or 2D array using _ArraySearch(). (Requires: #Include <Array.au3>)
 _ArrayInsert (ByRef $avArray, $iElement[, $vValue = ""]) Add a new value at the specified position. (Requires: #Include <Array.au3>)
 _ArrayMax (Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]]) Returns the highest value held in an array. (Requires: #Include <Array.au3>)
@@ -944,7 +940,7 @@ _GDIPlus_ImageSaveToFileEx ($hImage, $sFileName, $sEncoder[, $pParams = 0]) Save
 _GDIPlus_MatrixCreate () Creates and initializes a Matrix object that represents the identity matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixDispose ($hMatrix) Release a matrix object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixRotate ($hMatrix, $nAngle[, $fAppend = False]) Updates a matrix with the product of itself and a rotation matrix (Requires: #Include <GDIPlus.au3>)
-_GDIPlus_MatrixRotate ($hMatrix, $nScaleX, $nScaleY[, $fAppend = False]) Updates a matrix with the product of itself and a scaling matrix (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_MatrixScale ($hMatrix, $nScaleX, $nScaleY[, $fAppend = False]) Updates a matrix with the product of itself and a scaling matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixTranslate ($hMatrix, $nOffsetX, $nOffsetY[, $fAppend = False]) Updates a matrix with the product of itself and a translation matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ParamAdd (ByRef $tParams, $sGUID, $iCount, $iType, $pValues) Add a value to an enocder parameter list (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ParamInit ($iCount) Initialize an encoder parameter list (Requires: #Include <GDIPlus.au3>)
@@ -1237,7 +1233,7 @@ _GUICtrlHeader_SetItemWidth ($hWnd, $iIndex, $iWidth) Sets the item's width (Req
 _GUICtrlHeader_SetOrderArray ($hWnd, ByRef $aOrder) Sets the current left-to-right order of items (Requires: #Include <GuiHeader.au3>)
 _GUICtrlHeader_SetUnicodeFormat ($hWnd, $fUnicode) Sets the Unicode character format flag for the control (Requires: #Include <GuiHeader.au3>)
 _GUICtrlIpAddress_ClearAddress ($hWnd) Clears the contents of the IP address control (Requires: #Include <GuiIPAddress.au3>)
-_GUICtrlIpAddress_Create ($hWnd, $iX, $iY[, $iWidth = 125[, $iHeigth = 25[, $iStyles = 0x00000000[, $iExstyles = 0x00000000]]]]) Create a GUI IP Address Control (Requires: #Include <GuiIPAddress.au3>)
+_GUICtrlIpAddress_Create ($hWnd, $iX, $iY[, $iWidth = 125[, $iHeight = 25[, $iStyles = 0x00000000[, $iExstyles = 0x00000000]]]]) Create a GUI IP Address Control (Requires: #Include <GuiIPAddress.au3>)
 _GUICtrlIpAddress_Destroy (ByRef $hWnd) Delete the control (Requires: #Include <GuiIPAddress.au3>)
 _GUICtrlIpAddress_Get ($hWnd) Retrieves the address from the IP address control (Requires: #Include <GuiIPAddress.au3>)
 _GUICtrlIpAddress_GetArray ($hWnd) Retrieves the address from the IP address control (Requires: #Include <GuiIPAddress.au3>)
@@ -2254,7 +2250,7 @@ _SoundStatus ( $aSnd_id ) Returns the status of the sound  (Requires: #include <
 _SoundStop ( $aSnd_id ) Stop a playing sound. (Requires: #include <Sound.au3>)
 _SQLite_Changes ( [ $hDB ] ) Returns number of changes (excluding triggers) of the last transaction (Requires: #include <SQLite.au3>)
 _SQLite_Close ( [ $hDB ] ) Close a SQLite database. (Requires: #include <SQLite.au3>)
-_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $nReturn = 0 ]] ) Returns or prints a 2Dimensional array formated to Console (Requires: #include <SQLite.au3>)
+_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $bReturn = 0 ]] ) Returns or prints a 2Dimensional array formated to Console (Requires: #include <SQLite.au3>)
 _SQLite_Encode ( $vData ) Encodes strings or binary data for use in SQLite query's (Requires: #include <SQLite.au3>)
 _SQLite_ErrCode ( [ $hDB ] ) Returns last error code (numeric) (Requires: #include <SQLite.au3>)
 _SQLite_ErrMsg ( [ $hDB ] ) Returns a string describing in english the error condition for the most recent sqlite3_* API call (Requires: #include <SQLite.au3>)
@@ -2271,13 +2267,12 @@ _SQLite_Query ( $hDB, $sSQL, ByRef $hQuery ) Prepares a SQLite Query (Requires: 
 _SQLite_QueryFinalize ( $hQuery ) Finalizes an _SQLite_Query() based query. The query is interrupted. (Requires: #include <SQLite.au3>)
 _SQLite_QueryReset ( $hQuery ) Reset a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
 _SQLite_QuerySingleRow ( $hDB, $sSQL, ByRef $aRow ) Read out the first row of the result from the specified query. (Requires: #include <SQLite.au3>)
-_SQLite_SaveMode ( $fSaveModeState ) Disable or Enable Save mode (Requires: #include <SQLite.au3>)
+_SQLite_SafeMode ( $fSafeModeState ) Disable or Enable Safe mode (Requires: #include <SQLite.au3>)
 _SQLite_SetTimeout ( [ $hDB = -1 [, $iTimeout = 1000 ]] ) Sets timeout for busy handler (Requires: #include <SQLite.au3>)
 _SQLite_Shutdown ( ) Unloads SQLite.dll (Requires: #include <SQLite.au3>)
 _SQLite_SQLiteExe ( $sDatabaseFile, $sInput, ByRef $sOutput [, $sSQLiteExeFilename = "SQLite3.exe" ] ) Executes commands in SQLite.exe (Requires: #include <SQLite.au3>)
-_SQLite_Startup ( [ $sDll_Filename = "sqlite3.dll" ] ) Loads SQLite.dll (Requires: #include <SQLite.au3>)
+_SQLite_Startup ( [ $sDll_Filename = "sqlite3.dll" [, $bUTF8ErrorMsg = False ]] ) Loads SQLite.dll (Requires: #include <SQLite.au3>)
 _SQLite_TotalChanges ( [ $hDB ] ) Returns number of all changes (including triggers) of all transactions (Requires: #include <SQLite.au3>)
-_StringAddThousandsSep ($s_string[, $i_convert_lcid = -1[, $i_current_lcid = -1]]) Returns the original numbered string with the Thousands and or Decimal delimiter(s) inserted. (Requires: #Include <String.au3>)
 _StringBetween ($s_String, $s_Start, $s_End[, $v_Case = -1]) Returns the string between the start search string and the end search string. (Requires: #Include <String.au3>)
 _StringEncrypt ($i_Encrypt, $s_EncryptText, $s_EncryptPassword[, $i_EncryptLevel = 1]) An RC4 based string encryption function. (Requires: #Include <String.au3>)
 _StringExplode ($sString, $sDelimiter [, $iLimit] ) Splits up a string into substrings depending on the given delimiters as PHP Explode v5. (Requires: #Include <String.au3>)
@@ -2472,7 +2467,7 @@ _WinAPI_SetFocus ($hWnd) Sets the keyboard focus to the specified window (Requir
 _WinAPI_SetFont ($hWnd, $hFont[, $fRedraw = True]) Sets a window font (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetHandleInformation ($hObject, $iMask, $iFlags) Sets certain properties of an object handle (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetLastError ($iErrCode) Sets the last-error code for the calling thread (Requires: #Include <WinAPI.au3>)
-_WinAPI_SetLayeredWindowAttributes ($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlages = 0x03[, $isColorRef = False]]]) Sets Layered Window Attributes (Requires: #Include <WinAPI.au3>)
+_WinAPI_SetLayeredWindowAttributes ($hWnd, $i_transcolor[, $Transparency = 255[, $dwFlags = 0x03[, $isColorRef = False]]]) Sets Layered Window Attributes (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetParent ($hWndChild, $hWndParent) Changes the parent window of the specified child window (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetProcessAffinityMask ($hProcess, $iMask) Sets a processor affinity mask for the threads of a specified process (Requires: #Include <WinAPI.au3>)
 _WinAPI_SetSysColors ($vElements, $vColors) Obtains information about the display devices in a system (Requires: #Include <WinAPI.au3>)
@@ -2546,7 +2541,7 @@ _WordDocSaveAs ( ByRef $o_object [, $s_FilePath = "" [, $i_Format = 0 [, $b_Read
 _WordErrorHandlerDeRegister ( ) Disable a registered user COM error handler (Requires: #include <Word.au3> )
 _WordErrorHandlerRegister ( [$s_functionName = "__WordInternalErrorHandler"] ) Register and enable a user COM error handler (Requires: #include <Word.au3> )
 _WordErrorNotify ( [$f_notify = -1] ) Specifies whether Word.au3 automatically notifies of Warnings and Errors (to the console) (Requires: #include <Word.au3> )
-_WordMacroRun ( $o_object, $s_MacroName [, $v_Arg1, [, ... [, $v_Arg30]]] )  Runs a Visual Basic macro (Requires: #include <Word.au3> )
+_WordMacroRun ( $o_object, $s_MacroName [, $v_Arg1, [, $v_Arg<i>n</i> [, $v_Arg30]]] ) Runs a Visual Basic macro (Requires: #include <Word.au3>)
 _WordPropertyGet ( ByRef $o_object, $s_property ) Returns a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordPropertySet ( ByRef $o_object, $s_property, $v_newvalue ) Set a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordQuit ( ByRef $o_object [, $i_SaveChanges = -2 [, $i_OriginalFormat = 1 [, $b_RouteDocument = 0]]] ) Close the window and remove the object reference to it (Requires: #include <Word.au3> )

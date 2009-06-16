@@ -33,7 +33,7 @@ ConsoleWrite(_IEBodyReadHTML($oIE) & @CR)
 #include <IE.au3>
 $oIE = _IECreate("http://www.autoitscript.com")
 
-AdlibEnable("UpdateClock", 1000) ; Update clock once per second
+AdlibRegister("UpdateClock", 1000) ; Update clock once per second
 
 ; idle as long as the browser window exists
 While WinExists(_IEPropertyGet($oIE, "hwnd"))

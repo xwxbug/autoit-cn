@@ -703,6 +703,7 @@ EndFunc   ;==>_GDIPlus_BrushDispose
 ; Description ...: Get the color of a Solid Brush object
 ; Syntax.........: _GDIPlus_BrushGetSolidColor($hBrush, [$iARGB = 0xFF000000])
 ; Parameters ....: $hBrush      - Handle to a Brush object
+;				   $iARGB		- The color of the brush.
 ; Return values .: Success      - Brush color
 ;                  Failure      - -1 and @error is set
 ; Author ........:
@@ -2422,7 +2423,7 @@ Func _GDIPlus_ImageGetRawFormat($hImage)
 	$iError = @error
 	If @error Or (Not IsArray($aResult1)) Or (Not IsPtr($aResult1[2])) Or _
 			(Not $aResult1[2]) Then Return SetError($iError, 3, $aGuid)
-	$sResult2 = _WinAPI_StringFromGUID($aResult1[2])		
+	$sResult2 = _WinAPI_StringFromGUID($aResult1[2])
 	If @error Then Return SetError(@error, 4, $aGuid)
 	For $i = 0 To 10
 		If $aImageType[$i][1] == $sResult2 Then
@@ -2657,7 +2658,7 @@ EndFunc   ;==>_GDIPlus_MatrixRotate
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_MatrixScale
 ; Description ...: Updates a matrix with the product of itself and a scaling matrix
-; Syntax.........: _GDIPlus_MatrixRotate($hMatrix, $nScaleX, $nScaleY[, $fAppend = False])
+; Syntax.........: _GDIPlus_MatrixScale($hMatrix, $nScaleX, $nScaleY[, $fAppend = False])
 ; Parameters ....: $hMatrix     - Handle to a Matrix object
 ;                  $nScaleX     - Multiplyier to scale the x-axis
 ;                  $nScaleY     - Multiplyier to scale the y-axis

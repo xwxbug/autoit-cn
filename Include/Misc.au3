@@ -106,7 +106,7 @@ EndFunc   ;==>_ChooseColor
 ;                  $iItalic     - Italic
 ;                  $iUnderline  - Underline
 ;                  $iStrikethru - Optional: Strikethru
-;                  $hWndOwnder  - Handle to the window that owns the dialog box
+;                  $hWndOwner  - Handle to the window that owns the dialog box
 ; Return values .: Success      - Array in the following format:
 ;                  |[0] - contains the number of elements
 ;                  |[1] - attributes = BitOr of italic:2, undeline:4, strikeout:8
