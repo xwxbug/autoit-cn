@@ -1,4 +1,4 @@
-﻿#NoTrayIcon
+#NoTrayIcon
 #Region ;**** 参数创建于 AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=lemon.ico
 #AutoIt3Wrapper_useansi=n
@@ -417,7 +417,7 @@ While 1
 					$tmp = StringInStr($s_ReleaseFile, '/', 0, -1)
 					$s_DefFileName = StringTrimLeft($s_ReleaseFile, $tmp)
 					$i_DownSize = $i_ReleaseSize
-				ShellExecute("http://www.autoitscript.com/autoit3/docs/history.htm")
+					ShellExecute("http://www.autoitscript.com/autoit3/docs/history.htm")
 					_DownloadFile($s_ReleaseFile, 'autoit-v3-setup.exe')
 				EndIf
 			Case $a_GMsg[0] = $bt_Mn_BetaDl
