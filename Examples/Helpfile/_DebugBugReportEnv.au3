@@ -1,3 +1,3 @@
 ﻿#include <Debug.au3>
 
-Msgbox(4096, "Bug Report Environment", _DebugBugReportEnv() )
+Msgbox(4096, "调试报告环境", _DebugBugReportEnv() )
