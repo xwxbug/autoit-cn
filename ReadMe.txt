@@ -14,14 +14,42 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.1.1 (2009-6-X) (第一汉化版)
+3.3.1.1 (2009-6-19) (第一汉化版)
+AutoIt:
+[G][+]新增: #529: 添加 "NAME" 属性,允许检测搜索 for .NET WinForm 控件名称.
+[G][+]新增: PixelChecksum() 扩展参数选择 CRC32 代替 ADLER 算法.
+[G][+]新增: #984: @OSVersion 现在可以为 Windows XP Embedded 返回 "WIN_XPe".
+[G][+]新增: #938: UDPOpen() 标志可以允许广播 255.255.255.255 地址. (Thanks skyteddy)
+[G][*]修正: #969: FileFindNextFile() 不能设置 @extended ,如果第一个找到的项目为目录. (Thanks wraithdu)
+[G][*]修正: #975: Checkbox 或者 Radio 背景颜色在标签项目上出错(有系统主题情况下). (Thanks GEOSoft, jchd)
+[G][*]修正: #983: InetGet() 崩溃于 IE6.
+[G][*]修正: #1006: @MSEC 当值 < 100 时返回错误值.
+[G][*]修正: #1010: FileRead() UTF8 +BOM 文件返回太多的字符.
+[G][*]修改: #968: AutoUpdateIt 更新到支持新的 Inet 特性(但是汉化版编译了无法运行).
+[H][*]修正: AU3托盘工具箱对WIN7的兼容性以及点击项目会自动选定的问题.
+[H][-]移除: 移除 WIN32.HLP,文件过大,且使用人少.
+
+AU3Info:
+[G][+]新增: 控件信息现在包含 .NET WinForm (如果有效)(注意:文件尚未汉化).
+
+UDFs:
+[G][*]修正: #979: _ArrayDisplay() - 头(页眉)错误.
+[G][*]修正: #974: _WinAPI_WindowFromPoint tagPoint 数据结构
+[G][*]修正: #1000: _GUICtrlListBox_Create 返回错误消息 _WinAPI_CreateWindowEx: 不能找到窗口类(Cannot find window class)
+[G][*]修正: #1004: _PathFull() 返回无效结果.
+[G][*]修正: #1015: _SQLite_SaveMode() 重命名为 _SQLite_SafeMode(). (Thanks Zedna)
+[G][*]修正: #1019: _GUICtrlListView_SetItemCut, _GUICtrlListView_SetItemFocused, _GUICtrlListView_SetItemDropHilited enabled(启用)标志不能正常工作.
+[G][*]修改: 使用 UTF8 信息时显示于 Scite 控制台出息错误信息. 外部参数于 _SQLite_Startup().
+[G][*]修改: _SQLite 3.6.14.1 -> 3.6.14.2
+[G][-]移除: _StringAddThousandsSep() 已被移除.
+
+SCITE:
 [G][!]更新: 更新Tidy(代码整理)到2.0.28.3
-[G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.13
+[G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.14
 [G][!]更新: 更新scite4autoit的properties(属性文件).
 [H][*]修正: 3.3.1.0中scite单词缩写不可用问题.
-[H][*]修正: AU3托盘工具箱对WIN7的兼容性以及点击项目会自动选定的问题.
 [H][*]修正: AutoIt3Wrapper 对WIN7的兼容性.
-[H][-]移除: 移除 WIN32.HLP,文件过大,且使用人少.
+
 
 3.3.1.0 (2009-5-26) (第一汉化版)
 注意:因为官方文档包未发布,帮助文件有部分函数不是最新状态.将在下一个汉化版中补齐.
