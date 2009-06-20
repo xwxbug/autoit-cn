@@ -1,9 +1,9 @@
 ﻿;;; TIME.AU3 ;;;
-MsgBox(0,"", "The time is " & @HOUR & ":" & @MIN & ":" & @SEC)
+MsgBox(0,"", "现在时间为 " & @HOUR & ":" & @MIN & ":" & @SEC)
 
 ;;; SCRIPT.AU3 ;;;
 #include "TIME.AU3"
-MsgBox(0,"", "Example")
+MsgBox(0,"", "例子")
 #include "TIME.AU3"
 Exit
 

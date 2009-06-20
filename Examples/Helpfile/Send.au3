@@ -1,5 +1,5 @@
 ﻿Send("#r")
-WinWaitActive("Run")
+WinWaitActive("运行")
 Send("notepad.exe{Enter}")
-WinWaitActive("Untitled -")
+WinWaitActive("无标题")
 Send("Today's time/date is {F5}")

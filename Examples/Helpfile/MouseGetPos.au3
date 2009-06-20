@@ -1,2 +1,2 @@
 ﻿$pos = MouseGetPos()
-MsgBox(0, "Mouse x,y:", $pos[0] & "," & $pos[1])
+MsgBox(0, "鼠标坐标 X,Y:", $pos[0] & "," & $pos[1])

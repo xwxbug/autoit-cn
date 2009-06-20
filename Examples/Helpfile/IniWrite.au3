@@ -1,1 +1,1 @@
-﻿IniWrite("C:\Temp\myfile.ini", "section2", "key", "this is a new value")
+﻿IniWrite("C:\Temp\myfile.ini", "设置", "坏人人数", "12345")

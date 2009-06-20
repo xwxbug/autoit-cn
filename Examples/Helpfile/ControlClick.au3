@@ -1,1 +1,1 @@
-﻿ControlClick("Untitled -", "", "MDIClient1")
+﻿ControlClick("未命名", "", "MDIClient1")

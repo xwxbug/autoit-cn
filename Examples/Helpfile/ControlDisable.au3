@@ -1,1 +1,1 @@
-﻿ControlDisable("Untitled -", "", "MDIClient1")
+﻿ControlDisable("未命名", "", "MDIClient1")

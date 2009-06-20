@@ -1,4 +1,4 @@
-﻿$pos = WinGetPos("Untitled -")
+﻿$pos = WinGetPos("无标题")
 If IsArray($pos) Then
-	MsgBox(0, "Window height", $pos[3])
+	MsgBox(0, "窗口宽度", $pos[3])
 EndIf
