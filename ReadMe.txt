@@ -20,6 +20,21 @@ Autoit:
 SCITE:
 [H][!]更新: 更新Scite为1.79
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.15
+KODA:
+[G][!]更新: 更新Koda到 Release 1.7.2.0 build 180 (2009-06-27)
+[G][*]修正: 语言工具更新(KODA本身语言)
+[G][*]修改: 改良的翻译系统, 英语总是保持最新, lang_eng.xml 不再需要.
+[G][+]新增: 更新检查功能显示正式版说明.
+[G][+]新增: 关于对话框显示 Koda 编译版本(revision)(build)
+[G][+]新增: tip ability for TabItem
+[G][+]新增: ability to coloring a Combo
+[G][*]修正: unable to set control color that equal to it's default system color [FS#64] (thanks Valik)
+[G][*]修改: format of update checking, more information can be available now
+[G][*]修正: again - indentation when updating script [FS#63] (thanks Valik)
+[G][*]修正: paste control from ObjectTree context menu -> control position outside form [FS#53] (thanks Zedna)
+[G][*]修正: selection was not shown in Object Tree when calling Select All, and when mouse cursor was on the tree [FS#52] (thanks Zedna)
+[G][*]修正: wrong Import dialog size in 120 dpi [FS#50] (thanks Ernst Mathys)
+[G][*]修正: outdated link for checking [FS#54] (thanks Zedna)
 
 3.3.1.1 (2009-6-19) (第一汉化版)
 AutoIt:

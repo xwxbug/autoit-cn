@@ -1,3 +1,18 @@
+Release 1.7.2.0 build 180 (2009-06-27)
+2009-06-24 - Fixed: language kit script updated
+2009-06-18 - Changed: improved translation system, english now always up to date, lang_eng.xml not needed anymore
+2009-06-18 - Added: update check function show release notes
+2009-06-18 - Added: about dialog now show Koda revision (build)
+2009-06-16 - Added: tip ability for TabItem
+2009-06-16 - Added: ability to coloring a Combo
+2009-06-08 - Fixed: unable to set control color that equal to it's default system color [FS#64] (thanks Valik)
+2009-06-06 - Changed: format of update checking, more information can be available now
+2009-05-30 - Fixed: again - indentation when updating script [FS#63] (thanks Valik)
+2009-04-30 - Fixed: paste control from ObjectTree context menu -> control position outside form [FS#53] (thanks Zedna)
+2009-04-30 - Fixed: selection was not shown in Object Tree when calling Select All, and when mouse cursor was on the tree [FS#52] (thanks Zedna)
+2009-04-30 - Fixed: wrong Import dialog size in 120 dpi [FS#50] (thanks Ernst Mathys)
+2009-04-29 - Fixed: outdated link for checking [FS#54] (thanks Zedna)
+
 Release 1.7.1.0 (2009-04-27)
 2009-04-19 - Fixed: AV when resetting Style/ExStyle [FS#48] (thanks Zedna)
 2009-04-17 - Fixed: Resizing - generated code is wrong (default) [FS#47] (thanks Zedna)
@@ -440,9 +455,10 @@ Beta 1.5.1.2 (2006-04-03)
 2006-03-31 - Changed: GroupBox custom control rewritten for working with TabOrder (internal change)
 2006-03-31 - Changed: Both IDE and Code Generator now TabOrder aware
 
-Release 1.5.1 (2006-02-25)
+Release 1.5.1.0 (2006-02-25)
+2006-02-25 - Fixed: various bugs
 
-Release 1.5.0 (2006-02-20)
+Release 1.5.0.0 (2006-02-20)
 2006-02-20 - Added: translateable messages in language files
 2006-02-19 - Fixed: copytoclipboard function in code window
 2006-02-18 - Fixed: prob when opening files from within Scite. Added ClientHeight and ClientWidth to form properties
@@ -456,3 +472,12 @@ Release 1.5.0 (2006-02-20)
 2005-11-18 - Added: new gallery dialog, allow user create own collections of templates.
 2005-11-14 - Added: Obj control implemented.
 2005-11-11 - Added: new "doc" icon, appear when associate Koda's *.kxf extension.
+
+
+
+
+
+
+
+
+
