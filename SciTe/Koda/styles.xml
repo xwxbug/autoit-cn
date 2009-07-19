@@ -42,7 +42,7 @@
       <style name="WS_EX_WINDOWEDGE" value="00000100"/>
       <style name="WS_EX_LAYERED" value="00080000"/>
     </class>
-    <class name="TAButton" default="50010000">
+    <class name="TAButton" default="50034000">
       <style name="BS_PUSHBUTTON" value="00000000" mask="1"/>
       <style name="BS_DEFPUSHBUTTON" value="00000001" mask="1"/>
       <style name="BS_PUSHBOX" value="0000000A"/>
@@ -233,7 +233,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAList" default="50810003">
+    <class name="TAList" default="50810003" defname="GUI_SS_DEFAULT_LIST" defstyle="00800002">
       <style name="LBS_NOTIFY" value="00000001" forced="true"/>
       <style name="LBS_SORT" value="00000002"/>
       <style name="LBS_MULTIPLESEL" value="00000008"/>

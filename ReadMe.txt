@@ -21,20 +21,29 @@ SCITE:
 [H][!]更新: 更新Scite为1.79
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.15
 KODA:
+[G][!]更新: 更新Koda到 Beta 1.7.2.1 build 191 (2009-07-09)
+[G][+]新增: 载入图像使用 API 函数 OleLoadPicture 代替内部 Delphi 函数 (实验性质的!)
+[G][+]新增: 图像/图标/图像列表 打开对话框现在可以自定义并可以显示库预览.
+[G][+]新增: 图形控件的图形编辑器
+[G][*]修正: 当添加 256x256 图标时,图标错误. [FS#65]
+[G][+]新增: 状态栏上双击调用面板编辑器 [FS#26] (thanks Zedna)
+[G][+]新增: 图像列表编辑器添加一个按钮,允许保存列表为一个32位图标库.
+[G][*]修正: 16-位图标库可以在 Vista 及更高系统载入,但是会显示警告.
+
 [G][!]更新: 更新Koda到 Release 1.7.2.0 build 180 (2009-06-27)
 [G][*]修正: 语言工具更新(KODA本身语言)
 [G][*]修改: 改良的翻译系统, 英语总是保持最新, lang_eng.xml 不再需要.
 [G][+]新增: 更新检查功能显示正式版说明.
 [G][+]新增: 关于对话框显示 Koda 编译版本(revision)(build)
-[G][+]新增: tip ability for TabItem
-[G][+]新增: ability to coloring a Combo
-[G][*]修正: unable to set control color that equal to it's default system color [FS#64] (thanks Valik)
-[G][*]修改: format of update checking, more information can be available now
-[G][*]修正: again - indentation when updating script [FS#63] (thanks Valik)
-[G][*]修正: paste control from ObjectTree context menu -> control position outside form [FS#53] (thanks Zedna)
+[G][+]新增: TabItem 带有提示.
+[G][+]新增: Combo(组合框)带有颜色.
+[G][*]修正: 不能设置控件颜色等于系统默认颜色 [FS#64] (thanks Valik)
+[G][*]修改: 格式更新检查, 更多信息现在有效.
+[G][*]修正: 再次 - 当更新脚本时更好的进行缩排 [FS#63] (thanks Valik)
+[G][*]修正: 从对象树上下文菜单粘贴控件 -> 控件坐标超出窗体 [FS#53] (thanks Zedna)
 [G][*]修正: selection was not shown in Object Tree when calling Select All, and when mouse cursor was on the tree [FS#52] (thanks Zedna)
-[G][*]修正: wrong Import dialog size in 120 dpi [FS#50] (thanks Ernst Mathys)
-[G][*]修正: outdated link for checking [FS#54] (thanks Zedna)
+[G][*]修正: 在 120 dpi(解析度单位)下导入对话框大小错误 [FS#50] (thanks Ernst Mathys)
+[G][*]修正: 检查过时链接 [FS#54] (thanks Zedna)
 
 3.3.1.1 (2009-6-19) (第一汉化版)
 AutoIt:
