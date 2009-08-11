@@ -16,10 +16,14 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 3.3.1.X (2009-X-X) (第X汉化版)
 Autoit:
+[H][!]更新: 更新spy++ 中文版为9.0.30729.1(VS2008 SP1)
+[H][!]更新: 更新spy++ 目录中的VS2008运行库为9.0.30729.01(VS2008 SP1)
+[H][!]更新: 更新OLEview为6.0.6000.16384(Vista,VS2008SP1版本)
 [H][-]移除: 移除ANSI编译器支持.
 SCITE:
-[H][!]更新: 更新Scite为1.79
+[H][!]更新: 更新Scite为2.00
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.15
+[G][!]更新: 更新tidy为2.0.28.6
 KODA:
 [G][!]更新: 更新Koda到 Beta 1.7.2.1 build 191 (2009-07-09)
 [G][+]新增: 载入图像使用 API 函数 OleLoadPicture 代替内部 Delphi 函数 (实验性质的!)
@@ -44,6 +48,8 @@ KODA:
 [G][*]修正: selection was not shown in Object Tree when calling Select All, and when mouse cursor was on the tree [FS#52] (thanks Zedna)
 [G][*]修正: 在 120 dpi(解析度单位)下导入对话框大小错误 [FS#50] (thanks Ernst Mathys)
 [G][*]修正: 检查过时链接 [FS#54] (thanks Zedna)
+ADF:
+[G][+]新增: _API_AnimateWindow函数
 
 3.3.1.1 (2009-6-19) (第一汉化版)
 AutoIt:
