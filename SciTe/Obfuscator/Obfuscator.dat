@@ -11,6 +11,7 @@ guisetonevent,2,0
 hotkeyset,2,0
 isdeclared,1,1
 objevent,2,0
+onautoitexitregister,1,0
 opt,2,0
 traysetonevent,2,0
 trayitemsetonevent,2,0
