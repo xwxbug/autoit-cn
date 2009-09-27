@@ -171,7 +171,7 @@ end	-- InsertRegion()
 --
 -- Add debug MsgBox to the selected text (original by Jos van der Zande).
 --
--- Tool: AutoItTools.DebugMsgBoxAdd $(au3) savebefore:no,groupundo:yes Alt+D Debug: Add MsgBox
+-- Tool: AutoItTools.DebugMsgBoxAdd $(au3) savebefore:no,groupundo:yes Ctrl+Shift+D Debug: Add MsgBox
 --------------------------------------------------------------------------------
 function AutoItTools:DebugMsgBoxAdd()
 	local word = self:GetWord2()
@@ -197,6 +197,48 @@ function AutoItTools:DebugMsgBoxAdd()
 	editor:LineDown()
 	editor:Home()
 end	-- DebugMsgBoxAdd()
+
+--------------------------------------------------------------------------------
+-- DebugArrayDisplayAdd()
+--
+-- Add debug ArrayDisplay to the selected array (original by Jos van der Zande).
+--
+-- Tool: AutoItTools.DebugArrayDisplayAdd $(au3) savebefore:no,groupundo:yes Ctrl+Shift+A Debug: Add ArrayDisplay
+--------------------------------------------------------------------------------
+function AutoItTools:DebugArrayDisplayAdd()
+	local word = self:GetWord2()
+	local Found = false
+	local txt,line
+	if word == "" then
+		print("光标下没有任何文本")
+		return
+	end
+	local word2 = word:gsub("'", "''")     -- replace quote by 2 quotes
+
+	line = editor:LineFromPosition(editor.CurrentPos)
+	
+	for i=0 , editor.LineCount do
+	txt = editor:GetLine(i)
+     if txt == "#include <Array.au3>\r\n" then 
+	    Found = true
+		break
+	  end
+	end
+	
+	if Found==false then
+	editor:DocumentStart()
+	editor:NewLine()
+	editor:DocumentStart()
+	editor:AddText("#include <Array.au3>") --添加包含库
+	end
+	
+	editor:GotoLine(line)
+	editor:LineDown()
+	editor:LineEnd()
+	editor:NewLine()
+	editor:AddText("_ArrayDisplay(" .. word2 .. ")") --添加函数
+end	-- DebugArrayDisplayAdd()
+
 
 --------------------------------------------------------------------------------
 -- DebugConsoleWriteAdd()
