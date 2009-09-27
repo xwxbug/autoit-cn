@@ -208,21 +208,27 @@ end	-- DebugMsgBoxAdd()
 function AutoItTools:DebugArrayDisplayAdd()
 	local word = self:GetWord2()
 	local Found = false
-	local txt,line
+	local txt,line,linePos
 	if word == "" then
 		print("光标下没有任何文本")
 		return
 	end
 	local word2 = word:gsub("'", "''")     -- replace quote by 2 quotes
 
-	line = editor:LineFromPosition(editor.CurrentPos)
+	linePos = editor:LineFromPosition(editor.CurrentPos)
+	
+	editor:DocumentStart()
 	
 	for i=0 , editor.LineCount do
-	txt = editor:GetLine(i)
-     if txt == "#include <Array.au3>\r\n" then 
+	  line = editor:GetCurLine() --没办法 先这样搞吧
+	  if line:find("#include <Array.au3>") then
+--	txt = editor:GetLine(i) --老方法
+--	if txt:find("#include <Array.au3>") then
+ -- if txt == "#include <Array.au3>\r\n" or txt == "#include <Array.au3>\n" or txt == "#include <Array.au3>\r" then 
 	    Found = true
 		break
 	  end
+	editor:LineDown()
 	end
 	
 	if Found==false then
@@ -232,7 +238,7 @@ function AutoItTools:DebugArrayDisplayAdd()
 	editor:AddText("#include <Array.au3>") --添加包含库
 	end
 	
-	editor:GotoLine(line)
+	editor:GotoLine(linePos)
 	editor:LineDown()
 	editor:LineEnd()
 	editor:NewLine()
