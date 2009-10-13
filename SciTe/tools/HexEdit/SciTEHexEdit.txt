@@ -1,0 +1,153 @@
+
+  SciTEHexEdit
+  A Self-Contained Primitive Hex Editor for SciTE
+
+  Copyright (c) 2005-2006 Kein-Hong Man <khman@users.sf.net>
+
+  http://luaforge.net/projects/sl-hexedit/
+
+--
+
+INTRODUCTION
+
+SciTEHexEdit is a self-contained basic hex editor written as a Lua
+extension for the SciTE editor. It enables the user to do basic hex
+editor-style viewing and editing without exiting SciTE. SciTEHexEdit was
+developed on SciTE 1.71+ (compiled from CVS, Mingw on WinXP.)
+SciTEHexEdit is released with a Lua-style MIT license.
+
+SciTEHexEdit.png shows a screenshot of the hex editor in action.
+
+--
+
+WHAT'S NEW
+
+Version 0.10 (20061011):
+* completely rewritten, much better usability
+Version 0.9 (20050811):
+* initial release, beta quality, basic features complete
+
+--
+
+INSTALLATION
+
+The hex editor is contained in a single file, SciTEHexEdit.lua. First,
+set the Lua function HexEditor() to a suitable hotkey combination. Make
+sure the script is loaded along with your SciTE Lua startup script
+(you can use require() or you can copy the code over.) Then set the hot
+key, for example:
+
+  command.name.2.*=Hex Editor
+  command.subsystem.2.*=3
+  command.2.*=HexEditor
+  command.save.before.2.*=2
+
+The above uses the default Ctrl-2. As the script uses the per-buffer
+table in Lua, you will also need to set:
+
+  ext.lua.reset=0
+
+This enables view updating/synchronization to work. The script might
+not work properly if ext.lua.reset is not 0.
+
+The use of extman.lua is recommended. The script can work without
+extman.lua but this has been barely tested. In addition, if there is a
+conflict on the use of event handlers, the use of extman.lua is
+mandatory. You can get extman.lua from:
+
+  http://lua-users.org/wiki/SciteExtMan
+
+You can use extman.lua like this to set the hotkey:
+
+  scite_Command('Hex Editor|HexEditor|Ctrl+2')
+
+SciTEHexEdit will pick up your monospace font settings automatically and
+appear in monospace. You can also customize the monospace font in the
+script.
+
+If you find that there are too many scripts cluttering the menu and
+taking up hotkey combinations, you can start a script by selecting it
+from a userlist using the following utility script:
+
+  http://lua-users.org/wiki/SciteRunOneScript
+
+There's some fire-proofing, but since this is quite a hairy hack, the
+script's operation can be easily abused if you are inclined to shoot
+yourself in the foot. Viewing alone is quite safe; it will never try to
+write to your file. For saving, the original is always renamed so that
+you have a fallback if something happens to go terribly wrong.
+
+--
+
+USING THE HEX EDITOR
+
+To start, first open the file, say a binary file, in SciTE normally.
+Then run the script by pressing the hot key. A new hex editing window
+will open for you to edit hex style. Below is a sample:
+
+  . SciTE Hex Editor . ver 0.10 . 20061011 .
+  +---------+--------+---------+--------+--------+--------+---------+------+
+  | Refresh | Revert | FirstPg | PrevPg | NextPg | LastPg | Console | Help |
+  +---------+--------+---------+--------+--------+--------+---------+------+
+  +--------+-------------------------------------------------+----------------+
+  | Offset | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |   ASCII view   |
+  +--------+-------------------------------------------------+----------------+
+  |00000000| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |00000010| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |00000020| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |00000030| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |00000040| 2D 2D 2D 2D 2D 2D 2D 0A 2D 2D 20 53 63 69 54 45 |------- -- SciTE|
+  |00000050| 48 65 78 45 64 69 74 3A 20 41 20 53 65 6C 66 2D |HexEdit: A Self-|
+  |00000060| 43 6F 6E 74 61 69 6E 65 64 20 50 72 69 6D 69 74 |Contained Primit|
+  |00000070| 69 76 65 20 48 65 78 20 45 64 69 74 6F 72 20 66 |ive Hex Editor f|
+  |00000080| 6F 72 20 53 63 69 54 45 0A 2D 2D 2D 2D 2D 2D 2D |or SciTE -------|
+  |00000090| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |000000A0| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |000000B0| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |000000C0| 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D |----------------|
+  |000000D0| 2D 0A 2D 2D 20 43 6F 70 79 72 69 67 68 74 20 32 |- -- Copyright 2|
+  |000000E0| 30 30 35 2D 32 30 30 36 20 62 79 20 4B 65 69 6E |005-2006 by Kein|
+  |000000F0| 2D 48 6F 6E 67 20 4D 61 6E 20 3C 6B 68 6D 61 6E |-Hong Man <khman|
+  +--------+-------------------------------------------------+----------------+
+  +---------------------------------------------------------------------------+
+  | D:\bin\wscite\script\SciTEHexEdit.lua                         (unchanged) |
+  +---------------------------------------------------------------------------+
+  |    / (FirstPg) [ (Prev1K) - (PrevPg) + (NextPg) ] (Next1K) * (LastPg)     |
+  |    . or ` (Console Mode) N (Find Next) H (Help Screen)                    |
+  +---------------------------------------------------------------------------+
+
+Please see the help page and the console command descriptions for more
+information on how to use the hex editor. Multiple independent hex
+editing windows are allowed. Colour-coding makes editing easier. Bytes
+that have been changed are highlighted in yellow.
+
+If you have located something of interest in a binary file, position the
+caret, then start the hex editor window. The hex edit window will open
+with a view that is in the position of the caret, so you can start
+viewing the area of interest in hex immediately.
+
+--
+
+NOTES
+
+The script always loads the entire file at once, so there is a safety
+limit of 100MB in the script. If you know what you are doing, you can
+change this limit.
+
+The hex editing window size is more or less fixed. This is because
+a lot of position values are hard-coded. Please see the script for
+more technical notes and a TODO list.
+
+--
+
+FEEDBACK
+
+Feedback and contributions are welcome. I am on dial-up, so I might not
+be able to reply immediately. My alternative e-mail address is: mkh AT
+pl DOT jaring DOT my
+
+Enjoy!!
+
+Kein-Hong Man (esq.)
+Kuala Lumpur
+Malaysia 20061011

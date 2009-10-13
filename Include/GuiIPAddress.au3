@@ -339,8 +339,13 @@ EndFunc   ;==>_GUICtrlIpAddress_SetArray
 Func _GUICtrlIpAddress_SetEx($hWnd, $tIP)
     If $Debug_IP Then __UDF_ValidateClassName($hWnd, $tIP)
     _SendMessage($hWnd, $IPM_SETADDRESS, 0, _
-		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1")), _
-		BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3"))))
+		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3")), _
+		BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
+;~     _SendMessage($hWnd, $IPM_SETADDRESS, 0, _
+;~ 		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1")), _
+;~ 		BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3"))))		
+		
+		
 EndFunc   ;==>_GUICtrlIpAddress_SetEx
 
 ; #FUNCTION# ====================================================================================================================

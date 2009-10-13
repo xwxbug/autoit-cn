@@ -1,0 +1,156 @@
+
+  SciTECalculator
+  Lua-based calculators that looks like calculators for SciTE
+
+  Copyright (c) 2006 Kein-Hong Man <khman@users.sf.net>
+
+  http://luaforge.net/projects/sl-calculator/
+
+--
+
+INTRODUCTION
+
+SciTECalculator is a collection of Lua extension scripts for the SciTE
+editor that creates a calculator-like display in a buffer window that
+works almost like a normal calculator.
+
+The basic calculator script, SciTECalculatorPD.lua, is a technology demo
+and is placed into public domain. Its descendants with added features
+that are significant will use a Lua-style MIT license.
+
+The script was developed on SciTE 1.71+ (compiled from CVS, Mingw on
+Win32) but the script should work on SciTE on any platform.
+
+--
+
+WHAT'S NEW
+
+Version 0.5 (20060905):
+* initial release, a public domain script of a basic calculator
+
+--
+
+INSTALLATION FOR THE BASIC CALCULATOR
+
+These instructions should also work for calculators based on the basic
+public domain calculator, SciTECalculatorPD.lua. The use of extman.lua
+is recommended. The script can work without extman.lua but this has been
+barely tested. In addition, if there is a conflict on the use of event
+handlers, the use of extman.lua is mandatory.
+
+You can get extman.lua from:
+
+  http://lua-users.org/wiki/SciteExtMan
+
+The calculator is contained in a single file, which should be loaded
+before the initialization function of the calculator can be called. You
+can use require() or if you keep Lua scripts in a subdirectory, you can
+do something like:
+
+  function loadscript(scriptfile)
+    require(props["SciteDefaultHome"].."/script/"..scriptfile)
+  end
+  loadscript("SciTECalculatorPD.lua")
+
+The script can be installed to a shortcut using properties:
+
+  command.name.8.*=Calculator
+  command.subsystem.8.*=3
+  command.8.*=Calculator
+  command.save.before.8.*=2
+
+If you use extman, you can do it in Lua like this:
+
+  scite_Command('Calculator|Calculator|Ctrl+8')
+
+The initialization function is named "Calculator". The above uses Ctrl-8
+as the hotkey. As the script uses the per-buffer table in Lua, plus
+event handlers, please remember to set:
+
+  ext.lua.reset=0
+
+This enables view updating/synchronization to work. The script will
+probably fail to work properly if ext.lua.reset is not 0.
+
+The calculator is best used with a monospaced font. If your SciTE
+environment uses proportional fonts, you can make the calculator start
+in monospace automatically using MakeMonospace. Get it from:
+
+  http://lua-users.org/wiki/SciteMakeMonospace
+
+If you find that there are too many scripts cluttering the menu and
+taking up hotkey combinations, you can start a script by selecting it
+from a userlist using the following utility script:
+
+  http://lua-users.org/wiki/SciteRunOneScript
+
+While the author has tried to make the calculator "just work" like a
+normal calculator, the limitations of the Lua scripting interface
+requires some compromises. Also, a user intent on breaking the operation
+of the script will of course succeed in doing so.
+
+--
+
+STARTING THE CALCULATOR
+
+If the script has been installed properly, hitting the hotkey
+combination will start the calculator in a new buffer. The calculator
+will look like this:
+
+  +------------------------------------------------+
+  | SciTE Basic Calculator                ver. 0.5 |
+  +------------------------------------------------+
+  |/-\/---\/--------------------------------------\|
+  || ||Dec||                                    0 ||
+  |\-/\---/\--------------------------------------/|
+  |------------------------------------------------|
+  | +-----+-----+-----+-----+  +----+-----+------+ |
+  | | Hex | Dec | Oct | Bin |  | <- |  C  |  AC  | |
+  | +-----+-----+-----+-----+  +----+-----+------+ |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | | MC | |  7  |  8  |  9  | |  /  | Mod | And | |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | | MR | |  4  |  5  |  6  | |  *  | Or  | Xor | |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | | MS | |  1  |  2  |  3  | |  -  | Lsh | Not | |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | | M+ | |  0  | +/- |  .  | |  +  |  =  | Int | |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  | | PI | |  A  |  B  |  C  | |  D  |  E  |  F  | |
+  | +----+ +-----+-----+-----+ +-----+-----+-----+ |
+  +------------------------------------------------+
+
+  +-----------------------------------------------------------+
+  | SciTE Basic Calculator by <khman@users.sf.net> 20060904   |
+  | Use by pressing keys as you would in a normal calculator, |
+  | or double-click the "buttons". Press 'H' for help.        |
+  +-----------------------------------------------------------+
+
+For best results, use it by pressing keys as you would in a normal
+calculator, because double-clicking can be tiring. For a list of keys
+recognized by the calculator, press H for the help screen.
+
+To end the calculator, simply close the buffer window. Multiple
+calculator buffer windows should also work.
+
+--
+
+FEEDBACK
+
+A colour version of the basic calculator is planned.
+
+All sorts of things done with the Lua scripting extension can be found
+in a corner of the Lua wiki:
+
+  http://lua-users.org/wiki/SciteScripts
+
+Feedback and contributions are welcome. I am on dial-up, so I might not
+be able to reply immediately. My alternative e-mail address is: mkh AT
+pl DOT jaring DOT my
+
+Enjoy!!
+
+Kein-Hong Man (esq.)
+Kuala Lumpur
+Malaysia 20060904

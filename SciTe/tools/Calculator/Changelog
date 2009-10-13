@@ -1,0 +1,12 @@
+Changelog for SciTECalculator
+--------------------------
+
+2006-09-04  Kein-Hong Man  <khman@users.sf.net>
+
+	* svn repository created
+	* Changelog: added
+	* Manifest: added
+	* README: added
+	* SciTECalculator.lua: basic public domain version
+	* Initial release with a public domain SciTECalculator.lua
+	* Version: 0.5

@@ -1,0 +1,77 @@
+Calculator SciTE Calculator - Калькулятор на Lua
+CIViewer Color Image Viewer - Предпросмотр цвета и изображений
+Helper SciTE Helper - ActiveX компонент для связи SciTE со скриптами и приложениями
+HexEdit SciTE HexEdit - Hex редактор на Lua
+LuaLib Внешние Lua библиотеки
+SessionManager SciTE Session Manager - Менеджер сессий
+abbrevlist.lua При вводе слова, если это сокращение то вызывается список аббревиатур
+ascii.lua Трассировка выделенного текста в коды ASCII
+ASCIITable.lua ASCII Table for SciTE
+auto_backup.lua Создание резервной копии сохраняемого после редактирования файла
+AutocompleteObject.lua Автодополнение объектов их методами и свойствами
+ChangeCommentChar.lua Адекватный символ комментария для ini, inf, reg файлов
+code-poster-html.lua Конвертирование кода для публикации в HTML формате
+code-poster2.lua Конвертирование кода для публикации в форуме
+codepage.lua Показ текущей кодировки в статусной строке
+ColorSet.lua Выбор цвета из системного диалога
+COMMON.lua Общие функции, использующиеся во многих скриптах
+CopyMarkedLines.lua Вставить отмеченные (по Ctrl+F2) cтроки
+css_formatter.lua Упорядочивает таблицы стилей
+descript.ion В этом файле хранятся комментарии
+display_com_object_in_ole_viewer.vbs Display COM object in OLE Viewer
+exec.lua Расчет выделенного текста как математического выражения или открытие URL
+Find_Alt.hta Альтернативная панель поиска
+FindText.lua Поиск выделенного в окне редактора (или консоли) текста с выводом содержащих его строк в консоль
+FoldText.lua Фолдинг для текстовых файлов
+FontChanger.lua Смена текущих установок шрифта
+FuncProcList.lua Вывод списка функций / процедур, имеющихся в коде
+goto_line.lua Сохранение позиции курсора на экране при переходе на букмарк
+highlighting_identical_text.lua Автоподсветка идентичных блоков текста
+highlighting_paired_tags.lua Подсветка парных и непарных тегов в HTML и XML
+highlighting_text.lua Маркировка произвольного текста
+HighlightLinks.lua Подсветка и открытие линков в тексте
+html_HELP.hta Оболочка для просмотра/поиска в HTML файлах справки
+html_tags_autoclose.lua Автозакрытие тегов в HTML файлах
+HTML_toolbar.hta HTML Toolbar
+HTMLFormatPainter.lua "Формат по образцу" для HTML
+IndentTabToSpace.lua Замена отступов в виде табуляторов на пробелы и наоборот
+InsertSpecialChar.lua Вставка спецсимволов (©,®,§,±,…) из раскрывающегося списка (для HTML вставляются их обозначения)
+lexer_name.lua Показ имени текущего лексера в строке статуса
+macro_support.lua Поддержка записи и воспроизведения макросов
+MakeAbbrev.lua Автоматическое добавление текста в файл аббревиатур
+MoveLines.lua Перемещение выделенных строк (или 1 строки) вверх, вниз, вправо, влево
+MoveMenuItem.lua Изменение номера выделенных параметров меню Tools
+new_file.lua Заменяет стандартную команду SciTE "File|New" (Ctrl+N)
+Open_Selected_Filename.lua Замена стандартной команды SciTE "Открыть выделенный файл"
+open_session.js Открытие файлов сохраненных сессий (*.session) (Этот файл создается автоматически с помощью SciTE_WinIntegrator.hta)
+OpenFindFiles.lua Открытие файлов, найденных через диалог "Поиск в файлах"
+paired_tags.lua Подсветка тегов в HTML и XML
+palette.hta "Цветочник" - выбор цвета из нескольких доступных палитр
+ReadOnly.lua Наглядная установка/снятие режима "только для чтения"
+Recode.js Перекодировщик текста
+RegJump.js Открывает выделенную ветвь в редакторе реестра
+rename.lua Переименование открытого файла
+RestoreRecent.js Восстанавливает позицию курсора, букмарки и фолдинг при повторном открытии файла
+RestoreRecent.lua Восстанавливает позицию курсора, букмарки и фолдинг при повторном открытии файла
+ROCheck.lua Автоустановка ReadOnly для файлов с аттр. RHS
+ROWrite.lua Cохранение RO/Hidden/System файлов
+save_settings.lua Сохранение текущих установок SciTE
+SciTE_WinIntegrator.hta Интегрирование SciTE в Windows
+SciTEStartup.lua Содержит скрипты, стартующие при загрузке SciTE, а так же обрабатывающие события редактора.
+Select_And_Open_Filename.lua Расширение команды "Открыть выделенный файл" для случая когда выделения нет
+set_html.lua Включает HTML подсветку для файлов без расширения, открываемых из меню "просмотр HTML-кода" Internet Explorer
+ShowCalltip.lua Вывод всплывающей подсказки (Ctrl+Shift+Space) по текущему слову
+SideBar.lua Многофункциональная боковая панель
+smartbraces.lua Автозакрытие скобок
+smartcomment.lua Быстрое комментирование кода
+SortText.lua Сортировка выделенных строк по алфавиту и наоборот
+SpellCheck.vbs Проверка орфографии выделенного текста
+style_changer.lua Быстрая смена стиля оформления файлов на С
+svn_menu.lua Подменю для команд SVN
+ToggleFoldAll.lua Автоматическое сворачиване всех секций при открытии файлов заданного типа
+translit.lua Транслитерация английских букв в русские
+UTF8_check.lua Переключение кодировки в UTF-8
+value.lua Показывает действующее значение переменных $(название_переменной)
+win2dos.lua Переключатель кодировки текущего ввода и отображения win1251/dos866
+xComment.lua Замена Ctrl+Q (комментирование/снятие комментария) 
+Zoom.lua Синхронное масштабирование отображаемого и печатаемого шрифта

@@ -1,0 +1,227 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text-html; charset=windows-1251">
+<meta http-equiv=MSThemeCompatible content=yes>
+<meta name=author content=mozers™>
+<meta name=generator content=SciTE-Ru>
+<hta:application
+id=HTA
+applicationName=html_HELP
+icon=winhlp32.exe
+maximizeButton=yes
+innerBorder=no
+scroll=no
+selection=yes
+contextMenu=yes
+singleinstance=yes
+version=1.7
+>
+<script language=JavaScript>
+function ParseCmdLine(cmd){
+	var Arr_cmd = cmd.match(/[^ "]+|"[^"]+"/g);
+	for (i=0; i<Arr_cmd.length; i++) {
+		Arr_cmd[i] = Arr_cmd[i].replace(/"/g,'');
+	}
+	return Arr_cmd;
+}
+
+// Читаем аргументы ком.строки
+var Arr_cmd = ParseCmdLine(HTA.commandLine);
+len_cmd = Arr_cmd.length;
+if (len_cmd < 2) {
+	alert ('Command line:\n html_HELP.hta "c:\\full path\\doc.html" [ "find string"]');
+	window.close(false);
+}
+var help_path = Arr_cmd[1];
+var text_find = '';
+if (len_cmd > 2) {
+	text_find = Arr_cmd[2];
+}
+
+// === Shortcuts ==================================
+function Shortcuts(event, pane){
+	var src = self;
+	if (pane !== 0){src = parent;}
+	switch(event.keyCode){
+		case 27: //Esc - выход
+			src.window.close(true);
+			break;
+		case 114: //F3 - следующее вхождение
+			src.FindNext();
+			break;
+		case 107: // серый +
+		case 187: // +
+			src.Zoom(5);
+			break;
+		case 109: // серый -
+		case 189: // -
+			src.Zoom(-5);
+			break;
+		case 37: // <- влево
+			if (event.altKey) {back();}
+			break;
+		case 39: // -> вправо
+			if (event.altKey) {forward();}
+			break;
+	}
+}
+
+function CopyURL(event){
+	var element = event.srcElement;
+	var id_name = element.name||element.id;
+	if (!id_name){
+		element = element.parentElement;
+		id_name = element.name||element.id;
+	}
+	if (!id_name){
+		element = element.parentElement;
+		id_name = element.name||element.id;
+	}
+	var url = html_doc.document.URL.replace(/^.*\\(.*?\\.*?)(#.*?)?$/gi, '$1').replace(/\\/gi,'/');
+	url = 'http://scite-ru.googlecode.com/svn/trunk/pack/' + url;
+	var url_tag = '[url=' + url + ']' + url.replace(/^.*\//, '') + '[/url]';
+	if (id_name){url_tag = '[url=' + url + '#' + id_name + ']' + id_name + '[/url]';}
+	window.clipboardData.setData('Text',url_tag);
+	alert('Copy to clipboard:\n' + url_tag);
+}
+
+document.onkeydown = function(){Shortcuts(event, 0);};
+
+// === Find =======================================
+
+var find_num=0;
+var find_num_max=0;
+var TextRange;
+var zoom = 100;
+
+function FindStart(){
+	TextRange.execCommand('BackColor', '', '');
+	for(var i = 0; TextRange.findText(sText.value); i++){
+		TextRange.execCommand('BackColor','','yellow');
+		TextRange.collapse(false);
+	}
+	return i;
+}
+
+function FindNext(){
+	if (find_num === 0) {TextRange = html_doc.document.body.createTextRange();}
+	TextRange.findText(sText.value);
+	TextRange.select();
+	TextRange.collapse(false);
+	find_num++;
+	if (find_num >= find_num_max){find_num = 0;}
+	btnSearch.value='Go to ' + (find_num+1) + ' (in '+ find_num_max +')';
+}
+
+function Find(){
+	if (sText.value === ""){return;}
+	if (find_num_max === 0){
+		TextRange = html_doc.document.body.createTextRange();
+		find_num_max = FindStart();
+		if (find_num_max === 0) {
+			btnSearch.value = 'Not Found';
+			btnSearch.disabled = true;
+			sText.style.backgroundColor = "#FF9999";
+		}else{
+			btnSearch.value = 'Go to 1 (in ' + find_num_max +')';
+		}
+	}else{
+		FindNext();
+	}
+}
+
+function SearchReset(){
+	sText.value = '';
+	btnSearch.value = 'Search';
+	btnSearch.disabled = false;
+	sText.style.backgroundColor = "window";
+	find_num_max = 0;
+}
+
+// === Zoom ==========================================
+
+function Zoom(i){
+	zoom = zoom + i;
+	html_doc.document.body.style.zoom = zoom + "%";
+	txtZoom.value = zoom + "%";
+}
+
+// === History ========================================
+
+function btn_disabled(index){
+	btn_back.disabled = (index === 0);
+	btn_forward.disabled = (index == sel_history.options.length-1);
+}
+
+function history_sel(index){
+	sel_history.selectedIndex = index;
+	html_doc.location.href=sel_history.options[index].value;
+	btn_disabled(index);
+}
+
+function history_add() {
+	var index = sel_history.selectedIndex;
+	index++;
+	if (!sel_history.options[index]) {sel_history.add(html_doc.document.createElement("option"));}
+	sel_history.options[index].text = html_doc.event.srcElement.outerText;
+	sel_history.options[index].value = html_doc.event.srcElement.href;
+	sel_history.selectedIndex = index;
+	while (sel_history.options[index+1]) {
+		sel_history.remove(index+1);
+	}
+	btn_disabled(index);
+}
+
+// ==================================================
+
+function on_load() {
+	// History
+	if (html_doc.document.URL == "file://"+help_path) {sel_history.options[0].text = html_doc.document.title;}
+	for (i = 0; i < html_doc.document.links.length; i++) {
+		html_doc.document.links[i].attachEvent('onclick', history_add);
+	}
+
+	// Zoom
+	html_doc.document.onkeydown = function() {parent.Shortcuts(html_doc.event, 1);};
+	document.title = html_doc.document.title + " - [" + HTA.applicationName.replace(/_/g,' ') + ' ' + HTA.version + ']';
+	if (text_find !== ''){
+		Find();
+		if (find_num_max>0){FindNext();}
+		text_find = '';
+	} else {
+		SearchReset();
+	}
+
+	// CopyURL
+	html_doc.document.ondblclick = function() {parent.CopyURL(html_doc.event);};
+}
+
+</script>
+<style type="text/css">
+body, table {font:bold 8px "MS Sans Serif"; background-color:threedface; cursor:default; margin:0px;}
+input,select {font-family:"MS Sans Serif"; font-size:8px;}
+input.p {font-weight:bold; font-size:8pt; font-family:Verdana; color:#FF00CC; width:15pt; height:14pt; text-align:center;}
+input.h {font:normal 10pt Marlett; color:#FF00CC; width:15pt; height:14pt; text-align:center;}
+</style>
+<title>html HELP</title>
+</head>
+<body>
+</body>
+<script language=JavaScript>
+var html_text = '';
+html_text += '<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0"><tr><td>&nbsp;&nbsp;Zoom:';
+html_text += '&nbsp;<INPUT class="p" TYPE="button" Value="-" onClick="Zoom(-5);" title="ZoomIn [Gray-]">';
+html_text += '&nbsp;<INPUT name="txtZoom" TYPE=text value="100%" style="width:40px; text-align:center;" DISABLED>';
+html_text += '&nbsp;<INPUT class="p" TYPE="button" Value="+" onClick="Zoom(5);" title="ZoomOut [Gray+]">';
+html_text += '&nbsp;&nbsp;&nbsp;History:&nbsp;<INPUT id="btn_back" class="h" TYPE="button" Value="3" onClick="history_sel(sel_history.selectedIndex - 1);" title="Back [Alt + Left]" DISABLED>';
+html_text += '&nbsp;<SELECT id="sel_history" style="width:240px;" onchange="history_sel(this.selectedIndex)"><option value="' + help_path + '"><\/option><\/SELECT>';
+html_text += '&nbsp;<INPUT id="btn_forward" class="h" TYPE="button" Value="4" onClick="history_sel(sel_history.selectedIndex + 1);" title="Forward [Alt + Right]" DISABLED><\/td>';
+html_text += '<td align="right">';
+html_text += 'Find:&nbsp;&nbsp;<INPUT name=sText TYPE=text value="' + text_find + '" style="width:120px" onClick="SearchReset();" onkeydown="if (event.keyCode==13){Find()};" title="Start Search [Enter]\nNew Search  [Click]">';
+html_text += '&nbsp;&nbsp;<INPUT style="color:#000080" NAME="btnSearch" TYPE="button" Value="Search" onClick="Find();" title="Find Next [F3]">&nbsp;&nbsp;&nbsp;';
+html_text += '<\/td><\/tr>';
+html_text += '<tr height="100%"><td colspan=2><IFRAME onLoad="on_load();" id="html_doc" src="' + help_path + '" style="width:100%; height:100%;"><\/IFRAME><\/td><\/tr><\/table>';
+
+document.body.innerHTML = html_text;
+</script>
+</html>
