@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic
+	Local $hGUI, $hGraphic
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Draw a Bezier curve
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 
 	_GDIPlus_GraphicsDrawBezier ($hGraphic, 50, 50, 100, 5, 125, 25, 250, 50)
 

@@ -1,13 +1,13 @@
 ﻿#include-once
 
-#include <ListViewConstants.au3>
-#include <GuiHeader.au3>
-#include <Array.au3>
-#include <Memory.au3>
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
-#include <SendMessage.au3>
-#include <UDFGlobalID.au3>
+#include "ListViewConstants.au3"
+#include "GuiHeader.au3"
+#include "Array.au3"
+#include "Memory.au3"
+#include "WinAPI.au3"
+#include "StructureConstants.au3"
+#include "SendMessage.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListView
@@ -18,6 +18,7 @@
 ;                  ListView controls provide several ways to arrange and display items. For example, additional information about
 ;                  each item can be displayed in columns to the right of the icon and label.
 ; Author(s) .....: Paul Campbell (PaulIA)
+; Dll(s) ........: user32.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
@@ -279,6 +280,11 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
+;$tagLVBKIMAGE
+;$tagLVCOLUMN
+;$tagLVGROUP
+;$tagLVINSERTMARK
+;$tagLVSETINFOTIP
 ;__GUICtrlListView_ArrayDelete
 ;__GUICtrlListView_Draw
 ;__GUICtrlListView_GetItemOverlayImage
@@ -290,6 +296,136 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ;__GUICtrlListView_StateImageMaskToIndex
 ;__GUICtrlListView_ReverseColorOrder
 ; ===============================================================================================================================
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagLVBKIMAGE
+; Description ...: Contains information about the background image of a list-view control
+; Fields ........: Flags      - This member may be one or more of the following flags.  You can use the LVBKIF_SOURCE_MASK value
+;                  +to mask off all but the source flags.  You can use the LVBKIF_STYLE_MASK value to mask off all but the  style
+;                  +flags.
+;                  |$LVBKIF_SOURCE_NONE     - The control has no background image
+;                  |$LVBKIF_SOURCE_URL      - The Image member contains the URL of the background image
+;                  |$LVBKIF_STYLE_NORMAL    - The background image is displayed normally
+;                  |$LVBKIF_STYLE_TILE      - The background image will be tiled to fill the entire background of the control
+;                  |$LVBKIF_FLAG_TILEOFFSET - You use this flag to specify the coordinates of the first tile.  This flag is valid
+;                  +only if the $LVBKIF_STYLE_TILE flag is also specified. If this flag is not specified the first tile begins at
+;                  +the upper-left corner of the client area.
+;                  hBmp        - Not used
+;                  Image       - Address of a string that contains the URL of the background image. This member is only valid if
+;                  +the $LVBKIF_SOURCE_URL flag is set in Flags.  This member must be initialized to point  to  the  buffer  that
+;                  +contains or receives the text before sending the message.
+;                  ImageMax    - Size of the buffer at the address in Image.  If information is being sent to the  control,  this
+;                  +member is ignored.
+;                  XOffPercent - Percentage of the client area that the image should be offset horizontally.  For example, at  0
+;                  +percent, the image will be displayed against the left edge of the control's client area.  At 50 percent,  the
+;                  +image will be displayed horizontally centered in the control's client area. At 100 percent, the image will be
+;                  +displayed against the right edge  of  the  control's  client  area.  This  member  is  only  valid  when  the
+;                  +$LVBKIF_STYLE_NORMAL is specified in  Flags.  If  both  $LVBKIF_FLAG_TILEOFFSET  and  $LVBKIF_STYLE_TILE  are
+;                  +specified in Flags, then the value specifies the pixel, not percentage offset, of the first tile.  Otherwise,
+;                  +the value is ignored.
+;                  YOffPercent - Percentage of the control's client area that the image should be offset vertically. For example
+;                  +at 0 percent, the image will be displayed against the top edge of the control's client area.  At 50  percent,
+;                  +the image will be displayed vertically centered in the control's client area.  At 100 percent, the image will
+;                  +be displayed against the bottom edge of the control's client  area.  This  member  is  only  valid  when  the
+;                  +$LVBKIF_STYLE_NORMAL is specified in  Flags.  If  both  $LVBKIF_FLAG_TILEOFFSET  and  $LVBKIF_STYLE_TILE  are
+;                  +specified in Flags, then the value specifies the pixel, not percentage offset, of the first tile.  Otherwise,
+;                  +the value is ignored.
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagLVBKIMAGE = "ulong Flags;hwnd hBmp;ptr Image;uint ImageMax;int XOffPercent;int YOffPercent"
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagLVCOLUMN
+; Description ...: Contains information about a column in report view
+; Fields ........: Mask    - Variable specifying which members contain valid information.  This member can be zero,  or  one  or
+;                  +more of the following values:
+;                  |LVCF_FMT     - The Fmt member is valid
+;                  |LVCF_WIDTH   - The CX member is valid
+;                  |LVCF_TEXT    - The Text member is valid
+;                  |LVCF_SUBITEM - The SubItem member is valid
+;                  |LVCF_IMAGE   - The Image member is valid
+;                  |LVCF_ORDER   - The Order member is valid.
+;                  Fmt     - Alignment of the column header and the subitem text in the column.  This member can be one  of  the
+;                  +following values. The alignment of the leftmost column is always left-justified; it cannot be changed:
+;                  |LVCFMT_LEFT            - Text is left-aligned
+;                  |LVCFMT_RIGHT           - Text is right-aligned
+;                  |LVCFMT_CENTER          - Text is centered
+;                  |LVCFMT_JUSTIFYMASK     - A bitmask used to select those bits of Fmt that control field justification
+;                  |LVCFMT_IMAGE           - The item displays an image from an image list
+;                  |LVCFMT_BITMAP_ON_RIGHT - The bitmap appears to the right of text
+;                  |LVCFMT_COL_HAS_IMAGES  - The header item contains an image in the image list.
+;                  CX      - Width of the column, in pixels
+;                  Text    - If column information is being set, this member is the address of a string that contains the column
+;                  +header text.  If the structure is receiving information about a column, this member specifies the address  of
+;                  +the buffer that receives the column header text.
+;                  TextMax - Size of the buffer pointed to by the Text member.  If the structure is  not  receiving  information
+;                  +about a column, this member is ignored.
+;                  SubItem - Index of subitem associated with the column
+;                  Image   - Zero based index of an image within the image list
+;                  Order   - Zero-based column offset. Column offset is in left-to-right order.
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagLVCOLUMN = "uint Mask;int Fmt;int CX;ptr Text;int TextMax;int SubItem;int Image;int Order"
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagLVGROUP
+; Description ...: Used to set and retrieve groups
+; Fields ........: Size      - Size of this structure, in bytes
+;                  Mask      - Mask that specifies which members of the structure are valid input.  Can be one or  more  of  the
+;                  +following values:
+;                  |$LVGF_NONE    - No other items are valid
+;                  |$LVGF_HEADER  - Header and HeaderMax members are valid
+;                  |$LVGF_FOOTER  - Reserved
+;                  |$LVGF_STATE   - Reserved
+;                  |$LVGF_ALIGN   - Align member is valid
+;                  |$LVGF_GROUPID - GroupId member is valid
+;                  Header    - Pointer to a string that contains the header text when item information is being  set.  If  group
+;                  +information is being retrieved this member specifies the address of the buffer that receives the header text.
+;                  HeaderMax - Size of the buffer pointed to by the Header member. If the structure is not receiving information
+;                  +about a group, this member is ignored.
+;                  Footer    - Reserved
+;                  FooterMax - Reserved
+;                  GroupID   - ID of the group
+;                  StateMask - Reserved
+;                  State     - Reserved
+;                  Align     - Indicates the alignment of the header text.  It can have one or more of the following values. Use
+;                  +one of the header flags.
+;                  |LVGA_HEADER_CENTER - Header text is centered horizontally in the window
+;                  |LVGA_HEADER_LEFT   - Header text is aligned at the left of the window
+;                  |LVGA_HEADER_RIGHT  - Header text is aligned at the right of the window.
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagLVGROUP = "uint Size;uint Mask;ptr Header;int HeaderMax;ptr Footer;int FooterMax;int GroupID;uint StateMask;uint State;uint Align"
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagLVINSERTMARK
+; Description ...: Used to describe insertion points
+; Fields ........: Size     - Size of this structure, in bytes
+;                  Flags    - Flag that specifies where the insertion point should appear:
+;                  |$LVIM_AFTER - The insertion point appears after the item specified if the $LVIM_AFTER flag is set; otherwise
+;                  +it appears before the specified item.
+;                  Item     - Item next to which the insertion point appears. If -1, there is no insertion point.
+;                  Reserved - Reserved. Must be set to 0.
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagLVINSERTMARK = "uint Size;dword Flags;int Item;dword Reserved"
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagLVSETINFOTIP
+; Description ...: Provides information about tooltip text that is to be set
+; Fields ........: Size    - Size of this structure, in bytes
+;                  Flags   - Flag that specifies how the text should be set. Set to zero.
+;                  Text    - Pointer to a Unicode string that contains the tooltip text
+;                  Item    - Contains the zero based index of the item to which this structure refers
+;                  SubItem - Contains the one based index of the subitem to which this structure refers
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagLVSETINFOTIP = "uint Size;dword Flags;ptr Text;int Item;int SubItem"
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_AddArray
@@ -315,20 +451,22 @@ Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $tMemMap, $pMemory, $pText, $iI, $iJ
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
+	Local $tBuffer
 	If $fUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[4096]")
 	Else
 		$tBuffer = DllStructCreate("char Text[4096]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	DllStructSetData($tItem, "Mask", $LVIF_TEXT)
 	DllStructSetData($tItem, "Text", $pBuffer)
 	DllStructSetData($tItem, "TextMax", 4096)
+	Local $iLastItem = _GUICtrlListView_GetItemCount($hWnd)
 	_GUICtrlListView_BeginUpdate($hWnd)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
@@ -336,32 +474,26 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 				DllStructSetData($tItem, "Item", $iI)
 				DllStructSetData($tItem, "SubItem", 0)
 				DllStructSetData($tBuffer, "Text", $aItems[$iI][0])
-				If $fUnicode Then
-					_SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pItem, 0, "wparam", "ptr")
-				Else
-					_SendMessage($hWnd, $LVM_INSERTITEMA, 0, $pItem, 0, "wparam", "ptr")
-				EndIf
+				_SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pItem, 0, "wparam", "ptr")
 				For $iJ = 1 To UBound($aItems, 2) - 1
 					DllStructSetData($tItem, "SubItem", $iJ)
 					DllStructSetData($tBuffer, "Text", $aItems[$iI][$iJ])
-					If $fUnicode Then
-						_SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
-					Else
-						_SendMessage($hWnd, $LVM_SETITEMA, 0, $pItem, 0, "wparam", "ptr")
-					EndIf
+					_SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
 				Next
 			Next
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem + 4096, $tMemMap)
-			$pText = $pMemory + $iItem
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iItem
 			DllStructSetData($tItem, "Text", $pText)
 			For $iI = 0 To UBound($aItems) - 1
-				DllStructSetData($tItem, "Item", $iI)
+				DllStructSetData($tItem, "Item", $iI + $iLastItem)
 				DllStructSetData($tItem, "SubItem", 0)
 				DllStructSetData($tBuffer, "Text", $aItems[$iI][0])
 				_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-				_MemWrite($tMemMap, $pBuffer, $pText, 4096)
+				_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 				If $fUnicode Then
 					_SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
 				Else
@@ -371,7 +503,7 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 					DllStructSetData($tItem, "SubItem", $iJ)
 					DllStructSetData($tBuffer, "Text", $aItems[$iI][$iJ])
 					_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-					_MemWrite($tMemMap, $pBuffer, $pText, 4096)
+					_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 					If $fUnicode Then
 						_SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 					Else
@@ -383,7 +515,7 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 		EndIf
 	Else
 		For $iI = 0 To UBound($aItems) - 1
-			DllStructSetData($tItem, "Item", $iI)
+			DllStructSetData($tItem, "Item", $iI + $iLastItem)
 			DllStructSetData($tItem, "SubItem", 0)
 			DllStructSetData($tBuffer, "Text", $aItems[$iI][0])
 			If $fUnicode Then
@@ -472,57 +604,56 @@ EndFunc   ;==>_GUICtrlListView_AddItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_AddSubItem($hWnd, $iIndex, $sText, $iSubItem, $iImage = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iMask, $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iResult
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iBuffer = StringLen($sText) + 1
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
-	$iMask = $LVIF_TEXT
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
+	Local $iMask = $LVIF_TEXT
 	If $iImage <> -1 Then $iMask = BitOR($iMask, $LVIF_IMAGE)
 	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tItem, "Mask", $iMask)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
 	DllStructSetData($tItem, "Image", $iImage)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tItem, "Text", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pItem, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iItem
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iItem
 			DllStructSetData($tItem, "Text", $pText)
 			_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tItem, "Text", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_AddSubItem
 
 ; #FUNCTION# ====================================================================================================================
@@ -547,10 +678,11 @@ EndFunc   ;==>_GUICtrlListView_AddSubItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewHeight($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
-		Return BitShift((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 16)
+		Return BitShift((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, _WinAPI_MakeLong($iCX, $iCY))), 16)
 	Else
-		Return BitShift((GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 16)
+		Return BitShift((GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, _WinAPI_MakeLong($iCX, $iCY))), 16)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_ApproximateViewHeight
 
@@ -578,12 +710,14 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewHeight
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewRect($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iView, $aView[2]
+
+	Local $iView
 	If IsHWnd($hWnd) Then
-		$iView = _SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))
+		$iView = _SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, _WinAPI_MakeLong($iCX, $iCY))
 	Else
-		$iView = GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))
+		$iView = GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount,  _WinAPI_MakeLong($iCX, $iCY))
 	EndIf
+	Local $aView[2]
 	$aView[0] = BitAND($iView, 0xFFFF)
 	$aView[1] = BitShift($iView, 16)
 	Return $aView
@@ -611,10 +745,11 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewRect
 ; ===============================================================================================================================
 Func _GUICtrlListView_ApproximateViewWidth($hWnd, $iCount = -1, $iCX = -1, $iCY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
-		Return BitAND((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 0xFFFF)
+		Return BitAND((_SendMessage($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount,  _WinAPI_MakeLong($iCX, $iCY))), 0xFFFF)
 	Else
-		Return BitAND((GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))), 0xFFFF)
+		Return BitAND((GUICtrlSendMsg($hWnd, $LVM_APPROXIMATEVIEWRECT, $iCount,  _WinAPI_MakeLong($iCX, $iCY))), 0xFFFF)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_ApproximateViewWidth
 
@@ -639,6 +774,7 @@ EndFunc   ;==>_GUICtrlListView_ApproximateViewWidth
 ; ===============================================================================================================================
 Func _GUICtrlListView_Arrange($hWnd, $iArrange = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $aArrange[4] = [$LVA_DEFAULT, $LVA_ALIGNLEFT, $LVA_ALIGNTOP, $LVA_SNAPTOGRID]
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ARRANGE, $aArrange[$iArrange]) <> 0
@@ -663,16 +799,11 @@ EndFunc   ;==>_GUICtrlListView_Arrange
 ; Example .......:
 ; =================================================================================================
 Func __GUICtrlListView_ArrayDelete(ByRef $avArray, $iElement)
-	Local $iCntr = 0, $iUpper = 0
-
-	If (Not IsArray($avArray)) Then
-		SetError(1)
-		Return ""
-	EndIf
+	If Not IsArray($avArray) Then Return SetError(1, 0, "")
 
 	; We have to define this here so that we're sure that $avArray is an array
 	; before we get it's size.
-	$iUpper = UBound($avArray) ; Size of original array
+	Local $iUpper = UBound($avArray) ; Size of original array
 
 	; If the array is only 1 element in size then we can't delete the 1 element.
 	If $iUpper = 1 Then
@@ -743,6 +874,7 @@ EndFunc   ;==>_GUICtrlListView_BeginUpdate
 ; ===============================================================================================================================
 Func _GUICtrlListView_CancelEditLabel($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_CANCELEDITLABEL)
 	Else
@@ -771,16 +903,16 @@ EndFunc   ;==>_GUICtrlListView_CancelEditLabel
 Func _GUICtrlListView_ClickItem($hWnd, $iIndex, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $aPos, $tRect, $iX, $iY, $tPoint, $iMode
 
 	_GUICtrlListView_EnsureVisible($hWnd, $iIndex, False)
-	$tRect = _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $LVIR_LABEL)
-	$tPoint = _WinAPI_PointFromRect($tRect, True)
+	Local $tRect = _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $LVIR_LABEL)
+	Local $tPoint = _WinAPI_PointFromRect($tRect, True)
 	$tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
+	Local $iX, $iY
 	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
-	$iMode = Opt("MouseCoordMode", 1)
+	Local $iMode = Opt("MouseCoordMode", 1)
 	If Not $fMove Then
-		$aPos = MouseGetPos()
+		Local $aPos = MouseGetPos()
 		_WinAPI_ShowCursor(False)
 		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
 		MouseMove($aPos[0], $aPos[1], 0)
@@ -811,10 +943,11 @@ Func _GUICtrlListView_CopyItems($hWnd_Source, $hWnd_Destination, $fDelFlag = Fal
 		__UDF_ValidateClassName($hWnd_Source, $__LISTVIEWCONSTANT_ClassName)
 		__UDF_ValidateClassName($hWnd_Destination, $__LISTVIEWCONSTANT_ClassName)
 	EndIf
-	Local $a_indices, $i, $items, $tItem = DllStructCreate($tagLVITEM), $iIndex
+
+	Local $a_indices, $tItem = DllStructCreate($tagLVITEM), $iIndex
 	Local $cols = _GUICtrlListView_GetColumnCount($hWnd_Source)
 
-	$items = _GUICtrlListView_GetItemCount($hWnd_Source)
+	Local $items = _GUICtrlListView_GetItemCount($hWnd_Source)
 	_GUICtrlListView_BeginUpdate($hWnd_Source)
 	_GUICtrlListView_BeginUpdate($hWnd_Destination)
 	If BitAND(_GUICtrlListView_GetExtendedListViewStyle($hWnd_Source), $LVS_EX_CHECKBOXES) == $LVS_EX_CHECKBOXES Then
@@ -945,36 +1078,33 @@ EndFunc   ;==>_GUICtrlListView_CopyItems
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_Create($hWnd, $sHeaderText, $iX, $iY, $iWidth = 150, $iHeight = 150, $iStyle = 0x0000000D, $iExStyle = 0x00000000, $fCoInit = False)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlListViewCreate 1st parameter")
-	If Not IsString($sHeaderText) Then _WinAPI_ShowError("2nd parameter not a string for _GUICtrlListViewCreate")
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)			; Invalid Window handle for _GUICtrlListViewCreate 1st parameter
+	If Not IsString($sHeaderText) Then Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlListViewCreate
 
 	If $iWidth = -1 Then $iWidth = 150
 	If $iHeight = -1 Then $iHeight = 150
-	If $iStyle = -1 Then $iStyle = 0x0000000D
+	If $iStyle = -1 Then $iStyle = $LVS_DEFAULT
 	If $iExStyle = -1 Then $iExStyle = 0x00000000
 
-	Local $hList, $str_len, $aResult, $nCtrlID
-	Local Const $S_OK = 0x0
-	Local Const $S_FALSE = 0x1
-	Local Const $RPC_E_CHANGED_MODE = 0x80010106
-	Local Const $E_INVALIDARG = 0x80070057
-	Local Const $E_OUTOFMEMORY = 0x8007000E
-	Local Const $E_UNEXPECTED = 0x8000FFFF
+	Local Const $S_OK				= 0x0
+	Local Const $S_FALSE			= 0x1
+	Local Const $RPC_E_CHANGED_MODE	= 0x80010106
+	Local Const $E_INVALIDARG		= 0x80070057
+	Local Const $E_OUTOFMEMORY		= 0x8007000E
+	Local Const $E_UNEXPECTED		= 0x8000FFFF
 	Local $SeparatorChar = Opt('GUIDataSeparatorChar')
 	;======================================
-;~ 	Local Const $COINIT_MULTITHREADED = 0x0
-	Local Const $COINIT_APARTMENTTHREADED = 0x2
-;~ 	Local Const $COINIT_DISABLE_OLE1DDE = 0x4
-;~ 	Local Const $COINIT_SPEED_OVER_MEMORY = 0x8
+	Local Const $COINIT_APARTMENTTHREADED = 0x02
 	;======================================
-	$str_len = StringLen($sHeaderText)
+	Local $str_len = StringLen($sHeaderText)
 	If $str_len Then $sHeaderText = StringSplit($sHeaderText, $SeparatorChar)
 
 	$iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE, $iStyle)
 
 	;=========================================================================================================
 	If $fCoInit Then
-		$aResult = DllCall('ole32.dll', 'long', 'CoInitializeEx', 'int', 0, 'long', $COINIT_APARTMENTTHREADED)
+		Local $aResult = DllCall('ole32.dll', 'long', 'CoInitializeEx', 'ptr', 0, 'dword', $COINIT_APARTMENTTHREADED)
+		If @error Then Return SetError(@error, @extended, 0)
 		Switch $aResult[0]
 			Case $S_OK
 				If $Debug_LV Then __UDF_DebugPrint("The COM library was initialized successfully on the calling thread.")
@@ -992,11 +1122,10 @@ Func _GUICtrlListView_Create($hWnd, $sHeaderText, $iX, $iY, $iWidth = 150, $iHei
 		EndSwitch
 	EndIf
 	;=========================================================================================================
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hList = _WinAPI_CreateWindowEx($iExStyle, $__LISTVIEWCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
-	_GUICtrlListView_SetUnicodeFormat($hList, False)
+	Local $hList = _WinAPI_CreateWindowEx($iExStyle, $__LISTVIEWCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_SendMessage($hList, $__LISTVIEWCONSTANT_WM_SETFONT, _WinAPI_GetStockObject($__LISTVIEWCONSTANT_DEFAULT_GUI_FONT), True)
 	If $str_len Then
 		For $x = 1 To $sHeaderText[0]
@@ -1025,16 +1154,18 @@ EndFunc   ;==>_GUICtrlListView_Create
 ; ===============================================================================================================================
 Func _GUICtrlListView_CreateDragImage($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $tMemMap, $pMemory, $iPoint, $pPoint, $tPoint, $aDrag[3]
 
-	$tPoint = DllStructCreate($tagPOINT)
-	$pPoint = DllStructGetPtr($tPoint)
+	Local $aDrag[3]
+
+	Local $tPoint = DllStructCreate($tagPOINT)
+	Local $pPoint = DllStructGetPtr($tPoint)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pPoint, 0, "wparam", "ptr", "hwnd")
 		Else
-			$iPoint = DllStructGetSize($tPoint)
-			$pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
+			Local $iPoint = DllStructGetSize($tPoint)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
 			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pMemory, 0, "wparam", "ptr", "hwnd")
 			_MemRead($tMemMap, $pMemory, $pPoint, $iPoint)
 			_MemFree($tMemMap)
@@ -1084,11 +1215,12 @@ EndFunc   ;==>_GUICtrlListView_CreateSolidBitMap
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteAllItems($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $ctrlID, $index
+
 	If _GUICtrlListView_GetItemCount($hWnd) == 0 Then Return True
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_DELETEALLITEMS) <> 0
 	Else
+		Local $ctrlID
 		For $index = _GUICtrlListView_GetItemCount($hWnd) - 1 To 0 Step -1
 			$ctrlID = _GUICtrlListView_GetItemParam($hWnd, $index)
 			If $ctrlID Then GUICtrlDelete($ctrlID)
@@ -1118,6 +1250,7 @@ EndFunc   ;==>_GUICtrlListView_DeleteAllItems
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteColumn($hWnd, $iCol)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_DELETECOLUMN, $iCol) <> 0
 	Else
@@ -1142,11 +1275,11 @@ EndFunc   ;==>_GUICtrlListView_DeleteColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItem($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $ctrlID
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
 	Else
-		$ctrlID = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
+		Local $ctrlID = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
 		If $ctrlID Then Return GUICtrlDelete($ctrlID) <> 0
 	EndIf
 	Return False
@@ -1168,9 +1301,8 @@ EndFunc   ;==>_GUICtrlListView_DeleteItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItemsSelected($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $i, $ItemCount
 
-	$ItemCount = _GUICtrlListView_GetItemCount($hWnd)
+	Local  $ItemCount = _GUICtrlListView_GetItemCount($hWnd)
 	If (_GUICtrlListView_GetSelectedCount($hWnd) == $ItemCount) Then
 		Return _GUICtrlListView_DeleteAllItems($hWnd)
 	Else
@@ -1200,29 +1332,27 @@ EndFunc   ;==>_GUICtrlListView_DeleteItemsSelected
 ; ===============================================================================================================================
 Func _GUICtrlListView_Destroy(ByRef $hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $Destroyed, $iResult
+	If Not _WinAPI_IsClassName($hWnd, $__LISTVIEWCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	If _WinAPI_IsClassName($hWnd, $__LISTVIEWCONSTANT_ClassName) Then
-		If IsHWnd($hWnd) Then
-			If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
-				Local $hParent = _WinAPI_GetParent($hWnd)
-				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-				If Not $iResult Then
-					; can check for errors here if needed, for debug
-				EndIf
-			Else
-				_WinAPI_ShowMsg("Not Allowed to Destroy Other Applications ListView(s)")
-				Return SetError(1, 1, False)
+	Local $Destroyed = 0
+	If IsHWnd($hWnd) Then
+		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
+			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
+			Local $hParent = _WinAPI_GetParent($hWnd)
+			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+			If Not $iRet Then
+				; can check for errors here if needed, for debug
 			EndIf
 		Else
-			$Destroyed = GUICtrlDelete($hWnd)
+			; Not Allowed to Destroy Other Applications Control(s)
+			Return SetError(1, 1, False)
 		EndIf
-		If $Destroyed Then $hWnd = 0
-		Return $Destroyed <> 0
+	Else
+		$Destroyed = GUICtrlDelete($hWnd)
 	EndIf
-	Return SetError(2, 2, False)
+	If $Destroyed Then $hWnd = 0
+	Return $Destroyed <> 0
 EndFunc   ;==>_GUICtrlListView_Destroy
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -1249,14 +1379,15 @@ EndFunc   ;==>_GUICtrlListView_Destroy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func __GUICtrlListView_Draw($hWnd, $iIndex, $hDC, $iX, $iY, $iStyle = 0)
-	Local $iFlags, $aResult
+	Local $iFlags = 0
 
 	If BitAND($iStyle, 1) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_TRANSPARENT)
 	If BitAND($iStyle, 2) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_BLEND25)
 	If BitAND($iStyle, 4) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_BLEND50)
 	If BitAND($iStyle, 8) <> 0 Then $iFlags = BitOR($iFlags, $__LISTVIEWCONSTANT_ILD_MASK)
-	$aResult = DllCall("ComCtl32.dll", "int", "ImageList_Draw", "hwnd", $hWnd, "int", $iIndex, "hwnd", $hDC, "int", $iX, "int", $iY, "uint", $iFlags)
-	Return $aResult[0] <> 0
+	Local $aResult = DllCall("ComCtl32.dll", "bool", "ImageList_Draw", "handle", $hWnd, "int", $iIndex, "handle", $hDC, "int", $iX, "int", $iY, "uint", $iFlags)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>__GUICtrlListView_Draw
 
 ; #FUNCTION# ====================================================================================================================
@@ -1277,9 +1408,8 @@ EndFunc   ;==>__GUICtrlListView_Draw
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_DrawDragImage(ByRef $hWnd, ByRef $aDrag)
-	Local $tPoint, $hDC
-	$hDC = _WinAPI_GetWindowDC($hWnd)
-	$tPoint = _WinAPI_GetMousePos(True, $hWnd)
+	Local $hDC = _WinAPI_GetWindowDC($hWnd)
+	Local $tPoint = _WinAPI_GetMousePos(True, $hWnd)
 	_WinAPI_InvalidateRect($hWnd)
 	__GUICtrlListView_Draw($aDrag[0], 0, $hDC, DllStructGetData($tPoint, "X"), DllStructGetData($tPoint, "Y"))
 	_WinAPI_ReleaseDC($hWnd, $hDC)
@@ -1303,17 +1433,25 @@ EndFunc   ;==>_GUICtrlListView_DrawDragImage
 ; ===============================================================================================================================
 Func _GUICtrlListView_EditLabel($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $aResult
 	If IsHWnd($hWnd) Then
-		DllCall("User32.dll", "hwnd", "SetFocus", "hwnd", $hWnd)
+		$aResult = DllCall("user32.dll", "hwnd", "SetFocus", "hwnd", $hWnd)
+		If @error Then Return SetError(@error, @extended, 0)
+		If $aResult =  0 Then Return 0
+
 		If $fUnicode Then
 			Return _SendMessage($hWnd, $LVM_EDITLABELW, $iIndex, 0, 0, "wparam", "lparam", "hwnd")
 		Else
 			Return _SendMessage($hWnd, $LVM_EDITLABEL, $iIndex, 0, 0, "wparam", "lparam", "hwnd")
 		EndIf
 	Else
-		DllCall("User32.dll", "hwnd", "SetFocus", "hwnd", GUICtrlGetHandle($hWnd))
+		$aResult = DllCall("user32.dll", "hwnd", "SetFocus", "hwnd", GUICtrlGetHandle($hWnd))
+		If @error Then Return SetError(@error, @extended, 0)
+		If $aResult = 0 Then Return 0
+
 		If $fUnicode Then
 			Return GUICtrlSendMsg($hWnd, $LVM_EDITLABELW, $iIndex, 0)
 		Else
@@ -1344,6 +1482,7 @@ EndFunc   ;==>_GUICtrlListView_EditLabel
 ; ===============================================================================================================================
 Func _GUICtrlListView_EnableGroupView($hWnd, $fEnable = True)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ENABLEGROUPVIEW, $fEnable)
 	Else
@@ -1367,6 +1506,7 @@ EndFunc   ;==>_GUICtrlListView_EnableGroupView
 ; ===============================================================================================================================
 Func _GUICtrlListView_EndUpdate($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $__LISTVIEWCONSTANT_WM_SETREDRAW, 1) = 0
@@ -1390,6 +1530,7 @@ EndFunc   ;==>_GUICtrlListView_EndUpdate
 ; ===============================================================================================================================
 Func _GUICtrlListView_EnsureVisible($hWnd, $iIndex, $fPartialOK = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ENSUREVISIBLE, $iIndex, $fPartialOK)
 	Else
@@ -1419,14 +1560,14 @@ EndFunc   ;==>_GUICtrlListView_EnsureVisible
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindInText($hWnd, $sText, $iStart = -1, $fWrapOK = True, $fReverse = False)
-	Local $iI, $iJ, $iCount, $iColumns, $sList
 
-	$iCount = _GUICtrlListView_GetItemCount($hWnd)
-	$iColumns = _GUICtrlListView_GetColumnCount($hWnd)
+	Local $iCount = _GUICtrlListView_GetItemCount($hWnd)
+	Local $iColumns = _GUICtrlListView_GetColumnCount($hWnd)
 	If $iColumns = 0 Then $iColumns = 1
 
 	If $fReverse And $iStart = -1 Then Return -1
 
+	Local $sList
 	If $fReverse Then
 		For $iI = $iStart - 1 To 0 Step -1
 			For $iJ = 0 To $iColumns - 1
@@ -1485,32 +1626,33 @@ EndFunc   ;==>_GUICtrlListView_FindInText
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindItem($hWnd, $iStart, ByRef $tFindInfo, $sText = "")
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $tBuffer, $pBuffer, $iFindInfo, $pFindInfo, $pMemory, $tMemMap, $pText, $iResult
 
-	$iBuffer = StringLen($sText) + 1
-	$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$pFindInfo = DllStructGetPtr($tFindInfo)
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $pFindInfo = DllStructGetPtr($tFindInfo)
 	DllStructSetData($tBuffer, "Text", $sText)
+	Local  $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tFindInfo, "Text", $pBuffer)
-			$iResult = _SendMessage($hWnd, $LVM_FINDITEM, $iStart, $pFindInfo, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_FINDITEM, $iStart, $pFindInfo, 0, "wparam", "ptr")
 		Else
-			$iFindInfo = DllStructGetSize($tFindInfo)
-			$pMemory = _MemInit($hWnd, $iFindInfo + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iFindInfo
+			Local $iFindInfo = DllStructGetSize($tFindInfo)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iFindInfo + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iFindInfo
 			DllStructSetData($tFindInfo, "Text", $pText)
 			_MemWrite($tMemMap, $pFindInfo, $pMemory, $iFindInfo)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
-			$iResult = _SendMessage($hWnd, $LVM_FINDITEM, $iStart, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_FINDITEM, $iStart, $pMemory, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tFindInfo, "Text", $pBuffer)
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_FINDITEM, $iStart, $pFindInfo)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_FINDITEM, $iStart, $pFindInfo)
 	EndIf
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_FindItem
 
 ; #FUNCTION# ====================================================================================================================
@@ -1542,10 +1684,10 @@ EndFunc   ;==>_GUICtrlListView_FindItem
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindNearest($hWnd, $iX, $iY, $iDir = 0, $iStart = -1, $fWrapOK = True)
-	Local $tFindInfo, $iFlags, $aDir[8] = [$__LISTVIEWCONSTANT_VK_LEFT, $__LISTVIEWCONSTANT_VK_RIGHT, $__LISTVIEWCONSTANT_VK_UP, $__LISTVIEWCONSTANT_VK_DOWN, $__LISTVIEWCONSTANT_VK_HOME, $__LISTVIEWCONSTANT_VK_END, $__LISTVIEWCONSTANT_VK_PRIOR, $__LISTVIEWCONSTANT_VK_NEXT]
+	Local  $aDir[8] = [$__LISTVIEWCONSTANT_VK_LEFT, $__LISTVIEWCONSTANT_VK_RIGHT, $__LISTVIEWCONSTANT_VK_UP, $__LISTVIEWCONSTANT_VK_DOWN, $__LISTVIEWCONSTANT_VK_HOME, $__LISTVIEWCONSTANT_VK_END, $__LISTVIEWCONSTANT_VK_PRIOR, $__LISTVIEWCONSTANT_VK_NEXT]
 
-	$tFindInfo = DllStructCreate($tagLVFINDINFO)
-	$iFlags = $LVFI_NEARESTXY
+	Local $tFindInfo = DllStructCreate($tagLVFINDINFO)
+	Local $iFlags = $LVFI_NEARESTXY
 	If $fWrapOK Then $iFlags = BitOR($iFlags, $LVFI_WRAP)
 	DllStructSetData($tFindInfo, "Flags", $iFlags)
 	DllStructSetData($tFindInfo, "X", $iX)
@@ -1572,9 +1714,7 @@ EndFunc   ;==>_GUICtrlListView_FindNearest
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindParam($hWnd, $iParam, $iStart = -1)
-	Local $tFindInfo
-
-	$tFindInfo = DllStructCreate($tagLVFINDINFO)
+	Local $tFindInfo = DllStructCreate($tagLVFINDINFO)
 	DllStructSetData($tFindInfo, "Flags", $LVFI_PARAM)
 	DllStructSetData($tFindInfo, "Param", $iParam)
 	Return _GUICtrlListView_FindItem($hWnd, $iStart, $tFindInfo)
@@ -1601,10 +1741,8 @@ EndFunc   ;==>_GUICtrlListView_FindParam
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_FindText($hWnd, $sText, $iStart = -1, $fPartialOK = True, $fWrapOK = True)
-	Local $tFindInfo, $iFlags
-
-	$tFindInfo = DllStructCreate($tagLVFINDINFO)
-	$iFlags = $LVFI_STRING
+	Local $tFindInfo = DllStructCreate($tagLVFINDINFO)
+	Local $iFlags = $LVFI_STRING
 	If $fPartialOK Then $iFlags = BitOR($iFlags, $LVFI_PARTIAL)
 	If $fWrapOK Then $iFlags = BitOR($iFlags, $LVFI_WRAP)
 	DllStructSetData($tFindInfo, "Flags", $iFlags)
@@ -1626,6 +1764,7 @@ EndFunc   ;==>_GUICtrlListView_FindText
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetBkColor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $v_color
 	If IsHWnd($hWnd) Then
 		$v_color = _SendMessage($hWnd, $LVM_GETBKCOLOR)
@@ -1657,49 +1796,49 @@ EndFunc   ;==>_GUICtrlListView_GetBkColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetBkImage($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $pBuffer, $tBuffer, $pMemory, $tMemMap, $pText, $iImage, $pImage, $tImage, $aImage[4], $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $tBuffer
 	If $fUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[4096]")
 	Else
 		$tBuffer = DllStructCreate("char Text[4096]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tImage = DllStructCreate($tagLVBKIMAGE)
-	$pImage = DllStructGetPtr($tImage)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tImage = DllStructCreate($tagLVBKIMAGE)
+	Local $pImage = DllStructGetPtr($tImage)
 	DllStructSetData($tImage, "ImageMax", 4096)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tImage, "Image", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETBKIMAGEW, 0, $pImage, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETBKIMAGEA, 0, $pImage, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_GETBKIMAGEW, 0, $pImage, 0, "wparam", "ptr")
 		Else
-			$iImage = DllStructGetSize($tImage)
-			$pMemory = _MemInit($hWnd, $iImage + 4096, $tMemMap)
-			$pText = $pMemory + $iImage
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $iImage = DllStructGetSize($tImage)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iImage + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iImage
 			DllStructSetData($tImage, "Image", $pText)
 			_MemWrite($tMemMap, $pImage, $pMemory, $iImage)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETBKIMAGEW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETBKIMAGEW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETBKIMAGEA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETBKIMAGEA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemRead($tMemMap, $pMemory, $pImage, $iImage)
-			_MemRead($tMemMap, $pText, $pBuffer, 4096)
+			_MemRead($tMemMap, $pText, $pBuffer, $iBuffer)
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tImage, "Image", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETBKIMAGEW, 0, $pImage)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETBKIMAGEW, 0, $pImage)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETBKIMAGEA, 0, $pImage)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETBKIMAGEA, 0, $pImage)
 		EndIf
 	EndIf
+	Local $aImage[4]
 	Switch BitAND(DllStructGetData($tImage, "Flags"), $LVBKIF_SOURCE_MASK)
 		Case $LVBKIF_SOURCE_HBITMAP
 			$aImage[0] = 1
@@ -1709,7 +1848,7 @@ Func _GUICtrlListView_GetBkImage($hWnd)
 	$aImage[1] = DllStructGetData($tBuffer, "Text")
 	$aImage[2] = DllStructGetData($tImage, "XOffPercent")
 	$aImage[3] = DllStructGetData($tImage, "YOffPercent")
-	Return SetError($iResult <> 0, 0, $aImage)
+	Return SetError($iRet <> 0, 0, $aImage)
 EndFunc   ;==>_GUICtrlListView_GetBkImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -1739,9 +1878,9 @@ EndFunc   ;==>_GUICtrlListView_GetBkImage
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetCallbackMask($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iFlags = 0, $iMask
 
-	$iMask = _SendMessage($hWnd, $LVM_GETCALLBACKMASK)
+	Local $iFlags = 0
+	Local $iMask = _SendMessage($hWnd, $LVM_GETCALLBACKMASK)
 	If BitAND($iMask, $LVIS_CUT) <> 0 Then $iFlags = BitOR($iFlags, 1)
 	If BitAND($iMask, $LVIS_DROPHILITED) <> 0 Then $iFlags = BitOR($iFlags, 2)
 	If BitAND($iMask, $LVIS_FOCUSED) <> 0 Then $iFlags = BitOR($iFlags, 4)
@@ -1779,50 +1918,50 @@ EndFunc   ;==>_GUICtrlListView_GetCallbackMask
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumn($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $aColumn[9], $iResult
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $tBuffer
 	If $fUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[4096]")
 	Else
 		$tBuffer = DllStructCreate("char Text[4096]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tColumn = DllStructCreate($tagLVCOLUMN)
-	$pColumn = DllStructGetPtr($tColumn)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tColumn = DllStructCreate($tagLVCOLUMN)
+	Local $pColumn = DllStructGetPtr($tColumn)
 	DllStructSetData($tColumn, "Mask", $LVCF_ALLDATA)
 	DllStructSetData($tColumn, "TextMax", 4096)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tColumn, "Text", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETCOLUMNA, $iIndex, $pColumn, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_GETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
 		Else
-			$iColumn = DllStructGetSize($tColumn)
-			$pMemory = _MemInit($hWnd, $iColumn + 4096, $tMemMap)
-			$pText = $pMemory + $iColumn
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $iColumn = DllStructGetSize($tColumn)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iColumn + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iColumn
 			DllStructSetData($tColumn, "Text", $pText)
 			_MemWrite($tMemMap, $pColumn, $pMemory, $iColumn)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemRead($tMemMap, $pMemory, $pColumn, $iColumn)
-			_MemRead($tMemMap, $pText, $pBuffer, 4096)
+			_MemRead($tMemMap, $pText, $pBuffer, $iBuffer)
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tColumn, "Text", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETCOLUMNW, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETCOLUMNW, $iIndex, $pColumn)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETCOLUMNA, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETCOLUMNA, $iIndex, $pColumn)
 		EndIf
 	EndIf
+	Local $aColumn[9]
 	Switch BitAND(DllStructGetData($tColumn, "Fmt"), $LVCFMT_JUSTIFYMASK)
 		Case $LVCFMT_RIGHT
 			$aColumn[0] = 1
@@ -1839,7 +1978,7 @@ Func _GUICtrlListView_GetColumn($hWnd, $iIndex)
 	$aColumn[6] = DllStructGetData($tColumn, "SubItem")
 	$aColumn[7] = DllStructGetData($tColumn, "Image")
 	$aColumn[8] = DllStructGetData($tColumn, "Order")
-	Return SetError($iResult = 0, 0, $aColumn)
+	Return SetError($iRet = 0, 0, $aColumn)
 EndFunc   ;==>_GUICtrlListView_GetColumn
 
 ; #FUNCTION# ====================================================================================================================
@@ -1856,8 +1995,9 @@ EndFunc   ;==>_GUICtrlListView_GetColumn
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnCount($hWnd)
-;~ 	Local Const $HDM_GETITEMCOUNT = 0x1200
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
+;~ 	Local Const $HDM_GETITEMCOUNT = 0x1200
 	Return _SendMessage(_GUICtrlListView_GetHeader($hWnd), 0x1200)
 EndFunc   ;==>_GUICtrlListView_GetColumnCount
 
@@ -1904,17 +2044,17 @@ EndFunc   ;==>_GUICtrlListView_GetColumnOrder
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnOrderArray($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iI, $iBuffer, $pBuffer, $tBuffer, $iColumns, $pMemory, $tMemMap
 
-	$iColumns = _GUICtrlListView_GetColumnCount($hWnd)
-	$tBuffer = DllStructCreate("int[" & $iColumns & "]")
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $iColumns = _GUICtrlListView_GetColumnCount($hWnd)
+	Local $tBuffer = DllStructCreate("int[" & $iColumns & "]")
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_GETCOLUMNORDERARRAY, $iColumns, $pBuffer, 0, "wparam", "ptr")
 		Else
-			$iBuffer = DllStructGetSize($tBuffer)
-			$pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 			_SendMessage($hWnd, $LVM_GETCOLUMNORDERARRAY, $iColumns, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
 			_MemFree($tMemMap)
@@ -1949,6 +2089,7 @@ EndFunc   ;==>_GUICtrlListView_GetColumnOrderArray
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetColumnWidth($hWnd, $iCol)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETCOLUMNWIDTH, $iCol)
 	Else
@@ -1972,6 +2113,7 @@ EndFunc   ;==>_GUICtrlListView_GetColumnWidth
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetCounterPage($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETCOUNTPERPAGE)
 	Else
@@ -2007,6 +2149,7 @@ EndFunc   ;==>_GUICtrlListView_GetCounterPage
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetEditControl($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETEDITCONTROL)
 	Else
@@ -2030,23 +2173,25 @@ EndFunc   ;==>_GUICtrlListView_GetEditControl
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetEmptyText($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $tText = DllStructCreate("char[4096]")
-	Local $iResult, $iText, $pText, $pMemory, $pBuffer = DllStructGetPtr($tText), $tMemMap
+	Local $iRet, $pBuffer = DllStructGetPtr($tText)
 
 	If IsHWnd($hWnd) Then
-		$iText = DllStructGetSize($tText)
-		$pMemory = _MemInit($hWnd, $iText + 4096, $tMemMap)
-		$pText = $pMemory + $iText
+		Local $iText = DllStructGetSize($tText)
+		Local $tMemMap
+		Local $pMemory = _MemInit($hWnd, $iText + 4096, $tMemMap)
+		Local $pText = $pMemory + $iText
 		DllStructSetData($tText, "Text", $pText)
 		_MemWrite($tMemMap, $pText, $pMemory, $iText)
-		$iResult = _SendMessage($hWnd, $LVM_GETEMPTYTEXT, 4096, $pMemory)
+		$iRet = _SendMessage($hWnd, $LVM_GETEMPTYTEXT, 4096, $pMemory)
 		_MemRead($tMemMap, $pText, $pBuffer, 4096)
 		_MemFree($tMemMap)
-		If $iResult = 0 Then Return SetError(-1, 0, "")
+		If $iRet = 0 Then Return SetError(-1, 0, "")
 		Return DllStructGetData($tText, 1)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETEMPTYTEXT, 4096, DllStructGetPtr($tText))
-		If $iResult = 0 Then Return SetError(-1, 0, "")
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETEMPTYTEXT, 4096, DllStructGetPtr($tText))
+		If $iRet = 0 Then Return SetError(-1, 0, "")
 		Return DllStructGetData($tText, 1)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetEmptyText
@@ -2066,6 +2211,7 @@ EndFunc   ;==>_GUICtrlListView_GetEmptyText
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetExtendedListViewStyle($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETEXTENDEDLISTVIEWSTYLE)
 	Else
@@ -2088,6 +2234,7 @@ EndFunc   ;==>_GUICtrlListView_GetExtendedListViewStyle
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetFocusedGroup($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETFOCUSEDGROUP)
 	Else
@@ -2110,6 +2257,7 @@ EndFunc   ;==>_GUICtrlListView_GetFocusedGroup
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupCount($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETGROUPCOUNT)
 	Else
@@ -2138,26 +2286,28 @@ EndFunc   ;==>_GUICtrlListView_GetGroupCount
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupInfo($hWnd, $iGroupID)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iGroup, $pGroup, $tGroup, $aGroup[2], $tMemMap, $pMemory, $iResult
 
-	$tGroup = DllStructCreate($tagLVGROUP)
-	$pGroup = DllStructGetPtr($tGroup)
-	$iGroup = DllStructGetSize($tGroup)
+	Local $tGroup = DllStructCreate($tagLVGROUP)
+	Local $pGroup = DllStructGetPtr($tGroup)
+	Local $iGroup = DllStructGetSize($tGroup)
 	DllStructSetData($tGroup, "Size", $iGroup)
 	DllStructSetData($tGroup, "Mask", BitOR($LVGF_HEADER, $LVGF_ALIGN))
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pGroup, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pGroup, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
 			_MemWrite($tMemMap, $pGroup, $pMemory, $iGroup)
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pGroup, $iGroup)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pGroup)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETGROUPINFO, $iGroupID, $pGroup)
 	EndIf
+	Local $aGroup[2]
 	$aGroup[0] = _WinAPI_WideCharToMultiByte(DllStructGetData($tGroup, "Header"))
 	Select
 		Case BitAND(DllStructGetData($tGroup, "Align"), $LVGA_HEADER_CENTER) <> 0
@@ -2167,7 +2317,7 @@ Func _GUICtrlListView_GetGroupInfo($hWnd, $iGroupID)
 		Case Else
 			$aGroup[1] = 0
 	EndSelect
-	Return SetError($iResult <> $iGroupID, 0, $aGroup)
+	Return SetError($iRet <> $iGroupID, 0, $aGroup)
 EndFunc   ;==>_GUICtrlListView_GetGroupInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -2191,26 +2341,28 @@ EndFunc   ;==>_GUICtrlListView_GetGroupInfo
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupInfoByIndex($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iGroup, $pGroup, $tGroup, $aGroup[2], $tMemMap, $pMemory, $iResult
 
-	$tGroup = DllStructCreate($tagLVGROUP)
-	$pGroup = DllStructGetPtr($tGroup)
-	$iGroup = DllStructGetSize($tGroup)
+	Local $tGroup = DllStructCreate($tagLVGROUP)
+	Local $pGroup = DllStructGetPtr($tGroup)
+	Local $iGroup = DllStructGetSize($tGroup)
 	DllStructSetData($tGroup, "Size", $iGroup)
 	DllStructSetData($tGroup, "Mask", BitOR($LVGF_HEADER, $LVGF_ALIGN))
+	Local  $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pGroup, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pGroup, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
 			_MemWrite($tMemMap, $pGroup, $pMemory, $iGroup)
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pGroup, $iGroup)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pGroup)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETGROUPINFOBYINDEX, $iIndex, $pGroup)
 	EndIf
+	Local  $aGroup[2]
 	$aGroup[0] = _WinAPI_WideCharToMultiByte(DllStructGetData($tGroup, "Header"))
 	Select
 		Case BitAND(DllStructGetData($tGroup, "Align"), $LVGA_HEADER_CENTER) <> 0
@@ -2220,7 +2372,7 @@ Func _GUICtrlListView_GetGroupInfoByIndex($hWnd, $iIndex)
 		Case Else
 			$aGroup[1] = 0
 	EndSelect
-	Return SetError($iResult = 0, 0, $aGroup)
+	Return SetError($iRet = 0, 0, $aGroup)
 EndFunc   ;==>_GUICtrlListView_GetGroupInfoByIndex
 
 ; #FUNCTION# ====================================================================================================================
@@ -2248,28 +2400,31 @@ EndFunc   ;==>_GUICtrlListView_GetGroupInfoByIndex
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupRect($hWnd, $iGroupID, $iGet = $LVGGR_GROUP)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iGroup, $pGroup, $tGroup, $aGroup[4], $tMemMap, $pMemory, $iResult
 
-	$tGroup = DllStructCreate($tagRECT)
+	Local $tGroup = DllStructCreate($tagRECT)
 	DllStructSetData($tGroup, "Left", $iGet)
-	$pGroup = DllStructGetPtr($tGroup)
+	Local $pGroup = DllStructGetPtr($tGroup)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pGroup, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pGroup, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
+			Local $iGroup = DllStructGetSize($tGroup)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iGroup, $tMemMap)
 			_MemWrite($tMemMap, $pGroup, $pMemory, $iGroup)
-			$iResult = _SendMessage($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pGroup, $iGroup)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pGroup)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETGROUPRECT, $iGroupID, $pGroup)
 	EndIf
+	Local $aGroup[4]
 	For $x = 0 To 3
 		$aGroup[$x] = DllStructGetData($tGroup, $x + 1)
 	Next
-	Return SetError($iResult = 0, 0, $aGroup)
+	Return SetError($iRet = 0, 0, $aGroup)
 EndFunc   ;==>_GUICtrlListView_GetGroupRect
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -2324,6 +2479,7 @@ EndFunc   ;==>_GUICtrlListView_GetGroupState
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetGroupViewEnabled($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_ISGROUPVIEWENABLED) <> 0
 	Else
@@ -2346,6 +2502,7 @@ EndFunc   ;==>_GUICtrlListView_GetGroupViewEnabled
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHeader($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHEADER)
 	Else
@@ -2369,6 +2526,7 @@ EndFunc   ;==>_GUICtrlListView_GetHeader
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHotCursor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOTCURSOR, 0, 0, 0, "wparam", "lparam", "hwnd")
 	Else
@@ -2391,6 +2549,7 @@ EndFunc   ;==>_GUICtrlListView_GetHotCursor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHotItem($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOTITEM)
 	Else
@@ -2416,6 +2575,7 @@ EndFunc   ;==>_GUICtrlListView_GetHotItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetHoverTime($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETHOVERTIME)
 	Else
@@ -2443,6 +2603,7 @@ EndFunc   ;==>_GUICtrlListView_GetHoverTime
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetImageList($hWnd, $iImageList)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $aImageList[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0, 0, "wparam", "lparam", "hwnd")
@@ -2471,28 +2632,30 @@ EndFunc   ;==>_GUICtrlListView_GetImageList
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMark($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iMark, $pMark, $tMark, $pMemory, $tMemMap, $aMark[2], $iResult
 
-	$tMark = DllStructCreate($tagLVINSERTMARK)
-	$pMark = DllStructGetPtr($tMark)
-	$iMark = DllStructGetSize($tMark)
+	Local $tMark = DllStructCreate($tagLVINSERTMARK)
+	Local $pMark = DllStructGetPtr($tMark)
+	Local $iMark = DllStructGetSize($tMark)
 	DllStructSetData($tMark, "Size", $iMark)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETINSERTMARK, 0, $pMark, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETINSERTMARK, 0, $pMark, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iMark, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iMark, $tMemMap)
 			_MemWrite($tMemMap, $pMark)
-			$iResult = _SendMessage($hWnd, $LVM_GETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pMark, $iMark)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETINSERTMARK, 0, $pMark)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETINSERTMARK, 0, $pMark)
 	EndIf
+	Local $aMark[2]
 	$aMark[0] = DllStructGetData($tMark, "Flags") = $LVIM_AFTER
 	$aMark[1] = DllStructGetData($tMark, "Item")
-	Return SetError($iResult = 0, 0, $aMark)
+	Return SetError($iRet = 0, 0, $aMark)
 EndFunc   ;==>_GUICtrlListView_GetInsertMark
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -2510,6 +2673,7 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMark
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMarkColor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETINSERTMARKCOLOR, $LVSIL_STATE)
 	Else
@@ -2537,16 +2701,18 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMarkColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetInsertMarkRect($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[5]
 
-	$tRect = DllStructCreate($tagRECT)
-	$pRect = DllStructGetPtr($tRect)
+	Local $aRect[5]
+
+	Local $tRect = DllStructCreate($tagRECT)
+	Local $pRect = DllStructGetPtr($tRect)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			$aRect[0] = _SendMessage($hWnd, $LVM_GETINSERTMARKRECT, 0, $pRect, 0, "wparam", "ptr") <> 0
 		Else
-			$iRect = DllStructGetSize($tRect)
-			$pMemory = _MemInit($hWnd, $iRect, $tMemMap)
+			Local $iRect = DllStructGetSize($tRect)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 			$aRect[0] = _SendMessage($hWnd, $LVM_GETINSERTMARKRECT, 0, $pMemory, 0, "wparam", "ptr") <> 0
 			_MemRead($tMemMap, $pMemory, $pRect, $iRect)
 			_MemFree($tMemMap)
@@ -2582,9 +2748,10 @@ EndFunc   ;==>_GUICtrlListView_GetInsertMarkRect
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetISearchString($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $iBuffer
 	If IsHWnd($hWnd) Then
 		If $fUnicode Then
 			$iBuffer = _SendMessage($hWnd, $LVM_GETISEARCHSTRINGW) + 1
@@ -2599,22 +2766,20 @@ Func _GUICtrlListView_GetISearchString($hWnd)
 		EndIf
 	EndIf
 	If $iBuffer = 1 Then Return ""
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			If $fUnicode Then
-				_SendMessage($hWnd, $LVM_GETISEARCHSTRINGW, 0, $pBuffer)
-			Else
-				_SendMessage($hWnd, $LVM_GETISEARCHSTRINGA, 0, $pBuffer)
-			EndIf
+			_SendMessage($hWnd, $LVM_GETISEARCHSTRINGW, 0, $pBuffer)
 		Else
-			$pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 			If $fUnicode Then
 				_SendMessage($hWnd, $LVM_GETISEARCHSTRINGW, 0, $pMemory)
 			Else
@@ -2661,15 +2826,15 @@ EndFunc   ;==>_GUICtrlListView_GetISearchString
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItem($hWnd, $iIndex, $iSubItem = 0)
-	Local $iState, $tItem, $aItem[8]
+	Local $aItem[8]
 
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", BitOR($LVIF_GROUPID, $LVIF_IMAGE, $LVIF_INDENT, $LVIF_PARAM, $LVIF_STATE))
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
 	DllStructSetData($tItem, "StateMask", -1)
 	_GUICtrlListView_GetItemEx($hWnd, $tItem)
-	$iState = DllStructGetData($tItem, "State")
+	Local $iState = DllStructGetData($tItem, "State")
 	If BitAND($iState, $LVIS_CUT) <> 0 Then $aItem[0] = BitOR($aItem[0], 1)
 	If BitAND($iState, $LVIS_DROPHILITED) <> 0 Then $aItem[0] = BitOR($aItem[0], 2)
 	If BitAND($iState, $LVIS_FOCUSED) <> 0 Then $aItem[0] = BitOR($aItem[0], 4)
@@ -2701,44 +2866,42 @@ EndFunc   ;==>_GUICtrlListView_GetItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemChecked($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $tLVITEM = DllStructCreate($tagLVITEM)
-	Local $iResult, $tMemMap, $pMemory, $pItem, $iSize
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iSize = DllStructGetSize($tLVITEM)
-	$pItem = DllStructGetPtr($tLVITEM)
+	Local $tLVITEM = DllStructCreate($tagLVITEM)
+	Local $iSize = DllStructGetSize($tLVITEM)
+	Local $pItem = DllStructGetPtr($tLVITEM)
 	If @error Then Return SetError($LV_ERR, $LV_ERR, False)
 	DllStructSetData($tLVITEM, "Mask", $LVIF_STATE)
 	DllStructSetData($tLVITEM, "Item", $iIndex)
 	DllStructSetData($tLVITEM, "StateMask", 0xffff)
 
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMA, 0, $pItem, 0, "wparam", "ptr") <> 0
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0
 		Else
-			$pMemory = _MemInit($hWnd, $iSize, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iSize, $tMemMap)
 			_MemWrite($tMemMap, $pItem)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr") <> 0
+				$iRet = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr") <> 0
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr") <> 0
+				$iRet = _SendMessage($hWnd, $LVM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr") <> 0
 			EndIf
 			_MemRead($tMemMap, $pMemory, $pItem, $iSize)
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMW, 0, $pItem) <> 0
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMW, 0, $pItem) <> 0
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMA, 0, $pItem) <> 0
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMA, 0, $pItem) <> 0
 		EndIf
 	EndIf
 
-	If Not $iResult Then Return SetError($LV_ERR, $LV_ERR, False)
+	If Not $iRet Then Return SetError($LV_ERR, $LV_ERR, False)
 	Return BitAND(DllStructGetData($tLVITEM, "State"), 0x2000) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemChecked
 
@@ -2757,6 +2920,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemChecked
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemCount($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETITEMCOUNT)
 	Else
@@ -2781,6 +2945,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemCount
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemCut($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_CUT) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemCut
 
@@ -2801,6 +2966,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemCut
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemDropHilited($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_DROPHILITED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemDropHilited
 
@@ -2821,20 +2987,18 @@ EndFunc   ;==>_GUICtrlListView_GetItemDropHilited
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemEx($hWnd, ByRef $tItem)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iItem, $pItem, $pMemory, $tMemMap, $iResult
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$pItem = DllStructGetPtr($tItem)
+	Local $pItem = DllStructGetPtr($tItem)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETITEMA, 0, $pItem, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr")
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem, $tMemMap)
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem, $tMemMap)
 			_MemWrite($tMemMap, $pItem)
 			If $fUnicode Then
 				_SendMessage($hWnd, $LVM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr")
@@ -2846,12 +3010,12 @@ Func _GUICtrlListView_GetItemEx($hWnd, ByRef $tItem)
 		EndIf
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMW, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMW, 0, $pItem)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMA, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMA, 0, $pItem)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -2871,6 +3035,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemEx
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemFocused($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_FOCUSED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemFocused
 
@@ -2889,9 +3054,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemFocused
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemGroupID($hWnd, $iIndex)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_GROUPID)
 	DllStructSetData($tItem, "Item", $iIndex)
 	_GUICtrlListView_GetItemEx($hWnd, $tItem)
@@ -2915,9 +3078,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemGroupID
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemImage($hWnd, $iIndex, $iSubItem = 0)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_IMAGE)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
@@ -2940,9 +3101,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemImage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemIndent($hWnd, $iIndex)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_INDENT)
 	DllStructSetData($tItem, "Item", $iIndex)
 	_GUICtrlListView_GetItemEx($hWnd, $tItem)
@@ -2982,9 +3141,7 @@ EndFunc   ;==>__GUICtrlListView_GetItemOverlayImage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemParam($hWnd, $iIndex)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_PARAM)
 	DllStructSetData($tItem, "Item", $iIndex)
 	_GUICtrlListView_GetItemEx($hWnd, $tItem)
@@ -3009,23 +3166,25 @@ EndFunc   ;==>_GUICtrlListView_GetItemParam
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemPosition($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $aPoint[2], $iResult
 
-	$tPoint = DllStructCreate($tagPOINT)
-	$pPoint = DllStructGetPtr($tPoint)
+	Local $aPoint[2], $iRet
+
+	Local $tPoint = DllStructCreate($tagPOINT)
+	Local $pPoint = DllStructGetPtr($tPoint)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			If Not _SendMessage($hWnd, $LVM_GETITEMPOSITION, $iIndex, $pPoint, 0, "wparam", "ptr") Then Return $aPoint
 		Else
-			$iPoint = DllStructGetSize($tPoint)
-			$pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
+			Local $iPoint = DllStructGetSize($tPoint)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
 			If Not _SendMessage($hWnd, $LVM_GETITEMPOSITION, $iIndex, $pMemory, 0, "wparam", "ptr") Then Return $aPoint
 			_MemRead($tMemMap, $pMemory, $pPoint, $iPoint)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMPOSITION, $iIndex, $pPoint)
-		If Not $iResult Then Return $aPoint
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMPOSITION, $iIndex, $pPoint)
+		If Not $iRet Then Return $aPoint
 	EndIf
 	$aPoint[0] = DllStructGetData($tPoint, "X")
 	$aPoint[1] = DllStructGetData($tPoint, "Y")
@@ -3095,9 +3254,9 @@ EndFunc   ;==>_GUICtrlListView_GetItemPositionY
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemRect($hWnd, $iIndex, $iPart = 3)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $tRect, $aRect[4]
 
-	$tRect = _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $iPart)
+	Local $tRect = _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $iPart)
+	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -3127,17 +3286,17 @@ EndFunc   ;==>_GUICtrlListView_GetItemRect
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemRectEx($hWnd, $iIndex, $iPart = 3)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap
 
-	$tRect = DllStructCreate($tagRECT)
-	$pRect = DllStructGetPtr($tRect)
+	Local $tRect = DllStructCreate($tagRECT)
+	Local $pRect = DllStructGetPtr($tRect)
 	DllStructSetData($tRect, "Left", $iPart)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_GETITEMRECT, $iIndex, $pRect, 0, "wparam", "ptr")
 		Else
-			$iRect = DllStructGetSize($tRect)
-			$pMemory = _MemInit($hWnd, $iRect, $tMemMap)
+			Local $iRect = DllStructGetSize($tRect)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 			_MemWrite($tMemMap, $pRect, $pMemory, $iRect)
 			_SendMessage($hWnd, $LVM_GETITEMRECT, $iIndex, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pRect, $iRect)
@@ -3166,6 +3325,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemRectEx
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSelected($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Return _GUICtrlListView_GetItemState($hWnd, $iIndex, $LVIS_SELECTED) <> 0
 EndFunc   ;==>_GUICtrlListView_GetItemSelected
 
@@ -3189,12 +3349,14 @@ EndFunc   ;==>_GUICtrlListView_GetItemSelected
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacing($hWnd, $fSmall = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iSpace, $aSpace[2]
+
+	Local $iSpace
 	If IsHWnd($hWnd) Then
 		$iSpace = _SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall)
 	Else
 		$iSpace = GUICtrlSendMsg($hWnd, $LVM_GETITEMSPACING, $fSmall, 0)
 	EndIf
+	Local $aSpace[2]
 	$aSpace[0] = BitAND($iSpace, 0xFFFF)
 	$aSpace[1] = BitShift($iSpace, 16)
 	Return $aSpace
@@ -3218,6 +3380,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacing
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacingX($hWnd, $fSmall = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return BitAND(_SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall, 0), 0xFFFF)
 	Else
@@ -3243,6 +3406,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacingX
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemSpacingY($hWnd, $fSmall = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return BitShift(_SendMessage($hWnd, $LVM_GETITEMSPACING, $fSmall, 0), 16)
 	Else
@@ -3274,6 +3438,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemSpacingY
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemState($hWnd, $iIndex, $iMask)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETITEMSTATE, $iIndex, $iMask)
 	Else
@@ -3317,31 +3482,29 @@ EndFunc   ;==>_GUICtrlListView_GetItemStateImage
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemText($hWnd, $iIndex, $iSubItem = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $tBuffer
 	If $fUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[4096]")
 	Else
 		$tBuffer = DllStructCreate("char Text[4096]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
 	DllStructSetData($tItem, "TextMax", 4096)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tItem, "Text", $pBuffer)
-			If $fUnicode Then
-				_SendMessage($hWnd, $LVM_GETITEMTEXTW, $iIndex, $pItem, 0, "wparam", "ptr")
-			Else
-				_SendMessage($hWnd, $LVM_GETITEMTEXTA, $iIndex, $pItem, 0, "wparam", "ptr")
-			EndIf
+			_SendMessage($hWnd, $LVM_GETITEMTEXTW, $iIndex, $pItem, 0, "wparam", "ptr")
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem + 4096, $tMemMap)
-			$pText = $pMemory + $iItem
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem + 4096, $tMemMap)
+			Local $pText = $pMemory + $iItem
 			DllStructSetData($tItem, "Text", $pText)
 			_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
 			If $fUnicode Then
@@ -3385,10 +3548,13 @@ EndFunc   ;==>_GUICtrlListView_GetItemText
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemTextArray($hWnd, $iItem = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $vItems[1], $SeparatorChar = Opt('GUIDataSeparatorChar')
-	$vItems = _GUICtrlListView_GetItemTextString($hWnd, $iItem)
-	If @error Or $vItems = "" Then Return SetError($LV_ERR, $LV_ERR, $vItems)
-	Return StringSplit($vItems, $SeparatorChar)
+
+	Local $sItems = _GUICtrlListView_GetItemTextString($hWnd, $iItem)
+	If $sItems = "" Then
+		Local $vItems[1] = [0]
+		Return SetError($LV_ERR, $LV_ERR, $vItems)
+	EndIf
+	Return StringSplit($sItems, Opt('GUIDataSeparatorChar'))
 EndFunc   ;==>_GUICtrlListView_GetItemTextArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -3408,6 +3574,7 @@ EndFunc   ;==>_GUICtrlListView_GetItemTextArray
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetItemTextString($hWnd, $iItem = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $sRow = "", $SeparatorChar = Opt('GUIDataSeparatorChar'), $iSelected
 	If $iItem = -1 Then
 		$iSelected = _GUICtrlListView_GetNextItem($hWnd) ; get current row selected
@@ -3450,9 +3617,10 @@ EndFunc   ;==>_GUICtrlListView_GetItemTextString
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetNextItem($hWnd, $iStart = -1, $iSearch = 0, $iState = 8)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iFlags, $aSearch[5] = [$LVNI_ALL, $LVNI_ABOVE, $LVNI_BELOW, $LVNI_TOLEFT, $LVNI_TORIGHT]
 
-	$iFlags = $aSearch[$iSearch]
+	Local $aSearch[5] = [$LVNI_ALL, $LVNI_ABOVE, $LVNI_BELOW, $LVNI_TOLEFT, $LVNI_TORIGHT]
+
+	Local $iFlags = $aSearch[$iSearch]
 	If BitAND($iState, 1) <> 0 Then $iFlags = BitOR($iFlags, $LVNI_CUT)
 	If BitAND($iState, 2) <> 0 Then $iFlags = BitOR($iFlags, $LVNI_DROPHILITED)
 	If BitAND($iState, 4) <> 0 Then $iFlags = BitOR($iFlags, $LVNI_FOCUSED)
@@ -3479,16 +3647,16 @@ EndFunc   ;==>_GUICtrlListView_GetNextItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetNumberOfWorkAreas($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $tMemMap, $pMemory
 
-	$tBuffer = DllStructCreate("int Data")
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $tBuffer = DllStructCreate("int Data")
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_GETNUMBEROFWORKAREAS, 0, $pBuffer, 0, "wparam", "ptr")
 		Else
-			$iBuffer = DllStructGetSize($tBuffer)
-			$pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 			_SendMessage($hWnd, $LVM_GETNUMBEROFWORKAREAS, 0, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
 			_MemFree($tMemMap)
@@ -3517,26 +3685,29 @@ EndFunc   ;==>_GUICtrlListView_GetNumberOfWorkAreas
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOrigin($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $aOrigin[2], $iResult
 
-	$tPoint = DllStructCreate($tagPOINT)
-	$pPoint = DllStructGetPtr($tPoint)
+
+	Local $tPoint = DllStructCreate($tagPOINT)
+	Local $pPoint = DllStructGetPtr($tPoint)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETORIGIN, 0, $pPoint, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_GETORIGIN, 0, $pPoint, 0, "wparam", "ptr")
 		Else
-			$iPoint = DllStructGetSize($tPoint)
-			$pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
-			$iResult = _SendMessage($hWnd, $LVM_GETORIGIN, 0, $pMemory, 0, "wparam", "ptr")
+			Local $iPoint = DllStructGetSize($tPoint)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
+			$iRet = _SendMessage($hWnd, $LVM_GETORIGIN, 0, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pPoint, $iPoint)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_GETORIGIN, 0, $pPoint)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_GETORIGIN, 0, $pPoint)
 	EndIf
+	Local $aOrigin[2]
 	$aOrigin[0] = DllStructGetData($tPoint, "X")
 	$aOrigin[1] = DllStructGetData($tPoint, "Y")
-	Return SetError(@error, $iResult = 1, $aOrigin)
+	Return SetError(@error, $iRet = 1, $aOrigin)
 EndFunc   ;==>_GUICtrlListView_GetOrigin
 
 ; #FUNCTION# ====================================================================================================================
@@ -3590,6 +3761,7 @@ EndFunc   ;==>_GUICtrlListView_GetOriginY
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetOutlineColor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETOUTLINECOLOR)
 	Else
@@ -3613,6 +3785,7 @@ EndFunc   ;==>_GUICtrlListView_GetOutlineColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedColumn($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTEDCOLUMN)
 	Else
@@ -3635,6 +3808,7 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedCount($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTEDCOUNT)
 	Else
@@ -3671,15 +3845,16 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedCount
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectedIndices($hWnd, $fArray = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $sIndices, $aIndices[1] = [0]
-	Local $iResult, $iCount = _GUICtrlListView_GetItemCount($hWnd)
+	Local $iRet, $iCount = _GUICtrlListView_GetItemCount($hWnd)
 	For $iItem = 0 To $iCount
 		If IsHWnd($hWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_GETITEMSTATE, $iItem, $LVIS_SELECTED)
+			$iRet = _SendMessage($hWnd, $LVM_GETITEMSTATE, $iItem, $LVIS_SELECTED)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETITEMSTATE, $iItem, $LVIS_SELECTED)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETITEMSTATE, $iItem, $LVIS_SELECTED)
 		EndIf
-		If $iResult Then
+		If $iRet Then
 			If (Not $fArray) Then
 				If StringLen($sIndices) Then
 					$sIndices &= "|" & $iItem
@@ -3716,6 +3891,7 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedIndices
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSelectionMark($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETSELECTIONMARK)
 	Else
@@ -3742,44 +3918,43 @@ EndFunc   ;==>_GUICtrlListView_GetSelectionMark
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetStringWidth($hWnd, $sString)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap, $iResult
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iBuffer = StringLen($sString) + 1
+	Local $iBuffer = StringLen($sString) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	DllStructSetData($tBuffer, "Text", $sString)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pBuffer, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHA, 0, $pBuffer, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pBuffer, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 			_MemWrite($tMemMap, $pBuffer, $pMemory, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_GETSTRINGWIDTHA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pBuffer)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETSTRINGWIDTHW, 0, $pBuffer)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_GETSTRINGWIDTHA, 0, $pBuffer)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_GETSTRINGWIDTHA, 0, $pBuffer)
 		EndIf
 	EndIf
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_GetStringWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -3806,18 +3981,20 @@ EndFunc   ;==>_GUICtrlListView_GetStringWidth
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetSubItemRect($hWnd, $iIndex, $iSubItem, $iPart = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[4], $aPart[2] = [$LVIR_BOUNDS, $LVIR_ICON]
 
-	$tRect = DllStructCreate($tagRECT)
-	$pRect = DllStructGetPtr($tRect)
+	Local $aPart[2] = [$LVIR_BOUNDS, $LVIR_ICON]
+
+	Local $tRect = DllStructCreate($tagRECT)
+	Local $pRect = DllStructGetPtr($tRect)
 	DllStructSetData($tRect, "Top", $iSubItem)
 	DllStructSetData($tRect, "Left", $aPart[$iPart])
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_GETSUBITEMRECT, $iIndex, $pRect, 0, "wparam", "ptr")
 		Else
-			$iRect = DllStructGetSize($tRect)
-			$pMemory = _MemInit($hWnd, $iRect, $tMemMap)
+			Local $iRect = DllStructGetSize($tRect)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 			_MemWrite($tMemMap, $pRect, $pMemory, $iRect)
 			_SendMessage($hWnd, $LVM_GETSUBITEMRECT, $iIndex, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pRect, $iRect)
@@ -3826,6 +4003,7 @@ Func _GUICtrlListView_GetSubItemRect($hWnd, $iIndex, $iSubItem, $iPart = 0)
 	Else
 		GUICtrlSendMsg($hWnd, $LVM_GETSUBITEMRECT, $iIndex, $pRect)
 	EndIf
+	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -3848,6 +4026,7 @@ EndFunc   ;==>_GUICtrlListView_GetSubItemRect
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTextBkColor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTEXTBKCOLOR)
 	Else
@@ -3870,6 +4049,7 @@ EndFunc   ;==>_GUICtrlListView_GetTextBkColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTextColor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTEXTCOLOR)
 	Else
@@ -3892,6 +4072,7 @@ EndFunc   ;==>_GUICtrlListView_GetTextColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetToolTips($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return HWnd(_SendMessage($hWnd, $LVM_GETTOOLTIPS))
 	Else
@@ -3915,6 +4096,7 @@ EndFunc   ;==>_GUICtrlListView_GetToolTips
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetTopIndex($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETTOPINDEX)
 	Else
@@ -3938,6 +4120,7 @@ EndFunc   ;==>_GUICtrlListView_GetTopIndex
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetUnicodeFormat($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_GETUNICODEFORMAT) <> 0
 	Else
@@ -3966,6 +4149,7 @@ EndFunc   ;==>_GUICtrlListView_GetUnicodeFormat
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetView($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $view
 	If IsHWnd($hWnd) Then
 		$view = _SendMessage($hWnd, $LVM_GETVIEW)
@@ -4097,19 +4281,21 @@ EndFunc   ;==>_GUICtrlListView_GetViewTile
 ; ===============================================================================================================================
 Func _GUICtrlListView_GetViewRect($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iView, $iRect, $pRect, $tRect, $pMemory, $tMemMap, $aRect[4] = [0, 0, 0, 0]
 
-	$iView = _GUICtrlListView_GetView($hWnd)
+	Local $aRect[4] = [0, 0, 0, 0]
+
+	Local $iView = _GUICtrlListView_GetView($hWnd)
 	If ($iView <> 1) And ($iView <> 3) Then Return $aRect
 
-	$tRect = DllStructCreate($tagRECT)
-	$pRect = DllStructGetPtr($tRect)
+	Local $tRect = DllStructCreate($tagRECT)
+	Local $pRect = DllStructGetPtr($tRect)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_GETVIEWRECT, 0, $pRect, 0, "wparam", "ptr")
 		Else
-			$iRect = DllStructGetSize($tRect)
-			$pMemory = _MemInit($hWnd, $iRect, $tMemMap)
+			Local $iRect = DllStructGetSize($tRect)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 			_SendMessage($hWnd, $LVM_GETVIEWRECT, 0, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pRect, $iRect)
 			_MemFree($tMemMap)
@@ -4141,6 +4327,7 @@ EndFunc   ;==>_GUICtrlListView_GetViewRect
 ; ===============================================================================================================================
 Func _GUICtrlListView_HideColumn($hWnd, $iCol)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETCOLUMNWIDTH, $iCol) <> 0
 	Else
@@ -4175,29 +4362,33 @@ EndFunc   ;==>_GUICtrlListView_HideColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_HitTest($hWnd, $iX = -1, $iY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iFlags, $iTest, $tTest, $pTest, $pMemory, $tMemMap, $aTest[10]
-	Local $iMode, $aPos, $tPoint
 
-	$iMode = Opt("MouseCoordMode", 1)
-	$aPos = MouseGetPos()
+	Local $aTest[10]
+
+	Local $iMode = Opt("MouseCoordMode", 1)
+	Local $aPos = MouseGetPos()
 	Opt("MouseCoordMode", $iMode)
-	$tPoint = DllStructCreate($tagPOINT)
+	Local $tPoint = DllStructCreate($tagPOINT)
 	DllStructSetData($tPoint, "X", $aPos[0])
 	DllStructSetData($tPoint, "Y", $aPos[1])
-	DllCall("User32.dll", "int", "ScreenToClient", "hwnd", $hWnd, "ptr", DllStructGetPtr($tPoint))
+	Local $aResult = DllCall("user32.dll", "bool", "ScreenToClient", "hwnd", $hWnd, "ptr", DllStructGetPtr($tPoint))
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] = 0 Then Return 0
+
 	If $iX = -1 Then $iX = DllStructGetData($tPoint, "X")
 	If $iY = -1 Then $iY = DllStructGetData($tPoint, "Y")
 
-	$tTest = DllStructCreate($tagLVHITTESTINFO)
-	$pTest = DllStructGetPtr($tTest)
+	Local $tTest = DllStructCreate($tagLVHITTESTINFO)
+	Local $pTest = DllStructGetPtr($tTest)
 	DllStructSetData($tTest, "X", $iX)
 	DllStructSetData($tTest, "Y", $iY)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			$aTest[0] = _SendMessage($hWnd, $LVM_HITTEST, 0, $pTest, 0, "wparam", "ptr")
 		Else
-			$iTest = DllStructGetSize($tTest)
-			$pMemory = _MemInit($hWnd, $iTest, $tMemMap)
+			Local $iTest = DllStructGetSize($tTest)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iTest, $tMemMap)
 			_MemWrite($tMemMap, $pTest, $pMemory, $iTest)
 			$aTest[0] = _SendMessage($hWnd, $LVM_HITTEST, 0, $pMemory, 0, "wparam", "ptr")
 			_MemRead($tMemMap, $pMemory, $pTest, $iTest)
@@ -4206,7 +4397,7 @@ Func _GUICtrlListView_HitTest($hWnd, $iX = -1, $iY = -1)
 	Else
 		$aTest[0] = GUICtrlSendMsg($hWnd, $LVM_HITTEST, 0, $pTest)
 	EndIf
-	$iFlags = DllStructGetData($tTest, "Flags")
+	Local $iFlags = DllStructGetData($tTest, "Flags")
 	$aTest[1] = BitAND($iFlags, $LVHT_NOWHERE) <> 0
 	$aTest[2] = BitAND($iFlags, $LVHT_ONITEMICON) <> 0
 	$aTest[3] = BitAND($iFlags, $LVHT_ONITEMLABEL) <> 0
@@ -4278,23 +4469,24 @@ EndFunc   ;==>__GUICtrlListView_IndexToStateImageMask
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertColumn($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = -1, $iImage = -1, $fOnRight = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $iMask, $iFmt, $iResult
+
 	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iBuffer = StringLen($sText) + 1
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tColumn = DllStructCreate($tagLVCOLUMN)
-	$pColumn = DllStructGetPtr($tColumn)
-	$iMask = BitOR($LVCF_FMT, $LVCF_WIDTH, $LVCF_TEXT)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tColumn = DllStructCreate($tagLVCOLUMN)
+	Local $pColumn = DllStructGetPtr($tColumn)
+	Local $iMask = BitOR($LVCF_FMT, $LVCF_WIDTH, $LVCF_TEXT)
 	If $iAlign < 0 Or $iAlign > 2 Then $iAlign = 0
-	$iFmt = $aAlign[$iAlign]
+	Local $iFmt = $aAlign[$iAlign]
 	If $iImage <> -1 Then
 		$iMask = BitOR($iMask, $LVCF_IMAGE)
 		$iFmt = BitOR($iFmt, $LVCFMT_COL_HAS_IMAGES, $LVCFMT_IMAGE)
@@ -4306,39 +4498,37 @@ Func _GUICtrlListView_InsertColumn($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign
 	DllStructSetData($tColumn, "CX", $iWidth)
 	DllStructSetData($tColumn, "TextMax", $iBuffer)
 	DllStructSetData($tColumn, "Image", $iImage)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tColumn, "Text", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_INSERTCOLUMNA, $iIndex, $pColumn, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
 		Else
-			$iColumn = DllStructGetSize($tColumn)
-			$pMemory = _MemInit($hWnd, $iColumn + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iColumn
+			Local $iColumn = DllStructGetSize($tColumn)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iColumn + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iColumn
 			DllStructSetData($tColumn, "Text", $pText)
 			_MemWrite($tMemMap, $pColumn, $pMemory, $iColumn)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_INSERTCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_INSERTCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tColumn, "Text", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_INSERTCOLUMNW, $iIndex, $pColumn)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_INSERTCOLUMNA, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_INSERTCOLUMNA, $iIndex, $pColumn)
 		EndIf
 	EndIf
 	; added, not sure why justification is not working on insert
-	If $iAlign > 0 Then _GUICtrlListView_SetColumn($hWnd, $iResult, $sText, $iWidth, $iAlign, $iImage, $fOnRight)
-	Return $iResult
+	If $iAlign > 0 Then _GUICtrlListView_SetColumn($hWnd, $iRet, $sText, $iWidth, $iAlign, $iImage, $fOnRight)
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_InsertColumn
 
 ; #FUNCTION# ====================================================================================================================
@@ -4366,42 +4556,44 @@ EndFunc   ;==>_GUICtrlListView_InsertColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertGroup($hWnd, $iIndex, $iGroupID, $sHeader, $iAlign = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iHeader, $pHeader, $tHeader, $iGroup, $pGroup, $tGroup, $pMemory, $tMemMap, $pText, $iMask, $iResult
+
 	Local $aAlign[3] = [$LVGA_HEADER_LEFT, $LVGA_HEADER_CENTER, $LVGA_HEADER_RIGHT]
 
 	If $iAlign < 0 Or $iAlign > 2 Then $iAlign = 0
 
-	$tHeader = _WinAPI_MultiByteToWideChar($sHeader)
-	$pText = DllStructGetPtr($tHeader)
-	$pHeader = DllStructGetPtr($tHeader)
-	$iHeader = StringLen($sHeader)
-	$tGroup = DllStructCreate($tagLVGROUP)
-	$pGroup = DllStructGetPtr($tGroup)
-	$iGroup = DllStructGetSize($tGroup)
-	$iMask = BitOR($LVGF_HEADER, $LVGF_ALIGN, $LVGF_GROUPID)
+	Local $tHeader = _WinAPI_MultiByteToWideChar($sHeader)
+	Local $pText = DllStructGetPtr($tHeader)
+	Local $pHeader = DllStructGetPtr($tHeader)
+	Local $iHeader = StringLen($sHeader)
+	Local $tGroup = DllStructCreate($tagLVGROUP)
+	Local $pGroup = DllStructGetPtr($tGroup)
+	Local $iGroup = DllStructGetSize($tGroup)
+	Local $iMask = BitOR($LVGF_HEADER, $LVGF_ALIGN, $LVGF_GROUPID)
 	DllStructSetData($tGroup, "Size", $iGroup)
 	DllStructSetData($tGroup, "Mask", $iMask)
 	DllStructSetData($tGroup, "HeaderMax", $iHeader)
 	DllStructSetData($tGroup, "GroupID", $iGroupID)
 	DllStructSetData($tGroup, "Align", $aAlign[$iAlign])
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tGroup, "Header", $pHeader)
-			$iResult = _SendMessage($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iGroup + $iHeader, $tMemMap)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iGroup + $iHeader, $tMemMap)
 			$pText = $pMemory + $iGroup
 			DllStructSetData($tGroup, "Header", $pText)
 			_MemWrite($tMemMap, $pGroup, $pMemory, $iGroup)
 			_MemWrite($tMemMap, $pHeader, $pText, $iHeader)
-			$iResult = _SendMessage($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tGroup, "Header", $pHeader)
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_INSERTGROUP, $iIndex, $pGroup)
 	EndIf
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_InsertGroup
 
 ; #FUNCTION# ====================================================================================================================
@@ -4426,18 +4618,20 @@ EndFunc   ;==>_GUICtrlListView_InsertGroup
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertItem($hWnd, $sText, $iIndex = -1, $iImage = -1, $iParam = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iMask, $iResult
-	If $iIndex = -1 Then $iIndex = 999999999
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
+	Local $iBuffer, $pBuffer, $tBuffer, $iRet
+	If $iIndex = -1 Then $iIndex = 999999999
+
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
 	DllStructSetData($tItem, "Param", $iParam)
 	If $sText <> -1 Then
 		$iBuffer = StringLen($sText) + 1
 		If $fUnicode Then
-			$iBuffer *= 2
 			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+			$iBuffer *= 2
 		Else
 			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 		EndIf
@@ -4448,40 +4642,37 @@ Func _GUICtrlListView_InsertItem($hWnd, $sText, $iIndex = -1, $iImage = -1, $iPa
 	Else
 		DllStructSetData($tItem, "Text", -1)
 	EndIf
-	$iMask = BitOR($LVIF_TEXT, $LVIF_PARAM)
+	Local $iMask = BitOR($LVIF_TEXT, $LVIF_PARAM)
 	If $iImage >= 0 Then $iMask = BitOR($iMask, $LVIF_IMAGE)
 	DllStructSetData($tItem, "Mask", $iMask)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "Image", $iImage)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Or ($sText = -1) Then
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pItem, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_INSERTITEMA, 0, $pItem, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pItem, 0, "wparam", "ptr")
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iItem
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iItem
 			DllStructSetData($tItem, "Text", $pText)
 			_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_INSERTITEMW, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_INSERTITEMW, 0, $pItem)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_INSERTITEMA, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_INSERTITEMA, 0, $pItem)
 		EndIf
 	EndIf
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_InsertItem
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -4503,23 +4694,24 @@ EndFunc   ;==>_GUICtrlListView_InsertItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_InsertMarkHitTest($hWnd, $iX = -1, $iY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iPoint, $pPoint, $tPoint, $iMark, $tMark, $pMark, $pMemM, $pMemP, $tMemMap, $aTest[2]
-	Local $iMode, $aPos
 
-	$iMode = Opt("MouseCoordMode", 1)
-	$aPos = MouseGetPos()
+	Local $iMode = Opt("MouseCoordMode", 1)
+	Local $aPos = MouseGetPos()
 	Opt("MouseCoordMode", $iMode)
-	$tPoint = DllStructCreate($tagPOINT)
+	Local $tPoint = DllStructCreate($tagPOINT)
 	DllStructSetData($tPoint, "X", $aPos[0])
 	DllStructSetData($tPoint, "Y", $aPos[1])
-	DllCall("User32.dll", "int", "ScreenToClient", "hwnd", $hWnd, "ptr", DllStructGetPtr($tPoint))
+	Local $aResult = DllCall("user32.dll", "bool", "ScreenToClient", "hwnd", $hWnd, "ptr", DllStructGetPtr($tPoint))
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] = 0 Then Return 0
+
 	If $iX = -1 Then $iX = DllStructGetData($tPoint, "X")
 	If $iY = -1 Then $iY = DllStructGetData($tPoint, "Y")
 
-	$pPoint = DllStructGetPtr($tPoint)
-	$tMark = DllStructCreate($tagLVINSERTMARK)
-	$pMark = DllStructGetPtr($tMark)
-	$iMark = DllStructGetSize($tMark)
+	Local $pPoint = DllStructGetPtr($tPoint)
+	Local $tMark = DllStructCreate($tagLVINSERTMARK)
+	Local $pMark = DllStructGetPtr($tMark)
+	Local $iMark = DllStructGetSize($tMark)
 	DllStructSetData($tPoint, "X", $iX)
 	DllStructSetData($tPoint, "Y", $iY)
 	DllStructSetData($tMark, "Size", $iMark)
@@ -4527,9 +4719,10 @@ Func _GUICtrlListView_InsertMarkHitTest($hWnd, $iX = -1, $iY = -1)
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_INSERTMARKHITTEST, $pPoint, $pMark, 0, "wparam", "ptr")
 		Else
-			$iPoint = DllStructGetSize($tPoint)
-			$pMemM = _MemInit($hWnd, $iPoint + $iMark, $tMemMap)
-			$pMemP = $pMemP + $iPoint
+			Local $iPoint = DllStructGetSize($tPoint)
+			Local $tMemMap
+			Local $pMemM = _MemInit($hWnd, $iPoint + $iMark, $tMemMap)
+			Local $pMemP = $pMemM + $iPoint		; BUG ??? was referencing $pMemP
 			_MemWrite($tMemMap, $pMark, $pMemM, $iMark)
 			_MemWrite($tMemMap, $pPoint, $pMemP, $iPoint)
 			_SendMessage($hWnd, $LVM_INSERTMARKHITTEST, $pMemP, $pMemM, 0, "wparam", "ptr")
@@ -4539,6 +4732,7 @@ Func _GUICtrlListView_InsertMarkHitTest($hWnd, $iX = -1, $iY = -1)
 	Else
 		GUICtrlSendMsg($hWnd, $LVM_INSERTMARKHITTEST, $pPoint, $pMark)
 	EndIf
+	Local $aTest[2]
 	$aTest[0] = DllStructGetData($tMark, "Flags") = $LVIM_AFTER
 	$aTest[1] = DllStructGetData($tMark, "Item")
 	Return $aTest
@@ -4590,43 +4784,41 @@ EndFunc   ;==>_GUICtrlListView_IsItemVisible
 ; ===============================================================================================================================
 Func _GUICtrlListView_JustifyColumn($hWnd, $iIndex, $iAlign = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $iMask, $iFmt, $iResult
+
 	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$tColumn = DllStructCreate($tagLVCOLUMN)
-	$pColumn = DllStructGetPtr($tColumn)
+	Local $tColumn = DllStructCreate($tagLVCOLUMN)
+	Local $pColumn = DllStructGetPtr($tColumn)
 	If $iAlign < 0 Or $iAlign > 2 Then $iAlign = 0
-	$iMask = $LVCF_FMT
-	$iFmt = $aAlign[$iAlign]
+	Local $iMask = $LVCF_FMT
+	Local $iFmt = $aAlign[$iAlign]
 	DllStructSetData($tColumn, "Mask", $iMask)
 	DllStructSetData($tColumn, "Fmt", $iFmt)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
 		Else
-			$iColumn = DllStructGetSize($tColumn)
-			$pMemory = _MemInit($hWnd, $iColumn, $tMemMap)
+			Local $iColumn = DllStructGetSize($tColumn)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iColumn, $tMemMap)
 			_MemWrite($tMemMap, $pColumn, $pMemory, $iColumn)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_JustifyColumn
 
 ; #FUNCTION# ====================================================================================================================
@@ -4651,6 +4843,7 @@ EndFunc   ;==>_GUICtrlListView_JustifyColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_MapIDToIndex($hWnd, $iID)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MAPIDTOINDEX, $iID)
 	Else
@@ -4680,6 +4873,7 @@ EndFunc   ;==>_GUICtrlListView_MapIDToIndex
 ; ===============================================================================================================================
 Func _GUICtrlListView_MapIndexToID($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MAPINDEXTOID, $iIndex)
 	Else
@@ -4704,6 +4898,7 @@ EndFunc   ;==>_GUICtrlListView_MapIndexToID
 ; ===============================================================================================================================
 Func _GUICtrlListView_MoveGroup($hWnd, $iGroupID, $iIndex = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_MOVEGROUP, $iGroupID, $iIndex)
 	Else
@@ -4746,6 +4941,7 @@ EndFunc   ;==>__GUICtrlListView_OverlayImageMaskToIndex
 ; ===============================================================================================================================
 Func _GUICtrlListView_RedrawItems($hWnd, $iFirst, $iLast)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_REDRAWITEMS, $iFirst, $iLast) <> 0
 	Else
@@ -4778,16 +4974,14 @@ EndFunc   ;==>_GUICtrlListView_RedrawItems
 ; ===============================================================================================================================
 Func _GUICtrlListView_RegisterSortCallBack($hWnd, $fNumbers = True, $fArrows = True)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iIndex, $hHeader
-
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	$hHeader = _GUICtrlListView_GetHeader($hWnd)
+	Local $hHeader = _GUICtrlListView_GetHeader($hWnd)
 
 	ReDim $aListViewSortInfo[UBound($aListViewSortInfo) + 1][$iLListViewSortInfoSize]
 
 	$aListViewSortInfo[0][0] = UBound($aListViewSortInfo) - 1
-	$iIndex = $aListViewSortInfo[0][0]
+	Local $iIndex = $aListViewSortInfo[0][0]
 
 	$aListViewSortInfo[$iIndex][1] = $hWnd ; Handle/ID of listview
 
@@ -4820,6 +5014,7 @@ EndFunc   ;==>_GUICtrlListView_RegisterSortCallBack
 ; ===============================================================================================================================
 Func _GUICtrlListView_RemoveAllGroups($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_REMOVEALLGROUPS)
 	Else
@@ -4844,6 +5039,7 @@ EndFunc   ;==>_GUICtrlListView_RemoveAllGroups
 ; ===============================================================================================================================
 Func _GUICtrlListView_RemoveGroup($hWnd, $iGroupID)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_REMOVEGROUP, $iGroupID)
 	Else
@@ -4892,6 +5088,7 @@ EndFunc   ;==>__GUICtrlListView_ReverseColorOrder
 ; ===============================================================================================================================
 Func _GUICtrlListView_Scroll($hWnd, $iDX, $iDY)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SCROLL, $iDX, $iDY) <> 0
 	Else
@@ -4916,15 +5113,16 @@ EndFunc   ;==>_GUICtrlListView_Scroll
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetBkColor($hWnd, $iColor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iResult
+
+	Local $iRet
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LVM_SETBKCOLOR, 0, $iColor)
+		$iRet = _SendMessage($hWnd, $LVM_SETBKCOLOR, 0, $iColor)
 		_WinAPI_InvalidateRect($hWnd)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETBKCOLOR, 0, $iColor)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETBKCOLOR, 0, $iColor)
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetBkColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -4952,59 +5150,59 @@ EndFunc   ;==>_GUICtrlListView_SetBkColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetBkImage($hWnd, $sURL = "", $iStyle = 0, $iXOffset = 0, $iYOffset = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	If Not IsHWnd($hWnd) Then Return SetError($LV_ERR, $LV_ERR, False)
-	Local $iBuffer, $pBuffer, $tBuffer, $iImage, $pImage, $tImage, $pMemory, $tMemMap, $pText, $iResult
-	Local $aStyle[2] = [$LVBKIF_STYLE_NORMAL, $LVBKIF_STYLE_TILE]
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iBuffer = StringLen($sURL) + 1
+	If Not IsHWnd($hWnd) Then Return SetError($LV_ERR, $LV_ERR, False)
+	Local $aStyle[2] = [$LVBKIF_STYLE_NORMAL, $LVBKIF_STYLE_TILE]
+
+	Local $iBuffer = StringLen($sURL) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
 	If @error Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tImage = DllStructCreate($tagLVBKIMAGE)
-	$pImage = DllStructGetPtr($tImage)
-	If $sURL <> "" Then $iResult = $LVBKIF_SOURCE_URL
-	$iResult = BitOR($iResult, $aStyle[$iStyle])
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tImage = DllStructCreate($tagLVBKIMAGE)
+	Local $pImage = DllStructGetPtr($tImage)
+	Local $iRet = 0
+	If $sURL <> "" Then $iRet = $LVBKIF_SOURCE_URL
+	$iRet = BitOR($iRet, $aStyle[$iStyle])
 	DllStructSetData($tBuffer, "Text", $sURL)
-	DllStructSetData($tImage, "Flags", $iResult)
+	DllStructSetData($tImage, "Flags", $iRet)
 	DllStructSetData($tImage, "XOffPercent", $iXOffset)
 	DllStructSetData($tImage, "YOffPercent", $iYOffset)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tImage, "Image", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETBKIMAGEW, 0, $pImage, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETBKIMAGEA, 0, $pImage, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_SETBKIMAGEW, 0, $pImage, 0, "wparam", "ptr")
 		Else
-			$iImage = DllStructGetSize($tImage)
-			$pMemory = _MemInit($hWnd, $iImage + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iImage
+			Local $iImage = DllStructGetSize($tImage)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iImage + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iImage
 			DllStructSetData($tImage, "Image", $pText)
 			_MemWrite($tMemMap, $pImage, $pMemory, $iImage)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETBKIMAGEW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETBKIMAGEW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETBKIMAGEA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETBKIMAGEA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tImage, "Image", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETBKIMAGEW, 0, $pImage)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETBKIMAGEW, 0, $pImage)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETBKIMAGEA, 0, $pImage)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETBKIMAGEA, 0, $pImage)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetBkImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -5034,7 +5232,8 @@ EndFunc   ;==>_GUICtrlListView_SetBkImage
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetCallBackMask($hWnd, $iMask)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iFlags
+
+	Local $iFlags = 0
 
 	If BitAND($iMask, 1) <> 0 Then $iFlags = BitOR($iFlags, $LVIS_CUT)
 	If BitAND($iMask, 2) <> 0 Then $iFlags = BitOR($iFlags, $LVIS_DROPHILITED)
@@ -5074,24 +5273,26 @@ EndFunc   ;==>_GUICtrlListView_SetCallBackMask
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumn($hWnd, $iIndex, $sText, $iWidth = -1, $iAlign = -1, $iImage = -1, $fOnRight = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $iColumn, $pColumn, $tColumn, $pMemory, $tMemMap, $pText, $iMask, $iFmt, $iResult
-	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$iBuffer = StringLen($sText) + 1
+	Local $aAlign[3] = [$LVCFMT_LEFT, $LVCFMT_RIGHT, $LVCFMT_CENTER]
+
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tColumn = DllStructCreate($tagLVCOLUMN)
-	$pColumn = DllStructGetPtr($tColumn)
-	$iMask = $LVCF_TEXT
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tColumn = DllStructCreate($tagLVCOLUMN)
+	Local $pColumn = DllStructGetPtr($tColumn)
+	Local $iMask = $LVCF_TEXT
 	If $iAlign < 0 Or $iAlign > 2 Then $iAlign = 0
 	$iMask = BitOR($iMask, $LVCF_FMT)
-	$iFmt = $aAlign[$iAlign]
+	Local $iFmt = $aAlign[$iAlign]
 	If $iWidth <> -1 Then $iMask = BitOR($iMask, $LVCF_WIDTH)
 	If $iImage <> -1 Then
 		$iMask = BitOR($iMask, $LVCF_IMAGE)
@@ -5106,37 +5307,35 @@ Func _GUICtrlListView_SetColumn($hWnd, $iIndex, $sText, $iWidth = -1, $iAlign = 
 	DllStructSetData($tColumn, "CX", $iWidth)
 	DllStructSetData($tColumn, "TextMax", $iBuffer)
 	DllStructSetData($tColumn, "Image", $iImage)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tColumn, "Text", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn, 0, "wparam", "ptr")
 		Else
-			$iColumn = DllStructGetSize($tColumn)
-			$pMemory = _MemInit($hWnd, $iColumn + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iColumn
+			Local $iColumn = DllStructGetSize($tColumn)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iColumn + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iColumn
 			DllStructSetData($tColumn, "Text", $pText)
 			_MemWrite($tMemMap, $pColumn, $pMemory, $iColumn)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNW, $iIndex, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNA, $iIndex, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tColumn, "Text", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNW, $iIndex, $pColumn)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNA, $iIndex, $pColumn)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetColumn
 
 ; #FUNCTION# ====================================================================================================================
@@ -5182,28 +5381,29 @@ EndFunc   ;==>_GUICtrlListView_SetColumnOrder
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumnOrderArray($hWnd, $aOrder)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iI, $iBuffer, $pBuffer, $tBuffer, $pMemory, $tMemMap, $iResult
 
-	$tBuffer = DllStructCreate("int[" & $aOrder[0] & "]")
-	$pBuffer = DllStructGetPtr($tBuffer)
+	Local $tBuffer = DllStructCreate("int[" & $aOrder[0] & "]")
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 	For $iI = 1 To $aOrder[0]
 		DllStructSetData($tBuffer, 1, $aOrder[$iI], $iI)
 	Next
 
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pBuffer, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pBuffer, 0, "wparam", "ptr")
 		Else
-			$iBuffer = DllStructGetSize($tBuffer)
-			$pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
+			Local $iBuffer = DllStructGetSize($tBuffer)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 			_MemWrite($tMemMap, $pBuffer, $pMemory, $iBuffer)
-			$iResult = _SendMessage($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pMemory, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pBuffer)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETCOLUMNORDERARRAY, $aOrder[0], $pBuffer)
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetColumnOrderArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -5229,6 +5429,7 @@ EndFunc   ;==>_GUICtrlListView_SetColumnOrderArray
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetColumnWidth($hWnd, $iCol, $iWidth)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETCOLUMNWIDTH, $iCol, $iWidth)
 	Else
@@ -5273,15 +5474,16 @@ EndFunc   ;==>_GUICtrlListView_SetColumnWidth
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetExtendedListViewStyle($hWnd, $iExStyle, $iExMask = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iResult
+
+	Local $iRet
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LVM_SETEXTENDEDLISTVIEWSTYLE, $iExMask, $iExStyle)
+		$iRet = _SendMessage($hWnd, $LVM_SETEXTENDEDLISTVIEWSTYLE, $iExMask, $iExStyle)
 		_WinAPI_InvalidateRect($hWnd)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETEXTENDEDLISTVIEWSTYLE, $iExMask, $iExStyle)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETEXTENDEDLISTVIEWSTYLE, $iExMask, $iExStyle)
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlListView_SetExtendedListViewStyle
 
 ; #FUNCTION# ====================================================================================================================
@@ -5316,38 +5518,40 @@ EndFunc   ;==>_GUICtrlListView_SetExtendedListViewStyle
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetGroupInfo($hWnd, $iGroupID, $sHeader, $iAlign = 0, $iState = $LVGS_NORMAL)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iHeader, $pHeader, $tHeader, $iGroup, $pGroup, $tGroup, $pMemory, $tMemMap, $pText, $iMask, $iResult
+
 	Local $aAlign[3] = [$LVGA_HEADER_LEFT, $LVGA_HEADER_CENTER, $LVGA_HEADER_RIGHT]
 
 	If $iAlign < 0 Or $iAlign > 2 Then $iAlign = 0
 
-	$tHeader = _WinAPI_MultiByteToWideChar($sHeader)
-	$pHeader = DllStructGetPtr($tHeader)
-	$iHeader = StringLen($sHeader)
-	$tGroup = DllStructCreate($tagLVGROUP)
-	$pGroup = DllStructGetPtr($tGroup)
-	$iGroup = DllStructGetSize($tGroup)
-	$iMask = BitOR($LVGF_HEADER, $LVGF_ALIGN, $LVGF_STATE)
+	Local $tHeader = _WinAPI_MultiByteToWideChar($sHeader)
+	Local $pHeader = DllStructGetPtr($tHeader)
+	Local $iHeader = StringLen($sHeader)
+	Local $tGroup = DllStructCreate($tagLVGROUP)
+	Local $pGroup = DllStructGetPtr($tGroup)
+	Local $iGroup = DllStructGetSize($tGroup)
+	Local $iMask = BitOR($LVGF_HEADER, $LVGF_ALIGN, $LVGF_STATE)
 	DllStructSetData($tGroup, "Size", $iGroup)
 	DllStructSetData($tGroup, "Mask", $iMask)
 	DllStructSetData($tGroup, "HeaderMax", $iHeader)
 	DllStructSetData($tGroup, "Align", $aAlign[$iAlign])
 	DllStructSetData($tGroup, "State", $iState)
 	DllStructSetData($tGroup, "StateMask", $iState)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tGroup, "Header", $pHeader)
-			$iResult = _SendMessage($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pGroup)
+			$iRet = _SendMessage($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pGroup)
 			DllStructSetData($tGroup, "Mask", $LVGF_GROUPID)
 			DllStructSetData($tGroup, "GroupID", $iGroupID)
 			_SendMessage($hWnd, $LVM_SETGROUPINFO, 0, $pGroup)
 		Else
-			$pMemory = _MemInit($hWnd, $iGroup + $iHeader, $tMemMap)
-			$pText = $pMemory + $iGroup
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iGroup + $iHeader, $tMemMap)
+			Local $pText = $pMemory + $iGroup
 			DllStructSetData($tGroup, "Header", $pText)
 			_MemWrite($tMemMap, $pGroup, $pMemory, $iGroup)
 			_MemWrite($tMemMap, $pHeader, $pText, $iHeader)
-			$iResult = _SendMessage($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pMemory)
+			$iRet = _SendMessage($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pMemory)
 			DllStructSetData($tGroup, "Mask", $LVGF_GROUPID)
 			DllStructSetData($tGroup, "GroupID", $iGroupID)
 			_SendMessage($hWnd, $LVM_SETGROUPINFO, 0, $pMemory)
@@ -5356,13 +5560,13 @@ Func _GUICtrlListView_SetGroupInfo($hWnd, $iGroupID, $sHeader, $iAlign = 0, $iSt
 		_WinAPI_InvalidateRect($hWnd)
 	Else
 		DllStructSetData($tGroup, "Header", $pHeader)
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pGroup)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETGROUPINFO, $iGroupID, $pGroup)
 		DllStructSetData($tGroup, "Mask", $LVGF_GROUPID)
 		DllStructSetData($tGroup, "GroupID", $iGroupID)
 		GUICtrlSendMsg($hWnd, $LVM_SETGROUPINFO, 0, $pGroup)
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetGroupInfo
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -5381,6 +5585,7 @@ EndFunc   ;==>_GUICtrlListView_SetGroupInfo
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHotCursor($hWnd, $hCursor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor, 0, "wparam", "hwnd", "hwnd")
 	Else
@@ -5405,6 +5610,7 @@ EndFunc   ;==>_GUICtrlListView_SetHotCursor
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHotItem($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOTITEM, $iIndex)
 	Else
@@ -5431,6 +5637,7 @@ EndFunc   ;==>_GUICtrlListView_SetHotItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetHoverTime($hWnd, $iTime)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETHOVERTIME, 0, $iTime)
 	Else
@@ -5459,17 +5666,18 @@ EndFunc   ;==>_GUICtrlListView_SetHoverTime
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetIconSpacing($hWnd, $iCX, $iCY)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iResult, $aPadding[2]
+
+	Local $iRet, $aPadding[2]
 
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LVM_SETICONSPACING, 0, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))
+		$iRet = _SendMessage($hWnd, $LVM_SETICONSPACING, 0,  _WinAPI_MakeLong($iCX, $iCY))
 		_WinAPI_InvalidateRect($hWnd)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETICONSPACING, 0, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF)))
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETICONSPACING, 0,  _WinAPI_MakeLong($iCX, $iCY))
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	$aPadding[0] = BitAND($iResult, 0xFFFF)
-	$aPadding[1] = BitShift($iResult, 16)
+	$aPadding[0] = BitAND($iRet, 0xFFFF)
+	$aPadding[1] = BitShift($iRet, 16)
 	Return $aPadding
 EndFunc   ;==>_GUICtrlListView_SetIconSpacing
 
@@ -5496,6 +5704,7 @@ EndFunc   ;==>_GUICtrlListView_SetIconSpacing
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetImageList($hWnd, $hHandle, $iType = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $aType[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 
 	If IsHWnd($hWnd) Then
@@ -5524,35 +5733,36 @@ EndFunc   ;==>_GUICtrlListView_SetImageList
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInfoTip($hWnd, $iIndex, $sText, $iSubItem = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $iInfo, $pInfo, $tInfo, $pMemory, $tMemMap, $pText, $iResult
 
-	$tBuffer = _WinAPI_MultiByteToWideChar($sText)
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$iBuffer = StringLen($sText)
-	$tInfo = DllStructCreate($tagLVSETINFOTIP)
-	$pInfo = DllStructGetPtr($tInfo)
-	$iInfo = DllStructGetSize($tInfo)
+	Local $tBuffer = _WinAPI_MultiByteToWideChar($sText)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $iBuffer = StringLen($sText)
+	Local $tInfo = DllStructCreate($tagLVSETINFOTIP)
+	Local $pInfo = DllStructGetPtr($tInfo)
+	Local $iInfo = DllStructGetSize($tInfo)
 	DllStructSetData($tInfo, "Size", $iInfo)
 	DllStructSetData($tInfo, "Item", $iIndex)
 	DllStructSetData($tInfo, "SubItem", $iSubItem)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tInfo, "Text", $pBuffer)
-			$iResult = _SendMessage($hWnd, $LVM_SETINFOTIP, 0, $pInfo, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETINFOTIP, 0, $pInfo, 0, "wparam", "ptr")
 		Else
-			$pMemory = _MemInit($hWnd, $iInfo + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iInfo
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iInfo + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iInfo
 			DllStructSetData($tInfo, "Text", $pText)
 			_MemWrite($tMemMap, $pInfo, $pMemory, $iInfo)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
-			$iResult = _SendMessage($hWnd, $LVM_SETINFOTIP, 0, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETINFOTIP, 0, $pMemory, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tInfo, "Text", $pBuffer)
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETINFOTIP, 0, $pInfo)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETINFOTIP, 0, $pInfo)
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetInfoTip
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -5578,29 +5788,25 @@ EndFunc   ;==>_GUICtrlListView_SetInfoTip
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInsertMark($hWnd, $iIndex, $fAfter = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iMark, $pMark, $tMark, $pMemory, $tMemMap, $iResult
 
-	$tMark = DllStructCreate($tagLVINSERTMARK)
-	$pMark = DllStructGetPtr($tMark)
-	$iMark = DllStructGetSize($tMark)
+	Local $tMark = DllStructCreate($tagLVINSERTMARK)
+	Local $pMark = DllStructGetPtr($tMark)
+	Local $iMark = DllStructGetSize($tMark)
 	DllStructSetData($tMark, "Size", $iMark)
 	If $fAfter Then DllStructSetData($tMark, "Flags", $LVIM_AFTER)
-;~ 	If $fAfter Then DllStructSetData($tMark, "Flags", $LVIM_AFTER)
 	DllStructSetData($tMark, "Item", $iIndex)
 	DllStructSetData($tMark, "Reserved", 0)
+	Local $iRet
 	If IsHWnd($hWnd) Then
-;~ 		If _WinAPI_InProcess ($hWnd, $_lv_ghLastWnd) Then
-;~ 			$iResult = _SendMessage($hWnd, $LVM_SETINSERTMARK, 0, $pMark)
-;~ 		Else
-		$pMemory = _MemInit($hWnd, $iMark, $tMemMap)
+		Local $tMemMap
+		Local $pMemory = _MemInit($hWnd, $iMark, $tMemMap)
 		_MemWrite($tMemMap, $pMark, $pMemory, $iMark)
-		$iResult = _SendMessage($hWnd, $LVM_SETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $LVM_SETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
-;~ 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETINSERTMARK, 0, $pMark)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETINSERTMARK, 0, $pMark)
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetInsertMark
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -5619,6 +5825,7 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMark
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetInsertMarkColor($hWnd, $iColor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETINSERTMARKCOLOR, 0, $iColor)
 	Else
@@ -5647,18 +5854,16 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMarkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItem($hWnd, $sText, $iIndex = 0, $iSubItem = 0, $iImage = -1, $iParam = -1, $iIndent = -1)
-	Local $iBuffer, $pBuffer, $tBuffer, $tItem, $iMask
-
-	$iBuffer = StringLen($sText) + 1
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer
 	If _GUICtrlListView_GetUnicodeFormat($hWnd) Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tItem = DllStructCreate($tagLVITEM)
-	$iMask = $LVIF_TEXT
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $iMask = $LVIF_TEXT
 	If $iImage <> -1 Then $iMask = BitOR($iMask, $LVIF_IMAGE)
 	If $iParam <> -1 Then $iMask = BitOR($iMask, $LVIF_PARAM)
 	If $iIndent <> -1 Then $iMask = BitOR($iMask, $LVIF_INDENT)
@@ -5694,12 +5899,14 @@ EndFunc   ;==>_GUICtrlListView_SetItem
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemChecked($hWnd, $iIndex, $fCheck = True)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iItem, $pItem, $tItem, $pMemory, $tMemMap, $iResult
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
-	$iItem = DllStructGetSize($tItem)
+	Local $pMemory, $tMemMap, $iRet
+
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
+	Local $iItem = DllStructGetSize($tItem)
 	If @error Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
 	If $iIndex <> -1 Then
 		DllStructSetData($tItem, "Mask", $LVIF_STATE)
@@ -5712,21 +5919,17 @@ Func _GUICtrlListView_SetItemChecked($hWnd, $iIndex, $fCheck = True)
 		DllStructSetData($tItem, "StateMask", 0xf000)
 		If IsHWnd($hWnd) Then
 			If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-				If $fUnicode Then
-					Return _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0
-				Else
-					Return _SendMessage($hWnd, $LVM_SETITEMA, 0, $pItem, 0, "wparam", "ptr") <> 0
-				EndIf
+				Return _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0
 			Else
 				$pMemory = _MemInit($hWnd, $iItem, $tMemMap)
 				_MemWrite($tMemMap, $pItem)
 				If $fUnicode Then
-					$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
+					$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 				Else
-					$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
+					$iRet = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 				EndIf
 				_MemFree($tMemMap)
-				Return $iResult <> 0
+				Return $iRet <> 0
 			EndIf
 		Else
 			If $fUnicode Then
@@ -5747,21 +5950,17 @@ Func _GUICtrlListView_SetItemChecked($hWnd, $iIndex, $fCheck = True)
 			DllStructSetData($tItem, "StateMask", 0xf000)
 			If IsHWnd($hWnd) Then
 				If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-					If $fUnicode Then
-						If Not _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0 Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
-					Else
-						If Not _SendMessage($hWnd, $LVM_SETITEMA, 0, $pItem, 0, "wparam", "ptr") <> 0 Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
-					EndIf
+					If Not _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr") <> 0 Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
 				Else
 					$pMemory = _MemInit($hWnd, $iItem, $tMemMap)
 					_MemWrite($tMemMap, $pItem)
 					If $fUnicode Then
-						$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
+						$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 					Else
-						$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
+						$iRet = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 					EndIf
 					_MemFree($tMemMap)
-					If Not $iResult <> 0 Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
+					If Not $iRet <> 0 Then Return SetError($LV_ERR, $LV_ERR, $LV_ERR)
 				EndIf
 			Else
 				If $fUnicode Then
@@ -5794,6 +5993,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemChecked
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemCount($hWnd, $iItems)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETITEMCOUNT, $iItems, BitOR($LVSICF_NOINVALIDATEALL, $LVSICF_NOSCROLL)) <> 0
 	Else
@@ -5870,34 +6070,36 @@ EndFunc   ;==>_GUICtrlListView_SetItemDropHilited
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemEx($hWnd, ByRef $tItem)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iItem, $pItem, $iBuffer, $pBuffer, $pMemory, $tMemMap, $pText, $iResult
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
-	$pItem = DllStructGetPtr($tItem)
+	Local $pItem = DllStructGetPtr($tItem)
+	Local $iRet
 	If IsHWnd($hWnd) Then
-		$iItem = DllStructGetSize($tItem)
-		$iBuffer = DllStructGetData($tItem, "TextMax")
+		Local $iItem = DllStructGetSize($tItem)
+		Local $iBuffer = DllStructGetData($tItem, "TextMax")
+		Local $pBuffer = DllStructGetData($tItem, "Text")
 		If $fUnicode Then $iBuffer *= 2
-		$pBuffer = DllStructGetData($tItem, "Text")
-		$pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-		$pText = $pMemory + $iItem
+		Local $tMemMap
+		Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
+		Local $pText = $pMemory + $iItem
 		DllStructSetData($tItem, "Text", $pText)
 		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
 		If $pBuffer <> 0 Then _MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 		If $fUnicode Then
-			$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
-			$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 		EndIf
 		_MemFree($tMemMap)
 	Else
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetItemEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -5940,9 +6142,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemFocused
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemGroupID($hWnd, $iIndex, $iGroupID)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_GROUPID)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "GroupID", $iGroupID)
@@ -5967,9 +6167,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemGroupID
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemImage($hWnd, $iIndex, $iImage, $iSubItem = 0)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_IMAGE)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
@@ -5994,9 +6192,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemImage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemIndent($hWnd, $iIndex, $iIndent)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_INDENT)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "Indent", $iIndent)
@@ -6040,9 +6236,7 @@ EndFunc   ;==>__GUICtrlListView_SetItemOverlayImage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemParam($hWnd, $iIndex, $iParam)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_PARAM)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "Param", $iParam)
@@ -6069,10 +6263,11 @@ EndFunc   ;==>_GUICtrlListView_SetItemParam
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemPosition($hWnd, $iIndex, $iCX, $iCY)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_SETITEMPOSITION, $iIndex, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF))) <> 0
+		Return _SendMessage($hWnd, $LVM_SETITEMPOSITION, $iIndex,  _WinAPI_MakeLong($iCX, $iCY)) <> 0
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_SETITEMPOSITION, $iIndex, BitOR(BitShift($iCY, -16), BitAND($iCX, 0xFFFF))) <> 0
+		Return GUICtrlSendMsg($hWnd, $LVM_SETITEMPOSITION, $iIndex,  _WinAPI_MakeLong($iCX, $iCY)) <> 0
 	EndIf
 EndFunc   ;==>_GUICtrlListView_SetItemPosition
 
@@ -6098,26 +6293,27 @@ EndFunc   ;==>_GUICtrlListView_SetItemPosition
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemPosition32($hWnd, $iIndex, $iCX, $iCY)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iPoint, $pPoint, $tPoint, $pMemory, $tMemMap, $iResult
 
-	$tPoint = DllStructCreate($tagPOINT)
-	$pPoint = DllStructGetPtr($tPoint)
+	Local $tPoint = DllStructCreate($tagPOINT)
+	Local $pPoint = DllStructGetPtr($tPoint)
 	DllStructSetData($tPoint, "X", $iCX)
 	DllStructSetData($tPoint, "Y", $iCY)
+	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$iResult = _SendMessage($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pPoint, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pPoint, 0, "wparam", "ptr")
 		Else
-			$iPoint = DllStructGetSize($tPoint)
-			$pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
+			Local $iPoint = DllStructGetSize($tPoint)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
 			_MemWrite($tMemMap, $pPoint)
-			$iResult = _SendMessage($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pMemory, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pMemory, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pPoint)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMPOSITION32, $iIndex, $pPoint)
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetItemPosition32
 
 ; #FUNCTION# ====================================================================================================================
@@ -6139,9 +6335,10 @@ EndFunc   ;==>_GUICtrlListView_SetItemPosition32
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemSelected($hWnd, $iIndex, $fSelected = True, $fFocused = False)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $tstruct = DllStructCreate($tagLVITEM)
 	Local $pItem = DllStructGetPtr($tstruct)
-	Local $iResult, $iSelected = 0, $iFocused = 0, $iSize, $tMemMap, $pMemory
+	Local $iRet, $iSelected = 0, $iFocused = 0, $iSize, $tMemMap, $pMemory
 	If ($fSelected = True) Then $iSelected = $LVIS_SELECTED
 	If ($fFocused = True And $iIndex <> -1) Then $iFocused = $LVIS_FOCUSED
 	DllStructSetData($tstruct, "Mask", $LVIF_STATE)
@@ -6152,12 +6349,12 @@ Func _GUICtrlListView_SetItemSelected($hWnd, $iIndex, $fSelected = True, $fFocus
 	If IsHWnd($hWnd) Then
 		$pMemory = _MemInit($hWnd, $iSize, $tMemMap)
 		_MemWrite($tMemMap, $pItem, $pMemory, $iSize)
-		$iResult = _SendMessage($hWnd, $LVM_SETITEMSTATE, $iIndex, $pMemory)
+		$iRet = _SendMessage($hWnd, $LVM_SETITEMSTATE, $iIndex, $pMemory)
 		_MemFree($tMemMap)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMSTATE, $iIndex, $pItem)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMSTATE, $iIndex, $pItem)
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetItemSelected
 
 ; #FUNCTION# ====================================================================================================================
@@ -6178,9 +6375,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemSelected
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemState($hWnd, $iIndex, $iState, $iStateMask)
-	Local $tItem
-
-	$tItem = DllStructCreate($tagLVITEM)
+	Local $tItem = DllStructCreate($tagLVITEM)
 	DllStructSetData($tItem, "Mask", $LVIF_STATE)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "State", $iState)
@@ -6227,31 +6422,34 @@ EndFunc   ;==>_GUICtrlListView_SetItemStateImage
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItemText($hWnd, $iIndex, $sText, $iSubItem = 0)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iBuffer, $pBuffer, $tBuffer, $iItem, $pItem, $tItem, $pMemory, $tMemMap, $pText, $iResult
-	Local $i_cols, $a_text, $SeparatorChar = Opt('GUIDataSeparatorChar')
+
 	Local $fUnicode = _GUICtrlListView_GetUnicodeFormat($hWnd)
 
+	Local $iRet
+
 	If $iSubItem = -1 Then
-		$i_cols = _GUICtrlListView_GetColumnCount($hWnd)
-		$a_text = StringSplit($sText, $SeparatorChar)
+		Local $SeparatorChar = Opt('GUIDataSeparatorChar')
+		Local $i_cols = _GUICtrlListView_GetColumnCount($hWnd)
+		Local $a_text = StringSplit($sText, $SeparatorChar)
 		If $i_cols > $a_text[0] Then $i_cols = $a_text[0]
 		For $i = 1 To $i_cols
-			$iResult = _GUICtrlListView_SetItemText($hWnd, $iIndex, $a_text[$i], $i - 1)
-			If Not $iResult Then ExitLoop
+			$iRet = _GUICtrlListView_SetItemText($hWnd, $iIndex, $a_text[$i], $i - 1)
+			If Not $iRet Then ExitLoop
 		Next
-		Return $iResult
+		Return $iRet
 	EndIf
 
-	$iBuffer = StringLen($sText) + 1
+	Local $iBuffer = StringLen($sText) + 1
+	Local $tBuffer
 	If $fUnicode Then
-		$iBuffer *= 2
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	$pBuffer = DllStructGetPtr($tBuffer)
-	$tItem = DllStructCreate($tagLVITEM)
-	$pItem = DllStructGetPtr($tItem)
+	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $tItem = DllStructCreate($tagLVITEM)
+	Local $pItem = DllStructGetPtr($tItem)
 	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tItem, "Mask", $LVIF_TEXT)
 	DllStructSetData($tItem, "item", $iIndex)
@@ -6259,34 +6457,31 @@ Func _GUICtrlListView_SetItemText($hWnd, $iIndex, $sText, $iSubItem = 0)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			DllStructSetData($tItem, "Text", $pBuffer)
-			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
-			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pItem, 0, "wparam", "ptr")
-			EndIf
+			$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
 		Else
-			$iItem = DllStructGetSize($tItem)
-			$pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-			$pText = $pMemory + $iItem
+			Local $iItem = DllStructGetSize($tItem)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
+			Local $pText = $pMemory + $iItem
 			DllStructSetData($tItem, "Text", $pText)
 			_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
 			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 			If $fUnicode Then
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
-				$iResult = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
+				$iRet = _SendMessage($hWnd, $LVM_SETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		DllStructSetData($tItem, "Text", $pBuffer)
 		If $fUnicode Then
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMW, 0, $pItem)
 		Else
-			$iResult = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
+			$iRet = GUICtrlSendMsg($hWnd, $LVM_SETITEMA, 0, $pItem)
 		EndIf
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetItemText
 
 ; #FUNCTION# ====================================================================================================================
@@ -6307,6 +6502,7 @@ EndFunc   ;==>_GUICtrlListView_SetItemText
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetOutlineColor($hWnd, $iColor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETOUTLINECOLOR, 0, $iColor)
 	Else
@@ -6330,6 +6526,7 @@ EndFunc   ;==>_GUICtrlListView_SetOutlineColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetSelectedColumn($hWnd, $iCol)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LVM_SETSELECTEDCOLUMN, $iCol)
 		_WinAPI_InvalidateRect($hWnd)
@@ -6357,6 +6554,7 @@ EndFunc   ;==>_GUICtrlListView_SetSelectedColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetSelectionMark($hWnd, $iIndex)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETSELECTIONMARK, 0, $iIndex)
 	Else
@@ -6381,6 +6579,7 @@ EndFunc   ;==>_GUICtrlListView_SetSelectionMark
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetTextBkColor($hWnd, $iColor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETTEXTBKCOLOR, 0, $iColor) <> 0
 	Else
@@ -6405,15 +6604,16 @@ EndFunc   ;==>_GUICtrlListView_SetTextBkColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetTextColor($hWnd, $iColor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iResult
+
+	Local $iRet
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LVM_SETTEXTCOLOR, 0, $iColor)
+		$iRet = _SendMessage($hWnd, $LVM_SETTEXTCOLOR, 0, $iColor)
 		_WinAPI_InvalidateRect($hWnd)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LVM_SETTEXTCOLOR, 0, $iColor)
+		$iRet = GUICtrlSendMsg($hWnd, $LVM_SETTEXTCOLOR, 0, $iColor)
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SetTextColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -6432,6 +6632,7 @@ EndFunc   ;==>_GUICtrlListView_SetTextColor
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetToolTips($hWnd, $hToolTip)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return HWnd(_SendMessage($hWnd, $LVM_SETTOOLTIPS, 0, $hToolTip, 0, "wparam", "hwnd", "hwnd"))
 	Else
@@ -6456,6 +6657,7 @@ EndFunc   ;==>_GUICtrlListView_SetToolTips
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetUnicodeFormat($hWnd, $fUnicode)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $LVM_SETUNICODEFORMAT, $fUnicode)
 	Else
@@ -6485,6 +6687,7 @@ EndFunc   ;==>_GUICtrlListView_SetUnicodeFormat
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetView($hWnd, $iView)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $aView[5] = [$LV_VIEW_DETAILS, $LV_VIEW_ICON, $LV_VIEW_LIST, $LV_VIEW_SMALLICON, $LV_VIEW_TILE]
 
 	If IsHWnd($hWnd) Then
@@ -6513,10 +6716,9 @@ EndFunc   ;==>_GUICtrlListView_SetView
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetWorkAreas($hWnd, $iLeft, $iTop, $iRight, $iBottom)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $iRect, $pRect, $tRect, $tMemMap, $pMemory
 
-	$tRect = DllStructCreate($tagRECT)
-	$pRect = DllStructGetPtr($tRect)
+	Local $tRect = DllStructCreate($tagRECT)
+	Local $pRect = DllStructGetPtr($tRect)
 	DllStructSetData($tRect, "Left", $iLeft)
 	DllStructSetData($tRect, "Top", $iTop)
 	DllStructSetData($tRect, "Right", $iRight)
@@ -6525,8 +6727,9 @@ Func _GUICtrlListView_SetWorkAreas($hWnd, $iLeft, $iTop, $iRight, $iBottom)
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
 			_SendMessage($hWnd, $LVM_SETWORKAREAS, 1, $pRect, 0, "wparam", "ptr")
 		Else
-			$iRect = DllStructGetSize($tRect)
-			$pMemory = _MemInit($hWnd, $iRect, $tMemMap)
+			Local $iRect = DllStructGetSize($tRect)
+			Local $tMemMap
+			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 			_MemWrite($tMemMap, $pRect, $pMemory, $iRect)
 			_SendMessage($hWnd, $LVM_SETWORKAREAS, 1, $pMemory, 0, "wparam", "ptr")
 			_MemFree($tMemMap)
@@ -6559,22 +6762,25 @@ EndFunc   ;==>_GUICtrlListView_SetWorkAreas
 ; ===============================================================================================================================
 Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
-	Local $x, $Y, $Z, $b_desc, $columns, $items, $v_item, $temp_item, $iFocused = -1
-	Local $SeparatorChar = Opt('GUIDataSeparatorChar')
+
 	If _GUICtrlListView_GetItemCount($hWnd) Then
+		Local $b_desc
 		If (IsArray($vDescending)) Then
 			$b_desc = $vDescending[$iCol]
 		Else
 			$b_desc = $vDescending
 		EndIf
-		$columns = _GUICtrlListView_GetColumnCount($hWnd)
-		$items = _GUICtrlListView_GetItemCount($hWnd)
+		Local $columns = _GUICtrlListView_GetColumnCount($hWnd)
+		Local $items = _GUICtrlListView_GetItemCount($hWnd)
+		Local $temp_item = ""
+		Local $SeparatorChar = Opt('GUIDataSeparatorChar')
 		For $x = 1 To $columns
 			$temp_item = $temp_item & " " & $SeparatorChar
 		Next
 		$temp_item = StringTrimRight($temp_item, 1)
-		Local $a_lv[$items][$columns + 1], $i_selected
-		$i_selected = StringSplit(_GUICtrlListView_GetSelectedIndices($hWnd), $SeparatorChar)
+		Local $a_lv[$items][$columns + 1]
+		Local $i_selected = StringSplit(_GUICtrlListView_GetSelectedIndices($hWnd), $SeparatorChar)
+		Local $v_item,	$iFocused = -1
 		For $x = 0 To UBound($a_lv) - 1 Step 1
 			If $iFocused = -1 Then
 				If _GUICtrlListView_GetItemFocused($hWnd, $x) Then $iFocused = $x
@@ -6620,7 +6826,7 @@ EndFunc   ;==>_GUICtrlListView_SimpleSort
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __GUICtrlListView_Sort
-; Description ...: Our sorting callback funtion
+; Description ...: Our sorting callback function
 ; Syntax.........: __GUICtrlListView_Sort($nItem1, $nItem2, $hWnd)
 ; Parameters ....: $nItem1      - Param of 1st item
 ;                  $nItem2      - Param of 2nd item
@@ -6697,7 +6903,7 @@ EndFunc   ;==>__GUICtrlListView_Sort
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SortItems($hWnd, $iCol)
-	Local $iResult, $iIndex, $pFunction, $hHeader, $iFormat
+	Local $iRet, $iIndex, $pFunction, $hHeader, $iFormat
 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
@@ -6712,8 +6918,8 @@ Func _GUICtrlListView_SortItems($hWnd, $iCol)
 	$aListViewSortInfo[$iIndex][3] = $iCol ; $nColumn = column clicked
 	$aListViewSortInfo[$iIndex][7] = 0 ; $bSet
 	$aListViewSortInfo[$iIndex][4] = $aListViewSortInfo[$iIndex][6] ; nCurCol = $nCol
-	$iResult = _SendMessage($hWnd, $LVM_SORTITEMS, $hWnd, $pFunction, 0, "hwnd", "ptr")
-	If $iResult <> 0 Then
+	$iRet = _SendMessage($hWnd, $LVM_SORTITEMS, $hWnd, $pFunction, 0, "hwnd", "ptr")
+	If $iRet <> 0 Then
 		If $aListViewSortInfo[$iIndex][9] Then ; Use arrow in header
 			$hHeader = $aListViewSortInfo[$iIndex][10]
 			For $x = 0 To _GUICtrlHeader_GetItemCount($hHeader) - 1
@@ -6733,7 +6939,7 @@ Func _GUICtrlListView_SortItems($hWnd, $iCol)
 		EndIf
 	EndIf
 
-	Return $iResult <> 0
+	Return $iRet <> 0
 EndFunc   ;==>_GUICtrlListView_SortItems
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -6781,6 +6987,7 @@ EndFunc   ;==>__GUICtrlListView_StateImageMaskToIndex
 ; ===============================================================================================================================
 Func _GUICtrlListView_SubItemHitTest($hWnd, $iX = -1, $iY = -1)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	Local $iTest, $pTest, $tTest, $pMemory, $tMemMap, $iFlags, $aTest[11]
 
 	If $iX = -1 Then $iX = _WinAPI_GetMousePosX(True, $hWnd)
@@ -6833,6 +7040,7 @@ EndFunc   ;==>_GUICtrlListView_SubItemHitTest
 ; ===============================================================================================================================
 Func _GUICtrlListView_UnRegisterSortCallBack($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	For $x = 1 To $aListViewSortInfo[0][0]

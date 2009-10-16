@@ -17,7 +17,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SendMessage
 ; Description ...: Wrapper for commonly used Dll Call
-; Syntax.........: _SendMessage($hWnd, $iMsg[, $wParam = 0[, $lParam = 0[, $iReturn = 0[, $wParamType = "wparam"[, $lParamType = "lparam"[, $sReturnType = "lparam"]]]]]])
+; Syntax.........: _SendMessage($hWnd, $iMsg[, $wParam = 0[, $lParam = 0[, $iReturn = 0[, $wParamType = "wparam"[, $lParamType = "lparam"[, $sReturnType = "lresult"]]]]]])
 ; Parameters ....: $hWnd       - Window/control handle
 ;                  $iMsg       - Message to send to control (number)
 ;                  $wParam     - Specifies additional message-specific information
@@ -37,12 +37,12 @@
 ; Author ........: Valik
 ; Modified.......: Gary Frost (GaryFrost) aka gafrost
 ; Remarks .......:
-; Related .......: _SendMessageA, DllCall
+; Related .......: _SendMessage, DllCall
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _SendMessage($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lparam")
-	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessage", "hwnd", $hWnd, "int", $iMsg, $wParamType, $wParam, $lParamType, $lParam)
+Func _SendMessage($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lresult")
+	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessageW", "hwnd", $hWnd, "uint", $iMsg, $wParamType, $wParam, $lParamType, $lParam)
 	If @error Then Return SetError(@error, @extended, "")
 	If $iReturn >= 0 And $iReturn <= 4 Then Return $aResult[$iReturn]
 	Return $aResult
@@ -51,7 +51,7 @@ EndFunc   ;==>_SendMessage
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _SendMessageA
 ; Description ...: Wrapper for commonly used Dll Call (Force Ansi Call)
-; Syntax.........: _SendMessageA($hWnd, $iMsg[, $wParam = 0[, $lParam = 0[, $iReturn = 0[, $wParamType = "wparam"[, $lParamType = "lparam"[, $sReturnType = "lparam"]]]]]])
+; Syntax.........: _SendMessageA($hWnd, $iMsg[, $wParam = 0[, $lParam = 0[, $iReturn = 0[, $wParamType = "wparam"[, $lParamType = "lparam"[, $sReturnType = "lresult"]]]]]])
 ; Parameters ....: $hWnd       - Window/control handle
 ;                  $iMsg       - Message to send to control (number)
 ;                  $wParam     - Specifies additional message-specific information
@@ -75,8 +75,8 @@ EndFunc   ;==>_SendMessage
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _SendMessageA($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lparam")
-	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessageA", "hwnd", $hWnd, "int", $iMsg, $wParamType, $wParam, $lParamType, $lParam)
+Func _SendMessageA($hWnd, $iMsg, $wParam = 0, $lParam = 0, $iReturn = 0, $wParamType = "wparam", $lParamType = "lparam", $sReturnType = "lresult")
+	Local $aResult = DllCall("user32.dll", $sReturnType, "SendMessageA", "hwnd", $hWnd, "uint", $iMsg, $wParamType, $wParam, $lParamType, $lParam)
 	If @error Then Return SetError(@error, @extended, "")
 	If $iReturn >= 0 And $iReturn <= 4 Then Return $aResult[$iReturn]
 	Return $aResult

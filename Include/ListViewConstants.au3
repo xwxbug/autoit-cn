@@ -13,7 +13,7 @@ Global Const $LVS_ALIGNLEFT = 0x0800 ; Items are left aligned in icon and small 
 Global Const $LVS_ALIGNMASK = 0x0c00 ; Determines the control's current alignment
 Global Const $LVS_ALIGNTOP = 0x0000 ; Items are aligned at the top in icon and small icon view
 Global Const $LVS_AUTOARRANGE = 0x0100 ; Icons are automatically kept arranged in icon and small icon view
-Global Const $LVS_DEFAULT = 0x0000000D ; Default control style
+Global Const $LVS_DEFAULT = 0x0000000D ; Default control style  $LVS_SHOWSELALWAYS + $LVS_SINGLESEL + $LVS_REPORT
 Global Const $LVS_EDITLABELS = 0x0200 ; Item text can be edited in place
 Global Const $LVS_ICON = 0x0000 ; This style specifies icon view
 Global Const $LVS_LIST = 0x0003 ; This style specifies list view
@@ -85,8 +85,6 @@ Global Const $LVGGR_SUBSETLINK = 3 ; // subset link only
 
 ; error
 Global Const $LV_ERR = -1
-
-Global Const $LVM_FIRST = 0x1000
 
 Global Const $LVBKIF_SOURCE_NONE = 0x00000000
 Global Const $LVBKIF_SOURCE_HBITMAP = 0x00000001
@@ -191,6 +189,8 @@ Global Const $LVIS_STATEIMAGEMASK = 0xF000
 ; ===============================================================================================================================
 
 ; #MESSAGES# ====================================================================================================================
+Global Const $LVM_FIRST = 0x1000
+
 Global Const $LVM_APPROXIMATEVIEWRECT = ($LVM_FIRST + 64)
 Global Const $LVM_ARRANGE = ($LVM_FIRST + 22)
 Global Const $LVM_CANCELEDITLABEL = ($LVM_FIRST + 179)

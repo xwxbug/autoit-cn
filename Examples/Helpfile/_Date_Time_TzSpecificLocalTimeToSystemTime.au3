@@ -27,7 +27,7 @@ Func _Main()
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	
+
 EndFunc   ;==>_Main
 
 ; Write a line to the memo control

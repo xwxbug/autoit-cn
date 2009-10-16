@@ -5,12 +5,12 @@
 ; AutoIt Version : 3.2.3++
 ; Language ..... : English
 ; Description ...: Functions that assist with color management.
-; Author(s) .....: Ultima, Jon
+; Author(s) .....: Ultima, Jon, Jpm
 ; =================================================================================================
 
 ; #CONSTANTS# =====================================================================================
-Global Const $_COLORCONSTANTS_HSLMAX = 240
-Global Const $_COLORCONSTANTS_RGBMAX = 255
+Global Const $__COLORCONSTANTS_HSLMAX = 240
+Global Const $__COLORCONSTANTS_RGBMAX = 255
 ; =================================================================================================
 
 ; #CURRENT# =======================================================================================
@@ -19,6 +19,8 @@ Global Const $_COLORCONSTANTS_RGBMAX = 255
 ;_ColorGetBlue
 ;_ColorGetGreen
 ;_ColorGetRed
+;_ColorGetRGB
+;_ColorSetRGB
 ; =================================================================================================
 
 ; #INTERNAL_USE_ONLY#==============================================================================
@@ -34,7 +36,7 @@ Global Const $_COLORCONSTANTS_RGBMAX = 255
 ;                  Failure - 0, sets @error to 1
 ; Author ........: Ultima
 ; Modified.......:
-; Remarks .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
+; Remarks .......: See: <a href="http://www.easyrgb.com/index.php?X=MATH&H=19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
 ; Related .......: _ColorConvertRGBtoHSL
 ; Link ..........:
 ; Example .......: Yes
@@ -43,9 +45,9 @@ Func _ColorConvertHSLtoRGB($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
 
 	Local $nR, $nG, $nB
-	Local $nH = Number($avArray[0]) / $_COLORCONSTANTS_HSLMAX
-	Local $nS = Number($avArray[1]) / $_COLORCONSTANTS_HSLMAX
-	Local $nL = Number($avArray[2]) / $_COLORCONSTANTS_HSLMAX
+	Local $nH = Number($avArray[0]) / $__COLORCONSTANTS_HSLMAX
+	Local $nS = Number($avArray[1]) / $__COLORCONSTANTS_HSLMAX
+	Local $nL = Number($avArray[2]) / $__COLORCONSTANTS_HSLMAX
 
 	If $nS = 0 Then
 		; Grayscale
@@ -68,9 +70,9 @@ Func _ColorConvertHSLtoRGB($avArray)
 		$nB = __ColorConvertHueToRGB($nValA, $nValB, $nH - 1 / 3)
 	EndIf
 
-	$avArray[0] = $nR * $_COLORCONSTANTS_RGBMAX
-	$avArray[1] = $nG * $_COLORCONSTANTS_RGBMAX
-	$avArray[2] = $nB * $_COLORCONSTANTS_RGBMAX
+	$avArray[0] = $nR * $__COLORCONSTANTS_RGBMAX
+	$avArray[1] = $nG * $__COLORCONSTANTS_RGBMAX
+	$avArray[2] = $nB * $__COLORCONSTANTS_RGBMAX
 
 	Return $avArray
 EndFunc   ;==>_ColorConvertHSLtoRGB
@@ -109,7 +111,7 @@ EndFunc   ;==>__ColorConvertHueToRGB
 ;                  Failure - 0, sets @error to 1
 ; Author ........: Ultima
 ; Modified.......:
-; Remarks .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M18#text18">EasyRGB - Color mathematics and conversion formulas.</a>
+; Remarks .......: See: <a href="http://www.easyrgb.com/index.php?X=MATH&H=18#text18">EasyRGB - Color mathematics and conversion formulas.</a>
 ; Related .......: _ColorConvertHSLtoRGB
 ; Link ..........:
 ; Example .......: Yes
@@ -118,9 +120,9 @@ Func _ColorConvertRGBtoHSL($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
 
 	Local $nH, $nS, $nL
-	Local $nR = Number($avArray[0]) / $_COLORCONSTANTS_RGBMAX
-	Local $nG = Number($avArray[1]) / $_COLORCONSTANTS_RGBMAX
-	Local $nB = Number($avArray[2]) / $_COLORCONSTANTS_RGBMAX
+	Local $nR = Number($avArray[0]) / $__COLORCONSTANTS_RGBMAX
+	Local $nG = Number($avArray[1]) / $__COLORCONSTANTS_RGBMAX
+	Local $nB = Number($avArray[2]) / $__COLORCONSTANTS_RGBMAX
 
 	Local $nMax = $nR
 	If $nMax < $nG Then $nMax = $nG
@@ -161,9 +163,9 @@ Func _ColorConvertRGBtoHSL($avArray)
 		If $nH > 1 Then $nH -= 1
 	EndIf
 
-	$avArray[0] = $nH * $_COLORCONSTANTS_HSLMAX
-	$avArray[1] = $nS * $_COLORCONSTANTS_HSLMAX
-	$avArray[2] = $nL * $_COLORCONSTANTS_HSLMAX
+	$avArray[0] = $nH * $__COLORCONSTANTS_HSLMAX
+	$avArray[1] = $nS * $__COLORCONSTANTS_HSLMAX
+	$avArray[2] = $nL * $__COLORCONSTANTS_HSLMAX
 
 	Return $avArray
 EndFunc   ;==>_ColorConvertRGBtoHSL
@@ -218,3 +220,60 @@ EndFunc   ;==>_ColorGetGreen
 Func _ColorGetRed($nColor)
 	Return BitAND(BitShift($nColor, 16), 0xFF)
 EndFunc   ;==>_ColorGetRed
+
+; #FUNCTION# ======================================================================================
+; Name...........: _ColorGetRGB
+; Description ...: Returns an array containing RGB values in their respective positions.
+; Syntax.........: _ColorGetRGB($nColor)
+; Parameters ....: $nColor - The RGB color to work with (hexadecimal code).
+; Return values .: Success - an array of values in the range 0-255:
+;                      [0] Red		component color
+;                      [1] Green	component color
+;                      [3] Blue		component color
+;                  Failure - set @error to 1
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......: _ColorSetRGB, _ColorGetRed, _ColorGetGreen, _ColorGetBlue
+; Link ..........:
+; Example .......:
+; =================================================================================================
+Func _ColorGetRGB($nColor, $curExt = @extended)
+	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid COLOREF value
+	Local $aColor[3]
+	$aColor[0] = BitAND(BitShift($nColor, 16), 0xFF)
+	$aColor[1] = BitAND(BitShift($nColor,  8), 0xFF)
+	$aColor[2] = BitAND($nColor, 0xFF)
+	Return SetExtended($curExt, $aColor)
+EndFunc   ;==>_ColorGetRGB
+
+; #FUNCTION# ======================================================================================
+; Name...........: _ColorSetRGB
+; Description ...: Returns the RGB color to work with (COLORREF).
+; Syntax.........: _ColorSetRGB($aColor)
+; Parameters ....: $aColor - an array of values in the range 0-255:
+;                      [0] Red		component color
+;                      [1] Green	component color
+;                      [2] Blue		component color
+; Return values .: Success - returns the RGB color to work with (hexadecimal code).
+;                  Failure - set @error to:
+;                  @error  - 1 invalid array
+;                            2 invalid color value
+; Author ........: jpm
+; Modified.......:
+; Remarks .......: @extended is preserved
+; Related .......: _ColorGetRGB
+; Link ..........:
+; Example .......:
+; =================================================================================================
+Func _ColorSetRGB($aColor, $curExt = @extended)
+	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1)	; invalid array
+	Local $nColor = 0, $iColor
+	For $i = 0 to 2
+		$nColor = BitShift($nColor, -8)
+		$iColor = $aColor[$i]
+		If $iColor <0 Or $iColor >  255 Then Return SetError(2, 0, -1)	; invalid color value
+		$nColor += $iColor
+	Next
+	Return SetExtended($curExt, $nColor)
+EndFunc   ;==>_ColorSetRGB

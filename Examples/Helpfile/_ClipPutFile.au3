@@ -1,6 +1,6 @@
 ﻿#include <Misc.au3>
 Local $fTest
-$fTest = _ClipPutFile(@ScriptFullPath)
+$fTest = _ClipPutFile(@ScriptFullPath & "|" & @ScriptDir & "|" & @SystemDir)
 If Not $fTest Then
 	MsgBox(0,"_ClipPutFile() 调用失败","错误代码存放于 @error = " & @error)
 Else

@@ -208,7 +208,7 @@ EndFunc   ;==>_ExcelBookOpen
 ; ===============================================================================================================================
 Func _ExcelBookAttach($s_string, $s_mode = "FilePath")
 
-	Local $o_Result, $o_workbook, $o_workbooks
+	Local $o_Result
 
 	If $s_mode = "filepath" Then
 		$o_Result = ObjGet($s_string)
@@ -219,14 +219,14 @@ Func _ExcelBookAttach($s_string, $s_mode = "FilePath")
 
 	$o_Result = ObjGet("", "Excel.Application")
 	If @error Or Not IsObj($o_Result) Then
-		ConsoleWrite("--> Warning from function _ExcelAttach, No existing Excel.Application object" & @CR)
-		Return SetError(1, 0, 0)
+;~ 		ConsoleWrite("--> Warning from function _ExcelAttach, No existing Excel.Application object" & @CRLF)
+		Return SetError(1, 1, 0)
 	EndIf
 
-	$o_workbooks = $o_Result.Application.Workbooks
+	Local $o_workbooks = $o_Result.Application.Workbooks
 	If Not IsObj($o_workbooks) Or $o_workbooks.Count = 0 Then
-		ConsoleWrite("--> Warning from function _ExcelAttach, No existing Excel.Application windows" & @CR)
-		Return SetError(1, 0, 0)
+;~ 		ConsoleWrite("--> Warning from function _ExcelAttach, No existing Excel.Application windows" & @CRLF)
+		Return SetError(1, 2, 0)
 	EndIf
 
 	For $o_workbook In $o_workbooks
@@ -245,13 +245,13 @@ Func _ExcelBookAttach($s_string, $s_mode = "FilePath")
 					Return $o_workbook
 				EndIf
 			Case Else
-				ConsoleWrite("--> Error from function _ExcelAttach, Invalid Mode Specified" & @CR)
-				Return SetError(1, 0, 0)
+;~ 				ConsoleWrite("--> Error from function _ExcelAttach, Invalid Mode Specified" & @CRLF)
+				Return SetError(1, 3, 0)
 		EndSwitch
 	Next
 
-	ConsoleWrite("--> Warning from function _ExcelAttach, No Match" & @CR)
-	Return SetError(1, 0, 0)
+;~ 	ConsoleWrite("--> Warning from function _ExcelAttach, No Match" & @CRLF)
+	Return SetError(1, 5, 0)
 EndFunc   ;==>_ExcelBookAttach
 
 
@@ -371,9 +371,8 @@ EndFunc   ;==>_ExcelBookSaveAs
 ; ===============================================================================================================================
 Func _ExcelBookClose($oExcel, $fSave = 1, $fAlerts = 0)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	Local $sObjName, $fDisplayAlerts, $fScreenUpdating
 
-	$sObjName = ObjName($oExcel)
+	Local $sObjName = ObjName($oExcel)
 
 	If $fSave > 1 Then $fSave = 1
 	If $fSave < 0 Then $fSave = 0
@@ -381,8 +380,8 @@ Func _ExcelBookClose($oExcel, $fSave = 1, $fAlerts = 0)
 	If $fAlerts < 0 Then $fAlerts = 0
 
 	; Save the users specified settings
-	$fDisplayAlerts = $oExcel.Application.DisplayAlerts
-	$fScreenUpdating = $oExcel.Application.ScreenUpdating
+	Local $fDisplayAlerts = $oExcel.Application.DisplayAlerts
+	Local $fScreenUpdating = $oExcel.Application.ScreenUpdating
 	; Make necessary changes
 	$oExcel.Application.DisplayAlerts = $fAlerts
 	$oExcel.Application.ScreenUpdating = $fAlerts
@@ -561,8 +560,9 @@ Func _ExcelWriteSheetFromArray($oExcel, ByRef $aArray, $iStartRow = 1, $iStartCo
 	If $iRowBase > $iLastRow Then Return SetError(4, 0, 0)
 	If $iColBase > $iLastColumn Then Return SetError(4, 1, 0)
 
+	Local $iCurrCol
 	For $r = $iRowBase To $iLastRow
-		Local $iCurrCol = $iStartColumn
+		$iCurrCol = $iStartColumn
 		For $c = $iColBase To $iLastColumn
 			$oExcel.Activesheet.Cells($iStartRow, $iCurrCol).Value = $aArray[$r][$c]
 			$iCurrCol += 1
@@ -967,12 +967,12 @@ EndFunc   ;==>_ExcelSheetAddNew
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ExcelSheetDelete($oExcel, $vSheet, $fAlerts = False)
-	Local $aSheetList, $fFound = 0
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If IsNumber($vSheet) Then
 		If $oExcel.ActiveWorkbook.Sheets.Count < $vSheet Then Return SetError(2, 0, 0)
 	Else
-		$aSheetList = _ExcelSheetList($oExcel)
+		Local $fFound = 0
+		Local $aSheetList = _ExcelSheetList($oExcel)
 		For $xx = 1 To $aSheetList[0]
 			If $aSheetList[$xx] = $vSheet Then $fFound = 1
 		Next
@@ -1075,12 +1075,12 @@ EndFunc   ;==>_ExcelSheetList
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ExcelSheetActivate($oExcel, $vSheet)
-	Local $aSheetList, $fFound = 0
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If IsNumber($vSheet) Then
 		If $oExcel.ActiveWorkbook.Sheets.Count < $vSheet Then Return SetError(2, 0, 0)
 	Else
-		$aSheetList = _ExcelSheetList($oExcel)
+		Local $fFound = 0
+		Local $aSheetList = _ExcelSheetList($oExcel)
 		For $xx = 1 To $aSheetList[0]
 			If $aSheetList[$xx] = $vSheet Then $fFound = 1
 		Next

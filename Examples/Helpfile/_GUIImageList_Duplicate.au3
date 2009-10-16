@@ -10,9 +10,12 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $listview, $hImage, $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir")
+	Local $listview, $hImage
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir")
 	Local $hImage2
-	
+
 	GUICreate("ImageList Duplicate", 410, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 404, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	GUISetState()

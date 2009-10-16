@@ -69,11 +69,12 @@ Global Const $TTM_SETWINDOWTHEME = 0x2000 + 11
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
-Global Const $TTN_GETDISPINFO = 0xFFFFFDF8    ; Sent to retrieve information needed to display a ToolTip
-Global Const $TTN_SHOW = 0xFFFFFDF7    ; Notifies the owner window that a ToolTip control is about to be displayed
-Global Const $TTN_POP = 0xFFFFFDF6    ; Notifies the owner window that a ToolTip is about to be hidden
-Global Const $TTN_LINKCLICK = 0xFFFFFDF5    ; Sent when a text link inside a balloon ToolTip is clicked
-Global Const $TTN_GETDISPINFOW = 0xFFFFFDEE    ; [Unicode] Sent to retrieve information needed to display a ToolTip
+Global Const $TTN_FIRST			= -520
+Global Const $TTN_GETDISPINFO	= $TTN_FIRST - 0    ; Sent to retrieve information needed to display a ToolTip
+Global Const $TTN_SHOW			= $TTN_FIRST - 1    ; Notifies the owner window that a ToolTip control is about to be displayed
+Global Const $TTN_POP			= $TTN_FIRST - 2    ; Notifies the owner window that a ToolTip is about to be hidden
+Global Const $TTN_LINKCLICK		= $TTN_FIRST - 3    ; Sent when a text link inside a balloon ToolTip is clicked
+Global Const $TTN_GETDISPINFOW	= $TTN_FIRST - 10   ; [Unicode] Sent to retrieve information needed to display a ToolTip
 ; ===============================================================================================================================
 
 ; #STYLES# ======================================================================================================================

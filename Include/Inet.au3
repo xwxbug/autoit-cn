@@ -1,6 +1,6 @@
 ﻿#include-once
 
-#include <Date.au3>
+#include "Date.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit Constants
@@ -8,7 +8,7 @@
 ; Language ......: English
 ; Description ...: Functions that assist with Internet.
 ; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida
-; Dll ...........: wininet.dll, Ws2_32.dll, msvcrt.dll
+; Dll ...........: wininet.dll, ws2_32.dll, msvcrt.dll
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
@@ -43,8 +43,7 @@ Func _GetIP()
 			Return $ip
 		EndIf
 	EndIf
-	SetError(1)
-	Return -1
+	Return SetError(1, 0, -1)
 EndFunc   ;==>_GetIP
 
 ; #FUNCTION# ====================================================================================================================
@@ -56,68 +55,31 @@ EndFunc   ;==>_GetIP
 ; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
 ; ===============================================================================================================================
 Func _INetExplorerCapable($s_IEString)
-	If StringLen($s_IEString) <= 0 Then
-		SetError(1)
-		Return ''
-	Else
-		Local $s_IEReturn
-		Local $i_IECount
-		Local $n_IEChar
-		For $i_IECount = 1 To StringLen($s_IEString)
-			$n_IEChar = '0x' & Hex(Asc(StringMid($s_IEString, $i_IECount, 1)), 2)
-			If $n_IEChar < 0x21 Or $n_IEChar = 0x25 Or $n_IEChar = 0x2f Or $n_IEChar > 0x7f Then
-				$s_IEReturn = $s_IEReturn & '%' & StringRight($n_IEChar, 2)
-			Else
-				$s_IEReturn = $s_IEReturn & Chr($n_IEChar)
-			EndIf
-		Next
-		Return $s_IEReturn
-	EndIf
+	If StringLen($s_IEString) <= 0 Then Return SetError(1, 0, '')
+	Local $s_IEReturn
+	Local $n_IEChar
+	For $i_IECount = 1 To StringLen($s_IEString)
+		$n_IEChar = '0x' & Hex(Asc(StringMid($s_IEString, $i_IECount, 1)), 2)
+		If $n_IEChar < 0x21 Or $n_IEChar = 0x25 Or $n_IEChar = 0x2f Or $n_IEChar > 0x7f Then
+			$s_IEReturn = $s_IEReturn & '%' & StringRight($n_IEChar, 2)
+		Else
+			$s_IEReturn = $s_IEReturn & Chr($n_IEChar)
+		EndIf
+	Next
+	Return $s_IEReturn
 EndFunc   ;==>_INetExplorerCapable
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _INetGetSource
 ; Description ...: Gets the source from an URL without writing a temp file.
 ; Parameters ....: $s_URL = The URL of the site.
+;				   $nOptions - InetRead() options to use.
 ; Return values .: On Success - Returns the source code.
 ;                  On Failure - 0  and sets @ERROR = 1
 ; Author ........: Wouter van Kesteren.
 ; ===============================================================================================================================
-Func _INetGetSource($s_URL, $s_Header = '')
-
-	If StringLeft($s_URL, 7) <> 'http://' And StringLeft($s_URL, 8) <> 'https://' Then $s_URL = 'http://' & $s_URL
-
-	Local $h_DLL = DllOpen("wininet.dll")
-
-	Local $ai_IRF, $s_Buf = ''
-
-	Local $ai_IO = DllCall($h_DLL, 'int', 'InternetOpen', 'str', "AutoIt v3", 'int', 0, 'int', 0, 'int', 0, 'int', 0)
-	If @error Or $ai_IO[0] = 0 Then
-		DllClose($h_DLL)
-		SetError(1)
-		Return ""
-	EndIf
-
-	Local $ai_IOU = DllCall($h_DLL, 'int', 'InternetOpenUrl', 'int', $ai_IO[0], 'str', $s_URL, 'str', $s_Header, 'int', StringLen($s_Header), 'int', 0x80000000, 'int', 0)
-	If @error Or $ai_IOU[0] = 0 Then
-		DllCall($h_DLL, 'int', 'InternetCloseHandle', 'int', $ai_IO[0])
-		DllClose($h_DLL)
-		SetError(1)
-		Return ""
-	EndIf
-
-	Local $v_Struct = DllStructCreate('udword')
-	DllStructSetData($v_Struct, 1, 1)
-
-	While DllStructGetData($v_Struct, 1) <> 0
-		$ai_IRF = DllCall($h_DLL, 'int', 'InternetReadFile', 'int', $ai_IOU[0], 'str', '', 'int', 256, 'ptr', DllStructGetPtr($v_Struct))
-		$s_Buf &= StringLeft($ai_IRF[2], DllStructGetData($v_Struct, 1))
-	WEnd
-
-	DllCall($h_DLL, 'int', 'InternetCloseHandle', 'int', $ai_IOU[0])
-	DllCall($h_DLL, 'int', 'InternetCloseHandle', 'int', $ai_IO[0])
-	DllClose($h_DLL)
-	Return $s_Buf
+Func _INetGetSource($s_URL, $nOptions = 0)
+	Return InetRead($s_URL, $nOptions)
 EndFunc   ;==>_INetGetSource
 
 ; #FUNCTION# ====================================================================================================================
@@ -131,11 +93,11 @@ EndFunc   ;==>_INetGetSource
 ; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
 ; ===============================================================================================================================
 Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
-	Local $prev = opt("ExpandEnvStrings", 1)
+	Local $prev = Opt("ExpandEnvStrings", 1)
 	Local $var = RegRead('HKCR\mailto\shell\open\command', "")
 	Local $ret = Run(StringReplace($var, '%1', _INetExplorerCapable('mailto:' & $s_MailTo & '?subject=' & $s_MailSubject & '&body=' & $s_MailBody)))
 	Local $nError = @error, $nExtended = @extended
-	opt("ExpandEnvStrings", $prev)
+	Opt("ExpandEnvStrings", $prev)
 	Return SetError($nError, $nExtended, $ret)
 EndFunc   ;==>_INetMail
 
@@ -164,22 +126,12 @@ EndFunc   ;==>_INetMail
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_Subject = "", $as_Body = "", $s_helo = "", $s_first=" ", $b_trace = 0)
-
-	Local $v_Socket
-	Local $s_IPAddress
-	Local $i_Count
-	Local $s_Send[6]
-	Local $s_ReplyCode[6];Return code from SMTP server indicating success
-
-	If $s_SmtpServer = "" Or $s_FromAddress = "" Or $s_ToAddress = "" Or $s_FromName = "" Or StringLen($s_FromName) > 256 Then
-		SetError(1)
-		Return 0
-	EndIf
+	If $s_SmtpServer = "" Or $s_FromAddress = "" Or $s_ToAddress = "" Or $s_FromName = "" Or StringLen($s_FromName) > 256 Then Return SetError(1, 0 ,0)
 	If $s_helo = "" Then $s_helo = @ComputerName
-	If TCPStartup() = 0 Then
-		SetError(2)
-		Return 0
-	EndIf
+
+	If TCPStartup() = 0 Then Return SetError(2, 0 ,0)
+
+	Local $s_IPAddress, $i_Count
 	StringRegExp($s_SmtpServer, "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)")
 	If @extended Then
 		$s_IPAddress = $s_SmtpServer
@@ -188,16 +140,15 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	EndIf
 	If $s_IPAddress = "" Then
 		TCPShutdown()
-		SetError(3)
-		Return 0
+		Return SetError(3, 0 ,0)
 	EndIf
-	$v_Socket = TCPConnect($s_IPAddress, 25)
+	Local $v_Socket = TCPConnect($s_IPAddress, 25)
 	If $v_Socket = -1 Then
 		TCPShutdown()
-		SetError(4)
-		Return (0)
+		Return SetError(4, 0 ,0)
 	EndIf
 
+	Local $s_Send[6], $s_ReplyCode[6]	; Return code from SMTP server indicating success
 	$s_Send[0] = "HELO " & $s_helo & @CRLF
 	If StringLeft($s_helo,5) = "EHLO " Then $s_Send[0] = $s_helo & @CRLF
 	$s_ReplyCode[0] = "250"
@@ -229,16 +180,11 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	$s_ReplyCode[5] = "250"
 
 	; open stmp session
-	If __SmtpSend($v_Socket, $s_Send[0], $s_ReplyCode[0], $b_trace, "220", $s_first) Then
-		SetError(50)
-		Return 0
-	EndIf
+	If __SmtpSend($v_Socket, $s_Send[0], $s_ReplyCode[0], $b_trace, "220", $s_first) Then Return SetError(50, 0, 0)
+
 	; send header
 	For $i_Count = 1 To UBound($s_Send) - 2
-		If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
-			SetError(50 + $i_Count)
-			Return 0
-		EndIf
+		If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then Return SetError(50 + $i_Count, 0 ,0)
 	Next
 
 	; send body records (a record can be multiline : take care of a subline beginning with a dot should be ..)
@@ -246,18 +192,12 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 		; correct line beginning with a dot
 		If StringLeft($as_Body[$i_Count], 1) = "." Then $as_Body[$i_Count] = "." & $as_Body[$i_Count]
 
-		If __SmtpSend($v_Socket, $as_Body[$i_Count] & @CRLF, "", $b_trace) Then
-			SetError(500 + $i_Count)
-			Return 0
-		EndIf
+		If __SmtpSend($v_Socket, $as_Body[$i_Count] & @CRLF, "", $b_trace) Then Return SetError(500 + $i_Count, 0, 0)
 	Next
 
 	; close the smtp session
 	$i_Count = UBound($s_Send) - 1
-	If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then
-		SetError(5000)
-		Return 0
-	EndIf
+	If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then Return SetError(5000, 0, 0)
 
 	TCPCloseSocket($v_Socket)
 	TCPShutdown()
@@ -349,12 +289,12 @@ EndFunc   ;==>__SmtpSend
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _TCPIpToName
 ; Description ...: Resolves IP adress to Hostname
-; Syntax ........:	_TCPIpToName($sIp, [[$iOption = 0], $hDll_Ws2_32 = "Ws2_32.dll"]])
+; Syntax ........:	_TCPIpToName($sIp, [[$iOption = 0], $hDll_Ws2_32 = "ws2_32.dll"]])
 ; Parameters ....: $sIp - Ip Adress in dotted (v4) Format
 ;				   $iOption - Optional, Default = 0
 ;						0 = Return String Hostname
 ;						1 = Return Array (see Notes)
-;                  $hDll_Ws2_32 - Optional, Handle to Ws2_32.dll
+;                  $hDll_Ws2_32 - Optional, Handle to ws2_32.dll
 ; Return values .: On Success - Hostname or Array (see Notes)
 ;                  On Failure - ""  and Set
 ;                                   @ERROR to:  1 - inet_addr DllCall Failed
@@ -374,27 +314,27 @@ EndFunc   ;==>__SmtpSend
 ;						...
 ; ===============================================================================================================================
 Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
-	Local $vbinIP, $vaDllCall, $vptrHostent, $vHostent, $sHostnames, $vh_aliases, $i
-	Local $INADDR_NONE = 0xffffffff, $AF_INET = 2, $sSeperator = @CR
+	Local $INADDR_NONE = 0xffffffff, $AF_INET = 2, $sSeparator = @CR
 	If $iOption = Default Then $iOption = 0
-	If $hDll_Ws2_32 = Default Then $hDll_Ws2_32 = "Ws2_32.dll"
-	$vaDllCall = DllCall($hDll_Ws2_32, "long", "inet_addr", "str", $sIp)
+	If $hDll_Ws2_32 = Default Then $hDll_Ws2_32 = "ws2_32.dll"
+	Local $vaDllCall = DllCall($hDll_Ws2_32, "ulong", "inet_addr", "STR", $sIp)
 	If @error Then Return SetError(1, 0, "") ; inet_addr DllCall Failed
-	$vbinIP = $vaDllCall[0]
+	Local $vbinIP = $vaDllCall[0]
 	If $vbinIP = $INADDR_NONE Then Return SetError(2, 0, "") ; inet_addr Failed
-	$vaDllCall = DllCall($hDll_Ws2_32, "ptr", "gethostbyaddr", "long*", $vbinIP, "int", 4, "int", $AF_INET)
-	If @error Then Return SetError(3, 0, "") ; gethostbyaddr DllCall Failed
-	$vptrHostent = $vaDllCall[0]
+	$vaDllCall = DllCall($hDll_Ws2_32, "ptr", "gethostbyaddr", "ptr*", $vbinIP, "int", 4, "int", $AF_INET)
+	If @error  Then Return SetError(3, 0, "") ; gethostbyaddr DllCall Failed
+	Local $vptrHostent = $vaDllCall[0]
 	If $vptrHostent = 0 Then
 		$vaDllCall = DllCall($hDll_Ws2_32, "int", "WSAGetLastError")
 		If @error Then Return SetError(5, 0, "") ; gethostbyaddr Failed, WSAGetLastError Failed
 		Return SetError(4, $vaDllCall[0], "") ; gethostbyaddr Failed, WSAGetLastError = @Extended
 	EndIf
-	$vHostent = DllStructCreate("ptr;ptr;short;short;ptr", $vptrHostent)
-	$sHostnames = __TCPIpToName_szStringRead(DllStructGetData($vHostent, 1))
+	Local $vHostent = DllStructCreate("ptr;ptr;short;short;ptr", $vptrHostent)
+	Local $sHostnames = __TCPIpToName_szStringRead(DllStructGetData($vHostent, 1))
 	If @error Then Return SetError(6, 0, $sHostnames) ; strlen/sZStringRead Failed
 	If $iOption = 1 Then
-		$sHostnames &= $sSeperator
+		Local $vh_aliases
+		$sHostnames &= $sSeparator
 		For $i = 0 To 63 ; up to 64 Aliases
 			$vh_aliases = DllStructCreate("ptr", DllStructGetData($vHostent, 2) + ($i * 4))
 			If DllStructGetData($vh_aliases, 1) = 0 Then ExitLoop ; Null Pointer
@@ -413,18 +353,18 @@ EndFunc   ;==>_TCPIpToName
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __TCPIpToName_szStringRead
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __TCPIpToName_szStringRead($iszPtr[, $iLen = -1[, $hDll_msvcrt = "msvcrt.dll"]])
+; Syntax.........: __TCPIpToName_szStringRead($iszPtr[, $iLen = -1])
 ; Author ........: Florian Fida
 ; ===============================================================================================================================
-Func __TCPIpToName_szStringRead($iszPtr, $iLen = -1, $hDll_msvcrt = "msvcrt.dll")
+Func __TCPIpToName_szStringRead($iszPtr, $iLen = -1)
 	Local $aStrLen, $vszString
 	If $iszPtr < 1 Then Return "" ; Null Pointer
 	If $iLen < 0 Then
-		$aStrLen = DllCall($hDll_msvcrt, "int:cdecl", "strlen", "ptr", $iszPtr)
+		$aStrLen = DllCall("msvcrt.dll", "ulong_ptr:cdecl", "strlen", "ptr", $iszPtr)
 		If @error Then Return SetError(1, 0, "") ; strlen Failed
 		$iLen = $aStrLen[0] + 1
 	EndIf
 	$vszString = DllStructCreate("char[" & $iLen & "]", $iszPtr)
 	If @error Then Return SetError(2, 0, "")
-	Return SetError(0, $iLen, DllStructGetData($vszString, 1))
+	Return SetExtended($iLen, DllStructGetData($vszString, 1))
 EndFunc   ;==>__TCPIpToName_szStringRead

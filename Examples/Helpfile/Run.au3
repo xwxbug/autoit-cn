@@ -1,1 +1,1 @@
-﻿Run("Notepad.exe", "", @SW_MAXIMIZE)
+﻿Run(@WindowsDir & "\Notepad.exe", "", @SW_MAXIMIZE)

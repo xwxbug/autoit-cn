@@ -11,7 +11,9 @@ Global $hAVI, $iMemo
 _Main()
 
 Func _Main()
-	Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
 	Local $btn_StartStop
 
 	; Create GUI
@@ -24,7 +26,7 @@ Func _Main()
 
 	; Play the sample AutoIt AVI
 	_GUICtrlAVI_Open($hAVI, $sFile)
-	
+
 	; Loop until user exits
 	While 1
 		Switch GUIGetMsg()
@@ -37,7 +39,7 @@ Func _Main()
 					GUICtrlSetData($btn_StartStop, "Start")
 				EndIf
 				MemoWrite("Is Playing: " & _GUICtrlAVI_IsPlaying($hAVI))
-				
+
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
 		EndSwitch

@@ -15,7 +15,7 @@ _Main()
 
 Func _Main()
 	Local $cInput2, $wProcNew, $DummyMenu
-	
+
 	$hGui = GUICreate("Type or paste some stuff", 400, 200, -1, -1, $WS_THICKFRAME, -1)
 	$cInput = GUICtrlCreateInput("", 20, 20, 360, 20)
 	$cInput2 = GUICtrlCreateInput("", 20, 50, 360, 20)
@@ -61,11 +61,11 @@ Func ShowMenu($hWnd, $nContextID)
 	Local $iSelected = _GUICtrlMenu_TrackPopupMenu(GUICtrlGetHandle($nContextID), $hWnd, -1, -1, -1, -1, 2)
 	Switch $iSelected
 		Case $CommonMenuItem
-			ConsoleWrite("Common" & @LF)
+			ConsoleWrite("Common" & @CRLF)
 		Case $FileMenuItem
-			ConsoleWrite("File" & @LF)
+			ConsoleWrite("File" & @CRLF)
 		Case $ExitMenuItem
-			ConsoleWrite("Exit" & @LF)
+			ConsoleWrite("Exit" & @CRLF)
 	EndSwitch
 EndFunc   ;==>ShowMenu
 

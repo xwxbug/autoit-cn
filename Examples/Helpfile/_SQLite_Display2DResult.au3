@@ -8,7 +8,7 @@ If @error Then
 	MsgBox(16, "SQLite Error", "SQLite.dll Can't be Loaded!")
 	Exit - 1
 EndIf
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open () ; Open a :memory: database
 If @error Then
 	MsgBox(16, "SQLite Error", "Can't Load Database!")
@@ -37,16 +37,16 @@ If $iRval = $SQLITE_OK Then
 	_SQLite_Display2DResult($aResult)
 
 ;~ 	  $aResult looks like this:
-;~  
-;~ 	 Name   Age 
-;~ 	 Alice  43  
-;~ 	 Bob    28  
-;~ 	 Cindy  21  
+;~
+;~ 	 Name   Age
+;~ 	 Alice  43
+;~ 	 Bob    28
+;~ 	 Cindy  21
 ;~
 ;~    If the dimensions would be switched in _SQLite_GetTable2d the result would look like this:
-;~  
-;~ 	 Name  Alice  Bob  Cindy 
-;~ 	 Age   43     28   21    
+;~
+;~ 	 Name  Alice  Bob  Cindy
+;~ 	 Age   43     28   21
 
 Else
 	MsgBox(16, "SQLite Error: " & $iRval, _SQLite_ErrMsg ())

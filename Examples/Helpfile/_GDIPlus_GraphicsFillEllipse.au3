@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic
+	Local $hGUI, $hGraphic
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Draw an ellipse
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 	_GDIPlus_GraphicsFillEllipse ($hGraphic, 130, 100, 140, 70)
 
 	; Loop until user exits

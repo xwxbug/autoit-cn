@@ -1,11 +1,11 @@
 ﻿#include-once
 
-#include <IPAddressConstants.au3>
-#include <Memory.au3>
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
-#include <SendMessage.au3>
-#include <UDFGlobalID.au3>
+#include "IPAddressConstants.au3"
+#include "Memory.au3"
+#include "WinAPI.au3"
+#include "StructureConstants.au3"
+#include "SendMessage.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: IPAddress
@@ -22,11 +22,11 @@ Global $Debug_IP = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__IPADDRESSCONSTANT_ClassName = "SysIPAddress32"
-Global Const $__IPADDRESSCONSTANT_WS_TABSTOP = 0x00010000
-Global Const $__IPADDRESSCONSTANT_DEFAULT_GUI_FONT = 17
-Global Const $__IPADDRESSCONSTANT_LOGPIXELSX = 88
-Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY = 2
+Global Const $__IPADDRESSCONSTANT_ClassName			= "SysIPAddress32"
+Global Const $__IPADDRESSCONSTANT_WS_TABSTOP		= 0x00010000
+Global Const $__IPADDRESSCONSTANT_DEFAULT_GUI_FONT	= 17
+Global Const $__IPADDRESSCONSTANT_LOGPIXELSX		= 88
+Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY		= 2
 ; ===============================================================================================================================
 
 ; #OLD_FUNCTIONS#================================================================================================================
@@ -84,25 +84,24 @@ Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY = 2
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeight = 25, $iStyles = 0x00000000, $iExstyles = 0x00000000)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlIpAddress_Create 1st parameter")
-
-	Local $hIPAddress, $iStyle, $nCtrlID
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)	; Invalid Window handle for _GUICtrlIpAddress_Create 1st parameter
 
 	If $iStyles = -1 Then $iStyles = 0x00000000
 	If $iExstyles = -1 Then $iExstyles = 0x00000000
 
-	$iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE, $__IPADDRESSCONSTANT_WS_TABSTOP, $iStyles)
+	Local $iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE, $__IPADDRESSCONSTANT_WS_TABSTOP, $iStyles)
 
-	Local Const $ICC_INTERNET_CLASSES = 0x800
-	Local $stICCE = DllStructCreate('dword;dword')
-	DllStructSetData($stICCE, 1, DllStructGetSize($stICCE))
-	DllStructSetData($stICCE, 2, $ICC_INTERNET_CLASSES)
-	DllCall('comctl32.dll', 'int', 'InitCommonControlsEx', 'ptr', DllStructGetPtr($stICCE))
-
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local Const $ICC_INTERNET_CLASSES = 0x0800
+	Local $tICCE = DllStructCreate('dword dwSize;dword dwICC')
+	DllStructSetData($tICCE, "dwSize", DllStructGetSize($tICCE))
+	DllStructSetData($tICCE, "dwICC", $ICC_INTERNET_CLASSES)
+	DllCall('comctl32.dll', 'bool', 'InitCommonControlsEx', 'ptr', DllStructGetPtr($tICCE))
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hIPAddress = _WinAPI_CreateWindowEx($iExstyles, $__IPADDRESSCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	If @error Then Return SetError(@error, @extended, 0)
+
+	Local $hIPAddress = _WinAPI_CreateWindowEx($iExstyles, $__IPADDRESSCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_WinAPI_SetFont($hIPAddress, _WinAPI_GetStockObject($__IPADDRESSCONSTANT_DEFAULT_GUI_FONT))
 
 	Return $hIPAddress
@@ -123,6 +122,7 @@ EndFunc   ;==>_GUICtrlIpAddress_Create
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_ClearAddress($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	_SendMessage($hWnd, $IPM_CLEARADDRESS)
 EndFunc   ;==>_GUICtrlIpAddress_ClearAddress
 
@@ -142,25 +142,23 @@ EndFunc   ;==>_GUICtrlIpAddress_ClearAddress
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Destroy($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-	Local $Destroyed, $iResult
+	If Not _WinAPI_IsClassName($hWnd, $__IPADDRESSCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	If _WinAPI_IsClassName($hWnd, $__IPADDRESSCONSTANT_ClassName) Then
-		If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
-			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
-			Local $hParent = _WinAPI_GetParent($hWnd)
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
-			$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-			If Not $iResult Then
-				; can check for errors here if needed, for debug
-			EndIf
-		Else
-			_WinAPI_ShowMsg("Not Allowed to Delete Other Applications IPAddress Control(s)")
-			Return SetError(1, 1, False)
+	Local $Destroyed = 0
+	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
+		Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
+		Local $hParent = _WinAPI_GetParent($hWnd)
+		$Destroyed = _WinAPI_DestroyWindow($hWnd)
+		Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+		If Not $iRet Then
+			; can check for errors here if needed, for debug
 		EndIf
-		If $Destroyed Then $hWnd = 0
-		Return $Destroyed <> 0
+	Else
+		; Not Allowed to Delete Other Applications IPAddress Control(s)
+		Return SetError(1, 1, False)
 	EndIf
-	Return SetError(2, 2, False)
+	If $Destroyed Then $hWnd = 0
+	Return $Destroyed <> 0
 EndFunc   ;==>_GUICtrlIpAddress_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -178,8 +176,8 @@ EndFunc   ;==>_GUICtrlIpAddress_Destroy
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Get($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-	Local $tIP
-	$tIP = _GUICtrlIpAddress_GetEx($hWnd)
+
+	Local $tIP = _GUICtrlIpAddress_GetEx($hWnd)
 
 	If @error Then Return SetError(2, 2, "")
 	Return StringFormat("%d.%d.%d.%d", DllStructGetData($tIP, "Field1"), _
@@ -206,9 +204,8 @@ EndFunc   ;==>_GUICtrlIpAddress_Get
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_GetArray($hWnd)
-	Local $tIP, $aIP[4]
-
-	$tIP = _GUICtrlIpAddress_GetEx($hWnd)
+	Local $tIP = _GUICtrlIpAddress_GetEx($hWnd)
+	Local $aIP[4]
 	$aIP[0] = DllStructGetData($tIP, "Field1")
 	$aIP[1] = DllStructGetData($tIP, "Field2")
 	$aIP[2] = DllStructGetData($tIP, "Field3")
@@ -231,19 +228,19 @@ EndFunc   ;==>_GUICtrlIpAddress_GetArray
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_GetEx($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-	Local $tIP, $iIP, $pIP, $Memory_pointer, $struct_MemMap
 
-	$tIP = DllStructCreate($tagGETIPAddress)
-	$pIP = DllStructGetPtr($tIP)
+	Local $tIP = DllStructCreate($tagGETIPAddress)
+	Local $pIP = DllStructGetPtr($tIP)
 	If @error Then Return SetError(1, 1, "")
 	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
 		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $pIP, 0, "wparam", "ptr")
 	Else
-		$iIP = DllStructGetSize($tIP)
-		$Memory_pointer = _MemInit($hWnd, $iIP, $struct_MemMap)
-		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $Memory_pointer, 0, "wparam", "ptr")
-		_MemRead($struct_MemMap, $Memory_pointer, $pIP, $iIP)
-		_MemFree($struct_MemMap)
+		Local $iIP = DllStructGetSize($tIP)
+		Local $tMemMap
+		Local $pMemory = _MemInit($hWnd, $iIP, $tMemMap)
+		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $pMemory, 0, "wparam", "ptr")
+		_MemRead($tMemMap, $pMemory, $pIP, $iIP)
+		_MemFree($tMemMap)
 	EndIf
 	Return $tIP
 EndFunc   ;==>_GUICtrlIpAddress_GetEx
@@ -264,6 +261,7 @@ EndFunc   ;==>_GUICtrlIpAddress_GetEx
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_IsBlank($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	Return _SendMessage($hWnd, $IPM_ISBLANK) <> 0
 EndFunc   ;==>_GUICtrlIpAddress_IsBlank
 
@@ -283,6 +281,7 @@ EndFunc   ;==>_GUICtrlIpAddress_IsBlank
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Set($hWnd, $sAddress)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	Local $aAddress = StringSplit($sAddress, ".")
 	If $aAddress[0] = 4 Then
 		Local $tIP = DllStructCreate($tagGETIPAddress)
@@ -313,6 +312,7 @@ EndFunc   ;==>_GUICtrlIpAddress_Set
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetArray($hWnd, $aAddress)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	If UBound($aAddress) = 4 Then
 		Local $tIP = DllStructCreate($tagGETIPAddress)
 		For $x = 0 To 3
@@ -338,14 +338,10 @@ EndFunc   ;==>_GUICtrlIpAddress_SetArray
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetEx($hWnd, $tIP)
     If $Debug_IP Then __UDF_ValidateClassName($hWnd, $tIP)
+
     _SendMessage($hWnd, $IPM_SETADDRESS, 0, _
 		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3")), _
-		BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
-;~     _SendMessage($hWnd, $IPM_SETADDRESS, 0, _
-;~ 		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1")), _
-;~ 		BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3"))))		
-		
-		
+				BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
 EndFunc   ;==>_GUICtrlIpAddress_SetEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -367,6 +363,7 @@ EndFunc   ;==>_GUICtrlIpAddress_SetEx
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetFocus($hWnd, $iIndex)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	_SendMessage($hWnd, $IPM_SETFOCUS, $iIndex)
 EndFunc   ;==>_GUICtrlIpAddress_SetFocus
 
@@ -389,13 +386,12 @@ EndFunc   ;==>_GUICtrlIpAddress_SetFocus
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iFontWeight = 400, $fFontItalic = False)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-	Local $font, $tfont, $lfHeight, $lngDC
 
-	$lngDC = _WinAPI_GetDC(0)
-	$lfHeight = Round(($iFontSize * _WinAPI_GetDeviceCaps($lngDC, $__IPADDRESSCONSTANT_LOGPIXELSX)) / 72, 0)
+	Local $lngDC = _WinAPI_GetDC(0)
+	Local $lfHeight = Round(($iFontSize * _WinAPI_GetDeviceCaps($lngDC, $__IPADDRESSCONSTANT_LOGPIXELSX)) / 72, 0)
 	_WinAPI_ReleaseDC(0, $lngDC)
 
-	$tfont = DllStructCreate($tagLOGFONT)
+	Local $tfont = DllStructCreate($tagLOGFONT)
 	DllStructSetData($tfont, "Height", $lfHeight)
 	DllStructSetData($tfont, "Weight", $iFontWeight)
 	DllStructSetData($tfont, "Italic", $fFontItalic)
@@ -404,7 +400,7 @@ Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iF
 	DllStructSetData($tfont, "Quality", $__IPADDRESSCONSTANT_PROOF_QUALITY)
 	DllStructSetData($tfont, "FaceName", $sFaceName)
 
-	$font = _WinAPI_CreateFontIndirect($tfont)
+	Local $font = _WinAPI_CreateFontIndirect($tfont)
 	_WinAPI_SetFont($hWnd, $font)
 
 EndFunc   ;==>_GUICtrlIpAddress_SetFont
@@ -428,7 +424,9 @@ EndFunc   ;==>_GUICtrlIpAddress_SetFont
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetRange($hWnd, $iIndex, $iLowRange = 0, $iHighRange = 255)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	If ($iLowRange < 0 Or $iLowRange > $iHighRange) Or $iHighRange > 255 Or ($iIndex < 0 Or $iIndex > 3) Then Return SetError(-1, -1, False)
+
 	Return _SendMessage($hWnd, $IPM_SETRANGE, $iIndex, BitOR($iLowRange, 0x100 * $iHighRange)) <> 0
 EndFunc   ;==>_GUICtrlIpAddress_SetRange
 
@@ -451,6 +449,7 @@ EndFunc   ;==>_GUICtrlIpAddress_SetRange
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_ShowHide($hWnd, $iState)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
+
 	If $iState <> @SW_HIDE And $iState <> @SW_SHOW Then Return SetError(1, 1, 0)
 	Return _WinAPI_ShowWindow($hWnd, $iState) <> 0
 EndFunc   ;==>_GUICtrlIpAddress_ShowHide

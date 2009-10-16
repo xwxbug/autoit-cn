@@ -18,6 +18,6 @@ Next
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc")
 $oDoc = _WordDocGetCollection ($oWordApp, 0)
-ConsoleWrite("Title - " & _WordDocPropertyGet ($oDoc, "Title") & @CR)
-ConsoleWrite("Subject - " & _WordDocPropertyGet ($oDoc, "Subject") & @CR)
-ConsoleWrite("Author - " & _WordDocPropertyGet ($oDoc, "Author") & @CR)
+ConsoleWrite("Title - " & _WordDocPropertyGet ($oDoc, "Title") & @CRLF)
+ConsoleWrite("Subject - " & _WordDocPropertyGet ($oDoc, "Subject") & @CRLF)
+ConsoleWrite("Author - " & _WordDocPropertyGet ($oDoc, "Author") & @CRLF)

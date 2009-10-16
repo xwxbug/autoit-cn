@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic
+	Local $hGUI, $hGraphic
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Fill a rectangle
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 	_GDIPlus_GraphicsFillRect($hGraphic, 10, 10, 100, 100)
 
 	; Loop until user exits

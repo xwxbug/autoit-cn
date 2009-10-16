@@ -7,7 +7,7 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hBitmap, $hGraphic, $hImage, $iX, $iY, $hClone
+	Local $hGUI, $hBMP, $hBitmap, $hGraphic, $hImage, $iX, $iY, $hClone
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
@@ -17,8 +17,8 @@ Func _Main()
 	_GDIPlus_Startup ()
 
 	; Capture 32 bit bitmap
-	$hBitmap = _ScreenCapture_Capture ("")
-	$hImage = _GDIPlus_BitmapCreateFromHBITMAP ($hBitmap)
+	$hBMP = _ScreenCapture_Capture ("")
+	$hImage = _GDIPlus_BitmapCreateFromHBITMAP ($hBMP)
 
 	; Create 24 bit bitmap clone
 	$iX = _GDIPlus_ImageGetWidth ($hImage)
@@ -29,9 +29,9 @@ Func _Main()
 	_GDIPlus_ImageSaveToFile ($hClone, @MyDocumentsDir & "\GDIPlus_Image.bmp")
 
 	; Clean up resources
-	_GDIPlus_ImageDispose ($hClone)
-	_GDIPlus_ImageDispose ($hImage)
-	_WinAPI_DeleteObject ($hBitmap)
+	_GDIPlus_BitmapDispose ($hClone)
+	_GDIPlus_BitmapDispose($hImage)
+	_WinAPI_DeleteObject ($hBMP)
 
 	; Draw bitmap to GUI
 	$hBitmap = _GDIPlus_BitmapCreateFromFile (@MyDocumentsDir & "\GDIPlus_Image.bmp")
@@ -40,8 +40,7 @@ Func _Main()
 
 	; Clean up resources
 	_GDIPlus_GraphicsDispose ($hGraphic)
-	_GDIPlus_ImageDispose ($hBitmap)
-	_WinAPI_DeleteObject ($hBitmap)
+	_GDIPlus_BitmapDispose ($hBitmap)
 
 	; Shut down GDI+ library
 	_GDIPlus_ShutDown ()

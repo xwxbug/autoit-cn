@@ -127,17 +127,19 @@ Global Const $DTM_SETFORMATW = $DTM_FIRST + 50 ; [Unicode]
 
 ; #NOTIFICATIONS# ===============================================================================================================
 ; Date Time Picker
-Global Const $DTN_DATETIMECHANGE = 0xFFFFFD09 ; Sent whenever a change occurs
-Global Const $DTN_USERSTRING = 0xFFFFFD0A ; Sent when a user finishes editing a string in the control
-Global Const $DTN_WMKEYDOWN = 0xFFFFFD0B ; Sent when the user types in a callback field
-Global Const $DTN_FORMAT = 0xFFFFFD0C ; Sent to request text to be displayed in a callback field
-Global Const $DTN_FORMATQUERY = 0xFFFFFD0D ; Sent to retrieve the size of the callback field string
-Global Const $DTN_DROPDOWN = 0xFFFFFD0E ; Sent when the user activates the drop-down month calendar
-Global Const $DTN_CLOSEUP = 0xFFFFFD0F ; Sent when the user closes the drop-down month calendar
-Global Const $DTN_USERSTRINGW = 0xFFFFFD17 ; [Unicode] Sent when a user finishes editing a string in the control
-Global Const $DTN_WMKEYDOWNW = 0xFFFFFD18 ; [Unicode] Sent when the user types in a callback field
-Global Const $DTN_FORMATW = 0xFFFFFD19 ; [Unicode] Sent to request text to be displayed in a callback field
-Global Const $DTN_FORMATQUERYW = 0xFFFFFD1A ; [Unicode] Sent to retrieve the size of the callback field string
+Global Const $DTN_FIRST				= -740
+Global Const $DTN_FIRST2			= -753
+Global Const $DTN_DATETIMECHANGE	= $DTN_FIRST2 - 6 ; Sent whenever a change occurs
+Global Const $DTN_USERSTRING		= $DTN_FIRST2 - 5 ; Sent when a user finishes editing a string in the control
+Global Const $DTN_WMKEYDOWN			= $DTN_FIRST2 - 4 ; Sent when the user types in a callback field
+Global Const $DTN_FORMAT			= $DTN_FIRST2 - 3 ; Sent to request text to be displayed in a callback field
+Global Const $DTN_FORMATQUERY		= $DTN_FIRST2 - 2 ; Sent to retrieve the size of the callback field string
+Global Const $DTN_DROPDOWN			= $DTN_FIRST2 - 1 ; Sent when the user activates the drop-down month calendar
+Global Const $DTN_CLOSEUP			= $DTN_FIRST2 - 0 ; Sent when the user closes the drop-down month calendar
+Global Const $DTN_USERSTRINGW		= $DTN_FIRST - 5 ; [Unicode] Sent when a user finishes editing a string in the control
+Global Const $DTN_WMKEYDOWNW		= $DTN_FIRST - 4 ; [Unicode] Sent when the user types in a callback field
+Global Const $DTN_FORMATW			= $DTN_FIRST - 3 ; [Unicode] Sent to request text to be displayed in a callback field
+Global Const $DTN_FORMATQUERYW		= $DTN_FIRST - 2 ; [Unicode] Sent to retrieve the size of the callback field string
 ; ===============================================================================================================================
 
 ; Control default styles

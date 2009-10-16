@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic
+	Local $hGUI, $hGraphic
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Draw a pie
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 	_GDIPlus_GraphicsDrawPie ($hGraphic, 150, 80, 100, 100, 45, 90)
 
 	; Loop until user exits

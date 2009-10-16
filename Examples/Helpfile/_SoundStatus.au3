@@ -1,11 +1,9 @@
 ﻿#include <Sound.au3>
-;open sound file
-$sound = _SoundOpen(@WindowsDir & "\media\Windows XP Startup.wav", "Startup")
+
+;open sound file : must be modified if run under Vista
+$sound = _SoundOpen(@WindowsDir & "\media\Windows XP Startup.wav")
 If @error = 2 Then
 	MsgBox(0, "Error", "The file does not exist")
-	Exit
-ElseIf @error = 3 Then
-	MsgBox(0, "Error", "The alias was invalid")
 	Exit
 ElseIf @extended <> 0 Then
 	$extended = @extended ;assign because @extended will be set after DllCall
@@ -16,18 +14,15 @@ Else
 	MsgBox(0, "Success", "The file opened successfully")
 EndIf
 
-ConsoleWrite("After _SoundOpen: ")
-ConsoleWrite(_SoundStatus($sound) & @LF)
+ConsoleWrite("After _SoundOpen: " & _SoundStatus($sound) & @CRLF)
 
 _SoundPlay($sound)
-ConsoleWrite("After _SoundPlay: ")
-ConsoleWrite(_SoundStatus($sound) & @LF)
+ConsoleWrite("After _SoundPlay: " & _SoundStatus($sound) & @CRLF)
 
 Sleep(1000)
 
 _SoundPause($sound)
-ConsoleWrite("After _SoundPause: ")
-ConsoleWrite(_SoundStatus($sound) & @LF)
+ConsoleWrite("After _SoundPause: " & _SoundStatus($sound) & @CRLF)
 
 Sleep(1000)
 _SoundResume($sound)

@@ -12,9 +12,11 @@ _Main()
 
 Func _Main()
 	Local $StatusBar, $hEdit, $hGUI
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 	Local $aPartRightSide[2] = [378, -1], $iRandom
-	
+
 	; Create GUI
 	$hGUI = GUICreate("Edit Line Index", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268, BitOR($ES_WANTRETURN, $WS_VSCROLL))
@@ -31,7 +33,7 @@ Func _Main()
 	; Line Index
 	$iRandom = Random(0, _GUICtrlEdit_GetLineCount($hEdit) - 1, 1)
 	_GUICtrlStatusBar_SetText($StatusBar, "Char Index: " & _GUICtrlEdit_LineIndex($hEdit, $iRandom) & " from Line: " & $iRandom)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

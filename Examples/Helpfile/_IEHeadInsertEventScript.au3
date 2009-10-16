@@ -23,7 +23,7 @@ _IEHeadInsertEventScript ($oIE, "document", "oncontextmenu", "alert('No Context 
 ; *******************************************************
 ; Example 3 - Open a browser with the basic example page, insert an
 ;				event script into the head of the document that creates a
-;				JavaScript alert when we are about to navigate away from the 
+;				JavaScript alert when we are about to navigate away from the
 ;				page and presents the option to cancel the operation.
 ; *******************************************************
 ;
@@ -67,5 +67,5 @@ WEnd
 
 Func _Evt_onClick()
     Local $o_link = @COM_EventObj
-	ConsoleWrite($o_link.href & @CR)
+	ConsoleWrite($o_link.href & @CRLF)
 EndFunc

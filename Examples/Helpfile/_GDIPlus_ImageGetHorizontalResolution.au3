@@ -14,10 +14,10 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hGUI, $hBitmap, $hImage
+	Local $hBitmap, $hImage
 
 	; Create GUI
-	$hGUI = GUICreate("GDI+", 600, 400)
+	GUICreate("GDI+", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -35,7 +35,7 @@ Func _Main()
 	; Clean up resources
 	_GDIPlus_ImageDispose($hImage)
 	_WinAPI_DeleteObject($hBitmap)
-	
+
 	; Shut down GDI+ library
 	_GDIPlus_Shutdown()
 

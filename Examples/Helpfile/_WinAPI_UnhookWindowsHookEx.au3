@@ -11,6 +11,8 @@ Global $hHook, $hStub_KeyProc, $buffer = ""
 _Main()
 
 Func _Main()
+	OnAutoItExitRegister("Cleanup")
+
 	Local $hmod
 
 	$hStub_KeyProc = DllCallbackRegister("_KeyProc", "long", "int;wparam;lparam")
@@ -64,19 +66,19 @@ Func _KeyProc($nCode, $wParam, $lParam)
 		Local $flags = DllStructGetData($tKEYHOOKS, "flags")
 		Switch $flags
 			Case $LLKHF_ALTDOWN
-				ConsoleWrite("$LLKHF_ALTDOWN" & @LF)
+				ConsoleWrite("$LLKHF_ALTDOWN" & @CRLF)
 			Case $LLKHF_EXTENDED
-				ConsoleWrite("$LLKHF_EXTENDED" & @LF)
+				ConsoleWrite("$LLKHF_EXTENDED" & @CRLF)
 			Case $LLKHF_INJECTED
-				ConsoleWrite("$LLKHF_INJECTED" & @LF)
+				ConsoleWrite("$LLKHF_INJECTED" & @CRLF)
 			Case $LLKHF_UP
-				ConsoleWrite("$LLKHF_UP: scanCode - " & DllStructGetData($tKEYHOOKS, "scanCode") & @TAB & "vkCode - " & DllStructGetData($tKEYHOOKS, "vkCode") & @LF)
+				ConsoleWrite("$LLKHF_UP: scanCode - " & DllStructGetData($tKEYHOOKS, "scanCode") & @TAB & "vkCode - " & DllStructGetData($tKEYHOOKS, "vkCode") & @CRLF)
 		EndSwitch
 	EndIf
 	Return _WinAPI_CallNextHookEx($hHook, $nCode, $wParam, $lParam)
 EndFunc   ;==>_KeyProc
 
-Func OnAutoItExit()
+Func Cleanup()
 	_WinAPI_UnhookWindowsHookEx($hHook)
 	DllCallbackFree($hStub_KeyProc)
-EndFunc   ;==>OnAutoItExit
+EndFunc   ;==>Cleanup

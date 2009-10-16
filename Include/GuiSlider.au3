@@ -1,10 +1,10 @@
 ﻿#include-once
 
-#include <SliderConstants.au3>
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
-#include <SendMessage.au3>
-#include <UDFGlobalID.au3>
+#include "SliderConstants.au3"
+#include "WinAPI.au3"
+#include "StructureConstants.au3"
+#include "SendMessage.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Slider
@@ -166,22 +166,19 @@ EndFunc   ;==>_GUICtrlSlider_ClearTics
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Create($hWnd, $iX, $iY, $iWidth = 100, $iHeight = 20, $iStyle = 0x0001, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlSlider_Create 1st parameter")
-
-	Local $hSlider, $nCtrlID
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)	; Invalid Window handle for _GUICtrlSlider_Create 1st parameter
 
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 20
-	If $iStyle = -1 Then $iStyle = 0x0001
+	If $iStyle = -1 Then $iStyle = $TBS_AUTOTICKS
 	If $iExStyle = -1 Then $iExStyle = 0x00000000
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hSlider = _WinAPI_CreateWindowEx($iExStyle, $__SLIDERCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
-	_GUICtrlSlider_SetUnicodeFormat($hSlider, False)
+	Local $hSlider = _WinAPI_CreateWindowEx($iExStyle, $__SLIDERCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_SendMessage($hSlider, $TBM_SETRANGE, True, _WinAPI_MakeLong(0, 100));  // min. & max. positions
 	_GUICtrlSlider_SetTicFreq($hSlider, 5)
 	Return $hSlider
@@ -203,30 +200,27 @@ EndFunc   ;==>_GUICtrlSlider_Create
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Destroy(ByRef $hWnd)
 	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
+	If Not _WinAPI_IsClassName($hWnd, $__SLIDERCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed, $iResult
-
-	If _WinAPI_IsClassName($hWnd, $__SLIDERCONSTANT_ClassName) Then
-		If IsHWnd($hWnd) Then
-			If _WinAPI_InProcess($hWnd, $_ghSLastWnd) Then
-				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
-				Local $hParent = _WinAPI_GetParent($hWnd)
-				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-				If Not $iResult Then
-					; can check for errors here if needed, for debug
-				EndIf
-			Else
-				_WinAPI_ShowMsg("Not Allowed to Destroy Other Applications ListView(s)")
-				Return SetError(1, 1, False)
+	Local $Destroyed = 0
+	If IsHWnd($hWnd) Then
+		If _WinAPI_InProcess($hWnd, $_ghSLastWnd) Then
+			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
+			Local $hParent = _WinAPI_GetParent($hWnd)
+			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+			If Not $iRet Then
+				; can check for errors here if needed, for debug
 			EndIf
 		Else
-			$Destroyed = GUICtrlDelete($hWnd)
+			; Not Allowed to Destroy Other Applications Control(s)
+			Return SetError(1, 1, False)
 		EndIf
-		If $Destroyed Then $hWnd = 0
-		Return $Destroyed <> 0
+	Else
+		$Destroyed = GUICtrlDelete($hWnd)
 	EndIf
-	Return SetError(2, 2, False)
+	If $Destroyed Then $hWnd = 0
+	Return $Destroyed <> 0
 EndFunc   ;==>_GUICtrlSlider_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -273,9 +267,8 @@ EndFunc   ;==>_GUICtrlSlider_GetBuddy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetChannelRect($hWnd)
-	Local $aRect[4], $tRect
-
-	$tRect = _GUICtrlSlider_GetChannelRectEx($hWnd)
+	Local $tRect = _GUICtrlSlider_GetChannelRectEx($hWnd)
+	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -300,8 +293,7 @@ Func _GUICtrlSlider_GetChannelRectEx($hWnd)
 	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $tRect
-	$tRect = DllStructCreate($tagRECT)
+	Local $tRect = DllStructCreate($tagRECT)
 	_SendMessage($hWnd, $TBM_GETCHANNELRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
 	Return $tRect
 EndFunc   ;==>_GUICtrlSlider_GetChannelRectEx
@@ -351,14 +343,12 @@ Func _GUICtrlSlider_GetLogicalTics($hWnd)
 	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $pArray, $tArray, $iArraySize
-
-	$iArraySize = _GUICtrlSlider_GetNumTics($hWnd) - 2
+	Local $iArraySize = _GUICtrlSlider_GetNumTics($hWnd) - 2
 	Local $aTics[$iArraySize]
 
-	$pArray = _SendMessage($hWnd, $TBM_GETPTICS)
+	Local $pArray = _SendMessage($hWnd, $TBM_GETPTICS)
 	If @error Then Return SetError(@error, @extended, $aTics)
-	$tArray = DllStructCreate("dword[" & $iArraySize & "]", $pArray)
+	Local $tArray = DllStructCreate("dword[" & $iArraySize & "]", $pArray)
 	For $x = 1 To $iArraySize
 		$aTics[$x - 1] = _GUICtrlSlider_GetTicPos($hWnd, DllStructGetData($tArray, 1, $x))
 	Next
@@ -591,9 +581,8 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbLength
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbRect($hWnd)
-	Local $aRect[4], $tRect
-
-	$tRect = _GUICtrlSlider_GetThumbRectEx($hWnd)
+	Local $tRect = _GUICtrlSlider_GetThumbRectEx($hWnd)
+	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -618,8 +607,7 @@ Func _GUICtrlSlider_GetThumbRectEx($hWnd)
 	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $tRect
-	$tRect = DllStructCreate($tagRECT)
+	Local $tRect = DllStructCreate($tagRECT)
 	_SendMessage($hWnd, $TBM_GETTHUMBRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
 	Return $tRect
 EndFunc   ;==>_GUICtrlSlider_GetThumbRectEx

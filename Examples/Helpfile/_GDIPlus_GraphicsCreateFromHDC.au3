@@ -7,12 +7,11 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic, $hBrush, $hFormat, $hFamily, $hFont, $tLayout, $hDC
+	Local $hGUI, $hGraphic, $hBrush, $hFormat, $hFamily, $hFont, $tLayout, $hDC
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
-	$hDC  = _WinAPI_GetWindowDC($hWnd)
+	$hDC  = _WinAPI_GetWindowDC($hGUI)
 	GUISetState()
 
 	; Draw a string
@@ -35,7 +34,7 @@ Func _Main()
 	_GDIPlus_StringFormatDispose ($hFormat)
 	_GDIPlus_BrushDispose ($hBrush)
 	_GDIPlus_GraphicsDispose ($hGraphic)
-	_WinAPI_ReleaseDC($hWnd, $hDC)
+	_WinAPI_ReleaseDC($hGUI, $hDC)
 	_GDIPlus_Shutdown ()
 
 EndFunc   ;==>_Main

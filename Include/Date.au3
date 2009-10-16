@@ -1,9 +1,9 @@
 ﻿#include-once
 
-#include <Memory.au3>
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
-#include <Security.au3>
+#include "Memory.au3"
+#include "WinAPI.au3"
+#include "StructureConstants.au3"
+#include "Security.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Date
@@ -14,12 +14,7 @@
 ;                  one of these formats.  You can also use the time functions  to  convert  between  time  formats  for  ease  of
 ;                  comparison and display
 ; Author(s) .....: JdeB, jlandes, exodius, PaulIA, Tuape, SlimShady, GaryFrost, /dev/null, Marc
-; Dll(s) ........: Kernel32.dll
-; ===============================================================================================================================
-
-; #CONSTANTS# ===================================================================================================================
-Global Const $__DATECONSTANT_TOKEN_ADJUST_PRIVILEGES = 0x00000020
-Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
+; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -102,7 +97,6 @@ Global Const $__DATECONSTANT_TOKEN_QUERY = 0x00000008
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;__DateIsMonth
 ;__DateIsYear
-;__DateMonthOfYear
 ;__Date_Time_CloneSystemTime
 ; ===============================================================================================================================
 
@@ -137,9 +131,6 @@ Func _DateAdd($sType, $iValToAdd, $sDate)
 	Local $asTimePart[4]
 	Local $asDatePart[4]
 	Local $iJulianDate
-	Local $iTimeVal
-	Local $iNumDays
-	Local $Day2Add
 	; Verify that $sType is Valid
 	$sType = StringLeft($sType, 1)
 	If StringInStr("D,M,Y,w,h,n,s", $sType) = 0 Or $sType = "" Then
@@ -188,12 +179,12 @@ Func _DateAdd($sType, $iValToAdd, $sDate)
 	; ====================================================
 	; adding Time value
 	If $sType = "h" Or $sType = "n" Or $sType = "s" Then
-		$iTimeVal = _TimeToTicks($asTimePart[1], $asTimePart[2], $asTimePart[3]) / 1000
+		Local $iTimeVal = _TimeToTicks($asTimePart[1], $asTimePart[2], $asTimePart[3]) / 1000
 		If $sType = "h" Then $iTimeVal = $iTimeVal + $iValToAdd * 3600
 		If $sType = "n" Then $iTimeVal = $iTimeVal + $iValToAdd * 60
 		If $sType = "s" Then $iTimeVal = $iTimeVal + $iValToAdd
 		; calculated days to add
-		$Day2Add = Int($iTimeVal / (24 * 60 * 60))
+		Local $Day2Add = Int($iTimeVal / (24 * 60 * 60))
 		$iTimeVal = $iTimeVal - $Day2Add * 24 * 60 * 60
 		If $iTimeVal < 0 Then
 			$Day2Add = $Day2Add - 1
@@ -208,8 +199,7 @@ Func _DateAdd($sType, $iValToAdd, $sDate)
 	; ====================================================
 	; check if the Input day is Greater then the new month last day.
 	; if so then change it to the last possible day in the month
-	$iNumDays = StringSplit('31,28,31,30,31,30,31,31,30,31,30,31', ',')
-	If _DateIsLeapYear($asDatePart[1]) Then $iNumDays[2] = 29
+	Local $iNumDays = _DaysInMonth($asDatePart[1])
 	;
 	If $iNumDays[$asDatePart[2]] < $asDatePart[3] Then $asDatePart[3] = $iNumDays[$asDatePart[2]]
 	; ========================
@@ -247,18 +237,7 @@ EndFunc   ;==>_DateAdd
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDayOfWeek($iDayNum, $iShort = 0)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $aDayOfWeek[8]
-
-	$aDayOfWeek[1] = "Sunday"
-	$aDayOfWeek[2] = "Monday"
-	$aDayOfWeek[3] = "Tuesday"
-	$aDayOfWeek[4] = "Wednesday"
-	$aDayOfWeek[5] = "Thursday"
-	$aDayOfWeek[6] = "Friday"
-	$aDayOfWeek[7] = "Saturday"
+	Local Const $aDayOfWeek[8] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	Select
 		Case Not StringIsInt($iDayNum) Or Not StringIsInt($iShort)
 			Return SetError(1,0,"")
@@ -294,16 +273,11 @@ EndFunc   ;==>_DateDayOfWeek
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDaysInMonth($iYear, $iMonthNum)
-	Local $aiNumDays
-	$aiNumDays = "31,28,31,30,31,30,31,31,30,31,30,31"
-	$aiNumDays = StringSplit($aiNumDays, ",")
 	If __DateIsMonth($iMonthNum) And __DateIsYear($iYear) Then
-		If _DateIsLeapYear($iYear) Then $aiNumDays[2] = $aiNumDays[2] + 1
+		Local $aiNumDays =  _DaysInMonth($iYear)
 		Return $aiNumDays[$iMonthNum]
-	Else
-		
-		Return SetError(1,0,0)
 	EndIf
+	Return SetError(1,0,0)
 EndFunc   ;==>_DateDaysInMonth
 
 ; #FUNCTION# ====================================================================================================================
@@ -334,17 +308,6 @@ EndFunc   ;==>_DateDaysInMonth
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDiff($sType, $sStartDate, $sEndDate)
-	Local $asStartDatePart[4]
-	Local $asStartTimePart[4]
-	Local $asEndDatePart[4]
-	Local $asEndTimePart[4]
-	Local $iTimeDiff
-	Local $iYearDiff
-	Local $iMonthDiff
-	Local $iStartTimeInSecs
-	Local $iEndTimeInSecs
-	Local $aDaysDiff
-	;
 	; Verify that $sType is Valid
 	$sType = StringLeft($sType, 1)
 	If StringInStr("d,m,y,w,h,n,s", $sType) = 0 Or $sType = "" Then
@@ -358,14 +321,16 @@ Func _DateDiff($sType, $sStartDate, $sEndDate)
 	If Not _DateIsValid($sEndDate) Then
 		Return SetError(3,0,0)
 	EndIf
+	Local $asStartDatePart[4], $asStartTimePart[4], $asEndDatePart[4], $asEndTimePart[4]
 	; split the StartDate and Time into arrays
 	_DateTimeSplit($sStartDate, $asStartDatePart, $asStartTimePart)
 	; split the End  Date and time into arrays
 	_DateTimeSplit($sEndDate, $asEndDatePart, $asEndTimePart)
 	; ====================================================
 	; Get the differens in days between the 2 dates
-	$aDaysDiff = _DateToDayValue($asEndDatePart[1], $asEndDatePart[2], $asEndDatePart[3]) - _DateToDayValue($asStartDatePart[1], $asStartDatePart[2], $asStartDatePart[3])
+	Local $aDaysDiff = _DateToDayValue($asEndDatePart[1], $asEndDatePart[2], $asEndDatePart[3]) - _DateToDayValue($asStartDatePart[1], $asStartDatePart[2], $asStartDatePart[3])
 	; ====================================================
+	Local $iTimeDiff, $iYearDiff, $iStartTimeInSecs, $iEndTimeInSecs
 	; Get the differens in Seconds between the 2 times when specified
 	If $asStartTimePart[0] > 1 And $asEndTimePart[0] > 1 Then
 		$iStartTimeInSecs = $asStartTimePart[1] * 3600 + $asStartTimePart[2] * 60 + $asStartTimePart[3]
@@ -383,7 +348,7 @@ Func _DateDiff($sType, $sStartDate, $sEndDate)
 			Return ($aDaysDiff)
 		Case $sType = "m"
 			$iYearDiff = $asEndDatePart[1] - $asStartDatePart[1]
-			$iMonthDiff = $asEndDatePart[2] - $asStartDatePart[2] + $iYearDiff * 12
+			Local $iMonthDiff = $asEndDatePart[2] - $asStartDatePart[2] + $iYearDiff * 12
 			If $asEndDatePart[3] < $asStartDatePart[3] Then $iMonthDiff = $iMonthDiff - 1
 			$iStartTimeInSecs = $asStartTimePart[1] * 3600 + $asStartTimePart[2] * 60 + $asStartTimePart[3]
 			$iEndTimeInSecs = $asEndTimePart[1] * 3600 + $asEndTimePart[2] * 60 + $asEndTimePart[3]
@@ -436,9 +401,8 @@ Func _DateIsLeapYear($iYear)
 			Case Else
 				Return 0
 		EndSelect
-	Else
-		Return SetError(1,0,0)
 	EndIf
+	Return SetError(1,0,0)
 EndFunc   ;==>_DateIsLeapYear
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -462,9 +426,8 @@ Func __DateIsMonth($iNumber)
 		Else
 			Return 0
 		EndIf
-	Else
-		Return 0
 	EndIf
+	Return 0
 EndFunc   ;==>__DateIsMonth
 
 ; #FUNCTION# ====================================================================================================================
@@ -485,14 +448,9 @@ EndFunc   ;==>__DateIsMonth
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateIsValid($sDate)
-	Local $asDatePart[4]
-	Local $asTimePart[4]
-	Local $iNumDays
-	Local $sDateTime
-	$iNumDays = "31,28,31,30,31,30,31,31,30,31,30,31"
-	$iNumDays = StringSplit($iNumDays, ",")
+	Local $asDatePart[4], $asTimePart[4]
 	; split the Date and Time portion
-	$sDateTime = StringSplit($sDate, " T")
+	Local $sDateTime = StringSplit($sDate, " T")
 	; split the date portion
 	If $sDateTime[0] > 0 Then $asDatePart = StringSplit($sDateTime[1], "/-.")
 	; Ensure the date contains 3 sections YYYY MM DD
@@ -507,7 +465,7 @@ Func _DateIsValid($sDate)
 	$asDatePart[2] = Number($asDatePart[2])
 	$asDatePart[3] = Number($asDatePart[3])
 	; check if all contain valid values
-	If _DateIsLeapYear($asDatePart[1]) Then $iNumDays[2] = 29
+	Local $iNumDays = _DaysInMonth($asDatePart[1])
 	If $asDatePart[1] < 1000 Or $asDatePart[1] > 2999 Then Return (0)
 	If $asDatePart[2] < 1 Or $asDatePart[2] > 12 Then Return (0)
 	If $asDatePart[3] < 1 Or $asDatePart[3] > $iNumDays[$asDatePart[2]] Then Return (0)
@@ -534,7 +492,7 @@ Func _DateIsValid($sDate)
 	If $asTimePart[2] < 0 Or $asTimePart[2] > 59 Then Return (0)
 	If $asTimePart[3] < 0 Or $asTimePart[3] > 59 Then Return (0)
 	; we got here so date/time must be good
-	Return (1)
+	Return 1
 EndFunc   ;==>_DateIsValid
 
 
@@ -559,9 +517,8 @@ Func __DateIsYear($iNumber)
 		Else
 			Return 0
 		EndIf
-	Else
-		Return 0
 	EndIf
+	Return 0
 EndFunc   ;==>__DateIsYear
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -579,17 +536,13 @@ EndFunc   ;==>__DateIsYear
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateLastWeekdayNum($iWeekdayNum)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iLastWeekdayNum
-
 	Select
 		Case Not StringIsInt($iWeekdayNum)
 			Return SetError(1,0,0)
 		Case $iWeekdayNum < 1 Or $iWeekdayNum > 7
 			Return SetError(1,0,0)
 		Case Else
+			Local $iLastWeekdayNum
 			If $iWeekdayNum = 1 Then
 				$iLastWeekdayNum = 7
 			Else
@@ -615,17 +568,13 @@ EndFunc   ;==>_DateLastWeekdayNum
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateLastMonthNum($iMonthNum)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iLastMonthNum
-
 	Select
 		Case Not StringIsInt($iMonthNum)
 			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
 			Return SetError(1,0,0)
 		Case Else
+			Local $iLastMonthNum
 			If $iMonthNum = 1 Then
 				$iLastMonthNum = 12
 			Else
@@ -653,17 +602,13 @@ EndFunc   ;==>_DateLastMonthNum
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateLastMonthYear($iMonthNum, $iYear)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iLastYear
-
 	Select
 		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iYear)
 			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
 			Return SetError(1,0,0)
 		Case Else
+			Local $iLastYear
 			If $iMonthNum = 1 Then
 				$iLastYear = $iYear - 1
 			Else
@@ -674,59 +619,6 @@ Func _DateLastMonthYear($iMonthNum, $iYear)
 			Return $iLastYear
 	EndSelect
 EndFunc   ;==>_DateLastMonthYear
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: __DateMonthOfYear
-; Description ...: Returns the name of the month, based on the specified month.
-; Syntax.........: __DateMonthOfYear($iMonthNum, $iShort)
-; Parameters ....: $iMonthNum - Month number
-;                  $iShort    - Format:
-;                  |0 - Long name of the month
-;                  |1 - Abbreviated name of the month
-; Return values .: Success - Month name
-;                  Failure - A NULL string and sets @ERROR = 1
-; Author ........: Jeremy Landes <jlandes at landeserve dot com>
-; Modified.......:
-; Remarks .......: English only
-; Related .......:
-; Link ..........:
-; Example .......:
-; ===============================================================================================================================
-Func __DateMonthOfYear($iMonthNum, $iShort)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $aMonthOfYear[13]
-
-	$aMonthOfYear[1] = "January"
-	$aMonthOfYear[2] = "February"
-	$aMonthOfYear[3] = "March"
-	$aMonthOfYear[4] = "April"
-	$aMonthOfYear[5] = "May"
-	$aMonthOfYear[6] = "June"
-	$aMonthOfYear[7] = "July"
-	$aMonthOfYear[8] = "August"
-	$aMonthOfYear[9] = "September"
-	$aMonthOfYear[10] = "October"
-	$aMonthOfYear[11] = "November"
-	$aMonthOfYear[12] = "December"
-
-	Select
-		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iShort)
-			Return SetError(1,0,"")
-		Case $iMonthNum < 1 Or $iMonthNum > 12
-			Return SetError(1,0,"")
-		Case Else
-			Select
-				Case $iShort = 0
-					Return $aMonthOfYear[$iMonthNum]
-				Case $iShort = 1
-					Return StringLeft($aMonthOfYear[$iMonthNum], 3)
-				Case Else
-					Return SetError(1,0,"")
-			EndSelect
-	EndSelect
-EndFunc   ;==>__DateMonthOfYear
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Name...........: _DateNextWeekdayNum
@@ -743,17 +635,13 @@ EndFunc   ;==>__DateMonthOfYear
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateNextWeekdayNum($iWeekdayNum)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iNextWeekdayNum
-
 	Select
 		Case Not StringIsInt($iWeekdayNum)
 			Return SetError(1,0,0)
 		Case $iWeekdayNum < 1 Or $iWeekdayNum > 7
 			Return SetError(1,0,0)
 		Case Else
+			Local $iNextWeekdayNum
 			If $iWeekdayNum = 7 Then
 				$iNextWeekdayNum = 1
 			Else
@@ -779,17 +667,13 @@ EndFunc   ;==>_DateNextWeekdayNum
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateNextMonthNum($iMonthNum)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iNextMonthNum
-
 	Select
 		Case Not StringIsInt($iMonthNum)
 			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
 			Return SetError(1,0,0)
 		Case Else
+			Local $iNextMonthNum
 			If $iMonthNum = 12 Then
 				$iNextMonthNum = 1
 			Else
@@ -817,17 +701,13 @@ EndFunc   ;==>_DateNextMonthNum
 ; Example .......:
 ; ===============================================================================================================================
 Func _DateNextMonthYear($iMonthNum, $iYear)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iNextYear
-
 	Select
 		Case Not StringIsInt($iMonthNum) Or Not StringIsInt($iYear)
 			Return SetError(1,0,0)
 		Case $iMonthNum < 1 Or $iMonthNum > 12
 			Return SetError(1,0,0)
 		Case Else
+			Local $iNextYear
 			If $iMonthNum = 12 Then
 				$iNextYear = $iYear + 1
 			Else
@@ -865,14 +745,9 @@ EndFunc   ;==>_DateNextMonthYear
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateTimeFormat($sDate, $sType)
-	Local $asDatePart[4]
-	Local $asTimePart[4]
-	Local $sTempDate = ""
-	Local $sTempTime = ""
-	Local $sAM
-	Local $sPM
-	Local $iWday
-	Local $lngX
+	Local $asDatePart[4], $asTimePart[4]
+	Local $sTempDate = "", $sTempTime = ""
+	Local $sAM, $sPM, $lngX
 	; Verify If InputDate is valid
 	If Not _DateIsValid($sDate) Then
 		Return SetError(1,0,"")
@@ -885,18 +760,10 @@ Func _DateTimeFormat($sDate, $sType)
 	_DateTimeSplit($sDate, $asDatePart, $asTimePart)
 	;
 	; 	Const $LOCALE_USER_DEFAULT = 0x400
-	;   Const $LOCALE_SDATE = 0x1D            ;  date separator
-	;   Const $LOCALE_STIME = 0x1E            ;  time separator
-	;   Const $LOCALE_S1159 = 0x28            ;  AM designator
-	;   Const $LOCALE_S2359 = 0x29            ;  PM designator
-	; 	Const $LOCALE_SSHORTDATE = 0x1F       ;  short date format string
-	; 	Const $LOCALE_SLONGDATE = 0x20        ;  long date format string
-	; 	Const $LOCALE_STIMEFORMAT = 0x1003    ;  time format string
-
 	Switch $sType
 		Case 0
-			; Get ShortDate format
-			$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1F, "str", "", "long", 255)
+			; 	Const $LOCALE_SSHORTDATE = 0x1F       ;  short date format string
+			$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1F, "wstr", "", "int", 255)
 			If Not @error And $lngX[0] <> 0 Then
 				$sTempDate = $lngX[3]
 			Else
@@ -905,7 +772,8 @@ Func _DateTimeFormat($sDate, $sType)
 			;
 			; Get Time format
 			If $asTimePart[0] > 1 Then
-				$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1003, "str", "", "long", 255)
+				; 	Const $LOCALE_STIMEFORMAT = 0x1003    ;  time format string
+				$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1003, "wstr", "", "int", 255)
 				If Not @error And $lngX[0] <> 0 Then
 					$sTempTime = $lngX[3]
 				Else
@@ -913,8 +781,8 @@ Func _DateTimeFormat($sDate, $sType)
 				EndIf
 			EndIf
 		Case 1
-			; Get LongDate format
-			$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x20, "str", "", "long", 255)
+			; 	Const $LOCALE_SLONGDATE = 0x20        ;  long date format string
+			$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x20, "wstr", "", "int", 255)
 			If Not @error And $lngX[0] <> 0 Then
 				$sTempDate = $lngX[3]
 			Else
@@ -922,7 +790,7 @@ Func _DateTimeFormat($sDate, $sType)
 			EndIf
 		Case 2
 			; Get ShortDate format
-			$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1F, "str", "", "long", 255)
+			$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1F, "wstr", "", "int", 255)
 			If Not @error And $lngX[0] <> 0 Then
 				$sTempDate = $lngX[3]
 			Else
@@ -932,7 +800,7 @@ Func _DateTimeFormat($sDate, $sType)
 			;
 			; Get Time format
 			If $asTimePart[0] > 1 Then
-				$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1003, "str", "", "long", 255)
+				$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1003, "wstr", "", "int", 255)
 				If Not @error And $lngX[0] <> 0 Then
 					$sTempTime = $lngX[3]
 				Else
@@ -951,12 +819,11 @@ Func _DateTimeFormat($sDate, $sType)
 	; Format DATE
 	If $sTempDate <> "" Then
 		;   Const $LOCALE_SDATE = 0x1D            ;  date separator
-		$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1D, "str", "", "long", 255)
+		$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1D, "wstr", "", "int", 255)
 		If Not @error And $lngX[0] <> 0 Then
-;~ 			$sTempTime = StringReplace($sTempTime, "/", $lngX[3])
 			$sTempDate = StringReplace($sTempDate, "/", $lngX[3])
 		EndIf
-		$iWday = _DateToDayOfWeek($asDatePart[1], $asDatePart[2], $asDatePart[3])
+		Local $iWday = _DateToDayOfWeek($asDatePart[1], $asDatePart[2], $asDatePart[3])
 		$asDatePart[3] = StringRight("0" & $asDatePart[3], 2) ; make sure the length is 2
 		$asDatePart[2] = StringRight("0" & $asDatePart[2], 2) ; make sure the length is 2
 		$sTempDate = StringReplace($sTempDate, "d", "@")
@@ -966,8 +833,8 @@ Func _DateTimeFormat($sDate, $sType)
 		$sTempDate = StringReplace($sTempDate, "@@@", _DateDayOfWeek($iWday, 1))
 		$sTempDate = StringReplace($sTempDate, "@@", $asDatePart[3])
 		$sTempDate = StringReplace($sTempDate, "@", StringReplace(StringLeft($asDatePart[3], 1), "0", "") & StringRight($asDatePart[3], 1))
-		$sTempDate = StringReplace($sTempDate, "####", __DateMonthOfYear($asDatePart[2], 0))
-		$sTempDate = StringReplace($sTempDate, "###", __DateMonthOfYear($asDatePart[2], 1))
+		$sTempDate = StringReplace($sTempDate, "####", _DateToMonth($asDatePart[2], 0))
+		$sTempDate = StringReplace($sTempDate, "###", _DateToMonth($asDatePart[2], 1))
 		$sTempDate = StringReplace($sTempDate, "##", $asDatePart[2])
 		$sTempDate = StringReplace($sTempDate, "#", StringReplace(StringLeft($asDatePart[2], 1), "0", "") & StringRight($asDatePart[2], 1))
 		$sTempDate = StringReplace($sTempDate, "&&&&", $asDatePart[1])
@@ -975,20 +842,22 @@ Func _DateTimeFormat($sDate, $sType)
 	EndIf
 	; Format TIME
 	If $sTempTime <> "" Then
-		$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x28, "str", "", "long", 255)
+		;   Const $LOCALE_S1159 = 0x28            ;  AM designator
+		$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x28, "wstr", "", "int", 255)
 		If Not @error And $lngX[0] <> 0 Then
 			$sAM = $lngX[3]
 		Else
 			$sAM = "AM"
 		EndIf
-		$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x29, "str", "", "long", 255)
+		;   Const $LOCALE_S2359 = 0x29            ;  PM designator
+		$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x29, "wstr", "", "int", 255)
 		If Not @error And $lngX[0] <> 0 Then
 			$sPM = $lngX[3]
 		Else
 			$sPM = "PM"
 		EndIf
 		;   Const $LOCALE_STIME = 0x1E            ;  time separator
-		$lngX = DllCall("kernel32.dll", "long", "GetLocaleInfo", "long", 0x400, "long", 0x1E, "str", "", "long", 255)
+		$lngX = DllCall("kernel32.dll", "int", "GetLocaleInfoW", "dword", 0x400, "dword", 0x1E, "wstr", "", "int", 255)
 		If Not @error And $lngX[0] <> 0 Then
 			$sTempTime = StringReplace($sTempTime, ":", $lngX[3])
 		EndIf
@@ -1010,7 +879,7 @@ Func _DateTimeFormat($sDate, $sType)
 		$sTempTime = StringReplace($sTempTime, "ss", StringFormat("%02d", $asTimePart[3]))
 		$sTempDate = StringStripWS($sTempDate & " " & $sTempTime, 3)
 	EndIf
-	Return ($sTempDate)
+	Return $sTempDate
 EndFunc   ;==>_DateTimeFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -1040,10 +909,8 @@ EndFunc   ;==>_DateTimeFormat
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateTimeSplit($sDate, ByRef $asDatePart, ByRef $iTimePart)
-	Local $sDateTime
-	Local $x
 	; split the Date and Time portion
-	$sDateTime = StringSplit($sDate, " T")
+	Local $sDateTime = StringSplit($sDate, " T")
 	; split the date portion
 	If $sDateTime[0] > 0 Then $asDatePart = StringSplit($sDateTime[1], "/-.")
 	; split the Time portion
@@ -1068,7 +935,7 @@ Func _DateTimeSplit($sDate, ByRef $asDatePart, ByRef $iTimePart)
 			$iTimePart[$x] = 0
 		EndIf
 	Next
-	Return (1)
+	Return 1
 EndFunc   ;==>_DateTimeSplit
 
 ; #FUNCTION# ====================================================================================================================
@@ -1090,18 +957,14 @@ EndFunc   ;==>_DateTimeSplit
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateToDayOfWeek($iYear, $iMonth, $iDay)
-	Local $i_aFactor
-	Local $i_yFactor
-	Local $i_mFactor
-	Local $i_dFactor
 	; Verify If InputDate is valid
 	If Not _DateIsValid($iYear & "/" & $iMonth & "/" & $iDay) Then
 		Return SetError(1,0,"")
 	EndIf
-	$i_aFactor = Int((14 - $iMonth) / 12)
-	$i_yFactor = $iYear - $i_aFactor
-	$i_mFactor = $iMonth + (12 * $i_aFactor) - 2
-	$i_dFactor = Mod($iDay + $i_yFactor + Int($i_yFactor / 4) - Int($i_yFactor / 100) + Int($i_yFactor / 400) + Int((31 * $i_mFactor) / 12), 7)
+	Local $i_aFactor = Int((14 - $iMonth) / 12)
+	Local $i_yFactor = $iYear - $i_aFactor
+	Local $i_mFactor = $iMonth + (12 * $i_aFactor) - 2
+	Local $i_dFactor = Mod($iDay + $i_yFactor + Int($i_yFactor / 4) - Int($i_yFactor / 100) + Int($i_yFactor / 400) + Int((31 * $i_mFactor) / 12), 7)
 	Return ($i_dFactor + 1)
 EndFunc   ;==>_DateToDayOfWeek
 
@@ -1151,12 +1014,6 @@ EndFunc   ;==>_DateToDayOfWeekISO
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateToDayValue($iYear, $iMonth, $iDay)
-	Local $i_aFactor
-	Local $i_bFactor
-	Local $i_cFactor
-	Local $i_eFactor
-	Local $i_fFactor
-	Local $iJulianDate
 	; Verify If InputDate is valid
 	If Not _DateIsValid(StringFormat("%04d/%02d/%02d", $iYear, $iMonth, $iDay)) Then
 		Return SetError(1,0,"")
@@ -1165,12 +1022,12 @@ Func _DateToDayValue($iYear, $iMonth, $iDay)
 		$iMonth = $iMonth + 12
 		$iYear = $iYear - 1
 	EndIf
-	$i_aFactor = Int($iYear / 100)
-	$i_bFactor = Int($i_aFactor / 4)
-	$i_cFactor = 2 - $i_aFactor + $i_bFactor
-	$i_eFactor = Int(1461 * ($iYear + 4716) / 4)
-	$i_fFactor = Int(153 * ($iMonth + 1) / 5)
-	$iJulianDate = $i_cFactor + $iDay + $i_eFactor + $i_fFactor - 1524.5
+	Local $i_aFactor = Int($iYear / 100)
+	Local $i_bFactor = Int($i_aFactor / 4)
+	Local $i_cFactor = 2 - $i_aFactor + $i_bFactor
+	Local $i_eFactor = Int(1461 * ($iYear + 4716) / 4)
+	Local $i_fFactor = Int(153 * ($iMonth + 1) / 5)
+	Local $iJulianDate = $i_cFactor + $iDay + $i_eFactor + $i_fFactor - 1524.5
 	Return ($iJulianDate)
 EndFunc   ;==>_DateToDayValue
 
@@ -1237,29 +1094,20 @@ EndFunc   ;==>_DateToMonth
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DayValueToDate($iJulianDate, ByRef $iYear, ByRef $iMonth, ByRef $iDay)
-	Local $i_zFactor
-	Local $i_wFactor
-	Local $i_aFactor
-	Local $i_bFactor
-	Local $i_xFactor
-	Local $i_cFactor
-	Local $i_dFactor
-	Local $i_eFactor
-	Local $i_fFactor
 	; check for valid input date
 	If $iJulianDate < 0 Or Not IsNumber($iJulianDate) Then
 		Return SetError(1,0,0)
 	EndIf
 	; calculte the date
-	$i_zFactor = Int($iJulianDate + 0.5)
-	$i_wFactor = Int(($i_zFactor - 1867216.25) / 36524.25)
-	$i_xFactor = Int($i_wFactor / 4)
-	$i_aFactor = $i_zFactor + 1 + $i_wFactor - $i_xFactor
-	$i_bFactor = $i_aFactor + 1524
-	$i_cFactor = Int(($i_bFactor - 122.1) / 365.25)
-	$i_dFactor = Int(365.25 * $i_cFactor)
-	$i_eFactor = Int(($i_bFactor - $i_dFactor) / 30.6001)
-	$i_fFactor = Int(30.6001 * $i_eFactor)
+	Local $i_zFactor = Int($iJulianDate + 0.5)
+	Local $i_wFactor = Int(($i_zFactor - 1867216.25) / 36524.25)
+	Local $i_xFactor = Int($i_wFactor / 4)
+	Local $i_aFactor = $i_zFactor + 1 + $i_wFactor - $i_xFactor
+	Local $i_bFactor = $i_aFactor + 1524
+	Local $i_cFactor = Int(($i_bFactor - 122.1) / 365.25)
+	Local $i_dFactor = Int(365.25 * $i_cFactor)
+	Local $i_eFactor = Int(($i_bFactor - $i_dFactor) / 30.6001)
+	Local $i_fFactor = Int(30.6001 * $i_eFactor)
 	$iDay = $i_bFactor - $i_dFactor - $i_fFactor
 	; (must get number less than or equal to 12)
 	If $i_eFactor - 1 < 13 Then
@@ -1298,18 +1146,14 @@ EndFunc   ;==>_DayValueToDate
 ; Example .......:
 ; ===============================================================================================================================
 Func _Date_JulianDayNo($iYear, $iMonth, $iDay)
-	Local $sFullDate
-	Local $aiDaysInMonth
-	Local $iJDay
-	Local $iCntr
 	; Verify If InputDate is valid
-	$sFullDate = StringFormat("%04d/%02d/%02d", $iYear, $iMonth, $iDay)
+	Local $sFullDate = StringFormat("%04d/%02d/%02d", $iYear, $iMonth, $iDay)
 	If Not _DateIsValid($sFullDate) Then
 		Return SetError(1,0,"")
 	EndIf
 	; Build JDay value
-	$iJDay = 0
-	$aiDaysInMonth = _DaysInMonth($iYear)
+	Local $iJDay = 0
+	Local $aiDaysInMonth = _DaysInMonth($iYear)
 	For $iCntr = 1 To $iMonth - 1
 		$iJDay = $iJDay + $aiDaysInMonth[$iCntr]
 	Next
@@ -1335,29 +1179,22 @@ EndFunc   ;==>_Date_JulianDayNo
 ; Example .......:
 ; ===============================================================================================================================
 Func _JulianToDate($iJDay, $sSep = "/")
-	Local $aiDaysInMonth
-	Local $iYear
-	Local $iMonth
-	Local $iDay
-	Local $iDays
-	Local $iMaxDays
 	; Verify If InputDate is valid
-	$iYear = Int($iJDay / 1000)
-	$iDays = Mod($iJDay, 1000)
-	$iMaxDays = 365
+	Local $iYear = Int($iJDay / 1000)
+	Local $iDays = Mod($iJDay, 1000)
+	Local $iMaxDays = 365
 	If _DateIsLeapYear($iYear) Then $iMaxDays = 366
 	If $iDays > $iMaxDays Then
 		Return SetError(1,0,"")
 	EndIf
 	; Convert to regular date
-	$aiDaysInMonth = _DaysInMonth($iYear)
-	$iMonth = 1
+	Local $aiDaysInMonth = _DaysInMonth($iYear)
+	Local $iMonth = 1
 	While $iDays > $aiDaysInMonth[$iMonth]
 		$iDays = $iDays - $aiDaysInMonth[$iMonth]
 		$iMonth = $iMonth + 1
 	WEnd
-	$iDay = $iDays
-	Return StringFormat("%04d%s%02d%s%02d", $iYear, $sSep, $iMonth, $sSep, $iDay)
+	Return StringFormat("%04d%s%02d%s%02d", $iYear, $sSep, $iMonth, $sSep, $iDays)
 EndFunc   ;==>_JulianToDate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1470,9 +1307,6 @@ EndFunc   ;==>_NowTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
-
-	Local $iRetval, $SYSTEMTIME, $lpSystemTime
-
 	;============================================================================
 	;== Some error checking
 	;============================================================================
@@ -1480,45 +1314,28 @@ Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 	If $iMonth = 0 Then $iMonth = @MON
 	If Not _DateIsValid($iYear & "/" & $iMonth & "/" & $iDay) Then Return 1
 
-	$SYSTEMTIME = DllStructCreate("ushort;ushort;ushort;ushort;ushort;ushort;ushort;ushort")
-	$lpSystemTime = DllStructGetPtr($SYSTEMTIME)
+	Local $tSystemTime = DllStructCreate($tagSYSTEMTIME)
+	Local $lpSystemTime = DllStructGetPtr($tSystemTime)
 
 	;============================================================================
 	;== Get the local system time to fill up the SYSTEMTIME structure
 	;============================================================================
-	$iRetval = DllCall("kernel32.dll", "long", "GetLocalTime", "ptr", $lpSystemTime)
+	DllCall("kernel32.dll", "none", "GetLocalTime", "ptr", $lpSystemTime)
+	If @error Then Return SetError(@error, @extended, 0)
 
 	;============================================================================
 	;== Change the necessary values
 	;============================================================================
-	DllStructSetData($SYSTEMTIME, 4, $iDay)
-	If $iMonth > 0 Then DllStructSetData($SYSTEMTIME, 2, $iMonth)
-	If $iYear > 0 Then DllStructSetData($SYSTEMTIME, 1, $iYear)
+	DllStructSetData($tSystemTime, 4, $iDay)
+	If $iMonth > 0 Then DllStructSetData($tSystemTime, 2, $iMonth)
+	If $iYear > 0 Then DllStructSetData($tSystemTime, 1, $iYear)
 
 	;============================================================================
 	;== Set the new date
 	;============================================================================
-	$iRetval = DllCall("kernel32.dll", "long", "SetLocalTime", "ptr", $lpSystemTime)
-	; a second call is needed to take care of daylight saving see MSDN
-	$iRetval = DllCall("kernel32.dll", "long", "SetLocalTime", "ptr", $lpSystemTime)
+	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
 
-	;============================================================================
-	;== If DllCall was successfull, check for an error of the API Call
-	;============================================================================
-	If @error = 0 Then
-		If $iRetval[0] = 0 Then
-			Local $lastError = DllCall("kernel32.dll", "int", "GetLastError")
-			Return SetError(1,$lastError[0],0)
-		Else
-			Return 1
-		EndIf
-		;============================================================================
-		;== If DllCall was UNsuccessfull, return an error
-		;============================================================================
-	Else
-		Return SetError(1,0,0)
-	EndIf
-
+	Return SetError(@error, @extended, Int($iRetval[0]))
 EndFunc   ;==>_SetDate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1542,9 +1359,6 @@ EndFunc   ;==>_SetDate
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _SetTime($iHour, $iMinute, $iSecond = 0)
-
-	Local $iRetval, $SYSTEMTIME, $lpSystemTime
-
 	;============================================================================
 	;== Some error checking
 	;============================================================================
@@ -1552,45 +1366,28 @@ Func _SetTime($iHour, $iMinute, $iSecond = 0)
 	If $iMinute < 0 Or $iMinute > 59 Then Return 1
 	If $iSecond < 0 Or $iSecond > 59 Then Return 1
 
-	$SYSTEMTIME = DllStructCreate("ushort;ushort;ushort;ushort;ushort;ushort;ushort;ushort")
-	$lpSystemTime = DllStructGetPtr($SYSTEMTIME)
+	Local $tSystemTime = DllStructCreate($tagSYSTEMTIME)
+	Local $lpSystemTime = DllStructGetPtr($tSystemTime)
 
 	;============================================================================
 	;== Get the local system time to fill up the SYSTEMTIME structure
 	;============================================================================
-	$iRetval = DllCall("kernel32.dll", "long", "GetLocalTime", "ptr", $lpSystemTime)
+	DllCall("kernel32.dll", "none", "GetLocalTime", "ptr", $lpSystemTime)
+	If @error Then Return SetError(@error, @extended, 0)
 
 	;============================================================================
 	;== Change the necessary values
 	;============================================================================
-	DllStructSetData($SYSTEMTIME, 5, $iHour)
-	DllStructSetData($SYSTEMTIME, 6, $iMinute)
-	If $iSecond > 0 Then DllStructSetData($SYSTEMTIME, 7, $iSecond)
+	DllStructSetData($tSystemTime, 5, $iHour)
+	DllStructSetData($tSystemTime, 6, $iMinute)
+	If $iSecond > 0 Then DllStructSetData($tSystemTime, 7, $iSecond)
 
 	;============================================================================
 	;== Set the new time
 	;============================================================================
-	$iRetval = DllCall("kernel32.dll", "long", "SetLocalTime", "ptr", $lpSystemTime)
-	; a second call is needed to take care of daylight saving see MSDN
-	$iRetval = DllCall("kernel32.dll", "long", "SetLocalTime", "ptr", $lpSystemTime)
+	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
 
-	;============================================================================
-	;== If DllCall was successfull, check for an error of the API Call
-	;============================================================================
-	If @error = 0 Then
-		If $iRetval[0] = 0 Then
-			Local $lastError = DllCall("kernel32.dll", "int", "GetLastError")
-			Return SetError(1,$lastError[0],0)
-		Else
-			Return 1
-		EndIf
-		;============================================================================
-		;== If DllCall was UNsuccessfull, return an error
-		;============================================================================
-	Else
-		Return SetError(1,0,0)
-	EndIf
-
+	Return SetError(@error, @extended, Int($iRetval[0]))
 EndFunc   ;==>_SetTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -1651,13 +1448,8 @@ EndFunc   ;==>_TicksToTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _TimeToTicks($iHours = @HOUR, $iMins = @MIN, $iSecs = @SEC)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $iTicks
-
 	If StringIsInt($iHours) And StringIsInt($iMins) And StringIsInt($iSecs) Then
-		$iTicks = 1000 * ((3600 * $iHours) + (60 * $iMins) + $iSecs)
+		Local $iTicks = 1000 * ((3600 * $iHours) + (60 * $iMins) + $iSecs)
 		Return $iTicks
 	Else
 		Return SetError(1,0,0)
@@ -1684,8 +1476,6 @@ EndFunc   ;==>_TimeToTicks
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
-	Local $idow, $iDow0101
-
 	; Check for erroneous input in $Day, $Month & $Year
 	If $iDay > 31 Or $iDay < 1 Then
 		Return SetError(1,0,-1)
@@ -1695,8 +1485,8 @@ Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
 		Return SetError(1,0,-1)
 	EndIf
 
-	$idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
-	$iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
+	Local $idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
+	Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
 
 	If ($iMonth = 1 And 3 < $iDow0101 And $iDow0101 < 7 - ($iDay - 1)) Then
 		;days before week 1 of the current year have the same week number as
@@ -1736,10 +1526,6 @@ EndFunc   ;==>_WeekNumberISO
 ; Example .......:
 ; ===============================================================================================================================
 Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
-	Local $iDow0101, $iDow0101ny
-	Local $iDate, $iStartWeek1, $iEndWeek1, $iEndWeek1Date, $iStartWeek1ny, $iStartWeek1Dateny
-	Local $iCurrDateDiff, $iCurrDateDiffny
-
 	; Check for erroneous input in $Day, $Month & $Year
 	If $iDay > 31 Or $iDay < 1 Then
 		Return SetError(1,0,-1)
@@ -1751,9 +1537,10 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 		Return SetError(2,0,-1)
 	EndIf
 	;
+	Local $iStartWeek1, $iEndWeek1
 	;$idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
-	$iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
-	$iDate = $iYear & '/' & $iMonth & '/' & $iDay
+	Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
+	Local $iDate = $iYear & '/' & $iMonth & '/' & $iDay
 	;Calculate the Start and End date of Week 1 this year
 	If $iWeekStart = 1 Then
 		If $iDow0101 = 6 Then
@@ -1766,10 +1553,12 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 		$iStartWeek1 = $iDow0101 * - 1
 		$iEndWeek1 = $iStartWeek1 + 6
 	EndIf
+
+	Local $iStartWeek1ny
 	;$iStartWeek1Date = _DateAdd('d',$iStartWeek1,$iYear & '/01/01')
-	$iEndWeek1Date = _DateAdd('d', $iEndWeek1, $iYear & '/01/01')
+	Local $iEndWeek1Date = _DateAdd('d', $iEndWeek1, $iYear & '/01/01')
 	;Calculate the Start and End date of Week 1 this Next year
-	$iDow0101ny = _DateToDayOfWeekISO($iYear + 1, 1, 1);
+	Local $iDow0101ny = _DateToDayOfWeekISO($iYear + 1, 1, 1);
 	;  1 = start on Sunday / 2 = start on Monday
 	If $iWeekStart = 1 Then
 		If $iDow0101ny = 6 Then
@@ -1782,12 +1571,12 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 		$iStartWeek1ny = $iDow0101ny * - 1
 		;$IEndWeek1ny = $iStartWeek1ny + 6
 	EndIf
-	$iStartWeek1Dateny = _DateAdd('d', $iStartWeek1ny, $iYear + 1 & '/01/01')
+	Local $iStartWeek1Dateny = _DateAdd('d', $iStartWeek1ny, $iYear + 1 & '/01/01')
 	;$iEndWeek1Dateny = _DateAdd('d',$IEndWeek1ny,$iYear+1 & '/01/01')
 	;number of days after end week 1
-	$iCurrDateDiff = _DateDiff('d', $iEndWeek1Date, $iDate) - 1
+	Local $iCurrDateDiff = _DateDiff('d', $iEndWeek1Date, $iDate) - 1
 	;number of days before next week 1 start
-	$iCurrDateDiffny = _DateDiff('d', $iStartWeek1Dateny, $iDate)
+	Local $iCurrDateDiffny = _DateDiff('d', $iStartWeek1Dateny, $iDate)
 	;
 	; Check for end of year
 	If $iCurrDateDiff >= 0 And $iCurrDateDiffny < 0 Then Return 2 + Int($iCurrDateDiff / 7)
@@ -1810,8 +1599,7 @@ EndFunc   ;==>_WeekNumber
 ; Example .......:
 ; ===============================================================================================================================
 Func _DaysInMonth($iYear)
-	Local $aiDays
-	$aiDays = StringSplit("31,28,31,30,31,30,31,31,30,31,30,31", ",")
+	Local $aiDays[13] = [ 0, 31,28,31,30,31,30,31,31,30,31,30,31]
 	If _DateIsLeapYear($iYear) Then $aiDays[2] = 29
 	Return $aiDays
 EndFunc   ;==>_DaysInMonth
@@ -1830,10 +1618,8 @@ EndFunc   ;==>_DaysInMonth
 ; Example .......:
 ; ===============================================================================================================================
 Func __Date_Time_CloneSystemTime($pSystemTime)
-	Local $tSystemTime1, $tSystemTime2
-
-	$tSystemTime1 = DllStructCreate($tagSYSTEMTIME, $pSystemTime)
-	$tSystemTime2 = DllStructCreate($tagSYSTEMTIME)
+	Local $tSystemTime1 = DllStructCreate($tagSYSTEMTIME, $pSystemTime)
+	Local $tSystemTime2 = DllStructCreate($tagSYSTEMTIME)
 	DllStructSetData($tSystemTime2, "Month", DllStructGetData($tSystemTime1, "Month"))
 	DllStructSetData($tSystemTime2, "Day", DllStructGetData($tSystemTime1, "Day"))
 	DllStructSetData($tSystemTime2, "Year", DllStructGetData($tSystemTime1, "Year"))
@@ -1863,10 +1649,9 @@ EndFunc   ;==>__Date_Time_CloneSystemTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_CompareFileTime($pFileTime1, $pFileTime2)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "CompareFileTime", "ptr", $pFileTime1, "ptr", $pFileTime2)
-	Return SetError(@error, @extended, $aResult[0])
+	Local $aResult = DllCall("kernel32.dll", "long", "CompareFileTime", "ptr", $pFileTime1, "ptr", $pFileTime2)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return $aResult[0]
 EndFunc   ;==>_Date_Time_CompareFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -1890,12 +1675,11 @@ EndFunc   ;==>_Date_Time_CompareFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateTimeToFileTime($iFatDate, $iFatTime)
-	Local $pTime, $tTime, $aResult
-
-	$tTime = DllStructCreate($tagFILETIME)
-	$pTime = DllStructGetPtr($tTime)
-	$aResult = DllCall("Kernel32.dll", "int", "DosDateTimeToFileTime", "ushort", $iFatDate, "ushort", $iFatTime, "ptr", $pTime)
-	Return SetError($aResult[0] = 0, 0, $tTime)
+	Local $tTime = DllStructCreate($tagFILETIME)
+	Local $pTime = DllStructGetPtr($tTime)
+	Local $aResult = DllCall("kernel32.dll", "bool", "DosDateTimeToFileTime", "word", $iFatDate, "word", $iFatTime, "ptr", $pTime)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tTime)
 EndFunc   ;==>_Date_Time_DOSDateTimeToFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -1985,9 +1769,7 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateTimeToStr($iDosDate, $iDosTime)
-	Local $aDate
-
-	$aDate = _Date_Time_DOSDateTimeToArray($iDosDate, $iDosTime)
+	Local $aDate = _Date_Time_DOSDateTimeToArray($iDosDate, $iDosTime)
 	Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2], $aDate[3], $aDate[4], $aDate[5])
 EndFunc   ;==>_Date_Time_DOSDateTimeToStr
 
@@ -2008,9 +1790,7 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToStr
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSDateToStr($iDosDate)
-	Local $aDate
-
-	$aDate = _Date_Time_DOSDateToArray($iDosDate)
+	Local $aDate = _Date_Time_DOSDateToArray($iDosDate)
 	Return StringFormat("%02d/%02d/%04d", $aDate[0], $aDate[1], $aDate[2])
 EndFunc   ;==>_Date_Time_DOSDateToStr
 
@@ -2059,9 +1839,7 @@ EndFunc   ;==>_Date_Time_DOSTimeToArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_DOSTimeToStr($iDosTime)
-	Local $aTime
-
-	$aTime = _Date_Time_DOSTimeToArray($iDosTime)
+	Local $aTime = _Date_Time_DOSTimeToArray($iDosTime)
 	Return StringFormat("%02d:%02d:%02d", $aTime[0], $aTime[1], $aTime[2])
 EndFunc   ;==>_Date_Time_DOSTimeToStr
 
@@ -2085,9 +1863,7 @@ EndFunc   ;==>_Date_Time_DOSTimeToStr
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_EncodeFileTime($iMonth, $iDay, $iYear, $iHour = 0, $iMinute = 0, $iSecond = 0, $iMSeconds = 0)
-	Local $tSystemTime
-
-	$tSystemTime = _Date_Time_EncodeSystemTime($iMonth, $iDay, $iYear, $iHour, $iMinute, $iSecond, $iMSeconds)
+	Local $tSystemTime = _Date_Time_EncodeSystemTime($iMonth, $iDay, $iYear, $iHour, $iMinute, $iSecond, $iMSeconds)
 	Return _Date_Time_SystemTimeToFileTime(DllStructGetPtr($tSystemTime))
 EndFunc   ;==>_Date_Time_EncodeFileTime
 
@@ -2111,9 +1887,7 @@ EndFunc   ;==>_Date_Time_EncodeFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_EncodeSystemTime($iMonth, $iDay, $iYear, $iHour = 0, $iMinute = 0, $iSecond = 0, $iMSeconds = 0)
-	Local $tSystemTime
-
-	$tSystemTime = DllStructCreate($tagSYSTEMTIME)
+	Local $tSystemTime = DllStructCreate($tagSYSTEMTIME)
 	DllStructSetData($tSystemTime, "Month", $iMonth)
 	DllStructSetData($tSystemTime, "Day", $iDay)
 	DllStructSetData($tSystemTime, "Year", $iYear)
@@ -2149,7 +1923,7 @@ Func _Date_Time_FileTimeToArray(ByRef $tFileTime)
 	If ((DllStructGetData($tFileTime, 1) + DllStructGetData($tFileTime, 2)) = 0) Then Return SetError(1, 0, 0)
 	Local $tSystemTime = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tFileTime))
 	If @error Then Return SetError(@error, @extended, 0)
-	
+
 	Return _Date_Time_SystemTimeToArray($tSystemTime)
 EndFunc   ;==>_Date_Time_FileTimeToArray
 
@@ -2171,7 +1945,7 @@ EndFunc   ;==>_Date_Time_FileTimeToArray
 Func _Date_Time_FileTimeToStr(ByRef $tFileTime, $bFmt = 0)
 	Local $aDate = _Date_Time_FileTimeToArray($tFileTime)
 	If @error Then Return SetError(@error, @extended, "")
-	
+
 	If $bFmt Then
 		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aDate[2], $aDate[1], $aDate[0], $aDate[3], $aDate[4], $aDate[5])
 	Else
@@ -2201,12 +1975,13 @@ EndFunc   ;==>_Date_Time_FileTimeToStr
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToDOSDateTime($pFileTime)
-	Local $aDate[2], $aResult
+	Local $aDate[2]
 
-	$aResult = DllCall("Kernel32.dll", "int", "FileTimeToDosDateTime", "ptr", $pFileTime, "int*", 0, "int*", 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "FileTimeToDosDateTime", "ptr", $pFileTime, "word*", 0, "word*", 0)
+	If @error Then Return SetError(@error, @extended, $aDate)
 	$aDate[0] = $aResult[2]
 	$aDate[1] = $aResult[3]
-	Return SetError($aResult[0] = 0, 0, $aDate)
+	Return SetExtended($aResult[0], $aDate)
 EndFunc   ;==>_Date_Time_FileTimeToDOSDateTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2224,11 +1999,10 @@ EndFunc   ;==>_Date_Time_FileTimeToDOSDateTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToLocalFileTime($pFileTime)
-	Local $tLocal, $aResult
-
-	$tLocal = DllStructCreate($tagFILETIME)
-	$aResult = DllCall("Kernel32.dll", "int", "FileTimeToLocalFileTime", "ptr", $pFileTime, "ptr", DllStructGetPtr($tLocal))
-	Return SetError($aResult[0] = 0, 0, $tLocal)
+	Local $tLocal = DllStructCreate($tagFILETIME)
+	Local $aResult = DllCall("kernel32.dll", "bool", "FileTimeToLocalFileTime", "ptr", $pFileTime, "ptr", DllStructGetPtr($tLocal))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tLocal)
 EndFunc   ;==>_Date_Time_FileTimeToLocalFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2246,11 +2020,10 @@ EndFunc   ;==>_Date_Time_FileTimeToLocalFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_FileTimeToSystemTime($pFileTime)
-	Local $tSystTime, $aResult
-
-	$tSystTime = DllStructCreate($tagSYSTEMTIME)
-	$aResult = DllCall("Kernel32.dll", "int", "FileTimeToSystemTime", "ptr", $pFileTime, "ptr", DllStructGetPtr($tSystTime))
-	Return SetError($aResult[0] = 0, 0, $tSystTime)
+	Local $tSystTime = DllStructCreate($tagSYSTEMTIME)
+	Local $aResult = DllCall("kernel32.dll", "bool", "FileTimeToSystemTime", "ptr", $pFileTime, "ptr", DllStructGetPtr($tSystTime))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tSystTime)
 EndFunc   ;==>_Date_Time_FileTimeToSystemTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2275,16 +2048,17 @@ EndFunc   ;==>_Date_Time_FileTimeToSystemTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetFileTime($hFile)
-	Local $pCT, $pLA, $pLM, $aDate[3], $aResult
+	Local $aDate[3]
 
 	$aDate[0] = DllStructCreate($tagFILETIME)
 	$aDate[1] = DllStructCreate($tagFILETIME)
 	$aDate[2] = DllStructCreate($tagFILETIME)
-	$pCT = DllStructGetPtr($aDate[0])
-	$pLA = DllStructGetPtr($aDate[1])
-	$pLM = DllStructGetPtr($aDate[2])
-	$aResult = DllCall("Kernel32.dll", "int", "GetFileTime", "hwnd", $hFile, "ptr", $pCT, "ptr", $pLA, "ptr", $pLM)
-	Return SetError($aResult[0] = 0, 0, $aDate)
+	Local $pCT = DllStructGetPtr($aDate[0])
+	Local $pLA = DllStructGetPtr($aDate[1])
+	Local $pLM = DllStructGetPtr($aDate[2])
+	Local $aResult = DllCall("Kernel32.dll", "bool", "GetFileTime", "handle", $hFile, "ptr", $pCT, "ptr", $pLA, "ptr", $pLM)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aDate)
 EndFunc   ;==>_Date_Time_GetFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2301,10 +2075,9 @@ EndFunc   ;==>_Date_Time_GetFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetLocalTime()
-	Local $tSystTime
-
-	$tSystTime = DllStructCreate($tagSYSTEMTIME)
-	DllCall("Kernel32.dll", "none", "GetLocalTime", "ptr", DllStructGetPtr($tSystTime))
+	Local $tSystTime = DllStructCreate($tagSYSTEMTIME)
+	DllCall("kernel32.dll", "none", "GetLocalTime", "ptr", DllStructGetPtr($tSystTime))
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $tSystTime
 EndFunc   ;==>_Date_Time_GetLocalTime
 
@@ -2322,10 +2095,9 @@ EndFunc   ;==>_Date_Time_GetLocalTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTime()
-	Local $tSystTime
-
-	$tSystTime = DllStructCreate($tagSYSTEMTIME)
-	DllCall("Kernel32.dll", "none", "GetSystemTime", "ptr", DllStructGetPtr($tSystTime))
+	Local $tSystTime = DllStructCreate($tagSYSTEMTIME)
+	DllCall("kernel32.dll", "none", "GetSystemTime", "ptr", DllStructGetPtr($tSystTime))
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $tSystTime
 EndFunc   ;==>_Date_Time_GetSystemTime
 
@@ -2349,13 +2121,15 @@ EndFunc   ;==>_Date_Time_GetSystemTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimeAdjustment()
-	Local $aInfo[3], $aResult
+	Local $aInfo[3]
 
-	$aResult = DllCall("Kernel32.dll", "int", "GetSystemTimeAdjustment", "int*", 0, "int*", 0, "int*", 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetSystemTimeAdjustment", "dword*", 0, "dword*", 0, "bool*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+
 	$aInfo[0] = $aResult[1]
 	$aInfo[1] = $aResult[2]
 	$aInfo[2] = $aResult[3] <> 0
-	Return SetError($aResult[0] = 0, 0, $aInfo)
+	Return SetExtended($aResult[0], $aInfo)
 EndFunc   ;==>_Date_Time_GetSystemTimeAdjustment
 
 ; #FUNCTION# ====================================================================================================================
@@ -2372,10 +2146,9 @@ EndFunc   ;==>_Date_Time_GetSystemTimeAdjustment
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimeAsFileTime()
-	Local $tFileTime
-
-	$tFileTime = DllStructCreate($tagFILETIME)
-	DllCall("Kernel32.dll", "none", "GetSystemTimeAsFileTime", "ptr", DllStructGetPtr($tFileTime))
+	Local $tFileTime = DllStructCreate($tagFILETIME)
+	DllCall("kernel32.dll", "none", "GetSystemTimeAsFileTime", "ptr", DllStructGetPtr($tFileTime))
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $tFileTime
 EndFunc   ;==>_Date_Time_GetSystemTimeAsFileTime
 
@@ -2396,16 +2169,17 @@ EndFunc   ;==>_Date_Time_GetSystemTimeAsFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetSystemTimes()
-	Local $pIdle, $pKernel, $pUser, $aInfo[3], $aResult
+	Local $aInfo[3]
 
 	$aInfo[0] = DllStructCreate($tagFILETIME)
 	$aInfo[1] = DllStructCreate($tagFILETIME)
 	$aInfo[2] = DllStructCreate($tagFILETIME)
-	$pIdle = DllStructGetPtr($aInfo[0])
-	$pKernel = DllStructGetPtr($aInfo[1])
-	$pUser = DllStructGetPtr($aInfo[2])
-	$aResult = DllCall("Kernel32.dll", "int", "GetSystemTimes", "ptr", $pIdle, "ptr", $pKernel, "ptr", $pUser)
-	Return SetError($aResult[0] = 0, 0, $aInfo)
+	Local $pIdle = DllStructGetPtr($aInfo[0])
+	Local $pKernel = DllStructGetPtr($aInfo[1])
+	Local $pUser = DllStructGetPtr($aInfo[2])
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetSystemTimes", "ptr", $pIdle, "ptr", $pKernel, "ptr", $pUser)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aInfo)
 EndFunc   ;==>_Date_Time_GetSystemTimes
 
 ; #FUNCTION# ====================================================================================================================
@@ -2423,9 +2197,8 @@ EndFunc   ;==>_Date_Time_GetSystemTimes
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetTickCount()
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "GetTickCount")
+	Local $aResult = DllCall("kernel32.dll", "dword", "GetTickCount")
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_Date_Time_GetTickCount
 
@@ -2463,10 +2236,11 @@ EndFunc   ;==>_Date_Time_GetTickCount
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_GetTimeZoneInformation()
-	Local $tTimeZone, $aInfo[8], $aResult
+	Local $tTimeZone = DllStructCreate($tagTIME_ZONE_INFORMATION)
+	Local $aResult = DllCall("kernel32.dll", "dword", "GetTimeZoneInformation", "ptr", DllStructGetPtr($tTimeZone))
+	If @error Or $aResult[0] = -1 Then Return SetError(@error, @extended, 0)
 
-	$tTimeZone = DllStructCreate($tagTIME_ZONE_INFORMATION)
-	$aResult = DllCall("Kernel32.dll", "int", "GetTimeZoneInformation", "ptr", DllStructGetPtr($tTimeZone))
+	Local $aInfo[8]
 	$aInfo[0] = $aResult[0]
 	$aInfo[1] = DllStructGetData($tTimeZone, "Bias")
 	$aInfo[2] = _WinAPI_WideCharToMultiByte(DllStructGetPtr($tTimeZone, "StdName"))
@@ -2495,11 +2269,10 @@ EndFunc   ;==>_Date_Time_GetTimeZoneInformation
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_LocalFileTimeToFileTime($pLocalTime)
-	Local $tFileTime, $aResult
-
-	$tFileTime = DllStructCreate($tagFILETIME)
-	$aResult = DllCall("Kernel32.dll", "int", "LocalFileTimeToFileTime", "ptr", $pLocalTime, "ptr", DllStructGetPtr($tFileTime))
-	Return SetError($aResult[0] = 0, 0, $tFileTime)
+	Local $tFileTime = DllStructCreate($tagFILETIME)
+	Local $aResult = DllCall("kernel32.dll", "bool", "LocalFileTimeToFileTime", "ptr", $pLocalTime, "ptr", DllStructGetPtr($tFileTime))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tFileTime)
 EndFunc   ;==>_Date_Time_LocalFileTimeToFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2531,10 +2304,9 @@ EndFunc   ;==>_Date_Time_LocalFileTimeToFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetFileTime($hFile, $pCreateTime, $pLastAccess, $pLastWrite)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "SetFileTime", "hwnd", $hFile, "ptr", $pCreateTime, "ptr", $pLastAccess, "ptr", $pLastWrite)
-	Return SetError($aResult[0] = 0, 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "SetFileTime", "handle", $hFile, "ptr", $pCreateTime, "ptr", $pLastAccess, "ptr", $pLastWrite)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_Date_Time_SetFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2552,16 +2324,16 @@ EndFunc   ;==>_Date_Time_SetFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetLocalTime($pSystemTime)
-	Local $aResult
+	Local $aResult = DllCall("kernel32.dll", "bool", "SetLocalTime", "ptr", $pSystemTime)
+	If @error Or Not $aResult Then Return SetError(@error, @extended, False)
 
-	$aResult = DllCall("Kernel32.dll", "int", "SetLocalTime", "ptr", $pSystemTime)
-	If $aResult[0] = 0 Then Return SetError(1, 0, False)
 	; The system uses UTC internally.  When you call SetLocalTime, the system uses the current time zone information to perform the
 	; conversion, incuding the daylight saving time setting.  The system uses the daylight saving time setting of the current time,
 	; not the new time you are setting.  This is a "feature" according to Microsoft.  In order to get around this, we have to  call
 	; the function twice. The first call sets the internal time zone and the second call sets the actual time.
-	$aResult = DllCall("Kernel32.dll", "int", "SetLocalTime", "ptr", $pSystemTime)
-	Return SetError($aResult[0] = 0, 0, $aResult[0] <> 0)
+	$aResult = DllCall("kernel32.dll", "bool", "SetLocalTime", "ptr", $pSystemTime)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_Date_Time_SetLocalTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2579,10 +2351,9 @@ EndFunc   ;==>_Date_Time_SetLocalTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetSystemTime($pSystemTime)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "SetSystemTime", "ptr", $pSystemTime)
-	Return SetError($aResult[0] = 0, 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "SetSystemTime", "ptr", $pSystemTime)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_Date_Time_SetSystemTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2607,23 +2378,34 @@ EndFunc   ;==>_Date_Time_SetSystemTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetSystemTimeAdjustment($iAdjustment, $fDisabled)
-	Local $hToken, $aResult
-
 	; Enable system time privileged mode
-	$hToken = _Security__OpenThreadTokenEx(BitOR($__DATECONSTANT_TOKEN_ADJUST_PRIVILEGES, $__DATECONSTANT_TOKEN_QUERY))
-	_WinAPI_Check("_Date_Time_SetSystemTimeAjustment:OpenThreadTokenEx", @error, @extended)
+	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
+	If @error Then Return SetError(@error, @extended, False)
 	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", True)
-	_WinAPI_Check("_Date_Time_SetSystemTimeAjustment:SetPrivilege:Enable", @error, @extended)
+	Local $iError = @error
+	Local $iLastError = @extended
+	Local $iRet = False
+	If Not @error Then
+		; Set system time
+		Local $aResult = DllCall("kernel32.dll", "bool", "SetSystemTimeAdjustment", "dword", $iAdjustment, "bool", $fDisabled)
+		If @error Then
+			$iError = @error
+			$iLastError = @extended
+		ElseIf $aResult[0] Then
+			$iRet = True
+		Else
+			$iError = 1
+			$iLastError = _WinAPI_GetLastError()
+		EndIf
 
-	; Set system time
-	$aResult = DllCall("Kernel32.dll", "int", "SetSystemTimeAdjustment", "dword", $iAdjustment, "int", $fDisabled)
+		; Disable system time privileged mode
+		_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", False)
+		If @error Then $iError = 2
 
-	; Disable system time privileged mode
-	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", False)
-	_WinAPI_Check("_Date_Time_SetSystemTimeAdjustment:SetPrivilege:Disable", @error, @extended)
+	EndIf
 	_WinAPI_CloseHandle($hToken)
 
-	Return SetError($aResult[0] = 0, 0, $aResult[0] <> 0)
+	Return SetError($iError,  $iLastError, $iRet)
 EndFunc   ;==>_Date_Time_SetSystemTimeAdjustment
 
 ; #FUNCTION# ====================================================================================================================
@@ -2655,11 +2437,9 @@ EndFunc   ;==>_Date_Time_SetSystemTimeAdjustment
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, $sDayName, $tDayDate, $iDayBias)
-	Local $hToken, $tStdName, $tDayName, $tZoneInfo, $aResult
-
-	$tStdName = _WinAPI_MultiByteToWideChar($sStdName)
-	$tDayName = _WinAPI_MultiByteToWideChar($sDayName)
-	$tZoneInfo = DllStructCreate($tagTIME_ZONE_INFORMATION)
+	Local $tStdName = _WinAPI_MultiByteToWideChar($sStdName)
+	Local $tDayName = _WinAPI_MultiByteToWideChar($sDayName)
+	Local $tZoneInfo = DllStructCreate($tagTIME_ZONE_INFORMATION)
 	DllStructSetData($tZoneInfo, "Bias", $iBias)
 	DllStructSetData($tZoneInfo, "StdName", DllStructGetData($tStdName, 1))
 	_MemMoveMemory(DllStructGetPtr($tStdDate), DllStructGetPtr($tZoneInfo, "StdDate"), DllStructGetSize($tStdDate))
@@ -2669,20 +2449,33 @@ Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, 
 	DllStructSetData($tZoneInfo, "DayBias", $iDayBias)
 
 	; Enable system time privileged mode
-	$hToken = _Security__OpenThreadTokenEx(BitOR($__DATECONSTANT_TOKEN_ADJUST_PRIVILEGES, $__DATECONSTANT_TOKEN_QUERY))
-	_WinAPI_Check("_Date_Time_SetSystemTimeAjustment:OpenThreadTokenEx", @error, @extended)
+	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
+	If @error Then Return SetError(@error, @extended, False)
 	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", True)
-	_WinAPI_Check("_Date_Time_SetSystemTimeAjustment:SetPrivilege:Enable", @error, @extended)
+	Local $iError = @error
+	Local $iLastError = @extended
+	Local $iRet = False
+	If Not @error Then
+		; Set time zone information
+		Local $aResult = DllCall("kernel32.dll", "bool", "SetTimeZoneInformation", "ptr", DllStructGetPtr($tZoneInfo))
+		If @error Then
+			$iError = @error
+			$iLastError = @extended
+		ElseIf $aResult[0] Then
+			$iLastError = 0
+			$iRet = True
+		Else
+			$iError = 1
+			$iLastError = _WinAPI_GetLastError()
+		EndIf
 
-	; Set time zone information
-	$aResult = DllCall("Kernel32.dll", "int", "SetTimeZoneInformation", "ptr", DllStructGetPtr($tZoneInfo))
-
-	; Disable system time privileged mode
-	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", False)
-	_WinAPI_Check("_Date_Time_SetSystemTimeAdjustment:SetPrivilege:Disable", @error, @extended)
+		; Disable system time privileged mode
+		_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", False)
+		If @error Then $iError = 2
+	EndIf
 	_WinAPI_CloseHandle($hToken)
 
-	Return SetError($aResult[0] = 0, 0, $aResult[0] <> 0)
+	Return SetError($iError,  $iLastError, $iRet)
 EndFunc   ;==>_Date_Time_SetTimeZoneInformation
 
 ; #FUNCTION# ====================================================================================================================
@@ -2738,9 +2531,9 @@ EndFunc   ;==>_Date_Time_SystemTimeToArray
 Func _Date_Time_SystemTimeToDateStr(ByRef $tSystemTime, $bFmt = 0)
 	Local $aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
 	If @error Then Return SetError(@error, @extended, "")
-	
+
 	If $bFmt Then
-		Return StringFormat("%04d/%02d/%02d", $aInfo[2], $aInfo[1], $aInfo[0])
+		Return StringFormat("%04d/%02d/%02d", $aInfo[2], $aInfo[0], $aInfo[1])
 	Else
 		Return StringFormat("%02d/%02d/%04d", $aInfo[0], $aInfo[1], $aInfo[2])
 	EndIf
@@ -2764,9 +2557,9 @@ EndFunc   ;==>_Date_Time_SystemTimeToDateStr
 Func _Date_Time_SystemTimeToDateTimeStr(ByRef $tSystemTime, $bFmt = 0)
 	Local $aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
 	If @error Then Return SetError(@error, @extended, "")
-	
+
 	If $bFmt Then
-		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aInfo[2], $aInfo[1], $aInfo[0], $aInfo[3], $aInfo[4], $aInfo[5])
+		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aInfo[2], $aInfo[0], $aInfo[1], $aInfo[3], $aInfo[4], $aInfo[5])
 	Else
 		Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aInfo[0], $aInfo[1], $aInfo[2], $aInfo[3], $aInfo[4], $aInfo[5])
 	EndIf
@@ -2786,11 +2579,10 @@ EndFunc   ;==>_Date_Time_SystemTimeToDateTimeStr
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToFileTime($pSystemTime)
-	Local $tFileTime, $aResult
-
-	$tFileTime = DllStructCreate($tagFILETIME)
-	$aResult = DllCall("Kernel32.dll", "int", "SystemTimeToFileTime", "ptr", $pSystemTime, "ptr", DllStructGetPtr($tFileTime))
-	Return SetError($aResult[0] = 0, 0, $tFileTime)
+	Local $tFileTime = DllStructCreate($tagFILETIME)
+	Local $aResult = DllCall("kernel32.dll", "bool", "SystemTimeToFileTime", "ptr", $pSystemTime, "ptr", DllStructGetPtr($tFileTime))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tFileTime)
 EndFunc   ;==>_Date_Time_SystemTimeToFileTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2807,9 +2599,7 @@ EndFunc   ;==>_Date_Time_SystemTimeToFileTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToTimeStr(ByRef $tSystemTime)
-	Local $aInfo
-
-	$aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
+	Local $aInfo = _Date_Time_SystemTimeToArray($tSystemTime)
 	Return StringFormat("%02d:%02d:%02d", $aInfo[3], $aInfo[4], $aInfo[5])
 EndFunc   ;==>_Date_Time_SystemTimeToTimeStr
 
@@ -2830,11 +2620,10 @@ EndFunc   ;==>_Date_Time_SystemTimeToTimeStr
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_SystemTimeToTzSpecificLocalTime($pUTC, $pTimeZone = 0)
-	Local $tLocalTime, $aResult
-
-	$tLocalTime = DllStructCreate($tagSYSTEMTIME)
-	$aResult = DllCall("Kernel32.dll", "int", "SystemTimeToTzSpecificLocalTime", "ptr", $pTimeZone, "ptr", $pUTC, "ptr", DllStructGetPtr($tLocalTime))
-	Return SetError($aResult[0] = 0, 0, $tLocalTime)
+	Local $tLocalTime = DllStructCreate($tagSYSTEMTIME)
+	Local $aResult = DllCall("kernel32.dll", "bool", "SystemTimeToTzSpecificLocalTime", "ptr", $pTimeZone, "ptr", $pUTC, "ptr", DllStructGetPtr($tLocalTime))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tLocalTime)
 EndFunc   ;==>_Date_Time_SystemTimeToTzSpecificLocalTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2854,9 +2643,8 @@ EndFunc   ;==>_Date_Time_SystemTimeToTzSpecificLocalTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Date_Time_TzSpecificLocalTimeToSystemTime($pLocalTime, $pTimeZone = 0)
-	Local $tUTC, $aResult
-
-	$tUTC = DllStructCreate($tagSYSTEMTIME)
-	$aResult = DllCall("Kernel32.dll", "int", "TzSpecificLocalTimeToSystemTime", "ptr", $pTimeZone, "ptr", $pLocalTime, "ptr", DllStructGetPtr($tUTC))
-	Return SetError($aResult[0] = 0, 0, $tUTC)
+	Local $tUTC = DllStructCreate($tagSYSTEMTIME)
+	Local $aResult = DllCall("kernel32.dll", "ptr", "TzSpecificLocalTimeToSystemTime", "ptr", $pTimeZone, "ptr", $pLocalTime, "ptr", DllStructGetPtr($tUTC))
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $tUTC)
 EndFunc   ;==>_Date_Time_TzSpecificLocalTimeToSystemTime

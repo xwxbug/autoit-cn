@@ -1,7 +1,7 @@
 ﻿Run("notepad.exe")
-WinWait("Untitled")
+WinWait("[CLASS:Notepad]")
 
-SendKeepActive("Untitled")
+SendKeepActive("[CLASS:Notepad]")
 
 ; Change the active window during pauses
 For $i = 1 to 10

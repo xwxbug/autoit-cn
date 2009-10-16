@@ -7,6 +7,6 @@ If @error Then
 	MsgBox(16, "SQLite Error", "SQLite.dll Can't be Loaded!")
 	Exit - 1
 EndIf
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 MsgBox(0,"SQLite3.dll Loaded",$sSQliteDll)
 _SQLite_Shutdown ()

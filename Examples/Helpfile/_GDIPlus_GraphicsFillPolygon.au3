@@ -7,16 +7,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hWnd, $hGraphic, $aPoints[4][2]
+	Local $hGUI, $hGraphic, $aPoints[4][2]
 
 	; Create GUI
-	GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
+	$hGUI = GUICreate("GDI+", 400, 300)
 	GUISetState()
 
 	; Draw a polygon
 	_GDIPlus_Startup()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 
 	$aPoints[0][0] = 3
 	$aPoints[1][0] = 150
@@ -29,7 +28,7 @@ Func _Main()
 	MsgBox(4096, "Information", "Fill Polygon")
 
 	_GDIPlus_GraphicsFillPolygon($hGraphic, $aPoints)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

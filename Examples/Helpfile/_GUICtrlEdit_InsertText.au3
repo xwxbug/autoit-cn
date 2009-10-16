@@ -11,8 +11,10 @@ _Main()
 
 Func _Main()
 	Local $hEdit
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
-	
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+
 	; Create GUI
 	GUICreate("Edit Insert Text", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268, BitOR($ES_WANTRETURN, $WS_VSCROLL))
@@ -23,10 +25,10 @@ Func _Main()
 
 	; Set Text
 	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
-	
+
 	; Insert text
 	_GUICtrlEdit_InsertText($hEdit, "*** Excellent UDFs ***" & @CRLF & @CRLF, 0)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

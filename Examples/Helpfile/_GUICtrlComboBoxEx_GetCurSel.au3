@@ -11,7 +11,7 @@ _Main()
 
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
-	
+
 	; Create GUI
 	$hGUI = GUICreate("ComboBoxEx Get Cur Sel", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create ($hGUI, "", 2, 2, 394, 100, BitOR($CBS_SIMPLE, $WS_VSCROLL, $WS_BORDER))
@@ -29,17 +29,17 @@ Func _Main()
 	_GUIImageList_Add ($hImage, _GUICtrlComboBoxEx_CreateSolidBitMap ($hCombo, 0x0000FF, 16, 16))
 	_GUICtrlComboBoxEx_SetImageList ($hCombo, $hImage)
 
-	_GUICtrlComboBoxEx_InitStorage ($hCombo, 150, 300)
-	
+	_GUICtrlComboBoxEx_InitStorage ($hCombo, 100, 320)
+
 	_GUICtrlComboBoxEx_BeginUpdate ($hCombo)
-	For $x = 0 To 149
-		_GUICtrlComboBoxEx_AddString ($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), Random(0, 8, 1), Random(0, 8, 1), Random(0, 8, 1))
+	For $x = 0 To 99
+		_GUICtrlComboBoxEx_AddString ($hCombo, StringFormat("%03d : Random string", $x), Random(0, 8, 1), Random(0, 8, 1), Random(0, 8, 1))
 	Next
 	_GUICtrlComboBoxEx_EndUpdate ($hCombo)
 
 	; Set Cur Sel
-	_GUICtrlComboBoxEx_SetCurSel ($hCombo, Random(0, 149, 1))
-	
+	_GUICtrlComboBoxEx_SetCurSel ($hCombo, Random(0, 99, 1))
+
 	; Get Cur Sel
 	MsgBox(4160, "Information", "Current Sel: " & _GUICtrlComboBoxEx_GetCurSel ($hCombo))
 

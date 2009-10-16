@@ -6,7 +6,9 @@ _Main()
 
 Func _Main()
 	Local $from, $to, $path
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir")
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir")
 
 	$from = @ScriptDir
 	ConsoleWrite("Source Path: " & $from & @CRLF)

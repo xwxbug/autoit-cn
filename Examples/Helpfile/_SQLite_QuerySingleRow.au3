@@ -3,7 +3,7 @@
 
 Local $aRow
 _SQLite_Startup ()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open () ; open :memory: Database
 _SQLite_Exec(-1,"CREATE TEMP TABLE settings (key,value);")
 _SQLite_Exec(-1,"INSERT INTO settings (key,value) VALUES ('1','setting one');")

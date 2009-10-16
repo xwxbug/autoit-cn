@@ -2,7 +2,7 @@
 #include <SQLite.dll.au3>
 
 _SQLite_Startup()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open()
 _SQLite_Exec(-1,"CREATE TABLE test (a, b);") ; Create Table
 _SQLite_Exec(-1,"INSERT INTO test VALUES ('1', '2');") ; Insert Row 1

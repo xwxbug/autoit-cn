@@ -54,5 +54,6 @@ Global Const $SB_SIMPLEID = 0xff
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
-Global Const $SBN_SIMPLEMODECHANGE = 0xFFFFFC90 ; Sent when the simple mode changes due to a $SB_SIMPLE message
+Global Const $SBN_FIRST				= -880
+Global Const $SBN_SIMPLEMODECHANGE	= $SBN_FIRST - 0 ; Sent when the simple mode changes due to a $SB_SIMPLE message
 ; ===============================================================================================================================

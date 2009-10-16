@@ -5,6 +5,9 @@
 ;==============================================
 UDPStartup()
 
+; 注册清理函数.
+OnAutoItExitRegister("Cleanup")
+
 ; 打开一个"套接字"("SOCKET")
 ;==============================================
 $socket = UDPOpen("127.0.0.1", 65532)
@@ -21,7 +24,7 @@ While 1
     EndIf
 WEnd
 
-Func OnAutoItExit()
+Func Cleanup()
     UDPCloseSocket($socket)
     UDPShutdown()
 EndFunc

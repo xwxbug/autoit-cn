@@ -1,1 +1,1 @@
-﻿ControlDisable("未命名", "", "MDIClient1")
+﻿ControlDisable("[CLASS:Notepad]", "", "MDIClient1")

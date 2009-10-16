@@ -1,1 +1,1 @@
-﻿ControlClick("未命名", "", "MDIClient1")
+﻿ControlClick("[CLASS:Notepad]", "", "MDIClient1")

@@ -26,7 +26,7 @@ Func _Main()
 
 	; Clean up resources
 	_GDIPlus_GraphicsDispose ($hGraphic)
-	_GDIPlus_ImageDispose ($hBitmap)
+	_GDIPlus_BitmapDispose ($hBitmap)
 	_WinAPI_DeleteObject ($hBMP)
 
 	; Shut down GDI+ library

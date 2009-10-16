@@ -10,22 +10,22 @@
 
 ; #CONSTANTS# ===================================================================================================================
 ; Label/Pic/Icon
-Global Const $SS_LEFT = 0
-Global Const $SS_CENTER = 1
-Global Const $SS_RIGHT = 2
-Global Const $SS_ICON = 3
-Global Const $SS_BLACKRECT = 4
-Global Const $SS_GRAYRECT = 5
-Global Const $SS_WHITERECT = 6
-Global Const $SS_BLACKFRAME = 7
-Global Const $SS_GRAYFRAME = 8
-Global Const $SS_WHITEFRAME = 9
-Global Const $SS_SIMPLE = 11
-Global Const $SS_LEFTNOWORDWRAP = 12
-Global Const $SS_BITMAP = 15
-Global Const $SS_ETCHEDHORZ = 16
-Global Const $SS_ETCHEDVERT = 17
-Global Const $SS_ETCHEDFRAME = 18
+Global Const $SS_LEFT = 0x0
+Global Const $SS_CENTER = 0x1
+Global Const $SS_RIGHT = 0x2
+Global Const $SS_ICON = 0x3
+Global Const $SS_BLACKRECT = 0x4
+Global Const $SS_GRAYRECT = 0x5
+Global Const $SS_WHITERECT = 0x6
+Global Const $SS_BLACKFRAME = 0x7
+Global Const $SS_GRAYFRAME = 0x8
+Global Const $SS_WHITEFRAME = 0x9
+Global Const $SS_SIMPLE = 0xB
+Global Const $SS_LEFTNOWORDWRAP = 0xC
+Global Const $SS_BITMAP = 0xE
+Global Const $SS_ETCHEDHORZ = 0x10
+Global Const $SS_ETCHEDVERT = 0x11
+Global Const $SS_ETCHEDFRAME = 0x12
 Global Const $SS_NOPREFIX = 0x0080
 Global Const $SS_NOTIFY = 0x0100
 Global Const $SS_CENTERIMAGE = 0x0200

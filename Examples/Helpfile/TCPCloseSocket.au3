@@ -19,9 +19,11 @@ Global $MainSocket
 Example()
 
 Func Example()
+	OnAutoItExitRegister("Cleanup")
+
 	Local $g_IP, $RogueSocket, $GOOEY, $edit, $input, $butt, $msg
 	Local $ret, $recv
-	
+
 	$g_IP = "127.0.0.1"
 
 	; Start The TCP Services
@@ -120,7 +122,7 @@ Func Example()
 	GUIDelete($GOOEY)
 EndFunc   ;==>Example
 
-Func OnAutoItExit()
+Func Cleanup()
 	;ON SCRIPT EXIT close opened sockets and shutdown TCP service
 	;----------------------------------------------------------------------
 	If $ConnectedSocket > -1 Then
@@ -131,4 +133,4 @@ Func OnAutoItExit()
 	EndIf
 	TCPCloseSocket($MainSocket)
 	TCPShutdown()
-EndFunc   ;==>OnAutoItExit
+EndFunc   ;==>Cleanup

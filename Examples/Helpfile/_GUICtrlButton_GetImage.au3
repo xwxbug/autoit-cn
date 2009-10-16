@@ -9,7 +9,9 @@ _Main()
 
 Func _Main()
 	Local $btn, $chk, $rdo, $Msg
-	Local $sPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\Beta\Examples\GUI\Advanced\Images"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\Advanced\Images"
 
 	GUICreate("Buttons", 300, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 60, 296, 236, $WS_VSCROLL)
@@ -28,7 +30,7 @@ Func _Main()
 	MemoWrite("Button1 Image Handle: " & _GUICtrlButton_GetImage($btn))
 	MemoWrite("Check1 Image Handle: " & _GUICtrlButton_GetImage($chk))
 	MemoWrite("Radio1 Image Handle: " & _GUICtrlButton_GetImage($rdo))
-	
+
 	While 1
 		$Msg = GUIGetMsg()
 		If $Msg = $GUI_EVENT_CLOSE Then ExitLoop

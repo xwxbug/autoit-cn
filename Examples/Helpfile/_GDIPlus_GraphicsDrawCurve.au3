@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic, $aPoints[5][2]
+	Local $hGUI, $hGraphic, $aPoints[5][2]
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Draw a cardinal spline
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 
 	$aPoints[0][0] = 4
 	$aPoints[1][0] = 0

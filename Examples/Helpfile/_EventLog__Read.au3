@@ -16,9 +16,9 @@ Func _Main()
 
 	; Read most current event record
 	$hEventLog = _EventLog__Open("", "Application")
+	$aEvent = _EventLog__Read($hEventLog, True, False)	; read last event
 ;~ 	$hEventLog = _EventLog__Open("", "System")
-	$aEvent = _EventLog__Read($hEventLog)
-;~ 	$aEvent = _EventLog__Read($hEventLog, True, False)
+;~ 	$aEvent = _EventLog__Read($hEventLog)
 ;~ 	$aEvent = _EventLog__Read($hEventLog, True, False)
 	MemoWrite("Result ............: " & $aEvent[ 0])
 	MemoWrite("Record number .....: " & $aEvent[ 1])

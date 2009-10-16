@@ -5,6 +5,9 @@
 ;==============================================
 UDPStartup()
 
+; 注册清理函数.
+OnAutoItExitRegister("Cleanup")
+
 ; 绑定到一个套接字(SOCKET)
 ;==============================================
 $socket = UDPBind("127.0.0.1", 65532)
@@ -18,7 +21,7 @@ While 1
     sleep(100)
 WEnd
 
-Func OnAutoItExit()
+Func Cleanup()
     UDPCloseSocket($socket)
     UDPShutdown()
 EndFunc

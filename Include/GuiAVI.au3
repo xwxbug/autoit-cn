@@ -1,10 +1,10 @@
 ﻿#include-once
 
-#include <AVIConstants.au3>
-#include <Memory.au3>
-#include <SendMessage.au3>
-#include <WinAPI.au3>
-#include <UDFGlobalID.au3>
+#include "AVIConstants.au3"
+#include "Memory.au3"
+#include "SendMessage.au3"
+#include "WinAPI.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Animation
@@ -42,6 +42,7 @@ Global Const $ACM_OPENA = $__AVICONSTANT_WM_USER + 100
 Global Const $ACM_PLAY  = $__AVICONSTANT_WM_USER + 101
 Global Const $ACM_STOP  = $__AVICONSTANT_WM_USER + 102
 Global Const $ACM_ISPLAYING = $__AVICONSTANT_WM_USER + 104
+Global Const $ACM_OPENW = $__AVICONSTANT_WM_USER + 103
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
@@ -90,10 +91,9 @@ Global Const $__AVICONSTANT_ClassName = "SysAnimate32"
 Func _GUICtrlAVI_Close($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $iResult
 
-	$iResult = _SendMessage($hWnd, $ACM_OPENA)
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	Local $iRet = _SendMessage($hWnd, $ACM_OPENA)
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_Close
 
 ; #FUNCTION# ====================================================================================================================
@@ -126,16 +126,15 @@ EndFunc   ;==>_GUICtrlAVI_Close
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0, $iStyle = 0x00000006, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlAVI_Create 1st parameter")
-	If Not IsString($sFile) Then _WinAPI_ShowError("2nd parameter not a string for _GUICtrlAVI_Create")
-	Local $hAVI, $nCtrlID
+	If Not IsHWnd($hWnd) Then  Return SetError(1, 0, 0)		; Invalid Window handle for 1st parameter
+	If Not IsString($sFile) Then  Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlAVI_Create
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hAVI = _WinAPI_CreateWindowEx($iExStyle, $__AVICONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
+	Local $hAVI = _WinAPI_CreateWindowEx($iExStyle, $__AVICONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	If $subfileid <> -1 And $sFile <> "" Then
 		_GUICtrlAVI_OpenEx($hAVI, $sFile, $subfileid)
 	ElseIf $sFile <> "" Then
@@ -160,29 +159,27 @@ EndFunc   ;==>_GUICtrlAVI_Create
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Destroy(ByRef $hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
+	If Not _WinAPI_IsClassName($hWnd, $__AVICONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed, $iResult
-	If _WinAPI_IsClassName($hWnd, $__AVICONSTANT_ClassName) Then
-		If IsHWnd($hWnd) Then
-			If _WinAPI_InProcess($hWnd, $gh_AVLastWnd) Then
-				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
-				Local $hParent = _WinAPI_GetParent($hWnd)
-				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-				If Not $iResult Then
-					; can check for errors here if needed, for debug
-				EndIf
-			Else
-				_WinAPI_ShowMsg("Not Allowed to Destroy Other Applications Control(s)")
-				Return SetError(1, 1, False)
+	Local $Destroyed = 0
+	If IsHWnd($hWnd) Then
+		If _WinAPI_InProcess($hWnd, $gh_AVLastWnd) Then
+			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
+			Local $hParent = _WinAPI_GetParent($hWnd)
+			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+			If Not $iRet Then
+				; can check for errors here if needed, for debug
 			EndIf
 		Else
-			$Destroyed = GUICtrlDelete($hWnd)
+			; Not Allowed to Destroy Other Applications Control(s)
+			Return SetError(1, 1, False)
 		EndIf
-		If $Destroyed Then $hWnd = 0
-		Return $Destroyed <> 0
+	Else
+		$Destroyed = GUICtrlDelete($hWnd)
 	EndIf
-	Return SetError(2, 2, False)
+	If $Destroyed Then $hWnd = 0
+	Return $Destroyed <> 0
 EndFunc   ;==>_GUICtrlAVI_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -202,6 +199,7 @@ EndFunc   ;==>_GUICtrlAVI_Destroy
 Func _GUICtrlAVI_IsPlaying($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
+
 	Return _SendMessage($hWnd, $ACM_ISPLAYING) <> 0
 EndFunc   ;==>_GUICtrlAVI_IsPlaying
 
@@ -223,22 +221,22 @@ EndFunc   ;==>_GUICtrlAVI_IsPlaying
 Func _GUICtrlAVI_Open($hWnd, $sFileName)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tMemMap, $iResult, $struct_String, $pBuffer
 
-	$struct_String = DllStructCreate("char Text[" & StringLen($sFileName) + 1 & "]")
-	$pBuffer = DllStructGetPtr($struct_String)
-	DllStructSetData($struct_String, "Text", $sFileName)
-
+	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_AVLastWnd) Then
-		$iResult = _SendMessage($hWnd, $ACM_OPENA, 0, $pBuffer, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $ACM_OPENW, 0, $sFileName, 0, "wparam", "wstr")
 	Else
-		_MemInit($hWnd, StringLen($sFileName) + 1, $tMemMap)
+		Local $tBuffer = DllStructCreate("wchar Text[" & StringLen($sFileName) + 1 & "]")
+		Local $pBuffer = DllStructGetPtr($tBuffer)
+		DllStructSetData($tBuffer, "Text", $sFileName)
+		Local $tMemMap
+		_MemInit($hWnd, DllStructGetSize($tBuffer), $tMemMap)
 		_MemWrite($tMemMap, $pBuffer)
-		$iResult = _SendMessage($hWnd, $ACM_OPENA, True, $pBuffer, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $ACM_OPENW, True, $pBuffer, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
-	If $iResult <> 0 Then _GUICtrlAVI_Seek($hWnd, 0)
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	If $iRet <> 0 Then _GUICtrlAVI_Seek($hWnd, 0)
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_Open
 
 ; #FUNCTION# ====================================================================================================================
@@ -260,14 +258,13 @@ EndFunc   ;==>_GUICtrlAVI_Open
 Func _GUICtrlAVI_OpenEx($hWnd, $sFileName, $iResourceID)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $hInst, $iResult
 
-	$hInst = _WinAPI_LoadLibrary($sFileName)
-	If $hInst = 0 Then Return SetError(_WinAPI_GetLastError(), 0, False)
-	$iResult = _SendMessage($hWnd, $ACM_OPENA, $hInst, $iResourceID)
+	Local $hInst = _WinAPI_LoadLibrary($sFileName)
+	If @error Then Return SetError(@error, @extended, False)
+	Local $iRet = _SendMessage($hWnd, $ACM_OPENW, $hInst, $iResourceID)
 	_WinAPI_FreeLibrary($hInst)
-	If $iResult <> 0 Then _GUICtrlAVI_Seek($hWnd, 0)
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	If $iRet <> 0 Then _GUICtrlAVI_Seek($hWnd, 0)
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_OpenEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -292,10 +289,9 @@ EndFunc   ;==>_GUICtrlAVI_OpenEx
 Func _GUICtrlAVI_Play($hWnd, $iFrom = 0, $iTo = -1, $iRepeat = -1)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $iResult
 
-	$iResult = _SendMessage($hWnd, $ACM_PLAY, $iRepeat, _WinAPI_MakeLong($iFrom, $iTo))
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	Local $iRet = _SendMessage($hWnd, $ACM_PLAY, $iRepeat, _WinAPI_MakeLong($iFrom, $iTo))
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_Play
 
 ; #FUNCTION# ====================================================================================================================
@@ -316,10 +312,9 @@ EndFunc   ;==>_GUICtrlAVI_Play
 Func _GUICtrlAVI_Seek($hWnd, $iFrame)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $iResult
 
-	$iResult = _SendMessage($hWnd, $ACM_PLAY, 1, _WinAPI_MakeLong($iFrame, $iFrame))
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	Local $iRet = _SendMessage($hWnd, $ACM_PLAY, 1, _WinAPI_MakeLong($iFrame, $iFrame))
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_Seek
 
 ; #FUNCTION# ====================================================================================================================
@@ -342,10 +337,9 @@ EndFunc   ;==>_GUICtrlAVI_Seek
 Func _GUICtrlAVI_Show($hWnd, $iState)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
+
 	If $iState <> @SW_HIDE And $iState <> @SW_SHOW Then Return SetError(1, 1, 0)
-	Local $v_ret = DllCall("user32.dll", "int", "ShowWindow", "hwnd", HWnd($hWnd), "int", $iState)
-	If Not @error And IsArray($v_ret) Then Return $v_ret[0]
-	Return SetError(2, 2, 0)
+	Return _WinAPI_ShowWindow($hWnd, $iState)
 EndFunc   ;==>_GUICtrlAVI_Show
 
 ; #FUNCTION# ====================================================================================================================
@@ -365,8 +359,7 @@ EndFunc   ;==>_GUICtrlAVI_Show
 Func _GUICtrlAVI_Stop($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $iResult
 
-	$iResult = _SendMessage($hWnd, $ACM_STOP)
-	Return SetError($iResult = 0, 0, $iResult <> 0)
+	Local $iRet = _SendMessage($hWnd, $ACM_STOP)
+	Return SetError(@error, @extended, $iRet <> 0)
 EndFunc   ;==>_GUICtrlAVI_Stop

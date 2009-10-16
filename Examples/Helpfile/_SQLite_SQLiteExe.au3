@@ -26,17 +26,17 @@ If @error = 0 Then
 	;Show Table (using SQLite3.dll)
 	Local $iRows,$iColumns,$aRes
 	_SQLite_Startup()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 	_SQLite_Open($sDbFile)
 	_SQLite_GetTable2d(-1,"SELECT ROWID,* FROM TblImport;",$aRes,$iRows,$iColumns)
 	_SQLite_Display2DResult($aRes) ; Output to Console
 	_SQLite_Close()
 	_SQLite_Shutdown()
 Else
-	If @error = 2 Then 
-		ConsoleWrite("ERROR: Sqlite3.exe file not found" & @LF)
+	If @error = 2 Then
+		ConsoleWrite("ERROR: Sqlite3.exe file not found" & @CRLF)
 	Else
-		ConsoleWrite("ERROR: @error=" & @error & " when calling _SQLite_SQLiteExe" & @LF)
+		ConsoleWrite("ERROR: @error=" & @error & " when calling _SQLite_SQLiteExe" & @CRLF)
 	EndIf
 EndIf
 
@@ -45,10 +45,10 @@ FileDelete($sTsvFile)
 FileDelete($sDbFile)
 
 ;~ Output:
-;~ 	rowid  Column_1  Column_2  Column_3 
-;~ 	1      a         b         c        
-;~ 	2      a1        b1        c1       
-;~ 	3      a2        b2        c2       
+;~ 	rowid  Column_1  Column_2  Column_3
+;~ 	1      a         b         c
+;~ 	2      a1        b1        c1
+;~ 	3      a2        b2        c2
 
 
 

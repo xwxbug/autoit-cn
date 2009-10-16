@@ -49,7 +49,7 @@ Func _Example_Events()
 					_Timer_KillTimer($hGUI, $iTimer2)
 					GUICtrlSetData($btn_state, "Start Progress Bar")
 				EndIf
-				
+
 			Case $btn_change
 				If $iWait = 10 Then
 					$iWait = 250
@@ -61,14 +61,14 @@ Func _Example_Events()
 		EndSwitch
 	WEnd
 
-	ConsoleWrite("Killed All Timers? " & _Timer_KillAllTimers($hGUI) & @LF)
+	ConsoleWrite("Killed All Timers? " & _Timer_KillAllTimers($hGUI) & @CRLF)
 	GUIDelete()
 EndFunc   ;==>_Example_Events
 
 ; Timer Events
 Func WM_TIMER($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $ilParam
-	
+
 	Switch _Timer_GetTimerID($iwParam)
 		Case $iTimer1
 			_UpdateStatusBarClock()

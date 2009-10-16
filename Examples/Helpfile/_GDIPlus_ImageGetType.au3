@@ -14,10 +14,10 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hGUI, $hBitmap, $hImage, $iImageType, $sImageType
+	Local $hBitmap, $hImage, $iImageType, $sImageType
 
 	; Create GUI
-	$hGUI = GUICreate("GDI+", 600, 400)
+	GUICreate("GDI+", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -38,14 +38,14 @@ Func _Main()
 		Case $GDIP_IMAGETYPE_METAFILE ; EMF, WMF
 			$sImageType = "Metafile"
 	EndSwitch
-	
+
 	; Show image type: Unidentified = 0, Bitmap = 1, Metafile = 2)
 	MemoWrite("Image type: " & $sImageType);
 
 	; Clean up resources
 	_GDIPlus_ImageDispose($hImage)
 	_WinAPI_DeleteObject($hBitmap)
-	
+
 	; Shut down GDI+ library
 	_GDIPlus_Shutdown()
 

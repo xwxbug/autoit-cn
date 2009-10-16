@@ -1,1 +1,1 @@
-﻿ControlMove("未命名", "", "MDIClient1", 0, 0, 200, 200)
+﻿ControlMove("[CLASS:Notepad]", "", "MDIClient1", 0, 0, 200, 200)

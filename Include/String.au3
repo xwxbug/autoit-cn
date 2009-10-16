@@ -8,7 +8,6 @@
 
 ; #CURRENT# =====================================================================================================================
 ;_HexToString
-;_StringAddThousandsSep
 ;_StringBetween
 ;_StringEncrypt
 ;_StringExplode
@@ -37,73 +36,6 @@ Func _HexToString($strHex)
 	If StringLeft($strHex, 2) = "0x" Then Return BinaryToString($strHex)
 	Return BinaryToString("0x" & $strHex)
 EndFunc   ;==>_HexToString
-
-; #FUNCTION# ====================================================================================================================
-; Name...........: _StringAddThousandsSep
-; Description ...: Returns the original numbered string with the Thousands and or Decimal delimiter(s) inserted.
-; Syntax.........: _StringAddThousandsSep($s_string[, $i_convert_lcid = -1[, $i_current_lcid = -1]])
-; Parameters ....: $s_string         - The string to be converted.
-;                  $i_convert_lcid   - Optional: Default or -1 wll be the User default locale else:
-;                   |LCID of what you want to convert number to.
-;                  $i_current_lcid   - Optional: Default or -1 wll be the User default locale else:
-;                   |LCID number was converted with originally.
-; Return values .: Success - The string with Thousands delimiter added.
-;                  Failure - Returns empty string and sets @error to 1.
-; Author ........: SmOke_N (orignal _StringAddComma); Valik (original _StringAddThousandsSep)
-; Modified.......: SmOke_N (complete re-write)
-; Remarks .......: Changes are script breaking after AutoIt version 3.3.0.0
-; Related .......:
-; Link ..........: LCID identfiers - http://msdn.microsoft.com/en-us/library/0h88fahh.aspx
-; Example .......: Yes
-; ===============================================================================================================================
-Func _StringAddThousandsSep($s_string, $i_convert_lcid = -1, $i_current_lcid = -1)
-   ; $LOCALE_USER_DEFAULT = 0x0400
-    If $i_current_lcid = -1 Or $i_current_lcid = Default Then $i_current_lcid = 0x0400
-    If $i_convert_lcid = -1 Or $i_convert_lcid = Default Then $i_convert_lcid = 0x0400
-
-   ; Get lcid decimal and thousands separators
-    Local $t_buff_tmp = DllStructCreate("char[4]")
-    DllCall("kernel32.dll", "int", "GetLocaleInfo", "int", $i_current_lcid, _
-        "int", 0x0E, "ptr", DllStructGetPtr($t_buff_tmp), "int", 4)
-    If @error Then Return SetError(1, 0, "")
-    Local $s_cur_dec = DllStructGetData($t_buff_tmp, 1)
-
-    DllCall("kernel32.dll", "int", "GetLocaleInfo", "int", $i_convert_lcid, _
-        "int", 0x0E, "ptr", DllStructGetPtr($t_buff_tmp), "int", 4)
-    If @error Then Return SetError(1, 0, "")
-    Local $s_con_dec = DllStructGetData($t_buff_tmp, 1)
-
-    DllCall("kernel32.dll", "int", "GetLocaleInfo", "int", $i_convert_lcid, _
-        "int", 0x0F, "ptr", DllStructGetPtr($t_buff_tmp), "int", 4)
-    If @error Then Return SetError(1, 0, "")
-    Local $s_con_tho = DllStructGetData($t_buff_tmp, 1)
-
-   ; For later formatting
-    Local $i_number = StringRegExpReplace($s_string, "(\" & $s_cur_dec & "\d+\z)|(^-|\d+)|(\D)", "$2")
-    Local $i_dec = StringRegExpReplace($s_string, "(.+?\" & $s_cur_dec & ")(\d+\z)", "$2")
-    If @extended = 0 Then $i_dec = ""
-
-    Local $i_str_len = StringLen($s_string) * 4
-    Local $t_numberfmt = DllStructCreate("uint;uint;uint;ptr;ptr;uint")
-    Local $t_thousands = DllStructCreate("wchar[2]")
-    Local $t_decimal = DllStructCreate("wchar[2]")
-    Local $t_buffer = DllStructCreate("wchar[" & $i_str_len & "]")
-
-    DllStructSetData($t_thousands, 1, $s_con_tho)
-    DllStructSetData($t_decimal, 1, $s_con_dec)
-    DllStructSetData($t_numberfmt, 3, 3)
-    DllStructSetData($t_numberfmt, 4, DllStructGetPtr($t_decimal))
-    DllStructSetData($t_numberfmt, 5, DllStructGetPtr($t_thousands))
-    DllStructSetData($t_numberfmt, 6, 1)
-
-    DllCall("kernel32.dll", "int", "GetNumberFormatW", _
-        "int", $i_convert_lcid, "int", 0, _
-        "wstr", $i_number, "ptr", DllStructGetPtr($t_numberfmt), _
-        "ptr", DllStructGetPtr($t_buffer), "int", $i_str_len)
-
-    If $i_dec = "" Then $s_con_dec = ""
-    Return DllStructGetData($t_buffer, 1) & $s_con_dec & $i_dec
-EndFunc   ;==>_StringAddThousandsSep
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _StringBetween
@@ -164,11 +96,9 @@ EndFunc   ;==>_StringBetween
 ; ===============================================================================================================================
 Func _StringEncrypt($i_Encrypt, $s_EncryptText, $s_EncryptPassword, $i_EncryptLevel = 1)
 	If $i_Encrypt <> 0 And $i_Encrypt <> 1 Then
-		SetError(1)
-		Return ''
+		SetError(1, 0, '')
 	ElseIf $s_EncryptText = '' Or $s_EncryptPassword = '' Then
-		SetError(1)
-		Return ''
+		SetError(1, 0, '')
 	Else
 		If Number($i_EncryptLevel) <= 0 Or Int($i_EncryptLevel) <> $i_EncryptLevel Then $i_EncryptLevel = 1
 		Local $v_EncryptModified
@@ -334,16 +264,13 @@ Func _StringInsert($s_String, $s_InsertString, $i_Position)
 	Local $i_Length, $s_Start, $s_End
 
 	If $s_String = "" Or (Not IsString($s_String)) Then
-		SetError(1) ; Source string empty / not a string
-		Return $s_String
+		Return SetError(1, 0, $s_String) ; Source string empty / not a string
 	ElseIf $s_InsertString = "" Or (Not IsString($s_String)) Then
-		SetError(2) ; Insert string empty / not a string
-		Return $s_String
+		Return SetError(2, 0, $s_String) ; Insert string empty / not a string
 	Else
 		$i_Length = StringLen($s_String) ; Take a note of the length of the source string
 		If (Abs($i_Position) > $i_Length) Or (Not IsInt($i_Position)) Then
-			SetError(3) ; Invalid position
-			Return $s_String
+			Return SetError(3, 0, $s_String) ; Invalid position
 		EndIf
 	EndIf
 
@@ -397,7 +324,7 @@ Func _StringProper($s_String)
 		EndSelect
 		$s_nStr &= $s_CurChar
 	Next
-	Return ($s_nStr)
+	Return $s_nStr
 EndFunc   ;==>_StringProper
 
 ; #FUNCTION# ====================================================================================================================

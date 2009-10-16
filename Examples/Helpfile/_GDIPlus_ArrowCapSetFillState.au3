@@ -6,16 +6,15 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic, $hPen, $hEndCap
+	Local $hGUI, $hGraphic, $hPen, $hEndCap
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Create resources
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 	$hPen = _GDIPlus_PenCreate (0xFF000000, 4)
 	$hEndCap = _GDIPlus_ArrowCapCreate (4, 6)
 

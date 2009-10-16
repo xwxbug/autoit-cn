@@ -1,2 +1,2 @@
 ﻿$var = DriveStatus( "c:\" )
-MsgBox(4096,"状态",$var)
+MsgBox(4096,"鐘舵€?,$var)

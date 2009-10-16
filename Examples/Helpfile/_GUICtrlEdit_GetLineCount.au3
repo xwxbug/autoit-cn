@@ -11,18 +11,20 @@ _Main()
 
 Func _Main()
 	Local $StatusBar, $hEdit, $hGUI
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 
 	; Create GUI
 	$hGUI = GUICreate("Edit Get Line Count", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268)
 	$StatusBar = _GUICtrlStatusBar_Create($hGUI, -1)
 	GUISetState()
-	
+
 	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
 	_GUICtrlStatusBar_SetIcon($StatusBar, 0, 97, "shell32.dll")
 	_GUICtrlStatusBar_SetText($StatusBar, @TAB & "Lines: " & _GUICtrlEdit_GetLineCount($hEdit))
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

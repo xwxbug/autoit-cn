@@ -1,7 +1,7 @@
 ﻿#include-once
 
-#include <GDIPlus.au3>
-#include <WinAPI.au3>
+#include "GDIPlus.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ScreenCapture
@@ -62,28 +62,26 @@ Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
-	ConsoleWrite('@@ (64) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_Capture()' & @CR) ;### Function Trace
-	Local $iH, $iW, $hWnd, $hDDC, $hCDC, $hBMP, $aCursor, $aIcon, $hIcon
-
 	If $iRight = -1 Then $iRight = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CXSCREEN)
 	If $iBottom = -1 Then $iBottom = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CYSCREEN)
 	If $iRight < $iLeft Then Return SetError(-1, 0, 0)
 	If $iBottom < $iTop Then Return SetError(-2, 0, 0)
 
-	$iW = $iRight - $iLeft
-	$iH = $iBottom - $iTop
-	$hWnd = _WinAPI_GetDesktopWindow()
-	$hDDC = _WinAPI_GetDC($hWnd)
-	$hCDC = _WinAPI_CreateCompatibleDC($hDDC)
-	$hBMP = _WinAPI_CreateCompatibleBitmap($hDDC, $iW, $iH)
+	Local $iW = $iRight - $iLeft
+	Local $iH = $iBottom - $iTop
+	Local $hWnd = _WinAPI_GetDesktopWindow()
+	Local $hDDC = _WinAPI_GetDC($hWnd)
+	Local $hCDC = _WinAPI_CreateCompatibleDC($hDDC)
+	Local $hBMP = _WinAPI_CreateCompatibleBitmap($hDDC, $iW, $iH)
 	_WinAPI_SelectObject($hCDC, $hBMP)
 	_WinAPI_BitBlt($hCDC, 0, 0, $iW, $iH, $hDDC, $iLeft, $iTop, $__SCREENCAPTURECONSTANT_SRCCOPY)
 
 	If $fCursor Then
-		$aCursor = _WinAPI_GetCursorInfo()
+		Local $aCursor = _WinAPI_GetCursorInfo()
 		If $aCursor[1] Then
-			$hIcon = _WinAPI_CopyIcon($aCursor[2])
-			$aIcon = _WinAPI_GetIconInfo($hIcon)
+			Local $hIcon = _WinAPI_CopyIcon($aCursor[2])
+			Local $aIcon = _WinAPI_GetIconInfo($hIcon)
+ 			_WinAPI_DeleteObject($aIcon[4])	; delete bitmap mask return by _WinAPI_GetIconInfo()
 			_WinAPI_DrawIcon($hCDC, $aCursor[3] - $aIcon[2] - $iLeft, $aCursor[4] - $aIcon[3] - $iTop, $hIcon)
 			_WinAPI_DestroyIcon($hIcon)
 		EndIf
@@ -124,10 +122,7 @@ EndFunc   ;==>_ScreenCapture_Capture
 ; Credits .......: Thanks to SmOke_N for his suggestion for capturing part of the client window
 ; ===============================================================================================================================
 Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
-	ConsoleWrite('@@ (126) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_CaptureWnd()' & @CR) ;### Function Trace
-	Local $tRect
-
-	$tRect = _WinAPI_GetWindowRect($hWnd)
+	Local $tRect = _WinAPI_GetWindowRect($hWnd)
 	$iLeft += DllStructGetData($tRect, "Left")
 	$iTop += DllStructGetData($tRect, "Top")
 	If $iRight = -1 Then $iRight = DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left")
@@ -162,23 +157,21 @@ EndFunc   ;==>_ScreenCapture_CaptureWnd
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
-	ConsoleWrite('@@ (164) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SaveImage()' & @CR) ;### Function Trace
-	Local $hClone, $sCLSID, $tData, $sExt, $hImage, $pParams, $tParams, $iResult, $iX, $iY
-
 	_GDIPlus_Startup()
 	If @error Then Return SetError(-1, -1, False)
 
-	$sExt = StringUpper(__GDIPlus_ExtractFileExt($sFileName))
-	$sCLSID = _GDIPlus_EncodersGetCLSID($sExt)
+	Local $sExt = StringUpper(__GDIPlus_ExtractFileExt($sFileName))
+	Local $sCLSID = _GDIPlus_EncodersGetCLSID($sExt)
 	If $sCLSID = "" Then Return SetError(-2, -2, False)
-	$hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
+	Local $hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
 	If @error Then Return SetError(-3, -3, False)
 
+	Local $tData, $tParams
 	Switch $sExt
 		Case "BMP"
-			$iX = _GDIPlus_ImageGetWidth($hImage)
-			$iY = _GDIPlus_ImageGetHeight($hImage)
-			$hClone = _GDIPlus_BitmapCloneArea($hImage, 0, 0, $iX, $iY, $giBMPFormat)
+			Local $iX = _GDIPlus_ImageGetWidth($hImage)
+			Local $iY = _GDIPlus_ImageGetHeight($hImage)
+			Local $hClone = _GDIPlus_BitmapCloneArea($hImage, 0, 0, $iX, $iY, $giBMPFormat)
 			_GDIPlus_ImageDispose($hImage)
 			$hImage = $hClone
 		Case "JPG", "JPEG"
@@ -194,14 +187,15 @@ Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
 			_GDIPlus_ParamAdd($tParams, $GDIP_EPGCOLORDEPTH, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "ColorDepth"))
 			_GDIPlus_ParamAdd($tParams, $GDIP_EPGCOMPRESSION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Compression"))
 	EndSwitch
+	Local $pParams = 0
 	If IsDllStruct($tParams) Then $pParams = DllStructGetPtr($tParams)
 
-	$iResult = _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, $pParams)
+	Local $iRet = _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, $pParams)
 	_GDIPlus_ImageDispose($hImage)
 	If $fFreeBmp Then _WinAPI_DeleteObject($hBitmap)
 	_GDIPlus_Shutdown()
 
-	Return SetError($iResult = False, 0, $iResult = True)
+	Return SetError($iRet = False, 0, $iRet = True)
 EndFunc   ;==>_ScreenCapture_SaveImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -223,7 +217,6 @@ EndFunc   ;==>_ScreenCapture_SaveImage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SetBMPFormat($iFormat)
-	ConsoleWrite('@@ (225) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetBMPFormat()' & @CR) ;### Function Trace
 	Switch $iFormat
 		Case 0
 			$giBMPFormat = $GDIP_PXF16RGB555
@@ -254,7 +247,6 @@ EndFunc   ;==>_ScreenCapture_SetBMPFormat
 ; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetJPGQuality($iQuality)
-	ConsoleWrite('@@ (256) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetJPGQuality()' & @CR) ;### Function Trace
 	If $iQuality < 0 Then $iQuality = 0
 	If $iQuality > 100 Then $iQuality = 100
 	$giJPGQuality = $iQuality
@@ -277,7 +269,6 @@ EndFunc   ;==>_ScreenCapture_SetJPGQuality
 ; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFColorDepth($iDepth)
-	ConsoleWrite('@@ (279) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetTIFColorDepth()' & @CR) ;### Function Trace
 	Switch $iDepth
 		Case 24
 			$giTIFColorDepth = 24
@@ -305,7 +296,6 @@ EndFunc   ;==>_ScreenCapture_SetTIFColorDepth
 ; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFCompression($iCompress)
-	ConsoleWrite('@@ (307) :(' & @MIN & ':' & @SEC & ') _ScreenCapture_SetTIFCompression()' & @CR) ;### Function Trace
 	Switch $iCompress
 		Case 1
 			$giTIFCompression = $GDIP_EVTCOMPRESSIONNONE

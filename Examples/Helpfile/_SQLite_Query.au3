@@ -3,7 +3,7 @@
 
 Local $hQuery, $aRow, $sMsg
 _SQLite_Startup ()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open () ; open :memory: Database
 _SQLite_Exec (-1, "CREATE TABLE aTest (a,b,c);") ; CREATE a Table
 _SQLite_Exec (-1, "INSERT INTO aTest(a,b,c) VALUES ('c','2','World');") ; INSERT Data
@@ -19,5 +19,5 @@ _SQLite_Close()
 _SQLite_Shutdown()
 
 ;~ Output:
-;~   
+;~
 ;~ Hello World

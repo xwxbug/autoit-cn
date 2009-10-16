@@ -6,17 +6,16 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic, $hBrush, $hFormat, $hFamily, $hFont, $tLayout
+	Local $hGUI, $hGraphic, $hBrush, $hFormat, $hFamily, $hFont, $tLayout
 	Local $sString = "Hello world", $aInfo
 
 	; Create GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
 	; Draw a string
 	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
 	$hBrush = _GDIPlus_BrushCreateSolid (0xFF00007F)
 	$hFormat = _GDIPlus_StringFormatCreate ()
 	$hFamily = _GDIPlus_FontFamilyCreate ("Arial")

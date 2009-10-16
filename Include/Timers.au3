@@ -70,20 +70,18 @@ Func _Timer_GetIdleTime()
 	; Get ticks at last activity
 	Local $tStruct = DllStructCreate("uint;dword");
 	DllStructSetData($tStruct, 1, DllStructGetSize($tStruct));
-	DllCall("user32.dll", "int", "GetLastInputInfo", "ptr", DllStructGetPtr($tStruct))
+	Local $aResult = DllCall("user32.dll", "bool", "GetLastInputInfo", "ptr", DllStructGetPtr($tStruct))
+	If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, 0)
 
 	; Get current ticks since last restart
-	Local $avTicks = DllCall("Kernel32.dll", "int", "GetTickCount")
+	Local $avTicks = DllCall("Kernel32.dll", "dword", "GetTickCount")
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, 0)
 
 	; Return time since last activity, in ticks (approx milliseconds)
 	Local $iDiff = $avTicks[0] - DllStructGetData($tStruct, 2)
-	If $iDiff >= 0 Then
-		; Normal return
-		Return $iDiff
-	Else
-		; Rollover of ticks counter has occured
-		Return SetError(0, 1, $avTicks[0])
-	EndIf
+	If $iDiff < 0 Then  Return SetExtended(1, $avTicks[0])    ; Rollover of ticks counter has occured
+	; Normal return
+	Return $iDiff
 EndFunc   ;==>_Timer_GetIdleTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -141,25 +139,22 @@ EndFunc   ;==>_Timer_Init
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillAllTimers($hWnd)
-	Local $iResult, $hCallBack = 0, $iNumTimers = $_Timers_aTimerIDs[0][0]
-	If $iNumTimers Then
-		For $x = $iNumTimers To 1 Step -1
-			If IsHWnd($hWnd) Then
-				$iResult = DllCall("user32.dll", "int", "KillTimer", "hwnd", $hWnd, "int", $_Timers_aTimerIDs[$x][1])
-				If @error Then Return SetError(-1, -1, False)
-			Else
-				$iResult = DllCall("user32.dll", "int", "KillTimer", "hwnd", $hWnd, "int", $_Timers_aTimerIDs[$x][0])
-				If @error Then Return SetError(-1, -1, False)
-			EndIf
-			$hCallBack = $_Timers_aTimerIDs[$x][2]
-			If $hCallBack <> 0 Then DllCallbackFree($hCallBack)
-			$_Timers_aTimerIDs[0][0] -= 1
-		Next
-		ReDim $_Timers_aTimerIDs[1][3]
-	Else
-		Return False
-	EndIf
-	Return $iResult[0] <> 0
+	Local $iNumTimers = $_Timers_aTimerIDs[0][0]
+	If $iNumTimers = 0 Then  Return False
+	Local $aResult, $hCallBack = 0
+	For $x = $iNumTimers To 1 Step -1
+		If IsHWnd($hWnd) Then
+			$aResult = DllCall("user32.dll", "bool", "KillTimer", "hwnd", $hWnd, "uint_ptr", $_Timers_aTimerIDs[$x][1])
+		Else
+			$aResult = DllCall("user32.dll", "bool", "KillTimer", "hwnd", $hWnd, "uint_ptr", $_Timers_aTimerIDs[$x][0])
+		EndIf
+		If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, False)
+		$hCallBack = $_Timers_aTimerIDs[$x][2]
+		If $hCallBack <> 0 Then DllCallbackFree($hCallBack)
+		$_Timers_aTimerIDs[0][0] -= 1
+	Next
+	ReDim $_Timers_aTimerIDs[1][3]
+	Return True
 EndFunc   ;==>_Timer_KillAllTimers
 
 ; #FUNCTION# ====================================================================================================================
@@ -179,16 +174,15 @@ EndFunc   ;==>_Timer_KillAllTimers
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillTimer($hWnd, $iTimerID)
-	Local $iResult[1] = [0], $hCallBack = 0, $iUBound = UBound($_Timers_aTimerIDs) - 1
+	Local $aResult[1] = [0], $hCallBack = 0, $iUBound = UBound($_Timers_aTimerIDs) - 1
 	For $x = 1 To $iUBound
 		If $_Timers_aTimerIDs[$x][0] = $iTimerID Then
 			If IsHWnd($hWnd) Then
-				$iResult = DllCall("user32.dll", "int", "KillTimer", "hwnd", $hWnd, "int", $_Timers_aTimerIDs[$x][1])
+				$aResult = DllCall("user32.dll", "bool", "KillTimer", "hwnd", $hWnd, "uint_ptr", $_Timers_aTimerIDs[$x][1])
 			Else
-				$iResult = DllCall("user32.dll", "int", "KillTimer", "hwnd", $hWnd, "int", $_Timers_aTimerIDs[$x][0])
+				$aResult = DllCall("user32.dll", "bool", "KillTimer", "hwnd", $hWnd, "uint_ptr", $_Timers_aTimerIDs[$x][0])
 			EndIf
-			If @error Then Return SetError(-1, -1, False)
-			If $iResult[0] = 0 Then Return SetError(-1, -1, False)
+			If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, False)
 			$hCallBack = $_Timers_aTimerIDs[$x][2]
 			If $hCallBack <> 0 Then DllCallbackFree($hCallBack)
 			For $i = $x To $iUBound - 1
@@ -201,7 +195,7 @@ Func _Timer_KillTimer($hWnd, $iTimerID)
 			ExitLoop
 		EndIf
 	Next
-	Return $iResult[0] <> 0
+	Return $aResult[0] <> 0
 EndFunc   ;==>_Timer_KillTimer
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -219,10 +213,9 @@ EndFunc   ;==>_Timer_KillTimer
 ; Example .......:
 ; ===============================================================================================================================
 Func __Timer_QueryPerformanceCounter()
-	Local $tperf = DllStructCreate("int64")
-	DllCall("kernel32.dll", "int", "QueryPerformanceCounter", "ptr", DllStructGetPtr($tperf))
-	If @error Then Return SetError(-1, -1, -1)
-	Return DllStructGetData($tperf, 1)
+	Local $aResult = DllCall("kernel32.dll", "bool", "QueryPerformanceCounter", "int64*", 0)
+	If @error Then Return SetError(@error, @extended, -1)
+	Return SetExtended($aResult[0], $aResult[1])
 EndFunc   ;==>__Timer_QueryPerformanceCounter
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -240,10 +233,9 @@ EndFunc   ;==>__Timer_QueryPerformanceCounter
 ; Example .......:
 ; ===============================================================================================================================
 Func __Timer_QueryPerformanceFrequency()
-	Local $tperf = DllStructCreate("int64")
-	DllCall("kernel32.dll", "int", "QueryPerformanceFrequency", "ptr", DllStructGetPtr($tperf))
-	If @error Then Return SetError(-1, -1, 0)
-	Return DllStructGetData($tperf, 1)
+	Local $aResult = DllCall("kernel32.dll", "bool", "QueryPerformanceFrequency", "int64*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aResult[1])
 EndFunc   ;==>__Timer_QueryPerformanceFrequency
 
 ; #FUNCTION# ====================================================================================================================
@@ -268,7 +260,7 @@ EndFunc   ;==>__Timer_QueryPerformanceFrequency
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_SetTimer($hWnd, $iElapse = 250, $sTimerFunc = "", $iTimerID = -1)
-	Local $iResult[1], $pTimerFunc = 0, $hCallBack = 0, $iIndex = $_Timers_aTimerIDs[0][0] + 1
+	Local $aResult[1] = [0], $pTimerFunc = 0, $hCallBack = 0, $iIndex = $_Timers_aTimerIDs[0][0] + 1
 	If $iTimerID = -1 Then ; create a new timer
 		ReDim $_Timers_aTimerIDs[$iIndex + 1][3]
 		$_Timers_aTimerIDs[0][0] = $iIndex
@@ -280,15 +272,14 @@ Func _Timer_SetTimer($hWnd, $iElapse = 250, $sTimerFunc = "", $iTimerID = -1)
 			EndIf
 		Next
 		If $sTimerFunc <> "" Then ; using callbacks, if $sTimerFunc = "" then using WM_TIMER events
-			$hCallBack = DllCallbackRegister($sTimerFunc, "none", "hwnd;int;int;dword")
+			$hCallBack = DllCallbackRegister($sTimerFunc, "none", "hwnd;int;uint_ptr;dword")
 			If $hCallBack = 0 Then Return SetError(-1, -1, 0)
 			$pTimerFunc = DllCallbackGetPtr($hCallBack)
 			If $pTimerFunc = 0 Then Return SetError(-1, -1, 0)
 		EndIf
-		$iResult = DllCall("user32.dll", "int", "SetTimer", "hwnd", $hWnd, "int", $iTimerID, "int", $iElapse, "ptr", $pTimerFunc)
-		If @error Then Return SetError(-1, -1, 0)
-		If $iResult[0] = 0 Then Return SetError(-1, -1, 0)
-		$_Timers_aTimerIDs[$iIndex][0] = $iResult[0] ; integer identifier
+		$aResult = DllCall("user32.dll", "uint_ptr", "SetTimer", "hwnd", $hWnd, "uint_ptr", $iTimerID, "uint", $iElapse, "ptr", $pTimerFunc)
+		If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, 0)
+		$_Timers_aTimerIDs[$iIndex][0] = $aResult[0] ; integer identifier
 		$_Timers_aTimerIDs[$iIndex][1] = $iTimerID ; timer id
 		$_Timers_aTimerIDs[$iIndex][2] = $hCallBack ; callback identifier, need this for the Kill Timer
 	Else ; reuse timer
@@ -300,12 +291,11 @@ Func _Timer_SetTimer($hWnd, $iElapse = 250, $sTimerFunc = "", $iTimerID = -1)
 					$pTimerFunc = DllCallbackGetPtr($hCallBack)
 					If $pTimerFunc = 0 Then Return SetError(-1, -1, 0)
 				EndIf
-				$iResult = DllCall("user32.dll", "int", "SetTimer", "hwnd", $hWnd, "int", $iTimerID, "int", $iElapse, "ptr", $pTimerFunc)
-				If @error Then Return SetError(-1, -1, 0)
-				If $iResult[0] = 0 Then Return SetError(-1, -1, 0)
+				$aResult = DllCall("user32.dll", "uint_ptr", "SetTimer", "hwnd", $hWnd, "uint_ptr", $iTimerID, "int", $iElapse, "ptr", $pTimerFunc)
+				If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, 0)
 				ExitLoop
 			EndIf
 		Next
 	EndIf
-	Return $iResult[0]
+	Return $aResult[0]
 EndFunc   ;==>_Timer_SetTimer

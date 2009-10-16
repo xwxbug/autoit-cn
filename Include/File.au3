@@ -1,5 +1,7 @@
 ﻿#include-once
 
+#include "FileConstants.au3"
+
 ; #INDEX# =======================================================================================================================
 ; Title .........: File
 ; AutoIt Version : 3.2
@@ -43,14 +45,12 @@
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileCountLines($sFilePath)
-;~ 	Local $N = FileGetSize($sFilePath) - 1
-;~ 	If @error Or $N = -1 Then Return 0
-;~ 	Return StringLen(StringAddCR(FileRead($sFilePath, $N))) - $N + 1
-	Local $hFile, $sFileContent, $aTmp
-	$hFile = FileOpen($sFilePath, 0)
+
+	Local $hFile = FileOpen($sFilePath, $FO_READ)
 	If $hFile = -1 Then Return SetError(1, 0, 0)
-	$sFileContent = StringStripWS(FileRead($hFile), 2)
+	Local $sFileContent = StringStripWS(FileRead($hFile), 2)
 	FileClose($hFile)
+	Local $aTmp
 	If StringInStr($sFileContent, @LF) Then
 		$aTmp = StringSplit(StringStripCR($sFileContent), @LF)
 	ElseIf StringInStr($sFileContent, @CR) Then
@@ -84,27 +84,12 @@ EndFunc   ;==>_FileCountLines
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileCreate($sFilePath)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $hOpenFile
-	Local $hWriteFile
+	Local $hOpenFile = FileOpen($sFilePath, $FO_OVERWRITE)
+ 	If $hOpenFile = -1 Then Return SetError(1, 0, 0 )
 
-	$hOpenFile = FileOpen($sFilePath, 2)
-
-	If $hOpenFile = -1 Then
-		SetError(1)
-		Return 0
-	EndIf
-
-	$hWriteFile = FileWrite($hOpenFile, "")
-
-	If $hWriteFile = -1 Then
-		SetError(2)
-		Return 0
-	EndIf
-
+	Local $hWriteFile = FileWrite($hOpenFile, "")
 	FileClose($hOpenFile)
+	If $hWriteFile = -1 Then Return SetError(2, 0, 0 )
 	Return 1
 EndFunc   ;==>_FileCreate
 
@@ -136,32 +121,23 @@ EndFunc   ;==>_FileCreate
 ; Note ..........: Special Thanks to Helge and Layer for help with the $iFlag update speed optimization by code65536, pdaughe
 ; ===============================================================================================================================
 Func _FileListToArray($sPath, $sFilter = "*", $iFlag = 0)
-	Local $hSearch, $sFile, $asFileList[1]
+	Local $hSearch, $sFile, $sFileList, $sDelim = "|"
+	$sPath = StringRegExpReplace($sPath, "[\\/]+\z", "") & "\" ; ensure single trailing backslash
 	If Not FileExists($sPath) Then Return SetError(1, 1, "")
-	If (StringInStr($sFilter, "\")) Or (StringInStr($sFilter, "/")) Or (StringInStr($sFilter, ":")) Or (StringInStr($sFilter, ">")) Or (StringInStr($sFilter, "<")) Or (StringInStr($sFilter, "|")) Or (StringStripWS($sFilter, 8) = "") Then Return SetError(2, 2, "")
+	If StringRegExp($sFilter, "[\\/:><\|]|(?s)\A\s*\z") Then Return SetError(2, 2, "")
 	If Not ($iFlag = 0 Or $iFlag = 1 Or $iFlag = 2) Then Return SetError(3, 3, "")
-	If (StringMid($sPath, StringLen($sPath), 1) = "\") Then $sPath = StringTrimRight($sPath, 1) ; needed for Win98 for x:\  root dir
-	$hSearch = FileFindFirstFile($sPath & "\" & $sFilter)
-	If $hSearch = -1 Then Return SetError(4, 4, "")
+	$hSearch = FileFindFirstFile($sPath & $sFilter)
+	If @error Then Return SetError(4, 4, "")
 	While 1
 		$sFile = FileFindNextFile($hSearch)
-		If @error Then
-			SetError(0)
-			ExitLoop
-		EndIf
-		If $iFlag = 1 And @extended Then
-			ContinueLoop		; File only
-		Else
-			If $iFlag = 2 And @extended = 0 Then ContinueLoop	; folder only
-		EndIf
-		$asFileList[0] += 1
-		If UBound($asFileList) <= $asFileList[0] Then ReDim $asFileList[UBound($asFileList) * 2]
-		$asFileList[$asFileList[0]] = $sFile
+		If @error Then ExitLoop
+		If ($iFlag + @extended = 2) Then ContinueLoop
+		$sFileList &= $sDelim & $sFile
 	WEnd
 	FileClose($hSearch)
-	ReDim $asFileList[$asFileList[0] + 1] ; Trim unused slots
-	Return $asFileList
-EndFunc   ;==>_FileListToArray
+	If Not $sFileList Then Return SetError(4, 4, "")
+	Return StringSplit(StringTrimLeft($sFileList, 1), "|")
+EndFunc;==>_FileListToArray
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _FilePrint
@@ -179,19 +155,15 @@ EndFunc   ;==>_FileListToArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FilePrint($s_File, $i_Show = @SW_HIDE)
-	Local $a_Ret = DllCall("shell32.dll", "long", "ShellExecute", _
+	Local $a_Ret = DllCall("shell32.dll", "int", "ShellExecuteW", _
 			"hwnd", 0, _
-			"string", "print", _
-			"string", $s_File, _
-			"string", "", _
-			"string", "", _
+			"wstr", "print", _
+			"wstr", $s_File, _
+			"wstr", "", _
+			"wstr", "", _
 			"int", $i_Show)
-	If $a_Ret[0] > 32 And Not @error Then
-		Return 1
-	Else
-		SetError($a_Ret[0])
-		Return 0
-	EndIf
+	If @error Or $a_Ret[0] <= 32 Then Return SetError(4, $a_Ret[0], 0)
+	Return 1
 EndFunc   ;==>_FilePrint
 
 ; #FUNCTION# ====================================================================================================================
@@ -213,11 +185,10 @@ EndFunc   ;==>_FilePrint
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileReadToArray($sFilePath, ByRef $aArray)
-	Local $hFile, $aFile
-	$hFile = FileOpen($sFilePath, 0)
+	Local $hFile = FileOpen($sFilePath, $FO_READ)
 	If $hFile = -1 Then Return SetError(1, 0, 0);; unable to open the file
 	;; Read the file and remove any trailing white spaces
-	$aFile = FileRead($hFile, FileGetSize($sFilePath))
+	Local $aFile = FileRead($hFile, FileGetSize($sFilePath))
 ;~ 	$aFile = StringStripWS($aFile, 2)
 	; remove last line separator if any at the end of the file
 	If StringRight($aFile, 1) = @LF Then $aFile = StringTrimRight($aFile, 1)
@@ -272,7 +243,7 @@ Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0)
 	; Open output file for overwrite by default, or use input file handle if passed
 	Local $hFile
 	If IsString($File) Then
-		$hFile = FileOpen($File, 2)
+		$hFile = FileOpen($File, $FO_OVERWRITE)
 	Else
 		$hFile = $File
 	EndIf
@@ -291,11 +262,8 @@ Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0)
 	If IsString($File) Then FileClose($hFile)
 
 	; Return results
-	If $ErrorSav Then
-		Return SetError($ErrorSav, 0, 0)
-	Else
-		Return 1
-	EndIf
+	If $ErrorSav Then Return SetError($ErrorSav, 0, 0)
+	Return 1
 EndFunc   ;==>_FileWriteFromArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -320,27 +288,24 @@ EndFunc   ;==>_FileWriteFromArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteLog($sLogPath, $sLogMsg, $iFlag = -1)
-	;==============================================
-	; Local Constant/Variable Declaration Section
-	;==============================================
-	Local $sDateNow, $sTimeNow, $sMsg, $iWriteFile, $hOpenFile, $iOpenMode = 1
+	Local  $iOpenMode = $FO_APPEND
 
-	$sDateNow = @YEAR & "-" & @MON & "-" & @MDAY
-	$sTimeNow = @HOUR & ":" & @MIN & ":" & @SEC
-	$sMsg = $sDateNow & " " & $sTimeNow & " : " & $sLogMsg
+	Local $sDateNow = @YEAR & "-" & @MON & "-" & @MDAY
+	Local $sTimeNow = @HOUR & ":" & @MIN & ":" & @SEC
+	Local $sMsg = $sDateNow & " " & $sTimeNow & " : " & $sLogMsg
 
 	If $iFlag <> -1 Then
 		$sMsg &= @CRLF & FileRead($sLogPath)
-		$iOpenMode = 2
+		$iOpenMode = $FO_OVERWRITE
 	EndIf
 
-	$hOpenFile = FileOpen($sLogPath, $iOpenMode)
+	Local $hOpenFile = FileOpen($sLogPath, $iOpenMode)
 	If $hOpenFile = -1 Then Return SetError(1, 0, 0)
 
-	$iWriteFile = FileWriteLine($hOpenFile, $sMsg)
-	If $iWriteFile = -1 Then Return SetError(2, 0, 0)
-
-	Return FileClose($hOpenFile)
+	Local $iWriteFile = FileWriteLine($hOpenFile, $sMsg)
+	Local $iRet = FileClose($hOpenFile)
+	If $iWriteFile = -1 Then Return SetError(2, $iRet, 0)
+	Return $iRet
 EndFunc   ;==>_FileWriteLog
 
 ; #FUNCTION# ====================================================================================================================
@@ -362,7 +327,7 @@ EndFunc   ;==>_FileWriteLog
 ;                  |5 = $fOverWrite is invalid
 ;                  |6 = $sText is invalid
 ; Author ........: cdkid
-; Modified.......:
+; Modified.......: partypooper, MrCreatoR
 ; Remarks .......: If _FileWriteToLine is called with $fOverWrite as 1 and $sText as "", it will delete the line.
 ; Related .......:
 ; Link ..........:
@@ -374,31 +339,31 @@ Func _FileWriteToLine($sFile, $iLine, $sText, $fOverWrite = 0)
 	If $fOverWrite <> 0 And $fOverWrite <> 1 Then Return SetError(5, 0, 0)
 	If Not FileExists($sFile) Then Return SetError(2, 0, 0)
 
-	Local $filtxt = FileRead($sFile, FileGetSize($sFile))
-	$filtxt = StringSplit($filtxt, @CRLF, 1)
-	If UBound($filtxt, 1) < $iLine Then Return SetError(1, 0, 0)
-	Local $fil = FileOpen($sFile, 2)
-	If $fil = -1 Then Return SetError(3, 0, 0)
-	For $i = 1 To UBound($filtxt) - 1
+	Local $sRead_File = FileRead($sFile)
+	Local $aSplit_File = StringSplit(StringStripCR($sRead_File), @LF)
+	If UBound($aSplit_File) < $iLine Then Return SetError(1, 0, 0)
+	Local $hFile = FileOpen($sFile, $FO_OVERWRITE)
+	If $hFile = -1 Then Return SetError(3, 0, 0)
+
+	$sRead_File = ""
+
+	For $i = 1 To $aSplit_File[0]
 		If $i = $iLine Then
 			If $fOverWrite = 1 Then
-				If $sText <> '' Then
-					FileWrite($fil, $sText & @CRLF)
-				Else
-					FileWrite($fil, $sText)
-				EndIf
+				If $sText <> '' Then $sRead_File &= $sText & @CRLF
+			Else
+				$sRead_File &= $sText & @CRLF & $aSplit_File[$i] & @CRLF
 			EndIf
-			If $fOverWrite = 0 Then
-				FileWrite($fil, $sText & @CRLF)
-				FileWrite($fil, $filtxt[$i] & @CRLF)
-			EndIf
-		ElseIf $i < UBound($filtxt, 1) - 1 Then
-			FileWrite($fil, $filtxt[$i] & @CRLF)
-		ElseIf $i = UBound($filtxt, 1) - 1 Then
-			FileWrite($fil, $filtxt[$i])
+		ElseIf $i < $aSplit_File[0] Then
+			$sRead_File &= $aSplit_File[$i] & @CRLF
+		ElseIf $i = $aSplit_File[0] Then
+			$sRead_File &= $aSplit_File[$i]
 		EndIf
 	Next
-	FileClose($fil)
+
+	FileWrite($hFile, $sRead_File)
+	FileClose($hFile)
+
 	Return 1
 EndFunc   ;==>_FileWriteToLine
 
@@ -435,7 +400,9 @@ Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
 		$sPath = StringLeft($sFullPath, 2)
 		If $sPath = "\\" Then
 			$sFullPath = StringTrimLeft($sFullPath, 2)
-			$sPath &= StringLeft($sFullPath, StringInStr($sFullPath, "\") - 1)
+			Local $nServerLen = StringInStr($sFullPath, "\") -1
+			$sPath = "\\" & StringLeft($sFullPath, $nServerLen)
+			$sFullPath = StringTrimLeft($sFullPath, $nServerLen)
 			ExitLoop
 		ElseIf StringRight($sPath, 1) = ":" Then
 			$sFullPath = StringTrimLeft($sFullPath, 2)
@@ -515,17 +482,15 @@ EndFunc   ;==>_PathFull
 ;                  Lahire Biette <tuxmouraille@gmail.com>, authors of C.A.F.E. Mod.
 ; ===============================================================================================================================
 Func _PathGetRelative($sFrom, $sTo)
-	Local $asFrom, $asTo, $iDiff, $sRelPath, $i
-
 	If StringRight($sFrom, 1) <> "\" Then $sFrom &= "\" ; add missing trailing \ to $sFrom path
 	If StringRight($sTo, 1) <> "\" Then $sTo &= "\" ; add trailing \ to $sTo
 	If $sFrom = $sTo Then Return SetError(1, 0, StringTrimRight($sTo, 1)) ; $sFrom equals $sTo
-	$asFrom = StringSplit($sFrom, "\")
-	$asTo = StringSplit($sTo, "\")
+	Local $asFrom = StringSplit($sFrom, "\")
+	Local $asTo = StringSplit($sTo, "\")
 	If $asFrom[1] <> $asTo[1] Then Return SetError(2, 0, StringTrimRight($sTo, 1)) ; drives are different, rel path not possible
 	; create rel path
-	$i = 2
-	$iDiff = 1
+	Local $i = 2
+	Local $iDiff = 1
 	While 1
 		If $asFrom[$i] <> $asTo[$i] Then
 			$iDiff = $i
@@ -534,7 +499,7 @@ Func _PathGetRelative($sFrom, $sTo)
 		$i += 1
 	WEnd
 	$i = 1
-	$sRelPath = ""
+	Local $sRelPath = ""
 	For $j = 1 To $asTo[0]
 		If $i >= $iDiff Then
 			$sRelPath &= "\" & $asTo[$i]
@@ -571,7 +536,6 @@ EndFunc   ;==>_PathGetRelative
 ; ===============================================================================================================================
 Func _PathMake($szDrive, $szDir, $szFName, $szExt)
 	; Format $szDrive, if it's not a UNC server name, then just get the drive letter and add a colon
-	Local $szFullPath
 	;
 	If StringLen($szDrive) Then
 		If Not (StringLeft($szDrive, 2) = "\\") Then $szDrive = StringLeft($szDrive, 1) & ":"
@@ -589,8 +553,7 @@ Func _PathMake($szDrive, $szDir, $szFName, $szExt)
 		If Not (StringLeft($szExt, 1) = ".") Then $szExt = "." & $szExt
 	EndIf
 
-	$szFullPath = $szDrive & $szDir & $szFName & $szExt
-	Return $szFullPath
+	Return $szDrive & $szDir & $szFName & $szExt
 EndFunc   ;==>_PathMake
 
 ; #FUNCTION# ====================================================================================================================
@@ -698,13 +661,13 @@ EndFunc   ;==>_PathSplit
 Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCaseness = 0, $fOccurance = 1)
 
 	Local $iRetVal = 0
-	Local $hWriteHandle, $aFileLines, $nCount, $sEndsWith, $hFile
+	Local $nCount, $sEndsWith
 	; Check if file is readonly ..
 	If StringInStr(FileGetAttrib($szFileName), "R") Then Return SetError(6, 0, -1)
 	;===============================================================================
 	;== Read the file into an array
 	;===============================================================================
-	$hFile = FileOpen($szFileName, 0)
+	Local $hFile = FileOpen($szFileName, $FO_READ)
 	If $hFile = -1 Then Return SetError(1, 0, -1)
 	Local $s_TotFile = FileRead($hFile, FileGetSize($szFileName))
 	If StringRight($s_TotFile, 2) = @CRLF Then
@@ -716,12 +679,12 @@ Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCase
 	Else
 		$sEndsWith = ""
 	EndIf
-	$aFileLines = StringSplit(StringStripCR($s_TotFile), @LF)
+	Local $aFileLines = StringSplit(StringStripCR($s_TotFile), @LF)
 	FileClose($hFile)
 	;===============================================================================
 	;== Open the output file in write mode
 	;===============================================================================
-	$hWriteHandle = FileOpen($szFileName, 2)
+	Local $hWriteHandle = FileOpen($szFileName, $FO_OVERWRITE)
 	If $hWriteHandle = -1 Then Return SetError(2, 0, -1)
 	;===============================================================================
 	;== Loop through the array and search for $szSearchString
@@ -746,9 +709,8 @@ Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCase
 	;===============================================================================
 	For $nCount = 1 To $aFileLines[0] - 1
 		If FileWriteLine($hWriteHandle, $aFileLines[$nCount]) = 0 Then
-			SetError(3)
 			FileClose($hWriteHandle)
-			Return -1
+			Return SetError(3, 0, -1)
 		EndIf
 	Next
 	; Write the last record and ensure it ends with the same as the input file
@@ -775,13 +737,13 @@ EndFunc   ;==>_ReplaceStringInFile
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _TempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExtension = ".tmp", $i_RandomLength = 7)
-	Local $s_TempName
 	; Check parameters
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @TempDir ; First reset to default temp dir
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @ScriptDir ; Still wrong then set to Scriptdir
 	; add trailing \ for directory name
 	If StringRight($s_DirectoryName, 1) <> "\" Then $s_DirectoryName = $s_DirectoryName & "\"
 	;
+	Local $s_TempName
 	Do
 		$s_TempName = ""
 		While StringLen($s_TempName) < $i_RandomLength
@@ -790,5 +752,5 @@ Func _TempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExtensio
 		$s_TempName = $s_DirectoryName & $s_FilePrefix & $s_TempName & $s_FileExtension
 	Until Not FileExists($s_TempName)
 
-	Return ($s_TempName)
+	Return $s_TempName
 EndFunc   ;==>_TempFile

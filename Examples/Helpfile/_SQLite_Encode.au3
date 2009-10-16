@@ -3,7 +3,7 @@
 
 Local $hFile, $vData, $sFileName, $sData, $hQuery, $aRow, $sMsg
 _SQLite_Startup()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open()
 _SQLite_Exec(-1,"CREATE TABLE IF NOT EXISTS Test (data blob);")
 $vData = Binary("Hello" & Chr(0) & "World"); = 48656C6C6F00576F726C64

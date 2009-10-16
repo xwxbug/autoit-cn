@@ -3,7 +3,7 @@
 #include <File.au3>
 
 _SQLite_Startup()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 
 Local $sDatabase, $hDB_a, $hDB_b, $iTimer, $iRval
 $sDatabase = _TempFile()
@@ -18,13 +18,13 @@ _SQLite_Exec($hDB_a,"INSERT INTO test VALUES (1,2,3);")
 _SQLite_SetTimeout($hDB_b,0)
 $iTimer = TimerInit()
 $iRval = _SQLite_Exec($hDB_b,"SELECT * FROM test") ; This will fail
-MsgBox(0,"_SQLite_SetTimeout Example No Timeout", "Time: " & TimerDiff($iTimer) & @LF _
-												& "Error: " & _SQLite_ErrMsg($hDB_b) & @LF)
+MsgBox(0,"_SQLite_SetTimeout Example No Timeout", "Time: " & TimerDiff($iTimer) & @CRLF _
+												& "Error: " & _SQLite_ErrMsg($hDB_b) & @CRLF)
 _SQLite_SetTimeout($hDB_b,5000)
 $iTimer = TimerInit()
 $iRval = _SQLite_Exec($hDB_b,"SELECT * FROM test") ; This will fail
-MsgBox(0,"_SQLite_SetTimeout Example 5 Sec Timeout", "Time: " & TimerDiff($iTimer) & @LF _
-												   & "Error: " & _SQLite_ErrMsg($hDB_b) & @LF)
+MsgBox(0,"_SQLite_SetTimeout Example 5 Sec Timeout", "Time: " & TimerDiff($iTimer) & @CRLF _
+												   & "Error: " & _SQLite_ErrMsg($hDB_b) & @CRLF)
 _SQLite_Exec($hDB_a,"END;")
 _SQLite_Close($hDB_a)
 _SQLite_Close($hDB_b)

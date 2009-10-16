@@ -1,7 +1,6 @@
 ﻿#include-once
 
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
+#include "StructureConstants.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Pipes
@@ -19,33 +18,37 @@
 ;                  processes on the same computer or between processes on different computers across a  network.  If  the  server
 ;                  service is running, all named pipes are accessible remotely.
 ; Author(s) .....: Paul Campbell (PaulIA)
-; Dll(s) ........: Kernel32.dll
+; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $FILE_FLAG_FIRST_PIPE_INSTANCE = 0x00080000
-Global Const $FILE_FLAG_OVERLAPPED = 0x40000000
-Global Const $FILE_FLAG_WRITE_THROUGH = 0x80000000
+Global Const $FILE_FLAG_FIRST_PIPE_INSTANCE	= 1
+Global Const $FILE_FLAG_OVERLAPPED			= 2
+Global Const $FILE_FLAG_WRITE_THROUGH		= 4
 
-Global Const $PIPE_ACCESS_INBOUND = 0x00000001
-Global Const $PIPE_ACCESS_OUTBOUND = 0x00000002
-Global Const $PIPE_ACCESS_DUPLEX = 0x00000003
+Global Const $__FILE_FLAG_FIRST_PIPE_INSTANCE	= 0x00080000
+Global Const $__FILE_FLAG_OVERLAPPED			= 0x40000000
+Global Const $__FILE_FLAG_WRITE_THROUGH			= 0x80000000
 
-Global Const $PIPE_WAIT = 0x00000000
-Global Const $PIPE_NOWAIT = 0x00000001
+Global Const $__PIPE_ACCESS_INBOUND		= 0x00000001
+Global Const $__PIPE_ACCESS_OUTBOUND	= 0x00000002
+Global Const $__PIPE_ACCESS_DUPLEX		= 0x00000003
 
-Global Const $PIPE_READMODE_BYTE = 0x00000000
-Global Const $PIPE_READMODE_MESSAGE = 0x00000002
+Global Const $__PIPE_WAIT	= 0x00000000
+Global Const $__PIPE_NOWAIT	= 0x00000001
 
-Global Const $PIPE_TYPE_BYTE = 0x00000000
-Global Const $PIPE_TYPE_MESSAGE = 0x00000004
+Global Const $__PIPE_READMODE_BYTE		= 0x00000000
+Global Const $__PIPE_READMODE_MESSAGE	= 0x00000002
 
-Global Const $PIPE_CLIENT_END = 0x00000000
-Global Const $PIPE_SERVER_END = 0x00000001
+Global Const $__PIPE_TYPE_BYTE		= 0x00000000
+Global Const $__PIPE_TYPE_MESSAGE	= 0x00000004
 
-Global Const $WRITE_DAC = 0x00040000
-Global Const $WRITE_OWNER = 0x00080000
-Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
+Global Const $__PIPE_CLIENT_END = 0x00000000
+Global Const $__PIPE_SERVER_END = 0x00000001
+
+Global Const $__WRITE_DAC				= 0x00040000
+Global Const $__WRITE_OWNER				= 0x00080000
+Global Const $__ACCESS_SYSTEM_SECURITY	= 0x01000000
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -90,13 +93,11 @@ Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CallNamedPipe($sPipeName, $pInpBuf, $iInpSize, $pOutBuf, $iOutSize, ByRef $iRead, $iTimeOut = 0)
-	Local $tRead, $aResult
-
-	$tRead = DllStructCreate("int Data")
-	$aResult = DllCall("Kernel32.dll", "int", "CallNamedPipe", "str", $sPipeName, "ptr", $pInpBuf, "int", $iInpSize, "ptr", $pOutBuf, _
-			"int", $iOutSize, "ptr", DllStructGetPtr($tRead), "int", $iTimeOut)
-	$iRead = DllStructGetData($tRead, "Data")
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "CallNamedPipeW", "wstr", $sPipeName, "ptr", $pInpBuf, "dword", $iInpSize, "ptr", $pOutBuf, _
+			"dword", $iOutSize, "dword*", 0, "dword", $iTimeOut)
+	If @error Then Return SetError(@error, @extended, False)
+	$iRead = $aResult[6]
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_CallNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -123,10 +124,9 @@ EndFunc   ;==>_NamedPipes_CallNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_ConnectNamedPipe($hNamedPipe, $pOverlapped = 0)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "ConnectNamedPipe", "int", $hNamedPipe, "ptr", $pOverlapped)
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "ConnectNamedPipe", "handle", $hNamedPipe, "ptr", $pOverlapped)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_ConnectNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -181,48 +181,49 @@ EndFunc   ;==>_NamedPipes_ConnectNamedPipe
 ; ===============================================================================================================================
 Func _NamedPipes_CreateNamedPipe($sName, $iAccess = 2, $iFlags = 2, $iACL = 0, $iType = 1, $iRead = 1, $iWait = 0, $iMaxInst = 25, _
 		$iOutBufSize = 4096, $iInpBufSize = 4096, $iDefTimeout = 5000, $pSecurity = 0)
-	Local $iOpenMode, $iPipeMode, $aResult
+	Local $iOpenMode, $iPipeMode
 
 	Switch $iAccess
 		Case 1
-			$iOpenMode = $PIPE_ACCESS_OUTBOUND
+			$iOpenMode = $__PIPE_ACCESS_OUTBOUND
 		Case 2
-			$iOpenMode = $PIPE_ACCESS_DUPLEX
+			$iOpenMode = $__PIPE_ACCESS_DUPLEX
 		Case Else
-			$iOpenMode = $PIPE_ACCESS_INBOUND
+			$iOpenMode = $__PIPE_ACCESS_INBOUND
 	EndSwitch
-	If BitAND($iFlags, 1) <> 0 Then $iOpenMode = BitOR($iOpenMode, $FILE_FLAG_FIRST_PIPE_INSTANCE)
-	If BitAND($iFlags, 2) <> 0 Then $iOpenMode = BitOR($iOpenMode, $FILE_FLAG_OVERLAPPED)
-	If BitAND($iFlags, 4) <> 0 Then $iOpenMode = BitOR($iOpenMode, $FILE_FLAG_WRITE_THROUGH)
+	If BitAND($iFlags, 1) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__FILE_FLAG_FIRST_PIPE_INSTANCE)
+	If BitAND($iFlags, 2) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__FILE_FLAG_OVERLAPPED)
+	If BitAND($iFlags, 4) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__FILE_FLAG_WRITE_THROUGH)
 
-	If BitAND($iACL, 1) <> 0 Then $iOpenMode = BitOR($iOpenMode, $WRITE_DAC)
-	If BitAND($iACL, 2) <> 0 Then $iOpenMode = BitOR($iOpenMode, $WRITE_OWNER)
-	If BitAND($iACL, 4) <> 0 Then $iOpenMode = BitOR($iOpenMode, $ACCESS_SYSTEM_SECURITY)
+	If BitAND($iACL, 1) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__WRITE_DAC)
+	If BitAND($iACL, 2) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__WRITE_OWNER)
+	If BitAND($iACL, 4) <> 0 Then $iOpenMode = BitOR($iOpenMode, $__ACCESS_SYSTEM_SECURITY)
 
 	Switch $iType
 		Case 1
-			$iPipeMode = $PIPE_TYPE_MESSAGE
+			$iPipeMode = $__PIPE_TYPE_MESSAGE
 		Case Else
-			$iPipeMode = $PIPE_TYPE_BYTE
+			$iPipeMode = $__PIPE_TYPE_BYTE
 	EndSwitch
 
 	Switch $iRead
 		Case 1
-			$iPipeMode = BitOR($iPipeMode, $PIPE_READMODE_MESSAGE)
+			$iPipeMode = BitOR($iPipeMode, $__PIPE_READMODE_MESSAGE)
 		Case Else
-			$iPipeMode = BitOR($iPipeMode, $PIPE_READMODE_BYTE)
+			$iPipeMode = BitOR($iPipeMode, $__PIPE_READMODE_BYTE)
 	EndSwitch
 
 	Switch $iWait
 		Case 1
-			$iPipeMode = BitOR($iPipeMode, $PIPE_NOWAIT)
+			$iPipeMode = BitOR($iPipeMode, $__PIPE_NOWAIT)
 		Case Else
-			$iPipeMode = BitOR($iPipeMode, $PIPE_WAIT)
+			$iPipeMode = BitOR($iPipeMode, $__PIPE_WAIT)
 	EndSwitch
 
-	$aResult = DllCall("Kernel32.dll", "int", "CreateNamedPipe", "str", $sName, "int", $iOpenMode, "int", $iPipeMode, "int", $iMaxInst, _
-			"int", $iOutBufSize, "int", $iInpBufSize, "int", $iDefTimeout, "ptr", $pSecurity)
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0])
+	Local $aResult = DllCall("kernel32.dll", "handle", "CreateNamedPipeW", "wstr", $sName, "dword", $iOpenMode, "dword", $iPipeMode, "dword", $iMaxInst, _
+			"dword", $iOutBufSize, "dword", $iInpBufSize, "dword", $iDefTimeout, "ptr", $pSecurity)
+	If @error Then Return SetError(@error, @extended, -1)
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_CreateNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -244,16 +245,14 @@ EndFunc   ;==>_NamedPipes_CreateNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CreatePipe(ByRef $hReadPipe, ByRef $hWritePipe, $tSecurity = 0, $iSize = 0)
-	Local $pSecurity, $tPipes, $aResult
+	Local $pSecurity = 0
 
 	If $tSecurity <> 0 Then $pSecurity = DllStructGetPtr($tSecurity)
-	$tPipes = DllStructCreate("ptr Read;ptr Write")
-	$aResult = DllCall("Kernel32.dll", "int", "CreatePipe", "ptr", DllStructGetPtr($tPipes, "Read"), "ptr", _
-			DllStructGetPtr($tPipes, "Write"), "ptr", $pSecurity, "uint", $iSize)
-	_WinAPI_Check("_NamedPipes_CreatePipe", $aResult[0] = 0, 0, True)
-	$hReadPipe = DllStructGetData($tPipes, "Read")
-	$hWritePipe = DllStructGetData($tPipes, "Write")
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "CreatePipe", "handle*", 0, "handle*", 0, "ptr", $pSecurity, "dword", $iSize)
+	If @error Then Return SetError(@error, @extended, False)
+	$hReadPipe = $aResult[1]		; read pipe handle
+	$hWritePipe = $aResult[2]		; write pipe handle
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_CreatePipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -273,10 +272,9 @@ EndFunc   ;==>_NamedPipes_CreatePipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_DisconnectNamedPipe($hNamedPipe)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "DisconnectNamedPipe", "int", $hNamedPipe)
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "DisconnectNamedPipe", "handle", $hNamedPipe)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_DisconnectNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -301,24 +299,17 @@ EndFunc   ;==>_NamedPipes_DisconnectNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_GetNamedPipeHandleState($hNamedPipe)
-	Local $tBuffer, $tInt, $pState, $pCurInst, $pMaxCount, $pTimeOut, $aState[6]
-
-	$tInt = DllStructCreate("int State;int CurInst;int MaxCount;int TimeOut")
-	$pState = DllStructGetPtr($tInt, "State")
-	$pCurInst = DllStructGetPtr($tInt, "CurInst")
-	$pMaxCount = DllStructGetPtr($tInt, "MaxCount")
-	$pTimeOut = DllStructGetPtr($tInt, "TimeOut")
-	$tBuffer = DllStructCreate("char Text[4096]")
-
-	DllCall("Kernel32.dll", "int", "GetNamedPipeHandleState", "int", $hNamedPipe, "ptr", $pState, "ptr", $pCurInst, "ptr", _
-			$pMaxCount, "ptr", $pTimeOut, "ptr", DllStructGetPtr($tBuffer), "int", 4096)
-	$aState[0] = BitAND(DllStructGetData($tInt, "State"), $PIPE_NOWAIT) <> 0
-	$aState[1] = BitAND(DllStructGetData($tInt, "State"), $PIPE_READMODE_MESSAGE) <> 0
-	$aState[2] = DllStructGetData($tInt, "CurInst")
-	$aState[3] = DllStructGetData($tInt, "MaxCount")
-	$aState[4] = DllStructGetData($tInt, "TimeOut")
-	$aState[5] = DllStructGetData($tBuffer, "Text")
-	Return SetError(_WinAPI_GetLastError(), 0, $aState)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetNamedPipeHandleStateW", "handle", $hNamedPipe, "dword*", 0, "dword*", 0, _
+			"dword*", 0, "dword*", 0, "wstr", "", "dword", 4096)
+	If @error Then Return SetError(@error, @extended, 0)
+	Local $aState[6]
+	$aState[0] = BitAND($aResult[2], $__PIPE_NOWAIT) <> 0				;	State
+	$aState[1] = BitAND($aResult[2], $__PIPE_READMODE_MESSAGE) <> 0		;	State
+	$aState[2] = $aResult[3]		;	CurInst
+	$aState[3] = $aResult[4]		;	MaxCount
+	$aState[4] = $aResult[5]		;	TimeOut
+	$aState[5] = $aResult[6]		;	Username
+	Return SetError(0, $aResult[0], $aState)
 EndFunc   ;==>_NamedPipes_GetNamedPipeHandleState
 
 ; #FUNCTION# ====================================================================================================================
@@ -340,22 +331,16 @@ EndFunc   ;==>_NamedPipes_GetNamedPipeHandleState
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_GetNamedPipeInfo($hNamedPipe)
-	Local $tInt, $pFlags, $pOutSize, $pInpSize, $pMaxInst, $aInfo[5]
-
-	$tInt = DllStructCreate("int Flags;int OutSize;int InpSize;int MaxInst")
-	$pFlags = DllStructGetPtr($tInt, "Flags")
-	$pOutSize = DllStructGetPtr($tInt, "OutSize")
-	$pInpSize = DllStructGetPtr($tInt, "InpSize")
-	$pMaxInst = DllStructGetPtr($tInt, "MaxInst")
-
-	DllCall("Kernel32.dll", "int", "GetNamedPipeInfo", "int", $hNamedPipe, "ptr", $pFlags, "ptr", $pOutSize, "ptr", $pInpSize, _
-			"ptr", $pMaxInst)
-	$aInfo[0] = BitAND(DllStructGetData($tInt, "Flags"), $PIPE_SERVER_END) <> 0
-	$aInfo[1] = BitAND(DllStructGetData($tInt, "Flags"), $PIPE_TYPE_MESSAGE) <> 0
-	$aInfo[2] = DllStructGetData($tInt, "OutSize")
-	$aInfo[3] = DllStructGetData($tInt, "InpSize")
-	$aInfo[4] = DllStructGetData($tInt, "MaxInst")
-	Return SetError(_WinAPI_GetLastError(), 0, $aInfo)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetNamedPipeInfo", "handle", $hNamedPipe, "dword*", 0, "dword*", 0, "dword*", 0, _
+			"dword*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Local $aInfo[5]
+	$aInfo[0] = BitAND($aResult[2], $__PIPE_SERVER_END) <> 0		; Flags
+	$aInfo[1] = BitAND($aResult[2], $__PIPE_TYPE_MESSAGE) <> 0		; Flags
+	$aInfo[2] = $aResult[3]		; OutSize
+	$aInfo[3] = $aResult[4]		; InpSize
+	$aInfo[4] = $aResult[5]		; MaxInst
+	Return SetError(0, $aResult[0], $aInfo)
 EndFunc   ;==>_NamedPipes_GetNamedPipeInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -376,21 +361,18 @@ EndFunc   ;==>_NamedPipes_GetNamedPipeInfo
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_PeekNamedPipe($hNamedPipe)
-	Local $pBuffer, $tBuffer, $tInt, $pRead, $pTotal, $pLeft, $aInfo[4]
+	Local $tBuffer = DllStructCreate("char Text[4096]")
+	Local $pBuffer = DllStructGetPtr($tBuffer)
 
-	$tInt = DllStructCreate("int Read;int Total;int Left")
-	$pRead = DllStructGetPtr($tInt, "Read")
-	$pTotal = DllStructGetPtr($tInt, "Total")
-	$pLeft = DllStructGetPtr($tInt, "Left")
-	$tBuffer = DllStructCreate("char Text[4096]")
-	$pBuffer = DllStructGetPtr($tBuffer)
-
-	DllCall("Kernel32.dll", "int", "PeekNamedPipe", "int", $hNamedPipe, "ptr", $pBuffer, "int", 4096, "ptr", $pRead, "ptr", $pTotal, "ptr", $pLeft)
+	Local $aResult = DllCall("kernel32.dll", "bool", "PeekNamedPipe", "handle", $hNamedPipe, "ptr", $pBuffer, "int", 4096, "dword*", 0, _
+				"dword*", 0, "dword*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Local $aInfo[4]
 	$aInfo[0] = DllStructGetData($tBuffer, "Text")
-	$aInfo[1] = DllStructGetData($tInt, "Read")
-	$aInfo[2] = DllStructGetData($tInt, "Total")
-	$aInfo[3] = DllStructGetData($tInt, "Left")
-	Return SetError(_WinAPI_GetLastError(), 0, $aInfo)
+	$aInfo[1] = $aResult[4]		; Read
+	$aInfo[2] = $aResult[5]		; Total
+	$aInfo[3] = $aResult[6]		; Left
+	Return SetError(0, $aResult[0], $aInfo)
 EndFunc   ;==>_NamedPipes_PeekNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -416,13 +398,11 @@ EndFunc   ;==>_NamedPipes_PeekNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_SetNamedPipeHandleState($hNamedPipe, $iRead, $iWait, $iBytes = 0, $iTimeOut = 0)
-	Local $iMode, $tInt, $pMode, $pBytes, $pTimeOut, $aResult
+	Local $iMode = 0, $pBytes = 0, $pTimeOut = 0
 
-	$tInt = DllStructCreate("int Mode;int Bytes;int Timeout")
-	$pMode = DllStructGetPtr($tInt, "Mode")
-	If $iRead = 1 Then $iMode = BitOR($iMode, $PIPE_READMODE_MESSAGE)
-	If $iWait = 1 Then $iMode = BitOR($iMode, $PIPE_NOWAIT)
-	DllStructSetData($tInt, "Mode", $iMode)
+	Local $tInt = DllStructCreate("dword Bytes;dword Timeout")
+	If $iRead = 1 Then $iMode = BitOR($iMode, $__PIPE_READMODE_MESSAGE)
+	If $iWait = 1 Then $iMode = BitOR($iMode, $__PIPE_NOWAIT)
 
 	If $iBytes <> 0 Then
 		$pBytes = DllStructGetPtr($tInt, "Bytes")
@@ -434,8 +414,9 @@ Func _NamedPipes_SetNamedPipeHandleState($hNamedPipe, $iRead, $iWait, $iBytes = 
 		DllStructSetData($tInt, "TimeOut", $iTimeOut)
 	EndIf
 
-	$aResult = DllCall("Kernel32.dll", "int", "SetNamedPipeHandleState", "int", $hNamedPipe, "ptr", $pMode, "ptr", $pBytes, "ptr", $pTimeOut)
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "SetNamedPipeHandleState", "handle", $hNamedPipe, "dword*", $iMode, "ptr", $pBytes, "ptr", $pTimeOut)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_SetNamedPipeHandleState
 
 ; #FUNCTION# ====================================================================================================================
@@ -463,13 +444,10 @@ EndFunc   ;==>_NamedPipes_SetNamedPipeHandleState
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_TransactNamedPipe($hNamedPipe, $pInpBuf, $iInpSize, $pOutBuf, $iOutSize, $pOverlapped = 0)
-	Local $pRead, $tRead
-
-	$tRead = DllStructCreate("int Data")
-	$pRead = DllStructGetPtr($tRead)
-	DllCall("Kernel32.dll", "int", "TransactNamedPipe", "int", $hNamedPipe, "ptr", $pInpBuf, "int", $iInpSize, _
-			"ptr", $pOutBuf, "int", $iOutSize, "ptr", $pRead, "ptr", $pOverlapped)
-	Return SetError(_WinAPI_GetLastError(), 0, DllStructGetData($tRead, "Data"))
+	Local $aResult = DllCall("kernel32.dll", "bool", "TransactNamedPipe", "handle", $hNamedPipe, "ptr", $pInpBuf, "dword", $iInpSize, _
+			"ptr", $pOutBuf, "dword", $iOutSize, "dword*", 0, "ptr", $pOverlapped)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetError(0, $aResult[0], $aResult[6])
 EndFunc   ;==>_NamedPipes_TransactNamedPipe
 
 ; #FUNCTION# ====================================================================================================================
@@ -492,8 +470,7 @@ EndFunc   ;==>_NamedPipes_TransactNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_WaitNamedPipe($sPipeName, $iTimeOut = 0)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "WaitNamedPipe", "str", $sPipeName, "int", $iTimeOut)
-	Return SetError(_WinAPI_GetLastError(), 0, $aResult[0] <> 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "WaitNamedPipeW", "wstr", $sPipeName, "dword", $iTimeOut)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_WaitNamedPipe

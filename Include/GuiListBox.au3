@@ -1,11 +1,12 @@
 ﻿#include-once
 
-#include <ListBoxConstants.au3>
-#include <GuiConstantsEx.au3>
-#include <Memory.au3>
-#include <WinAPI.au3>
-#include <SendMessage.au3>
-#include <UDFGlobalID.au3>
+#include "ListBoxConstants.au3"
+#include "DirConstants.au3"
+#include "GuiConstantsEx.au3"
+#include "Memory.au3"
+#include "WinAPI.au3"
+#include "SendMessage.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListBox
@@ -25,7 +26,6 @@ Global Const $__LISTBOXCONSTANT_ClassName  = "ListBox"
 Global Const $__LISTBOXCONSTANT_ClassNames = $__LISTBOXCONSTANT_ClassName & "|TListbox"
 Global Const $__LISTBOXCONSTANT_WS_TABSTOP = 0x00010000
 Global Const $__LISTBOXCONSTANT_DEFAULT_GUI_FONT = 17
-Global Const $__LISTBOXCONSTANT_DDL_DRIVES = 0x4000
 Global Const $__LISTBOXCONSTANT_WM_SETREDRAW = 0x000B
 Global Const $__LISTBOXCONSTANT_WM_GETFONT = 0x0031
 ; ===============================================================================================================================
@@ -145,8 +145,9 @@ Global Const $__LISTBOXCONSTANT_WM_GETFONT = 0x0031
 ; ===============================================================================================================================
 Func _GUICtrlListBox_AddFile($hWnd, $sFile)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
+
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_ADDFILE, 0, $sFile, 0, "wparam", "str")
+		Return _SendMessage($hWnd, $LB_ADDFILE, 0, $sFile, 0, "wparam", "wstr")
 	Else
 		Return GUICtrlSendMsg($hWnd, $LB_ADDFILE, 0, $sFile)
 	EndIf
@@ -172,8 +173,9 @@ EndFunc   ;==>_GUICtrlListBox_AddFile
 ; ===============================================================================================================================
 Func _GUICtrlListBox_AddString($hWnd, $sText)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
+
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_ADDSTRING, 0, $sText, 0, "wparam", "str")
+		Return _SendMessage($hWnd, $LB_ADDSTRING, 0, $sText, 0, "wparam", "wstr")
 	Else
 		Return GUICtrlSendMsg($hWnd, $LB_ADDSTRING, 0, $sText)
 	EndIf
@@ -222,15 +224,14 @@ Func _GUICtrlListBox_ClickItem($hWnd, $iIndex, $sButton = "left", $fMove = False
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $iX, $iY, $tPoint, $tRect, $iMode, $aPos
-
-	$tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
-	$tPoint = _WinAPI_PointFromRect($tRect)
+	Local $tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
+	Local $tPoint = _WinAPI_PointFromRect($tRect)
 	$tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
+	Local $iX, $iY
 	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
-	$iMode = Opt("MouseCoordMode", 1)
+	Local $iMode = Opt("MouseCoordMode", 1)
 	If Not $fMove Then
-		$aPos = MouseGetPos()
+		Local $aPos = MouseGetPos()
 		_WinAPI_ShowCursor(False)
 		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
 		MouseMove($aPos[0], $aPos[1], 0)
@@ -286,22 +287,27 @@ EndFunc   ;==>_GUICtrlListBox_ClickItem
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListBox_Create($hWnd, $sText, $iX, $iY, $iWidth = 100, $iHeight = 200, $iStyle = 0x00B00002, $iExStyle = 0x00000200)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlListBox_Create 1st parameter")
-	If Not IsString($sText) Then _WinAPI_ShowError("2nd parameter not a string for _GUICtrlListBox_Create")
-
-	Local $hList, $nCtrlID
+	If Not IsHWnd($hWnd) Then
+		; Invalid Window handle for _GUICtrlListBox_Create 1st parameter
+		Return SetError(1, 0, 0)
+	EndIf
+	If Not IsString($sText) Then
+		; 2nd parameter not a string for _GUICtrlListBox_Create
+		Return SetError(2, 0, 0)
+	EndIf
 
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 200
-	If $iStyle = -1 Then $iStyle = 0x00B00002
+	Local Const $WS_VSCROLL = 0x00200000, $WS_HSCROLL = 0x00100000, $WS_BORDER = 0x00800000
+	If $iStyle = -1 Then $iStyle = BitOr($WS_BORDER, $WS_VSCROLL, $WS_HSCROLL, $LBS_SORT)
 	If $iExStyle = -1 Then $iExStyle = 0x00000200
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_VISIBLE, $__LISTBOXCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_CHILD, $LBS_NOTIFY)
 
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	$hList = _WinAPI_CreateWindowEx($iExStyle, $__LISTBOXCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
+	Local $hList = _WinAPI_CreateWindowEx($iExStyle, $__LISTBOXCONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_WinAPI_SetFont($hList, _WinAPI_GetStockObject($__LISTBOXCONSTANT_DEFAULT_GUI_FONT))
 	If StringLen($sText) Then _GUICtrlListBox_AddString($hList, $sText)
 	Return $hList
@@ -347,19 +353,20 @@ EndFunc   ;==>_GUICtrlListBox_DeleteString
 ; ===============================================================================================================================
 Func _GUICtrlListBox_Destroy(ByRef $hWnd)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $Destroyed, $iResult
+;~ 	If Not _WinAPI_IsClassName($hWnd, $__LISTBOXCONSTANT_ClassNames) Then Return SetError(2, 2, False)
 
+	Local $Destroyed = 0
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lb_ghLastWnd) Then
 			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 			Local $hParent = _WinAPI_GetParent($hWnd)
 			$Destroyed = _WinAPI_DestroyWindow($hWnd)
-			$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-			If Not $iResult Then
+			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+			If Not $iRet Then
 				; can check for errors here if needed, for debug
 			EndIf
 		Else
-			_WinAPI_ShowMsg("Not Allowed to Destroy Other Applications ListView(s)")
+			; Not Allowed to Destroy Other Applications Control(s)
 			Return SetError(1, 1, False)
 		EndIf
 	Else
@@ -396,11 +403,12 @@ EndFunc   ;==>_GUICtrlListBox_Destroy
 ; ===============================================================================================================================
 Func _GUICtrlListBox_Dir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	If BitAND($iAttributes, $__LISTBOXCONSTANT_DDL_DRIVES) = $__LISTBOXCONSTANT_DDL_DRIVES And Not $fBrackets Then
-		Local $sText, $v_ret
+
+	If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And Not $fBrackets Then
+		Local $sText
 		Local $gui_no_brackets = GUICreate("no brackets")
 		Local $list_no_brackets = GUICtrlCreateList("", 240, 40, 120, 120)
-		$v_ret = GUICtrlSendMsg($list_no_brackets, $LB_DIR, $iAttributes, $sFile)
+		Local $v_ret = GUICtrlSendMsg($list_no_brackets, $LB_DIR, $iAttributes, $sFile)
 		For $i = 0 To _GUICtrlListBox_GetCount($list_no_brackets) - 1
 			$sText = _GUICtrlListBox_GetText($list_no_brackets, $i)
 			$sText = StringReplace(StringReplace(StringReplace($sText, "[", ""), "]", ":"), "-", "")
@@ -410,7 +418,7 @@ Func _GUICtrlListBox_Dir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
 		Return $v_ret
 	Else
 		If IsHWnd($hWnd) Then
-			Return _SendMessage($hWnd, $LB_DIR, $iAttributes, $sFile, 0, "wparam", "str")
+			Return _SendMessage($hWnd, $LB_DIR, $iAttributes, $sFile, 0, "wparam", "wstr")
 		Else
 			Return GUICtrlSendMsg($hWnd, $LB_DIR, $iAttributes, $sFile)
 		EndIf
@@ -459,11 +467,12 @@ EndFunc   ;==>_GUICtrlListBox_EndUpdate
 ; ===============================================================================================================================
 Func _GUICtrlListBox_FindString($hWnd, $sText, $fExact = False)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
+
 	If IsHWnd($hWnd) Then
 		If ($fExact) Then
-			Return _SendMessage($hWnd, $LB_FINDSTRINGEXACT, -1, $sText, 0, "wparam", "str")
+			Return _SendMessage($hWnd, $LB_FINDSTRINGEXACT, -1, $sText, 0, "wparam", "wstr")
 		Else
-			Return _SendMessage($hWnd, $LB_FINDSTRING, -1, $sText, 0, "wparam", "str")
+			Return _SendMessage($hWnd, $LB_FINDSTRING, -1, $sText, 0, "wparam", "wstr")
 		EndIf
 	Else
 		If ($fExact) Then
@@ -493,9 +502,9 @@ EndFunc   ;==>_GUICtrlListBox_FindString
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListBox_FindInText($hWnd, $sText, $iStart = -1, $fWrapOK = True)
-	Local $iI, $iCount, $sList
+	Local $sList
 
-	$iCount = _GUICtrlListBox_GetCount($hWnd)
+	Local $iCount = _GUICtrlListBox_GetCount($hWnd)
 	For $iI = $iStart + 1 To $iCount - 1
 		$sList = _GUICtrlListBox_GetText($hWnd, $iI)
 		If StringInStr($sList, $sText) Then Return $iI
@@ -689,9 +698,9 @@ EndFunc   ;==>_GUICtrlListBox_GetItemHeight
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetItemRect($hWnd, $iIndex)
-	Local $tRect, $aRect[4]
+	Local $aRect[4]
 
-	$tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
+	Local $tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -715,9 +724,7 @@ EndFunc   ;==>_GUICtrlListBox_GetItemRect
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $tRect
-
-	$tRect = DllStructCreate($tagRECT)
+	Local $tRect = DllStructCreate($tagRECT)
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $LB_GETITEMRECT, $iIndex, DllStructGetPtr($tRect), 0, "wparam", "ptr")
 	Else
@@ -904,12 +911,12 @@ EndFunc   ;==>_GUICtrlListBox_GetSelCount
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetSelItems($hWnd)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $iI, $iCount, $tArray, $aArray[1] = [0]
+	Local $aArray[1] = [0]
 
-	$iCount = _GUICtrlListBox_GetSelCount($hWnd)
+	Local $iCount = _GUICtrlListBox_GetSelCount($hWnd)
 	If $iCount > 0 Then
 		ReDim $aArray[$iCount + 1]
-		$tArray = DllStructCreate("int[" & $iCount & "]")
+		Local $tArray = DllStructCreate("int[" & $iCount & "]")
 		If IsHWnd($hWnd) Then
 			_SendMessage($hWnd, $LB_GETSELITEMS, $iCount, DllStructGetPtr($tArray), 0, "wparam", "ptr")
 		Else
@@ -942,9 +949,9 @@ EndFunc   ;==>_GUICtrlListBox_GetSelItems
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetSelItemsText($hWnd)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $aIndices, $aText[1] = [0], $iCount = _GUICtrlListBox_GetSelCount($hWnd)
+	Local $aText[1] = [0], $iCount = _GUICtrlListBox_GetSelCount($hWnd)
 	If $iCount > 0 Then
-		$aIndices = _GUICtrlListBox_GetSelItems($hWnd)
+		Local $aIndices = _GUICtrlListBox_GetSelItems($hWnd)
 		ReDim $aText[UBound($aIndices)]
 		$aText[0] = $aIndices[0]
 		For $i = 1 To $aIndices[0]
@@ -970,10 +977,11 @@ EndFunc   ;==>_GUICtrlListBox_GetSelItemsText
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetText($hWnd, $iIndex)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $struct = DllStructCreate("char Text[" & _GUICtrlListBox_GetTextLen($hWnd, $iIndex) + 1 & "]")
+
+	Local $tText = DllStructCreate("wchar Text[" & _GUICtrlListBox_GetTextLen($hWnd, $iIndex) + 1 & "]")
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	_SendMessageA($hWnd, $LB_GETTEXT, $iIndex, DllStructGetPtr($struct), 0, "wparam", "ptr")
-	Return DllStructGetData($struct, "Text")
+	_SendMessage($hWnd, $LB_GETTEXT, $iIndex, DllStructGetPtr($tText), 0, "wparam", "ptr")
+	Return DllStructGetData($tText, "Text")
 EndFunc   ;==>_GUICtrlListBox_GetText
 
 ; #FUNCTION# ====================================================================================================================
@@ -1065,16 +1073,9 @@ EndFunc   ;==>_GUICtrlListBox_InitStorage
 ; ===============================================================================================================================
 Func _GUICtrlListBox_InsertString($hWnd, $sText, $iIndex = -1)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
+
 	If IsHWnd($hWnd) Then
-		Local $struct_String = DllStructCreate("char[" & StringLen($sText) + 1 & "]")
-		Local $sBuffer_pointer = DllStructGetPtr($struct_String)
-		DllStructSetData($struct_String, 1, $sText)
-		Local $rMemMap
-		_MemInit($hWnd, StringLen($sText) + 1, $rMemMap)
-		_MemWrite($rMemMap, $sBuffer_pointer)
-		Local $iResult = _SendMessage($hWnd, $LB_INSERTSTRING, $iIndex, $sBuffer_pointer, 0, "wparam", "ptr")
-		_MemFree($rMemMap)
-		Return $iResult
+		Return _SendMessage($hWnd, $LB_INSERTSTRING, $iIndex, $sText, 0, "wparam", "wstr")
 	Else
 		Return GUICtrlSendMsg($hWnd, $LB_INSERTSTRING, $iIndex, $sText)
 	EndIf
@@ -1098,16 +1099,16 @@ EndFunc   ;==>_GUICtrlListBox_InsertString
 ; ===============================================================================================================================
 Func _GUICtrlListBox_ItemFromPoint($hWnd, $iX, $iY)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $iResult
+	Local $iRet
 
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LB_ITEMFROMPOINT, 0, _WinAPI_MakeLong($iX, $iY))
+		$iRet = _SendMessage($hWnd, $LB_ITEMFROMPOINT, 0, _WinAPI_MakeLong($iX, $iY))
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LB_ITEMFROMPOINT, 0, _WinAPI_MakeLong($iX, $iY))
+		$iRet = GUICtrlSendMsg($hWnd, $LB_ITEMFROMPOINT, 0, _WinAPI_MakeLong($iX, $iY))
 	EndIf
 
-	If _WinAPI_HiWord($iResult) <> 0 Then $iResult = -1
-	Return $iResult
+	If _WinAPI_HiWord($iRet) <> 0 Then $iRet = -1
+	Return $iRet
 EndFunc   ;==>_GUICtrlListBox_ItemFromPoint
 
 ; #FUNCTION# ====================================================================================================================
@@ -1176,8 +1177,9 @@ EndFunc   ;==>_GUICtrlListBox_ResetContent
 ; ===============================================================================================================================
 Func _GUICtrlListBox_SelectString($hWnd, $sText, $iIndex = -1)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
+
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_SELECTSTRING, $iIndex, $sText, 0, "wparam", "str")
+		Return _SendMessage($hWnd, $LB_SELECTSTRING, $iIndex, $sText, 0, "wparam", "wstr")
 	Else
 		Return GUICtrlSendMsg($hWnd, $LB_SELECTSTRING, $iIndex, $sText)
 	EndIf
@@ -1412,16 +1414,16 @@ EndFunc   ;==>_GUICtrlListBox_SetItemData
 ; ===============================================================================================================================
 Func _GUICtrlListBox_SetItemHeight($hWnd, $iHeight, $iIndex = 0)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $iResult
+	Local $iRet
 
 	If IsHWnd($hWnd) Then
-		$iResult = _SendMessage($hWnd, $LB_SETITEMHEIGHT, $iIndex, $iHeight)
+		$iRet = _SendMessage($hWnd, $LB_SETITEMHEIGHT, $iIndex, $iHeight)
 		_WinAPI_InvalidateRect($hWnd)
 	Else
-		$iResult = GUICtrlSendMsg($hWnd, $LB_SETITEMHEIGHT, $iIndex, $iHeight)
+		$iRet = GUICtrlSendMsg($hWnd, $LB_SETITEMHEIGHT, $iIndex, $iHeight)
 		_WinAPI_InvalidateRect(GUICtrlGetHandle($hWnd))
 	EndIf
-	Return $iResult <> -1
+	Return $iRet <> -1
 EndFunc   ;==>_GUICtrlListBox_SetItemHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -1540,10 +1542,9 @@ EndFunc   ;==>_GUICtrlListBox_SetSel
 ; ===============================================================================================================================
 Func _GUICtrlListBox_SetTabStops($hWnd, $aTabStops)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $iI, $iCount, $tTabStops
 
-	$iCount = $aTabStops[0]
-	$tTabStops = DllStructCreate("int[" & $iCount & "]")
+	Local $iCount = $aTabStops[0]
+	Local $tTabStops = DllStructCreate("int[" & $iCount & "]")
 	For $iI = 1 To $iCount
 		DllStructSetData($tTabStops, 1, $aTabStops[$iI], $iI)
 	Next
@@ -1619,9 +1620,8 @@ EndFunc   ;==>_GUICtrlListBox_Sort
 ; ===============================================================================================================================
 Func _GUICtrlListBox_SwapString($hWnd, $iIndexA, $iIndexB)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $itemA, $itemB
-	$itemA = _GUICtrlListBox_GetText($hWnd, $iIndexA)
-	$itemB = _GUICtrlListBox_GetText($hWnd, $iIndexB)
+	Local $itemA = _GUICtrlListBox_GetText($hWnd, $iIndexA)
+	Local $itemB = _GUICtrlListBox_GetText($hWnd, $iIndexB)
 	If (_GUICtrlListBox_DeleteString($hWnd, $iIndexA) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
 	If (_GUICtrlListBox_InsertString($hWnd, $itemB, $iIndexA) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
 
@@ -1645,12 +1645,10 @@ EndFunc   ;==>_GUICtrlListBox_SwapString
 ; ===============================================================================================================================
 Func _GUICtrlListBox_UpdateHScroll($hWnd)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
-	Local $iI, $hDC, $hFont, $iMax, $tSize, $sText, $t_hwnd
-	$iMax = 0
+	Local $hDC, $hFont, $tSize, $sText
+	Local $iMax = 0
 	If IsHWnd($hWnd) Then
-
 		$hFont = _SendMessage($hWnd, $__LISTBOXCONSTANT_WM_GETFONT)
-
 		$hDC = _WinAPI_GetDC($hWnd)
 		_WinAPI_SelectObject($hDC, $hFont)
 		For $iI = 0 To _GUICtrlListBox_GetCount($hWnd) - 1
@@ -1665,7 +1663,7 @@ Func _GUICtrlListBox_UpdateHScroll($hWnd)
 		_WinAPI_ReleaseDC($hWnd, $hDC)
 	Else
 		$hFont = GUICtrlSendMsg($hWnd, $__LISTBOXCONSTANT_WM_GETFONT, 0, 0)
-		$t_hwnd = GUICtrlGetHandle($hWnd)
+		Local $t_hwnd = GUICtrlGetHandle($hWnd)
 		$hDC = _WinAPI_GetDC($t_hwnd)
 		_WinAPI_SelectObject($hDC, $hFont)
 		For $iI = 0 To _GUICtrlListBox_GetCount($hWnd) - 1

@@ -43,7 +43,7 @@ $sColumn = InputBox("_ArraySearch() demo", "Column to search?")
 If @error Then Exit
 $sColumn = Int($sColumn)
 
-$iIndex = _ArraySearch($avArray, $sSearch, 0, 0, 0, 1, $sColumn)
+$iIndex = _ArraySearch($avArray, $sSearch, 0, 0, 0, 1, 1, $sColumn)
 If @error Then
 	MsgBox(0, "Not Found", '"' & $sSearch & '" was not found on column ' & $sColumn & '.')
 Else

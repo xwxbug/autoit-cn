@@ -10,8 +10,11 @@ Opt('MustDeclareVars', 1)
 _Main()
 
 Func _Main()
-	Local $listview, $hImage, $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir")
-	
+	Local $listview, $hImage
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir")
+
 	GUICreate("ImageList Copy", 410, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 404, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	GUISetState()
@@ -30,7 +33,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100, 0, 1, True)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100, 2, 2, True)
 	_GUICtrlListView_AddColumn($listview, "Column 4", 100, 0, 3)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

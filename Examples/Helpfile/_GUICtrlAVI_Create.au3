@@ -12,7 +12,9 @@ _Example1()
 _Example2()
 
 Func _Example1()
-	Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
 
 	; Create GUI
 	$hGUI = GUICreate("(External 1) AVI Create", 300, 100)
@@ -27,11 +29,11 @@ Func _Example1()
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	
+
 	; Close AVI clip
 	_GUICtrlAVI_Close ($hAVI)
 
-	
+
 	GUIDelete()
 EndFunc   ;==>_Example1
 
@@ -51,11 +53,11 @@ Func _Example2()
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	
+
 	; Close AVI clip
 	_GUICtrlAVI_Close ($hAVI)
 
-	
+
 	GUIDelete()
 EndFunc   ;==>_Example2
 

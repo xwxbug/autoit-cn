@@ -24,9 +24,9 @@ Func _Main()
 	_GUICtrlListView_AddColumn($hListView, "SubItems 3", 100)
 
 	_GUICtrlListView_SetItemCount($hListView, 5000)
-	
+
 	; One column load
-	Dim $aItems[5000][1]
+	Local $aItems[5000][1]
 	For $iI = 0 To UBound($aItems) - 1
 		$aItems[$iI][0] = "Item " & $iI
 	Next

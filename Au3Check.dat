@@ -16,7 +16,7 @@ $CmdLineRaw
 !Abs 1 1
 !ACos 1 1
 !AdlibRegister 1 2
-!AdlibUnRegister 1 1
+!AdlibUnRegister 0 1
 !Asc 1 1
 !AscW 1 1
 !ASin 1 1
@@ -410,6 +410,10 @@ $CmdLineRaw
 
 %AdlibRegister 1 <UDF>
 %AdlibUnRegister 1 <UDF>
+%AutoItSetOption 1 ###Example###
+%AutoItSetOption 1 ###Related###
+%AutoItSetOption 1 @@End@@
+%AutoItSetOption 1 @@IncludeExample@@
 %AutoItSetOption 1 CaretCoordMode
 %AutoItSetOption 1 ExpandEnvStrings
 %AutoItSetOption 1 ExpandVarStrings
@@ -419,6 +423,7 @@ $CmdLineRaw
 %AutoItSetOption 1 GUIEventOptions
 %AutoItSetOption 1 GUIOnEventMode
 %AutoItSetOption 1 GUIResizeMode
+%AutoItSetOption 1 Many.
 %AutoItSetOption 1 MouseClickDelay
 %AutoItSetOption 1 MouseClickDownDelay
 %AutoItSetOption 1 MouseClickDragDelay
@@ -522,6 +527,10 @@ $CmdLineRaw
 %MouseUp 1 secondary
 %OnAutoItExitRegister 1 <UDF>
 %OnAutoItExitUnRegister 1 <UDF>
+%Opt 1 ###Example###
+%Opt 1 ###Related###
+%Opt 1 @@End@@
+%Opt 1 @@IncludeExample@@
 %Opt 1 CaretCoordMode
 %Opt 1 ExpandEnvStrings
 %Opt 1 ExpandVarStrings
@@ -531,6 +540,7 @@ $CmdLineRaw
 %Opt 1 GUIEventOptions
 %Opt 1 GUIOnEventMode
 %Opt 1 GUIResizeMode
+%Opt 1 Many.
 %Opt 1 MouseClickDelay
 %Opt 1 MouseClickDownDelay
 %Opt 1 MouseClickDragDelay

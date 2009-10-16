@@ -18,11 +18,12 @@ Func _Main()
 	; Show system date/time
 	$tTime = _Date_Time_GetSystemTime()
 	MemoWrite("System date/time .: " & _Date_Time_SystemTimeToDateTimeStr($tTime))
+	MemoWrite("System date/time .: " & _Date_Time_SystemTimeToDateTimeStr($tTime, 1))
 
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	
+
 EndFunc   ;==>_Main
 
 ; Write a line to the memo control

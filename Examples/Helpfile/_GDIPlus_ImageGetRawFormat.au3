@@ -14,10 +14,10 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hGUI, $hBitmap, $hImage, $aRet
+	Local $hBitmap, $hImage, $aRet
 
 	; Create GUI
-	$hGUI = GUICreate("GDI+", 600, 400)
+	GUICreate("GDI+", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -28,28 +28,28 @@ Func _Main()
 	; Capture 32 bit bitmap
 	$hBitmap = _ScreenCapture_Capture("")
 	$hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
-	
+
 	; Show image format for screen capture
 	$aRet = _GDIPlus_ImageGetRawFormat($hImage)
 	MemoWrite("Image format of screen capture: " & $aRet[1]);
 	MemoWrite("GUID: " & $aRet[0]);
 	MemoWrite();
-	
+
 	; Save screen capture bitmap to file
 	_GDIPlus_ImageSaveToFile($hImage, @MyDocumentsDir & "\GDIPlus_Image.jpg")
-	
+
 	; Clean up resources
 	_GDIPlus_ImageDispose($hImage)
 	_WinAPI_DeleteObject($hBitmap)
-	
+
 	; Load screen capture bitmap from file
 	$hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & "\GDIPlus_Image.jpg")
-	
+
 	; Show image format for saved file
 	$aRet = _GDIPlus_ImageGetRawFormat($hImage)
 	MemoWrite("Image format of saved file: " & $aRet[1]);
 	MemoWrite("GUID: " & $aRet[0]);
-	
+
 	; Clean up resources
 	_GDIPlus_ImageDispose($hImage)
 

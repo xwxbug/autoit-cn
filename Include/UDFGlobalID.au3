@@ -1,6 +1,6 @@
 ﻿#include-once
 
-#include <WinAPI.au3>
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: UDF Global ID
@@ -158,10 +158,10 @@ EndFunc   ;==>__UDF_FreeGlobalID
 ; ===============================================================================================================================
 Func __UDF_DebugPrint($sText, $iLine = @ScriptLineNumber, $err=@error, $ext=@extended)
 	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @LF & _
-			"+======================================================" & @LF)
+			"!===========================================================" & @CRLF & _
+			"+======================================================" & @CRLF & _
+			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @CRLF & _
+			"+======================================================" & @CRLF)
 	Return SetError($err, $ext, 1)
 EndFunc   ;==>__UDF_DebugPrint
 
@@ -178,7 +178,12 @@ EndFunc   ;==>__UDF_DebugPrint
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __UDF_ValidateClassName($hWnd, $sType)
+Func __UDF_ValidateClassName($hWnd, $sClassNames)
 	__UDF_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	_WinAPI_ValidateClassName($hWnd, $sType)
+	If _WinAPI_IsClassName($hWnd, $sClassNames) Then Return True
+	Local $sSeparator = Opt("GUIDataSeparatorChar")
+	$sClassNames = StringReplace($sClassNames, $sSeparator, ",")
+
+	__UDF_DebugPrint("Invalid Class Type(s):" & @LF & @TAB & "Expecting Type(s): " & $sClassNames & @LF & @TAB & "Received Type : " & _WinAPI_GetClassName($hWnd))
+	Exit
 EndFunc   ;==>__UDF_ValidateClassName

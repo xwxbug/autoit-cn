@@ -1,9 +1,9 @@
 ﻿#include-once
 
-#include <ButtonConstants.au3>
-#include <SendMessage.au3>
-#include <WinAPI.au3>
-#include <UDFGlobalID.au3>
+#include "ButtonConstants.au3"
+#include "SendMessage.au3"
+#include "WinAPI.au3"
+#include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Button
@@ -19,8 +19,8 @@ Global $Debug_Btn = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $tagBUTTON_IMAGELIST = "hwnd ImageList;int Left;int Top;int Right;int Bottom;uint Align"
-Global Const $tagBUTTON_SPLITINFO = "uint mask;hwnd himlGlyph;uint uSplitStyle;int X;int Y"
+Global Const $tagBUTTON_IMAGELIST = "ptr ImageList;"& $tagRECT & ";uint Align"
+Global Const $tagBUTTON_SPLITINFO = "uint mask;handle himlGlyph;uint uSplitStyle;" & $tagSIZE
 ;~ mask
 ;~ A set of flags that specify which members of this structure contain data to be set or which members are being requested. Set this member to one or more of the following flags.
 ;~ BCSIF_GLYPH
@@ -173,11 +173,16 @@ EndFunc   ;==>_GUICtrlButton_Click
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlButton_Create($hWnd, $sText, $iX, $iY, $iWidth, $iHeight, $iStyle = -1, $iExStyle = -1)
-	If Not IsHWnd($hWnd) Then _WinAPI_ShowError("Invalid Window handle for _GUICtrlButton_Create 1st parameter")
-	If Not IsString($sText) Then _WinAPI_ShowError("2nd parameter not a string for _GUICtrlButton_Create")
-	Local $iForcedStyle, $hButton, $nCtrlID
+	If Not IsHWnd($hWnd) Then
+		; Invalid Window handle for _GUICtrlButton_Create 1st parameter
+		Return SetError(1, 0, 0)
+	EndIf
+	If Not IsString($sText) Then
+		; 2nd parameter not a string for _GUICtrlButton_Create
+		Return SetError(2, 0, 0)
+	EndIf
 
-	$iForcedStyle = BitOR($__BUTTONCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_VISIBLE, $__UDFGUICONSTANT_WS_CHILD, $BS_NOTIFY)
+	Local $iForcedStyle = BitOR($__BUTTONCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_VISIBLE, $__UDFGUICONSTANT_WS_CHILD, $BS_NOTIFY)
 
 	If $iStyle = -1 Then
 		$iStyle = $iForcedStyle
@@ -185,9 +190,9 @@ Func _GUICtrlButton_Create($hWnd, $sText, $iX, $iY, $iWidth, $iHeight, $iStyle =
 		$iStyle = BitOR($iStyle, $iForcedStyle)
 	EndIf
 	If $iExStyle = -1 Then $iExStyle = 0
-	$nCtrlID = __UDF_GetNextGlobalID($hWnd)
+	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
-	$hButton = _WinAPI_CreateWindowEx($iExStyle, $__BUTTONCONSTANT_ClassName, $sText, $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
+	Local $hButton = _WinAPI_CreateWindowEx($iExStyle, $__BUTTONCONSTANT_ClassName, $sText, $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
 	_SendMessage($hButton, $__BUTTONCONSTANT_WM_SETFONT, _WinAPI_GetStockObject($__BUTTONCONSTANT_DEFAULT_GUI_FONT), True)
 	Return $hButton
 EndFunc   ;==>_GUICtrlButton_Create
@@ -208,29 +213,27 @@ EndFunc   ;==>_GUICtrlButton_Create
 ; ===============================================================================================================================
 Func _GUICtrlButton_Destroy(ByRef $hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
-	Local $iResult, $Destroyed
+	If Not _WinAPI_IsClassName($hWnd, $__BUTTONCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	If _WinAPI_IsClassName($hWnd, $__BUTTONCONSTANT_ClassName) Then
-		If IsHWnd($hWnd) Then
-			If _WinAPI_InProcess($hWnd, $_ghButtonLastWnd) Then
-				Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
-				Local $hParent = _WinAPI_GetParent($hWnd)
-				$Destroyed = _WinAPI_DestroyWindow($hWnd)
-				$iResult = __UDF_FreeGlobalID($hParent, $nCtrlID)
-				If Not $iResult Then
-					; can check for errors here if needed, for debug
-				EndIf
-			Else
-				_WinAPI_ShowMsg("Not Allowed to Destroy Other Applications Control(s)")
-				Return SetError(1, 1, False)
+	Local $Destroyed = 0
+	If IsHWnd($hWnd) Then
+		If _WinAPI_InProcess($hWnd, $_ghButtonLastWnd) Then
+			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
+			Local $hParent = _WinAPI_GetParent($hWnd)
+			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
+			If Not $iRet Then
+				; can check for errors here if needed, for debug
 			EndIf
 		Else
-			$Destroyed = GUICtrlDelete($hWnd)
+			; Not Allowed to Destroy Other Applications Control(s)
+			Return SetError(1, 1, False)
 		EndIf
-		If $Destroyed Then $hWnd = 0
-		Return $Destroyed <> 0
+	Else
+		$Destroyed = GUICtrlDelete($hWnd)
 	EndIf
-	Return SetError(2, 2, False)
+	If $Destroyed Then $hWnd = 0
+	Return $Destroyed <> 0
 EndFunc   ;==>_GUICtrlButton_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -318,9 +321,10 @@ EndFunc   ;==>_GUICtrlButton_GetFocus
 Func _GUICtrlButton_GetIdealSize($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tSize = DllStructCreate($tagSize), $aSize[2], $iResult
-	$iResult = _SendMessage($hWnd, $BCM_GETIDEALSIZE, 0, DllStructGetPtr($tSize))
-	If Not $iResult Then Return SetError(-1, -1, $aSize)
+
+	Local $tSize = DllStructCreate($tagSIZE), $aSize[2]
+	Local $iRet = _SendMessage($hWnd, $BCM_GETIDEALSIZE, 0, DllStructGetPtr($tSize))
+	If Not $iRet Then Return SetError(-1, -1, $aSize)
 	$aSize[0] = DllStructGetData($tSize, "X")
 	$aSize[1] = DllStructGetData($tSize, "Y")
 	Return $aSize
@@ -343,11 +347,11 @@ EndFunc   ;==>_GUICtrlButton_GetIdealSize
 Func _GUICtrlButton_GetImage($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $iResult = _SendMessage($hWnd, $BM_GETIMAGE, 0, 0, 0, "wparam", "lparam", "hwnd") ; check IMAGE_BITMAP
-	If $iResult <> 0x00000000 Then Return $iResult
-	$iResult = _SendMessage($hWnd, $BM_GETIMAGE, 1, 0, 0, "wparam", "lparam", "hwnd") ; check IMAGE_ICON
-	If $iResult = 0x00000000 Then Return 0
-	Return $iResult
+	Local $iRet = _SendMessage($hWnd, $BM_GETIMAGE, 0, 0, 0, "wparam", "lparam", "hwnd") ; check IMAGE_BITMAP
+	If $iRet <> 0x00000000 Then Return $iRet
+	$iRet = _SendMessage($hWnd, $BM_GETIMAGE, 1, 0, 0, "wparam", "lparam", "hwnd") ; check IMAGE_ICON
+	If $iRet = 0x00000000 Then Return 0
+	Return $iRet
 EndFunc   ;==>_GUICtrlButton_GetImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -407,11 +411,10 @@ EndFunc   ;==>_GUICtrlButton_GetImageList
 Func _GUICtrlButton_GetNote($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tNote, $iLen, $tLen
 
-	$iLen = _GUICtrlButton_GetNoteLength($hWnd) + 1
-	$tNote = DllStructCreate("wchar Note[" & $iLen & "]")
-	$tLen = DllStructCreate("dword")
+	Local $iLen = _GUICtrlButton_GetNoteLength($hWnd) + 1
+	Local $tNote = DllStructCreate("wchar Note[" & $iLen & "]")
+	Local $tLen = DllStructCreate("dword")
 	DllStructSetData($tLen, 1, $iLen)
 	If Not _SendMessage($hWnd, $BCM_GETNOTE, DllStructGetPtr($tLen), DllStructGetPtr($tNote)) Then Return SetError(-1, 0, "")
 	Return _WinAPI_WideCharToMultiByte(DllStructGetPtr($tNote))
@@ -544,7 +547,7 @@ EndFunc   ;==>_GUICtrlButton_GetText
 Func _GUICtrlButton_GetTextMargin($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tRect = DllStructCreate("int Left;int Top;int Right;int Bottom"), $aRect[4]
+	Local $tRect = DllStructCreate($tagRECT), $aRect[4]
 	If Not _SendMessage($hWnd, $BCM_GETTEXTMARGIN, 0, DllStructGetPtr($tRect)) Then Return SetError(-1, -1, $aRect)
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
@@ -693,15 +696,14 @@ Func _GUICtrlButton_SetImage($hWnd, $sImageFile, $nIconId = -1, $fLarge = False)
 			_WinAPI_UpdateWindow($hWnd) ; force a WM_PAINT
 			Return True
 		Else
-			Local $tIcon, $iResult
-
-			$tIcon = DllStructCreate("hwnd Handle")
+			Local $tIcon = DllStructCreate("handle Handle")
+			Local $iRet
 			If $fLarge Then
-				$iResult = _WinAPI_ExtractIconEx($sImageFile, $nIconId, DllStructGetPtr($tIcon), 0, 1)
+				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, DllStructGetPtr($tIcon), 0, 1)
 			Else
-				$iResult = _WinAPI_ExtractIconEx($sImageFile, $nIconId, 0, DllStructGetPtr($tIcon), 1)
+				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, 0, DllStructGetPtr($tIcon), 1)
 			EndIf
-			If Not $iResult Then Return SetError(-1, -1, False)
+			If Not $iRet Then Return SetError(-1, -1, False)
 			$hPrevImage = _SendMessage($hWnd, $BM_SETIMAGE, 1, DllStructGetData($tIcon, "Handle"))
 			If $hPrevImage Then
 				If Not _WinAPI_DeleteObject($hPrevImage) Then _WinAPI_DestroyIcon($hPrevImage)
@@ -752,7 +754,7 @@ Func _GUICtrlButton_SetImageList($hWnd, $hImage, $nAlign = 0, $iLeft = 1, $iTop 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	If $nAlign < 0 Or $nAlign > 4 Then $nAlign = 0
 
-	Local $tBUTTON_IMAGELIST = DllStructCreate($tagBUTTON_IMAGELIST), $iResult, $fEnabled
+	Local $tBUTTON_IMAGELIST = DllStructCreate($tagBUTTON_IMAGELIST)
 
 	DllStructSetData($tBUTTON_IMAGELIST, "ImageList", $hImage)
 	DllStructSetData($tBUTTON_IMAGELIST, "Left", $iLeft)
@@ -761,11 +763,11 @@ Func _GUICtrlButton_SetImageList($hWnd, $hImage, $nAlign = 0, $iLeft = 1, $iTop 
 	DllStructSetData($tBUTTON_IMAGELIST, "Bottom", $iBottom)
 	DllStructSetData($tBUTTON_IMAGELIST, "Align", $nAlign)
 
-	$fEnabled = _GUICtrlButton_Enable($hWnd, False)
-	$iResult = _SendMessage($hWnd, $BCM_SETIMAGELIST, 0, DllStructGetPtr($tBUTTON_IMAGELIST)) <> 0
+	Local $fEnabled = _GUICtrlButton_Enable($hWnd, False)
+	Local $iRet = _SendMessage($hWnd, $BCM_SETIMAGELIST, 0, DllStructGetPtr($tBUTTON_IMAGELIST)) <> 0
 	_GUICtrlButton_Enable($hWnd)
 	If Not $fEnabled Then _GUICtrlButton_Enable($hWnd, False)
-	Return $iResult
+	Return $iRet
 EndFunc   ;==>_GUICtrlButton_SetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -831,18 +833,17 @@ Func _GUICtrlButton_SetSize($hWnd, $iWidth, $iHeight)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	If _WinAPI_IsClassName($hWnd, $__BUTTONCONSTANT_ClassName) Then
-		Local $hParent = _WinAPI_GetParent($hWnd), $iResult
-		If Not $hParent Then Return SetError(-1, -1, False)
-		Local $aPos = WinGetPos($hWnd)
-		If Not IsArray($aPos) Then Return SetError(-1, -1, False)
-		Local $tPoint = DllStructCreate($tagPoint)
-		DllStructSetData($tPoint, "X", $aPos[0])
-		DllStructSetData($tPoint, "Y", $aPos[1])
-		If Not _WinAPI_ScreenToClient($hParent, $tPoint) Then Return SetError(-1, -1, False)
-		$iResult = WinMove($hWnd, "", DllStructGetData($tPoint, "X"), DllStructGetData($tPoint, "Y"), $iWidth, $iHeight)
-		Return SetError($iResult - 1, $iResult - 1, $iResult <> 0)
-	EndIf
+	If Not _WinAPI_IsClassName($hWnd, $__BUTTONCONSTANT_ClassName) Then Return SetError(-1, -1, False)
+	Local $hParent = _WinAPI_GetParent($hWnd)
+	If Not $hParent Then Return SetError(-1, -1, False)
+	Local $aPos = WinGetPos($hWnd)
+	If Not IsArray($aPos) Then Return SetError(-1, -1, False)
+	Local $tPoint = DllStructCreate($tagPOINT)
+	DllStructSetData($tPoint, "X", $aPos[0])
+	DllStructSetData($tPoint, "Y", $aPos[1])
+	If Not _WinAPI_ScreenToClient($hParent, $tPoint) Then Return SetError(-1, -1, False)
+	Local $iRet = WinMove($hWnd, "", DllStructGetData($tPoint, "X"), DllStructGetData($tPoint, "Y"), $iWidth, $iHeight)
+	Return SetError($iRet - 1, $iRet - 1, $iRet <> 0)
 EndFunc   ;==>_GUICtrlButton_SetSize
 
 ; #FUNCTION# ====================================================================================================================
@@ -980,7 +981,7 @@ EndFunc   ;==>_GUICtrlButton_SetText
 Func _GUICtrlButton_SetTextMargin($hWnd, $iLeft = 1, $iTop = 1, $iRight = 1, $iBottom = 1)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tRect = DllStructCreate("int Left;int Top;int Right;int Bottom")
+	Local $tRect = DllStructCreate($tagRECT)
 	DllStructSetData($tRect, "Left", $iLeft)
 	DllStructSetData($tRect, "Top", $iTop)
 	DllStructSetData($tRect, "Right", $iRight)

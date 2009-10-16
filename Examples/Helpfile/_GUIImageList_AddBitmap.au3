@@ -11,13 +11,15 @@ _Main()
 
 Func _Main()
 	Local $listview, $hImage
-	Local $sPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\Advanced\Images"
-	
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sPath = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\Advanced\Images"
+
 	GUICreate("ImageList AddBitmap", 400, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 394, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	_GUICtrlListView_SetExtendedListViewStyle($listview, BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_GRIDLINES, $LVS_EX_DOUBLEBUFFER))
 	GUISetState()
-	
+
 	; Load images
 	$hImage = _GUIImageList_Create(16, 32)
 	_GUIImageList_AddBitmap($hImage, $sPath & "\Red.bmp")

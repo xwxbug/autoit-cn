@@ -20,15 +20,6 @@ Global Const $CB_OKAY = 0
 Global Const $STATE_SYSTEM_INVISIBLE = 0x8000
 Global Const $STATE_SYSTEM_PRESSED = 0x8
 
-; dir attributes
-Global Const $CB_DDL_ARCHIVE = 0x20
-Global Const $CB_DDL_DIRECTORY = 0x10
-Global Const $CB_DDL_DRIVES = 0x4000
-Global Const $CB_DDL_EXCLUSIVE = 0x8000
-Global Const $CB_DDL_HIDDEN = 0x2
-Global Const $CB_DDL_READONLY = 0x1
-Global Const $CB_DDL_READWRITE = 0x0
-Global Const $CB_DDL_SYSTEM = 0x4
 ; ===============================================================================================================================
 
 ; ComboBox
@@ -85,7 +76,7 @@ Global Const $CB_SETEXTENDEDUI = 0x155
 Global Const $CB_SETHORIZONTALEXTENT = 0x15e
 Global Const $CB_SETITEMDATA = 0x151
 Global Const $CB_SETITEMHEIGHT = 0x153
-Global Const $CB_SETLOCALE = 0x15
+Global Const $CB_SETLOCALE = 0x159
 Global Const $CB_SETMINVISIBLE = 0x1701
 Global Const $CB_SETTOPINDEX = 0x15c
 Global Const $CB_SHOWDROPDOWN = 0x14F

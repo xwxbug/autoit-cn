@@ -12,9 +12,11 @@ _Main()
 
 Func _Main()
 	Local $StatusBar, $hEdit, $hGUI
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 	Local $aPartRightSide[3] = [200, 378, -1], $aPos
-	
+
 	; Create GUI
 	$hGUI = GUICreate("Edit Pos From Char", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268, BitOR($ES_WANTRETURN, $WS_VSCROLL))
@@ -32,7 +34,7 @@ Func _Main()
 	$aPos = _GUICtrlEdit_PosFromChar($hEdit, 300)
 	_GUICtrlStatusBar_SetText($StatusBar, "Horizontal Coord: " & $aPos[0])
 	_GUICtrlStatusBar_SetText($StatusBar, "Vertical Coord: " & $aPos[1], 1)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

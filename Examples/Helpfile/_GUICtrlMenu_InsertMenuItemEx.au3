@@ -59,7 +59,7 @@ Func InsertItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
 		DllStructSetData($tMenu, "Type", $MFT_SEPARATOR)
 	Else
 		DllStructSetData($tMenu, "Mask", BitOR($MIIM_ID, $MIIM_STRING, $MIIM_SUBMENU))
-		$tText = DllStructCreate("char Text[" & StringLen($sText) + 1 & "]")
+		$tText = DllStructCreate("wchar Text[" & StringLen($sText) + 1 & "]")
 		DllStructSetData($tText, "Text", $sText)
 		DllStructSetData($tMenu, "TypeData", DllStructGetPtr($tText))
 	EndIf

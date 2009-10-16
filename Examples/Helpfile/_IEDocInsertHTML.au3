@@ -21,12 +21,12 @@ _IEDocInsertHTML($oDiv, "<i>(HTML afterbegin)</i>", "afterbegin")
 _IEDocInsertHTML($oDiv, "<b>(HTML beforeend)</b>", "beforeend")
 _IEDocInsertHTML($oDiv, "<i>(HTML afterend)</i>", "afterend")
 
-ConsoleWrite(_IEBodyReadHTML($oIE) & @CR)
+ConsoleWrite(_IEBodyReadHTML($oIE) & @CRLF)
 
 ; *******************************************************
 ; Example 3 - Advanced example
-;		Insert a clock and a referrer string at the top of every page, even when you 
-;		browse to a new location.  Uses _IEDocInsertText, _IEDocInsertHTML and  
+;		Insert a clock and a referrer string at the top of every page, even when you
+;		browse to a new location.  Uses _IEDocInsertText, _IEDocInsertHTML and
 ;		_IEPropertySet features "innerhtml" and "referrer"
 ; *******************************************************
 ;
@@ -44,7 +44,7 @@ Exit
 
 Func UpdateClock()
     Local $curTime = "<b>Current Time is: </b>" & @HOUR & ":" & @MIN & ":" & @SEC
-    ; _IEGetObjByName is expected to return a NoMatch error after navigation 
+    ; _IEGetObjByName is expected to return a NoMatch error after navigation
 	;   (before DIV is inserted), so temporarily turn off notification
     _IEErrorNotify(False)
     Local $oAutoItClock = _IEGetObjByName($oIE, "AutoItClock")

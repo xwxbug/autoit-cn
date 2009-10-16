@@ -8,13 +8,19 @@
 ; ===============================================================================================================================
 
 ; #LISTING# =====================================================================================================================
+;$tagPOINT
+;$tagRECT
+;$tagMARGINS
+;$tagSIZE
+;$tagFILETIME
+;$tagSYSTEMTIME
+;$tagTIME_ZONE_INFORMATION
 ;$tagNMHDR
 ;$tagCOMBOBOXEXITEM
 ;$tagNMCBEDRAGBEGIN
 ;$tagNMCBEENDEDIT
 ;$tagNMCOMBOBOXEX
 ;$tagDTPRANGE
-;$tagDTPTIME
 ;$tagNMDATETIMECHANGE
 ;$tagNMDATETIMEFORMAT
 ;$tagNMDATETIMEFORMATQUERY
@@ -61,17 +67,10 @@
 ;$tagTVHITTESTINFO
 ;$tagNMTVKEYDOWN
 ;$tagNMMOUSE
-;$tagPOINT
-;$tagRECT
-;$tagMargins
-;$tagSIZE
 ;$tagTOKEN_PRIVILEGES
 ;$tagIMAGEINFO
 ;$tagMENUINFO
 ;$tagMENUITEMINFO
-;$tagFILETIME
-;$tagSYSTEMTIME
-;$tagTIME_ZONE_INFORMATION
 ;$tagREBARBANDINFO
 ;$tagNMREBARAUTOBREAK
 ;$tagNMRBAUTOSIZE
@@ -102,104 +101,111 @@
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagCOMBOBOXINFO
-;$tagEDITBALLOONTIP
-;$tagEVENTREAD
-;$tagHDHITTESTINFO
-;$tagHDLAYOUT
-;$tagHDTEXTFILTER
-;$tagLVBKIMAGE
-;$tagLVCOLUMN
+;$tagTVITEM
 ;$tagLVFINDINFO
-;$tagLVGROUP
-;$tagLVINSERTMARK
-;$tagLVSETINFOTIP
-;$tagTCHITTESTINFO
-;$tagTCITEM
-;$tagNMTTDISPINFO
-;$tagTTGETTITLE
-;$tagTTHITTESTINFO
-;$tagTVINSERTSTRUCT
-;$tagBORDERS
-;$tagCHOOSECOLOR
-;$tagCHOOSEFONT
-;$tagTEXTMETRIC
-;$tagCURSORINFO
-;$tagDISPLAY_DEVICE
-;$tagFLASHWINDOW
-;$tagICONINFO
-;$tagIMAGELISTDRAWPARAMS
-;$tagMEMMAP
-;$tagMDINEXTMENU
-;$tagMENUBARINFO
-;$tagMENUEX_TEMPLATE_HEADER
-;$tagMENUEX_TEMPLATE_ITEM
-;$tagMENUGETOBJECTINFO
-;$tagMENUITEMTEMPLATE
-;$tagMENUITEMTEMPLATEHEADER
-;$tagTPMPARAMS
-;$tagCONNECTION_INFO_1
-;$tagFILE_INFO_3
-;$tagSESSION_INFO_2
-;$tagSESSION_INFO_502
-;$tagSHARE_INFO_2
-;$tagSTAT_SERVER_0
-;$tagSTAT_WORKSTATION_0
-;$tagPBRANGE
-;$tagREBARINFO
-;$tagTBADDBITMAP
-;$tagTBINSERTMARK
-;$tagTBMETRICS
-;$tagCONNECTDLGSTRUCT
-;$tagDISCDLGSTRUCT
-;$tagNETCONNECTINFOSTRUCT
-;$tagNETINFOSTRUCT
-;$tagREMOTENAMEINFO
-;$tagTOOLINFO
 ; ===============================================================================================================================
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagPOINT
+; Description ...: Defines the x- and y- coordinates of a point
+; Fields ........: X - Specifies the x-coordinate of the point
+;                  Y - Specifies the y-coordinate of the point
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagPOINT = "long X;long Y"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagRECT
+; Description ...: Defines the coordinates of the upper-left and lower-right corners of a rectangle
+; Fields ........: Left   - Specifies the x-coordinate of the upper-left corner of the rectangle
+;                  Top    - Specifies the y-coordinate of the upper-left corner of the rectangle
+;                  Right  - Specifies the x-coordinate of the lower-right corner of the rectangle
+;                  Bottom - Specifies the y-coordinate of the lower-right corner of the rectangle
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagRECT = "long Left;long Top;long Right;long Bottom"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagSIZE
+; Description ...: Stores an ordered pair of integers, typically the width and height of a rectangle
+; Fields ........: X - Width
+;                  Y - Height
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagSIZE = "long X;long Y"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagMARGINS
+; Description ...: Defines the margins of windows that have visual styles applied
+; Fields ........: cxLeftWidth    - Width of the left border that retains its size
+;                  cxRightWidth   - Width of the right border that retains its size
+;                  cyTopHeight    - Height of the top border that retains its size
+;                  cyBottomHeight - Height of the bottom border that retains its size
+; Author ........: Gary Frost
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagMARGINS = "int cxLeftWidth;int cxRightWidth;int cyTopHeight;int cyBottomHeight"
+
+; *******************************************************************************************************************************
+; Time Structures
+; *******************************************************************************************************************************
+; ===============================================================================================================================
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagFILETIME
+; Description ...: Contains the number of 100-nanosecond intervals since January 1, 1601
+; Fields ........: Lo - The low order part of the file time
+;                  Hi - The high order part of the file time
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagFILETIME = "dword Lo;dword Hi"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagSYSTEMTIME
+; Description ...: Specifies a date and time, in coordinated universal time (UTC)
+; Fields ........: Year     - Year
+;                  Month    - Month
+;                  Dow      - Day of week
+;                  Day      - Day
+;                  Hour     - Hour
+;                  Minute   - Minute
+;                  Second   - Second
+;                  MSeconds - MSeconds
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagSYSTEMTIME = "word Year;word Month;word Dow;word Day;word Hour;word Minute;word Second;word MSeconds"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagTIME_ZONE_INFORMATION
+; Description ...: Specifies information specific to the time zone
+; Fields ........: Bias    - The current bias for local time translation on this computer, in minutes
+;                  StdName - A description for standard time
+;                  StdDate - A SYSTEMTIME structure that contains a date and local time when the transition from daylight  saving
+;                  +time to standard time occurs on this operating system.
+;                  StdBias - The bias value to be used during local time translations that occur during standard time
+;                  DayName - A description for daylight saving time
+;                  DayDate - A SYSTEMTIME structure that contains a date and local time when the transition  from  standard  time
+;                  +to daylight saving time occurs on this operating system.
+;                  DayBias - The bias value to be used during local time translations that occur during daylight saving time
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagTIME_ZONE_INFORMATION = "long Bias;wchar StdName[32];word StdDate[8];long StdBias;wchar DayName[32];word DayDate[8];long DayBias"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHDR
 ; Description ...: Contains information about a notification message
 ; Fields ........: hWndFrom - Window handle to the control sending a message
 ;                  IDFrom   - Identifier of the control sending a message
-;                  Code     - Notification code
+;                  Code     - Notification code (define as UINT in MSDN but tested with negative value)
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMHDR = "hwnd hWndFrom;int IDFrom;int Code"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; ComboBox Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCOMBOBOXINFO
-; Description ...: Contains combo box status information
-; Fields ........: cbSize      - The size, in bytes, of the structure. The calling application must set this to sizeof(COMBOBOXINFO).
-;                  rcItem      - A RECT structure that specifies the coordinates of the edit box.
-;                  |EditLeft
-;                  |EditTop
-;                  |EditRight
-;                  |EditBottom
-;                  rcButton    - A RECT structure that specifies the coordinates of the button that contains the drop-down arrow.
-;                  |BtnLeft
-;                  |BtnTop
-;                  |BtnRight
-;                  |BtnBottom
-;                  stateButton - The combo box button state. This parameter can be one of the following values.
-;                  |0                       - The button exists and is not pressed.
-;                  |$STATE_SYSTEM_INVISIBLE - There is no button.
-;                  |$STATE_SYSTEM_PRESSED   - The button is pressed.
-;                  hCombo      - A handle to the combo box.
-;                  hEdit       - A handle to the edit box.
-;                  hList       - A handle to the drop-down list.
-; Author ........: Gary Frost (gafrost)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCOMBOBOXINFO = "dword Size;int EditLeft;int EditTop;int EditRight;int EditBottom;int BtnLeft;int BtnTop;" & _
-		"int BtnRight;int BtnBottom;dword BtnState;hwnd hCombo;hwnd hEdit;hwnd hList"
+Global Const $tagNMHDR = "hwnd hWndFrom;uint_ptr IDFrom;INT Code"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -228,8 +234,8 @@ Global Const $tagCOMBOBOXINFO = "dword Size;int EditLeft;int EditTop;int EditRig
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCOMBOBOXEXITEM = "int Mask;int Item;ptr Text;int TextMax;int Image;int SelectedImage;int OverlayImage;" & _
-		"int Indent;int Param"
+Global Const $tagCOMBOBOXEXITEM = "uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;int SelectedImage;int OverlayImage;" & _
+		"int Indent;lparam Param"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMCBEDRAGBEGIN
@@ -237,11 +243,11 @@ Global Const $tagCOMBOBOXEXITEM = "int Mask;int Item;ptr Text;int TextMax;int Im
 ; Fields ........: $tagNMHDR - Contains information about a notification message
 ;                  ItemID               - The zero-based index of the item being dragged.  This value will always be -1,
 ;                  +indicating that the item being dragged is the item displayed in the edit portion of the control.
-;                  Text                 - The character buffer that contains the text of the item being dragged
+;                  szText                 - The character buffer that contains the text of the item being dragged
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;char Text[1024]"
+Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;ptr szText"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMCBEENDEDIT
@@ -250,7 +256,7 @@ Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;char Text[1024]"
 ;                  fChanged             - Indicating whether the contents of the control's edit box have changed
 ;                  NewSelection         - The zero-based index of the item that will be selected after completing the edit operation
 ;                  +This value can be $CB_ERR if no item will be selected
-;                  Text                  - A zero-terminated string that contains the text from within the control's edit box
+;                  szText                  - A zero-terminated string that contains the text from within the control's edit box
 ;                  Why                   - The action that generated the $CBEN_ENDEDIT notification message
 ;                  +This value can be one of the following:
 ;                  |$CBENF_DROPDOWN      - The user activated the drop-down list
@@ -260,7 +266,7 @@ Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;char Text[1024]"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";int fChanged;int NewSelection;char Text[1024];int Why"
+Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";bool fChanged;int NewSelection;ptr szText;int Why"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMCOMBOBOXEX
@@ -285,8 +291,8 @@ Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";int fChanged;int NewSelection;char
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMCOMBOBOXEX = $tagNMHDR & ";int Mask;int Item;ptr Text;int TextMax;int Image;" & _
-		"int SelectedImage;int OverlayImage;int Indent;int Param"
+Global Const $tagNMCOMBOBOXEX = $tagNMHDR & ";uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;" & _
+		"int SelectedImage;int OverlayImage;int Indent;lparam Param"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -317,25 +323,9 @@ Global Const $tagNMCOMBOBOXEX = $tagNMHDR & ";int Mask;int Item;ptr Text;int Tex
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagDTPRANGE = "short MinYear;short MinMonth;short MinDOW;short MinDay;short MinHour;short MinMinute;" & _
-		"short MinSecond;short MinMSecond;short MaxYear;short MaxMonth;short MaxDOW;short MaxDay;short MaxHour;" & _
-		"short MaxMinute;short MaxSecond;short MaxMSecond;int MinValid;int MaxValid"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagDTPTIME
-; Description ...: Specifies a date and time, in coordinated universal time (UTC)
-; Fields ........: Year    - Year
-;                  Month   - Month
-;                  DOW     - Day of week
-;                  Day     - Day
-;                  Hour    - Hour
-;                  Minute  - Minute
-;                  Second  - Second
-;                  MSecond - Milliseconds
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagDTPTIME = "short Year;short Month;short DOW;short Day;short Hour;short Minute;short Second;short MSecond"
+Global Const $tagDTPRANGE = "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;" & _
+		"word MinSecond;word MinMSecond;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;" & _
+		"word MaxMinute;word MaxSecond;word MaxMSecond;bool MinValid;bool MaxValid"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMECHANGE
@@ -356,8 +346,7 @@ Global Const $tagDTPTIME = "short Year;short Month;short DOW;short Day;short Hou
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......: This  structure  is  used  with  the $DTN_DATETIMECHANGE notification message
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMECHANGE = $tagNMHDR & ";int Flag;short Year;short Month;short DOW;short Day;" & _
-		"short Hour;short Minute;short Second;short MSecond"
+Global Const $tagNMDATETIMECHANGE = $tagNMHDR & ";dword Flag;" & $tagSYSTEMTIME
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMEFORMAT
@@ -383,8 +372,7 @@ Global Const $tagNMDATETIMECHANGE = $tagNMHDR & ";int Flag;short Year;short Mont
 ; Remarks .......: It carries the string that defines the callback field and contains a buffer to receive the string that will
 ;                  be displayed in the callback field. This structure is used with the $DTN_FORMAT notification message.
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMEFORMAT = $tagNMHDR & ";ptr Format;short Year;short Month;short DOW;short Day;" & _
-		"short Hour;short Minute;short Second;short MSecond;ptr pDisplay;char Display[64]"
+Global Const $tagNMDATETIMEFORMAT = $tagNMHDR & ";ptr Format;" & $tagSYSTEMTIME & ";ptr pDisplay;wchar Display[64]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMEFORMATQUERY
@@ -399,7 +387,7 @@ Global Const $tagNMDATETIMEFORMAT = $tagNMHDR & ";ptr Format;short Year;short Mo
 ;                  receives the maximum allowable size of the text that will be displayed in the callback field. This structure
 ;                  is used with the $DTN_FORMATQUERY notification message.
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMEFORMATQUERY = $tagNMHDR & ";ptr Format;int SizeX;int SizeY"
+Global Const $tagNMDATETIMEFORMATQUERY = $tagNMHDR & ";ptr Format;long SizeX;long SizeY"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMEKEYDOWN
@@ -419,8 +407,7 @@ Global Const $tagNMDATETIMEFORMATQUERY = $tagNMHDR & ";ptr Format;int SizeX;int 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMEKEYDOWN = $tagNMHDR & ";int VirtKey;ptr Format;short Year;short Month;short DOW;" & _
-		"short Day;short Hour;short Minute;short Second;short MSecond"
+Global Const $tagNMDATETIMEKEYDOWN = $tagNMHDR & ";int VirtKey;ptr Format;" & $tagSYSTEMTIME
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMESTRING
@@ -440,29 +427,7 @@ Global Const $tagNMDATETIMEKEYDOWN = $tagNMHDR & ";int VirtKey;ptr Format;short 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......: This message is used with the $DTN_USERSTRING notification message.
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMESTRING = $tagNMHDR & ";ptr UserString;short Year;short Month;short DOW;short Day;" & _
-		"short Hour;short Minute;short Second;short MSecond;int Flags"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; Edit Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagEDITBALLOONTIP
-; Description ...: Contains information about a balloon tip
-; Fields ........: Size     - Size of this structure, in bytes
-;                  Title    - Pointer to the buffer that holds Title of the ToolTip
-;                  Text     - Pointer to the buffer that holds Text of the ToolTip
-;                  Icon     - Type of Icon.  This can be one of the following values:
-;                  |$TTI_ERROR   - Use the error icon
-;                  |$TTI_INFO    - Use the information icon
-;                  |$TTI_NONE    - Use no icon
-;                  |$TTI_WARNING - Use the warning icon
-; Author ........: Gary Frost (gafrost)
-; Remarks .......: For use with Edit control (minimum O.S. Win XP)
-; ===============================================================================================================================
-Global Const $tagEDITBALLOONTIP = "dword Size;ptr Title;ptr Text;int Icon"
+Global Const $tagNMDATETIMESTRING = $tagNMHDR & ";ptr UserString;" & $tagSYSTEMTIME & ";dword Flags"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -491,20 +456,9 @@ Global Const $tagEDITBALLOONTIP = "dword Size;ptr Title;ptr Text;int Icon"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagEVENTLOGRECORD = "int Length;int Reserved;int RecordNumber;int TimeGenerated;int TimeWritten;int EventID;" & _
-		"short EventType;short NumStrings;short EventCategory;short ReservedFlags;int ClosingRecordNumber;int StringOffset;" & _
-		"int UserSidLength;int UserSidOffset;int DataLength;int DataOffset"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagEVENTREAD
-; Description ...: tagEVENTREAD structure
-; Fields ........: Buffer    - Buffer for the data read from the event log
-;                  BytesRead - The size of the buffer, in bytes
-;                  BytesMin  - The number of bytes required for the next log entry
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagEVENTREAD = "byte Buffer[4096];int BytesRead;int BytesMin"
+Global Const $tagEVENTLOGRECORD = "dword Length;dword Reserved;dword RecordNumber;dword TimeGenerated;dword TimeWritten;dword EventID;" & _
+		"word EventType;word NumStrings;word EventCategory;word ReservedFlags;dword ClosingRecordNumber;dword StringOffset;" & _
+		"dword UserSidLength;dword UserSidOffset;dword DataLength;dword DataOffset"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -525,7 +479,7 @@ Global Const $tagEVENTREAD = "byte Buffer[4096];int BytesRead;int BytesMin"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPBITMAPDATA = "uint Width;uint Height;int Stride;uint Format;ptr Scan0;ptr Reserved"
+Global Const $tagGDIPBITMAPDATA = "uint Width;uint Height;int Stride;int Format;ptr Scan0;uint_ptr Reserved"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPENCODERPARAM
@@ -575,7 +529,7 @@ Global Const $tagGDIPRECTF = "float X;float Y;float Width;float Height"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPSTARTUPINPUT = "int Version;ptr Callback;int NoThread;int NoCodecs"
+Global Const $tagGDIPSTARTUPINPUT = "uint Version;ptr Callback;bool NoThread;bool NoCodecs"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPSTARTUPOUTPUT
@@ -627,18 +581,6 @@ Global Const $tagGDIPPENCODERPARAMS = "dword Count;byte Params[0]"
 ; Header Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagHDHITTESTINFO
-; Description ...: Contains information about a hit test
-; Fields ........: X     - Horizontal postion to be hit test, in client coordinates
-;                  Y     - Vertical position to be hit test, in client coordinates
-;                  Flags - Information about the results of a hit test
-;                  Item  - If the hit test is successful, contains the index of the item at the hit test point
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: This structure is used with the $HDM_HITTEST message.
-; ===============================================================================================================================
-Global Const $tagHDHITTESTINFO = "int X;int Y;int Flags;int Item"
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagHDITEM
 ; Description ...: Contains information about an item in a header control
@@ -657,32 +599,12 @@ Global Const $tagHDHITTESTINFO = "int X;int Y;int Flags;int Item"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagHDITEM = "int Mask;int XY;ptr Text;hwnd hBMP;int TextMax;int Fmt;int Param;int Image;int Order;int Type;ptr pFilter;int State"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagHDLAYOUT
-; Description ...: Contains information used to set the size and position of the control
-; Fields ........: Rect      - Pointer to a RECT structure that contains the rectangle that the header control will occupy
-;                  WindowPos - Pointer to a WINDOWPOS structure that receives information about the size/position of the control
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: This structure is used with the $HDM_LAYOUT message
-; ===============================================================================================================================
-Global Const $tagHDLAYOUT = "ptr Rect;ptr WindowPos"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagHDTEXTFILTER
-; Description ...: Contains information about header control text filters
-; Fields ........: Text    - Pointer to the buffer containing the filter
-;                  TextMax - The maximum size, in characters, for an edit control buffer
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagHDTEXTFILTER = "ptr Text;int TextMax"
+Global Const $tagHDITEM = "uint Mask;int XY;ptr Text;handle hBMP;int TextMax;int Fmt;lparam Param;int Image;int Order;uint Type;ptr pFilter;uint State"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHDDISPINFO
 ; Description ...: Contains information used in handling $HDN_GETDISPINFO notification messages
-; Fields ........: WndFrom - Window handle to the control sending a message
+; Fields ........: hWndFrom - Window handle to the control sending a message
 ;                  IDFrom  - Identifier of the control sending a message
 ;                  Code    - Notification code
 ;                  Item    - Zero based index of the item in the header control
@@ -702,7 +624,7 @@ Global Const $tagHDTEXTFILTER = "ptr Text;int TextMax"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMHDDISPINFO = "hwnd WndFrom;int IDFrom;int Code;int Item;int Mask;ptr Text;int TextMax;int Image;int lParam"
+Global Const $tagNMHDDISPINFO = $tagNMHDR & ";int Item;uint Mask;ptr Text;int TextMax;int Image;lparam lParam"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHDFILTERBTNCLICK
@@ -716,7 +638,7 @@ Global Const $tagNMHDDISPINFO = "hwnd WndFrom;int IDFrom;int Code;int Item;int M
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMHDFILTERBTNCLICK = $tagNMHDR & ";int Item;int Left;int Top;int Right;int Bottom"
+Global Const $tagNMHDFILTERBTNCLICK = $tagNMHDR & ";int Item;" & $tagRECT
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHEADER
@@ -750,7 +672,7 @@ Global Const $tagNMHEADER = $tagNMHDR & ";int Item;int Button;ptr pItem"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGETIPAddress = "ubyte Field4;ubyte Field3;ubyte Field2;ubyte Field1"
+Global Const $tagGETIPAddress = "byte Field4;byte Field3;byte Field2;byte Field1"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMIPADDRESS
@@ -770,78 +692,6 @@ Global Const $tagNMIPADDRESS = $tagNMHDR & ";int Field;int Value"
 ; ListView Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagLVBKIMAGE
-; Description ...: Contains information about the background image of a list-view control
-; Fields ........: Flags      - This member may be one or more of the following flags.  You can use the LVBKIF_SOURCE_MASK value
-;                  +to mask off all but the source flags.  You can use the LVBKIF_STYLE_MASK value to mask off all but the  style
-;                  +flags.
-;                  |$LVBKIF_SOURCE_NONE     - The control has no background image
-;                  |$LVBKIF_SOURCE_URL      - The Image member contains the URL of the background image
-;                  |$LVBKIF_STYLE_NORMAL    - The background image is displayed normally
-;                  |$LVBKIF_STYLE_TILE      - The background image will be tiled to fill the entire background of the control
-;                  |$LVBKIF_FLAG_TILEOFFSET - You use this flag to specify the coordinates of the first tile.  This flag is valid
-;                  +only if the $LVBKIF_STYLE_TILE flag is also specified. If this flag is not specified the first tile begins at
-;                  +the upper-left corner of the client area.
-;                  hBmp        - Not used
-;                  Image       - Address of a string that contains the URL of the background image. This member is only valid if
-;                  +the $LVBKIF_SOURCE_URL flag is set in Flags.  This member must be initialized to point  to  the  buffer  that
-;                  +contains or receives the text before sending the message.
-;                  ImageMax    - Size of the buffer at the address in Image.  If information is being sent to the  control,  this
-;                  +member is ignored.
-;                  XOffPercent - Percentage of the client area that the image should be offset horizontally.  For example, at  0
-;                  +percent, the image will be displayed against the left edge of the control's client area.  At 50 percent,  the
-;                  +image will be displayed horizontally centered in the control's client area. At 100 percent, the image will be
-;                  +displayed against the right edge  of  the  control's  client  area.  This  member  is  only  valid  when  the
-;                  +$LVBKIF_STYLE_NORMAL is specified in  Flags.  If  both  $LVBKIF_FLAG_TILEOFFSET  and  $LVBKIF_STYLE_TILE  are
-;                  +specified in Flags, then the value specifies the pixel, not percentage offset, of the first tile.  Otherwise,
-;                  +the value is ignored.
-;                  YOffPercent - Percentage of the control's client area that the image should be offset vertically. For example
-;                  +at 0 percent, the image will be displayed against the top edge of the control's client area.  At 50  percent,
-;                  +the image will be displayed vertically centered in the control's client area.  At 100 percent, the image will
-;                  +be displayed against the bottom edge of the control's client  area.  This  member  is  only  valid  when  the
-;                  +$LVBKIF_STYLE_NORMAL is specified in  Flags.  If  both  $LVBKIF_FLAG_TILEOFFSET  and  $LVBKIF_STYLE_TILE  are
-;                  +specified in Flags, then the value specifies the pixel, not percentage offset, of the first tile.  Otherwise,
-;                  +the value is ignored.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagLVBKIMAGE = "int Flags;hwnd hBmp;int Image;int ImageMax;int XOffPercent;int YOffPercent"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagLVCOLUMN
-; Description ...: Contains information about a column in report view
-; Fields ........: Mask    - Variable specifying which members contain valid information.  This member can be zero,  or  one  or
-;                  +more of the following values:
-;                  |LVCF_FMT     - The Fmt member is valid
-;                  |LVCF_WIDTH   - The CX member is valid
-;                  |LVCF_TEXT    - The Text member is valid
-;                  |LVCF_SUBITEM - The SubItem member is valid
-;                  |LVCF_IMAGE   - The Image member is valid
-;                  |LVCF_ORDER   - The Order member is valid.
-;                  Fmt     - Alignment of the column header and the subitem text in the column.  This member can be one  of  the
-;                  +following values. The alignment of the leftmost column is always left-justified; it cannot be changed:
-;                  |LVCFMT_LEFT            - Text is left-aligned
-;                  |LVCFMT_RIGHT           - Text is right-aligned
-;                  |LVCFMT_CENTER          - Text is centered
-;                  |LVCFMT_JUSTIFYMASK     - A bitmask used to select those bits of Fmt that control field justification
-;                  |LVCFMT_IMAGE           - The item displays an image from an image list
-;                  |LVCFMT_BITMAP_ON_RIGHT - The bitmap appears to the right of text
-;                  |LVCFMT_COL_HAS_IMAGES  - The header item contains an image in the image list.
-;                  CX      - Width of the column, in pixels
-;                  Text    - If column information is being set, this member is the address of a string that contains the column
-;                  +header text.  If the structure is receiving information about a column, this member specifies the address  of
-;                  +the buffer that receives the column header text.
-;                  TextMax - Size of the buffer pointed to by the Text member.  If the structure is  not  receiving  information
-;                  +about a column, this member is ignored.
-;                  SubItem - Index of subitem associated with the column
-;                  Image   - Zero based index of an image within the image list
-;                  Order   - Zero-based column offset. Column offset is in left-to-right order.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagLVCOLUMN = "int Mask;int Fmt;int CX;ptr Text;int TextMax;int SubItem;int Image;int Order"
-
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVFINDINFO
 ; Description ...: Contains information used when searching for a list-view item
@@ -874,38 +724,7 @@ Global Const $tagLVCOLUMN = "int Mask;int Fmt;int CX;ptr Text;int TextMax;int Su
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVFINDINFO = "int Flags;ptr Text;int Param;int X;int Y;int Direction"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagLVGROUP
-; Description ...: Used to set and retrieve groups
-; Fields ........: Size      - Size of this structure, in bytes
-;                  Mask      - Mask that specifies which members of the structure are valid input.  Can be one or  more  of  the
-;                  +following values:
-;                  |$LVGF_NONE    - No other items are valid
-;                  |$LVGF_HEADER  - Header and HeaderMax members are valid
-;                  |$LVGF_FOOTER  - Reserved
-;                  |$LVGF_STATE   - Reserved
-;                  |$LVGF_ALIGN   - Align member is valid
-;                  |$LVGF_GROUPID - GroupId member is valid
-;                  Header    - Pointer to a string that contains the header text when item information is being  set.  If  group
-;                  +information is being retrieved this member specifies the address of the buffer that receives the header text.
-;                  HeaderMax - Size of the buffer pointed to by the Header member. If the structure is not receiving information
-;                  +about a group, this member is ignored.
-;                  Footer    - Reserved
-;                  FooterMax - Reserved
-;                  GroupID   - ID of the group
-;                  StateMask - Reserved
-;                  State     - Reserved
-;                  Align     - Indicates the alignment of the header text.  It can have one or more of the following values. Use
-;                  +one of the header flags.
-;                  |LVGA_HEADER_CENTER - Header text is centered horizontally in the window
-;                  |LVGA_HEADER_LEFT   - Header text is aligned at the left of the window
-;                  |LVGA_HEADER_RIGHT  - Header text is aligned at the right of the window.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagLVGROUP = "int Size;int Mask;ptr Header;int HeaderMax;ptr Footer;int FooterMax;int GroupID;int StateMask;int State;int Align"
+Global Const $tagLVFINDINFO = "uint Flags;ptr Text;lparam Param;" & $tagPOINT & ";uint Direction"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagLVHITTESTINFO
@@ -927,21 +746,7 @@ Global Const $tagLVGROUP = "int Size;int Mask;ptr Header;int HeaderMax;ptr Foote
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVHITTESTINFO = "int X;int Y;int Flags;int Item;int SubItem"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagLVINSERTMARK
-; Description ...: Used to describe insertion points
-; Fields ........: Size     - Size of this structure, in bytes
-;                  Flags    - Flag that specifies where the insertion point should appear:
-;                  |$LVIM_AFTER - The insertion point appears after the item specified if the $LVIM_AFTER flag is set; otherwise
-;                  +it appears before the specified item.
-;                  Item     - Item next to which the insertion point appears. If -1, there is no insertion point.
-;                  Reserved - Reserved. Must be set to 0.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagLVINSERTMARK = "uint Size;dword Flags;int Item;dword Reserved"
+Global Const $tagLVHITTESTINFO = $tagPOINT & ";uint Flags;int Item;int SubItem"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagLVITEM
@@ -972,8 +777,8 @@ Global Const $tagLVINSERTMARK = "uint Size;dword Flags;int Item;dword Reserved"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVITEM = "int Mask;int Item;int SubItem;int State;int StateMask;ptr Text;int TextMax;int Image;int Param;" & _
-		"int Indent;int GroupID;int Columns;ptr pColumns"
+Global Const $tagLVITEM = "uint Mask;int Item;int SubItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;lparam Param;" & _
+		"int Indent;int GroupID;uint Columns;ptr pColumns"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLISTVIEW
@@ -990,8 +795,8 @@ Global Const $tagLVITEM = "int Mask;int Item;int SubItem;int State;int StateMask
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMLISTVIEW = $tagNMHDR & ";int Item;int SubItem;int NewState;int OldState;int Changed;" & _
-		"int ActionX;int ActionY;int Param"
+Global Const $tagNMLISTVIEW = $tagNMHDR & ";int Item;int SubItem;uint NewState;uint OldState;uint Changed;" & _
+		"long ActionX;long ActionY;lparam Param"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVCUSTOMDRAW
@@ -1057,9 +862,10 @@ Global Const $tagNMLISTVIEW = $tagNMHDR & ";int Item;int SubItem;int NewState;in
 ; Author ........: Gary Frost
 ; Remarks .......: $LVxxx_ constants require ListViewConstants.au3, $CDxx_ constants require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagNMLVCUSTOMDRAW = $tagNMHDR & ";dword dwDrawStage;hwnd hdc;int Left;int Top;int Right;int Bottom;" & _
-		"dword dwItemSpec;uint uItemState;long lItemlParam;int clrText;int clrTextBk;int iSubItem;dword dwItemType;int clrFace;int iIconEffect;" & _
-		"int iIconPhase;int iPartId;int iStateId;int TextLeft;int TextTop;int TextRight;int TextBottom;uint uAlign"
+Global Const $tagNMLVCUSTOMDRAW = $tagNMHDR & ";dword dwDrawStage;handle hdc;long Left;long Top;long Right;long Bottom;" & _
+		"dword_ptr dwItemSpec;uint uItemState;lparam lItemlParam" & _
+		";dword clrText;dword clrTextBk;int iSubItem;dword dwItemType;dword clrFace;int iIconEffect;" & _
+		"int iIconPhase;int iPartId;int iStateId;long TextLeft;long TextTop;long TextRight;long TextBottom;uint uAlign"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVDISPINFO
@@ -1091,8 +897,7 @@ Global Const $tagNMLVCUSTOMDRAW = $tagNMHDR & ";dword dwDrawStage;hwnd hdc;int L
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMLVDISPINFO = $tagNMHDR & ";int Mask;int Item;int SubItem;int State;int StateMask;" & _
-		"ptr Text;int TextMax;int Image;int Param;int Indent;int GroupID;int Columns;ptr pColumns"
+Global Const $tagNMLVDISPINFO = $tagNMHDR & ";" & $tagLVITEM
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVFINDITEM
@@ -1131,7 +936,7 @@ Global Const $tagNMLVDISPINFO = $tagNMHDR & ";int Mask;int Item;int SubItem;int 
 ;                  The application sets the Param member to the result of the search, or to another application defined value to fail the
 ;                  search and indicate to the control how to proceed
 ; ===============================================================================================================================
-Global Const $tagNMLVFINDITEM = $tagNMHDR & ";int Start;int Flags;ptr Text;int Param;int X;int Y;int Direction"
+Global Const $tagNMLVFINDITEM = $tagNMHDR & ";" & $tagLVFINDINFO
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVGETINFOTIP
@@ -1153,7 +958,7 @@ Global Const $tagNMLVFINDITEM = $tagNMHDR & ";int Start;int Flags;ptr Text;int P
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMLVGETINFOTIP = $tagNMHDR & ";int Flags;ptr Text;int TextMax;int Item;int SubItem;int lParam"
+Global Const $tagNMLVGETINFOTIP = $tagNMHDR & ";dword Flags;ptr Text;int TextMax;int Item;int SubItem;lparam lParam"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMITEMACTIVATE
@@ -1188,8 +993,8 @@ Global Const $tagNMLVGETINFOTIP = $tagNMHDR & ";int Flags;ptr Text;int TextMax;i
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMITEMACTIVATE = $tagNMHDR & ";int Index;int SubItem;int NewState;int OldState;" & _
-		"int Changed;int X;int Y;int lParam;int KeyFlags"
+Global Const $tagNMITEMACTIVATE = $tagNMHDR & ";int Index;int SubItem;uint NewState;uint OldState;uint Changed;" & _
+			$tagPOINT & ";lparam lParam;uint KeyFlags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVKEYDOWN
@@ -1200,7 +1005,7 @@ Global Const $tagNMITEMACTIVATE = $tagNMHDR & ";int Index;int SubItem;int NewSta
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMLVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
+Global Const $tagNMLVKEYDOWN = $tagNMHDR & ";align 1;word VKey;uint Flags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVSCROLL
@@ -1212,19 +1017,6 @@ Global Const $tagNMLVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMLVSCROLL = $tagNMHDR & ";int DX;int DY"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagLVSETINFOTIP
-; Description ...: Provides information about tooltip text that is to be set
-; Fields ........: Size    - Size of this structure, in bytes
-;                  Flags   - Flag that specifies how the text should be set. Set to zero.
-;                  Text    - Pointer to a Unicode string that contains the tooltip text
-;                  Item    - Contains the zero based index of the item to which this structure refers
-;                  SubItem - Contains the one based index of the subitem to which this structure refers
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagLVSETINFOTIP = "int Size;int Flags;ptr Text;int Item;int SubItem"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1261,8 +1053,7 @@ Global Const $tagLVSETINFOTIP = "int Size;int Flags;ptr Text;int Item;int SubIte
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMCHITTESTINFO = "int Size;int X;int Y;int Hit;short Year;short Month;short DOW;short Day;short Hour;" & _
-		"short Minute;short Second;short MSeconds"
+Global Const $tagMCHITTESTINFO = "uint Size;" & $tagPOINT & ";uint Hit;" & $tagSYSTEMTIME
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMCMONTHRANGE
@@ -1287,9 +1078,9 @@ Global Const $tagMCHITTESTINFO = "int Size;int X;int Y;int Hit;short Year;short 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMCMONTHRANGE = "short MinYear;short MinMonth;short MinDOW;short MinDay;short MinHour;short MinMinute;short MinSecond;" & _
-		"short MinMSeconds;short MaxYear;short MaxMonth;short MaxDOW;short MaxDay;short MaxHour;short MaxMinute;short MaxSecond;" & _
-		"short MaxMSeconds;short Span"
+Global Const $tagMCMONTHRANGE = "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" & _
+		"word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" & _
+		"word MaxMSeconds;short Span"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMCRANGE
@@ -1315,9 +1106,9 @@ Global Const $tagMCMONTHRANGE = "short MinYear;short MinMonth;short MinDOW;short
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMCRANGE = "short MinYear;short MinMonth;short MinDOW;short MinDay;short MinHour;short MinMinute;short MinSecond;" & _
-		"short MinMSeconds;short MaxYear;short MaxMonth;short MaxDOW;short MaxDay;short MaxHour;short MaxMinute;short MaxSecond;" & _
-		"short MaxMSeconds;short MinSet;short MaxSet"
+Global Const $tagMCRANGE = "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" & _
+		"word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" & _
+		"word MaxMSeconds;short MinSet;short MaxSet"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMCSELRANGE
@@ -1341,9 +1132,9 @@ Global Const $tagMCRANGE = "short MinYear;short MinMonth;short MinDOW;short MinD
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMCSELRANGE = "short MinYear;short MinMonth;short MinDOW;short MinDay;short MinHour;short MinMinute;short MinSecond;" & _
-		"short MinMSeconds;short MaxYear;short MaxMonth;short MaxDOW;short MaxDay;short MaxHour;short MaxMinute;short MaxSecond;" & _
-		"short MaxMSeconds"
+Global Const $tagMCSELRANGE = "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" & _
+		"word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" & _
+		"word MaxMSeconds"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDAYSTATE
@@ -1365,8 +1156,7 @@ Global Const $tagMCSELRANGE = "short MinYear;short MinMonth;short MinDOW;short M
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMDAYSTATE = $tagNMHDR & ";short Year;short Month;short DOW;short Day;short Hour;" & _
-		"short Minute;short Second;short MSeconds;int DayState;ptr pDayState"
+Global Const $tagNMDAYSTATE = $tagNMHDR & ";" & $tagSYSTEMTIME & ";int DayState;ptr pDayState"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMSELCHANGE
@@ -1391,9 +1181,9 @@ Global Const $tagNMDAYSTATE = $tagNMHDR & ";short Year;short Month;short DOW;sho
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMSELCHANGE = $tagNMHDR & ";short BegYear;short BegMonth;short BegDOW;short BegDay;" & _
-		"short BegHour;short BegMinute;short BegSecond;short BegMSeconds;short EndYear;short EndMonth;short EndDOW;" & _
-		"short EndDay;short EndHour;short EndMinute;short EndSecond;short EndMSeconds"
+Global Const $tagNMSELCHANGE = $tagNMHDR & ";word BegYear;word BegMonth;word BegDOW;word BegDay;" & _
+		"word BegHour;word BegMinute;word BegSecond;word BegMSeconds;word EndYear;word EndMonth;word EndDOW;" & _
+		"word EndDay;word EndHour;word EndMinute;word EndSecond;word EndMSeconds"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1412,7 +1202,7 @@ Global Const $tagNMSELCHANGE = $tagNMHDR & ";short BegYear;short BegMonth;short 
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;int Result"
+Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;long Result"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTCKEYDOWN
@@ -1432,52 +1222,25 @@ Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;in
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTCITEM
-; Description ...: Specifies or receives the attributes of a tab item
-; Fields ........: Mask      - Value that specifies which members to retrieve or set:
-;                  |$TCIF_IMAGE      - The Image member is valid
-;                  |$TCIF_PARAM      - The Param member is valid
-;                  |$TCIF_RTLREADING - The string pointed to by Text will be displayed in the opposite direction
-;                  |$TCIF_STATE      - The State member is valid
-;                  |$TCIF_TEXT       - The Text member is valid
-;                  State     - Specifies the item's current state if information is being retrieved. If item information is being
-;                  +set this member contains the state value to be set for the item.
-;                  StateMask - Specifies which bits of the dwState member contain valid information
-;                  Text      - String that contains the tab text when item information is being set. If item information is being
-;                  +retrieved, this member specifies the address of the buffer that receives the tab text.
-;                  TextMax   - Size of the buffer pointed to by the Text member.  If the structure is not receiving  information,
-;                  +this member is ignored.
-;                  Image     - Index in the tab control's image list, or -1 if there is no image for the tab.
-;                  Param     - Application-defined data associated with the tab control item
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTCITEM = "int Mask;int State;int StateMask;ptr Text;int TextMax;int Image;int Param"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTCHITTESTINFO
-; Description ...: Contains information about a hit test
-; Fields ........: X     - X position to hit test
-;                  Y     - Y position to hit test
-;                  Flags - Results of a hit test. The control sets this member to one of the following values:
-;                  |$TCHT_NOWHERE     - The position is not over a tab
-;                  |$TCHT_ONITEM      - The position is over a tab but not over its icon or its text
-;                  |$TCHT_ONITEMICON  - The position is over a tab's icon
-;                  |$TCHT_ONITEMLABEL - The position is over a tab's text
-;                  |$TCHT_ONITEM      - Bitwise OR of $TCHT_ONITEMICON and $TCHT_ONITEMLABEL
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTCHITTESTINFO = "int X;int Y;int Flags"
+Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";word VKey;uint Flags"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
 ; TreeView Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagTVITEM
+; Description ...: Specifies or receives attributes of a tree-view item
+; Fields ........: Mask          - Flags that indicate which of the other structure members contain valid data:
+;                  ...
+;                  Param         - A value to associate with the item
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagTVITEM = "uint Mask;handle hItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" & _
+		"int Children;lparam Param"
+
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTVITEMEX
 ; Description ...: Specifies or receives attributes of a tree-view item
@@ -1513,8 +1276,7 @@ Global Const $tagTCHITTESTINFO = "int X;int Y;int Flags"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTVITEMEX = "int Mask;int hItem;int State;int StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" & _
-		"int Children;int Param;int Integral"
+Global Const $tagTVITEMEX = $tagTVITEM & ";int Integral"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTREEVIEW
@@ -1546,10 +1308,10 @@ Global Const $tagTVITEMEX = "int Mask;int hItem;int State;int StateMask;ptr Text
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTREEVIEW = $tagNMHDR & ";int Action;int OldMask;int OldhItem;int OldState;int OldStateMask;" & _
-		"ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;int OldParam;int NewMask;int NewhItem;" & _
-		"int NewState;int NewStateMask;ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;" & _
-		"int NewParam;int PointX; int PointY"
+Global Const $tagNMTREEVIEW = $tagNMHDR & ";uint Action;uint OldMask;handle OldhItem;uint OldState;uint OldStateMask;" & _
+		"ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;lparam OldParam;uint NewMask;handle NewhItem;" & _
+		"uint NewState;uint NewStateMask;ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;" & _
+		"lparam NewParam;long PointX;long PointY"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVCUSTOMDRAW
@@ -1592,8 +1354,8 @@ Global Const $tagNMTREEVIEW = $tagNMHDR & ";int Action;int OldMask;int OldhItem;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......: $CDxx_ constants require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagNMTVCUSTOMDRAW = $tagNMHDR & ";uint DrawStage;hwnd HDC;int Left;int Top;int Right;int Bottom;" & _
-		"ptr ItemSpec;uint ItemState;int ItemParam;int ClrText;int ClrTextBk;int Level"
+Global Const $tagNMTVCUSTOMDRAW = $tagNMHDR & ";dword DrawStage;handle HDC;long Left;long Top;long Right;long Bottom;" & _
+		"dword_ptr ItemSpec;uint ItemState;lparam ItemParam;dword ClrText;dword ClrTextBk;int Level"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVDISPINFO
@@ -1625,8 +1387,7 @@ Global Const $tagNMTVCUSTOMDRAW = $tagNMHDR & ";uint DrawStage;hwnd HDC;int Left
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTVDISPINFO = $tagNMHDR & ";int Mask;int hItem;int State;int StateMask;" & _
-		"ptr Text;int TextMax;int Image;int SelectedImage;int Children;int Param"
+Global Const $tagNMTVDISPINFO = $tagNMHDR & ";" & $tagTVITEM
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVGETINFOTIP
@@ -1640,7 +1401,7 @@ Global Const $tagNMTVDISPINFO = $tagNMHDR & ";int Mask;int hItem;int State;int S
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTVGETINFOTIP = $tagNMHDR & ";ptr Text;int TextMax;hwnd hItem;int lParam"
+Global Const $tagNMTVGETINFOTIP = $tagNMHDR & ";ptr Text;int TextMax;handle hItem;lparam lParam"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTVHITTESTINFO
@@ -1664,51 +1425,7 @@ Global Const $tagNMTVGETINFOTIP = $tagNMHDR & ";ptr Text;int TextMax;hwnd hItem;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTVHITTESTINFO = "int X;int Y;int Flags;int Item"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTVINSERTSTRUCT
-; Description ...: Contains information used to add a new item to a tree-view control
-; Fields ........: Parent        - Handle to the parent item. If this member is $TVI_ROOT, the item is inserted at the root
-;                  InsertAfter   - Handle to the item after which the new item is to be inserted, or one of the following values:
-;                  |$TVI_FIRST - Inserts the item at the beginning of the list
-;                  |$TVI_LAST  - Inserts the item at the end of the list
-;                  |$TVI_ROOT  - Add the item as a root item
-;                  |$TVI_SORT  - Inserts the item into the list in alphabetical order
-;                  Mask          - Flags that indicate which of the other structure members contain valid data:
-;                  |$TVIF_CHILDREN      - The Children member is valid
-;                  |$TVIF_DI_SETITEM    - The will retain the supplied information and will not request it again
-;                  |$TVIF_HANDLE        - The hItem member is valid
-;                  |$TVIF_IMAGE         - The Image member is valid
-;                  |$TVIF_INTEGRAL      - The Integral member is valid
-;                  |$TVIF_PARAM         - The Param member is valid
-;                  |$TVIF_SELECTEDIMAGE - The SelectedImage member is valid
-;                  |$TVIF_STATE         - The State and StateMask members are valid
-;                  |$TVIF_TEXT          - The Text and TextMax members are valid
-;                  hItem         - Item to which this structure refers
-;                  State         - Set of bit flags and image list indexes that indicate the item's state. When setting the state
-;                  +of an item, the StateMask member indicates the bits of this member that are valid.  When retrieving the state
-;                  +of an item, this member returns the current state for the bits indicated in  the  StateMask  member.  Bits  0
-;                  +through 7 of this member contain the item state flags. Bits 8 through 11 of this member specify the one based
-;                  +overlay image index.
-;                  StateMask     - Bits of the state member that are valid.  If you are retrieving an item's state, set the  bits
-;                  +of the stateMask member to indicate the bits to be returned in the state member. If you are setting an item's
-;                  +state, set the bits of the stateMask member to indicate the bits of the state member that you want to set.
-;                  Text          - Pointer to a null-terminated string that contains the item text.
-;                  TextMax       - Size of the buffer pointed to by the Text member, in characters
-;                  Image         - Index in the image list of the icon image to use when the item is in the nonselected state
-;                  SelectedImage - Index in the image list of the icon image to use when the item is in the selected state
-;                  Children      - Flag that indicates whether the item has associated child items. This member can be one of the
-;                  +following values:
-;                  |0 - The item has no child items
-;                  |1 - The item has one or more child items
-;                  Param         - A value to associate with the item
-;                  Integral      - Height of the item
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTVINSERTSTRUCT = "hwnd Parent;int InsertAfter;int Mask;hwnd hItem;int State;int StateMask;ptr Text;int TextMax;" & _
-		"int Image;int SelectedImage;int Children;int Param"
+Global Const $tagTVHITTESTINFO = $tagPOINT & ";uint Flags;handle Item"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVKEYDOWN
@@ -1719,108 +1436,13 @@ Global Const $tagTVINSERTSTRUCT = "hwnd Parent;int InsertAfter;int Mask;hwnd hIt
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTVKEYDOWN = $tagNMHDR & ";int VKey;int Flags"
+Global Const $tagNMTVKEYDOWN = $tagNMHDR & ";word VKey;uint Flags"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
 ; ToolTip Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagNMTTDISPINFO
-; Description ...: Contains information used in handling the $TTN_GETDISPINFO notification message
-; Fields ........: $tagNMHDR - Contains information about a notification message
-;                  pText     - Pointer to a string that will be displayed as the ToolTip text.  If Instance specifies an instance
-;                  +handle, this member must be the identifier of a string resource.
-;                  aText     - Buffer that receives the ToolTip text.  An application can copy the text to this buffer instead of
-;                  +specifying a string address or string resource.
-;                  Instance  - Handle to the instance that contains a string resource to be used as the ToolTip text. If pText is
-;                  +the address of the ToolTip text string, this member must be 0.
-;                  Flags     - Flags that indicates how to interpret the IDFrom member:
-;                  |$TTF_IDISHWND   - If this flag is set, IDFrom is the tool's handle. Otherwise, it is the tool's identifier.
-;                  |$TTF_RTLREADING - Specifies right to left text
-;                  |$TTF_DI_SETITEM - If you add this flag to Flags while processing the notification, the ToolTip  control  will
-;                  +retain the supplied information and not request it again.
-;                  Param     - Application-defined data associated with the tool
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: You need to point the pText array to your own private buffer when the text used in the ToolTip text exceeds 80
-;                  +characters in length.  The system automatically strips the accelerator from all strings passed to  a  ToolTip
-;                  control, unless the control has the $TTS_NOPREFIX style.
-; ===============================================================================================================================
-Global Const $tagNMTTDISPINFO = $tagNMHDR & ";ptr pText;char aText[80];hwnd Instance;int Flags;int Param"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTOOLINFO
-; Description ...: Contains information about a tool in a ToolTip contr
-; Fields ........: Size    - Size of this structure, in bytes
-;                  Flags    - Flags that control the ToolTip display. This member can be a combination of the following values:
-;                  |$TTF_ABSOLUTE    - Positions the ToolTip at the same coordinates provided by $TTM_TRACKPOSITION
-;                  |$TTF_CENTERTIP   - Centers the ToolTip below the tool specified by the ID member
-;                  |$TTF_IDISHWND    - Indicates that the ID member is the window handle to the tool
-;                  |$TTF_PARSELINKS  - Indicates that links in the tooltip text should be parsed
-;                  |$TTF_RTLREADING  - Indicates that the ToolTip text will be displayed in the opposite direction
-;                  |$TTF_SUBCLASS    - Indicates that the ToolTip control should subclass the tool's window to intercept messages
-;                  |$TTF_TRACK       - Positions the ToolTip next to the tool to which it corresponds
-;                  |$TTF_TRANSPARENT - Causes the ToolTip control to forward mouse event messages to the parent window
-;                  hWnd     - Handle to the window that contains the tool
-;                  ID       - Application-defined identifier of the tool
-;                  Left     - X position of upper left corner of bounding rectangle
-;                  Top      - Y position of upper left corner of bounding rectangle
-;                  Right    - X position of lower right corner of bounding rectangle
-;                  Bottom   - Y position of lower right corner of bounding rectangle
-;                  hInst    - Handle to the instance that contains the string resource for the too
-;                  Text     - Pointer to the buffer that contains the text for the tool
-;                  Param    - A 32-bit application-defined value that is associated with the tool
-;                  Reserved - Reserved
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTOOLINFO = "int Size;int Flags;hwnd hWnd;int ID;int Left;int Top;int Right;int Bottom;hwnd hInst;ptr Text;int Param;ptr Reserved"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTTGETTITLE
-; Description ...: Provides information about the title of a tooltip control
-; Fields ........: Size     - Size of this structure, in bytes
-;                  Bitmap   - The tooltip icon
-;                  TitleMax - Specifies the number of characters in the title
-;                  Title    - Pointer to a wide character string that contains the title
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTTGETTITLE = "int Size;int Bitmap;int TitleMax;ptr Title"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTTHITTESTINFO
-; Description ...: Contains information that a ToolTip control uses to determine whether a point is in the bounding rectangle of the specified tool
-; Fields ........: Tool     - Handle to the tool or window with the specified tool
-;                  X        - X position to be tested, in client coordinates
-;                  Y        - Y position to be tested, in client coordinates
-;                  Size     - Size of a TOOLINFO structure
-;                  Flags    - Flags that control the ToolTip display. This member can be a combination of the following values:
-;                  |$TTF_ABSOLUTE    - Positions the ToolTip at the same coordinates provided by $TTM_TRACKPOSITION
-;                  |$TTF_CENTERTIP   - Centers the ToolTip below the tool specified by the ID member
-;                  |$TTF_IDISHWND    - Indicates that the ID member is the window handle to the tool
-;                  |$TTF_PARSELINKS  - Indicates that links in the tooltip text should be parsed
-;                  |$TTF_RTLREADING  - Indicates that the ToolTip text will be displayed in the opposite direction
-;                  |$TTF_SUBCLASS    - Indicates that the ToolTip control should subclass the tool's window to intercept messages
-;                  |$TTF_TRACK       - Positions the ToolTip next to the tool to which it corresponds
-;                  |$TTF_TRANSPARENT - Causes the ToolTip control to forward mouse event messages to the parent window
-;                  hWnd     - Handle to the window that contains the tool
-;                  ID       - Application-defined identifier of the tool
-;                  Left     - X position of upper left corner of bounding rectangle
-;                  Top      - Y position of upper left corner of bounding rectangle
-;                  Right    - X position of lower right corner of bounding rectangle
-;                  Bottom   - Y position of lower right corner of bounding rectangle
-;                  hInst    - Handle to the instance that contains the string resource for the too
-;                  Text     - Pointer to the buffer that contains the text for the tool
-;                  Param    - A 32-bit application-defined value that is associated with the tool
-;                  Reserved - Reserved
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTTHITTESTINFO = "hwnd Tool;int X;int Y;int Size;int Flags;hwnd hWnd;int ID;int Left;int Top;int Right;int Bottom;" & _
-		"hwnd hInst;ptr Text;int Param;ptr Reserved"
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMMOUSE
 ; Description ...: Contains information used with mouse notification messages
@@ -1833,56 +1455,8 @@ Global Const $tagTTHITTESTINFO = "hwnd Tool;int X;int Y;int Size;int Flags;hwnd 
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMMOUSE = $tagNMHDR & ";dword ItemSpec;dword ItemData;int X;int Y;dword HitInfo"
+Global Const $tagNMMOUSE = $tagNMHDR & ";dword_ptr ItemSpec;dword_ptr ItemData;" & $tagPOINT & ";lparam HitInfo"
 
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagPOINT
-; Description ...: Defines the x- and y- coordinates of a point
-; Fields ........: X - Specifies the x-coordinate of the point
-;                  Y - Specifies the y-coordinate of the point
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagPOINT = "long X;long Y"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagRECT
-; Description ...: Defines the coordinates of the upper-left and lower-right corners of a rectangle
-; Fields ........: Left   - Specifies the x-coordinate of the upper-left corner of the rectangle
-;                  Top    - Specifies the y-coordinate of the upper-left corner of the rectangle
-;                  Right  - Specifies the x-coordinate of the lower-right corner of the rectangle
-;                  Bottom - Specifies the y-coordinate of the lower-right corner of the rectangle
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagRECT = "int Left;int Top;int Right;int Bottom"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagMargins
-; Description ...: Defines the margins of windows that have visual styles applied
-; Fields ........: cxLeftWidth    - Width of the left border that retains its size
-;                  cxRightWidth   - Width of the right border that retains its size
-;                  cyTopHeight    - Height of the top border that retains its size
-;                  cyBottomHeight - Height of the bottom border that retains its size
-; Author ........: Gary Frost
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMargins = "int cxLeftWidth;int cxRightWidth;int cyTopHeight;int cyBottomHeight"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagSIZE
-; Description ...: Stores an ordered pair of integers, typically the width and height of a rectangle
-; Fields ........: X - Width
-;                  Y - Height
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSIZE = "int X;int Y"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; Misc Structures
-; *******************************************************************************************************************************
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
 ; Security Structures
@@ -1897,7 +1471,7 @@ Global Const $tagSIZE = "int X;int Y"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTOKEN_PRIVILEGES = "int Count;int64 LUID;int Attributes"
+Global Const $tagTOKEN_PRIVILEGES = "dword Count;int64 LUID;dword Attributes"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1918,170 +1492,13 @@ Global Const $tagTOKEN_PRIVILEGES = "int Count;int64 LUID;int Attributes"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagIMAGEINFO = "hwnd hBitmap;hwnd hMask;int Unused1;int Unused2;int Left;int Top;int Right;int Bottom"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagIMAGELISTDRAWPARAMS
-; Description ...: Contains information about an image list draw operation and is used with the ImageList Draw function
-; Fields ........: Size    - Size of this structure, in bytes
-;                  hWnd    - Handle to the image list that contains the image to be drawn
-;                  Image   - Zero based index of the image to be drawn
-;                  hDC     - Handle to the destination device context
-;                  X       - The X coordinate that specifies where the image is drawn
-;                  Y       - The Y coordinate that specifies where the image is drawn
-;                  CX      - The number of pixels to draw relative to the upper left corner of the drawing operation as specified
-;                  +by XBitmap and YBitmap. If CX and XY are zero, then ImageList_Draw draws the entire valid section. The method
-;                  +does not ensure that the parameters are valid.
-;                  CY      - The number of pixels to draw relative to the upper left corner of the drawing operation as specified
-;                  +by XBitmap and YBitmap. If CX and CY are zero, then ImageList_Draw draws the entire valid section. The method
-;                  +does not ensure that the parameters are valid.
-;                  XBitmap - The X coordinate that specifies the upper left corner of the drawing operation in reference  to  the
-;                  +image itself. Pixels of the image that are to the left of XBitmap and above YBitmap do not appear.
-;                  YBitMap - The Y coordinate that specifies the upper left corner of the drawing operation in reference  to  the
-;                  +image itself. Pixels of the image that are to the left of XBitmap and above YBitmap do not appear.
-;                  BK      - Image background color. This can be an application defined RGB value or one of the following values:
-;                  |$CLR_DEFAULT - Default background color. The image is drawn using the image list background color.
-;                  |$CLR_NONE    - No background color. The image is drawn transparently.
-;                  FG      - Image foreground color. This member is used only if Style includes the $ILD_BLEND25 or  $ILD_BLEND50
-;                  +flag. This can be an application defined RGB value or one of the following values:
-;                  |$CLR_DEFAULT - Default foreground color. The image is drawn using the system highlight color.
-;                  |$CLR_NONE    - No blend color. The image is blended with the color of the destination device context.
-;                  Style   - Flag specifying the drawing style and, optionally, the overlay image
-;                  ROP     - Value specifying a raster operation code. This defines how the color data for the  source  rectangle
-;                  +will be combined with the color data for the destination rectangle to achieve the final color. This member is
-;                  +ignored if Style does not include the $ILD_ROP flag. Some common raster operation codes include:
-;                  |$BLACKNESS   - Fills the destination rectangle using the color from index zero in the physical palette.
-;                  |$DSTINVERT   - Inverts the destination rectangle .
-;                  |$MERGECOPY   - Merges the source rectangle colors with the specified pattern using the AND operator .
-;                  |$MERGEPAINT  - Merges the inverted source rectangle colors with the destination rectangle colors by using the
-;                  +OR operator.
-;                  |$NOTSRCCOPY  - Copies the inverted source rectangle to the destination.
-;                  |$NOTSRCERASE - Combines the source and destination rectangle colors by using the  OR  operator.  Inverts  the
-;                  +resultant color.
-;                  |$PATCOPY     - Copies the specified pattern into the destination bitmap
-;                  |$PATINVERT   - Combines the specified pattern colors with the destination rectangle colors by using  the  XOR
-;                  +operator.
-;                  |$PATPAINT    - Combines the pattern colors with the inverted source rectangle colors and combines the  result
-;                  +_with the destination rectangle colors by using the OR operator.
-;                  |$SRCAND      - Combines the source and destination rectangle colors by using the Boolean AND operator.
-;                  |$SRCCOPY     - Copies the source rectangle directly to the destination rectangle.
-;                  |$SRCERASE    - Combines the destination rectangle's inverted colors with the source rectangle colors by using
-;                  +the AND operator.
-;                  |$SRCINVERT   - Combines the source and destination rectangle colors by using the Boolean XOR operator.
-;                  |$SRCPAINT    - Combines the source and destination rectangle colors by using the Boolean OR operator.
-;                  |$WHITENESS   - Fills the destination rectangle using the color from index one in the physical palette
-;                  State   - Flag that specifies the drawing state
-;                  Frame   - Used with the alpha-blending effect. When used with $ILS_ALPHA, this member holds the value for  the
-;                  +alpha channel. This value can be from 0 to 255, with 0 being completely transparent, and 255 being completely
-;                  +opaque.
-;                  Effect  - Color used for the glow and shadow effects
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagIMAGELISTDRAWPARAMS = "int Size;hwnd hWnd;int Image;hwnd hDC;int X;int Y;int CX;int CY;int XBitmap;int YBitmap;" & _
-		"int BK;int FG;int Style;int ROP;int State;int Frame;int Effect"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; Memory Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMEMMAP
-; Description ...: Contains information about the memory
-; Fields ........: hProc - Handle to the external process
-;                  Size  - Size, in bytes, of the memory block allocated
-;                  Mem   - Pointer to the memory block
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMEMMAP = "hwnd hProc;int Size;ptr Mem"
+Global Const $tagIMAGEINFO = "handle hBitmap;handle hMask;int Unused1;int Unused2;" & $tagRECT
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
 ; Menu Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMDINEXTMENU
-; Description ...: tagMDINEXTMENU structure
-; Fields ........: hMenuIn   - Receives a handle to the current menu
-;                  hMenuNext - Specifies a handle to the menu to be activated
-;                  hWndNext  - Specifies a handle to the window to receive the menu notification messages
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMDINEXTMENU = "hwnd hMenuIn;hwnd hMenuNext;hwnd hWndNext"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUBARINFO
-; Description ...: tagMENUBARINFO structure
-; Fields ........: Size     - Specifies the size, in bytes, of the structure
-;                  Left     - Specifies the x coordinate of the upper left corner of the rectangle
-;                  Top      - Specifies the y coordinate of the upper left corner of the rectangle
-;                  Right    - Specifies the x coordinate of the lower right corner of the rectangle
-;                  Bottom   - Specifies the y coordinate of the lower right corner of the rectangle
-;                  hMenu    - Handle to the menu bar or popup menu
-;                  hWndMenu - Handle to the menu bar or popup menu
-;                  Focused  - True if the item has focus
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUBARINFO = "int Size;int Left;int Top;int Right;int Bottom;int hMenu;int hWndMenu;int Focused"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUEX_TEMPLATE_HEADER
-; Description ...: tagMENUEX_TEMPLATE_HEADER structure
-; Fields ........: Version - Template version number. This member must be 1 for extended menu templates.
-;                  Offset  - Offset of the first tagMENUEX_TEMPLATE_ITEM structure, relative to the end of this structure member.
-;                  +If the first item definition immediately follows the HelpId member, this member should be 4.
-;                  HelpID  - Help identifier of menu bar
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUEX_TEMPLATE_HEADER = "short Version;short Offset;int HelpID"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUEX_TEMPLATE_ITEM
-; Description ...: tagMENUEX_TEMPLATE_ITEM structure
-; Fields ........: HelpID  - Help identifier for a drop down menu or submenu.  This member, which is included only for items that
-;                  +open drop down menus or submenus, is located at the first dword boundary following the variable  length  Text
-;                  +member.
-;                  Type    - Menu item type
-;                  State   - Menu item state
-;                  MenuID  - Menu item identifier
-;                  ResInfo - Value specifying whether the menu item is the last item in the menu bar, drop down menu, submenu, or
-;                  +shortcut menu and whether it is an item that opens a drop down menu or submenu.  This member can be  zero  or
-;                  +more of these values:
-;                  |0x0001 - The structure defines a item that opens a drop down menu or submenu.  Subsequent  structures  define
-;                  +menu items in the corresponding drop down menu or submenu.
-;                  |0x0080 - The structure defines the last menu item
-;                  Text    - Menu item text. This is a null terminated Unicode string aligned on a word boundary. The size of the
-;                  +menu item definition varies depending on the length of this string.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUEX_TEMPLATE_ITEM = "int HelpID;int Type;int State;int MenuID;short ResInfo;ptr Text"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUGETOBJECTINFO
-; Description ...: tagMENUGETOBJECTINFO structure
-; Fields ........: Flags - Position of the mouse cursor with respect to the item indicated by Pos. It can be one of the following
-;                  +values.:
-;                  |$MNGOF_BOTTOMGAP - Mouse is on the bottom of the item indicated by Pos
-;                  |$MNGOF_TOPGAP    - Mouse is on the top of the item indicated by Pos
-;                  Pos   - Position of the item the mouse cursor is on
-;                  hMenu - Handle to the menu the mouse cursor is on
-;                  RIID  - Identifier of the requested interface. Currently it can only be IDropTarget.
-;                  Obj   - Pointer to the interface corresponding to the RIID member.  This pointer is  to  be  returned  by  the
-;                  +application when processing the message.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: The tagMENUGETOBJECTINFO structure is used only in drag and drop menus.  When the $WM_MENUGETOBJECT message is
-;                  sent, lParam is a pointer to  this  structure.  To  create  a  drag  and  drop  menu,  call  SetMenuInfo  with
-;                  $MNS_DRAGDROP set
-; ===============================================================================================================================
-Global Const $tagMENUGETOBJECTINFO = "int Flags;int Pos;hwnd hMenu;ptr RIID;ptr Obj"
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMENUINFO
 ; Description ...: Contains information about a menu
@@ -2107,7 +1524,7 @@ Global Const $tagMENUGETOBJECTINFO = "int Flags;int Pos;hwnd hMenu;ptr RIID;ptr 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMENUINFO = "int Size;int Mask;int Style;int YMax;int hBack;int ContextHelpID;ptr MenuData"
+Global Const $tagMENUINFO = "dword Size;INT Mask;dword Style;uint YMax;handle hBack;dword ContextHelpID;ulong_ptr MenuData"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMENUITEMINFO
@@ -2150,312 +1567,8 @@ Global Const $tagMENUINFO = "int Size;int Mask;int Style;int YMax;int hBack;int 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMENUITEMINFO = "int Size;int Mask;int Type;int State;int ID;int SubMenu;int BmpChecked;int BmpUnchecked;" & _
-		"int ItemData;ptr TypeData;int CCH;int BmpItem"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUITEMTEMPLATE
-; Description ...: tagMENUITEMTEMPLATE structure
-; Fields ........: Option - Specifies one or more of the following predefined menu options that control  the  appearance  of  the
-;                  +menu item:
-;                  |$MF_CHECKED      - Indicates that the menu item has a check mark next to it
-;                  |$MF_GRAYED       - Indicates that the menu item is initially inactive and drawn with a gray effect
-;                  |$MF_HELP         - Indicates that the menu item has a vertical separator to its left
-;                  |$MF_MENUBARBREAK - Indicates that the menu item is placed in a new column, separated by a bar
-;                  |$MF_MENUBREAK    - Indicates that the menu item is placed in a new column
-;                  |$MF_OWNERDRAW    - Indicates that the menu item is owner drawn
-;                  |$MF_POPUP        - Indicates that the item is one that opens a drop down menu or submenu
-;                  ID     - Specifies the menu item identifier
-;                  String - Specifies the null terminated string for the menu item
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUITEMTEMPLATE = "short Option;short ID;ptr String"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUITEMTEMPLATEHEADER
-; Description ...: tagMENUITEMTEMPLATEHEADER structure
-; Fields ........: Version - Specifies the version number. This member must be zero.
-;                  Offset  - Specifies the offset in bytes from the end of the header.  The menu item list begins at this offset.
-;                  +Usually, this member is zero, and the menu item list follows immediately after the header.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUITEMTEMPLATEHEADER = "short Version;short Offset"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTPMPARAMS
-; Description ...: tagTPMPARAMS structure
-; Fields ........: Size   - Size of structure, in bytes
-;                  Left   - X position of upper left corner to exclude when positioing the window
-;                  Top    - Y position of upper left corner to exclude when positioing the window
-;                  Right  - X position of lower right corner to exclude when positioing the window
-;                  Bottom - Y position of lower right corner to exclude when positioing the window
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: All coordinates are in screen coordinates
-; ===============================================================================================================================
-Global Const $tagTPMPARAMS = "short Version;short Offset"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; Net Share Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCONNECTION_INFO_1
-; Description ...: tagCONNECTION_INFO_1 structure
-; Fields ........: ID       - Specifies a connection identification number
-;                  Type     - Specifies the type of connection made from the local device name to the shared resource:
-;                  |$STYPE_DISKTREE - Print queue
-;                  |$STYPE_PRINTQ   - Disk drive
-;                  |$STYPE_DEVICE   - Communication device
-;                  |$STYPE_IPC      - IPC
-;                  |$STYPE_SPECIAL  - Special share reserved for IPC$ or remote administration of the server
-;                  Opens    - Specifies the number of files currently open as a result of the connection
-;                  Users    - Specifies the number of users on the connection
-;                  Time     - Specifies the number of seconds that the connection has been established
-;                  Username - If the server sharing the resource is running with user-level security, this member describes which
-;                  +user made the connection.  If the server is running with share-level security, this  member  describes  which
-;                  +computer made the connection.
-;                  Netname  - Specifies either the share name of the server's shared resource or the computername of the client
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCONNECTION_INFO_1 = "int ID;int Type;int Opens;int Users;int Time;ptr Username;ptr NetName"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagFILE_INFO_3
-; Description ...: tagFILE_INFO_3 structure
-; Fields ........: ID          - The identification number assigned to the resource when it is opened
-;                  Permissions - the access permissions associated with the opening application:
-;                  |$PERM_FILE_READ   - Permission to read a resource and, by default, execute the resource
-;                  |$PERM_FILE_WRITE  - Permission to write to a resource
-;                  |$PERM_FILE_CREATE - Permission to create a resource
-;                  Locks       - Contains the number of file locks on the file, device, or pipe
-;                  Pathname    - Specifies the path of the opened resource
-;                  Username    - Specifies which user or which computer opened the resource
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagFILE_INFO_3 = "int ID;int Permissions;int Locks;ptr Pathname;ptr Username"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagSESSION_INFO_2
-; Description ...: tagSESSION_INFO_2 structure
-; Fields ........: CName     - Unicode string specifying the name of the computer that established the session
-;                  Username  - Unicode string specifying the name of the user who established the session
-;                  Opens     - Specifies the number of files, devices, and pipes opened during the session
-;                  Time      - Specifies the number of seconds the session has been active
-;                  Idle      - Specifies the number of seconds the session has been idle
-;                  Flags     - Specifies a value that describes how the user established the session:
-;                  |$SESS_GUEST        - The user established the session using a guest account
-;                  |$SESS_NOENCRYPTION - The user established the session without using password encryption
-;                  TypeName  - Unicode string that specifies the type of client that established the session
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSESSION_INFO_2 = "ptr CName;ptr Username;int Opens;int Time;int Idle;int Flags;ptr TypeName"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagSESSION_INFO_502
-; Description ...: tagSESSION_INFO_502 structure
-; Fields ........: CName     - Unicode string specifying the name of the computer that established the session
-;                  Username  - Unicode string specifying the name of the user who established the session
-;                  Opens     - Specifies the number of files, devices, and pipes opened during the session
-;                  Time      - Specifies the number of seconds the session has been active
-;                  Idle      - Specifies the number of seconds the session has been idle
-;                  Flags     - Specifies a value that describes how the user established the session:
-;                  |$SESS_GUEST        - The user established the session using a guest account
-;                  |$SESS_NOENCRYPTION - The user established the session without using password encryption
-;                  TypeName  - Unicode string that specifies the type of client that established the session
-;                  Transport - Specifies the name of the transport that the client is using
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSESSION_INFO_502 = "ptr CName;ptr Username;int Opens;int Time;int Idle;int Flags;ptr TypeName;ptr Transport"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagSHARE_INFO_2
-; Description ...: tagSHARE_INFO_2 structure
-; Fields ........: NetName     - Unicode string specifying the share name of a resource
-;                  Type        - Contains the type of the shared resource. Can be a combination of:
-;                  |$STYPE_DISKTREE  - Print queue
-;                  |$STYPE_PRINTQ    - Disk drive
-;                  |$STYPE_DEVICE    - Communication device
-;                  |$STYPE_IPC       - IPC
-;                  |$STYPE_SPECIAL   - Special share reserved for IPC$ or remote administration of the server
-;                  |$STYPE_TEMPORARY - A temporary share
-;                  Remark      - Unicode string that contains an optional comment about the shared resource
-;                  Permissions - Indicates the shared resource's permissions:
-;                  |$ACCESS_READ   - Permission to read data from a resource and, by default, to execute the resource
-;                  |$ACCESS_WRITE  - Permission to write data to the resource
-;                  |$ACCESS_CREATE - Permission to create an instance of the resource
-;                  |$ACCESS_EXEC   - Permission to execute the resource
-;                  |$ACCESS_DELETE - Permission to delete the resource
-;                  |$ACCESS_ATRIB  - Permission to modify the resource's attributes
-;                  |$ACCESS_PERM   - Permission to modify the permissions assigned to a resource
-;                  |$ACCESS_ALL    - Permission to read, write, create, execute, and delete resources
-;                  MaxUses     - The maximum number of concurrent connections that the shared resource can accommodate
-;                  CurrentUses - Indicates the number of current connections to the resource
-;                  Path        - Unicode string specifying the local path for the shared resource
-;                  Password    - Unicode string that specifies the share's password
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSHARE_INFO_2 = "ptr NetName;int Type;ptr Remark;int Permissions;int MaxUses;int CurrentUses;ptr Path;ptr Password"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagSTAT_SERVER_0
-; Description ...: tagSTAT_SERVER_0
-; Fields ........: Start      - Indicates the time when statistics collection started.  The value is  stored  as  the  number  of
-;                  +seconds that have elapsed since 00:00:00, January 1, 1970, GMT.
-;                  FOpens     - Indicates the number of times a file is opened on a server
-;                  DevOpens   - Indicates the number of times a server device is opened
-;                  JobsQueued - Indicates the number of server print jobs spooled
-;                  SOpens     - Indicates the number of times the server session started
-;                  STimeOut   - Indicates the number of times the server session automatically disconnected
-;                  SErrorOut  - Indicates the number of times the server sessions failed with an error
-;                  PWErrors   - Indicates the number of server password violations
-;                  PermErrors - Indicates the number of server access permission errors
-;                  SysErrors  - Indicates the number of server system errors
-;                  ByteSent   - Number of server bytes sent to the network
-;                  ByteRecv   - Number of server bytes received from the network
-;                  AvResponse - Indicates the average server response time (in milliseconds)
-;                  ReqBufNeed - Indicates the number of times the server required a request buffer but failed to allocate one
-;                  BigBufNeed - Indicates the number of times the server required a big buffer but failed to allocate one
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSTAT_SERVER_0 = "int Start;int FOpens;int DevOpens;int JobsQueued;int SOpens;int STimedOut;int SErrorOut;" & _
-		"int PWErrors;int PermErrors;int SysErrors;int64 ByteSent;int64 ByteRecv;int AvResponse;int ReqBufNeed;int BigBufNeed"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagSTAT_WORKSTATION_0
-; Description ...: tagSTAT_WORKSTATION_0
-; Fields ........: StartTime         - Specifies the time statistics collection started.  The value is stored as  the  number  of
-;                  +seconds elapsed since 00:00:00, January 1, 1970.
-;                  BytesSent         - Specifies the total number of bytes received by the workstation
-;                  SMBSRecv          - Specifies the total number of server message blocks (SMBs) received by the workstation
-;                  PageRead          - Specifies the total number of bytes that have been read by paging I/O requests
-;                  NonPageRead       - Specifies the total number of bytes that have been read by non-paging I/O requests
-;                  CacheRead         - Specifies the total number of bytes that have been read by cache I/O requests
-;                  NetRead           - Specifies the total amount of bytes that have been read by disk I/O requests
-;                  BytesTran         - Specifies the total number of bytes transmitted by the workstation
-;                  SMBSTran          - Specifies the total number of SMBs transmitted by the workstation
-;                  PageWrite         - Specifies the total number of bytes that have been written by paging I/O requests
-;                  NonPageWrite      - Specifies the total number of bytes that have been written by non-paging I/O requests
-;                  CacheWrite        - Specifies the total number of bytes that have been written by cache I/O requests
-;                  NetWrite          - Specifies the total number of bytes that have been written by disk I/O requests
-;                  InitFailed        - Specifies the total number of network operations that failed to begin
-;                  FailedComp        - Specifies the total number of network operations that failed to complete
-;                  ReadOp            - Specifies the total number of read operations initiated by the workstation
-;                  RandomReadOp      - Specifies the total number of random access reads initiated by the workstation
-;                  ReadSMBS          - Specifies the total number of read requests the workstation has sent to servers
-;                  LargeReadSMBS     - Specifies the total number of read requests the workstation has sent to servers  that  are
-;                  +greater than twice the size of the server's negotiated buffer size.
-;                  SmallReadSMBS     - Specifies the total number of read requests the workstation has sent to servers  that  are
-;                  +less than 1/4 of the size of the server's negotiated buffer size.
-;                  WriteOp           - Specifies the total number of write operations initiated by the workstation
-;                  RandomWriteOp     - Specifies the total number of random access writes initiated by the workstation
-;                  WriteSMBS         - Specifies the total number of write requests the workstation has sent to servers
-;                  LargeWriteSMBS    - Specifies the total number of write requests the workstation has sent to servers that  are
-;                  +greater than twice the size of the server's negotiated buffer size.
-;                  SmallWriteSMBS    - Specifies the total number of write requests the workstation has sent to servers that  are
-;                  +less than 1/4 of the size of the server's negotiated buffer size.
-;                  RawReadsDenied    - Specifies the total number of raw read requests made by the  workstation  that  have  been
-;                  +denied.
-;                  RawWritesDenied   - Specifies the total number of raw write requests made by the workstation  that  have  been
-;                  +denied.
-;                  NetworkErrors     - Specifies the total number of network errors received by the workstation
-;                  Sessions          - Specifies the total number of workstation sessions that were established
-;                  FailedSessions    - Specifies the number of times the workstation attempted to create a session but failed
-;                  Reconnects        - Specifies the total number of connections that have failed
-;                  CoreConnects      - Specifies the total number of connections to servers supporting  the  PCNET  dialect  that
-;                  +have succeeded.
-;                  LM20Connects      - Specifies the total number of connections to servers supporting the LanManager 2.0 dialect
-;                  +that have succeeded.
-;                  LM21Connects      - Specifies the total number of connections to servers supporting the LanManager 2.1 dialect
-;                  +that have succeeded.
-;                  LMNTConnects      - Specifies the total number of connections to servers supporting  the  Windows  NT  dialect
-;                  +that have succeeded.
-;                  ServerDisconnects - Specifies the number of times the workstation was disconnected by a network server
-;                  HungSessions      - Specifies the total number of sessions that have expired on the workstation
-;                  UseCount          - Specifies the total number of network connections established by the workstation
-;                  FailedUseCount    - Specifies the total number of failed network connections for the workstation
-;                  CurrentCommands   - Specifies the number of current requests that have not been completed
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSTAT_WORKSTATION_0 = "int64 StartTime;int64 BytesRecv;int64 SMBSRecv;int64 PageRead;int64 NonPageRead;" & _
-		"int64 CacheRead;int64 NetRead;int64 BytesTran;int64 SMBSTran;int64 PageWrite;int64 NonPageWrite;int64 CacheWrite;" & _
-		"int64 NetWrite;int InitFailed;int FailedComp;int ReadOp;int RandomReadOp;int ReadSMBS;int LargeReadSMBS;" & _
-		"int SmallReadSMBS;int WriteOp;int RandomWriteOp;int WriteSMBS;int LargeWriteSMBS;int SmallWriteSMBS;" & _
-		"int RawReadsDenied;int RawWritesDenied;int NetworkErrors;int Sessions;int FailedSessions;int Reconnects;" & _
-		"int CoreConnects;int LM20Connects;int LM21Connects;int LMNTConnects;int ServerDisconnects;int HungSessions;" & _
-		"int UseCount;int FailedUseCount;int CurrentCommands"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; Time Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagFILETIME
-; Description ...: Contains the number of 100-nanosecond intervals since January 1, 1601
-; Fields ........: Lo - The low order part of the file time
-;                  Hi - The high order part of the file time
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagFILETIME = "dword Lo;dword Hi"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagSYSTEMTIME
-; Description ...: Specifies a date and time, in coordinated universal time (UTC)
-; Fields ........: Year     - Year
-;                  Month    - Month
-;                  Dow      - Day of week
-;                  Day      - Day
-;                  Hour     - Hour
-;                  Minute   - Minute
-;                  Second   - Second
-;                  MSeconds - MSeconds
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagSYSTEMTIME = "short Year;short Month;short Dow;short Day;short Hour;short Minute;short Second;short MSeconds"
-
-; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagTIME_ZONE_INFORMATION
-; Description ...: Specifies information specific to the time zone
-; Fields ........: Bias    - The current bias for local time translation on this computer, in minutes
-;                  StdName - A description for standard time
-;                  StdDate - A SYSTEMTIME structure that contains a date and local time when the transition from daylight  saving
-;                  +time to standard time occurs on this operating system.
-;                  StdBias - The bias value to be used during local time translations that occur during standard time
-;                  DayName - A description for daylight saving time
-;                  DayDate - A SYSTEMTIME structure that contains a date and local time when the transition  from  standard  time
-;                  +to daylight saving time occurs on this operating system.
-;                  DayBias - The bias value to be used during local time translations that occur during daylight saving time
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTIME_ZONE_INFORMATION = "long Bias;byte StdName[64];ushort StdDate[8];long StdBias;byte DayName[64];ushort DayDate[8];long DayBias"
-
-; ===============================================================================================================================
-; *******************************************************************************************************************************
-; ProgressBar Structures
-; *******************************************************************************************************************************
-; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagPBRANGE
-; Description ...: Contains information about the high and low limits of a progress bar control
-; Fields ........: Low          - Low limit for the progress bar control
-;                  High         - High limit for the progress bar control
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagPBRANGE = "int Low;int High"
+Global Const $tagMENUITEMINFO = "uint Size;uint Mask;uint Type;uint State;uint ID;handle SubMenu;handle BmpChecked;handle BmpUnchecked;" & _
+		"ulong_ptr ItemData;ptr TypeData;uint CCH;handle BmpItem"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -2527,8 +1640,8 @@ Global Const $tagPBRANGE = "int Low;int High"
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagREBARBANDINFO = "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" & _
-		"int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;hwnd hbmBack;uint wID;uint cyChild;uint cyMaxChild;" & _
-		"uint cyIntegral;uint cxIdeal;int lParam;uint cxHeader"
+		"int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" & _
+		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARAUTOBREAK
@@ -2543,7 +1656,7 @@ Global Const $tagREBARBANDINFO = "uint cbSize;uint fMask;uint fStyle;dword clrFo
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMREBARAUTOBREAK = $tagNMHDR & ";uint uBand;uint wID;int lParam;uint uMsg;uint fStyleCurrent;int fAutoBreak"
+Global Const $tagNMREBARAUTOBREAK = $tagNMHDR & ";uint uBand;uint wID;lparam lParam;uint uMsg;uint fStyleCurrent;bool fAutoBreak"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMRBAUTOSIZE
@@ -2561,8 +1674,8 @@ Global Const $tagNMREBARAUTOBREAK = $tagNMHDR & ";uint uBand;uint wID;int lParam
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMRBAUTOSIZE = $tagNMHDR & ";int fChanged;int TargetLeft;int TargetTop;int TargetRight;int TargetBottom;" & _
-		"int ActualLeft;int ActualTop;int ActualRight;int ActualBottom"
+Global Const $tagNMRBAUTOSIZE = $tagNMHDR & ";bool fChanged;long TargetLeft;long TargetTop;long TargetRight;long TargetBottom;" & _
+		"long ActualLeft;long ActualTop;long ActualRight;long ActualBottom"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBAR
@@ -2580,7 +1693,7 @@ Global Const $tagNMRBAUTOSIZE = $tagNMHDR & ";int fChanged;int TargetLeft;int Ta
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMREBAR = $tagNMHDR & ";dword dwMask;uint uBand;uint fStyle;uint wID;int lParam"
+Global Const $tagNMREBAR = $tagNMHDR & ";dword dwMask;uint uBand;uint fStyle;uint wID;laram lParam"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARCHEVRON
@@ -2599,7 +1712,7 @@ Global Const $tagNMREBAR = $tagNMHDR & ";dword dwMask;uint uBand;uint fStyle;uin
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMREBARCHEVRON = $tagNMHDR & ";uint uBand;uint wID;int lParam;int Left;int Top;int Right;int Bottom;int lParamNM"
+Global Const $tagNMREBARCHEVRON = $tagNMHDR & ";uint uBand;uint wID;lparam lParam;" & $tagRECT & ";lparam lParamNM"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARCHILDSIZE
@@ -2622,40 +1735,8 @@ Global Const $tagNMREBARCHEVRON = $tagNMHDR & ";uint uBand;uint wID;int lParam;i
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;int CLeft;int CTop;int CRight;int CBottom;" & _
-		"int BLeft;int BTop;int BRight;int BBottom"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagREBARINFO
-; Description ...: Contains information that describes rebar control characteristics
-; Fields ........: cbSize         - Size of this structure, in bytes. Your application must fill this member before sending any messages that use the address of this structure as a parameter.
-;                  fMask          - Flag values that describe characteristics of the rebar control. Currently, rebar controls support only one value:
-;                  |$RBIM_IMAGELIST - The himl member is valid or must be filled
-;                  himl           - Handle to an image list. The rebar control will use the specified image list to obtain images
-; Author ........: Gary Frost
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagREBARINFO = "uint cbSize;uint fMask;hwnd himl"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagRBHITTESTINFO
-; Description ...: Contains information specific to a hit test operation
-; Fields ........: X - Specifies the x-coordinate of the point
-;                  Y - Specifies the y-coordinate of the point
-;                  flags - Member that receives a flag value indicating the rebar band's component located at the point described by pt
-;                  |This member will be one of the following:
-;                  -
-;                  |$RBHT_CAPTION - The point was in the rebar band's caption
-;                  |$RBHT_CHEVRON - The point was in the rebar band's chevron (version 5.80 and greater)
-;                  |$RBHT_CLIENT  - The point was in the rebar band's client area
-;                  |$RBHT_GRABBER - The point was in the rebar band's gripper
-;                  |$RBHT_NOWHERE - The point was not in a rebar band
-;                  iBand - Member that receives the rebar band's index at the point described by pt
-;                  |This value will be the zero-based index of the band, or -1 if no band was at the hit-tested point
-; Author ........: Gary Frost
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagRBHITTESTINFO = "int X;int Y;uint flags;int iBand"
+Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;long CLeft;long CTop;long CRight;long CBottom;" & _
+		"long BLeft;long BTop;long BRight;long BBottom"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -2673,24 +1754,7 @@ Global Const $tagRBHITTESTINFO = "int X;int Y;uint flags;int iBand"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCOLORSCHEME = "int Size;int BtnHighlight;int BtnShadow"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTBADDBITMAP
-; Description ...: Adds a bitmap that contains button images to a toolbar
-; Fields ........: hInst - Handle to the module instance with the executable file that contains a bitmap resource.  To use bitmap
-;                  +handles instead of resource IDs, set this member to 0.  You can add the system-defined button bitmaps to  the
-;                  +list by specifying $HINST_COMMCTRL as the hInst member and one of the following values as the ID member:
-;                  |$IDB_STD_LARGE_COLOR  - Adds large, color standard bitmaps
-;                  |$IDB_STD_SMALL_COLOR  - Adds small, color standard bitmaps
-;                  |$IDB_VIEW_LARGE_COLOR - Adds large, color view bitmaps
-;                  |$IDB_VIEW_SMALL_COLOR - Adds small, color view bitmaps
-;                  ID    - If hInst is 0, set this member to the bitmap handle of the bitmap with the button  images.  Otherwise,
-;                  +set it to the resource identifier of the bitmap with the button images.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTBADDBITMAP = "int hInst;int ID"
+Global Const $tagCOLORSCHEME = "dword Size;dword BtnHighlight;dword BtnShadow"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTOOLBAR
@@ -2715,9 +1779,9 @@ Global Const $tagTBADDBITMAP = "int hInst;int ID"
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTOOLBAR = $tagNMHDR & ";int iItem;int iBitmap;int idCommand;" & _
-		"byte fsState;byte fsStyle;byte bReserved1;byte bReserved2;dword dwData;int iString;int cchText;" & _
-		"ptr pszText;int Left;int Top;int Right;int Bottom"
+Global Const $tagNMTOOLBAR = $tagNMHDR & ";int iItem;" & _
+		"int iBitmap;int idCommand;byte fsState;byte fsStyle;align;dword_ptr dwData;int_ptr iString" & _
+		";int cchText;ptr pszText;" & $tagRECT
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTBHOTITEM
@@ -2741,7 +1805,6 @@ Global Const $tagNMTOOLBAR = $tagNMHDR & ";int iItem;int iBitmap;int idCommand;"
 ; ===============================================================================================================================
 Global Const $tagNMTBHOTITEM = $tagNMHDR & ";int idOld;int idNew;dword dwFlags"
 
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTBBUTTON
 ; Description ...: Contains information about a button in a toolbar
@@ -2754,13 +1817,12 @@ Global Const $tagNMTBHOTITEM = $tagNMHDR & ";int idOld;int idNew;dword dwFlags"
 ;                  +when the button is chosen.
 ;                  State    - Button state flags
 ;                  Style    - Button style flags
-;                  Reserved - Reserved
 ;                  Param    - Application defined value
 ;                  String   - Zero based index of the button string, or a pointer to a string that contains text for the button
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;short Reserved;int Param;int String"
+Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;align;dword_ptr Param;int_ptr String"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTBBUTTONINFO
@@ -2790,138 +1852,13 @@ Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;short 
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTBBUTTONINFO = "int Size;int Mask;int Command;int Image;byte State;byte Style;short CX;int Param;ptr Text;int TextMax"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTBINSERTMARK
-; Description ...: Contains information on the insertion mark in a toolbar control
-; Fields ........: Button - Zero based index of the insertion mark. If this member is -1, there is no insertion mark
-;                  Flags  - Defines where the insertion mark is in relation to Button. This can be one of the following values:
-;                  |0                   - The insertion mark is to the left of the specified button
-;                  |$TBIMHT_AFTER       - The insertion mark is to the right of the specified button
-;                  |$TBIMHT_BACKGROUND  - The insertion mark is on the background of the toolbar.  This flag is  only  used  with
-;                  +the $TB_INSERTMARKHITTEST message.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTBINSERTMARK = "int Button;int Flags"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTBMETRICS
-; Description ...: Defines the metrics of a toolbar that are used to shrink or expand toolbar items
-; Fields ........: Size     - Size of this structure, in bytes
-;                  Mask     - Mask that determines the metric to retrieve. It can be any combination of the following:
-;                  |$TBMF_PAD           - Retrieve the XPad and YPad values
-;                  |$TBMF_BARPAD        - Retrieve the XBarPad and YBarPad values
-;                  |$TBMF_BUTTONSPACING - Retrieve the XSpacing and YSpacing values
-;                  XPad     - Width of the padding inside the toolbar buttons
-;                  YPad     - Height of the padding inside the toolbar buttons
-;                  XBarPad  - Width of the toolbar. Not used.
-;                  YBarPad  - Height of the toolbar. Not used.
-;                  XSpacing - Width of the space between toolbar buttons
-;                  YSpacing - Height of the space between toolbar buttons
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTBMETRICS = "int Size;int Mask;int XPad;int YPad;int XBarPad;int YBarPad;int XSpacing;int YSpacing"
+Global Const $tagTBBUTTONINFO = "uint Size;dword Mask;int Command;int Image;byte State;byte Style;word CX;dword_ptr Param;ptr Text;int TextMax"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
 ; Windows Networking Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCONNECTDLGSTRUCT
-; Description ...: tagCONNECTDLGSTRUCT structure
-; Fields ........: Size     - Size of this structure, in bytes
-;                  hWnd     - Handle to the owner window for the dialog box
-;                  Resource - Pointer to a tagNETRESOURCE structure.  If the lemoteName member of  tagNETRESOURCE  is  specified,
-;                  +it will be entered into the path field of the dialog box.  With the exception of the Type member,  all  other
-;                  +members of the tagNETRESOURCE structure must be set to 0.
-;                  Flags    - Set of flags describing options for the dialog box display:
-;                  |$SidTypeUser         - The account is a user account
-;                  |$CONNDLG_RO_PATH     - Display a read-only path instead of allowing the user to type in a path
-;                  |$CONNDLG_CONN_POINT  - Internal flag. Do not use.
-;                  |$CONNDLG_USE_MRU     - Enter the most recently used paths into the combination box
-;                  |$CONNDLG_HIDE_BOX    - Show the check box allowing the user to restore the connection at logon
-;                  |$CONNDLG_PERSIST     - Restore the connection at logon
-;                  |$CONNDLG_NOT_PERSIST - Do not restore the connection at logon
-;                  DevNum   - If the call to the _WNet_ConnectionDialog1 function is successful, this member returns  the  number
-;                  +of the connected device. The value is 1 for A:, 2 for B:, 3 for C:, and so on.  If the user made a deviceless
-;                  +connection, the value is –1.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCONNECTDLGSTRUCT = "int Size;hwnd hWnd;ptr Resource;int Flags;int DevNum"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagDISCDLGSTRUCT
-; Description ...: tagDISCDLGSTRUCT structure
-; Fields ........: Size       - Size of this structure, in bytes
-;                  hWnd       - Handle to the owner window for the dialog box
-;                  LocalName  - Pointer to a null-terminated string that specifies the local device name that  is  redirected  to
-;                  +the network resource, such as "F:" or "LPT1".
-;                  RemoteName - Pointer to a null-terminated string that specifies the name of the resource to  disconnect.  This
-;                  +member can be 0 if the LocalName member is specified.  When LocalName is specified,  the  connection  to  the
-;                  +network resource redirected from LocalName is disconnected.
-;                  Flags      - Set of bit flags describing the connection:
-;                  |$DISC_UPDATE_PROFILE - If this value is set, the specified connection is no longer  a  persistent  one.  This
-;                  +flag is valid only if the LocalName member specifies a local device.
-;                  |$DISC_NO_FORCE       - If this value is not set, the system applies force when attempting to disconnect  from
-;                  +the network resource. This situation typically occurs when the user has files open over the connection.  This
-;                  +value means that the user will be informed if there are open files on the connection, and asked if he or  she
-;                  +still wants to disconnect. If the user wants to proceed, the disconnect procedure re-attempts with additional
-;                  +force.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagDISCDLGSTRUCT = "int Size;hwnd hWnd;ptr LocalName;ptr RemoteName;int Flags"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagNETCONNECTINFOSTRUCT
-; Description ...: tagNETCONNECTINFOSTRUCT structure
-; Fields ........: Size        - Size of this structure, in bytes
-;                  Flags       - Set of bit flags describing the connection:
-;                  |$WNCON_FORNETCARD  - In the absence of information about the  actual  connection,  the  information  returned
-;                  +applies to the performance of the network card.  If this flag is not set, information is being  returned  for
-;                  +the current connection with the resource, with any routing degradation taken into consideration.
-;                  |$WNCON_NOTROUTED  - The connection is not being routed.  If this flag is not set, the connection may be going
-;                  +through routers that limit performance.  Consequently, if WNCON_FORNETCARD is set, actual performance may  be
-;                  +much less than the information returned.
-;                  |$WNCON_SLOWLINK   - The connection is over a medium that is typically slow.  You should not set this  bit  if
-;                  +the Speed member is set to a nonzero value.
-;                  |$WNCON_DYNAMIC    - Some of the information returned is calculated dynamically, so reissuing this request may
-;                  +return different (and more current) information.
-;                  Speed       - Speed of the media to the network resource, in 100 bits-per-second
-;                  Delay       - One-way delay time that the network introduces when sending information, in milliseconds
-;                  OptDataSize - Size of data that an application should use when making a single request to the network resource
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagNETCONNECTINFOSTRUCT = "int Size;int Flags;int Speed;int Delay;int OptDataSize"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagNETINFOSTRUCT
-; Description ...: tagNETINFOSTRUCT structure
-; Fields ........: Size     - Size of this structure, in bytes
-;                  Version  - Version number of the network provider software
-;                  Status   - Current status of the network provider software:
-;                  |$NO_ERROR         - The network is running
-;                  |$ERROR_NO_NETWORK - The network is unavailable
-;                  |$ERROR_BUSY       - The network is currently unavailable, but it should become available shortly
-;                  Char     - Characteristics of the network provider software. This value is zero.
-;                  Handle   - Instance handle for the network provider or for the 16-bit Windows network driver
-;                  NetType  - Network type unique to the running network
-;                  Printers - Set of bit flags indicating the valid print numbers for redirecting local printer devices, with the
-;                  +low order bit corresponding to LPT1.
-;                  Drives   - Set of bit flags indicating the valid local disk devices for redirecting disk drives, with the  low
-;                  +order bit corresponding to A:.
-;                  Reserved - Reserved, must be 0
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagNETINFOSTRUCT = "int Size;int Version;int Status;int Char;int Handle;short NetType;int Printers;int Drives;short Reserved"
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNETRESOURCE
 ; Description ...: tagNETRESOURCE structure
@@ -2957,18 +1894,7 @@ Global Const $tagNETINFOSTRUCT = "int Size;int Version;int Status;int Char;int H
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNETRESOURCE = "int Scope;int Type;int DisplayType;int Usage;ptr LocalName;ptr RemoteName;ptr Comment;ptr Provider"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagREMOTENAMEINFO
-; Description ...: tagREMOTENAMEINFO structure
-; Fields ........: Universal  - Pointer to the null-terminated UNC name string that identifies a network resource
-;                  Connection - Pointer to a null-terminated string that is the name of a network connection
-;                  Remaining  - Pointer to a null-terminated name string
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagREMOTENAMEINFO = "ptr Universal;ptr Connection;ptr Remaining"
+Global Const $tagNETRESOURCE = "dword Scope;dword Type;dword DisplayType;dword Usage;ptr LocalName;ptr RemoteName;ptr Comment;ptr Provider"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -2995,7 +1921,7 @@ Global Const $tagREMOTENAMEINFO = "ptr Universal;ptr Connection;ptr Remaining"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagOVERLAPPED = "int Internal;int InternalHigh;int Offset;int OffsetHigh;int hEvent"
+Global Const $tagOVERLAPPED = "ulong_ptr Internal;ulong_ptr InternalHigh;dword Offset;dword OffsetHigh;handle hEvent"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagOPENFILENAME
@@ -3135,9 +2061,9 @@ Global Const $tagOVERLAPPED = "int Internal;int InternalHigh;int Offset;int Offs
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagOPENFILENAME = "dword StructSize;hwnd hwndOwner;hwnd hInstance;ptr lpstrFilter;ptr lpstrCustomFilter;" & _
-		"dword nMaxCustFilter;dword nFilterIndex;ptr lpstrFile;dword nMaxFile;ptr lpstrFileTitle;int nMaxFileTitle;" & _
-		"ptr lpstrInitialDir;ptr lpstrTitle;dword Flags;short nFileOffset;short nFileExtension;ptr lpstrDefExt;ptr lCustData;" & _
+Global Const $tagOPENFILENAME = "dword StructSize;hwnd hwndOwner;handle hInstance;ptr lpstrFilter;ptr lpstrCustomFilter;" & _
+		"dword nMaxCustFilter;dword nFilterIndex;ptr lpstrFile;dword nMaxFile;ptr lpstrFileTitle;dword nMaxFileTitle;" & _
+		"ptr lpstrInitialDir;ptr lpstrTitle;dword Flags;word nFileOffset;word nFileExtension;ptr lpstrDefExt;lparam lCustData;" & _
 		"ptr lpfnHook;ptr lpTemplateName;ptr pvReserved;dword dwReserved;dword FlagsEx"
 
 ; #STRUCTURE# ===================================================================================================================
@@ -3158,7 +2084,7 @@ Global Const $tagOPENFILENAME = "dword StructSize;hwnd hwndOwner;hwnd hInstance;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagBITMAPINFO = "dword Size;long Width;long Height;ushort Planes;ushort BitCount;dword Compression;dword SizeImage;" & _
+Global Const $tagBITMAPINFO = "dword Size;long Width;long Height;word Planes;word BitCount;dword Compression;dword SizeImage;" & _
 		"long XPelsPerMeter;long YPelsPerMeter;dword ClrUsed;dword ClrImportant;dword RGBQuad"
 
 ; #STRUCTURE# ===================================================================================================================
@@ -3178,245 +2104,6 @@ Global Const $tagBITMAPINFO = "dword Size;long Width;long Height;ushort Planes;u
 ; ===============================================================================================================================
 Global Const $tagBLENDFUNCTION = "byte Op;byte Flags;byte Alpha;byte Format"
 
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagBORDERS
-; Description ...: Structure that recieves the current widths of the horizontal and vertical borders of a status window
-; Fields ........: BX - Width of the horizontal border
-;                  BY - Width of the vertical border
-;                  RX - Width of the border between rectangles
-; Author ........: Gary Frost (gafrost)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagBORDERS = "int BX;int BY;int RX"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCHOOSECOLOR
-; Description ...: Contains information the _ChooseColor function uses to initialize the Color dialog box
-; Fields ........: Size           - Specifies the size, in bytes, of the structure
-;                  hWndOwner      - Handle to the window that owns the dialog box
-;                  hInstance      - If the $CC_ENABLETEMPLATEHANDLE flag is set in the Flags member, hInstance is a handle to a memory
-;                  +object containing a dialog box template. If the $CC_ENABLETEMPLATE flag is set, hInstance is a handle to a module
-;                  +that contains a dialog box template named by the lpTemplateName member. If neither $CC_ENABLETEMPLATEHANDLE
-;                  +nor $CC_ENABLETEMPLATE is set, this member is ignored.
-;                  rgbResult      - If the $CC_RGBINIT flag is set, rgbResult specifies the color initially selected when the dialog
-;                  +box is created.
-;                  CustColors     - Pointer to an array of 16 values that contain red, green, blue (RGB) values for the custom color
-;                  +boxes in the dialog box.
-;                  Flags          - A set of bit flags that you can use to initialize the Color dialog box. When the dialog box returns,
-;                  +it sets these flags to indicate the user's input. This member can be a combination of the following flags:
-;                  |$CC_ANYCOLOR             - Causes the dialog box to display all available colors in the set of basic colors
-;                  |$CC_ENABLEHOOK           - Enables the hook procedure specified in the lpfnHook member
-;                  |$CC_ENABLETEMPLATE       - Indicates that the hInstance and lpTemplateName members specify a dialog box template
-;                  |$CC_ENABLETEMPLATEHANDLE - Indicates that the hInstance member identifies a data block that contains a preloaded
-;                  +dialog box template
-;                  |$CC_FULLOPEN             - Causes the dialog box to display the additional controls that allow the user to create
-;                  +custom colors
-;                  |$CC_PREVENTFULLOPEN      - Disables the Define Custom Color
-;                  |$CC_RGBINIT              - Causes the dialog box to use the color specified in the rgbResult member as the initial
-;                  +color selection
-;                  |$CC_SHOWHELP             - Causes the dialog box to display the Help button
-;                  |$CC_SOLIDCOLOR           - Causes the dialog box to display only solid colors in the set of basic colors
-;                  lCustData      - Specifies application-defined data that the system passes to the hook procedure identified by the
-;                  +lpfnHook member
-;                  lpfnHook       - Pointer to a CCHookProc hook procedure that can process messages intended for the dialog box.
-;                  +This member is ignored unless the CC_ENABLEHOOK flag is set in the Flags member
-;                  lpTemplateName - Pointer to a null-terminated string that names the dialog box template resource in the module
-;                  +identified by the hInstance m
-; Author ........: Gary Frost (gafrost)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCHOOSECOLOR = "dword Size;hwnd hWndOwnder;hwnd hInstance;int rgbResult;int_ptr CustColors;dword Flags;int_ptr lCustData;" & _
-		"ptr lpfnHook;ptr lpTemplateName"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCHOOSEFONT
-; Description ...: Contains information that the _ChooseFont function uses to initialize the Font dialog box
-; Fields ........: Size           - Specifies the size, in bytes, of the structure
-;                  hWndOwner      - Handle to the window that owns the dialog box
-;                  hDC            - Handle to the device context
-;                  LogFont        - Pointer to a structure
-;                  PointSize      - Specifies the size of the selected font, in units of 1/10 of a point
-;                  Flags   - A set of bit flags that you can use to initialize the Font dialog box.
-;                  +This parameter can be one of the following values:
-;                  |$CF_APPLY          - Causes the dialog box to display the Apply button
-;                  |$CF_ANSIONLY       - This flag is obsolete
-;                  |$CF_TTONLY         - Specifies that ChooseFont should only enumerate and allow the selection of TrueType fonts
-;                  |$CF_EFFECTS        - Causes the dialog box to display the controls that allow the user to specify strikeout,
-;                  +underline, and text color options
-;                  |$CF_ENABLEHOOK     - Enables the hook procedure specified in the lpfnHook member of this structure
-;                  |$CF_ENABLETEMPLATE - Indicates that the hInstance and lpTemplateName members specify a dialog box template to use
-;                  +in place of the default template
-;                  |$CF_ENABLETEMPLATEHANDLE - Indicates that the hInstance member identifies a data block that contains a preloaded
-;                  +dialog box template
-;                  |$CF_FIXEDPITCHONLY - Specifies that ChooseFont should select only fixed-pitch fonts
-;                  |$CF_FORCEFONTEXIST - Specifies that ChooseFont should indicate an error condition if the user attempts to select
-;                  +a font or style that does not exist.
-;                  |$CF_INITTOLOGFONTSTRUCT - Specifies that ChooseFont should use the structure pointed to by the lpLogFont member
-;                  +to initialize the dialog box controls.
-;                  |$CF_LIMITSIZE - Specifies that ChooseFont should select only font sizes within the range specified by the nSizeMin and nSizeMax members.
-;                  |$CF_NOOEMFONTS - Same as the $CF_NOVECTORFONTS flag.
-;                  |$CF_NOFACESEL - When using a LOGFONT structure to initialize the dialog box controls, use this flag to selectively prevent the dialog box
-;                  +from displaying an initial selection for the font name combo box.
-;                  |$CF_NOSCRIPTSEL - Disables the Script combo box.
-;                  |$CF_NOSTYLESEL - When using a LOGFONT structure to initialize the dialog box controls, use this flag to selectively prevent the dialog box
-;                  +from displaying an initial selection for the font style combo box.
-;                  |$CF_NOSIZESEL - When using a structure to initialize the dialog box controls, use this flag to selectively prevent the dialog box from
-;                  +displaying an initial selection for the font size combo box.
-;                  |$CF_NOSIMULATIONS - Specifies that ChooseFont should not allow graphics device interface (GDI) font simulations.
-;                  |$CF_NOVECTORFONTS - Specifies that ChooseFont should not allow vector font selections.
-;                  |$CF_NOVERTFONTS - Causes the Font dialog box to list only horizontally oriented fonts.
-;                  |$CF_PRINTERFONTS - Causes the dialog box to list only the fonts supported by the printer associated with the device context
-;                  +(or information context) identified by the hDC member.
-;                  |$CF_SCALABLEONLY - Specifies that ChooseFont should allow only the selection of scalable fonts.
-;                  |$CF_SCREENFONTS - Causes the dialog box to list only the screen fonts supported by the system.
-;                  |$CF_SCRIPTSONLY - Specifies that ChooseFont should allow selection of fonts for all non-OEM and Symbol character sets, as well as
-;                  +the ANSI character set. This supersedes the $CF_ANSIONLY value.
-;                  |$CF_SELECTSCRIPT - When specified on input, only fonts with the character set identified in the lfCharSet member of the LOGFONT
-;                  +structure are displayed.
-;                  |$CF_SHOWHELP - Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the HELPMSGSTRING
-;                  +registered messages that the dialog box sends when the user clicks the Help button.
-;                  |$CF_USESTYLE - Specifies that the lpszStyle member is a pointer to a buffer that contains style data that ChooseFont should use to initialize
-;                  +the Font Style combo box. When the user closes the dialog box, ChooseFont copies style data for the user's selection to this buffer.
-;                  |$CF_WYSIWYG - Specifies that ChooseFont should allow only the selection of fonts available on both the printer and the display
-;                  rgbColors - If the CF_EFFECTS flag is set, rgbColors specifies the initial text color
-;                  CustData - Specifies application-defined data that the system passes to the hook procedure identified by the lpfnHook member
-;                  fnHook - Pointer to a CFHookProc hook procedure that can process messages intended for the dialog box
-;                  TemplateName - Pointer to a null-terminated string that names the dialog box template resource in the module
-;                  +identified by the hInstance member
-;                  hInstance - If the $CF_ENABLETEMPLATEHANDLE flag is set in the Flags member, hInstance is a handle to a memory
-;                  +object containing a dialog box template. If the $CF_ENABLETEMPLATE flag is set, hInstance is a handle to a
-;                  +module that contains a dialog box template named by the TemplateName member. If neither $CF_ENABLETEMPLATEHANDLE
-;                  +nor $CF_ENABLETEMPLATE is set, this member is ignored.
-;                  szStyle - Pointer to a buffer that contains style data
-;                  FontType - Specifies the type of the selected font when ChooseFont returns. This member can be one or more of the following values.
-;                  |$BOLD_FONTTYPE - The font weight is bold. This information is duplicated in the lfWeight member of the LOGFONT
-;                  +structure and is equivalent to FW_BOLD.
-;                  |$ITALIC_FONTTYPE - The italic font attribute is set. This information is duplicated in the lfItalic member of the LOGFONT structure.
-;                  |$PRINTER_FONTTYPE - The font is a printer font.
-;                  |$REGULAR_FONTTYPE - The font weight is normal. This information is duplicated in the lfWeight member of the LOGFONT structure and is
-;                  +equivalent to FW_REGULAR.
-;                  |$SCREEN_FONTTYPE - The font is a screen font.
-;                  |$SIMULATED_FONTTYPE - The font is simulated by the graphics device interface (GDI).
-;                  SizeMin - Specifies the minimum point size a user can select
-;                  SizeMax - Specifies the maximum point size a user can select
-; Author ........: Gary Frost (gafrost)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCHOOSEFONT = "dword Size;hwnd hWndOwner;hwnd hDC;ptr LogFont;int PointSize;dword Flags;int rgbColors;int_ptr CustData;" & _
-		"ptr fnHook;ptr TemplateName;hwnd hInstance;ptr szStyle;ushort FontType;int SizeMin;int SizeMax"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTEXTMETRIC
-; Description ...: Contains basic information about a physical font. All sizes are specified in logical units, that is, they depend on the current mapping mode of the display context.
-; Fields ........: tmHeight - Specifies the height (ascent + descent) of characters.
-;                  tmAscent - Specifies the ascent (units above the base line) of characters.
-;                  tmDescent - Specifies the descent (units below the base line) of characters.
-;                  tmInternalLeading - Specifies the amount of leading (space) inside the bounds set by the tmHeight member.
-;                  |  Accent marks and other diacritical characters may occur in this area. The designer may set this member to zero.
-;                  tmExternalLeading - Specifies the amount of extra leading (space) that the application adds between rows.
-;                  |  Since this area is outside the font, it contains no marks and is not altered by text output calls in either OPAQUE or TRANSPARENT mode.
-;                  |  The designer may set this member to zero.
-;                  tmAveCharWidth - Specifies the average width of characters in the font (generally defined as the width of the letter x).
-;                  |  This value does not include the overhang required for bold or italic characters.
-;                  tmMaxCharWidth - Specifies the width of the widest character in the font.
-;                  tmWeight - Specifies the weight of the font.
-;                  tmOverhang - Specifies the extra width per string that may be added to some synthesized fonts.
-;                  |  When synthesizing some attributes, such as bold or italic, graphics device interface (GDI) or a device may have to add width to a string on both a per-character and per-string basis.
-;                  |  For example, GDI makes a string bold by expanding the spacing of each character and overstriking by an offset value
-;                  |  it italicizes a font by shearing the string. In either case, there is an overhang past the basic string.
-;                  |  For bold strings, the overhang is the distance by which the overstrike is offset. For italic strings, the overhang is the amount the top of the font is sheared past the bottom of the font.
-;                  |  The tmOverhang member enables the application to determine how much of the character width returned by a GetTextExtentPoint32 function call on a single character is the actual character width and how much is the per-string extra width.
-;                  |  The actual width is the extent minus the overhang.
-;                  tmDigitizedAspectX - Specifies the horizontal aspect of the device for which the font was designed.
-;                  tmDigitizedAspectY - Specifies the vertical aspect of the device for which the font was designed.
-;                  |  The ratio of the tmDigitizedAspectX and tmDigitizedAspectY members is the aspect ratio of the device for which the font was designed.
-;                  tmFirstChar - Specifies the value of the first character defined in the font.
-;                  tmLastChar - Specifies the value of the last character defined in the font.
-;                  tmDefaultChar - Specifies the value of the character to be substituted for characters not in the font.
-;                  tmBreakChar - Specifies the value of the character that will be used to define word breaks for text justification.
-;                  tmItalic - Specifies an italic font if it is nonzero.
-;                  tmUnderlined - Specifies an underlined font if it is nonzero.
-;                  tmStruckOut - Specifies a strikeout font if it is nonzero.
-;                  tmPitchAndFamily - Specifies information about the pitch, the technology, and the family of a physical font.
-;                  tmCharSet - Specifies the character set of the font. The character set can be one of the following values.
-;                  |ANSI_CHARSET
-;                  |BALTIC_CHARSET
-;                  |CHINESEBIG5_CHARSET
-;                  |DEFAULT_CHARSET
-;                  |EASTEUROPE_CHARSET
-;                  |GB2312_CHARSET
-;                  |GREEK_CHARSET
-;                  |HANGUL_CHARSET
-;                  |MAC_CHARSET
-;                  |OEM_CHARSET
-;                  |RUSSIAN_CHARSET
-;                  |SHIFTJIS_CHARSET
-;                  |SYMBOL_CHARSET
-;                  |TURKISH_CHARSET
-;                  |VIETNAMESE_CHARSET
-; Author ........: Gary Frost
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTEXTMETRIC = "long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;" & _
-		"long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;" & _
-		"char tmFirstChar;char tmLastChar;char tmDefaultChar;char tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" & _
-		"byte tmPitchAndFamily;byte tmCharSet"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagCURSORINFO
-; Description ...: Contains global cursor information
-; Fields ........: Size    - Specifies the size, in bytes, of the structure
-;                  Flags   - Specifies the cursor state. This parameter can be one of the following values:
-;                  |0               - The cursor is hidden
-;                  |$CURSOR_SHOWING - The cursor is showing
-;                  hCursor - Handle to the cursor
-;                  X       - X position of the cursor, in screen coordinates
-;                  Y       - Y position of the cursor, in screen coordinates
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagCURSORINFO = "int Size;int Flags;hwnd hCursor;int X;int Y"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagDISPLAY_DEVICE
-; Description ...: Receives information about the display device
-; Fields ........: Size   - Specifies the size, in bytes, of the structure
-;                  Name   - Either the adapter device or the monitor device
-;                  String - Either a description of the display adapter or of the display monitor
-;                  Flags  - Device state flags:
-;                  |$DISPLAY_DEVICE_ATTACHED_TO_DESKTOP - The device is part of the desktop
-;                  |$DISPLAY_DEVICE_MIRRORING_DRIVER    - Represents a pseudo device used to mirror drawing for remoting or other
-;                  +purposes. An invisible pseudo monitor is associated with this device.
-;                  |$DISPLAY_DEVICE_MODESPRUNED         - The device has more display modes than its output devices support
-;                  |$DISPLAY_DEVICE_PRIMARY_DEVICE      - The primary desktop is on the device
-;                  |$DISPLAY_DEVICE_REMOVABLE           - The device is removable; it cannot be the primary display
-;                  |$DISPLAY_DEVICE_VGA_COMPATIBLE      - The device is VGA compatible.
-;                  ID     - This is the Plug and Play identifier
-;                  Key    - Reserved
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagDISPLAY_DEVICE = "int Size;char Name[32];char String[128];int Flags;char ID[128];char Key[128]"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagFLASHWINDOW
-; Description ...: Contains the flash status for a window and the number of times the system should flash the window
-; Fields ........: Size    - The size of the structure, in bytes
-;                  hWnd    - A handle to the window to be flashed. The window can be either opened or minimized.
-;                  Flags   - The flash status. This parameter can be one or more of the following values:
-;                  |$FLASHW_ALL       - Flash both the window caption and taskbar button
-;                  |$FLASHW_CAPTION   - Flash the window caption
-;                  |$FLASHW_STOP      - Stop flashing
-;                  |$FLASHW_TIMER     - Flash continuously, until the $FLASHW_STOP flag is set
-;                  |$FLASHW_TIMERNOFG - Flash continuously until the window comes to the foreground
-;                  |$FLASHW_TRAY      - Flash the taskbar button
-;                  Count   - The number of times to flash the window
-;                  Timeout - The rate at which the window is to be flashed, in milliseconds
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......: Needs Constants.au3 for pre-defined constants
-; ===============================================================================================================================
-Global Const $tagFLASHWINDOW = "int Size;hwnd hWnd;int Flags;int Count;int TimeOut"
-
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGUID
 ; Description ...: Represents a globally unique identifier (GUID)
@@ -3427,22 +2114,7 @@ Global Const $tagFLASHWINDOW = "int Size;hwnd hWnd;int Flags;int Count;int TimeO
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGUID = "int Data1;short Data2;short Data3;byte Data4[8]"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagICONINFO
-; Description ...: Contains information about an icon or a cursor
-; Fields ........: Icon     - Specifies the contents of the structure:
-;                  |True  - Icon
-;                  |False - Cursor
-;                  XHotSpot - Specifies the x-coordinate of a cursor's hot spot
-;                  YHotSpot - Specifies the y-coordinate of the cursor's hot spot
-;                  hMask    - Specifies the icon bitmask bitmap
-;                  hColor   - Handle to the icon color bitmap
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagICONINFO = "int Icon;int XHotSpot;int YHotSpot;hwnd hMask;hwnd hColor"
+Global Const $tagGUID = "dword Data1;word Data2;word Data3;byte Data4[8]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagWINDOWPLACEMENT
@@ -3479,7 +2151,7 @@ Global Const $tagICONINFO = "int Icon;int XHotSpot;int YHotSpot;hwnd hMask;hwnd 
 ; Author ........: PsaltyDS
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWINDOWPLACEMENT = "UINT length; UINT flags; UINT showCmd; int ptMinPosition[2]; int ptMaxPosition[2]; int rcNormalPosition[4]"
+Global Const $tagWINDOWPLACEMENT = "uint length; uint flags;uint showCmd;long ptMinPosition[2];long ptMaxPosition[2];long rcNormalPosition[4]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagWINDOWPOS
@@ -3507,7 +2179,7 @@ Global Const $tagWINDOWPLACEMENT = "UINT length; UINT flags; UINT showCmd; int p
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWINDOWPOS = "hwnd hWnd;int InsertAfter;int X;int Y;int CX;int CY;int Flags"
+Global Const $tagWINDOWPOS = "hwnd hWnd;hwnd InsertAfter;int X;int Y;int CX;int CY;uint Flags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagSCROLLINFO
@@ -3563,7 +2235,7 @@ Global Const $tagSCROLLINFO = "uint cbSize;uint fMask;int  nMin;int  nMax;uint n
 ; Author ........: Gary Frost
 ; Remarks .......: $SIF_xxxxx and $SB_xxxxx for scrollbar require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagSCROLLBARINFO = "dword cbSize;int Left;int Top;int Right;int Bottom;int dxyLineButton;int xyThumbTop;" & _
+Global Const $tagSCROLLBARINFO = "dword cbSize;" & $tagRECT & ";int dxyLineButton;int xyThumbTop;" & _
 		"int xyThumbBottom;int reserved;dword rgstate[6]"
 
 ; #STRUCTURE# ===================================================================================================================
@@ -3586,8 +2258,8 @@ Global Const $tagSCROLLBARINFO = "dword cbSize;int Left;int Top;int Right;int Bo
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLOGFONT = "int Height;int Width;int Escapement;int Orientation;int Weight;byte Italic;byte Underline;" & _
-		"byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;char FaceName[32]"
+Global Const $tagLOGFONT = "long Height;long Width;long Escapement;long Orientation;long Weight;byte Italic;byte Underline;" & _
+		"byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;wchar FaceName[32]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagKBDLLHOOKSTRUCT
@@ -3630,7 +2302,7 @@ Global Const $tagKBDLLHOOKSTRUCT = "dword vkCode;dword scanCode;dword flags;dwor
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagPROCESS_INFORMATION = "hwnd hProcess;hwnd hThread;int ProcessID;int ThreadID"
+Global Const $tagPROCESS_INFORMATION = "handle hProcess;handle hThread;dword ProcessID;dword ThreadID"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagSTARTUPINFO
@@ -3676,9 +2348,9 @@ Global Const $tagPROCESS_INFORMATION = "hwnd hProcess;hwnd hThread;int ProcessID
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagSTARTUPINFO = "int Size;ptr Reserved1;ptr Desktop;ptr Title;int X;int Y;int XSize;int YSize;int XCountChars;" & _
-		"int YCountChars;int FillAttribute;int Flags;short ShowWindow;short Reserved2;ptr Reserved3;int StdInput;" & _
-		"int StdOutput;int StdError"
+Global Const $tagSTARTUPINFO = "dword Size;ptr Reserved1;ptr Desktop;ptr Title;dword X;dword Y;dword XSize;dword YSize;dword XCountChars;" & _
+		"dword YCountChars;dword FillAttribute;dword Flags;word ShowWindow;word Reserved2;ptr Reserved3;handle StdInput;" & _
+		"handle StdOutput;handle StdError"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -3694,7 +2366,7 @@ Global Const $tagSTARTUPINFO = "int Size;ptr Reserved1;ptr Desktop;ptr Title;int
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagSECURITY_ATTRIBUTES = "int Length;ptr Descriptor;int InheritHandle"
+Global Const $tagSECURITY_ATTRIBUTES = "dword Length;ptr Descriptor;bool InheritHandle"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -3716,8 +2388,8 @@ Global Const $tagSECURITY_ATTRIBUTES = "int Length;ptr Descriptor;int InheritHan
 ;                  cFileName          - The name of the file.
 ;                  cAlternateFileName - An alternative name for the file, the classic 8.3 (filename.ext) file name format.
 ; Author ........: Jpm
-; Remarks .......: ANSI version must be used.
+; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; char cFileName[260]; char cAlternateFileName[14];"
+Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; wchar cFileName[260]; wchar cAlternateFileName[14];"
 
 ; == Leave this line at the end of the file =====================================================================================

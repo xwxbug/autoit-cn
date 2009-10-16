@@ -12,9 +12,11 @@ _Main()
 
 Func _Main()
 	Local $StatusBar, $hEdit, $hGUI
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 	Local $aPartRightSide[3] = [190, 378, -1], $aSel
-	
+
 	; Create GUI
 	$hGUI = GUICreate("Edit Set Sel", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268, BitOR($ES_WANTRETURN, $WS_VSCROLL))
@@ -30,12 +32,12 @@ Func _Main()
 
 	; Set Sel
 	_GUICtrlEdit_SetSel($hEdit, 15, 20)
-	
+
 	; Get Sel
 	$aSel = _GUICtrlEdit_GetSel($hEdit)
 	_GUICtrlStatusBar_SetText($StatusBar, "Start: " & $aSel[0])
 	_GUICtrlStatusBar_SetText($StatusBar, "End: " & $aSel[1], 1)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

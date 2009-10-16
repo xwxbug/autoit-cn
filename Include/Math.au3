@@ -69,11 +69,8 @@ EndFunc   ;==>_ATan2
 ; Example .......: MsgBox(4096, "_Degree() Test", "_Degree( 3.1415 ) = " & _Degree( 3.1415 ))
 ; ===============================================================================================================================
 Func _Degree($nRadians)
-	If Not IsNumber($nRadians) Then
-		SetError(1)
-		Return ""
-	EndIf
-	Return $nRadians * 57.2957795130823
+	If IsNumber($nRadians) Then Return $nRadians * 57.2957795130823
+	Return SetError(1, 0, "")
 EndFunc   ;==>_Degree
 
 ; #FUNCTION# ====================================================================================================================
@@ -88,8 +85,7 @@ EndFunc   ;==>_Degree
 ; ===============================================================================================================================
 Func _MathCheckDiv($i_NumA, $i_NumB = 2)
 	If Number($i_NumA) = 0 Or Number($i_NumB) = 0 Or Int($i_NumA) <> $i_NumA Or Int($i_NumB) <> $i_NumB Then
-		Return -1
-		SetError(1)
+		Return SetError(1, 0, -1)
 	ElseIf Int($i_NumA / $i_NumB) <> $i_NumA / $i_NumB Then
 		Return 1
 	Else
@@ -115,14 +111,8 @@ EndFunc   ;==>_MathCheckDiv
 ; ===============================================================================================================================
 Func _Max($nNum1, $nNum2)
 	; Check to see if the parameters are indeed numbers of some sort.
-	If (Not IsNumber($nNum1)) Then
-		SetError(1)
-		Return (0)
-	EndIf
-	If (Not IsNumber($nNum2)) Then
-		SetError(2)
-		Return (0)
-	EndIf
+	If Not IsNumber($nNum1) Then Return SetError(1, 0, 0)
+	If Not IsNumber($nNum2) Then Return SetError(2, 0, 0)
 
 	If $nNum1 > $nNum2 Then
 		Return $nNum1
@@ -148,14 +138,8 @@ EndFunc   ;==>_Max
 ; ===============================================================================================================================
 Func _Min($nNum1, $nNum2)
 	; Check to see if the parameters are indeed numbers of some sort.
-	If (Not IsNumber($nNum1)) Then
-		SetError(1)
-		Return (0)
-	EndIf
-	If (Not IsNumber($nNum2)) Then
-		SetError(2)
-		Return (0)
-	EndIf
+	If (Not IsNumber($nNum1)) Then Return SetError(1, 0, 0)
+	If (Not IsNumber($nNum2)) Then Return SetError(2, 0, 0)
 
 	If $nNum1 > $nNum2 Then
 		Return $nNum2
@@ -186,9 +170,6 @@ EndFunc   ;==>_Min
 ; Example .......: MsgBox(4096, "_Radian() Test", "_Radian( 35 ) = " & _Radian( 35 ))
 ; ===============================================================================================================================
 Func _Radian($nDegrees)
-	If Not Number($nDegrees) Then
-		SetError(1)
-		Return ""
-	EndIf
-	Return $nDegrees / 57.2957795130823
+	If Number($nDegrees) Then Return $nDegrees / 57.2957795130823
+	Return SetError(1, 0, "")
 EndFunc   ;==>_Radian

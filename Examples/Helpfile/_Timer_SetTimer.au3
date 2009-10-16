@@ -14,7 +14,7 @@ _Example_CallBack()
 Func _Example_CallBack()
 	Local $hGUI, $iTimerProgress, $btn_change, $iWait = 10, $btn_state
 	Local $aParts[3] = [75, 330, -1]
-	
+
 	$hGUI = GUICreate("Timers Using CallBack Function(s)", 400, 320)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, BitOR($WS_HSCROLL, $WS_VSCROLL))
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -46,7 +46,7 @@ Func _Example_CallBack()
 					_Timer_KillTimer($hGUI, $iTimerProgress)
 					GUICtrlSetData($btn_state, "Start Progress Bar")
 				EndIf
-				
+
 			Case $btn_change
 				If $iWait = 10 Then
 					$iWait = 250
@@ -57,7 +57,7 @@ Func _Example_CallBack()
 				$iTimerProgress = _Timer_SetTimer($hGUI, $iWait, "", $iTimerProgress) ; reuse timer with different interval
 		EndSwitch
 	WEnd
-	ConsoleWrite("Killed All Timers? " & _Timer_KillAllTimers($hGUI) & @LF)
+	ConsoleWrite("Killed All Timers? " & _Timer_KillAllTimers($hGUI) & @CRLF)
 	GUIDelete()
 EndFunc   ;==>_Example_CallBack
 

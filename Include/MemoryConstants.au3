@@ -24,8 +24,8 @@ Global Const $GMEM_LOWER = 0x1000
 Global Const $GMEM_VALID_FLAGS = 0x7F72
 Global Const $GMEM_INVALID_HANDLE = 0x8000
 
-Global Const $GPTR = 0x0040
-Global Const $GHND = 0x0042
+Global Const $GPTR = $GMEM_FIXED + $GMEM_ZEROINIT ; in fact equal $GMEM_ZEROINIT
+Global Const $GHND = $GMEM_MOVEABLE + $GMEM_ZEROINIT
 
 ; VirtualAlloc Allocation Type Constants
 

@@ -3,7 +3,7 @@
 
 Local $hQuery,$aRow
 _SQLite_Startup()
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CR)
+ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
 _SQLite_Open()
 ; Whithout $sCallback its an Resultless query
 _SQLite_Exec(-1,"Create table tblTest (a,b int,c single not null);" & _
@@ -15,13 +15,13 @@ Func _cb($aRow)
 	For $s In $aRow
 		ConsoleWrite($s & @TAB)
 	Next
-	ConsoleWrite(@LF)
+	ConsoleWrite(@CRLF)
 	; Return $SQLITE_ABORT ; Would Abort the process and trigger an @error in _SQLite_Exec()
 EndFunc
 _SQLite_Close()
 _SQLite_Shutdown()
 
 ; Output:
-;~ 	rowid	a	b	c	
-;~ 	1		1	2	3	
+;~ 	rowid	a	b	c
+;~ 	1		1	2	3
 ;~ 	2			5	6

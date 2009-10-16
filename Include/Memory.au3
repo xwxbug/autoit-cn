@@ -1,8 +1,9 @@
 ﻿#include-once
 
-#include <MemoryConstants.au3>
-#include <WinAPI.au3>
-#include <StructureConstants.au3>
+#include "MemoryConstants.au3"
+#include "StructureConstants.au3"
+#include "ProcessConstants.au3"
+#include "Security.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Memory
@@ -10,14 +11,7 @@
 ;                  The memory manager implements virtual memory, provides a core set of services such  as  memory  mapped  files,
 ;                  copy-on-write memory, large memory support, and underlying support for the cache manager.
 ; Author(s) .....: Paul Campbell (PaulIA)
-; ===============================================================================================================================
-
-; #CONSTANTS# ===================================================================================================================
-;
-; OpenProcess Constants
-Global Const $__MEMORYCONSTANT_PROCESS_VM_OPERATION = 0x00000008
-Global Const $__MEMORYCONSTANT_PROCESS_VM_READ = 0x00000010
-Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
+; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -26,9 +20,7 @@ Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
 ;_MemGlobalLock
 ;_MemGlobalSize
 ;_MemGlobalUnlock
-;_MemMsgBox
 ;_MemMoveMemory
-;_MemShowError
 ;_MemVirtualAlloc
 ;_MemVirtualAllocEx
 ;_MemVirtualFree
@@ -36,11 +28,24 @@ Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
+;$tagMEMMAP
 ;_MemFree
 ;_MemInit
 ;_MemRead
 ;_MemWrite
+;__Mem_OpenProcess
 ; ===============================================================================================================================
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: $tagMEMMAP
+; Description ...: Contains information about the memory
+; Fields ........: hProc - Handle to the external process
+;                  Size  - Size, in bytes, of the memory block allocated
+;                  Mem   - Pointer to the memory block
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagMEMMAP = "handle hProc;ulong_ptr Size;ptr Mem"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemFree
@@ -57,17 +62,11 @@ Global Const $__MEMORYCONSTANT_PROCESS_VM_WRITE = 0x00000020
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemFree(ByRef $tMemMap)
-	Local $hProcess, $pMemory, $bResult
-
-	$pMemory = DllStructGetData($tMemMap, "Mem")
-	$hProcess = DllStructGetData($tMemMap, "hProc")
-	; Thanks to jpm for his tip on using @OSType instead of @OSVersion
-	If @OSTYPE = "WIN32_WINDOWS"  Then
-		$bResult = _MemVirtualFree($pMemory, 0, $MEM_RELEASE)
-	Else
-		$bResult = _MemVirtualFreeEx($hProcess, $pMemory, 0, $MEM_RELEASE)
-	EndIf
-	_WinAPI_CloseHandle($hProcess)
+	Local $pMemory = DllStructGetData($tMemMap, "Mem")
+	Local $hProcess = DllStructGetData($tMemMap, "hProc")
+	Local $bResult = _MemVirtualFreeEx($hProcess, $pMemory, 0, $MEM_RELEASE)
+	DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hProcess)
+	If @error Then Return SetError(@error, @extended, False)
 	Return $bResult
 EndFunc   ;==>_MemFree
 
@@ -103,9 +102,8 @@ EndFunc   ;==>_MemFree
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalAlloc($iBytes, $iFlags = 0)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "hwnd", "GlobalAlloc", "int", $iFlags, "int", $iBytes)
+	Local $aResult = DllCall("kernel32.dll", "handle", "GlobalAlloc", "uint", $iFlags, "ulong_ptr", $iBytes)
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_MemGlobalAlloc
 
@@ -124,10 +122,9 @@ EndFunc   ;==>_MemGlobalAlloc
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalFree($hMem)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "GlobalFree", "hwnd", $hMem)
-	Return $aResult[0] = 0
+	Local $aResult = DllCall("kernel32.dll", "ptr", "GlobalFree", "handle", $hMem)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_MemGlobalFree
 
 ; #FUNCTION# ====================================================================================================================
@@ -145,9 +142,8 @@ EndFunc   ;==>_MemGlobalFree
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalLock($hMem)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "ptr", "GlobalLock", "hwnd", $hMem)
+	Local $aResult = DllCall("kernel32.dll", "ptr", "GlobalLock", "handle", $hMem)
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_MemGlobalLock
 
@@ -166,9 +162,8 @@ EndFunc   ;==>_MemGlobalLock
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalSize($hMem)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "GlobalSize", "hwnd", $hMem)
+	Local $aResult = DllCall("kernel32.dll", "ulong_ptr", "GlobalSize", "handle", $hMem)
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_MemGlobalSize
 
@@ -186,9 +181,8 @@ EndFunc   ;==>_MemGlobalSize
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemGlobalUnlock($hMem)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "int", "GlobalUnlock", "hwnd", $hMem)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GlobalUnlock", "handle", $hMem)
+	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_MemGlobalUnlock
 
@@ -209,50 +203,24 @@ EndFunc   ;==>_MemGlobalUnlock
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemInit($hWnd, $iSize, ByRef $tMemMap)
-	Local $iAccess, $iAlloc, $pMemory, $hProcess, $iProcessID
+	Local $aResult = DllCall("User32.dll", "dword", "GetWindowThreadProcessId", "hwnd", $hWnd, "dword*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Local $iProcessID = $aResult[2]
+	If $iProcessID = 0 Then Return SetError(1, 0, 0)	; Invalid window handle
 
-	_WinAPI_GetWindowThreadProcessId($hWnd, $iProcessID)
-	If $iProcessID = 0 Then _MemShowError("_MemInit: Invalid window handle [0x" & Hex($hWnd) & "]")
+	Local $iAccess = BitOR($PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
+	Local $hProcess = __Mem_OpenProcess($iAccess, False, $iProcessID, True)
+	Local $iAlloc = BitOR($MEM_RESERVE, $MEM_COMMIT)
+	Local $pMemory = _MemVirtualAllocEx($hProcess, 0, $iSize, $iAlloc, $PAGE_READWRITE)
 
-	$iAccess = BitOR($__MEMORYCONSTANT_PROCESS_VM_OPERATION, $__MEMORYCONSTANT_PROCESS_VM_READ, $__MEMORYCONSTANT_PROCESS_VM_WRITE)
-	$hProcess = _WinAPI_OpenProcess($iAccess, False, $iProcessID, True)
-	; Thanks to jpm for his tip on using @OSType instead of @OSVersion
-	If @OSTYPE = "WIN32_WINDOWS"  Then
-		$iAlloc = BitOR($MEM_RESERVE, $MEM_COMMIT, $MEM_SHARED)
-		$pMemory = _MemVirtualAlloc(0, $iSize, $iAlloc, $PAGE_READWRITE)
-	Else
-		$iAlloc = BitOR($MEM_RESERVE, $MEM_COMMIT)
-		$pMemory = _MemVirtualAllocEx($hProcess, 0, $iSize, $iAlloc, $PAGE_READWRITE)
-	EndIf
+	If $pMemory = 0 Then Return SetError(2, 0, 0)	; Unable to allocate memory
 
-	If $pMemory = 0 Then _MemShowError("_MemInit: Unable to allocate memory")
 	$tMemMap = DllStructCreate($tagMEMMAP)
 	DllStructSetData($tMemMap, "hProc", $hProcess)
 	DllStructSetData($tMemMap, "Size", $iSize)
 	DllStructSetData($tMemMap, "Mem", $pMemory)
 	Return $pMemory
 EndFunc   ;==>_MemInit
-
-; #FUNCTION# ====================================================================================================================
-; Name...........: _MemMsgBox
-; Description ...: Displays a message box with wider margin than original
-; Syntax.........: _MemMsgBox($iFlags, $sTitle, $sText)
-; Parameters ....: $iFlags      - Flags to use during window creation
-;                  $sTitle      - Window title
-;                  $sText       - Window text
-; Return values .:
-; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
-; Remarks .......: This function produces (IMO) a better looking message box.  It also makes sure that BlockInput is  turned  off
-;                  so the user can move the mouse.
-; Related .......:
-; Link ..........:
-; Example .......:
-; ===============================================================================================================================
-Func _MemMsgBox($iFlags, $sTitle, $sText)
-	BlockInput(0)
-	MsgBox($iFlags, $sTitle, $sText & "      ")
-EndFunc   ;==>_MemMsgBox
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _MemMoveMemory
@@ -270,7 +238,8 @@ EndFunc   ;==>_MemMsgBox
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemMoveMemory($pSource, $pDest, $iLength)
-	DllCall("Kernel32.dll", "none", "RtlMoveMemory", "ptr", $pDest, "ptr", $pSource, "dword", $iLength)
+	DllCall("kernel32.dll", "none", "RtlMoveMemory", "ptr", $pDest, "ptr", $pSource, "ulong_ptr", $iLength)
+	If @error Then Return SetError(@error, @extended)
 EndFunc   ;==>_MemMoveMemory
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -291,31 +260,11 @@ EndFunc   ;==>_MemMoveMemory
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemRead(ByRef $tMemMap, $pSrce, $pDest, $iSize)
-	Local $iRead
-
-	Return _WinAPI_ReadProcessMemory(DllStructGetData($tMemMap, "hProc"), $pSrce, $pDest, $iSize, $iRead)
+	Local $aResult = DllCall("kernel32.dll", "bool", "ReadProcessMemory", "handle", DllStructGetData($tMemMap, "hProc"), _
+		"ptr", $pSrce, "ptr", $pDest, "ulong_ptr", $iSize, "ulong_ptr*", 0)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_MemRead
-
-; #FUNCTION# ====================================================================================================================
-; Name...........: _MemShowError
-; Description ...: Displays an error message box with an optional exit
-; Syntax.........: _MemShowError($sText[, $fExit = True])
-; Parameters ....: $sText       - Error text to display
-;                  $fExit       - Specifies whether to exit after the display:
-;                  | True - Exit program after display
-;                  |False - Return normally after display
-; Return values .:
-; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......:
-; ===============================================================================================================================
-Func _MemShowError($sText, $fExit = True)
-	_MemMsgBox(16 + 4096, "Error", $sText)
-	If $fExit Then Exit
-EndFunc   ;==>_MemShowError
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _MemWrite
@@ -336,11 +285,12 @@ EndFunc   ;==>_MemShowError
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemWrite(ByRef $tMemMap, $pSrce, $pDest = 0, $iSize = 0, $sSrce = "ptr")
-	Local $iWritten
-
 	If $pDest = 0 Then $pDest = DllStructGetData($tMemMap, "Mem")
 	If $iSize = 0 Then $iSize = DllStructGetData($tMemMap, "Size")
-	Return _WinAPI_WriteProcessMemory(DllStructGetData($tMemMap, "hProc"), $pDest, $pSrce, $iSize, $iWritten, $sSrce)
+	Local $aResult = DllCall("kernel32.dll", "bool", "WriteProcessMemory", "handle", DllStructGetData($tMemMap, "hProc"), _
+			"ptr", $pDest, $sSrce, $pSrce, "ulong_ptr", $iSize, "ulong_ptr*", 0)
+	If @error Then Return SetError(@error, @extended, False)
+	Return $aResult[0]
 EndFunc   ;==>_MemWrite
 
 ; #FUNCTION# ====================================================================================================================
@@ -374,10 +324,9 @@ EndFunc   ;==>_MemWrite
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualAlloc($pAddress, $iSize, $iAllocation, $iProtect)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "ptr", "VirtualAlloc", "ptr", $pAddress, "int", $iSize, "int", $iAllocation, "int", $iProtect)
-	Return SetError($aResult[0] = 0, 0, $aResult[0])
+	Local $aResult = DllCall("kernel32.dll", "ptr", "VirtualAlloc", "ptr", $pAddress, "ulong_ptr", $iSize, "dword", $iAllocation, "dword", $iProtect)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return $aResult[0]
 EndFunc   ;==>_MemVirtualAlloc
 
 ; #FUNCTION# ====================================================================================================================
@@ -411,10 +360,9 @@ EndFunc   ;==>_MemVirtualAlloc
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualAllocEx($hProcess, $pAddress, $iSize, $iAllocation, $iProtect)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "ptr", "VirtualAllocEx", "int", $hProcess, "ptr", $pAddress, "int", $iSize, "int", $iAllocation, "int", $iProtect)
-	Return SetError($aResult[0] = 0, 0, $aResult[0])
+	Local $aResult = DllCall("kernel32.dll", "ptr", "VirtualAllocEx", "handle", $hProcess, "ptr", $pAddress, "ulong_ptr", $iSize, "dword", $iAllocation, "dword", $iProtect)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return $aResult[0]
 EndFunc   ;==>_MemVirtualAllocEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -436,9 +384,8 @@ EndFunc   ;==>_MemVirtualAllocEx
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualFree($pAddress, $iSize, $iFreeType)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "ptr", "VirtualFree", "ptr", $pAddress, "int", $iSize, "int", $iFreeType)
+	Local $aResult = DllCall("kernel32.dll", "bool", "VirtualFree", "ptr", $pAddress, "ulong_ptr", $iSize, "dword", $iFreeType)
+	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_MemVirtualFree
 
@@ -462,8 +409,60 @@ EndFunc   ;==>_MemVirtualFree
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemVirtualFreeEx($hProcess, $pAddress, $iSize, $iFreeType)
-	Local $aResult
-
-	$aResult = DllCall("Kernel32.dll", "ptr", "VirtualFreeEx", "hwnd", $hProcess, "ptr", $pAddress, "int", $iSize, "int", $iFreeType)
+	Local $aResult = DllCall("kernel32.dll", "bool", "VirtualFreeEx", "handle", $hProcess, "ptr", $pAddress, "ulong_ptr", $iSize, "dword", $iFreeType)
+	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_MemVirtualFreeEx
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Mem_OpenProcess
+; Description ...: Returns a handle of an existing process object
+; Syntax.........: _WinAPI_OpenProcess($iAccess, $fInherit, $iProcessID[, $fDebugPriv = False])
+; Parameters ....: $iAccess     - Specifies the access to the process object
+;                  $fInherit    - Specifies whether the returned handle can be inherited
+;                  $iProcessID  - Specifies the process identifier of the process to open
+;                  $fDebugPriv  - Certain system processes can not be opened unless you have the  debug  security  privilege.  If
+;                  +True, this function will attempt to open the process with debug priviliges if the process can not  be  opened
+;                  +with standard access privileges.
+; Return values .: Success      - Process handle to the object
+; Author ........: Paul Campbell (PaulIA)
+; Modified.......: jpm
+; Remarks .......:
+; Related .......:
+; Link ..........: @@MsdnLink@@ OpenProcess
+; Example .......:
+; ===============================================================================================================================
+Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv=False)
+	; Attempt to open process with standard security priviliges
+	Local $aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return $aResult[0]
+	If Not $fDebugPriv Then Return 0
+
+	; Enable debug privileged mode
+	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
+	If @error Then Return SetError(@error, @extended, 0)
+	_Security__SetPrivilege($hToken, "SeDebugPrivilege", True)
+	Local $iError = @error
+	Local $iLastError = @extended
+	Local $iRet = 0
+	If Not @error Then
+		; Attempt to open process with debug privileges
+		$aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
+		$iError = @error
+		$iLastError = @extended
+		If $aResult[0] Then $iRet = $aResult[0]
+
+		; Disable debug privileged mode
+		_Security__SetPrivilege($hToken, "SeDebugPrivilege", False)
+		If @error Then
+			$iError = @error
+			$iLastError = @extended
+		EndIf
+	EndIf
+	DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hToken)
+	; No need to test @error.
+
+	Return SetError($iError,  $iLastError, $iRet)
+EndFunc   ;==>__Mem_OpenProcess
+

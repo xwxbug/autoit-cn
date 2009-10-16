@@ -2,6 +2,8 @@
 #include <Date.au3>
 #include <WindowsConstants.au3>
 
+; Under Vista the Windows API "SetTimeZoneInformation" may be rejected due to system security
+
 Global $iMemo
 
 _Main()
@@ -17,26 +19,29 @@ Func _Main()
 
 	; Show current time zone information
 	$aOld = _Date_Time_GetTimeZoneInformation ()
-	ShowTimeZoneInformation($aOld)
+	ShowTimeZoneInformation($aOld,"Current")
 
 	; Set new time zone information
-	_Date_Time_SetTimeZoneInformation ($aOld[1], "A3L CST", $aOld[3], $aOld[4], "A3L CDT", $aOld[6], $aOld[7])
+	If Not _Date_Time_SetTimeZoneInformation ($aOld[1], "A3L CST", $aOld[3], $aOld[4], "A3L CDT", $aOld[6], $aOld[7]) Then
+		MsgBox(4096, "Error", "System timezone cannot be SET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
+		Exit
+	EndIf
 
 	; Show new time zone information
 	$aNew = _Date_Time_GetTimeZoneInformation ()
-	ShowTimeZoneInformation($aNew)
+	ShowTimeZoneInformation($aNew, "New")
 
 	; Reset original time zone information
 	_Date_Time_SetTimeZoneInformation ($aOld[1], $aOld[2], $aOld[3], $aOld[4], $aOld[5], $aOld[6], $aOld[7])
 
 	; Show current time zone information
 	$aOld = _Date_Time_GetTimeZoneInformation ()
-	ShowTimeZoneInformation($aOld)
+	ShowTimeZoneInformation($aOld, "Reset")
 
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	
+
 EndFunc   ;==>_Main
 
 ; Write a line to the memo control
@@ -45,7 +50,8 @@ Func MemoWrite($sMessage)
 EndFunc   ;==>MemoWrite
 
 ; Show time zone information
-Func ShowTimeZoneInformation(ByRef $aInfo)
+Func ShowTimeZoneInformation(ByRef $aInfo, $comment)
+	MemoWrite("******************* " & $comment & " *******************")
 	MemoWrite("Result ............: " & $aInfo[0])
 	MemoWrite("Current bias ......: " & $aInfo[1])
 	MemoWrite("Standard name .....: " & $aInfo[2])
