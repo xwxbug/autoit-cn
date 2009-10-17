@@ -76,11 +76,11 @@ end
 --------------------------------------------------------
 -- Проверяет параметр на nil и если это так то возвращает default иначе возвращает сам параметр
 function ifnil(val, default)
-  if val == nil then
-    return default
-  else
-    return val
-  end
+	if val == nil then
+		return default
+	else
+		return val
+	end
 end
 
 --------------------------------------------------------

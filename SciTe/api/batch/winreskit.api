@@ -1,0 +1,135 @@
+# Windows Resource Kit API
+adlb /parameter:argument ... ;Active Directory Load Balancing Tool
+atmarp [/s] [/c] [/reset] ;Windows NT IP/ATM Information
+atmlane ;Windows ATM LAN Emulation Client Information
+cdburn <drive> -erase [image [options]]
+cdburn <drive> image [options]
+chknic ;Check all the Network Adaptors on the local machine whether they are supported by NLB.
+clearmem [/q] [/d] [/mNum] [/pNum] [/w] [/b][/tNum] ;Determines the size of the computer's physical memory, allocates enough data to fill it, and references the data as quickly as possible. 
+COMPRESS [-R] [-D] [-S] [ -Z | -ZX ] Source Destination
+COMPRESS -R [-D] [-S] [ -Z | -ZX ] Source [Destination]
+confdisk /save <SIF file to save configuration to>
+confdisk /restore <SIF file to restore configuration from>
+consume RESOURCE [-time SECONDS] ;Universal Resource Consumer - Just an innocent stress program.
+creatfil FileName [FileSize]
+csccmd /ENABLE
+csccmd /DISABLE
+csccmd /RESID
+csccmd /DISCONNECT:<\\server\share>
+csccmd /MOVESHARE:<\\server\share> <\\server\share>
+CustReasonEdit [/? | /i | /l | /e fn | /r fn][/s][/m host]
+DH [-p n | -p -1 | -p 0 [-k] [-o]] [-l] [-m] [-s] [-g] [-h] [-t] [r n][-f fileName]
+DISKRAID [[/s <file-path>] [/v]]
+diskuse <path> [switches]
+dvdburn <drive> <image> [/Erase] ;Write (burn) Digital Video Disk (DVD) images from image files located on the hard drive to Digital Video Disk (DVD) media.
+empty.exe {pid | task-name} ;Frees the working set of a specified task or process, making those page frames available for other processes.
+gpotool [/gpo:GPO[,GPO...]] [/domain:name] [/dc:DC[,DC...]] [/checkacl] [/verbose] ;Group Policy Object verification tool
+hlscan [/log [location]] ;Hard Link Display, scans the current volume.
+hlscan /all [/log [location]] ;Hard Link Display, scans all NTFS volumes on the local system.
+hlscan /dir <directory name> [/log [location]] ;Hard Link Display, scans recursively from <directory name>.
+hlscan /file <file names> [/log [location]] ;Hard Link Display, scans only files specified by <file names> (non recursively).
+ifilttst /i <input file>[...] [/ini <ini file>] [/l [<log file>]] [/d] [/-l] [/-d] [/legit] [/stress] [/v <verbosity>] [/t <threads>] [/r [<depth>]] [/c <loops>]
+ifmember [/verbose] [/list] groupname ... ;Show groups of which logged in user is a member.
+instexnt install [/interactive] ;Install the AutoExNT service
+instexnt remove ;Remove the AutoExNT service
+INSTSRV <service name> (<exe location> | REMOVE) [-a <Account Name>] [-p <Account Password>] ;Installs and removes system services from NT.
+KERNRATE [-l] [-lx] [-r] [-m] [-p ProcessId] [-z ModuleName] [-j SymbolPath] [-c RateInMsec] [-s Seconds] [-i [SrcShortName] Rate] ;Reports on kernel and user-mode processes to provide information about CPU activity.
+KERNRATE [-n ProcessName] [-w] ;Reports on kernel and user-mode processes to provide information about CPU activity.
+klist <tickets | tgt | purge> ;View and delete Kerberos tickets granted to the current logon session.
+LINKD Source [/D] Destination ;Links an NTFS directory to a target valid object name in Windows 2000.
+LINKSPEED { /S system | /DC } [/T value] ;Displays the link speed to the remote system.
+list [-s:string] [-g:line#] filename, ... ;Displays and searches one or more text files.
+LOGTIME "text string" ;Writes log file LOGTIME.LOG with date and time stamp next to the specified text string.
+lsreport [/F filename] [/D start [end]] [/T] [/W] [/?] [serverlist] ;Write information about licenses granted by Terminal Server License Servers.
+mcast /send /srcs:SourceAddress /grps:GroupAddress [/intvl:[PacketInterval]] [/numpkts:[NumberPackets]] [/ttl:[TimeToLive]] [/pktsize:[PacketSize]] [/intf:[InterfaceAddress]]
+mcast /recv /grps:GroupAddress [/dump:[packettype]] [/runtime:[Duration]] [/intf:[InterfaceAddress]]
+memmonitor [-p <pid> | -pn <name> | -ps <svc>] [-wait] [-nodbg] [-int <secs>] [-WS <value>] [-PPool <value>] [-NPPool <value>] [-VM <value>]
+MemTriage -m  LOGFILE ;Snapshot system and process information.
+MemTriage -p  LOGFILE ;Snapshot kernel pool information.
+MemTriage -mp LOGFILE ;Snapshot system, process, pool information.
+MemTriage -h  PID LOGFILE ;Snapshot process heap information.
+MemTriage -t  RETRY -w MINUTES ;Take R snapshot in every M minutes. Could be used together with -m, -p, -mp and -h.
+MemTriage -a  LOGFILE <-pid PID> ;Analyze a log for leaks. Specify PID if it's a heap snapshot.
+MemTriage -av LOGFILE ;Same as '-a' but generate a detailed report file
+mibcc [-?] [-e] [-l] [-n] [-o] [-t] -[w] [files...] ;Compiles the specified SNMP MIB files.
+nlsinfo ;Displays the information about a locale on the target system.
+NOW [message to be printed with time-stamp] ;Display Message with Current Date and Time
+ntimer [-1 -f -s] name-of-image [parameters]... ;Displays the Elapsed, Kernel, User and Idle time of the image specified in the command line.
+ntrights {-r Right | +r Right} -u UserOrGroup [-m \\Computer] [-e Entry] ;Grants/Revokes NT-Rights to a user/group.
+oh {+kst | -kst} {+otl | -otl} ;Show the handles of all open windows.
+oh [/p [ProcessID [/h]]] [/t TypeName] [/o FileName] [/a] [/s] [/u] [/v] [Name] ;Show the handles of all open windows.
+oh /c [/l] [/t] [/all] BeforeLog AfterLog ;Show the handles of all open windows.
+pathman [/as Path[;Path[Path ..]]] [/au Path[;Path[Path ..]]] [/rs Path[;Path[Path ..]]] [/ru Path[;Path[Path ..]]] ;Adds or removes components from system or user paths.
+permcopy \\SourceServer SourceShare \\DestinationServer DestinationShare ;Copies share-level permissions (Full Control, Read, Change) from one share to another.
+perms [Domain\|Computer\]UserName [Path\]FileName [/i] [/s] ;Displays user access permissions for a file or directory on an NTFS file system volume.
+pfmon [/n | /l] [/c | /h] [/k | /K] [/pProcessID] [/d] AppCommandLine ;Monitor page faults that occur while an application is running.
+pmon ;Displays several measures of the CPU and memory use of processes running on the system.
+PrintDriverInfo [/s: ServerName] [/p: PrinterName] [/d: DriverName] [/f: FileName] ;Display information about printer drivers.
+qgrep [-B] [-E] [-L] [-O] [-X] [-l] [-n] [-z] [-v] [-x] [-y] [-e String] [-f File] [-i File] [Strings] [Files] ;Search a file or list of files for a specific string or pattern and return the line containing the match.
+qtcp [/BNum] [/mNum] [/RNum] [/RNumB] [/e] [/M] [/lNum] [/nNum] [/nNums] [/ni] [/cNum] [/y] [/pNum] [/S{CL|GR}] [/W] [/v] [/F"FileName"] [/A"Path"] [/i] /t HostIPAddress ;Measures end-to-end network service quality for the sending host.
+qtcp [/f"FileName"] [/cNum] [/k{0|1|2|3}] [/d] [/N] [/P] [/u] [/qNum] [/S{CL|GR}] [/W] [/v] [/F"FileName"] [/A"Path"] /r ;Measures end-to-end network service quality for the receiving host.
+rassrvmon {/s:ServerName | /p:Svchost_Pid} [/t:TimeOffset] 
+Regfind [-m \\machinename | -h hivefile hiveroot | -w Win95 Directory] [-i n] [-o outputWidth] [-p RegistryKeyPath] [-z | -t DataType] [-b | -B] [-y] [-n] [searchString [-r ReplacementString]] 
+regini [-m \\machinename | -h hivefile hiveroot | -w Win95 Directory] [-i n] [-o outputWidth] [-b] textFiles...
+reportgen [/d:dd/mm/yy] [/t:hh:mm] [/f:minutes] [/c] [/p:{PPP|ARAP}] [/a] [/s]
+robocopy Source Destination [File [File]..] [options] ;Robust file copy, provides time-efficient maintenance of mirror images of large folder trees on network servers separated by slow or unreliable wide area network (WAN) links.
+rpccfg [/pi PortNumber | PortRange...] | [/pe PortNumber PortRange] [/d {0|1}] [/r] [/q] [/l] [/ha ComputerName {PortNumber | PortRange}] [/hr ComputerName] [/hd] [/hl FileName] [/hs FileName] ;Configures Microsoft Remote Procedure Call (RPC) to listen on specified ports.
+rpcdump [/s] [/v] [/i] [/p Protocol] ;Queries Remote Procedure Call (RPC) endpoints and reports on the status of RPC services on the system.
+rpcping [options];Troubleshoot connection problems between computers involving remote procedure calls (RPCs).
+rpings -p {namedpipes | tcpip | ipx/spx | netbios | vines} ;Server side RPC ping utility.
+rqc <ConnName> <TunnelConnName> <Port> <Domain> <Username> <String> ;Remote Access Quarantine Client
+rqs /run ;Remote Access Quarantine Server
+setprinter [/show] {\\server | \\server\printer | printer} {printer_info_level} [keyword="[- | +]value" ...] [{pause | resume | purge | setstatus}] ;Set configurations or states of local and remote printers.
+setprinter {/help | /examples} {printer_info_level}
+showacls [/s] [/u:Domain\User] [FileSpec] ;Enumerates access rights for files, folders, and trees.
+showpriv SeAssignPrimaryTokenPrivilege
+showpriv SeAuditPrivilege
+showpriv SeBackupPrivilege
+showpriv SeChangeNotifyPrivilege
+showpriv SeCreatePagefilePrivilege
+showpriv SeCreatePermanentPrivilege
+showpriv SeCreateTokenPrivilege
+showpriv SeDebugPrivilege
+showpriv SeEnableDelegationPrivilege
+showpriv SeIncreaseBasePriorityPrivilege
+showpriv SeIncreaseQuotaPrivilege
+showpriv SeLoadDriverPrivilege
+showpriv SeLockMemoryPrivilege
+showpriv SeMachineAccountPrivilege
+showpriv SeProfileSingleProcessPrivilege
+showpriv SeRemoteShutdownPrivilege
+showpriv SeRestorePrivilege
+showpriv SeSecurityPrivilege
+showpriv SeShutdownPrivilege
+showpriv SeSyncAgentPrivilege
+showpriv SeSystemEnvironmentPrivilege
+showpriv SeSystemProfilePrivilege
+showpriv SeSystemtimePrivilege
+showpriv SeTakeOwnershipPrivilege
+showpriv SeTcbPrivilege
+showpriv SeUndockPrivilege
+sleep time-to-sleep-in-seconds
+sleep [-m] time-to-sleep-in-milliseconds
+sleep [-c] commited-memory-ratio
+sonar [/i] [/s] [/npc] [/rpc] [/u] [file] ;Monitor key statistics and status about members of a file replication service (FRS) replica set.
+splinfo [/z] [/v] [/d] [\\UNC_Name] ;Displays information from the print spooler.
+srvany ;Enables 32-bit or 16-bit applications to run as services.
+srvcheck \\ComputerName ;Displays a list of server shares and who has access.
+SRVINFO [[-ns|-d|-v|-s] \\computer_name] ;Remotely gather information about a target server.
+SSDFormat [-h] <-d ShutdownDirectory> <-s XSLfile> [ -o OutputDirectory ]
+SubInAcl [/option...] /object_type object_name [[/action[=parameter]...]
+tail filename ;Print last 10 lines of file.
+tail [-n] filename ;Print last n lines of file.
+tail [-f] filename ;Print last 10 lines of file and keep checking for new lines.
+timeit [-f filename] [-a] [-c] [-i] [-d] [-s] [-t] [-k keyname | -r keyname] [-m mask] [commandline...]
+TIMETHIS "command" ;Command timing utility.
+timezone [/g | /s StartDate EndDate] ;Daylight Saving Time Update Utility.
+tsctst [/a] ;Terminal Server Client License Dump Tool.
+vadump [-sv] -p decimal_process_id ;Dump the address space.
+volperf /install ;Install shadow copy performance counters.
+volperf /uninstall ;Uninstall shadow copy performance counters.
+volrest [options] FileName ;Previous Version command-line tool.
+vrfydsk [volume[path]] [/V] [/I] [/C] ;Checks a disk and displays a status report.
+winhttpcertcfg [-i PFXFile | -g | -r | -l] [-a Account] [-c CertStore] [-s SubjectStr] [-p PFXPassword] ;WinHTTP Certificate Configuration Tool.
+winhttptracecfg ;WinHTTP Tracing Facility Configuration Tool.
+winhttptracecfg [-e <0|1>] [-l [log-file]] [-d <0|1>] [-s <0|1|2>] [-t <0|1>] [-m <MaxFileSize>] ;WinHTTP Tracing Facility Configuration Tool.

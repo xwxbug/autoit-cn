@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.X.X 第 X 汉化版
+程序版本:3.3.1.3 第一汉化版
 汉化作者:thesnoW
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,13 +14,93 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.X.X (2009-X-X) (第 X 汉化版)
-Autoit:
+
+3.3.1.3 (2009-10-X) (Beta) (第一汉化版)
+
+AutoIt:
+[G][*]修正: Hex() 不再崩溃.
+
+UDFs:
+[G][*]修正: #1215: _ArraySearch() 不能搜索 2D 数组.
+[G][*]修正: _Crypt_EncryptData() 文档与 _Crypt_EncryptFile 例子文本错误.
+[G][*]修正: GDIPlus 返回值.
+[G][*]修正: #1026: GDIPlus 位图例子与文档使用正确的方法释放资源.
+
+3.3.1.2 (2009-10-14) (Beta)
+AutoIt:
 [H][+]新增: 增加 插入数组的快速调试语言(by Sxd)
 [H][!]更新: 更新UPX到3.04版本.对压缩率没影响,只是修复bug.
+[G][+]新增: new type to DllCall and DllStruct to avoid confusion with MSDN description. That avoid specially X64 errors.
+[G][+]新增: #967: Ftp 通过代理能正常工作于 Inet 函数.
+[G][+]新增: #351: PixelSearch() 现在支持从右到左,从下向上搜索.
+[G][*]修改: AutoIt exit callback functions are called in reverse order of registration.
+[G][*]修改: AdlibUnRegister() now returns the count of remaining Adlib functions that are registered.
+[G][*]修改: AdlibUnRegister()'s function argument is now optional.  Called without arguments causes the last registered function to be unregistered.
+[G][*]修改: @YDAY 现在返回 001 - 366 代替 - 366.  它将更好和其它语言结合.  这是一个脚本破坏修改.
+[G][*]修改: #1080: InetGet background downloads now return immediately instead of connecting to the remote host first.
+[G][*]修改: #1137: RegEnumKey() and RegEnumVal() now correctly return an empty string on failure instead of an error message string.
+[G][*]修改: PixelChecksum() 可以计算从右到左,从下向上的校检和.
+[G][*]修正: #1013: MDI 子窗体不能自适应父窗口客户区. (Thanks monoceres)
+[G][*]修正: Crash due to unregistering an Adlib while an Adlib was firing.
+[G][*]修正: Adlib functions no longer dominate when more than one are registered.
+[G][*]修正: #1005: TraySetClick(64) = hovering. (Thanks timsky, MrCreatoR)
+[G][*]修正: #1049: InetRead() 插入任意空终止符.
+[G][*]修正: ClipPut("") 不为空.
+[G][*]修正: #1068: Binary 转 Int. (Thanks amel27)
+[G][*]修正: #1087: Checkbox or Radio repainting when mouse hovering.
+[G][*]修正: Bad painting on double GUICtrlSetPos() for label.
+[G][*]修正: #1094: Send("{LSHIFT UP}") 无法弹起按键. (Thanks nick.weltha)
+[G][*]修正: #1074: Inputbox() 坐标于多显示器. (Thanks partypooper)
+[G][*]修正: #1079: GUISetFont(), GUICrlSetFont() 文档链接不可用 #918
+[G][*]修正: #1105: disable colored Multiline button not properly displayed.
+[G][*]修正: #1077: GUICtrlSetBkColor() 错误着色. (Thanks Mulder)
+[G][*]修正: #1116: GUICtrlCreateGraphic don't follow ResizeMode.
+[G][*]修正: #1102: Better documentation of the StringInStr() count parameter.
+[G][*]修正: #1161: Removed all documentation references to ColorMode.
+[G][*]修正: #1156: AutoItSetOption()/Opt() now set @error instead of generating a fatal error with invalid input.
+[G][*]修正: #1093: StringFormat() beta regression for non latin chars
+[G][*]修正: Comparing pointers now works correctly.
+
 SCITE:
 [H][!]更新: scite部分代码才用scite-ru(一个俄罗斯修改版)
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.23
+
+AutoItX:
+[G][-]移除: 颜色模式选项从 AutoItSetOption() 中移除.
+
+Aut2Exe:
+[G][*]修正: #1036: Inet-相关函数编译不再出错.
+
+Au3Info:
+[G][-]移除: ColorMode BGR option removed since AutoIt no longer supports the option to use BGR mode.
+
+UDFs:
+[G][+]新增: GuiRichEdit 与函数
+[G][+]新增: _WinAPI_GetGuiResources()
+[G][+]新增: #981: _WinAPI_WideCharToMultiByte(), _WinAPI_MultiByteToWideChar() support IN/OUT as "strings"
+[G][+]新增: #1157: Encryption functions in Crypt.au3.
+[G][+]新增: #1128: _WinAPI_PathFindOnPath() in WinAPI.au3.
+[G][*]修正: #999: _GUICtrlTreeView_SetFocused documentation
+[G][*]修正: #1016: _WordDocSaveAs() Doc for error handling. (Thanks Volly)
+[G][*]修正: Sound positioning in case of VBR Format Sound. (Thanks Melba23, RazerM)
+[G][*]修正: #1031: _Clipboard_SetData() fix. (Thanks Ascend4nt)
+[G][*]修正: #1040: _ScreenCapture_Capture() leak memory. (Thanks rover)
+[G][*]修正: #1026: _Gdiplus_BitmapCreate*() doc examples. (Thanks wraithdu)
+[G][*]修正: #1092: _Timer_...() datatype for X64. (Thanks Ascend4nt)
+[G][*]修正: #1059: Incorrect error handling in _FileListToArray(). (Thanks Spiff59)
+[G][*]修正: #1101: _NowTime(), _NowDate() Doc. (Thanks danullman)
+[G][*]修正: _WinAPI_GetWindowLong(), _WinAPI_SetWindowLong support X64.
+[G][*]修正: #1111: Bad grammar in comments for _DateAdd().
+[G][*]修正: #1155: _WinAPI_CreateSolidBitmap() updated (Thanks Yashied)
+[G][*]修正: all includes use Unicode for Dllcall and SendMessage
+[G][*]修正: _WinAPI_Get/SetWindowLong under X64
+[G][*]修正: UDF library now uses #include "" instead of #include <>.
+[G][*]修正: #1033: UDF library now has better and more consistent error handling when DllCall() is used.
+[G][*]修改: _SQLite 3.6.14.2 -> 3.6.18
+[G][*]修改: _InetGetSource() 现在使用 InetRead().
+[G][-]移除: #1112: __WinAPI_Check() has been removed as have all calls to it.
+
+
 
 3.3.1.1 (2009-9-7) (第二汉化版)
 Autoit:

@@ -1,0 +1,40 @@
+command.compile
+compile.subsystem
+command.build
+build.subsystem
+build.directory
+command.go
+go.subsystem
+go.needs
+needs.subsystem
+
+command.name
+command.is
+is.filter
+command.subsystem
+command.save.before
+command.input
+command.replace.selection
+command.quiet
+command.mode
+command.shortcut
+
+filter:yes
+filter:no
+quiet:yes
+quiet:no
+replaceselection:yes
+replaceselection:no
+replaceselection:auto
+savebefore:yes
+savebefore:no
+savebefore:prompt
+subsystem:console - or 0
+subsystem:windows - or 1
+subsystem:shellexec - or 2
+subsystem:lua - or  3
+subsystem:director - or 3
+subsystem:htmlhelp - or 4
+subsystem:winhelp - or 5
+groupundo:yes
+groupundo:no

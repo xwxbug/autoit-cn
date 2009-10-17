@@ -1,7 +1,7 @@
 --[[--------------------------------------------------
 new_file.lua
-mozersЩ, VladVRO (при активном участии dB6)
-version 2.2
+mozersЩ, VladVRO, mhb
+version 3.0
 ----------------------------------------------
 «амен€ет стандартную команду SciTE "File|New" (Ctrl+N)
 —оздает новый буфер в текущем каталоге с расширением текущего файла
@@ -38,6 +38,18 @@ local function CreateUntitledFile()
 	until false
 end
 
+local saved_files = {}
+local function SaveUntitledFile()
+	if props['FileName']:find(scite.GetTranslation('Untitled'), 1, true)
+		and not saved_files[props['FilePath']] then
+			scite.MenuCommand(IDM_SAVEAS)
+			saved_files[props['FilePath']] = true
+			return true
+	else
+		return false
+	end
+end
+
 -- Add user event handler OnMenuCommand
 local old_OnMenuCommand = OnMenuCommand
 function OnMenuCommand (msg, source)
@@ -45,6 +57,8 @@ function OnMenuCommand (msg, source)
 	if old_OnMenuCommand then result = old_OnMenuCommand(msg, source) end
 	if msg == IDM_NEW then
 		if CreateUntitledFile() then return true end
+	elseif msg == IDM_SAVE then
+		if SaveUntitledFile() then return true end
 	end
 	return result
 end

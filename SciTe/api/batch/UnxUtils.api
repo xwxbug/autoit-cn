@@ -1,0 +1,136 @@
+# GNU Utilities for Win32 API
+agrep [-#cdehi[a|#]klnprstvwxyABDGIRS] [-f patternfile] [-H dir] pattern [files]; Approximate Pattern Matching GREP -- Get Regular Expression
+ansi2knr input_file [output_file]
+basename PATH [SUFFIX]
+bison [OPTION]... grammar-file
+bunzip2 [OPTION]... [FILE]... ;A block-sorting file decompressor.
+bzip2 [OPTION]... [FILE]... ;A block-sorting file compressor.
+bzip2recover damaged_file_name ;Extracts blocks from damaged .bz2 files.
+cat [OPTION]... [FILE]... ;Concatenate FILE(s), or standard input, to standard output.
+chgrp [OPTION]... GROUP FILE... ;Change the group membership of each FILE to GROUP. 
+chmod [OPTION]... MODE[,MODE]... FILE...
+chown [OPTION]... OWNER[.[GROUP]] FILE... ;Change the owner and/or group of each FILE to OWNER and/or GROUP.
+chown [OPTION]... [GROUP] FILE... ;Change the owner and/or group of each FILE to OWNER and/or GROUP.
+cksum [FILE]... ;Print CRC checksum and byte counts of each FILE.
+cmp [OPTION]... FILE1 [FILE2] ;Compare two files.
+comm [OPTION]... LEFT_FILE RIGHT_FILE ;Compare sorted files LEFT_FILE and RIGHT_FILE line by line.
+compress [OPTION]... [file ...]
+cp [OPTION]... SOURCE DEST ;Copy SOURCE to DEST.
+cp [OPTION]... SOURCE... DIRECTORY ;Copy multiple SOURCE(s) to DIRECTORY.
+csplit [OPTION]... FILE PATTERN... ;Output pieces of FILE separated by PATTERN(s) to files `xx01', `xx02', ..., and output byte counts of each piece to standard output.
+cut [OPTION]... [FILE]... ;Print selected parts of lines from each FILE to standard output.
+date [OPTION]... [+FORMAT] ;Display the current time in the given FORMAT
+date [OPTION]... [MMDDhhmm[[CCYY][.ss]] ;Set the system date.
+dc [--expression=EXPR] [--file=FILE] [FILE]...
+dd [OPTION]... [FILE] ;Copy a file, converting and formatting according to the options.
+df [OPTION]... [FILE]... ;Show information about the filesystem on which each FILE resides, or all filesystems by default.
+diff [OPTION]... FILE1 FILE2 ;Show differences between FILE1 and FILE2.
+diff3 [OPTION]... MYFILE OLDFILE YOURFILE ;Show differences between MYFILE, OLDFILE and YOURFILE.
+dircolors [OPTION]... [FILE] ;Output commands to set the LS_COLORS environment variable.
+dirname NAME ;Print NAME with its trailing /component removed; if NAME contains no /'s, output `.' (meaning the current directory).
+du [OPTION]... [FILE]... ;Summarize disk usage of each FILE, recursively for directories.
+echo [OPTION]... [STRING]...; Write text to standard out.
+egrep [OPTION]... PATTERN [FILE] ... ;Search for PATTERN in each FILE or standard input; PATTERN is an extended regular expression.
+env [OPTION]... [-] [NAME=VALUE]... [COMMAND [ARG]...]
+expand [OPTION]... [FILE]... ;Convert tabs in each FILE to spaces, writing to standard output.
+expr EXPRESSION ;Evaluate an expression.
+factor [NUMBER]... ;Print factors of each NUMBER.
+fgrep [OPTION]... PATTERN [FILE] ... ;Search for PATTERN in each FILE or standard input; PATTERN is a set of newline-separated strings.
+find [path...] [expression]
+flex [-bcdfhilnpstvwBFILTV78+? -C[aefFmr] -ooutput -Pprefix -Sskeleton]
+fmt [-DIGITS] [OPTION]... [FILE]... ;Reformat each paragraph in the FILE(s), writing to standard output.
+fold [OPTION]... [FILE]... ;Wrap input lines in each FILE (standard input by default), writing to standard output.
+fsplit
+gawk [POSIX or GNU style options] -f progfile [--] file ...
+gawk [POSIX or GNU style options] [--] "program" file ...
+gclip ;Get Windows clipboard text from stdin.
+gplay
+grep [OPTION]... PATTERN [FILE] ... ;Search for PATTERN in each FILE or standard input.
+gsar [options] [infile(s)] [outfile]
+gunzip [-acdfhlLnNrtvV19] [-S suffix] [file ...] ;Decompress a file.
+gzip [-acdfhlLnNrtvV19] [-S suffix] [file ...] ;Compress a file.
+head [OPTION]... [FILE]... ;Print first 10 lines of each FILE to standard output.
+id [OPTION]... [USERNAME]
+indent file [-o outfile ] [ options ]
+indent file1 file2 ... fileN [ options ]
+install [OPTION]... SOURCE DEST ;Copy SOURCE to DEST, while setting permission modes and owner/group.
+install [OPTION]... SOURCE... DIRECTORY ;Copy multiple SOURCE(s) to DIRECTORY, while setting permission modes and owner/group.
+install -d [OPTION]... DIRECTORY... ;Make all components of the given DIRECTORY(ies).
+join [OPTION]... FILE1 FILE2 ;For each pair of input lines with identical join fields, write a line to standard output.
+jwhois [OPTIONS] [QUERY]
+less ;Browse a file.
+lesskey [-o output] [input]
+ln [OPTION]... SOURCE [DEST] ;Link SOURCE to DEST.
+ln [OPTION]... SOURCE... DIRECTORY; Link multiple SOURCE(s) to DIRECTORY.
+logname ;Display user account name.
+ls [OPTION]... [FILE]... ;List information about the FILEs (the current directory by default).
+m4 [OPTION]... [FILE]... ;
+make [options] [target] ...
+makedepend
+makemsg
+man man [-adfhktwW] [section] [-M path] [-P pager] [-S list] [-m system] [-p string] name ...
+md5sum [OPTION] [FILE]... ;Print MD5 checksums.
+md5sum [OPTION] --check [FILE] ;Check MD5 checksums.
+mkdir [OPTION] DIRECTORY... ;Create the DIRECTORY(ies), if they do not already exist.
+mkfifo
+mknod [OPTION]... NAME TYPE [MAJOR MINOR] ;Create the special file NAME of the given TYPE.
+mv [OPTION]... SOURCE DEST ;Rename SOURCE to DEST.
+mv [OPTION]... SOURCE... DIRECTORY ;Move SOURCE(s) to DIRECTORY.
+mvdir [OPTION]... EXISTING_DIR NEW_DIR ;Rename EXISTING_DIR to NEW_DIR.
+nl [OPTION]... [FILE]... ;Write each FILE to standard output, with line numbers added.
+od [OPTION]... [FILE]... ; Write an unambiguous representation, octal bytes by default, of FILE to standard output.
+od --traditional [FILE] [[+]OFFSET [[+]LABEL]] ;Write an unambiguous representation, octal bytes by default, of FILE to standard output.
+paste [OPTION]... [FILE]... ;Write lines consisting of the sequentially corresponding lines from each FILE, separated by TABs, to standard output.
+patch [OPTION]... [ORIGFILE [PATCHFILE]]
+pathchk [OPTION]... PATH...
+pclip ;Put the Windows clipboard text to stdout.
+pr [OPTION]... [FILE]... ;Paginate or columnate FILE(s) for printing.
+printenv [OPTION]... [VARIABLE]... ;Display environment variables.
+printf FORMAT [ARGUMENT]... ;Print ARGUMENT(s); FORMAT controls the output as in C printf.
+ptx [OPTION]... [INPUT]...   (without -G) ;Output a permuted index, including context, of the words in the input files.
+ptx -G [OPTION]... [INPUT [OUTPUT]] ;Output a permuted index, including context, of the words in the input files.
+pwd ;Print working directory
+recode [OPTION]... [ [CHARSET] | REQUEST [FILE]... ] ;Free `recode' converts files between various character sets and surfaces.
+rm [OPTION]... FILE... ;Remove (unlink) the FILE(s).
+rman
+rmdir [OPTION]... DIRECTORY... ;Remove the DIRECTORY(ies), if they are empty.
+sdiff [OPTIONS]... FILE1 FILE2
+sed [OPTION]... {script-only-if-no-other-script} [input-file]...
+seq [OPTION]... LAST ;Print numbers from FIRST (default 1) to LAST, moving by STEP (default 1).
+seq [OPTION]... FIRST LAST ;Print numbers from FIRST (default 1) to LAST, moving by STEP (default 1).
+seq [OPTION]... FIRST INCREMENT LAST ;Print numbers from FIRST (default 1) to LAST, moving by STEP (default 1).
+sha1sum [OPTION] [FILE]... ;Print SHA1 (160-bit) checksums.
+sha1sum [OPTION] --check [FILE] ;Check SHA1 (160-bit) checksums.
+shar [OPTION]... [FILE]...
+sleep [OPTION]... NUMBER[SUFFIX] ;Pause for a duration.
+sort [OPTION]... [FILE]... ;Write sorted concatenation of all FILE(s) to standard output.
+split [OPTION] [INPUT [PREFIX]] ;Output fixed-size pieces of INPUT to PREFIXaa, PREFIXab, ...; default PREFIX is `x'.
+stego
+su [OPTION]... [-] [USER [ARG]...]
+sum [OPTION]... [FILE]... ;Print checksum and block counts for each FILE.
+sync ;Force changed blocks to disk, update the super block.
+tac [OPTION]... [FILE]... ;Write each FILE to standard output, last line first.
+tail [OPTION]... [FILE]... ;Print the last 10 lines of each FILE to standard output. With more than one FILE, precede each with a header giving the file name.
+tar [OPTION]... [FILE]... ;Saves many files together into a single tape or disk archive, and can restore individual files from the archive.
+tee [OPTION]... [FILE]...
+test EXPRESSION
+touch [OPTION]... FILE... ;Update the access and modification times of each FILE to the current time.
+tr [OPTION]... SET1 [SET2] ;Translate, squeeze, and/or delete characters from standard input, writing to standard output.
+tsort [OPTION] [FILE] ;Write totally ordered list consistent with the partial ordering in FILE.
+type program
+uname [OPTION]...
+unexpand [OPTION]... [FILE]... ;Convert spaces in each FILE to tabs, writing to standard output.
+uniq [OPTION]... [INPUT [OUTPUT]] ;Discard all but one of successive identical lines from INPUT (or standard input), writing to OUTPUT (or standard output).
+unrar <command> -<switch 1> -<switch N> <archive> <files...> <@listfiles...> <path_to_extract\>
+unshar [OPTION]... [FILE]... ;
+unzip [-Z] [-opts[modifiers]] file[.zip] [list] [-x xlist] [-d exdir]
+uudecode [FILE]...
+uuencode [INFILE] REMOTEFILE
+wc [OPTION]... [FILE]... ;Print line, word, and byte counts for each FILE, and a total line if more than one FILE is specified.
+wget [OPTION]... [URL]...
+which [options] [--] programname [...]
+whoami ;Display logged in user name.
+xargs
+yes [STRING]... ;Repeat STRING to standard out, forever. If no STRING, assumem 'y'.
+zcat [-acdfhlLnNrtvV19] [-S suffix] [file ...]; Compress/decompress files.
+zip [-options] [-b path] [-t mmddyyyy] [-n suffixes] [zipfile list] [-xi list]; Add files to zip archive.

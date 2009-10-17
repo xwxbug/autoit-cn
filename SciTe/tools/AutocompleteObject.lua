@@ -1,7 +1,7 @@
 --[[--------------------------------------------------
 AutocompleteObject.lua
 mozersЩ, Tymur Gubayev
-version 3.10.3
+version 3.10.4
 ------------------------------------------------------
 Inputting of the symbol set in autocomplete.[lexer].start.characters causes the popup list of properties and methods of input_object. They undertake from corresponding api-file.
 In the same case inputting of a separator changes the case of symbols in input_object's name according to a api-file.
@@ -325,9 +325,13 @@ end
 -- ѕоказываем раскрывающийс€ список "методов"
 local function ShowUserList()
 	if #methods_table == 0 then return false end
-	local s = table.concat(methods_table, " ")
-	if s == '' then return false end
-	editor:UserListShow(7, s)
+	local sep = 'Х' -- разделитель дл€ строки раскрывающегос€ списка
+	local methods_list = table.concat(methods_table, sep)
+	if methods_list == '' then return false end
+	local sep_tmp = editor.AutoCSeparator
+	editor.AutoCSeparator = string.byte(sep)
+	editor:UserListShow(7, methods_list)
+	editor.AutoCSeparator = sep_tmp
 	return true
 end
 
