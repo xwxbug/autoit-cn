@@ -20,6 +20,9 @@ autoit工具箱提供了安装卸载功能.
 AutoIt:
 [G][*]修正: Hex() 不再崩溃.
 
+ADF:
+[H][+]新增: Access 相关操作的 ADF.
+
 UDFs:
 [G][*]修正: #1215: _ArraySearch() 不能搜索 2D 数组.
 [G][*]修正: _Crypt_EncryptData() 文档与 _Crypt_EncryptFile 例子文本错误.
@@ -30,7 +33,7 @@ UDFs:
 AutoIt:
 [H][+]新增: 增加 插入数组的快速调试语言(by Sxd)
 [H][!]更新: 更新UPX到3.04版本.对压缩率没影响,只是修复bug.
-[G][+]新增: new type to DllCall and DllStruct to avoid confusion with MSDN description. That avoid specially X64 errors.
+[G][+]新增: 新的 DllCall 和 DllStruct 类型,避免和 MSDN 描述混淆. 特别是 X64 错误.
 [G][+]新增: #967: Ftp 通过代理能正常工作于 Inet 函数.
 [G][+]新增: #351: PixelSearch() 现在支持从右到左,从下向上搜索.
 [G][*]修改: AutoIt exit callback functions are called in reverse order of registration.
@@ -41,28 +44,28 @@ AutoIt:
 [G][*]修改: #1137: RegEnumKey() and RegEnumVal() now correctly return an empty string on failure instead of an error message string.
 [G][*]修改: PixelChecksum() 可以计算从右到左,从下向上的校检和.
 [G][*]修正: #1013: MDI 子窗体不能自适应父窗口客户区. (Thanks monoceres)
-[G][*]修正: Crash due to unregistering an Adlib while an Adlib was firing.
+[G][*]修正: 当一个Adlib函数正在运行时进行反注册可能导致的崩溃.
 [G][*]修正: Adlib functions no longer dominate when more than one are registered.
 [G][*]修正: #1005: TraySetClick(64) = hovering. (Thanks timsky, MrCreatoR)
 [G][*]修正: #1049: InetRead() 插入任意空终止符.
 [G][*]修正: ClipPut("") 不为空.
 [G][*]修正: #1068: Binary 转 Int. (Thanks amel27)
-[G][*]修正: #1087: Checkbox or Radio repainting when mouse hovering.
-[G][*]修正: Bad painting on double GUICtrlSetPos() for label.
+[G][*]修正: #1087: Checkbox 或者 Radio 控件在鼠标经过后进行重绘.
+[G][*]修正: 标签控件上双 GUICtrlSetPos() 错误绘图.
 [G][*]修正: #1094: Send("{LSHIFT UP}") 无法弹起按键. (Thanks nick.weltha)
 [G][*]修正: #1074: Inputbox() 坐标于多显示器. (Thanks partypooper)
 [G][*]修正: #1079: GUISetFont(), GUICrlSetFont() 文档链接不可用 #918
-[G][*]修正: #1105: disable colored Multiline button not properly displayed.
+[G][*]修正: #1105: 禁用着色的多行按钮不能正常的显示.
 [G][*]修正: #1077: GUICtrlSetBkColor() 错误着色. (Thanks Mulder)
-[G][*]修正: #1116: GUICtrlCreateGraphic don't follow ResizeMode.
-[G][*]修正: #1102: Better documentation of the StringInStr() count parameter.
-[G][*]修正: #1161: Removed all documentation references to ColorMode.
-[G][*]修正: #1156: AutoItSetOption()/Opt() now set @error instead of generating a fatal error with invalid input.
-[G][*]修正: #1093: StringFormat() beta regression for non latin chars
-[G][*]修正: Comparing pointers now works correctly.
+[G][*]修正: #1116: GUICtrlCreateGraphic 不跟随 ResizeMode (可改变大小)模式.
+[G][*]修正: #1102: 更好的文档说明 StringInStr() 计数参数.
+[G][*]修正: #1161: 移除所有关于颜色模式的文档(注:采用RGB颜色,弃用Autoit v2使用的GBR颜色).
+[G][*]修正: #1156: AutoItSetOption()/Opt() 现在设置 @error 代替无效输入产生的失败错误.
+[G][*]修正: #1093: StringFormat() 测试非拉丁字符
+[G][*]修正: 比较指针(pointers)现在工作正确.
 
 SCITE:
-[H][!]更新: scite部分代码才用scite-ru(一个俄罗斯修改版)
+[H][!]更新: scite部分代码采用scite-ru(一个俄罗斯修改版)
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.23
 
 AutoItX:
