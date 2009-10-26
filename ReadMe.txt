@@ -66,6 +66,7 @@ AutoIt:
 
 SCITE:
 [H][!]更新: scite部分代码采用scite-ru(一个俄罗斯修改版)
+[G][!]更新: 更新tidy为2.0.28.7
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.23
 
 AutoItX:
