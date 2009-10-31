@@ -1,5 +1,5 @@
 <html><head>
-<meta http-equiv=Content-Type Content="text-html; charset=windows-1251">
+<meta http-equiv=Content-Type Content="text-html; charset=UTF-8">
 <meta http-equiv=MSThemeCompatible Content=Yes>
 <hta:application
 id=SWI
@@ -14,7 +14,7 @@ contextMenu=no
 singleinstance=yes
 version=3.3
 >
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
 	body, td, input {
 		font:normal normal 6pt MS Sans Serif;
@@ -92,7 +92,7 @@ function Locale(lng){
 					// Set Russian
 					text = text.replace(re, '$2');
 				} else {
-					alert("Русификация интерфейса SciTE невозможна ввиду отсутствия файла\n" + scite_path + "\\locale-ru.properties");
+					alert("Р СѓСЃРёС„РёРєР°С†РёСЏ РёРЅС‚РµСЂС„РµР№СЃР° SciTE РЅРµРІРѕР·РјРѕР¶РЅР° РІРІРёРґСѓ РѕС‚СЃСѓС‚СЃС‚РІРёСЏ С„Р°Р№Р»Р°\n" + scite_path + "\\locale-ru.properties");
 					return false;
 				}
 			};
@@ -137,35 +137,35 @@ function SetInterfaceLng(lng){
 		open_with_scite_locale = "Open with &SciTE";
 
 	}else{
-		lng_legend.innerHTML = "&nbsp;Язык интерфейса:&nbsp;";
-		lng_help[0].innerHTML = "Сменить интерфейс этого приложения<br>Интерфейс SciTE изменится после перезапуска";
+		lng_legend.innerHTML = "&nbsp;РЇР·С‹Рє РёРЅС‚РµСЂС„РµР№СЃР°:&nbsp;";
+		lng_help[0].innerHTML = "РЎРјРµРЅРёС‚СЊ РёРЅС‚РµСЂС„РµР№СЃ СЌС‚РѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ<br>РРЅС‚РµСЂС„РµР№СЃ SciTE РёР·РјРµРЅРёС‚СЃСЏ РїРѕСЃР»Рµ РїРµСЂРµР·Р°РїСѓСЃРєР°";
 		lng_help[1].innerHTML = lng_help[0].innerHTML;
-		lng_label[0].innerHTML = "Английский";
-		lng_label[1].innerHTML = "Русский";
+		lng_label[0].innerHTML = "РђРЅРіР»РёР№СЃРєРёР№";
+		lng_label[1].innerHTML = "Р СѓСЃСЃРєРёР№";
 
-		explorer_legend.innerHTML = "&nbsp;Интеграция в Проводник:&nbsp;";
-		explorer_text.innerHTML = "&nbsp;Связать файлы заданных расширений с SciTE:";
-		explorer_help[0].innerHTML = "Позволяет открывать в SciTE файлы ассоциированных типов<br>с помощью двойного клика мыши";
-		explorer_help[1].innerHTML = "Позволяет открывать в SciTE любые выбранные файлы";
-		explorer_label[0].innerHTML = 'Добавить SciTE в контекстное меню "Отправить"';
-		explorer_help[2].innerHTML = "Позволяет открывать сохраненные ранее сессиии SciTE";
-		explorer_label[1].innerHTML = 'Открывать файлы *.session как файлы сессий SciTE';
+		explorer_legend.innerHTML = "&nbsp;РРЅС‚РµРіСЂР°С†РёСЏ РІ РџСЂРѕРІРѕРґРЅРёРє:&nbsp;";
+		explorer_text.innerHTML = "&nbsp;РЎРІСЏР·Р°С‚СЊ С„Р°Р№Р»С‹ Р·Р°РґР°РЅРЅС‹С… СЂР°СЃС€РёСЂРµРЅРёР№ СЃ SciTE:";
+		explorer_help[0].innerHTML = "РџРѕР·РІРѕР»СЏРµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ РІ SciTE С„Р°Р№Р»С‹ Р°СЃСЃРѕС†РёРёСЂРѕРІР°РЅРЅС‹С… С‚РёРїРѕРІ<br>СЃ РїРѕРјРѕС‰СЊСЋ РґРІРѕР№РЅРѕРіРѕ РєР»РёРєР° РјС‹С€Рё";
+		explorer_help[1].innerHTML = "РџРѕР·РІРѕР»СЏРµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ РІ SciTE Р»СЋР±С‹Рµ РІС‹Р±СЂР°РЅРЅС‹Рµ С„Р°Р№Р»С‹";
+		explorer_label[0].innerHTML = 'Р”РѕР±Р°РІРёС‚СЊ SciTE РІ РєРѕРЅС‚РµРєСЃС‚РЅРѕРµ РјРµРЅСЋ "РћС‚РїСЂР°РІРёС‚СЊ"';
+		explorer_help[2].innerHTML = "РџРѕР·РІРѕР»СЏРµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ СЃРѕС…СЂР°РЅРµРЅРЅС‹Рµ СЂР°РЅРµРµ СЃРµСЃСЃРёРёРё SciTE";
+		explorer_label[1].innerHTML = 'РћС‚РєСЂС‹РІР°С‚СЊ С„Р°Р№Р»С‹ *.session РєР°Рє С„Р°Р№Р»С‹ СЃРµСЃСЃРёР№ SciTE';
 
-		ie_legend.innerHTML = "&nbsp;Интеграция в Internet Explorer:&nbsp;";
-		ie_help[0].innerHTML = "Выбор пункта меню Internet Explorer \'<cite>Просмотр HTML кода</cite>\'<br>откроет текущую страницу в SciTE";
-		ie_label[0].innerHTML = "Установить SciTE в качестве дефолтового HTML редактора";
-		ie_help[1].innerHTML = "На панели инструментов Internet Explorer можно установить кнопку \'<cite>Правка</cite>\'.<br>Данная опция добавит в меню этой кнопки пункт \'<cite>Править в SciTE</cite>\'";
-		ie_label[1].innerHTML = 'SciTE в качестве одного из редакторов в меню кнопки "Правка"';
+		ie_legend.innerHTML = "&nbsp;РРЅС‚РµРіСЂР°С†РёСЏ РІ Internet Explorer:&nbsp;";
+		ie_help[0].innerHTML = "Р’С‹Р±РѕСЂ РїСѓРЅРєС‚Р° РјРµРЅСЋ Internet Explorer \'<cite>РџСЂРѕСЃРјРѕС‚СЂ HTML РєРѕРґР°</cite>\'<br>РѕС‚РєСЂРѕРµС‚ С‚РµРєСѓС‰СѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РІ SciTE";
+		ie_label[0].innerHTML = "РЈСЃС‚Р°РЅРѕРІРёС‚СЊ SciTE РІ РєР°С‡РµСЃС‚РІРµ РґРµС„РѕР»С‚РѕРІРѕРіРѕ HTML СЂРµРґР°РєС‚РѕСЂР°";
+		ie_help[1].innerHTML = "РќР° РїР°РЅРµР»Рё РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ Internet Explorer РјРѕР¶РЅРѕ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РєРЅРѕРїРєСѓ \'<cite>РџСЂР°РІРєР°</cite>\'.<br>Р”Р°РЅРЅР°СЏ РѕРїС†РёСЏ РґРѕР±Р°РІРёС‚ РІ РјРµРЅСЋ СЌС‚РѕР№ РєРЅРѕРїРєРё РїСѓРЅРєС‚ \'<cite>РџСЂР°РІРёС‚СЊ РІ SciTE</cite>\'";
+		ie_label[1].innerHTML = 'SciTE РІ РєР°С‡РµСЃС‚РІРµ РѕРґРЅРѕРіРѕ РёР· СЂРµРґР°РєС‚РѕСЂРѕРІ РІ РјРµРЅСЋ РєРЅРѕРїРєРё "РџСЂР°РІРєР°"';
 
-		win_legend.innerHTML = "&nbsp;Интеграция в Windows:&nbsp;";
-		win_help.innerHTML = "C помощью <cite>SciTE.Helper</cite> внешние скрипты и программы<br>смогут управлять SciTE и получать из него данные";
-		win_label.innerHTML = "Установить SciTE.Helper (COM-сервер для управления SciTE)";
+		win_legend.innerHTML = "&nbsp;РРЅС‚РµРіСЂР°С†РёСЏ РІ Windows:&nbsp;";
+		win_help.innerHTML = "C РїРѕРјРѕС‰СЊСЋ <cite>SciTE.Helper</cite> РІРЅРµС€РЅРёРµ СЃРєСЂРёРїС‚С‹ Рё РїСЂРѕРіСЂР°РјРјС‹<br>СЃРјРѕРіСѓС‚ СѓРїСЂР°РІР»СЏС‚СЊ SciTE Рё РїРѕР»СѓС‡Р°С‚СЊ РёР· РЅРµРіРѕ РґР°РЅРЅС‹Рµ";
+		win_label.innerHTML = "РЈСЃС‚Р°РЅРѕРІРёС‚СЊ SciTE.Helper (COM-СЃРµСЂРІРµСЂ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ SciTE)";
 
-		form.btn_cancel.value = "Отмена";
-		form.btn_about.value = "О программе";
+		form.btn_cancel.value = "РћС‚РјРµРЅР°";
+		form.btn_about.value = "Рћ РїСЂРѕРіСЂР°РјРјРµ";
 
-		alert_msvbvm50_locale = '<b>SciTE.Helper</b> <font color=red>не был зарегистрирован</font> в Вашей системе,<br>поскольку для его работы необходим <a href="http://www.google.com/search?q=MSVBVM50.DLL" target="_blank"><b>MSVBVM50.DLL</b></a>.<br><br>Подробности изложены в <a href="http://code.google.com/p/scite-ru/issues/detail?id=62" target="_blank"><b>Issue 62</b></a>';
-		open_with_scite_locale = "Открыть в &SciTE";
+		alert_msvbvm50_locale = '<b>SciTE.Helper</b> <font color=red>РЅРµ Р±С‹Р» Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ</font> РІ Р’Р°С€РµР№ СЃРёСЃС‚РµРјРµ,<br>РїРѕСЃРєРѕР»СЊРєСѓ РґР»СЏ РµРіРѕ СЂР°Р±РѕС‚С‹ РЅРµРѕР±С…РѕРґРёРј <a href="http://www.google.com/search?q=MSVBVM50.DLL" target="_blank"><b>MSVBVM50.DLL</b></a>.<br><br>РџРѕРґСЂРѕР±РЅРѕСЃС‚Рё РёР·Р»РѕР¶РµРЅС‹ РІ <a href="http://code.google.com/p/scite-ru/issues/detail?id=62" target="_blank"><b>Issue 62</b></a>';
+		open_with_scite_locale = "РћС‚РєСЂС‹С‚СЊ РІ &SciTE";
 	}
 }
 
@@ -349,7 +349,7 @@ function UnSetHTML(){
 }
 
 // =============================================================
-// Окно "msvbvm50.dll"
+// РћРєРЅРѕ "msvbvm50.dll"
 function AlertMSVBVM50() {
 	var html = '<html><head>';
 	html += '<title>SciTE.Helper Install Error<\/title>';
@@ -395,7 +395,7 @@ function UnSetHelper(){
 }
 
 // =============================================================
-// Установка регистрации
+// РЈСЃС‚Р°РЅРѕРІРєР° СЂРµРіРёСЃС‚СЂР°С†РёРё
 function SetValue(id){
 	switch(id){
 	case "chk_associations":
@@ -413,7 +413,7 @@ function SetValue(id){
 	}
 }
 
-// Снятие регистрации
+// РЎРЅСЏС‚РёРµ СЂРµРіРёСЃС‚СЂР°С†РёРё
 function UnSetValue(id){
 	switch(id){
 	case "chk_associations":
@@ -431,8 +431,8 @@ function UnSetValue(id){
 	}
 }
 
-// После нажатия на "ОК" проверяем, изменил ли пользователь установки
-// и выполняем только те позиции, в которых состояние чекбоксов изменилось
+// РџРѕСЃР»Рµ РЅР°Р¶Р°С‚РёСЏ РЅР° "РћРљ" РїСЂРѕРІРµСЂСЏРµРј, РёР·РјРµРЅРёР» Р»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓСЃС‚Р°РЅРѕРІРєРё
+// Рё РІС‹РїРѕР»РЅСЏРµРј С‚РѕР»СЊРєРѕ С‚Рµ РїРѕР·РёС†РёРё, РІ РєРѕС‚РѕСЂС‹С… СЃРѕСЃС‚РѕСЏРЅРёРµ С‡РµРєР±РѕРєСЃРѕРІ РёР·РјРµРЅРёР»РѕСЃСЊ
 function Set(){
 	// --------------------------------
 	if (form.chk_lng[0].checked){
@@ -454,7 +454,7 @@ function Set(){
 }
 
 // =============================================================
-// Окно "О программе"
+// РћРєРЅРѕ "Рћ РїСЂРѕРіСЂР°РјРјРµ"
 function About() {
 	var ver = SWI.version;
 	var text = '<html><head>';
@@ -470,7 +470,7 @@ function About() {
 }
 
 // =============================================================
-// Инициализация формы
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С„РѕСЂРјС‹
 function CheckSciTE(scite_path){
 	if (fso.FileExists(scite_path + "\\SciTE.exe")){
 		return true;
