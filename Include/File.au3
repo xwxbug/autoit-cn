@@ -162,7 +162,8 @@ Func _FilePrint($s_File, $i_Show = @SW_HIDE)
 			"wstr", "", _
 			"wstr", "", _
 			"int", $i_Show)
-	If @error Or $a_Ret[0] <= 32 Then Return SetError(4, $a_Ret[0], 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	If $a_Ret[0] <= 32 Then Return SetError(10, $a_Ret[0], 0)
 	Return 1
 EndFunc   ;==>_FilePrint
 

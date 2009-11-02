@@ -530,7 +530,7 @@ EndFunc   ;==>_FTP_FileOpen
 ; ===============================================================================================================================
 Func _FTP_FilePut($l_FTPSession, $s_LocalFile, $s_RemoteFile, $l_Flags = 0, $l_Context = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
-	Local $ai_FTPPutFile = DllCall($__ghWinInet_FTP, 'bool', 'FtpPutFile', 'handle', $l_FTPSession, 'wstr', $s_LocalFile, 'wstr', $s_RemoteFile, 'dword', $l_Flags, 'dword_ptr', $l_Context)
+	Local $ai_FTPPutFile = DllCall($__ghWinInet_FTP, 'bool', 'FtpPutFileW', 'handle', $l_FTPSession, 'wstr', $s_LocalFile, 'wstr', $s_RemoteFile, 'dword', $l_Flags, 'dword_ptr', $l_Context)
 	If @error Or $ai_FTPPutFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError() ,0)
 
 	Return $ai_FTPPutFile[0]
@@ -972,7 +972,7 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 	Local $ai_FTPGetFileSize = DllCall($__ghWinInet_FTP, 'dword', 'FtpGetFileSize', 'handle', $ai_ftpopenfile[0], 'dword*', 0)
 	If @error Then Return SetError(-2, _WinAPI_GetLastError(), 0)
 
-	$glen = _WinAPI_MakeQWord($ai_FTPGetFileSize[2], $ai_FTPGetFileSize[0]) ;FileGetSize($s_RemoteFile)
+	$glen = _WinAPI_MakeQWord($ai_FTPGetFileSize[0], $ai_FTPGetFileSize[2]) ;FileGetSize($s_RemoteFile)
 	$last = Mod($glen, 100)
 	$x = ($glen - $last) / 100
 	If $x = 0 Then

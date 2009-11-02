@@ -85,6 +85,12 @@ Global Const $xlShared = 2
 Global Const $xlLocalSessionChanges = 2
 Global Const $xlOtherSessionChanges = 3
 Global Const $xlUserResolution = 1
+
+; Constants used for testing if a worksheet is visible or hidden.
+Global Const $xlSheetHidden = 0
+Global Const $xlSheetVisible = -1
+Global Const $xlSheetVeryHidden = 2
+
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -183,7 +189,14 @@ Func _ExcelBookOpen($sFilePath, $fVisible = 1, $fReadOnly = False, $sPassword = 
 		If $sPassword = "" And $sWritePassword <> "" Then .WorkBooks.Open($sFilePath, Default, $fReadOnly, Default, Default, $sWritePassword)
 		If $sPassword <> "" And $sWritePassword = "" Then .WorkBooks.Open($sFilePath, Default, $fReadOnly, Default, $sPassword, Default)
 		If $sPassword = "" And $sWritePassword = "" Then .WorkBooks.Open($sFilePath, Default, $fReadOnly)
-		.ActiveWorkbook.Sheets(1).Select ()
+
+		; Select the first *visible* worksheet.
+		For $i = 1 To .ActiveWorkbook.Sheets.Count
+			If .ActiveWorkbook.Sheets($i).Visible = $xlSheetVisible Then
+				.ActiveWorkbook.Sheets($i).Select()
+				ExitLoop
+			EndIf
+		Next
 	EndWith
 	Return $oExcel
 EndFunc   ;==>_ExcelBookOpen

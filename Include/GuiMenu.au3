@@ -329,7 +329,7 @@ Func _GUICtrlMenu_AppendMenu($hMenu, $iFlags, $iNewItem, $pNewItem)
 	If $iFlags = 0 Then $sType= "wstr"		; $MF_STRING is equal to 0
 	Local $aResult = DllCall("User32.dll", "bool", "AppendMenuW", "handle", $hMenu, "uint", $iFlags, "uint_ptr", $iNewItem, $sType, $pNewItem)
 	If @error Then Return SetError(@error, @extended, False)
-	If $aResult[0] = 0 Then Return SetError(4, 0, False)
+	If $aResult[0] = 0 Then Return SetError(10, 0, False)
 
 	_GUICtrlMenu_DrawMenuBar(_GUICtrlMenu_FindParent($hMenu))
 	Return True
@@ -422,7 +422,7 @@ EndFunc   ;==>_GUICtrlMenu_CheckRadioItem
 Func _GUICtrlMenu_CreateMenu($iStyle = 8)
 	Local $aResult = DllCall("User32.dll", "handle", "CreateMenu")
 	If @error Then Return SetError(@error, @extended, 0)
-	If $aResult[0] = 0 Then Return SetError(4, 0, 0)
+	If $aResult[0] = 0 Then Return SetError(10, 0, 0)
 
 	_GUICtrlMenu_SetMenuStyle($aResult[0], $iStyle)
 	Return $aResult[0]
@@ -453,7 +453,7 @@ EndFunc   ;==>_GUICtrlMenu_CreateMenu
 Func _GUICtrlMenu_CreatePopup($iStyle = 8)
 	Local $aResult = DllCall("User32.dll", "handle", "CreatePopupMenu")
 	If @error Then Return SetError(@error, @extended, 0)
-	If $aResult[0] = 0 Then Return SetError(4, 0, 0)
+	If $aResult[0] = 0 Then Return SetError(10, 0, 0)
 
 	_GUICtrlMenu_SetMenuStyle($aResult[0], $iStyle)
 	Return $aResult[0]
@@ -483,7 +483,7 @@ Func _GUICtrlMenu_DeleteMenu($hMenu, $iItem, $fByPos = True)
 	If $fByPos Then $iByPos = $MF_BYPOSITION
 	Local $aResult = DllCall("User32.dll", "bool", "DeleteMenu", "handle", $hMenu, "uint", $iItem, "uint", $iByPos)
 	If @error Then Return SetError(@error, @extended, False)
-	If $aResult[0] = 0 Then Return SetError(4, 0, False)
+	If $aResult[0] = 0 Then Return SetError(10, 0, False)
 
 	_GUICtrlMenu_DrawMenuBar(_GUICtrlMenu_FindParent($hMenu))
 	Return True
@@ -556,7 +556,7 @@ Func _GUICtrlMenu_EnableMenuItem($hMenu, $iItem, $iState = 0, $fByPos = True)
 	If $fByPos Then $iByPos = BitOR($iByPos, $MF_BYPOSITION)
 	Local $aResult = DllCall("User32.dll", "bool", "EnableMenuItem", "handle", $hMenu, "uint", $iItem, "uint", $iByPos)
 	If @error Then Return SetError(@error, @extended, False)
-	If $aResult[0] = 0 Then Return SetError(4, 0, False)
+	If $aResult[0] = 0 Then Return SetError(10, 0, False)
 
 	_GUICtrlMenu_DrawMenuBar(_GUICtrlMenu_FindParent($hMenu))
 	Return True
@@ -1539,7 +1539,7 @@ Func _GUICtrlMenu_RemoveMenu($hMenu, $iItem, $fByPos = True)
 	If $fByPos Then $iByPos = $MF_BYPOSITION
 	Local $aResult = DllCall("User32.dll", "bool", "RemoveMenu", "handle", $hMenu, "uint", $iItem, "uint", $iByPos)
 	If @error Then Return SetError(@error, @extended, False)
-	If $aResult[0] = 0 Then Return SetError(4, 0, False)
+	If $aResult[0] = 0 Then Return SetError(10, 0, False)
 
 	_GUICtrlMenu_DrawMenuBar(_GUICtrlMenu_FindParent($hMenu))
 	Return True

@@ -540,7 +540,7 @@ Func _GUICtrlStatusBar_GetRectEx($hWnd, $iPart)
 		_MemRead($tMemMap, $pMemory, $pRect, $iRect)
 		_MemFree($tMemMap)
 	EndIf
-	Return SetError($iRet, 0, $tRect)
+	Return SetError($iRet=0, 0, $tRect)
 EndFunc   ;==>_GUICtrlStatusBar_GetRectEx
 
 ; #FUNCTION# ====================================================================================================================

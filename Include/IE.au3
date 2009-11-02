@@ -3587,7 +3587,8 @@ EndFunc   ;==>__IELockSetForegroundWindow
 ; ===============================================================================================================================
 Func __IEControlGetObjFromHWND(ByRef $hWin)
 	Local $aRet = DllCall("ole32.dll", "long", "CoInitialize", "ptr", 0)
-	If @error Or $aRet[0] <> 0 Then Return SetError(2, $aRet[0], 0)
+	If @error Then Return SetError(2, @error, 0)
+	If $aRet[0] <> 0 Then Return SetError(4, $aRet[0], 0)
 	Local Const $WM_HTML_GETOBJECT = __IERegisterWindowMessage("WM_HTML_GETOBJECT")
 	Local Const $SMTO_ABORTIFHUNG = 0x0002
 	Local $lResult
@@ -3627,7 +3628,8 @@ EndFunc   ;==>__IEControlGetObjFromHWND
 ; ===============================================================================================================================
 Func __IERegisterWindowMessage($sMsg)
 	Local $aRet = DllCall("user32.dll", "uint", "RegisterWindowMessageW", "wstr", $sMsg)
-	If @error Or $aRet[0] = 0 Then Return SetError($aRet[0] = 0, _WinAPI_GetLastError(), 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aRet[0] = 0 Then Return SetError(10, _WinAPI_GetLastError(), 0)
 	Return $aRet[0]
 EndFunc   ;==>__IERegisterWindowMessage
 

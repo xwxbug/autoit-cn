@@ -77,7 +77,7 @@ Func _SoundOpen($sFile)
 
 	;open file
 	__SoundMciSendString("open " & FileGetShortName($sFile) & " alias " & $aSndID[0])
-	If @error Then Return SetError(1, @extended, 0) ; open failed
+	If @error Then Return SetError(1, @error, 0) ; open failed
 
 	Local $sTrackLength, $fTryNextMethod = False
 	Local $oShell = ObjCreate("shell.application")
@@ -187,7 +187,7 @@ Func _SoundClose($aSndID)
 	If Not IsArray($aSndID) Or Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid sound ID
 
     __SoundMciSendString("close " & $aSndID[0])
-	If  @error Then Return SetError(1, @extended, 0)
+	If  @error Then Return SetError(1, @error, 0)
 	Return 1
 EndFunc   ;==>_SoundClose
 
@@ -223,7 +223,7 @@ Func _SoundPlay($aSndID, $iWait = 0)
 		__SoundMciSendString("play " & $aSndID[0])
 	EndIf
 	;return
-	If @error Then Return SetError(1, @extended, 0)
+	If @error Then Return SetError(1, @error, 0)
 	Return 1
 EndFunc   ;==>_SoundPlay
 
@@ -253,10 +253,10 @@ Func _SoundStop(ByRef $aSndID)
 
 	;stop
 	__SoundMciSendString("stop " & $vTemp[0])
-	If @error  Then Return SetError(2, @extended, 0)
+	If @error  Then Return SetError(2, @error, 0)
 	;seek to start
 	__SoundMciSendString("seek " & $vTemp[0] & " to start")
-	If @error  Then Return SetError(1, @extended, 0)
+	If @error  Then Return SetError(1, @error, 0)
 	;return
 	Return 1
 EndFunc   ;==>_SoundStop
@@ -283,7 +283,7 @@ Func _SoundPause($aSndID)
 	;pause sound
 	__SoundMciSendString("pause " & $aSndID[0])
 	;return
-	If @error Then Return SetError(1, @extended, 0)
+	If @error Then Return SetError(1, @error, 0)
 	Return 1
 EndFunc   ;==>_SoundPause
 
@@ -309,7 +309,7 @@ Func _SoundResume($aSndID)
 	;resume sound
 	__SoundMciSendString("resume " & $aSndID[0])
 	;return
-	If @error Then Return SetError(1, @extended, 0)
+	If @error Then Return SetError(1, @error, 0)
 	Return 1
 EndFunc   ;==>_SoundResume
 
@@ -398,10 +398,9 @@ Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 	; seek sound to time ($iMs)
 	__SoundMciSendString("seek " & $aSndID[0] & " to " & $iMs)
 	Local $iError = @error
-	Local $iExtended = @extended
 	If _SoundPos($aSndID, 2) < 0 Then $aSndID[2] = 0
 	;return
-	If $iError Then Return SetError(1, $iExtended, 0)
+	If $iError Then Return SetError(1, $iError, 0)
 	Return 1
 EndFunc   ;==>_SoundSeek
 
@@ -507,7 +506,8 @@ EndFunc   ;==>__SoundChkSndID
 ; ===============================================================================================================================
 Func __SoundMciSendString($string, $iLen = 0)
 	Local $iRet = DllCall("winmm.dll", "dword", "mciSendStringW", "wstr", $string, "wstr", "", "uint", $iLen, "ptr", 0)
-	If @error Or $iRet[0] Then Return SetError(1, $iRet[0], $iRet[2])
+	If @error Then Return SetError(@error, @extended, "")
+	If $iRet[0] Then Return SetError(10, $iRet[0], $iRet[2])
 	Return $iRet[2]
 EndFunc   ;==>__SoundMciSendString
 

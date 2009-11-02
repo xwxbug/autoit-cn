@@ -261,8 +261,9 @@ EndFunc   ;==>_DebugReportEx
 ; Name...........: _DebugReportVar
 ; Description ...: Writes to debugging session the content of a variable
 ; Syntax.........: _DebugReportVar($sVar [,$bErrExt = False])
-; Parameters ....: $sVar    - string representing name of the variable
-;                  $bErrExt - True if @error and @extended must be also displayed
+; Parameters ....: $sVarname - string representing name of the variable or a comment
+;                  $sVar     - the variable to be reported
+;                  $bErrExt  - True if @error and @extended must be also displayed
 ; Return values .:
 ; Author ........: jpm
 ; Modified.......:
@@ -272,36 +273,41 @@ EndFunc   ;==>_DebugReportEx
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _DebugReportVar($sVar, $bErrExt = False, $ScriptLineNumber = @ScriptLineNumber, $curerr = @error, $curext = @extended)
+Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @ScriptLineNumber, $curerr = @error, $curext = @extended)
 	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 5 Then Return SetError($curerr, $curext, 0)
 
-	If StringLeft($sVar,1) = "$" Then $sVar = StringTrimLeft($sVar,1)
-	Local $vTemp = Eval($sVar)
-	Local $sData = "@@ Debug(" & $ScriptLineNumber & "): " & __Debug_DataType($vTemp) & " -> $" & $sVar
+	If IsBool($vVar) And IsInt($bErrExt) Then
+		; to kept some compatibility with 3.3.1.3 if really needed for non breaking
+		If StringLeft($varName,1) = "$" Then $varName = StringTrimLeft($varName,1)
+		$vVar = Eval($varName)
+		$varName = "???"
+	EndIf
 
-	If IsArray($vTemp) Then
-		Local $nDims = UBound($vTemp, 0)
-		Local $nRows = UBound($vTemp, 1)
-		Local $nCols = UBound($vTemp, 2)
+	Local $sData = "@@ Debug(" & $ScriptLineNumber & "): " & __Debug_DataType($vVar) & " -> " & $varName
+
+	If IsArray($vVar) Then
+		Local $nDims = UBound($vVar, 0)
+		Local $nRows = UBound($vVar, 1)
+		Local $nCols = UBound($vVar, 2)
 		For $d = 1 to $nDims
-			$sData &= "[" & UBound($vTemp, $d) & "]"
+			$sData &= "[" & UBound($vVar, $d) & "]"
 		Next
 
 		If $nDims <= 2 Then
 			For $r = 0 to $nRows - 1
 				$sData &= @CRLF & "[" & $r & "] "
 				If $nDims = 1 Then
-					$sData &= __Debug_DataFormat($vTemp[$r]) & @TAB
+					$sData &= __Debug_DataFormat($vVar[$r]) & @TAB
 				Else
 					For $c = 0 to $nCols - 1
-						$sData &= __Debug_DataFormat($vTemp[$r][$c]) & @TAB
+						$sData &= __Debug_DataFormat($vVar[$r][$c]) & @TAB
 					Next
 				EndIf
 			Next
 		EndIf
-	ElseIf IsDllStruct($vTemp) Or IsObj($vTemp) Then
+	ElseIf IsDllStruct($vVar) Or IsObj($vVar) Then
 	Else
-		$sData &= ' = ' & __Debug_DataFormat($vTemp)
+		$sData &= ' = ' & __Debug_DataFormat($vVar)
 	EndIf
 
 	If $bErrExt Then $sData &= @CRLF & @TAB & "@error=" & $curerr & " @extended=0x" & Hex($curext)
@@ -325,7 +331,7 @@ EndFunc   ;==>_DebugReportVar
 ; Example .......:
 ; ===============================================================================================================================
 Func __Debug_DataFormat($vData)
-	Local $nLenMax = 8		; to truncate String, Binary
+	Local $nLenMax = 25		; to truncate String, Binary
 	Local $sTruncated = ""
 	If IsString($vData) Then
 		If StringLen($vData) > $nLenMax Then

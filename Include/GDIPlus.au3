@@ -2069,7 +2069,7 @@ EndFunc   ;==>_GDIPlus_ImageDispose
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetFlags($hImage)
 	Local $aFlag[2] = [0, ""]
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 1, $aFlag)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 1, $aFlag)
 	Local $aImageFlags[13][2] = _
 			[["Pixel data Cacheable", $GDIP_IMAGEFLAGS_CACHING], _
 			["Pixel data read-only", $GDIP_IMAGEFLAGS_READONLY], _
@@ -2158,7 +2158,7 @@ EndFunc   ;==>_GDIPlus_ImageGetHeight
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetHorizontalResolution($hImage)
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 1, 0)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 1, 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageHorizontalResolution", "handle", $hImage, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], Round($aResult[2]))
@@ -2184,7 +2184,7 @@ EndFunc   ;==>_GDIPlus_ImageGetHorizontalResolution
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetPixelFormat($hImage)
 	Local $aFormat[2] = [0, ""]
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 1, $aFormat)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 1, $aFormat)
 	Local $aPixelFormat[14][2] = _
 			[["1 Bpp Indexed", $GDIP_PXF01INDEXED], _
 			["4 Bpp Indexed", $GDIP_PXF04INDEXED], _
@@ -2232,7 +2232,7 @@ EndFunc   ;==>_GDIPlus_ImageGetPixelFormat
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetRawFormat($hImage)
 	Local $aGuid[2]
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 1, $aGuid)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 1, $aGuid)
 	Local $aImageType[11][2] = _
 			[["UNDEFINED", $GDIP_IMAGEFORMAT_UNDEFINED], _
 			["MEMORYBMP", $GDIP_IMAGEFORMAT_MEMORYBMP], _
@@ -2282,7 +2282,7 @@ EndFunc   ;==>_GDIPlus_ImageGetRawFormat
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetType($hImage)
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 0, -1)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 0, -1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageType", "handle", $hImage, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return SetExtended($aResult[0], $aResult[2])
@@ -2305,7 +2305,7 @@ EndFunc   ;==>_GDIPlus_ImageGetType
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetVerticalResolution($hImage)
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(4, 0, 0)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 0, 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageVerticalResolution", "handle", $hImage, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], Round($aResult[2]))

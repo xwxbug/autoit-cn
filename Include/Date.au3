@@ -237,7 +237,9 @@ EndFunc   ;==>_DateAdd
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DateDayOfWeek($iDayNum, $iShort = 0)
-	Local Const $aDayOfWeek[8] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+	; The first element (0) is intentionally empty.  The valid range is 1 - 7.  It is important
+	; this empty element is preserved or the days will be off by one.
+	Local Const $aDayOfWeek[8] = [ "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	Select
 		Case Not StringIsInt($iDayNum) Or Not StringIsInt($iShort)
 			Return SetError(1,0,"")

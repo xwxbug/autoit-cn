@@ -339,7 +339,7 @@ EndFunc   ;==>_Crypt_DecryptData
 ; #FUNCTION# ===================================================================
 ; Name...........: _Crypt_HashData
 ; Description ...: Hash data with specified algorithm
-; Syntax.........: _Crypt_HashData($vData, $iALG_ID[[, $fFinal = True, ]hCryptHash = 0])
+; Syntax.........: _Crypt_HashData($vData, $iALG_ID [, $fFinal = True [, $hCryptHash = 0]])
 ; Parameters ....: $vData - Data to hash
 ;                  $iALG_ID - Hash ID to use
 ;                  $fFinal - False if this is only a segment of the full data, also makes the function return a hash object instead of hash

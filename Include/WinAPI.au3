@@ -4303,9 +4303,9 @@ EndFunc   ;==>_WinAPI_MakeLong
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_MakeQWord
 ; Description ...: Returns a QWORD value from two int values
-; Syntax.........: _WinAPI_MakeQWord($HiDWORD, $LoDWORD)
-; Parameters ....: $HiDWORD         - Hi DWORD (int)
-;                  $LoDWORD         - Low DWORD (int)
+; Syntax.........: _WinAPI_MakeQWord($LoDWORD, $HiDWORD)
+; Parameters ....: $LoDWORD         - Low DWORD (int)
+;                  $HiDWORD         - Hi DWORD (int)
 ; Return values .: Success      - QWORD (int64) value
 ; Author ........: jpm
 ; Modified.......:
@@ -4531,29 +4531,30 @@ EndFunc   ;==>_WinAPI_MulDiv
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MultiByteToWideChar($sText, $iCodePage = 0, $iFlags = 0, $bRetString = False)
-	Local $iText, $pText, $tText, $aResult
+	Local $sTextType = "ptr", $pText = $sText
 
-	If Not IsDllStruct($sText) Then
-		$iText = StringLen($sText) + 1
-		$tText = DllStructCreate("wchar[" & $iText & "]")
-		$pText = DllStructGetPtr($tText)
-		$aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, "STR", $sText, _
-				"int", $iText, "ptr", $pText, "int", $iText * 2)
-		If @error Then Return SetError(@error, @extended, 0)
+	If IsDllStruct($sText) Then
+		$pText = DllStructGetPtr($sText)
 	Else
-		$aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, "ptr", DllStructGetPtr($sText), _
-				"int", -1, "ptr", 0, "int", 0)
-		If @error Then Return SetError(@error, @extended, 0)
-		$iText = $aResult[0]
-		$tText = DllStructCreate("wchar[" & $iText & "]")
-		$pText = DllStructGetPtr($tText)
-		$aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, "ptr", DllStructGetPtr($sText), _
-				"int", -1, "ptr", $pText, "int", $iText)
-		If @error Then Return SetError(@error, @extended, 0)
+		If Not IsPtr($sText) Then $sTextType = "STR"
 	EndIf
 
-	If $bRetString Then Return DllStructGetData($tText, 1)
-	Return $tText
+	; compute size for the output WideChar
+	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, $sTextType, $pText, _
+			"int", -1, "ptr", 0, "int", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+
+	; allocate space for output WideChar
+	Local $iOut = $aResult[0]
+	Local $tOut = DllStructCreate("wchar[" & $iOut & "]")
+	Local $pOut = DllStructGetPtr($tOut)
+
+	$aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, $sTextType, $pText, _
+			"int", -1, "ptr", $pOut, "int", $iOut)
+	If @error Then Return SetError(@error, @extended, 0)
+
+	If $bRetString Then Return DllStructGetData($tOut,1)
+	Return $tOut
 EndFunc   ;==>_WinAPI_MultiByteToWideChar
 
 ; #FUNCTION# ====================================================================================================================
@@ -6044,12 +6045,11 @@ EndFunc   ;==>_WinAPI_WaitForSingleObject
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WideCharToMultiByte($pUnicode, $iCodePage = 0, $bRetString = True)
-	Local $sUnicodeType
+	Local $sUnicodeType = "ptr"
 	If IsDllStruct($pUnicode) Then
-		$sUnicodeType = "ptr"
 		$pUnicode = DllStructGetPtr($pUnicode)
 	Else
-		$sUnicodeType = "wstr"
+		If Not IsPtr($pUnicode) Then $sUnicodeType = "wstr"
 	EndIf
 	Local $aResult = DllCall("kernel32.dll", "int", "WideCharToMultiByte", "uint", $iCodePage, "dword", 0, $sUnicodeType, $pUnicode, "int", -1, _
 			"ptr", 0, "int", 0, "ptr", 0, "ptr", 0)
