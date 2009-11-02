@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.1.3 第一汉化版
+程序版本:3.3.1.4 第一汉化版
 汉化作者:thesnoW,Sxd,kodin
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,6 +14,25 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.1.4 (2009-11-X) (Beta) (第一汉化版)
+AutoIt:
+[G][+]新增: #508: Static keyword.
+
+[G][*]修正: #906: ActiveX controls were not told what their initial size was.
+[G][*]修正: Boolean tests on binary strings now behaves properly.
+[G][*]修正: #1242: Beta Regression in _WinAPI_WideCharToMultiByte(). (Thanks Valik)
+[G][*]修正: Fatal error under certain conditions when using minus sign.
+[G][*]修改: PCRE regular expression engine updated to 8.00.
+
+Scite:
+[H][*]修正: 修正3.3.1.3汉化版中scite语法提示显示错误.(一堆显示出来.此为scite官方问题.)
+
+UDFs:
+[G][*]修正: #1223: _GUICtrlStatusBar_EmbedControl() failing.
+[G][*]修正: #1226: _DateDayOfWeek() had an off-by-one error.
+[G][*]修正: Order of parameters was documented wrong for _WinAPI_MakeQWord().
+[G][*]修正: #1168: _ExcelBookOpen() now selects the first visible worksheet to prevent a COM error.
+[G][*]修改: _SQLite 3.6.18 -> 3.6.19
 
 3.3.1.3 (2009-10-X) (Beta) (第一汉化版)
 
