@@ -1,4 +1,4 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray[10]
 
@@ -13,6 +13,6 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray å‰ _ArrayInsert()")
-_ArrayInsert($avArray, 4, "New")
-_ArrayDisplay($avArray, "$avArray å _ArrayInsert()")
+_ArrayDisplay($avArray, "ÔËĞĞÇ°")
+_ArrayInsert($avArray, 4, "ĞÂÊıÖµ");ÔÚÖ¸¶¨µÄ×ø±êÌí¼ÓÒ»¸öĞÂÖµ
+_ArrayDisplay($avArray, "ÔËĞĞºó")

@@ -1,3 +1,3 @@
-锘縏CPStartup()
+TCPStartup()
 
-msgbox(0,"IP???",TCPNameToIP("鎮ㄧ殑鏈哄櫒鍚嶇О"))
+msgbox(0,"域名转换为IP","转换www.google.cn域名,转换后得到IP地址为:" & TCPNameToIP("www.google.cn"))

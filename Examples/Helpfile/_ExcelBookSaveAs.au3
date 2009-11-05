@@ -1,44 +1,44 @@
-ï»¿; ***************************************************************
-; Example 1 - Open an existing workbook and returns its object identifier.  Then SaveAs the file under a new name, without any alerts.
+; ***************************************************************
+; Ê¾Àı 1 - ´ò¿ªÒ»¸öĞÂµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û, È»ºóÔÚÃ»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼ş.
 ; *****************************************************************
 #include <Excel.au3>
 
-$sFilePath1 = @ScriptDir & "\Test1.xls" ;This file should already exist
+$sFilePath1 = @ScriptDir & "\Test1.xls" ;Õâ¸öÎÄ¼şÓ¦¸ÃÒÑ¾­´æÔÚ
 $oExcel = _ExcelBookOpen($sFilePath1)
 
 If @error = 1 Then
-	MsgBox(0, "Error!", "Unable to Create the Excel Object")
+	MsgBox(0, "´íÎó!", "ÎŞ·¨´´½¨¶ÔÏó!")
 	Exit
 ElseIf @error = 2 Then
-	MsgBox(0, "Error!", "File does not exist - Shame on you!")
+	MsgBox(0, "´íÎó!", "ÎÄ¼ş²»´æÔÚ!")
 	Exit
 EndIf
 
-_ExcelBookSaveAs($oExcel, @ScriptDir & "\SaveAsExample", "xls")
-If Not @error Then MsgBox(0, "Success", "File was Saved!", 3)
-_ExcelBookClose($oExcel, 1, 0) ;This method will save then Close the file, without any of the normal prompts, regardless of changes
+_ExcelBookSaveAs($oExcel, @ScriptDir & "\SaveAsExample", "xls");Ã»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ
+If Not @error Then MsgBox(0, "³É¹¦!", "ÎÄ¼şÒÑ±£´æ!", 3)
+_ExcelBookClose($oExcel, 1, 0) ;ÔÚÃ»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼ş£¬È»ºó¹Ø±Õ.
 
 
 ; ***************************************************************
-; Example 2 - Open an existing workbook and returns its object identifier.  Then SaveAs the file under a new name, without any alerts.
-;				Overwrite File if it exists, and protect the file using the password option. Then Open the File to show the Password Protection
+; Ê¾Àı 2 - ´ò¿ªÒ»¸öĞÂµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û, È»ºóÔÚÃ»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼ş.
+;				Èç¹ûÎÄ¼ş´æÔÚÔò¸²¸ÇËü, ²¢Ê¹ÓÃÃÜÂëÑ¡Ïî±£»¤ÎÄ¼ş. È»ºó´ò¿ªÕâ¸ö¹¤×÷±íÎÄ¼ş£¬²¢ÏÔÊ¾ÃÜÂë±£»¤.
 ; *****************************************************************
 #include <Excel.au3>
 
-$sFilePath1 = @ScriptDir & "\Test1.xls" ;This file should already exist
+$sFilePath1 = @ScriptDir & "\Test1.xls" ;Õâ¸öÎÄ¼şÓ¦¸ÃÒÑ¾­´æÔÚ
 $oExcel = _ExcelBookOpen($sFilePath1)
 
-;Show any errors that might occur when Opening the File
+;ÏÔÊ¾´ò¿ªÎÄ¼şÊ±¿ÉÄÜ·¢ÉúµÄ´íÎóÌáÊ¾
 If @error = 1 Then
-	MsgBox(0, "Error!", "Unable to Create the Excel Object")
+	MsgBox(0, "´íÎó!", "ÎŞ·¨´´½¨¶ÔÏó!")
 	Exit
 ElseIf @error = 2 Then
-	MsgBox(0, "Error!", "File does not exist - Shame on you!")
+	MsgBox(0, "´íÎó!", "ÎÄ¼ş²»´æÔÚ!")
 	Exit
 EndIf
 
-_ExcelBookSaveAs($oExcel, @ScriptDir & "\SaveAsExample2", "xls", 0, 1, "ReadOnly") ;Save the File as 'SaveAsExample2.xls"
-If Not @error Then MsgBox(0, "Success", "File was Saved!", 3)
-_ExcelBookClose($oExcel, 1, 0) ;This method will save then Close the file, without any of the normal prompts, regardless of changes
+_ExcelBookSaveAs($oExcel, @ScriptDir & "\SaveAsExample2", "xls", 0, 1, "ReadOnly") ;±£´æÎª"SaveAsExample2.xls"ÎÄ¼ş
+If Not @error Then MsgBox(0, "³É¹¦!", "File was Saved!", 3)
+_ExcelBookClose($oExcel, 1, 0) ;ÔÚÃ»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼ş£¬È»ºó¹Ø±Õ.
 
-$oExcel = _ExcelBookOpen(@ScriptDir & "\SaveAsExample2.xls", 1, False) ;Open The previous File to show the password protection
+$oExcel = _ExcelBookOpen(@ScriptDir & "\SaveAsExample2.xls", 1, False) ;´ò¿ªÕâ¸ö¹¤×÷±íÎÄ¼ş£¬²¢ÏÔÊ¾ÃÜÂë±£»¤

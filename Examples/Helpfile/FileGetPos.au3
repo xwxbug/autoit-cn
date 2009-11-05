@@ -3,13 +3,13 @@
 Local Const $sFile = "test.txt"
 Local $hFile = FileOpen($sFile, 2)
 
-; Check if file opened for writing OK
+; 检查文件是否写入模式
 If $hFile = -1 Then
-	MsgBox(0, "Error", "Unable to open file.")
+	MsgBox(0, "错误", "无法打开文件.")
 	Exit
 EndIf
 
-; Write something to the file.
+;写入文本.
 FileWriteLine($hFile, "Line1")
 FileWriteLine($hFile, "Line2")
 FileWriteLine($hFile, "Line3")
@@ -26,8 +26,8 @@ Local $n = FileSetPos($hFile, 0, $FILE_BEGIN)
 ; Check file position and try to read contents for current position.
 MsgBox(0, "", "Position: " & FileGetPos($hFile) & @CRLF & "Data: " & @CRLF & FileRead($hFile))
 
-; Close the handle.
+;关闭此前已打开的文件.
 FileClose($hFile)
 
-; Clean up the temporary file.
+;删除临时文件.
 FileDelete($sFile)

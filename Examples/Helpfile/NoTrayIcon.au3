@@ -1,4 +1,4 @@
-ï»¿#NoTrayIcon
-MsgBox(4096,"Click OK","Show the tray icon for 5 seconds...")
-Opt("TrayIconHide", 0) ;un-hide the icon
+#NoTrayIcon
+MsgBox(4096,"µã»÷OK","ÏÔÊ¾ÍÐÅÌÍ¼±ê5Ãë...")
+Opt("TrayIconHide", 0) ;²»Òþ²ØÍ¼±ê
 Sleep(5000)

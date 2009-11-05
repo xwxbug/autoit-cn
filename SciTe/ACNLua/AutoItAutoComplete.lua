@@ -77,7 +77,8 @@ function AutoItAutoComplete:OnChar(c)
 
 		-- Ensure the character is a valid function character.
 		if not self:IsValidFuncChar(c) then
-			return
+			
+			return self:CancelAutoComplete()
 		end
 
 		-- Cancels AutoComplete if the previous character is a period.  It means

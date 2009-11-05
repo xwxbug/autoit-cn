@@ -1,2 +1,2 @@
-ï»¿$x = StringIsASCII("This is a sentence.")
-MsgBox(0,"StringIsASCII returns:", $x)
+$x = StringIsASCII("ÕâÊÇÒ»¸ö¾ä×Ó.")
+MsgBox(0,"StringIsASCII ·µ»Ø:", $x)

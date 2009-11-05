@@ -1,4 +1,4 @@
-ï»¿; Left click drag from 0,200 to 600, 700
+; ×ó¼üµã»÷ÍÏ¶¯´Ó 0,200 µ½ 600, 700
 MouseClickDrag("left", 0, 200, 600, 700)
 
 

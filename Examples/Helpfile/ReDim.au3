@@ -1,10 +1,10 @@
-ï»¿; Example Resizing an array
+; ÑÝÊ¾µ÷ÕûÊý×é´óÐ¡
 Dim $I, $K, $T, $MSG
 Dim $X[4][6], $Y[4][6]
 
 For $I = 0 To 3
    For $K = 0 To 5
-      $T = Int(Random(20) + 1)  ;Get random numbers between 1 and 20
+      $T = Int(Random(20) + 1)  ;µÃµ½ 1 µ½ 20 Ö®¼äµÄËæ»úÊý
       $X[$I][$K] = $T
       $Y[$I][$K] = $T
    Next
@@ -21,7 +21,7 @@ For $I = 0 To UBound($X, 1) - 1
    Next
    $MSG = $MSG & @CR
 Next
-MsgBox(0, "ReDim Demo", $MSG)
+MsgBox(0, "ReDim ÑÝÊ¾", $MSG)
 
 $MSG = ""
 For $I = 0 To UBound($Y, 1) - 1
@@ -31,4 +31,4 @@ For $I = 0 To UBound($Y, 1) - 1
    Next
    $MSG = $MSG & @CR
 Next
-MsgBox(0, "ReDim Demo", $MSG)
+MsgBox(0, "ReDim ÑÝÊ¾", $MSG)

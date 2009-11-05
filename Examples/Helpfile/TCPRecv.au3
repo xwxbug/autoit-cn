@@ -1,74 +1,74 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Opt('MustDeclareVars', 1)
 
 ;==============================================
 ;==============================================
-;SERVER!! Start Me First !!!!!!!!!!!!!!!
+;·şÎñ¶Ë! ·şÎñ¶ËÆôÓÃºó,ÔÙÆôÓÃ¿Í»§¶Ë(·şÎñ¶ËÎª½ÓÊÕĞÅÏ¢·½)
 ;==============================================
 ;==============================================
 
 Example()
 
 Func Example()
-	; Set Some reusable info
-	; Set your Public IP address (@IPAddress1) here.
+	; ÉèÖÃÒ»Ğ©³£ÓÃĞÅÏ¢
+	; ÔÚÕâÀïÉèÖÃÄãµÄ¹«¹²IPµØÖ· (@IPAddress1).
 ;	Local $szServerPC = @ComputerName
 ;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
-	Local $szIPADDRESS = @IPAddress1
-	Local $nPORT = 33891
+	Local $szIPADDRESS = @IPAddress1;ÄãµÄ¹«¹²IPµØÖ·
+	Local $nPORT = 33891;¶Ë¿Ú
 	Local $MainSocket, $GOOEY, $edit, $ConnectedSocket, $szIP_Accepted
 	Local $msg, $recv
 
-	; Start The TCP Services
+	; ¿ªÊ¼ TCP ·şÎñ
 	;==============================================
 	TCPStartup()
 
-	; Create a Listening "SOCKET".
-	;   Using your IP Address and Port 33891.
+	; ´´½¨Ò»¸ö¼àÌı "SOCKET".
+	;   Ê¹ÓÃÄúµÄIPµØÖ·ºÍ¶Ë¿Ú33891.
 	;==============================================
 	$MainSocket = TCPListen($szIPADDRESS, $nPORT)
 
-	; If the Socket creation fails, exit.
+	; Èç¹ûÌ×½Ó×Ö´´½¨Ê§°Ü£¬ÍË³ö.
 	If $MainSocket = -1 Then Exit
 
 
-	; Create a GUI for messages
+	; ´´½¨Ò»¸öÍ¼ĞÎÓÃ»§½çÃæÏûÏ¢´°
 	;==============================================
 	$GOOEY = GUICreate("My Server (IP: " & $szIPADDRESS & ")", 300, 200)
 	$edit = GUICtrlCreateEdit("", 10, 10, 280, 180)
 	GUISetState()
 
 
-	; Initialize a variable to represent a connection
+	; ³õÊ¼»¯Ò»¸ö±äÁ¿ÃèÊöÁ¬½Ó
 	;==============================================
 	$ConnectedSocket = -1
 
 
-	;Wait for and Accept a connection
+	;µÈ´ıºÍ½ÓÊÜÁ¬½Ó
 	;==============================================
 	Do
 		$ConnectedSocket = TCPAccept($MainSocket)
 	Until $ConnectedSocket <> -1
 
 
-	; Get IP of client connecting
+	; È¡µÃÁ¬½ÓµÄ¿Í»§¶ËµÄIP
 	$szIP_Accepted = SocketToIP($ConnectedSocket)
 
-	; GUI Message Loop
+	; Ñ­»·Í¼ĞÎÓÃ»§½çÃæÏûÏ¢
 	;==============================================
 	While 1
 		$msg = GUIGetMsg()
 
-		; GUI Closed
+		; ¹Ø±ÕÍ¼ĞÎÓÃ»§½çÃæ
 		;--------------------
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 
-		; Try to receive (up to) 2048 bytes
+		; ³¢ÊÔ½ÓÊÕ£¨×î¸ß£©2048×Ö½Ú
 		;----------------------------------------------------------------
 		$recv = TCPRecv($ConnectedSocket, 2048)
 
-		; If the receive failed with @error then the socket has disconnected
+		; Èç¹û½ÓÊÕÊ§°Ü(@error)½«¶Ï¿ªÁ¬½Ó   
 		;----------------------------------------------------------------
 		If @error Then ExitLoop
 
@@ -84,7 +84,7 @@ Func Example()
 	TCPShutdown()
 EndFunc   ;==>Example
 
-; Function to return IP Address from a connected socket.
+; º¯Êı·µ»ØÒ»¸öÁ¬½ÓµÄÌ×½Ó×ÖµÄIPµØÖ·. 
 ;----------------------------------------------------------------------
 Func SocketToIP($SHOCKET)
 	Local $sockaddr, $aRet

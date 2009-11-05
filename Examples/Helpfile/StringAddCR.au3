@@ -1,2 +1,2 @@
-ï»¿$old = "Notepad" & @LF & "expects" & @LF & "CRLF text."
+$old = "Notepad" & @LF & "expects" & @LF & "CRLF ÎÄ±¾."
 $new = StringAddCR($old)

@@ -1,8 +1,9 @@
-ï»¿; *****************************************************************************
-; Example 1 - Declare a 1-dimensional array, return an Array of permutations
+; *****************************************************************************
+; ·µ»ØÒ»¸öÊı×éÖĞËùÓĞÔªËØµÄÅÅÁĞ·½Ê½
+; Ê¾Àı1 -ÉùÃ÷Ò»¸öÒ»Î¬Êı×é£¬·µ»ØÒ»¸öÊı×éÅÅÁĞ
 ; *****************************************************************************
 #include <Array.au3>
 
 Dim $aArray[4] = [1, 2, 3, 4]
-$aNewArray = _ArrayPermute($aArray, ",") ;Using Default Parameters
+$aNewArray = _ArrayPermute($aArray, ",") ;Ê¹ÓÃÄ¬ÈÏ²ÎÊı
 _ArrayDisplay($aNewArray, "Array Permuted")

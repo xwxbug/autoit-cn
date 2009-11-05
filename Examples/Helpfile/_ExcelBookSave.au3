@@ -1,10 +1,10 @@
-ï»¿; ***************************************************************
-; Example 1 - Open a New workbook and returns its object identifier.  Then Save the file without any alerts.
+; ***************************************************************
+; Ê¾Àı1 ´ò¿ªÒ»¸öĞÂµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û, È»ºóÔÚÃ»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼ş.
 ; *****************************************************************
 
 #include <Excel.au3>
 
 $oExcel = _ExcelBookNew()
 
-_ExcelBookSave($oExcel) ;Save File With No Alerts
-If Not @error Then MsgBox(0, "Success", "File was Saved!", 3)
+_ExcelBookSave($oExcel) ;Ã»ÓĞÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ
+If Not @error Then MsgBox(0, "³É¹¦", "ÎÄ¼şÒÑ±£´æ!", 3)

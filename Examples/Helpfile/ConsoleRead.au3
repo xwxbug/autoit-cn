@@ -1,13 +1,13 @@
-ï»¿; Compile this script to "ConsoleRead.exe".
-; Open a command prompt to the directory where ConsoleRead.exe resides.
-; Type the following on the command line:
+; 1¡¢±àÒë´Ë½Å±¾ "ConsoleRead.exe".
+; 2¡¢ÒÔÃüÁîÌáÊ¾·ûµÄ·½Ê½´ò¿ª³ÌĞòConsoleRead.exeËùÔÚÄ¿Â¼ÔÚ.
+; 3¡¢¼üÈëÒÔÏÂÃüÁîĞĞ:
 ;	echo Hello! | ConsoleRead.exe
 ;
 ; When invoked in a console window, the above command echos the text "Hello!"
 ; but instead of dispalying it, the | tells the console to pipe it to the STDIN stream
 ; of the ConsoleRead.exe process.
 If Not @Compiled Then
-	MsgBox(0, "", "This script must be compiled in order to properly demonstrate it's functionality.")
+	MsgBox(0, "ÌáÊ¾", "´Ë½Å±¾±ØĞë±àÒëºó²ÅÄÜÕıÈ·ÏÔÊ¾.")
 	Exit -1
 EndIf
 

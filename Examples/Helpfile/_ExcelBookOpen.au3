@@ -1,16 +1,16 @@
-ï»¿; ***************************************************************
-; Example 1 - Open an existing workbook and returns its object identifier.
+; ***************************************************************
+; Ê¾Àı 1 ´ò¿ªÒ»¸öÏÖÓĞµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û
 ; *****************************************************************
 
 #include <Excel.au3>
 
-$sFilePath1 = @ScriptDir & "\Test1.xls" ;This file should already exist
+$sFilePath1 = @ScriptDir & "\Test1.xls" ;Õâ¸öÎÄ¼şÓ¦¸ÃÒÑ¾­´æÔÚ
 $oExcel = _ExcelBookOpen($sFilePath1)
 
 If @error = 1 Then
-	MsgBox(0, "Error!", "Unable to Create the Excel Object")
+	MsgBox(0, "´íÎó!", "ÎŞ·¨´´½¨¶ÔÏó!")
 	Exit
 ElseIf @error = 2 Then
-	MsgBox(0, "Error!", "File does not exist - Shame on you!")
+	MsgBox(0, "´íÎó!", "ÎÄ¼ş²»´æÔÚ!")
 	Exit
 EndIf

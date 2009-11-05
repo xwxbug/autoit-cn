@@ -224,7 +224,7 @@ function AutoItTools:DebugArrayDisplayAdd()
 	  if line:find("#include <Array.au3>") then
 --	txt = editor:GetLine(i) --老方法
 --	if txt:find("#include <Array.au3>") then
- -- if txt == "#include <Array.au3>\r\n" or txt == "#include <Array.au3>\n" or txt == "#include <Array.au3>\r" then 
+-- if txt == "#include <Array.au3>\r\n" or txt == "#include <Array.au3>\n" or txt == "#include <Array.au3>\r" then 
 	    Found = true
 		break
 	  end
@@ -1153,6 +1153,7 @@ function AutoItTools:ProperCase(c)
 			local savepos = editor.CurrentPos
 			editor:remove(from, to)
 			editor:insert(from, repword)
+			-- print(repword)
 			editor:GotoPos(savepos)
 		end
 	end	
@@ -1172,7 +1173,7 @@ function AutoItTools:Abbreviations()
 	curword = editor:textrange(from, to)
 	-- get possible replacement from abbrev.properties
 	local repword = ""
-	local f = io.open(props['SciteUserHome'].."\\abbrev.properties")
+	local f = io.open(props['SciteUserHome'].."\\全局缩写.properties")
 	if f ~= nil then
 		local Abbrevtxt = f:read('*a')
 		if Abbrevtxt then

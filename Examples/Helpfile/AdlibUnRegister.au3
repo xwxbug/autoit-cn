@@ -3,5 +3,5 @@ AdlibRegister("MyAdlib")
 AdlibUnRegister("MyAdlib")
 
 Func MyAdlib()
-	;... execution must be non blocking, avoid ...Wait(), MsgBox(), InputBox() functions
+	;... 运行中尽量避免使用等待效果的函数, 例如 Wait(), MsgBox(), InputBox()等...
 EndFunc

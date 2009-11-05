@@ -1,27 +1,27 @@
 Local Const $sFile = "test.txt"
 Local $hFile = FileOpen($sFile, 1)
 
-; Check if file opened for writing OK
+; 检查文件是否已打开
 If $hFile = -1 Then
-	MsgBox(0, "Error", "Unable to open file.")
+	MsgBox(0, "错误", "无法打开文件.")
 	Exit
 EndIf
 
-; Write something to the file.
+; 向此前已打开的文本文件尾追加一行数据.
 FileWriteLine($hFile, "Line1")
 
-; Run notepad to show that the file is empty because it hasn't been flushed yet.
+; 运行记事本,此文本文件还未添加任何数据.
 RunWait("notepad.exe " & $sFile)
 
-; Flush the file to disk.
+; 保存该文本文件内存缓冲区数据到磁盘.相等于保存操作.
 FileFlush($hFile)
 
-; Run notepad again to show that the contents of the file are now flushed to disk.
+; 运行记事本,显示保存的结果.
 RunWait("notepad.exe " & $sFile)
 
-; Close the handle.
+; 关闭此前已打开的文件.
 FileClose($hFile)
 
-; Clean up the temporary file.
+;删除临时文件.
 FileDelete($sFile)
 

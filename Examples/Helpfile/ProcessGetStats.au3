@@ -1,5 +1,5 @@
-ï»¿; retrieve memory infos of the current running process
+; ·µ»Øµ±Ç°½ø³ÌµÄÄÚ´æĞÅÏ¢
 $mem = ProcessGetStats()
 
-; retrieve IO infos of the current running process
+; ·µ»Øµ±Ç°½ø³ÌµÄÊäÈëÊä³ö(IO)ĞÅÏ¢
 $IO = ProcessGetStats(-1, 1)

@@ -1,10 +1,10 @@
-ï»¿$attrib = FileGetAttrib("c:\boot.ini")
+$attrib = FileGetAttrib("c:\boot.ini")
 If @error Then
-	MsgBox(4096,"é”™è¯¯", "æ— æ³•è·å¾—å±æ€§.")
+	MsgBox(4096,"´íÎó", "ÎŞ·¨»ñµÃÊôĞÔ.")
 	Exit
 Else
 	If StringInStr($attrib, "R") Then
-	MsgBox(4096,"æ–‡ä»¶å±æ€§", "åªè¯»æ–‡ä»¶.")
+	MsgBox(4096,"ÎÄ¼şÊôĞÔ", "Ö»¶ÁÎÄ¼ş.")
 	EndIf
 EndIf
 
@@ -12,11 +12,11 @@ EndIf
 ; Arrays rely upon the fact that each capital letter is unique
 ; Figuring out how this works is a good string exercise...
 $input = StringSplit("R,A,S,H,N,D,O,C,T",",")
-$output = StringSplit("åªè¯» /, å­˜æ¡£ /, ç³»ç»Ÿ /, éšè— /" & _
-		", æ™®é€š /, ç›®å½• /, è„±æœºæ–‡ä»¶ /, å‹ç¼© /, ä¸´æ—¶ /",  ",")
+$output = StringSplit("Ö»¶Á /, ´æµµ /, ÏµÍ³ /, Òş²Ø /" & _
+		", ÆÕÍ¨ /, Ä¿Â¼ /, ÍÑ»úÎÄ¼ş /, Ñ¹Ëõ /, ÁÙÊ± /",  ",")
 For $i = 1 to 9
 	$attrib = StringReplace($attrib, $input[$i], $output[$i], 0, 1)
 	; last parameter in StringReplace means case-sensitivity
 Next
-$attrib = StringTrimRight($attrib, 2) ;remove trailing slash
-MsgBox(0,"å®Œæ•´çš„æ–‡ä»¶å±æ€§:", $attrib)
+$attrib = StringTrimRight($attrib, 2) ;ÒÆ³ı·´Ğ±¸Ü
+MsgBox(0,"ÍêÕûµÄÎÄ¼şÊôĞÔ:", $attrib)

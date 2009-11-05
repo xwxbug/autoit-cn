@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <ButtonConstants.au3>
 
@@ -10,7 +10,7 @@ Opt('MustDeclareVars', 1)
 ;==============================================
 ;==============================================
 
-; Initialize a variable to represent a connection
+; ³õÊ¼»¯Ò»¸ö±äÁ¿ÃèÊöÁ¬½Ó
 ;==============================================
 Global $ConnectedSocket = -1
 
@@ -26,35 +26,35 @@ Func Example()
 
 	$g_IP = "127.0.0.1"
 
-	; Start The TCP Services
+	; ¿ªÊ¼ TCP ·þÎñ
 	;==============================================
 	TCPStartup()
 
-	; Create a Listening "SOCKET"
+	; ´´½¨Ò»¸öÌ×½Ó×Ö(socket)¼àÌý
 	;==============================================
 	$MainSocket = TCPListen($g_IP, 65432, 100)
 	If $MainSocket = -1 Then Exit
 	$RogueSocket = -1
 
-	; Create a GUI for chatting
+	; ´´½¨Ò»¸öÍ¼ÐÎÓÃ»§½çÃæÏûÏ¢´°
 	;==============================================
-	$GOOEY = GUICreate("my server", 300, 200)
+	$GOOEY = GUICreate("ÎÒµÄ·þÎñ¶Ë", 300, 200)
 	$edit = GUICtrlCreateEdit("", 10, 40, 280, 150, $WS_DISABLED)
 	$input = GUICtrlCreateInput("", 10, 10, 200, 20)
-	$butt = GUICtrlCreateButton("Send", 210, 10, 80, 20, $BS_DEFPUSHBUTTON)
+	$butt = GUICtrlCreateButton("·¢ËÍ", 210, 10, 80, 20, $BS_DEFPUSHBUTTON)
 	GUISetState()
 
 
-	; GUI Message Loop
+	; Ñ­»·Í¼ÐÎÓÃ»§½çÃæÏûÏ¢
 	;==============================================
 	While 1
 		$msg = GUIGetMsg()
 
-		; GUI Closed
+		; ¹Ø±Õ½çÃæ
 		;--------------------
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 
-		; User Pressed SEND
+		; ÓÃ»§°´ÏÂ·¢ËÍ°´Å¥
 		;--------------------
 		If $msg = $butt Then
 			If $ConnectedSocket > -1 Then
@@ -63,7 +63,7 @@ Func Example()
 					; ERROR OCCURRED, CLOSE SOCKET AND RESET ConnectedSocket to -1
 					;----------------------------------------------------------------
 					TCPCloseSocket($ConnectedSocket)
-					WinSetTitle($GOOEY, "", "my server - Client Disconnected")
+					WinSetTitle($GOOEY, "", "ÎÒµÄ·þÎñ¶Ë - ¿Í»§¶Ë¶Ï¿ªÁ¬½Ó")
 					$ConnectedSocket = -1
 				ElseIf $ret > 0 Then
 					; UPDATE EDIT CONTROL WITH DATA WE SENT

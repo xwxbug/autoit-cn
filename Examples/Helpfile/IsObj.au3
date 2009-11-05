@@ -1,6 +1,6 @@
-ï»¿$oShell = ObjCreate("shell.application")
+$oShell = ObjCreate("shell.application")
 if not IsObj($oShell) then
-	Msgbox(0,"Error","$oShell is not an Object.")
+	Msgbox(0,"´íÎó","$oShell ²»ÊÇÒ»¸ö¶ÔÏó.")
 else
-	Msgbox(0,"Error","Successfully created Object $oShell.")
+	Msgbox(0,"³É¹¦","³É¹¦´´½¨¶ÔÏó $oShell.")
 endif

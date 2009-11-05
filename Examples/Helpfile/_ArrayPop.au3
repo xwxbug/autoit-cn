@@ -1,4 +1,4 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray[10]
 
@@ -13,8 +13,9 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArrayPop()")
+MsgBox(0,"ÌáÊ¾", "½«»áÔÚÁĞ±íÊÓÍ¼ÖĞÏÔÊ¾ÔËĞĞ_ArrayPop()Ö®Ç°µÄÒ»Î¬»ò¶şÎ¬Êı×é")
+_ArrayDisplay($avArray, "ÔËĞĞÇ°")
 While UBound($avArray)
-   MsgBox(0,'_ArrayPop() return value', _ArrayPop($avArray))
-   _ArrayDisplay($avArray, "$avArray AFTER _ArrayPop()")
+	MsgBox(0,"·µ»ØÖµÌáÊ¾", "½«»á·µ»ØÊı×éµÄ×îºóÒ»¸öÔªËØ£º" & _ArrayPop($avArray))
+   _ArrayDisplay($avArray, "ÔËĞĞºó")
 WEnd

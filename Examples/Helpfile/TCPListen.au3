@@ -1,11 +1,11 @@
-ï»¿;SERVER!! Start Me First !!!!!!!!!!!!!!!
+;·þÎñ¶Ë
 $g_IP = "127.0.0.1"
 
-; Start The TCP Services
+; ¿ªÊ¼ TCP ·þÎñ
 ;==============================================
 TCPStartUp()
 
-; Create a Listening "SOCKET"
+; ´´½¨Ò»¸öÌ×½Ó×Ö(socket)¼àÌý
 ;==============================================
 $MainSocket = TCPListen($g_IP, 65432,  100 )
 If $MainSocket = -1 Then Exit

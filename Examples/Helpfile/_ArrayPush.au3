@@ -1,12 +1,19 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
+;_ArrayPush(ByRef $avArray, $vValue[, $iDirection = 0])
+;$avArray(ĞèÒª¸Ä±äµÄÊı×é) 
+;$vValue(Ñ¡Ôñ²ÎÊı:0=Î´²¿ 1=¶¥²¿)
+
 
 Local $avArrayTarget[9] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Local $avArraySource[2] = [100, 200]
 
-_ArrayDisplay($avArrayTarget, "$avArrayTarget BEFORE _ArrayPush()")
-_ArrayPush($avArrayTarget, $avArraySource)
-_ArrayDisplay($avArrayTarget, "$avArrayTarget AFTER _ArrayPush() array to end")
-_ArrayPush($avArrayTarget, $avArraySource, 1)
-_ArrayDisplay($avArrayTarget, "$avArrayTarget AFTER _ArrayPush() array to beginning")
-_ArrayPush($avArrayTarget, "Hello world!", 1)
-_ArrayDisplay($avArrayTarget, "$avArrayTarget AFTER _ArrayPush() string to beginning")
+_ArrayDisplay($avArrayTarget, "ÔËĞĞÇ°")
+
+_ArrayPush($avArrayTarget, $avArraySource);¸Ä±äÎ´²¿Êı×éÖĞµÄËùÓĞÖµ
+_ArrayDisplay($avArrayTarget, "ÔËĞĞºóÎ´²¿¸Ä±ä")
+
+_ArrayPush($avArrayTarget, $avArraySource, 1);¸Ä±ä¶¥²¿Êı×éÖĞµÄËùÓĞÖµ
+_ArrayDisplay($avArrayTarget, "ÔËĞĞºó¶¥²¿¸Ä±ä")
+
+_ArrayPush($avArrayTarget, "ÎÒ¸Ä±äÁË", 1);¸Ä±ä¶¥²¿Êı×éÖĞµÄËùÓĞÖµ
+_ArrayDisplay($avArrayTarget, "ÔËĞĞºó¶¥²¿×Ö·û¸Ä±ä")

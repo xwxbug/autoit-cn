@@ -1,7 +1,7 @@
 ﻿=========================================================
 程序名称:Autoit
 程序版本:3.3.1.4 第一汉化版
-汉化作者:thesnoW,Sxd,kodin
+汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.autoit.net.cn
 =========================================================
 绿色安装方法:解压缩到 任意目录.
@@ -14,24 +14,24 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.1.4 (2009-11-X) (Beta) (第一汉化版)
+3.3.1.4 (2009-11-4) (Beta) (第一汉化版)
 AutoIt:
-[G][+]新增: #508: Static keyword.
+[G][+]新增: #508: Static 关键字.
 
 [G][*]修正: #906: ActiveX controls were not told what their initial size was.
-[G][*]修正: Boolean tests on binary strings now behaves properly.
+[G][*]修正: 布尔(Boolean)测试于二进制字符串现在能更好的工作.
 [G][*]修正: #1242: Beta Regression in _WinAPI_WideCharToMultiByte(). (Thanks Valik)
-[G][*]修正: Fatal error under certain conditions when using minus sign.
-[G][*]修改: PCRE regular expression engine updated to 8.00.
+[G][*]修正: 一些地方使用负数会导致致命错误.
+[G][*]修改: PCRE 正则表达式引擎更新到 8.00.
 
 Scite:
 [H][*]修正: 修正3.3.1.3汉化版中scite语法提示显示错误.(一堆显示出来.此为scite官方问题.)
 
 UDFs:
-[G][*]修正: #1223: _GUICtrlStatusBar_EmbedControl() failing.
+[G][*]修正: #1223: _GUICtrlStatusBar_EmbedControl() 失败.
 [G][*]修正: #1226: _DateDayOfWeek() had an off-by-one error.
-[G][*]修正: Order of parameters was documented wrong for _WinAPI_MakeQWord().
-[G][*]修正: #1168: _ExcelBookOpen() now selects the first visible worksheet to prevent a COM error.
+[G][*]修正: _WinAPI_MakeQWord() 文档中参数顺序错误.
+[G][*]修正: #1168: _ExcelBookOpen() 现在选中第一个可见的工作表,防止发生 COM 错误.
 [G][*]修改: _SQLite 3.6.18 -> 3.6.19
 
 3.3.1.3 (2009-10-X) (Beta) (第一汉化版)
@@ -95,7 +95,7 @@ Aut2Exe:
 [G][*]修正: #1036: Inet-相关函数编译不再出错.
 
 Au3Info:
-[G][-]移除: ColorMode BGR option removed since AutoIt no longer supports the option to use BGR mode.
+[G][-]移除: BGR颜色模式不再支持(目前为RGB,BGR为了和AU2兼容,目前AU3已经成熟).
 
 UDFs:
 [G][+]新增: GuiRichEdit 与函数

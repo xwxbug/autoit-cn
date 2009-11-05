@@ -1,53 +1,53 @@
-ï»¿Opt('MustDeclareVars', 1)
+Opt('MustDeclareVars', 1)
 
 ;==============================================
 ;==============================================
-;å®¢æˆ·ç«¯! è¿è¡Œæˆ‘ä¹‹åŽè¿è¡ŒæœåŠ¡ç«¯!!!!!!!!!!!!!!!
+;¿Í»§¶Ë! ÔËÐÐÇ°±ØÐëÈ·±£·þÎñ¶ËÒÑÔËÐÐ(¿Í»§¶ËÎª·¢ËÍÐÅÏ¢·½)
 ;==============================================
 ;==============================================
 
 Example()
 
 Func Example()
-	; è®¾ç½®ä¸€äº›å¸¸ç”¨ä¿¡æ¯
+	; ÉèÖÃÒ»Ð©³£ÓÃÐÅÏ¢
 	;--------------------------
 	Local $ConnectedSocket, $szData
-	; è®¾ç½® $szIPADDRESS ä¸ºæœåŠ¡å™¨IP. è¿™é‡Œä½¿ç”¨æœ¬åœ°çš„æœºå™¨åç§°è½¬æ¢ä¸º IP åœ°å€
+	; ÉèÖÃ $szIPADDRESS Îª·þÎñ¶ËIP. ÕâÀïÊ¹ÓÃ±¾µØµÄ»úÆ÷Ãû³Æ×ª»»Îª IP µØÖ·
 ;	Local $szServerPC = @ComputerName
 ;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
 	Local $szIPADDRESS = @IPAddress1
 	Local $nPORT = 33891
 
-	; å¼€å§‹ TCP æœåŠ¡
+	; ¿ªÊ¼ TCP ·þÎñ
 	;==============================================
 	TCPStartup()
 
-	; åˆå§‹åŒ–ä¸€ä¸ªå˜é‡æè¿°è¿žæŽ¥
+	; ³õÊ¼»¯Ò»¸ö±äÁ¿ÃèÊöÁ¬½Ó
 	;==============================================
 	$ConnectedSocket = -1
 
-	;å°è¯•è¿žæŽ¥åˆ°æœåŠ¡å™¨IPçš„ 33891 ç«¯å£.
+	;³¢ÊÔÁ¬½Óµ½·þÎñ¶ËIPµÄ 33891 ¶Ë¿Ú.
 	;=======================================================
 	$ConnectedSocket = TCPConnect($szIPADDRESS, $nPORT)
 
-	; å¦‚æžœå‘ç”Ÿäº†é”™è¯¯... æ˜¾ç¤ºå‡ºæ¥
+	; Èç¹û·¢ÉúÁË´íÎó... ÏÔÊ¾³öÀ´
 	If @error Then
-		MsgBox(4112, "é”™è¯¯", "TCPConnect å¤±è´¥äºŽ WSA é”™è¯¯: " & @error)
-		; å¦‚æžœè¿™é‡Œæ²¡æœ‰é”™è¯¯,å°±å¾ªçŽ¯ä¸€ä¸ª inputbox ç”¨äºŽå‘é€æ•°æ®
-		; åˆ°æœåŠ¡å™¨
+		MsgBox(4112, "´íÎó", "TCPÁ¬½ÓÊ§°Ü,·þÎñ¶ËÎ´ÆôÓÃ£¡´íÎó´úÂë: " & @error)
+		; Èç¹ûÕâÀïÃ»ÓÐ´íÎó,¾ÍÑ­»·Ò»¸ö inputbox ÓÃÓÚ·¢ËÍÊý¾Ý
+		; µ½·þÎñ¶Ë
 	Else
-		;ä¸æ–­å¾ªçŽ¯,æ¯æ¬¡å°†è¯¢é—®å‘é€ä»€ä¹ˆæ•°æ®ç»™æœåŠ¡å™¨
+		;²»¶ÏÑ­»·,Ã¿´Î½«Ñ¯ÎÊ·¢ËÍÊ²Ã´Êý¾Ý¸ø·þÎñ¶Ë
 		While 1
-			; ä½¿ç”¨ InputBox å¾—åˆ°è¦å‘é€çš„æ•°æ® 
-			$szData = InputBox("å‘é€æ•°æ®ç»™æœåŠ¡å™¨", @LF & @LF & "è¾“å…¥ä¸€ä¸ªè¦å‘é€ç»™æœåŠ¡å™¨çš„æ•°æ®:")
+			; Ê¹ÓÃ InputBox µÃµ½Òª·¢ËÍµÄÊý¾Ý 
+			$szData = InputBox("·¢ËÍÊý¾Ý¸ø·þÎñ¶Ë", @LF & @LF & "ÊäÈëÒ»¸öÒª·¢ËÍ¸ø·þÎñ¶ËµÄÊý¾Ý:")
 
-			; å¦‚æžœç‚¹å‡»äº† InputBox çš„å–æ¶ˆæŒ‰é’®æˆ–è€…ä½¿ç”¨ä¸€ä¸ªç©ºæ•°æ®å°†é€€å‡ºè¿™ä¸ªå¾ªçŽ¯
+			; Èç¹ûµã»÷ÁË InputBox µÄÈ¡Ïû°´Å¥»òÕßÊ¹ÓÃÒ»¸ö¿ÕÊý¾Ý½«ÍË³öÕâ¸öÑ­»·
 			If @error Or $szData = "" Then ExitLoop
 
-			; æˆ‘ä»¬ç¡®ä¿åœ¨ $szData ä¸­æœ‰æ•°æ®... ç„¶åŽå°è¯•é€šè¿‡è¿žæŽ¥å‘é€æ•°æ®.
+			; ÎÒÃÇÈ·±£ÔÚ $szData ÖÐÓÐÊý¾Ý... È»ºó³¢ÊÔÍ¨¹ýÁ¬½Ó·¢ËÍÊý¾Ý.
 			TCPSend($ConnectedSocket, $szData)
 
-			; å¦‚æžœå‘é€å¤±è´¥(@error)å°†æ–­å¼€è¿žæŽ¥
+			; Èç¹û·¢ËÍÊ§°Ü(@error)½«¶Ï¿ªÁ¬½Ó
 			;----------------------------------------------------------------
 			If @error Then ExitLoop
 		WEnd

@@ -1,38 +1,38 @@
-ï»¿; *******************************************************
-; Example 1 - Create a Microsoft Word window and open a document file
+; *******************************************************
+; Àý×Ó 1 - ´´½¨Ò»¸öÐÂµÄMicrosoft WordÎÄ¼þ²¢´ò¿ª(´´½¨³É¹¦Ôò×Ô¶¯±£´æµ½ÏàÓ¦Â·¾¶)
 ; *******************************************************
 ;
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc")
 
 ; *******************************************************
-; Example 2 - Attempt to attach to an existing word window with the specified document open.
-;               Create a new word window and open that document if one does not already exist.
+; Àý×Ó 2 - ³¢ÊÔ¸½¼Óµ½Ò»¸öÒÑ´æÔÚµÄword´°¿Ú
+;               Èç¹ûÎÄ¼þ²»´æÔÚ£¬´´½¨Ò»¸öÐÂµÄMicrosoft WordÎÄ¼þ²¢´ò¿ª.
 ; *******************************************************
-;
+;³¢ÊÔ¸½¼Óµ½Ò»¸öÒÑ´æÔÚµÄword´°¿Ú
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 1)
 ; Check @extended return value to see if attach was successful
 If @extended Then
-	MsgBox(0, "", "Attached to Existing Window")
+	MsgBox(0, "¸½¼Ó³É¹¦", "¸½¼Óµ½ÏÖÓÐµÄ´°¿Ú")
 Else
-	MsgBox(0, "", "Created New Window")
+	MsgBox(0, "¸½¼ÓÊ§°Ü", "´´½¨ÐÂ´°¿Ú")
 EndIf
 
 ; *******************************************************
-; Example 3 - Create a word window with a new blank document
+; Àý×Ó 3 - ´´½¨Ò»¸öÐÂMicrosoft WordÎÄ¼þ²¢´ò¿ª
 ; *******************************************************
 ;
 #include <Word.au3>
 $oWordApp = _WordCreate ()
 
 ; *******************************************************
-; Example 4 - Create an invisible word window, open a document,
-;               append some text, and quit saving changes.
+;Àý×Ó 4 -´´½¨Ò»¸öÐÂµÄMicrosoft WordÎÄ¼þ²¢´ò¿ª(Ö¸¶¨´°¿ÚÎªÒþ²Ø×´Ì¬)£¬
+;            ×·¼ÓÒ»Ð©ÎÄ±¾£¬È»ºó±£´æ¸ü¸ÄÍË³ö.
 ; *******************************************************
 ;
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 0, 0)
 $oDoc = _WordDocGetCollection ($oWordApp, 0)
-$oDoc.Range.insertAfter ("This is some text to insert.")
+$oDoc.Range.insertAfter ("ÕâÊÇ×·¼ÓµÄÎÄ±¾ÄÚÈÝ.")
 _WordQuit ($oWordApp, -1)
