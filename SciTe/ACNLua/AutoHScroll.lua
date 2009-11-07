@@ -5,6 +5,24 @@
 AutoHScroll = EventClass:new()
 
 --------------------------------------------------------------------------------
+-- Declare a table to store per-pane cached line numbers.  This prevents the
+-- scrollbar from constantly appearing and disappearing during editing.
+--------------------------------------------------------------------------------
+AutoHScroll.cache = { }
+
+--------------------------------------------------------------------------------
+-- Declare the debugging variable (Defaults to off).
+--------------------------------------------------------------------------------
+AutoHScroll.Debug = false
+
+--------------------------------------------------------------------------------
+-- Special variable that controls which pane will be debugged.  Only one pane
+-- can be debugged at a time.  This value should be set to either editor or
+-- output.
+--------------------------------------------------------------------------------
+AutoHScroll.DebugPane = editor
+
+--------------------------------------------------------------------------------
 -- OnUpdateUI()
 --
 -- Update the horizontal scroll width for both the editor and output pane.
@@ -23,61 +41,64 @@ end	-- OnUpdateUI()
 --	pane - Can be either editor or output.
 --------------------------------------------------------------------------------
 function AutoHScroll:SetWidth(pane)
-	-- An interesting quirk, pane.FirstVisibleLine is 0-based but
-	-- of course the display is 1-based.  Keep this in mind if
-	-- debugging the line numbers and things look off-by-one.
-	local longest_value = 0, longest_line, longest_temp
-	local line
+	-- Declare the variable used in the function.
+	local width = 0, line, visible_line
 
-	-- Iterate over all the visible lines and find the longest.  Actually,
-	-- we also iterate over the first non-visible line (at the bottom)
-	-- as well just to prevent a loop where the scrollbar shows itself,
-	-- obscures the line it's active for, then hides itself, then shows
-	-- itself because the line becomes visible again, ad infinium.
-	for line = pane.FirstVisibleLine, pane.FirstVisibleLine + pane.LinesOnScreen do
-		-- Compute the longest line from the lines which are visible.
-		-- We have to translate this to the actual document line,
-		-- otherwise folding may affect which line we get.
-		local doc_line = pane:DocLineFromVisible(line)
-		longest_temp = pane:LineLength(doc_line)
-		if longest_temp > longest_value then
-			longest_value = longest_temp
-			longest_line = doc_line
-		end
-	end
+	-- Iterate over all the visible lines.
+	for visible_line = pane.FirstVisibleLine, pane.FirstVisibleLine + pane.LinesOnScreen do
+		-- Convert the visible line into a document line.
+		local line_temp = pane:DocLineFromVisible(visible_line)
 
-	-- If we have a really small longest_value, set the width to 0
-	-- and return.  This doesn't seem to work correctly for the
-	-- output pane.
-	if longest_value <= 2 then
-		pane.ScrollWidth = 0
-		return
-	end
+		-- Get the width of the line based on the X coordinate of it's end
+		-- position.  This provides a fast and accurate way of getting the
+		-- width regardless of the styling the line may have.
+		local width_temp = pane:PointXFromPosition(pane.LineEndPosition[line_temp])
 
-	-- Get the start of the line, this is used to retrieve the entire line's text.
-	local line_start = pane:PositionFromLine(longest_line)
-	-- This variable stores the position of the first non-whitespace character.
-	local line_pos = pane.LineIndentPosition[longest_line + 2]
-	-- We want to use a non-whitespace style if we can.
-	local style = pane.StyleAt[line_pos]
-	-- We don't want to grab the newlines so use this confusing code
-	-- to strip 1 or 2 characters off the length (Really just a ternary).
-	local adjust = (pane.EOLMode == 0 and 2) or 1
-	-- Retrieve the line's text so we can calculate the width.
-	local line_data = pane:textrange(line_start, (line_start + longest_value) - adjust)
-	-- TextWidth() doesn't handle tabs, so, we replace tabs with spaces set to the
-	-- indent size.
-	line_data = line_data:gsub("\t", string.rep(" ", pane.Indent))
-	-- Get an estimated width of the line.  We iterate all styles and pick the longest.
-	local width = 0, width_temp
-	local i
-	for i = 1, 32 do
-		width_temp = pane:TextWidth(i, line_data)
+		-- Test if the current line is longer than the current longest.
 		if width_temp > width then
+			-- Update the width.
 			width = width_temp
+
+			-- Update the line number.
+			line = line_temp
 		end
 	end
 
-	-- Set the new width.  Hopefully it will be enough.
-	pane.ScrollWidth = width
+	-- Test if the line number has changed compared to the cached line.
+	if self.cache[pane] ~= line then
+		-- Display debug diagnostics about the change.  The offset + 1 is due
+		-- to the document lines being 0-based.  The or statement prevents
+		-- an error on the first run when there is no cached pane data.
+		self:DebugPrintEx(pane, "Old line: " .. (self.cache[pane] or "None") .. ", Old width: " .. pane.ScrollWidth .. ", New Line: " .. line .. ", New width: " .. width)
+
+		-- Set the width.
+		pane.ScrollWidth = width
+
+		-- Cache the longest line to prevent future updates.
+		self.cache[pane] = line
+	end
 end	-- SetWidth()
+
+--------------------------------------------------------------------------------
+-- DebugPrintEx(pane, s)
+--
+-- Set self.Debug = true to allow debug messages to print.  In addition,
+-- self.DebugPane must be set to either editor or output in order for any
+-- debugging to occur.  This is done to filter the messages so that they are
+-- easier to understand.
+--
+-- Parameters:
+--	pane - The pane currently being processed.
+--	s - The string to print.
+--------------------------------------------------------------------------------
+function AutoHScroll:DebugPrintEx(pane, s)
+	local pane_name = "Unknown"
+	if pane == self.DebugPane then
+		if pane == editor then
+			pane_name = "Editor"
+		elseif pane == output then
+			pane_name = "Output"
+		end
+		return self:DebugPrint(pane_name .. ": " .. s)
+	end
+end	-- DebugPrintEx()

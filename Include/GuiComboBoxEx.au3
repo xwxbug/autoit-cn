@@ -388,7 +388,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_FindStringExact
 ; Description ...: Gets information about the specified ComboBox
 ; Syntax.........: _GUICtrlComboBoxEx_GetComboBoxInfo($hWnd, ByRef $tInfo)
 ; Parameters ....: $hWnd        - Handle to control
-;				   $tInfo 		- The information about the ComboBox.
+;                  $tInfo       - The information about the ComboBox.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)
@@ -606,7 +606,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetEditSel
 ;                  Failure      - Empty string
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......:
+; Remarks .......: If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBoxEx_SetEditText
 ; Link ..........:
 ; Example .......: Yes
@@ -1290,7 +1290,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_LimitText
 ; Return values .:
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......:
+; Remarks .......: If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBoxEx_SetEditText
 ; Link ..........:
 ; Example .......: Yes
@@ -1404,7 +1404,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetEditSel
 ; Return values .:
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......:
+; Remarks .......: If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBox_GetEditText, _GUICtrlComboBoxEx_GetEditText, _GUICtrlComboBoxEx_ReplaceEditSel
 ; Link ..........:
 ; Example .......: Yes

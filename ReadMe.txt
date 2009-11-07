@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.1.4 第一汉化版
+程序版本:3.3.1.5 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,6 +14,32 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.1.5 (2009-11-7) (Beta) (第一汉化版)
+AutoIt:
+[G][+]新增: #1056: 新的 Inet 选项传递强制连接上线(防止断线).
+
+[G][*]修正: #1248: Regression in IsHWND() that caused it to erroneously return true in some cases.
+[G][*]修正: #1234: COM 方法修改布尔参数为int.
+[G][*]修正: #1066: FileOpen() with mode 1 now allows text to be overwrriten if the write pointer is repositioned.
+[G][*]修正: #1258: 当尝试离开控件菜单时,会显示窗口系统菜单.
+
+[G][*]修改: InputBox() 不再必须传递X,Y坐标或者宽度,高度.
+
+UDFs:
+[G][+]新增: #1228: _FTP_SetStatusCallback(), _FTP_DecodeInternetStatus() 于 FTPEx.au3. (Thanks Beege)
+
+[G][*]修正: Regression in _InetGetSource().  Also includes a new parameter to control how the data is returned.
+[G][*]修正: #1247: 部分 _GUICtrlComboBoxEx_* 函数当然不能正确的工作于文档说明的样式.
+[G][*]修正: #1260: 潜在的缓冲器溢出于 _WinAPI_GetLastErrorMessage().
+
+Au3Check:
+[G][*]修正: #1239: 搜索库的顺序程序.
+
+Scite:
+[G][!]更新: 更新tidy为2.0.29.0
+[G][!]更新: 更新Obfuscator(代码迷惑)到1.0.27.0
+
+
 3.3.1.4 (2009-11-4) (Beta) (第一汉化版)
 AutoIt:
 [G][+]新增: #508: Static 关键字.

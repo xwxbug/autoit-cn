@@ -2390,6 +2390,6 @@ Global Const $tagSECURITY_ATTRIBUTES = "dword Length;ptr Descriptor;bool Inherit
 ; Author ........: Jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; wchar cFileName[260]; wchar cAlternateFileName[14];"
+Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; wchar cFileName[260]; wchar cAlternateFileName[14]"
 
 ; == Leave this line at the end of the file =====================================================================================

@@ -688,7 +688,7 @@ EndFunc   ;==>_GUICtrlComboBox_GetDroppedWidth
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......:
+; Remarks .......: If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBox_SetEditSel, _GUICtrlComboBoxEx_SetEditSel
 ; Link ..........:
 ; Example .......: Yes
@@ -719,6 +719,7 @@ EndFunc   ;==>_GUICtrlComboBox_GetEditSel
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Minimum OS: Windows XP
+;                  If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBox_SetEditText, _GUICtrlComboBoxEx_SetEditText
 ; Link ..........:
 ; Example .......: Yes
@@ -733,11 +734,12 @@ Func _GUICtrlComboBox_GetEditText($hWnd)
 		Local $iLine = 0
 		Local $iIndex = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_LINEINDEX, $iLine)
 		Local $iLength = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_LINELENGTH, $iIndex)
+		If $iLength = 0 Then Return ""
 		Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLength + 2 & "]")
 		DllStructSetData($tBuffer, "Len", $iLength + 2)
 
 		Local $iRet = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_GETLINE, $iLine, DllStructGetPtr($tBuffer), 0, "wparam", "ptr")
-		If $iRet = -1 Then Return SetError(-1, -1, "")
+		If $iRet = 0 Then Return SetError(-1, -1, "")
 
 		Local $tText = DllStructCreate("wchar Text[" & $iLength + 1 & "]", DllStructGetPtr($tBuffer))
 		Return DllStructGetData($tText, "Text")
@@ -1143,6 +1145,7 @@ EndFunc   ;==>_GUICtrlComboBox_LimitText
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Minimum OS: Windows XP
+;                  If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBox_SetEditText, _GUICtrlComboBox_SetEditSel
 ; Link ..........:
 ; Example .......: Yes
@@ -1291,7 +1294,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetDroppedWidth
 ;                  $iStart      - Starting position
 ;                  $iStop       - Ending postions
 ; Return values .: Success      - True
-;                  Failure      - False If the message is sent to a ComboBox with the $CBS_DROPDOWNLIST style
+;                  Failure      - False If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The positions are zero-based. The first character of the edit control is in the zero position.
@@ -1322,6 +1325,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetEditSel
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Minimum OS: Windows XP
+;                  If the message is sent to a ComboBox with the $CBS_DROPDOWN or $CBS_DROPDOWNLIST style the Function will fail.
 ; Related .......: _GUICtrlComboBox_GetEditText, _GUICtrlComboBox_ReplaceEditSel
 ; Link ..........:
 ; Example .......: Yes

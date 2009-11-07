@@ -10,13 +10,14 @@
 ; AutoIt Version : 3.3.1+
 ; Language ......: English
 ; Description ...: Functions that assist with FTP.
-; Author(s) .....: Wouter, Prog@ndy, jpm
+; Author(s) .....: Wouter, Prog@ndy, jpm, Beege
 ; Notes .........: based on FTP_Ex.au3 16/02/2009 http://www.autoit.de/index.php?page=Thread&postID=48393
 ; Dll(s) ........: wininet.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 Global $__ghWinInet_FTP = -1
+Global $__ghCallback_FTP, $__gbCallback_Set = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -49,6 +50,25 @@ Global Const $INTERNET_FLAG_ASYNC			= 0x10000000
 Global Const $INTERNET_FLAG_FROM_CACHE		= 0x01000000
 Global Const $INTERNET_FLAG_OFFLINE			= $INTERNET_FLAG_FROM_CACHE
 
+;_FTP_...() Status
+Global Const $INTERNET_STATUS_CLOSING_CONNECTION	= 50
+Global Const $INTERNET_STATUS_CONNECTION_CLOSED		= 51
+Global Const $INTERNET_STATUS_CONNECTING_TO_SERVER	= 20
+Global Const $INTERNET_STATUS_CONNECTED_TO_SERVER	= 21
+Global Const $INTERNET_STATUS_CTL_RESPONSE_RECEIVED	= 42
+Global Const $INTERNET_STATUS_INTERMEDIATE_RESPONSE	= 120
+Global Const $INTERNET_STATUS_PREFETCH				= 43
+Global Const $INTERNET_STATUS_REDIRECT				= 110
+Global Const $INTERNET_STATUS_REQUEST_COMPLETE		= 100
+Global Const $INTERNET_STATUS_HANDLE_CREATED		= 60
+Global Const $INTERNET_STATUS_HANDLE_CLOSING		= 70
+Global Const $INTERNET_STATUS_SENDING_REQUEST		= 30
+Global Const $INTERNET_STATUS_REQUEST_SENT			= 31
+Global Const $INTERNET_STATUS_RECEIVING_RESPONSE	= 40
+Global Const $INTERNET_STATUS_RESPONSE_RECEIVED		= 41
+Global Const $INTERNET_STATUS_STATE_CHANGE			= 200
+Global Const $INTERNET_STATUS_RESOLVING_NAME		= 10
+Global Const $INTERNET_STATUS_NAME_RESOLVED			= 11
 ; ===============================================================================================================================
 
 ; #OLD_FUNCTIONS#================================================================================================================
@@ -89,6 +109,7 @@ Global Const $INTERNET_FLAG_OFFLINE			= $INTERNET_FLAG_FROM_CACHE
 ;_FTP_Close
 ;_FTP_Command
 ;_FTP_Connect
+;_FTP_DecodeInternetStatus
 ;_FTP_DirCreate
 ;_FTP_DirDelete
 ;_FTP_DirGetCurrent
@@ -113,6 +134,7 @@ Global Const $INTERNET_FLAG_OFFLINE			= $INTERNET_FLAG_FROM_CACHE
 ;_FTP_Open
 ;_FTP_ProgressDownload
 ;_FTP_ProgressUpload
+;_FTP_SetStatusCallback
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY#============================================================================================================
@@ -128,7 +150,7 @@ Global Const $INTERNET_FLAG_OFFLINE			= $INTERNET_FLAG_FROM_CACHE
 ; Return values .: Success      - 1
 ;                  Failure      - 0
 ; Author ........: Wouter van Kesteren
-; Modified.......:
+; Modified.......: Beege
 ; Remarks .......:
 ; Related .......: _FTP_Open
 ; Link ..........: @@MsdnLink@@ InternetCloseHandle
@@ -138,6 +160,8 @@ Func _FTP_Close($l_InternetSession)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
 	Local $ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $l_InternetSession)
 	If @error Or $ai_InternetCloseHandle[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
+
+	If $__gbCallback_Set = True Then DllCallbackFree($__ghCallback_FTP)
 
 	Return $ai_InternetCloseHandle[0]
 
@@ -184,12 +208,12 @@ EndFunc   ;==>_FTP_Command
 ;                  $s_ServerName 		- Server name/ip.
 ;                  $s_Username  		- Username.
 ;                  $s_Password			- Password.
-;                  $i_Passive			- Optional, Passive mode?.
+;                  $i_Passive			- Optional, Passive mode.
 ;                  $i_ServerPort  		- Optional, Server port ( 0 is default (21) )
 ;				   $l_Service			- Optional, I dont got a clue what this does.
 ;				   $l_Flags			    - Optional, Special flags.
 ;				   $l_Context			- Optional, I dont got a clue what this does.
-; Return values .: Success      - Returns an indentifier
+; Return values .: Success      - Returns an identifier
 ;                  Failure      - 0  and sets @ERROR
 ; Author ........: Wouter van Kesteren
 ; Modified.......:
@@ -207,6 +231,79 @@ Func _FTP_Connect($l_InternetSession, $s_ServerName, $s_Username, $s_Password, $
 	Return $ai_InternetConnect[0]
 
 EndFunc   ;==>_FTP_Connect
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _FTP_DecodeInternetStatus
+; Description ...: Decode a received Internet Status.
+; Syntax.........: _FTP_DecodeInternetStatus($dwInternetStatus)
+; Parameters ....: $dwInternetStatus	- Internet status.
+; Return values .: Returns an string
+; Author ........: Beege
+; Modified.......: jpm
+; Remarks .......:
+; Related .......: _FTP_SetStatusCallback
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
+Func _FTP_DecodeInternetStatus($dwInternetStatus)
+    Switch $dwInternetStatus
+        Case $INTERNET_STATUS_CLOSING_CONNECTION
+            Return 'Closing connection ...'
+
+        Case $INTERNET_STATUS_CONNECTION_CLOSED
+            Return 'Connection closed'
+
+        Case $INTERNET_STATUS_CONNECTING_TO_SERVER
+            Return 'Connecting to server ...'
+
+        Case $INTERNET_STATUS_CONNECTED_TO_SERVER
+            Return 'Connected to server'
+
+        Case $INTERNET_STATUS_CTL_RESPONSE_RECEIVED
+            Return 'CTL esponse received'
+
+        Case $INTERNET_STATUS_INTERMEDIATE_RESPONSE
+            Return 'Intermediate response'
+
+        Case $INTERNET_STATUS_PREFETCH
+            Return 'Prefetch'
+
+        Case $INTERNET_STATUS_REDIRECT
+            Return 'Redirect'
+
+        Case $INTERNET_STATUS_REQUEST_COMPLETE
+            Return 'Request complete'
+
+        Case $INTERNET_STATUS_HANDLE_CREATED
+            Return 'Handle created'
+
+        Case $INTERNET_STATUS_HANDLE_CLOSING
+            Return 'Handle closing ...'
+
+        Case $INTERNET_STATUS_SENDING_REQUEST
+            Return 'Sending request ...'
+
+        Case $INTERNET_STATUS_REQUEST_SENT
+             Return 'Request sent'
+
+        Case $INTERNET_STATUS_RECEIVING_RESPONSE
+            Return 'Receiving response ...'
+
+        Case $INTERNET_STATUS_RESPONSE_RECEIVED
+            Return 'Response received'
+
+        Case $INTERNET_STATUS_STATE_CHANGE
+            Return 'State change'
+
+        Case $INTERNET_STATUS_RESOLVING_NAME
+            Return 'Resolving name ...'
+
+        Case $INTERNET_STATUS_NAME_RESOLVED
+            Return 'Name resolved'
+        Case Else
+            Return 'UNKNOWN status = ' & $dwInternetStatus
+    EndSwitch
+EndFunc
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _FTP_DirCreate
@@ -287,6 +384,7 @@ EndFunc   ;==>_FTP_DirGetCurrent
 ;                  $s_LocalFolder     - The local folder i.e. "c:\temp".
 ;                  $s_RemoteFolder    - The remote folder i.e. '/website/home'.
 ;                  $b_RecursivePut    - Recurse through sub-dirs. 0=Non recursive, 1=Recursive
+;                  $l_Context    	  - Optional, see _FTP_Fileopen().
 ; Return values .: Success      - 1
 ;                  Failure      - 0  and sets @ERROR
 ; Author ........: Stumpii
@@ -296,7 +394,7 @@ EndFunc   ;==>_FTP_DirGetCurrent
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _FTP_DirPutContents($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut)
+Func _FTP_DirPutContents($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut, $l_Context = 0)
 
 	If StringRight($s_LocalFolder,1) == "\" Then $s_LocalFolder = StringTrimRight($s_LocalFolder,1)
 	; Shows the filenames of all files in the current directory.
@@ -312,10 +410,10 @@ Func _FTP_DirPutContents($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b
 		If StringInStr(FileGetAttrib($s_LocalFolder & "\" & $File), "D") Then
 			_FTP_DirCreate($l_InternetSession, $s_RemoteFolder & "/" & $File)
 			If $b_RecursivePut Then
-				_FTP_DirPutContents($l_InternetSession, $s_LocalFolder & "\" & $File, $s_RemoteFolder & "/" & $File, $b_RecursivePut)
+				_FTP_DirPutContents($l_InternetSession, $s_LocalFolder & "\" & $File, $s_RemoteFolder & "/" & $File, $b_RecursivePut, $l_Context)
 			EndIf
 		Else
-			_FTP_FilePut($l_InternetSession, $s_LocalFolder & "\" & $File, $s_RemoteFolder & "/" & $File, 0, 0)
+			_FTP_FilePut($l_InternetSession, $s_LocalFolder & "\" & $File, $s_RemoteFolder & "/" & $File, 0, $l_Context)
 		EndIf
 	WEnd
 
@@ -495,7 +593,7 @@ EndFunc   ;==>_FTP_FileGetSize
 ;~             downloaded. All FTP and Gopher resources are reloaded.
 ;~ dwContext
 ;~   [in] Pointer to a variable that contains the application-defined value that associates this search with any
-;~             application data. This is only used if the application has already called InternetSetStatusCallback to set
+;~             application data. This is only used if the application has already called _FTP_SetStatusCallback() to set
 ;~             up a status callback function.
 ; Related .......: _FTP_FileRead
 ; Link ..........: @@MsdnLink@@ FtpOpenFile
@@ -798,6 +896,7 @@ EndFunc   ;==>_FTP_GetLastResponseInfo
 ; Parameters ....: $l_FTPSession  - as returned by _FTP_Connect().
 ;				   $Return_type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
 ;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
+;                  $l_Context     - Optional, see _FTP_Fileopen().
 ; Return values .: Success      - An array containing the names. Array[0] contain the number of found entries.
 ;                  Failure      - Array[0] = 0
 ; Author ........: Beast, Prog@ndy
@@ -807,9 +906,9 @@ EndFunc   ;==>_FTP_GetLastResponseInfo
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0)
+Func _FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $l_Context = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
-	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, 0, 1)
+	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, 0, 1, $l_Context)
 EndFunc   ;==>_FTP_ListToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -819,6 +918,7 @@ EndFunc   ;==>_FTP_ListToArray
 ; Parameters ....: $l_FTPSession  - as returned by _FTP_Connect().
 ;                  $Return_Type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
 ;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
+;                  $l_Context     - Optional, see _FTP_Fileopen().
 ; Return values .: Success      - 2D Array with names and size.  Array[0][0] contain the number of found entries.
 ;                  Failure      - Array[0][0] = 0
 ; Author ........: Prog@ndy
@@ -831,9 +931,9 @@ EndFunc   ;==>_FTP_ListToArray
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _FTP_ListToArray2D($l_FTPSession, $Return_Type = 0, $l_Flags = 0)
+Func _FTP_ListToArray2D($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $l_Context = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
-	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, 0, 2)
+	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, 0, 2, $l_Context)
 EndFunc   ;==>_FTP_ListToArray2D
 
 ; #FUNCTION# ====================================================================================================================
@@ -844,6 +944,7 @@ EndFunc   ;==>_FTP_ListToArray2D
 ;				   $Return_type   - Optional, 0 = Both Files and Directories, 1 = Directories, 2 = Files.
 ;                  $l_Flags       - Optional, see _FTP_FindFileFirst().
 ;                  $b_Fmt         - Optional, type on the date strings : 1 = yyyy/mm/dd, 0 = mm/dd/yyyy.
+;                  $l_Context     - Optional, see _FTP_Fileopen().
 ; Return values .: Success      - returns a 2D Array, see remarks.
 ;                  Failure      - Array[0][0] = 0.
 ; Author ........: Beast, Prog@ndy
@@ -860,9 +961,9 @@ EndFunc   ;==>_FTP_ListToArray2D
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _FTP_ListToArrayEx($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $b_Fmt = 1)
+Func _FTP_ListToArrayEx($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $b_Fmt = 1, $l_Context = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
-	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, $b_Fmt, 6)
+	Return __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, $b_Fmt, 6, $l_Context)
 EndFunc   ;==>_FTP_ListToArrayEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -1169,6 +1270,50 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 	Return 1
 EndFunc   ;==>_FTP_ProgressUpload
 
+;FUNCTION# ====================================================================================================================
+; Name...........: _FTP_SetStatusCallback
+; Description ...: Registers callback function that WinINet functions can call as progress is made during an operation.
+; Syntax.........: _InternetSetStatusCallback($l_InternetSession, $sFunctionName)
+; Parameters ....: $l_InternetSession   - as returned by _FTP_Open().
+;                  $sFunctionName       - The name of the User Defined Function to call
+; Return values .: Success      - Pointer to callback function
+;                  Failure      - 0 and Set @error
+; Author ........: Beege
+; Modified.......: jpm
+; Remarks .......:
+; Related .......: _FTP_DecodeInternetStatus
+; Link ..........: @@MsdnLink@@ InternetSetStatusCallback
+; Example .......: Yes
+; ===============================================================================================================================
+Func _FTP_SetStatusCallback($l_InternetSession, $sFunctionName)
+	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
+
+    Local $CallBack_Register = DllCallbackRegister($sFunctionName, "none", "ptr;ptr;dword;ptr;dword")
+	If Not $CallBack_Register Then Return SetError(-1, 0, 0)
+
+    Local $ah_CallBackFunction = DllCall('wininet.dll', "ptr", "InternetSetStatusCallback", "ptr", $l_InternetSession, "ulong_ptr", DllCallbackGetPtr($CallBack_Register))
+	If @error Then Return SetError(-3, 0, 0)
+	If $ah_CallBackFunction[0] = Ptr(-1) Then Return SetError(-4, 0, 0)	; INTERNET_INVALID_STATUS_CALLBACK
+
+	$__gbCallback_Set = True
+	$__ghCallback_FTP = $CallBack_Register
+    Return $ah_CallBackFunction[1]
+EndFunc   ;==>_InternetSetStatusCallback
+
+Func __FTP_SetStatusCallback($l_FTPSession, $s_FunctionName)
+	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
+
+    Local $CallBack_Register = DllCallbackRegister($s_FunctionName, "none", "ptr;ptr;dword;ptr;dword")
+	If @error Then Return SetError(-1, 0, 0)
+
+    Local $ah_CallBackFunction = DllCall($__ghWinInet_FTP, "ptr", "InternetSetStatusCallback", "ptr", $l_FTPSession, "ulong_ptr", DllCallbackGetPtr($CallBack_Register))
+	If @error Then Return SetError(-1, 0, 0)
+
+	$__ghCallback_FTP = $CallBack_Register
+    Return $ah_CallBackFunction[1]
+
+EndFunc   ;==>_InternetSetStatusCallback
+
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __FTP_ListToArray
 ; Description ...:
@@ -1188,7 +1333,7 @@ EndFunc   ;==>_FTP_ProgressUpload
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1, $ArrayCount = 6)
+Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1, $ArrayCount = 6, $l_Context = 0)
 	Local $tWIN32_FIND_DATA, $tFileTime, $IsDir, $callFindNext
 	Local $DirectoryIndex = 0, $FileIndex = 0
 
@@ -1202,7 +1347,7 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 
 ;~ Global Const $tagWIN32_FIND_DATA = "DWORD dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; DWORD nFileSizeHigh; DWORD nFileSizeLow; dword dwReserved0; dword dwReserved1; WCHAR cFileName[260]; WCHAR cAlternateFileName[14];"
 	$tWIN32_FIND_DATA = DllStructCreate($tagWIN32_FIND_DATA)
-	Local $callFindFirst = DllCall($__ghWinInet_FTP, 'handle', 'FtpFindFirstFileW', 'handle', $l_FTPSession, 'wstr', "", 'ptr', DllStructGetPtr($tWIN32_FIND_DATA), 'dword', $l_Flags, 'dword_ptr', 0)
+	Local $callFindFirst = DllCall($__ghWinInet_FTP, 'handle', 'FtpFindFirstFileW', 'handle', $l_FTPSession, 'wstr', "", 'ptr', DllStructGetPtr($tWIN32_FIND_DATA), 'dword', $l_Flags, 'dword_ptr', $l_Context)
 	If @error Or Not $callFindFirst[0] Then Return SetError(1, _WinAPI_GetLastError(), 0)
 
 	Do

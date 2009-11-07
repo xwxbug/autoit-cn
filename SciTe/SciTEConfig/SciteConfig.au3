@@ -1,11 +1,12 @@
-﻿#region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=filetype1.ico
 #AutoIt3Wrapper_useansi=y
 #AutoIt3Wrapper_res_comment=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_res_description=Configure SciTE settings For AutoIt3
-#AutoIt3Wrapper_Res_Fileversion=1.6.6.10
+#AutoIt3Wrapper_Res_Fileversion=1.6.7.2
 #AutoIt3Wrapper_res_fileversion_autoincrement=p
-#AutoIt3Wrapper_res_legalcopyright=Copyright © 2009 Jos van der Zande
+#AutoIt3Wrapper_res_legalcopyright=Copyright � 2009 Jos van der Zande
 #AutoIt3Wrapper_res_field=Made By|Jos van der Zande
 #AutoIt3Wrapper_res_field=Email|jdeb at autoitscript dot com
 #AutoIt3Wrapper_res_field=AutoIt Version|%AutoItVer%
@@ -43,29 +44,29 @@ Next
 ; determine the SciTE and AutoIt3 Directories
 ;
 ;	ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : $AutoIT3_Dir = ' & $AutoIT3_Dir & @crlf & '>Error code: ' & @error & @crlf) ;### Debug Console
-If $AutoIT3_Dir = "" or Not FileExists($AutoIT3_Dir) then	
+If $AutoIT3_Dir = "" or Not FileExists($AutoIT3_Dir) then
 	; save current dir
 	$S_CurDir = @WorkingDir
 	; set directory to obfuscator directory
 	FileChangeDir(@ScriptDir)
-	If FileExists(@ScriptDir & "\Autoit3.exe") then 
+	If FileExists(@ScriptDir & "\Autoit3.exe") then
 		$AutoIT3_Dir = @ScriptDir
 	Else
 		FileChangeDir("..")
-		If FileExists("Autoit3.exe") then 
+		If FileExists("Autoit3.exe") then
 			$AutoIT3_Dir = @WorkingDir
 		Else
 			FileChangeDir("..")
-			If FileExists("Autoit3.exe") then 
+			If FileExists("Autoit3.exe") then
 				$AutoIT3_Dir = @WorkingDir
-			Else 
+			Else
 				$AutoIT3_Dir = RegRead("HKLM\Software\AutoIt v3\Autoit", 'InstallDir')
 			EndIf
 		EndIf
 	EndIf
 	; Restore saved current directory
 	FileChangeDir($S_CurDir)
-EndIf	
+EndIf
 ;
 ;
 ; Find SciTE Directory
@@ -76,9 +77,9 @@ Else
 	; save current dir
 	$S_CurDir = @WorkingDir
 	FileChangeDir(@ScriptDir & "\..")
-	If FileExists("SciTE.exe") then 
+	If FileExists("SciTE.exe") then
 		$SciTE_Dir = @WorkingDir
-	Else 
+	Else
 		$SciTE_Dir = RegRead('HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe', '')
 		$SciTE_Dir = StringLeft($SciTE_Dir, StringInStr($SciTE_Dir, "\", '', -1) - 1)
 	EndIf
@@ -86,7 +87,7 @@ Else
 	FileChangeDir($S_CurDir)
 EndIf
 ;
-If Not FileExists($SciTE_Dir) Then 
+If Not FileExists($SciTE_Dir) Then
 	MsgBox(0 + 16 + 262144, "SciTEConfig", "Stopping SciTEConfig because cannot find SciTE.exe.")
 	Exit
 EndIf
@@ -616,8 +617,10 @@ Func Get_Current_config()
 		If StringLeft($param[$y], 5) = "size:" Then $SYN_Font_Mono_Size = StringMid($param[$y], 6)
 	Next
 	;font.override=$(font.monospace)
-	$rest = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:font.override")
-	If $rest = "$(font.monospace)" Then
+	;font.base=font:Verdana,size:10,$(font.override)
+
+	$rest = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:font.base")
+	If StringInStr($rest,"$(font.override)") Then
 		$SYN_Font_Mono_ON = 1
 	Else
 		$SYN_Font_Mono_ON = 0
@@ -877,7 +880,7 @@ Func CheckForUpdates($Silent = 1)
 					"The latest SciTE4AutoIt3 version is " & $SciTE4AutoIt3WebDate & @LF & @LF & _
 					"Do you want to goto the SciTE4AutoIt3 Download page?"
 			If MsgBox(4 + 262144, "New SciTE4AutoIt3 installer available", $msg) = 6 Then
-				Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.php", '', @SW_HIDE)
+				Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.shtml", '', @SW_HIDE)
 			EndIf
 		Else
 			; Check for Patch updates
@@ -885,7 +888,7 @@ Func CheckForUpdates($Silent = 1)
 				$msg = "There is a SciTE4Au3Upd installer available dated: " & $SciTE4Au3UpdWebDate & @LF & _
 						"Do you want to goto the SciTE4AutoIt3 Download page?"
 				If MsgBox(4 + 262144, "New SciTE4Au3Upd installer available", $msg) = 6 Then
-					Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.php", '', @SW_HIDE)
+					Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.shtml", '', @SW_HIDE)
 				EndIf
 			Else
 				If $Silent = 0 Then MsgBox(262144, "SciTE4AutoIt3", "No updates available.")
@@ -1175,9 +1178,9 @@ EndFunc   ;==>SelectNewScheme
 Func RunReqAdmin($Autoit3Commands, $prompt = 1)
 	Local $temp_Script = _TempFile(@TempDir, "~", ".au3")
 	Local $temp_check = _TempFile(@TempDir, "~", ".chk")
-	FileWriteLine($temp_check, 'TempFile') 
-	FileWriteLine($temp_Script, '#NoTrayIcon') 
-	If Not IsAdmin() Then 
+	FileWriteLine($temp_check, 'TempFile')
+	FileWriteLine($temp_Script, '#NoTrayIcon')
+	If Not IsAdmin() Then
 		FileWriteLine($temp_Script, '#RequireAdmin')
 		If $prompt = 1 Then MsgBox(262144, "Need Admin mode", "Admin mode is needed for this update. Asnwer the following prompts to allow the update.")
 	EndIf

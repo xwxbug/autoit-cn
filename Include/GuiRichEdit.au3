@@ -260,7 +260,7 @@ Global Const $tagEDITSTREAM = "dword_ptr dwCookie;dword dwError;ptr pfnCallback"
 ; Fields ........: cbSize    - Specifies the size, in bytes, of the structure
 ;                  wMask     - A set of mask bits that determine which of the wEffects flags will be set to 1 or 0 by the rich edit control. This approach eliminates the need to read the effects flags before changing them.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOM_DEFPARADIR       - Default paragraph direction—implies alignment (obsolete).
+;                  |  $BOM_DEFPARADIR       - Default paragraph directionâ€”implies alignment (obsolete).
 ;                  |  $BOM_PLAINTEXT        - Use plain text layout (obsolete).
 ;                  |  $BOM_NEUTRALOVERRIDE  - Override neutral layout.
 ;                  |  $BOM_CONTEXTREADING   - Context reading order.
@@ -268,7 +268,7 @@ Global Const $tagEDITSTREAM = "dword_ptr dwCookie;dword dwError;ptr pfnCallback"
 ;                  |  $BOM_LEGACYBIDICLASS  - Treatment of plus, minus, and slash characters in right-to-left (LTR) or bidirectional text.
 ;                  wEffects  - A set of flags that indicate the desired or current state of the effects flags. Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOE_RTLDIR           - Default paragraph direction—implies alignment (obsolete).
+;                  |  $BOE_RTLDIR           - Default paragraph directionâ€”implies alignment (obsolete).
 ;                  |  $BOE_PLAINTEXT        - Uses plain text layout (obsolete).
 ;                  |  $BOE_NEUTRALOVERRIDE  - Overrides neutral layout.
 ;                  |  $BOE_CONTEXTREADING   - Context reading order.
@@ -977,7 +977,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Copy
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlRichEdit_Create
 ; Description ...: Create a Edit control
-; Syntax.........: _GUICtrlRichEdit_Create($hWnd, $sText, $iX, $iY, $iWidth = 150[, $iHeight = 150[, $iStyle = -1[, $iExStyle = -1]]])
+; Syntax.........: _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop[, $iWidth = 150[, $iHeight = 150[, $iStyle = -1[, $iExStyle = -1]]]])
 ; Parameters ....: $hWnd        - Handle to parent or owner window
 ;                  $sText       - Text to be displayed in the control
 ;                  $iLeft       - Horizontal position of the control
@@ -2768,6 +2768,7 @@ Func _GUICtrlRichEdit_GetTextinLine($hWnd, $iLine)
 	If $iLine > _GUICtrlRichEdit_GetLineCount($hWnd) Then Return SetError(1022, 0, False)
 
 	Local $iLen = _GUICtrlRichEdit_GetLineLength($hWnd, $iLine)
+	If $iLen = 0 Then Return ""
 	Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLen + 2 & "]")
 	DllStructSetData($tBuffer, "Len", $iLen + 2)
 	If $iLine <> -1 Then $iLine -= 1

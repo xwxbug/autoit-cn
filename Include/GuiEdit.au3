@@ -741,7 +741,7 @@ Func _GUICtrlEdit_GetLine($hWnd, $iLine)
 	DllStructSetData($tBuffer, "Len", $iLength + 1)
 	Local $iRet = _SendMessage($hWnd, $EM_GETLINE, $iLine, $pBuffer, 0, "wparam", "ptr")
 
-	If $iRet = $EC_ERR Then Return SetError($EC_ERR, $EC_ERR, "")
+	If $iRet = 0 Then Return SetError($EC_ERR, $EC_ERR, "")
 
 	Local $tText = DllStructCreate("wchar Text[" & $iLength + 1 & "]", $pBuffer)
 	Return DllStructGetData($tText, "Text")

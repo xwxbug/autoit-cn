@@ -316,7 +316,7 @@ DirCreate ( "path" ) Creates a directory/folder.
 DirGetSize ( "path" [, flag] ) Returns the size in bytes of a given directory.
 DirMove ( "source dir", "dest dir" [, flag] ) Moves a directory and all sub-directories and files.
 DirRemove ( "path" [, recurse] ) Deletes a directory/folder.
-DllCall ( "dll", "return type", "function" [, "type1", param1 [, "type n", param n]] ) Dynamically calls a function in a DLL.
+DllCall ( "dll", "return type", "function" [, type1, param1 [, type n, param n]] ) Dynamically calls a function in a DLL.
 DllCallbackFree ( handle ) Frees a previously created handle created with DllCallbackRegister.
 DllCallbackGetPtr ( handle ) Returns the pointer to a callback function that can be passed to the Win32 API.
 DllCallbackRegister ( "function", "return type", "params" ) Creates a user-defined DLL Callback function.
@@ -468,7 +468,7 @@ IniReadSectionNames ( "filename" ) Reads all sections in a standard format .ini 
 IniRenameSection ( "filename", "section", "new section" [, flag] ) Renames a section in a standard format .ini file.
 IniWrite ( "filename", "section", "key", "value" ) Writes a value to a standard format .ini file.
 IniWriteSection ( "filename", "section", "data" [, index ] ) Writes a section to a standard format .ini file.
-InputBox ( "title", "prompt" [, "default" [, "password char" [, width, height [, left, top [, timeOut [, hwnd]]]]]] ) Displays an input box to ask the user to enter a string.
+InputBox ( "title", "prompt" [, "default" [, "password char" [, width [, height [, left [, top [, timeout [, hwnd]]]]]]]] ) Displays an input box to ask the user to enter a string.
 Int ( expression ) Returns the integer (whole number) representation of an expression.
 IsAdmin ( ) Checks if the current user has full administrator privileges.
 IsArray ( variable ) Checks if a variable is an array type.
@@ -859,10 +859,11 @@ _FileWriteToLine ($sFile, $iLine, $sText [, $fOverWrite = 0]) Writes text to a s
 _FTP_Close ($l_InternetSession) Closes the _FTP_Open session. (Requires: #Include <FTPEx.au3>)
 _FTP_Command ($l_FTPSession, $s_FTPCommand [, $l_Flags = 0x00000001 [, $l_ExpectResponse = 0 [, $l_Context = 0]]]) Sends a command to an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_Connect ($l_InternetSession, $s_ServerName, $s_Username, $s_Password [, $i_Passive = 0 [, $i_ServerPort = 0 [, $l_Service = 1 [, $l_Flags = 0 [, $l_Context = 0]]]]]) Connects to an FTP server. (Requires: #Include <FTPEx.au3>)
+_FTP_DecodeInternetStatus ($dwInternetStatus) Decode a received Internet Status. (Requires: #Include <FTPEx.au3>)
 _FTP_DirCreate ($l_FTPSession, $s_Remote) Makes an Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_DirDelete ($l_FTPSession, $s_Remote) Delete's an Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_DirGetCurrent ($l_FTPSession) Get Current Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
-_FTP_DirPutContents ($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut) Puts an folder on an FTP server. Recursivley if selected. (Requires: #Include <FTPEx.au3>)
+_FTP_DirPutContents ($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut [, $l_Context]) Puts an folder on an FTP server. Recursivley if selected. (Requires: #Include <FTPEx.au3>)
 _FTP_DirSetCurrent ($l_FTPSession, $s_Remote) Set Current Directory on an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_FileClose ($l_InternetSession) Closes the Handle returned by _FTP_FileOpen. (Requires: #Include <FTPEx.au3>)
 _FTP_FileDelete ($l_FTPSession, $s_RemoteFile) Delete an file from an FTP server. (Requires: #Include <FTPEx.au3>)
@@ -877,12 +878,13 @@ _FTP_FindFileClose ($h_Handle) Delete FindFile Handle. (Requires: #Include <FTPE
 _FTP_FindFileFirst ($l_FTPSession, $s_RemotePath, ByRef $h_Handle [, $l_Flags = 0 [, $l_Context = 0]]) Find First File on an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_FindFileNext ($h_Handle) Find Next File on an FTP server. (Requires: #Include <FTPEx.au3>)
 _FTP_GetLastResponseInfo (ByRef $dwError, ByRef $szMessage) Retrieves the last error description or server response on the thread calling this function. (Requires: #Include <FTPEx.au3>)
-_Ftp_ListToArray ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0]]) Get Filenames, Directories or Both of current remote directory. (Requires: #Include <FTPEx.au3>)
-_Ftp_ListToArray2D ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0]]) Get Filenames and filesizes of current remote directory. (Requires: #Include <FTPEx.au3>)
-_FTP_ListToArrayEx ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $b_Fmt = 1]]]) Get names, sizes, attributes aand times of files/dir of current remote directory. (Requires: #Include <FTPEx.au3>)
+_Ftp_ListToArray ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $l_Context]]]) Get Filenames, Directories or Both of current remote directory. (Requires: #Include <FTPEx.au3>)
+_Ftp_ListToArray2D ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $l_Context]]]) Get Filenames and filesizes of current remote directory. (Requires: #Include <FTPEx.au3>)
+_FTP_ListToArrayEx ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $b_Fmt = 1 [, $l_Context]]]]) Get names, sizes, attributes aand times of files/dir of current remote directory. (Requires: #Include <FTPEx.au3>)
 _FTP_Open ($s_Agent[, $l_AccessType = 1 [, $s_ProxyName = '' [, $s_ProxyBypass = '' [, $l_Flags = 0]]]] ) Opens an FTP session. (Requires: #Include <FTPEx.au3>)
 _FTP_ProgressDownload ($l_FTPSession, $s_LocalFile, $s_RemoteFile [, $FunctionToCall = ""]) Downloads a file in Binary Mode and shows a Progress window or by Calling a User defined Function. (Requires: #Include <FTPEx.au3>)
 _FTP_ProgressUpload ($l_FTPSession, $s_LocalFile, $s_RemoteFile [, $FunctionToCall = ""]) Uploads a file in Binary Mode and shows a Progress window or by Calling a User defined Function (Requires: #Include <FTPEx.au3>)
+_FTP_SetStatusCallback ( $l_InternetSession, $sFunctionName) Registers callback function that WinINet functions can call as progress is made during an operation. (Requires: #Include <FTPEx.au3>)
 _GDIPlus_ArrowCapCreate ($fHeight, $fWidth[, $bFilled = True]) Creates an adjustable arrow line cap with the specified height and width (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ArrowCapDispose ($hCap) Release an adjustable arrow line cap object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ArrowCapGetFillState ($hArrowCap) Determines whether the arrow cap is filled (Requires: #Include <GDIPlus.au3>)
@@ -1695,7 +1697,7 @@ _GUICtrlRichEdit_CanRedo ($hWnd) Can an undone action be redone? (Requires: #Inc
 _GUICtrlRichEdit_CanUndo ($hWnd) Can an action be undone? (Requires: #Include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_ChangeFontSize ($hWnd, $iIncrement) Increment or decrement font size(s) of selected text (Requires: #Include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_Copy ($hWnd) Copy text to clipboard (Requires: #Include <GuiRichEdit.au3>)
-_GUICtrlRichEdit_Create ($hWnd, $sText, $iX, $iY, $iWidth = 150[, $iHeight = 150[, $iStyle = -1[, $iExStyle = -1]]]) Create a Edit control (Requires: #Include <GuiRichEdit.au3>)
+_GUICtrlRichEdit_Create ($hWnd, $sText, $iLeft, $iTop[, $iWidth = 150[, $iHeight = 150[, $iStyle = -1[, $iExStyle = -1]]]]) Create a Edit control (Requires: #Include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_Cut ($hWnd) Cut text to clipboard (Requires: #Include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_Deselect ($hWnd) Deselects text, leaving none selected (Requires: #Include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_Destroy (ByRef $hWnd) Delete the Rich Edit control (Requires: #Include <GuiRichEdit.au3>)
@@ -2259,7 +2261,7 @@ _IEImgClick ( ByRef $o_object, $s_linkText [, $s_mode = "src" [, $i_index = 0 [,
 _IEImgGetCollection ( ByRef $o_object [, $i_index = -1] ) Returns a collection object variable representing the IMG tags in the document or a single image by index. (Requires: #include <IE.au3> )
 _IEIsFrameSet ( ByRef $o_object ) Checks to see if the specified Window contains a FrameSet. (Requires: #include <IE.au3> )
 _IELinkClickByIndex ( ByRef $o_object, $i_index [, $f_wait = 1] ) Simulate a mouse click on a link by 0-based index (in source order). (Requires: #include <IE.au3> )
-_IELinkClickByText ( ByRef $o_object, $s_linkText [, $i_index = 0], $f_wait = 1]] ) Simulate a mouse click on a link with text sub-string matching the string provided. (Requires: #include <IE.au3> )
+_IELinkClickByText ( ByRef $o_object, $s_linkText [, $i_index = 0[, $f_wait = 1]] ) Simulate a mouse click on a link with text sub-string matching the string provided. (Requires: #include <IE.au3> )
 _IELinkGetCollection ( ByRef $o_object [, $i_index = -1] ) Returns a collection object containing all links in the document or a single link by index. (Requires: #include <IE.au3> )
 _IELoadWait ( ByRef $o_object [, $i_delay = 0 [, $i_timeout = -1]] ) Wait for a browser page load to complete before returning. (Requires: #include <IE.au3> )
 _IELoadWaitTimeout ( [$i_timeout = -1] ) Retrieve or set the current value in milliseconds _IELoadWait will try before timing out. (Requires: #include <IE.au3> )
@@ -2665,7 +2667,7 @@ _WordDocSaveAs ( ByRef $o_object [, $s_FilePath = "" [, $i_Format = 0 [, $b_Read
 _WordErrorHandlerDeRegister ( ) Disable a registered user COM error handler (Requires: #include <Word.au3> )
 _WordErrorHandlerRegister ( [$s_functionName = "__WordInternalErrorHandler"] ) Register and enable a user COM error handler (Requires: #include <Word.au3> )
 _WordErrorNotify ( [$f_notify = -1] ) Specifies whether Word.au3 automatically notifies of Warnings and Errors (to the console) (Requires: #include <Word.au3> )
-_WordMacroRun ( $o_object, $s_MacroName [, $v_Arg1, [, $v_Arg<i>n</i> [, $v_Arg30]]] ) Runs a Visual Basic macro (Requires: #include <Word.au3>)
+_WordMacroRun ( $o_object, $s_MacroName [, $v_Arg1 [, $v_Arg<i>n</i> [, $v_Arg30]]] ) Runs a Visual Basic macro (Requires: #include <Word.au3>)
 _WordPropertyGet ( ByRef $o_object, $s_property ) Returns a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordPropertySet ( ByRef $o_object, $s_property, $v_newvalue ) Set a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordQuit ( ByRef $o_object [, $i_SaveChanges = -2 [, $i_OriginalFormat = 1 [, $b_RouteDocument = 0]]] ) Close the window and remove the object reference to it (Requires: #include <Word.au3> )

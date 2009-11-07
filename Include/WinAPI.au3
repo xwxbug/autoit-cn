@@ -27,6 +27,7 @@ Global Const $__WINAPICONSTANT_OUT_DEFAULT_PRECIS	= 0
 Global Const $__WINAPICONSTANT_CLIP_DEFAULT_PRECIS	= 0
 Global Const $__WINAPICONSTANT_DEFAULT_QUALITY		= 0
 
+Global Const $__WINAPICONSTANT_FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100
 Global Const $__WINAPICONSTANT_FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
 
 Global Const $__WINAPICONSTANT_LOGPIXELSX = 88
@@ -2845,17 +2846,31 @@ EndFunc   ;==>_WinAPI_GetFileSizeEx
 ; Parameters ....:
 ; Return values .: Success      - Last error message
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: jpm, danielkza, Valik
 ; Remarks .......:
 ; Related .......: _WinAPI_GetLastError
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetLastErrorMessage()
-	Local $sText = ""
-	_WinAPI_FormatMessage($__WINAPICONSTANT_FORMAT_MESSAGE_FROM_SYSTEM, 0, _WinAPI_GetLastError(), 0, $sText, 4096, 0)
-	If @error Then Return SetError(@error, @extended, "")
-	Return $sText
+    Local $tBufferPtr = DllStructCreate("ptr")
+	Local $pBufferPtr = DllStructGetPtr($tBufferPtr)
+
+	Local $nCount = _WinAPI_FormatMessage(BitOR($__WINAPICONSTANT_FORMAT_MESSAGE_ALLOCATE_BUFFER, $__WINAPICONSTANT_FORMAT_MESSAGE_FROM_SYSTEM), _
+		0, _WinAPI_GetLastError(), 0, $pBufferPtr, 0, 0)
+    If @error Then Return SetError(@error, 0, "")
+
+     Local $sText = ""
+    Local $pBuffer = DllStructGetData($tBufferPtr, 1)
+    If $pBuffer Then
+        If $nCount > 0 Then
+            Local $tBuffer = DllStructCreate("wchar[" & ($nCount+1) & "]", $pBuffer)
+            $sText = DllStructGetData($tBuffer, 1)
+        EndIf
+        _WinAPI_LocalFree($pBuffer)
+    EndIf
+
+    Return $sText
 EndFunc   ;==>_WinAPI_GetLastErrorMessage
 
 ; #FUNCTION# ====================================================================================================================

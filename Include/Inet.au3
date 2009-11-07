@@ -72,14 +72,17 @@ EndFunc   ;==>_INetExplorerCapable
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _INetGetSource
 ; Description ...: Gets the source from an URL without writing a temp file.
-; Parameters ....: $s_URL = The URL of the site.
-;				   $nOptions - InetRead() options to use.
-; Return values .: On Success - Returns the source code.
-;                  On Failure - 0  and sets @ERROR = 1
+; Parameters ....: $s_URL - The URL of the site.
+;				   $bString - If True the data is returned in string format, otherwise binary format.
+; Return values .: Success - The read string and sets @extended to the number of bytes returned.
+;                  Failure - An empty string and and sets @error to non-zero.
 ; Author ........: Wouter van Kesteren.
 ; ===============================================================================================================================
-Func _INetGetSource($s_URL, $nOptions = 0)
-	Return InetRead($s_URL, $nOptions)
+Func _INetGetSource($s_URL, $bString = True)
+	Local $sString = InetRead($s_URL, 1)
+	Local $nError = @error, $nExtended = @extended
+	If $bString Then $sString = BinaryToString($sString)
+	Return SetError($nError, $nExtended, $sString)
 EndFunc   ;==>_INetGetSource
 
 ; #FUNCTION# ====================================================================================================================
