@@ -15,8 +15,32 @@ autoit工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 3.3.1.6 (2009-XX-XX) (Beta)
-Autoit:
+AutoIt:
 [H][!]更新: 更新OLEview为6.1.7600.16385(WIN7版本)
+- Added: DllStructSetData() and DllStructGetData() index parameter now supports the Default keyword.
+- Added #1270: GuiSetIcon() now finds suitable large and small icons.
+
+- Fixed #1285: Reverted revision 5025 and all it's bad changes to the way numbers are handled.
+- Fixed #1288: Documented how DllStructSetData() and DllStructGetData() work with arrays when omitting the index parameter.
+- Fixed #1300: DLLs could unload when calling DllCall() with an invalid function.
+- Fixed #1295: Unicode to ANSI conversion was crashing in certain situations.
+- Fixed #1294: Fixed AutoIt deadlock when using the following functions with hanged windows: WinGetTitle, WinSetTitle, WinGetText, WinFlash, WinSetOnTop
+- Fixed #975: Backgrounds of controls on tabs should be less likely to corrupt.
+
+UDFs:
+- Fixed #1287: _Debug functions were blocking input.
+- Fixed #1276: _TicksToTime() incorrectly rounded seconds up.
+- Fixed #1277: Resource clean-up in example script for _GDIPlus_ImageGetGraphicsContext.
+- Fixed #1304: _GDIPlus_BitmapLockBits() now correctly takes a Width and Height parameter instead of a Right and Bottom.
+- Fixed #1290: Invalid Left coordinate when using _GUICtrlTreeView_DisplayRectEx().
+- Fixed #1296: _GUICtrlTreeView_ClickItem() could click outside the control's parent window.
+
+Aut2Exe:
+- Fixed #1283: Added new option /x86 to force a 32-bit build and re-added /unicode which also forces a 32-bit build.
+
+Au3Check:
+- Fixed #1299: Using single quotes in #include now works again.
+
 Scite:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.0
 
