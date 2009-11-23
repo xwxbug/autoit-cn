@@ -14,32 +14,33 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.1.6 (2009-XX-XX) (Beta)
+3.3.1.6 (2009-11-23) (Beta) 第一汉化版
 AutoIt:
-[H][!]更新: 更新OLEview为6.1.7600.16385(WIN7版本)
-- Added: DllStructSetData() and DllStructGetData() index parameter now supports the Default keyword.
-- Added #1270: GuiSetIcon() now finds suitable large and small icons.
 
-- Fixed #1285: Reverted revision 5025 and all it's bad changes to the way numbers are handled.
-- Fixed #1288: Documented how DllStructSetData() and DllStructGetData() work with arrays when omitting the index parameter.
-- Fixed #1300: DLLs could unload when calling DllCall() with an invalid function.
-- Fixed #1295: Unicode to ANSI conversion was crashing in certain situations.
-- Fixed #1294: Fixed AutoIt deadlock when using the following functions with hanged windows: WinGetTitle, WinSetTitle, WinGetText, WinFlash, WinSetOnTop
-- Fixed #975: Backgrounds of controls on tabs should be less likely to corrupt.
+[G][+]新增: DllStructSetData() 和 DllStructGetData() 索引参数现在可以支持默认(Default)关键字.
+[G][+]新增: #1270: GuiSetIcon() 可以自动查找适合大小的图标.
+
+[G][*]修正: #1285: 还原到版本 rev5025 和所有它引起的错误修改导致的无效句柄.
+[G][*]修正: #1288: 文档中 DllStructSetData() 和 DllStructGetData() 工作于数组而忽略索引参数.
+[G][*]修正: #1300: 当DLLCall()调用了一个无效函数,可能导致DLL被卸载..
+[G][*]修正: #1295: 一个确切区域(China)的 Unicode 到 ANSI 转换崩溃问题.
+[G][*]修正: #1294: 修正一个死锁,当运行下面的函数于一个挂起的窗口时: WinGetTitle, WinSetTitle, WinGetText, WinFlash, WinSetOnTop
+[G][*]修正: #975: Backgrounds of controls on tabs should be less likely to corrupt.
+[H][!]更新: 更新OLEview为6.1.7600.16385(WIN7版本)
 
 UDFs:
-- Fixed #1287: _Debug functions were blocking input.
-- Fixed #1276: _TicksToTime() incorrectly rounded seconds up.
-- Fixed #1277: Resource clean-up in example script for _GDIPlus_ImageGetGraphicsContext.
-- Fixed #1304: _GDIPlus_BitmapLockBits() now correctly takes a Width and Height parameter instead of a Right and Bottom.
-- Fixed #1290: Invalid Left coordinate when using _GUICtrlTreeView_DisplayRectEx().
-- Fixed #1296: _GUICtrlTreeView_ClickItem() could click outside the control's parent window.
+[G][*]修正: #1287: _Debug 函数可能屏蔽输入.
+[G][*]修正: #1276: _TicksToTime() 不正确的秒数.
+[G][*]修正: #1277: _GDIPlus_ImageGetGraphicsContext 资源清理例子脚本.
+[G][*]修正: #1304: _GDIPlus_BitmapLockBits() 现在正确的宽度与高度参数代替右侧与底部.
+[G][*]修正: #1290: 当使用 _GUICtrlTreeView_DisplayRectEx() 返回无效的左侧坐标.
+[G][*]修正: #1296: _GUICtrlTreeView_ClickItem() 可能点击到控件父窗口外面.
 
 Aut2Exe:
-- Fixed #1283: Added new option /x86 to force a 32-bit build and re-added /unicode which also forces a 32-bit build.
+[G][*]修正: #1283: 添加新选项 /x86 用于强制使用 32-位 编译.
 
 Au3Check:
-- Fixed #1299: Using single quotes in #include now works again.
+[G][*]修正: #1299: #include 使用单括号不工作的问题.
 
 Scite:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.0
@@ -51,7 +52,7 @@ AutoIt:
 
 [G][*]修正: #1248: Regression in IsHWND() that caused it to erroneously return true in some cases.
 [G][*]修正: #1234: COM 方法修改布尔参数为int.
-[G][*]修正: #1066: FileOpen() with mode 1 now allows text to be overwrriten if the write pointer is repositioned.
+[G][*]修正: #1066: FileOpen() 模式 1 现在可以允许文本覆盖(如果使用了写入坐标).
 [G][*]修正: #1258: 当尝试离开控件菜单时,会显示窗口系统菜单.
 
 [G][*]修改: InputBox() 不再必须传递X,Y坐标或者宽度,高度.
