@@ -549,7 +549,7 @@ Func __Debug_ReportWrite($sData, $bLastError = False, $curext = @extended)
 
 	Execute($__gsReportCallBack_Debug & "'" & $sData & "')")
 
-	If $bBlock Then BlockInput(1) ; restore disable state
+	If Not $bBlock Then BlockInput(1) ; restore disable state
 
 	Return $curext
 EndFunc   ;==>__Debug_ReportWrite

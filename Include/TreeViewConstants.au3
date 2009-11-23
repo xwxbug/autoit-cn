@@ -66,10 +66,10 @@ Global Const $TVHT_TORIGHT = 0x00000400
 Global Const $TVHT_TOLEFT = 0x00000800
 
 ; Insert flags
-Global Const $TVI_ROOT		= 0xFFFFFFFFFFFF0000
-Global Const $TVI_FIRST		= 0xFFFFFFFFFFFF0001
-Global Const $TVI_LAST		= 0xFFFFFFFFFFFF0002
-Global Const $TVI_SORT		= 0xFFFFFFFFFFFF0003
+Global Const $TVI_ROOT = 0xFFFF0000
+Global Const $TVI_FIRST = 0xFFFF0001
+Global Const $TVI_LAST = 0xFFFF0002
+Global Const $TVI_SORT = 0xFFFF0003
 
 ; item/itemex mask flags
 Global Const $TVIF_TEXT = 0x00000001

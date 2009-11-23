@@ -1413,11 +1413,11 @@ EndFunc   ;==>_SetTime
 ; ===============================================================================================================================
 Func _TicksToTime($iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs)
 	If Number($iTicks) > 0 Then
-		$iTicks = Round($iTicks / 1000)
+		$iTicks = Int($iTicks / 1000)
 		$iHours = Int($iTicks / 3600)
 		$iTicks = Mod($iTicks, 3600)
 		$iMins = Int($iTicks / 60)
-		$iSecs = Round(Mod($iTicks, 60))
+		$iSecs = Mod($iTicks, 60)
 		; If $iHours = 0 then $iHours = 24
 		Return 1
 	ElseIf Number($iTicks) = 0 Then

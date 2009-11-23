@@ -524,12 +524,12 @@ EndFunc   ;==>_GDIPlus_BitmapDispose
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_BitmapLockBits
 ; Description ...: Locks a portion of a bitmap for reading or writing
-; Syntax.........: _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iRight, $iBottom[, $iFlags = 1[, $iFormat = 0x00022009]])
+; Syntax.........: _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iWidth, $iHeight, $iFlags = $GDIP_ILMREAD, $iFormat = $GDIP_PXF32RGB)
 ; Parameters ....: $hBitmap     - Handle to a bitmap object
 ;                  $iLeft       - X coordinate of the upper-left corner of the rectangle to lock
 ;                  $iTop        - Y coordinate of the upper-left corner of the rectangle to lock
-;                  $iRight      - X coordinate of the lower-right corner of the rectangle to lock
-;                  $iBottom     - Y coordinate of the lower-right corner of the rectangle to lock
+;                  $iWidth      - The width of the rectangle to lock
+;                  $iHeight     - The height of the rectangle to lock
 ;                  $iFlags      - Set of flags that specify whether the locked portion of the bitmap is available for reading  or
 ;                  +for writing and whether the caller has already allocated a buffer. Can be a combination of the following:
 ;                  |$GDIP_ILMREAD         - A portion of the image is locked for reading
@@ -556,15 +556,20 @@ EndFunc   ;==>_GDIPlus_BitmapDispose
 ; Link ..........: @@MsdnLink@@ GdipBitmapLockBits
 ; Example .......:
 ; ===============================================================================================================================
-Func _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iRight, $iBottom, $iFlags = 1, $iFormat = 0x00022009)
+Func _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iWidth, $iHeight, $iFlags = $GDIP_ILMREAD, $iFormat = $GDIP_PXF32RGB)
 	Local $tData = DllStructCreate($tagGDIPBITMAPDATA)
 	Local $pData = DllStructGetPtr($tData)
 	Local $tRect = DllStructCreate($tagRECT)
 	Local $pRect = DllStructGetPtr($tRect)
+
+	; The RECT is initialized strange for this function.  It wants the Left and
+	; Top members set as usual but instead of Right and Bottom also being
+	; coordinates they are expected to be the Width and Height sizes
+	; respectively.
 	DllStructSetData($tRect, "Left", $iLeft)
 	DllStructSetData($tRect, "Top", $iTop)
-	DllStructSetData($tRect, "Right", $iRight)
-	DllStructSetData($tRect, "Bottom", $iBottom)
+	DllStructSetData($tRect, "Right", $iWidth)
+	DllStructSetData($tRect, "Bottom", $iHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipBitmapLockBits", "handle", $hBitmap, "ptr", $pRect, "uint", $iFlags, "int", $iFormat, "ptr", $pData)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tData)

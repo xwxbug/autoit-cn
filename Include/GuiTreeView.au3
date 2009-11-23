@@ -486,7 +486,10 @@ Func _GUICtrlTreeView_ClickItem($hWnd, $hItem, $sButton = "left", $fMove = False
 
 	Local $tRect = _GUICtrlTreeView_DisplayRectEx($hWnd, $hItem, True)
 	If @error Then Return SetError(@error, @error, 0)
-	Local $tPoint = _WinAPI_PointFromRect($tRect)
+	; Always click on the left-most portion of the control, not the center.  A
+	; very wide control may be off-screen which means clicking on it's center
+	; will click outside the window.
+	Local $tPoint = _WinAPI_PointFromRect($tRect, False)
 	_WinAPI_ClientToScreen($hWnd, $tPoint)
 	Local $iX, $iY
 	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
@@ -687,14 +690,14 @@ Func _GUICtrlTreeView_DeleteAll($hWnd)
 
 	Local $Count
 	If IsHWnd($hWnd) Then
-		_SendMessage($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT, 0, "wparam", "handle")
+		_SendMessage($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT)
 		$Count = _GUICtrlTreeView_GetCount($hWnd) ; might be created with autoit create
 		If $Count Then Return GUICtrlSendMsg($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT) <> 0
 		Return True
 	Else
 		GUICtrlSendMsg($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT)
 		$Count = _GUICtrlTreeView_GetCount($hWnd) ; might be created with udf
-		If $Count Then Return _SendMessage($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT, 0, "wparam", "handle") <> 0
+		If $Count Then Return _SendMessage($hWnd, $TVM_DELETEITEM, 0, $TVI_ROOT) <> 0
 		Return True
 	EndIf
 	Return False
@@ -822,6 +825,7 @@ Func _GUICtrlTreeView_DisplayRectEx($hWnd, $hItem, $fTextOnly = False)
 	Local $pRect = DllStructGetPtr($tRect)
 	Local $iRet
 	If IsHWnd($hWnd) Then
+		; RECT is expected to point to the item in its first member.
 		DllStructSetData($tRect, "Left", $hItem)
 		If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
 			$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, $fTextOnly, $pRect, 0, "wparam", "ptr")
@@ -836,11 +840,13 @@ Func _GUICtrlTreeView_DisplayRectEx($hWnd, $hItem, $fTextOnly = False)
 		EndIf
 	Else
 		If Not IsHWnd($hItem) Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
+		; RECT is expected to point to the item in its first member.
 		DllStructSetData($tRect, "Left", $hItem)
 		$iRet = GUICtrlSendMsg($hWnd, $TVM_GETITEMRECT, $fTextOnly, $pRect)
 	EndIf
 
-	If $iRet Then DllStructSetData($tRect, "Left", 0)
+	; On failure ensure Left is set to 0 and not the item handle.
+	If Not $iRet Then DllStructSetData($tRect, "Left", 0)
 	Return SetError($iRet = 0, $iRet, $tRect)
 EndFunc   ;==>_GUICtrlTreeView_DisplayRectEx
 

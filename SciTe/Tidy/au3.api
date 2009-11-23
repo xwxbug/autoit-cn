@@ -230,11 +230,6 @@ AutoItSetOption ( "WinSearchChildren", param ) Allows the window search routines
 AutoItSetOption ( "WinTextMatchMode", param ) Alters the method that is used to match window text during search operations. 1 = Complete / Slow mode (default) 2 = Quick mode In quick mode AutoIt can usually only "see" dialog text, button text and the captions of some controls.  In the default mode much more text can be seen (for instance the contents of the Notepad window). If you are having performance problems when performing many window searches then changing to the "quick" mode may help. 
 AutoItSetOption ( "WinTitleMatchMode", param ) Alters the method that is used to match window titles during search operations. 1 = Match the title from the start (default) 2 = Match any substring in the title 3 = Exact title match 4 = Advanced mode, see <a href="../intro/windowsadvanced.htm">Window Titles & Text (Advanced)</a> -1 to -4 = force lower case match according to other type of match. 
 AutoItSetOption ( "WinWaitDelay", param ) Alters how long a script should briefly pause after a successful window-related operation. Time in milliseconds to pause (default=250). 
-AutoItSetOption ( "@@End@@", param ) 
-AutoItSetOption ( "###Related###", param ) 
-AutoItSetOption ( "Many.", param ) 
-AutoItSetOption ( "###Example###", param ) 
-AutoItSetOption ( "@@IncludeExample@@", param ) 
 AutoItWinGetTitle ( ) Retrieves the title of the AutoIt window.
 AutoItWinSetTitle ( "newtitle" ) Changes the title of the AutoIt window.
 Beep ( [ Frequency [, Duration ]] ) Plays back a beep to the user.
@@ -534,16 +529,11 @@ Opt ( "WinSearchChildren", param ) Allows the window search routines to search c
 Opt ( "WinTextMatchMode", param ) Alters the method that is used to match window text during search operations. 1 = Complete / Slow mode (default) 2 = Quick mode In quick mode AutoIt can usually only "see" dialog text, button text and the captions of some controls.  In the default mode much more text can be seen (for instance the contents of the Notepad window). If you are having performance problems when performing many window searches then changing to the "quick" mode may help. 
 Opt ( "WinTitleMatchMode", param ) Alters the method that is used to match window titles during search operations. 1 = Match the title from the start (default) 2 = Match any substring in the title 3 = Exact title match 4 = Advanced mode, see <a href="../intro/windowsadvanced.htm">Window Titles & Text (Advanced)</a> -1 to -4 = force lower case match according to other type of match. 
 Opt ( "WinWaitDelay", param ) Alters how long a script should briefly pause after a successful window-related operation. Time in milliseconds to pause (default=250). 
-Opt ( "@@End@@", param ) 
-Opt ( "###Related###", param ) 
-Opt ( "Many.", param ) 
-Opt ( "###Example###", param ) 
-Opt ( "@@IncludeExample@@", param ) 
 Ping ( "address/hostname" [, timeout] ) Pings a host and returns the roundtrip-time.
 PixelChecksum ( left, top, right, bottom [, step [, hwnd [, mode]]] ) Generates a checksum for a region of pixels.
 PixelGetColor (  x , y [, hwnd] ) Returns a pixel color according to x,y pixel coordinates.
 PixelSearch ( left, top, right, bottom, color [, shade-variation [, step [, hwnd]]] ) Searches a rectangle of pixels for the pixel color provided.
-PluginClose ( dllhandle ) Close a plugin file.
+PluginClose ( dllhandle ) Close a plugin file
 PluginOpen ( filename ) Open a plugin file.
 ProcessClose ( "process") Terminates a named process.
 ProcessExists ( "process" )  Checks to see if a specified process exists. 
@@ -901,7 +891,7 @@ _GDIPlus_BitmapCreateFromGraphics ($iWidth, $iHeight, $hGraphics) Creates a Bitm
 _GDIPlus_BitmapCreateFromHBITMAP ($hBmp[, $hPal = 0]) Create a Bitmap object from a bitmap handle (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapCreateHBITMAPFromBitmap ($hBitmap[, $iARGB = 0xFF000000]) Create a handle to a bitmap from a bitmap object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapDispose ($hBitmap) Release a bitmap object (Requires: #Include <GDIPlus.au3>)
-_GDIPlus_BitmapLockBits ($hBitmap, $iLeft, $iTop, $iRight, $iBottom[, $iFlags = 1[, $iFormat = 0x00022009]]) Locks a portion of a bitmap for reading or writing (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_BitmapLockBits ($hBitmap, $iLeft, $iTop, $iWidth, $iHeight, $iFlags = $GDIP_ILMREAD, $iFormat = $GDIP_PXF32RGB) Locks a portion of a bitmap for reading or writing (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapUnlockBits ($hBitmap, $tBitmapData) Unlocks a portion of a bitmap that was locked by _GDIPlus_BitmapLockBits (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushClone ($hBrush) Clone a Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushCreateSolid ([$iARGB = 0xFF000000]) Create a solid Brush object (Requires: #Include <GDIPlus.au3>)
