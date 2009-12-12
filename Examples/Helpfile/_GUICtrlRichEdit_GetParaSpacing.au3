@@ -41,6 +41,7 @@ Func Main()
 						Report("3. Change spacing of both paragraphs")
 					Case 4
 						; Stream all text to the Desktop so you can look at Indents settings in Word
+						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch

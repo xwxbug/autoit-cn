@@ -11,9 +11,9 @@ EndIf
 
 _ExcelBookOpen($sFilePath)
 $oExcel = _ExcelBookAttach($sFilePath) ;搜索模式: Excel工作表路径(默认模式)
-_ExcelWriteCell($oExcel, "看到了吗？写入信息成功了！", 1, 1) ;对指定的Excel工作表单元格写入信息.
-MsgBox(0, "退出", "按[确认]保存文件并退出")
-_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件，然后关闭.
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(0, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件,然后关闭.
 
 ; **************************************************************************************************************
 ; 示例 2 - 基于所选择的模式附加到第一个匹配字符串的Microsoft Excel的实例上.
@@ -28,9 +28,9 @@ EndIf
 
 _ExcelBookOpen($sFilePath)
 $oExcel = _ExcelBookAttach("Temp.xls", "FileName") ;搜索模式: Excel工作表的名称
-_ExcelWriteCell($oExcel, "看到了吗？写入信息成功了！", 1, 1) ;对指定的Excel工作表单元格写入信息.
-MsgBox(0, "退出", "按[确认]保存文件并退出")
-_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件，然后关闭.
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(0, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件,然后关闭.
 
 
 ; **************************************************************************************************************
@@ -46,6 +46,6 @@ EndIf
 
 _ExcelBookOpen($sFilePath)
 $oExcel = _ExcelBookAttach("Microsoft Excel - Temp", "Title") ;搜索模式: Excel工作表的窗口标题
-_ExcelWriteCell($oExcel, "看到了吗？写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
-MsgBox(0, "退出", "按[确认]保存文件并退出")
-_ExcelBookClose($oExcel, 1, 0) ;在没有任何提示的情况下保存该文件，然后关闭.
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(0, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0) ;在没有任何提示的情况下保存该文件,然后关闭.

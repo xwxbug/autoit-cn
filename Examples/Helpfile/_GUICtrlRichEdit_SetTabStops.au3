@@ -34,6 +34,7 @@ Func Main()
 						GUICtrlSetData($lblMsg, "2. Set tab stops at 0.5 and 1.5 inches")
 
 						; Stream all text to the Desktop so you can look at settings in Word
+						_GUICtrlRichEdit_Deselect($hRichEdit)
 						_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch

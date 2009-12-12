@@ -39,6 +39,7 @@ Func Main()
 						_GUICtrlRichEdit_SetBkColor($hRichEdit, 0xB3B3C7)
 						Report("3. Colored background again")
 						; Stream all text to the Desktop so you can look at settings in Word
+						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch

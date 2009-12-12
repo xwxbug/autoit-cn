@@ -35,6 +35,6 @@ _ArrayDisplay($aArray, "从第2行第3列开始, 读取4行5列")
 $aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 0, 0, True);使用默认参数, 除非跨列(真)
 _ArrayDisplay($aArray, "使用默认参数, 除非跨列(真)")
 
-MsgBox(0, "退出", "按[确认]保存文件并退出")
+MsgBox(0, "退出", "按[确定]保存文件并退出")
 _ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 在临时目录保存文件, 如果文件已存在则覆盖原文件
 _ExcelBookClose($oExcel) ; 关闭工作表, 退出

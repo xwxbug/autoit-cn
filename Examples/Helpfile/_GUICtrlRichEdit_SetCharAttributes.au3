@@ -37,8 +37,8 @@ Func Main()
 						_GuiCtrlRichEdit_SetCharAttributes($hRichEdit, "+bo")
 						Report("2. Some characters bolded")
 					Case 3
-						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						; Stream all text to the Desktop so you can look at settings in Word
+						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch

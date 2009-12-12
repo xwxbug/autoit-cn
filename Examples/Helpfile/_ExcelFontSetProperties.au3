@@ -14,7 +14,7 @@ For $i = 1 To 10
 	Next
 Next
 
-MsgBox(0, "提示", "注意字体属性，下面将会显示所有可能的组合！" & @CRLF & "按[确认]开始")
+MsgBox(0, "提示", "注意字体属性,下面将会显示所有可能的组合！" & @CRLF & "按[确定]开始")
 
 $i = 1
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
@@ -115,6 +115,6 @@ Sleep(2500)
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, False)
 ToolTip("设置一个新的字体属性: " & $i)
 
-MsgBox(0, "退出", "按[确认]保存文件并退出")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ;保存至临时目录中，如果文件已存在将覆盖原文件
-_ExcelBookClose($oExcel)  ;关闭工作表. (默认情况下，将自动保存在“我的文档”文件夹中)
+MsgBox(0, "退出", "按[确定]保存文件并退出")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ;保存至临时目录中,如果文件已存在将覆盖原文件
+_ExcelBookClose($oExcel)  ;关闭工作表.

@@ -34,6 +34,6 @@ Sleep(3500)
 
 _ExcelRowInsert($oExcel, 2, 3) ;在指定的列插入行(在第2列位置向下插入3行)
 
-MsgBox(0, "退出", "按[确认]保存文件并退出")
+MsgBox(0, "退出", "按[确定]保存文件并退出")
 _ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 在临时目录保存文件, 如果文件已存在则覆盖原文件
 _ExcelBookClose($oExcel) ; 关闭工作表, 退出

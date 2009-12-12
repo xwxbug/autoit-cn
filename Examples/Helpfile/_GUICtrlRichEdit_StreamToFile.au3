@@ -27,6 +27,7 @@ Func Main()
 	_GUICtrlRichEdit_SetParaBorder($hRichEdit, "l")
 
 	; Stream all text to the Desktop so you can look at border settings in Word
+	_GUICtrlRichEdit_Deselect($hRichEdit)
 	_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 
 	While True

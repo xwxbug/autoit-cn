@@ -40,8 +40,8 @@ Func Main()
 						Report("3. Background of a few characters changed")
 					Case 4
 						_GuiCtrlRichEdit_SetSel($hRichEdit, 0, -1)
-;~ 						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						; Stream all text to the Desktop so you can look at settings in Word
+						_GuiCtrlRichEdit_Deselect($hRichEdit)
 						_GuiCtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						Report("4. Saved to File")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
