@@ -23,11 +23,11 @@ Func _Main()
 	Local Const $image_width = 20
 	Local Const $image_height = 20
 	Local $himages, $main_GUI, $iIndex
-	
+
 	$main_GUI = GUICreate("GuiImageList Begin Drag", 225, 400)
-	
-	$hListView = _GUICtrlListView_Create($main_GUI, "Entry Name|Category", 5, 75, 220, 280, -1, BitOR($WS_EX_CLIENTEDGE, $WS_EX_STATICEDGE))
-	$LV_Height = 280 - 75
+
+	$hListView = _GUICtrlListView_Create($main_GUI, "Entry Name|Category", 5, 75, 220, 180, -1, BitOR($WS_EX_CLIENTEDGE, $WS_EX_STATICEDGE))
+	$LV_Height = 180
 	_GUICtrlListView_SetColumnWidth($hListView, 0, 100)
 	_GUICtrlListView_SetColumnWidth($hListView, 1, 100)
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_CHECKBOXES))
@@ -96,9 +96,9 @@ EndFunc   ;==>_Main
 Func _LVInsertItem($i_FromItem, $i_ToItem)
 	Local $item_state, $i_newIndex
 	Local $struct_LVITEM = DllStructCreate($tagLVITEM)
-	Local $struct_String = DllStructCreate("char Buffer[4096]")
+	Local $struct_String = DllStructCreate("wchar Buffer[4096]")
 	Local $sBuffer_pointer = DllStructGetPtr($struct_String)
-	
+
 	; Insert item into new position
 	DllStructSetData($struct_LVITEM, "Mask", BitOR($LVIF_STATE, $LVIF_IMAGE, $LVIF_INDENT, $LVIF_PARAM, $LVIF_TEXT))
 	DllStructSetData($struct_LVITEM, "StateMask", $LVIS_STATEIMAGEMASK)
@@ -112,7 +112,7 @@ Func _LVInsertItem($i_FromItem, $i_ToItem)
 	DllStructSetData($struct_LVITEM, "Item", $i_ToItem)
 	$i_newIndex = _GUICtrlListView_InsertItem($hListView, DllStructGetData($struct_String, "Buffer"), $i_ToItem, DllStructGetData($struct_LVITEM, "Image"))
 	If @error Then Return SetError(-1, -1, -1)
-	
+
 	; restore previous state
 	If $DebugIt Then _DebugPrint("$i_newIndex = " & $i_newIndex)
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_STATE)
@@ -128,9 +128,9 @@ EndFunc   ;==>_LVInsertItem
 ;------------------------------------------------------
 Func _LVCopyItem($i_FromItem, $i_ToItem, $i_SubItem = 0)
 	Local $struct_LVITEM = DllStructCreate($tagLVITEM)
-	Local $struct_String = DllStructCreate("char Buffer[4096]")
+	Local $struct_String = DllStructCreate("wchar Buffer[4096]")
 	Local $sBuffer_pointer = DllStructGetPtr($struct_String)
-	
+
 	; get from item info
 	DllStructSetData($struct_LVITEM, "Mask", BitOR($LVIF_STATE, $LVIF_IMAGE, $LVIF_INDENT, $LVIF_PARAM, $LVIF_TEXT))
 	DllStructSetData($struct_LVITEM, "StateMask", $LVIS_STATEIMAGEMASK)
@@ -184,7 +184,7 @@ Func WM_MOUSEMOVE($hWndGUI, $MsgID, $wParam, $lParam)
 	; not dragging item we are done here
 	;------------------------------------------------------
 	If $bDragging = False Then Return $GUI_RUNDEFMSG
-	
+
 	;------------------------------------------------------
 	; update the image move
 	;------------------------------------------------------
@@ -225,7 +225,7 @@ Func WM_LBUTTONUP($hWndGUI, $MsgID, $wParam, $lParam)
 	; do hit test see if drag ended in the listview
 	;------------------------------------------------------
 	Local $struct_LVHITTESTINFO = DllStructCreate($tagLVHITTESTINFO)
-	
+
 	DllStructSetData($struct_LVHITTESTINFO, "X", $x)
 	DllStructSetData($struct_LVHITTESTINFO, "Y", $y)
 	$a_index[1] = _SendMessage($hListView, $LVM_HITTEST, 0, DllStructGetPtr($struct_LVHITTESTINFO), 0, "wparam", "ptr")

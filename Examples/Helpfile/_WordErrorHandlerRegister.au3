@@ -3,7 +3,7 @@
 ; *******************************************************
 ;
 #include <Word.au3>
-; Register a customer error handler
+; 注册自定义的错误句柄
 _WordErrorHandlerRegister ("MyErrFunc")
 ; Do something
 ; Deregister the customer error handler
@@ -16,7 +16,7 @@ _WordErrorHandlerRegister ()
 Exit
 
 Func MyErrFunc()
-	; Important: the error object variable MUST be named $oWordErrorHandler
+	;重要：错误对象变量必须命名为 $oWordErrorHandler
 	$ErrorScriptline = $oWordErrorHandler.scriptline
 	$ErrorNumber = $oWordErrorHandler.number
 	$ErrorNumberHex = Hex($oWordErrorHandler.number, 8)

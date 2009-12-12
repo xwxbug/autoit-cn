@@ -1,12 +1,12 @@
 ﻿; *******************************************************
-; Example 1 - Check the current status of _WordErrorNotify, turn it off if on, on if off
+; 示例 1 - 检查 _WordErrorNotify 的当前状态, 如果状态为打开则关闭，如果状态为关闭则打开
 ; *******************************************************
-;
+
 #include <Word.au3>
 If _WordErrorNotify () Then
-	MsgBox(0, "_WordErrorNotify Status", "Notification is ON, turning it OFF")
+	MsgBox(0, "_WordErrorNotify 状态", "状态为打开, 关闭它.")
 	_WordErrorNotify (1)
 Else
-	MsgBox(0, "_WordErrorNotify Status", "Notification is OFF, turning it ON")
+	MsgBox(0, "_WordErrorNotify 状态", "状态为关闭, 打开它.")
 	_WordErrorNotify (0)
 EndIf

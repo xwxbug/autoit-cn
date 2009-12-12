@@ -3,7 +3,7 @@
 ; Example of hashing data and using it to authenticate password
 
 ; This is the MD5-hash of the correct password
-$bPasswordHash="0x72b302bf297a228a75730123efef7c41"
+$bPasswordHash="0xCE950A8D7D367B5CE038E636893B49DC"
 
 $sPassword=InputBox("Login","Please type the correct password.","Yellow fruit that is popular among monkeys")
 

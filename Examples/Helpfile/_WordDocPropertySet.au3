@@ -1,6 +1,6 @@
 ﻿; *******************************************************
-; Example 1 - Create a word window, open a document,
-;				then set the title, subject, and author properties.
+; 示例 1 - 创建一个新的空白文档Word窗口, 打开一个文档,
+;				然后设置标题,主题,作者名字属性
 ; *******************************************************
 ;
 #include <Word.au3>

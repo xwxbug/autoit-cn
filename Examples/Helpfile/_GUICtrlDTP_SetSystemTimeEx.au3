@@ -24,7 +24,7 @@ Func _Main()
 	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
 
 	; Set system time
-	$tDate = DllStructCreate($tagDTPTIME)
+	$tDate = DllStructCreate($tagSYSTEMTIME)
 	DllStructSetData($tDate, "Year", @YEAR)
 	DllStructSetData($tDate, "Month", 8)
 	DllStructSetData($tDate, "Day", 19)

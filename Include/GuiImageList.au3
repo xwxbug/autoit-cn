@@ -353,7 +353,7 @@ EndFunc   ;==>_GUIImageList_DragLeave
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUIImageList_DragMove
 ; Description ...: Moves the image that is being dragged during a drag-and-drop operation
-; Syntax.........: _GUIImageList_DragMove($hWnd, $iX, $iY)
+; Syntax.........: _GUIImageList_DragMove($iX, $iY)
 ; Parameters ....: $hWnd        - Handle to the control.
 ;                  $iX          - The x-coordinate at which to display the drag image.
 ;                  +The coordinate is relative to the upper-left corner of the window, not the client area

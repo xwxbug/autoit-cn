@@ -1336,8 +1336,9 @@ Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 	;== Set the new date
 	;============================================================================
 	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
+	If @error Then Return SetError(@error, @extended, 0)
 
-	Return SetError(@error, @extended, Int($iRetval[0]))
+	Return Int($iRetval[0])
 EndFunc   ;==>_SetDate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1388,8 +1389,9 @@ Func _SetTime($iHour, $iMinute, $iSecond = 0)
 	;== Set the new time
 	;============================================================================
 	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
+	If @error Then Return SetError(@error, @extended, 0)
 
-	Return SetError(@error, @extended, Int($iRetval[0]))
+	Return Int($iRetval[0])
 EndFunc   ;==>_SetTime
 
 ; #FUNCTION# ====================================================================================================================

@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.1.X 第X汉化版
+程序版本:3.3.1.7 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,14 +14,22 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.1.X (2009-1X-XX) (XXXX) 第X汉化版
+3.3.1.7 (2009-12-10) (Beta) 第一汉化版
 AutoIt:
-
-[H][*]修正: MenuConstants.au3 中两个常量错误.
+- Fixed #1332: Mod() forced a conversion to floating point numbers when it didn't need to which can cause unexpected output.
+- Fixed #1321: DllStructCreate() did not support _ in data names.  Documented valid characters for data name.
+- Fixed #1322: Crash when using ControlCommand("GetSelected") on non-Edit controls.
+- Fixed #1328: StringFormat() was no longer accepting sequences such as %000s.
 [H][!]更新: 安装时更好的对来自SVN的拷贝的支持.
 [H][*]修正: 安装时如果选择取消,WIN7会弹出程序可能未正确安装的问题.
 [H][+]新增: au3及a3x文件支持拖放句柄.(文件拖放到脚本文件上运行).
 [H][-]移除: 去掉脚本右键的"编辑脚本(记事本)"选项.
+
+UDFs:
+- Fixed #1312: Errors with _GUIImageList_BeginDrag() example.
+- Fixed #1320: _GUIImageList_DragMove() documentation contained a parameter that doesn't exist.
+- Fixed #1325: Some date functions could attempt to access an invalid array.
+- Fixed: Invalid syntax in MenuConstants.au3.
 
 Scite:
 [H][*]修正: 按F1部分函数无法弹出帮助的Bug.

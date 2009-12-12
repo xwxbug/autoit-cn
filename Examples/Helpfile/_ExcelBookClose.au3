@@ -1,20 +1,20 @@
 ﻿; ***************************************************************
-; Example 1 - Open a new Excel Window and Close it, with default parameters
+; 示例 1 - 创建一个新的工作表并打开, 然后关闭工作表
 ; *****************************************************************
 #include <Excel.au3>
-$oExcel = _ExcelBookNew() ; Example 1 - Create a Microsoft Excel window
-_ExcelBookClose($oExcel) ;By default, this method Saves the file under the "My Documents" folder
+$oExcel = _ExcelBookNew() ;创建一个新的工作表并打开
+_ExcelBookClose($oExcel) ;关闭工作表. (默认情况下，将自动保存在“我的文档”文件夹中)
 
 ; ***************************************************************
-; Example 2 - Open a new Excel Window and Close it, with default parameters
+; 示例 2 - 创建一个新的工作表并打开, 然后用默认参数关闭工作表
 ; *****************************************************************
 #include <Excel.au3>
-$oExcel = _ExcelBookNew() ; Example 1 - Create a Microsoft Excel window
-_ExcelBookClose($oExcel, 0) ;This method will either: 1) Close the file, or 2) if a change has been made to the Excel Window, then Prompt the user
+$oExcel = _ExcelBookNew() ; 创建一个新的工作表并打开
+_ExcelBookClose($oExcel, 0) ;关闭工作表, 可选参数:0 = 不保存，1 = 保存(默认值)
 
 ; ***************************************************************
-; Example 3 - Open a new Excel Window and Close it, with default parameters
+; 示例 3 - 创建一个新的工作表并打开, 然后用默认参数关闭工作表
 ; *****************************************************************
 #include <Excel.au3>
-$oExcel = _ExcelBookNew() ; Example 1 - Create a Microsoft Excel window
-_ExcelBookClose($oExcel, 1, 0) ;This method will save then Close the file, without any of the normal prompts, regardless of changes
+$oExcel = _ExcelBookNew() ; 创建一个新的工作表并打开
+_ExcelBookClose($oExcel, 1, 0) ;在没有任何提示的情况下保存并关闭工作表, 可选参数:0 = 不提示(默认值), 1 = 提示

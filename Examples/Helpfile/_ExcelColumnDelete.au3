@@ -1,40 +1,39 @@
 ﻿; ***************************************************************
-; Example 1 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Delete 1 Column, then Save and Close file.
+; 示例 1 打开一个新的工作表并返回其对象标识符, 然后使用一个循环写入单元格. 提示结束后删除一列，然后保存并关闭文件.
 ; *****************************************************************
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+Local $oExcel = _ExcelBookNew() ;创建一个新的工作表并打开
 
-For $i = 1 To 5 ;Loop
-	_ExcelWriteCell($oExcel, $i, 1, $i) ;Write to the Cell Horizontally using values 1 to 5
+For $i = 1 To 5 ;循环
+	_ExcelWriteCell($oExcel, $i, 1, $i) ;在工作表单元格中横向写入 1 至 5 信息
 Next
 
-ToolTip("Deleting Column Soon...")
+ToolTip("准备删除列...")
 Sleep(3500)
 
-_ExcelColumnDelete($oExcel, 1, 1) ;Delete Column 1 and only delete 1 column
+_ExcelColumnDelete($oExcel, 1, 1) ;删除第1列，删除1列
 
-MsgBox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
-
+MsgBox(0, "退出", "按[确认]保存文件并退出")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 在临时目录保存文件, 如果文件已存在则覆盖原文件
+_ExcelBookClose($oExcel) ; 关闭工作表, 退出
 
 ; ***************************************************************
-; Example 2 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Delete some columns, then Save and Close file.
+; 示例 2 打开一个新的工作表并返回其对象标识符, 然后使用一个循环写入单元格. 提示结束后删除一些列，然后保存并关闭文件.
 ; *****************************************************************
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+Local $oExcel = _ExcelBookNew() ;创建一个新的工作表并打开
 
-For $i = 1 To 5 ;Loop
-	_ExcelWriteCell($oExcel, $i, 1, $i) ;Write to the Cell Horizontally using values 1 to 5
+For $i = 1 To 5 ;循环
+	_ExcelWriteCell($oExcel, $i, 1, $i) ;在工作表单元格中横向写入 1 至 5 信息
 Next
 
-ToolTip("Deleting Columns Soon...")
+ToolTip("准备删除列...")
 Sleep(3500)
 
-_ExcelColumnDelete($oExcel, 3, 2) ;Delete Columns starting at column 3, and delete 2 columns
+_ExcelColumnDelete($oExcel, 3, 2) ;删除第3列，删除2列
 
-MsgBox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
+MsgBox(0, "退出", "按[确认]保存文件并退出")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 在临时目录保存文件, 如果文件已存在则覆盖原文件
+_ExcelBookClose($oExcel) ; 关闭工作表, 退出

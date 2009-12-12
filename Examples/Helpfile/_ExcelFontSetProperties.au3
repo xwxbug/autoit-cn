@@ -1,121 +1,120 @@
 ﻿; *****************************************************************
-; Example 1 - After opening a workbook and returning its object identifier: Sets the Font Properties in a range.
+; 示例 1 打开一个新的工作表并返回其对象标识符, 然后设置一个范围内的字体属性.
 ; *****************************************************************
-
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+Local $oExcel = _ExcelBookNew() ;创建一个新的工作表并打开
 Local $sRangeOrRowStart = 1, $iColStart = 1, $iRowEnd = 10, $iColEnd = 10
 Local $fBold, $fItalic, $fUnderline, $i = 1
 
-; We can fill-up some cells using a simple loop and random Numbers
+;使用一个简单的循环和随机数字填充单元格
 For $i = 1 To 10
 	For $j = 1 To 10
-		_ExcelWriteCell($oExcel, Round(Random(1, 100), 0), $i, $j) ;Round off some random numbers to file
+		_ExcelWriteCell($oExcel, Round(Random(1, 100), 0), $i, $j) ;向文件写入随机数字信息
 	Next
 Next
 
-MsgBox(0, "_ExcelHorizontalAlignSet", "Notice the Font Properties, This will go through all the Possible Combinations" & @CRLF & "Press OK to Continue")
+MsgBox(0, "提示", "注意字体属性，下面将会显示所有可能的组合！" & @CRLF & "按[确认]开始")
 
 $i = 1
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: : " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, True, True, True)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, False)
-ToolTip("New Font Setting: " & $i)
+ToolTip("设置一个新的字体属性: " & $i)
 
-MsgBox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
+MsgBox(0, "退出", "按[确认]保存文件并退出")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ;保存至临时目录中，如果文件已存在将覆盖原文件
+_ExcelBookClose($oExcel)  ;关闭工作表. (默认情况下，将自动保存在“我的文档”文件夹中)

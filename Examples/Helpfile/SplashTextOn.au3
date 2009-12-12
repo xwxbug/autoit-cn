@@ -2,7 +2,7 @@
 Sleep(3000)
 SplashOff()
 
-;; FLICKER
+;闪屏效果
 $message = ""
 SplashTextOn("TitleFoo", $message, -1, -1, -1, -1, 4, "")
 For $x = 1 to 20
@@ -11,7 +11,7 @@ For $x = 1 to 20
 	Sleep(100)
 Next
 
-;; SMOOTH
+;平滑效果
 $message = ""
 SplashTextOn("TitleFoo", $message, -1, -1, -1, -1, 4, "")
 For $x = 1 to 20

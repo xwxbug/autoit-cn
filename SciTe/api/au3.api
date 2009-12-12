@@ -2125,7 +2125,7 @@ _GUIImageList_Destroy ($hWnd) Destroys an image list (Requires: #Include <GuiIma
 _GUIImageList_DestroyIcon ($hIcon) Destroys an icon and frees any memory the icon occupied (Requires: #Include <GuiImageList.au3>)
 _GUIImageList_DragEnter ($hWnd, $iX, $iY) Displays the drag image at the specified position within the window (Requires: #Include <GuiImageList.au3>)
 _GUIImageList_DragLeave ($hWnd) Unlocks the specified window and hides the drag image, allowing the window to be updated (Requires: #Include <GuiImageList.au3>)
-_GUIImageList_DragMove ($hWnd, $iX, $iY) Moves the image that is being dragged during a drag-and-drop operation (Requires: #Include <GuiImageList.au3>)
+_GUIImageList_DragMove ($iX, $iY) Moves the image that is being dragged during a drag-and-drop operation (Requires: #Include <GuiImageList.au3>)
 _GUIImageList_Draw ($hWnd, $iIndex, $hDC, $iX, $iY[, $iStyle=0]) Draws an image list item in the specified device context (Requires: #Include <GuiImageList.au3>)
 _GUIImageList_DrawEx ($hWnd, $iIndex, $hDC, $iX, $iY[, $iDX = 0[, $iDY = 0[, $iRGBBk = 0xFFFFFFFF[, $iRGBFg = 0xFFFFFFFF[, $iStyle=0]]]]]) Draws an image list item in the specified device context (Requires: #Include <GuiImageList.au3>)
 _GUIImageList_Duplicate ($hWnd) Creates a duplicate of an existing image list (Requires: #Include <GuiImageList.au3>)

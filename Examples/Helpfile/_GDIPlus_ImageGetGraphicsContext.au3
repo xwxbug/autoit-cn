@@ -32,6 +32,7 @@ Func _Main()
 	_GDIPlus_ImageSaveToFile ($hImage1, @MyDocumentsDir & "\GDIPlus_Image.jpg")
 
 	; Clean up resources
+	_GDIPlus_GraphicsDispose($hGraphics)
 	_GDIPlus_ImageDispose ($hImage1)
 	_GDIPlus_ImageDispose ($hImage2)
 	_WinAPI_DeleteObject ($hBitmap1)
