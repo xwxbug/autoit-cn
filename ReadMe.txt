@@ -16,20 +16,20 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 3.3.1.7 (2009-12-10) (Beta) 第一汉化版
 AutoIt:
-- Fixed #1332: Mod() forced a conversion to floating point numbers when it didn't need to which can cause unexpected output.
-- Fixed #1321: DllStructCreate() did not support _ in data names.  Documented valid characters for data name.
-- Fixed #1322: Crash when using ControlCommand("GetSelected") on non-Edit controls.
-- Fixed #1328: StringFormat() was no longer accepting sequences such as %000s.
+[G][*]修正: 当 Mod() 出现一个意想不到的数据输出时,会自动转换浮点数来保持正确性.
+[G][*]修正: DllStructCreate() 不支持 _ 于数据名称.  报告为数据名称包含无效字符.
+[G][*]修正: 当使用 ControlCommand("GetSelected") 到一个非编辑控件将导致程序崩溃.
+[G][*]修正: #1328: StringFormat() 不再接受像%000s这样的顺序.
 [H][!]更新: 安装时更好的对来自SVN的拷贝的支持.
 [H][*]修正: 安装时如果选择取消,WIN7会弹出程序可能未正确安装的问题.
 [H][+]新增: au3及a3x文件支持拖放句柄.(文件拖放到脚本文件上运行).
 [H][-]移除: 去掉脚本右键的"编辑脚本(记事本)"选项.
 
 UDFs:
-- Fixed #1312: Errors with _GUIImageList_BeginDrag() example.
-- Fixed #1320: _GUIImageList_DragMove() documentation contained a parameter that doesn't exist.
-- Fixed #1325: Some date functions could attempt to access an invalid array.
-- Fixed: Invalid syntax in MenuConstants.au3.
+[G][*]修正: #1312: _GUIImageList_BeginDrag() 例子中出现错误.
+[G][*]修正: #1320: _GUIImageList_DragMove() 文档中包含的一个参数并不存在.
+[G][*]修正: #1325: 一些日期函数尝试访问一个无效的数组.
+[G][*]修正: MenuConstants.au3 中出现无效表达式.
 
 Scite:
 [H][*]修正: 按F1部分函数无法弹出帮助的Bug.
