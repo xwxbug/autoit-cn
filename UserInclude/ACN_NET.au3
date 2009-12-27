@@ -1,4 +1,5 @@
 ﻿#include-once
+#include <ACN_HASH.au3>
 ; #INDEX# =======================================================================================================================
 ; Title .........: ACN_NET
 ; AutoIt Version: 3.2.13++
@@ -313,3 +314,44 @@ Func _WMI_SetNetworkAdapterInfo($HostName, $IpADD, $SubMask, $GateWay, $DNS1, $D
 	$objNetworkSettings.SetIPXVirtualNetworkNumber($IPX)
 EndFunc   ;==>_WMI_SetNetworkAdapterInfo
 
+
+Func ThunderLinkEnc($Url)
+	$Encrypt = _Base64Encode("AA" & $Url & "ZZ")
+	Return 'thunder://' & $Encrypt
+EndFunc
+
+Func ThunderLinkDec($Url)
+	$Url = StringReplace($Url,'thunder://','')
+	$Url = _Base64Decode($Url)
+	$Url = BinaryToString($Url)
+	$Url = StringTrimLeft($Url,2)
+	$Url = StringTrimRight($Url,2)
+	Return $Url
+EndFunc
+
+Func FlashGetLinkEnc($Url)
+	$Encrypt = _Base64Encode("[FLASHGET]" & $Url & "[FLASHGET]")
+	Return 'FlashGet://' & $Encrypt & '&'
+EndFunc
+
+Func FlashGetLinkDec($Url)
+	$Url = StringReplace($Url,'FlashGet://','')
+	$Url = StringTrimRight($Url,(StringLen($Url)-StringInStr($Url,'&',-1)))
+	$Url = _Base64Decode($Url)
+	$Url = BinaryToString($Url)
+	$Url = StringTrimLeft($Url,10)
+	$Url = StringTrimRight($Url,10)
+	Return $Url
+EndFunc
+
+Func QQdlLinkEnc($Url)
+	$Encrypt = _Base64Encode($Url)
+	Return 'qqdl://' & $Encrypt
+EndFunc
+
+Func QQdlLinkDec($Url)
+	$Url = StringReplace($Url,'qqdl://','')
+	$Url = _Base64Decode($Url)
+	$Url = BinaryToString($Url)
+	Return $Url
+EndFunc

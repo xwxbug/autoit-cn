@@ -288,7 +288,7 @@ Func _MainListView(ByRef $copy_file)
 	GUIRegisterMsg($WM_SIZE, "_WinResized")
 	
 	$dll_mem = DllOpen(@SystemDir & "\psapi.dll")
-	If $dll_mem <> - 1 Then AdlibEnable("_ReduceMemory", 60000)
+	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000)
 	While 1
 		
 		$msg = GUIGetMsg()
@@ -834,7 +834,7 @@ Func _MainTreeView(ByRef $copy_file)
 	GUIRegisterMsg($WM_SIZE, "_WinResized")
 	
 	$dll_mem = DllOpen(@SystemDir & "\psapi.dll")
-	If $dll_mem <> - 1 Then AdlibEnable("_ReduceMemory", 60000)
+	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000)
 	While 1
 		
 		$msg = GUIGetMsg()
