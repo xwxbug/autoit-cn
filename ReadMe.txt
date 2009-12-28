@@ -23,6 +23,7 @@ AutoIt:
 Scite:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.3
 [H][!]更新: 更新ACNWrapper到1.0.0.6,解决UPX压缩率不是最高以及64位编译的一些问题.
+[H][+]新增: ACNWrapper新增64位压缩的支持(使用Mpress压缩).
 
 3.3.2.0 (2009-12-19) 第一汉化版
 Scite:
