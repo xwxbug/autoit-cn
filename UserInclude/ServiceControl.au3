@@ -1,24 +1,24 @@
 ﻿;-------------------------------------------------------------
 ;API控制服务
 
-;_StartService()          开始服务
-;_StopService()          停止服务
-;_ServiceExists()         检测服务
-;_ServiceRunning()     运行服务
-;_CreateService()       建立服务
-;_DeleteService()       删除服务
+;_StartService()		开始服务
+;_StopService()			停止服务
+;_ServiceExists()		检测服务
+;_ServiceRunning()		运行服务
+;_CreateService()		建立服务
+;_DeleteService()		删除服务
 ;-------------------------------------------------------------
 ;========================================================================================
 ;WMI服务控制
-;_ServStart()            开始服务
-;_ServStop()            停止服务
-;_ServDelete()          删除服务
-;_ServGetDetails()     服务详情
-;_ServGetState()      服务状态
-;_ServListInstalled()   服务列表
-;_ServPause()           暂停服务
-;_ServResume()        服务改名
-;_SerSetState()        设置服务状态
+;_ServStart()			开始服务
+;_ServStop()			停止服务
+;_ServDelete()			删除服务
+;_ServGetDetails()		服务详情
+;_ServGetState()		服务状态
+;_ServListInstalled()		服务列表
+;_ServPause()			暂停服务
+;_ServResume()			服务改名
+;_SerSetState()			设置服务状态
 
 ;========================================================================================
 Global $STANDARD_RIGHTS_REQUIRED = 0x000F0000

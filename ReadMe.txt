@@ -19,11 +19,17 @@ AutoIt:
 [H][*]修正: 修正3.3.2.0第一汉化版中帮助文件运行脚本默认不在scite打开的问题.
 [H][+]新增: 新增迅雷链,快车链,QQ链的解码编码ADF.
 [H][+]新增: 新增_RefreshIconMSG用于替换原先的_Refreshicon(刷新图标)的ADF.
+[H][+]新增: _API_PickIconDlg(ACN_API_Shell.au3)用于替换原先的ADF(_SetIconByFileName.au3).
+[H][-]移除: _SetIconByFileName.au3
+[H][-]移除: 由于可以直接指定其它EXE/DLL作为图标源,移除部分图标.
+[H][!]更新: 更新ResHacker到3.5.2.84.
 
 Scite:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.3
 [H][!]更新: 更新ACNWrapper到1.0.0.6,解决UPX压缩率不是最高以及64位编译的一些问题.
 [H][+]新增: ACNWrapper新增64位压缩的支持(使用Mpress压缩).
+[H][+]新增: 3.3.0.0 第三汉化版起 ACNWrapper 支持指定一个EXE或者DLL作为文件图标.
+            现在可以使用[EXE/DLL文件名|图标索引]来指定图标了,不用再使用默认的第一个图标了.
 
 3.3.2.0 (2009-12-19) 第一汉化版
 Scite:
