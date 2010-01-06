@@ -65,9 +65,6 @@ Func _MouseClickPlus($Window, $Button = "left", $X = "", $Y = "", $Clicks = 1)
   Next
 EndFunc
 
-
-
-
 Func _MakeLong($LoWord,$HiWord)
   Return BitOR($HiWord * 0x10000, BitAND($LoWord, 0xFFFF))
 EndFunc

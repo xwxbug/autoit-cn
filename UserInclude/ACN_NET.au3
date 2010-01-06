@@ -131,12 +131,10 @@ EndFunc   ;==>_CMD_SetLocalIP
 ; ===============================================================================================================================
 Func _NetworkGetInternetIP()
 	Local $ip
-	If InetGet("http://www.aamailsoft.com/getip.php", @TempDir & "\ip.txt") Then
-		$ip = FileRead(@TempDir & "\ip.txt")
-		FileDelete(@TempDir & "\ip.txt")
+	 $ip=InetRead("http://www.aamailsoft.com/getip.php",1)
+	If	StringStripWS($ip,8) <> "" Then
 		Return $ip
 	Else
-		FileDelete(@TempDir & "\ip.txt")
 		Return "0.0.0.0"
 	EndIf
 EndFunc   ;==>_NetworkGetInternetIP
