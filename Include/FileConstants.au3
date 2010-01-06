@@ -26,7 +26,8 @@ Global Const $FO_BINARY		= 16 ; Read/Write mode binary
 Global Const $FO_UNICODE	= 32 ; Write mode Unicode UTF16-LE
 Global Const $FO_UTF16_LE	= 32 ; Write mode Unicode UTF16-LE
 Global Const $FO_UTF16_BE	= 64 ; Write mode Unicode UTF16-BE
-Global Const $FO_UTF8		= 128 ; Read/Write mode UTF8
+Global Const $FO_UTF8		= 128 ; Read/Write mode UTF8 with BOM
+Global Const $FO_UTF8_NOBOM	= 256 ; Read/Write mode UTF8 with no BOM
 
 ; Indicates file read options
 Global Const $EOF = -1 ; End-of-file reached

@@ -3586,9 +3586,11 @@ EndFunc   ;==>__IELockSetForegroundWindow
 ;					http://www.microsoft.com/downloads/details.aspx?FamilyId=9B14F6E1-888A-4F1D-B1A1-DA08EE4077DF&displaylang=en
 ; ===============================================================================================================================
 Func __IEControlGetObjFromHWND(ByRef $hWin)
-	Local $aRet = DllCall("ole32.dll", "long", "CoInitialize", "ptr", 0)
+	; The code assumes CoInitialize() succeeded due to the number of different
+	; yet successful return values it has.
+	DllCall("ole32.dll", "long", "CoInitialize", "ptr", 0)
 	If @error Then Return SetError(2, @error, 0)
-	If $aRet[0] <> 0 Then Return SetError(4, $aRet[0], 0)
+
 	Local Const $WM_HTML_GETOBJECT = __IERegisterWindowMessage("WM_HTML_GETOBJECT")
 	Local Const $SMTO_ABORTIFHUNG = 0x0002
 	Local $lResult

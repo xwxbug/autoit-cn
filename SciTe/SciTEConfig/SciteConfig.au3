@@ -1,7 +1,7 @@
 #region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_icon=filetype1.ico
-#AutoIt3Wrapper_useansi=y
+#AutoIt3Wrapper_icon=c:\windows\notepad.exe|0
+;~ #AutoIt3Wrapper_useansi=y
 #AutoIt3Wrapper_res_comment=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_res_description=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_Res_Fileversion=1.6.7.2
@@ -11,10 +11,10 @@
 #AutoIt3Wrapper_res_field=Email|jdeb at autoitscript dot com
 #AutoIt3Wrapper_res_field=AutoIt Version|%AutoItVer%
 #AutoIt3Wrapper_res_field=Compile Date|%date% %time%
-#AutoIt3Wrapper_run_after=copy "%out%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
-#AutoIt3Wrapper_run_after=copy "%in%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
-#AutoIt3Wrapper_run_cvswrapper=v
-#AutoIt3Wrapper_run_obfuscator=y
+;~ #AutoIt3Wrapper_run_after=copy "%out%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
+;~ #AutoIt3Wrapper_run_after=copy "%in%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
+;~ #AutoIt3Wrapper_run_cvswrapper=v
+;~ #AutoIt3Wrapper_run_obfuscator=y
 #Obfuscator_parameters=/cs=0 /cn=0 /cf=0 /cv=0 /sf=1
 #AutoIt3Wrapper_Add_Constants=n
 #endregion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -88,7 +88,7 @@ Else
 EndIf
 ;
 If Not FileExists($SciTE_Dir) Then
-	MsgBox(0 + 16 + 262144, "SciTEConfig", "Stopping SciTEConfig because cannot find SciTE.exe.")
+	MsgBox(0 + 16 + 262144, "SciTEConfig", "没有找到 SciTE.exe ,程序停止. ")
 	Exit
 EndIf
 ;
@@ -102,7 +102,7 @@ $VERSION = StringLeft($VERSION, StringInStr($VERSION, ".", 0, -1) - 1)
 ;$VERSION = "1.3.0"
 ; Check if updates are available...
 If StringInStr($cmdlineraw, "/CheckUpdates") Then
-	CheckForUpdates(1)
+;~ 	CheckForUpdates(1)
 	Exit
 EndIf
 ;
@@ -112,7 +112,7 @@ Opt("WinSearchChildren", 1)
 Global $SciTECmd
 Global $SciTE_hwnd = WinGetHandle("DirectorExtension")
 If @error Then
-	MsgBox(0 + 16 + 262144, "SciTEConfig", "Stopping SciTEConfig because SciTE isn't running.")
+	MsgBox(0 + 16 + 262144, "SciTEConfig", "SciTE 未运行,程序退出.")
 	Exit ;exit when Scite isn't running
 EndIf
 ; Get My GUI Handle numeric
@@ -164,17 +164,17 @@ Dim $x
 $BaseX = 30
 $BaseY = 40
 $h_tab = GUICtrlCreateTab(10, 10, 390, 450)
-$h_tab0 = GUICtrlCreateTabItem("General Settings")
-GUICtrlCreateGroup("Explorer AU3 File setting.", $BaseX, $BaseY, 340, 55)
-GUICtrlCreateLabel('Choose Default action for Au3 files:', $BaseX + 10, $BaseY + 15)
-$h_Edit = GUICtrlCreateRadio('Edit', $BaseX + 190, $BaseY + 15, 50, 15)
-$h_Run = GUICtrlCreateRadio('Run', $BaseX + 190, $BaseY + 35, 50, 15)
-$read = RegRead('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '')
-If $read = 'Edit' Or $read = 'Open' Then
-	GUICtrlSetState($h_Edit, $GUI_CHECKED)
-Else
-	GUICtrlSetState($h_Run, $GUI_CHECKED)
-EndIf
+$h_tab0 = GUICtrlCreateTabItem("常规设置")
+;~ GUICtrlCreateGroup("Explorer AU3 File setting.", $BaseX, $BaseY, 340, 55)
+;~ GUICtrlCreateLabel('Choose Default action for Au3 files:', $BaseX + 10, $BaseY + 15)
+;~ $h_Edit = GUICtrlCreateRadio('Edit', $BaseX + 190, $BaseY + 15, 50, 15)
+;~ $h_Run = GUICtrlCreateRadio('Run', $BaseX + 190, $BaseY + 35, 50, 15)
+;~ $read = RegRead('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '')
+;~ If $read = 'Edit' Or $read = 'Open' Then
+;~ 	GUICtrlSetState($h_Edit, $GUI_CHECKED)
+;~ Else
+;~ 	GUICtrlSetState($h_Run, $GUI_CHECKED)
+;~ EndIf
 $SYN_Font_Mono_ON = 1
 $SYN_Font_Mono_Size = 8
 $SYN_Font_Mono_Type = "Courier New"
@@ -183,14 +183,14 @@ $SYN_Font_Prop_Type = "Arial"
 Get_Current_config()
 ;
 $BaseY = 105
-GUICtrlCreateGroup("General settings", $BaseX, $BaseY, 340, 80)
-GUICtrlCreateLabel("Keep n BAK versions of the edited file (0=None):", $BaseX + 10, $BaseY + 15, 230, 20)
+GUICtrlCreateGroup("常规设置", $BaseX, $BaseY, 340, 80)
+GUICtrlCreateLabel("保存编辑的文件备份数量(0=无):", $BaseX + 10, $BaseY + 15, 230, 20)
 $h_Backups = GUICtrlCreateInput($Backups, $BaseX + 245, $BaseY + 12, 25, 20)
-$H_ProperCase = GUICtrlCreateCheckbox("Auto Propercase Functions and Keywords.", $BaseX + 10, $BaseY + 30)
-$H_CheckUpdatesSciTE4AutoIt3 = GUICtrlCreateCheckbox("Check daily for Updates of SciTE4AutoIT3.", $BaseX + 10, $BaseY + 50)
+$H_ProperCase = GUICtrlCreateCheckbox("自动区分函数与关键字的大小写.", $BaseX + 10, $BaseY + 30)
+$H_CheckUpdatesSciTE4AutoIt3 = GUICtrlCreateCheckbox("检查 SciTE4AutoIT3 更新.", $BaseX + 10, $BaseY + 50)
 ;
 $BaseY = 195
-GUICtrlCreateGroup("Loaded AutoIt3 definitions:", $BaseX, $BaseY, 340, 60)
+GUICtrlCreateGroup("载入的 AutoIt3 定义:", $BaseX, $BaseY, 340, 60)
 $Pver = IniRead($SciTE_Dir & "\defs\versioninfo.ini", "Version", "Production", "?")
 $h_PLoaded = GUICtrlCreateRadio('Production: ' & $Pver & "", $BaseX + 10, $BaseY + 15, 250, 15)
 $Bver = IniRead($SciTE_Dir & "\defs\versioninfo.ini", "Version", "Beta", "?")
@@ -202,22 +202,22 @@ Else
 EndIf
 ;
 $BaseY = 265
-GUICtrlCreateGroup("AutoIt3 Directory settings:", $BaseX, $BaseY, 340, 80)
+GUICtrlCreateGroup("AutoIt3 目录设置:", $BaseX, $BaseY, 340, 80)
 GUICtrlCreateLabel("AutoIt3Dir=" & $AutoIT3_Dir, $BaseX + 10, $BaseY + 18, 300, 20)
 $UserIncludeDirectory = RegRead("HKEY_CURRENT_USER\SOFTWARE\AutoIt v3\AutoIt", "Include")
 If $UserIncludeDirectory = "" Then $UserIncludeDirectory = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "Include")
-GUICtrlCreateLabel("User Include Dir:", $BaseX + 10, $BaseY + 35, 80, 20)
+GUICtrlCreateLabel("用户 Include 目录:", $BaseX + 10, $BaseY + 35, 110, 20)
 $h_UserIncludeDirectory = GUICtrlCreateInput($UserIncludeDirectory, $BaseX + 10, $BaseY + 50, 300, 20)
 $h_UserIncludeDirectory_Button = GUICtrlCreateButton("...", $BaseX + 315, $BaseY + 50, 20, 20)
 ;
 $BaseY = 350
-GUICtrlCreateGroup("AU3 Font settings", $BaseX, $BaseY, 340, 100)
-$H_Syn_Mono_Change = GUICtrlCreateButton("Change", $BaseX + 10, $BaseY + 15, 50, 20)
-$H_Syn_Mono = GUICtrlCreateCheckbox("Monospace Font:" & $SYN_Font_Mono_Type, $BaseX + 70, $BaseY + 15, 220, 20)
-$H_Syn_Mono_Size = GUICtrlCreateLabel("Size:" & $SYN_Font_Mono_Size, $BaseX + 290, $BaseY + 17, 40, 20)
-$H_Syn_Prop_Change = GUICtrlCreateButton("Change", $BaseX + 10, $BaseY + 45, 50, 20)
-$H_Syn_Prop = GUICtrlCreateCheckbox("Proportional Font:" & $SYN_Font_Prop_Type, $BaseX + 70, $BaseY + 45, 220, 20)
-$H_Syn_Prop_Size = GUICtrlCreateLabel("Size:" & $SYN_Font_Prop_Size, $BaseX + 290, $BaseY + 47, 40, 20)
+GUICtrlCreateGroup("AU3 字体设置", $BaseX, $BaseY, 340, 100)
+$H_Syn_Mono_Change = GUICtrlCreateButton("修改", $BaseX + 10, $BaseY + 15, 50, 20)
+$H_Syn_Mono = GUICtrlCreateCheckbox("等宽字体:" & $SYN_Font_Mono_Type, $BaseX + 70, $BaseY + 15, 220, 20)
+$H_Syn_Mono_Size = GUICtrlCreateLabel("大小:" & $SYN_Font_Mono_Size, $BaseX + 290, $BaseY + 17, 40, 20)
+$H_Syn_Prop_Change = GUICtrlCreateButton("修改", $BaseX + 10, $BaseY + 45, 50, 20)
+$H_Syn_Prop = GUICtrlCreateCheckbox("比例字体:" & $SYN_Font_Prop_Type, $BaseX + 70, $BaseY + 45, 220, 20)
+$H_Syn_Prop_Size = GUICtrlCreateLabel("大小:" & $SYN_Font_Prop_Size, $BaseX + 290, $BaseY + 47, 40, 20)
 If $SYN_Font_Mono_ON = 1 Then
 	GUICtrlSetState($H_Syn_Mono, 1)
 	GUICtrlSetState($H_Syn_Prop, 4)
@@ -230,19 +230,19 @@ Else
 	$SYN_Font_Size = $SYN_Font_Prop_Size
 EndIf
 ;
-$H_Use_Tabs = GUICtrlCreateCheckbox("Use Tabs", $BaseX + 10, $BaseY + 70)
-GUICtrlCreateLabel("Tab Size:", $BaseX + 100, $BaseY + 73, 60, 20)
-$H_Tab_Size = GUICtrlCreateInput($Tab_Size, $BaseX + 155, $BaseY + 73, 20, 20)
+$H_Use_Tabs = GUICtrlCreateCheckbox("使用制表符(Tabs)", $BaseX + 10, $BaseY + 70)
+GUICtrlCreateLabel("制表符大小:", $BaseX + 140, $BaseY + 73, 80, 20)
+$H_Tab_Size = GUICtrlCreateInput($Tab_Size, $BaseX + 205, $BaseY + 73, 25, 20)
 ;
 ; Color Tab
-$h_tab1 = GUICtrlCreateTabItem("Color Settings")
+$h_tab1 = GUICtrlCreateTabItem("颜色设置")
 $BaseY = 60
 ;determine current loaded definition files for SciTE
 ;$BaseY = 148
-$H_Background_Label = GUICtrlCreateLabel("Background Color:" & StringLower($Background_Color), $BaseX + 5, $BaseY, 150, 20)
-$H_CaretLine_Label = GUICtrlCreateLabel("Caret line Color:" & StringLower($CaretLine_Color), $BaseX + 5, $BaseY + 20, 150, 20)
-$H_Background_Color = GUICtrlCreateButton("BackGround", $BaseX + 170, $BaseY, 80, 20)
-$H_CaretLine_Color = GUICtrlCreateButton("CaretLine", $BaseX + 170, $BaseY + 20, 80, 20)
+$H_Background_Label = GUICtrlCreateLabel("背景色:" & StringLower($Background_Color), $BaseX + 5, $BaseY, 150, 20)
+$H_CaretLine_Label = GUICtrlCreateLabel("插入行颜色:" & StringLower($CaretLine_Color), $BaseX + 5, $BaseY + 20, 150, 20)
+$H_Background_Color = GUICtrlCreateButton("背景", $BaseX + 170, $BaseY, 80, 20)
+$H_CaretLine_Color = GUICtrlCreateButton("插入行", $BaseX + 170, $BaseY + 20, 80, 20)
 $BaseY = $BaseY + 50
 GUICtrlCreateLabel("B", $BaseX + 170, $BaseY, 20, 20)
 GUICtrlSetFont(-1, $SYN_Font_Size, 900, 0, $SYN_Font_Type)
@@ -250,15 +250,15 @@ GUICtrlCreateLabel("I", $BaseX + 195, $BaseY, 20, 20)
 GUICtrlSetFont(-1, $SYN_Font_Size, 400, 2, $SYN_Font_Type)
 GUICtrlCreateLabel("U", $BaseX + 220, $BaseY, 20, 20)
 GUICtrlSetFont(-1, $SYN_Font_Size, 400, 4, $SYN_Font_Type)
-GUICtrlCreateLabel("Default BackColor", $BaseX + 280, $BaseY - 10, 50, 30)
+GUICtrlCreateLabel("默认背景色", $BaseX + 280, $BaseY - 10, 50, 30)
 For $x = 1 To 16
 	$H_Syn_Label[$x] = GUICtrlCreateLabel($Syn_Label[$x], $BaseX + 5, $BaseY + 20 * $x, 150, 20)
 	$H_Syn_Bold[$x] = GUICtrlCreateCheckbox("", $BaseX + 170, $BaseY + 20 * $x, 20, 20)
 	$H_Syn_Italic[$x] = GUICtrlCreateCheckbox("", $BaseX + 195, $BaseY + 20 * $x, 20, 20)
 	$H_Syn_Underline[$x] = GUICtrlCreateCheckbox("", $BaseX + 220, $BaseY + 20 * $x, 20, 20)
-	$H_Syn_fColor[$x] = GUICtrlCreateButton("Fore", $BaseX + 245, $BaseY + 20 * $x, 40, 20)
+	$H_Syn_fColor[$x] = GUICtrlCreateButton("前景", $BaseX + 245, $BaseY + 20 * $x, 40, 20)
 	$H_Syn_bColor_Standard[$x] = GUICtrlCreateCheckbox("", $BaseX + 295, $BaseY + 20 * $x, 20, 20)
-	$H_Syn_bColor[$x] = GUICtrlCreateButton("Back", $BaseX + 320, $BaseY + 20 * $x, 40, 20)
+	$H_Syn_bColor[$x] = GUICtrlCreateButton("背景", $BaseX + 320, $BaseY + 20 * $x, 40, 20)
 Next
 Update_Window()
 ;~ $H_Update = GUICtrlCreateButton("Update", 60, 442, 70)
@@ -283,8 +283,8 @@ If FileExists($AutoIT3_Dir & '\SciTE\Properties\au3.properties') Then
 	Else
 		Global $checkbox[$split[0] + 1]
 		; Create the Tools selection Tab
-		$h_tab2 = GUICtrlCreateTabItem("Tools Selection")
-		GUICtrlCreateLabel("Select items to enable or disable from Scite's Tools menu", 40, 50, 330)
+		$h_tab2 = GUICtrlCreateTabItem("工具选择")
+		GUICtrlCreateLabel("选择要禁用启用的工具项目", 40, 50, 330)
 		GUICtrlSetFont(Default, 9)
 		$h_treeview = GUICtrlCreateTreeView(16, 80, 375, 370, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP, $TVS_LINESATROOT), $WS_EX_CLIENTEDGE)
 		; Create the TreeView Checkboxes
@@ -316,13 +316,13 @@ If FileExists($AutoIT3_Dir & '\SciTE\Properties\au3.properties') Then
 EndIf
 #endregion - Tools
 GUICtrlCreateTabItem("") ; end tabitem definition
-$H_Update = GUICtrlCreateButton("Update", 10, 470, 70)
+$H_Update = GUICtrlCreateButton("更新", 10, 470, 70)
 GUICtrlSetTip(-1, "Show changes in SciTE and save to SciTEUser.properties")
-$H_NewScheme = GUICtrlCreateButton("New Scheme", 90, 470, 70)
-GUICtrlSetTip(-1, "Select a new Color&Font Scheme.")
+$H_NewScheme = GUICtrlCreateButton("新主题", 90, 470, 70)
+GUICtrlSetTip(-1, "选择新颜色/字体主题.")
 GUICtrlSetState($H_NewScheme, $GUI_HIDE)
-$H_Exit = GUICtrlCreateButton("Exit", 170, 470, 50)
-$H_SciTE4AutoIT3Updates = GUICtrlCreateButton("Check for SciTE4Autoit3 Updates", 230, 470, 170)
+$H_Exit = GUICtrlCreateButton("退出", 170, 470, 50)
+$H_SciTE4AutoIT3Updates = GUICtrlCreateButton("检查 SciTE4Autoit3 更新", 230, 470, 170)
 GUICtrlSetTip(-1, "Check for avaliable update for SciTE4AutoIT3")
 
 GUISetState(@SW_SHOW)
@@ -363,14 +363,14 @@ While 1
 			Update_Window()
 			ContinueLoop
 			;
-		Case $rc = $h_Edit
-			RunReqAdmin("RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Open')")
+;~ 		Case $rc = $h_Edit
+;~ 			RunReqAdmin("RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Open')")
 ;~ 			RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Open')
-			;
-		Case $rc = $h_Run
-			RunReqAdmin("RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Run')")
+;~ 			;
+;~ 		Case $rc = $h_Run
+;~ 			RunReqAdmin("RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Run')")
 ;~ 			RegWrite('HKEY_CLASSES_ROOT\AutoIt3Script\Shell', '', 'REG_SZ', 'Run')
-			;
+;~ 			;
 		Case $rc = $H_ProperCase
 			Update_SciTE_User(1)
 			;
@@ -490,10 +490,10 @@ Exit
 ;*****************************************************************************
 Func Update_Window()
 	Local $x
-	GUICtrlSetData($H_Syn_Mono, "Monospace Font:" & $SYN_Font_Mono_Type)
-	GUICtrlSetData($H_Syn_Prop, "Proportional Font:" & $SYN_Font_Prop_Type)
-	GUICtrlSetData($H_Syn_Mono_Size, "Size:" & $SYN_Font_Mono_Size)
-	GUICtrlSetData($H_Syn_Prop_Size, "Size:" & $SYN_Font_Prop_Size)
+	GUICtrlSetData($H_Syn_Mono, "等宽字体:" & $SYN_Font_Mono_Type)
+	GUICtrlSetData($H_Syn_Prop, "比例字体:" & $SYN_Font_Prop_Type)
+	GUICtrlSetData($H_Syn_Mono_Size, "大小:" & $SYN_Font_Mono_Size)
+	GUICtrlSetData($H_Syn_Prop_Size, "大小:" & $SYN_Font_Prop_Size)
 	If $ProperCase = 1 Then
 		GUICtrlSetState($H_ProperCase, 1)
 	Else
@@ -1097,9 +1097,9 @@ Func SelectNewScheme()
 	GUICtrlCreateLabel("Select new default Color/Font Scheme.", 30, 10)
 	$h_Scheme = GUICtrlCreateCombo("", 30, 35, 460, 80, $CBS_DROPDOWN + $CBS_AUTOHSCROLL + $WS_VSCROLL + $CBS_SORT)
 	GUICtrlSetData(-1, $Schemes, " [NoChange]")
-	Local $h_Ok = GUICtrlCreateButton("Ok", 155, 60, 80, 33, 0)
+	Local $h_Ok = GUICtrlCreateButton("确定", 155, 60, 80, 33, 0)
 	GUICtrlSetState(-1, $GUI_DEFBUTTON)
-	Local $h_Cancel = GUICtrlCreateButton("Cancel", 265, 60, 80, 33, 0)
+	Local $h_Cancel = GUICtrlCreateButton("取消", 265, 60, 80, 33, 0)
 	GUISetState(@SW_SHOW, $gui2)
 	Local $rc
 	While 1

@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.2.X 第X汉化版
+程序版本:3.3.3.1 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,15 +14,16 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.2.X (20XX-XX-XX) 第X汉化版
+3.3.3.1 (2010-01-06) 第一汉化版
 AutoIt:
 [H][*]修正: 修正3.3.2.0第一汉化版中帮助文件运行脚本默认不在scite打开的问题.
-[H][+]新增: 新增迅雷链,快车链,QQ链的解码编码ADF.
-[H][+]新增: 新增_RefreshIconMSG用于替换原先的_Refreshicon(刷新图标)的ADF.
-[H][+]新增: _API_PickIconDlg(ACN_API_Shell.au3)用于替换原先的ADF(_SetIconByFileName.au3).
-[H][-]移除: _SetIconByFileName.au3
 [H][-]移除: 由于可以直接指定其它EXE/DLL作为图标源,移除部分图标.
 [H][!]更新: 更新ResHacker到3.5.2.84.
+[G][+]新增: #682: 移除 FileReadLine() 函数64KB限制
+[G][*]修正: 使用Stdio重定位时崩溃.
+[G][-]移除: InetGet("abort"), @InetGetActive 和 @InetGetBytesRead 正式移除.
+[G][-]移除: AdlibEnable() 和 AdlibDisable() 正式移除.
+[G][-]移除: OnAutoItStart 和 OnAutoItExit 正式移除.
 
 Scite:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.3
@@ -30,6 +31,38 @@ Scite:
 [H][+]新增: ACNWrapper新增64位压缩的支持(使用Mpress压缩).
 [H][+]新增: 3.3.0.0 第三汉化版起 ACNWrapper 支持指定一个EXE或者DLL作为文件图标.
             现在可以使用[EXE/DLL文件名|图标索引]来指定图标了,不用再使用默认的第一个图标了.
+
+UDFs:
+[G][*]修正: #1389: _IEAttach() 调用多个项目时可能失败.
+
+ADF:
+[H][+]新增: 新增HASH解码编码的ADF.
+[H][+]新增: 新增迅雷链,快车链,QQ链的解码编码ADF.
+[H][+]新增: 新增_RefreshIconMSG用于替换原先的_Refreshicon(刷新图标)的ADF.
+[H][+]新增: _API_PickIconDlg(ACN_API_Shell.au3)用于替换原先的ADF(_SetIconByFileName.au3).
+[H][-]移除: _SetIconByFileName.au3
+
+
+3.3.3.0 (2010-01-03) (Beta)
+AutoIt:
+[G][+]新增: 现在读写 UTF-8 文件可以不使用BOM,读取时也会自动检测.
+
+[G][*]修正: #1345: Number() 失败于尾数是小数点(这样写也行?).
+[G][*]修正: #384: Under certain circumstances the network credentials flag would prevent the process from starting when launched with RunAs() or RunAsWait().
+[G][*]修正: #1370: StringInStr() 将崩溃于一个负数顺序,且开始位置超过字符串长度.
+[G][*]修正: #1367: 从 GUIRegisterMsg() 调用 GUIDelete() 时,回调函数将返回 $GUI_RUNDEFMSG ,这将导致 AutoIt 崩溃.
+[G][*]修正: #1363: FileSetPos() 在设置原点为当前坐标时,函数不再工作.
+[G][*]修正: #1355: Regression in how unsigned numbers are displayed when returned from DllCall().
+
+[G][-]移除: FileOpen() 函数 "RAW" 读取模式已经移除.
+
+UDFs:
+[G][*]修改: _SQLite 3.6.19 -> 3.6.21
+[G][*]修正: #1338: 无效 _ArrayDisplay() GUI 坐标错误.
+[G][*]修正: #1362: _WinAPI_WindowFromPoint() 不能工作于 64 位 AutoIt.
+
+AutoIt3Help:
+[G][*]修正: #1327: 部分关键词不能在scite中打开帮助. 3.3.1.7汉化版已经修正.
 
 3.3.2.0 (2009-12-19) 第一汉化版
 Scite:

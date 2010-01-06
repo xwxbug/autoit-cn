@@ -6097,9 +6097,14 @@ EndFunc   ;==>_WinAPI_WideCharToMultiByte
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WindowFromPoint(ByRef $tPoint)
-	Local $iX = DllStructGetData($tPoint, "X")
-	Local $iY = DllStructGetData($tPoint, "Y")
-	Local $aResult = DllCall("user32.dll", "hwnd", "WindowFromPoint", "long", $iX, "long", $iY)
+	; The point data must be packed into an int64 in order to work on x64.  On
+	; x64 it is not possible to pass two 32-bit integers to the function because
+	; of how stack based parameters are aligned.  On x64 they are qword
+	; aligned which means the Y coordinate is truncated.  It works on x86
+	; because the stack is dword aligned.  By packing the data into int64 the
+	; proper POINT alignment is maintained on both x86 and x64.
+	Local $tPointCast = DllStructCreate("int64", DllStructGetPtr($tPoint))
+	Local $aResult = DllCall("user32.dll", "hwnd", "WindowFromPoint", "int64", DllStructGetData($tPointCast, 1))
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WindowFromPoint

@@ -472,6 +472,9 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = "Array: ListView Display", $i
 	Next
 	If $iWidth < 250 Then $iWidth = 230
 	$iWidth += 20
+
+	If $iWidth > @DesktopWidth Then $iWidth = @DesktopWidth - 100
+
 	WinMove($hGUI, "", (@DesktopWidth - $iWidth)/2, Default, $iWidth)
 
 	; Show dialog
@@ -915,7 +918,7 @@ EndFunc   ;==>_ArrayReverse
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ArraySearch
 ; Description ...: Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted.
-; Syntax.........: _ArraySearch(Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iForward = 1[, $iSubItem = 0]]]]]])
+; Syntax.........: _ArraySearch(Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iForward = 1[, $iSubItem = -1]]]]]])
 ; Parameters ....: $avArray  - The array to search
 ;                  $vValue   - What to search $avArray for
 ;                  $iStart   - [optional] Index of array to start searching at

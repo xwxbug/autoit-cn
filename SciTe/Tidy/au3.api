@@ -69,6 +69,7 @@ With?4
 #AutoIt3Wrapper_Res_Icon_Add?1
 #AutoIt3Wrapper_Res_Language?1
 #AutoIt3Wrapper_Res_LegalCopyright?1
+#AutoIt3Wrapper_Res_ProductVersion?1
 #AutoIt3Wrapper_res_requestedExecutionLevel?1
 #AutoIt3Wrapper_Res_SaveSource?1
 #AutoIt3Wrapper_Run_After?1
@@ -78,7 +79,9 @@ With?4
 #AutoIt3Wrapper_Run_Debug_Mode?1
 #AutoIt3Wrapper_Run_Obfuscator?1
 #AutoIt3Wrapper_Run_Tidy?1
+#AutoIt3Wrapper_ShowGUI?1
 #AutoIt3Wrapper_Tidy_Stop_OnError?1
+#AutoIt3Wrapper_UPX_Parameters?1
 #AutoIt3Wrapper_UseAnsi?1
 #AutoIt3Wrapper_UseUpx?1
 #AutoIt3Wrapper_UseX64?1
@@ -87,6 +90,8 @@ With?4
 #forceref?1
 #Obfuscator_Ignore_Funcs?1
 #Obfuscator_Ignore_Variables?1
+#Obfuscator_Off?1
+#Obfuscator_On?1
 #Obfuscator_Parameters?1
 #Region?1
 #Tidy_Parameters?1
@@ -449,7 +454,7 @@ GUISwitch ( winhandle [, tabitemID] ) Switches the current window used for GUI f
 Hex ( expression [, length] ) Returns a string representation of an integer or of a binary type converted to hexadecimal.
 HotKeySet ( "key" [, "function"] ) Sets a hotkey that calls a user function.
 HttpSetProxy ( mode [, "proxy:port" [, "username" [, "password"]]] ) Sets the internet proxy to use for http access.
-HttpSetUserAgent ( "user agent" ) Sets the user-agent string sent with InetGet() requests.
+HttpSetUserAgent ( "user agent" ) Sets the user-agent string sent with InetGet() and InetRead() requests.
 HWnd ( expression ) Converts an expression into an HWND handle.
 InetClose ( handle ) Closes a handle returned from InetGet().
 InetGet ( "URL" [,"filename" [, options [, background]]] ) Downloads a file from the internet using the HTTP, HTTPS or FTP protocol.
@@ -693,7 +698,7 @@ _ArrayPermute (ByRef $avArray [, $sDelim = ""]) Returns an Array of the Permutat
 _ArrayPop (ByRef $avArray) Returns the last element of an array, deleting that element from the array at the same time. (Requires: #Include <Array.au3>)
 _ArrayPush (ByRef $avArray, $vValue [, $iDirection = 0]) Add new values without increasing array size by inserting at the end the new value and deleting the first one or vice versa. (Requires: #Include <Array.au3>)
 _ArrayReverse (ByRef $avArray [, $iStart = 0 [, $iEnd = 0]]) Takes the given array and reverses the order in which the elements appear in the array. (Requires: #Include <Array.au3>)
-_ArraySearch (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iPartial = 0 [, $iForward = 1 [, $iSubItem = 0]]]]]]) Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted. (Requires: #Include <Array.au3>)
+_ArraySearch (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iPartial = 0 [, $iForward = 1 [, $iSubItem = -1]]]]]]) Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted. (Requires: #Include <Array.au3>)
 _ArraySort (ByRef $avArray[, $iDescending = 0 [, $iStart = 0 [, $iEnd = 0 [, $iSubItem = 0]]]]) Sort a 1D or 2D array on a specific index using the quicksort/insertionsort algorithms. (Requires: #Include <Array.au3>)
 _ArraySwap (ByRef $vItem1, ByRef $vItem2) Swaps two items. (Requires: #Include <Array.au3>)
 _ArrayToClip (Const ByRef $avArray [, $iStart = 0 [, $iEnd = 0]]) Sends the contents of an array to the clipboard, each element delimited by a carriage return. (Requires: #Include <Array.au3>)
