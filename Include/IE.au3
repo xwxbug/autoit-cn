@@ -3610,7 +3610,7 @@ Func __IEControlGetObjFromHWND(ByRef $hWin)
 	DllStructSetData($typUUID, 4, 0x26, 7)
 	DllStructSetData($typUUID, 4, 0x37, 8)
 
-	$aRet = DllCall("oleacc.dll", "long", "ObjectFromLresult", "lresult", $lResult, "ptr", DllStructGetPtr($typUUID), _
+	Local $aRet = DllCall("oleacc.dll", "long", "ObjectFromLresult", "lresult", $lResult, "ptr", DllStructGetPtr($typUUID), _
 			"wparam", 0, "idispatch*", 0)
 	If @error Then Return SetError(3, @error, 0)
 

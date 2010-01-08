@@ -69,6 +69,7 @@ Global Const $__EVENTLOG_FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200
 ;__EventLog_DecodeStrings
 ;__EventLog_DecodeTime
 ;__EventLog_DecodeTypeStr
+;__EventLog_DecodeUserName
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
@@ -455,9 +456,9 @@ Func __EventLog_DecodeTypeStr($iEventType)
 EndFunc   ;==>__EventLog_DecodeTypeStr
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: _EventLog__DecodeUserName
+; Name...........: __EventLog_DecodeUserName
 ; Description ...: Decodes the user name from an event log record
-; Syntax.........: _EventLog__DecodeUserName($tEventLog)
+; Syntax.........: __EventLog_DecodeUserName($tEventLog)
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - User name
 ; Author ........: Paul Campbell (PaulIA)
@@ -467,13 +468,14 @@ EndFunc   ;==>__EventLog_DecodeTypeStr
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _EventLog__DecodeUserName($tEventLog)
+Func __EventLog_DecodeUserName($tEventLog)
 	Local $pEventLog = DllStructGetPtr($tEventLog)
 	If DllStructGetData($tEventLog, "UserSidLength") = 0 Then Return ""
 	Local $pAcctSID = $pEventLog + DllStructGetData($tEventLog, "UserSidOffset")
 	Local $aAcctInfo = _Security__LookupAccountSid($pAcctSID)
-	Return $aAcctInfo[1]
-EndFunc   ;==>_EventLog__DecodeUserName
+	If IsArray($aAcctInfo) Then Return $aAcctInfo[1]
+	Return ''
+EndFunc   ;==>__EventLog_DecodeUserName
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _EventLog__DeregisterSource
@@ -692,7 +694,7 @@ Func _EventLog__Read($hEventLog, $fRead = True, $fForward = True, $iOffset = 0)
 	$aEvent[ 9] = __EventLog_DecodeCategory($tEventLog)
 	$aEvent[10] = __EventLog_DecodeSource($tEventLog)
 	$aEvent[11] = __EventLog_DecodeComputer($tEventLog)
-	$aEvent[12] = _EventLog__DecodeUserName($tEventLog)
+	$aEvent[12] = __EventLog_DecodeUserName($tEventLog)
 	$aEvent[13] = __EventLog_DecodeDesc($tEventLog)
 	$aEvent[14] = __EventLog_DecodeData($tEventLog)
 	Return $aEvent

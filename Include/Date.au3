@@ -1338,7 +1338,7 @@ Func _SetDate($iDay, $iMonth = 0, $iYear = 0)
 	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return Int($iRetval[0])
+	Return Int($iRetval)
 EndFunc   ;==>_SetDate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1391,7 +1391,7 @@ Func _SetTime($iHour, $iMinute, $iSecond = 0)
 	Local $iRetval = _Date_Time_SetLocalTime($lpSystemTime)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return Int($iRetval[0])
+	Return Int($iRetval)
 EndFunc   ;==>_SetTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -2329,7 +2329,7 @@ EndFunc   ;==>_Date_Time_SetFileTime
 ; ===============================================================================================================================
 Func _Date_Time_SetLocalTime($pSystemTime)
 	Local $aResult = DllCall("kernel32.dll", "bool", "SetLocalTime", "ptr", $pSystemTime)
-	If @error Or Not $aResult Then Return SetError(@error, @extended, False)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, False)
 
 	; The system uses UTC internally.  When you call SetLocalTime, the system uses the current time zone information to perform the
 	; conversion, incuding the daylight saving time setting.  The system uses the daylight saving time setting of the current time,
