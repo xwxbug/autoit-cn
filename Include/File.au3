@@ -336,7 +336,10 @@ EndFunc   ;==>_FileWriteLog
 ; ===============================================================================================================================
 Func _FileWriteToLine($sFile, $iLine, $sText, $fOverWrite = 0)
 	If $iLine <= 0 Then Return SetError(4, 0, 0)
-	If Not IsString($sText) Then Return SetError(6, 0, 0)
+    If Not IsString($sText) Then
+        $sText = String($sText)
+        If $sText = "" Then Return SetError(6, 0, 0)
+    EndIf
 	If $fOverWrite <> 0 And $fOverWrite <> 1 Then Return SetError(5, 0, 0)
 	If Not FileExists($sFile) Then Return SetError(2, 0, 0)
 

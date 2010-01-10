@@ -78,6 +78,7 @@ With?4
 #AutoIt3Wrapper_Run_Debug_Mode?1
 #AutoIt3Wrapper_Run_Obfuscator?1
 #AutoIt3Wrapper_Run_Tidy?1
+#AutoIt3Wrapper_ShowGUI?1
 #AutoIt3Wrapper_Tidy_Stop_OnError?1
 #AutoIt3Wrapper_UseAnsi?1
 #AutoIt3Wrapper_UseUpx?1

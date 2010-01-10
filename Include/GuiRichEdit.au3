@@ -702,7 +702,7 @@ Global Const $tagPARAFORMAT = "uint cbSize;dword dwMask;word wNumbering;word wEf
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagPARAFORMAT2 = $tagPARAFORMAT _
-		 & "long dySpaceBefore;long dySpaceAfter;long dyLineSpacing;short sStyle;byte bLineSpacingRule;" _
+		 & ";long dySpaceBefore;long dySpaceAfter;long dyLineSpacing;short sStyle;byte bLineSpacingRule;" _
 		 & "byte bOutlineLevel;word wShadingWeight;word wShadingStyle;word wNumberingStart;word wNumberingStyle;" _
 		 & "word wNumberingTab;word wBorderSpace;word wBorderWidth;word wBorders"
 

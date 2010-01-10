@@ -2,7 +2,7 @@
 
 ;create an array that tells us the meaning of an ID Number
 $IDs = StringSplit("AppStarting|Arrow|Cross|Help|IBeam|Icon|No|" & _
-"Size|SizeAll|SizeNESW|SizeNS|SizeNWSE|SizeWE|UpArrow|Wait", "|")
+"Size|SizeAll|SizeNESW|SizeNS|SizeNWSE|SizeWE|UpArrow|Wait|Hand", "|")
 $IDs[0] = "Unknown"
 
 $cursor = MouseGetCursor()

@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.3.2 第一汉化版
+程序版本:3.3.3.3 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.autoit.net.cn
 =========================================================
@@ -14,6 +14,21 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+
+3.3.3.3 (2010-01-10) 第一汉化版
+AutoIt:
+[G][+]新增: #1311: MouseGetCursor() 返回手型光标. 
+[G][*]修正: #1403: 当 FileWrite() 使用 UTF8 时,输出流不能正确转换为 UTF8(by thesnoW).
+
+scite
+[H][*]修正: 修正ACNWrapper中选择图标与实际输出图标不对应问题.
+
+UDFs:
+[G][*]修正: #1398: 修复 GuiRichEdit.au3 函数中的$tagPARAFORMAT2数据结构声明.
+[G][*]修正: #1353: _FileWriteToLine() 过分严格的检测输入文本类型.
+[G][*]修正: SQLite.au3 变量错误于 _SQLite_FetchData, $iCharSize, _SQLite_QuerySingleRow,
+	    _SQLite_GetTable2d, _SQLite_Display2DResult 函数(by jchd).
+
 3.3.3.2 (2010-01-08) 第一汉化版
 AutoIt:
 [G][+]新增: FileRead() 可以使用@extended宏返回读取的字符/字节数量.
