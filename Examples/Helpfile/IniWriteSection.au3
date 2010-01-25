@@ -1,19 +1,18 @@
-﻿; This is the INI file we will write to.  It will be created on the Desktop.
+﻿; INI文件写入演示，文件将会在桌面创建.
 $sIni = @DesktopDir & "\AutoIt-Test.ini"
 
-; Demonstrate creating a new section using a string as input.
+; 将数据写入到标准INI文件的一个字段.
 $sData = "Key1=Value1" & @LF & "Key2=Value2" & @LF & "Key3=Value3"
 IniWriteSection($sIni, "Section1", $sData)
 
-; Demonstrate creating a new section using an array as input.
-$aData1 = IniReadSection($sIni, "Section1")	; Read in what we just wrote above.
+;创建一个新的字段，并将数组数据写入.
+$aData1 = IniReadSection($sIni, "Section1")	; 读取刚刚写入的内容.
 For $i = 1 To UBound($aData1) - 1
-	$aData1[$i][1] &= "-" & $i	; Change the data some
+	$aData1[$i][1] &= "-" & $i	; 更改某些数据
 Next
+IniWriteSection($sIni, "Section2", $aData1)	; 写入新的数据
 
-IniWriteSection($sIni, "Section2", $aData1)	; Write to a new section.
-
-; Demonstrate creating an array manually and using it as input.
+; 创建一个自定义的二维数组，并将数组数据写入.
 Dim $aData2[3][2] = [ [ "FirstKey", "FirstValue" ], [ "SecondKey", "SecondValue" ], [ "ThirdKey", "ThirdValue" ] ]
-; Since the array we made starts at element 0, we need to tell IniWriteSection() to start writing from element 0.
+;定义数组元素索引，由索引0开始写入.
 IniWriteSection($sIni, "Section3", $aData2, 0)

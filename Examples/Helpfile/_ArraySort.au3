@@ -1,20 +1,20 @@
 ﻿#include <Array.au3>
 
 ;===============================================================================
-; Example 1 (using a 1D array)
+; 示例 1 (使用一维数组)
 ;===============================================================================
 Local $avArray[10] = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArraySort()" )
+_ArrayDisplay($avArray, "默认排序方式" )
 _ArraySort($avArray)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() ascending" )
+_ArrayDisplay($avArray, "升序排列方式" )
 _ArraySort($avArray, 1)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() descending" )
+_ArrayDisplay($avArray, "降序排列方式" )
 _ArraySort($avArray, 0, 3, 6)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() ascending from index 3 to 6" )
+_ArrayDisplay($avArray, "插值排序方式 3 to 6" )
 
 ;===============================================================================
-; Example 2 (using a 2D array)
+; 示例 2 (使用二维数组)
 ;===============================================================================
 Local $avArray[5][3] = [ _
 [5, 20, 8], _
@@ -23,10 +23,10 @@ Local $avArray[5][3] = [ _
 [2, 35, 0], _
 [1, 19, 6]]
 
-_ArrayDisplay($avArray, "$avArray BEFORE _ArraySort()" )
-_ArraySort($avArray, 0, 0, 0, 0)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() ascending column 0" )
+_ArrayDisplay($avArray, "默认排序方式" )
+_ArraySort($avArray, 0, 0, 0, 0);
+_ArrayDisplay($avArray, "副索引0升序排列方式" )
 _ArraySort($avArray, 0, 0, 0, 1)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() ascending column 1" )
+_ArrayDisplay($avArray, "副索引1升序排列方式" )
 _ArraySort($avArray, 0, 0, 0, 2)
-_ArrayDisplay($avArray, "$avArray AFTER _ArraySort() ascending column 2" )
+_ArrayDisplay($avArray, "副索引2升序排列方式" )

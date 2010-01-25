@@ -1,7 +1,7 @@
 ﻿#include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
 
-GUICreate("My GUI")  ; will create a dialog box that when displayed is centered
+GUICreate("My GUI")  ; 创建一个居中显示的 GUI 窗口
 
 $nEdit = GUICtrlCreateEdit ("line 0", 10,10)
 GUICtrlCreateButton ("Ok", 20,200,50)
@@ -13,7 +13,7 @@ GUICtrlSetData ($nEdit, @CRLF & "line "& $n)
 Next
 
 
-; Run the GUI until the dialog is closed
+; 运行界面,直到窗口被关闭
 Do
 	$msg = GUIGetMsg()
 	If $msg >0 Then

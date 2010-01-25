@@ -7,16 +7,16 @@ Example()
 Func Example()
 	Local $msg
 	
-	GUICreate("My GUI")  ; will create a dialog box that when displayed is centered
+	GUICreate("My GUI")  ; 创建一个居中显示的 GUI 窗口
 
-	GUISetState()       ; will display an empty dialog box
+	GUISetState()       ; 显示一个空白的窗口
 
-	; Run the GUI until the dialog is closed
+	; 运行界面，直到窗口被关闭
 	While 1
 		$msg = GUIGetMsg()
 		
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
-	GUIDelete();	; will return 1
+	GUIDelete(); 成功: 返回值为1. 
 EndFunc   ;==>Example

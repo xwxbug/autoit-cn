@@ -4,7 +4,7 @@
 
 Opt('MustDeclareVars', 1)
 
-$Debug_AVI = False ; Check ClassName being passed to AVI functions, set to True and use a handle to another control to see it work
+$Debug_AVI = False ; 检查传递给AVI函数的类名, 设置为真并使用另一控件句柄观察其工作
 
 Global $hAVI
 
@@ -12,82 +12,82 @@ _Example1()
 _Example2()
 
 Func _Example1()
-	Local $Wow64 = ""
-	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
-	Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
+    Local $Wow64 = ""
+    If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+    Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
 
-	; Create GUI
-	$hGUI = GUICreate("(External 1) AVI Create", 300, 100)
-	$hAVI = _GUICtrlAVI_Create ($hGUI, $sFile, -1, 10, 10)
-	GUISetState()
+    ; 创建 GUI 窗口
+    $hGUI = GUICreate("(示例 1) 创建 AVI 控件", 300, 100)
+    $hAVI = _GUICtrlAVI_Create ($hGUI, $sFile, -1, 10, 10)
+    GUISetState()
 
-	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
+    GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-	; Play the sample AutoIt AVI
-	_GUICtrlAVI_Play ($hAVI)
+    ; 在动画控件里播放 AVI 影片
+    _GUICtrlAVI_Play ($hAVI)
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+    ; 循环直到用户退出
+    Do
+    Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-	; Close AVI clip
-	_GUICtrlAVI_Close ($hAVI)
+    ; 关闭影片剪辑
+    _GUICtrlAVI_Close ($hAVI)
 
 
-	GUIDelete()
+    GUIDelete()
 EndFunc   ;==>_Example1
 
 Func _Example2()
-	Local $hGUI
+    Local $hGUI
 
-	; Create GUI
-	$hGUI = GUICreate("(External 2) AVI Create", 300, 100)
-	$hAVI = _GUICtrlAVI_Create ($hGUI, @SystemDir & "\Shell32.dll", 150, 10, 10)
-	GUISetState()
+    ; 创建 GUI 窗口
+    $hGUI = GUICreate("(示例 2) 创建 AVI 控件", 300, 100)
+    $hAVI = _GUICtrlAVI_Create ($hGUI, @SystemDir & "\Shell32.dll", 165, 10, 10)
+    GUISetState()
 
-	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
+    GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-	; Play the sample AutoIt AVI
-	_GUICtrlAVI_Play ($hAVI)
+    ; 在动画控件里播放 AVI 影片
+    _GUICtrlAVI_Play ($hAVI)
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+    ; 循环直到用户退出
+    Do
+    Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-	; Close AVI clip
-	_GUICtrlAVI_Close ($hAVI)
+    ; 关闭影片剪辑
+    _GUICtrlAVI_Close ($hAVI)
 
 
-	GUIDelete()
+    GUIDelete()
 EndFunc   ;==>_Example2
 
 Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $hWndFrom, $iIDFrom, $iCode
-	$hWndFrom = $ilParam
-	$iIDFrom = BitAND($iwParam, 0xFFFF) ; Low Word
-	$iCode = BitShift($iwParam, 16) ; Hi Word
-	Switch $hWndFrom
-		Case $hAVI
-			Switch $iCode
-				Case $ACN_START ; Notifies an animation control's parent window that the associated AVI clip has started playing
-					_DebugPrint("$ACN_START" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
-							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
-							"-->Code:" & @TAB & $iCode)
-					; no return value
-				Case $ACN_STOP ; Notifies the parent window of an animation control that the associated AVI clip has stopped playing
-					_DebugPrint("$ACN_STOP" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
-							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
-							"-->Code:" & @TAB & $iCode)
-					; no return value
-			EndSwitch
-	EndSwitch
-	Return $GUI_RUNDEFMSG
+    Local $hWndFrom, $iIDFrom, $iCode
+    $hWndFrom = $ilParam
+    $iIDFrom = BitAND($iwParam, 0xFFFF) ; Low Word
+    $iCode = BitShift($iwParam, 16) ; Hi Word
+    Switch $hWndFrom
+        Case $hAVI
+            Switch $iCode
+                Case $ACN_START ; 通知动画控件父窗口相关影片剪辑已开始播放
+                    _DebugPrint("$ACN_START" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+                            "-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+                            "-->Code:" & @TAB & $iCode)
+                    ; 没有返回值
+                Case $ACN_STOP ; 通知动画控件父窗口相关影片剪辑已停止播放
+                    _DebugPrint("$ACN_STOP" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+                            "-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+                            "-->Code:" & @TAB & $iCode)
+                    ; 没有返回值
+            EndSwitch
+    EndSwitch
+    Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_COMMAND
 
 Func _DebugPrint($s_text, $line = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
-			"+======================================================" & @LF)
+    ConsoleWrite( _
+            "!===========================================================" & @LF & _
+            "+======================================================" & @LF & _
+            "-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+            "+======================================================" & @LF)
 EndFunc   ;==>_DebugPrint

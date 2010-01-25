@@ -9,16 +9,16 @@ Func Example()
 	
 	GUICreate("My GUI (GetControlState)")
 	$n = GUICtrlCreateCheckbox("checkbox", 10, 10)
-	GUICtrlSetState(-1, 1) 	; checked
+	GUICtrlSetState(-1, 1) 	; 调整指定控件的状态
 
-	GUISetState()       ; will display an empty dialog box
+	GUISetState()       ; 显示一个空白的窗口
 
-	; Run the GUI until the dialog is closed
+	; 运行界面，直到窗口被关闭
 	While 1
 		$msg = GUIGetMsg()
 		
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
-	MsgBox(0, "state", StringFormat("GUICtrlRead=%d\nGUICtrlGetState=%d", GUICtrlRead($n), GUICtrlGetState($n)))
+	MsgBox(0, "状态", StringFormat("GUICtrlRead=%d\nGUICtrlGetState=%d", GUICtrlRead($n), GUICtrlGetState($n)))
 EndFunc   ;==>Example

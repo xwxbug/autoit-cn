@@ -111,6 +111,7 @@ $CmdLineRaw
 !FileFindNextFile 1 1
 !FileFlush 1 1
 !FileGetAttrib 1 1
+!FileGetEncoding 1 2
 !FileGetLongName 1 2
 !FileGetPos 1 1
 !FileGetShortcut 1 1
@@ -120,7 +121,7 @@ $CmdLineRaw
 !FileGetVersion 1 2
 !FileInstall 2 3
 !FileMove 2 3
-!FileOpen 2 2
+!FileOpen 1 2
 !FileOpenDialog 3 6
 !FileRead 1 2
 !FileReadLine 1 2

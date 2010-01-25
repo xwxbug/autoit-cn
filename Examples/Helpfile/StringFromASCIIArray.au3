@@ -1,15 +1,14 @@
-﻿#include <Array.au3>	; For _ArrayDisplay()
+﻿#include <Array.au3>
 
-; Convert the string to an array.
+; 字符串转换为 ASCII 码数组.
 Local $a = StringToASCIIArray("abc")
 
-; Display the array to see that it contains the ASCII
-; values for each character.
+; 显示包含每个字符的ASCII码的数组.
 _ArrayDisplay($a)
 
-; Now convert the array into a string.
+; ASCII 码数组转换为字符串.
 Local $s = StringFromASCIIArray($a)
 
-; Display the string to see that it matches the original input.
-MsgBox(0, "", $s)
+;转换结果将会返回 ASCII 码表示的字符串.
+MsgBox(0, "转换结果", $s)
 

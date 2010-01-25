@@ -356,6 +356,7 @@ FileFindFirstFile ( "filename" ) Returns a search "handle" according to file sea
 FileFindNextFile ( search ) Returns a filename according to a previous call to FileFindFirstFile.
 FileFlush ( handle ) Flushes the file's buffer to disk.
 FileGetAttrib ( "filename" ) Returns a code string representing a file's attributes.
+FileGetEncoding ( "filehandle/filename" [, mode] ) Determines the text encoding used in a file.
 FileGetLongName ( "file" [, flag] ) Returns the long path+name of the path+name passed.
 FileGetPos ( handle ) Retrieves the current file position.
 FileGetShortcut ( "lnk" ) Retrieves details about a shortcut.
@@ -365,7 +366,7 @@ FileGetTime ( "filename" [, option [, format]] ) Returns the time and date infor
 FileGetVersion ( "filename" [,"stringname"] ) Returns the "File" version information.
 FileInstall ( "source", "dest" [, flag] ) Include and install a file with the compiled script.
 FileMove ( "source", "dest" [, flag] ) Moves one or more files
-FileOpen ( "filename", mode ) Opens a text file for reading or writing.
+FileOpen ( "filename" [, mode ] ) Opens a text file for reading or writing.
 FileOpenDialog ( "title", "init dir", "filter" [, options [, "default name" [, hwnd]]] ) Initiates a Open File Dialog.
 FileRead ( "filehandle/filename" [, count] ) Read in a number of characters from a previously opened text file.
 FileReadLine ( "filehandle/filename" [, line] ) Read in a line of text from a previously opened text file.
@@ -896,7 +897,7 @@ _GDIPlus_BitmapCreateFromGraphics ($iWidth, $iHeight, $hGraphics) Creates a Bitm
 _GDIPlus_BitmapCreateFromHBITMAP ($hBmp[, $hPal = 0]) Create a Bitmap object from a bitmap handle (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapCreateHBITMAPFromBitmap ($hBitmap[, $iARGB = 0xFF000000]) Create a handle to a bitmap from a bitmap object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapDispose ($hBitmap) Release a bitmap object (Requires: #Include <GDIPlus.au3>)
-_GDIPlus_BitmapLockBits ($hBitmap, $iLeft, $iTop, $iWidth, $iHeight, $iFlags = $GDIP_ILMREAD, $iFormat = $GDIP_PXF32RGB) Locks a portion of a bitmap for reading or writing (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_BitmapLockBits ($hBitmap, $iLeft, $iTop, $iWidth, $iHeight [ , $iFlags = $GDIP_ILMREAD [, $iFormat = $GDIP_PXF32RGB ]]) Locks a portion of a bitmap for reading or writing (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BitmapUnlockBits ($hBitmap, $tBitmapData) Unlocks a portion of a bitmap that was locked by _GDIPlus_BitmapLockBits (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushClone ($hBrush) Clone a Brush object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_BrushCreateSolid ([$iARGB = 0xFF000000]) Create a solid Brush object (Requires: #Include <GDIPlus.au3>)
@@ -2376,7 +2377,7 @@ _SQLite_ErrCode ( [ $hDB ] ) Returns last error code (numeric) (Requires: #inclu
 _SQLite_ErrMsg ( [ $hDB ] ) Returns a string describing in english the error condition for the most recent sqlite3_* API call (Requires: #include <SQLite.au3>)
 _SQLite_Escape ( $sString [, $iBuffSize ] ) Escapes a string (Requires: #include <SQLite.au3>)
 _SQLite_Exec ( $hDB, $sSQL [, $sCallBack ] ) Executes a SQLite query, does not handle results. (Requires: #include <SQLite.au3>)
-_SQLite_FetchData ( $hQuery, ByRef $aRow [, $fBinary ] ) Fetches 1 row of data from a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
+_SQLite_FetchData ( $hQuery, ByRef $aRow [, $fBinary  = False [, $fDoNotFinalize = False]] ) Fetches 1 row of data from a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
 _SQLite_FetchNames ( $hQuery, ByRef $aNames ) Read out the Column names of a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
 _SQLite_GetTable ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize = 64 ] ) Passes Out a 1Dimensional Array Containing Tablenames and Data of Executed Query. (Requires: #include <SQLite.au3>)
 _SQLite_GetTable2d ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize [, $fSwichDimensions = False ]] ) Passes out a 2Dimensional array containing Column names and Data of executed Query (Requires: #include <SQLite.au3>)
@@ -2666,5 +2667,3 @@ _WordMacroRun ( $o_object, $s_MacroName [, $v_Arg1 [, $v_Arg<i>n</i> [, $v_Arg30
 _WordPropertyGet ( ByRef $o_object, $s_property ) Returns a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordPropertySet ( ByRef $o_object, $s_property, $v_newvalue ) Set a select property of the Word Application. (Requires: #include <Word.au3> )
 _WordQuit ( ByRef $o_object [, $i_SaveChanges = -2 [, $i_OriginalFormat = 1 [, $b_RouteDocument = 0]]] ) Close the window and remove the object reference to it (Requires: #include <Word.au3> )
-PluginClose ( dllhandle ) Close a plugin file.
-PluginOpen ( filename ) Open a plugin file.

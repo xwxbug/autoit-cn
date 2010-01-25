@@ -50,7 +50,7 @@ Func Example()
 EndFunc   ;==>Example
 
 
-; Apply the color to the menu
+; 设置菜单颜色
 Func SetMenuColor($nMenuID, $nColor)
 	Local $hMenu, $hBrush, $stMenuInfo
 	Local Const $MIM_APPLYTOSUBMENUS = 0x80000000

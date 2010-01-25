@@ -14,17 +14,17 @@ FileWriteLine($hFile, "Line1")
 FileWriteLine($hFile, "Line2")
 FileWriteLine($hFile, "Line3")
 
-; Flush the file to disk.
+; 保存该文本文件内存缓冲区数据到磁盘.
 FileFlush($hFile)
 
-; Check file position and try to read contents for current position.
-MsgBox(0, "", "Position: " & FileGetPos($hFile) & @CRLF & "Data: " & @CRLF & FileRead($hFile))
+; 读取当前文件坐标内容
+MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
-; Now, adjust the position to the beginning.
+; 设置当前文件坐标.
 Local $n = FileSetPos($hFile, 0, $FILE_BEGIN)
 
-; Check file position and try to read contents for current position.
-MsgBox(0, "", "Position: " & FileGetPos($hFile) & @CRLF & "Data: " & @CRLF & FileRead($hFile))
+;读取当前文件坐标内容
+MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
 ;关闭此前已打开的文件.
 FileClose($hFile)
