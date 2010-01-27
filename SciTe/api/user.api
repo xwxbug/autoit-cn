@@ -1,1 +1,0 @@
-SendX ("字符串",标志) 向激活窗口发送中文字符,需要先 #include <ACN_String.au3>
