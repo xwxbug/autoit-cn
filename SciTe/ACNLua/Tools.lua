@@ -98,7 +98,7 @@ end	-- InvokeTool()
 function Tools:CreateTools()
 	-- If the global table doesn't exist, we need to fail.
 	if not LoadLuaFileList then
-		error("File list not found.")
+		error("文件列表没找到.")
 		return
 	end
 	-- The pattern we search for.

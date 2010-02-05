@@ -81,7 +81,7 @@ function AutoItTools:OnStartup()
 	end
 	print('->	+++++++++++++++++++++++++++++++++++++++++++++++++')
 	print('+>	+欢迎使用 ACN 中文论坛出品的 AUTOIT V3 汉化版!	+')
-	print('+>	+	--===Http://wWw.aUtoIt.nEt.cN===--	+')
+	print('+>	+	--===Http://wWw.AutoItX.cOm===--	+')
 	print('->	+++++++++++++++++++++++++++++++++++++++++++++++++')
 end	-- OnStartup()
 

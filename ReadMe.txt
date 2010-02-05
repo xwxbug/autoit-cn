@@ -1,8 +1,8 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.5.1 第一汉化版
+程序版本:3.3.5.X 第X汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
-中文论坛:http://www.autoit.net.cn
+中文论坛:http://www.AutoitX.com
 =========================================================
 绿色安装方法:解压缩到 任意目录.
 绿色卸载方法:不爽删除就是.
@@ -14,6 +14,41 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.5.x (2010-0X-XX) 第一汉化版
+
+SCITE:
+[G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.4
+
+KODA:
+Beta 1.7.2.2 build 204 (2010-02-04)
+2010-02-04 - Added: option to not generate ImageList itself when using for Listview/Treeview
+2010-02-03 - Added: warning if user have outdated "styles.xml" file
+2010-02-03 - Added: forgotten styles for Toolbar buttons
+2010-02-03 - Added: ability to generate TreeView with icons
+2010-02-03 - Added: ability to generate ListView with icons
+2010-02-03 - Fixed: visual appearance of ListView control [FS#86]
+2010-02-02 - Added: checking of actual clipboard content on paste [FS#7][FS#57]
+2010-02-02 - Added: ability to save settings in the AppData folder under restricted account
+2010-02-02 - Fixed: crash when running Koda first time under restricted account (thanks Sh3llC043r)
+2010-02-02 - Fixed: small cosmetic issue with translation files (thanks Zedna)
+2010-02-02 - Fixed: various bugs with Graphic editor (thanks Zedna)
+2010-02-01 - Added: ability to generate tabs with icons (GUITab.au3 incluse used)
+2010-02-01 - Fixed: wrong styles visually appearing after form loading [FS#83] (thanks monter.FM)
+2010-02-01 - Fixed: events for menus generated in wrong place [FS#78]
+2010-02-01 - Fixed: event for Tab generated in wrong place [FS#87]
+2010-02-01 - Added: forgotten Icon property for TrayMenu
+2010-02-01 - Added: ability to copy Dummy controls [FS#60]
+2010-02-01 - Changed: redone a bit invisible components handling (internal)
+2010-02-01 - Changed: all Dummy controls are generating in one place [FS#51]
+2010-02-01 - Fixed: generating of custom image path with macro [FS#68]
+2010-02-01 - Fixed: index for GUI icon was not generated [FS#80]
+2010-01-31 - Fixed: enabled states for different items [FS#95] (thanks Tlem)
+2010-01-31 - Fixed: wrong include for Group [FS#90]
+2010-01-31 - Added: French language file (thanks Tlem)
+2009-08-11 - Added: Chinese(Traditional) language file (thanks rexx)
+2009-08-03 - Fixed: form position not reloaded when position is poFixed
+2009-08-03 - Fixed: flaw in saving form options (thanks martin)
+
 3.3.5.1 (2010-01-27) 第一汉化版
 AutoIt:
 [G][*]修正: #1428: AdlibRegister/Unregister() 不能正确的区分函数名大小写.

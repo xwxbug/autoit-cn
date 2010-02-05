@@ -3,7 +3,7 @@
 #AutoIt3Wrapper_UseUpx=n
 #AutoIt3Wrapper_Res_Comment=Dos findstr replacement based on a script created by Martin of the AutoIt3 forum and modified by Jos.
 #AutoIt3Wrapper_Res_Description=Dos findstr replacement based on a script created by Martin of the AutoIt3 forum and modified by Jos.
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.0
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.2
 #AutoIt3Wrapper_Res_FileVersion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=Copyright © 2009 Jos van der Zande
 #AutoIt3Wrapper_Res_Field=Made By|Martin & Jos van der Zande
@@ -12,7 +12,7 @@
 #AutoIt3Wrapper_Res_Field=Compile Date|%date% %time%
 #AutoIt3Wrapper_Au3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 ;~ #AutoIt3Wrapper_Run_After=copy "%in%" "c:\program files\autoit3\SciTE"
-#AutoIt3Wrapper_Run_After=copy "%out%" "c:\program files\autoit3\SciTE\findstr.exe"
+#AutoIt3Wrapper_Run_After=copy "%out%" "c:\program files (x86)\autoit3\SciTE\findstr.exe"
 #AutoIt3Wrapper_Run_Obfuscator=y
 #AutoIt3Wrapper_Add_Constants=n
 #Obfuscator_Parameters=/striponly
@@ -82,7 +82,7 @@ For $typenumber = 1 To $alltypes[0]
 		ConsoleWrite(": Not Case Sensitive :")
 	EndIf
 	ConsoleWrite(@CRLF)
-	Global $instr = 'findstr /i /m ' & $subFolders & ' "' & $tofind & '" ' & $SearchFolder & "\" & $Thistype ;& " >" & '"' & @ScriptDir & '\findstrtmp.txt"'
+	Global $instr = 'findstr /i /m ' & $subFolders & ' "' & $tofind & '" "' & $SearchFolder & "\" & $Thistype & '"'
 	If $debugging Then MsgBox(262144, "instr = ", $instr)
 	;run command in systemdir so it will find windows findstr.exe first and not this script
 	Global $foo = Run(@ComSpec & " /c " & $instr, @SystemDir, @SW_HIDE, 8);$STDIN_CHILD + $STDOUT_CHILD)cmd.exe
@@ -124,7 +124,7 @@ Func ScanFile(ByRef $stdouttxt, ByRef $filecount, $tofind)
 		$filelines = StringSplit($text, @CR)
 		TraySetToolTip($file)
 		For $lines = 1 To $filelines[0]
-			; only check every 100 lines to see if SearchCancel was clicked in the trayiconmenu 
+			; only check every 100 lines to see if SearchCancel was clicked in the trayiconmenu
 			If StringInStr($filelines[$lines], $tofind) Then
 				ConsoleWrite($File & ":" & $lines & ":" & $filelines[$lines] & @CR)
 			EndIf
@@ -173,7 +173,7 @@ Func DataFromGui()
 	$tofind = GUICtrlRead($CmboString)
 	$SearchFolder = GUICtrlRead($CmboFolders)
 	$FileTypes = GUICtrlRead($CmboFiles)
-	iF GUICtrlRead($ChkCase) = $GUI_CHECKED THEN $CaseSensitive = 1 
+	iF GUICtrlRead($ChkCase) = $GUI_CHECKED THEN $CaseSensitive = 1
 EndFunc   ;==>DataFromGui
 ;
 Func UpdateLast()
