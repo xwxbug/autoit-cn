@@ -728,7 +728,7 @@ EndFunc   ;==>_GUICtrlStatusBar_GetUnicodeFormat
 ; Syntax.........: _GUICtrlStatusBar_GetWidth($hWnd, $iPart)
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iPart       - Zero based part index
-; Return values .: Success      - Height of the parts
+; Return values .: Success      - Width of the parts
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost) Removed dot notation
 ; Remarks .......:

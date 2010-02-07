@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.5.X 第X汉化版
+程序版本:3.3.5.3 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.AutoitX.com
 =========================================================
@@ -14,7 +14,30 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.5.x (2010-0X-XX) 第一汉化版
+3.3.5.3 (2010-0X-XX) 第一汉化版
+AutoIt:
+- Fixed: Regression in FileOpen() where it wasn't allowed to open files in read mode if they were already open in write mode.
+- Fixed #1449: GUICtrlDelete() not working for GUICtrlCreateDummy() types.
+- Fixed: Error loading on Windows XP due to previous RegDelete() fix.
+
+Au3Info:
+- Fixed #1444: Controls in applications like RegEdit were left highlighted.
+- Changed: Better identification of the control under the mouse.
+
+UDFs:
+- Fixed #1454: StringBetween() not working correctly.
+
+
+3.3.5.2 (6th February, 2010) (Beta)
+AutoIt:
+- Fixed #1448: #OnAutoItStartRegister did not work in compiled scripts.
+- Fixed #961: RegDelete() was not working properly on 64bit keys when using the 32bit version of AutoIt and HKLM64.
+
+AutoItX:
+- Fixed: Missing .lib files readded.
+
+UDFs:
+- Fixed #1438: AutoIt error when using _ArrayCombinations().
 
 SCITE:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.4

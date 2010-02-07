@@ -18,7 +18,7 @@ ___________________________________________________
 复制			=	Ctrl+C
 粘贴			=	Ctrl+V
 删除			=	Del
-删除行			=	Ctrl+D
+删除行			=	ALT+W
 全选			=	Ctrl+A
 对应的大括号	=	Ctrl+E
 选择到大括号	=	Ctrl+Shift+E
@@ -98,4 +98,19 @@ Makefile		=	Ctrl+Shift+F11
 [帮助]
 即时帮助		=	F1
 内置帮助		=	CTRL+F1
+
+
+B.汉化版
 ___________________________________________________
+
+最新Autoit汉化版本所有文件更新于(非独立安装文件):
+http://autoit-cn.googlecode.com
+对于狂热FANS.请自行使用SVN客户端使用检出.(永远比现在发布的汉化版本新)
+命令: svn co http://autoit-cn.googlecode.com/svn/trunk/ AutoIt3
+最新的帮助文件,也可以在SVN下载.
+
+C.赞助
+___________________________________________________
+
+如果您愿意捐助thesnoW的汉化(硬盘或者RMB),请联系:
+thegfw#Gmail.com,thesnow#QQ.com

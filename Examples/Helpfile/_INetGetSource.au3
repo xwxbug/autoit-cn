@@ -1,2 +1,2 @@
 ﻿#include <INet.au3>
-ConsoleWrite(_INetGetSource('www.autoitscript.com'))
+ConsoleWrite(_INetGetSource('http://www.autoitscript.com'))

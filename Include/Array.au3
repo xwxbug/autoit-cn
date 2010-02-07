@@ -1482,7 +1482,7 @@ Func __Array_Combinations($iN, $iR)
 		$i_Total *= ($iN / $i)
 		$iN -= 1
 	Next
-	Return $i_Total
+	Return Round($i_Total)
 EndFunc   ;==>__Array_Combinations
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
