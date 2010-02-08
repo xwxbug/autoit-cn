@@ -14,63 +14,63 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.5.3 (2010-0X-XX) 第一汉化版
+3.3.5.3 (2010-02-08) 第一汉化版
 AutoIt:
-- Fixed: Regression in FileOpen() where it wasn't allowed to open files in read mode if they were already open in write mode.
-- Fixed #1449: GUICtrlDelete() not working for GUICtrlCreateDummy() types.
-- Fixed: Error loading on Windows XP due to previous RegDelete() fix.
+[G][*]修正: FileOpen() 不允许打开文件于写入模式时再以只读模式打开.
+[G][*]修正: #1449: GUICtrlDelete() 不能工作于 for GUICtrlCreateDummy() 类型.
+[G][*]修正: 使用RegDelete()函数可能导致的载入错误(Windows XP).
 
 Au3Info:
-- Fixed #1444: Controls in applications like RegEdit were left highlighted.
-- Changed: Better identification of the control under the mouse.
+[G][*]修正: #1444: 当应用程序控件离开焦点时,仍然被高亮(比如注册表编辑器).
+[G][*]修改: 更好的鼠标下方控件的标识.
 
 UDFs:
-- Fixed #1454: StringBetween() not working correctly.
+[G][*]修正: #1454: StringBetween() 不能正确工作.
 
 
-3.3.5.2 (6th February, 2010) (Beta)
+3.3.5.2 (2010-02-06) (Beta)
 AutoIt:
-- Fixed #1448: #OnAutoItStartRegister did not work in compiled scripts.
-- Fixed #961: RegDelete() was not working properly on 64bit keys when using the 32bit version of AutoIt and HKLM64.
+[G][*]修正: #1448: #OnAutoItStartRegister 不能工作于已编译脚本.
+[G][*]修正: #961: RegDelete() 当使用32位版本的 Autoit ,并使用HKLM64时不能很好的工作.
 
 AutoItX:
-- Fixed: Missing .lib files readded.
+[G][*]修正: 重新添加 .lib 文件(静态库).
 
 UDFs:
-- Fixed #1438: AutoIt error when using _ArrayCombinations().
+[G][*]修正: #1438: 当使用 _ArrayCombinations() 时出现 AutoIt 错误.
 
 SCITE:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.4
 
 KODA:
 Beta 1.7.2.2 build 204 (2010-02-04)
-2010-02-04 - Added: option to not generate ImageList itself when using for Listview/Treeview
-2010-02-03 - Added: warning if user have outdated "styles.xml" file
-2010-02-03 - Added: forgotten styles for Toolbar buttons
-2010-02-03 - Added: ability to generate TreeView with icons
-2010-02-03 - Added: ability to generate ListView with icons
-2010-02-03 - Fixed: visual appearance of ListView control [FS#86]
-2010-02-02 - Added: checking of actual clipboard content on paste [FS#7][FS#57]
-2010-02-02 - Added: ability to save settings in the AppData folder under restricted account
-2010-02-02 - Fixed: crash when running Koda first time under restricted account (thanks Sh3llC043r)
-2010-02-02 - Fixed: small cosmetic issue with translation files (thanks Zedna)
-2010-02-02 - Fixed: various bugs with Graphic editor (thanks Zedna)
-2010-02-01 - Added: ability to generate tabs with icons (GUITab.au3 incluse used)
-2010-02-01 - Fixed: wrong styles visually appearing after form loading [FS#83] (thanks monter.FM)
-2010-02-01 - Fixed: events for menus generated in wrong place [FS#78]
-2010-02-01 - Fixed: event for Tab generated in wrong place [FS#87]
-2010-02-01 - Added: forgotten Icon property for TrayMenu
-2010-02-01 - Added: ability to copy Dummy controls [FS#60]
-2010-02-01 - Changed: redone a bit invisible components handling (internal)
-2010-02-01 - Changed: all Dummy controls are generating in one place [FS#51]
-2010-02-01 - Fixed: generating of custom image path with macro [FS#68]
-2010-02-01 - Fixed: index for GUI icon was not generated [FS#80]
-2010-01-31 - Fixed: enabled states for different items [FS#95] (thanks Tlem)
-2010-01-31 - Fixed: wrong include for Group [FS#90]
-2010-01-31 - Added: French language file (thanks Tlem)
-2009-08-11 - Added: Chinese(Traditional) language file (thanks rexx)
-2009-08-03 - Fixed: form position not reloaded when position is poFixed
-2009-08-03 - Fixed: flaw in saving form options (thanks martin)
+[G][+]新增: option to not generate ImageList itself when using for Listview/Treeview
+[G][+]新增: warning if user have outdated "styles.xml" file
+[G][+]新增: forgotten styles for Toolbar buttons
+[G][+]新增: ability to generate TreeView with icons
+[G][+]新增: ability to generate ListView with icons
+[G][*]修正: visual appearance of ListView control [FS#86]
+[G][+]新增: checking of actual clipboard content on paste [FS#7][FS#57]
+[G][+]新增: ability to save settings in the AppData folder under restricted account
+[G][*]修正: crash when running Koda first time under restricted account (thanks Sh3llC043r)
+[G][*]修正: small cosmetic issue with translation files (thanks Zedna)
+[G][*]修正: various bugs with Graphic editor (thanks Zedna)
+[G][+]新增: ability to generate tabs with icons (GUITab.au3 incluse used)
+[G][*]修正: wrong styles visually appearing after form loading [FS#83] (thanks monter.FM)
+[G][*]修正: events for menus generated in wrong place [FS#78]
+[G][*]修正: event for Tab generated in wrong place [FS#87]
+[G][+]新增: forgotten Icon property for TrayMenu
+[G][+]新增: ability to copy Dummy controls [FS#60]
+[G][*]修改: redone a bit invisible components handling (internal)
+[G][*]修改: all Dummy controls are generating in one place [FS#51]
+[G][*]修正: generating of custom image path with macro [FS#68]
+[G][*]修正: index for GUI icon was not generated [FS#80]
+[G][*]修正: enabled states for different items [FS#95] (thanks Tlem)
+[G][*]修正: wrong include for Group [FS#90]
+[G][+]新增: French language file (thanks Tlem)
+[G][+]新增: Chinese(Traditional) language file (thanks rexx)
+[G][*]修正: form position not reloaded when position is poFixed
+[G][*]修正: flaw in saving form options (thanks martin)
 
 3.3.5.1 (2010-01-27) 第一汉化版
 AutoIt:
