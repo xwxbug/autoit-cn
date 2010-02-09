@@ -6,6 +6,3 @@ Otherfile	:其他一些文件.
 PCRE		:PCRE正则表达式测试程序.
 Spy++		:微软SPY++程序
 SQLite		:Autoit 专用的数据库软件
-
-
-
