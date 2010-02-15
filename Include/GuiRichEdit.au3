@@ -1606,7 +1606,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetBkColor
 ;                  |103 - $iCodePage is not a number
 ;                  |700 - internal error
 ; Authors........: Prog@ndy
-; Modified ......: Chris Haslam (c.haslam), jpm
+; Modified ......: Chris Haslam (c.haslam), jpm, Prog@ndy
 ; Remarks .......: On success, if $sReplChar set, @extended contains whether this character was used
 ;+
 ;                  Call _GUICtrlRichEdit_IsModified() to determine whether the text has changed
@@ -1619,11 +1619,13 @@ Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplC
 	If Not IsBool($fCrToCrLf) Then Return SetError(102, 0, "")
 	If Not __GCR_IsNumeric($iCodePage) Then Return SetError(103, 0, "")
 
-	Local $iLen = _GUICtrlRichEdit_GetTextLength($hWnd) + 1
-	Local $tText = DllStructCreate("wchar[" & $iLen & "]")
+	Local $iLen = _GUICtrlRichEdit_GetTextLength($hWnd, False,True) + 1
+	Local $sUni=''
+	If $iCodePage=$CP_UNICODE Or Not $iCodePage Then $sUni="w"
+	Local $tText = DllStructCreate($sUni & "char[" & $iLen & "]")
 
 	Local $tGetTextEx = DllStructCreate($tagGETTEXTEX)
-	DllStructSetData($tGetTextEx, "cb", $iLen)
+	DllStructSetData($tGetTextEx, "cb", DllStructGetSize($tText))
 
 	Local $iFlags = 0
 	If $fCrToCrLf Then $iFlags = $GT_USECRLF

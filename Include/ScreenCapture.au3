@@ -67,8 +67,8 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 	If $iRight < $iLeft Then Return SetError(-1, 0, 0)
 	If $iBottom < $iTop Then Return SetError(-2, 0, 0)
 
-	Local $iW = $iRight - $iLeft
-	Local $iH = $iBottom - $iTop
+	Local $iW = ($iRight - $iLeft) + 1
+	Local $iH = ($iBottom - $iTop) + 1
 	Local $hWnd = _WinAPI_GetDesktopWindow()
 	Local $hDDC = _WinAPI_GetDC($hWnd)
 	Local $hCDC = _WinAPI_CreateCompatibleDC($hDDC)

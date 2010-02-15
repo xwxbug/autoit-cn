@@ -14,6 +14,28 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.5.4 (13th February, 2010) (Beta)
+AutoIt:
+- Changed: FileWriteLine() performance improved.
+
+- Added: ControlCommand() "SendCommandID" - used to send WM_COMMAND Control ID messages. Allows the
+	automation of ToolBarWindow32 controls (amongst others). For example, the "Back" button of
+	Internet Explorer. Use Au3Info to get the Command ID from the ToolBar tab.
+
+- Fixed #1458: Inet sizes were capped to 32-bits.
+- Fixed #1459: Hard crash when too much recursion is used.
+- Fixed #1464: Regular expressions with a single character * pattern were stopping after the first null match.
+- Fixed #1463: StringToASCIIArray() working incorrectly with UTF8 characters.
+
+Au3Info:
+- Fixed #1391: ToolbarWindow32 info only showing the first toolbar.
+
+- Changed: Better identification of the control under the mouse (again...)
+
+UDFs:
+- Fixed #1441: _GUICtrlRichEdit_GetText() using wrong buffer length.
+- Fixed #1446: _ScreenCapture_Capture() was using height/width of 1 pixel less.
+
 AutoIt:
 [H][-]移除: 移除AppFace皮肤库,过老.
 [H][-]移除: 移除Skin++皮肤库,过老.官方只接受定制.不再更新.
