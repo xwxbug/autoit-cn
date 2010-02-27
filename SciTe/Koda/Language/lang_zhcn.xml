@@ -54,8 +54,6 @@
     <msgProjectAskClose>创建一个新的项目将会关闭当前打开的脚本和所创建的窗体. 继续吗?</msgProjectAskClose>
     <msgProjectFileMissing>您尝试打开一个已经不存在的项目...</msgProjectFileMissing>
     <msgNoDatafile>styles.xml 文件丢失. 请重新安装Autoit汉化版本或者从Koda压缩包中提取一个.</msgNoDatafile>
-    <msgWrongIconFormat>您尝试打开的文件不是一个图标文件.</msgWrongIconFormat>
-    <msgWrongIconLibFormat>Library file you try to open have wrong format or does not contain any icons.</msgWrongIconLibFormat>
     <msgNotImplemented>不能执行...</msgNotImplemented>
     <msgWarningTitle>警告</msgWarningTitle>
     <msgInfoTitle>信息</msgInfoTitle>
@@ -77,7 +75,6 @@
     <strFilterGIF>GIF 文件</strFilterGIF>
     <strFilterICO>图标</strFilterICO>
     <strFilterEXE>可执行文件 和 动态链接库</strFilterEXE>
-    <strFilterLIB>图标库</strFilterLIB>
     <strColorDesigner>设计器</strColorDesigner>
     <strColorHandle>句柄</strColorHandle>
     <strColorHandleBorder>Handle Border</strColorHandleBorder>
@@ -100,6 +97,13 @@
     <strColorInfoMessage>信息</strColorInfoMessage>
     <strColorDebugMessage>调试消息</strColorDebugMessage>
     <strColorOutWinBackground>背景</strColorOutWinBackground>
+    <msgWrongIconFormat>您尝试打开的文件不是一个图标文件.</msgWrongIconFormat>
+    <msgWrongIconLibFormat>Library file you try to open have wrong format or does not contain any icons.</msgWrongIconLibFormat>
+    <strFilterLIB>图标库</strFilterLIB>
+    <msgIconLibIs16bit>Library file you opened is 16-bit library. Though Koda can work with it, icons will not be visible under Vista and up. You have to save it as 32-bit library. This can be done with Save button.</msgIconLibIs16bit>
+    <msgNoPortable>Koda can&#39;t write configuration in it&#39;s folder, probably you have no writing permission here. You still can to continue in portable mode, but without ability to save configuration settings, or you can create configuration file in the current user profile.\n\nCreate configuration in current user profile?</msgNoPortable>
+    <msgOutdatedStyles>您的 &quot;styles.xml&quot; 文件的版本不正确, 您可能会得到很多错误. 推荐您下载最新的 Koda 版本.</msgOutdatedStyles>
+    <strMixed>Mixed</strMixed>
   </messages>
   <form name="DesignerMain">
     <caption>Koda 设计器</caption>
@@ -174,7 +178,7 @@
     <actCloseForm property="Hint">关闭窗体</actCloseForm>
     <actSave property="Caption">保存(&amp;S)</actSave>
     <actSave property="Hint">保存窗体</actSave>
-    <actSaveAll property="Caption">保存所有(&amp;a)</actSaveAll>
+    <actSaveAll property="Caption">保存所有(&amp;A)</actSaveAll>
     <actSaveAll property="Hint">保存所有窗体</actSaveAll>
     <actSaveAs property="Caption">另存为(&amp;A)...</actSaveAs>
     <actSaveAs property="Hint">保存窗体为...</actSaveAs>
@@ -345,12 +349,14 @@
     <mnuDelete property="Caption">删除</mnuDelete>
     <mnuDuplicate property="Caption">复制</mnuDuplicate>
     <mnuSetDef property="Caption">设置默认</mnuSetDef>
+    <grpObjectTree property="Caption">对象树</grpObjectTree>
+    <cbObjTreeAlwaysExpand property="Caption">总是完全展开</cbObjTreeAlwaysExpand>
   </form>
   <form name="frmDesignerCode">
     <caption>代码</caption>
     <mnuCopyToClipboard property="Caption">复制到剪切板(&amp;C)</mnuCopyToClipboard>
     <mnuSaveToFile property="Caption">保存到文件(&amp;S)</mnuSaveToFile>
-    <mnuInsertIntoScite property="Caption">插入到Sc&amp;ite</mnuInsertIntoScite>
+    <mnuInsertIntoScite property="Caption">插入到Sc&amp;iTe</mnuInsertIntoScite>
     <mnuCopySelection property="Caption">复制所选</mnuCopySelection>
     <mnuSelectAll property="Caption">全选</mnuSelectAll>
   </form>
@@ -417,9 +423,9 @@
     <mnuFormAdd property="Caption">添加窗体</mnuFormAdd>
     <mnuFormAdd property="Hint">添加窗体到当前脚本</mnuFormAdd>
     <mnuFormsExisting property="Caption">添加已经存在的</mnuFormsExisting>
-    <mnuFormsExisting property="Hint">添加一个已经存在的窗体到当前脚本。(项目或者当前打开的设计器)</mnuFormsExisting>
+    <mnuFormsExisting property="Hint">添加一个已经存在的窗体到当前脚本.(项目或者当前打开的设计器)</mnuFormsExisting>
     <mnuScriptSetMain property="Caption">设置默认</mnuScriptSetMain>
-    <mnuScriptSetMain property="Hint">设置当前脚本为默认，this script will run when &quot;Run project&quot; command executing</mnuScriptSetMain>
+    <mnuScriptSetMain property="Hint">设置当前脚本为默认,this script will run when &quot;Run project&quot; command executing</mnuScriptSetMain>
     <mnuScriptRemove property="Caption">移除脚本</mnuScriptRemove>
     <mnuScriptRemove property="Hint">从项目中移除当前脚本(如果文件尚未保存，将会被删除)</mnuScriptRemove>
     <mnuFormOpen property="Caption">打开窗体</mnuFormOpen>
@@ -513,6 +519,8 @@
     <btnTVApply property="Caption">应用(&amp;A)</btnTVApply>
     <btnTVOk property="Caption">确定</btnTVOk>
     <btnTVHelp property="Caption">帮助(&amp;H)</btnTVHelp>
+    <lblSelectedIdx property="Caption">所选索引:</lblSelectedIdx>
+    <lblImageIdx property="Caption">图像索引:</lblImageIdx>
   </form>
   <form name="frmListViewEditor">
     <caption>ListView 项目编辑器</caption>
@@ -526,20 +534,23 @@
     <btnLVCancel property="Caption">取消</btnLVCancel>
     <btnLVApply property="Caption">应用(&amp;A)</btnLVApply>
     <btnLVHelp property="Caption">帮助(&amp;H)</btnLVHelp>
+    <lblImageIndex property="Caption">图像索引:</lblImageIndex>
+    <cbAuto property="Caption">自动索引</cbAuto>
   </form>
   <form name="frmCollectionEditor">
-    <caption />
+    <caption>属性</caption>
     <btnAdd property="Hint">添加项目</btnAdd>
     <btnDelete property="Hint">删除项目</btnDelete>
     <btnUp property="Hint">上移</btnUp>
     <btnDown property="Hint">下移</btnDown>
+    <strProperty property="Caption">属性</strProperty>
   </form>
   <form name="frmEventEditor">
     <caption>事件编辑器</caption>
     <grpNotify property="Caption">控件通知</grpNotify>
-    <lblNotifyState property="Caption">Current notification: %s</lblNotifyState>
+    <lblNotifyState property="Caption">当前通知: %s</lblNotifyState>
     <grpEvent property="Caption">控件事件</grpEvent>
-    <lblEventState property="Caption">Current event: %s</lblEventState>
+    <lblEventState property="Caption">当前事件: %s</lblEventState>
     <rbEditFunc property="Caption">通知</rbEditFunc>
     <rbNone property="Caption">无</rbNone>
     <btnDefault property="Caption">默认</btnDefault>
@@ -558,9 +569,10 @@
     <btnHelp property="Caption">帮助</btnHelp>
     <grpImages property="Caption">图像于列表</grpImages>
     <btnSingleAdd property="Caption">添加一个(&amp;A)...</btnSingleAdd>
-    <btnMultiAdd property="Caption">添加库(&amp;l)...</btnMultiAdd>
+    <btnMultiAdd property="Caption">添加库(&amp;L)...</btnMultiAdd>
     <btnImgRemove property="Caption">移除(&amp;R)</btnImgRemove>
     <btnClear property="Caption">清除列表(&amp;C)</btnClear>
+    <btnSave property="Caption">保存(&amp;S)</btnSave>
   </form>
   <form name="frmMenuBuilder">
     <caption>菜单设计器</caption>

@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.5.3 第一汉化版
+程序版本:3.3.5.4 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.AutoitX.com
 =========================================================
@@ -16,6 +16,10 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 3.3.5.4 (13th February, 2010) (Beta)
 AutoIt:
+[H][-]移除: 移除AppFace皮肤库,过老.
+[H][-]移除: 移除Skin++皮肤库,过老.官方只接受定制.不再更新.
+[H][-]移除: 移除SkinSharpForVC免费版V0.1.2,过老.
+[H][-]移除: 移除SQLite Database Browser,过老,新版本过大.
 - Changed: FileWriteLine() performance improved.
 
 - Added: ControlCommand() "SendCommandID" - used to send WM_COMMAND Control ID messages. Allows the
@@ -36,11 +40,19 @@ UDFs:
 - Fixed #1441: _GUICtrlRichEdit_GetText() using wrong buffer length.
 - Fixed #1446: _ScreenCapture_Capture() was using height/width of 1 pixel less.
 
-AutoIt:
-[H][-]移除: 移除AppFace皮肤库,过老.
-[H][-]移除: 移除Skin++皮肤库,过老.官方只接受定制.不再更新.
-[H][-]移除: 移除SkinSharpForVC免费版V0.1.2,过老.
-[H][-]移除: 移除SQLite Database Browser,过老,新版本过大.
+koda:
+Beta 1.7.2.4 build 214 (2010-02-18)
+2010-02-17 - Changed: styles definition changed to new method of handling styles
+2010-02-17 - Added: support for handling state for certain styles [FS#107]
+2010-02-16 - Added: option to keep tree fully expanded or not
+2010-02-15 - Changed: object tree now is not mandatory to be fully expanded
+2010-02-14 - Added: editable control's description in the object tree
+
+Beta 1.7.2.3 build 207 (2010-02-11)
+2010-02-10 - Changed: cleanups in property inspector code
+2010-02-09 - Changed: control styles editor is fully rewritten to support multiple selection
+2010-02-05 - Fixed: serious flaw in translator [FS#101] (thanks Tlem)
+
 
 3.3.5.3 (2010-02-08) 第一汉化版
 AutoIt:

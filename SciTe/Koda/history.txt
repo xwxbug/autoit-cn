@@ -1,3 +1,15 @@
+Beta 1.7.2.4 build 214 (2010-02-18)
+2010-02-17 - Changed: styles definition changed to new method of handling styles
+2010-02-17 - Added: support for handling state for certain styles [FS#107]
+2010-02-16 - Added: option to keep tree fully expanded or not
+2010-02-15 - Changed: object tree now is not mandatory to be fully expanded
+2010-02-14 - Added: editable control's description in the object tree
+
+Beta 1.7.2.3 build 207 (2010-02-11)
+2010-02-10 - Changed: cleanups in property inspector code
+2010-02-09 - Changed: control styles editor is fully rewritten to support multiple selection
+2010-02-05 - Fixed: serious flaw in translator [FS#101] (thanks Tlem)
+
 Beta 1.7.2.2 build 204 (2010-02-04)
 2010-02-04 - Added: option to not generate ImageList itself when using for Listview/Treeview
 2010-02-03 - Added: warning if user have outdated "styles.xml" file

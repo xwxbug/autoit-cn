@@ -1,0 +1,172 @@
+﻿/* Standard tags */
+body{background-color:#FFFFFF;font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";font-size:x-small;font-weight:normal;color:#000000;}
+table{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";font-size:x-small;}
+tr{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";font-size:x-small;}
+td{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";font-size:x-small;}
+b{font-weight:bold;}
+p{
+	font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+	line-height: normal;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+
+
+
+}
+div{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";}
+a{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";text-decoration:none;}
+
+/* Normal body text links */
+a:link   {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#000099;}
+a:visited{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";text-decoration:underline;color:#000088;}
+a:active {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#000099;}
+a:hover  {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#6666CC;}
+
+a.ext:link   {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#990000;}
+a.ext:visited{font-family:Verdana, Arial, Helvetica, sans-serif, "MS sans serif";text-decoration:underline;color:#880000;}
+a.ext:active {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#990000;}
+a.ext:hover  {font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";text-decoration:underline;color:#CC6666;}
+
+H1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+	font-size: small;
+	line-height: normal;
+	color: #FFFFFF;
+	background-image: url('../images/blue_gradient_1024x24.jpg');
+	background-repeat: repeat-y
+}
+
+
+H2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+	font-size: small;
+	font-weight: bold;
+	color: #000080;
+	line-height: normal;
+}
+
+H3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+	font-size: x-small;
+	font-weight: bold;
+	color: #000080;
+	line-height: normal;
+}
+
+
+.code {
+	font-family: "Courier New", Courier, mono;
+	font-size: x-small;
+	white-space: nowrap;
+}
+
+.codeheader {
+	BORDER-BOTTOM: #AAAAAA 1px solid;
+	BORDER-LEFT: #AAAAAA 1px solid;
+	BORDER-RIGHT: #AAAAAA 1px solid;
+	BORDER-TOP: #AAAAAA 1px solid;
+	PADDING-RIGHT: 16px;
+	PADDING-LEFT: 16px;
+	PADDING-BOTTOM: 16px;
+	PADDING-TOP: 16px;
+	FONT-SIZE: x-small;
+	FONT-FAMILY: Courier New, Courier, Verdana, Arial;
+	COLOR: #000000;
+	WHITE-SPACE: normal;
+	BACKGROUND-COLOR: #FFFFAA
+}
+
+.codebox {
+	BORDER-BOTTOM: #AAAAAA 1px solid;
+	BORDER-LEFT: #AAAAAA 1px solid;
+	BORDER-RIGHT: #AAAAAA 1px solid;
+	BORDER-TOP: #AAAAAA 1px solid;
+	PADDING-RIGHT: 8px;
+	PADDING-LEFT: 8px;
+	PADDING-BOTTOM: 8px;
+	PADDING-TOP: 8px;
+	FONT-SIZE: x-small;
+	FONT-FAMILY: Courier New, Courier, Verdana, Arial;
+	COLOR: #465584;
+	WHITE-SPACE: normal;
+	BACKGROUND-COLOR: #f0f5fa
+}
+
+.S0 {
+	color: #000000;
+	background: #f0f5fa;
+}
+.S1 {
+	font-style: italic;
+	color: #009933;
+	background: #f0f5fa;
+}
+.S2 {
+	font-style: italic;
+	color: #669900;
+	background: #f0f5fa;
+}
+.S3 {
+	color: #004040;
+	background: #f0f5fa;
+}
+.S4 {
+	font-style: italic;
+	color: #000080;
+	background: #f0f5fa;
+}
+.S5 {
+	color: #0000FF;
+	background: #f0f5fa;
+}
+.S6 {
+	color: #800000;
+	background: #f0f5fa;
+}
+.S7 {
+	color: #008080;
+	background: #f0f5fa;
+}
+.S8 {
+	color: #000000;
+	background: #f0f5fa;
+}
+.S9 {
+	color: #5A5A5A;
+	background: #f0f5fa;
+}
+.S10 {
+	color: #D97200;
+	background: #f0f5fa;
+}
+.S11 {
+	font-style: italic;
+	color: #0000FF;
+	background: #f0f5fa;
+}
+.S12 {
+	font-style: italic;
+	color: #A00FF0;
+	background: #f0f5fa;
+}
+.S15 {
+	font-style: italic;
+	font-weight: bold;
+	color: #0080FF;
+	background: #f0f5fa;
+}
+
+span {
+	font-family: 'Courier New';
+	color: #000000;
+	background: #FFFFFF;
+}
+
+.experimental {
+	border: solid;
+	font-size: large;
+	padding: 4px;
+	border-color: red;
+	font-weight: bold;
+	background: lightyellow;
+}
