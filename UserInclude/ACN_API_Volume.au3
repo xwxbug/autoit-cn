@@ -1,11 +1,12 @@
 #include-once
+
 ;worked
 ;~ BOOL WINAPI DeleteVolumeMountPoint(
 ;~   __in  LPCTSTR lpszVolumeMountPoint
 ;~ );
 
 Func _DeleteVolumeMountPoint($str)
-	$ret = DllCall("Kernel32.dll", "hwnd", "DeleteVolumeMountPointW", "wstr", $str)
+	Local $ret = DllCall("Kernel32.dll", "hwnd", "DeleteVolumeMountPointW", "wstr", $str)
 	If $ret[0] <> 0 Then
 		Return 1
 	Else
@@ -22,8 +23,8 @@ EndFunc   ;==>_DeleteVolumeMountPoint
 ;~ );
 
 Func _FindFirstVolume()
-	$lpszVolumeName = DllStructCreate("wchar[250]")
-	$ret = DllCall("Kernel32.dll", "hwnd", "FindFirstVolumeW", "ptr", DllStructGetPtr($lpszVolumeName), "dword", 250)
+	Local $lpszVolumeName = DllStructCreate("wchar[250]")
+	Local $ret = DllCall("Kernel32.dll", "hwnd", "FindFirstVolumeW", "ptr", DllStructGetPtr($lpszVolumeName), "dword", 250)
 	SetError(DllStructGetData($lpszVolumeName, 1))
 	Return $ret[0]
 EndFunc   ;==>_FindFirstVolume
@@ -53,8 +54,8 @@ EndFunc   ;==>_FindFirstVolume
 ;~ );
 
 Func _FindNextVolume($hFindVolume)
-	$lpszVolumeName = DllStructCreate("wchar[250]")
-	$ret = DllCall("Kernel32.dll", "int", "FindNextVolumeW", "hwnd", $hFindVolume, "ptr", DllStructGetPtr($lpszVolumeName), "dword", "250")
+	Local $lpszVolumeName = DllStructCreate("wchar[250]")
+	Local $ret = DllCall("Kernel32.dll", "int", "FindNextVolumeW", "hwnd", $hFindVolume, "ptr", DllStructGetPtr($lpszVolumeName), "dword", "250")
 	;MsgBox(32,"",DllStructGetData($lpszVolumeName,1))
 	If $ret[0] <> 0 Then
 		SetError(0)
@@ -94,7 +95,7 @@ EndFunc   ;==>_FindNextVolume
 
 
 Func _GetDriveType($drv)
-	$ret = DllCall("Kernel32.dll", "int", "GetDriveTypeW", "wstr", $drv)
+	Local $ret = DllCall("Kernel32.dll", "int", "GetDriveTypeW", "wstr", $drv)
 	Return $ret[0]
 EndFunc   ;==>_GetDriveType
 
@@ -105,7 +106,7 @@ EndFunc   ;==>_GetDriveType
 ;~ If the function fails, the return value is zero. To get extended error information, call GetLastError.
 
 Func _GetLogicalDrives()
-	$ret = DllCall("Kernel32.dll", "int", "GetLogicalDrives")
+	Local $ret = DllCall("Kernel32.dll", "int", "GetLogicalDrives")
 	Return $ret[0]
 EndFunc   ;==>_GetLogicalDrives
 
@@ -116,8 +117,8 @@ EndFunc   ;==>_GetLogicalDrives
 ;~ );
 
 Func _GetLogicalDriveStrings()
-	$lpBuffer = DllStructCreate("wchar[250]")
-	$ret = DllCall("Kernel32.dll", "long", "GetLogicalDriveStringsW", "dword", 250, "ptr", DllStructGetPtr($lpBuffer))
+	Local $lpBuffer = DllStructCreate("wchar[250]")
+	Local $ret = DllCall("Kernel32.dll", "long", "GetLogicalDriveStringsW", "dword", 250, "ptr", DllStructGetPtr($lpBuffer))
 	Return StringLeft(DllStructGetData($lpBuffer, 1), $ret[0])
 EndFunc   ;==>_GetLogicalDriveStrings
 
@@ -129,8 +130,8 @@ EndFunc   ;==>_GetLogicalDriveStrings
 ;~ );
 
 Func _GetVolumeNameForVolumeMountPoint($lpszVolumeMountPoint)
-	$lpszVolumeName = DllStructCreate("wchar[50]")
-	$ret = DllCall("Kernel32.dll", "int", "GetVolumeNameForVolumeMountPointW", "wstr", $lpszVolumeMountPoint, "Ptr", DllStructGetPtr($lpszVolumeName), "dword", 50)
+	Local $lpszVolumeName = DllStructCreate("wchar[50]")
+	Local $ret = DllCall("Kernel32.dll", "int", "GetVolumeNameForVolumeMountPointW", "wstr", $lpszVolumeMountPoint, "Ptr", DllStructGetPtr($lpszVolumeName), "dword", 50)
 	Return DllStructGetData($lpszVolumeName, 1)
 EndFunc   ;==>_GetVolumeNameForVolumeMountPoint
 
@@ -142,8 +143,8 @@ EndFunc   ;==>_GetVolumeNameForVolumeMountPoint
 ;~ );
 
 Func _GetVolumePathName($lpszFileName)
-	$lpszVolumePathName = DllStructCreate("wchar[255]")
-	$ret = DllCall("Kernel32.dll", "int", "GetVolumePathNameW", "wstr", $lpszFileName, "Ptr", DllStructGetPtr($lpszVolumePathName), "dword", 255)
+	Local $lpszVolumePathName = DllStructCreate("wchar[255]")
+	Local $ret = DllCall("Kernel32.dll", "int", "GetVolumePathNameW", "wstr", $lpszFileName, "Ptr", DllStructGetPtr($lpszVolumePathName), "dword", 255)
 	Return DllStructGetData($lpszVolumePathName, 1)
 EndFunc   ;==>_GetVolumePathName
 
@@ -154,7 +155,7 @@ EndFunc   ;==>_GetVolumePathName
 ;~ );
 
 Func _SetVolumeLabel($path, $name)
-	$ret = DllCall("Kernel32.dll", "int", "SetVolumeLabelW", "wstr", $path, "wstr", $name)
+	Local $ret = DllCall("Kernel32.dll", "int", "SetVolumeLabelW", "wstr", $path, "wstr", $name)
 	Return $ret[0]
 EndFunc   ;==>_SetVolumeLabel
 
@@ -165,6 +166,6 @@ EndFunc   ;==>_SetVolumeLabel
 ;~ );
 
 Func _SetVolumeMountPoint($lpszVolumeMountPoint, $lpszVolumeName)
-	$ret = DllCall("Kernel32.dll", "int", "SetVolumeMountPointW", "wstr", $lpszVolumeMountPoint, "wstr", $lpszVolumeName)
+	Local $ret = DllCall("Kernel32.dll", "int", "SetVolumeMountPointW", "wstr", $lpszVolumeMountPoint, "wstr", $lpszVolumeName)
 	Return $ret[0]
 EndFunc   ;==>_SetVolumeMountPoint

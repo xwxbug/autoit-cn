@@ -1,5 +1,4 @@
 #include-once
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: AddFontResourceA
 ; Description ...: The AddFontResource function adds the font resource from the specified file to the system font table. The font can subsequently be used for text output by any application.
@@ -15,7 +14,7 @@
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func AddFontResourceA($sFont)
-	$ret=DllCall("Gdi32.dll",'int','AddFontResourceA','str',$sFont)
+	Local $ret=DllCall("Gdi32.dll",'int','AddFontResourceA','str',$sFont)
 	Return $ret
 EndFunc
 
@@ -34,7 +33,7 @@ EndFunc
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func AddFontResourceW($sFont)
-	$ret=DllCall("Gdi32.dll",'int','AddFontResourceW','wstr',$sFont)
+	Local $ret=DllCall("Gdi32.dll",'int','AddFontResourceW','wstr',$sFont)
 	Return $ret
 EndFunc
 
@@ -53,7 +52,7 @@ EndFunc
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func RemoveFontResourceA($sFont)
-	$ret=DllCall("Gdi32.dll",'int','RemoveFontResourceA','str',$sFont)
+	Local $ret=DllCall("Gdi32.dll",'int','RemoveFontResourceA','str',$sFont)
 	Return $ret
 EndFunc
 
@@ -72,7 +71,7 @@ EndFunc
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func RemoveFontResourceW($sFont)
-	$ret=DllCall("Gdi32.dll",'int','RemoveFontResourceW','wstr',$sFont)
+	Local $ret=DllCall("Gdi32.dll",'int','RemoveFontResourceW','wstr',$sFont)
 	Return $ret
 EndFunc
 

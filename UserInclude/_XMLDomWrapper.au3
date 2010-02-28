@@ -288,7 +288,8 @@ Func _XMLGetField($strXPath)
 		Return SetError(1,2,-1)
 	EndIf
 	
-	Local $objNodeList, $arrResponse[1], $xmlerr, $szNodePath
+	Local $objNodeList, $arrResponse[1], $xmlerr, $szNodePath , _
+		$objChild, $aRet
 	While @error = 0
 		$objNodeList = $objDoc.selectSingleNode ($strXPath)
 		If Not IsObj($objNodeList) Then
@@ -1171,7 +1172,8 @@ Func _XMLGetPath($strXPath)
 		_XMLError("Error DOM Version: " & "MSXML Version 4 or greater required for this function")
 		Return -1
 	EndIf
-	Local $objNodeList, $arrResponse[1], $objNodeChild, $xmlerr, $nodepath, $ns
+	Local $objNodeList, $arrResponse[1], $objNodeChild, $xmlerr, $nodepath, $ns , _
+		$nodepathtag, $objParent
 	While @error = 0
 		$objNodeList = $objDoc.selectNodes ($strXPath)
 		If $objNodeList.length > 0 Then
@@ -1236,7 +1238,7 @@ Func _XMLGetPathInternal($objNode)
 		_XMLError("No object passed to function _XMLGetPathInternal")
 		Return SetError(1,25,-1)
 	EndIf
-	Local $nodepath, $na, $objParent
+	Local $nodepath, $na, $objParent, $ns
 	If IsObj($objNode) Then
 		$nodepath = "/" & $objNode.baseName
 		Do
@@ -1280,8 +1282,9 @@ Func _XMLReplaceChild($objOldNode, $objNewNode, $ns = "")
 	Local $nodeRoot
 	Local $nodeOld
 	Local $nodeNew
-	Local $nodeTemp
+	Local $nodeTemp,$oldNodes
 	Local $bSuccess = False
+	Local $bSucess
 	;No error handling done
 	With $objDoc
 		;;.Load "c:\books.xml"
@@ -1581,7 +1584,7 @@ Func _AddFormat($objDoc, $objParent = "")
 		_XMLError("No object passed to function _XMLAddFormat")
 		Return SetError(1,30,-1)
 	EndIf
-	$objFormat = $objDoc.createTextNode (@CR)
+	Local $objFormat = $objDoc.createTextNode (@CR)
 	If IsObj($objParent) Then
 		$objParent.appendChild ($objFormat)
 	Else

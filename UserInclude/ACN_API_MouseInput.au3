@@ -1,39 +1,39 @@
 ﻿#include-once
-Global $WM_MOUSEACTIVATE				0x0021
-Global $WM_NCHITTEST					0x0084
-Global $WM_NCMOUSEMOVE					0x00A0
-Global $WM_NCLBUTTONDOWN				0x00A1
-Global $WM_NCLBUTTONUP					0x00A2
-Global $WM_NCLBUTTONDBLCLK				0x00A3
-Global $WM_NCRBUTTONDOWN				0x00A4
-Global $WM_NCRBUTTONUP					0x00A5
-Global $WM_NCRBUTTONDBLCLK				0x00A6
-Global $WM_NCMBUTTONDOWN				0x00A7
-Global $WM_NCMBUTTONUP					0x00A8
-Global $WM_NCMBUTTONDBLCLK				0x00A9
-Global $WM_NCXBUTTONDOWN				0x00AB
-Global $WM_NCXBUTTONUP					0x00AC
-Global $WM_NCXBUTTONDBLCLK				0x00AD
-Global $WM_MOUSEFIRST					0x0200
-Global $WM_MOUSEMOVE					0x0200
-Global $WM_LBUTTONDOWN					0x0201
-Global $WM_LBUTTONUP					0x0202
-Global $WM_LBUTTONDBLCLK				0x0203
-Global $WM_RBUTTONDOWN					0x0204
-Global $WM_RBUTTONUP					0x0205
-Global $WM_RBUTTONDBLCLK				0x0206
-Global $WM_MBUTTONDOWN					0x0207
-Global $WM_MBUTTONUP					0x0208
-Global $WM_MBUTTONDBLCLK				0x0209
-Global $WM_MOUSEWHEEL					0x020A
-Global $WM_XBUTTONDOWN                  0x020B
-Global $WM_XBUTTONUP                    0x020C
-Global $WM_XBUTTONDBLCLK                0x020D
-Global $WM_CAPTURECHANGED				0x0215
-Global $WM_MOUSEHOVER					0x02A1
-Global $WM_NCMOUSEHOVER					0x02A0
-Global $WM_NCMOUSELEAVE					0x02A2
-Global $WM_MOUSELEAVE					0x02A3
+Global $WM_MOUSEACTIVATE				= 0x0021
+Global $WM_NCHITTEST					= 0x0084
+Global $WM_NCMOUSEMOVE					= 0x00A0
+Global $WM_NCLBUTTONDOWN				= 0x00A1
+Global $WM_NCLBUTTONUP					= 0x00A2
+Global $WM_NCLBUTTONDBLCLK				= 0x00A3
+Global $WM_NCRBUTTONDOWN				= 0x00A4
+Global $WM_NCRBUTTONUP					= 0x00A5
+Global $WM_NCRBUTTONDBLCLK				= 0x00A6
+Global $WM_NCMBUTTONDOWN				= 0x00A7
+Global $WM_NCMBUTTONUP					= 0x00A8
+Global $WM_NCMBUTTONDBLCLK				= 0x00A9
+Global $WM_NCXBUTTONDOWN				= 0x00AB
+Global $WM_NCXBUTTONUP					= 0x00AC
+Global $WM_NCXBUTTONDBLCLK				= 0x00AD
+Global $WM_MOUSEFIRST					= 0x0200
+Global $WM_MOUSEMOVE					= 0x0200
+Global $WM_LBUTTONDOWN					= 0x0201
+Global $WM_LBUTTONUP					= 0x0202
+Global $WM_LBUTTONDBLCLK				= 0x0203
+Global $WM_RBUTTONDOWN					= 0x0204
+Global $WM_RBUTTONUP					= 0x0205
+Global $WM_RBUTTONDBLCLK				= 0x0206
+Global $WM_MBUTTONDOWN					= 0x0207
+Global $WM_MBUTTONUP					= 0x0208
+Global $WM_MBUTTONDBLCLK				= 0x0209
+Global $WM_MOUSEWHEEL					= 0x020A
+Global $WM_XBUTTONDOWN                  = 0x020B
+Global $WM_XBUTTONUP                    = 0x020C
+Global $WM_XBUTTONDBLCLK                = 0x020D
+Global $WM_CAPTURECHANGED				= 0x0215
+Global $WM_MOUSEHOVER					= 0x02A1
+Global $WM_NCMOUSEHOVER					= 0x02A0
+Global $WM_NCMOUSELEAVE					= 0x02A2
+Global $WM_MOUSELEAVE					= 0x02A3
 
 
 ; #FUNCTION# ====================================================================================================================

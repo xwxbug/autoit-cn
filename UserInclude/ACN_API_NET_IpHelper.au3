@@ -212,7 +212,7 @@
 ; Start - Functions
 
 Func _GetAdapterIndex($sz_AdapterName)
-	$IfIndex=DllStructCreate('ulong')
+	Local $IfIndex=DllStructCreate('ulong')
 	local $rt=DllCall('Iphlpapi.dll','dowrd','GetAdapterIndexW','wchar',$sz_AdapterName,'ptr',DllStructGetPtr($IfIndex))
 	Return DllStructGetData($IfIndex,1)
 EndFunc

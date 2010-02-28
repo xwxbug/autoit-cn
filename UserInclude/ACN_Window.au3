@@ -9,6 +9,7 @@ Global Const $AW_HIDE         =            0x00010000
 Global Const $AW_ACTIVATE     =            0x00020000
 Global Const $AW_SLIDE        =            0x00040000
 Global Const $AW_BLEND        =            0x00080000
+
 ; #FUNCTION# ====================================================================================================================
 ; Name...........:	_API_AnimateWindow
 ; Description ...:	动画窗口(比如百叶窗显示窗口)
@@ -41,10 +42,10 @@ Global Const $AW_BLEND        =            0x00080000
 ; Link ..........; 
 ; Example .......;	No
 ; ===============================================================================================================================
-Func _API_AnimateWindow( $hwnd,$dwTime=200,$dwFlags)
-	$dll=DllOpen('user32.dll')
+Func _API_AnimateWindow( $hwnd,$dwTime=200,$dwFlags=0x1)
+	Local $dll=DllOpen('user32.dll')
 	If $dll = -1 Then Return -1
-	$ret=DllCall($dll,"bool","AnimateWindow","HWnd",$hwnd,"dword",$dwTime,"dword",$dwFlags)
+	Local $ret=DllCall($dll,"bool","AnimateWindow","HWnd",$hwnd,"dword",$dwTime,"dword",$dwFlags)
 	DllClose($dll)
 	Return $ret[0]
 EndFunc   ;==>_API_AnimateWindow

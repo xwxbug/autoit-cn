@@ -26,16 +26,17 @@ Func _MouseClickPlus($Window, $Button = "left", $X = "", $Y = "", $Clicks = 1)
   Local $WM_MOUSEMOVE     =  0x0200
   
   Local $i                = 0
-  
+  Local $ButtonDown,$ButtonUp
+  Local $MouseCoord
   Select 
-  Case $Button = "left"
-     $Button     =  $MK_LBUTTON
-     $ButtonDown =  $WM_LBUTTONDOWN
-     $ButtonUp   =  $WM_LBUTTONUP
-  Case $Button = "right"
-     $Button     =  $MK_RBUTTON
-     $ButtonDown =  $WM_RBUTTONDOWN
-     $ButtonUp   =  $WM_RBUTTONUP
+	Case $Button = "left"
+		$Button     =  $MK_LBUTTON
+		$ButtonDown =  $WM_LBUTTONDOWN
+		$ButtonUp   =  $WM_LBUTTONUP
+	Case $Button = "right"
+		$Button     =  $MK_RBUTTON
+		$ButtonDown =  $WM_RBUTTONDOWN
+		$ButtonUp   =  $WM_RBUTTONUP
   EndSelect
   
   If $X = "" OR $Y = "" Then

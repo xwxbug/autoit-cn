@@ -25,7 +25,7 @@ Func _MySQLConnect($sUsername, $sPassword, $sDatabase, $sServer, $sDriver = "{My
 		SetError(2)
 		Return 0
 	EndIf
-	$ObjConn = ObjCreate("ADODB.Connection")
+	Local $ObjConn = ObjCreate("ADODB.Connection")
 	$Objconn.open ("DRIVER=" & $sDriver & ";SERVER=" & $sServer & ";DATABASE=" & $sDatabase & ";UID=" & $sUsername & ";PWD=" & $sPassword & ";")
 	If @error Then
 		SetError(1)
@@ -89,7 +89,7 @@ EndFunc   ;==>_MySQLEnd
 
 Func _AddRecord($oConnectionObj, $sTable, $vRow, $vValue = "")
 	If IsObj($oConnectionObj) Then
-		$query = "INSERT INTO " & $sTable & " ("
+		Local $query = "INSERT INTO " & $sTable & " ("
 		
 		If IsArray($vRow) Then
 			For $i = 0 To UBound($vRow, 1) - 1
@@ -195,7 +195,7 @@ EndFunc   ;==>_DeleteRecord
 
 Func _CreateTable($oConnectionObj, $sTbl, $sPrimeKey, $keytype = "INTEGER", $sNotNull = "yes", $keyautoinc = "yes", $sType = "InnoDB")
 	If IsObj($oConnectionObj) And Not @error Then
-		$str = "CREATE TABLE " & $sTbl & " " & "(" & $sPrimeKey & " " & $keytype & " UNSIGNED"
+		Local $str = "CREATE TABLE " & $sTbl & " " & "(" & $sPrimeKey & " " & $keytype & " UNSIGNED"
 		If $sNotNull = "yes" Then
 			$str = $str & " NOT NULL"
 		EndIf
@@ -230,7 +230,7 @@ EndFunc   ;==>_CreateTable
 
 Func _CreateColumn($oConnectionObj, $sTable, $sColumn, $sAllowNull = "no", $sDataType = "VARCHAR(45)", $sAutoInc = "no", $sUnsigned = "no", $vDefault = '')
 	If IsObj($oConnectionObj) And Not @error Then
-		$str = "ALTER TABLE `" & $sTable & "` ADD COLUMN `" & $sColumn & "` " & $sDataType & " "
+		Local $str = "ALTER TABLE `" & $sTable & "` ADD COLUMN `" & $sColumn & "` " & $sDataType & " "
 		If $sAllowNull = "yes" Then
 			$str = $str & "NOT NULL "
 		EndIf
@@ -297,6 +297,7 @@ EndFunc   ;==>_DropTbl
 	Author: cdkid
 #ce
 Func _CountRecords($oConnectionObj, $sTable, $sColumn, $vValue = '')
+	Local $constr , $sql2 , $ret
 	If IsObj($oConnectionObj) And Not @error Then
 		
 		If $sColumn <> "" And $vValue <> "" And Not IsInt($vValue) Then
@@ -330,8 +331,8 @@ EndFunc   ;==>_CountRecords
 
 Func _CountTables($oConnectionObj)
 	If IsObj($oConnectionObj) Then
-		$quer = $oConnectionObj.execute ("SHOW TABLES;")
-		$i = 0
+		Local $quer = $oConnectionObj.execute ("SHOW TABLES;")
+		Local $i = 0
 		With $quer
 			While Not .EOF
 				$i = $i + 1
@@ -391,7 +392,7 @@ EndFunc   ;==>_GetColNames
 Func _GetTblNames($oConnectionObj)
 	If IsObj($oConnectionObj) Then
 		Dim $ret[1]
-		$quer = $oConnectionObj.execute ("SHOW TABLES;")
+		Local $quer = $oConnectionObj.execute ("SHOW TABLES;")
 		With $quer
 			While Not .eof
 				ReDim $ret[UBound($ret, 1) + 1]
@@ -417,7 +418,7 @@ EndFunc   ;==>_GetTblNames
 Func _GetColVals($oConnectionObj, $sTable, $sColumn)
 	If IsObj($oConnectionObj) Then
 		Dim $ret[1]
-		$quer = $oConnectionObj.execute ("SELECT " & $sColumn & " FROM " & $sTable & ";")
+		Local $quer = $oConnectionObj.execute ("SELECT " & $sColumn & " FROM " & $sTable & ";")
 		With $quer
 			While Not .EOF
 				ReDim $ret[UBound($ret, 1) + 1]
@@ -439,9 +440,9 @@ EndFunc   ;==>_GetColVals
 #ce
 Func _GetColCount($oConnectionObj, $sTable)
 	If IsObj($oConnectionObj) Then
-		$quer = $oConnectionObj.execute ("SHOW COLUMNS IN " & $sTable)
+		Local $quer = $oConnectionObj.execute ("SHOW COLUMNS IN " & $sTable)
 		With $quer
-			$i = 0
+			Local $i = 0
 			While Not .eof
 				$i = $i + 1
 				.movenext
@@ -466,9 +467,10 @@ EndFunc   ;==>_GetColCount
 #ce
 Func _GetColType($oConnectionObj, $sTable, $sColumn)
 	If IsObj($oConnectionObj) Then
-		$quer = $oConnectionObj.execute ("SHOW COLUMNS IN " & $sTable)
+		Local $quer = $oConnectionObj.execute ("SHOW COLUMNS IN " & $sTable)
+		Local $ret
 		With $quer
-			$i = 0
+			Local $i = 0
 			While Not .eof
 				If .fields (0).value = $sColumn Then
 					$ret = .fields (1).value
@@ -539,7 +541,7 @@ EndFunc   ;==>_GetDBNames
 #ce
 
 Func _ChangeCon($oConnectionObj, $username = "", $password = "", $database = "", $driver = "", $server = "")
-	Local $constr, $db, $usn, $pwd, $svr
+	Local $constr, $db, $usn, $pwd, $svr, $dvr
 	If IsObj($oConnectionObj) Then
 		$constr = $oConnectionObj.connectionstring
 		$constr = StringReplace($constr, 'Provider=MSDASQL.1;Extended Properties="', '')

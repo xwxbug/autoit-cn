@@ -180,3 +180,23 @@ end	-- ReplaceTabsWithSpaces()
 function Tools:ReplaceSpacesWithTabs()
 	self:ReplaceCharacters(string.rep(" ", editor.TabWidth), "\t")
 end	-- ReplaceSpacesWithTabs()
+
+--------------------------------------------------------------------------------
+-- toggleOverrideFont()
+--
+-- Toggle font between Fixed and proportional
+--
+--------------------------------------------------------------------------------
+function Tools:toggleOverrideFont()
+	if props['font.override'] ~= '' then
+		-- hide the file-based property
+		props['font.override'] = ''
+	else
+		-- let the property show through
+		props['font.override'] = nil
+		if props['font.override'] == '' then
+		   -- default to monospaced
+		   props['font.override'] = props['font.monospace']
+		end
+	end
+end

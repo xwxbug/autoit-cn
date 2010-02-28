@@ -1,6 +1,4 @@
 #include-once
-
-
 Global Const $S_OK =0
 Global Const $S_FALSE =1
 Global Const $SELFREG_E_TYPELIB = -2147220992
@@ -24,9 +22,9 @@ Global Const $SELFREG_E_FALSE = -2147221008
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func _API_CoInitialize()
-	$dll=DllOpen("Ole32.dll")
+	Local $dll=DllOpen("Ole32.dll")
 	If $dll = -1 Then Return -1
-	$ret=DllCall($dll,"int","CoInitialize","ptr","")
+	Local $ret=DllCall($dll,"int","CoInitialize","ptr","")
 	DllClose($dll)
 	Return $ret[0]
 EndFunc
@@ -50,9 +48,9 @@ EndFunc
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func _API_DllRegisterServer($file)
-	$dll=DllOpen($file)
+	Local $dll=DllOpen($file)
 	If $dll = -1 Then Return -1
-	$ret=DllCall($dll,"int","DllRegisterServer")
+	Local $ret=DllCall($dll,"int","DllRegisterServer")
 	DllClose($dll)
 	Return $ret[0]
 EndFunc
@@ -77,9 +75,9 @@ EndFunc
 ; Example .......; Yes
 ; ===============================================================================================================================
 Func _API_DllUnregisterServer($file)
-	$dll=DllOpen($file)
+	Local $dll=DllOpen($file)
 	If $dll = -1 Then Return -1
-	$ret=DllCall($dll,"int","DllUnregisterServer")
+	Local $ret=DllCall($dll,"int","DllUnregisterServer")
 	DllClose($dll)
 	Return $ret[0]
 EndFunc

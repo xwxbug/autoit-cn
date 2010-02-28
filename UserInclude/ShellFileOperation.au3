@@ -143,7 +143,7 @@ Func _ExplorerDelete($path, $Options = 0)
 	DllStructSetData($SHFILEOPSTRUCT, $lpszProgressTitle, 0)
 
 	If _SHFileOperation($SHFILEOPSTRUCT) Then
-		$aDllRet = DllCall("kernel32.dll", "long", "GetLastError")
+		Local $aDllRet = DllCall("kernel32.dll", "long", "GetLastError")
 		If @error Then MsgBox(4096, "Error", "Error calling GetLastError")
 		SetError($aDllRet[0])
 		Return False
@@ -187,7 +187,7 @@ Func _ExplorerRename($old_name, $new_name, $Options = 0)
 	DllStructSetData($SHFILEOPSTRUCT, $lpszProgressTitle, 0)
 
 	If _SHFileOperation($SHFILEOPSTRUCT) Then
-		$aDllRet = DllCall("kernel32.dll", "long", "GetLastError")
+		Local $aDllRet = DllCall("kernel32.dll", "long", "GetLastError")
 		If @error Then MsgBox(4096, "Error", "Error calling GetLastError")
 		SetError($aDllRet[0])
 		Return False

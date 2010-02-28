@@ -20,38 +20,46 @@ AutoIt:
 [H][-]移除: 移除Skin++皮肤库,过老.官方只接受定制.不再更新.
 [H][-]移除: 移除SkinSharpForVC免费版V0.1.2,过老.
 [H][-]移除: 移除SQLite Database Browser,过老,新版本过大.
-- Changed: FileWriteLine() performance improved.
+[H][-]移除: 移除 ID3.au3 ADF库,原因:变量声明未通过检测.
+[H][-]移除: 移除 Audio.au3 ADF库,原因:变量声明未通过检测.
+[H][-]移除: 移除 _Joystick.au3 ADF库,原因:变量声明未通过检测.
+[H][*]修正: 修正部分 ADF 变量声明未通过检测的问题.
+[G][*]修改: FileWriteLine() performance improved.
 
-- Added: ControlCommand() "SendCommandID" - used to send WM_COMMAND Control ID messages. Allows the
+[G][+]新增: ControlCommand() "SendCommandID" - used to send WM_COMMAND Control ID messages. Allows the
 	automation of ToolBarWindow32 controls (amongst others). For example, the "Back" button of
 	Internet Explorer. Use Au3Info to get the Command ID from the ToolBar tab.
 
-- Fixed #1458: Inet sizes were capped to 32-bits.
-- Fixed #1459: Hard crash when too much recursion is used.
-- Fixed #1464: Regular expressions with a single character * pattern were stopping after the first null match.
-- Fixed #1463: StringToASCIIArray() working incorrectly with UTF8 characters.
+[G][*]修正: #1458: Inet sizes were capped to 32-bits.
+[G][*]修正: #1459: Hard crash when too much recursion is used.
+[G][*]修正: #1464: Regular expressions with a single character * pattern were stopping after the first null match.
+[G][*]修正: #1463: StringToASCIIArray() working incorrectly with UTF8 characters.
 
 Au3Info:
-- Fixed #1391: ToolbarWindow32 info only showing the first toolbar.
+[G][*]修正: #1391: ToolbarWindow32 info only showing the first toolbar.
 
-- Changed: Better identification of the control under the mouse (again...)
+[G][*]修改: Better identification of the control under the mouse (again...)
 
 UDFs:
-- Fixed #1441: _GUICtrlRichEdit_GetText() using wrong buffer length.
-- Fixed #1446: _ScreenCapture_Capture() was using height/width of 1 pixel less.
+[G][*]修正: #1441: _GUICtrlRichEdit_GetText() using wrong buffer length.
+[G][*]修正: #1446: _ScreenCapture_Capture() was using height/width of 1 pixel less.
+
+SciTe:
+[H][*]修正: 修正切换等宽字体(Ctrl+F11)失效问题
+[G][!]更新: 更新tidy为2.1.0.0
 
 koda:
 Beta 1.7.2.4 build 214 (2010-02-18)
-2010-02-17 - Changed: styles definition changed to new method of handling styles
-2010-02-17 - Added: support for handling state for certain styles [FS#107]
-2010-02-16 - Added: option to keep tree fully expanded or not
-2010-02-15 - Changed: object tree now is not mandatory to be fully expanded
-2010-02-14 - Added: editable control's description in the object tree
+[G][*]修改: styles definition changed to new method of handling styles
+[G][+]新增: support for handling state for certain styles [FS#107]
+[G][+]新增: option to keep tree fully expanded or not
+[G][*]修改: object tree now is not mandatory to be fully expanded
+[G][+]新增: editable control's description in the object tree
 
 Beta 1.7.2.3 build 207 (2010-02-11)
-2010-02-10 - Changed: cleanups in property inspector code
-2010-02-09 - Changed: control styles editor is fully rewritten to support multiple selection
-2010-02-05 - Fixed: serious flaw in translator [FS#101] (thanks Tlem)
+[G][*]修改: cleanups in property inspector code
+[G][*]修改: control styles editor is fully rewritten to support multiple selection
+[G][*]修正: serious flaw in translator [FS#101] (thanks Tlem)
 
 
 3.3.5.3 (2010-02-08) 第一汉化版

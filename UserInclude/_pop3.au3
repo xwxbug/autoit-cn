@@ -350,6 +350,7 @@ EndFunc   ;==>_Pop3Top
 
 
 Func _Pop3Quit()
+	Local $ret
 	If $pop3_IsAuth = 1 Then
 		$ret = TCPSend ($pop3_socket, "QUIT" & @CRLF)
 		If @error Then
@@ -370,6 +371,7 @@ EndFunc   ;==>_Pop3Quit
 
 
 Func _Pop3Dele($msg)
+	Local $ret
 	If $pop3_IsAuth = 1 Then
 		$ret = TCPSend ($pop3_socket, "DELE " & $msg & @CRLF)
 		If @error Then

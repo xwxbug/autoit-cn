@@ -1,23 +1,22 @@
-#region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=c:\windows\notepad.exe|0
-;~ #AutoIt3Wrapper_useansi=y
-#AutoIt3Wrapper_res_comment=Configure SciTE settings For AutoIt3
-#AutoIt3Wrapper_res_description=Configure SciTE settings For AutoIt3
-#AutoIt3Wrapper_Res_Fileversion=1.6.7.2
-#AutoIt3Wrapper_res_fileversion_autoincrement=p
-#AutoIt3Wrapper_res_legalcopyright=Copyright © 2009 Jos van der Zande
-#AutoIt3Wrapper_res_field=Made By|Jos van der Zande
-#AutoIt3Wrapper_res_field=Email|jdeb at autoitscript dot com
-#AutoIt3Wrapper_res_field=AutoIt Version|%AutoItVer%
-#AutoIt3Wrapper_res_field=Compile Date|%date% %time%
+#AutoIt3Wrapper_UseUpx=n
+#AutoIt3Wrapper_UseX64=n
+#AutoIt3Wrapper_Res_Comment=Configure SciTE settings For AutoIt3
+#AutoIt3Wrapper_Res_Description=Configure SciTE settings For AutoIt3
+#AutoIt3Wrapper_Res_Fileversion=1.6.7.6
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
+#AutoIt3Wrapper_Res_LegalCopyright=Copyright Å0Ñ8 2009 Jos van der Zande
+#AutoIt3Wrapper_Res_Field=Made By|Jos van der Zande
+#AutoIt3Wrapper_Res_Field=Email|jdeb at autoitscript dot com
+#AutoIt3Wrapper_Res_Field=AutoIt Version|%AutoItVer%
+#AutoIt3Wrapper_Res_Field=Compile Date|%date% %time%
 ;~ #AutoIt3Wrapper_run_after=copy "%out%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
 ;~ #AutoIt3Wrapper_run_after=copy "%in%" "C:\Program Files\AutoIt3\SciTE\SciTEConfig\*.*"
 ;~ #AutoIt3Wrapper_run_cvswrapper=v
 ;~ #AutoIt3Wrapper_run_obfuscator=y
-#Obfuscator_parameters=/cs=0 /cn=0 /cf=0 /cv=0 /sf=1
-#AutoIt3Wrapper_Add_Constants=n
-#endregion ;**** Directives created by AutoIt3Wrapper_GUI ****
+#Obfuscator_Parameters=/cs=0 /cn=0 /cf=0 /cv=0 /sf=1
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 ;
 #include <ComboConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -1039,7 +1038,7 @@ Func SciteToolsFileWrite($file_au3properties)
 	Sleep(50)
 ;~ 	If Not FileWrite($file_au3properties, " ") Then
 ;~ 		Local $temp_Script = _TempFile(@TempDir, "~", ".au3")
-;~ 		MsgBox(262144, "Need Admin mode", "Admin mode is needed to update au3.properties. Asnwer the following prompts to allow the update.")
+;~ 		MsgBox(262144, "Need Admin mode", "Admin mode is needed to update au3.properties. Answer the following prompts to allow the update.")
 ;~ 		FileWriteLine($temp_Script, '#RequireAdmin')
 ;~ 		FileWriteLine($temp_Script, "FileCopy('" & $file_au3properties & "','" & $file_au3properties & "_old" & "', 1)")
 ;~ 		FileWriteLine($temp_Script, "FileDelete('" & $file_au3properties & "')")
@@ -1182,7 +1181,7 @@ Func RunReqAdmin($Autoit3Commands, $prompt = 1)
 	FileWriteLine($temp_Script, '#NoTrayIcon')
 	If Not IsAdmin() Then
 		FileWriteLine($temp_Script, '#RequireAdmin')
-		If $prompt = 1 Then MsgBox(262144, "Need Admin mode", "Admin mode is needed for this update. Asnwer the following prompts to allow the update.")
+		If $prompt = 1 Then MsgBox(262144, "Need Admin mode", "Admin mode is needed for this update. Answer the following prompts to allow the update.")
 	EndIf
 	FileWriteLine($temp_Script, $Autoit3Commands)
 	FileWriteLine($temp_Script, "FileDelete('" & $temp_check & "')")

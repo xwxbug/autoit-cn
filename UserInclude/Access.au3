@@ -55,7 +55,7 @@ Func _accessAddRecord($adSource, $adTable, $rData, $adCol = 0)
 	If Not IsArray($rData) Then
 		$rData = StringSplit($rData, '|')
 	EndIf
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
@@ -63,7 +63,7 @@ Func _accessAddRecord($adSource, $adTable, $rData, $adCol = 0)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
 	If Not IsObj($oADO) Then Return SetError(2, 0, 0)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	With $oRec
 		.Open("SELECT * FROM " & $adTable, $oADO, $adOpenStatic, $adLockOptimistic)
@@ -100,14 +100,14 @@ EndFunc   ;==>_accessAddRecord
 ;===============================================================================
 
 Func _accessClearTable($adSource, $adTable)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	If _accessCountRecords($adSource, $adTable) > 0 Then
 		$oRec.CursorLocation = $adUseClient
@@ -132,13 +132,13 @@ EndFunc   ;==>_accessClearTable
 
 Func _accessCompactDB($adSource)
 	If FileExists($adSource) Then
-		$adDest = @TempDir & "\Temp.mdb"
-		$obj = "JRO.JetEngine"
+		Local $adDest = @TempDir & "\Temp.mdb"
+		Local $obj = "JRO.JetEngine"
 		If FileExists($adDest) Then FileDelete($adDest)
 		If Not IsObj($obj) Then
-			$oMDB = ObjCreate($obj)
+			Local $oMDB = ObjCreate($obj)
 		Else
-			$oMDB = ObjGet($obj)
+			Local $oMDB = ObjGet($obj)
 		EndIf
 		If IsObj($oMDB) Then
 			$oMDB.CompactDatabase("Provider = " & $adoProvider & "Data Source = " & $adSource, _
@@ -171,17 +171,17 @@ EndFunc   ;==>_accessCompactDB
 ;===============================================================================
 
 Func _accessCountFields($adSource, $adTable)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.open($adTable, $oADO, $adOpenStatic, $adLockOptimistic)
-	$Fc = $oRec.fields.count
+	Local $Fc = $oRec.fields.count
 	$oRec.Close
 	$oADO.Close
 	Return $Fc
@@ -207,18 +207,18 @@ EndFunc   ;==>_accessCountFields
 ;===============================================================================
 
 Func _accessCountRecords($adSource, $adTable)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.open("SELECT * FROM " & $adTable, $oADO, $adOpenStatic, $adLockOptimistic)
 	If $oRec.recordcount <> 0 Then $oRec.MoveFirst
-	$Rc = $oRec.recordcount
+	Local $Rc = $oRec.recordcount
 	$oRec.Close
 	$oADO.Close
 	Return $Rc
@@ -247,7 +247,7 @@ Func _accessCreateDB($adSource)
 			Return
 		EndIf
 	EndIf
-	$dbObj = ObjCreate('ADOX.Catalog')
+	Local $dbObj = ObjCreate('ADOX.Catalog')
 	If IsObj($dbObj) Then
 		$dbObj.Create('Provider = ' & $adoProvider & 'Data Source = ' & $adSource)
 	Else
@@ -290,7 +290,7 @@ Func _accessCreateTable($adSource, $adTable, $adCol = '')
 			$F_Out &= $adCol[$I]
 		Next
 	EndIf
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
@@ -327,16 +327,16 @@ EndFunc   ;==>_accessCreateTable
 ;===============================================================================
 
 Func _accessDeleteRecord($adSource, $adTable, $adCol, $Find, $adOcc = 1)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
-	$Search = $adCol & " = '" & $Find & Chr(39)
+	Local $Search = $adCol & " = '" & $Find & Chr(39)
 	With $oRec
 		.CursorLocation = $adUseClient
 		If $adOcc = 1 Then
@@ -369,7 +369,7 @@ EndFunc   ;==>_accessDeleteRecord
 ;===============================================================================
 
 Func _accessDeleteTable($adSource, $adTable)
-	$oADO = ObjCreate("ADODB.Connection")
+	Local $oADO = ObjCreate("ADODB.Connection")
 	$oADO.Provider = $adoProvider
 	$oADO.Open($adSource)
 	$oADO.execute("DROP TABLE " & $adTable)
@@ -396,14 +396,14 @@ EndFunc   ;==>_accessDeleteTable
 
 Func _accessGetVal($adSource, $adTable, $adCol)
 	Local $Val
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset()
+	Local $oRec = _dbOpenRecordset()
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.Open("SELECT * FROM " & $adTable, $oADO, $adOpenStatic, $adLockOptimistic)
 	$Val = $oRec.Fields($adCol).Value
@@ -431,18 +431,18 @@ EndFunc   ;==>_accessGetVal
 
 Func _accessListFields($adSource, $adTable)
 	Local $Rtn = ''
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	;With $oRec
 	$oRec.Open($adTable, $oADO, $adOpenStatic, $adLockOptimistic)
-	$Fc = $oRec.fields.count
+	Local $Fc = $oRec.fields.count
 	If $Fc > 0 Then
 		For $I = 0 To $Fc - 1
 			$Rtn &= $oRec.fields($I).name & '|'
@@ -474,14 +474,14 @@ EndFunc   ;==>_accessListFields
 
 Func _accessListTables($adSource)
 	Local $oList = ''
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = $oADO.OpenSchema($adSchemaTables)
+	Local $oRec = $oADO.OpenSchema($adSchemaTables)
 	While Not $oRec.EOF
 		If StringLen( $oRec("TABLE_TYPE" ).value) > 5 Then;; Skip the hidden internal tables
 			$oRec.movenext
@@ -524,14 +524,14 @@ EndFunc   ;==>_accessListTables
 
 Func _accessQueryLike($adSource, $adTable, $adCol, $Find, $adFull = 1)
 	Local $I, $Rtn
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.Open("SELECT * FROM " & $adTable & " WHERE " & $adCol & " Like '%" & $Find & "%'", $oADO, $adOpenStatic, $adLockOptimistic)
 	If $oRec.RecordCount < 1 Then
@@ -578,14 +578,14 @@ EndFunc   ;==>_accessQueryLike
 
 Func _accessQueryStr($adSource, $adTable, $adCol, $Find)
 	$Find = Chr(34) & String($Find) & Chr(34)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.Open("SELECT * FROM " & $adTable & " Where " & $adCol & " = " & $Find, $oADO, $adOpenStatic, $adLockOptimistic)
 	If $oRec.RecordCount > 0 Then
@@ -614,14 +614,14 @@ Func _accessSaveXML($adSource, $adTable, $oFile = '')
 	If $oFile = '' Then $oFile = StringLeft($adSource, StringInStr($adSource, '\', 0, -1)) & $adTable & '.xml'
 	If Not StringInStr($oFile, '\') Then $oFile = StringLeft($adSource, StringInStr($adSource, '\', 0, -1)) & $oFile
 	If StringRight($oFile, 4) <> '.xml' Then $oFile &= '.xml'
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset()
+	Local $oRec = _dbOpenRecordset()
 	$oRec.Open("SELECT * FROM " & $adTable, $oADO, $adOpenStatic, $adLockOptimistic)
 	$oRec.MoveFirst()
 	$oRec.Save($oFile, $adPersistXML)
@@ -644,7 +644,7 @@ EndFunc   ;==>_accessSaveXML
 ;===============================================================================
 
 Func _accessTableCount($adSource)
-	$T_Count = StringSplit(_accessListTables($adSource), '|')
+	Local $T_Count = StringSplit(_accessListTables($adSource), '|')
 	Return $T_Count[0]
 EndFunc   ;==>_accessTableCount
 
@@ -672,20 +672,19 @@ EndFunc   ;==>_accessTableCount
 
 Func _accessUpdateRecord($adSource, $adTable, $adCol, $adQuery, $adcCol, $adData)
 	$adQuery = Chr(39) & $adQuery & Chr(39)
-	$oADO = 'ADODB.Connection'
+	Local $oADO = 'ADODB.Connection'
 	If IsObj($oADO) Then
 		$oADO = ObjGet('', $oADO)
 	Else
 		$oADO = _dbOpen($adSource)
 	EndIf
 	If IsObj($oADO) = 0 Then Return SetError(1)
-	$oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
+	Local $oRec = _dbOpenRecordset();ObjCreate("ADODB.Recordset")
 	If IsObj($oRec) = 0 Then Return SetError(2)
 	$oRec.CursorLocation = $adUseClient
 	$oRec.Open("SELECT * FROM " & $adTable, $oADO, $adOpenStatic, $adLockOptimistic)
 	If @error = 0 Then
-		$strSearch = $adCol & ' = ' & $adQuery
-		$oRec.Find($strSearch)
+		$oRec.Find($adCol & ' = ' & $adQuery)
 		$oRec($adcCol) = $adData
 		$oRec.Update
 		$oRec.Close
@@ -697,14 +696,14 @@ Func _accessUpdateRecord($adSource, $adTable, $adCol, $adQuery, $adcCol, $adData
 EndFunc   ;==>_accessUpdateRecord
 
 Func _dbOpenRecordset()
-	$oRec = ObjCreate("ADODB.Recordset")
+	Local $oRec = ObjCreate("ADODB.Recordset")
 	Return $oRec
 EndFunc   ;==>_dbOpenRecordset
 
 ;;  Private Functions
 
 Func _dbOpen($adSource)
-	$oADO = ObjCreate("ADODB.Connection")
+	Local $oADO = ObjCreate("ADODB.Connection")
 	$oADO.Provider = $adoProvider
 	$oADO.Open($adSource)
 	Return $oADO

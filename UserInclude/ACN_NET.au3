@@ -233,7 +233,7 @@ Func _NetworkAdapterInfo()
 	$NetworkAdapterInfo[0][0] = 0
 	$objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
 	$colItems = $objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled != 0", "WQL", 0x10 + 0x20)
-	$colItem2 = $objWMIService.ExecQuery('SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionStatus >0', "WQL", 0x10 + 0x20)
+	Local $colItem2 = $objWMIService.ExecQuery('SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionStatus >0', "WQL", 0x10 + 0x20)
 	If IsObj($colItems) Then
 		For $objItem In $colItems
 			$NetworkAdapterName = $objItem.Description
@@ -295,10 +295,10 @@ Func _WMI_SetNetworkAdapterInfo($HostName, $IpADD, $SubMask, $GateWay, $DNS1, $D
 	$SetIPAddress[0] = $IpADD
 	$SetSubnetmask[0] = $SubMask
 	$SetGateway[0] = $GateWay
-	$objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
-	$colItems = $objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = TRUE", "WQL", 0x10 + 0x20)
-	$colComputers = $objWMIService.ExecQuery("Select * from Win32_ComputerSystem")
-	$objNetworkSettings = $objWMIService.Get("Win32_NetworkAdapterConfiguration")
+	Local $objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
+	Local $colItems = $objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = TRUE", "WQL", 0x10 + 0x20)
+	Local $colComputers = $objWMIService.ExecQuery("Select * from Win32_ComputerSystem")
+	Local $objNetworkSettings = $objWMIService.Get("Win32_NetworkAdapterConfiguration")
 	For $objNetAdapter In $colComputers
 		$objNetAdapter.Rename($HostName)
 	Next
@@ -314,7 +314,7 @@ EndFunc   ;==>_WMI_SetNetworkAdapterInfo
 
 
 Func ThunderLinkEnc($Url)
-	$Encrypt = _Base64Encode("AA" & $Url & "ZZ")
+	Local $Encrypt = _Base64Encode("AA" & $Url & "ZZ")
 	Return 'thunder://' & $Encrypt
 EndFunc
 
@@ -328,7 +328,7 @@ Func ThunderLinkDec($Url)
 EndFunc
 
 Func FlashGetLinkEnc($Url)
-	$Encrypt = _Base64Encode("[FLASHGET]" & $Url & "[FLASHGET]")
+	Local $Encrypt = _Base64Encode("[FLASHGET]" & $Url & "[FLASHGET]")
 	Return 'FlashGet://' & $Encrypt & '&'
 EndFunc
 
@@ -343,7 +343,7 @@ Func FlashGetLinkDec($Url)
 EndFunc
 
 Func QQdlLinkEnc($Url)
-	$Encrypt = _Base64Encode($Url)
+	Local $Encrypt = _Base64Encode($Url)
 	Return 'qqdl://' & $Encrypt
 EndFunc
 

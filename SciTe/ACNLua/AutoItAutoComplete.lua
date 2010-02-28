@@ -39,7 +39,7 @@ function AutoItAutoComplete:OnChar(c)
 	if self:IsLexer(SCLEX_AU3) then
 		if props['autocomplete.au3.disable'] == "1" then
 			self:CancelAutoComplete()
-			return true
+			return false
 		end
 		-- Store information about the character 2 back from the current position.
 		local style = editor.StyleAt[editor.CurrentPos-2]
@@ -77,8 +77,7 @@ function AutoItAutoComplete:OnChar(c)
 
 		-- Ensure the character is a valid function character.
 		if not self:IsValidFuncChar(c) then
-			
-			return self:CancelAutoComplete()
+			return
 		end
 
 		-- Cancels AutoComplete if the previous character is a period.  It means

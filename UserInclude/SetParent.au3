@@ -18,9 +18,9 @@
 Func _SetParent($TitleP, $TitleC)
     If WinExists($TitleP) Then
         If WinExists($TitleC) Then
-            $HwndP = WinGetHandle($TitleP)
-            $HwndC = WinGetHandle($TitleC)
-            $user32 = DllOpen("user32.dll")
+            Local $HwndP = WinGetHandle($TitleP)
+            Local $HwndC = WinGetHandle($TitleC)
+            Local $user32 = DllOpen("user32.dll")
             DllCall($user32, "str", "SetParent", "HWnd", $HwndP, "HWnd", $HwndC)
             Return 1
         Else

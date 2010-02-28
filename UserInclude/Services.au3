@@ -2221,7 +2221,7 @@ Func _Service_ServiceMain($iArg, $pArgs)
 		Return
 	EndIf
 	_Service_Startup($iArg, $pArgs)
-	_Svc_Main()
+;~ 	_Svc_Main()
 EndFunc   ;==>_Service_ServiceMain
 
 Func _Service_Cleanup()

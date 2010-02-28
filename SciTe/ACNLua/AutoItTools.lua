@@ -33,7 +33,7 @@ function AutoItTools:OnStartup()
 	-- A table where the keys are the function strings and the values are the
 	-- line where the string is found. (UserList)
 	self.DataTable = { }
-	
+
 	--Load keywords table used by propercase
 	f = io.open(props['SciteDefaultHome'].."\\api\\au3.api")
 	if f ~= nil then
@@ -779,7 +779,7 @@ end	-- ExportLibrary()
 function AutoItTools:OnChar(c)
 --~ 	print("Char:" .. c)
 	if editor.Lexer == SCLEX_AU3 then
-		-- set propercase 
+		-- set propercase
 		if props['proper.case'] == '1'  then
 			self:ProperCase(c)
 		end
@@ -824,8 +824,8 @@ function AutoItTools:TraceAdd()
 	editor:BeginUndoAction()
 	local sels = editor.SelectionStart
 	local sele = editor.SelectionEnd
-	--   when nothing is selected then Whole script	
-	if sels==sele then 
+	--   when nothing is selected then Whole script
+	if sels==sele then
 		AutoItTools:FunctionTraceRemove()    -- Remove any previous traces so we don't get duplicates
 		sels = 0
 		sele = editor.Length
@@ -835,29 +835,29 @@ function AutoItTools:TraceAdd()
 	local CurrentLine = FirstLine
 	editor:GotoLine(FirstLine)
 	PrevLineCont = 0
-	while (CurrentLine <= LastLine) do 
+	while (CurrentLine <= LastLine) do
 		local LineCode = editor:GetLine(editor:LineFromPosition(editor.CurrentPos))
 		local LineCodeprev = editor:GetLine(editor:LineFromPosition(editor.CurrentPos)-1)
 		-- Avoid adding a line ontop on the first line in the editor.Anchor
-		if CurrentLine == 0 then 
-			LineCode = "" 
-			LineCodeprev = "" 
+		if CurrentLine == 0 then
+			LineCode = ""
+			LineCodeprev = ""
 		end
 		-- fill LineCode with "" when nul to avoid function errors
 		if LineCode == nul then LineCode = "" end
 		-- Skip the Select and Switch statements since the trow an error with AU3Check
-		place = string.find(LineCodeprev, "%#*[Ss][Ee][Ll][Ee][Cc][Tt]" ) 
+		place = string.find(LineCodeprev, "%#*[Ss][Ee][Ll][Ee][Cc][Tt]" )
 		if place then LineCode = ""  end
-		place = string.find(LineCodeprev, "%#*[Ss][Ww][Ii][Tt][Cc][Hh]" ) 
+		place = string.find(LineCodeprev, "%#*[Ss][Ww][Ii][Tt][Cc][Hh]" )
 		if place then LineCode = ""  end
 		-- Skip the debug consolewrite lines
-		place = string.find(LineCode, "ConsoleWrite%('@@" ) 
+		place = string.find(LineCode, "ConsoleWrite%('@@" )
 		if place then LineCode = "" end
 		-- Skip the line contains test for @error else it could break logic
-		place = string.find(LineCode, "@[Ee][Rr][Rr][Oo][Rr]" ) 
+		place = string.find(LineCode, "@[Ee][Rr][Rr][Oo][Rr]" )
 		if place then LineCode = "" end
 		-- Remove CRLF
-		LineCode = string.gsub(LineCode,"\r\n","")	
+		LineCode = string.gsub(LineCode,"\r\n","")
 		-- Only go WordRight when its not already on a Keyword and LineCode not Empty
 		if editor.StyleAt[editor.CurrentPos] ~= SCE_AU3_KEYWORD and LineCode ~= "" then
 			editor:WordRight()
@@ -1002,9 +1002,81 @@ function AutoItTools:AllTraceRemove()
 end	-- AllTraceRemove()
 
 --------------------------------------------------------------------------------
+-- OpenIncludeNew(version)
+--
+-- Open the #Include file from your script.
+--
+-- Tool: AutoItTools.OpenIncludeNew $(au3) 2 Alt+I Open Include
+--------------------------------------------------------------------------------
+function AutoItTools:OpenIncludeNew(version)
+    local IncFile, Filename
+	-- currentline text
+	local CurrentLine = editor:GetLine(editor:LineFromPosition(editor.CurrentPos))
+	-- Exclude #include-once
+	if CurrentLine == nil then
+	    print("Not on #include line.")
+		return true
+	end
+	if string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee][-][Oo][Nn][Cc][Ee]" ) then
+		return true
+	end
+	-- find #include
+	local place = string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee]" )
+	-- strip every thing after opening bracket when found
+	if place then
+		IncFile = string.sub(CurrentLine,place + 8)
+		IncFile = string.gsub(IncFile,"\t", " ")  -- replace Tabs with space
+		IncFile = string.gsub(IncFile,"\r","")  -- strip CR characters
+		IncFile = string.gsub(IncFile,"\n","")	-- strip LF characters
+		IncFile = string.gsub(IncFile, "^%s*(.-)%s*$", "%1")	-- strip leading and trailing whitespace characters
+	else
+	    print("请把光标移动到 #include 行.")
+		return true
+	end
+	--
+	if version ~= "beta" then
+		version = ""
+	end
+	--
+	IncFile = string.gsub(IncFile,";(.*)","")
+	-- 得到要检查的目录列表
+	local directories = AutoItGotoDefinition:GetDirectories(version)
+	local start, stop, step, found
+	if string.find(IncFile, "<" ) then
+		IncFile = string.gsub(IncFile,"\<","")
+		IncFile = string.gsub(IncFile,"\>","")
+		start = 1
+		stop = #directories
+		step = 1
+	else  -- Else it is a include file in the script dir
+		IncFile = string.gsub(IncFile,"\"","")
+		IncFile = string.gsub(IncFile,"'","")
+		start = #directories
+		stop = 1
+		step = -1
+	end
+	-- loop through the defined directories
+	found = false
+	for i = start, stop, step do
+		Filename = directories[i] .. IncFile
+		self:DebugPrint("检查中: " .. Filename)
+		if self:FileExists(Filename) then
+			-- If we found the include file so open it
+			print("已打开: " .. Filename)
+			AutoItGotoDefinition:ShowFunction("", Filename)
+			found = true
+			break
+		end
+	end
+	if not found then
+		print("不能找到 include 文件位置: " .. IncFile)
+	end
+end
+
+--------------------------------------------------------------------------------
 -- OpenInclude(version)
 --
--- Open the #Include file from your script. 
+-- Open the #Include file from your script.
 --
 -- Tool: AutoItTools.OpenInclude $(au3) 2 Alt+I Open Include
 --------------------------------------------------------------------------------
@@ -1021,20 +1093,20 @@ function AutoItTools:OpenInclude(version)
 		return true
 	end
 	-- find #include
-	local place = string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee]" ) 
+	local place = string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee]" )
 	-- strip every thing after opening bracket when found
 	if place then
 		IncFile = string.sub(CurrentLine,place + 8)
 		IncFile = string.gsub(IncFile,"\t", " ")  -- replace Tabs with space
 		IncFile = string.gsub(IncFile,"\r","")  -- strip CR characters
-		IncFile = string.gsub(IncFile,"\n","")	-- strip LF characters	
-		IncFile = string.gsub(IncFile, "^%s*(.-)%s*$", "%1")	-- strip leading and trailing whitespace characters	
+		IncFile = string.gsub(IncFile,"\n","")	-- strip LF characters
+		IncFile = string.gsub(IncFile, "^%s*(.-)%s*$", "%1")	-- strip leading and trailing whitespace characters
 	else
 	    print("请把光标移动到 #include 行")
 		return true
 	end
-	-- 
-	if version ~= "beta" then 
+	--
+	if version ~= "beta" then
 		version = ""
 	end
 	--
@@ -1078,7 +1150,7 @@ end
 --------------------------------------------------------------------------------
 -- OpenInclude(version)
 --
--- Open the #Include file from your script. 
+-- Open the #Include file from your script.
 --
 -- Tool: AutoItTools.OpenInclude $(au3) 2 Alt+Shift+I Open Beta Include
 --------------------------------------------------------------------------------
@@ -1101,8 +1173,8 @@ function AutoItTools:OnBeforeSave(filename)
 	end
 	local nbck = 1
 	while (sbck > nbck ) do
-		local fn1 = sbck-nbck 
-		local fn2 = sbck-nbck+1 
+		local fn1 = sbck-nbck
+		local fn2 = sbck-nbck+1
 		os.remove (filename.. "." .. fn2 .. ".bak")
 		if fn1 == 1 then
 			os.rename (filename .. ".bak", filename .. "." .. fn2 .. ".bak")
@@ -1123,14 +1195,14 @@ end
 --------------------------------------------------------------------------------
 function AutoItTools:ProperCase(c)
 	local repword = ""
-    -- get word infront of cursor 
-	local from = editor:WordStartPosition(editor.CurrentPos-1)   
+    -- get word infront of cursor
+	local from = editor:WordStartPosition(editor.CurrentPos-1)
 	local to = editor:WordEndPosition(from)
 	local word = editor:textrange(from, to)
 	style = editor.StyleAt[from]
 	if (style == SCE_AU3_DEFAULT) or (style == SCE_AU3_FUNCTION) or (style == SCE_AU3_KEYWORD) or (style == SCE_AU3_MACRO) then
-		word= string.gsub(word,"%s","")	-- strip whitespace characters	
-		word= string.gsub(word,"%s","")	-- strip whitespace characters	
+		word= string.gsub(word,"%s","")	-- strip whitespace characters
+		word= string.gsub(word,"%s","")	-- strip whitespace characters
 		--print("Word:" .. word .. "|")
 		if word == nil or string.len(word) < 2 then return true end
 		--print("Word:" .. word .. "|  Style:" .. style)
@@ -1153,19 +1225,19 @@ function AutoItTools:ProperCase(c)
 			local savepos = editor.CurrentPos
 			editor:remove(from, to)
 			editor:insert(from, repword)
-			-- print(repword)
 			editor:GotoPos(savepos)
 		end
-	end	
+	end
 	return true
 end
+
 
 --------------------------------------------------------------------------------
 -- AutoItTools:Abbreviations()
 --
--- Expand abbreviations and show tooltip when appropriated.  by Jos van der Zande (JdeB)
+-- Expand abbreviations  by Jos van der Zande (JdeB)
 --------------------------------------------------------------------------------
--- 
+--
 function AutoItTools:Abbreviations()
 	-- get current word
 	from = editor:WordStartPosition(editor.CurrentPos-2)  
