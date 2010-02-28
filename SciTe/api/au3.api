@@ -281,6 +281,7 @@ ControlCommand ( "title", "text", "classnameNN", "EditPaste", 'string' ) Pastes 
 ControlCommand ( "title", "text", "classnameNN", "CurrentTab", "" ) Returns the current Tab shown of a SysTabControl32
 ControlCommand ( "title", "text", "classnameNN", "TabRight", "" ) Moves to the next tab to the right of a SysTabControl32
 ControlCommand ( "title", "text", "classnameNN", "TabLeft", "" ) Moves to the next tab to the left of a SysTabControl32
+ControlCommand ( "title", "text", "classnameNN", "SendCommandID", Command ID ) Simulates the WM_COMMAND message. Usually used for ToolbarWindow32 controls - use the ToolBar tab of Au3Info to get the Command ID.
 ControlDisable ( "title", "text", controlID) Disables or "grays-out" a control.
 ControlEnable ( "title", "text", controlID ) Enables a "grayed-out" control.
 ControlFocus ( "title", "text", controlID ) Sets input focus to a given control on a window.

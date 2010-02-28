@@ -112,8 +112,8 @@ EndFunc   ;==>_MemGlobalAlloc
 ; Description ...: Frees the specified global memory object and invalidates its handle
 ; Syntax.........: _MemGlobalFree($hMem)
 ; Parameters ....: $hMem        - Handle to the global memory object
-; Return values .: Success      - True
-;                  Failure      - False
+; Return values .: Success      - 0
+;                  Failure      - $hMem
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:

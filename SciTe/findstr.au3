@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Res_Description=Dos findstr replacement based on a script created by Martin of the AutoIt3 forum and modified by Jos.
 #AutoIt3Wrapper_Res_Fileversion=1.0.0.2
 #AutoIt3Wrapper_Res_FileVersion_AutoIncrement=p
-#AutoIt3Wrapper_Res_LegalCopyright=Copyright © 2009 Jos van der Zande
+#AutoIt3Wrapper_Res_LegalCopyright=Copyright Å0Ñ8 2009 Jos van der Zande
 #AutoIt3Wrapper_Res_Field=Made By|Martin & Jos van der Zande
 #AutoIt3Wrapper_Res_Field=Email|jdeb at autoitscript dot com
 #AutoIt3Wrapper_Res_Field=AutoIt Version|%AutoItVer%

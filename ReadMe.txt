@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.5.4 第一汉化版
+程序版本:3.3.5.5 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.AutoitX.com
 =========================================================
@@ -14,6 +14,17 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.5.5 (28th February, 2010) (Beta)
+AutoIt:
+- Fixed #1475: TrayItemSetState($Value, $Tray_Checked) incorrectly enables a disabled TrayItem.
+- Fixed: StringToASCIIArray() was incorrectly truncating UTF-16 values at 8 bits.
+
+UDFs:
+- Fixed #1445: Documentation updated for _MemGlobalFree().
+- Fixed #1469: _GDIPlus_BitmapCloneArea() documentation updated.
+- Fixed #1466: _GUICtrlEdit_GetLine() returns an unexpected character.
+
+
 3.3.5.4 (13th February, 2010) (Beta)
 AutoIt:
 [H][-]移除: 移除AppFace皮肤库,过老.
@@ -25,23 +36,22 @@ AutoIt:
 [H][-]移除: 移除 _Joystick.au3 ADF库,原因:变量声明未通过检测.
 [H][*]修正: 修正部分 ADF 变量声明未通过检测的问题.
 [G][*]修改: FileWriteLine() performance improved.
-
-[G][+]新增: ControlCommand() "SendCommandID" - used to send WM_COMMAND Control ID messages. Allows the
-	automation of ToolBarWindow32 controls (amongst others). For example, the "Back" button of
-	Internet Explorer. Use Au3Info to get the Command ID from the ToolBar tab.
+[G][!]更新: 更新正则表达式测试工具pcretest到7.9
+[G][+]新增: ControlCommand() "SendCommandID" - 用于发送 WM_COMMAND 控件 ID 消息. 
+	允许自动化操作 ToolBarWindow32 控件(或者其他). 例如:
+	Internet Explorer的"后退"按钮. 使用 Au3Info 从工具栏标签得到命令 ID.
 
 [G][*]修正: #1458: Inet sizes were capped to 32-bits.
 [G][*]修正: #1459: Hard crash when too much recursion is used.
 [G][*]修正: #1464: Regular expressions with a single character * pattern were stopping after the first null match.
-[G][*]修正: #1463: StringToASCIIArray() working incorrectly with UTF8 characters.
+[G][*]修正: #1463: StringToASCIIArray() 使用 UTF8 字符时不正常工作.
 
 Au3Info:
-[G][*]修正: #1391: ToolbarWindow32 info only showing the first toolbar.
-
-[G][*]修改: Better identification of the control under the mouse (again...)
+[G][*]修正: #1391: ToolbarWindow32 信息只显示第一个工具栏.
+[G][*]修改: 更好的识别鼠标下方的控件 (现在...)
 
 UDFs:
-[G][*]修正: #1441: _GUICtrlRichEdit_GetText() using wrong buffer length.
+[G][*]修正: #1441: _GUICtrlRichEdit_GetText() 使用错误的缓冲区长度.
 [G][*]修正: #1446: _ScreenCapture_Capture() was using height/width of 1 pixel less.
 
 SciTe:

@@ -977,7 +977,7 @@ EndFunc   ;==>_DateToDayOfWeek
 ; Parameters ....: $iYear  - A valid year in format YYYY
 ;                  $iMonth - A valid month in format MM
 ;                  $iDay   - A valid day in format DD
-; Return values .: Success - Returns Day of the Week Range is 0 to 6 where 0=Monday.
+; Return values .: Success - Returns Day of the Week Range is 1 to 7 where 1=Monday.
 ;                  Failure - 0 and Set @ERROR to:
 ;                  |0 - No error.
 ;                  |1 - Invalid Input Date
@@ -993,8 +993,8 @@ Func _DateToDayOfWeekISO($iYear, $iMonth, $iDay)
 	If @error Then
 		Return SetError(1,0,"")
 	EndIf
-	If $idow >= 2 Then Return $idow - 2
-	Return 6
+	If $idow >= 2 Then Return $idow - 1
+	Return 7
 EndFunc   ;==>_DateToDayOfWeekISO
 
 ; #FUNCTION# ====================================================================================================================

@@ -467,6 +467,7 @@ $CmdLineRaw
 %ControlCommand 4 IsEnabled
 %ControlCommand 4 IsVisible
 %ControlCommand 4 SelectString
+%ControlCommand 4 SendCommandID
 %ControlCommand 4 SetCurrentSelection
 %ControlCommand 4 ShowDropDown
 %ControlCommand 4 TabLeft

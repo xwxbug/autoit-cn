@@ -32,20 +32,6 @@ Func _RefreshIconMSG()
 	Return 1
 EndFunc ;=>刷新系统图标
 
-;======================================================
-;
-; 函数名称:		_ShellAbout
-; 详细信息:		显示系统关于对话框
-; 参数:			$hwnd	-	父窗口句柄
-;				$szApp	-	程序标题
-;				$szOtherStuff	-	其他信息
-; 返回值 :		无返回值
-; 作者:			thesnow(rundll32@126.com)
-;
-;======================================================
-Func _ShellAbout($hwnd="",$szApp="",$szOtherStuff="")
-	Return DllCall("shell32.dll","int","ShellAbout","hwnd",$hwnd,"Str",$szApp,"Str",$szOtherStuff,"hwnd","")
-EndFunc
 ;===============================================================================
 ;
 ; 函数名称:		_ChangeScreenRes()

@@ -283,7 +283,7 @@ Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @Scr
 		$varName = "???"
 	EndIf
 
-	Local $sData = "@@ Debug(" & $ScriptLineNumber & "): " & __Debug_DataType($vVar) & " -> " & $varName
+	Local $sData = "@@ Debug(" & $ScriptLineNumber & ") : " & __Debug_DataType($vVar) & " -> " & $varName
 
 	If IsArray($vVar) Then
 		Local $nDims = UBound($vVar, 0)

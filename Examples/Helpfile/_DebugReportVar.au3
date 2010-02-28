@@ -34,7 +34,7 @@ _DebugReportVar("keyword", $keyword)
 $string = "stringstring"
 _DebugReportVar("string", $string)
 
-$binary = Binary(0x0102030405060708)
+$binary = Binary("0x0102030405060708")
 _DebugReportVar("binary", $binary)
 
 $binary = Binary("abcdefghij")
