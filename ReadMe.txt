@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:Autoit
-程序版本:3.3.5.5 第一汉化版
+程序版本:3.3.5.6 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
 中文论坛:http://www.AutoitX.com
 =========================================================
@@ -14,15 +14,19 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.5.6 (2010-03-0X) 第一汉化版
+AutoIt:
+[G][*]修正: 3.3.5.5版本中 StringRegExp() 函数被不小心移除掉.
+
 3.3.5.5 (28th February, 2010) (Beta)
 AutoIt:
-- Fixed #1475: TrayItemSetState($Value, $Tray_Checked) incorrectly enables a disabled TrayItem.
-- Fixed: StringToASCIIArray() was incorrectly truncating UTF-16 values at 8 bits.
+[G][*]修正: #1475: TrayItemSetState($Value, $Tray_Checked) incorrectly enables a disabled TrayItem.
+[G][*]修正:: StringToASCIIArray() was incorrectly truncating UTF-16 values at 8 bits.
 
 UDFs:
-- Fixed #1445: Documentation updated for _MemGlobalFree().
-- Fixed #1469: _GDIPlus_BitmapCloneArea() documentation updated.
-- Fixed #1466: _GUICtrlEdit_GetLine() returns an unexpected character.
+[G][*]修正: #1445: Documentation updated for _MemGlobalFree().
+[G][*]修正: #1469: _GDIPlus_BitmapCloneArea() documentation updated.
+[G][*]修正: #1466: _GUICtrlEdit_GetLine() returns an unexpected character.
 
 
 3.3.5.4 (13th February, 2010) (Beta)
@@ -56,6 +60,7 @@ UDFs:
 
 SciTe:
 [H][*]修正: 修正切换等宽字体(Ctrl+F11)失效问题
+[G][+]新增: "全局设置"中增加"Exit.NoAnimateWindow=1"用于关闭SciTe关闭时的淡出效果.
 [G][!]更新: 更新tidy为2.1.0.0
 
 koda:
