@@ -1,3 +1,16 @@
+Beta 1.7.2.5 build 222 (2010-03-02)
+2010-03-01 - Added: generating GUI_SS_DEFAULT_* styles (non-zero) [FS#22]
+2010-02-27 - Fixed: revised all default/forced control styles
+2010-02-27 - Added: "Stretch" design-time property for Pic and Icon control [FS#111]
+2010-02-26 - Fixed: optimized Styles Editor and styles definition file
+2010-02-26 - Fixed: attached updown not saving it's value [FS#110]
+2010-02-19 - Changed: nicer Spin control in the inteface
+2010-02-19 - Fixed: wrong font on "Reset" buttons under Win7 (maybe Vista too)
+2010-02-19 - Fixed: removed duplicated XP manifest
+2010-02-19 - Added: UAC-compatible association setting
+2010-02-19 - Changed: "default menu" for TrayMenu is enabled by default
+2010-02-19 - Added: forgotten F2 hotkey for edit labels in tree
+
 Beta 1.7.2.4 build 214 (2010-02-18)
 2010-02-17 - Changed: styles definition changed to new method of handling styles
 2010-02-17 - Added: support for handling state for certain styles [FS#107]

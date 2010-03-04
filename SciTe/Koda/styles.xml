@@ -1,6 +1,6 @@
 <data>
-  <styles version="3">
-    <class name="TAForm" default="94CA0000">
+  <styles version="4">
+    <class name="TAForm" forced="14C00000" default="94CA0000">
       <style name="WS_MAXIMIZEBOX" value="00010000"/>
       <style name="WS_MINIMIZEBOX" value="00020000"/>
       <style name="WS_SIZEBOX" value="00040000"/>
@@ -13,8 +13,8 @@
       <style name="WS_MAXIMIZE" value="01000000"/>
       <style name="WS_CLIPCHILDREN" value="02000000"/>
       <style name="WS_MINIMIZE" value="20000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
-      <style name="WS_POPUP" value="80000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000" mask="C0000000"/>
+      <style name="WS_POPUP" value="80000000" mask="C0000000"/>
       <style name="WS_POPUPWINDOW" value="80880000"/>
       <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
@@ -42,7 +42,7 @@
       <style name="WS_EX_WINDOWEDGE" value="00000100"/>
       <style name="WS_EX_LAYERED" value="00080000"/>
     </class>
-    <class name="TAButton" default="50034000">
+    <class name="TAButton" forced="50030000" default="50030000">
       <style name="BS_PUSHBUTTON" value="00000000" mask="1"/>
       <style name="BS_DEFPUSHBUTTON" value="00000001" mask="1"/>
       <style name="BS_PUSHBOX" value="0000000A"/>
@@ -58,13 +58,12 @@
       <style name="BS_FLAT" value="00008000"/>
       <style name="BS_ICON" value="00000040"/>
       <style name="BS_BITMAP" value="00000080"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -72,7 +71,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TACheckbox" default="50010003">
+    <class name="TACheckbox" forced="50010000" default="50010003">
       <style name="BS_CHECKBOX" value="00000002" mask="1F"/>
       <style name="BS_AUTOCHECKBOX" value="00000003" mask="1F"/>
       <style name="BS_3STATE" value="00000005" mask="1F"/>
@@ -87,13 +86,12 @@
       <style name="BS_PUSHLIKE" value="00001000"/>
       <style name="BS_MULTILINE" value="00002000"/>
       <style name="BS_FLAT" value="00008000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -101,7 +99,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TARadio" default="50010009">
+    <class name="TARadio" forced="50010000" default="50010009">
       <style name="BS_RADIOBUTTON" value="00000004" mask="1F"/>
       <style name="BS_AUTORADIOBUTTON" value="00000009" mask="1F"/>
       <style name="BS_RIGHTBUTTON" value="00000020"/>
@@ -114,13 +112,12 @@
       <style name="BS_PUSHLIKE" value="00001000"/>
       <style name="BS_MULTILINE" value="00002000"/>
       <style name="BS_FLAT" value="00008000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -128,20 +125,19 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAGroup" default="50020007">
+    <class name="TAGroup" forced="50020000" default="50020007">
       <style name="BS_GROUPBOX" value="00000007"/>
       <style name="BS_RIGHTBUTTON" value="00000020"/>
       <style name="BS_LEFT" value="00000100" mask="00000300"/>
       <style name="BS_RIGHT" value="00000200" mask="00000300"/>
       <style name="BS_CENTER" value="00000300" mask="00000300"/>
       <style name="BS_FLAT" value="00008000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -150,7 +146,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TACombo" default="50010242">
+    <class name="TACombo" forced="50030200" default="50230242">
       <style name="CBS_SIMPLE" value="00000001" mask="00000003"/>
       <style name="CBS_DROPDOWN" value="00000002" mask="00000003"/>
       <style name="CBS_DROPDOWNLIST" value="00000003" mask="00000003"/>
@@ -161,13 +157,12 @@
       <style name="CBS_DISABLENOSCROLL" value="00000800"/>
       <style name="CBS_UPPERCASE" value="00002000"/>
       <style name="CBS_LOWERCASE" value="00004000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -175,7 +170,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAInput" default="50010080">
+    <class name="TAInput" forced="50030000" default="50030080">
       <style name="ES_LEFT" value="00000000" mask="00000003"/>
       <style name="ES_CENTER" value="00000001" mask="00000003"/>
       <style name="ES_RIGHT" value="00000002" mask="00000003"/>
@@ -190,13 +185,12 @@
       <style name="ES_READONLY" value="00000800"/>
       <style name="ES_WANTRETURN" value="00001000"/>
       <style name="ES_NUMBER" value="00002000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -204,7 +198,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAEdit" default="503110C4">
+    <class name="TAEdit" forced="50030004" default="503310C4">
       <style name="ES_LEFT" value="00000000" mask="3"/>
       <style name="ES_CENTER" value="00000001" mask="3"/>
       <style name="ES_RIGHT" value="00000002" mask="3"/>
@@ -219,13 +213,12 @@
       <style name="ES_READONLY" value="00000800"/>
       <style name="ES_WANTRETURN" value="00001000"/>
       <style name="ES_NUMBER" value="00002000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -233,7 +226,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAList" default="50810003" defname="GUI_SS_DEFAULT_LIST" defstyle="00800002">
+    <class name="TAList" forced="50030000" default="50A30003">
       <style name="LBS_NOTIFY" value="00000001"/>
       <style name="LBS_SORT" value="00000002"/>
       <style name="LBS_MULTIPLESEL" value="00000008"/>
@@ -247,13 +240,12 @@
       <style name="LBS_WANTKEYBOARDINPUT" value="00000400"/>
       <style name="LBS_EXTENDEDSEL" value="00000800"/>
       <style name="LBS_NODATA" value="00002000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -261,7 +253,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TALabel" default="50000100">
+    <class name="TALabel" forced="50020100" default="50020100">
       <style name="SS_LEFT" value="00000000" mask="1F"/>
       <style name="SS_CENTER" value="00000001" mask="1F"/>
       <style name="SS_RIGHT" value="00000002" mask="1F"/>
@@ -281,13 +273,12 @@
       <style name="SS_CENTERIMAGE" value="00000200"/>
       <style name="SS_RIGHTJUST" value="00000400"/>
       <style name="SS_SUNKEN" value="00001000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -296,21 +287,19 @@
       <style name="WS_EX_STATICEDGE" value="00020000"/>
       <style name="GUI_WS_EX_PARENTDRAG" value="00100000"/>
     </class>
-    <class name="TAPic" default="5002010E">
+    <class name="TAPic" forced="5002000E" default="5002010E">
       <style name="SS_BITMAP" value="0000000E" mask="1F"/>
       <style name="SS_NOPREFIX" value="00000080"/>
       <style name="SS_NOTIFY" value="00000100"/>
       <style name="SS_CENTERIMAGE" value="00000200"/>
       <style name="SS_RIGHTJUST" value="00000400"/>
-      <style name="SS_REALSIZEIMAGE" value="00000800"/>
       <style name="SS_SUNKEN" value="00001000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -319,21 +308,19 @@
       <style name="WS_EX_STATICEDGE" value="00020000"/>
       <style name="GUI_WS_EX_PARENTDRAG" value="00100000"/>
     </class>
-    <class name="TAIcon" default="5002010E">
+    <class name="TAIcon" forced="50030003" default="50030103">
       <style name="SS_ICON" value="00000003" mask="1F"/>
       <style name="SS_NOPREFIX" value="00000080"/>
       <style name="SS_NOTIFY" value="00000100"/>
       <style name="SS_CENTERIMAGE" value="00000200"/>
       <style name="SS_RIGHTJUST" value="00000400"/>
-      <style name="SS_REALSIZEIMAGE" value="00000800"/>
       <style name="SS_SUNKEN" value="00001000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -341,7 +328,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAGraphic" default="50000100">
+    <class name="TAGraphic" forced="50000000" default="50000100">
       <style name="SS_LEFT" value="00000000" mask="1F"/>
       <style name="SS_CENTER" value="00000001" mask="1F"/>
       <style name="SS_RIGHT" value="00000002" mask="1F"/>
@@ -361,29 +348,27 @@
       <style name="SS_CENTERIMAGE" value="00000200"/>
       <style name="SS_RIGHTJUST" value="00000400"/>
       <style name="SS_SUNKEN" value="00001000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
-    <class name="TAAvi" default="50000002">
+    <class name="TAAvi" forced="50000000" default="50000002">
       <style name="ACS_CENTER" value="00000001"/>
-      <style name="ACS_TRANSPARENT" value="00000002"/>
+      <style name="ACS_TRANSPARENT" value="00000002" mask="12"/>
       <style name="ACS_AUTOPLAY" value="00000004"/>
       <style name="ACS_TIMER" value="00000008"/>
-      <style name="ACS_NONTRANSPARENT" value="00000010"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
+      <style name="ACS_NONTRANSPARENT" value="00000010" mask="12"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -391,20 +376,19 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TADate" default="50010004">
+    <class name="TADate" forced="50030000" default="50030004">
       <style name="DTS_SHORTDATEFORMAT" value="00000000" mask="00000004"/>
       <style name="DTS_LONGDATEFORMAT" value="00000004" mask="00000004"/>
       <style name="DTS_UPDOWN" value="00000001"/>
       <style name="DTS_SHOWNONE" value="00000002"/>
       <style name="DTS_TIMEFORMAT" value="00000009"/>
       <style name="DTS_RIGHTALIGN" value="00000020"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -412,19 +396,18 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAMonthCal" default="50010000">
+    <class name="TAMonthCal" forced="50030000" default="50030000">
       <style name="MCS_DAYSTATE" value="00000001"/>
       <style name="MCS_MULTISELECT" value="00000002"/>
       <style name="MCS_WEEKNUMBERS" value="00000004"/>
       <style name="MCS_NOTODAYCIRCLE" value="00000008"/>
       <style name="MCS_NOTODAY" value="00000010"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -432,17 +415,16 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAProgress" default="50000000">
+    <class name="TAProgress" forced="50020000" default="50020000">
       <style name="PBS_SMOOTH" value="00000001"/>
       <style name="PBS_VERTICAL" value="00000004"/>
       <style name="PBS_MARQUEE" value="00000008"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -450,16 +432,16 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAUpdown" default="50000006">
+    <class name="TAUpdown" forced="50000002" default="50000006">
       <style name="UDS_WRAP" value="00000001"/>
       <style name="UDS_SETBUDDYINT" value="00000002"/>
-      <style name="UDS_ALIGNRIGHT" value="00000004" mask="8"/>
-      <style name="UDS_ALIGNLEFT" value="00000008" mask="8"/>
+      <style name="UDS_ALIGNRIGHT" value="00000004" mask="C"/>
+      <style name="UDS_ALIGNLEFT" value="00000008" mask="C"/>
       <style name="UDS_ARROWKEYS" value="00000020"/>
       <style name="UDS_HORZ" value="00000040"/>
       <style name="UDS_NOTHOUSANDS" value="00000080"/>
     </class>
-    <class name="TASlider" default="50000001">
+    <class name="TASlider" forced="50020000" default="50020001">
       <style name="TBS_HORZ" value="00000000" mask="00000002"/>
       <style name="TBS_VERT" value="00000002" mask="00000002"/>
       <style name="TBS_AUTOTICKS" value="00000001"/>
@@ -473,13 +455,12 @@
       <style name="TBS_ENABLESELRANGE" value="00000020"/>
       <style name="TBS_FIXEDLENGTH" value="00000040"/>
       <style name="TBS_NOTHUMB" value="00000080"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -487,7 +468,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAListView" default="5001000D">
+    <class name="TAListView" forced="50030000" default="5003000D">
       <style name="LVS_ICON" value="00000000" mask="3"/>
       <style name="LVS_REPORT" value="00000001" mask="3"/>
       <style name="LVS_SMALLICON" value="00000002" mask="3"/>
@@ -504,13 +485,12 @@
       <style name="LVS_NOSCROLL" value="00002000"/>
       <style name="LVS_ALIGNTOP" value="00000000" mask="00000800"/>
       <style name="LVS_ALIGNLEFT" value="00000800" mask="00000800"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -526,7 +506,7 @@
       <style name="LVS_EX_FLATSB" value="00000100"/>
       <style name="LVS_EX_BORDERSELECT" value="00008000"/>
     </class>
-    <class name="TATreeView" default="50030037">
+    <class name="TATreeView" forced="50030000" default="50030037">
       <style name="TVS_HASBUTTONS" value="00000001"/>
       <style name="TVS_HASLINES" value="00000002"/>
       <style name="TVS_LINESATROOT" value="00000004"/>
@@ -541,13 +521,12 @@
       <style name="TVS_FULLROWSELECT" value="00001000"/>
       <style name="TVS_NOSCROLL" value="00002000"/>
       <style name="TVS_NONEVENHEIGHT" value="00004000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -555,7 +534,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TATab" default="54010000">
+    <class name="TATab" forced="54030000" default="54030000">
       <style name="TCS_SCROLLOPPOSITE" value="00000001"/>
       <style name="TCS_BOTTOM" value="00000002"/>
       <style name="TCS_MULTISELECT" value="00000004"/>
@@ -574,13 +553,12 @@
       <style name="TCS_FOCUSONBUTTONDOWN" value="00001000"/>
       <style name="TCS_TOOLTIPS" value="00004000"/>
       <style name="TCS_FOCUSNEVER" value="00008000"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -592,13 +570,12 @@
     <class name="TAStatusBar" default="50000000">
       <style name="SBARS_SIZEGRIP" value="00000100"/>
       <style name="SBARS_TOOLTIPS" value="00000800"/>
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -607,13 +584,12 @@
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
     <class name="TAIPAddress" default="50010000">
-      <style name="WS_OVERLAPPED" value="00000000"/>
       <style name="WS_GROUP" value="00020000"/>
       <style name="WS_TABSTOP" value="00010000"/>
       <style name="WS_HSCROLL" value="00100000"/>
       <style name="WS_VSCROLL" value="00200000"/>
       <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
+      <style name="WS_CHILD" value="40000000"/>
       <style name="WS_BORDER" value="00800000"/>
       <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
@@ -621,16 +597,7 @@
       <style name="WS_EX_CLIENTEDGE" value="00000200"/>
       <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
-    <class name="TAToolBar" default="54000000">
-      <style name="WS_OVERLAPPED" value="00000000"/>
-      <style name="WS_GROUP" value="00020000"/>
-      <style name="WS_TABSTOP" value="00010000"/>
-      <style name="WS_HSCROLL" value="00100000"/>
-      <style name="WS_VSCROLL" value="00200000"/>
-      <style name="WS_VISIBLE" value="10000000"/>
-      <style name="WS_CHILD" value="40000000" mask="80000000"/>
-      <style name="WS_BORDER" value="00800000"/>
-      <style name="WS_CLIPSIBLINGS" value="04000000"/>
+    <class name="TAToolBar" default="54000800">
       <style name="TBSTYLE_TOOLTIPS" value="00000100"/>
       <style name="TBSTYLE_WRAPABLE" value="00000200"/>
       <style name="TBSTYLE_ALTDRAG" value="00000400"/>
@@ -639,14 +606,22 @@
       <style name="TBSTYLE_CUSTOMERASE" value="00002000"/>
       <style name="TBSTYLE_REGISTERDROP" value="00004000"/>
       <style name="TBSTYLE_TRANSPARENT" value="00008000"/>
+	  <style name="WS_GROUP" value="00020000"/>
+      <style name="WS_TABSTOP" value="00010000"/>
+      <style name="WS_HSCROLL" value="00100000"/>
+      <style name="WS_VSCROLL" value="00200000"/>
+      <style name="WS_VISIBLE" value="10000000"/>
+      <style name="WS_CHILD" value="40000000"/>
+      <style name="WS_BORDER" value="00800000"/>
+      <style name="WS_CLIPSIBLINGS" value="04000000"/>
     </class>
     <class name="TAToolBarEx" default="00000000">
-      <style name="WS_EX_CLIENTEDGE" value="00000200"/>
-      <style name="WS_EX_STATICEDGE" value="00020000"/>
       <style name="TBSTYLE_EX_DRAWDDARROWS" value="00000001"/>
       <style name="TBSTYLE_EX_MIXEDBUTTONS" value="00000008"/>
       <style name="TBSTYLE_EX_HIDECLIPPEDBUTTONS" value="00000010"/>
       <style name="TBSTYLE_EX_DOUBLEBUFFER" value="00000080"/>
+	  <style name="WS_EX_CLIENTEDGE" value="00000200"/>
+      <style name="WS_EX_STATICEDGE" value="00020000"/>
     </class>
     <class name="TAToolButton" default="00000000">
       <style name="BTNS_BUTTON" value="00000000" mask="F"/>

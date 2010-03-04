@@ -14,22 +14,36 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.5.6 (2010-03-0X) 第一汉化版
+3.3.5.6 (2010-03-04) 第一汉化版
 AutoIt:
 [G][*]修正: 3.3.5.5版本中 StringRegExp() 函数被不小心移除掉.
+[H][+]新增: 集成 WinAPIEx UDF库.
 
-3.3.5.5 (28th February, 2010) (Beta)
+koda:
+Beta 1.7.2.5 build 222 (2010-03-02)
+[G][+]新增: generating GUI_SS_DEFAULT_* styles (non-zero) [FS#22]
+[G][*]修正: revised all default/forced control styles
+[G][+]新增: "Stretch" design-time property for Pic and Icon control [FS#111]
+[G][*]修正: optimized Styles Editor and styles definition file
+[G][*]修正: attached updown not saving it's value [FS#110]
+[G][*]修改: nicer Spin control in the inteface
+[G][*]修正: wrong font on "Reset" buttons under Win7 (maybe Vista too)
+[G][*]修正: removed duplicated XP manifest
+[G][+]新增: UAC-compatible association setting
+[G][*]修改: "default menu" for TrayMenu is enabled by default
+[G][+]新增: forgotten F2 hotkey for edit labels in tree
+
+3.3.5.5
 AutoIt:
-[G][*]修正: #1475: TrayItemSetState($Value, $Tray_Checked) incorrectly enables a disabled TrayItem.
-[G][*]修正:: StringToASCIIArray() was incorrectly truncating UTF-16 values at 8 bits.
+[G][*]修正: #1475: TrayItemSetState($Value, $Tray_Checked) 不能正确启用已禁用的托盘项目.
+[G][*]修正: StringToASCIIArray() 不能正确截断 UTF-16 中的 8 位(bits)值.
 
 UDFs:
 [G][*]修正: #1445: Documentation updated for _MemGlobalFree().
-[G][*]修正: #1469: _GDIPlus_BitmapCloneArea() documentation updated.
-[G][*]修正: #1466: _GUICtrlEdit_GetLine() returns an unexpected character.
+[G][*]修正: #1469: _GDIPlus_BitmapCloneArea() 文档更新.
+[G][*]修正: #1466: _GUICtrlEdit_GetLine() 返回意外字符.
 
-
-3.3.5.4 (13th February, 2010) (Beta)
+3.3.5.4
 AutoIt:
 [H][-]移除: 移除AppFace皮肤库,过老.
 [H][-]移除: 移除Skin++皮肤库,过老.官方只接受定制.不再更新.
