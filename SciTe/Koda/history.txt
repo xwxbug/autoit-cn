@@ -1,3 +1,14 @@
+Beta 1.7.2.6 build 229 (2010-03-15)
+2010-03-15 - Added: hicolor icons support in the templates gallery
+2010-03-14 - Added: nicer icons for standard templates
+2010-03-14 - Fixed: wrong position of event for UpDown [FS#112] (thanks Luciano Scilletta)
+2010-03-11 - Fixed: crash when closing some forms
+2010-03-11 - Added: double percent %% at beginning of string tell generator not parse all remainding string
+2010-03-11 - Fixed: ImageList (and other controls) can not be placed on toolbar anymore
+2010-03-07 - Added: ability to downloading new/localized help files from options dialog
+2010-03-03 - Added: forgotten help contexts
+2010-03-03 - Fixed: wrongly generating "default" styles for styles that have not them [FS#113] (thanks asdf8)
+
 Beta 1.7.2.5 build 222 (2010-03-02)
 2010-03-01 - Added: generating GUI_SS_DEFAULT_* styles (non-zero) [FS#22]
 2010-02-27 - Fixed: revised all default/forced control styles

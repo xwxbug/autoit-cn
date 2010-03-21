@@ -36,6 +36,7 @@
 		<snapwindows>1</snapwindows>
 		<keeplayout>1</keeplayout>
 		<codesavemode>0</codesavemode>
+		<expandtree>0</expandtree>
 	</designer>
 	<templates>
 		<loop>

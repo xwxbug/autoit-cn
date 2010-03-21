@@ -15,9 +15,25 @@ autoit工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 3.3.6.X (2010-0X-X) 第一汉化版
+AutoIt:
+[H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
+
 Scite:
 [H][+]新增: 集成SciTe帮助于主帮助.
 [H][!]更新: ScriptoMatic 生成的脚本能通过必须声明变量检查"Opt("MustDeclareVars", 1)"
+
+koda:
+Beta 1.7.2.6 build 229 (2010-03-15)
+[G][+]新增: 模板库支持高色彩
+[G][+]新增: 标准模板使用漂亮的图标
+[G][*]修正: UpDown(上下按钮控件)事件位置错误 [FS#112] (thanks Luciano Scilletta)
+[G][*]修正: 关闭一些窗口崩溃
+[G][+]新增: double percent %% at beginning of string tell generator not parse all remainding string
+[G][*]修正: ImageList (and other controls) can not be placed on toolbar anymore
+[G][+]新增: ability to downloading new/localized help files from options dialog
+[G][+]新增: forgotten help contexts
+[G][*]修正: wrongly generating "default" styles for styles that have not them [FS#113] (thanks asdf8)
+
 
 3.3.5.6 (2010-03-04) 第一汉化版
 AutoIt:

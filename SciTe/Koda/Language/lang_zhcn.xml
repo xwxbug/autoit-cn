@@ -2,7 +2,8 @@
 <language>
   <name>Chinese(Simplified)</name>
   <nativename>简体中文</nativename>
-  <version>1.7.2.0</version>
+  <version>1.7.2.6</version>
+  <helpfile>1.7.2.6</helpfile>
   <author>thesnow</author>
   <!--http://www.AutoitX.com-->
   <icon>
@@ -104,6 +105,7 @@
     <msgNoPortable>Koda can&#39;t write configuration in it&#39;s folder, probably you have no writing permission here. You still can to continue in portable mode, but without ability to save configuration settings, or you can create configuration file in the current user profile.\n\nCreate configuration in current user profile?</msgNoPortable>
     <msgOutdatedStyles>您的 &quot;styles.xml&quot; 文件的版本不正确, 您可能会得到很多错误. 推荐您下载最新的 Koda 版本.</msgOutdatedStyles>
     <strMixed>Mixed</strMixed>
+    <strDownloading>下载中...</strDownloading>
   </messages>
   <form name="DesignerMain">
     <caption>Koda 设计器</caption>
@@ -351,6 +353,7 @@
     <mnuSetDef property="Caption">设置默认</mnuSetDef>
     <grpObjectTree property="Caption">对象树</grpObjectTree>
     <cbObjTreeAlwaysExpand property="Caption">总是完全展开</cbObjTreeAlwaysExpand>
+    <btnDownloadHelpfile property="Caption">下载帮助文件</btnDownloadHelpfile>
   </form>
   <form name="frmDesignerCode">
     <caption>代码</caption>
