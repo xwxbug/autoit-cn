@@ -228,6 +228,8 @@
     <actProjectRun property="Caption">运行项目</actProjectRun>
     <actUndo property="Caption">撤销(&amp;U)</actUndo>
     <actToolbarCustomize property="Caption">自定义...</actToolbarCustomize>
+    <actMoveTabBackward property="Caption">页面前移</actMoveTabBackward>
+    <actMoveTabForward property="Caption">页面后移</actMoveTabForward>
     <actSeparator property="Caption">---Separator---</actSeparator>
   </form>
   <form name="frmFormList">
@@ -354,6 +356,7 @@
     <grpObjectTree property="Caption">对象树</grpObjectTree>
     <cbObjTreeAlwaysExpand property="Caption">总是完全展开</cbObjTreeAlwaysExpand>
     <btnDownloadHelpfile property="Caption">下载帮助文件</btnDownloadHelpfile>
+    <cbObjTreeCaptionAsDescr property="Caption">默认使用 Caption</cbObjTreeCaptionAsDescr>
   </form>
   <form name="frmDesignerCode">
     <caption>代码</caption>
@@ -373,7 +376,7 @@
     <cbCodegenPopulate property="Caption">为所有控件生成事件</cbCodegenPopulate>
     <cbCodegenExpandVars property="Caption">扩展 %var% 变量</cbCodegenExpandVars>
     <cbCodegenOnEvent property="Caption">生成基于OnEvent的代码</cbCodegenOnEvent>
-    <cbCodegenVarsForSet property="Caption">如果有可能，变量将插入“-1”</cbCodegenVarsForSet>
+    <cbCodegenVarsForSet property="Caption">如果有可能,变量将插入"-1"</cbCodegenVarsForSet>
     <tpFormat property="Caption">格式</tpFormat>
     <grpIndent property="Caption">缩进代码</grpIndent>
     <lblInitial property="Caption">首字大写</lblInitial>
@@ -582,5 +585,30 @@
     <InsertItem property="Caption">插入(&amp;I)</InsertItem>
     <DeleteItem property="Caption">删除(&amp;D)</DeleteItem>
     <CreateSubmenu property="Caption">创建子菜单(&amp;C)</CreateSubmenu>
+  </form>
+  <form name="frmGraphicEditor">
+    <caption>图形编辑器</caption>
+    <mnuArrow property="Hint">箭头</mnuArrow>
+    <btnLine property="Hint">线</btnLine>
+    <btnBezier property="Hint">贝塞尔曲线</btnBezier>
+    <btnRectangle property="Hint">矩形</btnRectangle>
+    <btnEllipse property="Hint">椭圆</btnEllipse>
+    <btnPie property="Hint">圆(饼)</btnPie>
+    <btnDot property="Hint">点</btnDot>
+    <btnPixel property="Hint">像素点</btnPixel>
+    <mnuEdit property="Caption">编辑</mnuEdit>
+    <mnuCut property="Caption">剪切</mnuCut>
+    <mnuCopy property="Caption">复制</mnuCopy>
+    <mnuPaste property="Caption">粘贴</mnuPaste>
+    <mnuClone property="Caption">克隆</mnuClone>
+    <mnuDelete property="Caption">删除</mnuDelete>
+    <mnuBringToFront property="Caption">置于前台</mnuBringToFront>
+    <mnuSendToBack property="Caption">置于后台</mnuSendToBack>
+    <mnuPointInsert property="Caption">插入点</mnuPointInsert>
+    <mnuPointDelete property="Caption">删除点</mnuPointDelete>
+    <mnuOptions property="Caption">选项</mnuOptions>
+    <mnuCreateNext property="Caption">按此格式创建下一个</mnuCreateNext>
+    <btnCancel property="Caption">取消</btnCancel>
+    <btnOK property="Caption">确定</btnOK>
   </form>
 </language>

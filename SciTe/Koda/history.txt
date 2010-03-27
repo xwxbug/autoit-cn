@@ -1,3 +1,17 @@
+Beta 1.7.2.7 build 241 (2010-03-25)
+2010-03-25 - Fixed: crash when using undo function on certain forms
+2010-03-25 - Fixed: (probably) AV when deleting Imagelist
+2010-03-25 - Fixed: when deleting Imagelist, an "Images" property cleared for all controls
+2010-03-24 - Added: option to show control caption (if exists) as default tree description
+2010-03-24 - Added: ability for rearrange tabs in Tab control (Alt+Left/Alt+Right)
+2010-03-24 - Fixed: subcontrols for Group/Tab are not showing in the tree after paste
+2010-03-24 - Added: Resizing property for Form, that set default resizing
+2010-03-23 - Added: ability to edit properties for multiple selected menu items
+2010-03-23 - Added: autogenerating hotkeys for Menu and ContextMenu
+2010-03-19 - Fixed: some init messages now show translated
+2010-03-18 - Changed: optimized modules interaction (internal)
+2010-03-17 - Changed: optimized translation initializing (internal)
+
 Beta 1.7.2.6 build 229 (2010-03-15)
 2010-03-15 - Added: hicolor icons support in the templates gallery
 2010-03-14 - Added: nicer icons for standard templates

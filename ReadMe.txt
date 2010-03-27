@@ -23,6 +23,20 @@ Scite:
 [H][!]更新: ScriptoMatic 生成的脚本能通过必须声明变量检查"Opt("MustDeclareVars", 1)"
 
 koda:
+Beta 1.7.2.7 build 241 (2010-03-25)
+[G][*]修正: 创建窗体时使用撤销功能会崩溃
+[G][*]修正: 删除Imagelist时(可能) AV(AV可能是指报病毒) 
+[G][*]修正: 当删除Imagelist时, "Images" 属性将清除所有控件
+[G][+]新增: option to show control caption (if exists) as default tree description
+[G][+]新增: ability for rearrange tabs in Tab control (Alt+Left/Alt+Right)
+[G][*]修正: subcontrols for Group/Tab are not showing in the tree after paste
+[G][+]新增: Resizing property for Form, that set default resizing
+[G][+]新增: ability to edit properties for multiple selected menu items
+[G][+]新增: autogenerating hotkeys for Menu and ContextMenu
+[G][*]修正: some init messages now show translated
+[G][*]修改: optimized modules interaction (internal)
+[G][*]修改: optimized translation initializing (internal)
+
 Beta 1.7.2.6 build 229 (2010-03-15)
 [G][+]新增: 模板库支持高色彩
 [G][+]新增: 标准模板使用漂亮的图标
