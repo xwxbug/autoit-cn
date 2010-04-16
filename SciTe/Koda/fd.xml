@@ -37,6 +37,7 @@
 		<keeplayout>1</keeplayout>
 		<codesavemode>0</codesavemode>
 		<expandtree>0</expandtree>
+		<captionasdescr>0</captionasdescr>
 	</designer>
 	<templates>
 		<loop>

@@ -23,6 +23,21 @@ Scite:
 [H][!]更新: ScriptoMatic 生成的脚本能通过必须声明变量检查"Opt("MustDeclareVars", 1)"
 
 koda:
+Beta 1.7.2.8 build 247 RC1 (2010-04-15)
+[G][*]修正:  menu separator "" not generating
+[G][*]修正:  save button state not updated after end editing text in tree
+[G][*]修正:  toolbars not saving when executing config dialog from toolbar context menu (thanks Zedna)
+[G][*]修正:  option "use caption instead name" worked only for label (thanks Zedna)
+[G][+]新增:  "show grid" option for graphic editor
+[G][+]新增:  hourglass cursor when opening Object browser
+[G][+]新增:  invoke Object browser by doubleclick
+[G][*]修正:  various translation fixes (thanks Zedna)
+[G][*]修正:  regression in "scite mode" (Koda not closed when click insert button) (thanks asdf8)
+[G][*]修正:  form modified state was not set when changing styles [FS#123]
+[G][*]修正:  missed $ at first variable in Resizing output [FS#122]
+[G][*]修正:  poDesktopCenter not always generated -1 for position (thanks asdf8)
+[G][*]修正:  GUI_SS_DEFAULT_GUI was not generated for GUI [FS#120]
+
 Beta 1.7.2.7 build 241 (2010-03-25)
 [G][*]修正: 创建窗体时使用撤销功能会崩溃
 [G][*]修正: 删除Imagelist时(可能) AV(AV可能是指报病毒) 

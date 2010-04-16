@@ -1,3 +1,18 @@
+Beta 1.7.2.8 build 247 RC1 (2010-04-15)
+2010-04-15 - Fixed: menu separator "" not generating
+2010-04-15 - Fixed: save button state not updated after end editing text in tree
+2010-04-06 - Fixed: toolbars not saving when executing config dialog from toolbar context menu (thanks Zedna)
+2010-04-05 - Fixed: option "use caption instead name" worked only for label (thanks Zedna)
+2010-04-05 - Added: "show grid" option for graphic editor
+2010-04-05 - Added: hourglass cursor when opening Object browser
+2010-04-05 - Added: invoke Object browser by doubleclick
+2010-04-05 - Fixed: various translation fixes (thanks Zedna)
+2010-03-29 - Fixed: regression in "scite mode" (Koda not closed when click insert button) (thanks asdf8)
+2010-03-27 - Fixed: form modified state was not set when changing styles [FS#123]
+2010-03-27 - Fixed: missed $ at first variable in Resizing output [FS#122]
+2010-03-26 - Fixed: poDesktopCenter not always generated -1 for position (thanks asdf8)
+2010-03-26 - Fixed: GUI_SS_DEFAULT_GUI was not generated for GUI [FS#120]
+
 Beta 1.7.2.7 build 241 (2010-03-25)
 2010-03-25 - Fixed: crash when using undo function on certain forms
 2010-03-25 - Fixed: (probably) AV when deleting Imagelist

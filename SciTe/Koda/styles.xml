@@ -41,6 +41,7 @@
       <style name="WS_EX_TRANSPARENT" value="00000020"/>
       <style name="WS_EX_WINDOWEDGE" value="00000100"/>
       <style name="WS_EX_LAYERED" value="00080000"/>
+      <style name="WS_EX_COMPOSITED" value="02000000"/>
     </class>
     <class name="TAButton" forced="50030000" default="50030000">
       <style name="BS_PUSHBUTTON" value="00000000" mask="1"/>
