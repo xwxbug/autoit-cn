@@ -21,7 +21,7 @@
 
 Func _API_ShellAbout($hwnd="",$szApp="",$szApp1="",$szOtherStuff="",$hIcon="")
 	Local $Ret = DllCall("shell32.dll", "int", "ShellAboutW", "hwnd", $hwnd, "wstr", $szApp & '#' & $szApp1, "WStr", $szOtherStuff,"ptr", $hIcon)
-	Local $Ret = DllCall('shell32.dll', 'int', 'ShellAboutW', 'hwnd', $hParent, 'wstr', $sTitle & '#' & $sName, 'wstr', $sText, 'ptr', $hIcon)
+;	Local $Ret = DllCall('shell32.dll', 'int', 'ShellAboutW', 'hwnd', $hParent, 'wstr', $sTitle & '#' & $sName, 'wstr', $sText, 'ptr', $hIcon)
 	If (@error) Or ($Ret[0] = 0) Then
 		Return SetError(1, 0, 0)
 	EndIf
