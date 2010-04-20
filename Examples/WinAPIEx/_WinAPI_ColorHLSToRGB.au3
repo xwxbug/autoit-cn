@@ -53,4 +53,4 @@ Do
 		GUICtrlSetData($Input3, _WinAPI_GetGValue($RGB))
 		GUICtrlSetData($Input4, _WinAPI_GetBValue($RGB))
 	EndIf
-Until GUIGetMsg() = $GUI_EVENT_CLOSE
+Until GUIGetMsg() = -3

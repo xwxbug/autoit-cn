@@ -5,6 +5,8 @@ Opt('MustDeclareVars', 1)
 Global $hWnd = WinGetHandle(AutoItWinGetTitle())
 Global $tNOTIFYICONDATA = DllStructCreate($tagNOTIFYICONDATA)
 
+OnAutoItExitRegister('OnAutoItExit')
+
 DllStructSetData($tNOTIFYICONDATA, 'Size', DllStructGetSize($tNOTIFYICONDATA))
 DllStructSetData($tNOTIFYICONDATA, 'hWnd', WinGetHandle(AutoItWinGetTitle()))
 DllStructSetData($tNOTIFYICONDATA, 'Flags', $NIF_ICON)
@@ -18,7 +20,7 @@ DllStructSetData($tNOTIFYICONDATA, 'hIcon', _WinAPI_ShellExtractIcons(@SystemDir
 _WinAPI_ShellNotifyIcon($NIM_ADD, $tNOTIFYICONDATA)
 
 While 1
-	Sleep(100)
+	Sleep(1000)
 WEnd
 
 Func OnAutoItExit()

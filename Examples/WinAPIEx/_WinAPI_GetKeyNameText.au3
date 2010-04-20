@@ -9,7 +9,7 @@ GUIRegisterMsg($WM_KEYDOWN, 'WM_KEYDOWN')
 GUISetState()
 
 Do
-Until GUIGetMsg() = $GUI_EVENT_CLOSE
+Until GUIGetMsg() = -3
 
 Func WM_KEYDOWN($hWnd, $iMsg, $wParam, $lParam)
 	ConsoleWrite(_WinAPI_GetKeyNameText($lParam) & @CR)

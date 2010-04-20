@@ -3,7 +3,7 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $hTimerFunc = DllCallbackRegister('_Timer', 'none', 'hwnd;uint;uint;dword')
+Global $hTimerFunc = DllCallbackRegister('_TimerProc', 'none', 'hwnd;uint;uint_ptr;dword')
 Global $Count = 0
 
 _WinAPI_SetTimer(0, 0, 1000, DllCallBackGetPtr($hTimerFunc))
@@ -14,7 +14,7 @@ Until _IsPressed('1B')
 
 DllCallbackFree($hTimerFunc)
 
-Func _Timer($hWnd, $iMsg, $iTimerId, $iTime)
+Func _TimerProc($hWnd, $iMsg, $iTimerId, $iTime)
 	$Count += 1
 	ConsoleWrite($Count & @CR)
-EndFunc   ;==>_Timer
+EndFunc   ;==>_TimerProc

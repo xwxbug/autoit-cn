@@ -1,4 +1,3 @@
-#Include <GUIConstantsEx.au3>
 #Include <GUIListView.au3>
 #Include <GUIImageList.au3>
 #Include <WinAPIEx.au3>
@@ -6,12 +5,13 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $Msg, $Button, $ListView, $hImageList, $hIcon, $tSHFILEINFO, $i = 1, $Key, $First = False
+Global $hForm, $Msg, $Button, $ListView, $hImageList, $hIcon, $Key, $Count = 1, $First = False
+Global $tSHFILEINFO = DllStructCreate($tagSHFILEINFO)
 
 Dim $Ext[101] = [0]
 
 While 1
-	$Key = RegEnumKey('HKCR', $i)
+	$Key = RegEnumKey('HKCR', $Count)
 	If @error Then
 		ExitLoop
 	EndIf
@@ -27,10 +27,10 @@ While 1
 			ExitLoop
 		EndIf
 	EndIf
-	$i += 1
+	$Count += 1
 WEnd
 
-GUICreate('MyGUI', 280, 391)
+$hForm = GUICreate('MyGUI', 280, 391)
 
 $ListView = GUICtrlCreateListView('', 10, 10, 260, 344, BitOR($LVS_DEFAULT, $LVS_NOCOLUMNHEADER), $WS_EX_CLIENTEDGE)
 _GUICtrlListView_SetExtendedListViewStyle($ListView, BitOR($LVS_EX_DOUBLEBUFFER, $LVS_EX_INFOTIP))
@@ -40,8 +40,7 @@ _GUICtrlListView_SetImageList($ListView, $hImageList, 1)
 $Button = GUICtrlCreateButton('OK', 105, 361, 70, 23)
 
 For $i = 1 To $Ext[0]
-	$tSHFILEINFO = _WinAPI_ShellGetFileInfo($Ext[$i], BitOR($SHGFI_ICON, $SHGFI_SMALLICON, $SHGFI_USEFILEATTRIBUTES))
-	$hIcon = DllStructGetData($tSHFILEINFO, 'hIcon')
+	$hIcon = _WinAPI_ShellExtractAssociatedIcon($Ext[$i], 1)
 	_GUIImageList_ReplaceIcon($hImageList, -1, $hIcon)
 	_GUICtrlListView_AddItem($ListView, $Ext[$i], $i - 1)
 	_WinAPI_FreeIcon($hIcon)
@@ -52,7 +51,7 @@ GUISetState()
 While 1
 	$Msg = GUIGetMsg()
 	Switch $Msg
-		Case $GUI_EVENT_CLOSE, $Button
+		Case -3, $Button
 			ExitLoop
 	EndSwitch
 WEnd

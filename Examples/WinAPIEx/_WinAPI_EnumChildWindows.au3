@@ -23,8 +23,7 @@ GUICtrlCreateTabItem('')
 GUISetState()
 
 $Data = _WinAPI_EnumChildWindows($hForm)
-If IsArray($Data) Then
-	_ArrayDisplay($Data, '_WinAPI_EnumChildWindows')
-EndIf
+
+_ArrayDisplay($Data, '_WinAPI_EnumChildWindows')
 
 GUIDelete()

@@ -18,7 +18,7 @@ GUISetState()
 While 1
 	$Msg = GUIGetMsg()
 	Switch $Msg
-		Case $GUI_EVENT_CLOSE
+		Case -3
 			ExitLoop
 		Case $Button
 			Switch @OSVersion

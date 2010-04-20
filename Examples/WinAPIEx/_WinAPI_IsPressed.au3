@@ -1,6 +1,6 @@
 #Include <WinAPIEx.au3>
 
-Opt('GUICloseOnESC', 0) 
+Opt('GUICloseOnESC', 0)
 Opt('MustDeclareVars', 1)
 
 Global $Label, $Key, $Prev = Default

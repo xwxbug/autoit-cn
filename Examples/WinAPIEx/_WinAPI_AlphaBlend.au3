@@ -1,4 +1,3 @@
-#Include <GUIConstantsEx.au3>
 #Include <GUISlider.au3>
 #Include <SliderConstants.au3>
 #Include <WinAPIEx.au3>
@@ -28,7 +27,7 @@ GUISetState()
 While 1
 	$Msg = GUIGetMsg()
 	Switch $Msg
-		Case $GUI_EVENT_CLOSE
+		Case -3
 			ExitLoop
 		Case $Slider
 			_SetBitmapAlpha($Pic, $hBitmap, GUICtrlRead($Slider))
@@ -45,7 +44,7 @@ Func _SetBitmapAlpha($hWnd, $hBitmap, $iAlpha)
 			Return 0
 		EndIf
 	EndIf
-	
+
 	$tRECT = _WinAPI_GetClientRect($hWnd)
 	$Width = DllStructGetData($tRECT, 3) - DllStructGetData($tRECT, 1)
 	$Height = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2)
@@ -58,13 +57,13 @@ Func _SetBitmapAlpha($hWnd, $hBitmap, $iAlpha)
 	$hSrcDC = _WinAPI_CreateCompatibleDC($hDC)
 	$hSrcSv = _WinAPI_SelectObject($hSrcDC, $hBitmap)
 	$Result = _WinAPI_AlphaBlend($hDestDC, 0, 0, $Width, $Height, $hSrcDC, 0, 0, DllStructGetData($tObj, 'bmWidth'), DllStructGetData($tObj, 'bmHeight'), $iAlpha, 0)
-	
+
 	_WinAPI_ReleaseDC($hWnd, $hDC)
 	_WinAPI_SelectObject($hDestDC, $hDestSv)
 	_WinAPI_SelectObject($hSrcDC, $hSrcSv)
 	_WinAPI_DeleteDC($hDestDC)
 	_WinAPI_DeleteDC($hSrcDC)
-	
+
 	If Not $Result Then
 		_WinAPI_FreeObject($hBmp)
 	Else

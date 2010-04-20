@@ -15,3 +15,5 @@ $hKey = _WinAPI_RegCreateKey($HKEY_CURRENT_USER, 'Software\AutoIt v3 (Duplicate)
 _WinAPI_RegRestoreKey($hKey, @ScriptDir & '\reg.dat')
 _WinAPI_RegCloseKey($hKey)
 MsgBox(0, '', '"HKEY_CURRENT_USER\Software\AutoIt v3" has been restored to "HKEY_CURRENT_USER\Software\AutoIt v3 (Duplicate)".')
+
+FileDelete(@ScriptDir & '\reg.dat')

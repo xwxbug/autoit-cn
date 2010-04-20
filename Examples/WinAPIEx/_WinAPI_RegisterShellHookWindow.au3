@@ -4,12 +4,14 @@ Opt('MustDeclareVars', 1)
 
 Global $hForm
 
+OnAutoItExitRegister('OnAutoItExit')
+
 $hForm = GUICreate('')
 GUIRegisterMsg(_WinAPI_RegisterWindowMessage('SHELLHOOK'), '_ShellHookProc')
 _WinAPI_RegisterShellHookWindow($hForm)
 
 While 1
-	Sleep(100)
+	Sleep(1000)
 WEnd
 
 Func _ShellHookProc($hWnd, $iMsg, $wParam, $lParam)

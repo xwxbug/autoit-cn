@@ -1,6 +1,5 @@
 #Include <Array.au3>
 #Include <ComboConstants.au3>
-#Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -19,7 +18,7 @@ GUISetState()
 While 1
 	$Msg = GUIGetMsg()
 	Switch $Msg
-		Case $GUI_EVENT_CLOSE
+		Case -3
 			ExitLoop
 		Case $Button
 			_WinAPI_FormatDriveDlg(GUICtrlRead($Combo), 0, $hForm)

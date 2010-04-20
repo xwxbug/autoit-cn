@@ -1,4 +1,3 @@
-#Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -12,7 +11,7 @@ GUISetState()
 While 1
     $Msg = GUIGetMsg()
     Switch $Msg
-        Case $GUI_EVENT_CLOSE
+        Case -3
             ExitLoop
         Case $Button
             _WinAPI_AboutDlg('About', 'About Dialog Box Test', 'Simple Text', _WinAPI_ShellExtractIcons(@SystemDir & '\shell32.dll', 130, 32, 32), $hForm)

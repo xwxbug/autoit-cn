@@ -1,4 +1,3 @@
-#Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -24,7 +23,7 @@ Func _MyGUI()
 	While 1
 		$Msg = GUIGetMsg()
 		Switch $Msg
-			Case $GUI_EVENT_CLOSE
+			Case -3
 				ExitLoop
 		EndSwitch
 	WEnd

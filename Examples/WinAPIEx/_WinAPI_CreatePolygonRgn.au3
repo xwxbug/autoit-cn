@@ -1,4 +1,3 @@
-#Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 #Include <WindowsConstants.au3>
 
@@ -21,8 +20,8 @@ GUISetState()
 Do
 Until GUIGetMsg() = $Button
 
-Func WM_NCHITTEST($hWnd, $Msg, $wParam, $lParam)
-	If _WinAPI_DefWindowProc($hWnd, $Msg, $wParam, $lParam) = $HTCLIENT Then
+Func WM_NCHITTEST($hWnd, $iMsg, $wParam, $lParam)
+	If _WinAPI_DefWindowProc($hWnd, $iMsg, $wParam, $lParam) = $HTCLIENT Then
 		Return $HTCAPTION
 	EndIf
 	Return $GUI_RUNDEFMSG
