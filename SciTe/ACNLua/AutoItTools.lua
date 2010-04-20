@@ -1110,38 +1110,59 @@ function AutoItTools:OpenInclude(version)
 		version = ""
 	end
 	--
-	IncFile = string.gsub(IncFile,";(.+)","")		
+	IncFile = string.gsub(IncFile,";(.+)","")
+	--
+	-- Maybe in file dir
+	IncInFileDir = IncFile
+	IncInFileDir = string.gsub(IncInFileDir,"\"","")
+	IncInFileDir = string.gsub(IncInFileDir,"\'","")
+	IncInFileDir = string.gsub(IncInFileDir,"\\\\","\\")
+	IncInFileDir = props["FileDir"] .. "\\" .. IncInFileDir
+	--
+	
 	if place then
-		IncFile = string.gsub(IncFile,"\<","")		
-		IncFile = string.gsub(IncFile,"\>","")		
+		IncFile = string.gsub(IncFile,"\<","")
+		IncFile = string.gsub(IncFile,"\>","")
 		IncFile1 = props['autoit3dir'] .. "\\" .. version .. "\\UserInclude\\" .. IncFile
 		IncFile2 = IncFile
-	else  -- Else it is a include file in the script dir 
-		IncFile = string.gsub(IncFile,"\"","")		
-		IncFile1 = string.gsub(IncFile,"\'","")		
+	else  -- Else it is a include file in the script dir
+		IncFile = string.gsub(IncFile,"\"","")
+		IncFile1 = string.gsub(IncFile,"\'","")
 		IncFile2 = props['autoit3dir'] .. "\\" .. version .. "\\UserInclude\\" .. IncFile1
 	end
+
+	
 	-- Replace a double backslash with a single in case no version is provided
 	IncFile1 = string.gsub(IncFile1,"\\\\","\\")		
-	IncFile2 = string.gsub(IncFile2,"\\\\","\\")		
+	IncFile2 = string.gsub(IncFile2,"\\\\","\\")
+	
+	
 	-- Check if  first choice  file exists
 	-- Else Check if  Second choice  file exists
-	f = io.open (IncFile1 , "r") 
+	f = io.open (IncFile1 , "r") 		--UserInclude
 	if f ~= nil then 
 		io.close (f)
 		scite.Open(IncFile1)
 	else
-		f = io.open (IncFile2 , "r") 
+		f = io.open (IncFile2 , "r") 	--UserInclude
 		if f ~= nil then 
 			io.close (f)
 			scite.Open(IncFile2)
 		else
+			-- maybe in Include dir
 			f = io.open (props['autoit3dir'] .. "\\" .. version .. "\\include\\" .. IncFile, "r") 
 			if f ~= nil then 
 			io.close (f)
 				scite.Open(props['autoit3dir'] .. "\\" .. version .. "\\include\\" .. IncFile)
 			else
-				print("未在包含目录中发现或者也没在脚本目录找到" .. IncFile2 .. "！")
+				-- maybe in file dir
+				f = io.open (IncInFileDir, "r")
+				if f ~= nil then 
+				io.close (f)
+					scite.Open(IncInFileDir)
+				else
+					print("未在包含目录中发现或者也没在脚本目录找到" .. IncFile2 .. "！")
+				end
 			end	
 		end	
 	end
