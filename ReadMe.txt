@@ -16,6 +16,7 @@ autoit工具箱提供了安装卸载功能.
 =========================================================
 3.3.6.X (2010-0X-X) 第一汉化版
 AutoIt:
+[G][*]修正: #1515: FileOpen still opening in exclusive mode in some situations.
 [H][*]修正: ACNLUA 脚本中的打开include文件无法找到当前脚本目录下文件的问题.
 [H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
 [H][*]修正: ACNWrapper 编译不带wrapper信息的脚本时出现变量未声明的问题.
