@@ -1340,3 +1340,26 @@ function AutoItTools:Abbreviations()
 		end
 	end
 end
+
+--------------------------------------------------------------------------------
+-- AutoItTools:Copy_BookMarks()
+--
+-- "copy bookmark line to here" by thesnoW
+--------------------------------------------------------------------------------
+--
+function AutoItTools:Copy_BookMarks() 
+   editor:Home()                     -- goto beginning of the line
+   mn = editor:MarkerNext(0,2)       -- Find first bookmarked line
+   if (mn < 1) then
+      print("+>作为一个脚本高手,居然找不到你做的书签记号,哥感到压力很大.\n" ..
+			"			o(>﹏<)o")
+   end
+   
+   s_text = ""
+   while (mn > -1) do
+      _ALERT("已经将第" .. mn + 1 .. "行复制到了这里\0" )
+      s_text = s_text .. editor:GetLine(mn)      -- Add text to var
+      mn = editor:MarkerNext(mn+1,2)             -- Find next bookmarked line
+   end
+   editor:AddText(s_text)            -- Add found text to Script
+end
