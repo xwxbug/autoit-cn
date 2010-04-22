@@ -1,4 +1,4 @@
-#include "ACN_HASH.au3"
+#include <ACN_HASH.au3>
 
 $Encrypt = _XXTEA_Encrypt("The quick brown fox jumps over the lazy dog", "The Key")
 MsgBox(0, 'Encrypt String with Zero Padding', $Encrypt)

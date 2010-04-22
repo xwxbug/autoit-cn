@@ -1,4 +1,4 @@
-#include "ACN_HASH.au3"
+#include <ACN_HASH.au3>
 
 Global $BufferSize = 0x20000
 Global $Filename = FileOpenDialog("Open file", "", "Any file (*.*)")

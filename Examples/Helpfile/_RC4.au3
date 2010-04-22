@@ -1,4 +1,4 @@
-#include "ACN_HASH.au3"
+#include <ACN_HASH.au3>
 
 $Encrypt = _RC4("The quick brown fox jumps over the lazy dog", "The Key")
 MsgBox(0, 'Encrypt Binary Result', $Encrypt)

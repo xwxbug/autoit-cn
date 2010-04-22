@@ -1,4 +1,4 @@
-#include "ACN_HASH.au3"
+#include <ACN_HASH.au3>
 
 $Encrypt = _Base64Encode("The quick brown fox jumps over the lazy dog")
 MsgBox(0, '', $Encrypt)
