@@ -19,6 +19,7 @@ AutoIt:
 [G][*]修正: #1515: FileOpen still opening in exclusive mode in some situations.
 [H][*]修正: ACNLUA 脚本中的打开include文件无法找到当前脚本目录下文件的问题.
 [H][*]修正: ACNLUA 脚本中的插入书签行不可用的问题,并改名为[复制书签所在行到这里].
+[H][*]修正: LUA 脚本不能正常运行的问题(不影响AU3).
 [H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
 [H][*]修正: ACNWrapper 编译不带wrapper信息的脚本时出现变量未声明的问题.
 [G][!]更新: WinAPIEx UDF库 更新到2.4版.

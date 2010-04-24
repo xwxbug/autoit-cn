@@ -296,7 +296,7 @@ setmetatable (table, metatable)\n  sets metatable, nil to remove metatable
 #$string_value=editor:TargetAsUTF%s%b()
 #string_value=editor.AutoCFillUps
 #$string_value=editor%.KeyWords%s*%b[]
-#string_value=editor.LexerLanguage
+#string_value=editor:GetLexerLanguage()
 #$string_value=editor%.Property%s*%b[]
 #$string_value=editor%.StyleFont%s*%b[]
 #string_value=editor.WhitespaceChars
@@ -340,8 +340,8 @@ gsub (s, pat, repl [, n])\n returns copy of s with pat replaced by repl, and sub
 len (s)\n returns string length
 lower (s)\n returns string with letters in lower case
 rep (s, n)\n returns string with n copies of string s
-match (s, pattern [, init])\n looks for the first match of pattern in the string s \n {rus} поиск первого вхождения шаблона pattern в строку s
-gmatch (s, pattern)\n returns iterator function that returns next captures from pattern pat on s \n {rus} возвращает итератор, который, при каждом вызове, возвращает следующее захваченное значение
+match (s, pattern [, init])\n looks for the first match of pattern in the string s \n {rus} §б§а§Ъ§г§Ь §б§Ц§в§У§а§Ф§а §У§з§а§Ш§Х§Ц§Я§Ъ§с §к§С§Т§Э§а§Я§С pattern §У §г§д§в§а§Ь§е s
+gmatch (s, pattern)\n returns iterator function that returns next captures from pattern pat on s \n {rus} §У§а§Щ§У§в§С§л§С§Ц§д §Ъ§д§Ц§в§С§д§а§в, §Ь§а§д§а§в§н§Ы, §б§в§Ъ §Ь§С§Ш§Х§а§Ю §У§н§Щ§а§У§Ц, §У§а§Щ§У§в§С§л§С§Ц§д §г§Э§Ц§Х§е§р§л§Ц§Ц §Щ§С§з§У§С§й§Ц§Я§Я§а§Ц §Щ§Я§С§й§Ц§Я§Ъ§Ц
 sub (s, i [, j])\n returns substring from index i to j of s, default j=-1 (string length)
 upper (s)\n returns string with letters in upper case
 
@@ -485,6 +485,7 @@ editor:FormFeed
 editor:FormatRange
 editor:GetCurLine
 editor:GetLastChild
+editor:GetLexerLanguage
 editor:GetLine
 editor:GetLineSelEndPosition
 editor:GetLineSelStartPosition
@@ -718,6 +719,7 @@ FormFeed()\n Insert a Form Feed character.
 FormatRange(bool draw, formatrange fr) = int pos\n On Windows, will draw the document into a display context such as a printer.
 GetCurLine(int length, stringresult text) = string text\n Retrieve the text of the line containing the caret. Returns the index of the caret on the line.
 GetLastChild(int, int) = int
+GetLexerLanguage() =  = string text\n Get current lexer language
 GetLine(int line, stringresult text) = string text\n Retrieve the contents of a line. Returns the length of the line.
 GetLineSelEndPosition(int line) = int pos\n Retrieve the position of the end of the selection at the given line (INVALID_POSITION if no selection on this line)\n.
 GetLineSelStartPosition(int line) = int pos\n Retrieve the position of the start of the selection at the given line (INVALID_POSITION if no selection on this line).
@@ -939,7 +941,6 @@ editor.KeyWords
 editor.LayoutCache
 editor.Length
 editor.Lexer
-editor.LexerLanguage
 editor.LineCount
 editor.LineEndPosition
 editor.LineIndentPosition
@@ -1072,7 +1073,6 @@ KeyWords [int] = string
 LayoutCache = int
 Length = int
 Lexer = int
-LexerLanguage = string
 LineCount = int
 LineEndPosition [line_number] = int
 LineIndentPosition [line_number] = position
@@ -2048,6 +2048,28 @@ SCE_MAKE_IDEOL = 9
 SCE_MAKE_OPERATOR = 4
 SCE_MAKE_PREPROCESSOR = 2
 SCE_MAKE_TARGET = 5
+SCE_MARKDOWN_BLOCKQUOTE = 15
+SCE_MARKDOWN_CODE = 19
+SCE_MARKDOWN_CODE2 = 20
+SCE_MARKDOWN_CODEBK = 21
+SCE_MARKDOWN_DEFAULT = 0
+SCE_MARKDOWN_EM1 = 4
+SCE_MARKDOWN_EM2 = 5
+SCE_MARKDOWN_HEADER1 = 6
+SCE_MARKDOWN_HEADER2 = 7
+SCE_MARKDOWN_HEADER3 = 8
+SCE_MARKDOWN_HEADER4 = 9
+SCE_MARKDOWN_HEADER5 = 10
+SCE_MARKDOWN_HEADER6 = 11
+SCE_MARKDOWN_HRULE = 17
+SCE_MARKDOWN_LINE_BEGIN = 1
+SCE_MARKDOWN_LINK = 18
+SCE_MARKDOWN_OLIST_ITEM = 14
+SCE_MARKDOWN_PRECHAR = 12
+SCE_MARKDOWN_STRIKEOUT = 16
+SCE_MARKDOWN_STRONG1 = 2
+SCE_MARKDOWN_STRONG2 = 3
+SCE_MARKDOWN_ULIST_ITEM = 13
 SCE_MATLAB_COMMAND = 2
 SCE_MATLAB_COMMENT = 1
 SCE_MATLAB_DEFAULT = 0
@@ -2636,6 +2658,7 @@ SCI_AUTOCGETAUTOHIDE = 2119
 SCI_AUTOCGETCANCELATSTART = 2111
 SCI_AUTOCGETCHOOSESINGLE = 2114
 SCI_AUTOCGETCURRENT = 2445
+SCI_AUTOCGETCURRENTTEXT = 2610
 SCI_AUTOCGETDROPRESTOFWORD = 2271
 SCI_AUTOCGETIGNORECASE = 2116
 SCI_AUTOCGETMAXHEIGHT = 2211
@@ -2726,6 +2749,7 @@ SCI_FORMATRANGE = 2151
 SCI_FORMFEED = 2330
 SCI_GETADDITIONALCARETFORE = 2605
 SCI_GETADDITIONALCARETSBLINK = 2568
+SCI_GETADDITIONALCARETSVISIBLE = 2609
 SCI_GETADDITIONALSELALPHA = 2603
 SCI_GETADDITIONALSELECTIONTYPING = 2566
 SCI_GETANCHOR = 2009
@@ -2763,6 +2787,7 @@ SCI_GETFOCUS = 2381
 SCI_GETFOLDEXPANDED = 2230
 SCI_GETFOLDLEVEL = 2223
 SCI_GETFOLDPARENT = 2225
+SCI_GETFONTQUALITY = 2612
 SCI_GETHIGHLIGHTGUIDE = 2135
 SCI_GETHOTSPOTACTIVEBACK = 2495
 SCI_GETHOTSPOTACTIVEFORE = 2494
@@ -2852,6 +2877,7 @@ SCI_GETVIEWEOL = 2355
 SCI_GETVIEWWS = 2020
 SCI_GETVIRTUALSPACEOPTIONS = 2597
 SCI_GETVSCROLLBAR = 2281
+SCI_GETWHITESPACESIZE = 2087
 SCI_GETWORDCHARS = 2120
 SCI_GETWRAPINDENTMODE = 2473
 SCI_GETWRAPMODE = 2269
@@ -2979,6 +3005,7 @@ SCI_SELECTIONDUPLICATE = 2469
 SCI_SELECTIONISRECTANGLE = 2372
 SCI_SETADDITIONALCARETFORE = 2604
 SCI_SETADDITIONALCARETSBLINK = 2567
+SCI_SETADDITIONALCARETSVISIBLE = 2608
 SCI_SETADDITIONALSELALPHA = 2602
 SCI_SETADDITIONALSELBACK = 2601
 SCI_SETADDITIONALSELECTIONTYPING = 2565
@@ -3014,6 +3041,7 @@ SCI_SETFOLDHIGHLIGHTCOLOUR = 4018
 SCI_SETFOLDLEVEL = 2222
 SCI_SETFOLDMARGINCOLOUR = 2290
 SCI_SETFOLDMARGINHICOLOUR = 2291
+SCI_SETFONTQUALITY = 2611
 SCI_SETHIGHLIGHTGUIDE = 2134
 SCI_SETHOTSPOTACTIVEBACK = 2411
 SCI_SETHOTSPOTACTIVEFORE = 2410
@@ -3097,6 +3125,7 @@ SCI_SETVSCROLLBAR = 2280
 SCI_SETWHITESPACEBACK = 2085
 SCI_SETWHITESPACECHARS = 2443
 SCI_SETWHITESPACEFORE = 2084
+SCI_SETWHITESPACESIZE = 2086
 SCI_SETWORDCHARS = 2077
 SCI_SETWRAPINDENTMODE = 2472
 SCI_SETWRAPMODE = 2268
@@ -3199,7 +3228,7 @@ SCK_SUBTRACT = 311
 SCK_TAB = 9
 SCK_UP = 301
 SCK_WIN = 313
-SCLEX_ABAP = 99
+SCLEX_ABAP = 100
 SCLEX_ABAQUS = 84
 SCLEX_ADA = 20
 SCLEX_APDL = 61
@@ -3232,7 +3261,7 @@ SCLEX_EIFFELKW = 24
 SCLEX_ERLANG = 53
 SCLEX_ERRORLIST = 10
 SCLEX_ESCRIPT = 41
-SCLEX_EUPHORIA = 98
+SCLEX_EUPHORIA = 99
 SCLEX_F77 = 37
 SCLEX_FLAGSHIP = 73
 SCLEX_FORTH = 52
@@ -3251,6 +3280,7 @@ SCLEX_LOUT = 40
 SCLEX_LUA = 15
 SCLEX_MAGIK = 87
 SCLEX_MAKEFILE = 11
+SCLEX_MARKDOWN = 98
 SCLEX_MATLAB = 32
 SCLEX_METAPOST = 50
 SCLEX_MMIXAL = 44
@@ -3344,6 +3374,11 @@ SC_CP_DBCS = 1
 SC_CP_UTF8 = 65001
 SC_CURSORNORMAL = -1
 SC_CURSORWAIT = 4
+SC_EFF_QUALITY_ANTIALIASED = 2
+SC_EFF_QUALITY_DEFAULT = 0
+SC_EFF_QUALITY_LCD_OPTIMIZED = 3
+SC_EFF_QUALITY_MASK = 0xF
+SC_EFF_QUALITY_NON_ANTIALIASED = 1
 SC_EOL_CR = 1
 SC_EOL_CRLF = 0
 SC_EOL_LF = 2
