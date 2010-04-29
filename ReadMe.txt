@@ -27,6 +27,7 @@ AutoIt:
 [H][!]更新: 工具箱中对来自SVN的副本不再检测scite属性设置文件的编码.
 		以支持新版本Scite的UNICODE模式.
 [H][!]更新: 工具箱中自动检测Scite目录下setting.ini的配置,覆盖安装时不再弹出设置模板的消息框.
+[H][!]更新: 更新UPX到3.05版本,只是修复bug.
 
 Scite:
 [H][+]新增: 集成SciTe帮助于主帮助.
