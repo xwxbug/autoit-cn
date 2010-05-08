@@ -26,7 +26,7 @@
 #AutoIt3Wrapper_Res_Language=                   ;资源语言代码. 官方默认 2057=英语 (英国),ACN版本默认 2052=简体中文(中国)
 #AutoIt3Wrapper_Res_LegalCopyright=             ;版权
 #AutoIt3Wrapper_res_requestedExecutionLevel=    ;None, asInvoker, highestAvailable or requireAdministrator   (默认=None)
-												;无  , 请求     ,最高权限        或者  需求管理员权限
+#AutoIt3Wrapper_res_Compatibility=    		;Vista,Windows7 . Both alloweed seperated by a comma     (default=None)
 #AutoIt3Wrapper_Res_SaveSource=                 ;(Y/N) 保持源代码备份到EXE资源中. 默认=N
 ; If _Res_SaveSource=Y the content of Scriptsource depends on the _Run_Obfuscator and #obfuscator_parameters directives:
 ;

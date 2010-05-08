@@ -58,6 +58,8 @@ Func _API_PickIconDlg(ByRef $sFileName,ByRef $IconIndex)
 			$IconIndex = DllStructGetData($piIconIndex, 1)
 			Return 1
 		EndIf
+	Else
+		Return 0
 	EndIf
 EndFunc
 

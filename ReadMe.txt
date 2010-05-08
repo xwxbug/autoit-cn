@@ -23,6 +23,7 @@ AutoIt:
 [H][*]修正: Scite 中 LUA 脚本不能正常运行的问题(不影响AU3).
 [H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
 [H][*]修正: ACNWrapper 编译不带wrapper信息的脚本时出现变量未声明的问题.
+[H][*]修正: ACNWrapper GUI编译处理脚本指定的非ICO图标的支持.
 [H][!]更新: MPRESS 更新到2.15版.
 [H][!]更新: 工具箱中对来自SVN的副本不再检测scite属性设置文件的编码.
 		以支持新版本Scite的UNICODE模式.
