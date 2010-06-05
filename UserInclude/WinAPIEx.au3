@@ -6,27 +6,30 @@
     Filename:       WinAPIEx.au3
     Description:    Additional variables, constants and functions for the WinAPI.au3
     Author:         Yashied
-    Version:        2.4
+    Version:        2.6
     Requirements:   AutoIt v3.3 +, Developed/Tested on WindowsXP Pro Service Pack 2
-    Uses:           StructureConstants.au3, WinAPI.au3
+    Uses:           WinAPI.au3
     Note:           The library uses the following system DLLs:
 
                     advapi32.dll
                     comctl32.dll
+                    dwmapi.dll (Windows Vista or above)
                     gdi32.dll
                     kernel32.dll
-                    ntshrui.dll
                     ole32.dll
                     psapi.dll
                     sensapi.dll
                     shell32.dll
                     shlwapi.dll
                     user32.dll
+                    userenv.dll
                     uxtheme.dll
+                    winmm.dll
                     winspool.drv
 
     Available functions:
 
+    _WinAPI_ActivateKeyboardLayout
     _WinAPI_AboutDlg
     _WinAPI_AddFontResourceEx
     _WinAPI_AddMRUString
@@ -44,9 +47,11 @@
     _WinAPI_BrowseForFolderDlg
     _WinAPI_CharToOem
     _WinAPI_ChildWindowFromPointEx
+    _WinAPI_CloseThemeData
     _WinAPI_CloseWindow
     _WinAPI_ColorHLSToRGB
     _WinAPI_ColorRGBToHLS
+    _WinAPI_CommandLineToArgv
     _WinAPI_CopyFileEx
     _WinAPI_CopyImage
     _WinAPI_CopyRect
@@ -54,10 +59,12 @@
     _WinAPI_CoTaskMemFree
     _WinAPI_CoTaskMemRealloc
     _WinAPI_CreateBrushIndirect
+    _WinAPI_CreateCaret
     _WinAPI_CreateCompatibleBitmapEx
     _WinAPI_CreateDIBSection
     _WinAPI_CreateEllipticRgn
     _WinAPI_CreateFileEx
+    _WinAPI_CreateGUID
     _WinAPI_CreateIconIndirect
     _WinAPI_CreateJobObject
     _WinAPI_CreateMRUList
@@ -70,6 +77,8 @@
     _WinAPI_DefineDosDevice
     _WinAPI_DeleteVolumeMountPoint
     _WinAPI_DeregisterShellHookWindow
+    _WinAPI_DestroyCaret
+    _WinAPI_DeviceIoControl
     _WinAPI_DllInstall
     _WinAPI_DllUninstall
     _WinAPI_DragAcceptFiles
@@ -79,10 +88,25 @@
     _WinAPI_DrawAnimatedRects
     _WinAPI_DrawBitmap
     _WinAPI_DrawShadowText
+    _WinAPI_DrawThemeBackground
+    _WinAPI_DrawThemeParentBackground
+    _WinAPI_DrawThemeText
+ ***_WinAPI_DrawThemeTextEx
     _WinAPI_DuplicateBitmap
     _WinAPI_DuplicateCursor
     _WinAPI_DuplicateIcon
     _WinAPI_DuplicateStruct
+ ***_WinAPI_DwmEnableBlurBehindWindow
+ ***_WinAPI_DwmEnableComposition
+ ***_WinAPI_DwmGetColorizationColor
+ ***_WinAPI_DwmGetWindowAttribute
+ ***_WinAPI_DwmExtendFrameIntoClientArea
+ ***_WinAPI_DwmIsCompositionEnabled
+ ***_WinAPI_DwmQueryThumbnailSourceSize
+ ***_WinAPI_DwmRegisterThumbnail
+ ***_WinAPI_DwmSetWindowAttribute
+ ***_WinAPI_DwmUnregisterThumbnail
+ ***_WinAPI_DwmUpdateThumbnailProperties
     _WinAPI_DWordToInt
     _WinAPI_EjectMedia
     _WinAPI_Ellipse
@@ -126,9 +150,13 @@
     _WinAPI_GetBitmapDimension
     _WinAPI_GetBkColor
     _WinAPI_GetBValue
+    _WinAPI_GetCaretBlinkTime
+    _WinAPI_GetCaretPos
     _WinAPI_GetClassLong
     _WinAPI_GetCompression
     _WinAPI_GetCurrentDirectory
+    _WinAPI_GetCurrentHwProfile
+    _WinAPI_GetCurrentThemeName
     _WinAPI_GetCursor
     _WinAPI_GetDateFormat
     _WinAPI_GetDefaultPrinter
@@ -160,12 +188,15 @@
     _WinAPI_GetObjectEx
     _WinAPI_GetObjectType
     _WinAPI_GetParentProcess
+    _WinAPI_GetPerformanceInfo
     _WinAPI_GetPixel
+    _WinAPI_GetPosFromRect
     _WinAPI_GetProcAddress
     _WinAPI_GetProcessCreationTime
     _WinAPI_GetProcessIoCounters
     _WinAPI_GetProcessMemoryInfo
     _WinAPI_GetProcessName
+    _WinAPI_GetProfilesDirectory
     _WinAPI_GetRgnBox
     _WinAPI_GetROP2
     _WinAPI_GetRValue
@@ -179,16 +210,28 @@
     _WinAPI_GetTextMetrics
     _WinAPI_GetThemeAppProperties
     _WinAPI_GetThemeColor
+    _WinAPI_GetThemeDocumentationProperty
+    _WinAPI_GetThemeFont
+    _WinAPI_GetThemeInt
+    _WinAPI_GetThemeMargins
+    _WinAPI_GetThemePartSize
+    _WinAPI_GetThemePosition
+    _WinAPI_GetThemeRect
     _WinAPI_GetTickCount
+ ***_WinAPI_GetTickCount64
     _WinAPI_GetTimeFormat
     _WinAPI_GetTopWindow
+    _WinAPI_GetUpdateRect
+    _WinAPI_GetUpdateRgn
     _WinAPI_GetUserDefaultLCID
+    _WinAPI_GetVersion
     _WinAPI_GetVersionEx
     _WinAPI_GetVolumeNameForVolumeMountPoint
     _WinAPI_GetWindowInfo
     _WinAPI_GetWindowModuleFileName
     _WinAPI_GetWorkArea
     _WinAPI_GradientFill
+    _WinAPI_HideCaret
     _WinAPI_HiDWord
     _WinAPI_InflateRect
     _WinAPI_IntersectRect
@@ -201,20 +244,27 @@
     _WinAPI_IsDoorOpen
     _WinAPI_IsHungAppWindow
     _WinAPI_IsIconic
+    _WinAPI_IsLoadKBLayout
     _WinAPI_IsNetworkAlive
     _WinAPI_IsPressed
     _WinAPI_IsProcessInJob
+    _WinAPI_IsProcessorFeaturePresent
     _WinAPI_IsRectEmpty
     _WinAPI_IsThemeActive
+    _WinAPI_IsThemeBackgroundPartiallyTransparent
+    _WinAPI_IsThemePartDefined
     _WinAPI_IsValidLocale
     _WinAPI_IsWindowEnabled
     _WinAPI_IsWindowUnicode
+    _WinAPI_IsWow64Process
     _WinAPI_IsWritable
     _WinAPI_IsZoomed
     _WinAPI_Keybd_Event
     _WinAPI_KillTimer
     _WinAPI_LoadCursor
     _WinAPI_LoadCursorFromFile
+ ***_WinAPI_LoadIconWithScaleDown
+    _WinAPI_LoadKeyboardLayout
     _WinAPI_LoadMedia
     _WinAPI_LoadResource
     _WinAPI_LockDevice
@@ -224,6 +274,7 @@
     _WinAPI_LoDWord
     _WinAPI_LookupPrivilegeName
     _WinAPI_LookupPrivilegeValue
+    _WinAPI_MessageBoxCheck
     _WinAPI_MoveFileEx
     _WinAPI_OemToChar
     _WinAPI_OffsetClipRgn
@@ -233,7 +284,9 @@
     _WinAPI_OpenJobObject
     _WinAPI_OpenProcessToken
     _WinAPI_OpenSemaphore
+    _WinAPI_OpenThemeData
     _WinAPI_PaintRgn
+    _WinAPI_PatBlt
     _WinAPI_PathCompactPath
     _WinAPI_PathFindExtension
     _WinAPI_PathFindFileName
@@ -254,6 +307,7 @@
     _WinAPI_PathUnExpandEnvStrings
     _WinAPI_PathYetAnotherMakeUniqueName
     _WinAPI_PickIconDlg
+    _WinAPI_PlaySound
     _WinAPI_Polygon
     _WinAPI_PrintWindow
   **_WinAPI_PrivateExtractIcon
@@ -295,6 +349,8 @@
     _WinAPI_SetActiveWindow
     _WinAPI_SetClassLong
     _WinAPI_SetCompression
+    _WinAPI_SetCaretBlinkTime
+    _WinAPI_SetCaretPos
     _WinAPI_SetCurrentDirectory
    *_WinAPI_SetDefaultPrinter
     _WinAPI_SetDCBrushColor
@@ -315,24 +371,31 @@
     _WinAPI_SetThemeAppProperties
     _WinAPI_SetTimer
     _WinAPI_SetVolumeMountPoint
-    _WinAPI_ShareFolderDlg
+    _WinAPI_ShellAddToRecentDocs
     _WinAPI_ShellChangeNotify
+    _WinAPI_ShellChangeNotifyDeregister
+    _WinAPI_ShellChangeNotifyRegister
     _WinAPI_ShellEmptyRecycleBin
     _WinAPI_ShellExtractAssociatedIcon
     _WinAPI_ShellExtractIcons
     _WinAPI_ShellFileOperation
     _WinAPI_ShellGetFileInfo
+ ***_WinAPI_ShellGetKnownFolderPath
     _WinAPI_ShellGetPathFromIDList
     _WinAPI_ShellGetSettings
     _WinAPI_ShellGetSpecialFolderLocation
     _WinAPI_ShellGetSpecialFolderPath
+ ***_WinAPI_ShellGetStockIconInfo
     _WinAPI_ShellILCreateFromPath
     _WinAPI_ShellNotifyIcon
+    _WinAPI_ShellObjectProperties
+ ***_WinAPI_ShellOpenWithDlg
     _WinAPI_ShellQueryRecycleBin
     _WinAPI_ShellSetSettings
+    _WinAPI_ShowCaret
     _WinAPI_ShowLastError
     _WinAPI_ShowOwnedPopups
-    _WinAPI_ShowShareFolderUI
+    _WinAPI_ShutdownDlg
     _WinAPI_SizeofResource
     _WinAPI_StretchBlt
     _WinAPI_StrLen
@@ -344,27 +407,44 @@
     _WinAPI_TextOut
     _WinAPI_UnionRect
     _WinAPI_UnionStruct
+    _WinAPI_UniqueHardwaeID
+    _WinAPI_UnloadKeyboardLayout
     _WinAPI_UnlockFile
     _WinAPI_UnregisterHotKey
     _WinAPI_UpdateLayeredWindowEx
     _WinAPI_ValidateRect
     _WinAPI_ValidateRgn
     _WinAPI_WindowFromDC
-    _WinAPI_WinHelp
 
    * Available in native AutoIt library
   ** Deprecated
+ *** Required Windows Vista or above
 
 #ce
 
 #Include-once
 
-#Include <StructureConstants.au3>
 #Include <WinAPI.au3>
 
 #EndRegion Header
 
 #Region Global Variables and Constants
+
+; ===============================================================================================================================
+; _WinAPI_ActivateKeyboardLayout(), _WinAPI_LoadKeyboardLayout()
+; ===============================================================================================================================
+
+Global Const $KLF_ACTIVATE = 0x00000001
+Global Const $KLF_NOTELLSHELL = 0x00000080
+Global Const $KLF_REORDER = 0x00000008
+Global Const $KLF_REPLACELANG = 0x00000010
+Global Const $KLF_RESET = 0x40000000
+Global Const $KLF_SETFORPROCESS = 0x00000100
+Global Const $KLF_SHIFTLOCK = 0x00010000
+Global Const $KLF_SUBSTITUTE_OK = 0x00000002
+
+Global Const $HKL_NEXT = 1
+Global Const $HKL_PREV = 0
 
 ; ===============================================================================================================================
 ; _WinAPI_AddFontResourceEx(), _WinAPI_RemoveFontResourceEx()
@@ -490,7 +570,7 @@ Global Const $BIF_BROWSEFORPRINTER = 0x00002000
 Global Const $BIF_BROWSEINCLUDEFILES = 0x00004000
 Global Const $BIF_SHAREABLE = 0x00008000
 
-; *Windows 7 and later
+; *Windows 7 or above
 Global Const $BIF_BROWSEFILEJUNCTIONS = 0x00010000
 
 Global Const $BFFM_INITIALIZED = 1
@@ -498,11 +578,11 @@ Global Const $BFFM_IUNKNOWN = 5
 Global Const $BFFM_SELCHANGED = 2
 Global Const $BFFM_VALIDATEFAILED = 4
 
-Global Const $BFFM_ENABLEOK = 0x0465 ; $WM_USER + 101
-Global Const $BFFM_SETOKTEXT = 0x0469 ; $WM_USER + 105
-Global Const $BFFM_SETSELECTION = 0x0467 ; $WM_USER + 103
-Global Const $BFFM_SETEXPANDED = 0x046A ; $WM_USER + 106
-Global Const $BFFM_SETSTATUSTEXT = 0x0468 ; $WM_USER + 104
+Global Const $BFFM_ENABLEOK = 0x0465 ; WM_USER + 101
+Global Const $BFFM_SETOKTEXT = 0x0469 ; WM_USER + 105
+Global Const $BFFM_SETSELECTION = 0x0467 ; WM_USER + 103
+Global Const $BFFM_SETEXPANDED = 0x046A ; WM_USER + 106
+Global Const $BFFM_SETSTATUSTEXT = 0x0468 ; WM_USER + 104
 
 ; ===============================================================================================================================
 ; _WinAPI_ChildWindowFromPointEx()
@@ -664,6 +744,16 @@ Global Const $ALTERNATE = 1
 Global Const $WINDING = 2
 
 ; ===============================================================================================================================
+; _WinAPI_GetCurrentHwProfile()
+; ===============================================================================================================================
+
+Global Const $DOCKINFO_DOCKED = 0x02
+Global Const $DOCKINFO_UNDOCKED = 0x01
+Global Const $DOCKINFO_USER_SUPPLIED = 0x04
+Global Const $DOCKINFO_USER_DOCKED = 0x05
+Global Const $DOCKINFO_USER_UNDOCKED = 0x06
+
+; ===============================================================================================================================
 ; _WinAPI_DefineDosDevice()
 ; ===============================================================================================================================
 
@@ -704,6 +794,57 @@ Global Const $DT_WORDBREAK = 0x00000010
 Global Const $DT_WORD_ELLIPSIS = 0x00040000
 
 #ce
+
+; ===============================================================================================================================
+; _WinAPI_DrawThemeTextEx()
+; ===============================================================================================================================
+
+Global Const $DTT_TEXTCOLOR = 0x00000001
+Global Const $DTT_BORDERCOLOR = 0x00000002
+Global Const $DTT_SHADOWCOLOR = 0x00000004
+Global Const $DTT_SHADOWTYPE = 0x00000008
+Global Const $DTT_SHADOWOFFSET = 0x00000010
+Global Const $DTT_BORDERSIZE = 0x00000020
+Global Const $DTT_FONTPROP = 0x00000040
+Global Const $DTT_COLORPROP = 0x00000080
+Global Const $DTT_STATEID = 0x00000100
+Global Const $DTT_CALCRECT = 0x00000200
+Global Const $DTT_APPLYOVERLAY = 0x00000400
+Global Const $DTT_GLOWSIZE = 0x00000800
+Global Const $DTT_CALLBACK = 0x00001000
+Global Const $DTT_COMPOSITED = 0x00002000
+Global Const $DTT_VALIDBITS = BitOR($DTT_TEXTCOLOR, $DTT_BORDERCOLOR, $DTT_SHADOWCOLOR, $DTT_SHADOWTYPE, $DTT_SHADOWOFFSET, $DTT_BORDERSIZE, $DTT_FONTPROP, $DTT_COLORPROP, $DTT_STATEID, $DTT_CALCRECT, $DTT_APPLYOVERLAY, $DTT_GLOWSIZE, $DTT_COMPOSITED)
+
+Global Const $TST_NONE = 0
+Global Const $TST_SINGLE = 1
+Global Const $TST_CONTINUOUS = 2
+
+; ===============================================================================================================================
+; _WinAPI_DwmGetWindowAttribute(), _WinAPI_DwmSetWindowAttribute()
+; ===============================================================================================================================
+
+Global Const $DWMWA_NCRENDERING_ENABLED = 1
+Global Const $DWMWA_NCRENDERING_POLICY = 2
+Global Const $DWMWA_TRANSITIONS_FORCEDISABLED = 3
+Global Const $DWMWA_ALLOW_NCPAINT = 4
+Global Const $DWMWA_CAPTION_BUTTON_BOUNDS = 5
+Global Const $DWMWA_NONCLIENT_RTL_LAYOUT = 6
+Global Const $DWMWA_FORCE_ICONIC_REPRESENTATION = 7
+Global Const $DWMWA_FLIP3D_POLICY = 8
+Global Const $DWMWA_EXTENDED_FRAME_BOUNDS = 9
+
+; *Windows 7 or above
+Global Const $DWMWA_HAS_ICONIC_BITMAP = 10
+Global Const $DWMWA_DISALLOW_PEEK = 11
+Global Const $DWMWA_EXCLUDED_FROM_PEEK = 12
+
+Global Const $DWMNCRP_USEWINDOWSTYLE = 0
+Global Const $DWMNCRP_DISABLED = 1
+Global Const $DWMNCRP_ENABLED = 2
+
+Global Const $DWMFLIP3D_DEFAULT = 0
+Global Const $DWMFLIP3D_EXCLUDEBELOW = 1
+Global Const $DWMFLIP3D_EXCLUDEABOVE = 2
 
 ; ===============================================================================================================================
 ; _WinAPI_EnumDisplaySettings()
@@ -825,12 +966,12 @@ Global Const $DATE_LONGDATE = 0x02
 Global Const $DATE_SHORTDATE = 0x01
 Global Const $DATE_USE_ALT_CALENDAR = 0x04
 
-; *Windows Vista
+; *Windows Vista or above
 Global Const $DATE_LTRREADING = 0x10
 Global Const $DATE_RTLREADING = 0x20
 Global Const $DATE_YEARMONTH = 0x08
 
-; *Windows 7 and later
+; *Windows 7 or above
 Global Const $DATE_AUTOLAYOUT = 0x40
 
 ; ===============================================================================================================================
@@ -1145,6 +1286,23 @@ Global Const $STAP_ALLOW_CONTROLS = 0x02
 Global Const $STAP_ALLOW_WEBCONTENT = 0x04
 
 ; ===============================================================================================================================
+; _WinAPI_GetThemeDocumentationProperty()
+; ===============================================================================================================================
+
+Global Const $SZ_THDOCPROP_AUTHOR = 'Author'
+Global Const $SZ_THDOCPROP_CANONICALNAME = 'ThemeName'
+Global Const $SZ_THDOCPROP_DISPLAYNAME = 'DisplayName'
+Global Const $SZ_THDOCPROP_TOOLTIP = 'ToolTip'
+
+; ===============================================================================================================================
+; _WinAPI_GetThemePartSize()
+; ===============================================================================================================================
+
+Global Const $TS_MIN = 0
+Global Const $TS_TRUE = 1
+Global Const $TS_DRAW = 2
+
+; ===============================================================================================================================
 ; _WinAPI_GetTimeFormat()
 ; ===============================================================================================================================
 
@@ -1182,6 +1340,26 @@ Global Const $VER_NT_WORKSTATION = 0x0000001
 Global Const $NETWORK_ALIVE_LAN = 0x01
 Global Const $NETWORK_ALIVE_WAN = 0x02
 Global Const $NETWORK_ALIVE_AOL = 0x04
+
+; ===============================================================================================================================
+; _WinAPI_IsProcessorFeaturePresent()
+; ===============================================================================================================================
+
+Global Const $PF_3DNOW_INSTRUCTIONS_AVAILABLE = 7
+Global Const $PF_CHANNELS_ENABLED = 16
+Global Const $PF_COMPARE_EXCHANGE_DOUBLE = 2
+Global Const $PF_COMPARE_EXCHANGE128 = 14
+Global Const $PF_COMPARE64_EXCHANGE128 = 15
+Global Const $PF_FLOATING_POINT_EMULATED = 1
+Global Const $PF_FLOATING_POINT_PRECISION_ERRATA = 0
+Global Const $PF_MMX_INSTRUCTIONS_AVAILABLE = 3
+Global Const $PF_NX_ENABLED = 12
+Global Const $PF_PAE_ENABLED = 9
+Global Const $PF_RDTSC_INSTRUCTION_AVAILABLE = 8
+Global Const $PF_SSE3_INSTRUCTIONS_AVAILABLE = 13
+Global Const $PF_XMMI_INSTRUCTIONS_AVAILABLE = 6
+Global Const $PF_XMMI64_INSTRUCTIONS_AVAILABLE = 10
+Global Const $PF_XSAVE_ENABLED = 17
 
 ; ===============================================================================================================================
 ; _WinAPI_IsValidLocale()
@@ -1391,6 +1569,25 @@ Global Const $IDC_WAIT = 32514
 #ce
 
 ; ===============================================================================================================================
+; _WinAPI_LoadIconWithScaleDown()
+; ===============================================================================================================================
+
+#cs
+
+Global Const $IDI_APPLICATION = 32512
+Global Const $IDI_ASTERISK = 32516
+Global Const $IDI_EXCLAMATION = 32515
+Global Const $IDI_HAND = 32513
+Global Const $IDI_QUESTION = 32514
+Global Const $IDI_SHIELD = 32518
+Global Const $IDI_WINLOGO = 32517
+Global Const $IDI_ERROR = $IDI_HAND
+Global Const $IDI_INFORMATION = $IDI_ASTERISK
+Global Const $IDI_WARNING = $IDI_EXCLAMATION
+
+#ce
+
+; ===============================================================================================================================
 ; _WinAPI_LookupPrivilegeValue()
 ; ===============================================================================================================================
 
@@ -1431,6 +1628,28 @@ Global Const $SE_TIME_ZONE_NAME = 'SeTimeZonePrivilege'
 Global Const $SE_TRUSTED_CREDMAN_ACCESS_NAME = 'SeTrustedCredManAccessPrivilege'
 Global Const $SE_UNDOCK_NAME = 'SeUndockPrivilege'
 Global Const $SE_UNSOLICITED_INPUT_NAME = 'SeUnsolicitedInputPrivilege'
+
+#ce
+
+; ===============================================================================================================================
+; _WinAPI_MessageBoxCheck()
+; ===============================================================================================================================
+
+#cs
+
+Global Const $MB_OK = 0
+Global Const $MB_OKCANCEL = 1
+Global Const $MB_YESNO = 4
+
+Global Const $MB_ICONEXCLAMATION = 48
+Global Const $MB_ICONHAND = 16
+Global Const $MB_ICONINFORMATION = 64
+Global Const $MB_ICONQUESTION = 32
+
+Global Const $IDOK = 1
+Global Const $IDCANCEL = 2
+Global Const $IDYES = 6
+Global Const $IDNO = 7
 
 #ce
 
@@ -1517,6 +1736,37 @@ Global Const $GCT_SHORTCHAR = 0x02
 Global Const $GCT_WILD = 0x04
 
 ; ===============================================================================================================================
+; _WinAPI_PlaySound()
+; ===============================================================================================================================
+
+Global Const $SND_APPLICATION = 0x00000080
+Global Const $SND_ALIAS = 0x00010000
+Global Const $SND_ALIAS_ID = 0x00110000
+Global Const $SND_ASYNC = 0x00000001
+Global Const $SND_FILENAME = 0x00020000
+Global Const $SND_LOOP = 0x00000008
+Global Const $SND_MEMORY = 0x00000004
+Global Const $SND_NODEFAULT = 0x00000002
+Global Const $SND_NOSTOP = 0x00000010
+Global Const $SND_NOWAIT = 0x00002000
+Global Const $SND_PURGE = 0x00000040
+Global Const $SND_RESOURCE = 0x00040004
+Global Const $SND_SYNC = 0x00000000
+
+; *Windows Vista or above
+Global Const $SND_SENTRY = 0x00080000
+Global Const $SND_SYSTEM = 0x00200000
+
+Global Const $SND_ALIAS_SYSTEMASTERISK = 'SystemAsterisk'
+Global Const $SND_ALIAS_SYSTEMDEFAULT = 'SystemDefault'
+Global Const $SND_ALIAS_SYSTEMEXCLAMATION = 'SystemExclamation'
+Global Const $SND_ALIAS_SYSTEMEXIT = 'SystemExit'
+Global Const $SND_ALIAS_SYSTEMHAND = 'SystemHand'
+Global Const $SND_ALIAS_SYSTEMQUESTION = 'SystemQuestion'
+Global Const $SND_ALIAS_SYSTEMSTART = 'SystemStart'
+Global Const $SND_ALIAS_SYSTEMWELCOME = 'SystemWelcome'
+
+; ===============================================================================================================================
 ; _WinAPI_RegisterHotKey()
 ; ===============================================================================================================================
 
@@ -1524,7 +1774,9 @@ Global Const $MOD_ALT = 0x0001
 Global Const $MOD_CONTROL = 0x0002
 Global Const $MOD_SHIFT = 0x0004
 Global Const $MOD_WIN = 0x0008
-Global Const $MOD_NOREPEAT = 0x4000 ; Required Windows 7 and later
+
+; *Windows 7 or above
+Global Const $MOD_NOREPEAT = 0x4000
 
 ; ===============================================================================================================================
 ; _WinAPI_RegisterShellHookWindow
@@ -1678,6 +1930,15 @@ Global Const $SHCNF_FLUSHNOWAIT = 0x00002000
 Global Const $SHCNF_NOTIFYRECURSIVE = 0x00010000
 
 ; ===============================================================================================================================
+; _WinAPI_ShellChangeNotifyRegister()
+; ===============================================================================================================================
+
+Global Const $SHCNRF_INTERRUPTLEVEL = 0x0001
+Global Const $SHCNRF_SHELLLEVEL = 0x0002
+Global Const $SHCNRF_RECURSIVEINTERRUPT = 0x1000
+Global Const $SHCNRF_NEWDELIVERY = 0x8000
+
+; ===============================================================================================================================
 ; _WinAPI_ShellEmptyRecycleBin()
 ; ===============================================================================================================================
 
@@ -1736,6 +1997,124 @@ Global Const $SHGFI_TYPENAME = 0x00000400
 Global Const $SHGFI_USEFILEATTRIBUTES = 0x00000010
 
 ; ===============================================================================================================================
+; _WinAPI_ShellGetKnownFolderPath()
+; ===============================================================================================================================
+
+Global Const $FOLDERID_AddNewPrograms = '{DE61D971-5EBC-4F02-A3A9-6C82895E5C04}'
+Global Const $FOLDERID_AdminTools = '{724EF170-A42D-4FEF-9F26-B60E846FBA4F}'
+Global Const $FOLDERID_AppUpdates = '{A305CE99-F527-492B-8B1A-7E76FA98D6E4}'
+Global Const $FOLDERID_CDBurning = '{9E52AB10-F80D-49DF-ACB8-4330F5687855}'
+Global Const $FOLDERID_ChangeRemovePrograms = '{DF7266AC-9274-4867-8D55-3BD661DE872D}'
+Global Const $FOLDERID_CommonAdminTools = '{D0384E7D-BAC3-4797-8F14-CBA229B392B5}'
+Global Const $FOLDERID_CommonOEMLinks = '{C1BAE2D0-10DF-4334-BEDD-7AA20B227A9D}'
+Global Const $FOLDERID_CommonPrograms = '{0139D44E-6AFE-49F2-8690-3DAFCAE6FFB8}'
+Global Const $FOLDERID_CommonStartMenu = '{A4115719-D62E-491D-AA7C-E74B8BE3B067}'
+Global Const $FOLDERID_CommonStartup = '{82A5EA35-D9CD-47C5-9629-E15D2F714E6E}'
+Global Const $FOLDERID_CommonTemplates = '{B94237E7-57AC-4347-9151-B08C6C32D1F7}'
+Global Const $FOLDERID_ComputerFolder = '{0AC0837C-BBF8-452A-850D-79D08E667CA7}'
+Global Const $FOLDERID_ConflictFolder = '{4BFEFB45-347D-4006-A5BE-AC0CB0567192}'
+Global Const $FOLDERID_ConnectionsFolder = '{6F0CD92B-2E97-45D1-88FF-B0D186B8DEDD}'
+Global Const $FOLDERID_Contacts = '{56784854-C6CB-462B-8169-88E350ACB882}'
+Global Const $FOLDERID_ControlPanelFolder = '{82A74AEB-AEB4-465C-A014-D097EE346D63}'
+Global Const $FOLDERID_Cookies = '{2B0F765D-C0E9-4171-908E-08A611B84FF6}'
+Global Const $FOLDERID_Desktop = '{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}'
+Global Const $FOLDERID_DeviceMetadataStore = '{5CE4A5E9-E4EB-479D-B89F-130C02886155}'
+Global Const $FOLDERID_DocumentsLibrary = '{7B0DB17D-9CD2-4A93-9733-46CC89022E7C}'
+Global Const $FOLDERID_Downloads = '{374DE290-123F-4565-9164-39C4925E467B}'
+Global Const $FOLDERID_Favorites = '{1777F761-68AD-4D8A-87BD-30B759FA33DD}'
+Global Const $FOLDERID_Fonts = '{FD228CB7-AE11-4AE3-864C-16F3910AB8FE}'
+Global Const $FOLDERID_Games = '{CAC52C1A-B53D-4EDC-92D7-6B2E8AC19434}'
+Global Const $FOLDERID_GameTasks = '{054FAE61-4DD8-4787-80B6-090220C4B700}'
+Global Const $FOLDERID_History = '{D9DC8A3B-B784-432E-A781-5A1130A75963}'
+Global Const $FOLDERID_HomeGroup = '{52528A6B-B9E3-4ADD-B60D-588C2DBA842D}'
+Global Const $FOLDERID_ImplicitAppShortcuts = '{BCB5256F-79F6-4CEE-B725-DC34E402FD46}'
+Global Const $FOLDERID_InternetCache = '{352481E8-33BE-4251-BA85-6007CAEDCF9D}'
+Global Const $FOLDERID_InternetFolder = '{4D9F7874-4E0C-4904-967B-40B0D20C3E4B}'
+Global Const $FOLDERID_Libraries = '{1B3EA5DC-B587-4786-B4EF-BD1DC332AEAE}'
+Global Const $FOLDERID_Links = '{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}'
+Global Const $FOLDERID_LocalAppData = '{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}'
+Global Const $FOLDERID_LocalAppDataLow = '{A520A1A4-1780-4FF6-BD18-167343C5AF16}'
+Global Const $FOLDERID_LocalizedResourcesDir = '{2A00375E-224C-49DE-B8D1-440DF7EF3DDC}'
+Global Const $FOLDERID_Music = '{4BD8D571-6D19-48D3-BE97-422220080E43}'
+Global Const $FOLDERID_MusicLibrary = '{2112AB0A-C86A-4FFE-A368-0DE96E47012E}'
+Global Const $FOLDERID_NetHood = '{C5ABBF53-E17F-4121-8900-86626FC2C973}'
+Global Const $FOLDERID_NetworkFolder = '{D20BEEC4-5CA8-4905-AE3B-BF251EA09B53}'
+Global Const $FOLDERID_OriginalImages = '{2C36C0AA-5812-4B87-BFD0-4CD0DFB19B39}'
+Global Const $FOLDERID_PhotoAlbums = '{69D2CF90-FC33-4FB7-9A0C-EBB0F0FCB43C}'
+Global Const $FOLDERID_PicturesLibrary = '{A990AE9F-A03B-4E80-94BC-9912D7504104}'
+Global Const $FOLDERID_Pictures = '{33E28130-4E1E-4676-835A-98395C3BC3BB}'
+Global Const $FOLDERID_Playlists = '{DE92C1C7-837F-4F69-A3BB-86E631204A23}'
+Global Const $FOLDERID_PrintersFolder = '{76FC4E2D-D6AD-4519-A663-37BD56068185}'
+Global Const $FOLDERID_PrintHood = '{9274BD8D-CFD1-41C3-B35E-B13F55A758F4}'
+Global Const $FOLDERID_Profile = '{5E6C858F-0E22-4760-9AFE-EA3317B67173}'
+Global Const $FOLDERID_ProgramData = '{62AB5D82-FDC1-4DC3-A9DD-070D1D495D97}'
+Global Const $FOLDERID_ProgramFiles = '{905E63B6-C1BF-494E-B29C-65B732D3D21A}'
+Global Const $FOLDERID_ProgramFilesX64 = '{6D809377-6AF0-444B-8957-A3773F02200E}'
+Global Const $FOLDERID_ProgramFilesX86 = '{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}'
+Global Const $FOLDERID_ProgramFilesCommon = '{F7F1ED05-9F6D-47A2-AAAE-29D317C6F066}'
+Global Const $FOLDERID_ProgramFilesCommonX64 = '{6365D5A7-0F0D-45E5-87F6-0DA56B6A4F7D}'
+Global Const $FOLDERID_ProgramFilesCommonX86 = '{DE974D24-D9C6-4D3E-BF91-F4455120B917}'
+Global Const $FOLDERID_Programs = '{A77F5D77-2E2B-44C3-A6A2-ABA601054A51}'
+Global Const $FOLDERID_Public = '{DFDF76A2-C82A-4D63-906A-5644AC457385}'
+Global Const $FOLDERID_PublicDesktop = '{C4AA340D-F20F-4863-AFEF-F87EF2E6BA25}'
+Global Const $FOLDERID_PublicDocuments = '{ED4824AF-DCE4-45A8-81E2-FC7965083634}'
+Global Const $FOLDERID_PublicDownloads = '{3D644C9B-1FB8-4F30-9B45-F670235F79C0}'
+Global Const $FOLDERID_PublicGameTasks = '{DEBF2536-E1A8-4C59-B6A2-414586476AEA}'
+Global Const $FOLDERID_PublicLibraries = '{48DAF80B-E6CF-4F4E-B800-0E69D84EE384}'
+Global Const $FOLDERID_PublicMusic = '{3214FAB5-9757-4298-BB61-92A9DEAA44FF}'
+Global Const $FOLDERID_PublicPictures = '{B6EBFB86-6907-413C-9AF7-4FC2ABF07CC5}'
+Global Const $FOLDERID_PublicRingtones = '{E555AB60-153B-4D17-9F04-A5FE99FC15EC}'
+Global Const $FOLDERID_PublicVideos = '{2400183A-6185-49FB-A2D8-4A392A602BA3}'
+Global Const $FOLDERID_QuickLaunch = '{52A4F021-7B75-48A9-9F6B-4B87A210BC8F}'
+Global Const $FOLDERID_Recent = '{AE50C081-EBD2-438A-8655-8A092E34987A}'
+Global Const $FOLDERID_RecordedTVLibrary = '{1A6FDBA2-F42D-4358-A798-B74D745926C5}'
+Global Const $FOLDERID_RecycleBinFolder = '{B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC}'
+Global Const $FOLDERID_ResourceDir = '{8AD10C31-2ADB-4296-A8F7-E4701232C972}'
+Global Const $FOLDERID_Ringtones = '{C870044B-F49E-4126-A9C3-B52A1FF411E8}'
+Global Const $FOLDERID_RoamingAppData = '{3EB685DB-65F9-4CF6-A03A-E3EF65729F3D}'
+Global Const $FOLDERID_SampleMusic = '{B250C668-F57D-4EE1-A63C-290EE7D1AA1F}'
+Global Const $FOLDERID_SamplePictures = '{C4900540-2379-4C75-844B-64E6FAF8716B}'
+Global Const $FOLDERID_SamplePlaylists = '{15CA69B3-30EE-49C1-ACE1-6B5EC372AFB5}'
+Global Const $FOLDERID_SampleVideos = '{859EAD94-2E85-48AD-A71A-0969CB56A6CD}'
+Global Const $FOLDERID_SavedGames = '{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}'
+Global Const $FOLDERID_SavedSearches = '{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}'
+Global Const $FOLDERID_SEARCH_CSC = '{EE32E446-31CA-4ABA-814F-A5EBD2FD6D5E}'
+Global Const $FOLDERID_SEARCH_MAPI = '{98EC0E18-2098-4D44-8644-66979315A281}'
+Global Const $FOLDERID_SearchHome = '{190337D1-B8CA-4121-A639-6D472D16972A}'
+Global Const $FOLDERID_SendTo = '{8983036C-27C0-404B-8F08-102D10DCFD74}'
+Global Const $FOLDERID_SidebarDefaultParts = '{7B396E54-9EC5-4300-BE0A-2482EBAE1A26}'
+Global Const $FOLDERID_SidebarParts = '{A75D362E-50FC-4FB7-AC2C-A8BEAA314493}'
+Global Const $FOLDERID_StartMenu = '{625B53C3-AB48-4EC1-BA1F-A1EF4146FC19}'
+Global Const $FOLDERID_Startup = '{B97D20BB-F46A-4C97-BA10-5E3608430854}'
+Global Const $FOLDERID_SyncManagerFolder = '{43668BF8-C14E-49B2-97C9-747784D784B7}'
+Global Const $FOLDERID_SyncResultsFolder = '{289A9A43-BE44-4057-A41B-587A76D7E7F9}'
+Global Const $FOLDERID_SyncSetupFolder = '{0F214138-B1D3-4A90-BBA9-27CBC0C5389A}'
+Global Const $FOLDERID_System = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}'
+Global Const $FOLDERID_SystemX86 = '{D65231B0-B2F1-4857-A4CE-A8E7C6EA7D27}'
+Global Const $FOLDERID_Templates = '{A63293E8-664E-48DB-A079-DF759E0509F7}'
+Global Const $FOLDERID_UserPinned = '{9E3995AB-1F9C-4F13-B827-48B24B6C7174}'
+Global Const $FOLDERID_UserProfiles = '{0762D272-C50A-4BB0-A382-697DCD729B80}'
+Global Const $FOLDERID_UserProgramFiles = '{5CD7AEE2-2219-4A67-B85D-6C9CE15660CB}'
+Global Const $FOLDERID_UserProgramFilesCommon = '{BCBD3057-CA5C-4622-B42D-BC56DB0AE516}'
+Global Const $FOLDERID_UsersFiles = '{F3CE0F7C-4901-4ACC-8648-D5D44B04EF8F}'
+Global Const $FOLDERID_UsersLibraries = '{A302545D-DEFF-464B-ABE8-61C8648D939B}'
+Global Const $FOLDERID_Videos = '{18989B1D-99B5-455B-841C-AB7C74E4DDFC}'
+Global Const $FOLDERID_VideosLibrary = '{491E922F-5643-4AF4-A7EB-4E7A138D8174}'
+Global Const $FOLDERID_Windows = '{F38BF404-1D43-42F2-9305-67DE0B28FC23}'
+
+Global Const $KF_FLAG_CREATE = 0x00008000
+Global Const $KF_FLAG_DONT_VERIFY = 0x00004000
+Global Const $KF_FLAG_DONT_UNEXPAND = 0x00002000
+Global Const $KF_FLAG_NO_ALIAS = 0x00001000
+Global Const $KF_FLAG_INIT = 0x00000800
+Global Const $KF_FLAG_DEFAULT_PATH = 0x00000400
+Global Const $KF_FLAG_NOT_PARENT_RELATIVE = 0x00000200
+Global Const $KF_FLAG_SIMPLE_IDLIST = 0x00000100
+
+; *Windows 7 or above
+Global Const $KF_FLAG_ALIAS_ONLY = 0x80000000
+
+; ===============================================================================================================================
 ; _WinAPI_ShellGetSettings(), _WinAPI_ShellSetSettings()
 ; ===============================================================================================================================
 
@@ -1757,7 +2136,7 @@ Global Const $SSF_SEPPROCESS = 0x00080000
 Global Const $SSF_NONETCRAWLING = 0x00100000
 Global Const $SSF_STARTPANELON = 0x00200000
 
-; *Windows Vista and later
+; *Windows Vista or above
 Global Const $SSF_AUTOCHECKSELECT = 0x00800000
 Global Const $SSF_ICONSONLY = 0x01000000
 Global Const $SSF_SHOWTYPEOVERLAY = 0x02000000
@@ -1819,6 +2198,114 @@ Global Const $CSIDL_TEMPLATES = 0x0015
 Global Const $CSIDL_WINDOWS = 0x0024
 
 ; ===============================================================================================================================
+; _WinAPI_ShellGetStockIconInfo()
+; ===============================================================================================================================
+
+Global Const $SIID_DOCNOASSOC = 0
+Global Const $SIID_DOCASSOC = 1
+Global Const $SIID_APPLICATION = 2
+Global Const $SIID_FOLDER = 3
+Global Const $SIID_FOLDEROPEN = 4
+Global Const $SIID_DRIVE525 = 5
+Global Const $SIID_DRIVE35 = 6
+Global Const $SIID_DRIVEREMOVE = 7
+Global Const $SIID_DRIVEFIXED = 8
+Global Const $SIID_DRIVENET = 9
+Global Const $SIID_DRIVENETDISABLED = 10
+Global Const $SIID_DRIVECD = 11
+Global Const $SIID_DRIVERAM = 12
+Global Const $SIID_WORLD = 13
+Global Const $SIID_SERVER = 15
+Global Const $SIID_PRINTER = 16
+Global Const $SIID_MYNETWORK = 17
+Global Const $SIID_FIND = 22
+Global Const $SIID_HELP = 23
+Global Const $SIID_SHARE = 28
+Global Const $SIID_LINK = 29
+Global Const $SIID_SLOWFILE = 30
+Global Const $SIID_RECYCLER = 31
+Global Const $SIID_RECYCLERFULL = 32
+Global Const $SIID_MEDIACDAUDIO = 40
+Global Const $SIID_LOCK = 47
+Global Const $SIID_AUTOLIST = 49
+Global Const $SIID_PRINTERNET = 50
+Global Const $SIID_SERVERSHARE = 51
+Global Const $SIID_PRINTERFAX = 52
+Global Const $SIID_PRINTERFAXNET = 53
+Global Const $SIID_PRINTERFILE = 54
+Global Const $SIID_STACK = 55
+Global Const $SIID_MEDIASVCD = 56
+Global Const $SIID_STUFFEDFOLDER = 57
+Global Const $SIID_DRIVEUNKNOWN = 58
+Global Const $SIID_DRIVEDVD = 59
+Global Const $SIID_MEDIADVD = 60
+Global Const $SIID_MEDIADVDRAM = 61
+Global Const $SIID_MEDIADVDRW = 62
+Global Const $SIID_MEDIADVDR = 63
+Global Const $SIID_MEDIADVDROM = 64
+Global Const $SIID_MEDIACDAUDIOPLUS = 65
+Global Const $SIID_MEDIACDRW = 66
+Global Const $SIID_MEDIACDR = 67
+Global Const $SIID_MEDIACDBURN = 68
+Global Const $SIID_MEDIABLANKCD = 69
+Global Const $SIID_MEDIACDROM = 70
+Global Const $SIID_AUDIOFILES = 71
+Global Const $SIID_IMAGEFILES = 72
+Global Const $SIID_VIDEOFILES = 73
+Global Const $SIID_MIXEDFILES = 74
+Global Const $SIID_FOLDERBACK = 75
+Global Const $SIID_FOLDERFRONT = 76
+Global Const $SIID_SHIELD = 77
+Global Const $SIID_WARNING = 78
+Global Const $SIID_INFO = 79
+Global Const $SIID_ERROR = 80
+Global Const $SIID_KEY = 81
+Global Const $SIID_SOFTWARE = 82
+Global Const $SIID_RENAME = 83
+Global Const $SIID_DELETE = 84
+Global Const $SIID_MEDIAAUDIODVD = 85
+Global Const $SIID_MEDIAMOVIEDVD = 86
+Global Const $SIID_MEDIAENHANCEDCD = 87
+Global Const $SIID_MEDIAENHANCEDDVD = 88
+Global Const $SIID_MEDIAHDDVD = 89
+Global Const $SIID_MEDIABLURAY = 90
+Global Const $SIID_MEDIAVCD = 91
+Global Const $SIID_MEDIADVDPLUSR = 92
+Global Const $SIID_MEDIADVDPLUSRW = 93
+Global Const $SIID_DESKTOPPC = 94
+Global Const $SIID_MOBILEPC = 95
+Global Const $SIID_USERS = 96
+Global Const $SIID_MEDIASMARTMEDIA = 97
+Global Const $SIID_MEDIACOMPACTFLASH = 98
+Global Const $SIID_DEVICECELLPHONE = 99
+Global Const $SIID_DEVICECAMERA = 100
+Global Const $SIID_DEVICEVIDEOCAMERA = 101
+Global Const $SIID_DEVICEAUDIOPLAYER = 102
+Global Const $SIID_NETWORKCONNECT = 103
+Global Const $SIID_INTERNET = 104
+Global Const $SIID_ZIPFILE = 105
+Global Const $SIID_SETTINGS = 106
+Global Const $SIID_DRIVEHDDVD = 132
+Global Const $SIID_DRIVEBD = 133
+Global Const $SIID_MEDIAHDDVDROM = 134
+Global Const $SIID_MEDIAHDDVDR = 135
+Global Const $SIID_MEDIAHDDVDRAM = 136
+Global Const $SIID_MEDIABDROM = 137
+Global Const $SIID_MEDIABDR = 138
+Global Const $SIID_MEDIABDRE = 139
+Global Const $SIID_CLUSTEREDDRIVE = 140
+Global Const $SIID_MAX_ICONS = 174
+
+Global Const $SHGSI_ICONLOCATION = 0
+Global Const $SHGSI_ICON = $SHGFI_ICON
+Global Const $SHGSI_SYSICONINDEX = $SHGFI_SYSICONINDEX
+Global Const $SHGSI_LINKOVERLAY = $SHGFI_LINKOVERLAY
+Global Const $SHGSI_SELECTED = $SHGFI_SELECTED
+Global Const $SHGSI_LARGEICON = $SHGFI_LARGEICON
+Global Const $SHGSI_SMALLICON = $SHGFI_SMALLICON
+Global Const $SHGSI_SHELLICONSIZE = $SHGFI_SHELLICONSIZE
+
+; ===============================================================================================================================
 ; _WinAPI_ShellNotifyIcon()
 ; ===============================================================================================================================
 
@@ -1851,7 +2338,26 @@ Global Const $NIIF_RESPECT_QUIET_TIME = 0x80
 Global Const $NIIF_ICON_MASK = 0x0F
 
 ; ===============================================================================================================================
-; _WinAPI_StretchBlt()
+; _WinAPI_ShellObjectProperties()
+; ===============================================================================================================================
+
+Global Const $SHOP_PRINTERNAME = 1
+Global Const $SHOP_FILEPATH = 2
+Global Const $SHOP_VOLUMEGUID = 4
+
+; ===============================================================================================================================
+; _WinAPI_ShellOpenWithDlg()
+; ===============================================================================================================================
+
+Global Const $OAIF_ALLOW_REGISTRATION = 0x00000001
+Global Const $OAIF_REGISTER_EXT = 0x00000002
+Global Const $OAIF_EXEC = 0x00000004
+Global Const $OAIF_FORCE_REGISTRATION = 0x00000008
+Global Const $OAIF_HIDE_REGISTRATION = 0x00000020
+Global Const $OAIF_URL_PROTOCOL = 0x00000040
+
+; ===============================================================================================================================
+; _WinAPI_PatBlt(), _WinAPI_StretchBlt()
 ; ===============================================================================================================================
 
 #cs
@@ -1877,66 +2383,58 @@ Global Const $WHITENESS = 0x00FF0062
 #ce
 
 ; ===============================================================================================================================
-; _WinAPI_WinHelp()
+; _WinAPI_UniqueHardwaeID()
 ; ===============================================================================================================================
 
-Global Const $HELP_COMMAND = 0x0102
-Global Const $HELP_CONTENTS = 0x0003
-Global Const $HELP_CONTEXT = 0x0001
-Global Const $HELP_CONTEXTMENU = 0x000A
-Global Const $HELP_CONTEXTPOPUP = 0x0008
-Global Const $HELP_FINDER = 0x000B
-Global Const $HELP_FORCEFILE = 0x0009
-Global Const $HELP_HELPONHELP = 0x0004
-Global Const $HELP_INDEX = 0x0003
-Global Const $HELP_KEY = 0x0101
-Global Const $HELP_MULTIKEY = 0x0201
-Global Const $HELP_PARTIALKEY = 0x0105
-Global Const $HELP_QUIT = 0x0002
-Global Const $HELP_SETCONTENTS = 0x0005
-Global Const $HELP_SETPOPUP_POS = 0x000D
-Global Const $HELP_SETWINPOS = 0x0203
-Global Const $HELP_TCARD = 0x8000
-Global Const $HELP_WM_HELP = 0x000C
+Global Const $UHID_MB = 0x00
+Global Const $UHID_BIOS = 0x01
+Global Const $UHID_CPU = 0x02
+Global Const $UHID_HDD = 0x04
+Global Const $UHID_All = BitOR($UHID_MB, $UHID_BIOS, $UHID_CPU, $UHID_HDD)
 
 ; ===============================================================================================================================
 ; *Structure constants
 ; ===============================================================================================================================
 
-Global Const $tagBITMAP = 'long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits'
-Global Const $tagBITMAPINFOHEADER = 'dword biSize;long biWidth;long biHeight;ushort biPlanes;ushort biBitCount;dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant'
-;Global Const $tagBITMAPINFO = $tagBITMAPINFOHEADER & ';dword bmiColors[1]'
-Global Const $tagDIBSECTION = $tagBITMAP & ';' & $tagBITMAPINFOHEADER & ';dword dsBitfields[3];ptr dshSection;dword dsOffset'
-Global Const $tagDISK_GEOMETRY = 'int64 Cylinders;dword MediaType;dword TracksPerCylinder;dword SectorsPerTrack;dword BytesPerSector'
-Global Const $tagDISK_GEOMETRY_EX = $tagDISK_GEOMETRY & ';int64 DiskSize;dword Data'
-Global Const $tagEXTLOGPEN = 'dword PenStyle;dword Width;uint BrushStyle;dword Color;ulong_ptr Hatch;dword NumEntries' ; & ';dword StyleEntry[n]'
-Global Const $tagIO_COUNTERS = 'uint64 ReadOperationCount;uint64 WriteOperationCount;uint64 OtherOperationCount;uint64 ReadTransferCount;uint64 WriteTransferCount;uint64 OtherTransferCount'
-Global Const $tagLOGBRUSH = 'uint Style;dword Color;ulong_ptr Hatch'
-Global Const $tagLOGPEN = 'uint Style;dword Width;dword Color'
-Global Const $tagLUID = 'dword LowPart;long HighPart'
-Global Const $tagNOTIFYICONDATA = 'dword Size;hwnd hWnd;uint ID;uint Flags;uint CallbackMessage;ptr hIcon;wchar Tip[128];dword State;dword StateMask;wchar Info[256];uint Version;wchar InfoTitle[64];dword InfoFlags'
-Global Const $tagNOTIFYICONDATA_XP = $tagNOTIFYICONDATA & ';uint GUID'
-Global Const $tagNOTIFYICONDATA_VISTA = $tagNOTIFYICONDATA_XP & ';ptr hBalloonIcon'
-Global Const $tagJOBOBJECT_ASSOCIATE_COMPLETION_PORT = 'ulong_ptr CompletionKey;ptr CompletionPort'
-Global Const $tagJOBOBJECT_BASIC_ACCOUNTING_INFORMATION = 'int64 TotalUserTime;int64 TotalKernelTime;int64 ThisPeriodTotalUserTime;int64 ThisPeriodTotalKernelTime;dword TotalPageFaultCount;dword TotalProcesses;dword ActiveProcesses;dword TotalTerminatedProcesses'
-Global Const $tagJOBOBJECT_BASIC_AND_IO_ACCOUNTING_INFORMATION = $tagJOBOBJECT_BASIC_ACCOUNTING_INFORMATION & ';' & $tagIO_COUNTERS
-Global Const $tagJOBOBJECT_BASIC_LIMIT_INFORMATION = 'int64 PerProcessUserTimeLimit;int64 PerJobUserTimeLimit;dword LimitFlags;ulong_ptr MinimumWorkingSetSize;ulong_ptr MaximumWorkingSetSize;dword ActiveProcessLimit;ulong_ptr Affinity;dword PriorityClass;dword SchedulingClass'
-Global Const $tagJOBOBJECT_BASIC_PROCESS_ID_LIST = 'dword NumberOfAssignedProcesses;dword NumberOfProcessIdsInList' ; & ';ulong_ptr ProcessIdList[n]'
-Global Const $tagJOBOBJECT_BASIC_UI_RESTRICTIONS = 'dword UIRestrictionsClass'
-Global Const $tagJOBOBJECT_END_OF_JOB_TIME_INFORMATION = 'dword EndOfJobTimeAction'
-Global Const $tagJOBOBJECT_EXTENDED_LIMIT_INFORMATION = $tagJOBOBJECT_BASIC_LIMIT_INFORMATION & ';' & $tagIO_COUNTERS & ';ulong_ptr ProcessMemoryLimit;ulong_ptr JobMemoryLimit;ulong_ptr PeakProcessMemoryUsed;ulong_ptr PeakJobMemoryUsed'
-Global Const $tagJOBOBJECT_GROUP_INFORMATION = '' ; & ';ushort ProcessorGroup[n]'
-Global Const $tagJOBOBJECT_SECURITY_LIMIT_INFORMATION = 'dword SecurityLimitFlags;ptr JobToken;ptr SidsToDisable;ptr PrivilegesToDelete;ptr RestrictedSids'
-Global Const $tagOSVERSIONINFO = 'dword OSVersionInfoSize;dword MajorVersion;dword MinorVersion;dword BuildNumber;dword PlatformId;wchar CSDVersion[128]'
-Global Const $tagOSVERSIONINFOEX = $tagOSVERSIONINFO & ';ushort ServicePackMajor;ushort ServicePackMinor;ushort SuiteMask;byte ProductType;byte Reserved'
-Global Const $tagPAINTSTRUCT = 'hwnd hDC;int fErase;dword rPaint[4];int fRestore;int fIncUpdate;byte rgbReserved[32]'
-Global Const $tagPROCESS_MEMORY_COUNTERS = 'dword Size;dword PageFaultCount;ulong_ptr PeakWorkingSetSize;ulong_ptr WorkingSetSize;ulong_ptr QuotaPeakPagedPoolUsage;ulong_ptr QuotaPagedPoolUsage;ulong_ptr QuotaPeakNonPagedPoolUsage;ulong_ptr QuotaNonPagedPoolUsage;ulong_ptr PagefileUsage;ulong_ptr PeakPagefileUsage'
-Global Const $tagSHFILEINFO = 'ptr hIcon;int iIcon;dword Attributes;wchar DisplayName[260];wchar TypeName[80]'
-Global Const $tagSHFILEOPSTRUCT = 'hwnd hWnd;uint Func;ptr From;ptr To;dword Flags;int fAnyOperationsAborted;ptr hNameMappings;ptr ProgressTitle'
-Global Const $tagSTORAGE_DEVICE_NUMBER = 'dword DeviceType;ulong DeviceNumber;ulong PartitionNumber'
-;Global Const $tagTEXTMETRIC = 'long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet'
-Global Const $tagWINDOWINFO = 'dword Size;dword rWindow[4];dword rClient[4];dword Style;dword ExStyle;dword WindowStatus;uint cxWindowBorders;uint cyWindowBorders;ushort atomWindowType;ushort CreatorVersion'
-Global Const $tagHELPWININFO = 'int Size;int X;int Y;int Width;int Height;int wMax;wchar rgchMember[256]'
+Global Const $tagBITMAP = 'long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits;'
+Global Const $tagBITMAPINFOHEADER = 'dword biSize;long biWidth;long biHeight;ushort biPlanes;ushort biBitCount;dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant;'
+Global Const $tagBITMAPV4HEADER = 'dword bV4Size;long bV4Width;long bV4Height;ushort bV4Planes;ushort bV4BitCount;dword bV4Compression;dword bV4SizeImage;long bV4XPelsPerMeter;long bV4YPelsPerMeter;dword bV4ClrUsed;dword bV4ClrImportant;dword bV4RedMask;dword bV4GreenMask;dword bV4BlueMask;dword bV4AlphaMask;dword bV4CSType;int bV4Endpoints[3];dword bV4GammaRed;dword bV4GammaGreen;dword bV4GammaBlue;'
+Global Const $tagBITMAPV5HEADER = 'dword bV5Size;long bV5Width;long bV5Height;ushort bV5Planes;ushort bV5BitCount;dword bV5Compression;dword bV5SizeImage;long bV5XPelsPerMeter;long bV5YPelsPerMeter;dword bV5ClrUsed;dword bV5ClrImportant;dword bV5RedMask;dword bV5GreenMask;dword bV5BlueMask;dword bV5AlphaMask;dword bV5CSType;int bV5Endpoints[3];dword bV5GammaRed;dword bV5GammaGreen;dword bV5GammaBlue;dword bV5Intent;dword bV5ProfileData;dword bV5ProfileSize;dword bV5Reserved;'
+;Global Const $tagBITMAPINFO = $tagBITMAPINFOHEADER & 'dword bmiColors[1];'
+Global Const $tagDIBSECTION = $tagBITMAP & $tagBITMAPINFOHEADER & 'dword dsBitfields[3];ptr dshSection;dword dsOffset;'
+Global Const $tagDISK_GEOMETRY = 'int64 Cylinders;dword MediaType;dword TracksPerCylinder;dword SectorsPerTrack;dword BytesPerSector;'
+Global Const $tagDISK_GEOMETRY_EX = $tagDISK_GEOMETRY & 'int64 DiskSize;' ; & 'byte Data[n];'
+Global Const $tagDTTOPTS = 'dword Size;dword Flags;dword clrText;dword clrBorder;dword clrShadow;int TextShadowType;' & $tagPOINT & ';int BorderSize;int FontPropId;int ColorPropId;int StateId;int ApplyOverlay;int GlowSize;ptr DrawTextCallback;lparam lParam;'
+Global Const $tagEXTLOGPEN = 'dword PenStyle;dword Width;uint BrushStyle;dword Color;ulong_ptr Hatch;dword NumEntries' ; & 'dword StyleEntry[n];'
+Global Const $tagHW_PROFILE_INFO = 'dword DockInfo;wchar ProfileGuid[39];wchar ProfileName[80];'
+Global Const $tagIO_COUNTERS = 'uint64 ReadOperationCount;uint64 WriteOperationCount;uint64 OtherOperationCount;uint64 ReadTransferCount;uint64 WriteTransferCount;uint64 OtherTransferCount;'
+Global Const $tagLOGBRUSH = 'uint Style;dword Color;ulong_ptr Hatch;'
+Global Const $tagLOGPEN = 'uint Style;dword Width;dword Color;'
+Global Const $tagLUID = 'dword LowPart;long HighPart;'
+Global Const $tagNOTIFYICONDATA = 'dword Size;hwnd hWnd;uint ID;uint Flags;uint CallbackMessage;ptr hIcon;wchar Tip[128];dword State;dword StateMask;wchar Info[256];uint Version;wchar InfoTitle[64];dword InfoFlags;'
+Global Const $tagNOTIFYICONDATA_XP = $tagNOTIFYICONDATA & 'uint GUID;'
+Global Const $tagNOTIFYICONDATA_VISTA = $tagNOTIFYICONDATA_XP & 'ptr hBalloonIcon;'
+Global Const $tagJOBOBJECT_ASSOCIATE_COMPLETION_PORT = 'ulong_ptr CompletionKey;ptr CompletionPort;'
+Global Const $tagJOBOBJECT_BASIC_ACCOUNTING_INFORMATION = 'int64 TotalUserTime;int64 TotalKernelTime;int64 ThisPeriodTotalUserTime;int64 ThisPeriodTotalKernelTime;dword TotalPageFaultCount;dword TotalProcesses;dword ActiveProcesses;dword TotalTerminatedProcesses;'
+Global Const $tagJOBOBJECT_BASIC_AND_IO_ACCOUNTING_INFORMATION = $tagJOBOBJECT_BASIC_ACCOUNTING_INFORMATION & $tagIO_COUNTERS
+Global Const $tagJOBOBJECT_BASIC_LIMIT_INFORMATION = 'int64 PerProcessUserTimeLimit;int64 PerJobUserTimeLimit;dword LimitFlags;ulong_ptr MinimumWorkingSetSize;ulong_ptr MaximumWorkingSetSize;dword ActiveProcessLimit;ulong_ptr Affinity;dword PriorityClass;dword SchedulingClass;'
+Global Const $tagJOBOBJECT_BASIC_PROCESS_ID_LIST = 'dword NumberOfAssignedProcesses;dword NumberOfProcessIdsInList' ; & 'ulong_ptr ProcessIdList[n];'
+Global Const $tagJOBOBJECT_BASIC_UI_RESTRICTIONS = 'dword UIRestrictionsClass;'
+Global Const $tagJOBOBJECT_END_OF_JOB_TIME_INFORMATION = 'dword EndOfJobTimeAction;'
+Global Const $tagJOBOBJECT_EXTENDED_LIMIT_INFORMATION = $tagJOBOBJECT_BASIC_LIMIT_INFORMATION & $tagIO_COUNTERS & 'ulong_ptr ProcessMemoryLimit;ulong_ptr JobMemoryLimit;ulong_ptr PeakProcessMemoryUsed;ulong_ptr PeakJobMemoryUsed;'
+Global Const $tagJOBOBJECT_GROUP_INFORMATION = '' ; & 'ushort ProcessorGroup[n];'
+Global Const $tagJOBOBJECT_SECURITY_LIMIT_INFORMATION = 'dword SecurityLimitFlags;ptr JobToken;ptr SidsToDisable;ptr PrivilegesToDelete;ptr RestrictedSids;'
+Global Const $tagOSVERSIONINFO = 'dword OSVersionInfoSize;dword MajorVersion;dword MinorVersion;dword BuildNumber;dword PlatformId;wchar CSDVersion[128];'
+Global Const $tagOSVERSIONINFOEX = $tagOSVERSIONINFO & 'ushort ServicePackMajor;ushort ServicePackMinor;ushort SuiteMask;byte ProductType;byte Reserved;'
+Global Const $tagPAINTSTRUCT = 'hwnd hDC;int fErase;dword rPaint[4];int fRestore;int fIncUpdate;byte rgbReserved[32];'
+Global Const $tagPROCESS_MEMORY_COUNTERS = 'dword Size;dword PageFaultCount;ulong_ptr PeakWorkingSetSize;ulong_ptr WorkingSetSize;ulong_ptr QuotaPeakPagedPoolUsage;ulong_ptr QuotaPagedPoolUsage;ulong_ptr QuotaPeakNonPagedPoolUsage;ulong_ptr QuotaNonPagedPoolUsage;ulong_ptr PagefileUsage;ulong_ptr PeakPagefileUsage;'
+Global Const $tagSHFILEINFO = 'ptr hIcon;int iIcon;dword Attributes;wchar DisplayName[260];wchar TypeName[80];'
+Global Const $tagSHFILEOPSTRUCT = 'hwnd hWnd;uint Func;ptr From;ptr To;dword Flags;int fAnyOperationsAborted;ptr hNameMappings;ptr ProgressTitle;'
+Global Const $tagSHSTOCKICONINFO = 'dword Size;ptr hIcon;int SysImageIndex;int iIcon;wchar Path[260];'
+Global Const $tagSTORAGE_DEVICE_NUMBER = 'dword DeviceType;ulong DeviceNumber;ulong PartitionNumber;'
+;Global Const $tagTEXTMETRIC = 'long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet;'
+Global Const $tagWINDOWINFO = 'dword Size;dword rWindow[4];dword rClient[4];dword Style;dword ExStyle;dword WindowStatus;uint cxWindowBorders;uint cyWindowBorders;ushort atomWindowType;ushort CreatorVersion;'
+Global Const $tagHELPWININFO = 'int Size;int X;int Y;int Width;int Height;int wMax;wchar rgchMember[256];'
 
 #EndRegion Global Variables and Constants
 
@@ -1949,8 +2447,46 @@ Global $__Data, $__RGB = True
 #Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ActivateKeyboardLayout
+; Description....: Sets the input locale identifier for the calling thread or the current process.
+; Syntax.........: _WinAPI_ActivateKeyboardLayout ( $hLocale [, $iFlag] )
+; Parameters.....: $hLocale - The input locale identifier to be activated. This parameter must be either the handle to a keyboard
+;                             layout or one of the following values.
+;
+;                             $HKL_NEXT
+;                             $HKL_PREV
+;
+;                  $iFlag   - The flag that specifies how the input locale identifier is to be activated. This parameter can be
+;                             one of the following values.
+;
+;                             $KLF_REORDER
+;                             $KLF_RESET
+;                             $KLF_SETFORPROCESS
+;                             $KLF_SHIFTLOCK
+;
+; Return values..: Success  - The previous input locale identifier.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ ActivateKeyboardLayout
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ActivateKeyboardLayout($hLocale, $iFlag = 0)
+
+	Local $Ret = DllCall('user32.dll', 'long', 'ActivateKeyboardLayout', 'long', $hLocale, 'uint', $iFlag)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_ActivateKeyboardLayout
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_AboutDlg
-; Description....: Displays an Windows About dialog box.
+; Description....: Displays a Windows About dialog box.
 ; Syntax.........: _WinAPI_AboutDlg ( $sTitle, $sName, $sText [, $hIcon [, $hParent]] )
 ; Parameters.....: $sTitle  - The title of the Windows About dialog box.
 ;                  $sName   - The first line after the text "Microsoft".
@@ -2004,7 +2540,7 @@ EndFunc   ;==>_WinAPI_AboutDlg
 ;                  $fNotify - Specifies whether sends a WM_FONTCHANGE message, valid values:
 ;                  |TRUE    - Send the WM_FONTCHANGE message to all top-level windows after changing the pool of font resources.
 ;                  |FALSE   - Don`t send. (Default)
-; Return values..: Success  - The value specifies the number of fonts added.
+; Return values..: Success  - The value that specifies the number of fonts added.
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -2397,7 +2933,7 @@ EndFunc   ;==>_WinAPI_AssignProcessToJobObject
 
 Func _WinAPI_AssocGetPerceivedType($sExt)
 
-	Local $Ret = DllCall('shlwapi.dll', 'int', 'AssocGetPerceivedType', 'wstr', $sExt, 'int*', 0, 'dword*', 0, 'wstr*', '')
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'AssocGetPerceivedType', 'wstr', $sExt, 'int*', 0, 'dword*', 0, 'wstr*', '')
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -2484,7 +3020,7 @@ Func _WinAPI_AssocQueryString($sAssoc, $iType, $iFlags = 0, $sExtra = '')
 	EndIf
 
 	Local $tData = DllStructCreate('wchar[1024]')
-	Local $Ret = DllCall('shlwapi.dll', 'int', 'AssocQueryStringW', 'dword', $iFlags, 'dword', $iType, 'wstr', $sAssoc, $TypeOfExtra, $sExtra, 'ptr', DllStructGetPtr($tData), 'dword*', 1024)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'AssocQueryStringW', 'dword', $iFlags, 'dword', $iType, 'wstr', $sAssoc, $TypeOfExtra, $sExtra, 'ptr', DllStructGetPtr($tData), 'dword*', 1024)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -2583,7 +3119,7 @@ EndFunc   ;==>_WinAPI_BringWindowToTop
 ;                                 $BSM_NETDRIVER
 ;                                 $BSM_VXDS
 ;
-; Return values..: Success      - 1 or 0 (see below), @extended flag receives a combination of BSM_... values identifying which
+; Return values..: Success      - 1 or 0 (see below), @extended flag receives a combination of $BSM_... values identifying which
 ;                                 recipients actually received the message.
 ;                  Failure      - (-1) and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -2767,6 +3303,35 @@ Func _WinAPI_ChildWindowFromPointEx($hWnd, $tPOINT, $iFlags = 0)
 EndFunc   ;==>_WinAPI_ChildWindowFromPointEx
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_CloseThemeData
+; Description....: Closes the theme data handle.
+; Syntax.........: _WinAPI_CloseThemeData ( $hTheme )
+; Parameters.....: $hTheme - Handle to a window's specified theme data.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ CloseThemeData
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_CloseThemeData($hTheme)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'CloseThemeData', 'ptr', $hTheme)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_CloseThemeData
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_CloseWindow
 ; Description....: Minimizes (but does not destroy) the specified window.
 ; Syntax.........: _WinAPI_CloseWindow ( $hWnd )
@@ -2852,6 +3417,58 @@ Func _WinAPI_ColorRGBToHLS($iRGB, ByRef $iHue, ByRef $iLuminance, ByRef $iSatura
 	$iSaturation = $Ret[4]
 	Return 1
 EndFunc   ;==>_WinAPI_ColorRGBToHLS
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_CommandLineToArgv
+; Description....: Parses a command line string and returns an array of the command line arguments.
+; Syntax.........: _WinAPI_CommandLineToArgv ( $sCmd )
+; Parameters.....: $sCmd   - The string that contains the full command line. If this parameter is an empty string the function returns
+;                            an empty array (zeroth element is 0).
+; Return values..: Success - The array of the command line arguments. The zeroth array element contains the number of arguments.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ CommandLineToArgvW
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_CommandLineToArgv($sCmd)
+
+	Local $Result[1] = [0]
+
+	$sCmd = StringStripWS($sCmd, 3)
+	If Not $sCmd Then
+		Return $Result
+	EndIf
+
+	Local $Ret, $Struct, $tArg, $tCmd, $tPtr
+
+	$Struct = 'wchar[' & (StringLen($sCmd) + 1) & ']'
+	$tCmd = DllStructCreate($Struct)
+	DllStructSetData($tCmd, 1, $sCmd)
+	$Ret = DllCall('shell32.dll', 'ptr', 'CommandLineToArgvW', 'ptr', DllStructGetPtr($tCmd), 'int*', 0)
+	If (@error) Or (Not $Ret[0]) Or (Not $Ret[2]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$tPtr = DllStructCreate('ptr[' & $Ret[2] & ']', $Ret[0])
+	Dim $Result[$Ret[2] + 1] = [$Ret[2]]
+	For $i = 1 To $Ret[2]
+		$tArg = DllStructCreate($Struct, DllStructGetData($tPtr, 1, $i))
+		If Not @error Then
+			$Result[$i] = DllStructGetData($tArg, 1)
+		Else
+			$Result = 0
+			ExitLoop
+		EndIf
+	Next
+	_WinAPI_LocalFree($Ret[0])
+	If Not IsArray($Result) Then
+		Return SetError(2, 0, 0)
+	EndIf
+	Return $Result
+EndFunc   ;==>_WinAPI_CommandLineToArgv
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_CopyFileEx
@@ -3118,6 +3735,46 @@ Func _WinAPI_CreateBrushIndirect($iStyle, $iRGB, $iHatch = 0)
 EndFunc   ;==>_WinAPI_CreateBrushIndirect
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_CreateCaret
+; Description....: Creates a new shape for the system caret and assigns ownership of the caret to the specified window.
+; Syntax.........: _WinAPI_CreateCaret ( $hWnd, $hBitmap [, $iWidth [, $iHeight]] )
+; Parameters.....: $hWnd    - Handle to the window that owns the caret.
+;                  $hBitmap - Handle to the bitmap that defines the caret shape. If this parameter is 0, the caret is solid.
+;                             If this parameter is 1, the caret is gray. If this parameter is a bitmap handle, the caret is
+;                             the specified bitmap.
+;                  $iWidth  - The width of the caret in logical units. If this parameter is 0, the width is set to the system-defined
+;                             window border width. If $hBitmap is a bitmap handle, _WinAPI_CreateCaret() ignores this parameter.
+;                  $iHeight - The height of the caret in logical units. If this parameter is 0, the height is set to the system-defined
+;                             window border height. If $hBitmap  is a bitmap handle, _WinAPI_CreateCaret() ignores this parameter.
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_CreateCaret() automatically destroys the previous caret shape, if any, regardless of the window that owns the caret.
+;                  The caret is hidden until the application calls the _WinAPI_ShowCaret() function to make the caret visible.
+;
+;                  The system provides one caret per queue. A window should create a caret only when it has the keyboard focus or is active.
+;                  The window should destroy the caret before losing the keyboard focus or becoming inactive.
+;
+;                  You can retrieve the width or height of the system's window border by using the _WinAPI_GetSystemMetrics() function,
+;                  specifying the $SM_CXBORDER and $SM_CYBORDER values. Using the window border width or height guarantees that the
+;                  caret will be visible on a high-resolution screen.
+; Related........:
+; Link...........: @@MsdnLink@@ CreateCaret
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_CreateCaret($hWnd, $hBitmap, $iWidth = 0, $iHeight = 0)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'CreateCaret', 'hwnd', $hWnd, 'ptr', $hBitmap, 'int', $iWidth, 'int', $iHeight)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_CreateCaret
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_CreateCompatibleBitmapEx
 ; Description....: Creates a bitmap compatible with the device and fills it the specified color.
 ; Syntax.........: _WinAPI_CreateSolidBitmapEx ( $hDC, $iWidth, $iHeight, $iRGB )
@@ -3223,7 +3880,7 @@ EndFunc   ;==>_WinAPI_CreateDIBSection
 ;
 ;                  When you no longer need the HRGN object, call the _WinAPI_FreeObject() function to delete it.
 ; Related........:
-; Link...........: @@MsdnLink@@ CreateEllipticRgn
+; Link...........: @@MsdnLink@@ CreateEllipticRgnIndirect
 ; Example........: Yes
 ; ===============================================================================================================================
 
@@ -3326,6 +3983,42 @@ Func _WinAPI_CreateFileEx($sFile, $iCreation, $iAccess, $iShare, $iFlagsAndAttri
 	EndIf
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_CreateFileEx
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_CreateGUID
+; Description....: Creates a globally unique identifier (GUID).
+; Syntax.........: _WinAPI_CreateGUID ( )
+; Parameters.....: None
+; Return values..: Success - The string representation of the GUID.
+;                  Failure - Empty string and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_CreateGUID()
+
+	Local $tData = DllStructCreate('wchar[39]')
+	Local $tGUID = DllStructCreate($tagGUID)
+	Local $Ret
+
+	$Ret = DllCall('ole32.dll', 'uint', 'CoCreateGuid', 'ptr', DllStructGetPtr($tGUID))
+	If @error Then
+		Return SetError(1, 0, '')
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	$Ret = DllCall('ole32.dll', 'int', 'StringFromGUID2', 'ptr', DllStructGetPtr($tGUID), 'ptr', DllStructGetPtr($tData), 'int', 39)
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, '')
+	EndIf
+	Return DllStructGetData($tData, 1)
+EndFunc   ;==>_WinAPI_CreateGUID
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_CreateIconIndirect
@@ -3510,7 +4203,7 @@ Func _WinAPI_CreatePolygonRgn($aPoint, $iStart = 0, $iEnd = -1, $iMode = 1)
 	For $i = $iStart To $iEnd
 		$Struct &= 'int[2];'
 	Next
-	$tData = DllStructCreate(StringTrimRight($Struct, 1))
+	$tData = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -3681,7 +4374,7 @@ EndFunc   ;==>_WinAPI_CreateSemaphore
 
 Func _WinAPI_CreateStreamOnHGlobal($hGlobal, $fDeleteOnRelease = 1)
 
-	Local $Ret = DllCall('ole32.dll', 'int', 'CreateStreamOnHGlobal', 'ptr', $hGlobal, 'int', $fDeleteOnRelease, 'ptr*', 0)
+	Local $Ret = DllCall('ole32.dll', 'uint', 'CreateStreamOnHGlobal', 'ptr', $hGlobal, 'int', $fDeleteOnRelease, 'ptr*', 0)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -3782,6 +4475,70 @@ Func _WinAPI_DeregisterShellHookWindow($hWnd)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_DeregisterShellHookWindow
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DestroyCaret
+; Description....: Destroys the caret's current shape, frees the caret from the window, and removes the caret from the screen.
+; Syntax.........: _WinAPI_DestroyCaret ( )
+; Parameters.....: None
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_DestroyCaret() destroys the caret only if a window in the current task owns the caret. If a window that
+;                  is not in the current task owns the caret, _WinAPI_DestroyCaret() does nothing and returns 0.
+;
+;                  The window should destroy the caret before losing the keyboard focus or becoming inactive.
+; Related........:
+; Link...........: @@MsdnLink@@ DestroyCaret
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DestroyCaret()
+
+	Local $Ret = DllCall('user32.dll', 'int', 'DestroyCaret')
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DestroyCaret
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DeviceIoControl
+; Description....: Sends a control code directly to a specified device driver.
+; Syntax.........: _WinAPI_DeviceIoControl ( $hDevice, $iControlCode [, $pInBuffer [, $iInBufferSize [, $pOutBuffer [, $iOutBufferSize]]]] )
+; Parameters.....: $hDevice        - Handle to the device on which the operation is to be performed. The device is typically a volume,
+;                                    directory, file, or stream. To retrieve a device handle, use the _WinAPI_CreateFileEx function.
+;                                    To specify a device name, use the following format:
+;
+;                                    _WinAPI_CreateFileEx("\\.\DeviceName", ...)
+;
+;                  $iControlCode   - The control code for the operation. This value identifies the specific operation to be performed
+;                                    and the type of device on which to perform it.
+;                  $pInBuffer      - A pointer to the input buffer that contains the data required to perform the operation.
+;                  $iInBufferSize  - The size of the input buffer, in bytes.
+;                  $pOutBuffer     - A pointer to the output buffer that is to receive the data returned by the operation.
+;                  $iOutBufferSize - The size of the output buffer, in bytes.
+; Return values..: Success - 1 and @extended flag contains the size of the data stored in the output buffer, in bytes.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DeviceIoControl
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DeviceIoControl($hDevice, $iControlCode, $pInBuffer = 0, $iInBufferSize = 0, $pOutBuffer = 0, $iOutBufferSize = 0)
+
+	Local $Ret = DllCall('kernel32.dll', 'int', 'DeviceIoControl', 'ptr', $hDevice, 'dword', $iControlCode, 'ptr', $pInBuffer, 'dword', $iInBufferSize, 'ptr', $pOutBuffer, 'dword', $iOutBufferSize, 'dword*', 0, 'ptr', 0)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return SetError(0, $Ret[7], 1)
+EndFunc   ;==>_WinAPI_DeviceIoControl
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DllInstall
@@ -3893,8 +4650,8 @@ EndFunc   ;==>_WinAPI_DragFinish
 ;                  |0 - Return both files and folders. (Default)
 ;                  |1 - Return files only.
 ;                  |2 - Return folders only.
-; Return values..: Success - The array of the names of a dropped files. The zeroth array element contains the number of file
-;                            names in array. If no files that satisfy the condition ($iFlag), the function fails.
+; Return values..: Success - The array of the names of a dropped files. The zeroth array element contains the number of file names.
+;                            If no files that satisfy the condition ($iFlag), the function fails.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -3999,11 +4756,12 @@ EndFunc   ;==>_WinAPI_DrawAnimatedRects
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DrawBitmap
 ; Description....: Draws a bitmap into the specified device context.
-; Syntax.........: _WinAPI_DrawBitmap ( $hDC, $iX, $iY, $hBitmap )
+; Syntax.........: _WinAPI_DrawBitmap ( $hDC, $iX, $iY, $hBitmap [, $iRop] )
 ; Parameters.....: $hDC     - Handle to the device context into which the bitmap will be drawn.
 ;                  $iX      - Specifies the logical x-coordinate of the upper-left corner of the bitmap.
 ;                  $iY      - Specifies the logical y-coordinate of the upper-left corner of the bitmap.
 ;                  $hBitmap - Handle to the bitmap to be drawn.
+;                  $iRop    - The raster-operation code (same as for _WinAPI_BitBlt()).
 ; Return values..: Success  - 1.
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -4014,7 +4772,7 @@ EndFunc   ;==>_WinAPI_DrawAnimatedRects
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_DrawBitmap($hDC, $iX, $iY, $hBitmap)
+Func _WinAPI_DrawBitmap($hDC, $iX, $iY, $hBitmap, $iRop = 0x00CC0020)
 
 	Local $Ret, $tObj, $_hDC, $hSrcDC, $hSrcSv
 
@@ -4029,7 +4787,7 @@ Func _WinAPI_DrawBitmap($hDC, $iX, $iY, $hBitmap)
 	$hSrcDC = $Ret[0]
 	$Ret = DllCall('gdi32.dll', 'hwnd', 'SelectObject', 'hwnd', $hSrcDC, 'ptr', $hBitmap)
 	$hSrcSv = $Ret[0]
-	$Ret = DllCall('gdi32.dll', 'int', 'BitBlt', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'int', DllStructGetData($tObj, 'bmWidth'), 'int', DllStructGetData($tObj, 'bmHeight'), 'hwnd', $hSrcDC, 'int', 0, 'int', 0, 'int', 0x00CC0020)
+	$Ret = DllCall('gdi32.dll', 'int', 'BitBlt', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'int', DllStructGetData($tObj, 'bmWidth'), 'int', DllStructGetData($tObj, 'bmHeight'), 'hwnd', $hSrcDC, 'int', 0, 'int', 0, 'int', $iRop)
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
@@ -4083,6 +4841,144 @@ Func _WinAPI_DrawShadowText($hDC, $sText, $rgbText, $rgbShadow, $iXOffset = 0, $
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_DrawShadowText
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DrawThemeBackground
+; Description....: Draws the border and fill defined by the visual style for the specified control part.
+; Syntax.........: _WinAPI_DrawThemeBackground ( $hTheme, $iPartId, $iStateId, $hDC, $tRECT [, $tCLIP] )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part to draw.
+;                  $iStateId - The state of the part to draw.
+;                  $hDC      - Handle to the device context for drawing the theme-defined background image.
+;                  $tRECT    - $tagRECT structure that contains the rectangle in which the background image is drawn.
+;                  $tCLIP    - $tagRECT structure that contains a clipping rectangle.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DrawThemeBackground
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DrawThemeBackground($hTheme, $iPartId, $iStateId, $hDC, $tRECT, $tCLIP = 0)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'DrawThemeBackground', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'ptr', DllStructGetPtr($tRECT), 'ptr', DllStructGetPtr($tCLIP))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DrawThemeBackground
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DrawThemeParentBackground
+; Description....: Draws the part of a parent control that is covered by a partially-transparent or alpha-blended child control.
+; Syntax.........: _WinAPI_DrawThemeParentBackground ( $hWnd, $hDC [, $tRECT] )
+; Parameters.....: $hWnd   - Handle of the child control.
+;                  $hDC    - Handle to the child control's DC.
+;                  $tRECT  - $tagRECT structure that defines the area, in the child window's coordinates, to be drawn.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DrawThemeParentBackground
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DrawThemeParentBackground($hWnd, $hDC, $tRECT = 0)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'DrawThemeParentBackground', 'hwnd', $hWnd, 'hwnd', $hDC, 'ptr', DllStructGetPtr($tRECT))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DrawThemeParentBackground
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DrawThemeText
+; Description....: Draws text using the color and font defined by the visual style.
+; Syntax.........: _WinAPI_DrawThemeText ( $hTheme, $iPartId, $iStateId, $hDC, $sText, $tRECT, $iFlags )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that has the desired text appearance. If this value is 0, the text is drawn in the
+;                              default font, or a font selected into the device context.
+;                  $iStateId - The state that has the desired text appearance.
+;                  $hDC      - Handle to the device context to use for drawing.
+;                  $sText    - The string that contains the text to draw.
+;                  $tRECT    - $tagRECT structure that contains the rectangle in which the text is to be drawn.
+;                  $iFlags   - The string's formatting flags. This parameter can be one or more of the $DT_... values.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DrawThemeText
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DrawThemeText($hTheme, $iPartId, $iStateId, $hDC, $sText, $tRECT, $iFlags)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'DrawThemeText', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'wstr', $sText, 'int', -1, 'dword', $iFlags, 'dword', 0, 'ptr', DllStructGetPtr($tRECT))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DrawThemeText
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DrawThemeTextEx
+; Description....: Draws text using the color and font defined by the visual style.
+; Syntax.........: _WinAPI_DrawThemeTextEx ( $hTheme, $iPartId, $iStateId, $hDC, $sText, $tRECT, $iFlags, $tDTTOPTS )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that has the desired text appearance. If this value is 0, the text is drawn in the
+;                              default font, or a font selected into the device context.
+;                  $iStateId - The state that has the desired text appearance.
+;                  $hDC      - Handle to the device context to use for drawing.
+;                  $sText    - The string that contains the text to draw.
+;                  $tRECT    - $tagRECT structure that contains the rectangle in which the text is to be drawn.
+;                  $iFlags   - The string's formatting flags. This parameter can be one or more of the $DT_... values.
+;                  $tDTTOPTS - $tagDTTOPTS structure that defines additional formatting options.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DrawThemeTextEx
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DrawThemeTextEx($hTheme, $iPartId, $iStateId, $hDC, $sText, $tRECT, $iFlags, $tDTTOPTS)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'DrawThemeTextEx', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'wstr', $sText, 'int', -1, 'dword', $iFlags, 'ptr', DllStructGetPtr($tRECT), 'ptr', DllStructGetPtr($tDTTOPTS))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DrawThemeTextEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DuplicateBitmap
@@ -4171,25 +5067,497 @@ Func _WinAPI_DuplicateStruct(ByRef $tStruct, $sStruct = '')
 		Return SetError(1, 0, 0)
 	EndIf
 
-	Local $tData, $tDup, $tResult
+	Local $tSrc, $tDst, $tResult
 
 	If Not StringStripWS($sStruct, 7) Then
 		$sStruct = 'byte[' & $Size & ']'
 	EndIf
 	$tResult = DllStructCreate($sStruct)
-	$tDup = DllStructCreate('byte[' & $Size & ']', DllStructGetPtr($tResult))
-	$tData = DllStructCreate('byte[' & $Size & ']', DllStructGetPtr($tStruct))
-	If (Not IsDllStruct($tResult)) Or (Not IsDllStruct($tDup)) Or (Not IsDllStruct($tData)) Then
+	$tDst = DllStructCreate('byte[' & $Size & ']', DllStructGetPtr($tResult))
+	$tSrc = DllStructCreate('byte[' & $Size & ']', DllStructGetPtr($tStruct))
+	If (Not IsDllStruct($tResult)) Or (Not IsDllStruct($tDst)) Or (Not IsDllStruct($tSrc)) Then
 		Return SetError(1, 0, 0)
 	EndIf
 	For $i = 1 To $Size
-		DllStructSetData($tDup, 1, DllStructGetData($tData, 1, $i), $i)
+		DllStructSetData($tDst, 1, DllStructGetData($tSrc, 1, $i), $i)
 		If @error Then
 			Return SetError(1, 0, 0)
 		EndIf
 	Next
 	Return $tResult
 EndFunc   ;==>_WinAPI_DuplicateStruct
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmEnableBlurBehindWindow
+; Description....: Enables the blur effect on a specified window.
+; Syntax.........: _WinAPI_DwmEnableBlurBehindWindow ( $hWnd [, $fEnable [, $fTransition [, $hRgn]]] )
+; Parameters.....: $hWnd        - Handle to the window on which the blur behind data is applied.
+;                  $fEnable     - Specifies whether register or unregister the window handle to DWM blur behind, valid values:
+;                  |TRUE        - Register.
+;                  |FALSE       - Unregister.
+;                  $fTransition - Specifies whether colorize transition to match the maximized windows, valid values:
+;                  |TRUE        - The window's should be colorized.
+;                  |FALSE       - Otherwise.
+;                  $hRgn        - The region within the client area to apply the blur behind. A zeroth value will apply the blur
+;                                 behind the entire client area.
+; Return values..: Success      - 1.
+;                  Failure      - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The alpha values in the window are honored and the rendering atop the blur will use these alpha values.
+;                  It is the application's responsibility for ensuring that the alpha values of all pixels in the window are correct.
+;                  Some Windows Graphics Device Interface (GDI) operations do not preserve alpha values, so care must be taken when
+;                  presenting child windows because the alpha values they contribute are unpredictable.
+;
+;                  This function must be called whenever Desktop Window Manager (DWM) composition is toggled. Handle the
+;                  WM_DWMCOMPOSITIONCHANGED message for composition change notification.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmEnableBlurBehindWindow
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmEnableBlurBehindWindow($hWnd, $fEnable = 1, $fTransition = 0, $hRgn = 0)
+
+	Local $tBLURBEHIND = DllStructCreate('dword;int;ptr;int')
+	Local $Flags = 0
+
+	If $hRgn Then
+		$Flags += 2
+		DllStructSetData($tBLURBEHIND, 3, $hRgn)
+	EndIf
+
+	DllStructSetData($tBLURBEHIND, 1, BitOR($Flags, 0x05))
+	DllStructSetData($tBLURBEHIND, 2, $fEnable)
+	DllStructSetData($tBLURBEHIND, 4, $fTransition)
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmEnableBlurBehindWindow', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tBLURBEHIND))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmEnableBlurBehindWindow
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmEnableComposition
+; Description....: Enables or disables Desktop Window Manager (DWM) composition.
+; Syntax.........: _WinAPI_DwmEnableComposition ( $fEnable )
+; Parameters.....: $fEnable  - Specifies whether enable or disable DWM composition, valid values:
+;                  |TRUE     - Enable.
+;                  |FALSE    - Disable.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: Disabling DWM composition disables it for the entire desktop. DWM composition will be automatically enabled
+;                  when all processes that have disabled composition have called _WinAPI_DwmEnableComposition() to enable it or have
+;                  been terminated. The WM_DWMCOMPOSITIONCHANGED notification is sent when DWM composition has enabled or disabled.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmEnableComposition
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmEnableComposition($fEnable)
+
+	If $fEnable Then
+		$fEnable = 1
+	EndIf
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmEnableComposition', 'uint', $fEnable)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmEnableComposition
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmGetColorizationColor
+; Description....: Retrieves the current color used for Desktop Window Manager (DWM) glass composition.
+; Syntax.........: _WinAPI_DwmGetColorizationColor ( )
+; Parameters.....: None
+; Return values..: Success - The current color (0xAARRGGBB) used for glass composition, @extended flag indicates whether the
+;                            color is an opaque blend:
+;                            1 - The color is an opaque blend.
+;                            0 - Otherwise.
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmGetColorizationColor
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmGetColorizationColor()
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmGetColorizationColor', 'dword*', 0, 'int*', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return SetError(0, $Ret[2], $Ret[1])
+EndFunc   ;==>_WinAPI_DwmGetColorizationColor
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmGetWindowAttribute
+; Description....: Retrieves the current value of a specified attribute applied to the window.
+; Syntax.........: _WinAPI_DwmGetWindowAttribute ( $hWnd, $iAttribute )
+; Parameters.....: $hWnd       - Handle to the window for which the attribute data is retrieved.
+;                  $iAttribute - The attribute to retrieve. This parameter can be one of the following values.
+;
+;                                $DWMWA_NCRENDERING_ENABLED
+;                                $DWMWA_CAPTION_BUTTON_BOUNDS
+;                                $DWMWA_EXTENDED_FRAME_BOUNDS
+;
+; Return values..: Success     - The value that contains the current value of the attribute. The type of the returned value depends
+;                                on the value of the $iAttribute parameter.
+;                  Failure     - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmGetWindowAttribute
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmGetWindowAttribute($hWnd, $iAttribute)
+
+	Local $Struct
+
+	Switch $iAttribute
+		Case $DWMWA_CAPTION_BUTTON_BOUNDS, $DWMWA_EXTENDED_FRAME_BOUNDS
+			$Struct = $tagRECT
+		Case $DWMWA_NCRENDERING_ENABLED
+			$Struct = 'uint'
+		Case Else
+			Return SetError(1, 0, 0)
+	EndSwitch
+
+	Local $tData = DllStructCreate($Struct)
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmGetWindowAttribute', 'hwnd', $hWnd, 'dword', $iAttribute, 'ptr', DllStructGetPtr($tData), 'dword', DllStructGetSize($tData))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Switch $iAttribute
+		Case $DWMWA_NCRENDERING_ENABLED
+			Return DllStructGetData($tData, 1)
+		Case Else
+			Return $tData
+	EndSwitch
+EndFunc   ;==>_WinAPI_DwmGetWindowAttribute
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmExtendFrameIntoClientArea
+; Description....: Extends the window frame behind the client area.
+; Syntax.........: _WinAPI_DwmExtendFrameIntoClientArea ( $hWnd [, $tMARGINS] )
+; Parameters.....: $hWnd     - Handle to the window for which the frame is extended into the client area.
+;                  $tMARGINS - $tagMARGINS structure that describes the margins to use when extending the frame into the client area.
+;                              Negative margins are used to create the "sheet of glass" effect where the client area is rendered as
+;                              a solid surface with no window border.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function must be called whenever Desktop Window Manager (DWM) composition is toggled. Handle the
+;                  WM_DWMCOMPOSITIONCHANGED message for composition change notification.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmExtendFrameIntoClientArea
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmExtendFrameIntoClientArea($hWnd, $tMARGINS = 0)
+
+	If Not IsDllStruct($tMARGINS) Then
+		$tMARGINS = DllStructCreate('int;int;int;int')
+		For $i = 1 To 4
+			DllStructSetData($tMARGINS, $i, -1)
+		Next
+	EndIf
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmExtendFrameIntoClientArea', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tMARGINS))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmExtendFrameIntoClientArea
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmIsCompositionEnabled
+; Description....: Determines whether Desktop Window Manager (DWM) composition is enabled.
+; Syntax.........: _WinAPI_DwmIsCompositionEnabled ( )
+; Parameters.....: None
+; Return values..: Success - 1 - DWM composition is enabled.
+;                            0 - Otherwise.
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmIsCompositionEnabled
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmIsCompositionEnabled()
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmIsCompositionEnabled', 'int*', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $Ret[1]
+EndFunc   ;==>_WinAPI_DwmIsCompositionEnabled
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmQueryThumbnailSourceSize
+; Description....: Returns the source size of the Desktop Window Manager (DWM) thumbnail.
+; Syntax.........: _WinAPI_DwmUnregisterThumbnail ( $hThumbnail )
+; Parameters.....: $hThumbnail - Handle of the thumbnail to retrieve the source window size from.
+; Return values..: Success     - $tagSIZE structure that contains the size of the source thumbnail.
+;                  Failure     - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmQueryThumbnailSourceSize
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmQueryThumbnailSourceSize($hThumbnail)
+
+	Local $tSIZE = DllStructCreate($tagSIZE)
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmQueryThumbnailSourceSize', 'ptr', $hThumbnail, 'ptr', DllStructGetPtr($tSIZE))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tSIZE
+EndFunc   ;==>_WinAPI_DwmQueryThumbnailSourceSize
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmRegisterThumbnail
+; Description....: Creates a Desktop Window Manager (DWM) thumbnail relationship between the destination and source windows.
+; Syntax.........: _WinAPI_DwmRegisterThumbnail ( $hDestination, $hSource )
+; Parameters.....: $hDestination - Handle to the window that will use the DWM thumbnail.
+;                  $hSource      - Handle to the window to use as the thumbnail source.
+; Return values..: Success       - Handle that represents the registration of the DWM thumbnail.
+;                  Failure       - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The window designated by $hDestination must either be the desktop window itself or be owned by the process that
+;                  is calling _WinAPI_DwmRegisterThumbnail().
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmRegisterThumbnail
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmRegisterThumbnail($hDestination, $hSource)
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmRegisterThumbnail', 'hwnd', $hDestination, 'hwnd', $hSource, 'ptr*', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $Ret[3]
+EndFunc   ;==>_WinAPI_DwmRegisterThumbnail
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmSetWindowAttribute
+; Description....: Sets the value of the specified attributes for non-client rendering to apply to the window.
+; Syntax.........: _WinAPI_DwmSetWindowAttribute ( $hWnd, $iAttribute, $iData )
+; Parameters.....: $hWnd       - The window handle to apply the given attribute.
+;                  $iAttribute - The attribute to apply to the window. This parameter can be one of the following values.
+;
+;                                $DWMWA_NCRENDERING_POLICY
+;                                $DWMWA_TRANSITIONS_FORCEDISABLED
+;                                $DWMWA_ALLOW_NCPAINT
+;                                $DWMWA_NONCLIENT_RTL_LAYOUT
+;                                $DWMWA_FORCE_ICONIC_REPRESENTATION
+;                                $DWMWA_FLIP3D_POLICY
+;
+;                                *Windows 7 or above
+;
+;                                $DWMWA_HAS_ICONIC_BITMAP
+;                                $DWMWA_DISALLOW_PEEK
+;                                $DWMWA_EXCLUDED_FROM_PEEK
+;
+;                  $iData      - The value of the attribute.
+; Return values..: Success     - 1.
+;                  Failure     - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmSetWindowAttribute
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmSetWindowAttribute($hWnd, $iAttribute, $iData)
+	Switch $iAttribute
+		Case $DWMWA_NCRENDERING_POLICY, $DWMWA_TRANSITIONS_FORCEDISABLED, $DWMWA_ALLOW_NCPAINT, $DWMWA_NONCLIENT_RTL_LAYOUT, $DWMWA_FORCE_ICONIC_REPRESENTATION, $DWMWA_FLIP3D_POLICY, $DWMWA_HAS_ICONIC_BITMAP, $DWMWA_DISALLOW_PEEK, $DWMWA_EXCLUDED_FROM_PEEK
+
+		Case Else
+			Return SetError(1, 0, 0)
+	EndSwitch
+
+	Local $tData = DllStructCreate('uint')
+
+	DllStructSetData($tData, 1, $iData)
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmSetWindowAttribute', 'hwnd', $hWnd, 'dword', $iAttribute, 'ptr', DllStructGetPtr($tData), 'dword', DllStructGetSize($tData))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmSetWindowAttribute
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmUnregisterThumbnail
+; Description....: Removes a Desktop Window Manager (DWM) thumbnail relationship.
+; Syntax.........: _WinAPI_DwmUnregisterThumbnail ( $hThumbnail )
+; Parameters.....: $hThumbnail - Handle to the thumbnail relationship to be removed.
+; Return values..: Success     - 1.
+;                  Failure     - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmUnregisterThumbnail
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmUnregisterThumbnail($hThumbnail)
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmUnregisterThumbnail', 'ptr', $hThumbnail)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmUnregisterThumbnail
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DwmUpdateThumbnailProperties
+; Description....: Specifies Desktop Window Manager (DWM) thumbnail properties.
+; Syntax.........: _WinAPI_DwmUpdateThumbnailProperties ( $hThumbnail [, $fVisible [, $fClientAreaOnly [, $iOpacity [, $tRectDest [, $tRectSrc]]]]] )
+; Parameters.....: $hThumbnail      - Handle of the thumbnail to retrieve the source window size from.
+;                  $fVisible        - Specifies whether make the thumbnail visible or invisible, valid values:
+;                  |TRUE            - Visible.
+;                  |FALSE           - Invisible.
+;                  $fClientAreaOnly - Specifies whether use only the thumbnail source's client area or entire window, valid values:
+;                  |TRUE            - Use only source's client area.
+;                  |FALSE           - Use entire window.
+;                  $iOpacity        - The opacity with which to render the thumbnail. 0 is fully transparent while 255 is fully opaque.
+;                  $tRectDest       - $tagRECT structure containing the rectangle in the destination window the thumbnail will be
+;                                     rendered. By default, the size of this rectangle equal to the source size of the DWM thumbnail
+;                                     which returns the _WinAPI_DwmQueryThumbnailSourceSize() function.
+;                  $tRectSrc        - $tagRECT structure containing the rectangle that specifies the region of the source window
+;                                     to use as the thumbnail. By default, the entire window is used as the thumbnail.
+; Return values..: Success          - 1.
+;                  Failure          - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: Thumbnail relationships created by _WinAPI_DwmRegisterThumbnail() will not be rendered to the destination window
+;                  until this function is called. Subsequent calls will update the thumbnail according to the properties.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ DwmUpdateThumbnailProperties
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DwmUpdateThumbnailProperties($hThumbnail, $fVisible = 1, $fClientAreaOnly = 0, $iOpacity = 255, $tRectDest = 0, $tRectSrc = 0)
+
+	Local $tTHUMBNAIL = DllStructCreate('dword;int[4];int[4];byte;int;int')
+	Local $tSIZE, $Flags = 0
+
+	If Not IsDllStruct($tRectDest) Then
+		$tSIZE = _WinAPI_DwmQueryThumbnailSourceSize($hThumbnail)
+		If @error Then
+			Return SetError(1, 0, 0)
+		EndIf
+		$tRectDest = _WinAPI_CreateRectEx(0, 0, DllStructGetData($tSIZE, 1), DllStructGetData($tSIZE, 2))
+	EndIf
+	For $i = 1 To 4
+		DllStructSetData($tTHUMBNAIL, 2, DllStructGetData($tRectDest, $i), $i)
+	Next
+	If IsDllStruct($tRectSrc) Then
+		$Flags += 2
+		For $i = 1 To 4
+			DllStructSetData($tTHUMBNAIL, 3, DllStructGetData($tRectSrc, $i), $i)
+		Next
+	EndIf
+
+	DllStructSetData($tTHUMBNAIL, 1, BitOR($Flags, 0x1D))
+	DllStructSetData($tTHUMBNAIL, 4, $iOpacity)
+	DllStructSetData($tTHUMBNAIL, 5, $fVisible)
+	DllStructSetData($tTHUMBNAIL, 6, $fClientAreaOnly)
+
+	Local $Ret = DllCall('dwmapi.dll', 'uint', 'DwmUpdateThumbnailProperties', 'ptr', $hThumbnail, 'ptr', DllStructGetPtr($tTHUMBNAIL))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DwmUpdateThumbnailProperties
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DWordToInt
@@ -4235,7 +5603,7 @@ Func _WinAPI_EjectMedia($sDrive)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 2, 2)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0x80000000, 0x01)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -4309,14 +5677,12 @@ Func _WinAPI_EmptyWorkingSet($PID = 0)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	$hProcess = $hProcess[0]
-
-	Local $Ret = DllCall('psapi.dll', 'int', 'EmptyWorkingSet', 'ptr', $hProcess)
+	Local $Ret = DllCall('psapi.dll', 'int', 'EmptyWorkingSet', 'ptr', $hProcess[0])
 
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
-	_WinAPI_FreeHandle($hProcess)
+	_WinAPI_FreeHandle($hProcess[0])
 	If Not IsArray($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -4742,7 +6108,7 @@ EndFunc   ;==>_WinAPI_EnumProcessWindows
 ; Parameters.....: $sModule - Handle to a module to search.
 ;                  $sType   - The type of the resource. This parameter can be string or integer type.
 ;                  $sName   - The name of the resource. This parameter can be string or integer type.
-; Return values..: Success  - Array of the LCIDs for specified resource type and name.
+; Return values..: Success  - The array of the LCIDs for specified resource type and name.
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -4796,7 +6162,7 @@ EndFunc   ;==>_WinAPI_EnumResourceLanguages
 ; Syntax.........: _WinAPI_EnumResourceNames ( $sModule, $sType )
 ; Parameters.....: $sModule - Handle to a module to search.
 ;                  $sType   - The type of the resource. This parameter can be string or integer type.
-; Return values..: Success  - Array of the names for the specified resource type.
+; Return values..: Success  - The array of the names for the specified resource type.
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -4846,7 +6212,7 @@ EndFunc   ;==>_WinAPI_EnumResourceNames
 ; Description....: Enumerates resource types within a binary module.
 ; Syntax.........: _WinAPI_EnumResourceTypes ( $sModule )
 ; Parameters.....: $sModule - Handle to a module to search.
-; Return values..: Success  - Array of the types of the resources for the specified module.
+; Return values..: Success  - The array of the types of the resources for the specified module.
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -4898,7 +6264,7 @@ EndFunc   ;==>_WinAPI_EnumResourceTypes
 ;                            $LCID_INSTALLED
 ;                            $LCID_SUPPORTED
 ;
-; Return values..: Success - Array of the locale identifiers.
+; Return values..: Success - The array of the locale identifiers.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -5036,11 +6402,11 @@ EndFunc   ;==>_WinAPI_EqualStruct
 ;                            $RGN_OR
 ;                            $RGN_XOR
 ;
-; Return values..: Success - The value specifies the new clipping region's complexity; it can be one of the following values.
+; Return values..: Success - The value that specifies the new clipping region's complexity; it can be one of the following values.
 ;
+;                            $COMPLEXREGION
 ;                            $NULLREGION
 ;                            $SIMPLEREGION
-;                            $COMPLEXREGION
 ;
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -5749,7 +7115,7 @@ EndFunc   ;==>_WinAPI_GetActiveWindow
 ; Description....: Determines whether a file is an executable (.exe) file, and if so, which subsystem runs the executable file.
 ; Syntax.........: _WinAPI_GetBinaryType ( $sPath )
 ; Parameters.....: $sPath  - The full path of the file whose executable type is to be determined.
-; Return values..: Success - 1 - The file is executable, @extended flag will be contain one of the $SCS_... constant to
+; Return values..: Success - 1 - The file is executable, @extended flag will be contains one of the $SCS_... constant to
 ;                                indicate the file's executable type.
 ;                            0 - Otherwise.
 ;                  Failure - 0 and sets the @error flag to non-zero.
@@ -5804,7 +7170,7 @@ Func _WinAPI_GetBitmapDimension($hBitmap)
 	DllStructSetData($tSIZE, 'X', DllStructGetData($tObj, 'bmWidth'))
 	DllStructSetData($tSIZE, 'Y', DllStructGetData($tObj, 'bmHeight'))
 
-	Return SetError(0, 0, $tSIZE)
+	Return $tSIZE
 EndFunc   ;==>_WinAPI_GetBitmapDimension
 
 ; #FUNCTION# ====================================================================================================================
@@ -5849,6 +7215,67 @@ EndFunc   ;==>_WinAPI_GetBkColor
 Func _WinAPI_GetBValue($iRGB)
 	Return BitShift(BitAND(__IsRGB($iRGB), 0xFF0000), 16)
 EndFunc   ;==>_WinAPI_GetBValue
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetCaretBlinkTime
+; Description....: Returns the time required to invert the caret's pixels.
+; Syntax.........: _WinAPI_GetCaretBlinkTime ( )
+; Parameters.....: None
+; Return values..: Success - The blink time, in milliseconds.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetCaretBlinkTime
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetCaretBlinkTime()
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetCaretBlinkTime')
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetCaretBlinkTime
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetCaretPos
+; Description....: Retrieves the caret's position.
+; Syntax.........: _WinAPI_GetCaretPos ( )
+; Parameters.....: None
+; Return values..: Success - The array that contains the client coordinates of the caret.
+;
+;                            [0] - x-coordinate of the caret.
+;                            [1] - y-coordinate of the caret.
+;
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetCaretPos
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetCaretPos()
+
+	Local $tPOINT = DllStructCreate($tagPOINT)
+	Local $Ret = DllCall('user32.dll', 'int', 'GetCaretPos', 'ptr', DllStructGetPtr($tagPOINT))
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Result[2]
+
+	For $i = 0 To 1
+		$Result[$i] = DllStructGetData($tPOINT, $i + 1)
+	Next
+	Return $Result
+EndFunc   ;==>_WinAPI_GetCaretPos
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetClassLong
@@ -5930,7 +7357,7 @@ EndFunc   ;==>_WinAPI_GetCompression
 ; Syntax.........: _WinAPI_GetCurrentDirectory ( )
 ; Parameters.....: None
 ; Return values..: Success - The absolute path to the current directory.
-;                  Failure - 0 and sets the @error flag to non-zero.
+;                  Failure - Empty string and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: None
@@ -5945,10 +7372,77 @@ Func _WinAPI_GetCurrentDirectory()
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetCurrentDirectoryW', 'dword', 1024, 'ptr', DllStructGetPtr($tData))
 
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+		Return SetError(1, 0, '')
 	EndIf
 	Return DllStructGetData($tData, 1)
 EndFunc   ;==>_WinAPI_GetCurrentDirectory
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetCurrentHwProfile
+; Description....: Retrieves information about the current hardware profile for the local computer.
+; Syntax.........: _WinAPI_GetCurrentHwProfile ( )
+; Parameters.....: None
+; Return values..: Success - $tagHW_PROFILE_INFO structure that contains information about the current hardware profile.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetCurrentHwProfile
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetCurrentHwProfile()
+
+	Local $tHW_PROFILE_INFO = DllStructCreate($tagHW_PROFILE_INFO)
+	Local $Ret = DllCall('advapi32.dll', 'int', 'GetCurrentHwProfileW', 'ptr', DllStructGetPtr($tHW_PROFILE_INFO))
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $tHW_PROFILE_INFO
+EndFunc   ;==>_WinAPI_GetCurrentHwProfile
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetCurrentThemeName
+; Description....: Retrieves the name of the current visual styles, color scheme name, and size name.
+; Syntax.........: _WinAPI_GetCurrentThemeName ( )
+; Parameters.....: None
+; Return values..: Success - The array that contains the following information.
+;
+;                  [0] - The theme path and file name.
+;                  [1] - The color scheme name.
+;                  [2] - The size name.
+;
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetCurrentThemeName
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetCurrentThemeName()
+
+	Local $tData = DllStructCreate('wchar[1024];wchar[1024];wchar[1024]')
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetCurrentThemeName', 'ptr', DllStructGetPtr($tData, 1), 'int', 1024, 'ptr', DllStructGetPtr($tData, 2), 'int', 1024, 'ptr', DllStructGetPtr($tData, 3), 'int', 1024)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+
+	Local $Result[3]
+
+	For $i = 0 To 2
+		$Result[$i] = DllStructGetData($tData, $i + 1)
+	Next
+	Return $Result
+EndFunc   ;==>_WinAPI_GetCurrentThemeName
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetCursor
@@ -5989,13 +7483,13 @@ EndFunc   ;==>_WinAPI_GetCursor
 ;                                 $DATE_SHORTDATE (Default)
 ;                                 $DATE_USE_ALT_CALENDAR
 ;
-;                                 *Windows Vista
+;                                 *Windows Vista or above
 ;
 ;                                 $DATE_LTRREADING
 ;                                 $DATE_RTLREADING
 ;                                 $DATE_YEARMONTH
 ;
-;                                 *Windows 7 and later
+;                                 *Windows 7 or above
 ;
 ;                                 $DATE_AUTOLAYOUT
 ;
@@ -6171,7 +7665,7 @@ EndFunc   ;==>_WinAPI_GetDiskFreeSpaceEx
 
 Func _WinAPI_GetDriveBusType($sDrive)
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 0, 0)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0, 0)
 
 	If Not $hFile Then
 		Return SetError(1, 0, -1)
@@ -6208,7 +7702,7 @@ EndFunc   ;==>_WinAPI_GetDriveBusType
 
 Func _WinAPI_GetDriveGeometryEx($iDrive)
 
-	Local $hFile = _WinAPI_CreateFile('\\.\PhysicalDrive' & $iDrive, 2, 2, 2)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\PhysicalDrive' & $iDrive, 3, 0x80000000, 0x01)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -6244,7 +7738,7 @@ EndFunc   ;==>_WinAPI_GetDriveGeometryEx
 
 Func _WinAPI_GetDriveNumber($sDrive)
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 0, 0)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0, 0)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -6391,7 +7885,7 @@ EndFunc   ;==>_WinAPI_GetGValue
 ; Description....: Retrieves certain properties of an object handle.
 ; Syntax.........: _WinAPI_GetHandleInformation ( $hObject )
 ; Parameters.....: $hObject - Handle to an object whose information is to be retrieved.
-; Return values..: Success  - The value specifies the properties of the object handle ($HANDLE_FLAG_...).
+; Return values..: Success  - The value that specifies the properties of the object handle ($HANDLE_FLAG_...).
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -6428,7 +7922,7 @@ EndFunc   ;==>_WinAPI_GetHandleInformation
 
 Func _WinAPI_GetHGlobalFromStream($hStream)
 
-	Local $Ret = DllCall('ole32.dll', 'int', 'GetHGlobalFromStream', 'ptr', $hStream, 'ptr*', 0)
+	Local $Ret = DllCall('ole32.dll', 'uint', 'GetHGlobalFromStream', 'ptr', $hStream, 'ptr*', 0)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -6582,7 +8076,7 @@ EndFunc   ;==>_WinAPI_GetKeyboardLayout
 ; Description....: Retrieves the all input locale identifiers corresponding to the current set of input locales in the system.
 ; Syntax.........: _WinAPI_GetKeyboardLayoutList ( )
 ; Parameters.....: None
-; Return values..: Success - Array of input locale identifiers. The zeroth array element contains the number of identifiers.
+; Return values..: Success - The array of input locale identifiers. The zeroth array element contains the number of identifiers.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -6664,7 +8158,7 @@ EndFunc   ;==>_WinAPI_GetKeyboardState
 ;                  |0 - Keyboard type.
 ;                  |1 - Keyboard subtype (original equipment manufacturer (OEM)-dependent value).
 ;                  |2 - The number of function keys on the keyboard.
-; Return values..: Success  - The value specifies the requested information. If $iType is 0, return value may be one of the following values.
+; Return values..: Success  - The value that specifies the requested information. If $iType is 0, return value may be one of the following values.
 ;                  |1 - IBM PC/XT or compatible (83-key) keyboard.
 ;                  |2 - Olivetti "ICO" (102-key) keyboard.
 ;                  |3 - IBM PC/AT (84-key) or similar keyboard.
@@ -6675,7 +8169,7 @@ EndFunc   ;==>_WinAPI_GetKeyboardState
 ;                  Failure  - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
-; Remarks........: None
+; Remarks........: When a single USB keyboard is connected to the computer, this function returns the code 81.
 ; Related........:
 ; Link...........: @@MsdnLink@@ GetKeyboardType
 ; Example........: Yes
@@ -6727,7 +8221,7 @@ EndFunc   ;==>_WinAPI_GetKeyNameText
 ; Syntax.........: _WinAPI_GetKeyState ( $vkCode )
 ; Parameters.....: $vkCode - Specifies a virtual key ($VK_...). If the desired virtual key is a letter or digit (A through Z,
 ;                            a through z, or 0 through 9).
-; Return values..: Success - The value specifies the status of the specified virtual key. If the high-order bit is 1, the key is
+; Return values..: Success - The value that specifies the status of the specified virtual key. If the high-order bit is 1, the key is
 ;                            down; otherwise, it is up. If the low-order bit is 1, the key is toggled. A key, such as the
 ;                            CAPS LOCK key, is toggled if it is turned on. The key is off and untoggled if the low-order bit is 0.
 ;                            A toggle key's indicator light (if any) on the keyboard will be on when the key is toggled, and off
@@ -6854,15 +8348,13 @@ Func _WinAPI_GetModuleFileNameEx($PID = 0)
 		Return SetError(1, 0, '')
 	EndIf
 
-	$hProcess = $hProcess[0]
-
 	Local $tPath = DllStructCreate('wchar[1024]')
-	Local $Ret = DllCall('psapi.dll', 'int', 'GetModuleFileNameExW', 'ptr', $hProcess, 'ptr', 0, 'ptr', DllStructGetPtr($tPath), 'int', 1024)
+	Local $Ret = DllCall('psapi.dll', 'int', 'GetModuleFileNameExW', 'ptr', $hProcess[0], 'ptr', 0, 'ptr', DllStructGetPtr($tPath), 'int', 1024)
 
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
-	_WinAPI_FreeHandle($hProcess)
+	_WinAPI_FreeHandle($hProcess[0])
 	If Not IsArray($Ret) Then
 		Return SetError(1, 0, '')
 	EndIf
@@ -7023,6 +8515,56 @@ Func _WinAPI_GetParentProcess($PID = 0)
 EndFunc   ;==>_WinAPI_GetParentProcess
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetPerformanceInfo
+; Description....: Retrieves the performance information.
+; Syntax.........: _WinAPI_GetPerformanceInfo ( )
+; Parameters.....: None
+; Return values..: Success - The array containing the following information:
+;
+;                            [0] - The memory that currently committed by the system, in bytes.
+;                            [1] - The current maximum memory that can be committed by the system without extending the paging file(s), in bytes.
+;                            [2] - The maximum memory that were simultaneously in the committed state since the last system reboot, in bytes.
+;                            [3] - The amount of actual physical memory, in bytes.
+;                            [4] - The amount of physical memory currently available, in bytes.
+;                            [5] - The amount of system cache memory, in bytes.
+;                            [6] - The sum of the memory currently in the paged and nonpaged kernel pools, in bytes.
+;                            [7] - The memory currently in the paged kernel pool, in bytes.
+;                            [8] - The memory currently in the nonpaged kernel pool, in bytes.
+;                            [9] - The size of a page, in bytes.
+;                           [10] - The current number of open handles.
+;                           [11] - The current number of processes.
+;                           [12] - The current number of threads.
+;
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetPerformanceInfo
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetPerformanceInfo()
+
+	Local $tPI = DllStructCreate('dword;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;ulong_ptr;dword;dword;dword')
+	Local $Ret = DllCall(@SystemDir & '\psapi.dll', 'int', 'GetPerformanceInfo', 'ptr', DllStructGetPtr($tPI), 'dword', DllStructGetSize($tPI))
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Result[13]
+
+	For $i = 0 To 12
+		$Result[$i] = DllStructGetData($tPI, $i + 2)
+	Next
+	For $i = 0 To 8
+		$Result[$i] *= $Result[9]
+	Next
+	Return $Result
+EndFunc   ;==>_WinAPI_GetPerformanceInfo
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetPixel
 ; Description....: Retrieves the color value of the pixel at the specified coordinates.
 ; Syntax.........: _WinAPI_GetPixel ( $hDC, $iX, $iY )
@@ -7048,6 +8590,43 @@ Func _WinAPI_GetPixel($hDC, $iX, $iY)
 	EndIf
 	Return __IsRGB($Ret[0])
 EndFunc   ;==>_WinAPI_GetPixel
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetPosFromRect
+; Description....: Interprets the coordinates of the rectangle as offset and position coordinates.
+; Syntax.........: _WinAPI_GetPosFromRect ( $tRECT )
+; Parameters.....: $tRECT  - $tagRECT structure that contains the logical coordinates of the rectangle.
+; Return values..: Success - The array containing the following parameters:
+;
+;                            [0] - The x-coordinate of the upper-left corner of the rectangle.
+;                            [1] - The y-coordinate of the upper-left corner of the rectangle.
+;                            [2] - The width of the rectangle.
+;                            [3] - The height of the rectangle.
+;
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function is inverse to the _WinAPI_CreateRectEx().
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetPosFromRect($tRECT)
+
+	Local $Result[4]
+
+	For $i = 0 To 3
+		$Result[$i] = DllStructGetData($tRECT, $i + 1)
+		If @error Then
+			Return SetError(1, 0, 0)
+		EndIf
+	Next
+	For $i = 2 To 3
+		$Result[$i] -= $Result[$i - 2]
+	Next
+	Return $Result
+EndFunc   ;==>_WinAPI_GetPosFromRect
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetProcAddress
@@ -7105,15 +8684,13 @@ Func _WinAPI_GetProcessCreationTime($PID = 0)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	$hProcess = $hProcess[0]
-
 	Local $tFILETIME = DllStructCreate('dword;dword')
-	Local $Ret = DllCall('kernel32.dll', 'int', 'GetProcessTimes', 'ptr', $hProcess, 'ptr', DllStructGetPtr($tFILETIME), 'ptr*', 0, 'ptr*', 0, 'ptr*', 0)
+	Local $Ret = DllCall('kernel32.dll', 'int', 'GetProcessTimes', 'ptr', $hProcess[0], 'ptr', DllStructGetPtr($tFILETIME), 'ptr*', 0, 'ptr*', 0, 'ptr*', 0)
 
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
-	_WinAPI_FreeHandle($hProcess)
+	_WinAPI_FreeHandle($hProcess[0])
 	If Not IsArray($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -7150,15 +8727,13 @@ Func _WinAPI_GetProcessIoCounters($PID = 0)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	$hProcess = $hProcess[0]
-
 	Local $tIO_COUNTERS = DllStructCreate($tagIO_COUNTERS)
-	Local $Ret = DllCall('kernel32.dll', 'int', 'GetProcessIoCounters', 'ptr', $hProcess, 'ptr', DllStructGetPtr($tIO_COUNTERS))
+	Local $Ret = DllCall('kernel32.dll', 'int', 'GetProcessIoCounters', 'ptr', $hProcess[0], 'ptr', DllStructGetPtr($tIO_COUNTERS))
 
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
-	_WinAPI_FreeHandle($hProcess)
+	_WinAPI_FreeHandle($hProcess[0])
 	If Not IsArray($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -7195,15 +8770,13 @@ Func _WinAPI_GetProcessMemoryInfo($PID = 0)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	$hProcess = $hProcess[0]
-
 	Local $tPROCESS_MEMORY_COUNTERS = DllStructCreate($tagPROCESS_MEMORY_COUNTERS)
-	Local $Ret = DllCall('psapi.dll', 'int', 'GetProcessMemoryInfo', 'ptr', $hProcess, 'ptr', DllStructGetPtr($tPROCESS_MEMORY_COUNTERS), 'int', DllStructGetSize($tPROCESS_MEMORY_COUNTERS))
+	Local $Ret = DllCall('psapi.dll', 'int', 'GetProcessMemoryInfo', 'ptr', $hProcess[0], 'ptr', DllStructGetPtr($tPROCESS_MEMORY_COUNTERS), 'int', DllStructGetSize($tPROCESS_MEMORY_COUNTERS))
 
 	If (@error) Or (Not $Ret[0]) Then
 		$Ret = 0
 	EndIf
-	_WinAPI_FreeHandle($hProcess)
+	_WinAPI_FreeHandle($hProcess[0])
 	If Not IsArray($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -7262,16 +8835,42 @@ Func _WinAPI_GetProcessName($PID = 0)
 EndFunc   ;==>_WinAPI_GetProcessName
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetProfilesDirectory
+; Description....: Retrieves the path to the root directory where all user profiles are stored.
+; Syntax.........: _WinAPI_GetProfilesDirectory ( )
+; Parameters.....: None
+; Return values..: Success - The path to the profiles directory.
+;                  Failure - Empty string and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetProfilesDirectory
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetProfilesDirectory()
+
+	Local $tData = DllStructCreate('wchar[1024]')
+	Local $Ret = DllCall('userenv.dll', 'int', 'GetProfilesDirectoryW', 'ptr', DllStructGetPtr($tData), 'dword*', 1024)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, '')
+	EndIf
+	Return DllStructGetData($tData, 1)
+EndFunc   ;==>_WinAPI_GetProfilesDirectory
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetRgnBox
 ; Description....: Retrieves the bounding rectangle of the specified region.
 ; Syntax.........: _WinAPI_GetRgnBox ( $hRgn, ByRef $tRECT )
 ; Parameters.....: $hRgn   - Handle to the region.
 ;                  $tRECT  - $tagRECT structure that receives the bounding rectangle in logical units.
-; Return values..: Success - The value specifies the region's complexity. It can be one of the following values.
+; Return values..: Success - The value that specifies the region's complexity. It can be one of the following values.
 ;
+;                            $COMPLEXREGION
 ;                            $NULLREGION
 ;                            $SIMPLEREGION
-;                            $COMPLEXREGION
 ;
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -7297,7 +8896,7 @@ EndFunc   ;==>_WinAPI_GetRgnBox
 ; Description....: Retrieves the foreground mix mode of the specified device context.
 ; Syntax.........: _WinAPI_GetROP2 ( $hDC )
 ; Parameters.....: $hDC    - Handle to the device context.
-; Return values..: Success - The value specifies the foreground mix mode ($R2_...).
+; Return values..: Success - The value that specifies the foreground mix mode ($R2_...).
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -7365,9 +8964,9 @@ EndFunc   ;==>_WinAPI_GetSystemDefaultLCID
 ; Description....: Retrieves information about the current system.
 ; Syntax.........: _WinAPI_GetSystemInfo ( )
 ; Parameters.....: None
-; Return values..: Success - The array containing the following parameters:
+; Return values..: Success - The array containing the following information:
 ;
-;                  [0] - The processor architecture of the installed operating system (PROCESSOR_ARCHITECTURE_...).
+;                  [0] - The processor architecture of the installed operating system ($PROCESSOR_ARCHITECTURE_...).
 ;                  [1] - The page size and the granularity of page protection and commitment.
 ;                  [2] - A pointer to the lowest memory address accessible to applications and dynamic-link libraries (DLLs).
 ;                  [3] - A pointer to the highest memory address accessible to applications and DLLs.
@@ -7389,8 +8988,16 @@ EndFunc   ;==>_WinAPI_GetSystemDefaultLCID
 
 Func _WinAPI_GetSystemInfo()
 
+	Local $Proc
+
+	If _WinAPI_IsWow64Process() Then
+		$Proc = 'GetNativeSystemInfo'
+	Else
+		$Proc = 'GetSystemInfo'
+	EndIf
+
 	Local $tagSYSTEMINFO = DllStructCreate('ushort;ushort;dword;ptr;ptr;dword_ptr;dword;dword;dword;ushort;ushort')
-	Local $Ret = DllCall('kernel32.dll', 'none', 'GetSystemInfo', 'ptr', DllStructGetPtr($tagSYSTEMINFO))
+	Local $Ret = DllCall('kernel32.dll', 'none', $Proc, 'ptr', DllStructGetPtr($tagSYSTEMINFO))
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -7626,14 +9233,13 @@ EndFunc   ;==>_WinAPI_GetThemeAppProperties
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetThemeColor
 ; Description....: Retrieves the value of a color property for the specified window.
-; Syntax.........: _WinAPI_GetThemeColor ( $hWnd, $sClass, $iPart, $iState, $iProp )
-; Parameters.....: $hWnd   - Handle of the window for which theme data is required.
-;                  $sClass - String that contains a semicolon-separated list of classes. For example, "BUTTON", "TAB", etc.
-;                  $iPart  - Value that specifies the part that contains the color property.
-;                  $iState - Value that specifies the state of the part.
-;                  $iProp  - Value that specifies the property to retrieve.
-; Return values..: Success - The received color, in RGB.
-;                  Failure - (-1) and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Syntax.........: _WinAPI_GetThemeColor ( $hTheme, $iPartId, $iStateId, $iPropId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that contains the color property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+; Return values..: Success   - The received color, in RGB.
+;                  Failure   - (-1) and sets the @error flag to non-zero, @extended flag may contain a COM error code.
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: None
@@ -7642,24 +9248,262 @@ EndFunc   ;==>_WinAPI_GetThemeAppProperties
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_GetThemeColor($hWnd, $sClass, $iPart, $iState, $iProp)
+Func _WinAPI_GetThemeColor($hTheme, $iPartId, $iStateId, $iPropId)
 
-	Local $hTheme = DllCall('uxtheme.dll', 'ptr', 'OpenThemeData', 'hwnd', $hWnd, 'wstr', $sClass)
-	Local $Ret = DllCall('uxtheme.dll', 'lresult', 'GetThemeColor', 'ptr', $hTheme[0], 'int', $iPart, 'int', $iState, 'int', $iProp, 'dword*', 0)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeColor', 'ptr', $hTheme, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'dword*', 0)
 
 	If @error Then
-		$Ret = -1
+		Return SetError(1, 0, -1)
 	Else
 		If $Ret[0] Then
-			$Ret = $Ret[0]
+			Return SetError(1, $Ret[0], -1)
 		EndIf
 	EndIf
-	DllCall('uxtheme.dll', 'lresult', 'CloseThemeData', 'ptr', $hTheme[0])
-	If Not IsArray($Ret) Then
-		Return SetError(1, $Ret, -1)
-	EndIf
-	Return SetError(0, 0, __IsRGB($Ret[5]))
+	Return __IsRGB($Ret[5])
 EndFunc   ;==>_WinAPI_GetThemeColor
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemeDocumentationProperty
+; Description....: Retrieves the value for a theme property from the documentation section of the specified theme file.
+; Syntax.........: _WinAPI_GetThemeDocumentationProperty ( $sFile, $sProperty )
+; Parameters.....: $sFile     - The name of the theme file that will be opened to query for the property.
+;                  $sProperty - The name of the theme property to query. This parameter can be one of the following values.
+;
+;                               $SZ_THDOCPROP_AUTHOR
+;                               $SZ_THDOCPROP_CANONICALNAME
+;                               $SZ_THDOCPROP_DISPLAYNAME
+;                               $SZ_THDOCPROP_TOOLTIP
+;
+; Return values..: Success    - The property string value.
+;                  Failure    - Empty string and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemeDocumentationProperty
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemeDocumentationProperty($sFile, $sProperty)
+
+	Local $tData = DllStructCreate('wchar[1024]')
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeDocumentationProperty', 'wstr', $sFile, 'wstr', $sProperty, 'ptr', DllStructGetPtr($tData), 'int', 1024)
+
+	If @error Then
+		Return SetError(1, 0, '')
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], '')
+		EndIf
+	EndIf
+	Return DllStructGetData($tData, 1)
+EndFunc   ;==>_WinAPI_GetThemeDocumentationProperty
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemeFont
+; Description....: Retrieves the value of a font property.
+; Syntax.........: _WinAPI_GetThemeFont ( $hTheme, $iPartId, $iStateId, $iPropId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that contains the font property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+; Return values..: Success   - $tagLOGFONT structure that contains a font property value.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemeFont
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemeFont($hTheme, $iPartId, $iStateId, $iPropId)
+
+	Local $tLOGFONT = DllStructCreate($tagLOGFONT)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeFont', 'ptr', $hTheme, 'hwnd', 0, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'ptr', DllStructGetPtr($tLOGFONT))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tLOGFONT
+EndFunc   ;==>_WinAPI_GetThemeFont
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemeInt
+; Description....: Retrieves the value of an int property.
+; Syntax.........: _WinAPI_GetThemeInt ( $hTheme, $iPartId, $iStateId, $iPropId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that contains the int property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+; Return values..: Success   - The retrieved value.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemeInt
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemeInt($hTheme, $iPartId, $iStateId, $iPropId)
+
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeInt', 'ptr', $hTheme, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'int*', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $Ret[5]
+EndFunc   ;==>_WinAPI_GetThemeInt
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemeMargins
+; Description....: Retrieves the value of a MARGINS property.
+; Syntax.........: _WinAPI_GetThemeMargins ( $hTheme, $iPartId, $iStateId, $iPropId, $hDC, $tRECT)
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that contains the MARGINS property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+;                  $hDC      - Handle to a device context to select fonts into.
+;                  $tRECT    - $tagRECT structure that contains the rectangle that specifies the area to be drawn into.
+; Return values..: Success   - $tagMARGINS structure that contains a margins value.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemeMargins
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemeMargins($hTheme, $iPartId, $iStateId, $iPropId, $hDC, $tRECT)
+
+	Local $tMARGINS = DllStructCreate($tagMARGINS)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeMargins', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'ptr', DllStructGetPtr($tRECT), 'ptr', DllStructGetPtr($tMARGINS))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tMARGINS
+EndFunc   ;==>_WinAPI_GetThemeMargins
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemePartSize
+; Description....: Calculates the original size of the part defined by a visual style.
+; Syntax.........: _WinAPI_GetThemePartSize ( $hTheme, $iPartId, $iStateId, $hDC, $tRECT, $iType )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part part to calculate the size of.
+;                  $iStateId - The state of the part.
+;                  $hDC      - Handle to a device context to select fonts into.
+;                  $tRECT    - $tagRECT structure that contains the rectangle used for the part drawing destination.
+;                  $iType    - The type of size to retrieve. This parameter can be one of the following values.
+;
+;                              $TS_MIN
+;                              $TS_TRUE
+;                              $TS_DRAW
+;
+; Return values..: Success   - $tagSIZE structure that contains a dimensions of the specified part.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemePartSize
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemePartSize($hTheme, $iPartId, $iStateId, $hDC, $tRECT, $iType)
+
+	Local $tSIZE = DllStructCreate($tagSIZE)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemePartSize', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'ptr', DllStructGetPtr($tRECT), 'int', $iType, 'ptr', DllStructGetPtr($tSIZE))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tSIZE
+EndFunc   ;==>_WinAPI_GetThemePartSize
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemePosition
+; Description....: Retrieves the value of a position property.
+; Syntax.........: _WinAPI_GetThemePosition ( $hTheme, $iPartId, $iStateId, $iPropId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part that contains the position property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+; Return values..: Success   - $tagPOINT structure that contains a position value.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemePosition
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemePosition($hTheme, $iPartId, $iStateId, $iPropId)
+
+	Local $tPOINT = DllStructCreate($tagPOINT)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemePosition', 'ptr', $hTheme, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'ptr', DllStructGetPtr($tPOINT))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tPOINT
+EndFunc   ;==>_WinAPI_GetThemePosition
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetThemeRect
+; Description....: Retrieves the value of a RECT property.
+; Syntax.........: _WinAPI_GetThemeRect ( $hTheme, $iPartId, $iStateId, $iPropId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part containing the RECT property.
+;                  $iStateId - The state of the part.
+;                  $iPropId  - The property to retrieve.
+; Return values..: Success   - $tagRECT structure that contains a rectangle.
+;                  Failure   - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetThemeRect
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetThemeRect($hTheme, $iPartId, $iStateId, $iPropId)
+
+	Local $tRECT = DllStructCreate($tagRECT)
+	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeRect', 'ptr', $hTheme, 'int', $iPartId, 'int', $iStateId, 'int', $iPropId, 'ptr', DllStructGetPtr($tRECT))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tRECT
+EndFunc   ;==>_WinAPI_GetThemeRect
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetTickCount
@@ -7687,6 +9531,31 @@ Func _WinAPI_GetTickCount()
 	EndIf
     Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetTickCount
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetTickCount64
+; Description....: Retrieves the number of milliseconds that have elapsed since the system was started.
+; Syntax.........: _WinAPI_GetTickCount64 ( )
+; Parameters.....: None
+; Return values..: Success - The number of milliseconds that have elapsed since the system was started.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ GetTickCount64
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetTickCount64()
+
+	Local $Ret = DllCall('kernel32.dll', 'uint64', 'GetTickCount64')
+
+    If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+    Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetTickCount64
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetTimeFormat
@@ -7764,6 +9633,74 @@ Func _WinAPI_GetTopWindow($hWnd)
 EndFunc   ;==>_WinAPI_GetTopWindow
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetUpdateRect
+; Description....: Retrieves the coordinates of the rectangle that completely encloses the update region of the specified window.
+; Syntax.........: _WinAPI_GetUpdateRect ( $hWnd [, $fErase] )
+; Parameters.....: $hWnd   - Handle to the window whose update region is to be retrieved.
+;                  $fErase - Specifies whether the background in the update region is to be erased, valid values:
+;                  |TRUE   - The background is erased. (Default)
+;                  |FALSE  - The background remains unchanged.
+; Return values..: Success - $tagRECT structure that contains the coordinates of the enclosing rectangle, in device units.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The update rectangle retrieved by the _WinAPI_BeginPaint() function is identical to that retrieved by
+;                  _WinAPI_GetUpdateRect()
+;
+;                  _WinAPI_BeginPaint() automatically validates the update region, so any call to _WinAPI_GetUpdateRect() made
+;                   immediately after the call to _WinAPI_BeginPaint() retrieves an empty update region.
+; Related........:
+; Link...........: @@MsdnLink@@ GetUpdateRect
+; Example........: YesNULLREGION
+; ===============================================================================================================================
+
+Func _WinAPI_GetUpdateRect($hWnd, $fErase = 1)
+
+	Local $tRECT = DllStructCreate($tagRECT)
+	Local $Ret = DllCall('user32.dll', 'int', 'GetUpdateRect', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tRECT), 'int', $fErase)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $tRECT
+EndFunc   ;==>_WinAPI_GetUpdateRect
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetUpdateRgn
+; Description....: Retrieves the update region of a window by copying it into the specified region.
+; Syntax.........: _WinAPI_GetUpdateRgn ( $hWnd, $hRgn [, $fErase] )
+; Parameters.....: $hWnd   - Handle to the window with an update region that is to be retrieved.
+;                  $hRgn   - Handle to the region to receive the update region.
+;                  $fErase - Specifies whether the background in the update region is to be erased, valid values:
+;                  |TRUE   - The background is erased. (Default)
+;                  |FALSE  - The background remains unchanged.
+; Return values..: Success - The value that indicates the complexity of the resulting region; it can be one of the following values.
+;
+;                            $COMPLEXREGION
+;                            $NULLREGION
+;                            $SIMPLEREGION
+;
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_BeginPaint() automatically validates the update region, so any call to _WinAPI_GetUpdateRgn() made
+;                  immediately after the call to _WinAPI_BeginPaint() retrieves an empty update region.
+; Related........:
+; Link...........: @@MsdnLink@@ GetUpdateRgn
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetUpdateRgn($hWnd, $hRgn, $fErase = 1)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'GetUpdateRgn', 'hwnd', $hWnd, 'ptr', $hRgn, 'int', $fErase)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetUpdateRgn
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetUserDefaultLCID
 ; Description....: Returns the locale identifier (LCID) for the user default locale.
 ; Syntax.........: _WinAPI_GetUserDefaultLCID ( )
@@ -7787,6 +9724,38 @@ Func _WinAPI_GetUserDefaultLCID()
 	EndIf
     Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetUserDefaultLCID
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetVersion
+; Description....: Retrieves version of the current operating system.
+; Syntax.........: _WinAPI_GetVersion ( )
+; Parameters.....: None
+; Return values..: Success - The string containing the current OS version.
+;
+;                            "6.1" - Windows 7 / Windows Server 2008 R2
+;                            "6.0" - Windows Server 2008 / Windows Vista
+;                            "5.2" - Windows Server 2003 R2 / Windows Home Server / Windows Server 2003 / Windows XP Professional x64 Edition
+;                            "5.1" - Windows XP
+;                            "5.0" - Windows 2000
+;
+;                  Failure - Empty string and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetVersion()
+
+	Local $tOSVERSIONINFOEX = _WinAPI_GetVersionEx()
+
+	If @error Then
+		Return SetError(1, 0, '')
+	EndIf
+	Return DllStructGetData($tOSVERSIONINFOEX, 'MajorVersion') & '.' & DllStructGetData($tOSVERSIONINFOEX, 'MinorVersion')
+EndFunc   ;==>_WinAPI_GetVersion
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetVersionEx
@@ -7925,7 +9894,7 @@ Func _WinAPI_GetWorkArea()
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
-	Return SetError(0, 0, $tRECT)
+	Return $tRECT
 EndFunc   ;==>_WinAPI_GetWorkArea
 
 ; #FUNCTION# ====================================================================================================================
@@ -7994,7 +9963,7 @@ Func _WinAPI_GradientFill($hDC, $aVertex, $iStart = 0, $iEnd = -1, $fRotate = 0)
 	For $i = $iStart To $iEnd
 		$Struct &= 'ushort[8];'
 	Next
-	$tVertex = DllStructCreate(StringTrimRight($Struct, 1))
+	$tVertex = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -8020,6 +9989,36 @@ Func _WinAPI_GradientFill($hDC, $aVertex, $iStart = 0, $iEnd = -1, $fRotate = 0)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_GradientFill
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_HideCaret
+; Description....: Creates a new shape for the system caret and assigns ownership of the caret to the specified window.
+; Syntax.........: _WinAPI_HideCaret ( $hWnd )
+; Parameters.....: $hWnd   - Handle to the window that owns the caret. If this parameter is 0, _WinAPI_HideCaret() searches the
+;                            current task for the window that owns the caret.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_HideCaret() hides the caret only if the specified window owns the caret. If the specified window does
+;                  not own the caret, _WinAPI_HideCaret() does nothing and returns 0.
+;
+;                  Hiding is cumulative. If your application calls _WinAPI_HideCaret() five times in a row, it must also call
+;                  _WinAPI_ShowCaret() five times before the caret is displayed.
+; Related........:
+; Link...........: @@MsdnLink@@ HideCaret
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_HideCaret($hWnd)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'HideCaret', 'hwnd', $hWnd)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_HideCaret
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_HiDWord
@@ -8296,7 +10295,7 @@ Func _WinAPI_IsDoorOpen($sDrive)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 6, 6)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 6, 6)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -8403,6 +10402,37 @@ Func _WinAPI_IsIconic($hWnd)
 EndFunc   ;==>_WinAPI_IsIconic
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_IsLoadKBLayout
+; Description....: Determines whether the specified input locale loaded into the system.
+; Syntax.........: _WinAPI_IsLoadKBLayout ( $iLanguage )
+; Parameters.....: $iLanguage - The name of the input locale identifier (LCID).
+; Return values..: Success    - 1 - The input locale is loaded.
+;                               0 - Otherwise.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_IsLoadKBLayout($iLanguage)
+
+	Local $Layout = _WinAPI_GetKeyboardLayoutList()
+
+	If Not IsArray($Layout) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = 1 To $Layout[0]
+		If $Layout[$i] = $iLanguage Then
+			Return 1
+		EndIf
+	Next
+	Return 0
+EndFunc   ;==>_WinAPI_IsLoadKBLayout
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_IsNetworkAlive
 ; Description....: Determines whether or not a local system is connected to a network, and identifies the type of network connection.
 ; Syntax.........: _WinAPI_IsNetworkAlive ( )
@@ -8501,6 +10531,32 @@ Func _WinAPI_IsProcessInJob($hProcess, $hJob = 0)
 EndFunc   ;==>_WinAPI_IsProcessInJob
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_IsProcessorFeaturePresent
+; Description....: Determines whether the specified processor feature is supported by the current computer.
+; Syntax.........: _WinAPI_IsProcessorFeaturePresent ( $iFeature )
+; Parameters.....: $iFeature - The processor feature to be tested. This parameter can be one of the $PF_... constants.
+; Return values..: Success   - 1 - The feature is supported.
+;                              0 - Otherwise.
+;                  Failure   - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ IsProcessorFeaturePresent
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_IsProcessorFeaturePresent($iFeature)
+
+	Local $Ret = DllCall('kernel32.dll', 'int', 'IsProcessorFeaturePresent', 'dword', $iFeature)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_IsProcessorFeaturePresent
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_IsRectEmpty
 ; Description....: Determines whether the specified rectangle is empty.
 ; Syntax.........: _WinAPI_IsRectEmpty ( $tRECT )
@@ -8555,6 +10611,61 @@ Func _WinAPI_IsThemeActive()
 EndFunc   ;==>_WinAPI_IsThemeActive
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_IsThemeBackgroundPartiallyTransparent
+; Description....: Retrieves whether the background specified by the visual style has transparent pieces or alpha-blended pieces.
+; Syntax.........: _WinAPI_IsThemeBackgroundPartiallyTransparent ( $hTheme, $iPartId, $iStateId )
+; Parameters.....: $hTheme   - Handle to a window's specified theme data.
+;                  $iPartId  - The part.
+;                  $iStateId - The state of the part.
+; Return values..: Success   - 1 - The theme-specified background has transparent pieces or alpha-blended pieces.
+;                              0 - Otherwise.
+;                  Failure   - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ IsThemeBackgroundPartiallyTransparent
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_IsThemeBackgroundPartiallyTransparent($hTheme, $iPartId, $iStateId)
+
+	Local $Ret = DllCall('uxtheme.dll', 'int', 'IsThemeBackgroundPartiallyTransparent', 'ptr', $hTheme, 'int', $iPartId, 'int', $iStateId)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_IsThemeBackgroundPartiallyTransparent
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_IsThemePartDefined
+; Description....: Retrieves whether a visual style has defined parameters for the specified part.
+; Syntax.........: _WinAPI_IsThemePartDefined ( $hTheme, $iPartId )
+; Parameters.....: $hTheme  - Handle to a window's specified theme data.
+;                  $iPartId - The part.
+; Return values..: Success  - 1 - The theme has defined parameters for the specified $iPartId.
+;                             0 - Otherwise.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ IsThemePartDefined
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_IsThemePartDefined($hTheme, $iPartId)
+
+	Local $Ret = DllCall('uxtheme.dll', 'int', 'IsThemePartDefined', 'ptr', $hTheme, 'int', $iPartId, 'int', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_IsThemePartDefined
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_IsValidLocale
 ; Description....: Determines if the specified locale is installed or supported on the operating system.
 ; Syntax.........: _WinAPI_IsValidLocale ( $LCID [, $iFlag] )
@@ -8596,7 +10707,7 @@ EndFunc   ;==>_WinAPI_IsValidLocale
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
-; Remarks........: None
+; Remarks........: A child window receives input only if it is both enabled and visible.
 ; Related........:
 ; Link...........: @@MsdnLink@@ IsWindowEnabled
 ; Example........: Yes
@@ -8639,6 +10750,49 @@ Func _WinAPI_IsWindowUnicode($hWnd)
 EndFunc   ;==>_WinAPI_IsWindowUnicode
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_IsWow64Process
+; Description....: Determines whether the specified process is running under WOW64.
+; Syntax.........: _WinAPI_IsWow64Process ( [$PID] )
+; Parameters.....: $PID    - The PID of the process. Default (0) is the current process.
+; Return values..: Success - 1 - The process is running under WOW64.
+;                            0 - Otherwise.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ IsWow64Process
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_IsWow64Process($PID = 0)
+
+	If Not $PID Then
+		$PID = _WinAPI_GetCurrentProcessID()
+		If Not $PID Then
+			Return SetError(1, 0, 0)
+		EndIf
+	EndIf
+
+	Local $hProcess = DllCall('kernel32.dll', 'ptr', 'OpenProcess', 'dword', 0x00000400, 'int', 0, 'dword', $PID)
+
+	If (@error) Or (Not $hProcess[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Ret = DllCall('kernel32.dll', 'int', 'IsWow64Process', 'ptr', $hProcess[0], 'int*', 0)
+
+	If (@error) Or (Not $Ret[0]) Then
+		$Ret = 0
+	EndIf
+	_WinAPI_FreeHandle($hProcess[0])
+	If Not IsArray($Ret) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[2]
+EndFunc   ;==>_WinAPI_IsWow64Process
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_IsWritable
 ; Description....: Determines whether a disk is writable.
 ; Syntax.........: _WinAPI_IsWritable ( $sDrive )
@@ -8656,7 +10810,7 @@ EndFunc   ;==>_WinAPI_IsWindowUnicode
 
 Func _WinAPI_IsWritable($sDrive)
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 0, 0)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0, 0)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -8868,7 +11022,7 @@ EndFunc   ;==>_WinAPI_Keybd_Event
 
 Func _WinAPI_KillTimer($hWnd, $iTimerID)
 
-	Local $Ret = DllCall('user32.dll', 'int', 'KillTimer', 'hwnd', $hWnd, 'uint_int', $iTimerID)
+	Local $Ret = DllCall('user32.dll', 'int', 'KillTimer', 'hwnd', $hWnd, 'uint_ptr', $iTimerID)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -8954,6 +11108,93 @@ Func _WinAPI_LoadCursorFromFile($sFile)
 EndFunc   ;==>_WinAPI_LoadCursorFromFile
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_LoadIconWithScaleDown
+; Description....: Loads an icon and scales down a larger image instead of scaling up a smaller image.
+; Syntax.........: _WinAPI_LoadIconWithScaleDown ( $hInstance, $sName, $iWidth, $iHeight )
+; Parameters.....: $hInstance - Handle to the module of either a DLL or executable (.exe) file that contains the icon to be loaded.
+;                  $sName     - The information about the icon to load. If $hInstance is not 0, $sName specifies the icon resource
+;                               either by name or ordinal, otherwise, $sName specifies either the name of a standalone icon (.ico)
+;                               file or the identifier of a predefined icon to load.
+;
+;                               $IDI_APPLICATION
+;                               $IDI_ASTERISK
+;                               $IDI_ERROR
+;                               $IDI_EXCLAMATION
+;                               $IDI_HAND
+;                               $IDI_INFORMATION
+;                               $IDI_QUESTION
+;                               $IDI_SHIELD
+;                               $IDI_WARNING
+;                               $IDI_WINLOGO
+;
+;                  $iWidth    - The desired width, in pixels, of the icon.
+;                  $iHeight   - The desired height, in pixels, of the icon.
+; Return values..: Success    - The icon handle.
+;                  Failure    - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ LoadIconWithScaleDown
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_LoadIconWithScaleDown($hInstance, $sName, $iWidth, $iHeight)
+
+	Local $TypeOfName = 'ptr'
+
+	If IsString($sName) Then
+		$TypeOfName = 'wstr'
+	EndIf
+
+	Local $Ret = DllCall('comctl32.dll ', 'uint', 'LoadIconWithScaleDown', 'ptr', $hInstance, $TypeOfName, $sName, 'int', $iWidth, 'int', $iHeight, 'ptr*', 0)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $Ret[5]
+EndFunc   ;==>_WinAPI_LoadIconWithScaleDown
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_LoadKeyboardLayout
+; Description....: Loads a new input locale identifier into the system.
+; Syntax.........: _WinAPI_LoadKeyboardLayout ( $iLanguage [, $iFlag] )
+; Parameters.....: $iLanguage - The name of the input locale identifier to load (LCID).
+;                  $iFlag     - The flag that specifies how the input locale identifier is to be loaded. This parameter can be
+;                               one of the following values.
+;
+;                               $KLF_ACTIVATE
+;                               $KLF_NOTELLSHELL
+;                               $KLF_REORDER
+;                               $KLF_REPLACELANG
+;                               $KLF_SUBSTITUTE_OK
+;                               $KLF_SETFORPROCESS
+;
+; Return values..: Success    - The input locale identifier to the locale matched with the requested name.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ LoadKeyboardLayout
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_LoadKeyboardLayout($iLanguage, $iFlag = 0)
+
+	Local $Ret = DllCall('user32.dll', 'long', 'LoadKeyboardLayoutW', 'wstr', '0000' & Hex($iLanguage, 4), 'uint', $iFlag)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_LoadKeyboardLayout
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_LoadMedia
 ; Description....: Causes media to be loaded in a device.
 ; Syntax.........: _WinAPI_LoadMedia ( $sDrive )
@@ -8974,7 +11215,7 @@ Func _WinAPI_LoadMedia($sDrive)
 		Return SetError(1, 0, 0)
 	EndIf
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 2, 2)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0x80000000, 0x01)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -9040,7 +11281,7 @@ EndFunc   ;==>_WinAPI_LoadResource
 
 Func _WinAPI_LockDevice($sDrive, $fLock)
 
-	Local $hFile = _WinAPI_CreateFile('\\.\' & $sDrive, 2, 6, 6)
+	Local $hFile = _WinAPI_CreateFileEx('\\.\' & $sDrive, 3, 0xC0000000, 0x03)
 
 	If Not $hFile Then
 		Return SetError(1, 0, 0)
@@ -9223,6 +11464,57 @@ Func _WinAPI_LookupPrivilegeValue($sPrivilege)
 EndFunc   ;==>_WinAPI_LookupPrivilegeValue
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_MessageBoxCheck
+; Description....: Displays a message box that gives the user the option of suppressing further occurrences.
+; Syntax.........: _WinAPI_MessageBoxCheck ( $iType, $sTitle, $sText, $sRegVal [, $iDefault [, $hParent]] )
+; Parameters.....: $iType    - The flags that specify the contents and behavior of the message box.
+;
+;                              You must specify the buttons to be displayed by setting one and only one of the following flags.
+;
+;                              $MB_OK
+;                              $MB_OKCANCEL
+;                              $MB_YESNO
+;
+;                              You can display an optional icon by setting one and only one of the following flags.
+;
+;                              $MB_ICONEXCLAMATION
+;                              $MB_ICONHAND
+;                              $MB_ICONINFORMATION
+;                              $MB_ICONQUESTION
+;
+;                  $sTitle   - The string that contains the title of the message box.
+;                  $sText    - The string that contains the message to be displayed.
+;                  $sRegVal  - The string that contains a unique string value to associate with this message.
+;                  $iDefault - The value that the function returns when the user has opted not to have the message box displayed
+;                              again. If the user has not opted to suppress the message box, the message box is displayed and
+;                              the function ignores $iDefault.
+;                  $hParent  - The window handle to the message box's owner.
+; Return values..: Success   - If the user has already chosen to suppress the message box, the function immediately returns the
+;                              value assigned to $iDefault, otherwise, returns one of the $ID... constants.
+;                  Failure   - (-1) and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function records the message boxes that the user has chosen to suppress under the following registry key.
+;
+;                  HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\LowRegistry\DontShowMeThisDialogAgain
+;
+; Related........:
+; Link...........: @@MsdnLink@@ SHMessageBoxCheck
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_MessageBoxCheck($iType, $sTitle, $sText, $sRegVal, $iDefault = -1, $hParent = 0)
+
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'SHMessageBoxCheckW', 'hwnd', $hParent, 'wstr', $sText, 'wstr', $sTitle, 'uint', $iType, 'int', $iDefault, 'wstr', $sRegVal)
+
+	If @error Then
+		MsgBox(0, '', @error)
+		Return SetError(1, 0, -1)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_MessageBoxCheck
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_MoveFileEx
 ; Description....: Moves a file or directory, notifying the application of its progress through a callback function.
 ; Syntax.........: _WinAPI_MoveFileEx ( $sExistingFile, $sNewFile [, $iFlags [, $pProgressProc [, $pData] )
@@ -9322,11 +11614,11 @@ EndFunc   ;==>_WinAPI_OemToChar
 ; Parameters.....: $hDC      - Handle to the device context.
 ;                  $iXOffset - The number of logical units to move left or right.
 ;                  $iYOffset - The number of logical units to move up or down.
-; Return values..: Success   - The value specifies the new clipping region's complexity; it can be one of the following values.
+; Return values..: Success   - The value that specifies the new clipping region's complexity; it can be one of the following values.
 ;
+;                              $COMPLEXREGION
 ;                              $NULLREGION
 ;                              $SIMPLEREGION
-;                              $COMPLEXREGION
 ;
 ;                  Failure   - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -9381,11 +11673,11 @@ EndFunc   ;==>_WinAPI_OffsetRect
 ; Parameters.....: $hRgn     - Handle to the region to be moved.
 ;                  $iXOffset - The number of logical units to move left or right.
 ;                  $iYOffset - The number of logical units to move up or down.
-; Return values..: Success   - The value specifies the new clipping region's complexity; it can be one of the following values.
+; Return values..: Success   - The value that specifies the new clipping region's complexity; it can be one of the following values.
 ;
+;                              $COMPLEXREGION
 ;                              $NULLREGION
 ;                              $SIMPLEREGION
-;                              $COMPLEXREGION
 ;
 ;                  Failure   - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -9550,6 +11842,34 @@ Func _WinAPI_OpenSemaphore($sSemaphore, $iAccess = 0x00100000)
 EndFunc   ;==>_WinAPI_OpenSemaphore
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_OpenThemeData
+; Description....: Opens the theme data for a window and its associated class.
+; Syntax.........: _WinAPI_OpenThemeData ( $hWnd, $sClass )
+; Parameters.....: $hWnd   - Handle of the window for which theme data is required.
+;                  $sClass - The string that contains a semicolon-separated list of classes. This parameter may contain a list,
+;                            not just a single name, to provide the class an opportunity to get the best match between the
+;                            class and the current visual style.
+; Return values..: Success - The handle to the theme.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ OpenThemeData
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_OpenThemeData($hWnd, $sClass)
+
+	Local $Ret = DllCall('uxtheme.dll', 'ptr', 'OpenThemeData', 'hwnd', $hWnd, 'wstr', $sClass)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_OpenThemeData
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_PaintRgn
 ; Description....: Paints the specified region by using the brush currently selected into the device context.
 ; Syntax.........: _WinAPI_PaintRgn ( $hDC, $hRgn )
@@ -9574,6 +11894,43 @@ Func _WinAPI_PaintRgn($hDC, $hRgn)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_PaintRgn
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_PatBlt
+; Description....: Paints the specified rectangle using the brush that is currently selected into the specified device context.
+; Syntax.........: _WinAPI_PatBlt ( $hDC, $iX, $iY, $iWidth, $iHeight, $iRop )
+; Parameters.....: $hDC     - Handle to the device context.
+;                  $iX      - The x-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
+;                  $iY      - The y-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
+;                  $iWidth  - The width, in logical units, of the rectangle.
+;                  $iHeight - The height, in logical units, of the rectangle.
+;                  $iRop    - The raster operation code. This code can be one of the following values.
+;
+;                             $BLACKNESS
+;                             $DSTINVERT
+;                             $PATCOPY
+;                             $PATINVERT
+;                             $WHITENESS
+;
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ PatBlt
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_PatBlt($hDC, $iX, $iY, $iWidth, $iHeight, $iRop)
+
+	Local $Ret  = DllCall('gdi32.dll', 'int', 'PatBlt', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'int', $iWidth, 'int', $iHeight, 'dword', $iRop)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_PatBlt
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_PathCompactPath
@@ -9759,7 +12116,7 @@ Func _WinAPI_PathFindOnPath($sFile, $aDirs = 0, $iStart = 0, $iEnd = -1)
 		For $i = $iStart To $iEnd
 			$sDirs &= 'wchar[' & (StringLen($aDirs[$i]) + 1) & '];'
 		Next
-		$tDirs = DllStructCreate(StringTrimRight($sDirs, 1))
+		$tDirs = DllStructCreate($sDirs)
 		If Not @error Then
 			$tPtrs = DllStructCreate('ptr[' & ($iEnd - $iStart + 2) & ']')
 			$Count = 1
@@ -10113,7 +12470,7 @@ EndFunc   ;==>_WinAPI_PathRenameExtension
 Func _WinAPI_PathSearchAndQualify($sPath)
 
 	Local $tPath = DllStructCreate('wchar[1024]')
-	Local $Ret = DllCall('shlwapi.dll', 'int', 'PathSearchAndQualifyW', 'wstr', $sPath, 'ptr', DllStructGetPtr($tPath), 'int', 1024)
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'PathSearchAndQualifyW', 'wstr', StringStripWS($sPath, 7), 'ptr', DllStructGetPtr($tPath), 'int', 1024)
 
 	If @error Then
 		Return SetError(1, 0, $sPath)
@@ -10214,6 +12571,76 @@ Func _WinAPI_PickIconDlg($sIcon = '', $iIndex = 0, $hParent = 0)
 EndFunc   ;==>_WinAPI_PickIconDlg
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_PlaySound
+; Description....: Plays a sound specified by the given file name, resource, or system event.
+; Syntax.........: _WinAPI_PlaySound ( $sSound, $iFlags [, $hInstance] )
+; Parameters.....: $sSound    - The string that specifies the sound to play. The maximum length is 255 characters. If $sSound is
+;                               empty, any currently playing waveform sound is stopped.
+;                  $iFlags    - The flags for sound playing. This parameter can be one or more of the following values.
+;
+;                               $SND_APPLICATION
+;                               $SND_ALIAS
+;                               $SND_ALIAS_ID
+;                               $SND_ASYNC
+;                               $SND_FILENAME
+;                               $SND_LOOP
+;                               $SND_MEMORY
+;                               $SND_NODEFAULT
+;                               $SND_NOSTOP
+;                               $SND_NOWAIT
+;                               $SND_PURGE
+;                               $SND_RESOURCE
+;                               $SND_SYNC
+;
+;                               Three flags ($SND_ALIAS, $SND_FILENAME, and $SND_RESOURCE) determine whether the name is interpreted
+;                               as an alias for a system event, a file name, or a resource identifier. If none of these flags are
+;                               specified, _WinAPI_PlaySound() searches the registry or the WIN.INI file for an association with
+;                               the specified sound name. If an association is found, the sound event is played. If no association
+;                               is found in the registry, the name is interpreted as a file name.
+;
+;                               If the $SND_ALIAS_ID flag is specified in $iFlags, the $sSound parameter must be one of the
+;                               $SND_ALIAS_... values.
+;
+;                               (See MSDN for more information)
+;
+;                  $hInstance - Handle to the executable file that contains the resource to be loaded. If $iFlags does not
+;                               contain the $SND_RESOURCE, this parameter will be ignored.
+; Return values..: Success    - 1.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ PlaySound
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_PlaySound($sSound, $iFlags, $hInstance = 0)
+
+	Local $TypeOfSound = 'ptr'
+
+
+	If Not BitAND($iFlags, $SND_MEMORY) Then
+		$sSound = StringStripWS($sSound, 3)
+		If Not $sSound Then
+			$sSound = 0
+		Else
+			$TypeOfSound = 'wstr'
+			If (BitAND($iFlags, $SND_RESOURCE)) And (StringIsDigit($sSound)) Then
+				$sSound = '#' & $sSound
+			EndIf
+		EndIf
+	EndIf
+
+	Local $Ret = DllCall('winmm.dll', 'int', 'PlaySoundW', $TypeOfSound, $sSound, 'ptr', $hInstance, 'dword', $iFlags)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_PlaySound
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_Polygon
 ; Description....: Draws a polygon consisting of two or more vertices connected by straight lines.
 ; Syntax.........: _WinAPI_Polygon ( $hDC,  $aPoint [, $iStart [, $iEnd]] )
@@ -10249,7 +12676,7 @@ Func _WinAPI_Polygon($hDC, $aPoint, $iStart = 0, $iEnd = -1)
 	For $i = $iStart To $iEnd
 		$Struct &= 'int[2];'
 	Next
-	$tData = DllStructCreate(StringTrimRight($Struct, 1))
+	$tData = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -10399,8 +12826,8 @@ EndFunc   ;==>_WinAPI_PtInRegion
 ; Description....: Retrieves the current mapping for a particular MS-DOS device name.
 ; Syntax.........: _WinAPI_QueryDosDevice ( $sDevice )
 ; Parameters.....: $sDevice - The name of the MS-DOS device.
-; Return values..: Success  - The current mapping for the specified device. If the $sDevice parameter is empty string, return
-;                             array of all existing MS-DOS device names (for example, \Device\HarddiskVolume1 or \Device\Floppy0).
+; Return values..: Success  - The current mapping for the specified device. If the $sDevice parameter is empty string, return array
+;                             of all existing MS-DOS device names (for example, "\Device\HarddiskVolume1" or "\Device\Floppy0").
 ;                             The zeroth array element contains the number of names.
 ;                  Failure  - Empty string and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -10420,14 +12847,14 @@ Func _WinAPI_QueryDosDevice($sDevice)
 		$sDevice = 0
 	EndIf
 
-	Local $tData = DllStructCreate('wchar[16384]')
-	Local $Ret = DllCall('kernel32.dll', 'dword', 'QueryDosDeviceW', $TypeOfDevice, $sDevice, 'ptr', DllStructGetPtr($tData), 'dword', 16384)
+	Local $tData = DllStructCreate('wchar[' & (32 * 1024 / 2) & ']'), $pData = DllStructGetPtr($tData)
+	Local $Ret = DllCall('kernel32.dll', 'dword', 'QueryDosDeviceW', $TypeOfDevice, $sDevice, 'ptr', $pData, 'dword', 16384)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
 
-	Local $Result = _WinAPI_StructToArray($tData, 1)
+	Local $Result = _WinAPI_StructToArray($pData)
 
 	If IsString($sDevice) Then
 		$Result = $Result[1]
@@ -11098,7 +13525,10 @@ EndFunc   ;==>_WinAPI_RegFlushKey
 ;                                $MOD_CONTROL
 ;                                $MOD_SHIFT
 ;                                $MOD_WIN
-;                                $MOD_NOREPEAT (Required Windows 7 and later)
+;
+;                                *Windows 7 or above
+;
+;                                $MOD_NOREPEAT
 ;
 ;                  $vkCode     - Specifies the virtual-key code of the hot key ($VK_...).
 ; Return values..: Success     - 1.
@@ -11763,7 +14193,7 @@ Func _WinAPI_SendMessageTimeout($hWnd, $iMessage, $wParam = 0, $lParam = 0, $iTi
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, -1)
 	EndIf
-	Return SetError(0, 0, $Ret[7])
+	Return $Ret[7]
 EndFunc   ;==>_WinAPI_SendMessageTimeout
 
 ; #FUNCTION# ====================================================================================================================
@@ -11878,6 +14308,65 @@ Func _WinAPI_SetCompression($sPath, $iCompression)
 EndFunc   ;==>_WinAPI_SetCompression
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_SetCaretBlinkTime
+; Description....: Sets the caret blink time.
+; Syntax.........: _WinAPI_SetCaretBlinkTime ( $iDuration )
+; Parameters.....: $iDuration - The new blink time, in milliseconds. If this parameter is (-1), caret does not blink.
+; Return values..: Success    - The previous blink time, in milliseconds.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The user can set the blink time using the Control Panel. Applications should respect the setting that the user
+;                  has chosen. This function should only be used by application that allow the user to set the blink time, such
+;                  as a Control Panel applet.
+; Related........:
+; Link...........: @@MsdnLink@@ SetCaretBlinkTime
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_SetCaretBlinkTime($iDuration)
+
+	Local $Prev = _WinAPI_GetCaretBlinkTime()
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Ret = DllCall('user32.dll', 'int', 'SetCaretBlinkTime', 'uint', $iDuration)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Prev
+EndFunc   ;==>_WinAPI_SetCaretBlinkTime
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_SetCaretPos
+; Description....: Moves the caret to the specified coordinates.
+; Syntax.........: _WinAPI_SetCaretPos ( $iX, $iY )
+; Parameters.....: $iX     - The new x-coordinate of the caret.
+;                  $iY     - The new y-coordinate of the caret.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ SetCaretPos
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_SetCaretPos($iX, $iY)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'SetCaretPos', 'int', $iX, 'int', $iY)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_SetCaretPos
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetCurrentDirectory
 ; Description....: Changes the current directory for the current process.
 ; Syntax.........: _WinAPI_SetCurrentDirectory ( $sDir )
@@ -11939,7 +14428,7 @@ EndFunc   ;==>_WinAPI_SetDefaultPrinter
 ; Syntax.........: _WinAPI_SetDCBrushColor ( $hDC, $iRGB )
 ; Parameters.....: $hDC    - Handle to the device context.
 ;                  $iRGB   - The new brush color, in RGB.
-; Return values..: Success - The value specifies the previous DC brush color, in RGB.
+; Return values..: Success - The value that specifies the previous DC brush color, in RGB.
 ;                  Failure - (-1) and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -11966,7 +14455,7 @@ EndFunc   ;==>_WinAPI_SetDCBrushColor
 ; Syntax.........: _WinAPI_SetDCPenColor ( $hDC, $iRGB )
 ; Parameters.....: $hDC    - Handle to the device context.
 ;                  $iRGB   - The new pen color, in RGB.
-; Return values..: Success - The value specifies the previous DC pen color, in RGB.
+; Return values..: Success - The value that specifies the previous DC pen color, in RGB.
 ;                  Failure - (-1) and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -12120,10 +14609,10 @@ EndFunc   ;==>_WinAPI_SetInformationJobObject
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetKeyboardLayout
-; Description....: Loads a new input locale identifier to the specified window.
+; Description....: Sets an input locale identifier to the specified window.
 ; Syntax.........: _WinAPI_SetKeyboardLayout ( $hWnd, $iLanguage )
-; Parameters.....: $hWnd      - Handle to the window to load input locale identifier.
-;                  $iLanguage - One of the following LCID constants.
+; Parameters.....: $hWnd      - Handle to the window to set input locale identifier.
+;                  $iLanguage - The name of the input locale identifier (LCID).
 ;
 ;                               0x0436 - Afrikaans
 ;                               0x041C - Albanian
@@ -12301,24 +14790,25 @@ EndFunc   ;==>_WinAPI_SetInformationJobObject
 ;                  Failure    - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
-; Remarks........: None
+; Remarks........: If the input locale identifier corresponding to $iLanguage parameter is not loaded into the system at the time
+;                  of function call, _WinAPI_SetKeyboardLayout() is fails.
 ; Related........:
-; Link...........: @@MsdnLink@@ LoadKeyboardLayout
+; Link...........: None
 ; Example........: Yes
 ; ===============================================================================================================================
 
 Func _WinAPI_SetKeyboardLayout($hWnd, $iLanguage)
 
-	If Not _WinAPI_IsWindow($hWnd) Then
+	If Not _WinAPI_IsLoadKBLayout($iLanguage) Then
 		Return SetError(1, 0, 0)
 	EndIf
 
-	Local $Ret = DllCall('user32.dll', 'long', 'LoadKeyboardLayout', 'str', '0000' & Hex($iLanguage, 4), 'int', 0)
+	Local $hLocale = _WinAPI_LoadKeyboardLayout($iLanguage)
 
-	If (@error) Or (Not $Ret[0]) Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-	DllCall('user32.dll', 'ptr', 'SendMessage', 'hwnd', $hWnd, 'uint', 0x0050, 'int', 1, 'int', $Ret[0])
+	DllCall('user32.dll', 'none', 'SendMessage', 'hwnd', $hWnd, 'uint', 0x0050, 'uint', 1, 'long', $hLocale)
 	Return SetError(0, 0, 1)
 EndFunc   ;==>_WinAPI_SetKeyboardLayout
 
@@ -12492,7 +14982,7 @@ EndFunc   ;==>_WinAPI_SetPixel
 ;                            $R2_WHITE
 ;                            $R2_XORPEN
 ;
-; Return values..: Success - The value specifies the previous mix mode.
+; Return values..: Success - The value that specifies the previous mix mode.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -12670,7 +15160,7 @@ EndFunc   ;==>_WinAPI_SetThemeAppProperties
 
 Func _WinAPI_SetTimer($hWnd, $iTimerID, $iElapse, $pTimerFunc)
 
-	Local $Ret = DllCall('user32.dll', 'int', 'SetTimer', 'hwnd', $hWnd, 'uint_ptr', $iTimerID, 'uint', $iElapse, 'ptr', $pTimerFunc)
+	Local $Ret = DllCall('user32.dll', 'uint_ptr', 'SetTimer', 'hwnd', $hWnd, 'uint_ptr', $iTimerID, 'uint', $iElapse, 'ptr', $pTimerFunc)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -12710,30 +15200,41 @@ Func _WinAPI_SetVolumeMountPoint($sPath, $GUID)
 EndFunc   ;==>_WinAPI_SetVolumeMountPoint
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_ShareFolderDlg
-; Description....: Displays the Folder Sharing tab on the properties sheet for the specified folder.
-; Syntax.........: _WinAPI_ShareFolderDlg ( $sPath [, $hParent] )
-; Parameters.....: $sPath   - The path to the folder that displays its Folder Sharing tab.
-;                  $hParent - Handle to a parent window for the property sheet.
-; Return values..: Success  - 1.
-;                  Failure  - 0 and sets the @error flag to non-zero.
+; Name...........: _WinAPI_ShellAddToRecentDocs
+; Description....: Adds a file to the most recently and frequently item list.
+; Syntax.........: _WinAPI_ShellAddToRecentDocs ( $sFile )
+; Parameters.....: $sFile  - The name of the file to be added. Set this parameter to empty string to clear all usage data on all items.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: None
 ; Related........:
-; Link...........: @@MsdnLink@@ ShowShareFolderUI
+; Link...........: @@MsdnLink@@ SHAddToRecentDocs
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_ShareFolderDlg($sPath, $hParent = 0)
+Func _WinAPI_ShellAddToRecentDocs($sFile)
 
-	Local $Ret = DllCall('ntshrui.dll', 'int', 'ShowShareFolderUIW', 'hwnd', $hParent, 'wstr', $sPath)
+	Local $TypeOfFile = 'wstr'
+
+	$sFile = _WinAPI_PathSearchAndQualify($sFile)
+	If $sFile Then
+		If Not FileExists($sFile) Then
+			Return SetError(1, 0, 0)
+		EndIf
+	Else
+		$TypeOfFile = 'ptr'
+		$sFile = 0
+	EndIf
+
+	Local $Ret = DllCall('shell32.dll', 'none', 'SHAddToRecentDocs', 'uint', 3, $TypeOfFile, $sFile)
 
 	If @error Then
-		Return SetError(1, 0, 0)
+		Return SetError(2, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_ShareFolderDlg
+EndFunc   ;==>_WinAPI_ShellAddToRecentDocs
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellChangeNotify
@@ -12902,6 +15403,106 @@ Func _WinAPI_ShellChangeNotify($iEvent, $iFlags, $iItem1 = 0, $iItem2 = 0)
 EndFunc   ;==>_WinAPI_ShellChangeNotify
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellChangeNotifyDeregister
+; Description....: Unregisters the client's window.
+; Syntax.........: _WinAPI_ShellChangeNotifyDeregister ( $ID )
+; Parameters.....: $ID     - The value that specifies the registration ID returned by _WinAPI_ShellChangeNotifyRegister().
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ SHChangeNotifyDeregister
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellChangeNotifyDeregister($ID)
+
+	Local $Ret = DllCall('shell32.dll', 'int', 'SHChangeNotifyDeregister', 'ulong', $ID)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_ShellChangeNotifyDeregister
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellChangeNotifyRegister
+; Description....: Registers a window to receive notifications from the file system or Shell.
+; Syntax.........: _WinAPI_ShellChangeNotifyRegister ( $hWnd, $iMsg, $iEvents, $iSources, $aPaths [, $fRecursive] )
+; Parameters.....: $hWnd       - Handle to the window that receives the change or notification messages.
+;                  $iMsg       - Message to be posted to the window procedure.
+;                  $iEvents    - Change notification events for which to receive notification. This parameter can be one or more
+;                                of the $SHCNE_... values.
+;                  $iSources   - One or more of the following values that indicate the type of events for which to receive
+;                                notifications.
+;
+;                                $SHCNRF_INTERRUPTLEVEL
+;                                $SHCNRF_SHELLLEVEL
+;                                $SHCNRF_RECURSIVEINTERRUPT
+;                                $SHCNRF_NEWDELIVERY
+;
+;                  $aPaths     - Single path or array of paths for which to receive notifications. These names should be
+;                                fully-qualified paths to prevent unexpected results.
+;                  $fRecursive - Specifies whether to post notifications for children paths in $aPaths parameter, valid values:
+;                  |TRUE       - Notifications would come from the folder's children.
+;                  |FALSE      - Notifications would come from the specified folder's only. (Default)
+; Return values..: Success     - The registration ID.
+;                  Failure     - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: When a change notification event is raised, the message indicated by $iMsg is delivered to the window specified
+;                  by the $hWnd parameter. (See example)
+;
+;                  For performance reasons, multiple notifications can be combined into a single notification. For example,
+;                  if a large number of $SHCNE_UPDATEITEM notifications are generated for files in the same folder, they can be
+;                  joined into a single $SHCNE_UPDATEDIR notification.
+; Related........:
+; Link...........: @@MsdnLink@@ SHChangeNotifyRegister
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellChangeNotifyRegister($hWnd, $iMsg, $iEvents, $iSources, $aPaths, $fRecursive = 0)
+
+	Local $tEntry, $Path = $aPaths, $Struct = ''
+
+	If IsArray($aPaths) Then
+		If UBound($aPaths, 2) Then
+			Return SetError(1, 0, 0)
+		EndIf
+	Else
+		Dim $aPaths[1] = [$Path]
+	EndIf
+	For $i = 0 To UBound($aPaths) - 1
+		If Not _WinAPI_PathIsDirectory($aPaths[$i]) Then
+			Return SetError(1, 0, 0)
+		EndIf
+	Next
+	For $i = 0 To UBound($aPaths) - 1
+		$Struct &= 'ptr;int;'
+	Next
+	$tEntry = DllStructCreate($Struct)
+	For $i = 0 To UBound($aPaths) - 1
+		$aPaths[$i] = _WinAPI_ShellILCreateFromPath(_WinAPI_PathSearchAndQualify($aPaths[$i]))
+		DllStructSetData($tEntry, 2 * $i + 1, $aPaths[$i])
+		DllStructSetData($tEntry, 2 * $i + 2, $fRecursive)
+	Next
+
+	Local $Ret = DllCall('shell32.dll', 'ulong', 'SHChangeNotifyRegister', 'hwnd', $hWnd, 'int', $iSources, 'long', $iEvents, 'uint', $iMsg, 'int', UBound($aPaths), 'ptr', DllStructGetPtr($tEntry))
+
+	If (Not @error) And ($Ret[0]) Then
+		$Ret = $Ret[0]
+	Else
+		$Ret = 0
+	EndIf
+	For $i = 0 To UBound($aPaths) - 1
+		_WinAPI_CoTaskMemFree($aPaths[$i])
+	Next
+	Return SetError(Number($Ret = 0), 0, $Ret)
+EndFunc   ;==>_WinAPI_ShellChangeNotifyRegister
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellEmptyRecycleBin
 ; Description....: Empties the Recycle Bin on the specified drive.
 ; Syntax.........: _WinAPI_ShellEmptyRecycleBin ( $sRoot [, $iFlags [, $hParent]] )
@@ -12928,7 +15529,7 @@ EndFunc   ;==>_WinAPI_ShellChangeNotify
 
 Func _WinAPI_ShellEmptyRecycleBin($sRoot, $iFlags = 0, $hParent = 0)
 
-	Local $Ret = DllCall('shell32.dll', 'int', 'SHEmptyRecycleBinW', 'hwnd', $hParent, 'wstr', $sRoot, 'dword', $iFlags)
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHEmptyRecycleBinW', 'hwnd', $hParent, 'wstr', $sRoot, 'dword', $iFlags)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -13118,7 +15719,7 @@ Func _WinAPI_ShellFileOperation($sFrom, $sTo, $iFunc, $iFlags, $sTitle = '', $hP
 			Return SetError($Ret[0], 0, 0)
 		EndIf
 	EndIf
-	Return SetError(0, 0, $tSHFILEOPSTRUCT)
+	Return $tSHFILEOPSTRUCT
 EndFunc   ;==>_WinAPI_ShellFileOperation
 
 ; #FUNCTION# ====================================================================================================================
@@ -13185,6 +15786,62 @@ Func _WinAPI_ShellGetFileInfo($sPath, $iFlags, $iAttributes, ByRef $tSHFILEINFO)
 EndFunc   ;==>_WinAPI_ShellGetFileInfo
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellGetKnownFolderPath
+; Description....: Retrieves the full path of a known folder identified.
+; Syntax.........: _WinAPI_ShellGetKnownFolderPath ( $GUID [, $iFlags [, $hToken]] )
+; Parameters.....: $GUID   - The GUID ($FOLDERID_...) that identifies the standard folders registered with the system.
+;                  $iFlags - The flags that specify special retrieval options. This parameter can be one or more of the following values.
+;
+;                            $KF_FLAG_CREATE
+;                            $KF_FLAG_DONT_VERIFY
+;                            $KF_FLAG_DONT_UNEXPAND
+;                            $KF_FLAG_NO_ALIAS
+;                            $KF_FLAG_INIT
+;                            $KF_FLAG_DEFAULT_PATH
+;                            $KF_FLAG_NOT_PARENT_RELATIVE
+;                            $KF_FLAG_SIMPLE_IDLIST
+;
+;                            *Windows 7 or above
+;
+;                            $KF_FLAG_ALIAS_ONLY
+;
+;                  $hToken - The access token that represents a particular user. If this parameter is 0, the function requests
+;                            the known folder for the current user. Assigning the $hToken parameter a value of (-1) indicates the
+;                            Default User. Note that access to the Default User folders requires administrator privileges.
+; Return values..: Success - The path of the known folder.
+;                  Failure - Empty string and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ SHGetKnownFolderPath
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellGetKnownFolderPath($GUID, $iFlags = 0, $hToken = 0)
+
+	Local $Ret, $Result, $tGUID, $tData
+
+	$tGUID = DllStructCreate($tagGUID)
+	$Ret = DllCall('ole32.dll', 'uint', 'CLSIDFromString', 'wstr', $GUID, 'ptr', DllStructGetPtr($tGUID))
+	If (@error) Or ($Ret[0]) Then
+		Return SetError(1, 0, '')
+	EndIf
+	$Ret  = DllCall('shell32.dll', 'uint', 'SHGetKnownFolderPath', 'ptr', DllStructGetPtr($tGUID), 'dword', $iFlags, 'ptr', $hToken, 'ptr*', 0)
+	If @error Then
+		Return SetError(1, 0, '')
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], '')
+		EndIf
+	EndIf
+	$tData = DllStructCreate('wchar[' & (_WinAPI_StrLen($Ret[4]) + 1) & ']', $Ret[4])
+	$Result = DllStructGetData($tData, 1)
+	_WinAPI_CoTaskMemFree($Ret[4])
+	Return $Result
+EndFunc   ;==>_WinAPI_ShellGetKnownFolderPath
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellGetPathFromIDList
 ; Description....: Converts an item identifier list to a file system path.
 ; Syntax.........: _WinAPI_ShellGetPathFromIDList ( $PIDL )
@@ -13236,7 +15893,7 @@ EndFunc   ;==>_WinAPI_ShellGetPathFromIDList
 ;                            $SSF_NONETCRAWLING
 ;                            $SSF_STARTPANELON
 ;
-;                            *Windows Vista and later
+;                            *Windows Vista or above
 ;
 ;                            $SSF_AUTOCHECKSELECT
 ;                            $SSF_ICONSONLY
@@ -13347,7 +16004,7 @@ EndFunc   ;==>_WinAPI_ShellGetSettings
 
 Func _WinAPI_ShellGetSpecialFolderLocation($CSIDL)
 
-	Local $Ret = DllCall('shell32.dll', 'int', 'SHGetSpecialFolderLocation', 'hwnd', 0, 'int', $CSIDL, 'ptr*', 0)
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHGetSpecialFolderLocation', 'hwnd', 0, 'int', $CSIDL, 'ptr*', 0)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -13389,6 +16046,54 @@ Func _WinAPI_ShellGetSpecialFolderPath($CSIDL, $fCreate = 0)
 EndFunc   ;==>_WinAPI_ShellGetSpecialFolderPath
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellGetStockIconInfo
+; Description....: Retrieves information about system-defined Shell icons.
+; Syntax.........: _WinAPI_ShellGetStockIconInfo ( $SIID, $iFlags )
+; Parameters.....: $SIID   - One of the $SIID_... constants that specifies which icon should be retrieved.
+;                  $iFlags - The flags that specify which information is requested. This parameter can be a combination of the
+;                            following values.
+;
+;                            $SHGSI_ICONLOCATION
+;                            $SHGSI_ICON
+;                            $SHGSI_SYSICONINDEX
+;                            $SHGSI_LINKOVERLAY
+;                            $SHGSI_SELECTED
+;                            $SHGSI_LARGEICON
+;                            $SHGSI_SMALLICON
+;                            $SHGSI_SHELLICONSIZE
+;
+; Return values..: Success - $tagSHSTOCKICONINFO structure that contains the requested information.
+;                  Failure - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: If this function returns an icon handle in the "hIcon" member of the $tagSHSTOCKICONINFO structure, you are
+;                  responsible for freeing the icon with _WinAPI_FreeIcon() when you no longer need it.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ SHGetStockIconInfo
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellGetStockIconInfo($SIID, $iFlags)
+
+	Local $tSHSTOCKICONINFO = DllStructCreate($tagSHSTOCKICONINFO)
+
+	DllStructSetData($tSHSTOCKICONINFO, 'Size', DllStructGetSize($tSHSTOCKICONINFO))
+
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHGetStockIconInfo', 'int', $SIID, 'uint', $iFlags, 'ptr', DllStructGetPtr($tSHSTOCKICONINFO))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tSHSTOCKICONINFO
+EndFunc   ;==>_WinAPI_ShellGetStockIconInfo
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellILCreateFromPath
 ; Description....: Retrieves a file's perceived type based on its extension.
 ; Syntax.........: _WinAPI_ShellILCreateFromPath ( $sPath )
@@ -13405,7 +16110,7 @@ EndFunc   ;==>_WinAPI_ShellGetSpecialFolderPath
 
 Func _WinAPI_ShellILCreateFromPath($sPath)
 
-	Local $Ret = DllCall('shell32.dll', 'int', 'SHILCreateFromPath', 'wstr', $sPath, 'ptr*', 0, 'dword*', 0)
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHILCreateFromPath', 'wstr', $sPath, 'ptr*', 0, 'dword*', 0)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -13452,6 +16157,93 @@ Func _WinAPI_ShellNotifyIcon($iMessage, $tNOTIFYICONDATA)
 EndFunc   ;==>_WinAPI_ShellNotifyIcon
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellObjectProperties
+; Description....: Invokes the Properties context menu command on a Shell object.
+; Syntax.........: _WinAPI_ShellObjectProperties ( $sPath [, $iType [, $sProperty [, $hParent]]] )
+; Parameters.....: $sPath     - The object name.
+;                  $iType     - The value that specifies the type of object.
+;
+;                               $SHOP_PRINTERNAME
+;                               $SHOP_FILEPATH
+;                               $SHOP_VOLUMEGUID
+;
+;                  $sProperty - The name of the property sheet page to be opened initially.
+;                  $hParent   - Handle of the parent window of the dialog box.
+; Return values..: Success    - 1.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ SHObjectProperties
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellObjectProperties($sPath, $iType = 2, $sProperty = '', $hParent = 0)
+
+	Local $TypeOfProperty = 'wstr'
+
+	If Not StringStripWS($sProperty, 3) Then
+		$TypeOfProperty = 'ptr'
+		$sProperty = 0
+	EndIf
+
+	Local $Ret = DllCall('shell32.dll', 'int', 'SHObjectProperties', 'hwnd', $hParent, 'dword', $iType, 'wstr', $sPath, $TypeOfProperty, $sProperty)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_ShellObjectProperties
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShellOpenWithDlg
+; Description....: Displays the Open With dialog box.
+; Syntax.........: _WinAPI_ShellOpenWithDlg ( $sFile [, $iFlags [, $hParent]] )
+; Parameters.....: $sFile   - The file name.
+;                  $iFlags  - The characteristics of the Open With dialog box. This parameter can be one or more of the following values.
+;
+;                             $OAIF_ALLOW_REGISTRATION
+;                             $OAIF_REGISTER_EXT
+;                             $OAIF_EXEC
+;                             $OAIF_FORCE_REGISTRATION
+;                             $OAIF_HIDE_REGISTRATION
+;                             $OAIF_URL_PROTOCOL
+;
+;                  $hParent - Handle of the parent window.
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero, @extended flag may contain a COM error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ SHOpenWithDialog
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShellOpenWithDlg($sFile, $iFlags = 0, $hParent = 0)
+
+	Local $tData = DllStructCreate('wchar[1024]')
+	Local $tOPENASINFO = DllStructCreate('ptr;ptr;dword')
+
+	DllStructSetData($tData, 1, $sFile)
+	DllStructSetData($tOPENASINFO, 1, DllStructGetPtr($tData))
+	DllStructSetData($tOPENASINFO, 2, 0)
+	DllStructSetData($tOPENASINFO, 3, $iFlags)
+
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHOpenWithDialog', 'hwnd', $hParent, 'ptr', DllStructGetPtr($tOPENASINFO))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_ShellOpenWithDlg
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellQueryRecycleBin
 ; Description....: Retrieves the size of the Recycle Bin and the number of items in it, for a specified drive.
 ; Syntax.........: _WinAPI_ShellQueryRecycleBin ( $sRoot )
@@ -13478,7 +16270,7 @@ Func _WinAPI_ShellQueryRecycleBin($sRoot)
 
 	DllStructSetData($tSHQUERYRBINFO, 1, DllStructGetSize($tSHQUERYRBINFO))
 
-	Local $Ret = DllCall('shell32.dll', 'int', 'SHQueryRecycleBinW', 'wstr', $sRoot, 'ptr', DllStructGetPtr($tSHQUERYRBINFO))
+	Local $Ret = DllCall('shell32.dll', 'uint', 'SHQueryRecycleBinW', 'wstr', $sRoot, 'ptr', DllStructGetPtr($tSHQUERYRBINFO))
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -13521,7 +16313,7 @@ EndFunc   ;==>_WinAPI_ShellQueryRecycleBin
 ;                            $SSF_NONETCRAWLING
 ;                            $SSF_STARTPANELON
 ;
-;                            *Windows Vista and later
+;                            *Windows Vista or above
 ;
 ;                            $SSF_AUTOCHECKSELECT
 ;                            $SSF_ICONSONLY
@@ -13619,6 +16411,37 @@ Func _WinAPI_ShellSetSettings($iFlags, $fSet)
 EndFunc   ;==>_WinAPI_ShellSetSettings
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShowCaret
+; Description....: Makes the caret visible on the screen at the caret's current position.
+; Syntax.........: _WinAPI_ShowCaret ( $hWnd )
+; Parameters.....: $hWnd   - Handle to the window that owns the caret. If this parameter is 0, _WinAPI_ShowCaret() searches the
+;                            current task for the window that owns the caret.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_ShowCaret() shows the caret only if the specified window owns the caret, the caret has a shape,
+;                  and the caret has not been hidden two or more times in a row. If one or more of these conditions is not met,
+;                  _WinAPI_ShowCaret() does nothing and returns 0.
+;
+;                  Hiding is cumulative. If your application calls _WinAPI_HideCaret() five times in a row, it must also call
+;                  _WinAPI_ShowCaret() five times before the caret reappears.
+; Related........:
+; Link...........: @@MsdnLink@@ ShowCaret
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShowCaret($hWnd)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'ShowCaret', 'hwnd', $hWnd)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_ShowCaret
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShowLastError
 ; Description....: Shows the last error code and message.
 ; Syntax.........: _WinAPI_ShowLastError ( )
@@ -13665,28 +16488,27 @@ Func _WinAPI_ShowOwnedPopups($hWnd, $fShow)
 EndFunc   ;==>_WinAPI_ShowOwnedPopups
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_ShowShareFolderUI
-; Description....: Displays the Folder Sharing tab on the properties sheet for the specified folder.
-; Syntax.........: _WinAPI_ShowShareFolderUI ( $sPath [, $hParent] )
-; Parameters.....: $sPath   - The path to the folder that displays its Folder Sharing tab.
-;                  $hParent - Handle to the parent window for the property sheet.
-; Return values..: Success  - 1.
-;                  Failure  - 0 and sets the @error flag to non-zero.
+; Name...........: _WinAPI_ShutdownDlg()
+; Description....: Displays a Windows Shutdown dialog box.
+; Syntax.........: _WinAPI_ShutdownDlg ( )
+; Parameters.....: None
+; Return values..: None
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: None
 ; Related........:
-; Link...........: @@MsdnLink@@ ShowShareFolderUI
+; Link...........: None
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_ShowShareFolderUI($sPath, $hParent = 0)
-	DllCall('ntshrui.dll', 'int', 'ShowShareFolderUIW', 'hwnd', $hParent, 'wstr', $sPath)
-	If @error Then
-		Return SetError(1, 0, 0)
+Func _WinAPI_ShutdownDlg()
+
+	Local $oShell = ObjCreate('Shell.Application')
+
+	If Not @error Then
+		$oShell.ShutdownWindows()
 	EndIf
-	Return 1
-EndFunc   ;==>_WinAPI_ShowShareFolderUI
+EndFunc   ;==>_WinAPI_ShutdownDlg
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SizeofResource
@@ -13781,7 +16603,7 @@ EndFunc   ;==>_WinAPI_StretchBlt
 ;                  $fUnicode - Specifies whether a string is Unicode or ASCII code of a character, valid values:
 ;                  |TRUE     - Unicode. (Default)
 ;                  |FALSE    - ASCII.
-; Return values..: Success   - The length of the string, in TCHAR values (not including the terminating null character).
+; Return values..: Success   - The length of the string, in TCHAR values (not including the null-terminating character).
 ;                  Failure   - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -13810,13 +16632,15 @@ EndFunc   ;==>_WinAPI_StrLen
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_StructToArray
 ; Description....: Converts the structure to the array of strings.
-; Syntax.........: _WinAPI_StructToArray ( ByRef $tStruct [, $fCount] )
-; Parameters.....: $tStruct - The structure to convert.
-;                  $fCount  - Specifies whether the first element contained the number of strings, valid values:
-;                  |TRUE    - The count in the first element is returned.
-;                  |FALSE   - The count is not returned. Use the UBound() to obtain this value. (Default)
-; Return values..: Success  - The array of strings.
-;                  Failure  - 0 and sets the @error flag to non-zero.
+; Syntax.........: _WinAPI_StructToArray ( $pStruct [, $iItems] )
+; Parameters.....: $pStruct - The pointer to the structure to convert. This structure should be same as for _WinAPI_ArrayToStruct().
+;                  $iItems  - The number of strings that contains the structure. If this parameter is 0, the end of the structure
+;                             determined by a double null-terminated character ("... ;{0};{0}").
+; Return values..: Success  - The array of strings. The zeroth array element contains the number of strings.
+;                  Failure  - 0 and sets the @error flag to one of the following values:
+;                  |1 - $pStruct is not a correct pointer.
+;                  |2 - Failed to allocate the memory.
+;                  |3 - Size of the structure exceeds the allowable size (32 Kb).
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: This function works for Unicode strings only.
@@ -13825,28 +16649,51 @@ EndFunc   ;==>_WinAPI_StrLen
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_StructToArray(ByRef $tStruct, $fCount = 0)
+Func _WinAPI_StructToArray($pStruct, $iItems = 0)
 
-	If Not IsDllStruct($tStruct) Then
+	Local $tData, $Count = 0, $Index = 1, $Lenght = 32 * 1024 / 2, $Struct = ''
+	Local $Result[101] = [1, 0]
+
+	$tData = DllStructCreate('wchar[' & $Lenght & ']', $pStruct)
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-
-	Local $Lenght = BitShift(DllStructGetSize($tStruct), 1)
-	Local $tDup = DllStructCreate('wchar['& $Lenght &']', DllStructGetPtr($tStruct))
-	Local $n = 0
-
-	For $i = 1 To $Lenght
-		If Not AscW(DllStructGetData($tDup, 1, $i)) Then
-			DllStructSetData($tDup, 1, '|', $i)
-			$n = $n + 1
-			If $n > 1 Then
+	While 1
+		If Not AscW(DllStructGetData($tData, 1, $Index)) Then
+			$Count += 1
+			If $Count > 1 Then
 				ExitLoop
 			EndIf
+			$Result[0] += 1
+			If ($iItems) And ($Result[0] > $iItems) Then
+				ExitLoop
+			EndIf
+			If $Result[0] > UBound($Result) - 1 Then
+				ReDim $Result[$Result[0] + 100]
+			EndIf
+			$Result[$Result[0]] = 0
 		Else
-			$n = 0
+			$Result[$Result[0]] += 1
+			$Count = 0
 		EndIf
+		$Index += 1
+		If $Index > $Lenght Then
+			Return SetError(2, 0, 0)
+		EndIf
+	WEnd
+	ReDim $Result[$Result[0]]
+	$Result[0] -= 1
+	For $i = 1 To $Result[0]
+		$Struct &= 'wchar[' & ($Result[$i] + 1) & '];'
 	Next
-	Return StringSplit(StringTrimRight(DllStructGetData($tDup, 1), $n), '|', 2 * (Not $fCount))
+	$tData = DllStructCreate($Struct, $pStruct)
+	If @error Then
+		Return SetError(3, 0, 0)
+	EndIf
+	For $i = 1 To $Result[0]
+		$Result[$i] = DllStructGetData($tData, $i)
+	Next
+	Return $Result
 EndFunc   ;==>_WinAPI_StructToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -13987,7 +16834,7 @@ EndFunc   ;==>_WinAPI_TextOut
 
 Func _WinAPI_TransparentBlt($hDestDC, $iXDest, $iYDest, $iWidthDest, $iHeightDest, $hSrcDC, $iXSrc, $iYSrc, $iWidthSrc, $iHeightSrc, $iRGB)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'GdiTransparentBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'uint', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', __IsRGB($iRGB))
+	Local $Ret  = DllCall('gdi32.dll', 'int', 'GdiTransparentBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', __IsRGB($iRGB))
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -14071,6 +16918,172 @@ Func _WinAPI_UnionStruct(ByRef $tStruct1, ByRef $tStruct2)
 	Next
 	Return $tResult
 EndFunc   ;==>_WinAPI_UnionStruct
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_UniqueHardwaeID
+; Description....: Generates a unique hardware identifier (ID) for local computer.
+; Syntax.........: _WinAPI_UniqueHardwaeID ( [$iFlags] )
+; Parameters.....: $iFlags - The flags that specifies what information would be used to generate ID. This parameter can be one
+;                            or more of the following values.
+;
+;                            $UHID_MB
+;                            Uses information about your motherboard. This flag is used by default regardless of whether specified or not.
+;
+;                            $UHID_BIOS
+;                            Uses information from BIOS.
+;
+;                            $UHID_CPU
+;                            Uses information about your processor(s). Note that $UHID_CPU flag reduces the function speed.
+;
+;                            $UHID_HDD
+;                            Uses information about the installed hard drives. Any change in the configuration disks will change ID
+;                            returned by this function. Taken into account only non-removable disks with an ATA or SATA interfaces.
+;
+;                            $UHID_All
+;                            The sum of all the above flags.
+;
+; Return values..: Success - The string representation of the ID. @extended returns the value that contains a combination of flags
+;                            specified in the $iFlags parameter. If flag is set, appropriate information is received successfully,
+;                            otherwise fails. The function checks only flags that were specified in the $iFlags parameter.
+;                  Failure - Empty string and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_UniqueHardwaeID($iFlags = 0)
+
+	Local $oService = ObjGet('winmgmts:\\.\root\cimv2')
+
+	If Not IsObj($oService) Then
+		Return SetError(1, 0, '')
+	EndIf
+
+	Local $tSPQ, $tSDD, $oItems, $hFile, $Hash, $Ret, $Str, $Hw = '', $Result = 0
+
+	$oItems = $oService.ExecQuery('SELECT * FROM Win32_ComputerSystemProduct')
+	If Not IsObj($oItems) Then
+		Return SetError(2, 0, '')
+	EndIf
+	For $Property In $oItems
+		$Hw &= $Property.IdentifyingNumber
+		$Hw &= $Property.Name
+		$Hw &= $Property.SKUNumber
+		$Hw &= $Property.UUID
+		$Hw &= $Property.Vendor
+		$Hw &= $Property.Version
+	Next
+	$Hw = StringStripWS($Hw, 8)
+	If Not $Hw Then
+		Return SetError(3, 0, '')
+	EndIf
+	If BitAND($iFlags, $UHID_BIOS) Then
+		$oItems = $oService.ExecQuery('SELECT * FROM Win32_BIOS')
+		If Not IsObj($oItems) Then
+			Return SetError(2, 0, '')
+		EndIf
+		$Str = ''
+		For $Property In $oItems
+			$Str &= $Property.IdentificationCode
+			$Str &= $Property.Manufacturer
+			$Str &= $Property.Name
+			$Str &= $Property.SerialNumber
+			$Str &= $Property.SMBIOSMajorVersion
+			$Str &= $Property.SMBIOSMinorVersion
+;			$Str &= $Property.Version
+		Next
+		$Str = StringStripWS($Str, 8)
+		If $Str Then
+			$Result += $UHID_BIOS
+			$Hw &= $Str
+		EndIf
+	EndIf
+	If BitAND($iFlags, $UHID_CPU) Then
+		$oItems = $oService.ExecQuery('SELECT * FROM Win32_Processor')
+		If Not IsObj($oItems) Then
+			Return SetError(2, 0, '')
+		EndIf
+		$Str = ''
+		For $Property In $oItems
+			$Str &= $Property.Architecture
+			$Str &= $Property.Family
+			$Str &= $Property.Level
+			$Str &= $Property.Manufacturer
+			$Str &= $Property.Name
+			$Str &= $Property.ProcessorId
+			$Str &= $Property.Revision
+			$Str &= $Property.Version
+		Next
+		$Str = StringStripWS($Str, 8)
+		If $Str Then
+			$Result += $UHID_CPU
+			$Hw &= $Str
+		EndIf
+	EndIf
+	If BitAND($iFlags, $UHID_HDD) Then
+		$oItems = $oService.ExecQuery('SELECT * FROM Win32_PhysicalMedia')
+		If Not IsObj($oItems) Then
+			Return SetError(2, 0, '')
+		EndIf
+		$Str = ''
+		$tSPQ = DllStructCreate('dword;dword;byte[4]')
+		$tSDD = DllStructCreate('ulong;ulong;byte;byte;byte;byte;ulong;ulong;ulong;ulong;dword;ulong;byte[512]')
+		For $Property In $oItems
+			$hFile = _WinAPI_CreateFileEx($Property.Tag, 3, 0, 0)
+			If Not $hFile Then
+				ContinueLoop
+			EndIf
+			_WinAPI_DeviceIoControl($hFile, 0x002D1400, DllStructGetPtr($tSPQ), DllStructGetSize($tSPQ), DllStructGetPtr($tSDD), DllStructGetSize($tSDD))
+			If (Not @error) And (Not DllStructGetData($tSDD, 5)) Then
+				Switch DllStructGetData($tSDD, 11)
+					Case 0x03, 0x0B ; $DRIVE_BUS_TYPE_ATA, $DRIVE_BUS_TYPE_SATA
+						$Str &= $Property.SerialNumber
+				EndSwitch
+			EndIf
+			_WinAPI_CloseHandle($hFile)
+		Next
+		$Str = StringStripWS($Str, 8)
+		If $Str Then
+			$Result += $UHID_HDD
+			$Hw &= $Str
+		EndIf
+	EndIf
+	$Hash = StringTrimLeft(__MD5($Hw), 2)
+	If Not $Hash Then
+		Return SetError(4, 0, '')
+	EndIf
+	Return SetError(0, $Result, '{' & StringMid($Hash, 1, 8) & '-' & StringMid($Hash, 9, 4) & '-' & StringMid($Hash, 13, 4) & '-' & StringMid($Hash, 17, 4) & '-' & StringMid($Hash, 21, 12) & '}')
+EndFunc   ;==>_WinAPI_UniqueHardwaeID
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_UnloadKeyboardLayout
+; Description....: Unloads an input locale identifier.
+; Syntax.........: _WinAPI_UnloadKeyboardLayout ( $hLocale )
+; Parameters.....: $hLocale - The input locale identifier to be unloaded.
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: _WinAPI_UnloadKeyboardLayout() cannot unload the system default input locale identifier if it is the only
+;                  keyboard layout loaded. You must first load another input locale identifier before unloading the default input
+;                  locale identifier.
+; Related........:
+; Link...........: @@MsdnLink@@ UnloadKeyboardLayout
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_UnloadKeyboardLayout($hLocale)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'UnloadKeyboardLayout', 'long', $hLocale)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_UnloadKeyboardLayout
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_UnlockFile
@@ -14259,141 +17272,6 @@ Func _WinAPI_WindowFromDC($hDC)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_WindowFromDC
 
-; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_WinHelp
-; Description....: Launches Microsoft Windows Help and passes additional data that indicates the nature of the help.
-; Syntax.........: _WinAPI_WinHelp ( $hWnd, $iCommand [, $sPath [, $iData]] )
-; Parameters.....: $hWnd     - Handle to the window requesting help. This function uses this handle to keep track of which
-;                              applications have requested help. If the $iCommand parameter specifies $HELP_CONTEXTMENU or
-;                              $HELP_WM_HELP, $hWnd identifies the control requesting help.
-;                  $iCommand - The type of help requested. This parameter can be one of the following values.
-;
-;                              $HELP_COMMAND
-;                              $HELP_CONTENTS
-;                              $HELP_CONTEXT
-;                              $HELP_CONTEXTMENU
-;                              $HELP_CONTEXTPOPUP
-;                              $HELP_FINDER
-;                              $HELP_FORCEFILE
-;                              $HELP_HELPONHELP
-;                              $HELP_INDEX
-;                              $HELP_KEY
-;                              $HELP_MULTIKEY
-;                              $HELP_PARTIALKEY
-;                              $HELP_QUIT
-;                              $HELP_SETCONTENTS
-;                              $HELP_SETPOPUP_POS
-;                              $HELP_SETWINPOS
-;                              $HELP_TCARD (Can be combined with other values)
-;                              $HELP_WM_HELP
-;
-;                  $sPath    - The path, if necessary, and the name of the Help file to display.
-;                  $iData    - Additional data. The value used depends on the value of the $iCommand parameter.
-;
-;                              $HELP_COMMAND
-;                              String that specifies the name of the Help macro(s) to run. If the string specifies multiple macro
-;                              names, the names must be separated by semicolons. You must use the short form of the macro name
-;                              for some macros because Windows Help does not support the long name.
-;
-;                              $HELP_CONTENTS
-;                              Ignored; set to 0.
-;
-;                              $HELP_CONTEXT
-;                              Contains the context identifier for the topic.
-;
-;                              $HELP_CONTEXTMENU
-;                              Structure of a double word pairs ("dword[2], ..."). The first double word in each pair is the control
-;                              identifier, and the second is the context identifier for the topic. The array must be terminated by
-;                              a pair of zeros {0,0}. If you do not want to add Help to a particular control, set its context
-;                              identifier to (-1).
-;
-;                              $HELP_CONTEXTPOPUP
-;                              Contains the context identifier for a topic.
-;
-;                              $HELP_FINDER
-;                              Ignored; set to 0.
-;
-;                              $HELP_FORCEFILE
-;                              Ignored; set to 0.
-;
-;                              $HELP_HELPONHELP
-;                              Ignored; set to 0.
-;
-;                              $HELP_INDEX
-;                              Ignored; set to 0.
-;
-;                              $HELP_KEY
-;                              Ther keyword string. Multiple keywords must be separated by semicolons.
-;
-;                              $HELP_MULTIKEY
-;                              The MULTIKEYHELP structure that specifies a table footnote character and a keyword.
-;
-;                              $HELP_PARTIALKEY
-;                              The keyword string. Multiple keywords must be separated by semicolons.
-;
-;                              $HELP_QUIT
-;                              Ignored; set to 0.
-;
-;                              $HELP_SETCONTENTS
-;                              Contains the context identifier for the Contents topic.
-;
-;                              $HELP_SETPOPUP_POS
-;                              Contains the position data. The pop-up window is positioned as if the mouse cursor were at
-;                              the specified point when the pop-up window was invoked.
-;
-;                              $HELP_SETWINPOS
-;                              The HELPWININFO structure that specifies the size and position of either a primary or
-;                              secondary Help window.
-;
-;                              $HELP_TCARD
-;                              Depends on the command with which this command is combined.
-;
-;                              $HELP_WM_HELP
-;                              Structure of a double word pairs ("dword[2], ..."). The first double word in each pair is the control
-;                              identifier, and the second is the context identifier for the topic. The array must be terminated by
-;                              a pair of zeros {0,0}. If you do not want to add Help to a particular control, set its context
-;                              identifier to (-1).
-;
-; Return values..: Success   - 1.
-;                  Failure   - 0 and sets the @error flag to non-zero.
-; Author.........: Yashied
-; Modified.......:
-; Remarks........: Before closing the window that requested help, the application must call WinHelp with the $iCommand parameter set to
-;                  $HELP_QUIT. Until all applications have done this, Windows Help will not terminate. Note that calling Windows Help
-;                  with the $HELP_QUIT command is not necessary if you used the $HELP_CONTEXTPOPUP command to start Windows Help.
-; Related........:
-; Link...........: @@MsdnLink@@ WinHelp
-; Example........: Yes
-; ===============================================================================================================================
-
-Func _WinAPI_WinHelp($hWnd, $iCommand, $sPath = '', $iData = 0)
-
-	Local $lData, $tData
-
-	Select
-		Case BitAND($iCommand, 0x0107)
-			; $HELP_COMMAND, $HELP_KEY, $HELP_PARTIALKEY
-			$tData = DllStructCreate('wchar[1024]')
-			DllStructSetData($tData, 1, $iData)
-			$lData = DllStructGetPtr($tData)
-		Case BitAND($iCommand, 0x020F)
-			; $HELP_CONTEXTMENU, $HELP_MULTIKEY, $HELP_SETWINPOS, $HELP_WM_HELP
-			$lData = DllStructGetPtr($iData)
-		Case BitAND($iCommand, 0x000F)
-			; $HELP_CONTENTS, $HELP_FINDER, $HELP_FORCEFILE, $HELP_HELPONHELP, $HELP_INDEX, $HELP_QUIT
-			$lData = 0
-		Case Else
-			$lData = $iData
-	EndSelect
-
-	Local $Ret = DllCall('user32.dll', 'int', 'WinHelpW', 'hwnd', $hWnd, 'wstr', $sPath, 'uint', $iCommand, 'ulong_ptr', $lData)
-
-	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
-	EndIf
-	Return 1
-EndFunc   ;==>_WinAPI_WinHelp
-
 #EndRegion Public Functions
 
 #Region Internal Functions
@@ -14472,6 +17350,43 @@ Func __EnumWindowsProc($hWnd, $fVisible)
 	$__Data[$__Data[0][0]][1] = _WinAPI_GetClassName($hWnd)
 	Return 1
 EndFunc   ;==>__EnumWindowsProc
+
+Func __MD5($sData)
+
+	Local $Ret, $hProv, $hHash, $tData, $Error = 1
+
+	$hProv = DllCall('advapi32.dll', 'int', 'CryptAcquireContextW', 'ptr*', 0, 'ptr', 0, 'ptr', 0, 'dword', 3, 'dword', 0xF0000000)
+	If (@error) Or (Not $hProv[0]) Then
+		Return ''
+	EndIf
+	Do
+		$hHash = DllCall('advapi32.dll', 'int', 'CryptCreateHash', 'ptr', $hProv[1], 'uint', 0x00008003, 'ptr', 0, 'dword', 0, 'ptr*', 0)
+		If (@error) Or (Not $hProv[0]) Then
+			$hHash = 0
+			ExitLoop
+		EndIf
+		$hHash = $hHash[5]
+		$tData = DllStructCreate('byte[' & BinaryLen($sData) & ']')
+		DllStructSetData($tData, 1, $sData)
+		$Ret = DllCall('advapi32.dll', 'int', 'CryptHashData', 'ptr', $hHash, 'ptr', DllStructGetPtr($tData), 'dword', DllStructGetSize($tData), 'dword', 1)
+		If (@error) Or (Not $Ret[0]) Then
+			ExitLoop
+		EndIf
+		$tData = DllStructCreate('byte[16]')
+		$Ret = DllCall('advapi32.dll', 'int', 'CryptGetHashParam', 'ptr', $hHash, 'dword', 2, 'ptr', DllStructGetPtr($tData), 'dword*', 16, 'dword', 0)
+		If (@error) Or (Not $Ret[0]) Then
+			ExitLoop
+		EndIf
+		$Error = 0
+	Until 1
+	If $hHash Then
+		DllCall('advapi32.dll', 'int', 'CryptDestroyHash', 'ptr', $hHash)
+	EndIf
+	If $Error Then
+		Return ''
+	EndIf
+	Return DllStructGetData($tData, 1)
+EndFunc   ;==>__MD5
 
 Func __IsRGB($iColor)
 	If $__RGB Then

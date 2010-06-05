@@ -17,13 +17,14 @@ autoit工具箱提供了安装卸载功能.
 3.3.6.1 (2010-04-30) 第一汉化版
 AutoIt:
 [G][*]修正: #1515: FileOpen 总是在某些情况下总是使用独占模式打开文件.
-[G][!]更新: WinAPIEx UDF库 更新到2.4版.
+[G][!]更新: WinAPIEx UDF库 更新到2.6版.
 [H][*]修正: ACNLUA 脚本中的打开include文件无法找到当前脚本目录下文件的问题.
 [H][*]修正: ACNLUA 脚本中的插入书签行不可用的问题,并改名为[复制书签所在行到这里].
 [H][*]修正: Scite 中 LUA 脚本不能正常运行的问题(不影响AU3).
 [H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
 [H][*]修正: ACNWrapper 编译不带wrapper信息的脚本时出现变量未声明的问题.
 [H][*]修正: ACNWrapper GUI编译处理脚本指定的非ICO图标的支持.
+[H][!]更新: ACNWrapper 对带有#AutoIt3Wrapper_NoBuild指令的脚本默认不再检查语法.
 [H][!]更新: MPRESS 更新到2.15版.
 [H][!]更新: 工具箱中对来自SVN的副本不再检测scite属性设置文件的编码.
 		以支持新版本Scite的UNICODE模式.
@@ -33,8 +34,9 @@ AutoIt:
 Scite:
 [H][+]新增: 集成SciTe帮助于主帮助.
 [H][!]更新: ScriptoMatic 生成的脚本能通过必须声明变量检查"Opt("MustDeclareVars", 1)"
-[H][!]更新: 更新Scite到2.11版本,程序已经完全UNICODE化(原先是ANSI的).目前已经相对稳定.
+[H][!]更新: 更新Scite到2.12版本,程序已经完全UNICODE化(原先是ANSI的).目前已经相对稳定.
 [H][!]更新: 更新Scite的属性设置文件为UTF-8编码,以支持UNICODE.
+[G][!]更新: 更新tidy为2.1.0.1
 
 koda:
 Beta 1.7.2.8 build 247 RC1 (2010-04-15)

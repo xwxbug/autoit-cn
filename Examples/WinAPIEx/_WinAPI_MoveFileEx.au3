@@ -2,6 +2,7 @@
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
+Opt('TrayAutoPause', 0)
 
 Global $hProgressProc = DllCallbackRegister('_ProgressProc', 'dword', 'uint64;uint64;uint64;uint64;dword;dword;ptr;ptr;ptr')
 

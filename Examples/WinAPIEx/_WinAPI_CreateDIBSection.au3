@@ -21,7 +21,7 @@ DllStructSetData($tBITMAPINFO, 'Height', $Height)
 DllStructSetData($tBITMAPINFO, 'Planes', 1)
 DllStructSetData($tBITMAPINFO, 'BitCount', 32)
 DllStructSetData($tBITMAPINFO, 'Compression', $BI_RGB)
-DllStructSetData($tBITMAPINFO, 'SizeImage', 0) ; => BI_RGB
+DllStructSetData($tBITMAPINFO, 'SizeImage', 0)
 $hBitmap = _WinAPI_CreateDIBSection(0, $tBITMAPINFO, $DIB_RGB_COLORS, $pBits)
 
 ; Fill bitmap colors

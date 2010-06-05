@@ -2,17 +2,18 @@
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
+Opt('TrayAutoPause', 0)
 
-Global $hTimerFunc = DllCallbackRegister('_TimerProc', 'none', 'hwnd;uint;uint_ptr;dword')
+Global $hTimerProc = DllCallbackRegister('_TimerProc', 'none', 'hwnd;uint;uint_ptr;dword')
 Global $Count = 0
 
-_WinAPI_SetTimer(0, 0, 1000, DllCallBackGetPtr($hTimerFunc))
+_WinAPI_SetTimer(0, 0, 1000, DllCallBackGetPtr($hTimerProc))
 
 Do
 	Sleep(100)
 Until _IsPressed('1B')
 
-DllCallbackFree($hTimerFunc)
+DllCallbackFree($hTimerProc)
 
 Func _TimerProc($hWnd, $iMsg, $iTimerId, $iTime)
 	$Count += 1

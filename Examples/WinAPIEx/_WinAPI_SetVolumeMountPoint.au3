@@ -2,8 +2,9 @@
 
 Opt('MustDeclareVars', 1)
 
+Global Const $sPath = @ScriptDir & '\Mount\'
+
 Global $GUID = _WinAPI_GetVolumeNameForVolumeMountPoint(@HomeDrive & '\')
-Global $sPath = @ScriptDir & '\Mount\'
 
 DirCreate($sPath)
 _WinAPI_SetVolumeMountPoint($sPath, $GUID)

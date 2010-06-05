@@ -29,7 +29,7 @@ Func _BrowseProc($hWnd, $iMsg, $wParam, $lParam)
 		Case $BFFM_SELCHANGED
 			ConsoleWrite(_WinAPI_ShellGetPathFromIDList($wParam) & @CR)
 		Case $BFFM_VALIDATEFAILED
-			$tData = DllStructCreate(_WinAPI_StrLen($wParam), $wParam)
+			$tData = DllStructCreate('wchar[' & (_WinAPI_StrLen($wParam) + 1) & ']', $wParam)
 			MsgBox(16, 'Error', DllStructGetData($tData, 1) & ' is invalid.', 0, $hWnd)
 			Return 1
 	EndSwitch

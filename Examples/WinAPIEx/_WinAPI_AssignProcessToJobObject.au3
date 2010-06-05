@@ -19,7 +19,7 @@ _RunWaitEx(@AutoItExe & ' /AutoIt3ExecuteScript "' & $sTemp & '"')
 ; Delete temporary .au3 file
 FileDelete($sTemp)
 
-Func _RunWaitEx($sCMD)
+Func _RunWaitEx($sCmd)
 
 	; Original idea by amel27
 
@@ -33,7 +33,7 @@ Func _RunWaitEx($sCMD)
 		Return SetError(1, 0, 0)
 	EndIf
 	DllStructSetData($tStartup, 'Size', DllStructGetSize($tStartup))
-	If Not _WinAPI_CreateProcess('', $sCMD, 0, 0, 0, 4, 0, 0, DllStructGetPtr($tStartup), DllStructGetPtr($tProcess)) Then
+	If Not _WinAPI_CreateProcess('', $sCmd, 0, 0, 0, 0x01000004, 0, 0, DllStructGetPtr($tStartup), DllStructGetPtr($tProcess)) Then
 		Return SetError(1, _WinAPI_FreeHandle($hJob), 0)
 	EndIf
 	$hProcess = DllStructGetData($tProcess, 'hProcess')

@@ -1,6 +1,7 @@
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
+Opt('TrayAutoPause', 0)
 
 Global $hForm
 

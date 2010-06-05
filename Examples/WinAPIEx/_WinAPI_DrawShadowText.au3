@@ -7,7 +7,7 @@ Opt('MustDeclareVars', 1)
 Global Const $STM_SETIMAGE = 0x0172
 Global Const $STM_GETIMAGE = 0x0173
 
-Global $hForm, $Pic, $hPic, $tRECT, $Width, $Height, $hObj, $hFont, $hBmp, $hBitmap, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
+Global $hForm, $Pic, $hPic, $tRECT, $Width, $Height, $hObj, $hFont, $hBitmap, $hSource, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
 ; Create GUI
 $hForm = GUICreate('MyGUI', 400, 100)
@@ -23,20 +23,20 @@ $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmap($hDC, $Width, $Height)
 $hDestSv = _WinAPI_SelectObject($hDestDC, $hBitmap)
 $hSrcDC = _WinAPI_CreateCompatibleDC($hDC)
-$hFont = _WinAPI_CreateFont(65, 0, 0, 0, $FW_NORMAL , 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $ANTIALIASED_QUALITY, BitOR($DEFAULT_PITCH, $FF_DONTCARE), 'Arial')
-$hBmp = _WinAPI_CreateCompatibleBitmapEx($hDC, $Width, $Height, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
+$hSource = _WinAPI_CreateCompatibleBitmapEx($hDC, $Width, $Height, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
+$hSrcSv = _WinAPI_SelectObject($hSrcDC, $hSource)
+$hFont = _WinAPI_CreateFont(65, 0, 0, 0, $FW_NORMAL , 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $ANTIALIASED_QUALITY, $DEFAULT_PITCH, 'Arial')
 _WinAPI_SelectObject($hSrcDC, $hFont)
-_WinAPI_SelectObject($hSrcDC, $hBmp)
 _WinAPI_DrawShadowText($hSrcDC, 'Shadow Text', 0xF06000, 0x808080, 3, 3, $tRECT, BitOR($DT_CENTER, $DT_SINGLELINE, $DT_VCENTER))
 _WinAPI_BitBlt($hDestDC, 0, 0, $Width, $Height, $hSrcDC, 0, 0, $MERGECOPY)
 
 _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hDestDC, $hDestSv)
-_WinAPI_SelectObject($hSrcDC, $hSrcSv)
 _WinAPI_DeleteDC($hDestDC)
+_WinAPI_SelectObject($hSrcDC, $hSrcSv)
 _WinAPI_DeleteDC($hSrcDC)
+_WinAPI_FreeObject($hSource)
 _WinAPI_FreeObject($hFont)
-_WinAPI_FreeObject($hBmp)
 
 ;Set bitmap to control
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)

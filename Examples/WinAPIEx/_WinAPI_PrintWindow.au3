@@ -9,12 +9,12 @@ Global Const $STM_GETIMAGE = 0x0173
 Global $hWnd, $hForm, $Pic, $hPic, $Size, $hObj, $hBmp, $hBitmap, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
 Run(@SystemDir & '\calc.exe')
-If Not WinWait('Calculator', '', 3) Then
+$hWnd = WinWaitActive('Calculator', '', 3)
+If Not $hWnd Then
 	Exit
 EndIf
 
 ; Create GUI
-$hWnd = WinGetHandle('Calculator')
 $Size = WinGetPos($hWnd)
 $hForm = GUICreate('MyGUI', $Size[2] + 80, $Size[3] + 80)
 $Pic = GUICtrlCreatePic('', 40, 40, $Size[2], $Size[3])

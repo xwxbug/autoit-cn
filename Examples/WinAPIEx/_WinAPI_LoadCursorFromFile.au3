@@ -4,14 +4,13 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $hForm, $Label, $hCursor
+Global $hForm, $Label, $hInstance, $hCursor = _WinAPI_LoadCursorFromFile(@ScriptDir & '\Extras\Lens.cur')
 
-;$hCursor = _WinAPI_LoadCursor(0, 32649) ; IDC_HAND
-$hCursor = _WinAPI_LoadCursor(_WinAPI_GetModuleHandle(@SystemDir & '\user32.dll'), 116)
+OnAutoItExitRegister('OnAutoItExit')
 
 $hForm = GUICreate('MyGUI', 400, 400)
 $Label = GUICtrlCreateLabel('', 100, 100, 200, 200)
-GUICtrlSetBkColor(-1, 0xFFBFBF)
+GUICtrlSetBkColor(-1, 0xD3D8EF)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUIRegisterMsg($WM_SETCURSOR, 'WM_SETCURSOR')
 GUISetState()
@@ -32,3 +31,7 @@ Func WM_SETCURSOR($hWnd, $iMsg, $wParam, $lParam)
 	EndSwitch
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_SETCURSOR
+
+Func OnAutoItExit()
+	_WinAPI_FreeCursor($hCursor)
+EndFunc   ;==>OnAutoItExit

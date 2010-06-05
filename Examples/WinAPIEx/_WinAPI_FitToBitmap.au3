@@ -1,3 +1,4 @@
+#Include <Constants.au3>
 #Include <WinAPIEx.au3>
 #Include <WindowsConstants.au3>
 
@@ -9,7 +10,7 @@ Global Const $STM_GETIMAGE = 0x0173
 Global $hForm, $Pic, $hPic, $tSIZE, $Width, $Height, $hObj, $hFit, $hBitmap
 
 ; Load and resize image
-$hBitmap = _WinAPI_LoadBitmap(_WinAPI_GetModuleHandle(@SystemDir & '\shell32.dll'), 131)
+$hBitmap = _WinAPI_LoadImage(0, @ScriptDir & '\Extras\Logo.bmp', $IMAGE_BITMAP, 0, 0, $LR_LOADFROMFILE)
 $tSIZE = _WinAPI_GetBitmapDimension($hBitmap)
 $Width = 2 * DllStructGetData($tSIZE, 'X')
 $Height = 2 * DllStructGetData($tSIZE, 'Y')

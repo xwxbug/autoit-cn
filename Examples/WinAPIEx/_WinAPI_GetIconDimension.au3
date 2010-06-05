@@ -2,7 +2,7 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $hIcon, $tSIZE
+Global $tSIZE, $hIcon
 
 $hIcon = _WinAPI_ShellExtractIcons(@SystemDir & '\shell32.dll', 130, 48, 48)
 $tSIZE = _WinAPI_GetIconDimension($hIcon)
