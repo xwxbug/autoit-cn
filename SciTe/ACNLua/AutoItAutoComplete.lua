@@ -22,7 +22,8 @@ function AutoItAutoComplete:OnStartup()
 		SCE_AU3_COMMENT,
 		SCE_AU3_STRING,
 		SCE_AU3_SPECIAL,
-		SCE_AU3_COMOBJ
+		SCE_AU3_COMOBJ,
+		SCE_AU3_VARIABLE
 	}
 end	-- OnStartup()
 
@@ -53,10 +54,28 @@ function AutoItAutoComplete:OnChar(c)
 		if ((c == "," or c == "(") and
 			(self:IsValidStyle(style) or self:IsQuoteChar(c2)) and
 			not editor:CallTipActive()) then
-			scite.MenuCommand(self.IDM_SHOWCALLTIP)
+			-- start
+				local toClose = { ['('] = ')'}
+				local pos = editor.CurrentPos
+				editor:ReplaceSel(toClose[c])
+				editor:SetSel(pos, pos)
+			-- end
+				scite.MenuCommand(self.IDM_SHOWCALLTIP)
 			return
 		end
-
+		
+		-- start
+		if (c == "'" or c == '"' or c == '[' or c == ']') and 
+			(self:IsValidStyle(style) and self:IsValidVarChar(editor:textrange(editor.CurrentPos-2,editor.CurrentPos-1))) then
+			-- start
+				local toClose = { ['('] = ')', ['{'] = '}', ['['] = ']', ['"'] = '"', ["'"] = "'" }
+				local pos = editor.CurrentPos
+				editor:ReplaceSel(toClose[c])
+				editor:SetSel(pos, pos)
+			-- end
+			return
+		end
+		-- end
 		-- Show variables in AutoComplete.
 		if (c == "$" and self:IsValidStyle(style)) then
 			scite.MenuCommand(self.IDM_COMPLETEWORD)
@@ -97,6 +116,7 @@ function AutoItAutoComplete:OnChar(c)
 			scite.MenuCommand(self.IDM_COMPLETEWORD)
 			return
 		end
+		return false 
 	end
 end	-- OnChar()
 
@@ -154,3 +174,20 @@ end	-- IsValidFuncChar()
 function AutoItAutoComplete:IsQuoteChar(c)
 	return string.find(c, "[\"\']") ~= nil
 end	-- IsQuoteChar()
+
+
+--------------------------------------------------------------------------------
+-- IsValidVarChar(c)
+--
+-- Checks to to see if a character is a valid var or ',' character.
+--
+-- Parameters:
+--	c - The character to check.
+--
+-- Returns:
+--	The value true is returned if the charcter is a valid var or ',' character.
+--	The value false is returned if the characer is not valid.
+--------------------------------------------------------------------------------
+function AutoItAutoComplete:IsValidVarChar(c)
+	return string.find(c, "[a-zA-Z|\,]") ~= nil
+end	-- IsValidFuncChar()
