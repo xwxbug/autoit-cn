@@ -190,4 +190,4 @@ end	-- IsQuoteChar()
 --------------------------------------------------------------------------------
 function AutoItAutoComplete:IsValidVarChar(c)
 	return string.find(c, "[a-zA-Z|\,|\=|\(]") ~= nil
-end	-- IsValidFuncChar()
+end	-- IsValidVarChar()
