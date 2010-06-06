@@ -189,5 +189,5 @@ end	-- IsQuoteChar()
 --	The value false is returned if the characer is not valid.
 --------------------------------------------------------------------------------
 function AutoItAutoComplete:IsValidVarChar(c)
-	return string.find(c, "[a-zA-Z|\,]") ~= nil
+	return string.find(c, "[a-zA-Z|\,|\=|\(]") ~= nil
 end	-- IsValidFuncChar()
