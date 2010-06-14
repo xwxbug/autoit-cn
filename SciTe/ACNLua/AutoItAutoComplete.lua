@@ -55,23 +55,27 @@ function AutoItAutoComplete:OnChar(c)
 			(self:IsValidStyle(style) or self:IsQuoteChar(c2)) and
 			not editor:CallTipActive()) then
 			-- start
-				local toClose = { ['('] = ')'}
-				local pos = editor.CurrentPos
-				editor:ReplaceSel(toClose[c])
-				editor:SetSel(pos, pos)
+				if props['autobrackets.au3.disable'] ~= "1" then
+					local toClose = { ['('] = ')'}
+					local pos = editor.CurrentPos
+					editor:ReplaceSel(toClose[c])
+					editor:SetSel(pos, pos)
+				end
 			-- end
 				scite.MenuCommand(self.IDM_SHOWCALLTIP)
 			return
 		end
 		
 		-- start
-		if (c == "'" or c == '"' or c == '[' or c == ']') and 
+		if (c == "'" or c == '"' or c == '[' or c == '{') and 
 			(self:IsValidStyle(style) and self:IsValidVarChar(editor:textrange(editor.CurrentPos-2,editor.CurrentPos-1))) then
 			-- start
-				local toClose = { ['('] = ')', ['{'] = '}', ['['] = ']', ['"'] = '"', ["'"] = "'" }
+			if props['autoquote.au3.disable'] ~= "1" then
+				local toClose = { ['{'] = '}', ['['] = ']', ['"'] = '"', ["'"] = "'" }
 				local pos = editor.CurrentPos
 				editor:ReplaceSel(toClose[c])
 				editor:SetSel(pos, pos)
+			end
 			-- end
 			return
 		end
