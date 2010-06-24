@@ -45,7 +45,7 @@ function AutoItTools:OnStartup()
 	else
 		self.ProperWords = ""
 	end
-	-- Check for Beta and set the BETA_AUTOIT= in au3.properties to the correct value 
+	-- Check for Beta and set the BETA_AUTOIT= in au3.properties to the correct value
 	f = io.open(props['autoit3dir'].."\\beta\\au3check.dat")
 	self.Beta = '0'
 	if f ~= nil then
@@ -73,12 +73,6 @@ function AutoItTools:OnStartup()
 	--	end
 	--end
 	--
-	-- Check if Autoit3 installer has dumped the AU3.Keywords.Properties at the wrong spot.
-	-- This function is only here for the migration period till the installers support the new location of the properties files
-	if self:FileExists(props['SciteDefaultHome'].."\\au3.keywords.properties") then
-		os.remove (props['SciteDefaultHome'].."\\属性文件\\au3.keywords.properties")
-		os.rename (props['SciteDefaultHome'].."\\au3.keywords.properties", props['SciteDefaultHome'].."\\属性文件\\au3.keywords.properties")
-	end
 	print('->	+++++++++++++++++++++++++++++++++++++++++++++++++')
 	print('+>	+欢迎使用 ACN 中文论坛出品的 AUTOIT V3 汉化版!	+')
 	print('+>	+	--===Http://wWw.AutoItX.cOm===--	+')
@@ -780,7 +774,7 @@ function AutoItTools:OnChar(c)
 --~ 	print("Char:" .. c)
 	if editor.Lexer == SCLEX_AU3 then
 		-- set propercase
-		if props['proper.case'] == '1'  then
+		if props['proper.case'] == '1' and string.find(c, "[ =(]") then
 			self:ProperCase(c)
 		end
 		-- abbreviations logic will auto expand on space when SCE_AU3_EXPAND. written by Jos van der Zande (JdeB)
@@ -1002,78 +996,6 @@ function AutoItTools:AllTraceRemove()
 end	-- AllTraceRemove()
 
 --------------------------------------------------------------------------------
--- OpenIncludeNew(version)
---
--- Open the #Include file from your script.
---
--- Tool: AutoItTools.OpenIncludeNew $(au3) 2 Alt+I Open Include
---------------------------------------------------------------------------------
-function AutoItTools:OpenIncludeNew(version)
-    local IncFile, Filename
-	-- currentline text
-	local CurrentLine = editor:GetLine(editor:LineFromPosition(editor.CurrentPos))
-	-- Exclude #include-once
-	if CurrentLine == nil then
-	    print("Not on #include line.")
-		return true
-	end
-	if string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee][-][Oo][Nn][Cc][Ee]" ) then
-		return true
-	end
-	-- find #include
-	local place = string.find(CurrentLine, "%#[Ii][Nn][Cc][Ll][Uu][Dd][Ee]" )
-	-- strip every thing after opening bracket when found
-	if place then
-		IncFile = string.sub(CurrentLine,place + 8)
-		IncFile = string.gsub(IncFile,"\t", " ")  -- replace Tabs with space
-		IncFile = string.gsub(IncFile,"\r","")  -- strip CR characters
-		IncFile = string.gsub(IncFile,"\n","")	-- strip LF characters
-		IncFile = string.gsub(IncFile, "^%s*(.-)%s*$", "%1")	-- strip leading and trailing whitespace characters
-	else
-	    print("请把光标移动到 #include 行.")
-		return true
-	end
-	--
-	if version ~= "beta" then
-		version = ""
-	end
-	--
-	IncFile = string.gsub(IncFile,";(.*)","")
-	-- 得到要检查的目录列表
-	local directories = AutoItGotoDefinition:GetDirectories(version)
-	local start, stop, step, found
-	if string.find(IncFile, "<" ) then
-		IncFile = string.gsub(IncFile,"\<","")
-		IncFile = string.gsub(IncFile,"\>","")
-		start = 1
-		stop = #directories
-		step = 1
-	else  -- Else it is a include file in the script dir
-		IncFile = string.gsub(IncFile,"\"","")
-		IncFile = string.gsub(IncFile,"'","")
-		start = #directories
-		stop = 1
-		step = -1
-	end
-	-- loop through the defined directories
-	found = false
-	for i = start, stop, step do
-		Filename = directories[i] .. IncFile
-		self:DebugPrint("检查中: " .. Filename)
-		if self:FileExists(Filename) then
-			-- If we found the include file so open it
-			print("已打开: " .. Filename)
-			AutoItGotoDefinition:ShowFunction("", Filename)
-			found = true
-			break
-		end
-	end
-	if not found then
-		print("不能找到 include 文件位置: " .. IncFile)
-	end
-end
-
---------------------------------------------------------------------------------
 -- OpenInclude(version)
 --
 -- Open the #Include file from your script.
@@ -1260,85 +1182,8 @@ end
 --------------------------------------------------------------------------------
 --
 function AutoItTools:Abbreviations()
-	-- get current word
-	from = editor:WordStartPosition(editor.CurrentPos-2)  
-	to = editor:WordEndPosition(editor.CurrentPos-2)
-	curword = editor:textrange(from, to)
-	-- get possible replacement from abbrev.properties
-	local repword = ""
-	local f = io.open(props['SciteUserHome'].."\\全局缩写.properties")
-	if f ~= nil then
-		local Abbrevtxt = f:read('*a')
-		if Abbrevtxt then
-			f:close()
-			local rep_start = string.find(Abbrevtxt,"\n" .. string.lower(curword) .. "=")
-			if rep_start ~= nil and rep_start ~= 0 then
-			   rep_start = rep_start + string.len(curword) + 2
-			   rep_end = string.find(Abbrevtxt .. "\n","\n",rep_start)-1
-			   repword = string.sub(Abbrevtxt .. "\n",rep_start,rep_end)
-			end
-		end
-	end
-	-- if found process it
-	if repword ~= nil and repword ~= "" then
-		--_ALERT("abbr:" .. curword .. "  replaced by: " .. repword .. "|" )
-		-- get indent info
-		local s_indent = ""
- 		if editor.LineIndentation[editor:LineFromPosition(editor.CurrentPos)] then
-			currentindent =  editor.LineIndentation[editor:LineFromPosition(editor.CurrentPos)]
-			--_ALERT(currentindent)
-			if editor.UseTabs then
-				n_idents = editor.LineIndentation[editor:LineFromPosition(editor.CurrentPos)] / editor.TabWidth
-				s_indent = string.rep("\t",n_idents)
-			else
-				n_idents = editor.LineIndentation[editor:LineFromPosition(editor.CurrentPos)]
-				s_indent = string.rep(" ",n_idents)
-			end
- 		end
-		--end
-		-- remove current word
-		editor:remove(from, to +1)
-		-- replace text \n for LF plus the indent info 
-		repword =  string.gsub(repword, "\\n", "\n" .. s_indent)
-		-- replace text \t for TAB
-		repword =  string.gsub(repword, "\\t", "\t")
-		-- find caret position in the word
-		tcaretpos = string.find(repword,"|") 
-		-- when string to insert contains | then calculate the pos and remove it
-		if tcaretpos ~= nil and tcaretpos ~= 0 then
-			caretposword = string.find(repword,"|") -1
-			caretpos = from + string.find(repword,"|") -1
-			repword = string.gsub(repword, "|", "")
-		else
-			-- set caret pos to the end of the inserted string
-			caretposword = 0
-			caretpos = from + string.len(repword)
-		end
-		editor:insert(from,repword)
-		editor:GotoPos(caretpos)
-		--
-		-- try to create the tooltip()
-		-- get keyword/function name  part infront of the (
-		braceopenpos = string.find(repword,"%(") 
-		braceclosepos = string.find(repword,"%)") 
-		-- when string to insert contains | then calculate the pos and remove it
-		--_ALERT(braceclosepos)
-		if braceclosepos ~= nil and braceclosepos < caretposword then
-			-- caret pos not inside the first function 
-			repword = ""
-		elseif braceopenpos then
-			-- get keyword/function name  part infront of the |
-			repword = string.sub(repword,1,braceopenpos-1)
-		elseif caretposword ~= 0 then			
-			repword = string.sub(repword,1,caretposword)
-		else
-			repword = ""
-		end
-		-- Show Calltip when inside function
-		if repword ~= "" and braceopenpos then
-			scite.Open(props["FilePath"] .. "\nmenucommand:232")
-		end
-	end
+	editor:DeleteBack()
+	scite.MenuCommand(IDM_ABBREV)
 end
 
 --------------------------------------------------------------------------------

@@ -17,6 +17,7 @@ autoit工具箱提供了安装卸载功能.
 3.3.6.X (2010-0X-0X) 第X汉化版
 Scite:
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
+[H][!]更新: 可定制化的SciTe工具栏菜单.
 
 3.3.6.1 (2010-06-07) 第一汉化版
 AutoIt:
