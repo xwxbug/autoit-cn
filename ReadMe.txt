@@ -17,7 +17,13 @@ autoit工具箱提供了安装卸载功能.
 3.3.6.X (2010-0X-0X) 第X汉化版
 Scite:
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
-[H][!]更新: 可定制化的SciTe工具栏菜单.
+
+koda:
+Beta 1.7.2.9 build 250 RC2 (2010-06-29)
+[G][*]修正: partially, toolbars showing issue (thanks Spence)
+[G][*]修正: AV when selecting non-existent recent file (thanks Fire)
+[G][+]新增: release date to About dialog
+[G][*]修正: crash when changing language in situations when code dialog was opened before
 
 3.3.6.1 (2010-06-07) 第一汉化版
 AutoIt:

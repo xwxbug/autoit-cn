@@ -22,7 +22,7 @@
 		<generateall>0</generateall>
 		<generatevars>0</generatevars>
 		<lasteventstpl>Default</lasteventstpl>
-		<lastlooptpl>Loop Example</lastlooptpl>
+		<lastlooptpl>Default</lastlooptpl>
 	</codegen>
 	<designer>
 		<formlive>1</formlive>
@@ -42,7 +42,6 @@
 	<templates>
 		<loop>
 			<template name="Loop Example">
-				<line>#include &lt;GUIConstants.au3&gt;</line>
 				<line>%INCLUDES%</line>
 				<line>%OPTIONS%</line>
 				<line>%EXPVARINITCODE%</line>
@@ -61,7 +60,6 @@
 		</loop>
 		<events>
 			<template name="Events Example">
-				<line>#include &lt;GUIConstants.au3&gt;</line>
 				<line>%INCLUDES%</line>
 				<line>%OPTIONS%</line>
 				<line>%EXPVARINITCODE%</line>
@@ -80,8 +78,8 @@
 	<toolbars>
 		<Toolbar1 name="Standard Toolbar" dockrow="0" dockpos="-1">actNew,actOpen,actSave,actSeparator,actGenerate,actRun</Toolbar1>
 		<Toolbar2 name="Functions" dockrow="1" dockpos="0">actNewForm,actPopup_grpAlign</Toolbar2>
-		<Toolbar3 name="User toolbar 1" dockrow="1" dockpos="30"/>
-		<Toolbar4 name="User toolbar 2" dockrow="1" dockpos="55"/>
+		<Toolbar3 name="User toolbar 1" dockrow="1" dockpos="25"/>
+		<Toolbar4 name="User toolbar 2" dockrow="1" dockpos="63"/>
 		<Toolbar5 name="User toolbar 3" dockrow="1" dockpos="96"/>
 	</toolbars>
 	<state/>

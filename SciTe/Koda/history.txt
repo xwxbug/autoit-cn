@@ -1,3 +1,9 @@
+Beta 1.7.2.9 build 250 RC2 (2010-06-29)
+2010-06-29 - Fixed: partially, toolbars showing issue (thanks Spence)
+2010-06-29 - Fixed: AV when selecting non-existent recent file (thanks Fire)
+2010-04-21 - Added: release date to About dialog
+2010-04-19 - Fixed: crash when changing language in situations when code dialog was opened before
+
 Beta 1.7.2.8 build 247 RC1 (2010-04-15)
 2010-04-15 - Fixed: menu separator "" not generating
 2010-04-15 - Fixed: save button state not updated after end editing text in tree
