@@ -15,6 +15,9 @@ autoit工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 3.3.6.X (2010-0X-0X) 第X汉化版
+AutoIt:
+[H][!]更新: MPRESS 更新到2.17版.
+
 Scite:
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
 
