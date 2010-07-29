@@ -236,7 +236,7 @@ function AutoItTools:DebugArrayDisplayAdd()
 	editor:LineDown()
 	editor:LineEnd()
 	editor:NewLine()
-	editor:AddText("_ArrayDisplay(" .. word2 .. ")") --添加函数
+	editor:AddText("_ArrayDisplay(" .. word2 .. ",'Debug~~~')") --添加函数
 end	-- DebugArrayDisplayAdd()
 
 
@@ -250,7 +250,7 @@ end	-- DebugArrayDisplayAdd()
 function AutoItTools:DebugConsoleWriteAdd()
 	local word = self:GetWord2()
 	if word == "" then
-		print("Cursor not on any text.")
+		print("光标下没有任何文本.")
 		return
 	end
 	local word2 = word:gsub("'", "''")     -- replace quote by 2 quotes
