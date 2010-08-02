@@ -28,7 +28,7 @@ Scite:
 
 koda:
 Release 1.7.3.0 build 252 (2010-07-30)
-[G][*]修正: iny language fixes
+[G][*]修正: tiny language fixes
 
 3.3.6.1 (2010-06-07) 第一汉化版
 AutoIt:
