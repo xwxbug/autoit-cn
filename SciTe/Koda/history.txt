@@ -1,3 +1,6 @@
+Release 1.7.3.0 build 252 (2010-07-30)
+2010-07-30 - Fixed: tiny language fixes
+
 Beta 1.7.2.9 build 250 RC2 (2010-06-29)
 2010-06-29 - Fixed: partially, toolbars showing issue (thanks Spence)
 2010-06-29 - Fixed: AV when selecting non-existent recent file (thanks Fire)
@@ -581,4 +584,57 @@ Release 1.5.0.0 (2006-02-20)
 2005-11-18 - Added: new gallery dialog, allow user create own collections of templates.
 2005-11-14 - Added: Obj control implemented.
 2005-11-11 - Added: new "doc" icon, appear when associate Koda's *.kxf extension.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

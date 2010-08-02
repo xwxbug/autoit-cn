@@ -1,4 +1,4 @@
-﻿Folder for custom import modules, for converting forms from other formats to Koda form. 
+Folder for custom import modules, for converting forms from other formats to Koda form. 
 This can be autoit script (.au3, .a3x) or executable file. Result XML data should be sent by module via StdOut.
 
 Some special strings are can appear in the output stream. They are in regular XML comments format, so will not affect xml stream.
