@@ -19,7 +19,7 @@ AutoIt:
 [H][!]更新: MPRESS 更新到2.17版.
 [H][+]新增: SPY++ VS2010 版.
 [H][+]新增: SQLite数据库管理工具 SQLiteQuery.
-[G][!]更新: WinAPIEx UDF库 更新到2.7版.
+[G][!]更新: WinAPIEx UDF库 更新到2.8版.
 
 Scite:
 [H][!]更新: 更新Scite到2.20版.
