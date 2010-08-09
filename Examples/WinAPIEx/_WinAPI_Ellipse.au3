@@ -8,9 +8,10 @@ Opt('MustDeclareVars', 1)
 Global Const $STM_SETIMAGE = 0x0172
 Global Const $STM_GETIMAGE = 0x0173
 
-Global $hForm, $Pic, $hPic, $tRECT, $aPoint, $hObj, $hBrush, $hOldBrush, $hPen, $hOldPen, $hFont, $hRgn, $hPattern, $hBitmap, $hSource, $hDev, $hDC, $hSv
+Global $hForm, $Pic, $hPic, $tRECT, $hObj, $hBrush, $hOldBrush, $hPen, $hOldPen, $hFont, $hRgn, $hPattern, $hBitmap, $hSource, $hDev, $hDC, $hSv
 
-Dim $aPoint[6][2] = [[0, 129], [55, 75], [75, 0], [95, 75], [150, 129], [75, 108]]
+Dim $aPoint1[19][2] = [[50, 20], [70, 0], [70, 0], [90, 20], [100, 30], [110, 40], [120, 50], [130, 60], [130, 70], [120, 70], [110, 70], [30, 70], [20, 70], [10, 70], [10, 60], [20, 50], [30, 40], [40, 30], [50, 20]]
+Dim $aPoint2[6][2] = [[0, 129], [55, 75], [75, 0], [95, 75], [150, 129], [75, 108]]
 
 ; Create GUI
 $hForm = GUICreate('MyGUI', 400, 400)
@@ -40,7 +41,7 @@ _WinAPI_SetBkColor($hDC, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE))
 $hBrush = _WinAPI_CreateBrushIndirect($BS_HATCHED, 0x00A820, $HS_DIAGCROSS)
 $hObj = _WinAPI_SelectObject($hDC, $hBrush)
 $tRECT = _WinAPI_CreateRect(0, 0, 140, 140)
-_WinAPI_OffsetRect($tRECT, 220, 70)
+_WinAPI_OffsetRect($tRECT, 220, 118)
 _WinAPI_Ellipse($hDC, $tRECT)
 _WinAPI_SelectObject($hDC, $hObj)
 _WinAPI_DeleteObject($hBrush)
@@ -51,18 +52,27 @@ $hObj = _WinAPI_SelectObject($hDC, $hFont)
 _WinAPI_TextOut($hDC, 30, 185, 'Simple Text')
 _WinAPI_SelectObject($hDC, $hObj)
 _WinAPI_DeleteObject($hFont)
-$hRgn = _WinAPI_CreatePolygonRgn($aPoint)
+$hRgn = _WinAPI_CreatePolygonRgn($aPoint2)
 _WinAPI_SetDCBrushColor($hDC, 0x0060C4)
 _WinAPI_OffsetRgn($hRgn, 25, 240)
 _WinAPI_PaintRgn($hDC, $hRgn)
 _WinAPI_DeleteObject($hRgn)
+_WinAPI_SetDCPenColor($hDC, 0xFF8000)
+_WinAPI_OffsetPoints($aPoint1, 219, 25)
+_WinAPI_PolyBezier($hDC, $aPoint1)
+$hBrush = _WinAPI_CreateBrushIndirect($BS_SOLID, 0xFF8000)
+$hObj = _WinAPI_SelectObject($hDC, $hBrush)
+_WinAPI_ExtFloodFill($hDC, 70 + 219, 40 + 25, 0xFF8000, 0)
+_WinAPI_SelectObject($hDC, $hObj)
+_WinAPI_SelectObject($hDC, $hObj)
+_WinAPI_DeleteObject($hBrush)
 _WinAPI_SetDCPenColor($hDC, 0xFFFFFF)
 $hPattern = _WinAPI_LoadImage(0, @ScriptDir & '\Extras\Pattern.bmp', $IMAGE_BITMAP, 0, 0, $LR_LOADFROMFILE)
 ;$hPattern = _WinAPI_LoadBitmap(_WinAPI_GetModuleHandle(@SystemDir & '\shell32.dll'), 138)
 $hBrush = _WinAPI_CreateBrushIndirect($BS_PATTERN, 0, $hPattern)
 $hObj = _WinAPI_SelectObject($hDC, $hBrush)
 $tRECT = _WinAPI_CreateRect(0, 0, 140, 90)
-_WinAPI_OffsetRect($tRECT, 220, 250)
+_WinAPI_OffsetRect($tRECT, 220, 279)
 _WinAPI_RoundRect($hDC, $tRECT, 20, 20)
 _WinAPI_SelectObject($hDC, $hObj)
 _WinAPI_DeleteObject($hPattern)

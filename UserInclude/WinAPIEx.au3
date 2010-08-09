@@ -6,7 +6,7 @@
     Filename:       WinAPIEx.au3
     Description:    Additional variables, constants and functions for the WinAPI.au3
     Author:         Yashied
-    Version:        2.7
+    Version:        2.8
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           WinAPI.au3
     Note:           The library uses the following system DLLs:
@@ -87,6 +87,7 @@
     _WinAPI_DeferWindowPos
     _WinAPI_DefineDosDevice
     _WinAPI_DeleteEnhMetaFile
+    _WinAPI_DeleteFile
     _WinAPI_DeleteVolumeMountPoint
     _WinAPI_DeregisterShellHookWindow
     _WinAPI_DestroyCaret
@@ -136,6 +137,7 @@
     _WinAPI_EqualRect
     _WinAPI_EqualRgn
     _WinAPI_EqualStruct
+    _WinAPI_ExtFloodFill
     _WinAPI_ExtSelectClipRgn
     _WinAPI_FatalExit
     _WinAPI_FileTimeToLocalFileTime
@@ -158,7 +160,7 @@
     _WinAPI_GetBValue
     _WinAPI_GetCaretBlinkTime
     _WinAPI_GetCaretPos
-    _WinAPI_GetClassLong
+    _WinAPI_GetClassLongEx
     _WinAPI_GetCompression
     _WinAPI_GetCurrentDirectory
     _WinAPI_GetCurrentHwProfile
@@ -245,6 +247,7 @@
     _WinAPI_GetVersionEx
     _WinAPI_GetVolumeNameForVolumeMountPoint
     _WinAPI_GetWindowInfo
+    _WinAPI_GetWindowLongEx
     _WinAPI_GetWindowModuleFileName
     _WinAPI_GetWorkArea
     _WinAPI_GradientFill
@@ -293,7 +296,9 @@
     _WinAPI_LookupPrivilegeValue
     _WinAPI_MessageBoxCheck
     _WinAPI_MoveFileEx
+    _WinAPI_MoveToEx
     _WinAPI_OemToChar
+    _WinAPI_OffsetPoints
     _WinAPI_OffsetClipRgn
     _WinAPI_OffsetRect
     _WinAPI_OffsetRgn
@@ -326,6 +331,9 @@
     _WinAPI_PickIconDlg
     _WinAPI_PlayEnhMetaFile
     _WinAPI_PlaySound
+    _WinAPI_PolyBezier
+    _WinAPI_PolyBezierTo
+    _WinAPI_PolyDraw
     _WinAPI_Polygon
     _WinAPI_PrintWindow
     _WinAPI_PtInRectEx
@@ -343,11 +351,13 @@
     _WinAPI_RegDeleteEmptyKey
     _WinAPI_RegDeleteKey
     _WinAPI_RegDeleteTree
+    _WinAPI_RegDeleteValue
     _WinAPI_RegEnumKey
     _WinAPI_RegEnumValue
     _WinAPI_RegFlushKey
     _WinAPI_RegisterHotKey
     _WinAPI_RegisterShellHookWindow
+ ***_WinAPI_RegLoadMUIString
     _WinAPI_RegOpenKey
     _WinAPI_RegQueryInfoKey
     _WinAPI_RegQueryLastWriteTime
@@ -357,15 +367,17 @@
     _WinAPI_RegSetValue
     _WinAPI_ReleaseSemaphore
     _WinAPI_RemoveFontResourceEx
+ ***_WinAPI_ReOpenFile
     _WinAPI_ResizeBitmap
     _WinAPI_RestartDlg
     _WinAPI_RestoreDC
     _WinAPI_RGB
+    _WinAPI_RotatePoints
     _WinAPI_RoundRect
     _WinAPI_SaveDC
     _WinAPI_SendMessageTimeout
     _WinAPI_SetActiveWindow
-    _WinAPI_SetClassLong
+    _WinAPI_SetClassLongEx
     _WinAPI_SetCompression
     _WinAPI_SetCaretBlinkTime
     _WinAPI_SetCaretPos
@@ -390,6 +402,7 @@
     _WinAPI_SetTimer
     _WinAPI_SetUDFColorMode
     _WinAPI_SetVolumeMountPoint
+    _WinAPI_SetWindowLongEx
     _WinAPI_ShellAddToRecentDocs
     _WinAPI_ShellChangeNotify
     _WinAPI_ShellChangeNotifyDeregister
@@ -437,6 +450,7 @@
     _WinAPI_VerQueryRoot
     _WinAPI_VerQueryValue
     _WinAPI_WindowFromDC
+    _WinAPI_Wow64EnableWow64FsRedirection
 
    * Available in native AutoIt library
   ** Deprecated
@@ -775,11 +789,11 @@ Global Const $FILE_FLAG_SEQUENTIAL_SCAN = 0x08000000
 Global Const $FILE_FLAG_WRITE_THROUGH = 0x80000000
 
 Global Const $SECURITY_ANONYMOUS = 0x00000000
+Global Const $SECURITY_CONTEXT_TRACKING = 0x00040000
+Global Const $SECURITY_DELEGATION = 0x00030000
+Global Const $SECURITY_EFFECTIVE_ONLY = 0x00080000
 Global Const $SECURITY_IDENTIFICATION = 0x00010000
 Global Const $SECURITY_IMPERSONATION = 0x00020000
-Global Const $SECURITY_DELEGATION = 0x00030000
-Global Const $SECURITY_CONTEXT_TRACKING = 0x00040000
-Global Const $SECURITY_EFFECTIVE_ONLY = 0x00080000
 
 ; ===============================================================================================================================
 ; _WinAPI_CreatePolygonRgn()
@@ -929,6 +943,13 @@ Global Const $DM_GRAYSCALE = 0x01
 Global Const $DM_INTERLACED = 0x02
 
 ; ===============================================================================================================================
+; _WinAPI_ExtFloodFill()
+; ===============================================================================================================================
+
+Global Const $FLOODFILLBORDER = 0
+Global Const $FLOODFILLSURFACE = 1
+
+; ===============================================================================================================================
 ; _WinAPI_ExtSelectClipRgn()
 ; ===============================================================================================================================
 
@@ -1008,7 +1029,7 @@ Global Const $SCS_POSIX_BINARY = 4
 Global Const $SCS_WOW_BINARY = 2
 
 ; ===============================================================================================================================
-; _WinAPI_GetClassLong(), _WinAPI_SetClassLong()
+; _WinAPI_GetClassLongEx(), _WinAPI_SetClassLongEx()
 ; ===============================================================================================================================
 
 Global Const $GCL_CBCLSEXTRA = -20
@@ -1413,6 +1434,22 @@ Global Const $VER_SUITE_WH_SERVER = 0x00008000
 Global Const $VER_NT_DOMAIN_CONTROLLER = 0x0000002
 Global Const $VER_NT_SERVER = 0x0000003
 Global Const $VER_NT_WORKSTATION = 0x0000001
+
+; ===============================================================================================================================
+; _WinAPI_GetWindowLongEx(), _WinAPI_SetWindowLongEx()
+; ===============================================================================================================================
+
+#cs
+
+Global Const $GWL_EXSTYLE = -20
+Global Const $GWL_HINSTANCE = -6
+Global Const $GWL_HWNDPARENT = -8
+Global Const $GWL_ID = -12
+Global Const $GWL_STYLE = -16
+Global Const $GWL_USERDATA = -21
+Global Const $GWL_WNDPROC = -4
+
+#ce
 
 ; ===============================================================================================================================
 ; _WinAPI_IsNetworkAlive()
@@ -1846,6 +1883,15 @@ Global Const $SND_ALIAS_SYSTEMHAND = 'SystemHand'
 Global Const $SND_ALIAS_SYSTEMQUESTION = 'SystemQuestion'
 Global Const $SND_ALIAS_SYSTEMSTART = 'SystemStart'
 Global Const $SND_ALIAS_SYSTEMWELCOME = 'SystemWelcome'
+
+; ===============================================================================================================================
+; _WinAPI_PolyDraw()
+; ===============================================================================================================================
+
+Global Const $PT_BEZIERTO = 4
+Global Const $PT_LINETO = 2
+Global Const $PT_MOVETO = 6
+Global Const $PT_CLOSEFIGURE = 1
 
 ; ===============================================================================================================================
 ; _WinAPI_RegisterHotKey()
@@ -4405,11 +4451,11 @@ EndFunc   ;==>_WinAPI_CreateEnhMetaFile
 ;                                         $FILE_FLAG_WRITE_THROUGH
 ;
 ;                                         $SECURITY_ANONYMOUS
+;                                         $SECURITY_CONTEXT_TRACKING
+;                                         $SECURITY_DELEGATION
+;                                         $SECURITY_EFFECTIVE_ONLY
 ;                                         $SECURITY_IDENTIFICATION
 ;                                         $SECURITY_IMPERSONATION
-;                                         $SECURITY_DELEGATION
-;                                         $SECURITY_CONTEXT_TRACKING
-;                                         $SECURITY_EFFECTIVE_ONLY
 ;
 ;                  $tSecurity           - $tagSECURITY_ATTRIBUTES structure that contains two separate but related data members:
 ;                                         an optional security descriptor, and a Boolean value that determines whether the returned
@@ -4963,6 +5009,31 @@ Func _WinAPI_DeleteEnhMetaFile($hEmf)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_DeleteEnhMetaFile
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DeleteFile
+; Description....: Deletes an existing file.
+; Syntax.........: _WinAPI_DeleteFile ( $sFile )
+; Parameters.....: $sFile  - The name of the file to be deleted.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DeleteFile
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DeleteFile($sFile)
+
+	Local $Ret = DllCall('kernel32.dll', 'int', 'DeleteFileW', 'wstr', $sFile)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DeleteFile
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DeleteVolumeMountPoint
@@ -6874,6 +6945,40 @@ Func _WinAPI_EqualStruct(ByRef $tStruct1, ByRef $tStruct2)
 EndFunc   ;==>_WinAPI_EqualStruct
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ExtFloodFill
+; Description....: Fills an area of the display surface with the current brush.
+; Syntax.........: _WinAPI_ExtFloodFill ( $hDC, $iX, $iY, $iRGB [, $iType] )
+; Parameters.....: $hDC    - Handle to the device context.
+;                  $iX     - The x-coordinate, in logical units, of the point where filling is to start.
+;                  $iY     - The y-coordinate, in logical units, of the point where filling is to start.
+;                  $iRGB   - The color of the boundary or of the area to be filled, in RGB. The interpretation of color depends on
+;                            the value of the $iType parameter.
+;                  $iType  - The type of fill operation to be performed. This parameter must be one of the following values.
+;
+;                            $FLOODFILLBORDER
+;                            $FLOODFILLSURFACE
+;
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ ExtFloodFill
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ExtFloodFill($hDC, $iX, $iY, $iRGB, $iType = 0)
+
+	Local $Ret = DllCall('gdi32.dll', 'int', 'ExtFloodFill', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'dword', __IsRGB($iRGB), 'uint', $iType)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_ExtFloodFill
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ExtSelectClipRgn
 ; Description....: Combines the specified region with the current clipping region using the specified mode.
 ; Syntax.........: _WinAPI_ExtSelectClipRgn ( $hDC, $hRgn [, $iMode] )
@@ -7608,11 +7713,11 @@ Func _WinAPI_GetCaretPos()
 EndFunc   ;==>_WinAPI_GetCaretPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_GetClassLong
-; Description....: Retrieves the specified 32-bit (long) value associated with the specified window.
-; Syntax.........: _WinAPI_GetClassLong ( $hWnd, $iIndex )
-; Parameters.....: $hWnd   - Handle to the window and, indirectly, the class to which the window belongs.
-;                  $iIndex - The 32-bit value to retrieve. This parameter can be one of the following values.
+; Name...........: _WinAPI_GetClassLongEx
+; Description....: Retrieves the specified value associated with the specified window.
+; Syntax.........: _WinAPI_GetClassLongEx ( $hWnd, $iIndex )
+; Parameters.....: $hWnd   - Handle to the window.
+;                  $iIndex - The value to retrieve. This parameter can be one of the following values.
 ;
 ;                            $GCL_CBCLSEXTRA
 ;                            $GCL_CBWNDEXTRA
@@ -7625,7 +7730,7 @@ EndFunc   ;==>_WinAPI_GetCaretPos
 ;                            $GCL_STYLE
 ;                            $GCL_WNDPROC
 ;
-; Return values..: Success - The value is the requested 32-bit value.
+; Return values..: Success - The requested value.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -7635,15 +7740,20 @@ EndFunc   ;==>_WinAPI_GetCaretPos
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_GetClassLong($hWnd, $iIndex)
+Func _WinAPI_GetClassLongEx($hWnd, $iIndex)
 
-	Local $Ret = DllCall('user32.dll', 'int', 'GetClassLong', 'hwnd', $hWnd, 'int', $iIndex)
+	Local $Ret
 
+	If StringInStr(@OSArch, '64') Then
+		$Ret = DllCall('user32.dll', 'ulong_ptr', 'GetClassLongPtrW', 'hwnd', $hWnd, 'int', $iIndex)
+	Else
+		$Ret = DllCall('user32.dll', 'ulong', 'GetClassLongW', 'hwnd', $hWnd, 'int', $iIndex)
+	EndIf
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>_WinAPI_GetClassLong
+EndFunc   ;==>_WinAPI_GetClassLongEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetCompression
@@ -10337,7 +10447,7 @@ EndFunc   ;==>_WinAPI_GetUDFColorMode
 ; ===============================================================================================================================
 
 Func _WinAPI_GetUDFVersion()
-	Return '2.7'
+	Return '2.8'
 EndFunc   ;==>_WinAPI_GetUDFVersion
 
 ; #FUNCTION# ====================================================================================================================
@@ -10554,6 +10664,48 @@ Func _WinAPI_GetWindowInfo($hWnd)
 EndFunc   ;==>_WinAPI_GetWindowInfo
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetWindowLongEx
+; Description....: Retrieves information about the specified window.
+; Syntax.........: _WinAPI_GetWindowLongEx ( $hWnd, $iIndex )
+; Parameters.....: $hWnd   - Handle to the window and, indirectly, the class to which the window belongs.
+;                  $iIndex - The zero-based offset to the value to be retrieved. Valid values are in the range zero through the
+;                            number of bytes of extra window memory, minus the size of an integer. To retrieve any other value,
+;                            specify one of the following values.
+;
+;                            $GWL_EXSTYLE
+;                            $GWL_HINSTANCE
+;                            $GWL_HWNDPARENT
+;                            $GWL_ID
+;                            $GWL_STYLE
+;                            $GWL_USERDATA
+;                            $GWL_WNDPROC
+;
+; Return values..: Success - The requested value.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: If _WinAPI_SetWindowLong() has not been called previously, _WinAPI_GetWindowLong() returns 0.
+; Related........:
+; Link...........: @@MsdnLink@@ GetWindowLong
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetWindowLongEx($hWnd, $iIndex)
+
+	Local $Ret
+
+	If StringInStr(@OSArch, '64') Then
+		$Ret = DllCall('user32.dll', 'long_ptr', 'GetWindowLongPtrW', 'hwnd', $hWnd, 'int', $iIndex)
+	Else
+		$Ret = DllCall('user32.dll', 'long', 'GetWindowLongW', 'hwnd', $hWnd, 'int', $iIndex)
+	EndIf
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetWindowLongEx
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetWindowModuleFileName
 ; Description....: Retrieves the full path and file name of the module associated with the specified window handle.
 ; Syntax.........: _WinAPI_GetWindowModuleFileName ( $hWnd )
@@ -10609,7 +10761,7 @@ EndFunc   ;==>_WinAPI_GetWorkArea
 ; Name...........: _WinAPI_GradientFill
 ; Description....: Fills rectangle or triangle gradient.
 ; Syntax.........: _WinAPI_GradientFill ($hDC, $aVertex [, $iStart [, $iEnd [, $fRotate]]] )
-; Parameters.....: $hDC     - Handle to the destination device context.
+; Parameters.....: $hDC     - Handle to the device context.
 ;                  $aVertex - The 2D array ([x1, y1, $rgb1], [x2, y2, $rgb2], ... [xN, yN, $rgbN]) that contains the necessary
 ;                             gradient vertices. Each vertex in this array contains the following parameters.
 ;
@@ -12290,6 +12442,34 @@ Func _WinAPI_MoveFileEx($sExistingFile, $sNewFile, $iFlags = 0, $pProgressProc =
 EndFunc   ;==>_WinAPI_MoveFileEx
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_MoveToEx
+; Description....: Updates the current position to the specified point.
+; Syntax.........: _WinAPI_MoveToEx ( $hDC, $iX, $iY )
+; Parameters.....: $hDC    - Handle to the device context.
+;                  $iX     - The x-coordinate, in logical units, of the new position, in logical units.
+;                  $iY     - The y-coordinate, in logical units, of the new position, in logical units.
+; Return values..: Success - $tagPOINT structure that receives the previous current position.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ MoveToEx
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_MoveToEx($hDC, $iX, $iY)
+
+	Local $tPOINT = DllStructCreate($tagPOINT)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'MoveToEx', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'ptr', DllStructGetPtr($tPOINT))
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $tPOINT
+EndFunc   ;==>_WinAPI_MoveToEx
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_OemToChar
 ; Description....: Converts a string from the OEM-defined character set into either an ANSI string.
 ; Syntax.........: _WinAPI_OemToChar ( $sStr )
@@ -12314,6 +12494,46 @@ Func _WinAPI_OemToChar($sStr)
 	EndIf
 	Return DllStructGetData($tData, 1)
 EndFunc   ;==>_WinAPI_OemToChar
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_OffsetPoints
+; Description....: Moves a points from the array by the specified offsets.
+; Syntax.........: _WinAPI_OffsetPoints ( ByRef $aPoint, $iXOffset, $iYOffset [, $iStart [, $iEnd]] )
+; Parameters.....: $aPoint   - The 2D array ([x1, y1, ...], [x2, y2, ...], ... [xN, yN, ...]). Every first two elements from this
+;                              array specifies a point to be move. Other array elements (if any) do not change.
+;                  $iXOffset - The number of logical units to move left or right.
+;                  $iYOffset - The number of logical units to move up or down.
+;                  $iStart   - The index of array to start moving at.
+;                  $iEnd     - The index of array to stop moving at.
+; Return values..: Success   - 1.
+;                  Failure   - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_OffsetPoints(ByRef $aPoint, $iXOffset, $iYOffset, $iStart = 0, $iEnd = -1)
+	If UBound($aPoint, 2) < 2  Then
+		Return SetError(2, 0, 0)
+	EndIf
+	If $iStart < 0 Then
+		$iStart = 0
+	EndIf
+	If ($iEnd < 0) Or ($iEnd > UBound($aPoint) - 1) Then
+		$iEnd = UBound($aPoint) - 1
+	EndIf
+	If $iStart > $iEnd Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = $iStart To $iEnd
+		$aPoint[$i][0] += $iXOffset
+		$aPoint[$i][1] += $iYOffset
+	Next
+	Return 1
+EndFunc   ;==>_WinAPI_OffsetPoints
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_OffsetClipRgn
@@ -13310,7 +13530,7 @@ EndFunc   ;==>_WinAPI_PlayEnhMetaFile
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_PlaySound
 ; Description....: Plays a sound specified by the given file name, resource, or system event.
-; Syntax.........: _WinAPI_PlaySound ( $sSound, $iFlags [, $hInstance] )
+; Syntax.........: _WinAPI_PlaySound ( $sSound [, $iFlags [, $hInstance]] )
 ; Parameters.....: $sSound    - The string that specifies the sound to play. The maximum length is 255 characters. If $sSound is
 ;                               empty, any currently playing waveform sound is stopped.
 ;                  $iFlags    - The flags for sound playing. This parameter can be one or more of the following values.
@@ -13352,7 +13572,7 @@ EndFunc   ;==>_WinAPI_PlayEnhMetaFile
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_PlaySound($sSound, $iFlags, $hInstance = 0)
+Func _WinAPI_PlaySound($sSound, $iFlags = 0x00020010, $hInstance = 0)
 
 	Local $TypeOfSound = 'ptr'
 
@@ -13376,6 +13596,224 @@ Func _WinAPI_PlaySound($sSound, $iFlags, $hInstance = 0)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_PlaySound
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_PolyBezier
+; Description....: Draws one or more Bezier curves.
+; Syntax.........: _WinAPI_PolyBezier ( $hDC, $aPoint [, $iStart [, $iEnd]] )
+; Parameters.....: $hDC    - Handle to a device context.
+;                  $aPoint - The 2D array ([x1, y1], [x2, y2], ... [xN, yN]) that contains the endpoints and control points of the
+;                            curve(s), in logical units. The number of points must be one more than three times the number of curves
+;                            to be drawn, because each Bezier curve requires two control points and an endpoint, and the initial
+;                            curve requires an additional starting point.
+;                  $iStart - The index of array to start drawing at.
+;                  $iEnd   - The index of array to stop drawing at.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function draws cubic Bezier curves by using the endpoints and control points specified by the $aPoint
+;                  parameter. The first curve is drawn from the first point to the fourth point by using the second and third points
+;                  as control points. Each subsequent curve in the sequence needs exactly three more points: the ending point of the
+;                  previous curve is used as the starting point, the next two points in the sequence are control points, and the
+;                  third is the ending point.
+;
+;                  The current position is neither used nor updated by the _WinAPI_PolyBezier() function. The figure is not filled.
+;
+;                  This function draws lines by using the current pen.
+; Related........:
+; Link...........: @@MsdnLink@@ PolyBezier
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_PolyBezier($hDC, $aPoint, $iStart = 0, $iEnd = -1)
+
+	If UBound($aPoint, 2) < 2  Then
+		Return SetError(2, 0, 0)
+	EndIf
+
+	Local $Point, $tPoint, $Count = 0, $Struct = ''
+
+	If $iStart < 0 Then
+		$iStart = 0
+	EndIf
+	If ($iEnd < 0) Or ($iEnd > UBound($aPoint) - 1) Then
+		$iEnd = UBound($aPoint) - 1
+	EndIf
+	$Point = 1 + 3 * Floor(($iEnd - $iStart) / 3)
+	If $Point < 1 Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$iEnd = $iStart + $Point - 1
+	For $i = $iStart To $iEnd
+		$Struct &= 'long[2];'
+	Next
+	$tPoint = DllStructCreate($Struct)
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = $iStart To $iEnd
+		$Count += 1
+		For $j = 0 To 1
+			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+		Next
+	Next
+
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezier', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'dword', $Point)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_PolyBezier
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_PolyBezierTo
+; Description....: Draws one or more Bezier curves.
+; Syntax.........: _WinAPI_PolyBezierTo ( $hDC, $aPoint [, $iStart [, $iEnd]] )
+; Parameters.....: $hDC    - Handle to a device context.
+;                  $aPoint - The 2D array ([x1, y1], [x2, y2], ... [xN, yN]) that contains the endpoints and control points of the
+;                            curve(s), in logical units. The number of points must be three times the number of curves to be drawn,
+;                            because each Bezier curve requires two control points and an ending point.
+;                  $iStart - The index of array to start drawing at.
+;                  $iEnd   - The index of array to stop drawing at.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function draws cubic Bezier curves by using the control points specified by the $aPoint parameter.
+;                  The first curve is drawn from the current position to the third point by using the first two points as control points.
+;                  For each subsequent curve, the function needs exactly three more points, and uses the ending point of the previous
+;                  curve as the starting point for the next.
+;
+;                  The current position moves to the ending point of the last Bezier curve. The figure is not filled.
+;
+;                  This function draws lines by using the current pen.
+; Related........:
+; Link...........: @@MsdnLink@@ PolyBezierTo
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_PolyBezierTo($hDC, $aPoint, $iStart = 0, $iEnd = -1)
+
+	If UBound($aPoint, 2) < 2  Then
+		Return SetError(2, 0, 0)
+	EndIf
+
+	Local $Point, $tPoint, $Count = 0, $Struct = ''
+
+	If $iStart < 0 Then
+		$iStart = 0
+	EndIf
+	If ($iEnd < 0) Or ($iEnd > UBound($aPoint) - 1) Then
+		$iEnd = UBound($aPoint) - 1
+	EndIf
+	$Point = 3 * Floor(($iEnd - $iStart + 1) / 3)
+	If $Point < 3 Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$iEnd = $iStart + $Point - 1
+	For $i = $iStart To $iEnd
+		$Struct &= 'long[2];'
+	Next
+	$tPoint = DllStructCreate($Struct)
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = $iStart To $iEnd
+		$Count += 1
+		For $j = 0 To 1
+			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+		Next
+	Next
+
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezierTo', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'dword', $Point)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_PolyBezierTo
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_PolyDraw
+; Description....: Draws a set of line segments and Bezier curves.
+; Syntax.........: _WinAPI_PolyDraw ( $hDC, $aPoint [, $iStart [, $iEnd]] )
+; Parameters.....: $hDC    - Handle to a device context.
+;                  $aPoint - The 2D array ([x1, y1, type1], [x2, y2, type2], ... [xN, yN, typeN]) that contains the endpoints for
+;                            each line segment and the endpoints and control points for each Bezier curve, in logical units. In addition,
+;                            the array contains a parameters that specifies how each point is used. The third parameter of the array
+;                            can be one of the following values.
+;
+;                            $PT_BEZIERTO
+;                            $PT_LINETO
+;                            $PT_MOVETO
+;
+;                            $PT_BEZIERTO or $PT_LINETO type can be combined with the following value that the corresponding point
+;                            is the last point in a figure and the figure is closed.
+;
+;                            $PT_CLOSEFIGURE
+;
+;                  $iStart - The index of array to start drawing at.
+;                  $iEnd   - The index of array to stop drawing at.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function can be used in place of consecutive calls to _WinAPI_MoveToEx(), _WinAPI_LineTo(), and _WinAPI_PolyBezierTo()
+;                  functions to draw disjoint figures. The lines and curves are drawn using the current pen and figures are not filled.
+;                  If there is an active path started by calling _WinAPI_BeginPath(), _WinAPI_PolyDraw() adds to the path.
+;
+;                  This function updates the current position.
+; Related........:
+; Link...........: @@MsdnLink@@ PolyDraw
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_PolyDraw($hDC, $aPoint, $iStart = 0, $iEnd = -1)
+
+	If UBound($aPoint, 2) < 3  Then
+		Return SetError(2, 0, 0)
+	EndIf
+
+	Local $Point, $tPoint, $tTypes, $Count = 0, $Struct = ''
+
+	If $iStart < 0 Then
+		$iStart = 0
+	EndIf
+	If ($iEnd < 0) Or ($iEnd > UBound($aPoint) - 1) Then
+		$iEnd = UBound($aPoint) - 1
+	EndIf
+	$Point = $iEnd - $iStart + 1
+	If Not $Point Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = $iStart To $iEnd
+		$Struct &= 'long[2];'
+	Next
+	$tPoint = DllStructCreate($Struct)
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$tTypes = DllStructCreate('byte[' & $Point & ']')
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	For $i = $iStart To $iEnd
+		$Count += 1
+		For $j = 0 To 1
+			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+		Next
+		DllStructSetData($tTypes, 1, $aPoint[$i][2], $Count)
+	Next
+
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyDraw', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'ptr', DllStructGetPtr($tTypes), 'dword', $Point)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_PolyDraw
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_Polygon
@@ -13662,7 +14100,7 @@ EndFunc   ;==>_WinAPI_QueryPerformanceFrequency
 ; Name...........: _WinAPI_RadialGradientFill
 ; Description....: Fills radial gradient.
 ; Syntax.........: _WinAPI_RadialGradientFill($hDC, $iX, $iY, $iRadius, $iRGB1, $iRGB2 [, $iAngleStart [, $iAngleEnd [, $iStep]]] )
-; Parameters.....: $hDC         - Handle to the destination device context.
+; Parameters.....: $hDC         - Handle to the device context.
 ;                  $iX          - The x-coordinate of the central point, in logical units.
 ;                  $iY          - The y-coordinate of the central point, in logical units.
 ;                  $iRadius     - The circle radius to filling the gradient.
@@ -13705,9 +14143,9 @@ Func _WinAPI_RadialGradientFill($hDC, $iX, $iY, $iRadius, $iRGB1, $iRGB2, $iAngl
 		$iStep = 1
 	EndIf
 
-	Local $K = 4 * ATan(1) / 180
-	Local $Xp = Round($iX + $iRadius * Cos($K * $iAngleStart))
-	Local $Yp = Round($iY + $iRadius * Sin($K * $iAngleStart))
+	Local $Ki = ATan(1) / 45
+	Local $Xp = Round($iX + $iRadius * Cos($Ki * $iAngleStart))
+	Local $Yp = Round($iY + $iRadius * Sin($Ki * $iAngleStart))
 	Local $Xn, $Yn, $An = $iAngleStart
 	Local $Vertex[3][3]
 
@@ -13716,8 +14154,8 @@ Func _WinAPI_RadialGradientFill($hDC, $iX, $iY, $iRadius, $iRGB1, $iRGB2, $iAngl
 		If $An > $iAngleEnd Then
 			$An = $iAngleEnd
 		EndIf
-		$Xn = Round($iX + $iRadius * Cos($K * $An))
-		$Yn = Round($iY + $iRadius * Sin($K * $An))
+		$Xn = Round($iX + $iRadius * Cos($Ki * $An))
+		$Yn = Round($iY + $iRadius * Sin($Ki * $An))
 		$Vertex[0][0] = $iX
 		$Vertex[0][1] = $iY
 		$Vertex[0][2] = $iRGB1
@@ -14071,6 +14509,46 @@ Func _WinAPI_RegDeleteTree($hKey, $sSubKey = '')
 EndFunc   ;==>_WinAPI_RegDeleteTree
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_RegDeleteValue
+; Description....: Removes a named value from the specified registry key.
+; Syntax.........: _WinAPI_RegDeleteValue ( $hKey, $sValueName )
+; Parameters.....: $hKey       - Handle to an open registry key. TThe key must have been opened with the $KEY_SET_VALUE access right.
+;                                This handle is returned by the _WinAPI_RegCreateKey() or _WinAPI_RegOpenKey() function, or it can be
+;                                one of the following predefined keys.
+;
+;                                $HKEY_CLASSES_ROOT
+;                                $HKEY_CURRENT_CONFIG
+;                                $HKEY_CURRENT_USER
+;                                $HKEY_LOCAL_MACHINE
+;                                $HKEY_USERS
+;
+;                  $sValueName - The registry value to be removed. If this parameter is empty string, the key's unnamed or default
+;                                value is removed.
+; Return values..: Success     - 1.
+;                  Failure     - 0 and sets the @error flag to non-zero, @extended flag may contain the nonzero system error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ RegDeleteValue
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_RegDeleteValue($hKey, $sValueName)
+
+	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDeleteValueW', 'ulong_ptr', $hKey, 'wstr', $sValueName)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_RegDeleteValue
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_RegEnumKey
 ; Description....: Enumerates the subkeys of the specified open registry key.
 ; Syntax.........: _WinAPI_RegEnumKey ( $hKey, $iIndex )
@@ -14294,6 +14772,62 @@ Func _WinAPI_RegisterShellHookWindow($hWnd)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_RegisterShellHookWindow
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_RegLoadMUIString
+; Description....: Loads the specified string from the specified key and subkey.
+; Syntax.........: _WinAPI_RegLoadMUIString ( $hKey, $sValueName [, $sDirectory] )
+; Parameters.....: $hKey       - Handle to an open registry key. The key must have been opened with the $KEY_QUERY_VALUE access right.
+;                                This handle is returned by the _WinAPI_RegCreateKey() or _WinAPI_RegOpenKey() function. It can also
+;                                be one of the following predefined keys.
+;
+;                                $HKEY_CLASSES_ROOT
+;                                $HKEY_CURRENT_CONFIG
+;                                $HKEY_CURRENT_USER
+;                                $HKEY_LOCAL_MACHINE
+;                                $HKEY_USERS
+;
+;                  $sValueName - The name of the registry value.
+;                  $sDirectory - The directory path.
+; Return values..: Success     - The loaded string.
+;                  Failure     - Empty string and sets the @error flag to non-zero, @extended flag may contain the nonzero system error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The strings of the following form receive special handling:
+;
+;                  @[path]\dllname,-strID
+;
+;                  The string with identifier strID is loaded from dllname; the path is optional. If the $sDirectory parameter is
+;                  empty string, the directory is prepended to the path specified in the registry data. Note that dllname can contain
+;                  environment variables to be expanded.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ RegLoadMUIString
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_RegLoadMUIString($hKey, $sValueName, $sDirectory = '')
+
+	Local $TypeOfDirectory = 'wstr'
+
+	If Not StringStripWS($sDirectory, 3) Then
+		$TypeOfDirectory = 'ptr'
+		$sDirectory = 0
+	EndIf
+
+	Local $tData = DllStructCreate('wchar[1024]')
+	Local $Ret = DllCall('advapi32.dll', 'long', 'RegLoadMUIStringW', 'ulong_ptr', $hKey, 'wstr', $sValueName, 'ptr', DllStructGetPtr($tData), 'dword', DllStructGetSize($tData), 'dword*', 0, 'dword', 0, $TypeOfDirectory, $sDirectory)
+
+	If @error Then
+		Return SetError(1, 0, '')
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], '')
+		EndIf
+	EndIf
+	Return DllStructGetData($tData, 1)
+EndFunc   ;==>_WinAPI_RegLoadMUIString
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_RegOpenKey
@@ -14716,6 +15250,69 @@ Func _WinAPI_RemoveFontResourceEx($sFont, $iFlag = 0, $fNotify = 0)
 EndFunc   ;==>_WinAPI_RemoveFontResourceEx
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ReOpenFile
+; Description....: Reopens the specified file system object with different access rights, sharing mode, and flags.
+; Syntax.........: _WinAPI_ReOpenFile ( $hFile, $iAccess, $iShare [, $iFlags] )
+; Parameters.....: $sFile   - Handle to the object to be reopened. The object must have been created by the _WinAPI_CreateFile() function.
+;                  $iAccess - The required access to the object. If this parameter is 0, the application can query device attributes
+;                             without accessing the device.
+;
+;                             $GENERIC_READ
+;                             $GENERIC_WRITE
+;
+;                             (See MSDN for more information)
+;
+;                  $iShare  - The sharing mode of the object. If this parameter is 0, the object cannot be shared and cannot be
+;                             opened again until the handle is closed.
+;
+;                             $FILE_SHARE_READ
+;                             $FILE_SHARE_WRITE
+;                             $FILE_SHARE_DELETE
+;
+;                  $iFlags  - The file or device attributes and flags. This parameter can be one or more of the following values.
+;
+;                             $FILE_FLAG_BACKUP_SEMANTICS
+;                             $FILE_FLAG_DELETE_ON_CLOSE
+;                             $FILE_FLAG_NO_BUFFERING
+;                             $FILE_FLAG_OPEN_NO_RECALL
+;                             $FILE_FLAG_OPEN_REPARSE_POINT
+;                             $FILE_FLAG_OVERLAPPED
+;                             $FILE_FLAG_POSIX_SEMANTICS
+;                             $FILE_FLAG_RANDOM_ACCESS
+;                             $FILE_FLAG_SEQUENTIAL_SCAN
+;                             $FILE_FLAG_WRITE_THROUGH
+;
+;                             $SECURITY_ANONYMOUS
+;                             $SECURITY_CONTEXT_TRACKING
+;                             $SECURITY_DELEGATION
+;                             $SECURITY_EFFECTIVE_ONLY
+;                             $SECURITY_IDENTIFICATION
+;                             $SECURITY_IMPERSONATION
+;
+; Return values..: Success  - Handle to the specified file.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: The $iFlags parameter cannot contain any of the file attribute flags ($FILE_ATTRIBUTE_...). These can only be
+;                  specified when the file is created.
+;
+;                  This function requires Windows Vista or above.
+; Related........:
+; Link...........: @@MsdnLink@@ ReOpenFile
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ReOpenFile($hFile, $iAccess, $iShare, $iFlags = 0)
+
+	Local $Ret = DllCall('kernel32.dll', 'ptr', 'ReOpenFile', 'ptr', $hFile, 'dword', $iAccess, 'dword', $iShare, 'dword', $iFlags)
+
+	If (@error) Or ($Ret[0] = -1) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_ReOpenFile
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ResizeBitmap
 ; Description....: Changes the size of a bitmap to the specified dimensions.
 ; Syntax.........: _WinAPI_ResizeBitmap ( $hBitmap, $iWidth, $iHeight [, $iMode] )
@@ -14870,6 +15467,54 @@ Func _WinAPI_RGB($iRed, $iGreen, $iBlue)
 EndFunc   ;==>_WinAPI_RGB
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_RotatePoints
+; Description....: Rotates a points from the array by the specified angle.
+; Syntax.........: _WinAPI_RotatePoints ( ByRef $aPoint, $iXC, $iYC, $iAngle [, $iStart [, $iEnd]] )
+; Parameters.....: $aPoint - The 2D array ([x1, y1, ...], [x2, y2, ...], ... [xN, yN, ...]). Every first two elements from this
+;                            array specifies a point to be rotate. Other array elements (if any) do not change.
+;                  $iXC    - X-coordinates of the point on which there is a rotation, in logical units.
+;                  $iYC    - Y-coordinates of the point on which there is a rotation, in logical units.
+;                  $iAngle - The angle to rotate, in degree.
+;                  $iStart - The index of array to start rotating at.
+;                  $iEnd   - The index of array to stop rotating at.
+; Return values..: Success - 1.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_RotatePoints(ByRef $aPoint, $iXC, $iYC, $iAngle, $iStart = 0, $iEnd = -1)
+	If UBound($aPoint, 2) < 2  Then
+		Return SetError(2, 0, 0)
+	EndIf
+	If $iStart < 0 Then
+		$iStart = 0
+	EndIf
+	If ($iEnd < 0) Or ($iEnd > UBound($aPoint) - 1) Then
+		$iEnd = UBound($aPoint) - 1
+	EndIf
+	If $iStart > $iEnd Then
+		Return SetError(1, 0, 0)
+	EndIf
+
+	Local $Cos = Cos(ATan(1) / 45 * $iAngle)
+	Local $Sin = Sin(ATan(1) / 45 * $iAngle)
+	Local $Xn, $Yn
+
+	For $i = $iStart To $iEnd
+		$Xn = $aPoint[$i][0] - $iXC
+		$Yn = $aPoint[$i][1] - $iYC
+		$aPoint[$i][0] = $iXC + Round($Xn * $Cos - $Yn * $Sin)
+		$aPoint[$i][1] = $iYC + Round($Xn * $Sin + $Yn * $Cos)
+	Next
+	Return 1
+EndFunc   ;==>_WinAPI_RotatePoints
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_RoundRect
 ; Description....: Draws a rectangle with rounded corners.
 ; Syntax.........: _WinAPI_RoundRect ( $hDC, $tRECT, $iWidth, $iHeight )
@@ -14995,11 +15640,11 @@ Func _WinAPI_SetActiveWindow($hWnd)
 EndFunc   ;==>_WinAPI_SetActiveWindow
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_SetClassLong
-; Description....: Replaces the specified 32-bit (long) value into the specified window belongs.
-; Syntax.........: _WinAPI_SetClassLong ( $hWnd, $iIndex, $iNewLong )
-; Parameters.....: $hWnd     - Handle to the window and, indirectly, the class to which the window belongs.
-;                  $iIndex   - The 32-bit value to replace. This parameter can be one of the following values.
+; Name...........: _WinAPI_SetClassLongEx
+; Description....: Replaces the specified value into the specified window belongs.
+; Syntax.........: _WinAPI_SetClassLongEx ( $hWnd, $iIndex, $iNewLong )
+; Parameters.....: $hWnd     - Handle to the window.
+;                  $iIndex   - The value to be replaced. This parameter can be one of the following values.
 ;
 ;                              $GCL_CBCLSEXTRA
 ;                              $GCL_CBWNDEXTRA
@@ -15013,7 +15658,7 @@ EndFunc   ;==>_WinAPI_SetActiveWindow
 ;                              $GCL_WNDPROC
 ;
 ;                  $iNewLong - The replacement value.
-; Return values..: Success   - The previous value of the specified 32-bit integer. If the value was not previously set, the return value is zero.
+; Return values..: Success   - The previous value.
 ;                  Failure   - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
 ; Modified.......:
@@ -15023,15 +15668,20 @@ EndFunc   ;==>_WinAPI_SetActiveWindow
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_SetClassLong($hWnd, $iIndex, $iNewLong)
+Func _WinAPI_SetClassLongEx($hWnd, $iIndex, $iNewLong)
 
-	Local $Ret = DllCall('user32.dll', 'int', 'SetClassLong', 'hwnd', $hWnd, 'int', $iIndex, 'long', $iNewLong)
+	Local $Ret
 
+	If StringInStr(@OSArch, '64') Then
+		$Ret = DllCall('user32.dll', 'ulong_ptr', 'SetClassLongPtrW', 'hwnd', $hWnd, 'int', $iIndex, 'long_ptr', $iNewLong)
+	Else
+		$Ret = DllCall('user32.dll', 'ulong', 'SetClassLongW', 'hwnd', $hWnd, 'int', $iIndex, 'long', $iNewLong)
+	EndIf
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>_WinAPI_SetClassLong
+EndFunc   ;==>_WinAPI_SetClassLongEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetCompression
@@ -16004,6 +16654,48 @@ Func _WinAPI_SetVolumeMountPoint($sPath, $GUID)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_SetVolumeMountPoint
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_SetWindowLongEx
+; Description....: Changes an attribute of the specified window.
+; Syntax.........: _WinAPI_SetWindowLongEx ( $hWnd, $iIndex, $iNewLong )
+; Parameters.....: $hWnd     - Handle to the window.
+;                  $iIndex   - The zero-based offset to the value to be set. Valid values are in the range zero through the
+;                              number of bytes of extra window memory, minus the size of an integer. To set any other value,
+;                              specify one of the following values.
+;
+;                              $GWL_EXSTYLE
+;                              $GWL_HINSTANCE
+;                              $GWL_ID
+;                              $GWL_STYLE
+;                              $GWL_USERDATA
+;                              $GWL_WNDPROC
+;
+;                  $iNewLong - The replacement value.
+; Return values..: Success   - The previous value.
+;                  Failure   - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ SetWindowLong
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_SetWindowLongEx($hWnd, $iIndex, $iNewLong)
+
+	Local $Ret
+
+	If StringInStr(@OSArch, '64') Then
+		$Ret = DllCall('user32.dll', 'long_ptr', 'SetWindowLongPtrW', 'hwnd', $hWnd, 'int', $iIndex, 'long_ptr', $iNewLong)
+	Else
+		$Ret = DllCall('user32.dll', 'long', 'SetWindowLongW', 'hwnd', $hWnd, 'int', $iIndex, 'long', $iNewLong)
+	EndIf
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_SetWindowLongEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShellAddToRecentDocs
@@ -18218,6 +18910,34 @@ Func _WinAPI_WindowFromDC($hDC)
 	EndIf
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_WindowFromDC
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_Wow64EnableWow64FsRedirection
+; Description....: Enables or disables file system redirection for the calling thread.
+; Syntax.........: _WinAPI_Wow64EnableWow64FsRedirection ( $fEnable )
+; Parameters.....: $fEnable - Specifies whether enable or disable the WOW64 system folder redirection, valid values:
+;                  |TRUE    - Enable.
+;                  |FALSE   - Disable.
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: This function is useful for 32-bit applications that want to gain access to the native system32 directory.
+;                  By default, WOW64 file system redirection is enabled.
+; Related........:
+; Link...........: @@MsdnLink@@ Wow64EnableWow64FsRedirection
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_Wow64EnableWow64FsRedirection($fEnable)
+
+	Local $Ret = DllCall('kernel32.dll', 'int', 'Wow64EnableWow64FsRedirection', 'int', $fEnable)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_Wow64EnableWow64FsRedirection
 
 #EndRegion Public Functions
 
