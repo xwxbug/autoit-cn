@@ -1,7 +1,7 @@
 ﻿=========================================================
 程序名称:Autoit
 程序版本:3.3.6.X 第一汉化版
-汉化作者:thesnoW(ALL),Sxd(ADF),kodin(Example)
+汉化作者:thesnoW(ALL),Sxd(ADF),rikthhpgf2005(ADF),kodin(Example)
 中文论坛:http://www.AutoitX.com
 =========================================================
 绿色安装方法:解压缩到 任意目录.
@@ -25,6 +25,7 @@ Scite:
 [H][!]更新: 更新Scite到2.20版.
 [G][*]修正: 修正lua脚本不能工作于中文目录的问题.
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
+[G][!]更新: 更新tidy为2.1.0.5
 
 koda:
 Release 1.7.3.0 build 252 (2010-07-30)
