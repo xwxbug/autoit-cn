@@ -14,9 +14,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
  	// You can now call AutoIt commands, e.g. to send the keystrokes "hello"
 	AU3_Sleep(1000);
-	AU3_Run("notepad.exe", "", 1);
-	AU3_WinWaitActive("Untitled -", "", 0);
-	AU3_Send("Hello{!}", 0);
+	AU3_Run(TEXT("notepad.exe"), L"", SW_SHOWMAXIMIZED);
+	AU3_WinWaitActive(TEXT("[class:Notepad]"), TEXT(""), 0);
+	AU3_Send(TEXT("Hello{!}"), 0);
 
 	// Get the text in the status bar
 	//char szText[1000];

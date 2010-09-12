@@ -21,6 +21,7 @@ AutoIt:
 [H][+]新增: SQLite数据库管理工具 SQLiteQuery.
 [G][!]更新: WinAPIEx UDF库 更新到2.9版.
 [H][*]修正: 修正AU3TOOL.exe被某卫士误报的问题.
+[H][!]更新: 更新UPX到3.07版本,只是修复bug.
 
 Scite:
 [H][!]更新: 更新Scite到2.20版.
