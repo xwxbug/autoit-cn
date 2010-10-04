@@ -27,8 +27,9 @@ Scite:
 [H][!]更新: 更新Scite到2.20版.
 [G][*]修正: 修正lua脚本不能工作于中文目录的问题.
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
-[G][!]更新: 更新tidy为2.1.0.6
+[G][!]更新: 更新tidy为2.1.0.7
 [G][!]更新: 更新代码迷惑为1.0.28.11
+[H][!]更新: ACNWrapper 将在编译完成后通知系统进行图标刷新(win7中图标缓存的问题).
 
 koda:
 Release 1.7.3.0 build 252 (2010-07-30)
