@@ -84,4 +84,98 @@ Switch $PathCode
 		Return 0
 EndSwitch
 Return 1
-EndFunc  
+EndFunc 
+
+;======================================================
+;
+; 函数名称:		_FileReadAsUnicode($sFile,$dCodepage)
+; 详细信息:		读取ANSI文件返回UNICODE字符.
+; $sFile:		文件路径.
+; $dCodepage:	代码页.参考 http://msdn.microsoft.com/en-us/library/dd317756.aspx
+; 返回值 :		成功返回UNICODE字符,设置SetExtended为返回的字符数.
+;				失败,返回空字符并设置@error.
+;				@error=-1	文件不存在
+;				@error=-2	文件为UTF-32编码
+;				@error=-3	文件无法打开
+;				@error=-4	文件无法进行编码转换
+; 作者:			thesnow(rundll32@126.com)
+;
+;======================================================
+
+Func _FileReadAsUnicode($sFile,$dCodepage=0)
+	Local $AnsiFile,$UnicodeFile
+	If Not FileExists($sFile) Then Return SetError(-1,0,"")
+	Local $hFile=_GetFileEnc($sFile)
+	If $hFile=-1 Then Return SetError(-2,0,"")
+	If $hFile<>16 Then 
+		$UnicodeFile=FileRead($sFile)
+		Return $UnicodeFile
+	Else
+		$hFile=FileOpen($sFile,$hFile)
+		If $hFile=-1 Then 
+			FileClose($hFile)
+			Return SetError(-3,0,"")
+		EndIf
+		$AnsiFile=FileRead($hFile)
+		FileClose($hFile)
+		Local $kernel = DllOpen('Kernel32.dll')
+		Local $TxtSize=BinaryLen($AnsiFile)
+		Local $lpSrc = DLLStructCreate("byte [" & $TxtSize & "]")
+		DllStructSetData($lpSrc,1,$AnsiFile)
+		Local $lpDst = DLLStructCreate("byte [" & $TxtSize*2 & "]")
+		Local $rt=DLLCall($kernel,"int","MultiByteToWideChar", _
+                    "int",$dCodepage, _
+                    "int",1, _
+                    "ptr",DllStructGetPtr($lpSrc), _
+                    "int",-1, _
+                    "ptr",DllStructGetPtr($lpDst), _
+                    "int",$TxtSize*2)
+		If $rt[0]=0 Then Return SetError(-4,0,"")
+		Local $UnicodeFile=BinaryToString(DllStructGetData($lpDst,1),2)
+		DllClose($Kernel)
+		SetExtended($rt[0])
+		Return $UnicodeFile
+	EndIf
+	MsgBox(0,0,'999')
+EndFunc
+
+
+Func _GetFileEnc($TheFile)
+	Local $hTest_File = FileOpen($TheFile, 16)
+	Local $Test_File = FileRead($hTest_File, 4)
+	Local $FileEnc=0	;ansi
+	FileClose($hTest_File)
+;~ 00 00 FE FF UTF-32, big-endian
+;~ FF FE 00 00 UTF-32, little-endian
+;~ FE FF UTF-16, big-endian
+;~ FF FE UTF-16, little-endian
+;~ EF BB BF UTF-8
+	If $Test_File = "0x0000FFFE" then
+		$FileEnc=-1;'UTF32BE'	不支持
+	Else 
+		if $Test_File = "0xFFFE0000" Then
+			$FileEnc=-1;'UTF32LE'	不支持
+		Else
+			$hTest_File = FileOpen($TheFile, 16)
+			$Test_File = FileRead($hTest_File, 2)
+			FileClose($hTest_File)
+			If $Test_File = "0xFFFE" Then
+				$FileEnc=32;'UTF16LE'
+			Else
+				If $Test_File = "0xFEFF" Then
+					$FileEnc=64;'UTF16BE'
+				Else
+					$hTest_File = FileOpen($TheFile, 16)
+					$Test_File = FileRead($hTest_File, 3)
+					FileClose($hTest_File)
+					If $Test_File = "0xEFBBBF" Then
+						$FileEnc=128;'UTF8'
+					Else
+						$FileEnc=16;ansi
+					EndIf
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+	Return $FileEnc
+EndFunc

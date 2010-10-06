@@ -1951,7 +1951,8 @@ Func _Date_Time_FileTimeToStr(ByRef $tFileTime, $bFmt = 0)
 	If @error Then Return SetError(@error, @extended, "")
 
 	If $bFmt Then
-		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aDate[2], $aDate[1], $aDate[0], $aDate[3], $aDate[4], $aDate[5])
+	;fixed by thesnoW
+		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aDate[2], $aDate[0], $aDate[1], $aDate[3], $aDate[4], $aDate[5])
 	Else
 		Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2], $aDate[3], $aDate[4], $aDate[5])
 	EndIf
