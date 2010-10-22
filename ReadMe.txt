@@ -25,7 +25,7 @@ AutoIt:
 [H][!]更新: 更新UPX到3.07版本,只是修复bug.
 
 Scite:
-[H][!]更新: 更新Scite到2.20版.
+[H][!]更新: 更新Scite到2.22版.
 [G][*]修正: 修正lua脚本不能工作于中文目录的问题.
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
 [G][!]更新: 更新tidy为2.1.0.7

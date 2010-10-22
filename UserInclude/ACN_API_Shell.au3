@@ -45,7 +45,7 @@ EndFunc
 Func _API_PickIconDlg(ByRef $sFileName,ByRef $IconIndex)
 	Local	$piIconIndex	= DllStructCreate("int")
 	Local	$pszIconPath	= DLLStructCreate("wchar[260]")
-	Local	$structsize		= DllStructGetSize($pszIconPath)/2
+	Local	$structsize		= DllStructGetSize($pszIconPath)
 	DllStructSetData($pszIconPath, 1, $sFileName)
 	DllStructSetData($piIconIndex, 1, $IconIndex)
 	; 调用 PickIconDlg API - '62' 为序号值,部分系统没有命名函数名,只有序号,所以为了兼容使用62.
