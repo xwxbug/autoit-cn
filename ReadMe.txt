@@ -20,6 +20,7 @@ AutoIt:
 [H][+]新增: SPY++ VS2010 版.
 [H][+]新增: WinHttp 1.6.1.7 UDF库.
 [H][+]新增: BlockInputEx 1.5 UDF库.
+[H][+]新增: WinINet 2010.01.02 UDF库.
 [H][+]新增: SQLite数据库管理工具 SQLiteQuery.
 [G][!]更新: WinAPIEx UDF库 更新到3.0版.
 [H][*]修正: 修正AU3TOOL.exe被某卫士误报的问题.
