@@ -18,7 +18,8 @@ autoit工具箱提供了安装卸载功能.
 AutoIt:
 [H][!]更新: MPRESS 更新到2.17版.
 [H][+]新增: SPY++ VS2010 版.
-[H][+]新增: WinHttp UDF库 版.
+[H][+]新增: WinHttp 1.6.1.7 UDF库.
+[H][+]新增: BlockInputEx 1.5 UDF库.
 [H][+]新增: SQLite数据库管理工具 SQLiteQuery.
 [G][!]更新: WinAPIEx UDF库 更新到3.0版.
 [H][*]修正: 修正AU3TOOL.exe被某卫士误报的问题.
