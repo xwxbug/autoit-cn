@@ -2,7 +2,7 @@
 
 ; #AUTOIT# ======================================================================================================================
 Global Const $AU3_VERSION = StringSplit(@AutoItVersion, ".")
-Global Const $AU3_UNICODE = Number($AU3_VERSION[2] & "." & $AU3_VERSION[3]) >= 2.13 Or @AutoItUnicode
+Global Const $AU3_UNICODE = Number($AU3_VERSION[2] & "." & $AU3_VERSION[3]) >= 2.13
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
@@ -322,7 +322,7 @@ Global Const $ERROR_INTERNET_REDIRECT_SCHEME_CHANGE            = 12048 ; The fun
 Global Const $ERROR_INTERNET_REGISTRY_VALUE_NOT_FOUND          = 12021 ; A required registry value could not be located.
 Global Const $ERROR_INTERNET_REQUEST_PENDING                   = 12026 ; The required operation could not be completed because one or more requests are pending.
 Global Const $ERROR_INTERNET_RETRY_DIALOG                      = 12050 ; The dialog box should be retried.
-Global Const $ERROR_INTERNET_SEC_CERT_CN_INVALID               = 12038 ; SSL certificate common name (host name field) is incorrect—for example, if you entered www.server.com and the common name on the certificate says www.different.com.
+Global Const $ERROR_INTERNET_SEC_CERT_CN_INVALID               = 12038 ; SSL certificate common name (host name field) is incorrect-for example, if you entered www.server.com and the common name on the certificate says www.different.com.
 Global Const $ERROR_INTERNET_SEC_CERT_DATE_INVALID             = 12037 ; SSL certificate date that was received from the server is bad. The certificate is expired.
 Global Const $ERROR_INTERNET_SEC_CERT_ERRORS                   = 12055 ; The SSL certificate contains errors.
 Global Const $ERROR_INTERNET_SEC_CERT_NO_REV                   = 12056 ; The SSL certificate was not revoked.
