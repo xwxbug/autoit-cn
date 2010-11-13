@@ -23,7 +23,7 @@ GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 ; Register label window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
-$hProc = _WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $pDll)
+$hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
 
 GUISetState()
 
@@ -56,6 +56,6 @@ Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
 EndFunc   ;==>_WinProc
 
 Func OnAutoItExit()
-	_WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $hProc)
+	_WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $hProc)
 	DllCallbackFree($hDll)
 EndFunc   ;==>OnAutoItExit

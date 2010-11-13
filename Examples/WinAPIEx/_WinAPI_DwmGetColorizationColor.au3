@@ -3,7 +3,7 @@
 Opt('MustDeclareVars', 1)
 
 If Not _WinAPI_DwmIsCompositionEnabled() Then
-	MsgBox(16, 'Error', 'Require Windows Vista or above with enabled Aero theme.')
+	MsgBox(16, 'Error', 'Require Windows Vista or later with enabled Aero theme.')
 	Exit
 EndIf
 

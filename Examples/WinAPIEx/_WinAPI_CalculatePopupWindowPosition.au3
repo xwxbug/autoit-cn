@@ -3,7 +3,7 @@
 Opt('MustDeclareVars', 1)
 
 If _WinAPI_GetVersion() < '6.1' Then
-	MsgBox(16, 'Error', 'Require Windows 7 or above.')
+	MsgBox(16, 'Error', 'Require Windows 7 or later.')
 	Exit
 EndIf
 

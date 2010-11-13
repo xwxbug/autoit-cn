@@ -4,7 +4,7 @@
 Opt('MustDeclareVars', 1)
 Opt('TrayAutoPause', 0)
 
-Global $hProgressProc = DllCallbackRegister('_ProgressProc', 'dword', 'uint64;uint64;uint64;uint64;dword;dword;ptr;ptr;ptr')
+Global $hProgressProc = DllCallbackRegister('_ProgressProc', 'dword', 'uint64;uint64;uint64;uint64;dword;dword;ptr;ptr;long_ptr')
 
 ProgressOn('_WinAPI_CopyFileEx', 'Copying...', '', -1, -1, 2)
 

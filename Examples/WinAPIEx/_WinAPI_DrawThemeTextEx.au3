@@ -7,7 +7,7 @@
 Opt('MustDeclareVars', 1)
 
 If Not _WinAPI_DwmIsCompositionEnabled() Then
-	MsgBox(16, 'Error', 'Require Windows Vista or above with enabled Aero theme.')
+	MsgBox(16, 'Error', 'Require Windows Vista or later with enabled Aero theme.')
 	Exit
 EndIf
 
@@ -28,7 +28,7 @@ GUISetBkColor(0)
 ; Register label window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
-$hProc = _WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $pDll)
+$hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
 
 ; Create the "sheet of glass" effect for the entire window. You must call this function whenever DWM composition is toggled.
 _WinAPI_DwmExtendFrameIntoClientArea($hForm)
@@ -96,6 +96,6 @@ Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
 EndFunc   ;==>_WinProc
 
 Func OnAutoItExit()
-	_WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $hProc)
+	_WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $hProc)
 	DllCallbackFree($hDll)
 EndFunc   ;==>OnAutoItExit

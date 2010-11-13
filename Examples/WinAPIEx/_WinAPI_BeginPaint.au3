@@ -30,7 +30,7 @@ $hIcon = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 130, 48, 48)
 ; Register label window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
-$hProc = _WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $pDll)
+$hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
 
 ; Create gradient
 $hDC = _WinAPI_GetDC($hPic)
@@ -84,6 +84,6 @@ Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
 EndFunc   ;==>_WinProc
 
 Func OnAutoItExit()
-	_WinAPI_SetWindowLong($hLabel, $GWL_WNDPROC, $hProc)
+	_WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $hProc)
 	DllCallbackFree($hDll)
 EndFunc   ;==>OnAutoItExit

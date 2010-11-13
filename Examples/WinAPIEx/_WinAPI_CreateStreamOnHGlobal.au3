@@ -2,6 +2,8 @@
 #Include <Memory.au3>
 #Include <WinAPIEx.au3>
 
+Opt('MustDeclareVars', 1)
+
 Global Const $STM_SETIMAGE = 0x0172
 Global Const $STM_GETIMAGE = 0x0173
 
@@ -43,7 +45,7 @@ Until GUIGetMsg() = -3
 
 Func _GDIPlus_BitmapCreateFromStream($hStream)
 
-	Local $aResult = DllCall($ghGDIPDll, 'uint', 'GdipCreateBitmapFromStream', 'ptr', $hStream, 'int*', 0)
+	Local $aResult = DllCall($ghGDIPDll, 'uint', 'GdipCreateBitmapFromStream', 'ptr', $hStream, 'ptr*', 0)
 
 	If @error Then
 		Return SetError(@error, @extended, 0)

@@ -21,6 +21,6 @@ Switch $Data
 	Case 7
 		$Text = 'Japanese keyboard'
 EndSwitch
-ConsoleWrite('Keyboard type:' & $Text & @CR)
-ConsoleWrite('Keyboard subtype: ' & _WinAPI_GetKeyboardType(1) & @CR)
-ConsoleWrite('Number of function keys: ' & _WinAPI_GetKeyboardType(2) & @CR)
+ConsoleWrite('Type   : ' & $Text & @CR)
+ConsoleWrite('Subtype: ' & _WinAPI_GetKeyboardType(1) & @CR)
+ConsoleWrite('F-keys : ' & _WinAPI_GetKeyboardType(2) & @CR)

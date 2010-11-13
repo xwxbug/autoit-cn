@@ -17,7 +17,7 @@ autoit工具箱提供了安装卸载功能.
 3.3.6.X (2010-1X-0X) 第X汉化版
 AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
-
+[G][!]更新: WinAPIEx UDF库 更新到3.1版.
 Scite:
 
 koda:
