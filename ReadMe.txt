@@ -1,8 +1,8 @@
 ﻿=========================================================
-程序名称:Autoit
+程序名称:AutoIt
 程序版本:3.3.6.X 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),rikthhpgf2005(ADF),kodin(Example)
-中文论坛:http://www.AutoitX.com
+中文论坛:http://www.AutoItX.com
 =========================================================
 绿色安装方法:解压缩到 任意目录.
 绿色卸载方法:不爽删除就是.
@@ -10,7 +10,7 @@
 正常卸载汉化:使用AU3工具箱>程序相关设置>卸载这个程序.
 命令行安装  : "au3tool.exe /s"
 命令行卸载  : "au3tool.exe /u"
-autoit工具箱提供了安装卸载功能.
+AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
@@ -18,9 +18,11 @@ autoit工具箱提供了安装卸载功能.
 AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [G][!]更新: WinAPIEx UDF库 更新到3.1版.
-Scite:
 
-koda:
+SciTe:
+[G][!]更新: 更新tidy为2.1.0.9
+
+Koda:
 
 3.3.6.1 (2010-11-03) 第二汉化版
 AutoIt:
@@ -35,8 +37,8 @@ AutoIt:
 [H][!]更新: 更新AU3工具箱(AU3TOOL),不再设置标题来检测是否重复运行.
 [H][!]更新: 更新UPX到3.07版本,只是修复bug.
 
-Scite:
-[H][!]更新: 更新Scite到2.22版.
+SciTe:
+[H][!]更新: 更新SciTe到2.22版.
 [G][*]修正: 修正lua脚本不能工作于中文目录的问题.
 [H][!]更新: 可以修改au3.properties中的autoquote.au3.disable和autobrackets.au3.disable关闭自动补全.
 [G][!]更新: 更新tidy为2.1.0.8
@@ -58,24 +60,24 @@ AutoIt:
 [G][!]更新: WinAPIEx UDF库 更新到2.6版.
 [H][*]修正: 工具箱中"编译一个脚本[&GUI]"失效的问题.
 [H][!]更新: MPRESS 更新到2.15版.
-[H][!]更新: 工具箱中对来自SVN的副本不再检测scite属性设置文件的编码.
-		以支持新版本Scite的UNICODE模式.
-[H][!]更新: 工具箱中自动检测Scite目录下setting.ini的配置,覆盖安装时不再弹出设置模板的消息框.
+[H][!]更新: 工具箱中对来自SVN的副本不再检测SciTe属性设置文件的编码.
+		以支持新版本SciTe的UNICODE模式.
+[H][!]更新: 工具箱中自动检测SciTe目录下setting.ini的配置,覆盖安装时不再弹出设置模板的消息框.
 [H][!]更新: 更新UPX到3.05版本,只是修复bug.
 
-Scite:
+SciTe:
 [H][+]新增: 集成SciTe帮助于主帮助.
 [H][+]新增: SciTe 新增加了打开文件所在目录的功能.
 [H][+]新增: SciTe 新增括号,引号的自动补全功能.
 [H][*]修正: 修正工具栏图标透明/带锯齿问题
 [H][*]修正: ACNLUA 脚本中的打开include文件无法找到当前脚本目录下文件的问题.
 [H][*]修正: ACNLUA 脚本中的插入书签行不可用的问题,并改名为[复制书签所在行到这里].
-[H][*]修正: Scite 中 LUA 脚本不能正常运行的问题(不影响AU3).
+[H][*]修正: SciTe 中 LUA 脚本不能正常运行的问题(不影响AU3).
 [H][*]修正: ACNWrapper 编译不带wrapper信息的脚本时出现变量未声明的问题.
 [H][*]修正: ACNWrapper GUI编译处理脚本指定的非ICO图标的支持.
 [H][!]更新: ScriptoMatic 生成的脚本能通过必须声明变量检查"Opt("MustDeclareVars", 1)"
-[H][!]更新: 更新Scite到2.12版本,程序已经完全UNICODE化(原先是ANSI的).目前已经相对稳定.
-[H][!]更新: 更新Scite的属性设置文件为UTF-8编码,以支持UNICODE.
+[H][!]更新: 更新SciTe到2.12版本,程序已经完全UNICODE化(原先是ANSI的).目前已经相对稳定.
+[H][!]更新: 更新SciTe的属性设置文件为UTF-8编码,以支持UNICODE.
 [H][!]更新: ACNWrapper 对带有#AutoIt3Wrapper_NoBuild指令的脚本默认不再检查语法.
 [G][!]更新: 更新tidy为2.1.0.1
 
@@ -89,7 +91,7 @@ Beta 1.7.2.8 build 247 RC1 (2010-04-15)
 [G][+]新增:  hourglass cursor when opening Object browser
 [G][+]新增:  invoke Object browser by doubleclick
 [G][*]修正:  various translation fixes (thanks Zedna)
-[G][*]修正:  regression in "scite mode" (Koda not closed when click insert button) (thanks asdf8)
+[G][*]修正:  regression in "SciTe mode" (Koda not closed when click insert button) (thanks asdf8)
 [G][*]修正:  form modified state was not set when changing styles [FS#123]
 [G][*]修正:  missed $ at first variable in Resizing output [FS#122]
 [G][*]修正:  poDesktopCenter not always generated -1 for position (thanks asdf8)
@@ -215,7 +217,7 @@ UDFs:
 3.3.5.2 (2010-02-06) (Beta)
 AutoIt:
 [G][*]修正: #1448: #OnAutoItStartRegister 不能工作于已编译脚本.
-[G][*]修正: #961: RegDelete() 当使用32位版本的 Autoit ,并使用HKLM64时不能很好的工作.
+[G][*]修正: #961: RegDelete() 当使用32位版本的 AutoIt ,并使用HKLM64时不能很好的工作.
 
 AutoItX:
 [G][*]修正: 重新添加 .lib 文件(静态库).
@@ -223,7 +225,7 @@ AutoItX:
 UDFs:
 [G][*]修正: #1438: 当使用 _ArrayCombinations() 时出现 AutoIt 错误.
 
-SCITE:
+SciTe:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.4
 
 KODA:
@@ -265,7 +267,7 @@ AutoIt:
 Aut2Exe:
 [G][*]修正: #1409: 转换快捷键 Ctrl+C 不再被支持. 现在是 Ctrl+G (Go),防止复制文本操作时被捕获.
 
-SciTE:
+SciTe:
 [H][*]修改:删除行快捷键改为ALT+W,还原CTRL+D的功能.
 
 3.3.5.0 (2010-01-24) 第一汉化版
@@ -277,8 +279,8 @@ AutoIt:
 AutoIt3Help:
 [G][*]修正: #1423: "打开这个脚本" 按钮可能不工作.
 
-Scite:
-[H][+]新增: 应kodin要求,增加SciTE的快捷键帮助.参考scite菜单>帮助>ACN SciTE说明
+SciTe:
+[H][+]新增: 应kodin要求,增加SciTe的快捷键帮助.参考SciTe菜单>帮助>ACN SciTe说明
 
 ADF:
 [H][+]新增: 新增arcker的服务控制UDF(Services.au3/ServicesConstants.au3)
@@ -290,7 +292,7 @@ AutoIt:
 [G][+]新增: #1311: MouseGetCursor() 返回手型光标. 
 [G][*]修正: #1403: 当 FileWrite() 使用 UTF8 时,输出流不能正确转换为 UTF8(by thesnoW).
 
-scite
+SciTe
 [H][*]修正: 修正ACNWrapper中选择图标与实际输出图标不对应问题.
 
 UDFs:
@@ -310,13 +312,13 @@ AutoIt:
 UDFs:
 [G][*]修改: _SQLite 3.6.21 -> 3.6.22
 
-Scite:
+SciTe:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.4
 [H][!]更新: 更新ACNWrapper更好的支持官方Wrapper的语法.
 
 3.3.3.1 (2010-01-06) 第一汉化版
 AutoIt:
-[H][*]修正: 修正3.3.2.0第一汉化版中帮助文件运行脚本默认不在scite打开的问题.
+[H][*]修正: 修正3.3.2.0第一汉化版中帮助文件运行脚本默认不在SciTe打开的问题.
 [H][-]移除: 由于可以直接指定其它EXE/DLL作为图标源,移除部分图标.
 [H][!]更新: 更新ResHacker到3.5.2.84.
 [G][+]新增: #682: 移除 FileReadLine() 函数64KB限制
@@ -325,7 +327,7 @@ AutoIt:
 [G][-]移除: AdlibEnable() 和 AdlibDisable() 正式移除.
 [G][-]移除: OnAutoItStart 和 OnAutoItExit 正式移除.
 
-Scite:
+SciTe:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.3
 [H][!]更新: 更新ACNWrapper到1.0.0.6,解决UPX压缩率不是最高以及64位编译的一些问题.
 [H][+]新增: ACNWrapper新增64位压缩的支持(使用Mpress压缩).
@@ -362,11 +364,11 @@ UDFs:
 [G][*]修正: #1362: _WinAPI_WindowFromPoint() 不能工作于 64 位 AutoIt.
 
 AutoIt3Help:
-[G][*]修正: #1327: 部分关键词不能在scite中打开帮助. 3.3.1.7汉化版已经修正.
+[G][*]修正: #1327: 部分关键词不能在SciTe中打开帮助. 3.3.1.7汉化版已经修正.
 
 3.3.2.0 (2009-12-19) 第一汉化版
-Scite:
-[H][-]移除: 不再使用scite-ru的修改版,问题很多.还原thesnoW修改版.
+SciTe:
+[H][-]移除: 不再使用SciTe-ru的修改版,问题很多.还原thesnoW修改版.
 [H][-]移除: 复制块的快捷键
 [H][+]新增: 删除行功能for sxd(Ctrl+D)
 
@@ -387,7 +389,7 @@ UDFs:
 [G][*]修正: #1325: 一些日期函数尝试访问一个无效的数组.
 [G][*]修正: MenuConstants.au3 中出现无效表达式.
 
-Scite:
+SciTe:
 [H][*]修正: 按F1部分函数无法弹出帮助的Bug.
 
 3.3.1.6 (2009-11-23) (Beta) 第一汉化版
@@ -418,7 +420,7 @@ Aut2Exe:
 Au3Check:
 [G][*]修正: #1299: #include 使用单括号不工作的问题.
 
-Scite:
+SciTe:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.28.0
 
 
@@ -443,7 +445,7 @@ UDFs:
 Au3Check:
 [G][*]修正: #1239: 搜索库的顺序程序.
 
-Scite:
+SciTe:
 [G][!]更新: 更新tidy为2.0.29.0
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.27.0
 
@@ -458,8 +460,8 @@ AutoIt:
 [G][*]修正: 一些地方使用负数会导致致命错误.
 [G][*]修改: PCRE 正则表达式引擎更新到 8.00.
 
-Scite:
-[H][*]修正: 修正3.3.1.3汉化版中scite语法提示显示错误.(一堆显示出来.此为scite官方问题.)
+SciTe:
+[H][*]修正: 修正3.3.1.3汉化版中SciTe语法提示显示错误.(一堆显示出来.此为SciTe官方问题.)
 
 UDFs:
 [G][*]修正: #1223: _GUICtrlStatusBar_EmbedControl() 失败.
@@ -512,13 +514,13 @@ AutoIt:
 [G][*]修正: #1077: GUICtrlSetBkColor() 错误着色. (Thanks Mulder)
 [G][*]修正: #1116: GUICtrlCreateGraphic 不跟随 ResizeMode (可改变大小)模式.
 [G][*]修正: #1102: 更好的文档说明 StringInStr() 计数参数.
-[G][*]修正: #1161: 移除所有关于颜色模式的文档(注:采用RGB颜色,弃用Autoit v2使用的GBR颜色).
+[G][*]修正: #1161: 移除所有关于颜色模式的文档(注:采用RGB颜色,弃用AutoIt v2使用的GBR颜色).
 [G][*]修正: #1156: AutoItSetOption()/Opt() 现在设置 @error 代替无效输入产生的失败错误.
 [G][*]修正: #1093: StringFormat() 测试非拉丁字符
 [G][*]修正: 比较指针(pointers)现在工作正确.
 
-SCITE:
-[H][!]更新: scite部分代码采用scite-ru(一个俄罗斯修改版)
+SciTe:
+[H][!]更新: SciTe部分代码采用SciTe-ru(一个俄罗斯修改版)
 [G][!]更新: 更新tidy为2.0.28.7
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.23
 
@@ -560,15 +562,15 @@ UDFs:
 
 
 3.3.1.1 (2009-9-7) (第二汉化版)
-Autoit:
+AutoIt:
 [H][!]更新: 更新对64位系统的支持.
 [H][!]更新: 更新spy++ 中文版为9.0.30729.1(VS2008 SP1)
 [H][!]更新: 更新spy++ 目录中的VS2008运行库为9.0.30729.01(VS2008 SP1)
 [H][!]更新: 更新OLEview为6.0.6000.16384(Vista,VS2008SP1版本)
 [H][-]移除: 移除ANSI编译器支持.
 [H][!]更新: 帮助文档使用UTF-8编码处理,方便汉化,正确显示所有UNICODE字符.
-SCITE:
-[H][!]更新: 更新Scite为2.01
+SciTe:
+[H][!]更新: 更新SciTe为2.01
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.21
 [G][!]更新: 更新tidy为2.0.28.6
 KODA:
@@ -623,21 +625,21 @@ UDFs:
 [G][*]修正: #1004: _PathFull() 返回无效结果.
 [G][*]修正: #1015: _SQLite_SaveMode() 重命名为 _SQLite_SafeMode(). (Thanks Zedna)
 [G][*]修正: #1019: _GUICtrlListView_SetItemCut, _GUICtrlListView_SetItemFocused, _GUICtrlListView_SetItemDropHilited enabled(启用)标志不能正常工作.
-[G][*]修改: 使用 UTF8 信息时显示于 Scite 控制台出息错误信息. 外部参数于 _SQLite_Startup().
+[G][*]修改: 使用 UTF8 信息时显示于 SciTe 控制台出息错误信息. 外部参数于 _SQLite_Startup().
 [G][*]修改: _SQLite 3.6.14.1 -> 3.6.14.2
 [G][-]移除: _StringAddThousandsSep() 已被移除.
 
-SCITE:
+SciTe:
 [G][!]更新: 更新Tidy(代码整理)到2.0.28.3
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.14
-[G][!]更新: 更新scite4autoit的properties(属性文件).
-[H][*]修正: 3.3.1.0中scite单词缩写不可用问题.
+[G][!]更新: 更新SciTe4AutoIt的properties(属性文件).
+[H][*]修正: 3.3.1.0中SciTe单词缩写不可用问题.
 [H][*]修正: AutoIt3Wrapper 对WIN7的兼容性.
 
 
 3.3.1.0 (2009-5-26) (第一汉化版)
 注意:因为官方文档包未发布,帮助文件有部分函数不是最新状态.将在下一个汉化版中补齐.
-Autoit:
+AutoIt:
 [H][+]新增: 工具箱支持在线更新汉化版本(测试阶段,请不要使用)
 [H][!]更新: 更新汉化的例子.
 [H][!]更新: 更新汉化的帮助.
@@ -687,7 +689,7 @@ Autoit:
 [G][*]修正: DirMove() 返回值错误于XP.
 [G][*]修正: #931: 无效的 GUICtrlSetResizing() 于图形控件. (Thanks martin)
 [G][*]修正: #934: MouseGetCursor() hogging mouse double click. (Thanks martin)
-[G][*]修正: #615: 许可更新,减小部分限制(注:原先的许可是Autoit所生成的文件也是属于Autoit Team的).
+[G][*]修正: #615: 许可更新,减小部分限制(注:原先的许可是AutoIt所生成的文件也是属于AutoIt Team的).
 [G][*]修正: #919: 添加 ConsoleWrite(), ConsoleWriteError() 和 StdinWrite() 的备注,regarding how those functions handle binary data and non-ANSI characters.
 [G][*]修正: #897: StringToASCIIArray() 为什么不能接受二进制输入的文档说明 (首先转换为字符串).
 [G][*]修正: #937: Opt("TrayMenuMode",1) 出现错误但事件句柄
@@ -705,12 +707,12 @@ Autoit:
 	- 修改: @InetGetBytes, @InetGetActive 和 InetGet("abort") 已经没有存在的意义,故移除于特性.
 AU3Info:
 [G][+]新增: #140: 工具栏按钮信息.
-Scite:
+SciTe:
 [G][!]更新: 更新Obfuscator(代码迷惑)到1.0.26.11
-[H][!]更新: 更新SCITE为1.78 20090513版本.
-[H][+]新增: SCITE可以使用一个名为skin.msstyles的皮肤.
-[H][!]更新: SCITE工具栏美化.
-[H][+]新增: 增加两个新的SCITE接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
+[H][!]更新: 更新SciTe为1.78 20090513版本.
+[H][+]新增: SciTe可以使用一个名为skin.msstyles的皮肤.
+[H][!]更新: SciTe工具栏美化.
+[H][+]新增: 增加两个新的SciTe接口表,SciTe\api\Scintilla.iface 和 IFaceTable.cxx
 KODA:
 [G][!]更新: 更新到 Release 1.7.1.0 (2009-04-27)
 [G][*]修正: AV when resetting Style/ExStyle [FS#48] (thanks Zedna)
@@ -750,12 +752,12 @@ ADF:
 [H][+]新增: AddFontResourceA,AddFontResourceW,RemoveFontResourceA,RemoveFontResourceW,WM_FONTCHANGE五个ADF.用于注册字体.
 
 3.3.0.0 (2009-4-4) (第三汉化版)
-Autoit:
+AutoIt:
 [H][*]修正:AU3工具箱无帮助/无WMI查看器的问题.
 [H][+]新增:Microsoft Spy++ 9.0中文版(英文版不移除)
 [H][!]更新:汉化部分例子程序.
-[H][!]更新:Autoit工具箱增加帮助项目,WMI项目,以及解决SVN更新后直接安装的问题.
-Scite:
+[H][!]更新:AutoIt工具箱增加帮助项目,WMI项目,以及解决SVN更新后直接安装的问题.
+SciTe:
 [H][-]移除:移除部分过时或者不工作的工具.
 [H][+]新增:ACNWrapper 支持指定一个EXE或者DLL作为文件图标(采用文件中的第一个图标)
 [H][!]更新:ACNWrapper 支持对控制台输出文本的替换(用于汉化),参考 SciTe\ACNWrapper\TranslateError.ini
@@ -773,20 +775,20 @@ AUF:
 [H][+]新增:指由ACN收集的,编写的UDF.目前由SxD进行SVN维护.
 
 3.3.0.0 (2009-2-24) (第二汉化版)
-Autoit:
+AutoIt:
 [H][-]移除:Send2A3X(过老)
-[H][!]更新:Autoit工具箱使用ini配置文件定义菜单.
+[H][!]更新:AutoIt工具箱使用ini配置文件定义菜单.
 [H][!]更新:程序更新移除汉化版本信息.
 [H][!]说明:汉化版不再以小版本表示(如3.3.0.0.1).和官方同样表示(3.3.0.0).
-[H][!]更新:Autoit帮助汉化版本更新为SVN39
+[H][!]更新:AutoIt帮助汉化版本更新为SVN39
 UDFs:
 [H][!]更新:UDF帮助汉化版本更新为SVN39
 [H][+]新增:UDF: FTP.au3,用于操作FTP
 [H][-]移除:_FileListToArrayNew2g.zip,官方UDF已经存在.
-SCITE:
+SciTe:
 [G][!]更新:更新TIDY(代码整理)到2.0.25.0
 [G][!]更新:更新Obfuscator(代码迷惑)到1.0.26.8
-[H][!]更新:更新SCITE为1.78版本.
+[H][!]更新:更新SciTe为1.78版本.
 Koda:
 Beta 1.7.0.9 (2009-02-09)
 [G][*]修正: AU3导入时 "-1" 句柄问题.
@@ -803,7 +805,7 @@ Beta 1.7.0.9 (2009-02-09)
 
 
 3.3.0.0 (17:27 2008-12-31) (正式版)
-Autoit:
+AutoIt:
 [G][!]说明:未修改.
 [H][!]更新:汉化版本对VISTA/2008/7系统的兼容性.
 UDFs:
@@ -836,8 +838,8 @@ AutoIt:
 [G][*]修正: 当使用BinaryToString()中有无效的UTF16输入字符串时程序崩溃.  BinaryToString() 现在有了新的 @error 代码来支持无效输入的诊断.
 [G][*]修正: ControlGetText() 在上一个beta的不稳定表现.
 [G][!]更新: Shutdown 文档.
-[H][*]修正: SCITE汉化错误(感谢kxbit)
-[H][!]更新: SCITE为SVN 2008-12-7的代码(主要更新Scintilla的健壮性以及对新语言的支持,虽然我们用不着).
+[H][*]修正: SciTe汉化错误(感谢kxbit)
+[H][!]更新: SciTe为SVN 2008-12-7的代码(主要更新Scintilla的健壮性以及对新语言的支持,虽然我们用不着).
 UDFs:
 [G][+]新增: _GDIPlus_StringFormatSetAlign (monoceres)
 
@@ -893,10 +895,10 @@ UDFs:
 [G][*]修改: _Soundxxxx 函数 (RazerM)
 [G][*]修改: #599: _FileListToArray 速度优化 (code65536)
 [G][*]修改: _SQLite 3.5.9 -> 3.6.4.
-SCITE:
-[H][!]更新: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (thesnow)
+SciTe:
+[H][!]更新: Merged the updates of SciTe v 1.77 by Neil Hodgson with our own version of SciTe v 1.77. (thesnow)
 11/2/2008
-[G][!]更新: Merged the updates of SciTE v 1.77 by Neil Hodgson with our own version of SciTE v 1.77. (Jos)
+[G][!]更新: Merged the updates of SciTe v 1.77 by Neil Hodgson with our own version of SciTe v 1.77. (Jos)
 [G][!]更新: Tidy.exe v2.0.23.24 (Jos)
 [G][*]修正: some reported report issues.
 [G][!]更新: Obfuscator.exe v1.0.24.23 (Jos)
@@ -966,7 +968,7 @@ sqlite:
 [H][!]更新: sqlite3.dll 更新为3.63版.
 [H][!]更新: sqlite3_analyzer.exe 更新为3.61版
 [H][!]更新: sqlite_文档更新为 3.63版.
-scite:
+SciTe:
 [H][!]更新: 代码迷惑Obfuscator更新为1.0.24.23版.
 [H][!]更新: 代码整理tidy更新为2.0.23.24版.
 [H][!]更新: PCRE正则表达式测试更新为 7.8 版.
@@ -981,7 +983,7 @@ Beta 1.7.0.8 (2008-10-03)
 [G][*]修正: Form Captor example generated non-closed warning tag that cause conversion failure(2008-09-30)
 [G][+]新增: poFixed for form, where actual position not depend on form position (idea by Valik)(2008-09-30)
 [G][*]修改: rewritten Picture Editor to support new Icon and other controls(2008-09-29)
-[G][*]修改: rewritten Icon control (now much closer to an actual Autoit control & hi-color icons support)(2008-09-27)
+[G][*]修改: rewritten Icon control (now much closer to an actual AutoIt control & hi-color icons support)(2008-09-27)
 [G][+]新增: help handlers and ID's to all property editors(2008-09-24)
 Beta 1.7.0.7 (2008-09-24)
 [G][*]修改: 完成重写图标支持, 现在已经支持高颜色图标(2008-09-24)
@@ -992,11 +994,11 @@ Beta 1.7.0.7 (2008-09-24)
 [G][*]修正: 标签对话框中没有工具栏图标 (感谢 Zedna)(2008-09-5)
 
 3.2.13.7.2 (9:56 2008-9-22)
-Scite:
+SciTe:
 [H][!]更新: 更新代码迷惑为1.0.24.21.
 [H][!]更新: 更新代码整理(TIDY)为2.0.23.20.
-[H][!]更新: 更新SCITE为CVS 2008-9-13(增强对会话的管理以及对部分其它程序语言的加强)
-[H][*]修正: SCITE使用小键盘"-"不能添加注释的问题.
+[H][!]更新: 更新SciTe为CVS 2008-9-13(增强对会话的管理以及对部分其它程序语言的加强)
+[H][*]修正: SciTe使用小键盘"-"不能添加注释的问题.
 Koda:
 Beta 1.7.0.6 (2008-09-03)
 2008-09-03 [G][*]修改: experimental feature - not keep bitmaps inside form anymore (not supported customized paths yet)
@@ -1064,7 +1066,7 @@ UDFs:
 [G][+]新增: _Timer_GetIdleTime, _WinAPI_GetWindowPlacement, _WinAPI_SetWindowPlacement (PsaltyDS)
 
 3.2.13.2 第一汉化版(9:02 2008-6-20)
-[H][*]修正:AU3TOOL中对autoit3a.exe的判断.
+[H][*]修正:AU3TOOL中对AutoIt3a.exe的判断.
 [H][*]修正:修正scriptomatic中部分汉化问题.
 [H][-]移除:AU3TOOL中对ANSI版本的支持.多编译器的支持.
 [H][!]更新:Dependency Walker更新为2.2.6000.0
