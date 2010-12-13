@@ -15,8 +15,8 @@
 ;** AUT2EXE settings
 #AutoIt3Wrapper_Icon=                           ;Filename of the Ico file to use
 #AutoIt3Wrapper_OutFile=                        ;Target exe/a3x filename.
-#AutoIt3Wrapper_OutFile_Type=                   ;a3x=small AutoIt3 file;  exe=Standalone executable (Default)
-#AutoIt3Wrapper_Compression=                    ;Compression parameter 0-4  0=Low 2=normal 4=High. Default=2
+#AutoIt3Wrapper_OutFile_Type=                   ;a3x=small AutoIt3 file; 	exe=Standalone executable (Default)
+#AutoIt3Wrapper_Compression=                    ;Compression parameter 0-4 	0=Low 2=normal 4=High. Default=2
 #AutoIt3Wrapper_UseUpx=                         ;(Y/N) Compress output program.  Default=Y
 #AutoIt3Wrapper_UPX_Parameters=                 ;Override the default setting for UPX.
 #AutoIt3Wrapper_Change2CUI=                     ;(Y/N) Change output program to CUI in stead of GUI. Default=N
@@ -86,9 +86,9 @@
 ;===============================================================================================================
 ; RUN BEFORE AND AFTER definitions
 ; The following directives can contain: these variables
-;   %in% , %out%, %icon% which will be replaced by the fullpath\filename.
-;   %scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
-;   %fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
+; 	%in% , %out%, %icon% which will be replaced by the fullpath\filename.
+; 	%scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
+; 	%fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
 ;   %scitedir% will be replaced by the SciTE program directory
 ;   %autoitdir% will be replaced by the AutoIt3 program directory
 #AutoIt3Wrapper_Run_Before=                     ;process to run before compilation - you can have multiple records that will be processed in sequence
