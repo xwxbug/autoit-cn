@@ -132,7 +132,7 @@ EndFunc   ;==>_CMD_SetLocalIP
 Func _NetworkGetInternetIP()
 	Local $ip
 	 $ip=InetRead("http://www.aamailsoft.com/getip.php",1)
-	 $ip=BinaryToString($iIP)
+	 $ip=BinaryToString($ip)
 	If	StringStripWS($ip,8) <> "" Then
 		Return $ip
 	Else
