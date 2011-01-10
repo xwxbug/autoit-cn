@@ -19,6 +19,7 @@ AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
 [G][!]更新: WinAPIEx UDF库 更新到3.1版.
+[G][!]更新: 更新代码迷惑为1.0.28.12
 
 SciTe:
 [G][!]更新: 更新tidy为2.1.0.10
