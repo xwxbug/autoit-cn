@@ -136,7 +136,6 @@ Func _FileReadAsUnicode($sFile,$dCodepage=0)
 		SetExtended($rt[0])
 		Return $UnicodeFile
 	EndIf
-	MsgBox(0,0,'999')
 EndFunc
 
 

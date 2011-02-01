@@ -1,4 +1,6 @@
 ﻿#include-once
+; _EnumScreenRes() 函数需要
+#include <array.au3>
 ;======================================================
 ;
 ; 函数名称:		_Refreshicon
@@ -103,3 +105,36 @@ Func _ChangeScreenRes($i_Width = @DesktopWidth, $i_Height = @DesktopHeight, $i_B
 		EndSelect
 	EndIf
 EndFunc ;==>_ChangeScreenRes
+
+;===============================================================================
+;
+; 函数名称:		_EnumScreenRes()
+; 详细信息:		枚举本机支持的屏幕分辨率刷新率.
+; 版本:			1.0.0.1
+; 参数:     	
+; 需求     		AutoIt 测试版 > 3.3.5.0 以上
+; 返回值:		返回一个数组,数组元素0为返回的元素数量.
+; 论坛:			
+; 作者:			thesnoW
+;
+;===============================================================================
+Func _EnumScreenRes()
+	Local $aRet[1]
+	Local $iModeNum=0
+	While 1
+		Local $DEVMODE = DllStructCreate("byte[32];int[10];byte[32];int[6]")
+		Local $B = DllCall("user32.dll", "int", "EnumDisplaySettings", "ptr", 0, "long", $iModeNum, "ptr", DllStructGetPtr($DEVMODE))
+		If @error Then
+			$B = 0
+			ExitLoop
+		EndIf
+		If $B[0] <> 0 Then
+			_ArrayAdd($aRet,DllStructGetData($DEVMODE,4,2) & "X" &DllStructGetData($DEVMODE,4,3) & "X" &DllStructGetData($DEVMODE,4,1) & "@"&DllStructGetData($DEVMODE,4,5))
+		Else
+			ExitLoop
+		EndIf
+		$iModeNum+=1
+	WEnd
+	$aRet[0]=UBound($aRet)-1
+	Return $aRet
+EndFunc
