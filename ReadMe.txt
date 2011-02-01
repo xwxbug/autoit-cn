@@ -23,7 +23,7 @@ AutoIt:
 [G][!]新增: WinHttp 1.6.1.8 UDF库.
 
 SciTe:
-[G][!]更新: 更新tidy为2.1.0.10
+[G][!]更新: 更新tidy为2.1.0.11
 
 Koda:
 
