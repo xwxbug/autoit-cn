@@ -6,7 +6,7 @@
     Filename:       APIConstants.au3
     Description:    Constants to be used with WinAPIEx UDF library.
     Author:         Yashied
-    Version:        3.1 / 3.3.6.1
+    Version:        3.2 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           None
     Note:           -
@@ -744,6 +744,33 @@ Global Const $TST_SINGLE = 1
 Global Const $TST_CONTINUOUS = 2
 
 ; ===============================================================================================================================
+; _WinAPI_DuplicateHandle()
+; ===============================================================================================================================
+
+Global Const $DUPLICATE_CLOSE_SOURCE = 0x01
+Global Const $DUPLICATE_SAME_ACCESS = 0x02
+
+; *Included in ProcessConstants.au3
+
+#cs
+
+Global Const $PROCESS_ALL_ACCESS = 0x001F0FFF
+Global Const $PROCESS_CREATE_PROCESS = 0x00000080
+Global Const $PROCESS_CREATE_THREAD = 0x00000002
+Global Const $PROCESS_DUP_HANDLE = 0x00000040
+Global Const $PROCESS_QUERY_INFORMATION = 0x00000400
+Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x00001000
+Global Const $PROCESS_SET_INFORMATION = 0x00000200
+Global Const $PROCESS_SET_QUOTA = 0x00000100
+Global Const $PROCESS_SUSPEND_RESUME = 0x00000800
+Global Const $PROCESS_TERMINATE = 0x00000001
+Global Const $PROCESS_VM_OPERATION = 0x00000008
+Global Const $PROCESS_VM_READ = 0x00000010
+Global Const $PROCESS_VM_WRITE = 0x00000020
+
+#ce
+
+; ===============================================================================================================================
 ; _WinAPI_DwmGetWindowAttribute(), _WinAPI_DwmSetWindowAttribute()
 ; ===============================================================================================================================
 
@@ -1029,6 +1056,16 @@ Global Const $SEM_FAILCRITICALERRORS = 0x0001
 Global Const $SEM_NOALIGNMENTFAULTEXCEPT = 0x0004
 Global Const $SEM_NOGPFAULTERRORBOX = 0x0002
 Global Const $SEM_NOOPENFILEERRORBOX = 0x8000
+
+; ===============================================================================================================================
+; _WinAPI_GetGUIThreadInfo()
+; ===============================================================================================================================
+
+Global Const $GUI_CARETBLINKING = 0x0001
+Global Const $GUI_INMENUMODE = 0x0004
+Global Const $GUI_INMOVESIZE = 0x0002
+Global Const $GUI_POPUPMENUMODE = 0x0010
+Global Const $GUI_SYSTEMMENUMODE = 0x0008
 
 ; ===============================================================================================================================
 ; _WinAPI_GetHandleInformation(), _WinAPI_SetHandleInformation()
@@ -2087,6 +2124,22 @@ Global Const $SHERB_NOSOUND = 0x04
 Global Const $SHERB_NO_UI = BitOR($SHERB_NOCONFIRMATION, $SHERB_NOPROGRESSUI, $SHERB_NOSOUND)
 
 ; ===============================================================================================================================
+; _WinAPI_ShellExecute()
+; ===============================================================================================================================
+
+Global Const $SE_ERR_ACCESSDENIED = 5
+Global Const $SE_ERR_ASSOCINCOMPLETE = 27
+Global Const $SE_ERR_DDEBUSY = 30
+Global Const $SE_ERR_DDEFAIL = 29
+Global Const $SE_ERR_DDETIMEOUT = 28
+Global Const $SE_ERR_DLLNOTFOUND = 32
+Global Const $SE_ERR_FNF = 2
+Global Const $SE_ERR_NOASSOC = 31
+Global Const $SE_ERR_OOM = 8
+Global Const $SE_ERR_PNF = 3
+Global Const $SE_ERR_SHARE = 26
+
+; ===============================================================================================================================
 ; _WinAPI_ShellFileOperation()
 ; ===============================================================================================================================
 
@@ -2117,6 +2170,7 @@ Global Const $FOF_NO_UI = BitOR($FOF_NOCONFIRMATION, $FOF_NOCONFIRMMKDIR, $FOF_N
 ; _WinAPI_ShellGetFileInfo()
 ; ===============================================================================================================================
 
+Global Const $SHGFI_ADDOVERLAYS = 0x00000020
 Global Const $SHGFI_ATTR_SPECIFIED = 0x00020000
 Global Const $SHGFI_ATTRIBUTES = 0x00000800
 Global Const $SHGFI_DISPLAYNAME = 0x00000200
@@ -2530,6 +2584,16 @@ Global Const $QUNS_RUNNING_D3D_FULL_SCREEN = 3
 Global Const $QUNS_PRESENTATION_MODE = 4
 Global Const $QUNS_ACCEPTS_NOTIFICATIONS = 5
 Global Const $QUNS_QUIET_TIME = 6
+
+; ===============================================================================================================================
+; _WinAPI_TrackMouseEvent()
+; ===============================================================================================================================
+
+Global Const $TME_CANCEL = 0x80000000
+Global Const $TME_HOVER = 0x00000001
+Global Const $TME_LEAVE = 0x00000002
+Global Const $TME_NONCLIENT = 0x00000010
+Global Const $TME_QUERY = 0x40000000
 
 ; ===============================================================================================================================
 ; _WinAPI_UniqueHardwareID()
