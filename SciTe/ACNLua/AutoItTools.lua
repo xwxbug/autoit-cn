@@ -1187,6 +1187,26 @@ function AutoItTools:Abbreviations()
 end
 
 --------------------------------------------------------------------------------
+-- AutoItTools:txt2au3()
+--
+-- Conv text string to au3 string by thesnoW
+--------------------------------------------------------------------------------
+--
+function AutoItTools:txt2au3()
+	local word = editor:GetSelText()
+	if word == nil or string.len(word) < 1 then
+		print("哥很为难啊,你什么都没选...\n")
+		return true
+	end
+	word=string.gsub(word,"'","''")
+	word=string.gsub(word,"[\r\n]+",'\' & @CRLF & _\r\n\'')
+	word="$string = _ \n'" .. word .. "'"
+	editor:ReplaceSel(word)
+	print("貌似转换成功,如有问题,请按下CTRL+Z...\n")
+	return true
+end
+
+--------------------------------------------------------------------------------
 -- AutoItTools:Copy_BookMarks()
 --
 -- "copy bookmark line to here" by thesnoW
