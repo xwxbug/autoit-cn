@@ -19,13 +19,18 @@ AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
 [G][!]更新: WinAPIEx UDF库 更新到3.2版.
-[G][!]更新: 更新代码迷惑为1.0.28.13
 [G][!]新增: WinHttp 1.6.1.8 UDF库.
+[H][-]移除: 移除AU3TOOL.exe对配置文件的修正,目前已由SciTe处理.
 
 SciTe:
+
+[H][+]新增: 新增$(AutoItPath)全局变量,用于替代以前设置中的绝对路径.
+[H][!]更新: 修改$(SciteUserHome)全局变量路径由%APPDATA%改到SciTe目录下的UserHome路径下.
+[H][!]更新: 将选项下的所有"导入配置"菜单项目放入"打开导入文件[I]"子菜单.
 [H][!]更新: 更新SciTe到2.24版.
 [H][+]新增: 新增快捷键CTRL+K,用于转换文本为AU3字符串表达式
-[G][!]更新: 更新tidy为2.1.0.11
+[G][!]更新: 更新tidy为2.1.0.12
+[G][!]更新: 更新代码迷惑为1.0.28.13
 
 Koda:
 
