@@ -23,7 +23,6 @@ AutoIt:
 [H][-]移除: 移除AU3TOOL.exe对配置文件的修正,目前已由SciTe处理.
 
 SciTe:
-
 [H][+]新增: 新增$(AutoItPath)全局变量,用于替代以前设置中的绝对路径.
 [H][!]更新: 修改$(SciteUserHome)全局变量路径由%APPDATA%改到SciTe目录下的UserHome路径下.
 [H][!]更新: 将选项下的所有"导入配置"菜单项目放入"打开导入文件[I]"子菜单.
