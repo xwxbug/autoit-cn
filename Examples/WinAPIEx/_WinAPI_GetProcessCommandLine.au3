@@ -7,7 +7,7 @@ Opt('MustDeclareVars', 1)
 
 Global $hToken, $aList = 0
 
-; Enable SeDebugPrivilege privilege for obtain full access rights to another processes
+; Enable "SeDebugPrivilege" privilege for obtain full access rights to another processes
 $hToken = _WinAPI_OpenProcessToken(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
 _WinAPI_AdjustTokenPrivileges($hToken, $SE_DEBUG_NAME, 1)
 

@@ -1,7 +1,6 @@
 #Include <GDIPlus.au3>
 #Include <Misc.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
 
@@ -16,11 +15,11 @@ _GDIPlus_Shutdown()
 GUISetState()
 
 Do
-	_WinAPI_UpdateLayeredWindowEx($hForm, $hBitmap, $Opacity)
+	_WinAPI_UpdateLayeredWindowEx($hForm, -1, -1, $hBitmap, $Opacity)
 	$Opacity += $Step
 	If ($Opacity = 0) Or ($Opacity = 255) Then
 		$Step = -$Step
-		Sleep(200)
+		Sleep(100)
 	EndIf
 	Sleep(10)
 Until _IsPressed('1B')

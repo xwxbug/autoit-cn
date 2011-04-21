@@ -1,7 +1,6 @@
 #Include <Constants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MouseCoordMode', 2)
 Opt('MustDeclareVars', 1)
@@ -70,7 +69,7 @@ Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
 		Case $WM_PAINT
 			If $Count = 0 Then
 
-				Local $hDC, $tPAINTSTRUCT
+				Local $tPAINTSTRUCT, $hDC
 
 				$Count += 1
 				$hDC = _WinAPI_BeginPaint($hWnd, $tPAINTSTRUCT)

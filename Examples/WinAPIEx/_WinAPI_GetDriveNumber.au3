@@ -17,7 +17,7 @@ If IsArray($Drive) Then
 	Next
 EndIf
 For $i = 0 To UBound($Drive) - 1
-	If $List[$i] > '' Then
+	If $List[$i] Then
 		ConsoleWrite('Drive' & $i & ' => ' & $List[$i] & @CR)
 	EndIf
 Next

@@ -5,7 +5,7 @@
 
 Opt('MustDeclareVars', 1)
 
-Global Const $sDll = @ScriptDir & '\Extras\Resources.dll'
+Global Const $sDll = _DllGetPath(@ScriptDir & '\Extras')
 Global Const $sJpg = @TempDir & '\~Tech.jpg'
 
 Global $Msg, $Button, $hFile, $hFont, $hInstance, $hResource, $hData, $pData, $tData, $hWave, $pWave, $sText, $iSize
@@ -80,3 +80,11 @@ WEnd
 ; Free resources
 _WinAPI_RemoveFontMemResourceEx($hFont)
 FileDelete($sJpg)
+
+Func _DllGetPath($sPath)
+	If @AutoItX64 Then
+		Return $sPath & '\Resources_x64.dll'
+	Else
+		Return $sPath & '\Resources.dll'
+	EndIf
+EndFunc   ;==>_DllGetPath

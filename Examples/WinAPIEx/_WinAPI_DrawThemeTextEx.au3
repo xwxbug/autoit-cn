@@ -2,7 +2,6 @@
 #Include <GUIConstantsEx.au3>
 #Include <FontConstants.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
 
@@ -42,19 +41,10 @@ Func _DrawText($hDC, $sText, $tRECT)
 
 	; Original idea by Authenticity
 
-	Local $tBITMAPINFO, $tDTTOPTS, $Width, $Height, $pBits, $hBitmap, $hFont, $hTheme, $hMemDC, $hSv1, $hSv2
+	Local $tDTTOPTS, $Width, $Height, $pBits, $hBitmap, $hFont, $hTheme, $hMemDC, $hSv1, $hSv2
 
 	$Width = DllStructGetData($tRECT, 3) - DllStructGetData($tRECT, 1)
 	$Height = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2)
-
-	$tBITMAPINFO = DllStructCreate($tagBITMAPINFO)
-	DllStructSetData($tBITMAPINFO, 'Size', DllStructGetSize($tBITMAPINFO) - 4)
-	DllStructSetData($tBITMAPINFO, 'Width', $Width)
-	DllStructSetData($tBITMAPINFO, 'Height', -$Height)
-	DllStructSetData($tBITMAPINFO, 'Planes', 1)
-	DllStructSetData($tBITMAPINFO, 'BitCount', 32)
-	DllStructSetData($tBITMAPINFO, 'Compression', $BI_RGB)
-	DllStructSetData($tBITMAPINFO, 'SizeImage', 0)
 
 	$tDTTOPTS = DllStructCreate($tagDTTOPTS)
 	DllStructSetData($tDTTOPTS, 'Size', DllStructGetSize($tDTTOPTS))
@@ -63,7 +53,7 @@ Func _DrawText($hDC, $sText, $tRECT)
 	DllStructSetData($tDTTOPTS, 'GlowSize', 12)
 
 	$hMemDC = _WinAPI_CreateCompatibleDC($hDC)
-	$hBitmap = _WinAPI_CreateDIBSection(0, $tBITMAPINFO, $DIB_RGB_COLORS, $pBits)
+	$hBitmap = _WinAPI_CreateDIB($Width, -$Height)
 	$hSv1 = _WinAPI_SelectObject($hMemDC, $hBitmap)
 	$hFont = _WinAPI_CreateFont(26, 0, 0, 0, $FW_NORMAL, 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $DEFAULT_QUALITY, $DEFAULT_PITCH, 'Segoe Script')
 	$hSv2 = _WinAPI_SelectObject($hMemDC, $hFont)
@@ -85,7 +75,7 @@ Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
 	Switch $iMsg
 		Case $WM_PAINT
 
-			Local $hDC, $tPAINTSTRUCT
+			Local $tPAINTSTRUCT, $hDC
 
 			$hDC = _WinAPI_BeginPaint($hWnd, $tPAINTSTRUCT)
 			_DrawText($hDC, 'Soccer', _WinAPI_GetClientRect($hWnd))

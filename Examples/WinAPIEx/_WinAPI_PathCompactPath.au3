@@ -4,10 +4,10 @@ Opt('MustDeclareVars', 1)
 
 Global $Label, $hLabel
 
-GUICreate('MyGUI', 200, 60)
-$Label = GUICtrlCreateLabel('', 10, 22, 180, 16)
+GUICreate('MyGUI', 260, 60)
+$Label = GUICtrlCreateLabel('', 10, 22, 240, 16)
 $hLabel = GUICtrlGetHandle($Label)
-GUICtrlSetData(-1, _WinAPI_PathCompactPath($hLabel, @MyDocumentsDir & '\Test.txt'))
+GUICtrlSetData(-1, _WinAPI_PathCompactPath($hLabel, @ScriptFullPath))
 GUISetState()
 
 Do

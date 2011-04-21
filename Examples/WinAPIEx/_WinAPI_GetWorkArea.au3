@@ -1,4 +1,3 @@
-#Include <WindowsConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)

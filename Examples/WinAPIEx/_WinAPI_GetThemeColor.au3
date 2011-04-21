@@ -1,6 +1,5 @@
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
 
@@ -40,7 +39,7 @@ Func _GetTabBodyColor($hForm)
 		Case Else
 			$Part = 11 ; TABP_AEROWIZARDBODY
 	EndSwitch
-	$Color = _WinAPI_GetThemeColor($hTheme, $Part, 1, 3821)
+	$Color = _WinAPI_GetThemeColor($hTheme, $Part, 1, $TMT_FILLCOLORHINT)
 	_WinAPI_CloseThemeData($hTheme)
 	If $Color < 0 Then
 		Return $Default

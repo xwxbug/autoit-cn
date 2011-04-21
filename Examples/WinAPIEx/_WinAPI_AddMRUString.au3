@@ -5,7 +5,7 @@ Opt('MustDeclareVars', 1)
 
 Global $hForm, $hMRU, $Msg, $Button, $Combo, $Count, $Data = ''
 
-$hMRU = _WinAPI_CreateMRUList($HKEY_CURRENT_USER, 'Software\MyProg\MRU', 0, 5)
+$hMRU = _WinAPI_CreateMRUList($HKEY_CURRENT_USER, 'Software\MyProg\MRU', 5)
 
 ; Create MRU list in the registry (only at first start example)
 RegRead('HKCU\Software\MyProg\MRU', 'MRUList')

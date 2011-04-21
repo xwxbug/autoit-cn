@@ -9,7 +9,9 @@ While 1
 	If @error Then
 		ExitLoop
 	EndIf
-	ConsoleWrite('-------------------------------' & @CR)
+	If Not $Drive Then
+		ConsoleWrite('-------------------------------' & @CR)
+	EndIf
 	ConsoleWrite('Drive: ' & $Drive & @CR)
 	ConsoleWrite('Cylinders: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'Cylinders') & @CR)
 	ConsoleWrite('Tracks per Cylinder: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'TracksPerCylinder') & @CR)

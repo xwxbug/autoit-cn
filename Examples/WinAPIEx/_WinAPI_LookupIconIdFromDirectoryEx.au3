@@ -2,7 +2,7 @@
 
 Opt('MustDeclareVars', 1)
 
-Global Const $sDll = @ScriptDir & '\Extras\Resources.dll'
+Global Const $sDll = _DllGetPath(@ScriptDir & '\Extras')
 
 Global Const $STM_SETIMAGE = 0x0172
 
@@ -43,3 +43,11 @@ GUISetState()
 
 Do
 Until GUIGetMsg() = -3
+
+Func _DllGetPath($sPath)
+	If @AutoItX64 Then
+		Return $sPath & '\Resources_x64.dll'
+	Else
+		Return $sPath & '\Resources.dll'
+	EndIf
+EndFunc   ;==>_DllGetPath

@@ -2,7 +2,6 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $hWnd = WinGetHandle(AutoItWinGetTitle())
 Global $tNOTIFYICONDATA = DllStructCreate($tagNOTIFYICONDATA)
 
 OnAutoItExitRegister('OnAutoItExit')

@@ -5,14 +5,19 @@
 Opt('MustDeclareVars', 1)
 
 Global $FileList = _FileListToArray(@SystemDir, '*.dll', 1)
-Global $SpecList[UBound($FileList) - 1]
+Global $SortList[UBound($FileList) - 1]
 Global $Count = 0
 
 For $i = 1 To $FileList[0]
 	If _WinAPI_PathMatchSpec($FileList[$i], 'net*.dll') Then
-		$SpecList[$Count] = $FileList[$i]
+		$SortList[$Count] = $FileList[$i]
 		$Count += 1
 	EndIf
 Next
+If $Count Then
+	ReDim $SortList[$Count]
+Else
+	Exit
+EndIf
 
-_ArrayDisplay($SpecList, '_WinAPI_PathMatchSpec', $Count - 1)
+_ArrayDisplay($SortList, '_WinAPI_PathMatchSpec')

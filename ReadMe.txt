@@ -18,7 +18,7 @@ AutoIt工具箱提供了安装卸载功能.
 AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
-[G][!]更新: WinAPIEx UDF库 更新到3.2版.
+[G][!]更新: WinAPIEx UDF库 更新到3.3版.
 [G][!]新增: WinHttp 1.6.1.8 UDF库.
 [H][-]移除: 移除AU3TOOL.exe对配置文件的修正,目前已由SciTe处理.
 

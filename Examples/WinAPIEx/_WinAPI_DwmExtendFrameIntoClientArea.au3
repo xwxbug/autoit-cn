@@ -1,101 +1,116 @@
 #Include <Constants.au3>
-#Include <GUIConstantsEx.au3>
-#Include <FontConstants.au3>
+#Include <GUITab.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
+Opt('TrayAutoPause', 0)
 
 If Not _WinAPI_DwmIsCompositionEnabled() Then
 	MsgBox(16, 'Error', 'Require Windows Vista or later with enabled Aero theme.')
 	Exit
 EndIf
 
-Global $hForm, $hLabel, $hDll, $pDll, $hProc
+Global Const $PRF_CLIENT = 0x04
+
+Global $hForm, $hTab, $tMARGINS, $hDll, $pDll, $hProc
 
 OnAutoItExitRegister('OnAutoItExit')
 
 ; Create GUI
-$hForm = GUICreate('MyGUI', 240, 240)
-GUICtrlCreateIcon(@ScriptDir & '\Extras\Soccer.ico', 0, 88, 68, 64, 64)
-GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlCreateLabel('', 70, 130, 100, 30)
-GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
-GUICtrlSetState(-1, $GUI_DISABLE)
-$hLabel = GUICtrlGetHandle(-1)
+$hForm = GUICreate('MyGUI', 400, 400)
+GUICtrlCreateTab(0, 60, 402, 341, $WS_CLIPCHILDREN)
+$hTab = GUICtrlGetHandle(-1)
+GUICtrlCreateTabItem('Tab 1')
+GUICtrlCreateButton('Button', 150, 167, 100, 26)
+_WinAPI_SetParent(GUICtrlGetHandle(-1), $hTab)
+GUICtrlCreateTabItem('Tab 2')
+GUICtrlCreateEdit('', 14, 34, 372, 292)
+_WinAPI_SetParent(GUICtrlGetHandle(-1), $hTab)
+GUICtrlCreateTabItem('Tab 3')
+GUICtrlCreateTabItem('')
 GUISetBkColor(0)
 
-; Register label window proc
+; Register Tab window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
-$hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
+$hProc = _WinAPI_SetWindowLongEx($hTab, $GWL_WNDPROC, $pDll)
 
-; Create the "sheet of glass" effect for the entire window. You must call this function whenever DWM composition is toggled.
-_WinAPI_DwmExtendFrameIntoClientArea($hForm)
+; Create the "sheet of glass" effect for the Tab client area. You must call this function whenever DWM composition is toggled.
+$tMARGINS = DllStructCreate($tagMARGINS)
+DllStructSetData($tMARGINS, 1, 2)
+DllStructSetData($tMARGINS, 2, 2)
+DllStructSetData($tMARGINS, 3, 82)
+DllStructSetData($tMARGINS, 4, 2)
+_WinAPI_DwmExtendFrameIntoClientArea($hForm, $tMARGINS)
 
 GUISetState()
 
 Do
-Until GUIGetMsg() = $GUI_EVENT_CLOSE
+Until GUIGetMsg() = -3
 
-Func _DrawText($hDC, $sText, $tRECT)
+Func _CreateClipRgn($hWnd)
 
-	; Original idea by Authenticity
+	Local $tRECT, $hTmp, $hRgn, $Ht, $Count, $Sel
 
-	Local $tBITMAPINFO, $tDTTOPTS, $Width, $Height, $pBits, $hBitmap, $hFont, $hTheme, $hMemDC, $hSv1, $hSv2
-
-	$Width = DllStructGetData($tRECT, 3) - DllStructGetData($tRECT, 1)
-	$Height = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2)
-
-	$tBITMAPINFO = DllStructCreate($tagBITMAPINFO)
-	DllStructSetData($tBITMAPINFO, 'Size', DllStructGetSize($tBITMAPINFO) - 4)
-	DllStructSetData($tBITMAPINFO, 'Width', $Width)
-	DllStructSetData($tBITMAPINFO, 'Height', -$Height)
-	DllStructSetData($tBITMAPINFO, 'Planes', 1)
-	DllStructSetData($tBITMAPINFO, 'BitCount', 32)
-	DllStructSetData($tBITMAPINFO, 'Compression', $BI_RGB)
-	DllStructSetData($tBITMAPINFO, 'SizeImage', 0)
-
-	$tDTTOPTS = DllStructCreate($tagDTTOPTS)
-	DllStructSetData($tDTTOPTS, 'Size', DllStructGetSize($tDTTOPTS))
-	DllStructSetData($tDTTOPTS, 'Flags', BitOR($DTT_TEXTCOLOR, $DTT_GLOWSIZE, $DTT_COMPOSITED))
-	DllStructSetData($tDTTOPTS, 'clrText', 0x0000C0)
-	DllStructSetData($tDTTOPTS, 'GlowSize', 12)
-
-	$hMemDC = _WinAPI_CreateCompatibleDC($hDC)
-	$hBitmap = _WinAPI_CreateDIBSection(0, $tBITMAPINFO, $DIB_RGB_COLORS, $pBits)
-	$hSv1 = _WinAPI_SelectObject($hMemDC, $hBitmap)
-	$hFont = _WinAPI_CreateFont(26, 0, 0, 0, $FW_NORMAL, 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $DEFAULT_QUALITY, $DEFAULT_PITCH, 'Segoe Script')
-	$hSv2 = _WinAPI_SelectObject($hMemDC, $hFont)
-	$tRECT = _WinAPI_CreateRect(0, 0, $Width, $Height)
-	$hTheme = _WinAPI_OpenThemeData($hForm, 'Globals')
-
-	_WinAPI_DrawThemeTextEx($hTheme, 0, 0, $hMemDC, $sText, $tRECT, BitOR($DT_CENTER, $DT_SINGLELINE, $DT_VCENTER), $tDTTOPTS)
-	_WinAPI_BitBlt($hDC, 0, 0, $Width, $Height, $hMemDC, 0, 0, $SRCCOPY)
-
-	_WinAPI_CloseThemeData($hTheme)
-	_WinAPI_SelectObject($hMemDC, $hSv1)
-	_WinAPI_DeleteObject($hBitmap)
-	_WinAPI_SelectObject($hMemDC, $hSv2)
-	_WinAPI_DeleteObject($hFont)
-	_WinAPI_DeleteDC($hMemDC)
-EndFunc   ;==>_DrawText
+	$Count = _GUICtrlTab_GetItemCount($hWnd)
+	$Sel = _GUICtrlTab_GetCurSel($hWnd)
+	$hRgn = _WinAPI_CreateNullRgn()
+	For $i = 0 To $Count - 1
+		$tRECT = _GUICtrlTab_GetItemRectEx($hWnd, $i)
+		If $i = $Sel Then
+			$hTmp = _WinAPI_CreateRectRgn(DllStructGetData($tRECT, 1) - 2, DllStructGetData($tRECT, 2) - 2, DllStructGetData($tRECT, 3) + 2, DllStructGetData($tRECT, 4))
+			$Ht = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2) + 2
+		Else
+			If $i = $Count - 1 Then
+				$hTmp = _WinAPI_CreateRectRgn(DllStructGetData($tRECT, 1), DllStructGetData($tRECT, 2), DllStructGetData($tRECT, 3) - 2, DllStructGetData($tRECT, 4))
+			Else
+				$hTmp = _WinAPI_CreateRectRgn(DllStructGetData($tRECT, 1), DllStructGetData($tRECT, 2), DllStructGetData($tRECT, 3), DllStructGetData($tRECT, 4))
+			EndIf
+		EndIf
+		_WinAPI_CombineRgn($hRgn, $hRgn, $hTmp, $RGN_OR)
+		_WinAPI_DeleteObject($hTmp)
+	Next
+	$tRECT = _WinAPI_GetClientRect($hWnd)
+	$hTmp = _WinAPI_CreateRectRgn(DllStructGetData($tRECT, 1), DllStructGetData($tRECT, 2) + $Ht, DllStructGetData($tRECT, 3) - 2, DllStructGetData($tRECT, 4) - 1)
+	_WinAPI_CombineRgn($hRgn, $hRgn, $hTmp, $RGN_OR)
+	_WinAPI_DeleteObject($hTmp)
+	Return $hRgn
+EndFunc   ;==>_CreateClipRgn
 
 Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
-	Switch $iMsg
-		Case $WM_PAINT
+	If _WinAPI_IsThemeActive() Then
+		Switch $iMsg
+			Case $WM_ERASEBKGND
 
-			Local $hDC, $tPAINTSTRUCT
+				Local $tRECT, $hBrush, $hRgn, $hPrev
 
-			$hDC = _WinAPI_BeginPaint($hWnd, $tPAINTSTRUCT)
-			_DrawText($hDC, 'Soccer', _WinAPI_GetClientRect($hWnd))
-			_WinAPI_EndPaint($hWnd, $tPAINTSTRUCT)
-			Return 0
-	EndSwitch
+				$hPrev = _WinAPI_GetClipRgn($wParam)
+				$hRgn = _CreateClipRgn($hWnd)
+				_WinAPI_ExtSelectClipRgn($wParam, $hRgn, $RGN_DIFF)
+				$tRECT = _WinAPI_GetClientRect($hWnd)
+				$hBrush = _WinAPI_CreateSolidBrush(0)
+				_WinAPI_FillRect($wParam, DllStructGetPtr($tRECT), $hBrush)
+				_WinAPI_SelectClipRgn($wParam, $hPrev)
+				_WinAPI_DeleteObject($hBrush)
+				_WinAPI_DeleteObject($hRgn)
+				Return 1
+			Case $WM_PAINT
+
+				Local $tPAINTSTRUCT, $hDC, $hRgn
+
+				$hDC = _WinAPI_BeginPaint($hWnd, $tPAINTSTRUCT)
+				$hRgn = _CreateClipRgn($hWnd)
+				_WinAPI_ExtSelectClipRgn($hDC, $hRgn, $RGN_AND)
+				_WinAPI_CallWindowProc($hProc, $hWnd, $WM_PRINTCLIENT, $hDC, $PRF_CLIENT)
+				_WinAPI_DeleteObject($hRgn)
+				_WinAPI_EndPaint($hWnd, $tPAINTSTRUCT)
+				Return 0
+		EndSwitch
+	EndIf
 	Return _WinAPI_CallWindowProc($hProc, $hWnd, $iMsg, $wParam, $lParam)
 EndFunc   ;==>_WinProc
 
 Func OnAutoItExit()
-	_WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $hProc)
+	_WinAPI_SetWindowLongEx($hTab, $GWL_WNDPROC, $hProc)
 	DllCallbackFree($hDll)
 EndFunc   ;==>OnAutoItExit

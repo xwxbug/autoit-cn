@@ -4,7 +4,7 @@ Opt('MustDeclareVars', 1)
 
 Global $Str, $Path = @ScriptFullPath
 
-While $Path > ''
+While $Path
 	ConsoleWrite($Path & @CR)
 	$Path = _WinAPI_PathFindNextComponent($Path)
 WEnd

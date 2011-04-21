@@ -1,11 +1,8 @@
 #Include <Constants.au3>
 #Include <GUIConstantsEx.au3>
-#Include <WindowsConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
-
-Global Const $WM_DROPFILES = 0x0233
 
 Global $hForm, $Msg, $Check, $Label, $hLabel, $hDll, $pDll, $hProc
 

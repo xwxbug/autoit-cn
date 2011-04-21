@@ -1,7 +1,6 @@
 #Include <GUIListView.au3>
 #Include <GUIImageList.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
 
