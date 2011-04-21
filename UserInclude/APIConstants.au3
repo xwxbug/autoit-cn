@@ -6,16 +6,24 @@
     Filename:       APIConstants.au3
     Description:    Constants to be used with WinAPIEx UDF library.
     Author:         Yashied
-    Version:        3.2 / 3.3.6.1
+    Version:        3.3 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
-    Uses:           None
+    Uses:           WindowsConstants.au3
     Note:           -
 
 #ce
 
 #Include-once
 
+#Include <WindowsConstants.au3>
+
 #EndRegion Header
+
+#Region Initialization
+
+Global Const $__WINVER = __Ver()
+
+#EndRegion Initialization
 
 #Region Global Variables and Constants
 
@@ -116,6 +124,19 @@ Global Const $ASSOCF_REMAPRUNDLL = 0x00000080
 Global Const $ASSOCF_NOFIXUPS = 0x00000100
 Global Const $ASSOCF_IGNOREBASECLASS = 0x00000200
 Global Const $ASSOCF_INIT_IGNOREUNKNOWN = 0x00000400
+
+; ===============================================================================================================================
+; _WinAPI_BeginBufferedPaint()
+; ===============================================================================================================================
+
+Global Const $BPBF_COMPATIBLEBITMAP = 0
+Global Const $BPBF_DIB = 1
+Global Const $BPBF_TOPDOWNDIB = 2
+Global Const $BPBF_TOPDOWNMONODIB = 3
+
+Global Const $BPPF_ERASE = 0x01
+Global Const $BPPF_NOCLIP = 0x02
+Global Const $BPPF_NONCLIENT = 0x04
 
 ; ===============================================================================================================================
 ; _WinAPI_BroadcastSystemMessage()
@@ -298,7 +319,7 @@ Global Const $DIB_PAL_COLORS = 1
 Global Const $DIB_RGB_COLORS = 0
 
 ; ===============================================================================================================================
-; _WinAPI_CreateFileEx()
+; _WinAPI_CreateFileEx(), _WinAPI_SetFileAttributes(), _WinAPI_SetFileAttributes()
 ; ===============================================================================================================================
 
 ; *Included in FileConstants.au3
@@ -678,13 +699,6 @@ Global Const $SMART_RCV_DRIVE_DATA = 0x0007C088
 Global Const $SMART_SEND_DRIVE_COMMAND = 0x0007C084
 
 ; ===============================================================================================================================
-; _WinAPI_DllGetVersion()
-; ===============================================================================================================================
-
-Global Const $DLLVER_PLATFORM_WINDOWS = 0x01
-Global Const $DLLVER_PLATFORM_NT = 0x02
-
-; ===============================================================================================================================
 ; _WinAPI_DrawShadowText()
 ; ===============================================================================================================================
 
@@ -718,6 +732,40 @@ Global Const $DT_WORDBREAK = 0x00000010
 Global Const $DT_WORD_ELLIPSIS = 0x00040000
 
 #ce
+
+; ===============================================================================================================================
+; _WinAPI_DrawThemeEdge()
+; ===============================================================================================================================
+
+Global Const $BDR_RAISEDINNER = 0x04
+Global Const $BDR_SUNKENINNER = 0x08
+Global Const $BDR_RAISEDOUTER = 0x01
+Global Const $BDR_SUNKENOUTER = 0x02
+
+Global Const $EDGE_BUMP = BitOR($BDR_RAISEDOUTER, $BDR_SUNKENINNER)
+Global Const $EDGE_ETCHED = BitOR($BDR_SUNKENOUTER, $BDR_RAISEDINNER)
+Global Const $EDGE_RAISED = BitOR($BDR_RAISEDOUTER, $BDR_RAISEDINNER)
+Global Const $EDGE_SUNKEN = BitOR($BDR_SUNKENOUTER, $BDR_SUNKENINNER)
+
+Global Const $BF_ADJUST = 0x2000
+Global Const $BF_BOTTOM = 0x0008
+Global Const $BF_DIAGONAL = 0x0010
+Global Const $BF_FLAT = 0x4000
+Global Const $BF_LEFT = 0x0001
+Global Const $BF_MIDDLE = 0x0800
+Global Const $BF_MONO = 0x8000
+Global Const $BF_RIGHT = 0x0004
+Global Const $BF_SOFT = 0x1000
+Global Const $BF_TOP = 0x0002
+Global Const $BF_BOTTOMLEFT = BitOR($BF_BOTTOM, $BF_LEFT)
+Global Const $BF_BOTTOMRIGHT = BitOR($BF_BOTTOM, $BF_RIGHT)
+Global Const $BF_DIAGONAL_ENDBOTTOMLEFT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_LEFT)
+Global Const $BF_DIAGONAL_ENDBOTTOMRIGHT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_RIGHT)
+Global Const $BF_DIAGONAL_ENDTOPLEFT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_LEFT)
+Global Const $BF_DIAGONAL_ENDTOPRIGHT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_RIGHT)
+Global Const $BF_RECT = BitOR($BF_LEFT, $BF_TOP, $BF_RIGHT, $BF_BOTTOM)
+Global Const $BF_TOPLEFT = BitOR($BF_TOP, $BF_LEFT)
+Global Const $BF_TOPRIGHT = BitOR($BF_TOP, $BF_RIGHT)
 
 ; ===============================================================================================================================
 ; _WinAPI_DrawThemeTextEx()
@@ -890,6 +938,16 @@ Global Const $SCS_POSIX_BINARY = 4
 Global Const $SCS_WOW_BINARY = 2
 
 ; ===============================================================================================================================
+; _WinAPI_GetBoundsRect(), _WinAPI_SetBoundsRect()
+; ===============================================================================================================================
+
+Global Const $DCB_ACCUMULATE = 0x02
+Global Const $DCB_DISABLE = 0x08
+Global Const $DCB_ENABLE = 0x04
+Global Const $DCB_RESET = 0x01
+Global Const $DCB_SET = BitOR($DCB_RESET, $DCB_ACCUMULATE)
+
+; ===============================================================================================================================
 ; _WinAPI_GetClassLongEx(), _WinAPI_SetClassLongEx()
 ; ===============================================================================================================================
 
@@ -1056,6 +1114,18 @@ Global Const $SEM_FAILCRITICALERRORS = 0x0001
 Global Const $SEM_NOALIGNMENTFAULTEXCEPT = 0x0004
 Global Const $SEM_NOGPFAULTERRORBOX = 0x0002
 Global Const $SEM_NOOPENFILEERRORBOX = 0x8000
+
+; ===============================================================================================================================
+; _WinAPI_GetFinalPathNameByHandle()
+; ===============================================================================================================================
+
+Global Const $FILE_NAME_NORMALIZED = 0x0
+Global Const $FILE_NAME_OPENED = 0x8
+
+Global Const $VOLUME_NAME_DOS = 0x0
+Global Const $VOLUME_NAME_GUID = 0x1
+Global Const $VOLUME_NAME_NONE = 0x4
+Global Const $VOLUME_NAME_NT = 0x2
 
 ; ===============================================================================================================================
 ; _WinAPI_GetGUIThreadInfo()
@@ -1272,6 +1342,51 @@ Global Const $R2_WHITE = 16
 Global Const $R2_XORPEN = 7
 
 ; ===============================================================================================================================
+; _WinAPI_GetSysColor(), _WinAPI_SetSysColor()
+; ===============================================================================================================================
+
+; *Included in WindowsConstants.au3
+
+#cs
+
+Global Const $COLOR_3DDKSHADOW = 21
+Global Const $COLOR_3DFACE = 15
+Global Const $COLOR_3DHIGHLIGHT = 20
+Global Const $COLOR_3DLIGHT = 22
+Global Const $COLOR_3DSHADOW = 16
+Global Const $COLOR_ACTIVEBORDER = 10
+Global Const $COLOR_ACTIVECAPTION = 2
+Global Const $COLOR_APPWORKSPACE = 12
+Global Const $COLOR_BACKGROUND = 1
+Global Const $COLOR_BTNFACE = 15
+Global Const $COLOR_BTNHIGHLIGHT = 20
+Global Const $COLOR_BTNSHADOW = 16
+Global Const $COLOR_BTNTEXT = 18
+Global Const $COLOR_CAPTIONTEXT = 9
+Global Const $COLOR_DESKTOP = 1
+Global Const $COLOR_GRADIENTACTIVECAPTION = 27
+Global Const $COLOR_GRADIENTINACTIVECAPTION = 28
+Global Const $COLOR_GRAYTEXT = 17
+Global Const $COLOR_HIGHLIGHT = 13
+Global Const $COLOR_HIGHLIGHTTEXT = 14
+Global Const $COLOR_HOTLIGHT = 26
+Global Const $COLOR_INACTIVEBORDER = 11
+Global Const $COLOR_INACTIVECAPTION = 3
+Global Const $COLOR_INACTIVECAPTIONTEXT = 19
+Global Const $COLOR_INFOBK = 24
+Global Const $COLOR_INFOTEXT = 23
+Global Const $COLOR_MENU = 4
+Global Const $COLOR_MENUHILIGHT = 29
+Global Const $COLOR_MENUBAR = 30
+Global Const $COLOR_MENUTEXT = 7
+Global Const $COLOR_SCROLLBAR = 0
+Global Const $COLOR_WINDOW = 5
+Global Const $COLOR_WINDOWFRAME = 6
+Global Const $COLOR_WINDOWTEXT = 8
+
+#ce
+
+; ===============================================================================================================================
 ; _WinAPI_GetSystemInfo()
 ; ===============================================================================================================================
 
@@ -1325,6 +1440,14 @@ Global Const $STAP_ALLOW_CONTROLS = 0x02
 Global Const $STAP_ALLOW_WEBCONTENT = 0x04
 
 ; ===============================================================================================================================
+; _WinAPI_GetThemeBitmap()
+; ===============================================================================================================================
+
+Global Const $GBF_DIRECT = 0x01
+Global Const $GBF_COPY = 0x02
+Global Const $GBF_VALIDBITS = BitOR($GBF_DIRECT, $GBF_COPY)
+
+; ===============================================================================================================================
 ; _WinAPI_GetThemeDocumentationProperty()
 ; ===============================================================================================================================
 
@@ -1340,6 +1463,16 @@ Global Const $SZ_THDOCPROP_TOOLTIP = 'ToolTip'
 Global Const $TS_MIN = 0
 Global Const $TS_TRUE = 1
 Global Const $TS_DRAW = 2
+
+; ===============================================================================================================================
+; _WinAPI_GetThemePropertyOrigin()
+; ===============================================================================================================================
+
+Global Const $PO_CLASS = 2
+Global Const $PO_GLOBAL = 3
+Global Const $PO_NOTFOUND = 4
+Global Const $PO_PART = 1
+Global Const $PO_STATE = 0
 
 ; ===============================================================================================================================
 ; _WinAPI_GetTimeFormat()
@@ -2068,6 +2201,64 @@ Global Const $OCR_ICON = 32641
 Global Const $OCR_SIZE = 32640
 
 ; ===============================================================================================================================
+; _WinAPI_SetWinEventHook()
+; ===============================================================================================================================
+
+Global Const $EVENT_MIN = 0x00000001
+Global Const $EVENT_SYSTEM_SOUND = 0x00000001
+Global Const $EVENT_SYSTEM_ALERT = 0x00000002
+Global Const $EVENT_SYSTEM_FOREGROUND = 0x00000003
+Global Const $EVENT_SYSTEM_MENUSTART = 0x00000004
+Global Const $EVENT_SYSTEM_MENUEND = 0x00000005
+Global Const $EVENT_SYSTEM_MENUPOPUPSTART = 0x00000006
+Global Const $EVENT_SYSTEM_MENUPOPUPEND = 0x00000007
+Global Const $EVENT_SYSTEM_CAPTURESTART = 0x00000008
+Global Const $EVENT_SYSTEM_CAPTUREEND = 0x00000009
+Global Const $EVENT_SYSTEM_MOVESIZESTART = 0x0000000A
+Global Const $EVENT_SYSTEM_MOVESIZEEND = 0x0000000B
+Global Const $EVENT_SYSTEM_CONTEXTHELPSTART = 0x0000000C
+Global Const $EVENT_SYSTEM_CONTEXTHELPEND = 0x0000000D
+Global Const $EVENT_SYSTEM_DRAGDROPSTART = 0x0000000E
+Global Const $EVENT_SYSTEM_DRAGDROPEND = 0x0000000F
+Global Const $EVENT_SYSTEM_DIALOGSTART = 0x00000010
+Global Const $EVENT_SYSTEM_DIALOGEND = 0x00000011
+Global Const $EVENT_SYSTEM_SCROLLINGSTART = 0x00000012
+Global Const $EVENT_SYSTEM_SCROLLINGEND = 0x00000013
+Global Const $EVENT_SYSTEM_SWITCHSTART = 0x00000014
+Global Const $EVENT_SYSTEM_SWITCHEND = 0x00000015
+Global Const $EVENT_SYSTEM_MINIMIZESTART = 0x00000016
+Global Const $EVENT_SYSTEM_MINIMIZEEND = 0x00000017
+Global Const $EVENT_SYSTEM_DESKTOPSWITCH = 0x00000020
+Global Const $EVENT_OBJECT_CREATE = 0x00008000
+Global Const $EVENT_OBJECT_DESTROY = 0x00008001
+Global Const $EVENT_OBJECT_SHOW = 0x00008002
+Global Const $EVENT_OBJECT_HIDE = 0x00008003
+Global Const $EVENT_OBJECT_REORDER = 0x00008004
+Global Const $EVENT_OBJECT_FOCUS = 0x00008005
+Global Const $EVENT_OBJECT_SELECTION = 0x00008006
+Global Const $EVENT_OBJECT_SELECTIONADD = 0x00008007
+Global Const $EVENT_OBJECT_SELECTIONREMOVE = 0x00008008
+Global Const $EVENT_OBJECT_SELECTIONWITHIN = 0x00008009
+Global Const $EVENT_OBJECT_STATECHANGE = 0x0000800A
+Global Const $EVENT_OBJECT_LOCATIONCHANGE = 0x0000800B
+Global Const $EVENT_OBJECT_NAMECHANGE = 0x0000800C
+Global Const $EVENT_OBJECT_DESCRIPTIONCHANGE = 0x0000800D
+Global Const $EVENT_OBJECT_VALUECHANGE = 0x0000800E
+Global Const $EVENT_OBJECT_PARENTCHANGE = 0x0000800F
+Global Const $EVENT_OBJECT_HELPCHANGE = 0x00008010
+Global Const $EVENT_OBJECT_DEFACTIONCHANGE = 0x00008011
+Global Const $EVENT_OBJECT_ACCELERATORCHANGE = 0x00008012
+Global Const $EVENT_OBJECT_INVOKED = 0x00008013
+Global Const $EVENT_OBJECT_TEXTSELECTIONCHANGED = 0x00008014
+Global Const $EVENT_OBJECT_CONTENTSCROLLED = 0x00008015
+Global Const $EVENT_MAX = 0x7FFFFFFF
+
+Global Const $WINEVENT_INCONTEXT = 0x04
+Global Const $WINEVENT_OUTOFCONTEXT = 0x00
+Global Const $WINEVENT_SKIPOWNPROCESS = 0x02
+Global Const $WINEVENT_SKIPOWNTHREAD = 0x01
+
+; ===============================================================================================================================
 ; _WinAPI_ShellChangeNotify()
 ; ===============================================================================================================================
 
@@ -2606,6 +2797,47 @@ Global Const $UHID_HDD = 0x04
 Global Const $UHID_All = BitOR($UHID_MB, $UHID_BIOS, $UHID_CPU, $UHID_HDD)
 
 ; ===============================================================================================================================
+; _WinAPI_UrlEscape()
+; ===============================================================================================================================
+
+Global Const $URL_DONT_ESCAPE_EXTRA_INFO = 0x02000000
+Global Const $URL_ESCAPE_SPACES_ONLY = 0x04000000
+Global Const $URL_ESCAPE_PERCENT = 0x00001000
+Global Const $URL_ESCAPE_SEGMENT_ONLY = 0x00002000
+
+; *Windows 7 or later
+Global Const $URL_ESCAPE_AS_UTF8 = 0x00040000
+
+; ===============================================================================================================================
+; _WinAPI_UrlGetPart()
+; ===============================================================================================================================
+
+Global Const $URL_PART_HOSTNAME = 2
+Global Const $URL_PART_PASSWORD = 4
+Global Const $URL_PART_PORT = 5
+Global Const $URL_PART_QUERY = 6
+Global Const $URL_PART_SCHEME = 1
+Global Const $URL_PART_USERNAME = 3
+
+; ===============================================================================================================================
+; _WinAPI_UrlIs()
+; ===============================================================================================================================
+
+Global Const $URLIS_APPLIABLE = 4
+Global Const $URLIS_DIRECTORY = 5
+Global Const $URLIS_FILEURL = 3
+Global Const $URLIS_HASQUERY = 6
+Global Const $URLIS_NOHISTORY = 2
+Global Const $URLIS_OPAQUE = 1
+Global Const $URLIS_URL = 0
+
+; ===============================================================================================================================
+; _WinAPI_UrlUnescape()
+; ===============================================================================================================================
+
+Global Const $URL_DONT_UNESCAPE_EXTRA_INFO = 0x02000000
+
+; ===============================================================================================================================
 ; _WinAPI_VerQueryRoot()
 ; ===============================================================================================================================
 
@@ -2658,4 +2890,533 @@ Global Const $VFT2_FONT_TRUETYPE = 0x00000003
 Global Const $VFT2_FONT_VECTOR = 0x00000002
 ;Global Const $VFT2_UNKNOWN = 0x00000000
 
+; ===============================================================================================================================
+; _WinAPI_*Theme*()
+; ===============================================================================================================================
+
+Global Const $TMT_BOOL = 203
+Global Const $TMT_COLOR = 204
+Global Const $TMT_DIBDATA = 2
+Global Const $TMT_DISKSTREAM = 213
+Global Const $TMT_ENUM = 200
+Global Const $TMT_FILENAME = 206
+Global Const $TMT_FONT = 210
+Global Const $TMT_GLYPHDIBDATA = 8
+Global Const $TMT_HBITMAP = 212
+Global Const $TMT_INT = 202
+Global Const $TMT_INTLIST = 211
+Global Const $TMT_MARGINS = 205
+Global Const $TMT_POSITION = 208
+Global Const $TMT_RECT = 209
+Global Const $TMT_SIZE = 207
+Global Const $TMT_STRING = 201
+
+; *Bool
+Global Const $TMT_ALWAYSSHOWSIZINGBAR = 2208
+Global Const $TMT_AUTOSIZE = 2202
+Global Const $TMT_BGFILL = 2205
+Global Const $TMT_BORDERONLY = 2203
+Global Const $TMT_COMPOSITED = 2204
+Global Const $TMT_COMPOSITEDOPAQUE = 2219
+Global Const $TMT_DRAWBORDERS = 2214
+Global Const $TMT_FLATMENUS = 1001
+Global Const $TMT_GLYPHONLY = 2207
+Global Const $TMT_GLYPHTRANSPARENT = 2206
+Global Const $TMT_INTEGRALSIZING = 2211
+Global Const $TMT_LOCALIZEDMIRRORIMAGE = 2220
+Global Const $TMT_MIRRORIMAGE = 2209
+Global Const $TMT_NOETCHEDEFFECT = 2215
+Global Const $TMT_SOURCEGROW = 2212
+Global Const $TMT_SOURCESHRINK = 2213
+Global Const $TMT_TEXTAPPLYOVERLAY = 2216
+Global Const $TMT_TEXTGLOW = 2217
+Global Const $TMT_TEXTITALIC = 2218
+Global Const $TMT_TRANSPARENT = 2201
+Global Const $TMT_UNIFORMSIZING = 2210
+Global Const $TMT_USERPICTURE = 5001
+
+; *Color
+Global Const $TMT_ACCENTCOLORHINT = 3823
+Global Const $TMT_ACTIVEBORDER = 1611
+Global Const $TMT_ACTIVECAPTION = 1603
+Global Const $TMT_APPWORKSPACE = 1613
+Global Const $TMT_BACKGROUND = 1602
+Global Const $TMT_BLENDCOLOR = 5003
+Global Const $TMT_BODYTEXTCOLOR = 3827
+Global Const $TMT_BORDERCOLOR = 3801
+Global Const $TMT_BORDERCOLORHINT = 3822
+Global Const $TMT_BTNFACE = 1616
+Global Const $TMT_BTNHIGHLIGHT = 1621
+Global Const $TMT_BTNSHADOW = 1617
+Global Const $TMT_BTNTEXT = 1619
+Global Const $TMT_BUTTONALTERNATEFACE = 1626
+Global Const $TMT_CAPTIONTEXT = 1610
+Global Const $TMT_DKSHADOW3D = 1622
+Global Const $TMT_EDGEDKSHADOWCOLOR = 3807
+Global Const $TMT_EDGEFILLCOLOR = 3808
+Global Const $TMT_EDGEHIGHLIGHTCOLOR = 3805
+Global Const $TMT_EDGELIGHTCOLOR = 3804
+Global Const $TMT_EDGESHADOWCOLOR = 3806
+Global Const $TMT_FILLCOLOR = 3802
+Global Const $TMT_FILLCOLORHINT = 3821
+Global Const $TMT_FROMCOLOR1 = 2001
+Global Const $TMT_FROMCOLOR2 = 2002
+Global Const $TMT_FROMCOLOR3 = 2003
+Global Const $TMT_FROMCOLOR4 = 2004
+Global Const $TMT_FROMCOLOR5 = 2005
+Global Const $TMT_GLOWCOLOR = 3816
+Global Const $TMT_GLYPHTEXTCOLOR = 3819
+Global Const $TMT_GLYPHTRANSPARENTCOLOR = 3820
+Global Const $TMT_GRADIENTACTIVECAPTION = 1628
+Global Const $TMT_GRADIENTCOLOR1 = 3810
+Global Const $TMT_GRADIENTCOLOR2 = 3811
+Global Const $TMT_GRADIENTCOLOR3 = 3812
+Global Const $TMT_GRADIENTCOLOR4 = 3813
+Global Const $TMT_GRADIENTCOLOR5 = 3814
+Global Const $TMT_GRADIENTINACTIVECAPTION = 1629
+Global Const $TMT_GRAYTEXT = 1618
+Global Const $TMT_HEADING1TEXTCOLOR = 3825
+Global Const $TMT_HEADING2TEXTCOLOR = 3826
+Global Const $TMT_HIGHLIGHT = 1614
+Global Const $TMT_HIGHLIGHTTEXT = 1615
+Global Const $TMT_HOTTRACKING = 1627
+Global Const $TMT_INACTIVEBORDER = 1612
+Global Const $TMT_INACTIVECAPTION = 1604
+Global Const $TMT_INACTIVECAPTIONTEXT = 1620
+Global Const $TMT_INFOBK = 1625
+Global Const $TMT_INFOTEXT = 1624
+Global Const $TMT_LIGHT3D = 1623
+Global Const $TMT_MENU = 1605
+Global Const $TMT_MENUBAR = 1631
+Global Const $TMT_MENUHILIGHT = 1630
+Global Const $TMT_MENUTEXT = 1608
+Global Const $TMT_SCROLLBAR = 1601
+Global Const $TMT_SHADOWCOLOR = 3815
+Global Const $TMT_TEXTBORDERCOLOR = 3817
+Global Const $TMT_TEXTCOLOR = 3803
+Global Const $TMT_TEXTCOLORHINT = 3824
+Global Const $TMT_TEXTSHADOWCOLOR = 3818
+Global Const $TMT_TRANSPARENTCOLOR = 3809
+Global Const $TMT_WINDOW = 1606
+Global Const $TMT_WINDOWFRAME = 1607
+Global Const $TMT_WINDOWTEXT = 1609
+
+; *Stream
+Global Const $TMT_ATLASIMAGE = 8000
+
+; *Enum
+Global Const $TMT_BGTYPE = 4001
+Global Const $TMT_BORDERTYPE = 4002
+Global Const $TMT_CONTENTALIGNMENT = 4006
+Global Const $TMT_FILLTYPE = 4003
+Global Const $TMT_GLYPHTYPE = 4012
+Global Const $TMT_GLYPHFONTSIZINGTYPE = 4014
+Global Const $TMT_HALIGN = 4005
+Global Const $TMT_ICONEFFECT = 4009
+Global Const $TMT_IMAGELAYOUT = 4011
+Global Const $TMT_IMAGESELECTTYPE = 4013
+Global Const $TMT_OFFSETTYPE = 4008
+Global Const $TMT_SIZINGTYPE = 4004
+Global Const $TMT_TEXTSHADOWTYPE = 4010
+Global Const $TMT_TRUESIZESCALINGTYPE = 4015
+Global Const $TMT_VALIGN = 4007
+
+; *Filename
+Global Const $TMT_GLYPHIMAGEFILE = 3008
+Global Const $TMT_IMAGEFILE = 3001
+Global Const $TMT_IMAGEFILE1 = 3002
+Global Const $TMT_IMAGEFILE2 = 3003
+Global Const $TMT_IMAGEFILE3 = 3004
+Global Const $TMT_IMAGEFILE4 = 3005
+Global Const $TMT_IMAGEFILE5 = 3006
+Global Const $TMT_SCALEDBACKGROUND = 7001
+
+; *Font
+Global Const $TMT_BODYFONT = 809
+Global Const $TMT_CAPTIONFONT = 801
+Global Const $TMT_GLYPHFONT = 2601
+Global Const $TMT_HEADING1FONT = 807
+Global Const $TMT_HEADING2FONT = 808
+Global Const $TMT_ICONTITLEFONT = 806
+Global Const $TMT_MENUFONT = 803
+Global Const $TMT_MSGBOXFONT = 805
+Global Const $TMT_SMALLCAPTIONFONT = 802
+Global Const $TMT_STATUSFONT = 804
+
+; *Int
+Global Const $TMT_ALPHALEVEL = 2402
+Global Const $TMT_ALPHATHRESHOLD = 2415
+Global Const $TMT_ANIMATIONDELAY = 2428
+Global Const $TMT_ANIMATIONDURATION = 5006
+Global Const $TMT_BORDERSIZE = 2403
+Global Const $TMT_CHARSET = 403
+Global Const $TMT_COLORIZATIONCOLOR = 2431
+Global Const $TMT_COLORIZATIONOPACITY = 2432
+Global Const $TMT_FRAMESPERSECOND = 2426
+Global Const $TMT_FROMHUE1 = 1801
+Global Const $TMT_FROMHUE2 = 1802
+Global Const $TMT_FROMHUE3 = 1803
+Global Const $TMT_FROMHUE4 = 1804
+Global Const $TMT_FROMHUE5 = 1805
+Global Const $TMT_GLOWINTENSITY = 2429
+Global Const $TMT_GLYPHINDEX = 2418
+Global Const $TMT_GRADIENTRATIO1 = 2406
+Global Const $TMT_GRADIENTRATIO2 = 2407
+Global Const $TMT_GRADIENTRATIO3 = 2408
+Global Const $TMT_GRADIENTRATIO4 = 2409
+Global Const $TMT_GRADIENTRATIO5 = 2410
+Global Const $TMT_HEIGHT = 2417
+Global Const $TMT_IMAGECOUNT = 2401
+Global Const $TMT_MINCOLORDEPTH = 1301
+Global Const $TMT_MINDPI1 = 2420
+Global Const $TMT_MINDPI2 = 2421
+Global Const $TMT_MINDPI3 = 2422
+Global Const $TMT_MINDPI4 = 2423
+Global Const $TMT_MINDPI5 = 2424
+Global Const $TMT_OPACITY = 2430
+Global Const $TMT_PIXELSPERFRAME = 2427
+Global Const $TMT_PROGRESSCHUNKSIZE = 2411
+Global Const $TMT_PROGRESSSPACESIZE = 2412
+Global Const $TMT_ROUNDCORNERHEIGHT = 2405
+Global Const $TMT_ROUNDCORNERWIDTH = 2404
+Global Const $TMT_SATURATION = 2413
+Global Const $TMT_TEXTBORDERSIZE = 2414
+Global Const $TMT_TEXTGLOWSIZE = 2425
+Global Const $TMT_TOCOLOR1 = 2006
+Global Const $TMT_TOCOLOR2 = 2007
+Global Const $TMT_TOCOLOR3 = 2008
+Global Const $TMT_TOCOLOR4 = 2009
+Global Const $TMT_TOCOLOR5 = 2010
+Global Const $TMT_TOHUE1 = 1806
+Global Const $TMT_TOHUE2 = 1807
+Global Const $TMT_TOHUE3 = 1808
+Global Const $TMT_TOHUE4 = 1809
+Global Const $TMT_TOHUE5 = 1810
+Global Const $TMT_TRUESIZESTRETCHMARK = 2419
+Global Const $TMT_WIDTH = 2416
+
+; *IntList
+Global Const $TMT_TRANSITIONDURATIONS = 6000
+
+; *Margins
+Global Const $TMT_CAPTIONMARGINS = 3603
+Global Const $TMT_CONTENTMARGINS = 3602
+Global Const $TMT_SIZINGMARGINS = 3601
+
+; *Position
+Global Const $TMT_MINSIZE = 3403
+Global Const $TMT_MINSIZE1 = 3404
+Global Const $TMT_MINSIZE2 = 3405
+Global Const $TMT_MINSIZE3 = 3406
+Global Const $TMT_MINSIZE4 = 3407
+Global Const $TMT_MINSIZE5 = 3408
+Global Const $TMT_NORMALSIZE = 3409
+Global Const $TMT_OFFSET = 3401
+Global Const $TMT_TEXTSHADOWOFFSET = 3402
+
+; *Rect
+Global Const $TMT_ANIMATIONBUTTONRECT = 5005
+Global Const $TMT_ATLASRECT = 8002
+Global Const $TMT_CUSTOMSPLITRECT = 5004
+Global Const $TMT_DEFAULTPANESIZE = 5002
+
+; *Size
+Global Const $TMT_CAPTIONBARHEIGHT = 1205
+Global Const $TMT_CAPTIONBARWIDTH = 1204
+Global Const $TMT_MENUBARHEIGHT = 1209
+Global Const $TMT_MENUBARWIDTH = 1208
+Global Const $TMT_PADDEDBORDERWIDTH = 1210
+Global Const $TMT_SCROLLBARHEIGHT = 1203
+Global Const $TMT_SCROLLBARWIDTH = 1202
+Global Const $TMT_SIZINGBORDERWIDTH = 1201
+Global Const $TMT_SMCAPTIONBARHEIGHT = 1207
+Global Const $TMT_SMCAPTIONBARWIDTH = 1206
+
+; *String
+Global Const $TMT_ALIAS = 1404
+Global Const $TMT_ATLASINPUTIMAGE = 8001
+Global Const $TMT_AUTHOR = 604
+Global Const $TMT_CLASSICVALUE = 3202
+Global Const $TMT_COLORSCHEMES = 401
+Global Const $TMT_COMPANY = 603
+Global Const $TMT_COPYRIGHT = 605
+Global Const $TMT_CSSNAME = 1401
+Global Const $TMT_DESCRIPTION = 608
+Global Const $TMT_DISPLAYNAME = 601
+Global Const $TMT_LASTUPDATED = 1403
+Global Const $TMT_SIZES = 402
+Global Const $TMT_TEXT = 3201
+Global Const $TMT_TOOLTIP = 602
+Global Const $TMT_URL = 606
+Global Const $TMT_VERSION = 607
+Global Const $TMT_XMLNAME = 1402
+Global Const $TMT_NAME = 600
+
+; ===============================================================================================================================
+; Windows Message (WM) Constants
+; ===============================================================================================================================
+
+;Global Const $WM_ACTIVATE = 0x0006
+;Global Const $WM_ACTIVATEAPP = 0x001C
+Global Const $WM_AFXFIRST = 0x0360
+Global Const $WM_AFXLAST = 0x037F
+Global Const $WM_APP = 0x8000
+Global Const $WM_APPCOMMAND = 0x0319
+;Global Const $WM_ASKCBFORMATNAME = 0x030C
+;Global Const $WM_CANCELJOURNAL = 0x004B
+;Global Const $WM_CANCELMODE = 0x001F
+Global Const $WM_CAPTURECHANGED = 0x0215
+;Global Const $WM_CHANGECBCHAIN = 0x030D
+;Global Const $WM_CHANGEUISTATE = 0x0127
+;Global Const $WM_CHAR = 0x0102
+;Global Const $WM_CHARTOITEM = 0x002F
+;Global Const $WM_CHILDACTIVATE = 0x0022
+;Global Const $WM_CLEAR = 0x0303
+Global Const $WM_CLIPBOARDUPDATE = 0x031D
+;Global Const $WM_CLOSE = 0x0010
+;Global Const $WM_COMMAND = 0x0111
+;Global Const $WM_COMMNOTIFY = 0x0044
+;Global Const $WM_COMPACTING = 0x0041
+;Global Const $WM_COMPAREITEM = 0x0039
+;Global Const $WM_CONTEXTMENU = 0x007B
+;Global Const $WM_COPY = 0x0301
+;Global Const $WM_COPYDATA = 0x004A
+;Global Const $WM_CREATE = 0x0001
+;Global Const $WM_CTLCOLORBTN = 0x0135
+;Global Const $WM_CTLCOLORDLG = 0x0136
+;Global Const $WM_CTLCOLOREDIT = 0x0133
+;Global Const $WM_CTLCOLORLISTBOX = 0x0134
+;Global Const $WM_CTLCOLORMSGBOX = 0x0132
+;Global Const $WM_CTLCOLORSCROLLBAR = 0x0137
+;Global Const $WM_CTLCOLORSTATIC = 0x0138
+;Global Const $WM_CUT = 0x0300
+;Global Const $WM_DEADCHAR = 0x0103
+;Global Const $WM_DELETEITEM = 0x002D
+;Global Const $WM_DESTROY = 0x0002
+;Global Const $WM_DESTROYCLIPBOARD = 0x0307
+Global Const $WM_DEVICECHANGE = 0x0219
+;Global Const $WM_DEVMODECHANGE = 0x001B
+;Global Const $WM_DISPLAYCHANGE = 0x007E
+;Global Const $WM_DRAWCLIPBOARD = 0x0308
+;Global Const $WM_DRAWITEM = 0x002B
+Global Const $WM_DROPFILES = 0x0233
+Global Const $WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320
+Global Const $WM_DWMCOMPOSITIONCHANGED = 0x031E
+Global Const $WM_DWMNCRENDERINGCHANGED = 0x031F
+Global Const $WM_DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326
+Global Const $WM_DWMSENDICONICTHUMBNAIL = 0x0323
+Global Const $WM_DWMWINDOWMAXIMIZEDCHANGE = 0x0321
+;Global Const $WM_ENABLE = 0x000A
+Global Const $WM_ENDSESSION = 0x0016
+;Global Const $WM_ENTERIDLE = 0x0121
+Global Const $WM_ENTERMENULOOP = 0x0211
+Global Const $WM_ENTERSIZEMOVE = 0x0231
+;Global Const $WM_ERASEBKGND = 0x0014
+Global Const $WM_EXITMENULOOP = 0x0212
+Global Const $WM_EXITSIZEMOVE = 0x0232
+;Global Const $WM_FONTCHANGE = 0x001D
+Global Const $WM_GESTURE = 0x0119
+Global Const $WM_GESTURENOTIFY = 0x011A
+;Global Const $WM_GETDLGCODE = 0x0087
+;Global Const $WM_GETFONT = 0x0031
+;Global Const $WM_GETHOTKEY = 0x0033
+;Global Const $WM_GETICON = 0x007F
+;Global Const $WM_GETMINMAXINFO = 0x0024
+;Global Const $WM_GETOBJECT = 0x003D
+;Global Const $WM_GETTEXT = 0x000D
+;Global Const $WM_GETTEXTLENGTH = 0x000E
+Global Const $WM_GETTITLEBARINFOEX = 0x033F
+Global Const $WM_HANDHELDFIRST = 0x0358
+Global Const $WM_HANDHELDLAST = 0x035F
+;Global Const $WM_HELP = 0x0053
+Global Const $WM_HOTKEY = 0x0312
+;Global Const $WM_HSCROLL = 0x0114
+;Global Const $WM_HSCROLLCLIPBOARD = 0x030E
+;Global Const $WM_ICONERASEBKGND = 0x0027
+Global Const $WM_IME_CHAR = 0x0286
+Global Const $WM_IME_COMPOSITION = 0x010F
+Global Const $WM_IME_COMPOSITIONFULL = 0x0284
+Global Const $WM_IME_CONTROL = 0x0283
+Global Const $WM_IME_ENDCOMPOSITION = 0x010E
+Global Const $WM_IME_KEYDOWN = 0x0290
+Global Const $WM_IME_KEYLAST = 0x010F
+Global Const $WM_IME_KEYUP = 0x0291
+Global Const $WM_IME_NOTIFY = 0x0282
+Global Const $WM_IME_REQUEST = 0x0288
+Global Const $WM_IME_SELECT = 0x0285
+Global Const $WM_IME_SETCONTEXT = 0x0281
+Global Const $WM_IME_STARTCOMPOSITION = 0x010D
+;Global Const $WM_INITDIALOG = 0x0110
+;Global Const $WM_INITMENU = 0x0116
+;Global Const $WM_INITMENUPOPUP = 0x0117
+Global Const $WM_INPUT = 0x00FF
+;Global Const $WM_INPUTLANGCHANGE = 0x0051
+;Global Const $WM_INPUTLANGCHANGEREQUEST = 0x0050
+;Global Const $WM_KEYDOWN = 0x0100
+Global Const $WM_KEYFIRST = 0x0100
+Global Const $WM_KEYLAST = 0x0109
+;Global Const $WM_KEYUP = 0x0101
+;Global Const $WM_KILLFOCUS = 0x0008
+;Global Const $WM_LBUTTONDBLCLK = 0x0203
+;Global Const $WM_LBUTTONDOWN = 0x0201
+;Global Const $WM_LBUTTONUP = 0x0202
+Global Const $WM_MBUTTONDBLCLK = 0x0209
+;Global Const $WM_MBUTTONDOWN = 0x0207
+;Global Const $WM_MBUTTONUP = 0x0208
+Global Const $WM_MDIACTIVATE = 0x0222
+Global Const $WM_MDICASCADE = 0x0227
+Global Const $WM_MDICREATE = 0x0220
+Global Const $WM_MDIDESTROY = 0x0221
+Global Const $WM_MDIGETACTIVE = 0x0229
+Global Const $WM_MDIICONARRANGE = 0x0228
+Global Const $WM_MDIMAXIMIZE = 0x0225
+Global Const $WM_MDINEXT = 0x0224
+Global Const $WM_MDIREFRESHMENU = 0x0234
+Global Const $WM_MDIRESTORE = 0x0223
+Global Const $WM_MDISETMENU = 0x0230
+Global Const $WM_MDITILE = 0x0226
+;Global Const $WM_MEASUREITEM = 0x002C
+;Global Const $WM_MENUCHAR = 0x0120
+;Global Const $WM_MENUCOMMAND = 0x0126
+;Global Const $WM_MENUDRAG = 0x0123
+;Global Const $WM_MENUGETOBJECT = 0x0124
+;Global Const $WM_MENURBUTTONUP = 0x0122
+;Global Const $WM_MENUSELECT = 0x011F
+;Global Const $WM_MOUSEACTIVATE = 0x0021
+Global Const $WM_MOUSEFIRST = 0x0200
+Global Const $WM_MOUSEHOVER = 0x02A1
+;Global Const $WM_MOUSEHWHEEL = 0x020E
+Global Const $WM_MOUSELAST = __Def(0x0600, 0x020E, 0x0500, 0x020D) ; 0x020D - 2K, XP / 0x020E - Vista, 7
+Global Const $WM_MOUSELEAVE = 0x02A3
+;Global Const $WM_MOUSEMOVE = 0x0200
+;Global Const $WM_MOUSEWHEEL = 0x020A
+;Global Const $WM_MOVE = 0x0003
+Global Const $WM_MOVING = 0x0216
+;Global Const $WM_NCACTIVATE = 0x0086
+;Global Const $WM_NCCALCSIZE = 0x0083
+;Global Const $WM_NCCREATE = 0x0081
+;Global Const $WM_NCDESTROY = 0x0082
+;Global Const $WM_NCHITTEST = 0x0084
+;Global Const $WM_NCLBUTTONDBLCLK = 0x00A3
+;Global Const $WM_NCLBUTTONDOWN = 0x00A1
+;Global Const $WM_NCLBUTTONUP = 0x00A2
+;Global Const $WM_NCMBUTTONDBLCLK = 0x00A9
+;Global Const $WM_NCMBUTTONDOWN = 0x00A7
+;Global Const $WM_NCMBUTTONUP = 0x00A8
+Global Const $WM_NCMOUSEHOVER = 0x02A0
+Global Const $WM_NCMOUSELEAVE = 0x02A2
+;Global Const $WM_NCMOUSEMOVE = 0x00A0
+;Global Const $WM_NCPAINT = 0x0085
+;Global Const $WM_NCRBUTTONDBLCLK = 0x00A6
+;Global Const $WM_NCRBUTTONDOWN = 0x00A4
+;Global Const $WM_NCRBUTTONUP = 0x00A5
+Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
+Global Const $WM_NCXBUTTONDOWN = 0x00AB
+Global Const $WM_NCXBUTTONUP = 0x00AC
+;Global Const $WM_NEXTDLGCTL = 0x0028
+Global Const $WM_NEXTMENU = 0x0213
+;Global Const $WM_NOTIFY = 0x004E
+;Global Const $WM_NOTIFYFORMAT = 0x0055
+Global Const $WM_NULL = 0x0000
+;Global Const $WM_PAINT = 0x000F
+;Global Const $WM_PAINTCLIPBOARD = 0x0309
+;Global Const $WM_PAINTICON = 0x0026
+Global Const $WM_PALETTECHANGED = 0x0311
+Global Const $WM_PALETTEISCHANGING = 0x0310
+Global Const $WM_PARENTNOTIFY = 0x0210
+;Global Const $WM_PASTE = 0x0302
+Global Const $WM_PENWINFIRST = 0x0380
+Global Const $WM_PENWINLAST = 0x038F
+;Global Const $WM_POWER = 0x0048
+Global Const $WM_POWERBROADCAST = 0x0218
+Global Const $WM_PRINT = 0x0317
+Global Const $WM_PRINTCLIENT = 0x0318
+;Global Const $WM_QUERYDRAGICON = 0x0037
+Global Const $WM_QUERYENDSESSION = 0x0011
+Global Const $WM_QUERYNEWPALETTE = 0x030F
+Global Const $WM_QUERYOPEN = 0x0013
+;Global Const $WM_QUERYUISTATE = 0x0129
+;Global Const $WM_QUEUESYNC = 0x0023
+;Global Const $WM_QUIT = 0x0012
+Global Const $WM_RBUTTONDBLCLK = 0x0206
+;Global Const $WM_RBUTTONDOWN = 0x0204
+;Global Const $WM_RBUTTONUP = 0x0205
+;Global Const $WM_RENDERALLFORMATS = 0x0306
+;Global Const $WM_RENDERFORMAT = 0x0305
+;Global Const $WM_SETCURSOR = 0x0020
+;Global Const $WM_SETFOCUS = 0x0007
+;Global Const $WM_SETFONT = 0x0030
+;Global Const $WM_SETHOTKEY = 0x0032
+;Global Const $WM_SETICON = 0x0080
+;Global Const $WM_SETREDRAW = 0x000B
+;Global Const $WM_SETTEXT = 0x000C
+Global Const $WM_SETTINGCHANGE = 0x001A
+;Global Const $WM_SHOWWINDOW = 0x0018
+;Global Const $WM_SIZE = 0x0005
+;Global Const $WM_SIZECLIPBOARD = 0x030B
+;Global Const $WM_SIZING = 0x0214
+;Global Const $WM_SPOOLERSTATUS = 0x002A
+;Global Const $WM_STYLECHANGED = 0x007D
+;Global Const $WM_STYLECHANGING = 0x007C
+;Global Const $WM_SYNCPAINT = 0x0088
+;Global Const $WM_SYSCHAR = 0x0106
+;Global Const $WM_SYSCOLORCHANGE = 0x0015
+;Global Const $WM_SYSCOMMAND = 0x0112
+;Global Const $WM_SYSDEADCHAR = 0x0107
+;Global Const $WM_SYSKEYDOWN = 0x0104
+;Global Const $WM_SYSKEYUP = 0x0105
+Global Const $WM_TABLET_FIRST = 0x02C0
+Global Const $WM_TABLET_LAST = 0x02DF
+;Global Const $WM_TCARD = 0x0052
+Global Const $WM_THEMECHANGED = 0x031A
+;Global Const $WM_TIMECHANGE = 0x001E
+;Global Const $WM_TIMER = 0x0113
+Global Const $WM_TOUCH = 0x0240
+;Global Const $WM_UNDO = 0x0304
+Global Const $WM_UNICHAR = 0x0109
+;Global Const $WM_UNINITMENUPOPUP = 0x0125
+;Global Const $WM_UPDATEUISTATE = 0x0128
+;Global Const $WM_USER = 0x0400
+;Global Const $WM_USERCHANGED = 0x0054
+;Global Const $WM_VKEYTOITEM = 0x002E
+;Global Const $WM_VSCROLL = 0x0115
+;Global Const $WM_VSCROLLCLIPBOARD = 0x030A
+;Global Const $WM_WINDOWPOSCHANGED = 0x0047
+;Global Const $WM_WINDOWPOSCHANGING = 0x0046
+;Global Const $WM_WININICHANGE = 0x001A
+Global Const $WM_WTSSESSION_CHANGE = 0x02B1
+;Global Const $WM_XBUTTONDBLCLK = 0x020D
+;Global Const $WM_XBUTTONDOWN = 0x020B
+;Global Const $WM_XBUTTONUP = 0x020C
+
 #EndRegion Global Variables and Constants
+
+#Region Internal Functions
+
+Func __Def($iVer1, $iVal1, $iVer2, $iVal2, $iVer3 = Default, $iVal3 = Default, $iVer4 = Default, $iVal4 = Default)
+
+	Local $Count = @NumParams / 2
+
+	For $i = 1 To $Count
+		If $__WINVER >= Eval('iVer' & $i) Then
+			Return Eval('iVal' & $i)
+		EndIf
+	Next
+	Return Eval('iVal' & $Count)
+EndFunc   ;==>__Def
+
+Func __Ver()
+
+	Local $tOS, $Ret
+
+	$tOS = DllStructCreate('dword[5];wchar[128]')
+	DllStructSetData($tOS, 1, DllStructGetSize($tOS), 1)
+	$Ret = DllCall('kernel32.dll', 'int', 'GetVersionExW', 'ptr', DllStructGetPtr($tOS))
+	If (Not @error) And ($Ret[0]) Then
+		Return BitOR(BitShift(DllStructGetData($tOS, 1, 2), -8), DllStructGetData($tOS, 1, 3))
+	Else
+		Return 0
+	EndIf
+EndFunc   ;==>__Ver
+
+#EndRegion Internal Functions
