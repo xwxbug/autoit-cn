@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Books>
+	<Book>
+		<Title>Beginning XML</Title>
+		<Publisher>Wrox</Publisher>
+	</Book>
+	<Book>
+		<Title>XML Step by Step</Title>
+		<Publisher>MSPress</Publisher>
+	</Book>
+	<Book>
+		<Title>Professional XML</Title>
+		<Publisher>Wrox</Publisher>
+	</Book>
+	<Book>
+		<Title>Developing XML solutions</Title>
+		<Publisher>MSPress</Publisher>
+	</Book>
+</Books>
