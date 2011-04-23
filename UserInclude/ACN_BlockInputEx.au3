@@ -1,6 +1,7 @@
 #Region Header
 
 #CS UDF Info
+; ю╢вт: http://www.autoitscript.com/forum/topic/87735-blockinputex-udf
 ;Extended (advanced) function to block mouse & keyboard inputs.
 ;
 ; This UDF supports few features that built-in BlockInput() function does not.
@@ -18,9 +19,18 @@
 ; AutoIt Version: 3.2.12.1+
 ; Author: G.Sandler (a.k.a MrCreatoR). Initial idea and hooks example by rasim.
 ;
+; Remarks: This UDF, same as built-in BlockInput function, can not block Ctrl+Alt+Del, however, it will not re-enable the input.
+;
+;
 ;==================
 ; History version:
 ;==================
+;
+; [v1.6 - 04.04.2011, 22:30]
+; * Fixed (again, caused by fix with re-enabled input) an issue with held down "Alt + Ctrl" keys after the user was called "Alt + Ctrl + Del".
+; * Fixed an issue with wrong parameter passed to _WinAPI_CallNextHookEx. Thanks to Ascend4nt.
+; + Added remarks to the UDF header.
+; + Added "Example - Block TaskMan.au3".
 ;
 ; [v1.5 - 11.10.2010, 22:20]
 ; * Fixed an issue with re-enabled input after pressing Ctrl+Alt+Del.
@@ -65,6 +75,7 @@
 #include-once
 #include <WindowsConstants.au3>
 #include <WinAPI.au3>
+#include <Misc.au3>
 
 If @AutoItVersion >= '3.3.2.0' Then
 	Execute('OnAutoItExitRegister("__BlockInputEx_OnAutoItExit")')
@@ -192,7 +203,7 @@ EndFunc
 
 ;KeyBoard hook processing function
 Func __BlockInputEx_KeyBoardHook_Proc($nCode, $wParam, $lParam)
-	If $nCode < 0 Then Return _WinAPI_CallNextHookEx($ah_MouseKeyboard_WinHooks[4], $nCode, $wParam, $lParam)
+	If $nCode < 0 Then Return _WinAPI_CallNextHookEx($ah_MouseKeyboard_WinHooks[2], $nCode, $wParam, $lParam)
 	
 	Local $KBDLLHOOKSTRUCT = DllStructCreate("dword vkCode;dword scanCode;dword flags;dword time;ptr dwExtraInfo", $lParam)
 	Local $iDec_vkCode = DllStructGetData($KBDLLHOOKSTRUCT, "vkCode")
@@ -208,7 +219,7 @@ Func __BlockInputEx_KeyBoardHook_Proc($nCode, $wParam, $lParam)
 	
 	If (StringInStr($s_KeyboardKeys_Buffer, '165|') And StringInStr($s_KeyboardKeys_Buffer, '163|') And StringInStr($s_KeyboardKeys_Buffer, '46|')) Or _
 		(StringInStr($s_KeyboardKeys_Buffer, '164|') And StringInStr($s_KeyboardKeys_Buffer, '162|') And StringInStr($s_KeyboardKeys_Buffer, '46|')) Then
-		
+		Sleep(10)
 		$s_KeyboardKeys_Buffer = ""
 		_WinAPI_CallNextHookEx($ah_MouseKeyboard_WinHooks[2], $nCode, $wParam, $lParam) ;Continue processing
 		Return
@@ -250,7 +261,7 @@ EndFunc
 ;Releases callbacks and Unhook Windows hooks
 Func __BlockInputEx_UnhookWinHooks_Proc()
 	;Release KeyBoard callback function
-	If $ah_MouseKeyboard_WinHooks[0] > 0 Then 
+	If $ah_MouseKeyboard_WinHooks[0] > 0 Then
 		DllCallbackFree($ah_MouseKeyboard_WinHooks[0])
 		$ah_MouseKeyboard_WinHooks[0] = 0
 	EndIf

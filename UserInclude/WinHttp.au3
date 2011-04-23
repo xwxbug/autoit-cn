@@ -6,7 +6,7 @@
 ; #INDEX# ===================================================================================
 ; Title ...............: WinHttp
 ; File Name............: WinHttp.au3
-; File Version.........: 1.6.1.8
+; File Version.........: 1.6.2.2
 ; Min. AutoIt Version..: v3.3.2.0
 ; Description .........: AutoIt wrapper for WinHttp functions
 ; Author... ...........: trancexx, ProgAndy
@@ -55,7 +55,7 @@ DllOpen("winhttp.dll") ; making sure reference count never reaches 0
 
 ; #FUNCTION# ;===============================================================================
 ; Name...........: _WinHttpAddRequestHeaders
-; Description ...: Adds one or more HTTP request headers to the HTTP request handle.
+; Description ...: Ìí¼ÓÒ»¸ö»òÕß¶à¸ö HTTP ÇëÇóÍ·µ½ HTTP ÇëÇó¾ä±ú.
 ; Syntax.........: _WinHttpAddRequestHeaders ($hRequest, $sHeaders [, $iModifiers = Default ])
 ; Parameters ....: $hRequest - Handle returned by _WinHttpOpenRequest function.
 ;                  $sHeader - [optional] Header(s) to append to the request.
@@ -86,7 +86,7 @@ EndFunc   ;==>_WinHttpAddRequestHeaders
 ; Description ...: Concatenates two binary data returned by _WinHttpReadData() in binary mode.
 ; Syntax.........: _WinHttpBinaryConcat(ByRef $bBinary1, ByRef $bBinary2)
 ; Parameters ....: $bBinary1 - Binary data that is to be concatenated.
-;                  $bBinary2 - Binary data to concat.
+;                  $bBinary2 - Binary data to concatenate.
 ; Return values .: Success - Returns concatenated binary data.
 ;                  Failure - Returns empty binary and sets @error:
 ;                  |1 - Invalid input.
@@ -1047,8 +1047,8 @@ EndFunc   ;==>_WinHttpSetTimeouts
 ; Name...........: _WinHttpSimpleFormFill
 ; Description ...: Fills form.
 ; Syntax.........: _WinHttpSimpleFormFill(ByRef $hInternet [, $sActionPage = Default [, $sFormId = Default [, $sFieldId1 = Default [, $sData1 = Default [, (...)]]]]])
-; Parameters ....: $hInternet - Handle returned by _WinHttpConnect(). In case form requires redirection this handle will be closed and replaced with new and required one.
-;                  $sActionPage -  [optional] path to the page with form (default: "" - empty string; meaning 'default' page on the server).
+; Parameters ....: $hInternet - Handle returned by _WinHttpConnect() or string variable with form.
+;                  $sActionPage -  [optional] path to the page with form or session handle if $hInternet is string (default: "" - empty string; meaning 'default' page on the server in former).
 ;                  $sFormId - [optional] Id of the form. Can be name or zero-based index too (read Remarks section).
 ;                  $sFieldId1 - [optional] Id of the input.
 ;                  $sData1 - [optional] Data to set to coresponding field.
@@ -1059,14 +1059,23 @@ EndFunc   ;==>_WinHttpSetTimeouts
 ;                  |2 - Invalid form
 ;                  |3 - No forms with specified attributes on the page
 ;                  |4 - Connection problems
+;                  |5 - form's "action" is invalid
+;                  |6 - invalid session handle passed
 ; Author ........: trancexx
 ; Modified.......:
-; Remarks .......: $sFormId specifies Id of the form same as .getElementById(FormId). Aditionally you can use "index:FormIndex" to
+; Remarks .......: In case form requires redirection and $hInternet is internet handle, this handle will be closed and replaced with new and required one.
+;                  +When $hInternet is form string, form's "action" must specify URL and $sActionPage parameter must be session handle. On succesful call this variable will be changed to connection handle of the internally made connection.
+;                  Don't forget to close this handle after the function returns and when no longer needed.
+;                  +$sFormId specifies Id of the form same as .getElementById(FormId). Aditionally you can use "index:FormIndex" to
 ;                  identify form by its zero-based index number (in case of e.g. three forms on some page first one will have index=0, second index=1, third index=2).
 ;                  Use "name:FormName" to identify form by its name like with .getElementsByName(FormName). FormName will be taken to be what's right of colon mark.
 ;                  In that case first form with that name is filled.
 ;                  +As for fields, If "name:FieldName" option is used all the fields except last with that name are removed from the form. Last one is filled with specified $sData data.
-;                  +This function can be used to fill forms with up to 40 fields at once. Non-set fields are left default.
+;                  +This function can be used to fill forms with up to 40 fields at once.
+;                  +"Submit" control you want to keep (click) set to True. If no such control is set then the first one found in the form is "clicked"
+;                  and the other removed from the submited form. "Checkbox" and "Button" input types are removed from the submitted form unless explicitly set. Same goes for "Radio" with exception that
+;                  only one such control can be set, the rest are removed. These controls are set by their values. Wrong value makes them invalid and therefore not part of the submited data.
+;                  +All other non-set fields are left default.
 ;                  +
 ;                  +If this function is used to upload multiple files then there are two available ways. Default would be to submit the form following RFC2388 specification.
 ;                  In that case every file is represented as multipart/mixed part embedded within the multipart/form-data.
@@ -1087,17 +1096,26 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 	#forceref $sFieldId31, $sData31, $sFieldId32, $sData32, $sFieldId33, $sData33, $sFieldId34, $sData34, $sFieldId35, $sData35, $sFieldId36, $sData36, $sFieldId37, $sData37, $sFieldId38, $sData38, $sFieldId39, $sData39, $sFieldId40, $sData40
 	If $sActionPage = Default Or $sActionPage = -1 Then $sActionPage = ""
 	; Get page source
-	Local $sHTML = _WinHttpSimpleRequest($hInternet, Default, $sActionPage, Default, Default, "Accept: text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5")
+	Local $hOpen, $sHTML, $fVarForm
+	If IsString($hInternet) Then ; $hInternet is page source
+		$sHTML = $hInternet
+		If _WinHttpQueryOption($sActionPage, $WINHTTP_OPTION_HANDLE_TYPE) <> $WINHTTP_HANDLE_TYPE_SESSION Then Return SetError(6, 0, "")
+		$hOpen = $sActionPage
+		$fVarForm = True
+	Else
+		$sHTML = _WinHttpSimpleRequest($hInternet, Default, $sActionPage, Default, Default, "Accept: text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5")
+	EndIf
 	$sHTML = StringRegExpReplace($sHTML, "(?s)<!--.*?-->", "") ; removing comments
+	$sHTML = StringRegExpReplace($sHTML, "(?s)<!\[CDATA\[.*?\]\]>", "") ; removing CDATA
 	Local $fSend = False ; preset 'Sending flag'
 	; Find all forms on page
 	Local $aForm = StringRegExp($sHTML, "(?si)<\s*form\s*(.*?)<\s*/form\s*>", 3)
 	If @error Then Return SetError(1, 0, "") ; There are no forms available
 	; Process input
-	Local $fGetFormByName, $sFormName, $fGetFormByIndex, $iFormIndex
+	Local $fGetFormByName, $sFormName, $fGetFormByIndex, $fGetFormById, $iFormIndex
 	Local $aSplitForm = StringSplit($sFormId, ":", 2)
 	If @error Then ; like .getElementById(FormId)
-		$fGetFormByName = False
+		$fGetFormById = True
 	Else
 		If $aSplitForm[0] = "name" Then ; like .getElementsByName(FormName)
 			$sFormName = $aSplitForm[1]
@@ -1107,57 +1125,46 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 			$fGetFormByIndex = True
 		Else ; like .getElementById(FormId)
 			$sFormId = $aSplitForm[0]
-			$fGetFormByName = False
-			$fGetFormByIndex = False
+			$fGetFormById = True
 		EndIf
 	EndIf
 	; Variables
 	Local $sForm, $sAttributes, $aAttributes, $aInput
-	Local $sAction, $sAccept, $sEnctype, $sMethod, $sName
 	Local $iNumParams = Ceiling((@NumParams - 2) / 2)
 	Local $sAddData
 	Local $aCrackURL, $sNewURL
-	; Loop thru all forms on the page abd find one that was specified
+	; Loop thru all forms on the page and find one that was specified
 	For $iFormOrdinal = 0 To UBound($aForm) - 1
-		If $fGetFormByIndex Then
-			If $iFormOrdinal <> $iFormIndex Then ContinueLoop
-		EndIf
+		If $fGetFormByIndex And $iFormOrdinal <> $iFormIndex Then ContinueLoop
 		$sForm = $aForm[$iFormOrdinal]
-		; Extract form attsibutes
+		; Extract form attributes
 		$sAttributes = StringRegExp($sForm, "(?s)(.*?)>", 3)
 		If Not @error Then $sAttributes = $sAttributes[0]
-		$aAttributes = StringRegExp($sAttributes, '\s*([^=]+)\h*=\h*(?:"|)(.*?)(?:"| |\Z)', 3) ; e.g. method="post" or method=post
+		$aAttributes = StringRegExp($sAttributes, '\s*([^=]+)\h*=\h*(?:"|''|)(.*?)(?:"|''| |\Z)', 3) ; e.g. method="post" or method=post or method='post'
 		If @error Then Return SetError(2, 0, "") ; invalid form
 		If Mod(UBound($aAttributes), 2) Then ReDim $aAttributes[UBound($aAttributes) + 1]
-		$sAction = ""
-		$sAccept = ""
-		$sEnctype = ""
-		$sMethod = ""
-		$sName = ""
+		Local $sAction = "", $sAccept = "", $sEnctype = "", $sMethod = "", $sName = "", $sId = ""
 		; Check set attributes
 		For $i = 0 To UBound($aAttributes) - 2 Step 2 ; array of form attributes
 			Switch $aAttributes[$i]
 				Case "action"
-					$sAction = $aAttributes[$i + 1]
+					$sAction = StringReplace($aAttributes[$i + 1], "&amp;", "&")
 				Case "accept"
 					$sAccept = $aAttributes[$i + 1]
 				Case "enctype"
 					$sEnctype = $aAttributes[$i + 1]
 				Case "id"
-					If Not ($fGetFormByName Or $fGetFormByIndex) Then
-						If $sFormId <> Default And $aAttributes[$i + 1] <> $sFormId Then ContinueLoop 2
-					EndIf
+					$sId = $aAttributes[$i + 1]
+					If $fGetFormById And $sFormId <> Default And $aAttributes[$i + 1] <> $sFormId Then ContinueLoop 2
 				Case "method"
 					$sMethod = $aAttributes[$i + 1]
 				Case "name"
 					$sName = $aAttributes[$i + 1]
-					If $fGetFormByName Then
-						If $sFormName <> $sName Then ContinueLoop 2
-					EndIf
+					If $fGetFormByName And $sFormName <> $sName Then ContinueLoop 2
 			EndSwitch
 		Next
+		If $sFormId <> Default And $fGetFormById And $sFormId <> $sId Then ContinueLoop
 		If $fGetFormByName And $sFormName <> $sName Then ContinueLoop
-		If Not $sAction Then $sAction = $sActionPage
 		If Not $sMethod Then $sMethod = "GET"
 		$aCrackURL = _WinHttpCrackUrl($sAction)
 		If @error Then
@@ -1166,149 +1173,323 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 				Local $aURL = StringRegExp($sActionPage, '(.*)/', 3)
 				If Not @error Then $sCurrent = $aURL[0]
 				If $sCurrent Then $sAction = $sCurrent & "/" & $sAction
-			Else
-				; FIXME: anything here?
 			EndIf
+			If StringLeft($sAction, 1) = "?" Then $sAction = $sActionPage & $sAction
+			If Not $sAction Then $sAction = $sActionPage
+			$sAction = StringRegExpReplace($sAction, "\A(/*\.\./)*", "") ; /../
 		Else
 			$sNewURL = $aCrackURL[2]
-			$sAction = $aCrackURL[6]
+			$sAction = $aCrackURL[6] & $aCrackURL[7]
 		EndIf
-		; Requested form is found. Set $fSet flag to true
+		If $fVarForm And Not $sNewURL Then Return SetError(5, 0, "") ; "action" must have URL specified
+		; Requested form is found. Set $fSend flag to true
 		$fSend = True
-		Local $aArray, $aSplit, $sInputId, $sInputName, $sInputValue, $sInputType, $sBoundary, $sPassedId, $sPassedData, $iNumRepl, $fMuftiPart = False
+		Local $aSplit, $sBoundary, $sPassedId, $sPassedData, $iNumRepl, $fMultiPart = False, $sSubmit, $sRadio, $sCheckBox, $sButton
+		Local $sGrSep = Chr(29)
+		$aInput = StringRegExp($sForm, "(?si)<\h*(?:input|textarea|label|fieldset|legend|select|optgroup|option|button)\h*(.*?)/*\h*>", 3)
+		If @error Then Return SetError(2, 0, "") ; invalid form
+		Local $aInputIds[4][UBound($aInput)]
 		Switch $sEnctype
 			Case "", "application/x-www-form-urlencoded"
-				$aInput = StringRegExp($sForm, "(?si)<\h*(?:input|textarea|label|fieldset|legend|select|optgroup|option|button)\h*(.*?)/*\h*>", 3)
-				If @error Then Return SetError(2, 0, "") ; invalid form
-				Local $aInputIds[3][UBound($aInput)]
-				For $i = 0 To UBound($aInput) - 1
-					$aArray = StringRegExp($aInput[$i], '(?i).*?id\h*=(\h*"(.*?)"|' & "\h*'(.*?)'|" & '(.*?)(?: |\Z))', 3) ; e.g. id="abc" or id='abc' or id=abc
-					If Not @error Then $sInputId = $aArray[UBound($aArray) - 1]
-					$aArray = StringRegExp($aInput[$i], '(?i).*?name\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. name="abc" or name='abc' or name=abc
-					If Not @error Then $sInputName = $aArray[UBound($aArray) - 1]
-					$aArray = StringRegExp($aInput[$i], '(?i).*?value\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. value="abc" or value='abc' or value=abc
-					If Not @error Then $sInputValue = $aArray[UBound($aArray) - 1]
-					$aInputIds[0][$i] = $sInputId
-					$aInputIds[1][$i] = $sInputName
-					$sInputId = "" ; will reuse
-					$sInputName = "" ; will reuse
-					$aInputIds[2][$i] = __WinHttpURLEncode($sInputValue)
-					$sInputValue = "" ; will reuse
-					If $aInputIds[1][$i] Then $sAddData &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & "&" ; if there is 'name' field then add it
-				Next
-				$sAddData = StringTrimRight($sAddData, 1)
-				For $k = 1 To $iNumParams
-					$sPassedData = Eval("sData" & $k)
-					$sPassedId = Eval("sFieldId" & $k)
-					$aSplit = StringSplit($sPassedId, ":", 2)
-					If @error Or $aSplit[0] <> "name" Then
-						For $j = 0 To UBound($aInputIds, 2) - 1
-							If $aInputIds[0][$j] = $sPassedId Then ; like .getElementById
-								$sAddData = StringReplace($sAddData, $aInputIds[1][$j] & "=" & $aInputIds[2][$j], $aInputIds[1][$j] & "=" & $sPassedData)
-							EndIf
-						Next
-					Else
-						; like .getElementsByName
-						$sAddData = StringRegExpReplace($sAddData, "(?i)\Q" & $aSplit[1] & "\E=.*?(&|\Z)", $aSplit[1] & "=" & $sPassedData & "$1")
-						$iNumRepl = @extended
-						If $iNumRepl > 1 Then ; remove duplicates
-							$sAddData = StringRegExpReplace($sAddData, "(?i)\Q" & $aSplit[1] & "\E=.*?(&|\Z)", "", $iNumRepl - 1)
-						EndIf
+				For $i = 0 To UBound($aInput) - 1 ; for all input elements
+					__WinHttpFormAttrib($aInputIds, $i, $aInput[$i])
+					If $aInputIds[1][$i] Then ; if there is 'name' field then add it
+						$sAddData &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & "&"
+						If $aInputIds[3][$i] = "submit" Then $sSubmit &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & $sGrSep ; add to overall "submit" string
+						If $aInputIds[3][$i] = "radio" Then $sRadio &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & $sGrSep ; add to overall "radio" string
+						If $aInputIds[3][$i] = "checkbox" Then $sCheckBox &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & $sGrSep ; add to overall "checkbox" string
+						If $aInputIds[3][$i] = "button" Then $sButton &= $aInputIds[1][$i] & "=" & $aInputIds[2][$i] & $sGrSep ; add to overall "button" string
 					EndIf
 				Next
+				$sSubmit = StringTrimRight($sSubmit, 1)
+				$sRadio = StringTrimRight($sRadio, 1)
+				$sCheckBox = StringTrimRight($sCheckBox, 1)
+				$sButton = StringTrimRight($sButton, 1)
+				$sAddData = StringTrimRight($sAddData, 1)
+				For $k = 1 To $iNumParams
+					$sPassedData = __WinHttpURLEncode(Eval("sData" & $k))
+					$sPassedId = Eval("sFieldId" & $k)
+					$aSplit = StringSplit($sPassedId, ":", 2)
+					If @error Or $aSplit[0] <> "name" Then ; like .getElementById
+						For $j = 0 To UBound($aInputIds, 2) - 1
+							If $aInputIds[0][$j] = $sPassedId Then
+								If $aInputIds[3][$j] = "submit" Then
+									If $sPassedData = True Then ; if this "submit" is set to TRUE then
+										If $sSubmit Then ; If not already processed; only the first is valid
+											Local $fDelId = False
+											For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
+												If $sChunkSub = $aInputIds[1][$j] & "=" & $aInputIds[2][$j] Then
+													If $fDelId Then $sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&", 1)
+													$fDelId = True
+												Else
+													$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&") ; delete all but the TRUE one
+												EndIf
+												__WinHttpTrimBounds($sAddData, "&")
+											Next
+											$sSubmit = ""
+										EndIf
+									EndIf
+								ElseIf $aInputIds[3][$j] = "radio" Then
+									If $sRadio Then ; If not already processed; only the first is valid
+										If $sPassedData = $aInputIds[2][$j] Then
+											For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
+												If $sChunkSub <> $aInputIds[1][$j] & "=" & $sPassedData Then ; delete all but the set one
+													$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&")
+													__WinHttpTrimBounds($sAddData, "&")
+												EndIf
+											Next
+											$sRadio = ""
+										EndIf
+									EndIf
+								ElseIf $aInputIds[3][$j] = "checkbox" Then
+									$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q" & $aInputIds[1][$j] & "=" & $sPassedData & "\E" & $sGrSep & "*", "")
+									__WinHttpTrimBounds($sCheckBox, $sGrSep)
+								ElseIf $aInputIds[3][$j] = "button" Then
+									$sButton = StringRegExpReplace($sButton, "(?i)\Q" & $aInputIds[1][$j] & "=" & $sPassedData & "\E" & $sGrSep & "*", "")
+									__WinHttpTrimBounds($sButton, $sGrSep)
+								Else
+									$sAddData = StringRegExpReplace(StringReplace($sAddData, "&", "&&"), "(?i)(?:&|\A)\Q" & $aInputIds[1][$j] & "=" & $aInputIds[2][$j] & "\E(?:&|\Z)", "&" & $aInputIds[1][$j] & "=" & $sPassedData & "&")
+									$iNumRepl = @extended
+									$sAddData = StringReplace($sAddData, "&&", "&")
+									If $iNumRepl > 1 Then ; equalize ; TODO: remove duplicates
+										$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $aInputIds[1][$j] & "\E=.*?(?:&|\Z)", "&", $iNumRepl - 1)
+									EndIf
+									__WinHttpTrimBounds($sAddData, "&")
+								EndIf
+							EndIf
+						Next
+					Else ; like .getElementsByName
+						For $j = 0 To UBound($aInputIds, 2) - 1
+							If $aInputIds[3][$j] = "submit" Then
+								If $sPassedData = True Then ; if this "submit" is set to TRUE then
+									If $aInputIds[1][$j] = $aSplit[1] Then
+										If $sSubmit Then ; If not already processed; only the first is valid
+											Local $fDel = False
+											For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
+												If $sChunkSub = $aInputIds[1][$j] & "=" & $aInputIds[2][$j] Then
+													If $fDel Then $sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&", 1)
+													$fDel = True
+												Else
+													$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&") ; delete all but the TRUE one
+												EndIf
+												__WinHttpTrimBounds($sAddData, "&")
+											Next
+											$sSubmit = ""
+										EndIf
+										ContinueLoop 2 ; process next parameter
+									EndIf
+								Else ; False means do nothing
+									ContinueLoop 2 ; process next parameter
+								EndIf
+							ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "radio" Then
+								If $sRadio Then ; If not already processed; only the first is valid
+									For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
+										If $sChunkSub <> $aInputIds[1][$j] & "=" & $sPassedData Then ; delete all but the set one
+											$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $sChunkSub & "\E(?:&|\Z)", "&")
+											__WinHttpTrimBounds($sAddData, "&")
+										EndIf
+									Next
+									$sRadio = ""
+								EndIf
+								ContinueLoop 2 ; process next parameter
+							ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "checkbox" Then
+								$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q" & $aInputIds[1][$j] & "=" & $sPassedData & "\E" & $sGrSep & "*", "")
+								__WinHttpTrimBounds($sCheckBox, $sGrSep)
+								ContinueLoop 2 ; process next parameter
+							ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "button" Then
+								$sButton = StringRegExpReplace($sButton, "(?i)\Q" & $aInputIds[1][$j] & "=" & $sPassedData & "\E" & $sGrSep & "*", "")
+								__WinHttpTrimBounds($sButton, $sGrSep)
+								ContinueLoop 2 ; process next parameter
+							EndIf
+						Next
+						$sAddData = StringRegExpReplace(StringReplace($sAddData, "&", "&&"), "(?i)(?:&|\A)\Q" & $aSplit[1] & "\E=.*?(?:&|\Z)", "&" & $aSplit[1] & "=" & $sPassedData & "&")
+						$iNumRepl = @extended
+						$sAddData = StringReplace($sAddData, "&&", "&")
+						If $iNumRepl > 1 Then ; remove duplicates
+							$sAddData = StringRegExpReplace($sAddData, "(?i)(?:&|\A)\Q" & $aSplit[1] & "\E=.*?(?:&|\Z)", "&", $iNumRepl - 1)
+						EndIf
+						__WinHttpTrimBounds($sAddData, "&")
+					EndIf
+				Next
+				__WinHttpFinalizeCtrls($sSubmit, $sRadio, $sCheckBox, $sButton, $sAddData, $sGrSep, "&")
 				If $sMethod = "GET" Then
 					$sAction &= "?" & $sAddData
 					$sAddData = "" ; not to send as addition to the request (this is GET)
 				EndIf
-				ExitLoop
 			Case "multipart/form-data"
 				If $sMethod = "POST" Then ; can't be GET
-					$fMuftiPart = True
-					$aInput = StringRegExp($sForm, "(?si)<\h*(?:input|textarea|label|fieldset|legend|select|optgroup|option|button)\h*(.*?)/*\h*>", 3)
-					If @error Then Return SetError(2, 0, "") ; invalid form
-					Local $aMInputIds[4][UBound($aInput)]
+					$fMultiPart = True
 					; Define boundary line
 					$sBoundary = StringFormat("%s%.5f", "----WinHttpBoundaryLine_", Random(10000, 99999))
-					For $i = 0 To UBound($aInput) - 1
-						$aArray = StringRegExp($aInput[$i], '(?i).*?id\h*=(\h*"(.*?)"|' & "\h*'(.*?)'|" & '(.*?)(?: |\Z))', 3) ; e.g. id="abc" or id='abc' or id=abc
-						If Not @error Then $sInputId = $aArray[UBound($aArray) - 1]
-						$aArray = StringRegExp($aInput[$i], '(?i).*?name\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. name="abc" or name='abc' or name=abc
-						If Not @error Then $sInputName = $aArray[UBound($aArray) - 1]
-						$aArray = StringRegExp($aInput[$i], '(?i).*?value\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. value="abc" or value='abc' or value=abc
-						If Not @error Then $sInputValue = $aArray[UBound($aArray) - 1]
-						$aArray = StringRegExp($aInput[$i], '(?i).*?type\h*=(\h*"(.*?)"|' & "\h*'(.*?)'|" & '(.*?)(?: |\Z))', 3) ; e.g. type="abc" or type='abc' or type=abc
-						If Not @error Then $sInputType = $aArray[UBound($aArray) - 1]
-						$aMInputIds[0][$i] = $sInputId
-						$aMInputIds[1][$i] = $sInputName
-						$aMInputIds[2][$i] = $sInputValue
-						$aMInputIds[3][$i] = $sInputType
-						$sInputId = "" ; will reuse
-						$sInputName = "" ; will reuse
-						$sInputValue = "" ; will reuse
-						$sInputType = "" ; will reuse
-						If $aMInputIds[1][$i] Then ; if there is 'name' field
-							$sAddData &= "--" & $sBoundary & @CRLF & _
-									'Content-Disposition: form-data; name="' & $aMInputIds[1][$i] & '"' & @CRLF & @CRLF & _
-									$aMInputIds[2][$i] & @CRLF
+					For $i = 0 To UBound($aInput) - 1 ; for all input elements
+						__WinHttpFormAttrib($aInputIds, $i, $aInput[$i])
+						If $aInputIds[1][$i] Then ; if there is 'name' field
+							If $aInputIds[3][$i] = "file" Then
+								$sAddData &= "--" & $sBoundary & @CRLF & _
+										'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"; filename=""' & @CRLF & @CRLF & _
+										$aInputIds[2][$i] & @CRLF
+							Else
+								$sAddData &= "--" & $sBoundary & @CRLF & _
+										'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+										$aInputIds[2][$i] & @CRLF
+							EndIf
+							If $aInputIds[3][$i] = "submit" Then $sSubmit &= "--" & $sBoundary & @CRLF & _
+									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$aInputIds[2][$i] & @CRLF & $sGrSep
+							If $aInputIds[3][$i] = "radio" Then $sRadio &= "--" & $sBoundary & @CRLF & _
+									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$aInputIds[2][$i] & @CRLF & $sGrSep
+							If $aInputIds[3][$i] = "checkbox" Then $sCheckBox &= "--" & $sBoundary & @CRLF & _
+									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$aInputIds[2][$i] & @CRLF & $sGrSep
+							If $aInputIds[3][$i] = "button" Then $sButton &= "--" & $sBoundary & @CRLF & _
+									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$aInputIds[2][$i] & @CRLF & $sGrSep
 						EndIf
 					Next
+					$sSubmit = StringTrimRight($sSubmit, 1)
+					$sRadio = StringTrimRight($sRadio, 1)
+					$sCheckBox = StringTrimRight($sCheckBox, 1)
+					$sButton = StringTrimRight($sButton, 1)
 					$sAddData &= "--" & $sBoundary & "--" & @CRLF
 					For $k = 1 To $iNumParams
 						$sPassedData = Eval("sData" & $k)
 						$sPassedId = Eval("sFieldId" & $k)
 						$aSplit = StringSplit($sPassedId, ":", 2)
-						If @error Or $aSplit[0] <> "name" Then
-							For $j = 0 To UBound($aMInputIds, 2) - 1
-								If $aMInputIds[0][$j] = $sPassedId Then ; like getElementById
-									If $aMInputIds[3][$j] = "file" Then
+						If @error Or $aSplit[0] <> "name" Then ; like getElementById
+							For $j = 0 To UBound($aInputIds, 2) - 1
+								If $aInputIds[0][$j] = $sPassedId Then
+									If $aInputIds[3][$j] = "file" Then
 										$sAddData = StringReplace($sAddData, _
-												'Content-Disposition: form-data; name="' & $aMInputIds[1][$j] & '"' & @CRLF & @CRLF & $aMInputIds[2][$j] & @CRLF, _
-												__WinHttpFileContent($sAccept, $aMInputIds[1][$j], $sPassedData, $sBoundary))
+												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+												__WinHttpFileContent($sAccept, $aInputIds[1][$j], $sPassedData, $sBoundary))
+									ElseIf $aInputIds[3][$j] = "submit" Then
+										If $sPassedData = True Then ; if this "submit" is set to TRUE then
+											If $sSubmit Then ; If not already processed; only the first is valid
+												Local $fMDelId = False
+												For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
+													If $sChunkSub = "--" & $sBoundary & @CRLF & _
+															'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+															$aInputIds[2][$j] & @CRLF Then
+														If $fMDelId Then $sAddData = StringReplace($sAddData, $sChunkSub, "", 1) ; Removing duplicates
+														$fMDelId = True
+													Else
+														$sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the TRUE one
+													EndIf
+												Next
+												$sSubmit = ""
+											EndIf
+										EndIf
+									ElseIf $aInputIds[3][$j] = "radio" Then
+										If $sRadio Then ; If not already processed; only the first is valid
+											If $sPassedData = $aInputIds[2][$j] Then
+												For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
+													If $sChunkSub <> "--" & $sBoundary & @CRLF & _
+															'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+															$sPassedData & @CRLF Then $sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the set one
+												Next
+												$sRadio = ""
+											EndIf
+										EndIf
+									ElseIf $aInputIds[3][$j] = "checkbox" Then
+										$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q--" & $sBoundary & @CRLF & _
+												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+												$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
+										If StringRight($sCheckBox, 1) = $sGrSep Then $sCheckBox = StringTrimRight($sCheckBox, 1)
+									ElseIf $aInputIds[3][$j] = "button" Then
+										$sButton = StringRegExpReplace($sButton, "(?i)\Q--" & $sBoundary & @CRLF & _
+												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+												$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
+										If StringRight($sButton, 1) = $sGrSep Then $sButton = StringTrimRight($sButton, 1)
 									Else
 										$sAddData = StringReplace($sAddData, _
-												'Content-Disposition: form-data; name="' & $aMInputIds[1][$j] & '"' & @CRLF & @CRLF & $aMInputIds[2][$j] & @CRLF, _
-												'Content-Disposition: form-data; name="' & $aMInputIds[1][$j] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
+												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
+										$iNumRepl = @extended
+										If $iNumRepl > 1 Then ; equalize ; TODO: remove duplicates
+											$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & 'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
+										EndIf
 									EndIf
 								EndIf
 							Next
 						Else ; like getElementsByName
-							For $j = 0 To UBound($aMInputIds, 2) - 1
-								If $aMInputIds[1][$j] = $aSplit[1] And $aMInputIds[3][$j] = "file" Then
+							For $j = 0 To UBound($aInputIds, 2) - 1
+								If $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "file" Then
 									$sAddData = StringReplace($sAddData, _
-											'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & @CRLF & @CRLF & $aMInputIds[2][$j] & @CRLF, _
-											__WinHttpFileContent($sAccept, $aMInputIds[1][$j], $sPassedData, $sBoundary))
+											'Content-Disposition: form-data; name="' & $aSplit[1] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+											__WinHttpFileContent($sAccept, $aInputIds[1][$j], $sPassedData, $sBoundary))
+								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "submit" Then
+									If $sPassedData = True Then ; if this "submit" is set to TRUE then
+										If $sSubmit Then ; If not already processed; only the first is valid
+											Local $fMDel = False
+											For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
+												If $sChunkSub = "--" & $sBoundary & @CRLF & _
+														'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+														$aInputIds[2][$j] & @CRLF Then
+													If $fMDel Then $sAddData = StringReplace($sAddData, $sChunkSub, "", 1) ; Removing duplicates
+													$fMDel = True
+												Else
+													$sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the TRUE one
+												EndIf
+											Next
+											$sSubmit = ""
+										EndIf
+										ContinueLoop 2 ; process next parameter
+									Else ; False means do nothing
+										ContinueLoop 2 ; process next parameter
+									EndIf
+								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "radio" Then
+									If $sRadio Then ; If not already processed; only the first is valid
+										For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
+											If $sChunkSub <> "--" & $sBoundary & @CRLF & _
+													'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+													$sPassedData & @CRLF Then $sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the set one
+										Next
+										$sRadio = ""
+									EndIf
+									ContinueLoop 2 ; process next parameter
+								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "checkbox" Then
+									$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q--" & $sBoundary & @CRLF & _
+											'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+											$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
+									If StringRight($sCheckBox, 1) = $sGrSep Then $sCheckBox = StringTrimRight($sCheckBox, 1)
+									ContinueLoop 2 ; process next parameter
+								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "button" Then
+									$sButton = StringRegExpReplace($sButton, "(?i)\Q--" & $sBoundary & @CRLF & _
+											'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+											$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
+									If StringRight($sButton, 1) = $sGrSep Then $sButton = StringTrimRight($sButton, 1)
+									ContinueLoop 2 ; process next parameter
 								EndIf
 							Next
 							$sAddData = StringRegExpReplace($sAddData, '(?si)\Q' & 'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', _
 									'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
 							$iNumRepl = @extended
 							If $iNumRepl > 1 Then ; remove duplicates
-								$sAddData = StringRegExpReplace($sAddData, '(?si)\Q' & $sBoundary & @CRLF & 'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
+								$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & 'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
 							EndIf
 						EndIf
 					Next
 				EndIf
-				ExitLoop
+				__WinHttpFinalizeCtrls($sSubmit, $sRadio, $sCheckBox, $sButton, $sAddData, $sGrSep)
 		EndSwitch
 	Next
 	; Send
 	If $fSend Then
-		Local $hRequest
-		If $sNewURL Then
-			Local $hConnect = _WinHttpQueryOption($hInternet, $WINHTTP_OPTION_PARENT_HANDLE)
-			_WinHttpCloseHandle($hInternet)
-			$hInternet = _WinHttpConnect($hConnect, $sNewURL)
-		EndIf
-		$hRequest = _WinHttpOpenRequest($hInternet, $sMethod, $sAction)
-		If $fMuftiPart Then
-			_WinHttpAddRequestHeaders($hRequest, "Content-Type: multipart/form-data; boundary=" & $sBoundary)
+		If $fVarForm Then
+			$hInternet = _WinHttpConnect($hOpen, $sNewURL)
 		Else
-			If $sMethod = "POST" Then _WinHttpAddRequestHeaders($hRequest, "Content-Type: application/x-www-form-urlencoded")
+			If $sNewURL Then
+				$hOpen = _WinHttpQueryOption($hInternet, $WINHTTP_OPTION_PARENT_HANDLE)
+				_WinHttpCloseHandle($hInternet)
+				$hInternet = _WinHttpConnect($hOpen, $sNewURL)
+			EndIf
 		EndIf
-		_WinHttpAddRequestHeaders($hRequest, "Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5")
-		_WinHttpAddRequestHeaders($hRequest, "Accept-Charset: utf-8;q=0.7")
-		_WinHttpSendRequest($hRequest, Default, $sAddData)
-		_WinHttpReceiveResponse($hRequest)
+		Local $hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData)
+		If _WinHttpQueryHeaders($hRequest, $WINHTTP_QUERY_STATUS_CODE) > $HTTP_STATUS_BAD_REQUEST Then
+			_WinHttpCloseHandle($hRequest)
+			$hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData, True) ; try adding $WINHTTP_FLAG_SECURE
+		EndIf
 		Local $sReturned = _WinHttpSimpleReadData($hRequest)
 		If @error Then
 			_WinHttpCloseHandle($hRequest)
@@ -1333,7 +1514,7 @@ EndFunc   ;==>_WinHttpSimpleFormFill
 ; Return values .: Success      - String or binary depending on $iMode
 ;                  Failure      - empty string or empty binary (mode 2) and set @error
 ;                  |1 - invalid mode
-;                  |2 - no data availbale
+;                  |2 - no data available
 ; Author ........: ProgAndy
 ; Modified.......:
 ; Remarks .......:
@@ -1683,19 +1864,14 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 		$fNonStandard = True
 	EndIf
 	Local $sOut = 'Content-Disposition: form-data; name="' & $sName & '"'
-	If Not $sFileString Then Return $sOut & @CRLF & @CRLF & @CRLF
+	If Not $sFileString Then Return $sOut & '; filename=""' & @CRLF & @CRLF & @CRLF
 	; Check $sFileString string
 	If StringRight($sFileString, 1) = "|" Then $sFileString = StringTrimRight($sFileString, 1)
 	Local $aFiles = StringSplit($sFileString, "|", 2)
-	Local $sFile, $hFile, $sContentData
 	If UBound($aFiles) = 1 Then
-		$sFile = $aFiles[0]
-		$hFile = FileOpen($sFile, 0)
-		$sContentData = FileRead($hFile)
-		FileClose($hFile)
-		$sOut &= '; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-				"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
-		Return $sOut ; Nothing more. Return
+		$sOut &= '; filename="' & StringRegExpReplace($aFiles[0], ".*\\", "") & '"' & @CRLF & _
+				"Content-Type: " & __WinHttpMIMEType($aFiles[0]) & @CRLF & @CRLF & FileRead($aFiles[0]) & @CRLF
+		Return $sOut ; That's it
 	EndIf
 	; Multiple files specified, separated by "|". Support on server side required!
 	If $fNonStandard Then
@@ -1703,13 +1879,9 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 		$sOut = "" ; discharge
 		Local $iFiles = UBound($aFiles)
 		For $i = 0 To $iFiles - 1
-			$sFile = $aFiles[$i]
-			$hFile = FileOpen($sFile, 0)
-			$sContentData = FileRead($hFile)
-			FileClose($hFile)
 			$sOut &= 'Content-Disposition: form-data; name="' & $sName & '"' & _
-					'; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-					"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
+					'; filename="' & StringRegExpReplace($aFiles[$i], ".*\\", "") & '"' & @CRLF & _
+					"Content-Type: " & __WinHttpMIMEType($aFiles[$i]) & @CRLF & @CRLF & FileRead($aFiles[$i]) & @CRLF
 			If $i < $iFiles - 1 Then $sOut &= "--" & $sBoundaryMain & @CRLF
 		Next
 	Else
@@ -1717,13 +1889,9 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 		Local $sBoundary = StringFormat("%s%.5f", "----WinHttpSubBoundaryLine_", Random(10000, 99999))
 		$sOut &= @CRLF & "Content-Type: multipart/mixed; boundary=" & $sBoundary & @CRLF & @CRLF
 		For $i = 0 To UBound($aFiles) - 1
-			$sFile = $aFiles[$i]
-			$hFile = FileOpen($sFile, 0)
-			$sContentData = FileRead($hFile)
-			FileClose($hFile)
 			$sOut &= "--" & $sBoundary & @CRLF & _
-					'Content-Disposition: file; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-					"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
+					'Content-Disposition: file; filename="' & StringRegExpReplace($aFiles[$i], ".*\\", "") & '"' & @CRLF & _
+					"Content-Type: " & __WinHttpMIMEType($aFiles[$i]) & @CRLF & @CRLF & FileRead($aFiles[$i]) & @CRLF
 		Next
 		$sOut &= "--" & $sBoundary & "--" & @CRLF
 	EndIf
@@ -1755,6 +1923,70 @@ Func __WinHttpURLEncode($sData)
 	Next
 	Return $sOut
 EndFunc   ;==>__WinHttpURLEncode
+
+Func __WinHttpFinalizeCtrls($sSubmit, $sRadio, $sCheckBox, $sButton, ByRef $sAddData, $sGrSep, $sBound = "")
+	If $sSubmit Then ; If no submit is specified
+		Local $aSubmit = StringSplit($sSubmit, $sGrSep, 3)
+		For $m = 1 To UBound($aSubmit) - 1
+			$sAddData = StringRegExpReplace($sAddData, "(?:\Q" & $sBound & "\E|\A)\Q" & $aSubmit[$m] & "\E(?:\Q" & $sBound & "\E|\z)", $sBound)
+		Next
+		__WinHttpTrimBounds($sAddData, $sBound)
+	EndIf
+	If $sRadio Then ; If no radio is specified
+		For $sElem In StringSplit($sRadio, $sGrSep, 3)
+			$sAddData = StringRegExpReplace($sAddData, "(?:\Q" & $sBound & "\E|\A)\Q" & $sElem & "\E(?:\Q" & $sBound & "\E|\z)", $sBound)
+		Next
+		__WinHttpTrimBounds($sAddData, $sBound)
+	EndIf
+	If $sCheckBox Then ; If no checkbox is specified
+		For $sElem In StringSplit($sCheckBox, $sGrSep, 3)
+			$sAddData = StringRegExpReplace($sAddData, "(?:\Q" & $sBound & "\E|\A)\Q" & $sElem & "\E(?:\Q" & $sBound & "\E|\z)", $sBound)
+		Next
+		__WinHttpTrimBounds($sAddData, $sBound)
+	EndIf
+	If $sButton Then ; If no button is specified
+		For $sElem In StringSplit($sButton, $sGrSep, 3)
+			$sAddData = StringRegExpReplace($sAddData, "(?:\Q" & $sBound & "\E|\A)\Q" & $sElem & "\E(?:\Q" & $sBound & "\E|\z)", $sBound)
+		Next
+		__WinHttpTrimBounds($sAddData, $sBound)
+	EndIf
+EndFunc   ;==>__WinHttpFinalizeCtrls
+
+Func __WinHttpTrimBounds(ByRef $sData, $sBound)
+	Local $iBLen = StringLen($sBound)
+	If StringRight($sData, $iBLen) = $sBound Then $sData = StringTrimRight($sData, $iBLen)
+	If StringLeft($sData, $iBLen) = $sBound Then $sData = StringTrimLeft($sData, $iBLen)
+EndFunc   ;==>__WinHttpTrimBounds
+
+Func __WinHttpFormAttrib(ByRef $aAttrib, $i, $sElement)
+	Local $aArray = StringRegExp($sElement, '(?i).*?id\h*=(\h*"(.*?)"|' & "\h*'(.*?)'|" & '(.*?)(?: |\Z))', 3) ; e.g. id="abc" or id='abc' or id=abc
+	If Not @error Then $aAttrib[0][$i] = $aArray[UBound($aArray) - 1] ; id
+	$aArray = StringRegExp($sElement, '(?i).*?name\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. name="abc" or name='abc' or name=abc
+	If Not @error Then $aAttrib[1][$i] = $aArray[UBound($aArray) - 1] ; name
+	$aArray = StringRegExp($sElement, '(?i).*?value\h*=(\h*"(.*?)"|' & "\h*'(.*?)'" & '|(.*?)(?: |\Z))', 3) ; e.g. value="abc" or value='abc' or value=abc
+	If Not @error Then $aAttrib[2][$i] = $aArray[UBound($aArray) - 1] ; value
+	$aArray = StringRegExp($sElement, '(?i).*?type\h*=(\h*"(.*?)"|' & "\h*'(.*?)'|" & '(.*?)(?: |\Z))', 3) ; e.g. type="abc" or type='abc' or type=abc
+	If Not @error Then $aAttrib[3][$i] = $aArray[UBound($aArray) - 1] ; type
+EndFunc   ;==>__WinHttpFormAttrib
+
+Func __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData, $fSecure = False)
+	Local $hRequest
+	If $fSecure Then
+		$hRequest = _WinHttpOpenRequest($hInternet, $sMethod, $sAction, Default, Default, Default, $WINHTTP_FLAG_SECURE)
+	Else
+		$hRequest = _WinHttpOpenRequest($hInternet, $sMethod, $sAction)
+	EndIf
+	If $fMultiPart Then
+		_WinHttpAddRequestHeaders($hRequest, "Content-Type: multipart/form-data; boundary=" & $sBoundary)
+	Else
+		If $sMethod = "POST" Then _WinHttpAddRequestHeaders($hRequest, "Content-Type: application/x-www-form-urlencoded")
+	EndIf
+	_WinHttpAddRequestHeaders($hRequest, "Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5")
+	_WinHttpAddRequestHeaders($hRequest, "Accept-Charset: utf-8;q=0.7")
+	_WinHttpSendRequest($hRequest, Default, $sAddData)
+	_WinHttpReceiveResponse($hRequest)
+	Return $hRequest
+EndFunc   ;==>__WinHttpFormSend
 
 Func __WinHttpMemGlobalFree($pMem)
 	Local $aCall = DllCall("kernel32.dll", "ptr", "GlobalFree", "ptr", $pMem)
