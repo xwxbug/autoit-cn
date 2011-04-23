@@ -1,4 +1,5 @@
 ;*******************************************************************************
+;	http://dundats.mvps.org/AutoIt/udf_code.aspx?udf=access
 ;
 ;   函数列表
 ;         _accessAddRecord();在现有的 MS Access 数据库表中添加新记录(单个或多个字段)
