@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "SecurityConstants.au3"
 #include "StructureConstants.au3"
@@ -126,7 +126,7 @@ EndFunc   ;==>_Security__GetLengthSid
 Func _Security__GetTokenInformation($hToken, $iClass)
 	Local $aResult = DllCall("advapi32.dll", "bool", "GetTokenInformation", "handle", $hToken, "int", $iClass, "ptr", 0, "dword", 0, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If Not $aResult[0] Then Return 0
+	If Not $aResult[5] Then Return 0
 
 	Local $tBuffer = DllStructCreate("byte[" & $aResult[5] & "]")
 	Local $pBuffer = DllStructGetPtr($tBuffer)
@@ -231,8 +231,9 @@ EndFunc   ;==>_Security__LookupAccountName
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _Security__LookupAccountSid
 ; Description ...: Retrieves the name of the account for a SID
-; Syntax.........: _Security__LookupAccountSid($vSID)
+; Syntax.........: _Security__LookupAccountSid($vSID [, $sSystem = ""])
 ; Parameters ....: $vSID        - Either a binary SID or a string SID
+;                  $sSystem     - Optional, the name of a remote computer. By default the local system.
 ; Return values .: Success      - Array with the following format:
 ;                  |$aAcct[0] - Account name
 ;                  |$aAcct[1] - Domain name
@@ -254,7 +255,7 @@ EndFunc   ;==>_Security__LookupAccountName
 ; Link ..........: @@MsdnLink@@ LookupAccountSid
 ; Example .......:
 ; ===============================================================================================================================
-Func _Security__LookupAccountSid($vSID)
+Func _Security__LookupAccountSid($vSID, $sSystem = "")
 	Local $pSID, $aAcct[3]
 
 	If IsString($vSID) Then
@@ -265,7 +266,10 @@ Func _Security__LookupAccountSid($vSID)
 	EndIf
 	If Not _Security__IsValidSid($pSID) Then Return SetError(-1, 0, 0)
 
-	Local $aResult = DllCall("advapi32.dll", "bool", "LookupAccountSidW", "ptr", 0, "ptr", $pSID, "wstr", "", "dword*", 256, _
+	Local $typeSystem = "ptr"
+	If $sSystem <> "" Then $typeSystem = "wstr"	; remote system is requested
+
+	Local $aResult = DllCall("advapi32.dll", "bool", "LookupAccountSidW", $typeSystem, $sSystem, "ptr", $pSID, "wstr", "", "dword*", 256, _
 			"wstr", "", "dword*", 256, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	If Not $aResult[0] Then Return 0
@@ -306,7 +310,7 @@ EndFunc   ;==>_Security__LookupPrivilegeValue
 ; Parameters ....: $hProcess    - A handle to the process whose access token is opened.  The process must  have  been  given  the
 ;                  +$PROCESS_QUERY_INFORMATION access permission.
 ;                  $iAccess     - Specifies an access mask that specifies the requested types of access to the access token.
-; Return values .: Success      - A pointer to a handle that identifies the newly opened access token when the function returns.
+; Return values .: Success      - An handle that identifies the newly opened access token when the function returns.
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
@@ -316,7 +320,7 @@ EndFunc   ;==>_Security__LookupPrivilegeValue
 ; Example .......:
 ; ===============================================================================================================================
 Func _Security__OpenProcessToken($hProcess, $iAccess)
-	Local $aResult = DllCall("advapi32.dll", "int", "OpenProcessToken", "handle", $hProcess, "dword", $iAccess, "ptr", 0)
+	Local $aResult = DllCall("advapi32.dll", "int", "OpenProcessToken", "handle", $hProcess, "dword", $iAccess, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetError(0, $aResult[0], $aResult[3])
 EndFunc   ;==>_Security__OpenProcessToken

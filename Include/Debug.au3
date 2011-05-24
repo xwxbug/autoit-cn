@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 #include "SendMessage.au3"
 #include "WinAPIError.au3"
 
@@ -16,10 +16,11 @@ Global Const $__gsReportWindowText_Debug = "Debug Window hidden text"
 ; ===============================================================================================================================
 
 ; #VARIABLE# ===================================================================================================================
-Global $__gsReportWindowTitle_Debug = "AutoIt Debug Report"
+Global $__gsReportTitle_Debug = "AutoIt Debug Report"
 Global $__giReportType_Debug = 0
 Global $__gbReportWindowWaitClose_Debug = True, $__gbReportWindowClosed_Debug = True
-Global $__ghReportWindowEdit_Debug = 0
+Global $__ghReportEdit_Debug = 0
+Global $__ghReportNotepadEdit_Debug = 0
 Global $__gsReportCallBack_Debug
 ; ===============================================================================================================================
 
@@ -85,13 +86,21 @@ EndFunc   ;==>_Assert
 Func _DebugBugReportEnv(Const $curerr = @error, Const $curext = @extended)
 	Local $AutoItX64 = ""
 	If @AutoItX64 Then $AutoItX64 = "/X64"
+	Local $AdminMode = ""
+	If IsAdmin() Then $AdminMode = " AdminMode"
 	Local $Compiled = ""
 	If @Compiled Then $Compiled = " Compiled"
 	Local $OsServicePack = ""
-	If @OSServicePack Then $OsServicePack = "/" & @OSServicePack
-	Return SetError($curerr, $curext, "AutoIt:" & @AutoItVersion & $AutoItX64 & $Compiled & _
-			"   (Os:" & @OSVersion & "/" & @OSArch & $OsServicePack & _
-			"   Language:" & @OSLang & " Keyboard:" & @KBLayout & " Cpu:" & @CPUArch & ")")
+	If @OSServicePack Then $OsServicePack = "/" & StringReplace(@OSServicePack, "Service Pack ", "SP")
+	Local $MUIlang = ""
+	If @OSLang <> @MUILang Then $MUIlang = " MUILang:" & @MUILang
+	Local $KBLayout = ""
+	If @OSLang <> StringRight(@KBLayout,4) Then $KBLayout = " Keyboard:" & @KBLayout
+	Local $CPUArch = ""
+	If @OSArch <> @CPUArch Then $CPUArch = " CPUArch:" & @CPUArch
+	Return SetError($curerr, $curext, "AutoIt:" & @AutoItVersion & $AutoItX64 & $AdminMode & $Compiled & _
+			"   (Os:" & @OSVersion & $OsServicePack & "/" & @OSArch & _
+			"   OSLang:" & @OSLang & $MUILang & $KBLayout & $CPUArch & ")")
 EndFunc   ;==>_DebugBugReportEnv
 
 ; #FUNCTION# ====================================================================================================================
@@ -154,19 +163,22 @@ Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vRepo
 			$__gsReportCallBack_Debug = "ConsoleWrite("
 		Case 3
 			; Message box
-			$__gsReportCallBack_Debug = "_Debug_MsgBox(266256, '" & $__gsReportWindowTitle_Debug & "',"
+			$__gsReportCallBack_Debug = "MsgBox(266256, '" & $__gsReportTitle_Debug & "',"
 		Case 4
 			; Log file
 			$__gsReportCallBack_Debug = "FileWrite('" & $sLogFile & "',"
+		Case 5
+			; Report notepad window
+			$__gsReportCallBack_Debug = "__Debug_ReportNotepadWrite("
 		Case Else
 			If Not IsString($vReportType) Then Return SetError(2, 0, 0)	; invalid Report type
 			; private callback
 			If $vReportType = "" Then Return SetError(3, 0, 0)		; invalid callback function
 			$__gsReportCallBack_Debug = $vReportType & "("
-			$vReportType = 5
+			$vReportType = 6
 	EndSwitch
 
-	If Not IsKeyword($sTitle) Then $__gsReportWindowTitle_Debug = $sTitle
+	If Not IsKeyword($sTitle) Then $__gsReportTitle_Debug = $sTitle
 	$__giReportType_Debug = $vReportType
 
 	OnAutoItExitRegister("__Debug_ReportClose")
@@ -195,7 +207,7 @@ EndFunc   ;==>_DebugSetup
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReport($sData, $bLastError = False, $bExit = False, $curerr = @error, $curext = @extended)
-	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 5 Then Return SetError($curerr, $curext, 0)
+	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
 
 	$curext = __Debug_ReportWrite($sData, $bLastError)
 
@@ -228,7 +240,7 @@ EndFunc   ;==>_DebugReport
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReportEx($sData, $bLastError = False, $bExit = False, $curerr = @error, $curext = @extended)
-	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 5 Then Return SetError($curerr, $curext, 0)
+	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
 
 	If IsInt($curerr) Then
 		Local $sTemp = StringSplit($sData, "|", 2)
@@ -274,7 +286,7 @@ EndFunc   ;==>_DebugReportEx
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @ScriptLineNumber, $curerr = @error, $curext = @extended)
-	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 5 Then Return SetError($curerr, $curext, 0)
+	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
 
 	If IsBool($vVar) And IsInt($bErrExt) Then
 		; to kept some compatibility with 3.3.1.3 if really needed for non breaking
@@ -398,7 +410,7 @@ EndFunc   ;==>__Debug_DataType
 Func __Debug_ReportClose()
 	If $__giReportType_Debug = 1 Then
 		__Debug_ReportWindowWaitClose()
-	ElseIf $__giReportType_Debug = 5 Then
+	ElseIf $__giReportType_Debug = 6 Then
 		Execute($__gsReportCallBack_Debug & ")")
 	EndIf
 
@@ -420,13 +432,13 @@ EndFunc   ;==>__Debug_ReportClose
 ; ===============================================================================================================================
 Func __Debug_ReportWindowCreate()
 	Local $nOld = Opt("WinDetectHiddenText", True)
-	Local $bExists = WinExists($__gsReportWindowTitle_Debug, $__gsReportWindowText_Debug)
+	Local $bExists = WinExists($__gsReportTitle_Debug, $__gsReportWindowText_Debug)
 
 	If $bExists Then
-		If $__ghReportWindowEdit_Debug = 0 Then
+		If $__ghReportEdit_Debug = 0 Then
 			; first time we try to access an open window in the running script,
 			; get the control handle needed for writing in
-			$__ghReportWindowEdit_Debug = ControlGetHandle($__gsReportWindowTitle_Debug, $__gsReportWindowText_Debug, "Edit1")
+			$__ghReportEdit_Debug = ControlGetHandle($__gsReportTitle_Debug, $__gsReportWindowText_Debug, "Edit1")
 			; force no closing no waiting on report closing
 			$__gbReportWindowWaitClose_Debug = False
 		EndIf
@@ -448,12 +460,12 @@ Func __Debug_ReportWindowCreate()
 	; Variables used to control different aspects of the GUI.
 	Local $w = 580, $h = 280
 
-	GUICreate($__gsReportWindowTitle_Debug, $w, $h, -1, -1, $WS_OVERLAPPEDWINDOW)
+	GUICreate($__gsReportTitle_Debug, $w, $h, -1, -1, $WS_OVERLAPPEDWINDOW)
 	; We use a hidden label with unique test so we can reliably identify the window.
 	Local $idLabelHidden = GUICtrlCreateLabel($__gsReportWindowText_Debug, 0, 0, 1, 1)
 	GUICtrlSetState($idLabelHidden, $GUI_HIDE)
 	Local $idEdit = GUICtrlCreateEdit("", 4, 4, $w - 8, $h - 8, BitOR($WS_HSCROLL, $WS_VSCROLL, $ES_READONLY))
-	$__ghReportWindowEdit_Debug = GUICtrlGetHandle($idEdit)
+	$__ghReportEdit_Debug = GUICtrlGetHandle($idEdit)
 	GUICtrlSetBkColor($idEdit, 0xFFFFFF)
 	GUICtrlSendMsg($idEdit, $EM_LIMITTEXT, 0, 0) ; Max the size of the edit control.
 
@@ -477,16 +489,18 @@ EndFunc   ;==>__Debug_ReportWindowCreate
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
+#obfuscator_off
 Func __Debug_ReportWindowWrite($sData)
+#obfuscator_on
 	If $__gbReportWindowClosed_Debug Then __Debug_ReportWindowCreate()
 
 	Local Const $WM_GETTEXTLENGTH = 0x000E
 	Local Const $EM_SETSEL = 0xB1
 	Local Const $EM_REPLACESEL = 0xC2
 
-	Local $nLen = _SendMessage($__ghReportWindowEdit_Debug, $WM_GETTEXTLENGTH, 0, 0, 0, "int", "int")
-	_SendMessage($__ghReportWindowEdit_Debug, $EM_SETSEL, $nLen, $nLen, 0, "int", "int")
-	_SendMessage($__ghReportWindowEdit_Debug, $EM_REPLACESEL, True, $sData, 0, "int", "wstr")
+	Local $nLen = _SendMessage($__ghReportEdit_Debug, $WM_GETTEXTLENGTH, 0, 0, 0, "int", "int")
+	_SendMessage($__ghReportEdit_Debug, $EM_SETSEL, $nLen, $nLen, 0, "int", "int")
+	_SendMessage($__ghReportEdit_Debug, $EM_REPLACESEL, True, $sData, 0, "int", "wstr")
 EndFunc   ;==>__Debug_ReportWindowWrite
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -503,19 +517,82 @@ EndFunc   ;==>__Debug_ReportWindowWrite
 ; Example .......:
 ; ===============================================================================================================================
 Func __Debug_ReportWindowWaitClose()
+	If Not $__gbReportWindowWaitClose_Debug Then Return 0 ; use of the already opened window so no need to wait
 	Local $nOld = Opt("WinDetectHiddenText", True)
-	Local $hWndReportWindow = WinGetHandle($__gsReportWindowTitle_Debug, $__gsReportWindowText_Debug)
+	Local $hWndReportWindow = WinGetHandle($__gsReportTitle_Debug, $__gsReportWindowText_Debug)
 	Opt("WinDetectHiddenText", $nOld)
 
+	$nOld = Opt('GUIOnEventMode', 0)	; save event mode in case user script was using event mode
 	Local Const $GUI_EVENT_CLOSE = -3
+	Local $aMsg
 	While WinExists(HWnd($hWndReportWindow))
-		If GUIGetMsg() = $GUI_EVENT_CLOSE Then GUIDelete($hWndReportWindow)
+		$aMsg = GUIGetMsg(1)
+		If  $aMsg[1] = $hWndReportWindow And $aMsg[0] = $GUI_EVENT_CLOSE Then GUIDelete($hWndReportWindow)
 	WEnd
+	Opt('GUIOnEventMode', $nOld)	; restore event mode
 
-	$__ghReportWindowEdit_Debug = 0
+	$__ghReportEdit_Debug = 0
 	$__gbReportWindowWaitClose_Debug = True
 	$__gbReportWindowClosed_Debug = True
 EndFunc   ;==>__Debug_ReportWindowWaitClose
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Debug_ReportNotepadCreate
+; Description ...: Create an report log window
+; Syntax.........: __Debug_ReportNotepadCreate()
+; Parameters ....:
+; Return values .: 0 if already created
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func __Debug_ReportNotepadCreate()
+	Local $bExists = WinExists($__gsReportTitle_Debug)
+
+	If $bExists Then
+		If $__ghReportEdit_Debug = 0 Then
+			; first time we try to access an open window in the running script,
+			; get the control handle needed for writing in
+			$__ghReportEdit_Debug = WinGetHandle($__gsReportTitle_Debug)
+			Return 0 ; use of the already opened window
+		EndIf
+	EndIf
+
+	Local $pNotepad = Run("Notepad.exe") ; process ID of the Notepad started by this function
+	$__ghReportEdit_Debug = WinWait("[CLASS:Notepad]")
+	If $pNotepad <> WinGetProcess($__ghReportEdit_Debug) Then
+		Return SetError(3, 0, 0)
+	EndIf
+
+	WinActivate($__ghReportEdit_Debug)
+	WinSetTitle($__ghReportEdit_Debug, "", String($__gsReportTitle_Debug))
+
+	Return 1
+EndFunc   ;==>__Debug_ReportNotepadCreate
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __Debug_ReportNotepadWrite
+; Description ...: Append text to the report notepad window
+; Syntax.........: __Debug_ReportNotepadWrite($sData)
+; Parameters ....: $sData text to be append to the window
+; Return values .:
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+#obfuscator_off
+Func __Debug_ReportNotepadWrite($sData)
+#obfuscator_on
+	If $__ghReportEdit_Debug = 0 Then __Debug_ReportNotepadCreate()
+
+	ControlCommand($__ghReportEdit_Debug, "", "Edit1", "EditPaste", String($sData))
+EndFunc   ;==>__Debug_ReportNotepadWrite
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportWrite
@@ -547,6 +624,7 @@ Func __Debug_ReportWrite($sData, $bLastError = False, $curext = @extended)
 	Local $bBlock = BlockInput(1)
 	BlockInput(0) ; force enable state so user can move mouse if needed
 
+	$sData = StringReplace($sData, "'", "''")	; in case the data contains '
 	Execute($__gsReportCallBack_Debug & "'" & $sData & "')")
 
 	If Not $bBlock Then BlockInput(1) ; restore disable state

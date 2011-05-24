@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "ToolTipConstants.au3"
 #include "Memory.au3"
@@ -221,14 +221,20 @@ EndFunc   ;==>_GUIToolTip_Activate
 ; Example .......:
 ; ===============================================================================================================================
 Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0, $iFlags = 8, $iParam = 0)
-	Local $iBuffer = StringLen($sText) + 1
-	Local $tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
-	$iBuffer *= 2
-	Local $pBuffer = DllStructGetPtr($tBuffer)
+	Local $iBuffer, $tBuffer, $pBuffer
+	If $sText <> -1 Then
+		$iBuffer = StringLen($sText) + 1
+		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		$iBuffer *= 2
+		$pBuffer = DllStructGetPtr($tBuffer)
+		DllStructSetData($tBuffer, "Text", $sText)
+	Else
+		$iBuffer = 0
+		$pBuffer = -1	; LPSTR_TEXTCALLBACK
+	EndIf
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $pToolInfo = DllStructGetPtr($tToolInfo)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
-	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "Flags", _GUIToolTip_BitsToTTF($iFlags))
 	DllStructSetData($tToolInfo, "hWnd", $hWnd)
@@ -245,10 +251,14 @@ Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0,
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hTool, $iToolInfo + $iBuffer, $tMemMap)
-		Local $pText = $pMemory + $iToolInfo
-		DllStructSetData($tToolInfo, "Text", $pText)
+		If $sText <> -1 Then
+			Local $pText = $pMemory + $iToolInfo
+			DllStructSetData($tToolInfo, "Text", $pText)
+			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		Else
+			DllStructSetData($tToolInfo, "Text", -1)	; LPSTR_TEXTCALLBACK
+		EndIf
 		_MemWrite($tMemMap, $pToolInfo, $pMemory, $iToolInfo)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 		$iRet = _SendMessage($hTool, $TTM_ADDTOOLW, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -994,16 +1004,16 @@ Func _GUIToolTip_HitTest($hWnd, $hTool, $iX, $iY)
 		_MemRead($tMemMap, $pMemory, $pHitTest, $iHitTest)
 		_MemFree($tMemMap)
 	EndIf
-	DllStructSetData($tToolInfo, "Size", $tHitTest.Size)
-	DllStructSetData($tToolInfo, "Flags", $tHitTest.Flags)
-	DllStructSetData($tToolInfo, "hWnd", $tHitTest.hWnd)
-	DllStructSetData($tToolInfo, "ID", $tHitTest.ID)
-	DllStructSetData($tToolInfo, "Left", $tHitTest.Left)
-	DllStructSetData($tToolInfo, "Top", $tHitTest.Top)
-	DllStructSetData($tToolInfo, "Right", $tHitTest.Right)
-	DllStructSetData($tToolInfo, "Bottom", $tHitTest.Bottom)
-	DllStructSetData($tToolInfo, "hInst", $tHitTest.hInst)
-	DllStructSetData($tToolInfo, "Param", $tHitTest.Param)
+	DllStructSetData($tToolInfo, "Size", DllStructGetData($tHitTest, "Size"))
+	DllStructSetData($tToolInfo, "Flags", DllStructGetData($tHitTest, "Flags"))
+	DllStructSetData($tToolInfo, "hWnd", DllStructGetData($tHitTest, "hWnd"))
+	DllStructSetData($tToolInfo, "ID", DllStructGetData($tHitTest, "ID"))
+	DllStructSetData($tToolInfo, "Left", DllStructGetData($tHitTest, "Left"))
+	DllStructSetData($tToolInfo, "Top", DllStructGetData($tHitTest, "Top"))
+	DllStructSetData($tToolInfo, "Right", DllStructGetData($tHitTest, "Right"))
+	DllStructSetData($tToolInfo, "Bottom", DllStructGetData($tHitTest, "Bottom"))
+	DllStructSetData($tToolInfo, "hInst", DllStructGetData($tHitTest, "hInst"))
+	DllStructSetData($tToolInfo, "Param", DllStructGetData($tHitTest, "Param"))
 	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $fResult = True)
 EndFunc   ;==>_GUIToolTip_HitTest
 

@@ -1,10 +1,8 @@
-﻿#include <NamedPipes.au3>
+#include <NamedPipes.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
 #include <StaticConstants.au3>
 #include <GuiConstantsEx.au3>
-
-Opt("MustDeclareVars", 1)
 
 ; ===============================================================================================================================
 ; Description ...: This is the client side of the pipe demo
@@ -38,12 +36,10 @@ MsgLoop()
 ; Creates a GUI for the client
 ; ===============================================================================================================================
 Func CreateGUI()
-	Local $hGUI, $iLabel1, $iLabel2
-
-	$hGUI = GUICreate("Pipe Client", 500, 400, -1, -1, $WS_SIZEBOX)
-	$iLabel1 = GUICtrlCreateLabel("Server:", 2, 14, 52, 20, $SS_RIGHT)
+	Local $hGUI = GUICreate("Pipe Client", 500, 400, -1, -1, $WS_SIZEBOX)
+	GUICtrlCreateLabel("Server:", 2, 14, 52, 20, $SS_RIGHT)
 	$iServer = GUICtrlCreateEdit("<local>", 56, 10, 200, 20, $SS_LEFT)
-	$iLabel2 = GUICtrlCreateLabel("Command:", 2, 36, 52, 20, $SS_RIGHT)
+	GUICtrlCreateLabel("Command:", 2, 36, 52, 20, $SS_RIGHT)
 	$iEdit = GUICtrlCreateEdit($DEFCMD, 56, 32, 370, 20, $SS_LEFT)
 	$iSend = GUICtrlCreateButton("Send", 430, 32, 60, 20)
 	$iMemo = GUICtrlCreateEdit("", 0, 62, _WinAPI_GetClientWidth($hGUI), 332)
@@ -87,7 +83,7 @@ Func OpenPipe()
 	Local $sName, $sPipe
 	; Get pipe handle
 	$sName = GUICtrlRead($iServer)
-	If $sName = "<local>"  Then $sName = "."
+	If $sName = "<local>" Then $sName = "."
 	$sPipe = StringReplace($PIPE_NAME, "$", $sName)
 	$hPipe = _WinAPI_CreateFile($sPipe, 2, 6)
 	If $hPipe <> -1 Then Return True
@@ -107,7 +103,7 @@ Func ReadMsg()
 	While 1
 		$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, 0)
 		If $iRead = 0 Then ExitLoop
-		If Not $bSuccess Or (@error = $ERROR_MORE_DATA) Then ExitLoop
+		If Not $bSuccess Or (_WinAPI_GetLastError() = $ERROR_MORE_DATA) Then ExitLoop
 		GUICtrlSetData($iMemo, StringLeft(DllStructGetData($tBuffer, "Text"), $iRead), 1)
 	WEnd
 EndFunc   ;==>ReadMsg

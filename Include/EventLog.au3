@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "WinAPI.au3"
 #include "StructureConstants.au3"
@@ -203,12 +203,11 @@ Func __EventLog_DecodeComputer($tEventLog)
 	Local $iOffset = DllStructGetSize($tEventLog)
 	; Offset the buffer with the Source string length which appears right
 	; before the Computer name.
-	Local $tBuffer
-	$iOffset += StringLen(__EventLog_DecodeSource($tBuffer)) + 1
+	$iOffset += 2*(StringLen(__EventLog_DecodeSource($tEventLog)) + 1)
 	; Adjust the length to be a difference instead of absolute address.
 	$iLength -= $iOffset
 	; Adjust the buffer to point to the start of the Computer string.
-	$tBuffer = DllStructCreate("wchar Text[" & $iLength & "]", $pEventLog + $iOffset)
+	Local $tBuffer = DllStructCreate("wchar Text[" & $iLength & "]", $pEventLog + $iOffset)
 	Return DllStructGetData($tBuffer, "Text")
 EndFunc   ;==>__EventLog_DecodeComputer
 
@@ -385,7 +384,7 @@ Func __EventLog_DecodeStrings($tEventLog)
 	$aStrings[0] = $iNumStrs
 	For $iI = 1 To $iNumStrs
 		$aStrings[$iI] = DllStructGetData($tBuffer, "Text")
-		$iOffset += StringLen($aStrings[$iI]) + 1
+		$iOffset += 2*(StringLen($aStrings[$iI]) + 1)
 		$tBuffer = DllStructCreate("wchar Text[" & $iDataOffset - $iOffset & "]", $pEventLog + $iOffset)
 	Next
 	Return $aStrings

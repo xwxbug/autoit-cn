@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "GDIPlusConstants.au3"
 #include "WinAPI.au3"
@@ -631,7 +631,7 @@ EndFunc   ;==>_GDIPlus_BrushClone
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GDIPlus_BrushCreateSolid($iARGB = 0xFF000000)
-	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateSolidFill", "int", $iARGB, "dword*", 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateSolidFill", "int", $iARGB, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $aResult[2])
 EndFunc   ;==>_GDIPlus_BrushCreateSolid
@@ -3031,7 +3031,10 @@ Func _GDIPlus_Startup()
 	If $giGDIPRef > 1 Then Return True
 
 	$ghGDIPDll = DllOpen("GDIPlus.dll")
-	If $ghGDIPDll = -1 Then Return SetError(1, 2, False)
+	If $ghGDIPDll = -1 Then
+		$giGDIPRef = 0
+		Return SetError(1, 2, False)
+	EndIf
 	Local $tInput = DllStructCreate($tagGDIPSTARTUPINPUT)
 	Local $pInput = DllStructGetPtr($tInput)
 	Local $tToken = DllStructCreate("ulong_ptr Data")

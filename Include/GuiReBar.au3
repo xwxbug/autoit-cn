@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "RebarConstants.au3"
 #include "Memory.au3"
@@ -2197,7 +2197,7 @@ EndFunc   ;==>_GUICtrlRebar_SetBandStyleVariableHeight
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlRebar_SetBandText
-; Description ...: Retrieves the display text for the band
+; Description ...: Sets the display text for the band of a rebar control
 ; Syntax.........: _GUICtrlRebar_SetBandText($hWnd, $iIndex, $sText)
 ; Parameters ....: $hWnd       - Handle to rebar control
 ;                  $iIndex      - Zero-based index of the band for which the information will be set
@@ -2252,7 +2252,7 @@ EndFunc   ;==>_GUICtrlRebar_SetBandText
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlRebar_SetBKColor
-; Description ...: Retrieves a rebar control's default background color
+; Description ...: Sets the default background color of a rebar control
 ; Syntax.........: _GUICtrlRebar_SetBKColor($hWnd, $iColor)
 ; Parameters ....: $hWnd        - Handle to rebar control
 ;                  $iColor      - COLORREF value that represents the new default background color
@@ -2300,7 +2300,7 @@ EndFunc   ;==>_GUICtrlRebar_SetBarInfo
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlRebar_SetColorScheme
-; Description ...: Retrieves a rebar control's default background color
+; Description ...: Sets the color scheme of a rebar control
 ; Syntax.........: _GUICtrlRebar_SetColorScheme($hWnd, $BtnHighlight, $BtnShadow)
 ; Parameters ....: $hWnd         - Handle to rebar control
 ;                  $BtnHighlight - COLORREF value that represents the highlight color of the buttons

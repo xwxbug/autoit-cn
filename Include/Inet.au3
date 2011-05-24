@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "Date.au3"
 
@@ -93,11 +93,16 @@ EndFunc   ;==>_INetGetSource
 ;                  $s_MailBody  - Body of E-Mail
 ; Return values .: On Success - Process ID of e-mail client
 ;                  On Failure - Returns 0 and sets @error to non-zero.
-; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
+; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>, modified by Emiel Wieldraaijer
 ; ===============================================================================================================================
 Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
 	Local $prev = Opt("ExpandEnvStrings", 1)
-	Local $var = RegRead('HKCR\mailto\shell\open\command', "")
+	Local $var, $dflt = RegRead('HKCU\Software\Clients\Mail', "")
+	If $dflt = "Windows Live Mail" Then
+		$var = RegRead('HKCR\WLMail.Url.Mailto\Shell\open\command', "")
+	Else
+		$var = RegRead('HKCR\mailto\shell\open\command', "")
+	EndIf
 	Local $ret = Run(StringReplace($var, '%1', _INetExplorerCapable('mailto:' & $s_MailTo & '?subject=' & $s_MailSubject & '&body=' & $s_MailBody)))
 	Local $nError = @error, $nExtended = @extended
 	Opt("ExpandEnvStrings", $prev)

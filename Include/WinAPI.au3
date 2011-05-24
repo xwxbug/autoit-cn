@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "StructureConstants.au3"
 #include "FileConstants.au3"
@@ -154,6 +154,12 @@ Global Const $OFN_READONLY				= 0x00000001
 Global Const $OFN_SHAREAWARE			= 0x00004000
 Global Const $OFN_SHOWHELP				= 0x00000010
 Global Const $OFN_EX_NOPLACESBAR		= 0x00000001
+
+;GetTextMetrics flags
+Global Const $TMPF_FIXED_PITCH			= 0x01
+Global Const $TMPF_VECTOR				= 0x02
+Global Const $TMPF_TRUETYPE				= 0x04
+Global Const $TMPF_DEVICE				= 0x08
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -252,6 +258,7 @@ Global Const $OFN_EX_NOPLACESBAR		= 0x00000001
 ;_WinAPI_GetSysColorBrush
 ;_WinAPI_GetSystemMetrics
 ;_WinAPI_GetTextExtentPoint32
+;_WinAPI_GetTextMetrics
 ;_WinAPI_GetWindow
 ;_WinAPI_GetWindowDC
 ;_WinAPI_GetWindowHeight
@@ -2070,7 +2077,7 @@ Func _WinAPI_FillRect($hDC, $ptrRect, $hBrush)
 	If IsPtr($hBrush) Then
 		$aResult = DllCall("user32.dll", "int", "FillRect", "handle", $hDC, "ptr", $ptrRect, "handle", $hBrush)
 	Else
-		$aResult = DllCall("user32.dll", "int", "FillRect", "handle", $hDC, "ptr", $ptrRect, "dword", $hBrush)
+		$aResult = DllCall("user32.dll", "int", "FillRect", "handle", $hDC, "ptr", $ptrRect, "dword_ptr", $hBrush)
 	EndIf
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
@@ -2896,8 +2903,7 @@ Func _WinAPI_GetLayeredWindowAttributes($hWnd, ByRef $i_transcolor, ByRef $Trans
 	Local $aResult = DllCall("user32.dll", "bool", "GetLayeredWindowAttributes", "hwnd", $hWnd, "dword*", $i_transcolor, "byte*", $Transparency, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	If Not $asColorRef Then
-		$aResult[2] = Hex(String($aResult[2]), 6)
-		$aResult[2] = '0x' & StringMid($aResult[2], 5, 2) & StringMid($aResult[2], 3, 2) & StringMid($aResult[2], 1, 2)
+		$aResult[2] = Int(BinaryMid($aResult[2], 3, 1) & BinaryMid($aResult[2], 2, 1) & BinaryMid($aResult[2], 1, 1))
 	EndIf
 	$i_transcolor = $aResult[2]
 	$Transparency = $aResult[3]
@@ -3031,7 +3037,7 @@ EndFunc   ;==>_WinAPI_GetMousePosY
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetObject($hObject, $iSize, $pObject)
-	Local $aResult = DllCall("gdi32.dll", "int", "GetObject", "handle", $hObject, "int", $iSize, "ptr", $pObject)
+	Local $aResult = DllCall("gdi32.dll", "int", "GetObjectW", "handle", $hObject, "int", $iSize, "ptr", $pObject)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetObject
@@ -3489,6 +3495,29 @@ Func _WinAPI_GetTextExtentPoint32($hDC, $sText)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $tSize
 EndFunc   ;==>_WinAPI_GetTextExtentPoint32
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetTextMetrics
+; Description....: Retrieves basic information for the currently selected font.
+; Syntax.........: _WinAPI_GetTextMetrics ( $hDC )
+; Parameters.....: $hDC    - Handle to the device context.
+; Return values..: Success - $tagTEXTMETRIC structure that contains the information about the currently selected font.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetTextMetrics
+; Example........:
+; ===============================================================================================================================
+Func _WinAPI_GetTextMetrics($hDC)
+	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
+	Local $Ret = DllCall('gdi32.dll', 'bool', 'GetTextMetricsW', 'handle', $hDC, 'ptr', DllStructGetPtr($tTEXTMETRIC))
+	If @error Then Return SetError(@error, @extended, 0)
+	If Not $Ret[0] Then Return SetError(-1, 0, 0)
+
+	Return $tTEXTMETRIC
+EndFunc   ;==>_WinAPI_GetTextMetrics
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetWindow
@@ -4526,7 +4555,7 @@ EndFunc   ;==>_WinAPI_MulDiv
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_MultiByteToWideChar
 ; Description ...: Maps a character string to a wide-character (Unicode) string
-; Syntax.........: _WinAPI_MultiByteToWideChar($sText[, $iCodePage = 0[, $iFlags = 0]])
+; Syntax.........: _WinAPI_MultiByteToWideChar($sText[, $iCodePage = 0[, $iFlags = 0 [, $bRetString = False]]])
 ; Parameters ....: $sText       - Text to be converted
 ;                  $iCodePage   - Specifies the code page to be used to perform the conversion:
 ;                  |0 - ANSI code page
@@ -5351,7 +5380,7 @@ EndFunc   ;==>_WinAPI_SetHandleInformation
 ;                  |@error: 1 to 3 - Error from DllCall
 ;                  |@error: 4 - Function did not succeed - use _WinAPI_GetLastErrorMessage to get more information
 ; Author ........: Prog@ndy
-; Modified.......:
+; Modified.......: PsaltyDS
 ; Remarks .......:
 ; Related .......: _WinAPI_GetLayeredWindowAttributes, _WinAPI_GetLastError
 ; Link ..........: @@MsdnLink@@ SetLayeredWindowAttributes
@@ -5360,8 +5389,7 @@ EndFunc   ;==>_WinAPI_SetHandleInformation
 Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 255, $dwFlags = 0x03, $isColorRef = False)
 	If $dwFlags = Default Or $dwFlags = "" Or $dwFlags < 0 Then $dwFlags = 0x03
 	If Not $isColorRef Then
-		$i_transcolor = Hex(String($i_transcolor), 6)
-		$i_transcolor = Execute('0x00' & StringMid($i_transcolor, 5, 2) & StringMid($i_transcolor, 3, 2) & StringMid($i_transcolor, 1, 2))
+		$i_transcolor = Int(BinaryMid($i_transcolor, 3, 1) & BinaryMid($i_transcolor, 2, 1) & BinaryMid($i_transcolor, 1, 1))
 	EndIf
 	Local $aResult = DllCall("user32.dll", "bool", "SetLayeredWindowAttributes", "hwnd", $hWnd, "dword", $i_transcolor, "byte", $Transparency, "dword", $dwFlags)
 	If @error Then Return SetError(@error, @extended, False)
@@ -6040,7 +6068,7 @@ EndFunc   ;==>_WinAPI_WaitForSingleObject
 ; #FUNCTION#====================================================================================================================
 ; Name...........: _WinAPI_WideCharToMultiByte
 ; Description ...: Converts a Unicode string to an multibyte string
-; Syntax.........: _WinAPI_WideCharToMultiByte($pUnicode[, $iCodePage = 0])
+; Syntax.........: _WinAPI_WideCharToMultiByte($pUnicode[, $iCodePage = 0 [, $bRetString = True]])
 ; Parameters ....: $pUnicode    - Pointer to a byte array structure containing Unicode text to be converted
 ;                  $iCodePage   - Code page to use in performing the conversion:
 ;                  |0           - The current system Windows ANSI code page

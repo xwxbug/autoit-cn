@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "FontConstants.au3"
 #include "StructureConstants.au3"
@@ -316,7 +316,7 @@ Func _ClipPutFile($sFile, $sSeparator = "|")
 	Local Const $GMEM_MOVEABLE = 0x0002, $CF_HDROP = 15
 
 	$sFile &= $sSeparator & $sSeparator
-	Local $nGlobMemSize = (StringLen($sFile) + 20)
+	Local $nGlobMemSize = 2*(StringLen($sFile) + 20)
 
 	Local $aResult = DllCall("user32.dll", "bool", "OpenClipboard", "hwnd", 0)
 	If @error Or $aResult[0] = 0 Then Return SetError(1, _WinAPI_GetLastError(), False)
@@ -338,16 +338,16 @@ Func _ClipPutFile($sFile, $sSeparator = "|")
 				$iLastError = _WinAPI_GetLastError()
 			Else
 				Local $hLock = $aResult[0]
-				Local $DROPFILES = DllStructCreate("dword;ptr;int;int;int;char[" & StringLen($sFile) + 1 & "]", $hLock)
+				Local $DROPFILES = DllStructCreate("dword pFiles;" & $tagPOINT & ";bool fNC;bool fWide;wchar[" & StringLen($sFile) + 1 & "]", $hLock)
 				If @error Then Return SetError(5, 6, False)
 
-				Local $tempStruct = DllStructCreate("dword;ptr;int;int;int")
+				Local $tempStruct = DllStructCreate("dword;long;long;bool;bool")
 
-				DllStructSetData($DROPFILES, 1, DllStructGetSize($tempStruct))
-				DllStructSetData($DROPFILES, 2, 0)
-				DllStructSetData($DROPFILES, 3, 0)
-				DllStructSetData($DROPFILES, 4, 0)
-				DllStructSetData($DROPFILES, 5, 0)
+				DllStructSetData($DROPFILES, "pFiles", DllStructGetSize($tempStruct))
+				DllStructSetData($DROPFILES, "X", 0)
+				DllStructSetData($DROPFILES, "Y", 0)
+				DllStructSetData($DROPFILES, "fNC", 0)
+				DllStructSetData($DROPFILES, "fWide", 1)
 				DllStructSetData($DROPFILES, 6, $sFile)
 				For $i = 1 To StringLen($sFile)
 					If DllStructGetData($DROPFILES, 6, $i) = $sSeparator Then DllStructSetData($DROPFILES, 6, Chr(0), $i)
@@ -366,7 +366,7 @@ Func _ClipPutFile($sFile, $sSeparator = "|")
 				EndIf
 			EndIf
 			$aResult = DllCall("kernel32.dll", "ptr", "GlobalFree", "handle", $hGlobal)
-			If (@error Or Not $aResult[0]) And Not $iError Then
+			If (@error Or $aResult[0]) And Not $iError Then
 				$iError = 9
 				$iLastError = _WinAPI_GetLastError()
 			EndIf

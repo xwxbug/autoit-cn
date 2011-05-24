@@ -55,7 +55,7 @@ DllOpen("winhttp.dll") ; making sure reference count never reaches 0
 
 ; #FUNCTION# ;===============================================================================
 ; Name...........: _WinHttpAddRequestHeaders
-; Description ...: Ìí¼ÓÒ»¸ö»òÕß¶à¸ö HTTP ÇëÇóÍ·µ½ HTTP ÇëÇó¾ä±ú.
+; Description ...: 添加一个或者多个 HTTP 请求头到 HTTP 请求句柄.
 ; Syntax.........: _WinHttpAddRequestHeaders ($hRequest, $sHeaders [, $iModifiers = Default ])
 ; Parameters ....: $hRequest - Handle returned by _WinHttpOpenRequest function.
 ;                  $sHeader - [optional] Header(s) to append to the request.

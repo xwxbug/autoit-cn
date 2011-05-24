@@ -1,6 +1,4 @@
-﻿#include <GDIPlus.au3>
-
-Opt("MustDeclareVars", 1)
+#include <GDIPlus.au3>
 
 ; ===============================================================================================================================
 ; Description ...: Shows how to convert a BMP file to JPG

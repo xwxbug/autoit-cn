@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "FileConstants.au3"
 
@@ -85,11 +85,11 @@ EndFunc   ;==>_FileCountLines
 ; ===============================================================================================================================
 Func _FileCreate($sFilePath)
 	Local $hOpenFile = FileOpen($sFilePath, $FO_OVERWRITE)
- 	If $hOpenFile = -1 Then Return SetError(1, 0, 0 )
+	If $hOpenFile = -1 Then Return SetError(1, 0, 0)
 
 	Local $hWriteFile = FileWrite($hOpenFile, "")
 	FileClose($hOpenFile)
-	If $hWriteFile = -1 Then Return SetError(2, 0, 0 )
+	If $hWriteFile = -1 Then Return SetError(2, 0, 0)
 	Return 1
 EndFunc   ;==>_FileCreate
 
@@ -137,7 +137,7 @@ Func _FileListToArray($sPath, $sFilter = "*", $iFlag = 0)
 	FileClose($hSearch)
 	If Not $sFileList Then Return SetError(4, 4, "")
 	Return StringSplit(StringTrimLeft($sFileList, 1), "|")
-EndFunc;==>_FileListToArray
+EndFunc   ;==>_FileListToArray
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _FilePrint
@@ -212,19 +212,21 @@ EndFunc   ;==>_FileReadToArray
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _FileWriteFromArray
 ; Description ...: Writes Array records to the specified file.
-; Syntax.........: _FileWriteFromArray($File, $a_Array[, $i_Base = 0[, $i_UBound = 0]])
+; Syntax.........: _FileWriteFromArray($File, $a_Array[, $i_Base = 0[, $i_UBound = 0 [, $s_Delim= "|"]])
 ; Parameters ....: $File     - String path of the file to write to, or a file handle returned from FileOpen().
 ;                  $a_Array  - The array to be written to the file.
 ;                  $i_Base   - Optional: Start Array index to read, normally set to 0 or 1. Default=0
 ;                  $i_Ubound - Optional: Set to the last record you want to write to the File. default=0 - whole array.
+;                  $s_Delim  - Optional: Delimiter character(s) for 2-dimension arrays. default="|"
 ; Return values .: Success - Returns a 1
 ;                  Failure - Returns a 0
 ;                  @Error  - 0 = No error.
 ;                  |1 = Error opening specified file
 ;                  |2 = Input is not an Array
 ;                  |3 = Error writing to file
+;                  |4 = Array dimensions > 2
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
-; Modified.......: Updated for file handles by PsaltyDS at the AutoIt forums.
+; Modified.......: Updated for file handles by PsaltyDS, @error = 4 msg and 2-dimension capability added by SPiff59
 ; Remarks .......: If a string path is provided, the file is overwritten and closed.
 ;                  To use other write modes, like append or Unicode formats, open the file with FileOpen() first and pass the file handle instead.
 ;                  If a file handle is passed, the file will still be open after writing.
@@ -232,9 +234,11 @@ EndFunc   ;==>_FileReadToArray
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0)
+Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0, $s_Delim = "|")
 	; Check if we have a valid array as input
 	If Not IsArray($a_Array) Then Return SetError(2, 0, 0)
+	Local $iDims = UBound($a_Array, 0)
+	If $iDims > 2 Then Return SetError(4, 0, 0)
 
 	; determine last entry
 	Local $last = UBound($a_Array) - 1
@@ -252,12 +256,27 @@ Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0)
 
 	; Write array data to file
 	Local $ErrorSav = 0
-	For $x = $i_Base To $i_UBound
-		If FileWrite($hFile, $a_Array[$x] & @CRLF) = 0 Then
-			$ErrorSav = 3
-			ExitLoop
-		EndIf
-	Next
+	Switch $iDims
+		Case 1
+			For $x = $i_Base To $i_UBound
+				If FileWrite($hFile, $a_Array[$x] & @CRLF) = 0 Then
+					$ErrorSav = 3
+					ExitLoop
+				EndIf
+			Next
+		Case 2
+			Local $s_Temp
+			For $x = $i_Base To $i_UBound
+				$s_Temp = $a_Array[$x][0]
+				For $y = 1 To $iDims
+					$s_Temp &= $s_Delim & $a_Array[$x][$y]
+				Next
+				If FileWrite($hFile, $s_Temp & @CRLF) = 0 Then
+					$ErrorSav = 3
+					ExitLoop
+				EndIf
+			Next
+	EndSwitch
 
 	; Close file only if specified by a string path
 	If IsString($File) Then FileClose($hFile)
@@ -289,7 +308,7 @@ EndFunc   ;==>_FileWriteFromArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteLog($sLogPath, $sLogMsg, $iFlag = -1)
-	Local  $iOpenMode = $FO_APPEND
+	Local $iOpenMode = $FO_APPEND
 
 	Local $sDateNow = @YEAR & "-" & @MON & "-" & @MDAY
 	Local $sTimeNow = @HOUR & ":" & @MIN & ":" & @SEC
@@ -336,17 +355,18 @@ EndFunc   ;==>_FileWriteLog
 ; ===============================================================================================================================
 Func _FileWriteToLine($sFile, $iLine, $sText, $fOverWrite = 0)
 	If $iLine <= 0 Then Return SetError(4, 0, 0)
-    If Not IsString($sText) Then
-        $sText = String($sText)
-        If $sText = "" Then Return SetError(6, 0, 0)
-    EndIf
+	If Not IsString($sText) Then
+		$sText = String($sText)
+		If $sText = "" Then Return SetError(6, 0, 0)
+	EndIf
 	If $fOverWrite <> 0 And $fOverWrite <> 1 Then Return SetError(5, 0, 0)
 	If Not FileExists($sFile) Then Return SetError(2, 0, 0)
 
 	Local $sRead_File = FileRead($sFile)
 	Local $aSplit_File = StringSplit(StringStripCR($sRead_File), @LF)
 	If UBound($aSplit_File) < $iLine Then Return SetError(1, 0, 0)
-	Local $hFile = FileOpen($sFile, $FO_OVERWRITE)
+    Local $iEncoding = FileGetEncoding($sFile)
+	Local $hFile = FileOpen($sFile, $iEncoding + $FO_OVERWRITE)
 	If $hFile = -1 Then Return SetError(3, 0, 0)
 
 	$sRead_File = ""
@@ -374,8 +394,9 @@ EndFunc   ;==>_FileWriteToLine
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _PathFull
 ; Description ...: Creates a path based on the relative path you provide. The newly created absolute path is returned
-; Syntax.........: _PathFull($sRelativePath)
+; Syntax.........: _PathFull($sRelativePath [, $sBasePath = @WorkingDir])
 ; Parameters ....: $sRelativePath - The relative path to be created
+;                  $sBasePath - The base path. default = @WorkingDir
 ; Return values .: Success - Returns the newly created absolute path.
 ; Author ........: Valik (Original function and modification to rewrite), tittoproject (Rewrite)
 ; Modified.......:
@@ -404,7 +425,7 @@ Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
 		$sPath = StringLeft($sFullPath, 2)
 		If $sPath = "\\" Then
 			$sFullPath = StringTrimLeft($sFullPath, 2)
-			Local $nServerLen = StringInStr($sFullPath, "\") -1
+			Local $nServerLen = StringInStr($sFullPath, "\") - 1
 			$sPath = "\\" & StringLeft($sFullPath, $nServerLen)
 			$sFullPath = StringTrimLeft($sFullPath, $nServerLen)
 			ExitLoop
@@ -688,7 +709,8 @@ Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCase
 	;===============================================================================
 	;== Open the output file in write mode
 	;===============================================================================
-	Local $hWriteHandle = FileOpen($szFileName, $FO_OVERWRITE)
+    Local $iEncoding = FileGetEncoding($szFileName)
+	Local $hWriteHandle = FileOpen($szFileName, $iEncoding + $FO_OVERWRITE)
 	If $hWriteHandle = -1 Then Return SetError(2, 0, -1)
 	;===============================================================================
 	;== Loop through the array and search for $szSearchString
@@ -742,6 +764,9 @@ EndFunc   ;==>_ReplaceStringInFile
 ; ===============================================================================================================================
 Func _TempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExtension = ".tmp", $i_RandomLength = 7)
 	; Check parameters
+	If IsKeyword($s_FilePrefix) Then $s_FilePrefix = "~"
+	If IsKeyword($s_FileExtension) Then $s_FileExtension = ".tmp"
+	If IsKeyword($i_RandomLength) Then $i_RandomLength = 7
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @TempDir ; First reset to default temp dir
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @ScriptDir ; Still wrong then set to Scriptdir
 	; add trailing \ for directory name

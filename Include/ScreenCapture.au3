@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "GDIPlus.au3"
 #include "WinAPI.au3"
@@ -82,6 +82,7 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 			Local $hIcon = _WinAPI_CopyIcon($aCursor[2])
 			Local $aIcon = _WinAPI_GetIconInfo($hIcon)
  			_WinAPI_DeleteObject($aIcon[4])	; delete bitmap mask return by _WinAPI_GetIconInfo()
+			If $aIcon[5] <> 0 Then _WinAPI_DeleteObject($aIcon[5]); delete bitmap hbmColor return by _WinAPI_GetIconInfo()
 			_WinAPI_DrawIcon($hCDC, $aCursor[3] - $aIcon[2] - $iLeft, $aCursor[4] - $aIcon[3] - $iTop, $hIcon)
 			_WinAPI_DestroyIcon($hIcon)
 		EndIf
@@ -91,13 +92,13 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 	_WinAPI_DeleteDC($hCDC)
 	If $sFileName = "" Then Return $hBMP
 
-	_ScreenCapture_SaveImage($sFileName, $hBMP)
-	_WinAPI_DeleteObject($hBMP)
+	Local $ret = _ScreenCapture_SaveImage($sFileName, $hBMP, True)
+	Return SetError(@error, @extended, $ret)
 EndFunc   ;==>_ScreenCapture_Capture
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ScreenCapture_CaptureWnd
-; Description ...: Captures a screen shot of a specified window
+; Description ...: Captures a screen shot of a specified window or controlID
 ; Syntax.........: _ScreenCapture_CaptureWnd($sFileName, $hWnd[, $iLeft = 0[, $iTop = 0[, $iRight = -1[, $iBottom = -1[, $fCursor = True]]]]])
 ; Parameters ....: $sFileName   - Full path and extension of the image file
 ;                  $hWnd        - Handle to the window to be captured
@@ -108,7 +109,7 @@ EndFunc   ;==>_ScreenCapture_Capture
 ;                  $fCursor     - If True the cursor will be captured with the image
 ; Return values .: See remarks
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: jpm based on Kafu
 ; Remarks .......: If FileName is not blank this function will capture the screen and save it to file. If FileName is blank, this
 ;                  function will capture the screen and return a HBITMAP handle to the bitmap image.  In this case, after you are
 ;                  finished with the bitmap you must call _WinAPI_DeleteObject to delete the bitmap handle.  All coordinates are  in
@@ -122,17 +123,27 @@ EndFunc   ;==>_ScreenCapture_Capture
 ; Credits .......: Thanks to SmOke_N for his suggestion for capturing part of the client window
 ; ===============================================================================================================================
 Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
-	Local $tRect = _WinAPI_GetWindowRect($hWnd)
+	If Not IsHwnd($hWnd) Then $hWnd = WinGetHandle($hWnd)
+	Local $tRect = DllStructCreate($tagRECT)
+	; needed to get rect when Aero theme is active : Thanks Kafu, Zedna
+	Local Const $DWMWA_EXTENDED_FRAME_BOUNDS = 9
+    Local $bRet = DllCall("dwmapi.dll", "long", "DwmGetWindowAttribute", "hwnd", $hWnd, "dword", $DWMWA_EXTENDED_FRAME_BOUNDS, "ptr", DllStructGetPtr($tRect), "dword", DllStructGetSize($tRect))
+	If (@error Or $bRet[0] Or  (Abs(DllStructGetData($tRect, "Left")) + Abs(DllStructGetData($tRect, "Top")) + _
+					Abs(DllStructGetData($tRect, "Right")) + Abs(DllStructGetData($tRect, "Bottom")) ) = 0) Then
+		$tRect = _WinAPI_GetWindowRect($hWnd)
+		If @error Then Return SetError(@error, @extended, 0)
+	EndIf
+
 	$iLeft += DllStructGetData($tRect, "Left")
 	$iTop += DllStructGetData($tRect, "Top")
-	If $iRight = -1 Then $iRight = DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left")
-	If $iBottom = -1 Then $iBottom = DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top")
+	If $iRight = -1 Then $iRight = DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left") - 1
+	If $iBottom = -1 Then $iBottom = DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top") - 1
 	$iRight += DllStructGetData($tRect, "Left")
 	$iBottom += DllStructGetData($tRect, "Top")
 	If $iLeft > DllStructGetData($tRect, "Right") Then $iLeft = DllStructGetData($tRect, "Left")
 	If $iTop > DllStructGetData($tRect, "Bottom") Then $iTop = DllStructGetData($tRect, "Top")
-	If $iRight > DllStructGetData($tRect, "Right") Then $iRight = DllStructGetData($tRect, "Right")
-	If $iBottom > DllStructGetData($tRect, "Bottom") Then $iBottom = DllStructGetData($tRect, "Bottom")
+	If $iRight > DllStructGetData($tRect, "Right") Then $iRight = DllStructGetData($tRect, "Right") - 1
+	If $iBottom > DllStructGetData($tRect, "Bottom") Then $iBottom = DllStructGetData($tRect, "Bottom") - 1
 	Return _ScreenCapture_Capture($sFileName, $iLeft, $iTop, $iRight, $iBottom, $fCursor)
 EndFunc   ;==>_ScreenCapture_CaptureWnd
 

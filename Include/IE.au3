@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "WinAPIError.au3"
 
@@ -1333,7 +1333,7 @@ Func _IEFormElementOptionSelect(ByRef $o_object, $s_string, $f_select = 1, $s_mo
 		Return SetError($_IEStatus_InvalidObjectType, 1, 0)
 	EndIf
 	;
-	Local $oItems = $o_object.options, $iNumItems = $o_object.options.length, $f_isMultiple = $o_object.multiple
+	Local $oItem, $oItems = $o_object.options, $iNumItems = $o_object.options.length, $f_isMultiple = $o_object.multiple
 
 	Switch $s_mode
 		Case "byValue"

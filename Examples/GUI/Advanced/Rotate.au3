@@ -1,7 +1,5 @@
-﻿#include <GDIPlus.au3>
+#include <GDIPlus.au3>
 #include <ScreenCapture.au3>
-
-Opt("MustDeclareVars", 1)
 
 ; ===============================================================================================================================
 ; Description ...: Shows how to rotate an image
@@ -22,7 +20,7 @@ Global $hBitmap, $hImage, $sCLSID, $tData, $tParams
 _ScreenCapture_Capture(@MyDocumentsDir & '\AutoItImage.jpg')
 
 ; Initialize GDI+ library
-_GDIPlus_StartUp()
+_GDIPlus_Startup()
 
 ; Load image
 $hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & '\AutoItImage.jpg')
@@ -31,7 +29,7 @@ $hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & '\AutoItImage.jpg')
 $sCLSID = _GDIPlus_EncodersGetCLSID("JPG")
 
 ; Set up parameters for 90 degree rotation
-$tData  = DllStructCreate("int Data")
+$tData = DllStructCreate("int Data")
 DllStructSetData($tData, "Data", $GDIP_EVTTRANSFORMROTATE90)
 $tParams = _GDIPlus_ParamInit(1)
 _GDIPlus_ParamAdd($tParams, $GDIP_EPGTRANSFORMATION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Data"))
@@ -40,7 +38,7 @@ _GDIPlus_ParamAdd($tParams, $GDIP_EPGTRANSFORMATION, 1, $GDIP_EPTLONG, DllStruct
 _GDIPlus_ImageSaveToFileEx($hImage, @MyDocumentsDir & '\AutoItImage2.jpg', $sCLSID, DllStructGetPtr($tParams))
 
 ; Shut down GDI+ library
-_GDIPlus_ShutDown()
+_GDIPlus_Shutdown()
 
 ; Show image
 Run("MSPaint.exe " & '"' & @MyDocumentsDir & '\AutoItImage2.jpg"')

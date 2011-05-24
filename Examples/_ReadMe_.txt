@@ -1,10 +1,10 @@
-ï»¿Note: Many of the examples in this directory will only work correctly
+Note: Many of the examples in this directory will only work correctly
 on systems with English versions of Windows installed.  They will
 require modification for use with other Windows versions.
 
 - Jon.
 
-æ³¨æ„:è¿™é‡Œçš„è¿™äº›ä¾‹å­ä¸ä¸€å®šéƒ½èƒ½æ­£å¸¸è¿è¡Œ,å› ä¸ºè¿™æ˜¯ä»¥è‹±æ–‡ç‰ˆæœ¬ç³»ç»Ÿå†™çš„.
-æœ‰ä¸åŒä¹‹å¤„è¯·è‡ªè¡Œä¿®æ”¹.(æˆ‘å·²ç»æ±‰åŒ–äº†ä¸€éƒ¨åˆ†)
+×¢Òâ:ÕâÀïµÄÕâĞ©Àı×Ó²»Ò»¶¨¶¼ÄÜÕı³£ÔËĞĞ,ÒòÎªÕâÊÇÒÔÓ¢ÎÄ°æ±¾ÏµÍ³Ğ´µÄ.
+ÓĞ²»Í¬Ö®´¦Çë×ÔĞĞĞŞ¸Ä.(ÎÒÒÑ¾­ºº»¯ÁËÒ»²¿·Ö)
 
-- thesnow.
+- thesnoW.

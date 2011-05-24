@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "StatusBarConstants.au3"
 #include "Memory.au3"
@@ -437,7 +437,7 @@ EndFunc   ;==>_GUICtrlStatusBar_GetHeight
 Func _GUICtrlStatusBar_GetIcon($hWnd, $iIndex = 0)
 	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $SB_GETICON, $iIndex, 0, 0, "wparam", "lparam", "hwnd")
+	Return _SendMessage($hWnd, $SB_GETICON, $iIndex, 0, 0, "wparam", "lparam", "handle")
 EndFunc   ;==>_GUICtrlStatusBar_GetIcon
 
 ; #FUNCTION# ====================================================================================================================

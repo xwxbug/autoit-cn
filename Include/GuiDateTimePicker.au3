@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "DateTimeConstants.au3"
 #include "Memory.au3"
@@ -163,7 +163,7 @@ EndFunc   ;==>_GUICtrlDTP_GetMCColor
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCFont($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-	Return _SendMessage($hWnd, $DTM_GETMCFONT)
+	Return Ptr(_SendMessage($hWnd, $DTM_GETMCFONT))
 EndFunc   ;==>_GUICtrlDTP_GetMCFont
 
 ; #FUNCTION# ====================================================================================================================
@@ -185,7 +185,7 @@ EndFunc   ;==>_GUICtrlDTP_GetMCFont
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMonthCal($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-	Return _SendMessage($hWnd, $DTM_GETMONTHCAL)
+	Return HWnd(_SendMessage($hWnd, $DTM_GETMONTHCAL))
 EndFunc   ;==>_GUICtrlDTP_GetMonthCal
 
 ; #FUNCTION# ====================================================================================================================
@@ -436,7 +436,7 @@ EndFunc   ;==>_GUICtrlDTP_SetMCColor
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCFont($hWnd, $hFont, $fRedraw = True)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-	_SendMessage($hWnd, $DTM_SETMCFONT, $hFont, $fRedraw, 0, "hwnd")
+	_SendMessage($hWnd, $DTM_SETMCFONT, $hFont, $fRedraw, 0, "handle")
 EndFunc   ;==>_GUICtrlDTP_SetMCFont
 
 ; #FUNCTION# ====================================================================================================================

@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "ListViewConstants.au3"
 #include "GuiHeader.au3"
@@ -1161,17 +1161,17 @@ Func _GUICtrlListView_CreateDragImage($hWnd, $iIndex)
 	Local $pPoint = DllStructGetPtr($tPoint)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_lv_ghLastWnd) Then
-			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pPoint, 0, "wparam", "ptr", "hwnd")
+			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pPoint, 0, "wparam", "ptr", "handle")
 		Else
 			Local $iPoint = DllStructGetSize($tPoint)
 			Local $tMemMap
 			Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
-			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pMemory, 0, "wparam", "ptr", "hwnd")
+			$aDrag[0] = _SendMessage($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pMemory, 0, "wparam", "ptr", "handle")
 			_MemRead($tMemMap, $pMemory, $pPoint, $iPoint)
 			_MemFree($tMemMap)
 		EndIf
 	Else
-		$aDrag[0] = GUICtrlSendMsg($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pPoint)
+		$aDrag[0] = Ptr(GUICtrlSendMsg($hWnd, $LVM_CREATEDRAGIMAGE, $iIndex, $pPoint))
 	EndIf
 	$aDrag[1] = DllStructGetData($tPoint, "X")
 	$aDrag[2] = DllStructGetData($tPoint, "Y")
@@ -1453,9 +1453,9 @@ Func _GUICtrlListView_EditLabel($hWnd, $iIndex)
 		If $aResult = 0 Then Return 0
 
 		If $fUnicode Then
-			Return GUICtrlSendMsg($hWnd, $LVM_EDITLABELW, $iIndex, 0)
+			Return HWnd(GUICtrlSendMsg($hWnd, $LVM_EDITLABELW, $iIndex, 0))
 		Else
-			Return GUICtrlSendMsg($hWnd, $LVM_EDITLABEL, $iIndex, 0)
+			Return HWnd(GUICtrlSendMsg($hWnd, $LVM_EDITLABEL, $iIndex, 0))
 		EndIf
 	EndIf
 EndFunc   ;==>_GUICtrlListView_EditLabel
@@ -2151,9 +2151,9 @@ Func _GUICtrlListView_GetEditControl($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_GETEDITCONTROL)
+		Return HWnd(_SendMessage($hWnd, $LVM_GETEDITCONTROL))
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_GETEDITCONTROL, 0, 0)
+		Return HWnd(GUICtrlSendMsg($hWnd, $LVM_GETEDITCONTROL, 0, 0))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetEditControl
 
@@ -2504,9 +2504,9 @@ Func _GUICtrlListView_GetHeader($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_GETHEADER)
+		Return HWnd(_SendMessage($hWnd, $LVM_GETHEADER))
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_GETHEADER, 0, 0)
+		Return HWnd(GUICtrlSendMsg($hWnd, $LVM_GETHEADER, 0, 0))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetHeader
 
@@ -2528,9 +2528,9 @@ Func _GUICtrlListView_GetHotCursor($hWnd)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_GETHOTCURSOR, 0, 0, 0, "wparam", "lparam", "hwnd")
+		Return _SendMessage($hWnd, $LVM_GETHOTCURSOR, 0, 0, 0, "wparam", "lparam", "handle")
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_GETHOTCURSOR, 0, 0)
+		Return Ptr(GUICtrlSendMsg($hWnd, $LVM_GETHOTCURSOR, 0, 0))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetHotCursor
 
@@ -2606,9 +2606,9 @@ Func _GUICtrlListView_GetImageList($hWnd, $iImageList)
 
 	Local $aImageList[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0, 0, "wparam", "lparam", "hwnd")
+		Return _SendMessage($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0, 0, "wparam", "lparam", "handle")
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0)
+		Return Ptr(GUICtrlSendMsg($hWnd, $LVM_GETIMAGELIST, $aImageList[$iImageList], 0))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetImageList
 
@@ -3815,6 +3815,61 @@ Func _GUICtrlListView_GetSelectedCount($hWnd)
 		Return GUICtrlSendMsg($hWnd, $LVM_GETSELECTEDCOUNT, 0, 0)
 	EndIf
 EndFunc   ;==>_GUICtrlListView_GetSelectedCount
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __GUICtrlListView_GetCheckedIndices
+; Description ...: Retrieve indices of checked item(s)
+; Syntax.........: __GUICtrlListView_GetCheckedIndices($hWnd, $fArray = False)
+; Parameters ....: $hWnd        - Handle to the control
+;                  $fArray      - Return string or Array
+;                  |True - Returns array
+;                  |False - Returns pipe "|" delimited string
+; Return values .: Success      - Checked indices Based on $fArray:
+;                  +Array       - With the following format
+;                  |[0] - Number of Items in array (n)
+;                  |[1] - First item index
+;                  |[2] - Second item index
+;                  |[n] - Last item index
+;                  |String      - With the following format
+;                  |"0|1|2|n"
+;                  Failure      - Based on $fArray
+;                  |Array       - With the following format
+;                  |[0] - Number of Items in array (0)
+;                  |String      - Empty ("")
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: Yes
+; ===============================================================================================================================
+Func __GUICtrlListView_GetCheckedIndices($hWnd, $fArray = False)
+	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
+
+	Local $sIndices, $aIndices[1] = [0]
+	Local $iRet, $iCount = _GUICtrlListView_GetItemCount($hWnd)
+	For $iItem = 0 To $iCount
+		$iRet = _GUICtrlListView_GetItemChecked($hWnd, $iItem)
+		If $iRet Then
+			If (Not $fArray) Then
+				If StringLen($sIndices) Then
+					$sIndices &= "|" & $iItem
+				Else
+					$sIndices = $iItem
+				EndIf
+			Else
+				ReDim $aIndices[UBound($aIndices) + 1]
+				$aIndices[0] = UBound($aIndices) - 1
+				$aIndices[UBound($aIndices) - 1] = $iItem
+			EndIf
+		EndIf
+	Next
+	If (Not $fArray) Then
+		Return String($sIndices)
+	Else
+		Return $aIndices
+	EndIf
+EndFunc   ;==>__GUICtrlListView_GetCheckedIndices
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListView_GetSelectedIndices
@@ -5587,9 +5642,9 @@ Func _GUICtrlListView_SetHotCursor($hWnd, $hCursor)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor, 0, "wparam", "hwnd", "hwnd")
+		Return _SendMessage($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor, 0, "wparam", "handle", "handle")
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor)
+		Return Ptr(GUICtrlSendMsg($hWnd, $LVM_SETHOTCURSOR, 0, $hCursor))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_SetHotCursor
 
@@ -5708,9 +5763,9 @@ Func _GUICtrlListView_SetImageList($hWnd, $hHandle, $iType = 0)
 	Local $aType[3] = [$LVSIL_NORMAL, $LVSIL_SMALL, $LVSIL_STATE]
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_SETIMAGELIST, $aType[$iType], $hHandle, 0, "wparam", "hwnd", "hwnd")
+		Return _SendMessage($hWnd, $LVM_SETIMAGELIST, $aType[$iType], $hHandle, 0, "wparam", "handle", "handle")
 	Else
-		Return GUICtrlSendMsg($hWnd, $LVM_SETIMAGELIST, $aType[$iType], $hHandle)
+		Return Ptr(GUICtrlSendMsg($hWnd, $LVM_SETIMAGELIST, $aType[$iType], $hHandle))
 	EndIf
 EndFunc   ;==>_GUICtrlListView_SetImageList
 
@@ -5854,20 +5909,27 @@ EndFunc   ;==>_GUICtrlListView_SetInsertMarkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlListView_SetItem($hWnd, $sText, $iIndex = 0, $iSubItem = 0, $iImage = -1, $iParam = -1, $iIndent = -1)
-	Local $iBuffer = StringLen($sText) + 1
-	Local $tBuffer
-	If _GUICtrlListView_GetUnicodeFormat($hWnd) Then
-		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+	Local $pBuffer, $iBuffer
+	If $sText <> -1 Then
+		$iBuffer = StringLen($sText) + 1
+		Local $tBuffer
+		If _GUICtrlListView_GetUnicodeFormat($hWnd) Then
+			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+		Else
+			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		EndIf
+		$pBuffer = DllStructGetPtr($tBuffer)
+		DllStructSetData($tBuffer, "Text", $sText)
 	Else
-		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		$iBuffer = 0
+		$pBuffer = -1	; LPSTR_TEXTCALLBACK
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
+
 	Local $tItem = DllStructCreate($tagLVITEM)
 	Local $iMask = $LVIF_TEXT
 	If $iImage <> -1 Then $iMask = BitOR($iMask, $LVIF_IMAGE)
 	If $iParam <> -1 Then $iMask = BitOR($iMask, $LVIF_PARAM)
 	If $iIndent <> -1 Then $iMask = BitOR($iMask, $LVIF_INDENT)
-	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tItem, "Mask", $iMask)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "SubItem", $iSubItem)
@@ -6634,7 +6696,7 @@ Func _GUICtrlListView_SetToolTips($hWnd, $hToolTip)
 	If $Debug_LV Then __UDF_ValidateClassName($hWnd, $__LISTVIEWCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return HWnd(_SendMessage($hWnd, $LVM_SETTOOLTIPS, 0, $hToolTip, 0, "wparam", "hwnd", "hwnd"))
+		Return _SendMessage($hWnd, $LVM_SETTOOLTIPS, 0, $hToolTip, 0, "wparam", "hwnd", "hwnd")
 	Else
 		Return HWnd(GUICtrlSendMsg($hWnd, $LVM_SETTOOLTIPS, 0, $hToolTip))
 	EndIf
@@ -6780,13 +6842,14 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
 		$temp_item = StringTrimRight($temp_item, 1)
 		Local $a_lv[$items][$columns + 1]
 		Local $i_selected = StringSplit(_GUICtrlListView_GetSelectedIndices($hWnd), $SeparatorChar)
+		Local $i_checked = StringSplit(__GUICtrlListView_GetCheckedIndices($hWnd), $SeparatorChar)
 		Local $v_item,	$iFocused = -1
 		For $x = 0 To UBound($a_lv) - 1 Step 1
 			If $iFocused = -1 Then
 				If _GUICtrlListView_GetItemFocused($hWnd, $x) Then $iFocused = $x
 			EndIf
 			_GUICtrlListView_SetItemSelected($hWnd, $x, False)
-;~ 			_GUICtrlListView_SetItemState($hWnd, $x, 0, BitOR($LVIS_SELECTED, $LVIS_FOCUSED))
+			_GUICtrlListView_SetItemChecked($hWnd, $x, False)
 			For $Y = 0 To UBound($a_lv, 2) - 2 Step 1
 				$v_item = StringStripWS(_GUICtrlListView_GetItemText($hWnd, $x, $Y), 2)
 				If (StringIsFloat($v_item) Or StringIsInt($v_item)) Then
@@ -6800,7 +6863,6 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
 		_ArraySort($a_lv, $b_desc, 0, 0, $iCol)
 		For $x = 0 To UBound($a_lv) - 1 Step 1
 			For $Y = 0 To UBound($a_lv, 2) - 2 Step 1
-;~ 				_GUICtrlListViewSetItemText($hWnd, $x, $Y, $a_lv[$x][$Y])
 				_GUICtrlListView_SetItemText($hWnd, $x, $a_lv[$x][$Y], $Y)
 			Next
 			For $Z = 1 To $i_selected[0]
@@ -6810,8 +6872,12 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vDescending, $iCol)
 					Else
 						_GUICtrlListView_SetItemSelected($hWnd, $x, True)
 					EndIf
-;~ 					_GUICtrlListView_SetItemState($hWnd, $x, $LVIS_SELECTED, BitOR($LVIS_SELECTED, $LVIS_FOCUSED))
-;~ 					If $a_lv[$x][UBound($a_lv, 2) - 1] = $iFocused Then _GUICtrlListView_SetItemState($hWnd, $x, $LVIS_FOCUSED, $LVIS_FOCUSED)
+					ExitLoop
+				EndIf
+			Next
+			For $Z = 1 To $i_checked[0]
+				If $a_lv[$x][UBound($a_lv, 2) - 1] = $i_checked[$Z] Then
+					_GUICtrlListView_SetItemChecked($hWnd, $x, True)
 					ExitLoop
 				EndIf
 			Next

@@ -1,4 +1,4 @@
-﻿#include-Once
+#include-Once
 
 ; #INDEX# =========================================================================================
 ; Title .........: Color
@@ -19,7 +19,9 @@ Global Const $__COLORCONSTANTS_RGBMAX = 255
 ;_ColorGetBlue
 ;_ColorGetGreen
 ;_ColorGetRed
+;_ColorGetCOLORREF
 ;_ColorGetRGB
+;_ColorSetCOLORREF
 ;_ColorSetRGB
 ; =================================================================================================
 
@@ -222,6 +224,32 @@ Func _ColorGetRed($nColor)
 EndFunc   ;==>_ColorGetRed
 
 ; #FUNCTION# ======================================================================================
+; Name...........: _ColorGetCOLORREF
+; Description ...: Returns an array containing RGB values in their respective positions.
+; Syntax.........: _ColorGetCOLORREF($nColor)
+; Parameters ....: $nColor - The COLORREF color to work with (hexadecimal code).
+; Return values .: Success - an array of values in the range 0-255:
+;                      [0] Red		component color
+;                      [1] Green	component color
+;                      [3] Blue		component color
+;                  Failure - set @error to 1
+; Author ........: jpm
+; Modified.......:
+; Remarks .......:
+; Related .......: _ColorSetCOLORREF
+; Link ..........:
+; Example .......:
+; =================================================================================================
+Func _ColorGetCOLORREF($nColor, $curExt = @extended)
+	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid color value
+	Local $aColor[3]
+	$aColor[2] = BitAND(BitShift($nColor, 16), 0xFF)
+	$aColor[1] = BitAND(BitShift($nColor,  8), 0xFF)
+	$aColor[0] = BitAND($nColor, 0xFF)
+	Return SetExtended($curExt, $aColor)
+EndFunc   ;==>_ColorGetCOLORREF
+
+; #FUNCTION# ======================================================================================
 ; Name...........: _ColorGetRGB
 ; Description ...: Returns an array containing RGB values in their respective positions.
 ; Syntax.........: _ColorGetRGB($nColor)
@@ -239,13 +267,44 @@ EndFunc   ;==>_ColorGetRed
 ; Example .......:
 ; =================================================================================================
 Func _ColorGetRGB($nColor, $curExt = @extended)
-	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid COLOREF value
+	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid color value
 	Local $aColor[3]
 	$aColor[0] = BitAND(BitShift($nColor, 16), 0xFF)
 	$aColor[1] = BitAND(BitShift($nColor,  8), 0xFF)
 	$aColor[2] = BitAND($nColor, 0xFF)
 	Return SetExtended($curExt, $aColor)
 EndFunc   ;==>_ColorGetRGB
+
+; #FUNCTION# ======================================================================================
+; Name...........: _ColorSetCOLORREF
+; Description ...: Returns the COLORREF color to work with (COLORREF).
+; Syntax.........: _ColorSetCOLORREF($aColor)
+; Parameters ....: $aColor - an array of values in the range 0-255:
+;                      [0] Red		component color
+;                      [1] Green	component color
+;                      [2] Blue		component color
+; Return values .: Success - returns the COLORREF color to work with (hexadecimal code).
+;                  Failure - set @error to:
+;                  @error  - 1 invalid array
+;                            2 invalid color value
+; Author ........: jpm
+; Modified.......:
+; Remarks .......: @extended is preserved
+; Related .......: _ColorSetRGB
+; Link ..........:
+; Example .......:
+; =================================================================================================
+Func _ColorSetCOLORREF($aColor, $curExt = @extended)
+	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1)	; invalid array
+	Local $nColor = 0, $iColor
+	For $i = 2 to 0 Step -1
+		$nColor = BitShift($nColor, -8)
+		$iColor = $aColor[$i]
+		If $iColor <0 Or $iColor >  255 Then Return SetError(2, $i, -1)	; invalid color value
+		$nColor += $iColor
+	Next
+	Return SetExtended($curExt, $nColor)
+EndFunc   ;==>_ColorSetCOLORREF
 
 ; #FUNCTION# ======================================================================================
 ; Name...........: _ColorSetRGB

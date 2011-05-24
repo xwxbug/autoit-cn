@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "TabConstants.au3"
 #include "Memory.au3"
@@ -25,6 +25,7 @@ Global $Debug_TAB = False
 ; #CONSTANTS# ===================================================================================================================
 Global Const $__TABCONSTANT_ClassName = "SysTabControl32"
 Global Const $__TABCONSTANT_WS_CLIPSIBLINGS = 0x04000000
+Global Const $__TABCONSTANT_WM_NOTIFY = 0x004E
 Global Const $__TABCONSTANT_DEFAULT_GUI_FONT = 17
 ; ===============================================================================================================================
 
@@ -50,6 +51,7 @@ Global Const $__TABCONSTANT_DEFAULT_GUI_FONT = 17
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
+;_GUICtrlTab_ActivateTab
 ;_GUICtrlTab_ClickTab
 ;_GUICtrlTab_Create
 ;_GUICtrlTab_DeleteAllItems
@@ -178,18 +180,62 @@ Func __GUICtrlTab_AdjustRect($hWnd, ByRef $tRect, $fLarger = False)
 EndFunc   ;==>__GUICtrlTab_AdjustRect
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _GUICtrlTab_ActivateTab
+; Description ...: Activates a tab by its index
+; Syntax.........: _GUICtrlTab_ActivateTab($hWnd, $iIndex)
+; Parameters ....: $hWnd        - Handle to control
+;                  $iIndex      - Specifies the zero based index of the item
+; Return values .: Success      - The index of the previously selected tab
+;                  Failure      - -1
+; Author ........: Prog@ndy
+; Modified.......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func _GUICtrlTab_ActivateTab($hWnd, $iIndex)
+    Local $nIndX
+    ; first, get Handle and CtrlID of TabControl
+    If $hWnd = -1 Then $hWnd = GUICtrlGetHandle(-1)
+    If IsHWnd($hWnd) Then
+        $nIndX = _WinAPI_GetDlgCtrlID($hWnd)
+    Else
+        $nIndX = $hWnd
+        $hWnd = GUICtrlGetHandle($hWnd)
+    EndIf
+    Local $hParent =  _WinAPI_GetParent($hwnd)
+    If @error Then Return SetError(1,0,-1)
+
+    ; create Struct for the Messages
+    Local $tNmhdr = DllStructCreate($tagNMHDR)
+    DllStructSetData($tNmhdr, 1, $hWnd)
+    DllStructSetData($tNmhdr, 2, $nIndX)
+    DllStructSetData($tNmhdr, 3, $TCN_SELCHANGING)
+
+    _SendMessage($hParent, $__TABCONSTANT_WM_NOTIFY, $nIndX, DllStructGetPtr($tNmhdr))
+    ; select TabItem
+    Local $iRet = _GUICtrlTab_SetCurSel($hWnd, $iIndex)
+
+	DllStructSetData($tNmhdr, 3, $TCN_SELCHANGE)
+    _SendMessage($hParent, $__TABCONSTANT_WM_NOTIFY, $nIndX, DllStructGetPtr($tNmhdr))
+    Return $iRet
+EndFunc   ;==>__GUICtrlTab__GUICtrlTab_ActivateTab
+
+; #FUNCTION# =====================================================
 ; Name...........: _GUICtrlTab_ClickTab
 ; Description ...: Clicks a tab
 ; Syntax.........: _GUICtrlTab_ClickTab($hWnd, $iIndex[, $sButton = "left"[, $fMove = False[, $iClicks = 1[, $iSpeed = 1]]]])
 ; Parameters ....: $hWnd        - Handle to control
-;                  $iIndex      - Specifies the zero based index of the item
-;                  $sButton     - Button to click with
-;                  $fMove       - If True, the mouse will be moved. If False, the mouse does not move.
-;                  $iClicks     - Number of clicks
-;                  $iSpeed      - Mouse movement speed
+;                 $iIndex     - Specifies the zero based index of the item
+;                 $sButton   - Button to click with
+;                 $fMove       - If True, the mouse will be moved.
+;                          - If False, the mouse does not move.
+;                 $iClicks   - Number of clicks
+;                 $iSpeed     - Mouse movement speed
 ; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: Gary Frost (gafrost)
+; Modified.......: Gary Frost (gafrost), PsaltyDS
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
@@ -199,25 +245,26 @@ Func _GUICtrlTab_ClickTab($hWnd, $iIndex, $sButton = "left", $fMove = False, $iC
 	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	Local $tRect = _GUICtrlTab_GetItemRectEx($hWnd, $iIndex)
-	Local $tPoint = _WinAPI_PointFromRect($tRect, True)
-	$tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
-	Local $iX, $iY, $iMode
-	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
-	If Not $fMove Then
-		$iMode = Opt("MouseCoordMode", 1)
-		Local $aPos = MouseGetPos()
-		_WinAPI_ShowCursor(False)
-		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
-		Opt("MouseCoordMode", $iMode)
-		MouseMove($aPos[0], $aPos[1], 0)
-		_WinAPI_ShowCursor(True)
-	Else
-		$iMode = Opt("MouseCoordMode", 1)
-		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
-		Opt("MouseCoordMode", $iMode)
-	EndIf
-EndFunc   ;==>_GUICtrlTab_ClickTab
+
+	Local $iX, $iY
+    If Not $fMove Then
+        ; Don't move mouse, use ControlClick()
+		Local  $hWinParent = _WinAPI_GetParent($hWnd)
+        Local $avTabPos = _GUICtrlTab_GetItemRect($hWnd, $iIndex)
+        $iX = $avTabPos[0] + (($avTabPos[2] - $avTabPos[0]) / 2)
+        $iY = $avTabPos[1] + (($avTabPos[3] - $avTabPos[1]) / 2)
+        ControlClick($hWinParent, "", $hWnd, $sButton, $iClicks, $iX, $iY)
+    Else
+        ; Original code to move mouse and click (requires active window)
+        Local $tRect = _GUICtrlTab_GetItemRectEx($hWnd, $iIndex)
+        Local $tPoint = _WinAPI_PointFromRect($tRect, True)
+        $tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
+        _WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
+        Local $iMode = Opt("MouseCoordMode", 1)
+        MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
+        Opt("MouseCoordMode", $iMode)
+    EndIf
+EndFunc ;==>_GUICtrlTab_ClickTab
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlTab_Create
@@ -587,9 +634,9 @@ Func _GUICtrlTab_GetImageList($hWnd)
 	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $TCM_GETIMAGELIST)
+		Return Ptr(_SendMessage($hWnd, $TCM_GETIMAGELIST))
 	Else
-		Return GUICtrlSendMsg($hWnd, $TCM_GETIMAGELIST, 0, 0)
+		Return Ptr(GUICtrlSendMsg($hWnd, $TCM_GETIMAGELIST, 0, 0))
 	EndIf
 EndFunc   ;==>_GUICtrlTab_GetImageList
 
@@ -619,7 +666,8 @@ Func _GUICtrlTab_GetItem($hWnd, $iIndex)
 	Local $fUnicode = _GUICtrlTab_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer = 4096
-	Local $tItem = DllStructCreate($tagTCITEM)
+	Local $tagTCITEMEx = $tagTCITEM & ";ptr Filler"	; strange the Filler is erased by TCM_GETITEM : MS Bug!!!
+	Local $tItem = DllStructCreate($tagTCITEMex)
 	Local $pItem = DllStructGetPtr($tItem)
 	DllStructSetData($tItem, "Mask", $TCIF_ALLDATA)
 	DllStructSetData($tItem, "TextMax", $iBuffer)
@@ -652,7 +700,7 @@ Func _GUICtrlTab_GetItem($hWnd, $iIndex)
 	$aItem[1] = DllStructGetData($tBuffer, "Text")
 	$aItem[2] = DllStructGetData($tItem, "Image")
 	$aItem[3] = DllStructGetData($tItem, "Param")
-	Return SetError($iRet <> 0, 0, $aItem)
+	Return SetError($iRet = 0, 0, $aItem)
 EndFunc   ;==>_GUICtrlTab_GetItem
 
 ; #FUNCTION# ====================================================================================================================
@@ -862,9 +910,9 @@ Func _GUICtrlTab_GetToolTips($hWnd)
 	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $TCM_GETTOOLTIPS)
+		Return HWnd(_SendMessage($hWnd, $TCM_GETTOOLTIPS))
 	Else
-		Return GUICtrlSendMsg($hWnd, $TCM_GETTOOLTIPS, 0, 0)
+		Return HWnd(GUICtrlSendMsg($hWnd, $TCM_GETTOOLTIPS, 0, 0))
 	EndIf
 EndFunc   ;==>_GUICtrlTab_GetToolTips
 
@@ -1163,9 +1211,9 @@ Func _GUICtrlTab_SetImageList($hWnd, $hImage)
 	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $TCM_SETIMAGELIST, 0, $hImage, 0, "wparam", "hwnd", "hwnd")
+		Return _SendMessage($hWnd, $TCM_SETIMAGELIST, 0, $hImage, 0, "wparam", "handle", "handle")
 	Else
-		Return GUICtrlSendMsg($hWnd, $TCM_SETIMAGELIST, 0, $hImage)
+		Return Ptr(GUICtrlSendMsg($hWnd, $TCM_SETIMAGELIST, 0, $hImage))
 	EndIf
 EndFunc   ;==>_GUICtrlTab_SetImageList
 

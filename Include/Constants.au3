@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "ProcessConstants.au3"
 #include "FileConstants.au3"
@@ -176,6 +176,10 @@ Global Const $VK_NEXT	= 0x22
 Global Const $VK_PRIOR	= 0x21
 Global Const $VK_RIGHT	= 0x27
 Global Const $VK_UP		= 0x26
+
+Global Const $VK_LBUTTON    = 0x01
+Global Const $VK_RBUTTON    = 0x02
+Global Const $VK_MBUTTON    = 0x04
 
 ; Message Box Constants
 ; Indicates the buttons displayed in the message box

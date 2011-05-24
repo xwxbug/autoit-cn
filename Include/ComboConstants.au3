@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ComboBox_Constants
@@ -103,8 +103,6 @@ Global Const $CBES_EX_CASESENSITIVE = 0x10 ; Searches in the list will be case s
 Global Const $CBES_EX_NOEDITIMAGE = 0x1 ; The edit box and the dropdown list will not display item images
 Global Const $CBES_EX_NOEDITIMAGEINDENT = 0x2 ; The edit box and the dropdown list will not display item images
 Global Const $CBES_EX_NOSIZELIMIT = 0x8 ; Allows the ComboBoxEx control to be vertically sized smaller than its contained combo box control
-Global Const $CBES_EX_PATHWORDBREAKPROC = 0x4 ; Microsoft Windows NT only.
-;                                                    The edit box will use the slash (/), backslash (\), and period (.) characters as word delimiters
 ; ===============================================================================================================================
 
 ; #MESSAGES#=====================================================================================================================

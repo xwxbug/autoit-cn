@@ -249,7 +249,7 @@ Func _Crypt_EncryptData($vData, $vCryptKey, $iALG_ID, $fFinal = True)
 			EndIf
 		EndIf
 
-		$aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptEncrypt", "ptr", $vCryptKey, "ptr", 0, "bool", 1, "dword", 0, "ptr", 0, _
+		$aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptEncrypt", "handle", $vCryptKey, "handle", 0, "bool", $fFinal, "dword", 0, "ptr", 0, _
 				"dword*", BinaryLen($vData), "dword", 0)
 		If @error Or Not $aRet[0] Then
 			$iError = 2
@@ -260,7 +260,7 @@ Func _Crypt_EncryptData($vData, $vCryptKey, $iALG_ID, $fFinal = True)
 		$ReqBuffSize = $aRet[6]
 		$hBuff = DllStructCreate("byte[" & $ReqBuffSize & "]")
 		DllStructSetData($hBuff, 1, $vData)
-		$aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptEncrypt", "ptr", $vCryptKey, "ptr", 0, "bool", $fFinal, "dword", 0, "ptr", DllStructGetPtr($hBuff), _
+		$aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptEncrypt", "handle", $vCryptKey, "handle", 0, "bool", $fFinal, "dword", 0, "ptr", DllStructGetPtr($hBuff), _
 				"dword*", BinaryLen($vData), "dword", DllStructGetSize($hBuff))
 		If @error Or Not $aRet[0] Then
 			$iError = 3

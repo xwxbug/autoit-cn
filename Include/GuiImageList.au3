@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "ImageListConstants.au3"
 #include "WinAPI.au3"
@@ -169,12 +169,12 @@ Func _GUIImageList_AddIcon($hWnd, $sFile, $iIndex = 0, $fLarge = False)
 	Else
 		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, 0, DllStructGetPtr($tIcon), 1)
 	EndIf
-	If $iRet <= 0 Then Return SetError(-1, $iRet, 0)
+	If $iRet <= 0 Then Return SetError(-1, $iRet, -1)
 
 	Local $hIcon = DllStructGetData($tIcon, "Handle")
 	$iRet = _GUIImageList_ReplaceIcon($hWnd, -1, $hIcon)
 	_WinAPI_DestroyIcon($hIcon)
-	If $iRet = -1 Then Return SetError(-2, $iRet, 0)
+	If $iRet = -1 Then Return SetError(-2, $iRet, -1)
 	Return $iRet
 EndFunc   ;==>_GUIImageList_AddIcon
 

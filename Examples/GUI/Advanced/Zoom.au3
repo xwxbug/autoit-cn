@@ -1,9 +1,7 @@
-﻿#include <GDIPlus.au3>
+#include <GDIPlus.au3>
 #include <ScreenCapture.au3>
 #include <WinAPI.au3>
 #include <GuiConstantsEx.au3>
-
-Opt("MustDeclareVars", 1)
 
 ; ===============================================================================================================================
 ; Description ...: Shows how to magnify an image
@@ -25,11 +23,11 @@ Global $hBMP, $hGUI1, $hGUI2, $hBitmap, $hGraphic1, $hGraphic2
 $hBMP = _ScreenCapture_Capture("", 0, 0, 400, 300)
 
 ; Create a GUI for the original image
-$hGUI1 = GUICreate("Original", 400, 300, 0,   0)
+$hGUI1 = GUICreate("Original", 400, 300, 0, 0)
 GUISetState()
 
 ; Create a GUI for the zoomed image
-$hGUI2 = GUICreate("Zoomed"  , 400, 300, 0, 400)
+$hGUI2 = GUICreate("Zoomed", 400, 300, 0, 400)
 GUISetState()
 
 ; Initialize GDI+ library and load image
@@ -48,9 +46,9 @@ _GDIPlus_GraphicsDrawImageRectRect($hGraphic2, $hBitmap, 0, 0, 200, 200, 0, 0, 4
 _GDIPlus_GraphicsDispose($hGraphic1)
 _GDIPlus_GraphicsDispose($hGraphic2)
 _GDIPlus_ImageDispose($hBitmap)
-_WinAPI_DeleteObject($hBmp)
+_WinAPI_DeleteObject($hBMP)
 _GDIPlus_Shutdown()
 
 ; Loop until user exits
-do
-until GUIGetMsg() = $GUI_EVENT_CLOSE
+Do
+Until GUIGetMsg() = $GUI_EVENT_CLOSE

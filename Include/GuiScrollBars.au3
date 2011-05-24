@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "StructureConstants.au3"
 
@@ -64,67 +64,6 @@ Global $aSB_WindowInfo[1][8]
 ;_GUIScrollBars_SetScrollRange
 ;_GUIScrollBars_ShowScrollBar
 ; ===============================================================================================================================
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagTEXTMETRIC
-; ===============================================================================================================================
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagTEXTMETRIC
-; Description ...: Contains basic information about a physical font. All sizes are specified in logical units, that is, they depend on the current mapping mode of the display context.
-; Fields ........: tmHeight - Specifies the height (ascent + descent) of characters.
-;                  tmAscent - Specifies the ascent (units above the base line) of characters.
-;                  tmDescent - Specifies the descent (units below the base line) of characters.
-;                  tmInternalLeading - Specifies the amount of leading (space) inside the bounds set by the tmHeight member.
-;                  |  Accent marks and other diacritical characters may occur in this area. The designer may set this member to zero.
-;                  tmExternalLeading - Specifies the amount of extra leading (space) that the application adds between rows.
-;                  |  Since this area is outside the font, it contains no marks and is not altered by text output calls in either OPAQUE or TRANSPARENT mode.
-;                  |  The designer may set this member to zero.
-;                  tmAveCharWidth - Specifies the average width of characters in the font (generally defined as the width of the letter x).
-;                  |  This value does not include the overhang required for bold or italic characters.
-;                  tmMaxCharWidth - Specifies the width of the widest character in the font.
-;                  tmWeight - Specifies the weight of the font.
-;                  tmOverhang - Specifies the extra width per string that may be added to some synthesized fonts.
-;                  |  When synthesizing some attributes, such as bold or italic, graphics device interface (GDI) or a device may have to add width to a string on both a per-character and per-string basis.
-;                  |  For example, GDI makes a string bold by expanding the spacing of each character and overstriking by an offset value
-;                  |  it italicizes a font by shearing the string. In either case, there is an overhang past the basic string.
-;                  |  For bold strings, the overhang is the distance by which the overstrike is offset. For italic strings, the overhang is the amount the top of the font is sheared past the bottom of the font.
-;                  |  The tmOverhang member enables the application to determine how much of the character width returned by a GetTextExtentPoint32 function call on a single character is the actual character width and how much is the per-string extra width.
-;                  |  The actual width is the extent minus the overhang.
-;                  tmDigitizedAspectX - Specifies the horizontal aspect of the device for which the font was designed.
-;                  tmDigitizedAspectY - Specifies the vertical aspect of the device for which the font was designed.
-;                  |  The ratio of the tmDigitizedAspectX and tmDigitizedAspectY members is the aspect ratio of the device for which the font was designed.
-;                  tmFirstChar - Specifies the value of the first character defined in the font.
-;                  tmLastChar - Specifies the value of the last character defined in the font.
-;                  tmDefaultChar - Specifies the value of the character to be substituted for characters not in the font.
-;                  tmBreakChar - Specifies the value of the character that will be used to define word breaks for text justification.
-;                  tmItalic - Specifies an italic font if it is nonzero.
-;                  tmUnderlined - Specifies an underlined font if it is nonzero.
-;                  tmStruckOut - Specifies a strikeout font if it is nonzero.
-;                  tmPitchAndFamily - Specifies information about the pitch, the technology, and the family of a physical font.
-;                  tmCharSet - Specifies the character set of the font. The character set can be one of the following values.
-;                  |ANSI_CHARSET
-;                  |BALTIC_CHARSET
-;                  |CHINESEBIG5_CHARSET
-;                  |DEFAULT_CHARSET
-;                  |EASTEUROPE_CHARSET
-;                  |GB2312_CHARSET
-;                  |GREEK_CHARSET
-;                  |HANGUL_CHARSET
-;                  |MAC_CHARSET
-;                  |OEM_CHARSET
-;                  |RUSSIAN_CHARSET
-;                  |SHIFTJIS_CHARSET
-;                  |SYMBOL_CHARSET
-;                  |TURKISH_CHARSET
-;                  |VIETNAMESE_CHARSET
-; Author ........: Gary Frost
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagTEXTMETRIC = "long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;" & _
-		"long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;" & _
-		"wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" & _
-		"byte tmPitchAndFamily;byte tmCharSet"
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUIScrollBars_EnableScrollBar

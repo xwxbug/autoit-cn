@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "File.au3"		; Using: _PathSplit
 
@@ -76,7 +76,7 @@ Func _SoundOpen($sFile)
 	Local $sSndDirShortName = FileGetShortName($sSndDirName, 1)
 
 	;open file
-	__SoundMciSendString("open " & FileGetShortName($sFile) & " alias " & $aSndID[0])
+	__SoundMciSendString("open """ & $sFile & """ alias " & $aSndID[0])
 	If @error Then Return SetError(1, @error, 0) ; open failed
 
 	Local $sTrackLength, $fTryNextMethod = False

@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "HeaderConstants.au3"
 #include "Memory.au3"
@@ -224,7 +224,6 @@ Func _GUICtrlHeader_Create($hWnd, $iStyle = 0x00000046)
 			DllStructGetData($tWindowPos, "X"), DllStructGetData($tWindowPos, "Y"), _
 			DllStructGetData($tWindowPos, "CX"), DllStructGetData($tWindowPos, "CY"), $iFlags)
 	_WinAPI_SetFont($hHeader, _WinAPI_GetStockObject($__HEADERCONSTANT_DEFAULT_GUI_FONT))
-	_GUICtrlHeader_SetUnicodeFormat($hHeader, False)
 	Return $hHeader
 EndFunc   ;==>_GUICtrlHeader_Create
 
@@ -246,7 +245,7 @@ EndFunc   ;==>_GUICtrlHeader_Create
 Func _GUICtrlHeader_CreateDragImage($hWnd, $iIndex)
 	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $HDM_CREATEDRAGIMAGE, $iIndex)
+	Return Ptr(_SendMessage($hWnd, $HDM_CREATEDRAGIMAGE, $iIndex))
 EndFunc   ;==>_GUICtrlHeader_CreateDragImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -372,7 +371,7 @@ EndFunc   ;==>_GUICtrlHeader_GetBitmapMargin
 Func _GUICtrlHeader_GetImageList($hWnd)
 	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $HDM_GETIMAGELIST)
+	Return Ptr(_SendMessage($hWnd, $HDM_GETIMAGELIST))
 EndFunc   ;==>_GUICtrlHeader_GetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -950,14 +949,22 @@ Func _GUICtrlHeader_InsertItem($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = 0
 	Local $aAlign[3] = [$HDF_LEFT, $HDF_RIGHT, $HDF_CENTER]
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
-	Local $tBuffer, $iBuffer = StringLen($sText) + 1
-	If $fUnicode Then
-		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
-		$iBuffer *= 2
+	Local $pBuffer, $iBuffer
+	If $sText <> -1 Then
+		$iBuffer = StringLen($sText) + 1
+		Local $tBuffer
+		If $fUnicode Then
+			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+			$iBuffer *= 2
+		Else
+			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		EndIf
+		DllStructSetData($tBuffer, "Text", $sText)
+		$pBuffer = DllStructGetPtr($tBuffer)
 	Else
-		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		$iBuffer = 0
+		$pBuffer = -1	; LPSTR_TEXTCALLBACK
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $tItem = DllStructCreate($tagHDITEM)
 	Local $pItem = DllStructGetPtr($tItem)
 	Local $iFmt = $aAlign[$iAlign]
@@ -971,7 +978,6 @@ Func _GUICtrlHeader_InsertItem($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = 0
 		$iFmt = BitOR($iFmt, $HDF_IMAGE)
 	EndIf
 	If $fOnRight Then $iFmt = BitOR($iFmt, $HDF_BITMAP_ON_RIGHT)
-	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tItem, "Mask", $iMask)
 	DllStructSetData($tItem, "XY", $iWidth)
 	DllStructSetData($tItem, "Fmt", $iFmt)
@@ -984,10 +990,14 @@ Func _GUICtrlHeader_InsertItem($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = 0
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-		Local $pText = $pMemory + $iItem
-		DllStructSetData($tItem, "Text", $pText)
+		If $sText <> -1 Then
+			Local $pText = $pMemory + $iItem
+			DllStructSetData($tItem, "Text", $pText)
+			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		Else
+			DllStructSetData($tItem, "Text", -1)	; LPSTR_TEXTCALLBACK
+		EndIf
 		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $HDM_INSERTITEMW, $iIndex, $pMemory, 0, "wparam", "ptr")
 		Else
@@ -1147,7 +1157,7 @@ EndFunc   ;==>_GUICtrlHeader_SetHotDivider
 Func _GUICtrlHeader_SetImageList($hWnd, $hImage)
 	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $HDM_SETIMAGELIST, 0, $hImage, 0, "wparam", "hwnd", "hwnd")
+	Return _SendMessage($hWnd, $HDM_SETIMAGELIST, 0, $hImage, 0, "wparam", "handle", "handle")
 EndFunc   ;==>_GUICtrlHeader_SetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -1441,17 +1451,24 @@ Func _GUICtrlHeader_SetItemText($hWnd, $iIndex, $sText)
 
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
-	Local $tBuffer, $iBuffer = StringLen($sText) + 1
-	If $fUnicode Then
-		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
-		$iBuffer *= 2
+	Local $iBuffer, $pBuffer
+	If $sText <> -1 Then
+		$iBuffer = StringLen($sText) + 1
+		Local $tBuffer
+		If $fUnicode Then
+			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
+			$iBuffer *= 2
+		Else
+			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		EndIf
+		DllStructSetData($tBuffer, "Text", $sText)
+		$pBuffer = DllStructGetPtr($tBuffer)
 	Else
-		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
+		$iBuffer = 0
+		$pBuffer = -1	; LPSTR_TEXTCALLBACK
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $tItem = DllStructCreate($tagHDITEM)
 	Local $pItem = DllStructGetPtr($tItem)
-	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tItem, "Mask", $HDI_TEXT)
 	DllStructSetData($tItem, "TextMax", $iBuffer)
 	Local $iRet
@@ -1462,10 +1479,14 @@ Func _GUICtrlHeader_SetItemText($hWnd, $iIndex, $sText)
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
-		Local $pText = $pMemory + $iItem
-		DllStructSetData($tItem, "Text", $pText)
+		If $sText <> -1 Then
+			Local $pText = $pMemory + $iItem
+			DllStructSetData($tItem, "Text", $pText)
+			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		Else
+			DllStructSetData($tItem, "Text", -1)	; LPSTR_TEXTCALLBACK
+		EndIf
 		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $HDM_SETITEMW, $iIndex, $pMemory, 0, "wparam", "ptr")
 		Else

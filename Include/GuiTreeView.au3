@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "TreeViewConstants.au3"
 #include "GuiImageList.au3"
@@ -874,9 +874,9 @@ Func _GUICtrlTreeView_EditText($hWnd, $hItem)
 	_WinAPI_SetFocus($hWnd)
 	Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
 	If $fUnicode Then
-		Return _SendMessage($hWnd, $TVM_EDITLABELW, 0, $hItem, 0, "wparam", "handle", "hwnd")
+		Return _SendMessage($hWnd, $TVM_EDITLABELW, 0, $hItem, 0, "wparam", "handle", "handle")
 	Else
-		Return _SendMessage($hWnd, $TVM_EDITLABELA, 0, $hItem, 0, "wparam", "handle", "hwnd")
+		Return _SendMessage($hWnd, $TVM_EDITLABELA, 0, $hItem, 0, "wparam", "handle", "handle")
 	EndIf
 EndFunc   ;==>_GUICtrlTreeView_EditText
 
@@ -1694,7 +1694,7 @@ Func _GUICtrlTreeView_GetItemHandle($hWnd, $hItem = 0)
 		If $hItem = 0x00000000 Then $hItem = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_ROOT, 0, 0, "wparam", "lparam", "handle")
 	Else
 		If $hItem = 0x00000000 Then
-			$hItem = GUICtrlSendMsg($hWnd, $TVM_GETNEXTITEM, $TVGN_ROOT, 0)
+			$hItem = Ptr(GUICtrlSendMsg($hWnd, $TVM_GETNEXTITEM, $TVGN_ROOT, 0))
 		Else
 			Local $hTempItem = GUICtrlGetHandle($hItem)
 			If $hTempItem <> 0x00000000 Then $hItem = $hTempItem
@@ -1740,7 +1740,7 @@ Func _GUICtrlTreeView_GetItemParam($hWnd, $hItem = 0)
 	Else
 		; get the handle to item selected
 		If $hItem = 0x00000000 Then
-			$hItem = GUICtrlSendMsg($hWnd, $TVM_GETNEXTITEM, $TVGN_CARET, 0)
+			$hItem = Ptr(GUICtrlSendMsg($hWnd, $TVM_GETNEXTITEM, $TVGN_CARET, 0))
 			If $hItem = 0x00000000 Then Return False
 		Else
 			Local $hTempItem = GUICtrlGetHandle($hItem)
@@ -2797,16 +2797,23 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 	Local $tTVI = DllStructCreate($tagTVINSERTSTRUCT)
 	Local $pInsert = DllStructGetPtr($tTVI)
 
-	Local $iBuffer = StringLen($sItem_Text) + 1
-	Local $tText
-	Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
-	If $fUnicode Then
-		$tText = DllStructCreate("wchar Buffer[" & $iBuffer & "]")
-		$iBuffer *= 2
+	Local $iBuffer, $pBuffer
+	If $sItem_Text <> -1 Then
+		$iBuffer = StringLen($sItem_Text) + 1
+		Local $tText
+		Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
+		If $fUnicode Then
+			$tText = DllStructCreate("wchar Buffer[" & $iBuffer & "]")
+			$iBuffer *= 2
+		Else
+			$tText = DllStructCreate("char Buffer[" & $iBuffer & "]")
+		EndIf
+		DllStructSetData($tText, "Buffer", $sItem_Text)
+		$pBuffer = DllStructGetPtr($tText)
 	Else
-		$tText = DllStructCreate("char Buffer[" & $iBuffer & "]")
+		$iBuffer = 0
+		$pBuffer = -1	; LPSTR_TEXTCALLBACK
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tText)
 
 	Local $hItem_tmp
 	If $hItem_Parent = 0 Then ; setting to root level
@@ -2833,8 +2840,6 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 	EndIf
 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-
-	DllStructSetData($tText, "Buffer", $sItem_Text)
 
 	Local $hIcon
 	Local $iMask = $TVIF_TEXT
@@ -2877,20 +2882,24 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 	Local $hItem
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
 		DllStructSetData($tTVI, "Text", $pBuffer)
-		$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pInsert, 0, "wparam", "ptr")
+		$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pInsert, 0, "wparam", "ptr", "handle")
 
 	Else
 		Local $iInsert = DllStructGetSize($tTVI)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iInsert + $iBuffer, $tMemMap)
-		Local $pText = $pMemory + $iInsert
-		_MemWrite($tMemMap, $pInsert, $pMemory, $iInsert)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
-		DllStructSetData($tTVI, "Text", $pText)
-		If $fUnicode Then
-			$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
+		If $sItem_Text <> -1 Then
+			Local $pText = $pMemory + $iInsert
+			DllStructSetData($tTVI, "Text", $pText)
+			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 		Else
-			$hItem = _SendMessage($hWnd, $TVM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr")
+			DllStructSetData($tTVI, "Text", -1)	; LPSTR_TEXTCALLBACK
+		EndIf
+		_MemWrite($tMemMap, $pInsert, $pMemory, $iInsert)
+		If $fUnicode Then
+			$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr", "handle")
+		Else
+			$hItem = _SendMessage($hWnd, $TVM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr", "handle")
 		EndIf
 		_MemFree($tMemMap)
 	EndIf
@@ -3058,7 +3067,7 @@ EndFunc   ;==>__GUICtrlTreeView_ReverseColorOrder
 Func _GUICtrlTreeView_SelectItem($hWnd, $hItem, $iFlag = 0)
 	If $Debug_TV Then __UDF_ValidateClassName($hWnd, $__TREEVIEWCONSTANT_ClassName)
 
-	If Not IsHWnd($hItem) Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
+	If Not IsHWnd($hItem) And $hItem <> 0 Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	If $iFlag = 0 Then $iFlag = $TVGN_CARET
@@ -3478,7 +3487,7 @@ EndFunc   ;==>_GUICtrlTreeView_SetIndent
 Func _GUICtrlTreeView_SetInsertMark($hWnd, $hItem, $fAfter = True)
 	If $Debug_TV Then __UDF_ValidateClassName($hWnd, $__TREEVIEWCONSTANT_ClassName)
 
-	If Not IsHWnd($hItem) Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
+	If Not IsHWnd($hItem) And $hItem <> 0 Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TVM_SETINSERTMARK, $fAfter, $hItem, 0, "wparam", "handle") <> 0
@@ -3818,7 +3827,7 @@ Func _GUICtrlTreeView_SetStateImageIndex($hWnd, $hItem, $iIndex)
 	If Not IsHWnd($hItem) Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	If $iIndex = 0 Then
+	If $iIndex < 0 Then
  		; Invalid index for State Image" & @LF & "State Image List is One-based list
 		Return SetError(1, 0, False)
 	EndIf

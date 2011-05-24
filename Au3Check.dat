@@ -33,7 +33,7 @@ $CmdLineRaw
 !BitAND 2 255
 !BitNOT 1 1
 !BitOR 2 255
-!BitRotate 2 3
+!BitRotate 1 3
 !BitShift 2 2
 !BitXOR 2 255
 !BlockInput 1 1
@@ -185,7 +185,7 @@ $CmdLineRaw
 !GUICtrlSetImage 2 4
 !GUICtrlSetLimit 2 3
 !GUICtrlSetOnEvent 2 2
-!GUICtrlSetPos 3 5
+!GUICtrlSetPos 2 5
 !GUICtrlSetResizing 2 2
 !GUICtrlSetState 2 2
 !GUICtrlSetStyle 2 3

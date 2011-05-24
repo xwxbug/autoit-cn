@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "ToolbarConstants.au3"
 #include "Memory.au3"
@@ -717,7 +717,7 @@ EndFunc   ;==>_GUICtrlToolbar_Create
 Func _GUICtrlToolbar_Customize($hWnd)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_CUSTOMIZE)
+	_SendMessage($hWnd, $TB_CUSTOMIZE)
 EndFunc   ;==>_GUICtrlToolbar_Customize
 
 ; #FUNCTION# ====================================================================================================================
@@ -1264,7 +1264,7 @@ EndFunc   ;==>_GUICtrlToolbar_GetColorScheme
 Func _GUICtrlToolbar_GetDisabledImageList($hWnd)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_GETDISABLEDIMAGELIST)
+	Return Ptr(_SendMessage($hWnd, $TB_GETDISABLEDIMAGELIST))
 EndFunc   ;==>_GUICtrlToolbar_GetDisabledImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -1307,7 +1307,7 @@ EndFunc   ;==>_GUICtrlToolbar_GetExtendedStyle
 Func _GUICtrlToolbar_GetHotImageList($hWnd)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_GETHOTIMAGELIST)
+	Return Ptr(_SendMessage($hWnd, $TB_GETHOTIMAGELIST))
 EndFunc   ;==>_GUICtrlToolbar_GetHotImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -1347,7 +1347,7 @@ EndFunc   ;==>_GUICtrlToolbar_GetHotItem
 Func _GUICtrlToolbar_GetImageList($hWnd)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_GETIMAGELIST)
+	Return Ptr(_SendMessage($hWnd, $TB_GETIMAGELIST))
 EndFunc   ;==>_GUICtrlToolbar_GetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -1796,7 +1796,7 @@ EndFunc   ;==>_GUICtrlToolbar_GetTextRows
 Func _GUICtrlToolbar_GetToolTips($hWnd)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_GETTOOLTIPS)
+	Return HWnd(_SendMessage($hWnd, $TB_GETTOOLTIPS))
 EndFunc   ;==>_GUICtrlToolbar_GetToolTips
 
 ; #FUNCTION# ====================================================================================================================
@@ -2583,7 +2583,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetButtonSize
 Func _GUICtrlToolbar_SetButtonState($hWnd, $iCommandID, $iState)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_SETSTATE, $iCommandID, $iState)
+	Return _SendMessage($hWnd, $TB_SETSTATE, $iCommandID, $iState) <> 0
 EndFunc   ;==>_GUICtrlToolbar_SetButtonState
 
 ; #FUNCTION# ====================================================================================================================
@@ -2744,7 +2744,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetColorScheme
 Func _GUICtrlToolbar_SetDisabledImageList($hWnd, $hImageList)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_SETDISABLEDIMAGELIST, 0, $hImageList, 0, "wparam", "hwnd")
+	Return _SendMessage($hWnd, $TB_SETDISABLEDIMAGELIST, 0, $hImageList, 0, "wparam", "handle", "handle")
 EndFunc   ;==>_GUICtrlToolbar_SetDisabledImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -2815,7 +2815,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetExtendedStyle
 Func _GUICtrlToolbar_SetHotImageList($hWnd, $hImageList)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_SETHOTIMAGELIST, 0, $hImageList, 0, "wparam", "hwnd")
+	Return _SendMessage($hWnd, $TB_SETHOTIMAGELIST, 0, $hImageList, 0, "wparam", "handle", "handle")
 EndFunc   ;==>_GUICtrlToolbar_SetHotImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -2856,7 +2856,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetHotItem
 Func _GUICtrlToolbar_SetImageList($hWnd, $hImageList)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_SETIMAGELIST, 0, $hImageList, 0, "wparam", "hwnd")
+	Return _SendMessage($hWnd, $TB_SETIMAGELIST, 0, $hImageList, 0, "wparam", "handle", "handle")
 EndFunc   ;==>_GUICtrlToolbar_SetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -3066,7 +3066,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetPadding
 Func _GUICtrlToolbar_SetParent($hWnd, $hParent)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $TB_SETPARENT, $hParent)
+	Return HWnd(_SendMessage($hWnd, $TB_SETPARENT, $hParent))
 EndFunc   ;==>_GUICtrlToolbar_SetParent
 
 ; #FUNCTION# ====================================================================================================================
