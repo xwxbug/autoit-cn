@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GDIPlus.au3>
 #include <ScreenCapture.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
@@ -22,7 +19,7 @@ Func _Main()
 
 	; Draw one image in another
 	$hGraphic = _GDIPlus_ImageGetGraphicsContext($hImage1)
-	
+
 	_GDIPlus_DrawImagePoints($hGraphic, $hImage2, 100, 100, 600, 170, 130, 570)
 
 	; Draw a frame around the inserted image

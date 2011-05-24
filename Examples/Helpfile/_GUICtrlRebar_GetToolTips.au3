@@ -1,11 +1,9 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiReBar.au3>
 #include <GuiToolBar.au3>
 #include <GuiToolTip.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
-
-Opt("MustDeclareVars", 1)
 
 $Debug_RB = False
 
@@ -18,17 +16,17 @@ Func _Main()
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 
 	$hgui = GUICreate("Rebar", 400, 396, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_MAXIMIZEBOX))
-	
+
 	; create the rebar control
-	$hReBar = _GUICtrlReBar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
-	
+	$hReBar = _GUICtrlRebar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
+
 	$iMemo = GUICtrlCreateEdit("", 2, 100, 396, 250, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
 
-	
+
 	; create a toolbar to put in the rebar
-	$hToolbar = _GUICtrlToolBar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
-	
+	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
+
 	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
@@ -48,10 +46,10 @@ Func _Main()
 	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
 
 	;add band containing the control
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
-	
+	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+
 	; add band containing the control to the begining of rebar
-	_GUICtrlReBar_AddToolBarBand($hReBar, $hToolbar, "", 0)
+	_GUICtrlRebar_AddToolBarBand($hReBar, $hToolbar, "", 0)
 
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUICtrlSetState($btnExit, $GUI_DEFBUTTON)
@@ -60,14 +58,14 @@ Func _Main()
 	GUISetState(@SW_SHOW)
 
 	_GUICtrlRebar_SetBandStyleBreak($hReBar, 1)
-	
+
 	$hToolTip = _GUIToolTip_Create($hReBar)
-	
+
 	MemoWrite("ToolTips Handle: " & _GUICtrlRebar_GetToolTips($hReBar))
-	
+
 	MsgBox(4096, "Information", "Setting ToolTips Handle")
 	_GUICtrlRebar_SetToolTips($hReBar, $hToolTip)
-	
+
 	MemoWrite("ToolTips Handle: " & _GUICtrlRebar_GetToolTips($hReBar))
 
 	While 1

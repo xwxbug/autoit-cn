@@ -1,29 +1,30 @@
-﻿; *******************************************************
+; *******************************************************
 ; Example 1 - Open a browser with the form example, get reference to form, select and
 ;				deselect the checkboxes byValue.  Since $s_Name is not specified, operate
 ;				on the collection of all <input type=checkbox> elements in the form
 ;				Note: You will likely need to scroll down on the page to see the changes
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("form")
-$oForm = _IEFormGetObjByName ($oIE, "ExampleForm")
+
+Local $oIE = _IE_Example("form")
+Local $oForm = _IEFormGetObjByName($oIE, "ExampleForm")
 For $i = 1 To 5
-	_IEFormElementCheckboxSelect ($oForm, "gameBasketball", "", 1, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameBasketball", "", 1, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameFootball", "", 1, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameFootball", "", 1, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameTennis", "", 1, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameTennis", "", 1, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameBaseball", "", 1, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameBaseball", "", 1, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameBasketball", "", 0, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameBasketball", "", 0, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameFootball", "", 0, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameFootball", "", 0, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameTennis", "", 0, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameTennis", "", 0, "byValue")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, "gameBaseball", "", 0, "byValue")
+	_IEFormElementCheckBoxSelect($oForm, "gameBaseball", "", 0, "byValue")
 	Sleep(1000)
 Next
 
@@ -33,26 +34,27 @@ Next
 ;				on the collection of all <input type=checkbox> elements in the form
 ;				Note: You will likely need to scroll down on the page to see the changes
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("form")
-$oForm = _IEFormGetObjByName ($oIE, "ExampleForm")
+
+$oIE = _IE_Example("form")
+$oForm = _IEFormGetObjByName($oIE, "ExampleForm")
 For $i = 1 To 5
-	_IEFormElementCheckboxSelect ($oForm, 3, "", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 3, "", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 2, "", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 2, "", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 1, "", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 1, "", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 0, "", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 0, "", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 3, "", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 3, "", 0, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 2, "", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 2, "", 0, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 1, "", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 1, "", 0, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 0, "", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 0, "", 0, "byIndex")
 	Sleep(1000)
 Next
 
@@ -61,17 +63,18 @@ Next
 ;				deselect the checkboxes byIndex in the group that shares the name checkboxG2Example
 ;				Note: You will likely need to scroll down on the page to see the changes
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("form")
-$oForm = _IEFormGetObjByName ($oIE, "ExampleForm")
+
+$oIE = _IE_Example("form")
+$oForm = _IEFormGetObjByName($oIE, "ExampleForm")
 For $i = 1 To 5
-	_IEFormElementCheckboxSelect ($oForm, 0, "checkboxG2Example", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 0, "checkboxG2Example", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 1, "checkboxG2Example", 1, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 1, "checkboxG2Example", 1, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 0, "checkboxG2Example", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 0, "checkboxG2Example", 0, "byIndex")
 	Sleep(1000)
-	_IEFormElementCheckboxSelect ($oForm, 1, "checkboxG2Example", 0, "byIndex")
+	_IEFormElementCheckBoxSelect($oForm, 1, "checkboxG2Example", 0, "byIndex")
 	Sleep(1000)
 Next

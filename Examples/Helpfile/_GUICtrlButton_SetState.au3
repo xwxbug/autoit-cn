@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 

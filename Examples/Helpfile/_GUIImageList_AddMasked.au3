@@ -1,21 +1,18 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <WinAPI.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
-Opt('MustDeclareVars', 1)
-
 _Main()
 
 Func _Main()
 	Local $listview, $hImage
-	
+
 	GUICreate("ImageList AddMasked", 400, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 394, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	GUISetState()
-	
+
 	; Load images
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_AddMasked($hImage, _GUICtrlListView_CreateSolidBitMap($listview, 0xFF0000, 11, 11))

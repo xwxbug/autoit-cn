@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiTab.au3>
 #include <WinAPI.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_TAB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -30,7 +27,7 @@ Func _Main()
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 137)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 146)
 	_GUICtrlTab_SetImageList($hTab, $hImage)
-	
+
 	; Add tabs
 	$tab0 = GUICtrlCreateTabItem("Tab 0")
 	$iMemo = GUICtrlCreateEdit("", 4, 28, 390, 265)
@@ -41,7 +38,7 @@ Func _Main()
 	GUICtrlCreateTabItem("Tab 2")
 	GUICtrlCreateTabItem("")
 	GUICtrlSetState($tab0, $GUI_SHOW)
-	
+
 	; Get/Set tab 0
 	_GUICtrlTab_SetItem($hTab, 0, "New Text", BitOR($TCIS_BUTTONPRESSED, $TCIS_BUTTONPRESSED), 2)
 	_GUICtrlTab_SetItem($hTab, 1, -1, -1, 4)

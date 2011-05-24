@@ -1,6 +1,7 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Set the Active Sheet Name
 ; *****************************************************************
+
 #include <Excel.au3>
 
 Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
@@ -14,9 +15,10 @@ _ExcelBookClose($oExcel) ; And finally we close out
 ; ***************************************************************
 ; Example 2 - After opening a workbook and returning its object identifier, Display the Active Sheet Name, change it and Display New Name
 ; *****************************************************************
+
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 MsgBox(0, "Sheet Name", "The Current Active Sheet Name Is:" & @CRLF & _ExcelSheetNameGet($oExcel))
 

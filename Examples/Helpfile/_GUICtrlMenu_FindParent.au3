@@ -1,6 +1,4 @@
-﻿#include <GuiMenu.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiMenu.au3>
 
 _Main()
 

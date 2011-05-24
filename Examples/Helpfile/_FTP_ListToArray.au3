@@ -1,14 +1,14 @@
 #include <FTPEx.au3>
 
-$server = 'ftp.csx.cam.ac.uk'
-$username = ''
-$pass = ''
+Local $server = 'ftp.csx.cam.ac.uk'
+Local $username = ''
+Local $pass = ''
 
-$Open = _FTP_Open('MyFTP Control')
-$Conn = _FTP_Connect($Open, $server, $username, $pass)
+Local $Open = _FTP_Open('MyFTP Control')
+Local $Conn = _FTP_Connect($Open, $server, $username, $pass)
 
-$aFile = _FTP_ListToArray($Conn, 2)
+Local $aFile = _FTP_ListToArray($Conn, 2)
 ConsoleWrite('$NbFound = ' & $aFile[0] & '  -> Error code: ' & @error & @crlf)
 ConsoleWrite('$Filename = ' & $aFile[1] & @crlf)
 
-$Ftpc = _FTP_Close($Open)
+Local $Ftpc = _FTP_Close($Open)

@@ -1,7 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GDIPlus.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
@@ -13,10 +11,10 @@ Func _Main()
 	GUISetState()
 
 	; Create resources
-	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
-	$hPen = _GDIPlus_PenCreate (0xFF000000, 4)
-	$hEndCap = _GDIPlus_ArrowCapCreate (4, 6)
+	_GDIPlus_Startup()
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
+	$hPen = _GDIPlus_PenCreate(0xFF000000, 4)
+	$hEndCap = _GDIPlus_ArrowCapCreate(4, 6)
 
 	; Show fill state
 	MsgBox(4096, "Information", "Fill state: " & _GDIPlus_ArrowCapGetFillState($hEndCap))
@@ -35,8 +33,8 @@ Func _Main()
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 	; Clean up resources
-	_GDIPlus_ArrowCapDispose ($hEndCap)
-	_GDIPlus_PenDispose ($hPen)
-	_GDIPlus_GraphicsDispose ($hGraphic)
-	_GDIPlus_Shutdown ()
+	_GDIPlus_ArrowCapDispose($hEndCap)
+	_GDIPlus_PenDispose($hPen)
+	_GDIPlus_GraphicsDispose($hGraphic)
+	_GDIPlus_Shutdown()
 EndFunc   ;==>_Main

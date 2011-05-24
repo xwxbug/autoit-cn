@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -24,13 +21,13 @@ Func _Main()
 
 	$chk = GUICtrlCreateCheckbox("Check1", 10, 120, 90, 50, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 	_GUICtrlButton_SetCheck($chk, $BST_INDETERMINATE)
-	
+
 	GUISetState()
 
 	MemoWrite("$rdo checked status.: " & @CRLF & @TAB & _ExplainCheckState(_GUICtrlButton_GetCheck($rdo)) & @CRLF)
 	MemoWrite("$rdo2 checked status: " & @CRLF & @TAB & _ExplainCheckState(_GUICtrlButton_GetCheck($rdo2)) & @CRLF)
 	MemoWrite("$chk checked status.: " & @CRLF & @TAB & _ExplainCheckState(_GUICtrlButton_GetCheck($chk)) & @CRLF)
-	
+
 
 	While 1
 		Switch GUIGetMsg()

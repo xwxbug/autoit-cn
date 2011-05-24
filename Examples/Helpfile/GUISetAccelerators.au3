@@ -1,22 +1,22 @@
-﻿; A simple custom messagebox that uses the MessageLoop mode
+; A simple custom messagebox that uses the MessageLoop mode
 
 #include <GUIConstantsEx.au3>
 
 GUICreate("Custom Msgbox", 210, 80)
 
 GUICtrlCreateLabel("Please click a button!", 10, 10)
-$YesID = GUICtrlCreateButton("Yes", 10, 50, 50, 20)
-$NoID = GUICtrlCreateButton("No", 80, 50, 50, 20)
-$ExitID = GUICtrlCreateButton("Exit", 150, 50, 50, 20)
+Local $YesID = GUICtrlCreateButton("Yes", 10, 50, 50, 20)
+Local $NoID = GUICtrlCreateButton("No", 80, 50, 50, 20)
+Local $ExitID = GUICtrlCreateButton("Exit", 150, 50, 50, 20)
 
 ; Set accelerators for Ctrl+y and Ctrl+n
-Dim $AccelKeys[2][2]=[["^y", $YesID], ["^n", $NoID]]
+Local $AccelKeys[2][2] = [["^y", $YesID],["^n", $NoID]]
 GUISetAccelerators($AccelKeys)
 
-GUISetState()  ; display the GUI
+GUISetState() ; display the GUI
 
 Do
-	$msg = GUIGetMsg()
+	Local $msg = GUIGetMsg()
 
 	Select
 		Case $msg = $YesID

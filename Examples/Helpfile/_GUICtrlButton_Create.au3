@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $btn, $rdo, $chk, $iMemo
 
@@ -26,7 +23,7 @@ Func _Main()
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-	
+
 	GUISetState()
 
 	MemoWrite("$btn handle: " & $btn)
@@ -59,12 +56,12 @@ Func WM_NOTIFY($hWnd, $Msg, $wParam, $lParam)
 	Local $hCtrl = DllStructGetData($tNMBHOTITEM, "hWndFrom")
 	Local $dwFlags = DllStructGetData($tNMBHOTITEM, "dwFlags")
 	Local $sText = ""
-	
+
 	Switch $nNotifyCode
 		Case $BCN_HOTITEMCHANGE ; Win XP and Above
 			If BitAND($dwFlags, 0x10) = 0x10 Then
 				$sText = "$BCN_HOTITEMCHANGE - Entering: " & @CRLF
-				
+
 			ElseIf BitAND($dwFlags, 0x20) = 0x20 Then
 				$sText = "$BCN_HOTITEMCHANGE - Leaving: " & @CRLF
 			EndIf
@@ -87,7 +84,7 @@ Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 	Local $nID = BitAND($wParam, 0x0000FFFF)
 	Local $hCtrl = $lParam
 	Local $sText = ""
-	
+
 	Switch $hCtrl
 		Case $btn, $rdo, $chk
 			Switch $nNotifyCode

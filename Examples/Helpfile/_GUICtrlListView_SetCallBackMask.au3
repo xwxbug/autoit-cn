@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -11,7 +8,7 @@ Example_UDF_Created()
 
 Func Example_UDF_Created()
 	Local $GUI, $hImage, $hListView
-	
+
 	$GUI = GUICreate("(UDF Created) ListView Set CallBack Mask", 400, 300)
 
 	$hListView = _GUICtrlListView_Create($GUI, "", 2, 2, 394, 268)
@@ -40,7 +37,7 @@ Func Example_UDF_Created()
 	_GUICtrlListView_AddItem($hListView, -1, 0)
 	_GUICtrlListView_AddItem($hListView, -1, 1)
 	_GUICtrlListView_AddItem($hListView, -1, 2)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

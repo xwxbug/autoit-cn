@@ -1,8 +1,6 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $s_Pattern = "(.*)"
 Global $h_Radio_0, $h_Radio_1, $h_Radio_3
@@ -11,8 +9,8 @@ Example()
 
 Func Example()
 
-	Local $initialDir = "C:\", $h_Indummy, $h_tab, $h_tabitem1, $h_In1, $msg
-	Local $h_tabitem2, $h_Brwse, $h_fileIn, $h_In2, $h_Out, $h_Pattern, $v_Reg_Old
+	Local $initialDir = "C:\", $h_tab, $h_In1, $msg
+	Local $h_Brwse, $h_fileIn, $h_In2, $h_Out, $h_Pattern, $v_Reg_Old
 	Local $h_Pattern_add, $h_Pattern_del, $h_test, $h_Err, $h_Ext, $h_Help, $h_Exit
 	Local $filepath, $str2, $helppath, $h_In
 
@@ -27,12 +25,12 @@ Func Example()
 	$h_Radio_1 = GUICtrlCreateRadio("Array with the text", 20, 321, 100, 27)
 	$h_Radio_3 = GUICtrlCreateRadio("Array of all results", 20, 350, 100, 20)
 	GUICtrlSetState($h_Radio_3, $GUI_CHECKED)
-	$h_Indummy = GUICtrlCreateEdit("", 1020, 1040, 510, 150, BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL))
+	GUICtrlCreateEdit("", 1020, 1040, 510, 150, BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL))
 	$h_tab = GUICtrlCreateTab(10, 10, 530, 190)
-	$h_tabitem1 = GUICtrlCreateTabItem("Copy and Paste the text to check - $str")
+	GUICtrlCreateTabItem("Copy and Paste the text to check - $str")
 	$h_In1 = GUICtrlCreateEdit("", 20, 40, 510, 150, BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL))
 
-	$h_tabitem2 = GUICtrlCreateTabItem("Load text from File")
+	GUICtrlCreateTabItem("Load text from File")
 	$h_Brwse = GUICtrlCreateButton("Browse for file", 20, 40, 100, 20)
 	$h_fileIn = GUICtrlCreateEdit("", 130, 40, 400, 20, BitOR($ES_WANTRETURN, $WS_HSCROLL, $ES_AUTOHSCROLL))
 	$h_In2 = GUICtrlCreateEdit("", 20, 70, 510, 120, BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL))
@@ -96,7 +94,7 @@ Func _Valid(ByRef $h_Out, ByRef $h_Pattern, ByRef $h_Err, ByRef $h_Ext, ByRef $v
 	Local $v_Reg, $v_Check, $h_output, $x, $s_lgth
 	WaitMessage("Performing test..")
 	$v_Reg = StringRegExp(GUICtrlRead($h_In), GUICtrlRead($h_Pattern), _Option())
-	Dim $v_EE[2] = [@error, @extended]
+	Local $v_EE[2] = [@error, @extended]
 	If $v_EE[0] = 2 Then
 		GUICtrlSetColor($h_Pattern, 0xFF0000)
 		GUICtrlSetData($h_Err, $v_EE[0])

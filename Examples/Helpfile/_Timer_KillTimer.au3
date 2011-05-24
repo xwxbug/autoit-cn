@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <WindowsConstants.au3>
 #include <GuiConstantsEx.au3>
 #include <Timers.au3>
 #include <GuiStatusBar.au3>
 #include <ProgressConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo, $hStatusBar, $progress, $percent = 0, $direction = 1
 

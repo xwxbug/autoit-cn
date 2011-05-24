@@ -1,7 +1,5 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <DateTimeConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example1()
 Example2()
@@ -50,7 +48,7 @@ Func Example3()
 	$date = GUICtrlCreateDate("1953/04/25", 10, 10, 185, 20)
 
 	; to select a specific default format
-	$DTM_SETFORMAT_ = 0x1032	; $DTM_SETFORMATW
+	$DTM_SETFORMAT_ = 0x1032 ; $DTM_SETFORMATW
 	$style = "yyyy/MM/dd HH:mm:ss"
 	GUICtrlSendMsg($date, $DTM_SETFORMAT_, 0, $style)
 

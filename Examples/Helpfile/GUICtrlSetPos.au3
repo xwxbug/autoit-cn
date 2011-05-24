@@ -1,19 +1,17 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $right, $label, $button, $msg
-	
-	GUICreate("My GUI position")  ; will create a dialog box that when displayed is centered
+
+	GUICreate("My GUI position") ; will create a dialog box that when displayed is centered
 
 	$right = 0
 	$label = GUICtrlCreateLabel("my moving label", 10, 20)
-	
+
 	$button = GUICtrlCreateButton("Click to close", 50, 50)
-	GUICtrlSetState(-1, $GUI_FOCUS) 	; the focus is on this button
+	GUICtrlSetState(-1, $GUI_FOCUS) ; the focus is on this button
 
 	GUISetState()
 

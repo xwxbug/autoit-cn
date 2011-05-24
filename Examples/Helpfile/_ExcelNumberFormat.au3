@@ -1,6 +1,7 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Format Numbers, then Save and Close file.
 ; *****************************************************************
+
 #include <Excel.au3>
 
 Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
@@ -12,7 +13,7 @@ For $y = 1 To 10
 	Next
 Next
 
-$sFormat = "$#,##0.00" ;Format String tells _ExcelNumberFormat to make it a $ currency
+Local $sFormat = "$#,##0.00" ;Format String tells _ExcelNumberFormat to make it a $ currency
 _ExcelNumberFormat($oExcel, $sFormat, 1, 1, 5, 5) ;Start on Row 1, Start on Column 1, End on Row 5, End on Column 5
 
 MsgBox(0, "Exiting", "Press OK to Save File and Exit")
@@ -22,9 +23,10 @@ _ExcelBookClose($oExcel) ; And finally we close out
 ; ***************************************************************
 ; Example 2 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Format Numbers, then Save and Close file.
 ; *****************************************************************
+
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 Local $aFormatExamples[5] = ["Format Examples", "General", "hh:mm:ss", "$#,##0.00", "[Red]($#,##0.00)"] ;Array to Create Headers
 
 For $i = 0 To UBound($aFormatExamples) - 1 ;Use loop to write headers

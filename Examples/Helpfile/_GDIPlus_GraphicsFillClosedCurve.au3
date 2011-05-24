@@ -1,7 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GDIPlus.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
@@ -13,8 +11,8 @@ Func _Main()
 	GUISetState()
 
 	; Fill a cardinal spline
-	_GDIPlus_Startup ()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND ($hGUI)
+	_GDIPlus_Startup()
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 
 	$aPoints[0][0] = 7
 	$aPoints[1][0] = 50
@@ -32,14 +30,14 @@ Func _Main()
 	$aPoints[7][0] = 250
 	$aPoints[7][1] = 250
 
-	_GDIPlus_GraphicsFillClosedCurve ($hGraphic, $aPoints)
+	_GDIPlus_GraphicsFillClosedCurve($hGraphic, $aPoints)
 
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 	; Clean up resources
-	_GDIPlus_GraphicsDispose ($hGraphic)
-	_GDIPlus_Shutdown ()
+	_GDIPlus_GraphicsDispose($hGraphic)
+	_GDIPlus_Shutdown()
 
 EndFunc   ;==>_Main

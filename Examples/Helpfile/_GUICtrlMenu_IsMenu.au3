@@ -1,6 +1,4 @@
-﻿#include <GuiMenu.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiMenu.au3>
 
 _Main()
 
@@ -12,7 +10,7 @@ Func _Main()
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
-	
+
 	; Check return value
 	Writeln("Is Menu: " & _GUICtrlMenu_IsMenu($hWnd))
 	Writeln("Is Menu: " & _GUICtrlMenu_IsMenu($hMain))

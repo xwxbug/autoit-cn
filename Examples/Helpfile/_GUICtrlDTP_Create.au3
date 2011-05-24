@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiDateTimePicker.au3>
 #include <WindowsConstants.au3>
 #include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
 

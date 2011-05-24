@@ -1,7 +1,5 @@
-﻿#include <GuiMenu.au3>
+#include <GuiMenu.au3>
 #include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
@@ -13,7 +11,7 @@ Func _Main()
 	$hGUI = GUICreate("Menu", 400, 300)
 
 	; Create File menu
-	$hFile = _GUICtrlMenu_CreateMenu ()
+	$hFile = _GUICtrlMenu_CreateMenu()
 	InsertItem($hFile, 0, "&New", $idNew)
 	InsertItem($hFile, 1, "&Open", $idOpen)
 	InsertItem($hFile, 2, "&Save", $idSave)
@@ -21,23 +19,23 @@ Func _Main()
 	InsertItem($hFile, 4, "E&xit", $idExit)
 
 	; Create Edit menu
-	$hEdit = _GUICtrlMenu_CreateMenu ()
+	$hEdit = _GUICtrlMenu_CreateMenu()
 	InsertItem($hEdit, 0, "&Cut", $idCut)
 	InsertItem($hEdit, 1, "C&opy", $idCopy)
 	InsertItem($hEdit, 2, "&Paste", $idPaste)
 
 	; Create Help menu
-	$hHelp = _GUICtrlMenu_CreateMenu ()
+	$hHelp = _GUICtrlMenu_CreateMenu()
 	InsertItem($hHelp, 0, "&About", $idAbout)
 
 	; Create Main menu
-	$hMain = _GUICtrlMenu_CreateMenu ()
+	$hMain = _GUICtrlMenu_CreateMenu()
 	InsertItem($hMain, 0, "&File", 0, $hFile)
 	InsertItem($hMain, 1, "&Edit", 0, $hEdit)
 	InsertItem($hMain, 2, "&Help", 0, $hHelp)
 
 	; Set window menu
-	_GUICtrlMenu_SetMenu ($hGUI, $hMain)
+	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 	GUISetState()
 
 	; Loop until user exits
@@ -47,7 +45,7 @@ EndFunc   ;==>_Main
 
 ; Insert menu item (the hard way)
 Func InsertItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
-	Local $tMenu, $tText, $aResult
+	Local $tMenu, $tText
 
 	$tMenu = DllStructCreate($tagMENUITEMINFO)
 	DllStructSetData($tMenu, "Size", DllStructGetSize($tMenu))
@@ -63,5 +61,5 @@ Func InsertItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
 		DllStructSetData($tText, "Text", $sText)
 		DllStructSetData($tMenu, "TypeData", DllStructGetPtr($tText))
 	EndIf
-	_GUICtrlMenu_InsertMenuItemEx ($hMenu, $iIndex, $tMenu)
+	_GUICtrlMenu_InsertMenuItemEx($hMenu, $iIndex, $tMenu)
 EndFunc   ;==>InsertItem

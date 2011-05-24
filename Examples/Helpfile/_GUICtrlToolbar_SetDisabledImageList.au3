@@ -1,10 +1,8 @@
-﻿#include <GuiToolbar.au3>
+#include <GuiToolbar.au3>
 #include <GuiImageList.au3>
 #include <WinAPI.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 Global $iMemo
@@ -13,7 +11,6 @@ _Main()
 
 Func _Main()
 	Local $hGUI, $hToolbar, $hNormal, $hDisabled, $hHot
-	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 	Local Enum $idRed = 1000, $idGreen, $idBlue
 
 	; Create GUI
@@ -36,7 +33,9 @@ Func _Main()
 	_GUIImageList_Add($hDisabled, _WinAPI_CreateSolidBitmap($hGUI, 0xCCCCCC, 32, 24))
 	_GUIImageList_Add($hDisabled, _WinAPI_CreateSolidBitmap($hGUI, 0xCCCCCC, 32, 24))
 	_GUIImageList_Add($hDisabled, _WinAPI_CreateSolidBitmap($hGUI, 0xCCCCCC, 32, 24))
-	_GUICtrlToolbar_SetDisabledImageList($hToolbar, $hDisabled)
+	Local $hPrevImageList = _GUICtrlToolbar_SetDisabledImageList($hToolbar, $hDisabled)
+	MemoWrite("Previous Disabled list handle .: 0x" & Hex($hPrevImageList))
+	MemoWrite("IsPtr = " & IsPtr($hPrevImageList) & " IsHWnd = " & IsHWnd($hPrevImageList))
 
 	; Create hot image list
 	$hHot = _GUIImageList_Create(32, 24)

@@ -1,14 +1,12 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
 Func Example()
-	Local $NewStyle = False, $hWnd, $Style, $Msg
+	Local $NewStyle = False, $Style, $Msg
 
-	$hWnd = GUICreate("Gui Style", 260, 100)
+	GUICreate("Gui Style", 260, 100)
 	$Style = GUICtrlCreateButton("Set Style", 45, 50, 150, 20)
 	GUISetState()
 

@@ -1,6 +1,7 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Activate a Sheet by using the string value of the Sheet Name
 ; *****************************************************************
+
 #include <Excel.au3>
 
 Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
@@ -14,9 +15,10 @@ _ExcelBookClose($oExcel) ; And finally we close out
 ; ***************************************************************
 ; Example 2 - After opening a workbook and returning its object identifier, Activate a Sheet by using the Index Value the Sheet
 ; *****************************************************************
+
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 _ExcelSheetActivate($oExcel, 2)
 
@@ -27,11 +29,12 @@ _ExcelBookClose($oExcel) ; And finally we close out
 ; ***************************************************************
 ; Example 2 - After opening a workbook and returning its object identifier, Activate a Sheet by using the Index Value the Sheet
 ; *****************************************************************
+
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
-$iNumberOfWorksheets = $oExcel.Worksheets.Count
+Local $iNumberOfWorksheets = $oExcel.Worksheets.Count
 
 MsgBox(0, "", $oExcel.Worksheets.Count)
 _ExcelSheetActivate($oExcel, 2)

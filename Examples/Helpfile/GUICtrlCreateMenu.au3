@@ -1,16 +1,14 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
 Func Example()
-	Local $defaultstatus = "Ready", $status, $filemenu, $fileitem
-	Local $helpmenu, $saveitem, $infoitem, $exititem, $recentfilesmenu
-	Local $separator1, $viewmenu, $viewstatusitem, $okbutton, $cancelbutton
+	Local $defaultstatus = "Ready", $filemenu, $fileitem
+	Local $helpmenu, $infoitem, $exititem, $recentfilesmenu
+	Local $viewmenu, $viewstatusitem, $cancelbutton
 	Local $statuslabel, $msg, $file
-	
+
 	GUICreate("My GUI menu", 300, 200)
 
 
@@ -18,18 +16,18 @@ Func Example()
 	$fileitem = GUICtrlCreateMenuItem("Open", $filemenu)
 	GUICtrlSetState(-1, $GUI_DEFBUTTON)
 	$helpmenu = GUICtrlCreateMenu("?")
-	$saveitem = GUICtrlCreateMenuItem("Save", $filemenu)
+	GUICtrlCreateMenuItem("Save", $filemenu)
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$infoitem = GUICtrlCreateMenuItem("Info", $helpmenu)
 	$exititem = GUICtrlCreateMenuItem("Exit", $filemenu)
 	$recentfilesmenu = GUICtrlCreateMenu("Recent Files", $filemenu, 1)
 
-	$separator1 = GUICtrlCreateMenuItem("", $filemenu, 2) 	; create a separator line
+	GUICtrlCreateMenuItem("", $filemenu, 2) ; create a separator line
 
-	$viewmenu = GUICtrlCreateMenu("View", -1, 1) 	; is created before "?" menu
+	$viewmenu = GUICtrlCreateMenu("View", -1, 1) ; is created before "?" menu
 	$viewstatusitem = GUICtrlCreateMenuItem("Statusbar", $viewmenu)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-	$okbutton = GUICtrlCreateButton("OK", 50, 130, 70, 20)
+	GUICtrlCreateButton("OK", 50, 130, 70, 20)
 	GUICtrlSetState(-1, $GUI_FOCUS)
 	$cancelbutton = GUICtrlCreateButton("Cancel", 180, 130, 70, 20)
 
@@ -38,7 +36,7 @@ Func Example()
 	GUISetState()
 	While 1
 		$msg = GUIGetMsg()
-		
+
 		If $msg = $fileitem Then
 			$file = FileOpenDialog("Choose file...", @TempDir, "All (*.*)")
 			If @error <> 1 Then GUICtrlCreateMenuItem($file, $recentfilesmenu)

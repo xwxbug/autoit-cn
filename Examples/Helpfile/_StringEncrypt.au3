@@ -1,12 +1,10 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <String.au3>
-
-Opt("MustDeclareVars", 1)
 
 _Main()
 
 Func _Main()
-	Local $WinMain, $EditText, $InputPass, $InputLevel, $UpDownLevel, $EncryptButton, $DecryptButton, $string
+	Local $WinMain, $EditText, $InputPass, $InputLevel, $EncryptButton, $DecryptButton, $string
 	; GUI and String stuff
 	$WinMain = GUICreate('Encryption tool', 400, 400)
 	; Creates window
@@ -15,7 +13,7 @@ Func _Main()
 	$InputPass = GUICtrlCreateInput('', 5, 360, 100, 20, 0x21)
 	; Creates the password box with blured/centered input
 	$InputLevel = GUICtrlCreateInput(1, 110, 360, 50, 20, 0x2001)
-	$UpDownLevel = GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
+	GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
 	; These two make the level input with the Up|Down ability
 	$EncryptButton = GUICtrlCreateButton('Encrypt', 170, 360, 105, 35)
 	; Encryption button

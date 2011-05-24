@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiTab.au3>
 #include <WinAPI.au3>
 #include <GuiImageList.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_TAB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -15,7 +12,7 @@ Func _Main()
 
 	; Create GUI
 	$hGUI = GUICreate("Tab Control Get Image List", 400, 300)
-	$hTab = GUICtrlCreateTab(2, 2, 396, 296)
+	$hTab = _GUICtrlTab_Create($hGUI, 2, 2, 396, 296)
 	GUISetState()
 
 	; Create images
@@ -29,9 +26,10 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 0, "Tab 1", 0)
 	_GUICtrlTab_InsertItem($hTab, 1, "Tab 2", 1)
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3", 2)
-	
+
 	; Show image list handle
-	MsgBox(4160, "Information", "Image list handle: 0x" & Hex(_GUICtrlTab_GetImageList($hTab)))
+	MsgBox(4160, "Information", "Image list handle: 0x" & Hex(_GUICtrlTab_GetImageList($hTab)) & @CRLF & _
+			"IsPtr = " & IsPtr(_GUICtrlTab_GetImageList($hTab)) & " IsHwnd = " & IsHWnd(_GUICtrlTab_GetImageList($hTab)))
 
 	; Loop until user exits
 	Do

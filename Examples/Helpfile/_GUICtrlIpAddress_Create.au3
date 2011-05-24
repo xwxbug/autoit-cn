@@ -1,8 +1,6 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiIPAddress.au3>
 #include <WindowsConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 $Debug_IP = False ; Check ClassName being passed to IPAddress functions, set to True and use a handle to another control to see it work
 
@@ -12,14 +10,14 @@ _Main()
 
 Func _Main()
 	Local $hgui
-	
+
 	$hgui = GUICreate("IP Address Control Create Example", 400, 300)
-	$hIPAddress = _GUICtrlIpAddress_Create ($hgui, 10, 10)
+	$hIPAddress = _GUICtrlIpAddress_Create($hgui, 10, 10)
 	GUISetState(@SW_SHOW)
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-	
-	_GUICtrlIpAddress_Set ($hIPAddress, "24.168.2.128")
+
+	_GUICtrlIpAddress_Set($hIPAddress, "24.168.2.128")
 
 	; Wait for user to close GUI
 	Do
@@ -27,12 +25,12 @@ Func _Main()
 EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR
+	#forceref $hWnd, $iMsg, $iwParam
+	Local $hWndFrom, $iCode, $tNMHDR
 	Local $tInfo
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
 	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hIPAddress

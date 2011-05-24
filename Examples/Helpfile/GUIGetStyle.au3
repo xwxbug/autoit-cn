@@ -1,7 +1,5 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
@@ -11,7 +9,7 @@ Func Example()
 	$hWnd = GUICreate("Gui Style", 260, 100)
 	$Style = GUICtrlCreateButton("Set Style", 45, 50, 150, 20)
 
-	$GuiStyles = GUIGetStyle($hWnd) 	; be careful the style change after opening
+	$GuiStyles = GUIGetStyle($hWnd) ; be careful the style change after opening
 
 	GUISetState()
 

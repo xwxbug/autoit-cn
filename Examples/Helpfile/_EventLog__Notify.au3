@@ -1,4 +1,4 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <EventLog.au3>
 #include <WinAPI.au3>
 
@@ -7,24 +7,24 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hEventLog, $hGUI, $hEvent, $iResult
+	Local $hEventLog, $hEvent, $iResult
 
 	; Create GUI
-	$hGUI = GUICreate("EventLog", 400, 300)
+	GUICreate("EventLog", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 300, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; Set up event
-	$hEventLog = _EventLog__Open ("", "Security")
-	$hEvent = _WinAPI_CreateEvent (0, False, False, "")
-	_EventLog__Notify ($hEventLog, $hEvent)
+	$hEventLog = _EventLog__Open("", "Security")
+	$hEvent = _WinAPI_CreateEvent(0, False, False, "")
+	_EventLog__Notify($hEventLog, $hEvent)
 
 	; Wait for new event to occur
 	MemoWrite("Waiting for new event")
-	$iResult = _WinAPI_WaitForSingleObject ($hEvent)
-	_WinAPI_CloseHandle ($hEvent)
-	_EventLog__Close ($hEventLog)
+	$iResult = _WinAPI_WaitForSingleObject($hEvent)
+	_WinAPI_CloseHandle($hEvent)
+	_EventLog__Close($hEventLog)
 
 	; Write results
 	If $iResult = -1 Then

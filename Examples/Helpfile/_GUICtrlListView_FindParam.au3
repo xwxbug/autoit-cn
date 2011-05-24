@@ -1,7 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 

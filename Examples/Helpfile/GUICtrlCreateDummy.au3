@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -8,7 +6,7 @@ Func Example()
 	Local $user, $button, $cancel, $msg
 
 	GUICreate("GUICtrlCreateDummy", 250, 200, 100, 200)
-	GUISetBkColor(0x00E0FFFF)  ; will change background color
+	GUISetBkColor(0x00E0FFFF) ; will change background color
 
 	$user = GUICtrlCreateDummy()
 	$button = GUICtrlCreateButton("event", 75, 170, 70, 20)
@@ -17,7 +15,7 @@ Func Example()
 
 	Do
 		$msg = GUIGetMsg()
-		
+
 		Select
 			Case $msg = $button
 				GUICtrlSendToDummy($user)

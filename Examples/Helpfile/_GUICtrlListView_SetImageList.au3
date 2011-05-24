@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -11,7 +8,7 @@ _Main()
 
 Func _Main()
 	Local $hImage, $hListView
-	
+
 	GUICreate("ListView Set Image List", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUISetState()
@@ -21,7 +18,10 @@ Func _Main()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0xFF0000, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x00FF00, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x0000FF, 16, 16))
-	_GUICtrlListView_SetImageList($hListView, $hImage, 1)
+	Local $hPrevImageList = _GUICtrlListView_SetImageList($hListView, $hImage, 1)
+
+	MsgBox(4160, "Information", "Previous Image List Handle: 0x" & Hex($hPrevImageList) & @CRLF & _
+			"IsPtr = " & IsPtr($hPrevImageList) & " IsHWnd = " & IsHWnd($hPrevImageList))
 
 	; Add columns
 	_GUICtrlListView_AddColumn($hListView, "Column 1", 100)

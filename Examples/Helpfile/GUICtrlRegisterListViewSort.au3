@@ -1,7 +1,5 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <ListViewConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $nCurCol = -1
 Global $nSortDir = 1
@@ -15,18 +13,18 @@ Example2()
 ; Example 1 - sorting 3 column's different
 ; *******************************************************
 Func Example1()
-	Local $hGUI, $lv, $lvi1, $lvi2, $lvi3, $msg
+	Local $lv, $msg
 
-	$hGUI = GUICreate("Test", 300, 200)
+	GUICreate("Test", 300, 200)
 
 	$lv = GUICtrlCreateListView("Column1|Col2|Col3", 10, 10, 280, 180)
 	GUICtrlRegisterListViewSort(-1, "LVSort") ; Register the function "SortLV" for the sorting callback
 
-	$lvi1 = GUICtrlCreateListViewItem("ABC|666|10.05.2004", $lv)
+	GUICtrlCreateListViewItem("ABC|666|10.05.2004", $lv)
 	GUICtrlSetImage(-1, "shell32.dll", 7)
-	$lvi2 = GUICtrlCreateListViewItem("DEF|444|11.05.2005", $lv)
+	GUICtrlCreateListViewItem("DEF|444|11.05.2005", $lv)
 	GUICtrlSetImage(-1, "shell32.dll", 12)
-	$lvi3 = GUICtrlCreateListViewItem("CDE|444|12.05.2004", $lv)
+	GUICtrlCreateListViewItem("CDE|444|12.05.2004", $lv)
 	GUICtrlSetImage(-1, "shell32.dll", 3)
 
 	GUISetState()
@@ -36,7 +34,7 @@ Func Example1()
 		Switch $msg
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
-				
+
 			Case $lv
 				$bSet = 0
 				$nCurCol = $nCol
@@ -50,8 +48,8 @@ EndFunc   ;==>Example1
 
 ; Our sorting callback funtion
 Func LVSort($hWnd, $nItem1, $nItem2, $nColumn)
-	Local $nSort, $val1, $val2, $nResult
-	
+	Local $val1, $val2, $nResult
+
 	; Switch the sorting direction
 	If $nColumn = $nCurCol Then
 		If Not $bSet Then
@@ -62,26 +60,26 @@ Func LVSort($hWnd, $nItem1, $nItem2, $nColumn)
 		$nSortDir = 1
 	EndIf
 	$nCol = $nColumn
-	
+
 	$val1 = GetSubItemText($hWnd, $nItem1, $nColumn)
 	$val2 = GetSubItemText($hWnd, $nItem2, $nColumn)
-	
+
 	; If it is the 3rd colum (column starts with 0) then compare the dates
 	If $nColumn = 2 Then
 		$val1 = StringRight($val1, 4) & StringMid($val1, 4, 2) & StringLeft($val1, 2)
 		$val2 = StringRight($val2, 4) & StringMid($val2, 4, 2) & StringLeft($val2, 2)
 	EndIf
-	
-	$nResult = 0 	; No change of item1 and item2 positions
-	
+
+	$nResult = 0 ; No change of item1 and item2 positions
+
 	If $val1 < $val2 Then
-		$nResult = -1	; Put item2 before item1
+		$nResult = -1 ; Put item2 before item1
 	ElseIf $val1 > $val2 Then
-		$nResult = 1	; Put item2 behind item1
+		$nResult = 1 ; Put item2 behind item1
 	EndIf
 
 	$nResult = $nResult * $nSortDir
-	
+
 	Return $nResult
 EndFunc   ;==>LVSort
 
@@ -90,16 +88,16 @@ EndFunc   ;==>LVSort
 Func GetSubItemText($nCtrlID, $nItemID, $nColumn)
 	Local $stLvfi = DllStructCreate("uint;ptr;int;int[2];int")
 	Local $nIndex, $stBuffer, $stLvi, $sItemText
-	
+
 	DllStructSetData($stLvfi, 1, $LVFI_PARAM)
 	DllStructSetData($stLvfi, 3, $nItemID)
 
 	$stBuffer = DllStructCreate("char[260]")
-	
+
 	$nIndex = GUICtrlSendMsg($nCtrlID, $LVM_FINDITEM, -1, DllStructGetPtr($stLvfi));
-	
+
 	$stLvi = DllStructCreate("uint;int;int;uint;uint;ptr;int;int;int;int")
-	
+
 	DllStructSetData($stLvi, 1, $LVIF_TEXT)
 	DllStructSetData($stLvi, 2, $nIndex)
 	DllStructSetData($stLvi, 3, $nColumn)
@@ -113,7 +111,7 @@ Func GetSubItemText($nCtrlID, $nItemID, $nColumn)
 	$stLvi = 0
 	$stLvfi = 0
 	$stBuffer = 0
-	
+
 	Return $sItemText
 EndFunc   ;==>GetSubItemText
 
@@ -145,7 +143,7 @@ Func Example2()
 		Switch $msg
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
-				
+
 			Case $lv
 				$bSet = 0
 				$nCurCol = $nCol
@@ -157,8 +155,8 @@ EndFunc   ;==>Example2
 
 ; Our sorting callback funtion
 Func LVSort2($hWnd, $nItem1, $nItem2, $nColumn)
-	Local $nSort, $val1, $val2, $nResult
-	
+	Local $val1, $val2, $nResult
+
 	; Switch the sorting direction
 	If $nColumn = $nCurCol Then
 		If Not $bSet Then
@@ -169,7 +167,7 @@ Func LVSort2($hWnd, $nItem1, $nItem2, $nColumn)
 		$nSortDir = 1
 	EndIf
 	$nCol = $nColumn
-	
+
 	$val1 = GetSubItemText($hWnd, $nItem1, $nColumn)
 	$val2 = GetSubItemText($hWnd, $nItem2, $nColumn)
 
@@ -178,17 +176,17 @@ Func LVSort2($hWnd, $nItem1, $nItem2, $nColumn)
 		$val1 = StringRight($val1, 4) & StringMid($val1, 4, 2) & StringLeft($val1, 2)
 		$val2 = StringRight($val2, 4) & StringMid($val2, 4, 2) & StringLeft($val2, 2)
 	EndIf
-	
-	$nResult = 0 	; No change of item1 and item2 positions
-	
+
+	$nResult = 0 ; No change of item1 and item2 positions
+
 	If $val1 < $val2 Then
-		$nResult = -1	; Put item2 before item1
+		$nResult = -1 ; Put item2 before item1
 	ElseIf $val1 > $val2 Then
-		$nResult = 1	; Put item2 behind item1
+		$nResult = 1 ; Put item2 behind item1
 	EndIf
 
 	$nResult = $nResult * $nSortDir
-	
+
 	Return $nResult
 EndFunc   ;==>LVSort2
 
@@ -197,16 +195,16 @@ EndFunc   ;==>LVSort2
 Func GetSubItemText2($nCtrlID, $nItemID, $nColumn)
 	Local $stLvfi = DllStructCreate("uint;ptr;int;int[2];int")
 	Local $stBuffer, $nIndex, $stLvi, $sItemText
-	
+
 	DllStructSetData($stLvfi, 1, $LVFI_PARAM) ; Find the item by our saved index
 	DllStructSetData($stLvfi, 3, $nItemID)
-	
+
 	$stBuffer = DllStructCreate("char[260]")
-	
+
 	$nIndex = GUICtrlSendMsg($nCtrlID, $LVM_FINDITEM, -1, DllStructGetPtr($stLvfi));
 
 	$stLvi = DllStructCreate("uint;int;int;uint;uint;ptr;int;int;int;int")
-	
+
 	DllStructSetData($stLvi, 1, $LVIF_TEXT)
 	DllStructSetData($stLvi, 2, $nIndex)
 	DllStructSetData($stLvi, 3, $nColumn)
@@ -220,7 +218,7 @@ Func GetSubItemText2($nCtrlID, $nItemID, $nColumn)
 	$stLvi = 0
 	$stLvfi = 0
 	$stBuffer = 0
-	
+
 	Return $sItemText
 EndFunc   ;==>GetSubItemText2
 
@@ -230,17 +228,17 @@ Func MyGUICtrlCreateListViewItem($sText, $nCtrlID, $nIndex)
 	Local $stLvItem = DllStructCreate("uint;int;int;uint;uint;ptr;int;int;int;int;")
 	Local $stText = DllStructCreate("char[260]")
 	Local $arText = StringSplit($sText, "|")
-	
+
 	If $nIndex = -1 Then $nIndex = GUICtrlSendMsg($nCtrlID, $LVM_GETITEMCOUNT, 0, 0)
-	
+
 	DllStructSetData($stText, 1, $arText[1]) ; Save the item text in the struct
-	
+
 	DllStructSetData($stLvItem, 1, BitOR($LVIF_TEXT, $LVIF_PARAM))
 	DllStructSetData($stLvItem, 2, $nIndex)
 	DllStructSetData($stLvItem, 6, DllStructGetPtr($stText))
 	; Set the lParam of the struct to the line index - unique within the listview
 	DllStructSetData($stLvItem, 9, $nIndex)
-	
+
 	$nIndex = GUICtrlSendMsg($nCtrlID, $LVM_INSERTITEMA, 0, DllStructGetPtr($stLvItem))
 
 	If $nIndex > -1 Then
@@ -248,7 +246,7 @@ Func MyGUICtrlCreateListViewItem($sText, $nCtrlID, $nIndex)
 		For $i = 2 To $arText[0]
 			DllStructSetData($stText, 1, $arText[$i])
 			DllStructSetData($stLvItem, 3, $i - 1) ; Store the subitem index
-			
+
 			GUICtrlSendMsg($nCtrlID, $LVM_SETITEMTEXTA, $nIndex, DllStructGetPtr($stLvItem))
 		Next
 	EndIf

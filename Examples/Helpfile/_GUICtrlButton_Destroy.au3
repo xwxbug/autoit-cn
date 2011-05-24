@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -23,15 +20,15 @@ Func _Main()
 	$chk = _GUICtrlButton_Create($hGUI, "Check1", 10, 120, 90, 50, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 
 	GUISetState()
-	
+
 	MemoWrite("$btn handle: " & $btn)
 	MemoWrite("$rdo handle: " & $rdo)
 	MemoWrite("$chk handle: " & $chk & @CRLF)
-	
+
 	MsgBox(4096, "Information", "About to Destroy Buttons")
-	
+
 	Send("^{END}")
-	
+
 	MemoWrite("Destroyed $btn: " & _GUICtrlButton_Destroy($btn))
 	MemoWrite("Destroyed $rdo: " & _GUICtrlButton_Destroy($rdo))
 	MemoWrite("Destroyed $chk: " & _GUICtrlButton_Destroy($chk) & @CRLF)

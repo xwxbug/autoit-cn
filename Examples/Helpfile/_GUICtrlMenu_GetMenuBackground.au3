@@ -1,8 +1,6 @@
-﻿#include <GuiMenu.au3>
+#include <GuiMenu.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 

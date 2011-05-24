@@ -1,15 +1,12 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <GuiImageList.au3>
-
-Opt("MustDeclareVars", 1)
 
 _Main()
 
 Func _Main()
 	Local $hImage, $y = 70, $iIcon = 125, $btn[6], $rdo[6], $chk[6], $hImageSmall
-	
+
 	GUICreate("Buttons", 510, 400)
 	GUISetState()
 
@@ -42,7 +39,7 @@ Func _Main()
 		_GUICtrlButton_SetImageList($chk[$x], _GetImageListHandle("shell32.dll", $iIcon + $x), $x)
 		$y += 60
 	Next
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
@@ -57,7 +54,7 @@ EndFunc   ;==>_Main
 Func _GetImageListHandle($sFile, $nIconID = 0, $fLarge = False)
 	Local $iSize = 16
 	If $fLarge Then $iSize = 32
-	
+
 	Local $hImage = _GUIImageList_Create($iSize, $iSize, 5, 3)
 	If StringUpper(StringMid($sFile, StringLen($sFile) - 2)) = "BMP" Then
 		_GUIImageList_AddBitmap($hImage, $sFile)

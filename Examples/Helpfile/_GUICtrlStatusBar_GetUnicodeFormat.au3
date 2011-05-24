@@ -1,9 +1,7 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiStatusBar.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -17,17 +15,17 @@ Func _Main()
 
 	; Create GUI
 	$hGUI = GUICreate("(Example 1) StatusBar Get Unicode Format", 400, 300)
-	$hStatus = _GUICtrlStatusBar_Create ($hGUI)
-	
+	$hStatus = _GUICtrlStatusBar_Create($hGUI)
+
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; Get/Set Unicode format
-	MemoWrite("Unicode format .: " & _GUICtrlStatusBar_GetUnicodeFormat ($hStatus))
-	_GUICtrlStatusBar_SetUnicodeFormat ($hStatus)
-	MemoWrite("Unicode format .: " & _GUICtrlStatusBar_GetUnicodeFormat ($hStatus))
+	MemoWrite("Unicode format .: " & _GUICtrlStatusBar_GetUnicodeFormat($hStatus))
+	_GUICtrlStatusBar_SetUnicodeFormat($hStatus)
+	MemoWrite("Unicode format .: " & _GUICtrlStatusBar_GetUnicodeFormat($hStatus))
 
 	; Loop until user exits
 	Do

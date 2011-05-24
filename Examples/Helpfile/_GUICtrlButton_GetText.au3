@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -22,7 +19,7 @@ Func _Main()
 		$btn[$x] = GUICtrlCreateButton("Button" & $x + 1, 10, $y, 90, 50)
 		$y += 60
 	Next
-	
+
 	$iRand = Random(0, 5, 1)
 	MsgBox(4096, "Information", "Setting Button" & $iRand + 1 & " Text")
 	_GUICtrlButton_SetText($btn[$iRand], "New Text" & $iRand + 1)
@@ -30,7 +27,7 @@ Func _Main()
 	For $x = 0 To 5
 		MemoWrite("$btn[" & $x & "] Text: " & _GUICtrlButton_GetText($btn[$x]))
 	Next
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE

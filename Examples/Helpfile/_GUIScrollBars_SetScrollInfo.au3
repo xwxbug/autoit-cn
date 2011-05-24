@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
 #include <GUIScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 _Main()
 
@@ -15,7 +12,7 @@ Func _Main()
 
 	$hGUI = GUICreate("ScrollBar Example", 400, 400, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_SIZEBOX))
 	GUISetBkColor(0x88AABB)
-	
+
 	$nFileMenu = GUICtrlCreateMenu("File")
 	$nExititem = GUICtrlCreateMenuItem("Exit", $nFileMenu)
 	$listview = GUICtrlCreateListView("col1  |col2|col3  ", 10, 10, 200, 150);,$LVS_SORTDESCENDING)
@@ -25,7 +22,7 @@ Func _Main()
 		GUICtrlCreateListViewItem("item" & $x & "|col2|col3", $listview)
 	Next
 	GUICtrlSetResizing($listview, $GUI_DOCKALL)
-	
+
 	$h_cGUI = GUICreate("Child GUI", 200, 200, 10, 200, $WS_CHILD, $WS_EX_CLIENTEDGE, $hGUI)
 	GUICtrlCreateButton("a button", 10, 10, 90, 20)
 	GUISetBkColor(0X006400)
@@ -45,7 +42,7 @@ Func _Main()
 	GUIRegisterMsg($WM_SIZE, "WM_SIZE")
 	GUIRegisterMsg($WM_VSCROLL, "WM_VSCROLL")
 	GUIRegisterMsg($WM_HSCROLL, "WM_HSCROLL")
-	
+
 	GUISetState()
 
 	_GUIScrollBars_Init($hGUI)
@@ -79,20 +76,20 @@ Func WM_SIZE($hWnd, $Msg, $wParam, $lParam)
 	If $index = -1 Then Return 0
 
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
-	
+
 	; Retrieve the dimensions of the client area.
 	$xClient = BitAND($lParam, 0x0000FFFF)
 	$yClient = BitShift($lParam, 16)
 	$aSB_WindowInfo[$index][4] = $xClient
 	$aSB_WindowInfo[$index][5] = $yClient
-	
+
 	; Set the vertical scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
 	DllStructSetData($tSCROLLINFO, "nMax", $ivMax)
 	DllStructSetData($tSCROLLINFO, "nPage", $yClient / $yChar)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_VERT, $tSCROLLINFO)
-	
+
 	; Set the horizontal scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
@@ -118,7 +115,7 @@ Func WM_HSCROLL($hWnd, $Msg, $wParam, $lParam)
 		EndIf
 	Next
 	If $index = -1 Then Return 0
-	
+
 ;~ 	; Get all the horizontal scroll bar information
 	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $SB_HORZ)
 	$Min = DllStructGetData($tSCROLLINFO, "nMin")
@@ -207,7 +204,7 @@ Func WM_VSCROLL($hWnd, $Msg, $wParam, $lParam)
 		Case $SB_THUMBTRACK ; user dragged the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $TrackPos)
 	EndSwitch
-	
+
 ;~    // Set the position and then retrieve it.  Due to adjustments
 ;~    //   by Windows it may not be the same as the value set.
 

@@ -1,12 +1,10 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $parent1, $parent2, $tabitem, $msg
-	
+
 	$parent1 = GUICreate("Parent1")
 	GUICtrlCreateTab(10, 10)
 	$tabitem = GUICtrlCreateTabItem("tab1")

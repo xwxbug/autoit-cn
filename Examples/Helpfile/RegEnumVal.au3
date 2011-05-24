@@ -1,5 +1,5 @@
-﻿For $i = 1 to 100
-$var = RegEnumVal("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\Autoit", $i)
-if @error <> 0 Then ExitLoop
-MsgBox(4096, "Value Name  #" & $i & " under in AutoIt3 key", $var)
-next
+For $i = 1 To 100
+	Local $var = RegEnumVal("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\Autoit", $i)
+	If @error <> 0 Then ExitLoop
+	MsgBox(4096, "Value Name  #" & $i & " under in AutoIt3 key", $var)
+Next

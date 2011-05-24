@@ -1,12 +1,9 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
 Opt("GUIOnEventMode", 1)
-Opt('MustDeclareVars', 1)
-
 Global $hListView, $hListView2, $GUI1, $GUI2, $run = 1
 Global $Dock = 1, $Dock_Location = 1, $x1, $x2, $y1, $y2
 Global $OptionsItem2, $OptionsItem3, $OptionsItem4
@@ -20,7 +17,7 @@ Func _Main()
 	Local $Btn_MoveLeft, $Btn_MoveRight, $Btn_Exit1, $Btn_Exit2
 	Local $Btn_CopyRight, $Btn_CopyLeft, $hImage
 	Local $exStyles = BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_CHECKBOXES, $LVS_EX_SUBITEMIMAGES)
-	
+
 	$GUI1 = GUICreate("(External) ListView Copy Items", $width, 300, 10, 10)
 	$OptionsMenu = GUICtrlCreateMenu("Options")
 	$OptionsItem1 = GUICtrlCreateMenu("Docking", $OptionsMenu)
@@ -84,7 +81,7 @@ Func _Main()
 
 	GUISetState(@SW_SHOW, $GUI2)
 	GUISetState(@SW_SHOW, $GUI1)
-	
+
 	; Load images
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 13)

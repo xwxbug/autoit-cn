@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $sServer, $aInfo
+	Local $sServer, $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -24,7 +22,7 @@ Func _Main()
 	If @error Then Exit
 
 	; Enumerate network sessions
-	$aInfo = _Net_Share_SessionEnum ($sServer, @ComputerName)
+	$aInfo = _Net_Share_SessionEnum($sServer, @ComputerName)
 	MemoWrite("Error ..........: " & @error)
 	MemoWrite("Entries read ...: " & $aInfo[0][0])
 	For $iI = 1 To $aInfo[0][0]

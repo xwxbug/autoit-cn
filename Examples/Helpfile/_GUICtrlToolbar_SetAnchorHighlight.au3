@@ -1,12 +1,10 @@
-﻿#include <GuiToolbar.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiToolbar.au3>
 
 _Main()
 
 Func _Main()
 	Local $hToolbar, $fEnabled
-	
+
 	Run("explorer.exe /root, ,::{20D04FE0-3AEA-1069-A2D8-08002B30309D}")
 	WinWaitActive("My Computer")
 	$hToolbar = _GUICtrlToolbar_FindToolbar("[CLASS:CabinetWClass]", "&File")

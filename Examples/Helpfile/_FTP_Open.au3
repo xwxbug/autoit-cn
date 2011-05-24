@@ -1,5 +1,5 @@
 #include <FTPEx.au3>
 
-$Open = _FTP_Open('MyFTP Control')
+Local $Open = _FTP_Open('MyFTP Control')
 ; ...
-$Ftpc = _FTP_Close($Open)
+Local $Ftpc = _FTP_Close($Open)

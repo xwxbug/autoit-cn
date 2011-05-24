@@ -1,4 +1,4 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - Write to a Cell after opening a workbook and returning its object identifier.  Then Save and Close file
 ; *****************************************************************
 
@@ -18,7 +18,7 @@ _ExcelBookClose($oExcel) ; And finally we close out
 
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 For $i = 1 To 20 ;Loop
 	_ExcelWriteCell($oExcel, "I Wrote to This Cell", $i, 1) ;Write to the Cell
@@ -35,7 +35,7 @@ _ExcelBookClose($oExcel) ; And finally we close out
 
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 For $i = 1 To 20 ;Loop
 	_ExcelWriteCell($oExcel, $i, $i, 1) ;Write to the Cell

@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $aInfo
+	Local $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -20,18 +18,18 @@ Func _Main()
 	GUISetState()
 
 	; Get workstation statistics
-	$aInfo = _Net_Share_StatisticsGetWrk (@ComputerName)
+	$aInfo = _Net_Share_StatisticsGetWrk(@ComputerName)
 	MemoWrite("NetStatisticsGetWrk")
-	MemoWrite("Statistics started ......: " & $aInfo[ 0])
-	MemoWrite("Bytes received ..........: " & $aInfo[ 1])
-	MemoWrite("SMBs received ...........: " & $aInfo[ 2])
-	MemoWrite("Paging I/O bytes ........: " & $aInfo[ 3])
-	MemoWrite("Non-paging I/O bytes ....: " & $aInfo[ 4])
-	MemoWrite("Cache I/O bytes ..... ...: " & $aInfo[ 5])
-	MemoWrite("Disk I/O bytes ..........: " & $aInfo[ 6])
-	MemoWrite("Bytes transmitted .......: " & $aInfo[ 7])
-	MemoWrite("SMBs transmitted ........: " & $aInfo[ 8])
-	MemoWrite("Paging I/O bytes ........: " & $aInfo[ 9])
+	MemoWrite("Statistics started ......: " & $aInfo[0])
+	MemoWrite("Bytes received ..........: " & $aInfo[1])
+	MemoWrite("SMBs received ...........: " & $aInfo[2])
+	MemoWrite("Paging I/O bytes ........: " & $aInfo[3])
+	MemoWrite("Non-paging I/O bytes ....: " & $aInfo[4])
+	MemoWrite("Cache I/O bytes ..... ...: " & $aInfo[5])
+	MemoWrite("Disk I/O bytes ..........: " & $aInfo[6])
+	MemoWrite("Bytes transmitted .......: " & $aInfo[7])
+	MemoWrite("SMBs transmitted ........: " & $aInfo[8])
+	MemoWrite("Paging I/O bytes ........: " & $aInfo[9])
 	MemoWrite("Non-paging I/O bytes ....: " & $aInfo[10])
 	MemoWrite("Cache I/O bytes .........: " & $aInfo[11])
 	MemoWrite("Disk I/O bytes ..........: " & $aInfo[12])

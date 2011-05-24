@@ -1,12 +1,13 @@
-﻿; *******************************************************
+; *******************************************************
 ; Example 1 - Attach to a word window with an open file named "Test.doc",
 ;				then display the documents full file path.
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordAttach ("Test.doc", "FileName")
+
+Local $oWordApp = _WordAttach(@ScriptDir & "\Test.doc", "FileName")
 If Not @error Then
-	$oDoc = _WordDocGetCollection ($oWordApp, 0)
+	Local $oDoc = _WordDocGetCollection($oWordApp, 0)
 	MsgBox(64, "Document FileName", $oDoc.FullName)
 EndIf
 
@@ -16,4 +17,4 @@ EndIf
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordAttach ("The quick brown fox", "Text")
+$oWordApp = _WordAttach("The quick brown fox", "Text")

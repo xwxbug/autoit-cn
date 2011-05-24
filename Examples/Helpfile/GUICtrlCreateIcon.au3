@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example1()
 Example2()
@@ -8,19 +6,17 @@ Example2()
 
 ;example1 ---------------------------
 Func Example1()
-	Local $icon, $n1, $n2, $msg
-	
 	GUICreate(" My GUI Icons", 250, 250)
 
-	$icon = GUICtrlCreateIcon("shell32.dll", 10, 20, 20)
-	$n1 = GUICtrlCreateIcon(@WindowsDir & "\cursors\horse.ani", -1, 20, 40, 32, 32)
-	$n2 = GUICtrlCreateIcon("shell32.dll", 7, 20, 75, 32, 32)
+	GUICtrlCreateIcon("shell32.dll", 10, 20, 20)
+	GUICtrlCreateIcon(@WindowsDir & "\cursors\horse.ani", -1, 20, 40, 32, 32)
+	GUICtrlCreateIcon("shell32.dll", 7, 20, 75, 32, 32)
 	GUISetState()
 
 	; Run the GUI until the dialog is closed
 	While 1
-		$msg = GUIGetMsg()
-		
+		Local $msg = GUIGetMsg()
+
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 	GUIDelete()
@@ -40,7 +36,8 @@ Func Example2()
 
 	GUISetState(@SW_SHOW)
 
-	Dim $a = 0, $b = 0
+	$a = 0
+	$b = 0
 	While ($a < 300) And ($b < 300)
 		$a = $a + Int(Random(0, 1) + 0.5)
 		$b = $b + Int(Random(0, 1) + 0.5)

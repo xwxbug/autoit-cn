@@ -5,8 +5,8 @@ Sleep(1000)
 
 Func MyTestFunc()
 	MsgBox(64, "Start Results 2", 'Start Message from MyTestFunc()')
-EndFunc
+EndFunc   ;==>MyTestFunc
 
 Func MyTestFunc2()
 	MsgBox(64, "Start Results 3", 'Start Message from MyTestFunc()')
-EndFunc
+EndFunc   ;==>MyTestFunc2

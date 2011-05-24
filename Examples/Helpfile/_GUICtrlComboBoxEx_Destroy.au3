@@ -1,7 +1,5 @@
-﻿#include <GuiComboBoxEx.au3>
+#include <GuiComboBoxEx.au3>
 #include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
 
@@ -12,15 +10,15 @@ Func _Main()
 
 	; Create GUI
 	$hGUI = GUICreate("ComboBoxEx Destroy", 400, 300)
-	$hCombo = _GUICtrlComboBoxEx_Create ($hGUI, "This is a test|Line 2", 2, 2, 394, 268)
+	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "This is a test|Line 2", 2, 2, 394, 268)
 	GUISetState()
 
-	_GUICtrlComboBoxEx_AddString ($hCombo, "Some More Text")
-	_GUICtrlComboBoxEx_InsertString ($hCombo, "Inserted Text", 1)
+	_GUICtrlComboBoxEx_AddString($hCombo, "Some More Text")
+	_GUICtrlComboBoxEx_InsertString($hCombo, "Inserted Text", 1)
 
 	;Destroy control
 	MsgBox(266256, "Information", "Destroy the control")
-	_GUICtrlComboBoxEx_Destroy ($hCombo)
+	_GUICtrlComboBoxEx_Destroy($hCombo)
 
 
 	; Loop until user exits

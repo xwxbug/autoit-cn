@@ -1,14 +1,14 @@
-﻿#include<File.au3>
+#include<File.au3>
 
-$avCommon = _FileListToArray(@CommonFilesDir)
-$avUser = _FileListToArray(@UserProfileDir)
-$sFile = @ScriptDir & "\Test.txt"
+Local $avCommon = _FileListToArray(@CommonFilesDir)
+Local $avUser = _FileListToArray(@UserProfileDir)
+Local $sFile = @ScriptDir & "\Test.txt"
 
 ; Write first array to file by string file name
 _FileWriteFromArray($sFile, $avCommon, 1)
 
 ; Open file and append second array
-$hFile = FileOpen($sFile, 1) ; 1 = append
+Local $hFile = FileOpen($sFile, 1) ; 1 = append
 _FileWriteFromArray($hFile, $avUser, 1)
 FileClose($hFile)
 

@@ -1,8 +1,6 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiStatusBar.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -14,20 +12,20 @@ Func _Main()
 
 	Local $hGUI, $aInfo, $hStatus
 	Local $aParts[3] = [75, 150, -1]
-	
+
 	; Create GUI
 	$hGUI = GUICreate("StatusBar Get Borders", 400, 300)
 
-	$hStatus = _GUICtrlStatusBar_Create ($hGUI)
-	_GUICtrlStatusBar_SetParts ($hStatus, $aParts)
-	
+	$hStatus = _GUICtrlStatusBar_Create($hGUI)
+	_GUICtrlStatusBar_SetParts($hStatus, $aParts)
+
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; Get border sizes
-	$aInfo = _GUICtrlStatusBar_GetBorders ($hStatus)
+	$aInfo = _GUICtrlStatusBar_GetBorders($hStatus)
 	MemoWrite("Horizontal border width .: " & $aInfo[0])
 	MemoWrite("Vertical border width ...: " & $aInfo[1])
 	MemoWrite("Width between rectangles : " & $aInfo[2])

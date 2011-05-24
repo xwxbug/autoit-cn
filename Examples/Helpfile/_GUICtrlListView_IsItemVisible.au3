@@ -1,14 +1,12 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
 Func Example()
 	Local $listview, $msg, $iIndex
-	
+
 	GUICreate("listview items", 220, 250, 100, 200)
 	GUISetBkColor(0x00E0FFFF) ; will change background color
 
@@ -17,7 +15,7 @@ Func Example()
 		GUICtrlCreateListViewItem("item" & $x & "|col" & $x & "2|col" & $x & "3", $listview)
 	Next
 	GUISetState()
-	
+
 	$iIndex = Random(0, 29, 1)
 	MsgBox(4160, "Information", $iIndex & " is Visible: " & _GUICtrlListView_IsItemVisible($listview, $iIndex))
 

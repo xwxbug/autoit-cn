@@ -1,13 +1,11 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiReBar.au3>
 #include <GuiToolBar.au3>
 #include <GuiComboBox.au3>
 #include <GuiDateTimePicker.au3>
+#include <GuiEdit.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 #include <GuiConstantsEx.au3>
-
-Opt("MustDeclareVars", 1)
 
 $Debug_RB = False
 
@@ -24,12 +22,12 @@ Func _Main()
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
 	; create the rebar control
-	$hReBar = _GUICtrlReBar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
+	$hReBar = _GUICtrlRebar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
 
 
 	; create a toolbar to put in the rebar
-	$hToolbar = _GUICtrlToolBar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
-	
+	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
+
 	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
@@ -47,30 +45,34 @@ Func _Main()
 
 	; create a combobox to put in the rebar
 	$hCombo = _GUICtrlComboBox_Create($hgui, "", 0, 0, 120)
-	
+
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
-	
+
 	; create a date time picker to put in the rebar
 	$hDTP = _GUICtrlDTP_Create($hgui, 0, 0, 190)
-	
+
 	; create a input box to put in the rebar
-	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
+;~ 	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
+	$hInput = _GUICtrlEdit_Create($hgui, "Input control", 0, 0, 120, 20)
+
 
 	; default for add is append
-	
+
 	; add band with control
-	_GUICtrlReBar_AddBand($hReBar, $hCombo, 120, 200, "Dir *.exe")
+	_GUICtrlRebar_AddBand($hReBar, $hCombo, 120, 200, "Dir *.exe")
 
 	; add band with date time picker
-	_GUICtrlReBar_AddBand($hReBar, $hDTP, 120)
-	
+	_GUICtrlRebar_AddBand($hReBar, $hDTP, 120)
+
 	; add band with toolbar to begining of rebar
-	_GUICtrlReBar_AddToolBarBand($hReBar, $hToolbar, "", 0)
-	
+	_GUICtrlRebar_AddToolBarBand($hReBar, $hToolbar, "", 0)
+
 	;add another control
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+;~ 	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+	_GUICtrlRebar_AddBand($hReBar, $hInput, 120, 200, "Name:")
+
 
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUISetState(@SW_SHOW)

@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -10,7 +7,7 @@ _Main()
 
 Func _Main()
 	Local $tItem, $hListView
-	
+
 	GUICreate("ListView Get ItemEX", 400, 300)
 
 	$hListView = GUICtrlCreateListView("Items", 2, 2, 394, 268)
@@ -27,10 +24,10 @@ Func _Main()
 	DllStructSetData($tItem, "StateMask", -1)
 	_GUICtrlListView_GetItemEx($hListView, $tItem)
 	MsgBox(4160, "Information", "Item 2 State: " & DllStructGetData($tItem, "State"))
-	
+
 	; Select item 2
 	_GUICtrlListView_SetItemSelected($hListView, 1)
-	
+
 	; Show item 1 raw state
 	_GUICtrlListView_GetItemEx($hListView, $tItem)
 	MsgBox(4160, "Information", "Item 2 State: " & DllStructGetData($tItem, "State"))

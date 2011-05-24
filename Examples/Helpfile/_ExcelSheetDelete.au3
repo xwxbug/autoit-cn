@@ -1,6 +1,7 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - After opening a workbook and returning its object identifier, Delete a Worksheet by String Name
 ; *****************************************************************
+
 #include <Excel.au3>
 
 Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
@@ -14,9 +15,10 @@ _ExcelBookClose($oExcel) ; And finally we close out
 ; ***************************************************************
 ; Example 2 - After opening a workbook and returning its object identifier, Delete a Worksheet by Index
 ; *****************************************************************
+
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 _ExcelSheetDelete($oExcel, 1) ;Delete Sheet by index of SheetName
 

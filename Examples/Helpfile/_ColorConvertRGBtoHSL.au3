@@ -1,13 +1,10 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <Color.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
 Func _Main()
 	Local $aiInput[3] = [128, 255, 128], $aiHSL, $aiRGB, $sOutput
-	
+
 	$aiHSL = _ColorConvertRGBtoHSL($aiInput)
 	$aiRGB = _ColorConvertHSLtoRGB($aiHSL)
 

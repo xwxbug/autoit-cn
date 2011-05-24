@@ -1,9 +1,8 @@
-﻿
 #include <String.au3>
 #include <Array.au3>
 
-$text = "one##two##three##four##five##six##seven##eight"
-$array1 = _StringExplode($text, "##", 0)
+Local $text = "one##two##three##four##five##six##seven##eight"
+Local $array1 = _StringExplode($text, "##", 0)
 _ArrayDisplay($array1, "StringExplode 0")
 
 ;DISPLAYED
@@ -16,7 +15,7 @@ _ArrayDisplay($array1, "StringExplode 0")
 ;[6] = seven
 ;[7] = eight
 
-$array2 = _StringExplode($text, "##", 4)
+Local $array2 = _StringExplode($text, "##", 4)
 _ArrayDisplay($array2, "StringExplode 4")
 
 ;DISPLAYED
@@ -26,7 +25,7 @@ _ArrayDisplay($array2, "StringExplode 4")
 ;[3] = four
 ;[4] = five##six##seven##eight
 
-$array3 = _StringExplode($text, "##", -3)
+Local $array3 = _StringExplode($text, "##", -3)
 _ArrayDisplay($array3, "StringExplode -3")
 
 ;DISPLAYED

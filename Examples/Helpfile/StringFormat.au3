@@ -1,5 +1,5 @@
-﻿$n =  43951789;
-$u = -43951789;
+Local $n = 43951789;
+Local $u = -43951789;
 
 ; notice the double %%, this prints a literal '%' character
 printf("%%d = '%d'\n", $n);				'43951789'			standard integer representation
@@ -17,21 +17,21 @@ printf("%%+d = '%+d'\n", $n);			'+43951789'			sign specifier on a positive integ
 printf("%%+d <0= '%+d'\n", $u);			'-43951789'			sign specifier on a negative integer
 
 
-$s = 'monkey';
-$t = 'many monkeys';
+Local $s = 'monkey';
+Local $t = 'many monkeys';
 
-printf("%%s = [%s]\n",      $s);		[monkey]			standard string output
-printf("%%10s = [%10s]\n",    $s);		[    monkey]		right-justification with spaces
-printf("%%-10s = [%-10s]\n",   $s);		[monkey    ]		left-justification with spaces
-printf("%%010s = [%010s]\n",   $s);		[0000monkey]		zero-padding works on strings too
+printf("%%s = [%s]\n", $s);				[monkey]			standard string output
+printf("%%10s = [%10s]\n", $s);			[    monkey]		right-justification with spaces
+printf("%%-10s = [%-10s]\n", $s);		[monkey    ]		left-justification with spaces
+printf("%%010s = [%010s]\n", $s);		[0000monkey]		zero-padding works on strings too
 printf("%%10.10s = [%10.10s]\n", $t);	[many monke]		left-justification but with a cutoff of 10 characters
 
 printf("%04d-%02d-%02d\n", 2008, 4, 1);
 
-Func Printf($format, $var1, $var2=-1, $var3=-1)
-	If $var2=-1 Then
+Func Printf($format, $var1, $var2 = -1, $var3 = -1)
+	If $var2 = -1 Then
 		ConsoleWrite(StringFormat($format, $var1))
 	Else
 		ConsoleWrite(StringFormat($format, $var1, $var2, $var3))
-	EndIf	
-EndFunc
+	EndIf
+EndFunc   ;==>Printf

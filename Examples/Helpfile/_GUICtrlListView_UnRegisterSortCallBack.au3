@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $hListView, $hListView2
 
@@ -82,7 +79,7 @@ Func _Example2()
 	_AddRow($hListView, "ABC|000666|10.05.2004", $aIcons)
 	_AddRow($hListView, "DEF|444|11.05.2005", $aIcons, 1)
 	_AddRow($hListView, "CDE|555|12.05.2004", $aIcons, 2)
-	
+
 	GUISetState()
 
 	GUICreate("ListView Sort Treat Numbers as Numbers", 300, 200, 400)
@@ -132,7 +129,7 @@ Func _WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	$hWndListView2 = $hListView2
 	If Not IsHWnd($hListView) Then $hWndListView = GUICtrlGetHandle($hListView)
 	If Not IsHWnd($hListView2) Then $hWndListView2 = GUICtrlGetHandle($hListView2)
-	
+
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
 	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iCode = DllStructGetData($tNMHDR, "Code")

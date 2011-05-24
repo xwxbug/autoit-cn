@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Global $x, $y
 
@@ -8,7 +6,7 @@ Example()
 
 Func Example()
 	Local $msg
-	
+
 	HotKeySet("{Esc}", "GetPos")
 
 	GUICreate("Press Esc to Get Pos", 400, 400)
@@ -24,7 +22,7 @@ EndFunc   ;==>Example
 
 Func GetPos()
 	Local $a
-	
+
 	$a = GUIGetCursorInfo()
 	GUICtrlSetData($x, $a[0])
 	GUICtrlSetData($y, $a[1])

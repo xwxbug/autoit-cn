@@ -1,1 +1,1 @@
-﻿$handle = PluginOpen("example.dll")
+Local $handle = PluginOpen("example.dll")

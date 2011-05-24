@@ -1,24 +1,20 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GDIPlus.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $hBitmap
-
 	; Create GUI
-	$hGUI = GUICreate("GDI+", 600, 400)
+	GUICreate("GDI+", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; Initialize GDI+ library
-	_GDIPlus_Startup ()
+	_GDIPlus_Startup()
 
 	; Show number of decoders/encoders
 	MemoWrite("Decoder count : " & _GDIPlus_DecodersGetCount());
@@ -27,7 +23,7 @@ Func _Main()
 	MemoWrite("Encoder size .: " & _GDIPlus_EncodersGetSize());
 
 	; Shut down GDI+ library
-	_GDIPlus_ShutDown ()
+	_GDIPlus_Shutdown()
 
 	; Loop until user exits
 	Do

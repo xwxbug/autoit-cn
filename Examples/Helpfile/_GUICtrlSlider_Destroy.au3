@@ -1,7 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiSlider.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -17,7 +15,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Destroy Slider")
 	_GUICtrlSlider_Destroy($hSlider)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

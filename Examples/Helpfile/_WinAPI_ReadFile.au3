@@ -1,5 +1,3 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
 #include <WinAPI.au3>
 
 Global $sFile, $hFile, $sText, $nBytes, $tBuffer
@@ -39,4 +37,4 @@ _WinAPI_SetEndOfFile($hFile)
 _WinAPI_CloseHandle($hFile)
 ConsoleWrite('4) ' & FileRead($sFile) & @CRLF)
 
-FileDelete($sfile)
+FileDelete($sFile)

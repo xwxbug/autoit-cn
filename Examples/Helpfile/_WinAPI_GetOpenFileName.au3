@@ -1,11 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
 #include <StructureConstants.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <WinAPI.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
@@ -17,14 +13,14 @@ _Example_ExplorerStyle_NoPlaceBar()
 
 Func _Example_Defaults()
 	Local $hGui, $btn_dialog, $aFile, $sError
-	
+
 	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use defaults", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog
@@ -46,14 +42,14 @@ EndFunc   ;==>_Example_Defaults
 
 Func _Example_ExplorerStyleMultiSelect()
 	Local $hGui, $btn_dialog, $aFile, $sError
-	
+
 	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Explorer Style (Multi Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog
@@ -77,14 +73,14 @@ EndFunc   ;==>_Example_ExplorerStyleMultiSelect
 
 Func _Example_OldStyle()
 	Local $hGui, $btn_dialog, $aFile, $sError
-	
+
 	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Old Style (Multi Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog
@@ -108,14 +104,14 @@ EndFunc   ;==>_Example_OldStyle
 
 Func _Example_ExplorerStyleSinglSelect()
 	Local $hGui, $btn_dialog, $aFile, $sError
-	
+
 	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Explorer Style (Single Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog
@@ -139,14 +135,14 @@ EndFunc   ;==>_Example_ExplorerStyleSinglSelect
 
 Func _Example_ExplorerStyle_NoPlaceBar()
 	Local $hGui, $btn_dialog, $aFile, $sError
-	
+
 	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Explorer Style (Single Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog

@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiEdit.au3>
 #include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True and use a handle to another control to see it work
 
@@ -17,11 +14,11 @@ Func _Main()
 	GUISetState()
 
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
-	
+
 	$aCharPos = _GUICtrlEdit_CharFromPos($hEdit, 100, 20)
 	MsgBox(4160, "Information", StringFormat("Char Nearsest Point: [%2d]", $aCharPos[0]) & @LF & _
 			StringFormat("Line Nearest Point: [%2d]", $aCharPos[1]))
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

@@ -1,9 +1,11 @@
-﻿; Example 1
+; Example 1
+
 #include <inet.au3>
-Dim $sResult, $sIp
+
+Local $sResult, $sIp
 TCPStartup()
 $sIp = TCPNameToIP("hiddensoft.com")
-$sResult = _TCPIpToName ($sIp)
+$sResult = _TCPIpToName($sIp)
 If @error Then
 	MsgBox(0, "_TCPIpToName()", "@error = " & @error & @LF & "@extended = " & @extended)
 Else
@@ -11,12 +13,14 @@ Else
 EndIf
 
 ; Example 2
+
 #include <array.au3>
 #include <inet.au3>
-Dim $aResult, $sIp
+
+Local $aResult
 TCPStartup()
 $sIp = _GetIP()
-$aResult = _TCPIpToName ($sIp, 1)
+$aResult = _TCPIpToName($sIp, 1)
 If @error Then
 	MsgBox(0, "_TCPIpToName()", "@error = " & @error & @LF & "@extended = " & @extended)
 Else

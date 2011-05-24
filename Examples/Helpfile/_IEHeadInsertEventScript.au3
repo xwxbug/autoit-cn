@@ -1,12 +1,13 @@
-﻿; *******************************************************
+; *******************************************************
 ; Example 1 - Open a browser with the basic example page, insert an
 ;				event script into the head of the document that creates
 ;				a JavaScript alert when someone clicks on the document
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("basic")
-_IEHeadInsertEventScript ($oIE, "document", "onclick", "alert('Someone clicked the document!');")
+
+Local $oIE = _IE_Example("basic")
+_IEHeadInsertEventScript($oIE, "document", "onclick", "alert('Someone clicked the document!');")
 
 ; *******************************************************
 ; Example 2 - Open a browser with the basic example page, insert an
@@ -15,10 +16,11 @@ _IEHeadInsertEventScript ($oIE, "document", "onclick", "alert('Someone clicked t
 ;				document and then the event script returns "false" to prevent
 ;				the right-click context menu from appearing
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("basic")
-_IEHeadInsertEventScript ($oIE, "document", "oncontextmenu", "alert('No Context Menu');return false")
+
+$oIE = _IE_Example("basic")
+_IEHeadInsertEventScript($oIE, "document", "oncontextmenu", "alert('No Context Menu');return false")
 
 ; *******************************************************
 ; Example 3 - Open a browser with the basic example page, insert an
@@ -26,11 +28,12 @@ _IEHeadInsertEventScript ($oIE, "document", "oncontextmenu", "alert('No Context 
 ;				JavaScript alert when we are about to navigate away from the
 ;				page and presents the option to cancel the operation.
 ; *******************************************************
-;
+
 #include <IE.au3>
-$oIE = _IE_Example ("basic")
-_IEHeadInsertEventScript ($oIE, "window", "onbeforeunload", _
-	"alert('Example warning follows...');return 'Pending changes may be lost';")
+
+$oIE = _IE_Example("basic")
+_IEHeadInsertEventScript($oIE, "window", "onbeforeunload", _
+		"alert('Example warning follows...');return 'Pending changes may be lost';")
 _IENavigate($oIE, "www.autoitscript.com")
 
 ; *******************************************************
@@ -38,11 +41,12 @@ _IENavigate($oIE, "www.autoitscript.com")
 ;				event script into the head of the document that prevents
 ;				selection of text in the document
 ; *******************************************************
-;
+
 #include <IE.au3>
+
 $oIE = _IE_Example()
-_IEHeadInsertEventScript ($oIE, "document", "ondrag", "return false;")
-_IEHeadInsertEventScript ($oIE, "document", "onselectstart", "return false;")
+_IEHeadInsertEventScript($oIE, "document", "ondrag", "return false;")
+_IEHeadInsertEventScript($oIE, "document", "onselectstart", "return false;")
 
 ; *******************************************************
 ; Example 5 - Open a browser with the AutoIt homepage, insert an
@@ -50,15 +54,15 @@ _IEHeadInsertEventScript ($oIE, "document", "onselectstart", "return false;")
 ;				navigation when any link is clicked and log the URL of the
 ;               clicked link to the console
 ; *******************************************************
-;
+
 #include <IE.au3>
 
 $oIE = _IECreate("http://www.autoitscript.com")
-$oLinks = _IELinkGetCollection($oIE)
-For $oLink in $oLinks
-    $sLinkId = _IEPropertyGet($oLink, "uniqueid")
-    _IEHeadInsertEventScript($oIE, $sLinkId, "onclick", "return false;")
-    ObjEvent($oLink, "_Evt_")
+Local $oLinks = _IELinkGetCollection($oIE)
+For $oLink In $oLinks
+	Local $sLinkId = _IEPropertyGet($oLink, "uniqueid")
+	_IEHeadInsertEventScript($oIE, $sLinkId, "onclick", "return false;")
+	ObjEvent($oLink, "_Evt_")
 Next
 
 While 1
@@ -66,6 +70,6 @@ While 1
 WEnd
 
 Func _Evt_onClick()
-    Local $o_link = @COM_EventObj
+	Local $o_link = @COM_EventObj
 	ConsoleWrite($o_link.href & @CRLF)
-EndFunc
+EndFunc   ;==>_Evt_onClick

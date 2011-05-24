@@ -1,35 +1,33 @@
-﻿#include <GDIPlus.au3>
+#include <GDIPlus.au3>
 #include <ScreenCapture.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
 Func _Main()
-	Local $hBitmap, $hImage, $sCLSID, $tData, $tParams
+	Local $hImage, $sCLSID, $tData, $tParams
 
 	; Screen Capture
-	_ScreenCapture_Capture (@MyDocumentsDir & "\GDIPlus_Image.jpg")
+	_ScreenCapture_Capture(@MyDocumentsDir & "\GDIPlus_Image.jpg")
 
 	; Initialize GDI+ library
-	_GDIPlus_Startup ()
+	_GDIPlus_Startup()
 
 	; Load image
-	$hImage = _GDIPlus_ImageLoadFromFile (@MyDocumentsDir & "\GDIPlus_Image.jpg")
+	$hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & "\GDIPlus_Image.jpg")
 
 	; Get JPEG encoder CLSID
-	$sCLSID = _GDIPlus_EncodersGetCLSID ("JPG")
+	$sCLSID = _GDIPlus_EncodersGetCLSID("JPG")
 
 	; Set up parameters for 90 degree rotation
 	$tData = DllStructCreate("int Data")
 	DllStructSetData($tData, "Data", $GDIP_EVTTRANSFORMROTATE90)
-	$tParams = _GDIPlus_ParamInit (1)
-	_GDIPlus_ParamAdd ($tParams, $GDIP_EPGTRANSFORMATION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Data"))
+	$tParams = _GDIPlus_ParamInit(1)
+	_GDIPlus_ParamAdd($tParams, $GDIP_EPGTRANSFORMATION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Data"))
 
 	; Save image with rotation
-	_GDIPlus_ImageSaveToFileEx ($hImage, @MyDocumentsDir & "\GDIPlus_Image2.jpg", $sCLSID, DllStructGetPtr($tParams))
+	_GDIPlus_ImageSaveToFileEx($hImage, @MyDocumentsDir & "\GDIPlus_Image2.jpg", $sCLSID, DllStructGetPtr($tParams))
 
 	; Shut down GDI+ library
-	_GDIPlus_ShutDown ()
+	_GDIPlus_Shutdown()
 
 EndFunc   ;==>_Main

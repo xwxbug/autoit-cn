@@ -1,4 +1,4 @@
-﻿#include <Color.au3>
+#include <Color.au3>
 
-$iRedColor = _ColorGetRed( 0x8080ff )
-MsgBox( 4096, "AutoIt", $iRedColor )
+Local $iRedColor = _ColorGetRed(0x8080ff)
+MsgBox(4096, "AutoIt", $iRedColor)

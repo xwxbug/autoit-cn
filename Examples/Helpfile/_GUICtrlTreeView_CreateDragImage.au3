@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiTreeView.au3>
 #include <GuiImageList.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -13,13 +10,12 @@ _Main()
 
 Func _Main()
 
-	Local $GUI, $hItemChild, $hImage, $iImage, $hItem, $fDragging = False, $aDrag, $hTreeView
+	Local $GUI, $hImage, $iImage, $hItem, $fDragging = False, $aDrag, $hTreeView
 	Local $iStyle = BitOR($TVS_EDITLABELS, $TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_SHOWSELALWAYS, $TVS_CHECKBOXES)
-	
+
 	$GUI = GUICreate("TreeView Create Drage Image", 400, 300)
 	$hTreeView = GUICtrlGetHandle(GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE))
-	
-	_GUICtrlTreeView_SetUnicodeFormat($hTreeView, False)
+
 	GUISetState()
 
 	; Load images
@@ -41,7 +37,7 @@ Func _Main()
 		$hItem = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat("[%02d] New Item", $x), $iImage, $iImage)
 		For $y = 1 To Random(2, 10, 1)
 			$iImage = Random(0, 8, 1)
-			$hItemChild = _GUICtrlTreeView_AddChild($hTreeView, $hItem, StringFormat("[%02d] New Child", $y), $iImage, $iImage)
+			_GUICtrlTreeView_AddChild($hTreeView, $hItem, StringFormat("[%02d] New Child", $y), $iImage, $iImage)
 		Next
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
@@ -52,7 +48,7 @@ Func _Main()
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_MOUSEMOVE
 				If $fDragging Then DrawDragImage($hTreeView, $aDrag)
-				
+
 			Case $GUI_EVENT_PRIMARYDOWN
 				Local $hSelected = _GUICtrlTreeView_GetSelection($hTreeView)
 				If $hSelected Then
@@ -61,7 +57,7 @@ Func _Main()
 					$aDrag = _GUICtrlTreeView_CreateDragImage($hTreeView, $hSelected)
 					DrawDragImage($hTreeView, $aDrag)
 				EndIf
-				
+
 			Case $GUI_EVENT_PRIMARYUP
 				If $fDragging Then
 					$fDragging = False

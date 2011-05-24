@@ -1,11 +1,9 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
-	Local $button_1, $group_1, $radio_1, $radio_2, $radio_3
+	Local $button_1, $radio_1, $radio_2, $radio_3
 	Local $radio_4, $radio_5, $radio_6, $input_1, $input_2
 	Local $radioval1, $radioval2, $msg
 
@@ -15,7 +13,7 @@ Func Example()
 
 	; Create the controls
 	$button_1 = GUICtrlCreateButton("B&utton 1", 30, 20, 120, 40)
-	$group_1 = GUICtrlCreateGroup("Group 1", 30, 90, 165, 160)
+	GUICtrlCreateGroup("Group 1", 30, 90, 165, 160)
 	GUIStartGroup()
 	$radio_1 = GUICtrlCreateRadio("Radio &0", 50, 120, 70, 20)
 	$radio_2 = GUICtrlCreateRadio("Radio &1", 50, 150, 60, 20)
@@ -34,7 +32,7 @@ Func Example()
 	GUICtrlSetState($button_1, $GUI_FOCUS + $GUI_DEFBUTTON)
 
 	; Init our vars that we will use to keep track of radio events
-	$radioval1 = 0    ; We will assume 0 = first radio button selected, 2 = last button
+	$radioval1 = 0 ; We will assume 0 = first radio button selected, 2 = last button
 	$radioval2 = 2
 
 	GUISetState()

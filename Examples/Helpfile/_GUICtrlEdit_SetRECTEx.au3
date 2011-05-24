@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiEdit.au3>
 #include <GuiStatusBar.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True and use a handle to another control to see it work
 
@@ -15,7 +12,7 @@ Func _Main()
 	Local $Wow64 = ""
 	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
 	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	$sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 	Local $aPartRightSide[6] = [50, 130, 210, 290, 378, -1], $tRect
 
 	; Create GUI

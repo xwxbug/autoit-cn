@@ -1,5 +1,5 @@
-﻿$var = 0
-$var2= ""
+Local $var = 0
+Local $var2 = ""
 
 Select
 	Case $var = 1

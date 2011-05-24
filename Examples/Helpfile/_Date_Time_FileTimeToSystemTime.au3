@@ -1,4 +1,4 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <Date.au3>
 #include <WindowsConstants.au3>
 
@@ -7,16 +7,16 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hGUI, $tFile, $tSystem
+	Local $tFile, $tSystem
 
 	; Create GUI
-	$hGUI = GUICreate("Time", 400, 300)
+	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; Encode a file time
-	$tFile   = _Date_Time_EncodeFileTime(@MON, @MDAY, @YEAR, @HOUR, @MIN, @SEC)
+	$tFile = _Date_Time_EncodeFileTime(@MON, @MDAY, @YEAR, @HOUR, @MIN, @SEC)
 	$tSystem = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tFile))
 	MemoWrite("System file time .: " & _Date_Time_SystemTimeToDateTimeStr($tSystem))
 

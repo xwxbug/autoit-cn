@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $sServer
+	Local $sServer
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -24,7 +22,7 @@ Func _Main()
 	If @error Then Exit
 
 	; Delete all our sessions on the server
-	_Net_Share_SessionDel ($sServer, @ComputerName)
+	_Net_Share_SessionDel($sServer, @ComputerName)
 	MemoWrite("Error ...................: " & @error)
 
 	; Loop until user exits

@@ -1,7 +1,5 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $gui, $guiPos, $pic, $picPos
 
@@ -11,8 +9,8 @@ Example2()
 ;----- example 1 ----
 Func Example1()
 	Local $n, $msg
-	
-	GUICreate("My GUI picture", 350, 300, -1, -1, $WS_SIZEBOX + $WS_SYSMENU)  ; will create a dialog box that when displayed is centered
+
+	GUICreate("My GUI picture", 350, 300, -1, -1, $WS_SIZEBOX + $WS_SYSMENU) ; will create a dialog box that when displayed is centered
 
 	GUISetBkColor(0xE0FFFF)
 	$n = GUICtrlCreatePic("..\GUI\mslogo.jpg", 50, 50, 200, 50)
@@ -22,7 +20,7 @@ Func Example1()
 	; Run the GUI until the dialog is closed
 	While 1
 		$msg = GUIGetMsg()
-		
+
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
@@ -32,17 +30,17 @@ Func Example1()
 	; Run the GUI until the dialog is closed
 	While 1
 		$msg = GUIGetMsg()
-		
+
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
-	
+
 	GUIDelete()
 EndFunc   ;==>Example1
 
 ;----- example 2
 Func Example2()
 	Local $msg
-	
+
 	$gui = GUICreate("test transparentpic", 200, 100)
 	$pic = GUICreate("", 68, 71, 10, 20, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
 	GUICtrlCreatePic("..\GUI\merlin.gif", 0, 0, 0, 0)
@@ -61,6 +59,12 @@ Func Example2()
 	Do
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
+
+	HotKeySet("{ESC}")
+	HotKeySet("{LEFT}")
+	HotKeySet("{RIGHT}")
+	HotKeySet("{DOWN}")
+	HotKeySet("{UP}")
 EndFunc   ;==>Example2
 
 Func main()
@@ -92,7 +96,7 @@ EndFunc   ;==>up
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <GDIPlus.au3>
-#Include <WinAPI.au3>
+#include <WinAPI.au3>
 
 Global $hGUI, $hImage, $hGraphic, $hImage1
 
@@ -100,26 +104,28 @@ Global $hGUI, $hImage, $hGraphic, $hImage1
 $hGUI = GUICreate("Show PNG", 250, 250)
 
 ; Load PNG image
-_GDIPlus_StartUp()
-$hImage   = _GDIPlus_ImageLoadFromFile("..\GUI\Torus.png")
+_GDIPlus_Startup()
+$hImage = _GDIPlus_ImageLoadFromFile("..\GUI\Torus.png")
 $hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 
 GUIRegisterMsg($WM_PAINT, "MY_WM_PAINT")
 GUISetState()
 
 ; Loop until user exits
-do
-until GUIGetMsg() = $GUI_EVENT_CLOSE
+Do
+Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 ; Clean up resources
 _GDIPlus_GraphicsDispose($hGraphic)
 _GDIPlus_ImageDispose($hImage)
-_GDIPlus_ShutDown()
+_GDIPlus_Shutdown()
 
 ; Draw PNG image
-Func MY_WM_PAINT($hWnd, $Msg, $wParam, $lParam)
-    _WinAPI_RedrawWindow($hGUI, 0, 0, $RDW_UPDATENOW)
-    _GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 0, 0)
-    _WinAPI_RedrawWindow($hGUI, 0, 0, $RDW_VALIDATE)
-    Return $GUI_RUNDEFMSG
-EndFunc
+Func MY_WM_PAINT($hWnd, $msg, $wParam, $lParam)
+	#forceref $hWnd, $Msg, $wParam, $lParam
+	_WinAPI_RedrawWindow($hGUI, 0, 0, $RDW_UPDATENOW)
+	_GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 0, 0)
+	_WinAPI_RedrawWindow($hGUI, 0, 0, $RDW_VALIDATE)
+	Return $GUI_RUNDEFMSG
+EndFunc   ;==>MY_WM_PAINT
+

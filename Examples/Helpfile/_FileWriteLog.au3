@@ -1,5 +1,5 @@
-﻿#include <file.au3>
+#include <file.au3>
 ;
-_FileWriteLog(@ScriptDir & "\my.log","Text 1")
+_FileWriteLog(@ScriptDir & "\my.log", "Text 1")
 ;
-_FileWriteLog(@ScriptDir & "\my.log","Text 2")
+_FileWriteLog(@ScriptDir & "\my.log", "Text 2")

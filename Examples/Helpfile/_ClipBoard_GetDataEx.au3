@@ -1,8 +1,7 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <ClipBoard.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
+#include <WinAPI.au3>
 
 Global $iMemo
 
@@ -25,16 +24,16 @@ Func _Main()
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
 			Case $btn_SetData
-				_ClipBoard_SetData ("ClipBoard Library")
+				_ClipBoard_SetData("ClipBoard Library")
 			Case $btn_GetData
 				; Open the clipboard
-				If Not _ClipBoard_Open ($hGUI) Then _WinAPI_ShowError ("_ClipBoard_Open failed")
+				If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
 
 				; Read clipboard text
-				$hMemory = _ClipBoard_GetDataEx ($CF_TEXT)
-				If $hMemory = 0 Then _WinAPI_ShowError ("_ClipBoard_GetDataEx failed")
+				$hMemory = _ClipBoard_GetDataEx($CF_TEXT)
+				If $hMemory = 0 Then _WinAPI_ShowError("_ClipBoard_GetDataEx failed")
 				; Close the clipboard
-				_ClipBoard_Close ()
+				_ClipBoard_Close()
 				$tData = DllStructCreate("char Text[8192]", $hMemory)
 				MemoWrite(DllStructGetData($tData, "Text"))
 		EndSwitch

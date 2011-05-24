@@ -1,5 +1,5 @@
-﻿$days = StringSplit("Sun,Mon,Tue,Wed,Thu,Fri,Sat", ",")
+Local $days = StringSplit("Sun,Mon,Tue,Wed,Thu,Fri,Sat", ",")
 ;$days[1] contains "Sun" ... $days[7] contains "Sat"
 
-$text = "This\nline\ncontains\nC-style breaks."
-$array = StringSplit($text, '\n', 1)
+Local $text = "This\nline\ncontains\nC-style breaks."
+Local $array = StringSplit($text, '\n', 1)

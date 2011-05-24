@@ -1,1 +1,1 @@
-﻿$a = AutoItWinGetTitle()
+Local $a = AutoItWinGetTitle()

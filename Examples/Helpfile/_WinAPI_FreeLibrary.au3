@@ -1,10 +1,8 @@
-﻿#include <GuiReBar.au3>
+#include <GuiReBar.au3>
 #include <WinAPI.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
@@ -14,27 +12,27 @@ Func _Main()
 	Local $hGUI, $hInput, $btn_get, $hReBar, $hInstance, $sText
 	; Create GUI
 	$hGUI = GUICreate("WinAPI", 400, 396)
-	
+
 	$hInput = GUICtrlCreateInput("4209", 0, 0, 100, 20)
 
 	; create the rebar control
-	$hReBar = _GUICtrlReBar_Create($hGUI, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
-	
+	$hReBar = _GUICtrlRebar_Create($hGUI, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
+
 	$iMemo = GUICtrlCreateEdit("", 2, 55, 396, 200, BitOR($WS_VSCROLL, $WS_HSCROLL))
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
 
 
 	;add band containing the  control
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "String ID:")
+	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "String ID:")
 
 	$btn_get = GUICtrlCreateButton("Get String", 0, 0, 90, 20)
 
 	;add band containing the  control
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($btn_get), 120, 200)
-	
+	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($btn_get), 120, 200)
+
 
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE

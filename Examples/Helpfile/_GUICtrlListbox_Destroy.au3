@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIListBox.au3>
 #include <GuiConstantsEx.au3>
 #include <Constants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LB = False ; Check ClassName being passed to ListBox functions, set to True and use a handle to another control to see it work
 
@@ -29,7 +26,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Destroying ListBox")
 	_GUICtrlListBox_Destroy($hListBox)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

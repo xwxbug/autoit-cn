@@ -1,21 +1,22 @@
-﻿; *******************************************************
+; *******************************************************
 ; Example 1 - Register and later deregister a custom error handler
 ; *******************************************************
-;
+
 #include <IE.au3>
+
 ; Register a customer error handler
-_IEErrorHandlerRegister ("MyErrFunc")
+_IEErrorHandlerRegister("MyErrFunc")
 ; Do something
 ; Deregister the customer error handler
-_IEErrorHandlerDeregister ()
+_IEErrorHandlerDeRegister()
 ; Do something else
 
 Exit
 
 Func MyErrFunc()
-	$HexNumber = Hex($oIEErrorHandler.number, 8)
+	Local $HexNumber = Hex($oIEErrorHandler.number, 8)
 	MsgBox(0, "", "We intercepted a COM Error !" & @CRLF & _
 			"Number is: " & $HexNumber & @CRLF & _
-			"Windescription is: " & $oIEErrorHandler.windescription) 
+			"Windescription is: " & $oIEErrorHandler.windescription)
 	SetError(1) ; something to check for when this function returns
 EndFunc   ;==>MyErrFunc

@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
 #include <GuiMenu.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $btn, $iMemo, $btn2
 
@@ -13,7 +10,7 @@ Global $btn, $iMemo, $btn2
 _Main()
 
 Func _Main()
-	Local $hGUI, $aInfo
+	Local $hGUI
 
 	$hGUI = GUICreate("Buttons", 400, 400)
 	$iMemo = GUICtrlCreateEdit("", 10, 100, 390, 284, $WS_VSCROLL)
@@ -25,9 +22,9 @@ Func _Main()
 	$btn2 = _GUICtrlButton_Create($hGUI, "Button2", 10, 55, 160, 40)
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
-	
+
 	GUISetState()
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
@@ -52,7 +49,7 @@ Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 	Local $nID = BitAND($wParam, 0x0000FFFF)
 	Local $hCtrl = $lParam
 	Local $sText = ""
-	
+
 	Switch $hCtrl
 		Case $btn, $btn2
 			Switch $nNotifyCode

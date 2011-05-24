@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <WindowsConstants.au3>
 #include <GuiConstantsEx.au3>
 #include <Timers.au3>
 #include <GuiStatusBar.au3>
 #include <ProgressConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo, $hStatusBar, $progress, $percent = 0, $direction = 1
 Global $iTimer1, $iTimer2
@@ -80,7 +77,7 @@ EndFunc   ;==>WM_TIMER
 
 Func _UpdateStatusBarClock()
 	_GUICtrlStatusBar_SetText($hStatusBar, @TAB & @TAB & StringFormat("%02d:%02d:%02d", @HOUR, @MIN, @SEC), 2)
-EndFunc   ;==>_UpdateStatusBarClock2
+EndFunc   ;==>_UpdateStatusBarClock
 
 Func _UpdateProgressBar()
 	$percent += 5 * $direction
@@ -91,7 +88,7 @@ Func _UpdateProgressBar()
 	ElseIf $percent = 0 Then
 		GUICtrlSetColor($progress, 0x0000ff)
 	EndIf
-EndFunc   ;==>_UpdateProgressBar2
+EndFunc   ;==>_UpdateProgressBar
 
 ; Write a line to the memo control
 Func MemoWrite($sMessage)

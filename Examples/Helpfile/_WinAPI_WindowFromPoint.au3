@@ -11,7 +11,7 @@ Func _Main()
 		Sleep(100)
 		ToolTip("")
 		Pos()
-		$hwnd = _WinAPI_WindowFromPoint($Struct)
+		Local $hwnd = _WinAPI_WindowFromPoint($Struct)
 		ToolTip($hwnd)
 	WEnd
 EndFunc   ;==>_Main

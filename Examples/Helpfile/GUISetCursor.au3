@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Global $IDC = -1, $newIDC = 0
 

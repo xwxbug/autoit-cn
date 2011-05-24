@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -12,7 +10,7 @@ Func Example()
 	$radio2 = GUICtrlCreateRadio("Radio 2", 10, 40, 120, 20)
 	GUICtrlSetState($radio2, $GUI_CHECKED)
 
-	GUISetState()      ; will display an  dialog box with 1 checkbox
+	GUISetState() ; will display an  dialog box with 1 checkbox
 
 	; Run the GUI until the dialog is closed
 	While 1

@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $sServer, $aInfo
+	Local $sServer, $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -24,14 +22,14 @@ Func _Main()
 	If @error Then Exit
 
 	; Enumerate open files on the server
-	$aInfo = _Net_Share_FileEnum ($sServer)
+	$aInfo = _Net_Share_FileEnum($sServer)
 	MemoWrite("Error ...................: " & @error)
 	MemoWrite("Entries read ............: " & $aInfo[0][0])
 
 	; Force close any file open named "Test.txt"
 	For $iI = 1 To $aInfo[0][0]
 		If StringInStr($aInfo[$iI][3], "Test.txt") > 0 Then
-			_Net_Share_FileClose ($sServer, $aInfo[$iI][0])
+			_Net_Share_FileClose($sServer, $aInfo[$iI][0])
 			MemoWrite("Closed file")
 		EndIf
 	Next

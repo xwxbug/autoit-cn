@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $sServer, $sShare, $aInfo
+	Local $sServer, $sShare, $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -27,12 +25,12 @@ Func _Main()
 	If @error Then Exit
 
 	; Enumerate network connections
-	$aInfo = _Net_Share_ConnectionEnum ($sServer, $sShare)
+	$aInfo = _Net_Share_ConnectionEnum($sServer, $sShare)
 	MemoWrite("Error ...................: " & @error)
 	MemoWrite("Entries read ............: " & $aInfo[0][0])
 	For $iI = 1 To $aInfo[0][0]
 		MemoWrite("Connection ID ...........: " & $aInfo[$iI][0])
-		MemoWrite("Connection type..........: " & _Net_Share_ResourceStr ($aInfo[$iI][1]))
+		MemoWrite("Connection type..........: " & _Net_Share_ResourceStr($aInfo[$iI][1]))
 		MemoWrite("Number of files open ....: " & $aInfo[$iI][2])
 		MemoWrite("Number of users .........: " & $aInfo[$iI][3])
 		MemoWrite("Connection time .........: " & $aInfo[$iI][4])

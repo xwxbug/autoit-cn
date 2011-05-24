@@ -1,26 +1,22 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
-	Local $parent1, $ok1, $cancel1
-	
 	Opt("GUICoordMode", 2)
 	Opt("GUIResizeMode", 1)
 	Opt("GUIOnEventMode", 1)
 
-	$parent1 = GUICreate("Parent1")
+	GUICreate("Parent1")
 	GUISetOnEvent($GUI_EVENT_CLOSE, "SpecialEvents")
 	GUISetOnEvent($GUI_EVENT_MINIMIZE, "SpecialEvents")
 	GUISetOnEvent($GUI_EVENT_RESTORE, "SpecialEvents")
 
 
-	$ok1 = GUICtrlCreateButton("OK", 10, 30, 50)
+	GUICtrlCreateButton("OK", 10, 30, 50)
 	GUICtrlSetOnEvent(-1, "OKPressed")
 
-	$cancel1 = GUICtrlCreateButton("Cancel", 0, -1)
+	GUICtrlCreateButton("Cancel", 0, -1)
 	GUICtrlSetOnEvent(-1, "CancelPressed")
 
 	GUISetState(@SW_SHOW)

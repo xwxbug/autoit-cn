@@ -1,9 +1,9 @@
-﻿; Press Esc to terminate script, Pause/Break to "pause"
+; Press Esc to terminate script, Pause/Break to "pause"
 
 Global $Paused
 HotKeySet("{PAUSE}", "TogglePause")
 HotKeySet("{ESC}", "Terminate")
-HotKeySet("+!d", "ShowMessage")  ;Shift-Alt-d
+HotKeySet("+!d", "ShowMessage") ;Shift-Alt-d
 
 ;;;; Body of program would go here ;;;;
 While 1
@@ -12,18 +12,18 @@ WEnd
 ;;;;;;;;
 
 Func TogglePause()
-	$Paused = NOT $Paused
+	$Paused = Not $Paused
 	While $Paused
-		sleep(100)
-		ToolTip('Script is "Paused"',0,0)
+		Sleep(100)
+		ToolTip('Script is "Paused"', 0, 0)
 	WEnd
 	ToolTip("")
-EndFunc
+EndFunc   ;==>TogglePause
 
 Func Terminate()
 	Exit 0
-EndFunc
+EndFunc   ;==>Terminate
 
 Func ShowMessage()
-	MsgBox(4096,"","This is a message.")
-EndFunc
+	MsgBox(4096, "", "This is a message.")
+EndFunc   ;==>ShowMessage

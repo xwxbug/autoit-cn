@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <Misc.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Color_Example()
 
@@ -35,14 +32,14 @@ EndFunc   ;==>_Color_Example
 Func _ShowChoice($GUI, $iMemo, $Type, $Choose, $sMessage)
 	Local $cr
 	If $Choose <> -1 Then
-		
+
 		If $Type = 0 Then ; convert COLORREF to RGB for this example
 			$cr = Hex($Choose, 6)
 			GUISetBkColor('0x' & StringMid($cr, 5, 2) & StringMid($cr, 3, 2) & StringMid($cr, 1, 2), $GUI)
 		Else
 			GUISetBkColor($Choose, $GUI)
 		EndIf
-		
+
 		GUICtrlSetData($iMemo, $sMessage & $Choose & @CRLF, 1)
 
 	Else

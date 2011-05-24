@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiDateTimePicker.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
 
@@ -11,11 +8,11 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $tLOGFONT, $hFont, $hDTP
+	Local $hGui, $tLOGFONT, $hFont, $hDTP
 
 	; Create GUI
-	GUICreate("DateTimePick Set Month Calendar Font", 400, 300)
-	$hDTP = GUICtrlGetHandle(GUICtrlCreateDate("", 2, 6, 190))
+	$hGui = GUICreate("DateTimePick Set Month Calendar Font", 400, 300)
+	$hDTP = _GUICtrlDTP_Create($hGui, 2, 6, 190)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -32,7 +29,8 @@ Func _Main()
 	_GUICtrlDTP_SetMCFont($hDTP, $hFont)
 
 	; Get month control font handle
-	GUICtrlSetData($iMemo, "Font Handle: " & "0x" & Hex(_GUICtrlDTP_GetMCFont($hDTP), 6) & @CRLF, 1)
+	MemoWrite("Font Handle: " & "0x" & Hex(_GUICtrlDTP_GetMCFont($hDTP), 6))
+	MemoWrite("IsPtr  = " & IsPtr(_GUICtrlDTP_GetMCFont($hDTP)) & " IsHWnd  = " & IsHWnd(_GUICtrlDTP_GetMCFont($hDTP)))
 
 	; Loop until user exits
 	Do

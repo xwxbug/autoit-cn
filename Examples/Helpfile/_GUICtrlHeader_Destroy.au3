@@ -1,8 +1,6 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiHeader.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -17,7 +15,7 @@ Func _Main()
 	$hGUI = GUICreate("Header", 400, 300)
 	$hHeader = _GUICtrlHeader_Create($hGUI)
 	GUISetState()
-	
+
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
 	; Add columns
@@ -30,7 +28,7 @@ Func _Main()
 	_GUICtrlHeader_ClearFilterAll($hHeader)
 
 	MsgBox(4096, "Information", "About to Destroy Header")
-	
+
 	_GUICtrlHeader_Destroy($hHeader)
 
 	; Loop until user exits
@@ -39,12 +37,12 @@ Func _Main()
 EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $hWndFrom, $iIDFrom, $iCode
+	#forceref $hWnd, $iMsg, $iwParam
+	Local $hWndFrom, $iCode
 	Local $tNMHDR, $tNMHEADER, $tNMHDFILTERBTNCLICK, $tNMHDDISPINFO
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
 	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hHeader

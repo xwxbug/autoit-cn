@@ -1,10 +1,8 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 
-Opt('MustDeclareVars', 1)
-
 Global $MAXGr = 6, $del, $child
-Global $a[$MAXGr + 1]	; 0 and $MAXGr entries not used to allow GUICtrlDelete result
+Global $a[$MAXGr + 1] ; 0 and $MAXGr entries not used to allow GUICtrlDelete result
 
 Example()
 
@@ -89,7 +87,7 @@ Func CreateChild()
 
 	$a[5] = GUICtrlCreateGraphic(150, 10, 50, 50)
 	GUICtrlSetBkColor(-1, 0xa0ffa0)
-	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 20, 20) 	; start point
+	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 20, 20) ; start point
 	; it is better to draw line and after point
 	; to avoid to switch color at each drawing
 	GUICtrlSetGraphic(-1, $GUI_GR_COLOR, 0x0000ff)
@@ -103,15 +101,15 @@ Func CreateChild()
 	GUICtrlSetGraphic(-1, $GUI_GR_DOT, 30, 40)
 
 	$a[6] = GUICtrlCreateGraphic(110, 260, 230, 130)
-	GUICtrlSetColor(-1, 0) 	; to display a black border line
+	GUICtrlSetColor(-1, 0) ; to display a black border line
 	GUICtrlSetBkColor(-1, 0xc0c0ff)
-	GUICtrlSetGraphic(-1, $GUI_GR_HINT, 3) 	; to display control lines and end points
+	GUICtrlSetGraphic(-1, $GUI_GR_HINT, 3) ; to display control lines and end points
 
 	GUICtrlSetGraphic(-1, $GUI_GR_COLOR, 0, 0xff); fill in blue
-	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 120, 20) 	; start point
+	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 120, 20) ; start point
 	GUICtrlSetGraphic(-1, $GUI_GR_BEZIER, 120, 100, 200, 20, 200, 100)
 	GUICtrlSetGraphic(-1, $GUI_GR_BEZIER + $GUI_GR_CLOSE, 100, 40, 40, 100, 40, 20)
-	GUICtrlSetGraphic(-1, $GUI_GR_LINE, 60, 30) 	; start point
+	GUICtrlSetGraphic(-1, $GUI_GR_LINE, 60, 30) ; start point
 
 	GUISetState()
 EndFunc   ;==>CreateChild

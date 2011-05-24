@@ -1,10 +1,8 @@
-﻿; *** Demo to show a timer window
+; *** Demo to show a timer window
 #include <GUIConstantsEx.au3>
 #include <Date.au3>
 
 Opt("TrayIconDebug", 1)
-
-Opt("MustDeclareVars", 1)
 
 Global $timer, $Secs, $Mins, $Hour, $Time
 
@@ -31,7 +29,7 @@ EndFunc   ;==>_Main
 ;
 Func Timer()
 	_TicksToTime(Int(TimerDiff($timer)), $Hour, $Mins, $Secs)
-	Local $sTime = $Time  ; save current time to be able to test and avoid flicker..
+	Local $sTime = $Time ; save current time to be able to test and avoid flicker..
 	$Time = StringFormat("%02i:%02i:%02i", $Hour, $Mins, $Secs)
 	If $sTime <> $Time Then ControlSetText("Timer", "", "Static1", $Time)
 EndFunc   ;==>Timer

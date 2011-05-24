@@ -1,8 +1,5 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -11,13 +8,13 @@ _Main()
 Func _Main()
 
 	Local $GUI, $HandleBefore, $hListView
-	
+
 	$GUI = GUICreate("(UDF Created) ListView Destroy", 400, 300)
 
 	$hListView = _GUICtrlListView_Create($GUI, "", 2, 2, 394, 268)
 	$HandleBefore = $hListView
 	GUISetState()
-	
+
 	; Add columns
 	_GUICtrlListView_InsertColumn($hListView, 0, "Column 1", 100)
 	_GUICtrlListView_InsertColumn($hListView, 1, "Column 2", 100)

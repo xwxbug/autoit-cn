@@ -1,16 +1,14 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 
-Opt('MustDeclareVars', 1)
-
 Global $MAXGr = 6, $del
-Global $a[$MAXGr + 1]	; 0 and $MAXGr entries not used to allow GUICtrlDelete result
+Global $a[$MAXGr + 1] ; 0 and $MAXGr entries not used to allow GUICtrlDelete result
 
 Example()
 
 Func Example()
 	Local $msg, $inc, $i
-	
+
 	CreateChild()
 
 	$i = 1
@@ -29,8 +27,7 @@ EndFunc   ;==>Example
 
 
 Func CreateChild()
-	Local $child
-	$child = GUICreate("My Draw")
+	GUICreate("My Draw")
 	$del = GUICtrlCreateButton("Delete", 50, 165, 50)
 
 
@@ -78,7 +75,7 @@ Func CreateChild()
 
 	$a[5] = GUICtrlCreateGraphic(150, 10, 50, 50, 0)
 	GUICtrlSetBkColor(-1, 0xa0ffa0)
-	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 20, 20) 	; start point
+	GUICtrlSetGraphic(-1, $GUI_GR_MOVE, 20, 20) ; start point
 	; it is better to draw line and after point
 	; to avoid to switch color at each drawing
 	GUICtrlSetGraphic(-1, $GUI_GR_COLOR, 0x0000ff)

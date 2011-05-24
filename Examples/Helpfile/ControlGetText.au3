@@ -1,2 +1,2 @@
-﻿Run("notepad.exe")
-$var = ControlGetText("[CLASS:Notepad]", "", "Edit1")
+Run("notepad.exe")
+Local $var = ControlGetText("[CLASS:Notepad]", "", "Edit1")

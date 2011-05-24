@@ -1,11 +1,9 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiReBar.au3>
 #include <GuiToolBar.au3>
 #include <GuiComboBox.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
-
-Opt("MustDeclareVars", 1)
 
 $Debug_RB = False
 
@@ -18,10 +16,10 @@ Func _Main()
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 
 	$hgui = GUICreate("Rebar", 400, 396, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_MAXIMIZEBOX))
-	
+
 	; create the rebar control
-	$hReBar = _GUICtrlReBar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
-	
+	$hReBar = _GUICtrlRebar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
+
 	$iMemo = GUICtrlCreateEdit("", 2, 100, 396, 250, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
 
@@ -32,8 +30,8 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; create a toolbar to put in the rebar
-	$hToolbar = _GUICtrlToolBar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
-	
+	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
+
 	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
@@ -53,23 +51,23 @@ Func _Main()
 	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
 
 	; add band containing the control to the begining of rebar
-	_GUICtrlReBar_AddToolBarBand($hReBar, $hToolbar)
+	_GUICtrlRebar_AddToolBarBand($hReBar, $hToolbar)
 
 	;add band containing the control
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
 
 	;add band containing the control
-	_GUICtrlReBar_AddBand($hReBar, $hCombo, 120, 200, "Dir " & @WindowsDir & "\*.exe:")
+	_GUICtrlRebar_AddBand($hReBar, $hCombo, 120, 200, "Dir " & @WindowsDir & "\*.exe:")
 
 	_GUICtrlRebar_SetBandBackColor($hReBar, 1, Int(0x00008B))
 	_GUICtrlRebar_SetBandForeColor($hReBar, 1, Int(0xFFFFFF))
-	
+
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUICtrlSetState($btnExit, $GUI_DEFBUTTON)
 	GUICtrlSetState($btnExit, $GUI_FOCUS)
 
 	GUISetState(@SW_SHOW)
-	
+
 	MsgBox(4096, "Information", "Minimize Band")
 	_GUICtrlRebar_MinimizeBand($hReBar, 1)
 	MsgBox(4096, "Information", "Maximize Band 1 to largest Size")

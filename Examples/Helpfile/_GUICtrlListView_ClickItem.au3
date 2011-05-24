@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -18,7 +15,6 @@ Func _Main()
 	; Create GUI
 	GUICreate("ListView Click Item", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
-	_GUICtrlListView_SetUnicodeFormat($hListView, False)
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
@@ -39,9 +35,9 @@ Func _Main()
 	_GUICtrlListView_AddItem($hListView, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddItem($hListView, "Row 2: Col 1", 1)
 	_GUICtrlListView_AddItem($hListView, "Row 3: Col 1", 2)
-	
+
 	_GUICtrlListView_ClickItem($hListView, 1, "left", False, 2)
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

@@ -1,2 +1,2 @@
-﻿SRandom(12)
-$rand=Random()
+SRandom(12)
+Local $rand = Random()

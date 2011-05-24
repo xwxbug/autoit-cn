@@ -1,1 +1,1 @@
-﻿$size = FileGetSize("AutoIt.exe")
+Local $size = FileGetSize("AutoIt.exe")

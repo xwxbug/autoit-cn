@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $sServer, $aFile, $aInfo
+	Local $sServer, $aFile, $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -24,16 +22,16 @@ Func _Main()
 	If @error Then Exit
 
 	; Enumerate open files on the server
-	$aFile = _Net_Share_FileEnum ($sServer)
+	$aFile = _Net_Share_FileEnum($sServer)
 	MemoWrite("Error ...................: " & @error)
 	MemoWrite("Entries read ............: " & $aFile[0][0])
 	MemoWrite()
 
 	; Get information for each open file (same as $aFile info)
 	For $iI = 1 To $aFile[0][0]
-		$aInfo = _Net_Share_FileGetInfo ($sServer, $aFile[$iI][0])
+		$aInfo = _Net_Share_FileGetInfo($sServer, $aFile[$iI][0])
 		MemoWrite("Error ...................: " & @error)
-		MemoWrite("File permissions ........: " & _Net_Share_PermStr ($aInfo[1]))
+		MemoWrite("File permissions ........: " & _Net_Share_PermStr($aInfo[1]))
 		MemoWrite("File locks ..............: " & $aInfo[2])
 		MemoWrite("File path ...............: " & $aInfo[3])
 		MemoWrite("File user ...............: " & $aInfo[4])

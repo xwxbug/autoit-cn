@@ -1,12 +1,12 @@
-﻿#include <SQLite.au3>
+#include <SQLite.au3>
 #include <SQLite.dll.au3>
 
 Local $sSQliteDll
-$sSQliteDll = _SQLite_Startup ()
+$sSQliteDll = _SQLite_Startup()
 If @error Then
-	MsgBox(16, "SQLite Error", "SQLite.dll Can't be Loaded!")
-	Exit - 1
+	MsgBox(16, "SQLite Error", "SQLite3.dll Can't be Loaded!")
+	Exit -1
 EndIf
-ConsoleWrite("_SQLite_LibVersion=" &_SQLite_LibVersion() & @CRLF)
-MsgBox(0,"SQLite3.dll Loaded",$sSQliteDll)
-_SQLite_Shutdown ()
+MsgBox(0, "SQLite3.dll Loaded", $sSQliteDll)
+ConsoleWrite("_SQLite_LibVersion=" & _SQLite_LibVersion() & @CRLF)
+_SQLite_Shutdown()

@@ -1,7 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiAVI.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_AVI = False ; Check ClassName being passed to AVI functions, set to True and use a handle to another control to see it work
 
@@ -16,11 +14,11 @@ Func _Main()
 
 	; Create GUI
 	$hGUI = GUICreate("(External) AVI Destroy", 300, 100)
-	$hAVI = _GUICtrlAVI_Create ($hGUI, "", -1, 10, 10)
+	$hAVI = _GUICtrlAVI_Create($hGUI, "", -1, 10, 10)
 	GUISetState()
 
 	; Play the sample AutoIt AVI
-	_GUICtrlAVI_Open ($hAVI, $sFile)
+	_GUICtrlAVI_Open($hAVI, $sFile)
 
 	; Play the sample AutoIt AVI
 	_GUICtrlAVI_Play($hAVI)
@@ -28,13 +26,13 @@ Func _Main()
 	Sleep(3000)
 
 	; Stop AVI clip after 3 seconds
-	_GUICtrlAVI_Stop ($hAVI)
+	_GUICtrlAVI_Stop($hAVI)
 
 	; Close AVI clip
-	_GUICtrlAVI_Close ($hAVI)
+	_GUICtrlAVI_Close($hAVI)
 
 	MsgBox(4160, "Information", "Destroy AVI Control")
-	_GUICtrlAVI_Destroy ($hAVI)
+	_GUICtrlAVI_Destroy($hAVI)
 
 	; Loop until user exits
 	Do

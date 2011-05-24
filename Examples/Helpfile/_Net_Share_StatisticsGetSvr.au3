@@ -1,18 +1,16 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <NetShare.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $aInfo
+	Local $aInfo
 
 	; Create GUI
-	$hGUI = GUICreate("NetShare", 400, 300)
+	GUICreate("NetShare", 400, 300)
 
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
@@ -20,17 +18,17 @@ Func _Main()
 	GUISetState()
 
 	; Get server statistics
-	$aInfo = _Net_Share_StatisticsGetSvr (@ComputerName)
-	MemoWrite("Statistics started ......: " & $aInfo[ 0])
-	MemoWrite("Times file opened .......: " & $aInfo[ 1])
-	MemoWrite("Times device opened .....: " & $aInfo[ 2])
-	MemoWrite("Print jobs spooled ......: " & $aInfo[ 3])
-	MemoWrite("Sessions started ........: " & $aInfo[ 4])
-	MemoWrite("Sessions disconnected ...: " & $aInfo[ 5])
-	MemoWrite("Session errors ..........: " & $aInfo[ 6])
-	MemoWrite("Password violations .....: " & $aInfo[ 7])
-	MemoWrite("Permission errors .......: " & $aInfo[ 8])
-	MemoWrite("Server system errors ....: " & $aInfo[ 9])
+	$aInfo = _Net_Share_StatisticsGetSvr(@ComputerName)
+	MemoWrite("Statistics started ......: " & $aInfo[0])
+	MemoWrite("Times file opened .......: " & $aInfo[1])
+	MemoWrite("Times device opened .....: " & $aInfo[2])
+	MemoWrite("Print jobs spooled ......: " & $aInfo[3])
+	MemoWrite("Sessions started ........: " & $aInfo[4])
+	MemoWrite("Sessions disconnected ...: " & $aInfo[5])
+	MemoWrite("Session errors ..........: " & $aInfo[6])
+	MemoWrite("Password violations .....: " & $aInfo[7])
+	MemoWrite("Permission errors .......: " & $aInfo[8])
+	MemoWrite("Server system errors ....: " & $aInfo[9])
 	MemoWrite("Network bytes sent ......: " & $aInfo[10])
 	MemoWrite("Network bytes recv ......: " & $aInfo[11])
 	MemoWrite("Average response time ...: " & $aInfo[12])

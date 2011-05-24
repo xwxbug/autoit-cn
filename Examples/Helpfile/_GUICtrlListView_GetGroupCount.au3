@@ -1,17 +1,14 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
 _Main()
 
 Func _Main()
-	Local $aInfo, $hImage, $hListView
-	
+	Local $hImage, $hListView
+
 	GUICreate("ListView Set Group Info", 400, 300)
 
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
@@ -44,7 +41,7 @@ Func _Main()
 	_GUICtrlListView_SetItemGroupID($hListView, 0, 1)
 	_GUICtrlListView_SetItemGroupID($hListView, 1, 2)
 	_GUICtrlListView_SetItemGroupID($hListView, 2, 2)
-	
+
 	MsgBox(4160, "Information", "Group Count: " & _GUICtrlListView_GetGroupCount($hListView))
 
 

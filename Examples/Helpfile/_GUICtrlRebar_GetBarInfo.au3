@@ -1,11 +1,9 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiReBar.au3>
 #include <GuiToolBar.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 #include <GuiImageList.au3>
-
-Opt("MustDeclareVars", 1)
 
 $Debug_RB = False
 
@@ -18,14 +16,14 @@ Func _Main()
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 
 	$hgui = GUICreate("Rebar", 400, 396, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_MAXIMIZEBOX))
-	
+
 	; create the rebar control
 	$hReBar = _GUICtrlRebar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
-	
+
 	$iMemo = GUICtrlCreateEdit("", 2, 100, 396, 250, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
 
-	
+
 	; create a toolbar to put in the rebar
 	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
 
@@ -35,7 +33,7 @@ Func _Main()
 		_GUIImageList_AddIcon($hImage, "shell32.dll", $x)
 	Next
 	_GUICtrlRebar_SetBarInfo($hReBar, $hImage)
-	
+
 
 	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
@@ -57,7 +55,7 @@ Func _Main()
 
 	;add band containing the control
 	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
-	
+
 	; add band containing the control to the begining of rebar
 	_GUICtrlRebar_AddToolBarBand($hReBar, $hToolbar, "", 0)
 

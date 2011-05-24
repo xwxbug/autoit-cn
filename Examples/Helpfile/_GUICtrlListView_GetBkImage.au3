@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
@@ -11,7 +8,7 @@ Example_UDF_Created()
 
 Func Example_UDF_Created()
 	Local $GUI, $hImage, $aImage, $hListView
-	
+
 	$GUI = GUICreate("(UDF Created) ListView Get Background Image", 600, 550)
 	;=========================================================================================================
 	$hListView = _GUICtrlListView_Create($GUI, "", 2, 2, 596, 500, -1, -1, True) ; Last option Calls CoInitializeEx
@@ -57,14 +54,14 @@ Func Example_UDF_Created()
 
 	GUISetState()
 	MsgBox(4160, "Information", "Background Image: " & $aImage[1])
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	;=========================================================================================================
 	DllCall('ole32.dll', 'long', 'CoUinitialize') ; Must call for each CoInitializeEx call made
 	;=========================================================================================================
-	
+
 	GUIDelete()
 	FileDelete($sFilePath)
 EndFunc   ;==>Example_UDF_Created

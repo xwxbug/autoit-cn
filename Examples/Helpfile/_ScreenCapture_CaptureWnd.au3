@@ -1,4 +1,4 @@
-﻿#include <ScreenCapture.au3>
+#include <ScreenCapture.au3>
 
 _Main()
 
@@ -10,6 +10,6 @@ Func _Main()
 	GUISetState()
 
 	; Capture window
-	_ScreenCapture_CaptureWnd (@MyDocumentsDir & "\GDIPlus_Image.jpg", $hGUI)
+	_ScreenCapture_CaptureWnd(@MyDocumentsDir & "\GDIPlus_Image.jpg", $hGUI)
 
 EndFunc   ;==>_Main

@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <GUIScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -18,7 +15,7 @@ Func _Main()
 	GUICtrlSetResizing($iMemo, $GUI_DOCKALL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetBkColor(0x88AABB)
-	
+
 	GUISetState()
 
 	_GUIScrollBars_Init($hGUI)

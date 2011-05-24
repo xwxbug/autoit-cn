@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <GuiButton.au3>
 #include <GuiImageList.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -25,15 +22,15 @@ Func _Main()
 
 	$btn[0] = GUICtrlCreateButton("Button1", 10, 10, 90, 50)
 	_GUICtrlButton_SetImageList($btn[0], $hImage)
-	
+
 
 	For $x = 1 To 5
 		$btn[$x] = GUICtrlCreateButton("Button" & $x + 1, 10, $y, 90, 50)
 		_GUICtrlButton_SetImageList($btn[$x], _GetImageListHandle("shell32.dll", $iIcon + $x, True), $x)
 		$y += 60
 	Next
-	
-	
+
+
 	For $x = 0 To 5
 		$aImageListInfo = _GUICtrlButton_GetImageList($btn[$x])
 		MemoWrite("Button" & $x + 1 & " Imagelist Info" & @CRLF & "--------------------------------")
@@ -45,7 +42,7 @@ Func _Main()
 		MemoWrite("Alignment: " & _ExplainAlignment($aImageListInfo[5]))
 		MemoWrite("--------------------------------" & @CRLF)
 	Next
-	
+
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
@@ -65,7 +62,7 @@ EndFunc   ;==>MemoWrite
 Func _GetImageListHandle($sFile, $nIconID = 0, $fLarge = False)
 	Local $iSize = 16
 	If $fLarge Then $iSize = 32
-	
+
 	Local $hImage = _GUIImageList_Create($iSize, $iSize, 5, 3)
 	If StringUpper(StringMid($sFile, StringLen($sFile) - 2)) = "BMP" Then
 		_GUIImageList_AddBitmap($hImage, $sFile)

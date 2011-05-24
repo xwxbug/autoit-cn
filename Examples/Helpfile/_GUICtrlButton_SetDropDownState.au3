@@ -1,10 +1,7 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
 #include <GuiMenu.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $btn, $iMemo
 Global Const $TBSTYLE_DROPDOWN = 0x8
@@ -22,12 +19,12 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 
 	$btn = _GUICtrlButton_Create($hGUI, "Button1", 10, 10, 160, 40, BitOR($TBSTYLE_DROPDOWN, $BS_DEFPUSHBUTTON, $BS_PUSHLIKE))
-	
+
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
 	GUISetState()
-	
+
 	_GUICtrlButton_SetDropDownState($btn)
 
 	While 1
@@ -56,12 +53,12 @@ Func WM_NOTIFY($hWnd, $Msg, $wParam, $lParam)
 	Local $hCtrl = DllStructGetData($tNMBHOTITEM, "hWndFrom")
 	Local $dwFlags = DllStructGetData($tNMBHOTITEM, "dwFlags")
 	Local $sText = ""
-	
+
 	Switch $nNotifyCode
 		Case $BCN_HOTITEMCHANGE ; Win XP and Above
 			If BitAND($dwFlags, 0x10) = 0x10 Then
 				$sText = "$BCN_HOTITEMCHANGE - Entering: " & @CRLF
-				
+
 			ElseIf BitAND($dwFlags, 0x20) = 0x20 Then
 				$sText = "$BCN_HOTITEMCHANGE - Leaving: " & @CRLF
 			EndIf
@@ -106,7 +103,7 @@ Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 	Local $nID = BitAND($wParam, 0x0000FFFF)
 	Local $hCtrl = $lParam
 	Local $sText = ""
-	
+
 	Switch $hCtrl
 		Case $btn
 			Switch $nNotifyCode

@@ -1,18 +1,16 @@
-﻿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
 Func Example()
-	Local $title, $input, $updown, $msg
-	
+	Local $title, $input, $msg
+
 	$title = "My GUI UpDown"
 	GUICreate($title, -1, -1, -1, -1, $WS_SIZEBOX)
 
 	$input = GUICtrlCreateInput("2", 10, 10, 50, 20)
-	$updown = GUICtrlCreateUpdown($input)
+	GUICtrlCreateUpdown($input)
 
 	; Attempt to resize input control
 	GUICtrlSetPos($input, 10, 10, 100, 40)
@@ -22,7 +20,7 @@ Func Example()
 	; Run the GUI until the dialog is closed
 	While 1
 		$msg = GUIGetMsg()
-		
+
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 

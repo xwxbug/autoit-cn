@@ -1,6 +1,4 @@
-﻿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -8,23 +6,22 @@ Example()
 ; Example - Press the button to see the value of the radio boxes
 ; The script also detects state changes (closed/minimized/timeouts, etc).
 Func Example()
-	Local $button_1, $group_1, $radio_1, $radio_2, $radio_3
-	Local $radioval1, $radioval2, $msg
+	Local $button_1, $radio_1, $radio_3
+	Local $radioval1, $msg
 
 	Opt("GUICoordMode", 1)
 	GUICreate("Radio Box Demo", 400, 280)
 
 	; Create the controls
 	$button_1 = GUICtrlCreateButton("B&utton 1", 30, 20, 120, 40)
-	$group_1 = GUICtrlCreateGroup("Group 1", 30, 90, 165, 160)
+	GUICtrlCreateGroup("Group 1", 30, 90, 165, 160)
 	GUIStartGroup()
 	$radio_1 = GUICtrlCreateRadio("Radio &0", 50, 120, 70, 20)
-	$radio_2 = GUICtrlCreateRadio("Radio &1", 50, 150, 60, 20)
+	GUICtrlCreateRadio("Radio &1", 50, 150, 60, 20)
 	$radio_3 = GUICtrlCreateRadio("Radio &2", 50, 180, 60, 20)
 
 	; Init our vars that we will use to keep track of GUI events
-	$radioval1 = 0    ; We will assume 0 = first radio button selected, 2 = last button
-	$radioval2 = 2
+	$radioval1 = 0 ; We will assume 0 = first radio button selected, 2 = last button
 
 	; Show the GUI
 	GUISetState()

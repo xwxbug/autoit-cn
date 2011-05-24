@@ -1,9 +1,6 @@
-﻿#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiEdit.au3>
 #include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True and use a handle to another control to see it work
 
@@ -15,7 +12,7 @@ Func Example_Internal()
 			"this is only a test" & @CRLF & _
 			"this testing should work for you as well as it does for me"
 	Local $Button1, $Button2, $msg, $hEdit
-	
+
 	GUICreate('Find And Replace Example with AutoIt ' & FileGetVersion(@AutoItExe), 622, 448, 192, 125)
 	$hEdit = GUICtrlCreateEdit($s_texttest, 64, 24, 505, 233, _
 			BitOR($ES_AUTOVSCROLL, $WS_VSCROLL, $ES_MULTILINE, $WS_HSCROLL, $ES_NOHIDESEL))
@@ -46,11 +43,11 @@ Func Example_External()
 			"this testing should work for you as well as it does for me"
 	Local $whandle, $handle
 	Local $Title = "[CLASS:Notepad]"
-	
+
 	Run("notepad", "", @SW_MAXIMIZE)
 	;Wait for the window "Untitled" to exist
 	WinWait($Title)
-	
+
 	; Get the handle of a notepad window
 	$whandle = WinGetHandle($Title)
 	If @error Then

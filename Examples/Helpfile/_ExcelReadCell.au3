@@ -1,4 +1,4 @@
-﻿; ***************************************************************
+; ***************************************************************
 ; Example 1 - Write to a Cell after opening a workbook and returning its object identifier.  Read the cell, then Save and Close file.
 ; *****************************************************************
 
@@ -7,7 +7,7 @@
 Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 _ExcelWriteCell($oExcel, "I Wrote to This Cell", 1, 1) ;Write to the Cell
-$sCellValue = _ExcelReadCell($oExcel, 1, 1)
+Local $sCellValue = _ExcelReadCell($oExcel, 1, 1)
 MsgBox(0, "", "The Cell Value is: " & @CRLF & $sCellValue, 2)
 
 MsgBox(0, "Exiting", "Press OK to Save File and Exit")
@@ -20,7 +20,7 @@ _ExcelBookClose($oExcel) ; And finally we close out
 
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
+$oExcel = _ExcelBookNew() ;Create new book, make it visible
 
 For $i = 1 To 5 ;Loop
 	_ExcelWriteCell($oExcel, $i, $i, 1) ;Write to the Cell

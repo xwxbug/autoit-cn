@@ -1,22 +1,19 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 _Main()
 
 Func _Main()
 	Local $listview, $hImage, $iRandom
 	Local $exStyles = BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_SUBITEMIMAGES)
-	
+
 	GUICreate("ImageList Get Image Count", 400, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 394, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
-	
+
 	; Load images
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	$iRandom = Random(6, 20, 1)
@@ -45,7 +42,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 3", 2, 3)
 
 	MsgBox(4096, "Information", "Image Count: " & _GUIImageList_GetImageCount($hImage))
-	
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

@@ -1,4 +1,4 @@
-﻿#include <String.au3>
+#include <String.au3>
 
-Msgbox(0,'',_StringRepeat("+-",40))
+MsgBox(0, '', _StringRepeat("+-", 40))
 Exit

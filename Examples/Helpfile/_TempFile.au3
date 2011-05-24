@@ -1,6 +1,6 @@
-﻿#include <File.au3>
+#include <File.au3>
 
-Dim $s_TempFile, $s_FileName
+Local $s_TempFile, $s_FileName
 
 ; generate unique filename in @TempDir
 $s_TempFile = _TempFile()

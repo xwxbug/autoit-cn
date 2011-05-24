@@ -1,4 +1,4 @@
-﻿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray[5]
 $avArray[0] = "ab"

@@ -1,6 +1,6 @@
-﻿#include <Math.au3>
+#include <Math.au3>
 
-$radians = 3.14159265358979
-$degrees = _Degree($radians)
+Local $radians = 3.14159265358979
+Local $degrees = _Degree($radians)
 
 MsgBox(0, "Radians to Degrees", $radians & " radians = " & $degrees & " degrees")

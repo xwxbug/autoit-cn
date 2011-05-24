@@ -1,11 +1,8 @@
-﻿#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiStatusBar.au3>
 #include <WinAPI.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 $Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
@@ -17,11 +14,11 @@ Func _Main()
 
 	Local $hGUI, $hIcons[2], $hImage
 	Local $aParts[4] = [75, 150, 300, 400]
-	
+
 	; Create GUI
 	$hGUI = GUICreate("ImageList Destroy Icon", 400, 300)
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
-	
+
 	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -65,17 +62,19 @@ Func MemoWrite($sMessage = "")
 EndFunc   ;==>MemoWrite
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
+	#forceref $hWnd, $iMsg, $iwParam
 	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
 	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
+	Local $tinfo
 	Switch $hWndFrom
 		Case $hStatus
 			Switch $iCode
 				Case $NM_CLICK ; The user has clicked the left mouse button within the control
-					Local $tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
+					$tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
 					$hWndFrom = HWnd(DllStructGetData($tinfo, "hWndFrom"))
 					$iIDFrom = DllStructGetData($tinfo, "IDFrom")
 					$iCode = DllStructGetData($tinfo, "Code")
@@ -90,7 +89,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					Return True ; indicate that the mouse click was handled and suppress default processing by the system
 ;~ 					Return FALSE ;to allow default processing of the click.
 				Case $NM_DBLCLK ; The user has double-clicked the left mouse button within the control
-					Local $tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
+					$tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
 					$hWndFrom = HWnd(DllStructGetData($tinfo, "hWndFrom"))
 					$iIDFrom = DllStructGetData($tinfo, "IDFrom")
 					$iCode = DllStructGetData($tinfo, "Code")
@@ -105,7 +104,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					Return True ; indicate that the mouse click was handled and suppress default processing by the system
 ;~ 					Return FALSE ;to allow default processing of the click.
 				Case $NM_RCLICK ; The user has clicked the right mouse button within the control
-					Local $tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
+					$tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
 					$hWndFrom = HWnd(DllStructGetData($tinfo, "hWndFrom"))
 					$iIDFrom = DllStructGetData($tinfo, "IDFrom")
 					$iCode = DllStructGetData($tinfo, "Code")
@@ -120,7 +119,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					Return True ; indicate that the mouse click was handled and suppress default processing by the system
 ;~ 					Return FALSE ;to allow default processing of the click.
 				Case $NM_RDBLCLK ; The user has clicked the right mouse button within the control
-					Local $tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
+					$tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
 					$hWndFrom = HWnd(DllStructGetData($tinfo, "hWndFrom"))
 					$iIDFrom = DllStructGetData($tinfo, "IDFrom")
 					$iCode = DllStructGetData($tinfo, "Code")

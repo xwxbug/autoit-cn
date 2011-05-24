@@ -1,9 +1,7 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <ClipBoard.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
@@ -19,22 +17,22 @@ Func _Main()
 	GUISetState()
 
 	; Open the clipboard
-	If Not _ClipBoard_Open ($hGUI) Then _WinAPI_ShowError ("_ClipBoard_Open failed")
+	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
 
 	; Show clipboard formats available
-	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats ())
+	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())
 
 	; Enumerate clipboard formats
 	Do
-		$iFormat = _ClipBoard_EnumFormats ($iFormat)
+		$iFormat = _ClipBoard_EnumFormats($iFormat)
 		If $iFormat <> 0 Then
 			$iCount += 1
-			MemoWrite("Clipboard format " & $iCount & " .: " & _ClipBoard_FormatStr ($iFormat))
+			MemoWrite("Clipboard format " & $iCount & " .: " & _ClipBoard_FormatStr($iFormat))
 		EndIf
 	Until $iFormat = 0
 
 	; Close the clipboard
-	_ClipBoard_Close ()
+	_ClipBoard_Close()
 
 	; Loop until user exits
 	Do
