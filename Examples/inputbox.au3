@@ -1,4 +1,4 @@
-ï»¿;
+;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -10,33 +10,33 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-$answer = MsgBox(4, "AutoIt ä¾‹å­ (è‹±æ–‡+æ‚¨ç³»ç»Ÿçš„è¯­è¨€)", "è¿™ä¸ªè„šæœ¬æ‰“å¼€ä¸€ä¸ªè¾“å…¥æ¡†,å¹¶è¦æ±‚æ‚¨è¾“å…¥ä¸€äº›æ–‡æœ¬.  è¿è¡Œ?")
+Local $answer = MsgBox(4, "AutoIt Àı×Ó (Ó¢ÎÄ+ÄúÏµÍ³µÄÓïÑÔ)", "Õâ¸ö½Å±¾´ò¿ªÒ»¸öÊäÈë¿ò,²¢ÒªÇóÄúÊäÈëÒ»Ğ©ÎÄ±¾.  ÔËĞĞ?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
 If $answer = 7 Then
-    MsgBox(4096, "AutoIt", "å¥½çš„,å†è§!")
-    Exit
+	MsgBox(4096, "AutoIt", "ºÃµÄ,ÔÙ¼û!")
+	Exit
 EndIf
 
 ; Loop around until the user gives a valid "thesnow" answer
-$bLoop = 1
+Local $bLoop = 1
 While $bLoop = 1
-    $text = InputBox("AutoIt ä¾‹å­", "è¯·è¾“å…¥:""thesnow"" å¹¶å•å‡»ç¡®å®š")
-    If @error = 1 Then
-        MsgBox(4096, "é”™è¯¯", "æ‚¨æŒ‰ä¸‹äº† 'å–æ¶ˆ' - è¯·é‡è¯•!")
-    Else
-        ; They clicked OK, but did they type the right thing?
-        If $text <> "thesnow" Then
-            MsgBox(4096, "é”™è¯¯", "éš¾é“æ‚¨ä¸çŸ¥é“å°åé¼é¼çš„ thesnow å—? - è¯·é‡è¯•!")
-        Else
-            $bLoop = 0    ; Exit the loop - ExitLoop would have been an alternative too :)
-        EndIf
-    EndIf
+	Local $text = InputBox("AutoIt Àı×Ó", "ÇëÊäÈë:""thesnow"" ²¢µ¥»÷È·¶¨")
+	If @error = 1 Then
+		MsgBox(4096, "´íÎó", "Äú°´ÏÂÁË 'È¡Ïû' - ÇëÖØÊÔ!")
+	Else
+		; They clicked OK, but did they type the right thing?
+	If $text <> "thesnow" Then
+			MsgBox(4096, "´íÎó", "ÄÑµÀÄú²»ÖªµÀĞ¡Ãû¶¦¶¦µÄ thesnow Âğ? - ÇëÖØÊÔ!")
+		Else
+			$bLoop = 0 ; Exit the loop - ExitLoop would have been an alternative too :)
+		EndIf
+	EndIf
 WEnd
 
 ; Print the success message
-MsgBox(4096,"AutoIt ä¾‹å­", "æ‚¨è¾“å…¥äº†æ­£ç¡®çš„å•è¯!  æ­å–œ.")
+MsgBox(4096,"AutoIt Àı×Ó", "ÄúÊäÈëÁËÕıÈ·µÄµ¥´Ê!  ¹§Ï².")
 
 ; Finished!

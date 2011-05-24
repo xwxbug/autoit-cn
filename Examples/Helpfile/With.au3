@@ -1,10 +1,10 @@
-ï»¿$oExcel = ObjCreate("Excel.Application")	;æœ¬ä¾‹éœ€è¦å®‰è£…office
-$oExcel.visible =1
+Local $oExcel = ObjCreate("Excel.Application")	;±¾ÀıĞèÒª°²×°office
+$oExcel.visible = 1
 $oExcel.workbooks.add
 
 With $oExcel.activesheet
-	.cells(2,2).value = 1
-	.range("A1:B2").clear
+	.cells(2, 2).value = 1
+	.range("A1:B2" ).clear
 EndWith
 
 $oExcel.quit

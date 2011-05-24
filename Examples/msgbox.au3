@@ -1,4 +1,4 @@
-ï»¿;
+;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -9,7 +9,8 @@
 ;
 
 ; Use the @CRLF macro to do a newline in a MsgBox - it is similar to the \n in v2.64
-;~ @CR=å›è½¦
-;~ @LF=æ¢è¡Œ
-;~ @CRLF=å›è½¦+æ¢è¡Œ
-MsgBox(0, "AutoIt ä¾‹å­", "è¿™æ˜¯ç¬¬ä¸€è¡Œ" & @CRLF & "è¿™æ˜¯ç¬¬äºŒè¡Œ" & @CRLF & "è¿™æ˜¯ç¬¬ä¸‰è¡Œ")
+;~ @CR=»Ø³µ
+;~ @LF=»»ĞĞ
+;~ @CRLF=»Ø³µ+»»ĞĞ
+
+MsgBox(0, "AutoIt Àı×Ó", "ÕâÊÇµÚÒ»ĞĞ" & @CRLF & "ÕâÊÇµÚ¶şĞĞ" & @CRLF & "ÕâÊÇµÚÈıĞĞ")

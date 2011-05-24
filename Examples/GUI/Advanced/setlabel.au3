@@ -1,4 +1,4 @@
-﻿; AutoIt Version 3.0.103
+; AutoIt Version 3.0.103
 ; Language:       English
 ; Author:         Larry Bailey
 ; Email:          psichosis@tvn.net

@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "EditConstants.au3"
 #include "GuiStatusBar.au3"
@@ -666,7 +666,7 @@ Func _GUICtrlEdit_GetHandle($hWnd)
 	If $Debug_Ed Then __UDF_ValidateClassName($hWnd, $__EDITCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $EM_GETHANDLE)
+	Return Ptr( _SendMessage($hWnd, $EM_GETHANDLE))
 EndFunc   ;==>_GUICtrlEdit_GetHandle
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -859,7 +859,7 @@ EndFunc   ;==>_GUICtrlEdit_GetPasswordChar
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Under certain conditions, _GUICtrlEdit_GetRECT might not return the exact values that
-;                  _GUICtrlEdit_SetRECT setâ€”it will be approximately correct, but it can be off by a few pixels.
+;                  _GUICtrlEdit_SetRECT set¡ªit will be approximately correct, but it can be off by a few pixels.
 ; Related .......: _GUICtrlEdit_GetRECTEx
 ; Link ..........:
 ; Example .......: Yes
@@ -887,7 +887,7 @@ EndFunc   ;==>_GUICtrlEdit_GetRECT
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: Under certain conditions, _GUICtrlEdit_GetRECT might not return the exact values that
-;                  _GUICtrlEdit_SetRECTEx setâ€”it will be approximately correct, but it can be off by a few pixels.
+;                  _GUICtrlEdit_SetRECTEx set¡ªit will be approximately correct, but it can be off by a few pixels.
 ; Related .......: _GUICtrlEdit_GetRECT, $tagRECT
 ; Link ..........:
 ; Example .......: Yes
@@ -1032,7 +1032,7 @@ Func _GUICtrlEdit_HideBalloonTip($hWnd)
 	If $Debug_Ed Then __UDF_ValidateClassName($hWnd, $__EDITCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $EM_HIDEBALLOONTIP)
+	Return _SendMessage($hWnd, $EM_HIDEBALLOONTIP) <> 0
 EndFunc   ;==>_GUICtrlEdit_HideBalloonTip
 
 ; #FUNCTION# ====================================================================================================================
@@ -1071,7 +1071,7 @@ EndFunc   ;==>_GUICtrlEdit_InsertText
 ; Return values .: Success      - Zero-based line number of the line containing the character index specified by $iIndex
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If $iIndex is â€“1, _GUICtrlEdit_LineFromChar retrieves either the line number of the current line
+; Remarks .......: If $iIndex is ¨C1, _GUICtrlEdit_LineFromChar retrieves either the line number of the current line
 ;                  (the line containing the caret) or, if there is a selection, the line number of the line containing
 ;                   the beginning of the selection.
 ; Related .......:
@@ -1092,10 +1092,10 @@ EndFunc   ;==>_GUICtrlEdit_LineFromChar
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iIndex      - Specifies the zero-based line number
 ; Return values .: Success      - the character index of the line specified in the $iIndex parameter
-;                  Failure      - â€“1 if the specified line number is greater than the number of lines in the edit control
+;                  Failure      - ¨C1 if the specified line number is greater than the number of lines in the edit control
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: $iIndex = â€“1 specifies the current line number (the line that contains the caret)
+; Remarks .......: $iIndex = ¨C1 specifies the current line number (the line that contains the caret)
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
@@ -1117,7 +1117,7 @@ EndFunc   ;==>_GUICtrlEdit_LineIndex
 ;                  Failure      - 0 If $iIndex is greater than the number of characters in the control
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: $iIndex = â€“1 specifies the current line number (the line that contains the caret)
+; Remarks .......: $iIndex = ¨C1 specifies the current line number (the line that contains the caret)
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
@@ -1269,7 +1269,7 @@ Func _GUICtrlEdit_SetHandle($hWnd, $hMemory)
 	If $Debug_Ed Then __UDF_ValidateClassName($hWnd, $__EDITCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $EM_SETHANDLE, $hMemory, 0, 0, "hwnd")
+	_SendMessage($hWnd, $EM_SETHANDLE, $hMemory, 0, 0, "handle")
 EndFunc   ;==>_GUICtrlEdit_SetHandle
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -1545,8 +1545,8 @@ EndFunc   ;==>_GUICtrlEdit_SetRectNPEx
 ;                  If the user uses the SHIFT key to adjust the size of the selection, the active end can move but the
 ;                  anchor point remains the same.
 ;+
-;                  If the $iStart is 0 and the $iEnd is â€“1, all the text in the edit control is selected.
-;                  If the $iStart is â€“1, any current selection is deselected.
+;                  If the $iStart is 0 and the $iEnd is ¨C1, all the text in the edit control is selected.
+;                  If the $iStart is ¨C1, any current selection is deselected.
 ;+
 ;                  The control displays a flashing caret at the $iEnd position regardless of the relative values of $iStart and $iEnd.
 ; Related .......: _GUICtrlEdit_GetSel, _GUICtrlEdit_ReplaceSel

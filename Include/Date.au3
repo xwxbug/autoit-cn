@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "Memory.au3"
 #include "WinAPI.au3"
@@ -1663,13 +1663,13 @@ EndFunc   ;==>_Date_Time_CompareFileTime
 ; Description ...: Converts MS-DOS date and time values to a file time
 ; Syntax.........: _Date_Time_DOSDateTimeToFileTime($iFatDate, $iFatTime)
 ; Parameters ....: $iFatDate    - The MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1â€“31)
+;                  |Bits  0- 4 Day of the month (1¨C31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iFatTime     - Ths MS-DOS time, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0â€“59)
-;                  |Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0¨C59)
+;                  |Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Return values .: Success      - $tagFILETIME structure that receives the converted file time
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
@@ -1691,7 +1691,7 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToFileTime
 ; Description ...: Decode a DOS date to an array
 ; Syntax.........: _Date_Time_DOSDateToArray($iDosDate)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1â€“31)
+;                  |Bits  0- 4 Day of the month (1¨C31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ; Return values .: Success      - Array with the following format:
@@ -1719,13 +1719,13 @@ EndFunc   ;==>_Date_Time_DOSDateToArray
 ; Description ...: Decode a DOS date/time to an array
 ; Syntax.........: _Date_Time_DOSDateTimeToArray($iDosDate, $iDosTime)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1â€“31)
+;                  |Bits  0- 4 Day of the month (1¨C31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0â€“59)
-;                  |Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0¨C59)
+;                  |Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Month
 ;                  |[1] - Day
@@ -1757,13 +1757,13 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToArray
 ; Description ...: Decode a DOS date to a string
 ; Syntax.........: _Date_Time_DOSDateTimeToStr($iDosDate, $iDosTime)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1â€“31)
+;                  |Bits  0- 4 Day of the month (1¨C31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0â€“59)
-;                  |Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0¨C59)
+;                  |Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Return values .: Success      - Date/time string formatted as mm/dd/yyyy hh:mm:ss
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
@@ -1782,7 +1782,7 @@ EndFunc   ;==>_Date_Time_DOSDateTimeToStr
 ; Description ...: Decode a DOS date to a string
 ; Syntax.........: _Date_Time_DOSDateToStr($iDosDate)
 ; Parameters ....: $iDosDate    - MS-DOS date, packed as follows:
-;                  |Bits  0- 4 Day of the month (1â€“31)
+;                  |Bits  0- 4 Day of the month (1¨C31)
 ;                  |Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  |Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ; Return values .: Success      - Date string formatted as mm/dd/yyyy
@@ -1804,8 +1804,8 @@ EndFunc   ;==>_Date_Time_DOSDateToStr
 ; Syntax.........: _Date_Time_DOSTimeToArray($iDosTime)
 ; Parameters ....: $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0â€“59)
-;                  |Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0¨C59)
+;                  |Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Hour
 ;                  |[1] - Minute
@@ -1832,8 +1832,8 @@ EndFunc   ;==>_Date_Time_DOSTimeToArray
 ; Syntax.........: _Date_Time_DOSTimeToStr($iDosTime)
 ; Parameters ....: $iDosTime    - MS-DOS date, packed as follows:
 ;                  |Bits  0- 4 Second divided by 2
-;                  |Bits  5-10 Minute (0â€“59)
-;                  |Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  |Bits  5-10 Minute (0¨C59)
+;                  |Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Return values .: Success       - Time string formatted as hh:mm:ss
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
@@ -1951,7 +1951,6 @@ Func _Date_Time_FileTimeToStr(ByRef $tFileTime, $bFmt = 0)
 	If @error Then Return SetError(@error, @extended, "")
 
 	If $bFmt Then
-	;fixed by thesnoW
 		Return StringFormat("%04d/%02d/%02d %02d:%02d:%02d", $aDate[2], $aDate[0], $aDate[1], $aDate[3], $aDate[4], $aDate[5])
 	Else
 		Return StringFormat("%02d/%02d/%04d %02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2], $aDate[3], $aDate[4], $aDate[5])
@@ -1965,13 +1964,13 @@ EndFunc   ;==>_Date_Time_FileTimeToStr
 ; Parameters ....: $pFileTime   - Pointer to a $tagFILETIME structure containing the file time to convert to MS-DOS format
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - MS-DOS date, packed as follows:
-;                  | Bits  0- 4 Day of the month (1â€“31)
+;                  | Bits  0- 4 Day of the month (1¨C31)
 ;                  | Bits  5- 8 Month (1 = January, 2 = February, and so on)
 ;                  | Bits  9-15 Year offset from 1980 (add 1980 to get actual year)
 ;                  |[1] - MS-DOS time, packed as follows:
 ;                  | Bits  0- 4 Second divided by 2
-;                  | Bits  5-10 Minute (0â€“59)
-;                  | Bits 11-15 Hour (0â€“23 on a 24-hour clock)
+;                  | Bits  5-10 Minute (0¨C59)
+;                  | Bits 11-15 Hour (0¨C23 on a 24-hour clock)
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
@@ -2232,7 +2231,7 @@ EndFunc   ;==>_Date_Time_GetTickCount
 ;                  +daylight saving time occurs.
 ;                  |[7] - The bias value to be used during local time translations that occur during daylight saving  time.  This
 ;                  +value is added to the value of the Bias member to form the bias used during  daylight  saving  time.  In most
-;                  +time zones this value is â€“60.
+;                  +time zones this value is ¨C60.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; Remarks .......:
@@ -2431,7 +2430,7 @@ EndFunc   ;==>_Date_Time_SetSystemTimeAdjustment
 ;                  +standard time to daylight saving time occurs.
 ;                  $iDayBias    - The bias value to be used during local time translation that occur during daylight saving time.
 ;                  +This value is added to the value of the Bias member to form the bias used during daylight saving time.  In
-;                  +most time zones this value is â€“60.
+;                  +most time zones this value is ¨C60.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)

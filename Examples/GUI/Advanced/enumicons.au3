@@ -1,4 +1,4 @@
-﻿;===============================================================================
+;===============================================================================
 ;
 ; Description:      Show all icons in the given file
 ; Requirement(s):   Autoit 3.0.103+
@@ -10,7 +10,6 @@
 #include <WindowsConstants.au3>
 #include <ButtonConstants.au3>
 #include <StaticConstants.au3>
-
 
 ; Setting variables
 Global $ahIcons[30], $ahLabels[30]

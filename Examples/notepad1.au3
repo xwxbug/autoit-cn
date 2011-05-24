@@ -1,4 +1,4 @@
-ï»¿;
+;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -10,14 +10,14 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-$answer = MsgBox(4, "AutoIt ä¾‹å­ (ä¸­æ–‡)", "è¿™ä¸ªä¾‹å­ä¼šåœ¨è¿è¡Œè®°äº‹æœ¬åè¾“å…¥ä¸€äº›æ–‡å­—å¹¶é€€å‡º.  è¿è¡Œ?")
+Local $answer = MsgBox(4, "AutoIt Àı×Ó (ÖĞÎÄ)", "Õâ¸öÀı×Ó»áÔÚÔËĞĞ¼ÇÊÂ±¾ºóÊäÈëÒ»Ğ©ÎÄ×Ö²¢ÍË³ö.  ÔËĞĞ?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
 If $answer = 7 Then
-    MsgBox(0, "AutoIt", "å¥½çš„,å†è§!")
-    Exit
+	MsgBox(0, "AutoIt", "ºÃµÄ,ÔÙ¼û!")
+	Exit
 EndIf
 
 
@@ -26,7 +26,7 @@ Run("notepad.exe")
 
 
 ; Wait for the Notepad become active - it is titled "Untitled - Notepad" on English systems
-WinWaitActive("æ— æ ‡é¢˜ - è®°äº‹æœ¬")
+WinWaitActive("[CLASS:Notepad]")
 
 
 ; Now that the Notepad window is active type some text
@@ -41,14 +41,14 @@ Send("!f")
 Send("x")
 
 
-; Now a screen will pop up and ask to save the changes, the window is called 
+; Now a screen will pop up and ask to save the changes, the window is called
 ; "Notepad" and has some text "Yes" and "No"
-WinWaitActive("è®°äº‹æœ¬", "å¦")
+WinWaitActive("¼ÇÊÂ±¾", "·ñ")
 Send("n")
 
 
 ; Now wait for Notepad to close before continuing
-WinWaitClose("æ— æ ‡é¢˜ - è®°äº‹æœ¬")
+WinWaitClose("[CLASS:Notepad]")
 
 
 ; Finished!

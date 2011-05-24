@@ -1,7 +1,6 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <TreeViewConstants.au3>
-
 
 _Main()
 
@@ -14,43 +13,43 @@ Func _Main()
 
 	#forceref $cmditem, $miscitem, $effect2, $effect4, $effect5, $style1, $style2, $style3
 
-GUICreate("GUI ä¹‹ treeviews",340,200,-1,-1,BitOR($WS_MINIMIZEBOX,$WS_MAXIMIZEBOX,$WS_GROUP,$WS_CAPTION,$WS_POPUP,$WS_SYSMENU))
+GUICreate("GUI Ö® treeviews",340,200,-1,-1,BitOR($WS_MINIMIZEBOX,$WS_MAXIMIZEBOX,$WS_GROUP,$WS_CAPTION,$WS_POPUP,$WS_SYSMENU))
 
 	$maintree = GUICtrlCreateTreeView(10, 10, 120, 150)
-$aboutitem = GUICtrlCreateTreeViewItem ("å…³äº",$maintree)
-$generalitem = GUICtrlCreateTreeViewItem ("å¸¸è§„",$maintree)
-$toolsitem = GUICtrlCreateTreeViewItem ("å·¥å…·",$maintree)
-$effectitem = GUICtrlCreateTreeViewItem ("æ•ˆæœ",$generalitem)
-$styleitem = GUICtrlCreateTreeViewItem ("æ ·å¼",$generalitem)
-$cmditem = GUICtrlCreateTreeViewItem ("å‘½ä»¤è¡Œ",$toolsitem)
-$miscitem = GUICtrlCreateTreeViewItem ("å…¶å®ƒ",$toolsitem)
+$aboutitem = GUICtrlCreateTreeViewItem ("¹ØÓÚ",$maintree)
+$generalitem = GUICtrlCreateTreeViewItem ("³£¹æ",$maintree)
+$toolsitem = GUICtrlCreateTreeViewItem ("¹¤¾ß",$maintree)
+$effectitem = GUICtrlCreateTreeViewItem ("Ğ§¹û",$generalitem)
+$styleitem = GUICtrlCreateTreeViewItem ("ÑùÊ½",$generalitem)
+$cmditem = GUICtrlCreateTreeViewItem ("ÃüÁîĞĞ",$toolsitem)
+$miscitem = GUICtrlCreateTreeViewItem ("ÆäËü",$toolsitem)
 
-$descgroup = GUICtrlCreateGroup ("è¯¦ç»†ä¿¡æ¯",140,105,180,55)
+$descgroup = GUICtrlCreateGroup ("ÏêÏ¸ĞÅÏ¢",140,105,180,55)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-$effectsgroup = GUICtrlCreateGroup ("æ•ˆæœ",140,5,180,95)
+$effectsgroup = GUICtrlCreateGroup ("Ğ§¹û",140,5,180,95)
 	GUICtrlSetState(-1, $GUI_HIDE)
 	$effectstree = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
 	GUICtrlSetState(-1, $GUI_HIDE)
-$effect1 = GUICtrlCreateTreeViewItem ("æ•ˆæœ 1",$effectstree)
-$effect2 = GUICtrlCreateTreeViewItem ("æ•ˆæœ 2",$effectstree)
-$effect3 = GUICtrlCreateTreeViewItem ("æ•ˆæœ 3",$effectstree)
-$effect4 = GUICtrlCreateTreeViewItem ("æ•ˆæœ 4",$effectstree)
-$effect5 = GUICtrlCreateTreeViewItem ("æ•ˆæœ 5",$effectstree)
+$effect1 = GUICtrlCreateTreeViewItem ("Ğ§¹û 1",$effectstree)
+$effect2 = GUICtrlCreateTreeViewItem ("Ğ§¹û 2",$effectstree)
+$effect3 = GUICtrlCreateTreeViewItem ("Ğ§¹û 3",$effectstree)
+$effect4 = GUICtrlCreateTreeViewItem ("Ğ§¹û 4",$effectstree)
+$effect5 = GUICtrlCreateTreeViewItem ("Ğ§¹û 5",$effectstree)
 
-$stylesgroup = GUICtrlCreateGroup ("æ ·å¼",140,5,180,95)
+$stylesgroup = GUICtrlCreateGroup ("ÑùÊ½",140,5,180,95)
 	GUICtrlSetState(-1, $GUI_HIDE)
 	$stylestree = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
 	GUICtrlSetState(-1, $GUI_HIDE)
-$style1 = GUICtrlCreateTreeViewItem ("æ ·å¼ 1",$stylestree)
-$style2 = GUICtrlCreateTreeViewItem ("æ ·å¼ 2",$stylestree)
-$style3 = GUICtrlCreateTreeViewItem ("æ ·å¼ 3",$stylestree)
-$style4 = GUICtrlCreateTreeViewItem ("æ ·å¼ 4",$stylestree)
-$style5 = GUICtrlCreateTreeViewItem ("æ ·å¼ 5",$stylestree)
+$style1 = GUICtrlCreateTreeViewItem ("ÑùÊ½ 1",$stylestree)
+$style2 = GUICtrlCreateTreeViewItem ("ÑùÊ½ 2",$stylestree)
+$style3 = GUICtrlCreateTreeViewItem ("ÑùÊ½ 3",$stylestree)
+$style4 = GUICtrlCreateTreeViewItem ("ÑùÊ½ 4",$stylestree)
+$style5 = GUICtrlCreateTreeViewItem ("ÑùÊ½ 5",$stylestree)
 
-$aboutlabel = GUICtrlCreateLabel ("è¿™åªæ˜¯ä¸€ä¸ªtreeviewæ¼”ç¤º.",160,80,160,20)
+$aboutlabel = GUICtrlCreateLabel ("ÕâÖ»ÊÇÒ»¸ötreeviewÑİÊ¾.",160,80,160,20)
 
-$cancelbutton = GUICtrlCreateButton ("å–æ¶ˆ",130,170,70,20)
+$cancelbutton = GUICtrlCreateButton ("È¡Ïû",130,170,70,20)
 	GUISetState()
 
 	GUICtrlSetState($effect1, $GUI_CHECKED)

@@ -1,4 +1,4 @@
-ï»¿;
+;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
@@ -9,30 +9,30 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-$answer = MsgBox(4, "AutoIt ä¾‹å­", "è¿™ä¸ªè„šæœ¬å°†ä¼šè¿è¡Œ5æ¬¡ 'Do' å¾ªçŽ¯.  è¿è¡Œ?")
+Local $answer = MsgBox(4, "AutoIt Àý×Ó", "Õâ¸ö½Å±¾½«»áÔËÐÐ5´Î 'Do' Ñ­»·.  ÔËÐÐ?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
 If $answer = 7 Then
-	MsgBox(0, "AutoIt ä¾‹å­", "å¥½çš„,å†è§!")
+	MsgBox(0, "AutoIt Àý×Ó", "ºÃµÄ,ÔÙ¼û!")
 	Exit
 EndIf
 
 
 ; Set the counter
-$count = 1
+Local $count = 1
 
 ; Execute the loop "until" the counter is greater than 5
 Do
 	; Print the count
-	MsgBox(0, "AutoIt ä¾‹å­", "è®¡æ•°å™¨ä¸º: " & $count)
+	MsgBox(0, "AutoIt Àý×Ó", "¼ÆÊýÆ÷Îª: " & $count)
 
 	; Increase the count by one
-	$count = $count + 1  
+	$count = $count + 1
 
 Until $count > 5
-    	
-    	
+
+
 ; Finished!
-MsgBox(0, "AutoIt ä¾‹å­", "å®Œæˆ!")
+MsgBox(0, "AutoIt Àý×Ó", "Íê³É!")

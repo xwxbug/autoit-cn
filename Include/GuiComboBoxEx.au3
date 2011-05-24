@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "GuiComboBox.au3"
 #include "DirConstants.au3"
@@ -372,7 +372,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_EndUpdate
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is â€“1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -675,7 +675,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetExtendedUI
 Func _GUICtrlComboBoxEx_GetImageList($hWnd)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 
-	Return _SendMessage($hWnd, $CBEM_GETIMAGELIST)
+	Return Ptr(_SendMessage($hWnd, $CBEM_GETIMAGELIST))
 EndFunc   ;==>_GUICtrlComboBoxEx_GetImageList
 
 ; #FUNCTION# ====================================================================================================================
@@ -763,7 +763,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetItemEx
 ; Syntax.........: _GUICtrlComboBoxEx_GetItemHeight($hWnd, $iComponent = -1)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iComponent  - Use the following values:
-;                  |â€“1          - Get the height of the selection field
+;                  |¨C1          - Get the height of the selection field
 ;                  | 0          - Get the height of list items
 ; Return values .: Success      - The height, in pixels
 ;                  Failure      - -1
@@ -1329,9 +1329,9 @@ EndFunc   ;==>_GUICtrlComboBoxEx_ResetContent
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If $iIndex is â€“1, any current selection in the list is removed and the edit control is cleared.
+; Remarks .......: If $iIndex is ¨C1, any current selection in the list is removed and the edit control is cleared.
 ;+
-;                  If $iIndex is greater than the number of items in the list or if $iIndex is â€“1, the return value
+;                  If $iIndex is greater than the number of items in the list or if $iIndex is ¨C1, the return value
 ;                  is -1 and the selection is cleared.
 ; Related .......: _GUICtrlComboBoxEx_GetCurSel
 ; Link ..........:
@@ -1378,7 +1378,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetDroppedWidth
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The positions are zero-based. The first character of the edit control is in the zero position.
-;                  If $iStop is â€“1, all text from the starting position to the last character in the edit control is selected.
+;                  If $iStop is ¨C1, all text from the starting position to the last character in the edit control is selected.
 ;+
 ;                  The first character after the last selected character is in the ending position.
 ;+
@@ -1491,12 +1491,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedUI
 Func _GUICtrlComboBoxEx_SetImageList($hWnd, $hHandle)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 
-	Local $hResult
-	If IsHWnd($hWnd) Then
-		$hResult = _SendMessage($hWnd, $CBEM_SETIMAGELIST, 0, $hHandle, 0, "wparam", "hwnd", "hwnd")
-	Else
-		$hResult = GUICtrlSendMsg($hWnd, $CBEM_SETIMAGELIST, 0, $hHandle)
-	EndIf
+	Local $hResult = _SendMessage($hWnd, $CBEM_SETIMAGELIST, 0, $hHandle, 0, "wparam", "handle", "handle")
 	_SendMessage($hWnd, $__COMBOBOXEXCONSTANT_WM_SIZE)
 	Return $hResult
 EndFunc   ;==>_GUICtrlComboBoxEx_SetImageList
@@ -1590,7 +1585,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetItemEx
 ; Syntax.........: _GUICtrlComboBoxEx_SetItemHeight($hWnd, $iComponent, $iHeight)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iComponent  - Use the following values:
-;                  |â€“1          - Set the height of the selection field
+;                  |¨C1          - Set the height of the selection field
 ;                  | 0          - Set the height of list items
 ;                  $iHeight     - The height, in pixels, of the combo box component identified by $iComponent
 ; Return values .: Failure      - If height is invalid, the return value is -1.

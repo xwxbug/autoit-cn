@@ -1,5 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
-
+#include <GUIConstantsEx.au3>
 
 _Main()
 
@@ -9,19 +8,19 @@ Func _Main()
 	Local $msg, $file
 	#forceref $separator1
 
-GUICreate("GUI èœå•",300,200)
+GUICreate("GUI ²Ëµ¥",300,200)
 
-$filemenu = GUICtrlCreateMenu ("æ–‡ä»¶(&F)")
-$fileitem = GUICtrlCreateMenuItem ("æ‰“å¼€(&O)...",$filemenu)
-$recentfilesmenu = GUICtrlCreateMenu ("å†å²æ–‡ä»¶(&R)",$filemenu)
+$filemenu = GUICtrlCreateMenu ("ÎÄ¼ş(&F)")
+$fileitem = GUICtrlCreateMenuItem ("´ò¿ª(&O)...",$filemenu)
+$recentfilesmenu = GUICtrlCreateMenu ("ÀúÊ·ÎÄ¼ş(&R)",$filemenu)
 	$separator1 = GUICtrlCreateMenuItem("", $filemenu)
-$exititem = GUICtrlCreateMenuItem ("é€€å‡º(&X)",$filemenu)
-$helpmenu = GUICtrlCreateMenu ("å¸®åŠ©(&H)")
-$aboutitem = GUICtrlCreateMenuItem ("å…³äº(&A)",$helpmenu)
+$exititem = GUICtrlCreateMenuItem ("ÍË³ö(&X)",$filemenu)
+$helpmenu = GUICtrlCreateMenu ("°ïÖú(&H)")
+$aboutitem = GUICtrlCreateMenuItem ("¹ØÓÚ(&A)",$helpmenu)
 
-$okbutton = GUICtrlCreateButton ("ç¡®å®š",50,130,70,20)
+$okbutton = GUICtrlCreateButton ("È·¶¨",50,130,70,20)
 
-$cancelbutton = GUICtrlCreateButton ("å–æ¶ˆ",180,130,70,20)
+$cancelbutton = GUICtrlCreateButton ("È¡Ïû",180,130,70,20)
 
 	GUISetState()
 
@@ -34,17 +33,17 @@ $cancelbutton = GUICtrlCreateButton ("å–æ¶ˆ",180,130,70,20)
 				ExitLoop
 
 			Case $msg = $fileitem
-			$file = FileOpenDialog("é€‰æ‹©æ–‡ä»¶...",@TempDir,"æ‰€æœ‰æ–‡ä»¶(*.*)")
+			$file = FileOpenDialog("Ñ¡ÔñÎÄ¼ş...",@TempDir,"ËùÓĞÎÄ¼ş(*.*)")
 				If @error <> 1 Then GUICtrlCreateMenuItem($file, $recentfilesmenu)
 
 			Case $msg = $exititem
 				ExitLoop
 
 			Case $msg = $okbutton
-			MsgBox(0, "å•å‡»","æ‚¨å•å‡»äº†[ç¡®å®š]æŒ‰é’®!")
+			MsgBox(0, "µ¥»÷","Äúµ¥»÷ÁË[È·¶¨]°´Å¥!")
 
 			Case $msg = $aboutitem
-			MsgBox(0,"å…³äº","GUI èœå•æµ‹è¯•")
+			MsgBox(0,"¹ØÓÚ","GUI ²Ëµ¥²âÊÔ")
 		EndSelect
 	WEnd
 

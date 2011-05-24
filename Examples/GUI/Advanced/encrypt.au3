@@ -1,4 +1,4 @@
-ï»¿;====================================================
+;====================================================
 ;============= Encryption Tool With GUI =============
 ;====================================================
 ; AutoIt version: 3.0.103
@@ -8,9 +8,11 @@
 ; ----------------------------------------------------------------------------
 ; Script Start
 ; ----------------------------------------------------------------------------
+
 #include <GUIConstantsEx.au3>
 #include <String.au3>
 ;#include files for encryption and GUI constants
+
 _Main()
 
 Func _Main()
@@ -18,7 +20,7 @@ Func _Main()
 	Local $EncryptButton, $DecryptButton, $string
 	#forceref $UpDownLevel
 ;~~
-$WinMain = GUICreate('åŠ å¯†å·¥å…·', 400, 400)
+$WinMain = GUICreate('¼ÓÃÜ¹¤¾ß', 400, 400)
 	; Creates window
 ;~~
 	$EditText = GUICtrlCreateEdit('', 5, 5, 380, 350)
@@ -31,12 +33,12 @@ $WinMain = GUICreate('åŠ å¯†å·¥å…·', 400, 400)
 	$UpDownLevel = GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
 	; These two make the level input with the Up|Down ability
 ;~~
-$EncryptButton = GUICtrlCreateButton('åŠ å¯†', 170, 360, 105, 35)
-$DecryptButton = GUICtrlCreateButton('è§£å¯†', 285, 360, 105, 35)
+$EncryptButton = GUICtrlCreateButton('¼ÓÃÜ', 170, 360, 105, 35)
+$DecryptButton = GUICtrlCreateButton('½âÃÜ', 285, 360, 105, 35)
 	; Encryption/Decryption buttons
 ;~~
-GUICtrlCreateLabel('å¯†ç ', 5, 385)
-GUICtrlCreateLabel('ç­‰çº§',110,385)
+GUICtrlCreateLabel('ÃÜÂë', 5, 385)
+GUICtrlCreateLabel('µÈ¼¶',110,385)
 	; Simple text labels so you know what is what
 ;~~
 	GUISetState()
@@ -56,7 +58,7 @@ GUICtrlCreateLabel('ç­‰çº§',110,385)
 				$string = GUICtrlRead($EditText)
 				; Saves the editbox for later
 ;~~
-      GUICtrlSetData($EditText,'è¯·ç­‰å¾…åŠ å¯†/è§£å¯†å®Œæˆ!')
+      GUICtrlSetData($EditText,'ÇëµÈ´ı¼ÓÃÜ/½âÃÜÍê³É!')
 				; Friendly message
 ;~~
 				GUICtrlSetData($EditText, _StringEncrypt(1, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))
@@ -74,7 +76,7 @@ GUICtrlCreateLabel('ç­‰çº§',110,385)
 				$string = GUICtrlRead($EditText)
 				; Saves the editbox for later
 ;~~
-      GUICtrlSetData($EditText,'è¯·ç­‰å¾…åŠ å¯†/è§£å¯†å®Œæˆ!')
+      GUICtrlSetData($EditText,'ÇëµÈ´ı¼ÓÃÜ/½âÃÜÍê³É!')
 				; Friendly message
 ;~~
 				GUICtrlSetData($EditText, _StringEncrypt(0, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))

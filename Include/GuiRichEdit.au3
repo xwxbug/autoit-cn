@@ -260,7 +260,7 @@ Global Const $tagEDITSTREAM = "dword_ptr dwCookie;dword dwError;ptr pfnCallback"
 ; Fields ........: cbSize    - Specifies the size, in bytes, of the structure
 ;                  wMask     - A set of mask bits that determine which of the wEffects flags will be set to 1 or 0 by the rich edit control. This approach eliminates the need to read the effects flags before changing them.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOM_DEFPARADIR       - Default paragraph directionâ€”implies alignment (obsolete).
+;                  |  $BOM_DEFPARADIR       - Default paragraph direction¡ªimplies alignment (obsolete).
 ;                  |  $BOM_PLAINTEXT        - Use plain text layout (obsolete).
 ;                  |  $BOM_NEUTRALOVERRIDE  - Override neutral layout.
 ;                  |  $BOM_CONTEXTREADING   - Context reading order.
@@ -268,7 +268,7 @@ Global Const $tagEDITSTREAM = "dword_ptr dwCookie;dword dwError;ptr pfnCallback"
 ;                  |  $BOM_LEGACYBIDICLASS  - Treatment of plus, minus, and slash characters in right-to-left (LTR) or bidirectional text.
 ;                  wEffects  - A set of flags that indicate the desired or current state of the effects flags. Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOE_RTLDIR           - Default paragraph directionâ€”implies alignment (obsolete).
+;                  |  $BOE_RTLDIR           - Default paragraph direction¡ªimplies alignment (obsolete).
 ;                  |  $BOE_PLAINTEXT        - Uses plain text layout (obsolete).
 ;                  |  $BOE_NEUTRALOVERRIDE  - Overrides neutral layout.
 ;                  |  $BOE_CONTEXTREADING   - Context reading order.
@@ -777,7 +777,7 @@ Global Const $tagENLINK = $tagNMHDR & ";uint msg;wparam wParam;lparam lParam;" &
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_AppendText($hWnd, $sText)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $iLength = _GUICtrlRichEdit_GetTextLength($hWnd)
 	_GUICtrlRichEdit_SetSel($hWnd, $iLength, $iLength) ; go to end of text
@@ -822,7 +822,7 @@ EndFunc   ;==>_GUICtrlRichEdit_AppendText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_AutoDetectURL($hWnd, $fState)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fState) Then Return SetError(102, 0, False)
 
 	If _SendMessage($hWnd, $EM_AUTOURLDETECT, $fState) Then Return SetError(700, 0, False)
@@ -846,7 +846,7 @@ EndFunc   ;==>_GUICtrlRichEdit_AutoDetectURL
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanPaste($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $iRet = _SendMessage($hWnd, $EM_CANPASTE, 0, 0)
 	Return $iRet <> 0
@@ -869,7 +869,7 @@ EndFunc   ;==>_GUICtrlRichEdit_CanPaste
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanPasteSpecial($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Return _SendMessage($hWnd, $EM_CANPASTE, $_GRE_CF_RTF, 0) <> 0 _
 			And _SendMessage($hWnd, $EM_CANPASTE, $_GRE_CF_RETEXTOBJ, 0) <> 0
@@ -891,7 +891,7 @@ EndFunc   ;==>_GUICtrlRichEdit_CanPasteSpecial
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanRedo($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Return _SendMessage($hWnd, $EM_CANREDO, 0, 0) <> 0
 EndFunc   ;==>_GUICtrlRichEdit_CanRedo
@@ -913,7 +913,7 @@ EndFunc   ;==>_GUICtrlRichEdit_CanRedo
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanUndo($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Return _SendMessage($hWnd, $EM_CANUNDO, 0, 0) <> 0
 EndFunc   ;==>_GUICtrlRichEdit_CanUndo
@@ -945,7 +945,7 @@ EndFunc   ;==>_GUICtrlRichEdit_CanUndo
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ChangeFontSize($hWnd, $iIncrement)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iIncrement) Then SetError(102, 0, False)
 
 	If Not _GUICtrlRichEdit_IsTextSelected($hWnd) Then Return SetError(-1, 0, False)
@@ -968,7 +968,7 @@ EndFunc   ;==>_GUICtrlRichEdit_ChangeFontSize
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Copy($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $__RICHEDITCONSTANT_WM_COPY, 0, 0)
 	Return True
@@ -1018,7 +1018,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Copy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop, $iWidth = 150, $iHeight = 150, $iStyle = -1, $iExStyle = -1)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)		; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(1, 0, 0)		; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
 	If Not IsString($sText) Then Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlRichEdit_Create
 
 	If Not __GCR_IsNumeric($iLeft, ">=0") Then Return SetError(103, 0, 0)
@@ -1069,7 +1069,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Create
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Cut($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $__RICHEDITCONSTANT_WM_CUT, 0, 0)
 	Return True
@@ -1091,7 +1091,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Cut
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Deselect($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $EM_SETSEL, -1, 0)
 	Return True
@@ -1153,7 +1153,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Destroy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_EmptyUndoBuffer($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $EM_EMPTYUNDOBUFFER, 0, 0)
 	Return True
@@ -1191,7 +1191,7 @@ EndFunc   ;==>_GUICtrlRichEdit_EmptyUndoBuffer
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_FindText($hWnd, $sText, $fForward = True, $fMatchCase = False, $fWholeWord = False, $iBehavior = 0)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, -1)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, -1)
 	If $sText = "" Then Return SetError(102, 0, -1)
 	If Not IsBool($fForward) Then Return SetError(103, 0, -1)
 	If Not IsBool($fMatchCase) Then Return SetError(104, 0, -1)
@@ -1260,7 +1260,7 @@ EndFunc   ;==>_GUICtrlRichEdit_FindText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_FindTextInRange($hWnd, $sText, $iStart = 0, $iEnd = -1, $fMatchCase = False, $fWholeWord = False, $iBehavior = 0)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If $sText = "" Then Return SetError(102, 0, 0)
 	If Not __GCR_IsNumeric($iStart, ">=0,-1") Then Return SetError(103, 0, 0)
 	If Not __GCR_IsNumeric($iEnd, ">=0,-1") Then Return SetError(104, 0, 0)
@@ -1338,7 +1338,7 @@ Func _GUICtrlRichEdit_GetCharAttributes($hWnd)
 			["sp", $CFM_SUPERSCRIPT, $CFE_SUPERSCRIPT],["un", $CFM_UNDERLINE, $CFE_UNDERLINE], _
 			["al", $CFM_ALLCAPS, $CFE_ALLCAPS]]
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $fSel = _GUICtrlRichEdit_IsTextSelected($hWnd)
 	If Not $fSel Then Return SetError(-1, 0, "")
@@ -1391,7 +1391,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharAttributes
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharBkColor($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT2)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
@@ -1422,7 +1422,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharBkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharColor($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
@@ -1459,7 +1459,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosFromXY($hWnd, $iX, $iY)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iX) Then Return SetError(102, 0, 0)
 	If Not __GCR_IsNumeric($iY) Then Return SetError(103, 0, 0)
 
@@ -1492,7 +1492,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharPosFromXY
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosOfNextWord($hWnd, $iCpStart)
 	; WB_RIGHT, WB_LEFT, WB_RIGHTBREAK, WB_LEFTBREAK and WB_ISDELIMITER don't work properly or at all
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iCpStart) Then Return SetError(102, 0, 0)
 
 	Return _SendMessage($hWnd, $EM_FINDWORDBREAK, $WB_MOVEWORDRIGHT, $iCpStart)
@@ -1517,7 +1517,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharPosOfNextWord
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosOfPreviousWord($hWnd, $iCpStart)
 	; WB_RIGHT, WB_LEFT, WB_RIGHTBREAK, WB_LEFTBREAK and WB_ISDELIMITER don't work properly or at all
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iCpStart) Then Return SetError(102, 0, 0)
 
 	Return _SendMessage($hWnd, $EM_FINDWORDBREAK, $WB_MOVEWORDLEFT, $iCpStart)
@@ -1550,7 +1550,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharPosOfPreviousWord
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharWordBreakInfo($hWnd, $iCp)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 	If Not __GCR_IsNumeric($iCp) Then Return SetError(102, 0, "")
 
 	Local $iRet = _SendMessage($hWnd, $EM_FINDWORDBREAK, $WB_CLASSIFY, $iCp)
@@ -1579,7 +1579,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharWordBreakInfo
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetBkColor($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $iBkColor =_SendMessage($hWnd, $EM_SETBKGNDCOLOR, False, 0)
 	_SendMessage($hWnd, $EM_SETBKGNDCOLOR, False, $iBkColor)
@@ -1615,7 +1615,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetBkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplChar = "")
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 	If Not IsBool($fCrToCrLf) Then Return SetError(102, 0, "")
 	If Not __GCR_IsNumeric($iCodePage) Then Return SetError(103, 0, "")
 
@@ -1675,7 +1675,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextLength($hWnd, $fExact = True, $fChars = False)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not IsBool($fExact) Then Return SetError(102, 0, 0)
 	If Not IsBool($fChars) Then Return SetError(103, 0, 0)
 
@@ -1705,7 +1705,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetTextLength
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetZoom($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $wParam = 0, $lparam = 0
 	Local $ai = _SendMessage($hWnd, $EM_GETZOOM, $wParam, $lparam, -1, "int*", "int*")
@@ -1741,7 +1741,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetZoom
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetFirstCharPosOnLine($hWnd, $iLine = -1)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iLine, ">0,-1") Then Return SetError(1021, 0, 0)
 
 	If $iLine <> -1 Then $iLine -= 1
@@ -1788,7 +1788,7 @@ Func _GUICtrlRichEdit_GetFont($hWnd)
 	; MSDN does not give a mask (CFM) for bPitchAndFamily so it appears that there is no way of knowing when it is valid => omitted here
 	Local $aRet[3] = [0, 0, ""]
 ;~ 	, $iLcid = 1033
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT)
 	DllStructSetData($tCharFormat, "cbSize", DllStructGetSize($tCharFormat))
@@ -1831,7 +1831,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetFont
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetRECT($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tRect = DllStructCreate($tagRECT)
 	_SendMessage($hWnd, $EM_GETRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
@@ -1863,7 +1863,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetRECT
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineCount($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Return _SendMessage($hWnd, $EM_GETLINECOUNT)
 EndFunc   ;==>_GUICtrlRichEdit_GetLineCount
@@ -1892,7 +1892,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetLineCount
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineLength($hWnd, $iLine)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iLine, ">0,-1") Then Return SetError(102, 0, 0)
 
 	Local $iCharPos = _GUICtrlRichEdit_GetFirstCharPosOnLine($hWnd, $iLine)
@@ -1924,7 +1924,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetLineLength
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineNumberFromCharPos($hWnd, $iCharPos)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iCharPos, ">=0") Then Return SetError(102, 0, 0)
 
 	Return _SendMessage($hWnd, $EM_EXLINEFROMCHAR, 0, $iCharPos) + 1
@@ -1951,7 +1951,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetLineNumberFromCharPos
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNextRedo($hWnd, $fName = True)
 	Local Const $as[6] = ["Unknown", "Typing", "Delete", "Drag and drop", "Cut", "Paste"]
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 	If Not IsBool($fName) Then Return SetError(102, 0, "")
 
 	Local $iUid = _SendMessage($hWnd, $EM_GETREDONAME, 0, 0)
@@ -1983,7 +1983,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetNextRedo
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNextUndo($hWnd, $fName = True)
 	Local Const $as[6] = ["Unknown", "Typing", "Delete", "Drag and drop", "Cut", "Paste"]
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 	If Not IsBool($fName) Then Return SetError(102, 0, "")
 
 	Local $iUid = _SendMessage($hWnd, $EM_GETUNDONAME, 0, 0)
@@ -2010,7 +2010,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetNextUndo
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNumberOfFirstVisibleLine($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	Return _SendMessage($hWnd, $EM_GETFIRSTVISIBLELINE) + 1
 EndFunc   ;==>_GUICtrlRichEdit_GetNumberOfFirstVisibleLine
 
@@ -2041,7 +2041,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetNumberOfFirstVisibleLine
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaAlignment($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2114,7 +2114,7 @@ Func _GUICtrlRichEdit_GetParaAttributes($hWnd)
 			["row", $PFE_TABLE, False], _
 			["sbs", $PFE_SIDEBYSIDE, False], _
 			["sln", $PFE_NOLINENUMBER, False]]
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2199,7 +2199,7 @@ Func _GUICtrlRichEdit_GetParaBorder($hWnd)
 	Local Const $avLocs[6][2] = [["l", 1],["r", 2],["t", 4],["b", 8],["i", 16],["o", 32]]
 	Local Const $avLS[12] = ["none", .75, 1.5, 2.25, 3, 4.5, 6, ".75d", "1.5d", "2.25d", ".75g", ".75gd"]
 	Local Const $sClrs = "blk;blu;cyn;grn;mag;red;yel;whi;dbl;dgn;dmg;drd;dyl;dgy;lgy;"
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2253,7 +2253,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetParaBorder
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaIndents($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2304,7 +2304,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetParaIndents
 Func _GUICtrlRichEdit_GetParaNumbering($hWnd)
 	Local Const $avRoman[7][2] = [[1000, "m"],[500, "d"],[100, "c"],[50, "l"],[10, "x"],[5, "v"],[1, "i"]]
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2431,7 +2431,7 @@ Func _GUICtrlRichEdit_GetParaShading($hWnd)
 	Local Const $asClrs[16] = ["blk", "blu", "cyn", "grn", "mag", "red", "yel", "whi", "dbl", "dgn", "dmg", _
 			"drd", "dyl", "dgy", "lgy"]
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -2480,7 +2480,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetParaShading
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaSpacing($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, "cbSize", DllStructGetSize($tParaFormat))
@@ -2552,7 +2552,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetParaSpacing
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaTabStops($hWnd)
 	Local Const $asKind[5] = ["l", "c", "r", "d", "b"], $asLeader[6] = [" ", ".", "-", "_", "t", "="]
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT)
 	DllStructSetData($tParaFormat, "cbSize", DllStructGetSize($tParaFormat))
@@ -2592,7 +2592,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetParaTabStops
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetPasswordChar($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $n = _SendMessage($hWnd, $EM_GETPASSWORDCHAR)
 	Return _Iif($n = 0, "", Chr($n))
@@ -2614,7 +2614,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetPasswordChar
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetScrollPos($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tPoint = DllStructCreate($tagPOINT)
 	_SendMessage($hWnd, $EM_GETSCROLLPOS, 0, DllStructGetPtr($tPoint))
@@ -2641,7 +2641,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetScrollPos
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSel($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tCharRange = DllStructCreate($tagCHARRANGE)
 	_SendMessage($hWnd, $EM_EXGETSEL, 0, DllStructGetPtr($tCharRange))
@@ -2668,7 +2668,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetSel
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSelAA($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $aiLowHigh = _GUICtrlRichEdit_GetSel($hWnd)
 
@@ -2708,7 +2708,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetSelAA
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSelText($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not _GUICtrlRichEdit_IsTextSelected($hWnd) Then Return SetError(-1, 0, -1)
 
 	Local $aiLowHigh = _GUICtrlRichEdit_GetSel($hWnd)
@@ -2765,7 +2765,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetSpaceUnit
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextinLine($hWnd, $iLine)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iLine, ">0,-1") Then Return SetError(1021, 0, False)
 	If $iLine > _GUICtrlRichEdit_GetLineCount($hWnd) Then Return SetError(1022, 0, False)
 
@@ -2802,7 +2802,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetTextinLine
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextInRange($hWnd, $iStart, $iEnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iStart, ">=0") Then Return SetError(102, 0, False)
 	If Not __GCR_IsNumeric($iEnd, ">=0,-1") Then Return SetError(1031, 0, False)
 	If Not ($iEnd > $iStart Or $iEnd = -1) Then Return SetError(1032, 0, False)
@@ -2860,7 +2860,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetVersion
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetXYFromCharPos($hWnd, $iCharPos)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If Not __GCR_IsNumeric($iCharPos, ">=0") Then Return SetError(1021, 0, 0)
 	If $iCharPos > _GUICtrlRichEdit_GetTextLength($hWnd) Then Return SetError(1022, 0, 0)
 
@@ -2918,7 +2918,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GotoCharPos
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_HideSelection($hWnd, $fHide = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fHide) Then Return SetError(102, 0, False)
 
 	_SendMessage($hWnd, $EM_HIDESELECTION, $fHide, 0)
@@ -2944,7 +2944,7 @@ EndFunc   ;==>_GUICtrlRichEdit_HideSelection
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_InsertText($hWnd, $sText)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If $sText = "" Then Return SetError(102, 0, False)
 
 	Local $tSetText = DllStructCreate($tagSETTEXTEX)
@@ -2980,7 +2980,7 @@ EndFunc   ;==>_GUICtrlRichEdit_InsertText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_IsModified($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Return _SendMessage($hWnd, $EM_GETMODIFY) <> 0
 EndFunc   ;==>_GUICtrlRichEdit_IsModified
@@ -3001,7 +3001,7 @@ EndFunc   ;==>_GUICtrlRichEdit_IsModified
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_IsTextSelected($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tCharRange = DllStructCreate($tagCHARRANGE)
 	_SendMessage($hWnd, $EM_EXGETSEL, 0, DllStructGetPtr($tCharRange))
@@ -3024,7 +3024,7 @@ EndFunc   ;==>_GUICtrlRichEdit_IsTextSelected
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Paste($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $__RICHEDITCONSTANT_WM_PASTE, 0, 0)
 	Return True
@@ -3048,7 +3048,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Paste
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_PasteSpecial($hWnd, $fAndObjects = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $iN = _Iif($fAndObjects, $_GRE_CF_RETEXTOBJ, $_GRE_CF_RTF)
 	_SendMessage($hWnd, $EM_PASTESPECIAL, $iN, 0)
@@ -3071,7 +3071,7 @@ EndFunc   ;==>_GUICtrlRichEdit_PasteSpecial
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_PauseRedraw($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $__RICHEDITCONSTANT_WM_SETREDRAW, False, 0)
 EndFunc   ;==>_GUICtrlRichEdit_PauseRedraw
@@ -3092,7 +3092,7 @@ EndFunc   ;==>_GUICtrlRichEdit_PauseRedraw
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Redo($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Return _SendMessage($hWnd, $EM_REDO, 0, 0) <> 0
 EndFunc   ;==>_GUICtrlRichEdit_Redo
@@ -3117,7 +3117,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Redo
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ReplaceText($hWnd, $sText, $fCanUndo = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fCanUndo) Then Return SetError(103, 0, False)
 	If Not _GUICtrlRichEdit_IsTextSelected($hWnd) Then Return SetError(-1, 0, False)
 
@@ -3153,7 +3153,7 @@ EndFunc   ;==>_GUICtrlRichEdit_ReplaceText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ResumeRedraw($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $__RICHEDITCONSTANT_WM_SETREDRAW, True, 0)
 	Return _WinAPI_InvalidateRect($hWnd)
@@ -3183,7 +3183,7 @@ EndFunc   ;==>_GUICtrlRichEdit_ResumeRedraw
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollLineOrPage($hWnd, $sAction)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, 0)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 	If StringLen($sAction) <> 2 Then Return SetError(1021, 0, 0)
 
 	Local $sCh = StringLeft($sAction, 1)
@@ -3231,7 +3231,7 @@ EndFunc   ;==>_GUICtrlRichEdit_ScrollLineOrPage
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollLines($hWnd, $iQlines)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iQlines) Then SetError(102, 0, False)
 
 	Local $iRet = _SendMessage($hWnd, $EM_LINESCROLL, 0, $iQlines)
@@ -3255,7 +3255,7 @@ EndFunc   ;==>_GUICtrlRichEdit_ScrollLines
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollToCaret($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	_SendMessage($hWnd, $EM_SCROLLCARET, 0, 0)
 	Return True
@@ -3320,7 +3320,7 @@ Func _GUICtrlRichEdit_SetCharAttributes($hWnd, $sStatesAndAtts, $fWord = False)
 			["sp", $CFM_SUPERSCRIPT, $CFE_SUPERSCRIPT],["un", $CFM_UNDERLINE, $CFE_UNDERLINE], _
 			["al", $CFM_ALLCAPS, $CFE_ALLCAPS]]
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fWord) Then Return SetError(103, 0, False)
 
 	Local $iMask = 0, $iEffects = 0, $n, $s
@@ -3375,7 +3375,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharAttributes
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetCharBkColor($hWnd, $iBkColor = Default)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT2)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
@@ -3416,7 +3416,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharBkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetCharColor($hWnd, $iColor = Default)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
@@ -3457,7 +3457,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetBkColor($hWnd, $iBngColor = Default)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $fSysColor = False
 	If IsKeyword($iBngColor) Then
@@ -3497,7 +3497,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetBkColor
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetLimitOnText($hWnd, $iNewLimit)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iNewLimit, ">=0") Then Return SetError(102, 0, False)
 
 	If $iNewLimit < 65535 Then $iNewLimit = 0 ; default max is 64K
@@ -3536,7 +3536,7 @@ Func _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops, $fRedraw = True)
 	Local Const $kTwipsPerDU = 18.75
 	Local $tTabStops, $tagTabStops = "", $iWparam
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fRedraw) Then Return SetError(103, 0, False)
 
 	If IsString($vTabStops) Then ; Set every tabstop manually
@@ -3590,7 +3590,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetTabStops
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetZoom($hWnd, $iPercent)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iPercent, ">0") Then Return SetError(1021, 0, False)
 
 	Local $iNumerator, $iDenominator
@@ -3649,7 +3649,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetZoom
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetEventMask($hWnd, $iEventMask)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iEventMask) Then Return SetError(102, 0, False)
 
 	_SendMessage($hWnd, $EM_SETEVENTMASK, 0, $iEventMask)
@@ -3697,7 +3697,7 @@ Func _GUICtrlRichEdit_SetFont($hWnd, $iPoints = Default, $sName = Default, $iCha
 	; MSDN does not give a mask (CFM) for bPitchAndFamily so it appears that it cannot be set => omitted here
 	Local $iDwMask = 0
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iPoints = Default Or __GCR_IsNumeric($iPoints, ">0")) Then Return SetError(102, 0, False)
 	If $sName <> Default Then
 		Local $as = StringSplit($sName, " ")
@@ -3763,7 +3763,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetFont
 ; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight = Default, $iBottom = Default, $bRedraw = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iLeft = Default Or __GCR_IsNumeric($iLeft, ">0")) Then Return SetError(1021, 0, False)
 	If Not ($iTop = Default Or __GCR_IsNumeric($iTop, ">0")) Then Return SetError(10322, 0, False)
 	If Not ($iRight = Default Or __GCR_IsNumeric($iRight, ">0")) Then Return SetError(1023, 0, False)
@@ -3826,7 +3826,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetRECT
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetModified($hWnd, $fState = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fState) Then Return SetError(102, 0, False)
 
 	_SendMessage($hWnd, $EM_SETMODIFY, $fState)
@@ -3856,7 +3856,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetModified
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaAlignment($hWnd, $sAlignment)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $iAlignment
 	Switch $sAlignment
@@ -3928,7 +3928,7 @@ Func _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
 			["sbs", $PFM_SIDEBYSIDE, $PFE_SIDEBYSIDE, False], _
 			["sln", $PFM_NOLINENUMBER, $PFE_NOLINENUMBER, False]]
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	If Mod(StringLen($sStatesAndAtts) + 1, 5) <> 0 Then Return SetError(1023, 0, False)
 	Local $as = StringSplit($sStatesAndAtts, ";")
@@ -4039,7 +4039,7 @@ Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = D
 	Local Const $avLS[12] = ["none", .75, 1.5, 2.25, 3, 4.5, 6, ".75d", "1.5d", "2.25d", ".75g", ".75gd"]
 	Local Const $sClrs = ";blk;blu;cyn;grn;mag;red;yel;whi;dbl;dgn;dmg;drd;dyl;dgy;lgy;aut;"
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iSpace = Default Or __GCR_IsNumeric($iSpace, ">=0")) Then Return SetError(105, 0, False)
 	;	If Not ($iWidth = Default Or __GCR_IsNumeric($iWidth, ">=0")) Then  Return SetError(106, 0, False)	; wBorderWidth does not round-trip
 
@@ -4130,7 +4130,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaBorder
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaIndents($hWnd, $vLeft = Default, $iRight = Default, $iFirstLine = Default)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($vLeft = Default Or __GCR_IsNumeric($vLeft)) Then Return SetError(1021, 0, False)
 	If Not ($iRight = Default Or __GCR_IsNumeric($iRight, ">=0")) Then Return SetError(103, 0, False)
 	If Not ($iFirstLine = Default Or __GCR_IsNumeric($iFirstLine)) Then Return SetError(104, 0, False)
@@ -4189,7 +4189,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaIndents
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaNumbering($hWnd, $sStyle, $iTextToNbrSpace = Default, $fForceRoman = False)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iTextToNbrSpace = Default Or __GCR_IsNumeric($iTextToNbrSpace, ">0")) Then Return SetError(103, 0, False)
 	If Not IsBool($fForceRoman) Then Return SetError(104, 0, False)
 
@@ -4279,7 +4279,7 @@ Func _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight = Default, $sStyle = Defaul
 	Local Const $sStyles = ";non;dhz;dvt;ddd;dud;dgr;dtr;lhz;lrt;ldd;lud;lgr;ltr;"
 	Local Const $sClrs = ";blk;blu;cyn;grn;mag;red;yel;whi;dbl;dgn;dmg;drd;dyl;dgy;lgy;"
 
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iWeight = Default Or __GCR_IsNumeric($iWeight, ">=0")) Then Return SetError(1021, 0, False)
 
 	If $iWeight <> Default Or $sStyle <> Default Or $sForeColor <> Default Or $sBackColor <> Default Then
@@ -4361,7 +4361,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaShading
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaSpacing($hWnd, $vInter = Default, $iBefore = Default, $iAfter = Default)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iBefore = Default Or __GCR_IsNumeric($iBefore, ">=0")) Then Return SetError(103, 0, False)
 	If Not ($iAfter = Default Or __GCR_IsNumeric($iAfter, ">=0")) Then Return SetError(104, 0, False)
 
@@ -4452,7 +4452,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaSpacing
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaTabStops($hWnd, $sTabStops)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, "cbSize", DllStructGetSize($tParaFormat))
@@ -4511,7 +4511,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaTabStops
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetPasswordChar($hWnd, $cDisplayChar)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsString($cDisplayChar) Then SetError(102, 0, False)
 
 	If $cDisplayChar = "" Then
@@ -4543,7 +4543,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetPasswordChar
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetReadOnly($hWnd, $fState = True)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not IsBool($fState) Then Return SetError(102, 0, False)
 
 	Local $iRet = _SendMessage($hWnd, $EM_SETREADONLY, $fState)
@@ -4571,7 +4571,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetReadOnly
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetScrollPos($hWnd, $iX, $iY)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iX, ">=0") Then Return SetError(102, 0, False)
 	If Not __GCR_IsNumeric($iY, ">=0") Then Return SetError(103, 0, False)
 
@@ -4606,7 +4606,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetScrollPos
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetSel($hWnd, $iAnchor, $iActive, $fHideSel = False)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iAnchor, ">=0,-1") Then Return SetError(102, 0, False)
 	If Not __GCR_IsNumeric($iActive, ">=0,-1") Then Return SetError(103, 0, False)
 	If Not IsBool($fHideSel) Then Return SetError(104, 0, False)
@@ -4667,7 +4667,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetSpaceUnit
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetText($hWnd, $sText)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tSetText = DllStructCreate($tagSETTEXTEX)
 	;	DllStructSetData($tSetText, 1, $ST_KEEPUNDO)
@@ -4704,7 +4704,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetUndoLimit($hWnd, $iLimit)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iLimit, ">=0") Then Return SetError(102, 0, False)
 
 	Return _SendMessage($hWnd, $EM_SETUNDOLIMIT, $iLimit) <> 0 Or $iLimit = 0
@@ -4732,7 +4732,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetUndoLimit
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamFromFile($hWnd, $sFilespec)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tEditStream = DllStructCreate($tagEDITSTREAM)
 	DllStructSetData($tEditStream, "pfnCallback", DllCallbackGetPtr($_GRC_StreamFromFileCallback))
@@ -4778,7 +4778,7 @@ EndFunc   ;==>_GUICtrlRichEdit_StreamFromFile
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamFromVar($hWnd, $sVar)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tEditStream = DllStructCreate($tagEDITSTREAM)
 	DllStructSetData($tEditStream, "pfnCallback", DllCallbackGetPtr($_GRC_StreamFromVarCallback))
@@ -4829,7 +4829,7 @@ EndFunc   ;==>_GUICtrlRichEdit_StreamFromVar
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamToFile($hWnd, $sFilespec, $fIncludeCOM = True, $iOpts = 0, $iCodePage = 0)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $iWparam
 	If StringRight($sFilespec, 4) = ".rtf" Then
@@ -4900,7 +4900,7 @@ EndFunc   ;==>_GUICtrlRichEdit_StreamToFile
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamToVar($hWnd, $fRtf = True, $fIncludeCOM = True, $iOpts = 0, $iCodePage = 0)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, "")
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
 
 	Local $iWparam
 	If $fRtf Then
@@ -4947,7 +4947,7 @@ EndFunc   ;==>_GUICtrlRichEdit_StreamToVar
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Undo($hWnd)
-	If Not IsHWnd($hWnd) Then Return SetError(101, 0, False)
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	Return _SendMessage($hWnd, $EM_UNDO, 0, 0) <> 0
 EndFunc   ;==>_GUICtrlRichEdit_Undo
 

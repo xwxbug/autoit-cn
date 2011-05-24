@@ -1,6 +1,5 @@
-﻿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <WindowsConstants.au3>
-
 
 _Main()
 

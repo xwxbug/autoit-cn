@@ -1,19 +1,17 @@
-ï»¿GUICreate("ä¸€ä¸ªç®€å•çš„ä¸Šä¸‹æ–‡èœå•!",300,200)
+#include <GUIConstantsEx.au3>
 
-$trackmenu = GuiCtrlCreateContextMenu ()
-$aboutitem = GuiCtrlCreateMenuitem ("å…³äº",$trackmenu)
+GUICreate("Ò»¸ö¼òµ¥µÄÉÏÏÂÎÄ²Ëµ¥!",300,200)
+
+Local $trackmenu = GUICtrlCreateContextMenu()
+Local $aboutitem = GUICtrlCreateMenuItem("¹ØÓÚ", $trackmenu)
 ; next one creates a menu separator (line)
-GuiCtrlCreateMenuitem ("",$trackmenu)
-$exititem = GuiCtrlCreateMenuitem ("é€€å‡º",$trackmenu)
+GUICtrlCreateMenuItem("", $trackmenu)
+Local $exititem = GUICtrlCreateMenuItem("ÍË³ö", $trackmenu)
 
-GuiSetState()
+GUISetState()
 
 While 1
-	$msg = GuiGetMsg()
-	If $msg = $exititem Or $msg = -3 Or $msg = -1 Then ExitLoop
-	If $msg = $aboutitem Then Msgbox(0,"å…³äº","ä¸€ä¸ªç®€å•çš„ä¸Šä¸‹æ–‡èœå•!")
+	Local $msg = GUIGetMsg()
+	If $msg = $exititem Or $msg = $GUI_EVENT_CLOSE Or $msg = -1 Then ExitLoop
+	If $msg = $aboutitem Then MsgBox(0,"¹ØÓÚ","Ò»¸ö¼òµ¥µÄÉÏÏÂÎÄ²Ëµ¥!")
 WEnd
-
-GUIDelete()
-
-Exit

@@ -1,6 +1,6 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray = StringSplit("4,2,06,8,12,5", ",")
 
-MsgBox(0,'æœ€å¤§å­—ç¬¦ä¸²å€¼', _ArrayMax($avArray, 0, 1))
-MsgBox(0,'æœ€å¤§æ•°å­¦å€¼', _ArrayMax($avArray, 1, 1))
+MsgBox(0, '×î´ó×Ö·û´®Öµ', _ArrayMax($avArray, 0, 1))
+MsgBox(0, '×î´óÊýÑ§Öµ', _ArrayMax($avArray, 1, 1))

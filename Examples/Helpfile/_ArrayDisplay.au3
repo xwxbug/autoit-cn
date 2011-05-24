@@ -1,13 +1,13 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 ;===============================================================================
-; ä¾‹å­ 1
+; Àı×Ó 1
 ;===============================================================================
-$asControls = StringSplit(WinGetClassList("[active]", ""), @LF)
-_ArrayDisplay($asControls, "æ´»åŠ¨çª—å£åŒ…å«çš„'ç±»'åˆ—è¡¨")
+Local $asControls = StringSplit(WinGetClassList("[active]", ""), @LF)
+_ArrayDisplay($asControls, "»î¶¯´°¿Ú°üº¬µÄ'Àà'ÁĞ±í")
 
 ;===============================================================================
-; ä¾‹å­ 2 (ä½¿ç”¨ä¸€ä¸ªæ‰‹åŠ¨å®šä¹‰çš„æ•°ç»„)
+; Àı×Ó 2 (Ê¹ÓÃÒ»¸öÊÖ¶¯¶¨ÒåµÄÊı×é)
 ;===============================================================================
 Local $avArray[10]
 
@@ -22,18 +22,18 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-_ArrayDisplay($avArray, "$avArray ä¸ºä¸€ç»´æ•°ç»„")
-_ArrayDisplay($avArray, "$avArray ä¸ºé¢ å€’çš„ä¸€ç»´æ•°ç»„", -1, 1)
+_ArrayDisplay($avArray, "$avArray ÎªÒ»Î¬Êı×é")
+_ArrayDisplay($avArray, "$avArray Îªµßµ¹µÄÒ»Î¬Êı×é", -1, 1)
 
 ;===============================================================================
-; ä¾‹å­ 3 (ä½¿ç”¨ä¸€ä¸ª StringSplit() å‡½æ•°è¿”å›çš„æ•°ç»„)
+; Àı×Ó 3 (Ê¹ÓÃÒ»¸ö StringSplit() º¯Êı·µ»ØµÄÊı×é)
 ;===============================================================================
 $avArray = StringSplit(WinGetClassList("", ""), @LF)
-_ArrayDisplay($avArray, "$avArray ä¸ºä¸€ä¸ªæ´»åŠ¨çª—å£åŒ…å«çš„'ç±»'åˆ—è¡¨")
+_ArrayDisplay($avArray, "$avArray ÎªÒ»¸ö»î¶¯´°¿Ú°üº¬µÄ'Àà'ÁĞ±í")
 
 ;===============================================================================
 ; Example 4 (a 2D array)
 ;===============================================================================
 Local $avArray[2][5] = [["JPM", "Holger", "Jon", "Larry", "Jeremy"], ["Valik", "Cyberslug", "Nutster", "JdeB", "Tylo"]]
-_ArrayDisplay($avArray, "$avArray ä¸ºäºŒç»´æ•°ç»„")
-_ArrayDisplay($avArray, "$avArray ä¸ºäºŒç»´æ•°ç»„, é¢ å€’çš„", -1, 1)
+_ArrayDisplay($avArray, "$avArray Îª¶şÎ¬Êı×é")
+_ArrayDisplay($avArray, "$avArray Îª¶şÎ¬Êı×é, µßµ¹µÄ", -1, 1)

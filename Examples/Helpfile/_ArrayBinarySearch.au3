@@ -1,7 +1,7 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 ;===============================================================================
-; ä¾‹å­ 1 (ä½¿ç”¨ä¸€ä¸ªæ‰‹åŠ¨å®šä¹‰çš„æ•°ç»„)
+; Àı×Ó 1 (Ê¹ÓÃÒ»¸öÊÖ¶¯¶¨ÒåµÄÊı×é)
 ;===============================================================================
 Local $avArray[10]
 
@@ -16,44 +16,44 @@ $avArray[7] = "Nutster"
 $avArray[8] = "JdeB"
 $avArray[9] = "Tylo"
 
-; å¯¹æ•°ç»„è¿›è¡Œæ’åº
+; ¶ÔÊı×é½øĞĞÅÅĞò
 _ArraySort($avArray)
 
-; æ˜¾ç¤ºæ’åºåçš„æ•°ç»„
-_ArrayDisplay($avArray, "$avArray æ’åºå _ArraySort()")
+; ÏÔÊ¾ÅÅĞòºóµÄÊı×é
+_ArrayDisplay($avArray, "$avArray ÅÅĞòºó _ArraySort()")
 
-; æŸ¥æ‰¾å­˜åœ¨çš„é¡¹ç›®
-$iKeyIndex = _ArrayBinarySearch($avArray, "Jon")
+; ²éÕÒ´æÔÚµÄÏîÄ¿
+Local $iKeyIndex = _ArrayBinarySearch($avArray, "Jon")
 If Not @error Then
-   MsgBox(0,'é¡¹ç›®æ‰¾åˆ°äº†',' ç´¢å¼•: ' & $iKeyIndex)
+	MsgBox(0,'ÏîÄ¿ÕÒµ½ÁË',' Ë÷Òı: ' & $iKeyIndex)
 Else
-   MsgBox(0,'é¡¹ç›®æœªæ‰¾åˆ°',' é”™è¯¯: ' & @error)
+	MsgBox(0,'ÏîÄ¿Î´ÕÒµ½',' ´íÎó: ' & @error)
 EndIf
 
-; æŸ¥æ‰¾ä¸å­˜åœ¨çš„é¡¹ç›®
+; ²éÕÒ²»´æÔÚµÄÏîÄ¿
 $iKeyIndex = _ArrayBinarySearch($avArray, "Unknown")
 If Not @error Then
-   MsgBox(0,'é¡¹ç›®æ‰¾åˆ°äº†',' ç´¢å¼•: ' & $iKeyIndex)
+	MsgBox(0,'ÏîÄ¿ÕÒµ½ÁË',' Ë÷Òı: ' & $iKeyIndex)
 Else
-   MsgBox(0,'é¡¹ç›®æœªæ‰¾åˆ°',' é”™è¯¯: ' & @error)
+	MsgBox(0,'ÏîÄ¿Î´ÕÒµ½',' ´íÎó: ' & @error)
 EndIf
 
 
 ;===============================================================================
-; ä¾‹å­ 2 (ä½¿ç”¨ä¸€ä¸ª StringSplit() å‡½æ•°è¿”å›çš„æ•°ç»„)
+; Àı×Ó 2 (Ê¹ÓÃÒ»¸ö StringSplit() º¯Êı·µ»ØµÄÊı×é)
 ;===============================================================================
 $avArray = StringSplit("a,b,d,c,e,f,g,h,i", ",")
 
-; å¯¹æ•°ç»„æ’åº
-_ArraySort($avArray, 0, 1) ; ä»ç´¢å¼• 1 å¼€å§‹,è·³è¿‡ $avArray[0]
+; ¶ÔÊı×éÅÅĞò
+_ArraySort($avArray, 0, 1) ; ´ÓË÷Òı 1 ¿ªÊ¼,Ìø¹ı $avArray[0]
 
-; æ˜¾ç¤ºæ’åºçš„æ•°ç»„
-_ArrayDisplay($avArray, "$avArray æ’åºå _ArraySort()")
+; ÏÔÊ¾ÅÅĞòµÄÊı×é
+_ArrayDisplay($avArray, "$avArray ÅÅĞòºó _ArraySort()")
 
- ; å¼€å§‹äºç´¢å¼• 1 è·³è¿‡ $avArray[0]
+ ; ¿ªÊ¼ÓÚË÷Òı 1 Ìø¹ı $avArray[0]
 $iKeyIndex = _ArrayBinarySearch($avArray, "c", 1)
 If Not @error Then
-   Msgbox(0,'é¡¹ç›®æ‰¾åˆ°äº†',' ç´¢å¼•: ' & $iKeyIndex)
+	MsgBox(0,'ÏîÄ¿ÕÒµ½ÁË',' Ë÷Òı: ' & $iKeyIndex)
 Else
-   Msgbox(0,'é¡¹ç›®æœªæ‰¾åˆ°',' é”™è¯¯: ' & @error)
+	MsgBox(0,'ÏîÄ¿Î´ÕÒµ½',' ´íÎó: ' & @error)
 EndIf

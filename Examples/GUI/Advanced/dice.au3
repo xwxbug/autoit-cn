@@ -1,4 +1,4 @@
-﻿; autoit version: 3.0
+; autoit version: 3.0
 ; language:       English
 ; author:         Larry Bailey
 ; email:          psichosis@tvn.net
@@ -11,7 +11,6 @@
 #include <GUIConstantsEx.au3>
 #include <ButtonConstants.au3>
 #include <StaticConstants.au3>
-
 
 _Main()
 

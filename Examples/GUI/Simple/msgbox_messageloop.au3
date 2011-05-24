@@ -1,34 +1,33 @@
-ï»¿; A simple custom messagebox that uses the MessageLoop mode
+; A simple custom messagebox that uses the MessageLoop mode
 
 #include <GUIConstantsEx.au3>
-
 
 _Main()
 
 Func _Main()
 	Local $YesID, $NoID, $ExitID, $msg
 
-GUICreate("è‡ªå®šä¹‰ Msgbox", 210, 80)
+GUICreate("×Ô¶¨Òå Msgbox", 210, 80)
 
-$Label = GUICtrlCreateLabel("è¯·å•å‡»ä¸€ä¸ªæŒ‰é’®!", 10, 10)
-$YesID  = GUICtrlCreateButton("æ˜¯", 10, 50, 50, 20)
-$NoID   = GUICtrlCreateButton("å¦", 80, 50, 50, 20)
-$ExitID = GUICtrlCreateButton("é€€å‡º", 150, 50, 50, 20)
+	GUICtrlCreateLabel("Çëµ¥»÷Ò»¸ö°´Å¥!", 10, 10)
+$YesID  = GUICtrlCreateButton("ÊÇ", 10, 50, 50, 20)
+$NoID   = GUICtrlCreateButton("·ñ", 80, 50, 50, 20)
+$ExitID = GUICtrlCreateButton("ÍË³ö", 150, 50, 50, 20)
 
-	GUISetState()  ; display the GUI
+	GUISetState() ; display the GUI
 
 	Do
 		$msg = GUIGetMsg()
 
 		Select
 			Case $msg = $YesID
-			MsgBox(0,"æ‚¨å•å‡»äº†:", "æ˜¯")
+			MsgBox(0,"Äúµ¥»÷ÁË:", "ÊÇ")
 			Case $msg = $NoID
-			MsgBox(0,"æ‚¨å•å‡»äº†:", "å¦")
+			MsgBox(0,"Äúµ¥»÷ÁË:", "·ñ")
 			Case $msg = $ExitID
-			MsgBox(0,"æ‚¨å•å‡»äº†:", "é€€å‡º")
+			MsgBox(0,"Äúµ¥»÷ÁË:", "ÍË³ö")
 			Case $msg = $GUI_EVENT_CLOSE
-			MsgBox(0,"æ‚¨å•å‡»äº†:", "å…³é—­")
+			MsgBox(0,"Äúµ¥»÷ÁË:", "¹Ø±Õ")
 		EndSelect
 	Until $msg = $GUI_EVENT_CLOSE Or $msg = $ExitID
 EndFunc   ;==>_Main
