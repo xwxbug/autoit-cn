@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.1 第一汉化版
+程序版本:3.3.7.1 第一汉化版 PRE
 汉化作者:thesnoW(ALL),Sxd(ADF),rikthhpgf2005(ADF),kodin(Example)
 中文论坛:http://www.AutoItX.com
 =========================================================
@@ -14,13 +14,51 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.1 (2011-05-XX) 第一汉化版
+3.3.7.1 (2011-05-25) 第一汉化版 PRE
 AutoIt:
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
 [G][!]更新: WinAPIEx UDF库 更新到3.3版.
 [G][!]新增: WinHttp 1.6.1.8 UDF库.
 [H][-]移除: 移除AU3TOOL.exe对配置文件的修正,目前已由SciTe处理.
+[H][!]更新: MPRESS 更新到2.18版.
+
+AutoItX:
+[G][*]修正: #1686: AU3_PixelSearch 崩溃.
+
+UDFs:
+[G][!]新增: _DebugSetup() 可以报告到一个记事本窗口.
+[G][!]新增: #1371: 允许默认关键字于 _TempFile().
+[G][!]新增: #1527: Test example to have doc example working.
+[G][!]新增: #1636: _Security__LookupAccountSID() 在远程系统工作.
+[G][!]新增: #1569: _ArraySearch() $iPartial (->$iCompare) 扩展为支持匹配相同类型变量.
+[G][!]新增: #1557: VK_xBUTTON 于 Constants.au3.
+[G][*]修正: #1542: _DebugSetup() 关闭后使用GUI句柄事件.
+[G][*]修正: #1549: _SQLite_Escape() crash for strings > 64K (> 3.3.0.0).
+[G][*]修正: #1517: _GUICtrlListView_simpleSort with checkbox.
+[G][*]修正: #1588: AUtoIt3.exe stay active for all processes using the Window report.
+[G][*]修正: #1615: _GUICtrlTreeView_SetStateImageIndex() 在 index = 0 时.
+[G][*]修正: #1620: _DebugOut() 或者 _DebugReportVar() 包含 '.
+[G][*]修正: #1513: 允许 _GUI...() 使用通知回调 (LPSTR_TEXTCALLBACK).
+[G][*]修正: #1608: _Crypt_EncryptFile() 时无法处理大于 1Mb 的文件.
+[G][*]修正: #1644: _InetMail() 使用 Windows Live mail.
+[G][*]修正: #1453: _Net_Share_ShareCheck 总是返回 0.
+[G][*]修正: #1664: _GUICtrlTab_GetItem() 不返回文本.
+[G][*]修正: #1671: _WinAPI_WideCharToMultiByte() 文档.
+[G][*]修正: #1672: _WinAPI_GetObject() 引用 ANSI 版本.
+[G][*]修正: #1665: _ScreenCapture_CaptureWnd() 当运行在 Aero 主题下的bug.
+[G][*]修正: #1689: _Debug...() 不能使用代码迷惑.
+[G][*]修正: #1712: _FileWriteFromArray() 崩溃在数组上.
+[G][*]修正: #1754: _PathFull() 可选参数文档.
+[G][*]修正: #1756: _GDIPlus_Startup() 错误时的漏洞.
+[G][!]更新: _SQLite 3.6.22 -> 3.7.2.0
+
+Au3Check:
+[G][!]新增: #forcedef 定义 来强制定义变量定义为后式分配[Assign()].
+[G][!]新增: -w 7 检查 ByRef 参数传递.
+[G][*]修正: Const Enum 不正确错误.
+[G][*]修正: 全局(Global)声明在函数中(func)不能检测.
+[G][*]修正: #1051: no ERROR if keyword not followed by a separator as Local$a.
 
 SciTe:
 [H][+]新增: 新增$(AutoItPath)全局变量,用于替代以前设置中的绝对路径.
@@ -30,8 +68,6 @@ SciTe:
 [H][+]新增: 新增快捷键CTRL+K,用于转换文本为AU3字符串表达式
 [G][!]更新: 更新tidy为2.1.0.12
 [G][!]更新: 更新代码迷惑为1.0.28.14
-
-Koda:
 
 3.3.6.1 (2010-11-03) 第二汉化版
 AutoIt:
