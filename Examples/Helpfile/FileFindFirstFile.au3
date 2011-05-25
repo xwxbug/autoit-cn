@@ -1,18 +1,18 @@
-О╩©; Ф≤╬Г╓╨Е╫⌠Е┴█Г⌡╝Е╫∙Д╦╜Ф┴─Ф°┴Ф√┤Д╩╤Г └Ф√┤Д╩╤Е░█
-$search = FileFindFirstFile("*.*")  
+; отй╬╣╠г╟д©б╪жпкЫспнд╪Ч╣днд╪ЧцШ
+Local $search = FileFindFirstFile("*.*")
 
-; Фё─Ф÷╔Ф░°Г╢╒Ф≤╞Е░╕Ф┬░Е┼÷
+; ╪Л╡ИкякВйг╥ЯЁи╧╕
 If $search = -1 Then
-	MsgBox(0, "И■≥Х╞╞", "Ф╡║Ф°┴Ф√┤Д╩╤/Г⌡╝Е╫∙ Е▄╧И┘█Ф░°Г╢╒")
+	MsgBox(0, "╢МнС", "ц╩спнд╪Ч/д©б╪ ф╔еДкякВ")
 	Exit
 EndIf
 
 While 1
-	$file = FileFindNextFile($search) 
+	Local $file = FileFindNextFile($search)
 	If @error Then ExitLoop
-	
-	MsgBox(4096, "Ф√┤Д╩╤:", $file)
+
+	MsgBox(4096, "нд╪Ч:", $file)
 WEnd
 
-; Е┘ЁИ≈╜Ф░°Г╢╒Е▐╔Ф÷└
+; ╧ь╠укякВ╬Д╠З
 FileClose($search)

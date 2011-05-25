@@ -1,3 +1,2 @@
-ï»¿$bool= False
-if NOT $bool = true Then Msgbox(0,"å¸ƒå°”å€¼æ¯”è¾ƒ", "OK")
-	
+Local $bool = False
+If Not $bool = True Then MsgBox(0, "²¼¶ûÖµ±È½Ï", "OK")

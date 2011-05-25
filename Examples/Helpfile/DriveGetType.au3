@@ -1,2 +1,2 @@
-ï»¿$var = DriveGetType( "c:\" )
-MsgBox(4096, "é©±åŠ¨å™¨ç±»åž‹:", $var)
+Local $var = DriveGetType("c:\")
+MsgBox(4096, "Çý¶¯Æ÷ÀàÐÍ:", $var)

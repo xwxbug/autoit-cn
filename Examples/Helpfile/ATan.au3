@@ -1,5 +1,5 @@
-ï»¿$x = ATan(0.5)
+Local $x = ATan(0.5)
 
-$pi = 4 * ATan(1) ;ç­‰äºŽ 3.14159265358979
-$radToDeg = 180 / $pi
-$y = ATan(1) * $radToDeg  ;1çš„æ­£åˆ‡å€¼ä¸º 45Â°
+Local $pi = 4 * ATan(1) ;µÈÓÚ 3.14159265358979
+Local $radToDeg = 180 / $pi
+Local $y = ATan(1) * $radToDeg  ;1µÄÕýÇÐÖµÎª 45¡ã

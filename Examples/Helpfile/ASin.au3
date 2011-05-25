@@ -1,7 +1,7 @@
-ï»¿$x = ASin(0.5)
-MsgBox(32,"ASinå‡½æ•°",$X)
+Local $x = ASin(0.5)
+MsgBox(32,"ASinº¯Êý",$X)
 
-$pi = 3.14159265358979
-$radToDeg = 180 / $pi
-$y = ASin(1) * $radToDeg  ;1 çš„åæ­£å¼¦å€¼æ˜¯ 90Â° 
-MsgBox(32,"ASinå‡½æ•°",$y & "Â°")
+Local $pi = 3.14159265358979
+Local $radToDeg = 180 / $pi
+Local $y = ASin(1) * $radToDeg  ;1 µÄ·´ÕýÏÒÖµÊÇ 90¡ã 
+MsgBox(32,"ASinº¯Êý",$y & "¡ã")

@@ -1,9 +1,9 @@
-ï»¿$x = BitShift(14, 2)
-;  x == 3 å› ä¸º 1110b å³ç§»ä¸¤æ¬¡æ˜¯ 11b == 3
+Local $x = BitShift(14, 2)
+;  x == 3 ÒòÎª 1110b ÓÒÒÆÁ½´ÎÊÇ 11b == 3
 
-$y = BitShift(14, -2)
-;  y == 56 å› ä¸º 1110b å·¦ç§»ä¸¤æ¬¡æ˜¯ 111000b == 56
+Local $y = BitShift(14, -2)
+;  y == 56 ÒòÎª 1110b ×óÒÆÁ½´ÎÊÇ 111000b == 56
 
-$z = BitShift( 1, -31)
-;  z == -2147483648 å› ä¸ºæ˜¯ 2'è¡¥ç è®°æ³•, the
+Local $z = BitShift(1, -31)
+;  z == -2147483648 ÒòÎªÊÇ 2'²¹Âë¼Ç·¨, the
 ;  32nd digit from the right has a negative sign.

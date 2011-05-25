@@ -1,9 +1,9 @@
-锘縎plashTextOn("Title", "Message goes here.", -1, -1, -1, -1, 4, "", 24)
+SplashTextOn("Title", "Message goes here.", -1, -1, -1, -1, 4, "", 24)
 Sleep(3000)
 SplashOff()
 
-;闂睆鏁堟灉
-$message = ""
+;闪屏效果
+Local $message = ""
 SplashTextOn("TitleFoo", $message, -1, -1, -1, -1, 4, "")
 For $x = 1 to 20
 	$message = $message & $x & @LF
@@ -11,7 +11,7 @@ For $x = 1 to 20
 	Sleep(100)
 Next
 
-;骞虫粦鏁堟灉
+;平滑效果
 $message = ""
 SplashTextOn("TitleFoo", $message, -1, -1, -1, -1, 4, "")
 For $x = 1 to 20

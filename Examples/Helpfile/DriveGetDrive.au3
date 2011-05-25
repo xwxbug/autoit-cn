@@ -1,7 +1,7 @@
-ï»¿$var = DriveGetDrive( "all" )
-If NOT @error Then
-	MsgBox(4096,"", "æ‰¾åˆ° " & $var[0] & " ä¸ªé©±åŠ¨å™¨")
-	For $i = 1 to $var[0]
-		MsgBox(4096,"é©±åŠ¨å™¨ " & $i, $var[$i])
+Local $var = DriveGetDrive("all")
+If Not @error Then
+	MsgBox(4096,"", "ÕÒµ½ " & $var[0] & " ¸öÇý¶¯Æ÷")
+	For $i = 1 To $var[0]
+		MsgBox(4096,"Çý¶¯Æ÷ " & $i, $var[$i])
 	Next
 EndIf

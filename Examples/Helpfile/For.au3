@@ -1,4 +1,4 @@
-锘縁or $i = 5 to 1 Step -1
-	MsgBox(0, "閫掑噺璁℃暟!", $i)
+For $i = 5 To 1 Step -1
+	MsgBox(0, "递减计数!", $i)
 Next
-MsgBox(0,"", "鐐圭伀璧烽!")
+MsgBox(0,"", "点火起飞!")

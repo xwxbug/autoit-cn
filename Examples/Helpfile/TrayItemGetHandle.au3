@@ -1,51 +1,51 @@
-ï»¿#include <Constants.au3>
+#include <Constants.au3>
 
-Opt("TrayMenuMode", 1) ; ä¸æ˜¾ç¤ºé»˜è®¤å…³è”èœå•
+Opt("TrayMenuMode", 1) ; ²»ÏÔÊ¾Ä¬ÈÏ¹ØÁª²Ëµ¥
 
-Global Const $MIM_APPLYTOSUBMENUS	= 0x80000000
-Global Const $MIM_BACKGROUND		= 0x00000002
+Global Const $MIM_APPLYTOSUBMENUS = 0x80000000
+Global Const $MIM_BACKGROUND = 0x00000002
 
 TraySetIcon("shell32.dll", 21)
-TraySetToolTip("è¿™é‡Œæœ‰ä¸€ä¸ªå°ä¾‹å­æ˜¾ç¤ºå¸¦é¢œè‰²çš„æ‰˜ç›˜å›¾æ ‡" & @LF & "åªéœ€ä½ çš„ç³»ç»Ÿé«˜äºŽ Windows 2000 å°±èƒ½çœ‹åˆ°.")
+TraySetToolTip("ÕâÀïÓÐÒ»¸öÐ¡Àý×ÓÏÔÊ¾´øÑÕÉ«µÄÍÐÅÌÍ¼±ê" & @LF & "Ö»ÐèÄãµÄÏµÍ³¸ßÓÚ Windows 2000 ¾ÍÄÜ¿´µ½.")
 
-$OptionsMenu	= TrayCreateMenu("é€‰é¡¹")
-$OnTopItem		= TrayCreateItem("æ€»åœ¨æœ€å‰", $OptionsMenu)
+Local $OptionsMenu	= TrayCreateMenu("Ñ¡Ïî")
+TrayCreateItem("×ÜÔÚ×îÇ°", $OptionsMenu)
 TrayItemSetState(-1, $TRAY_CHECKED)
-$RepeatItem		= TrayCreateItem("æ€»æ˜¯é‡å¤", $OptionsMenu)
+TrayCreateItem("×ÜÊÇÖØ¸´", $OptionsMenu)
 TrayCreateItem("")
-$AboutItem		= TrayCreateItem("å…³äºŽ")
+Local $AboutItem	= TrayCreateItem("¹ØÓÚ")
 TrayCreateItem("")
-$ExitItem		= TrayCreateItem("é€€å‡ºä¾‹å­")
+Local $ExitItem		= TrayCreateItem("ÍË³öÀý×Ó")
 
-SetMenuColor(0, 0xEEBB99)   ; BGR é¢œè‰²å€¼, '0' çš„æ„æ€æ˜¯æ‰˜ç›˜å…³è”èœå•è‡ªå·±.
-SetMenuColor($OptionsMenu, 0x66BB99); BGR é¢œè‰²å€¼
+SetMenuColor(0, 0xEEBB99)   ; BGR ÑÕÉ«Öµ, '0' µÄÒâË¼ÊÇÍÐÅÌ¹ØÁª²Ëµ¥×Ô¼º.
+SetMenuColor($OptionsMenu, 0x66BB99); BGR ÑÕÉ«Öµ
 
 While 1
-	$Msg = TrayGetMsg()
+	Local $Msg = TrayGetMsg()
 
 	Switch $Msg
 		Case $ExitItem
 			ExitLoop
-        
+
 		Case $AboutItem
-			Msgbox(64, "å…³äºŽ...", "å¸¦é¢œè‰²çš„æ‰˜ç›˜å›¾æ ‡ä¾‹å­")
-	EndSwitch   
+			MsgBox(64, "¹ØÓÚ...", "´øÑÕÉ«µÄÍÐÅÌÍ¼±êÀý×Ó")
+	EndSwitch
 WEnd
 
 Exit
 
 
-; åº”ç”¨èœå•é¢œè‰²
+; Ó¦ÓÃ²Ëµ¥ÑÕÉ«
 Func SetMenuColor($nMenuID, $nColor)
-	$hMenu  = TrayItemGetHandle($nMenuID) ; å¾—åˆ°å†…éƒ¨èœå•å¥æŸ„
-	
-	$hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $nColor)
+	Local $hMenu  = TrayItemGetHandle($nMenuID) ; µÃµ½ÄÚ²¿²Ëµ¥¾ä±ú
+
+	Local $hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $nColor)
 	$hBrush = $hBrush[0]
-	    
+
 	Local $stMenuInfo = DllStructCreate("dword;dword;dword;uint;dword;dword;ptr")
 	DllStructSetData($stMenuInfo, 1, DllStructGetSize($stMenuInfo))
-	DllStructSetData($stMenuInfo, 2, BitOr($MIM_APPLYTOSUBMENUS, $MIM_BACKGROUND))
+	DllStructSetData($stMenuInfo, 2, BitOR($MIM_APPLYTOSUBMENUS, $MIM_BACKGROUND))
 	DllStructSetData($stMenuInfo, 5, $hBrush)
-	
+
 	DllCall("user32.dll", "int", "SetMenuInfo", "hwnd", $hMenu, "ptr", DllStructGetPtr($stMenuInfo))
-EndFunc
+EndFunc   ;==>SetMenuColor

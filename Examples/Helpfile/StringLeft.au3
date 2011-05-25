@@ -1,2 +1,2 @@
-ï»¿$result = StringLeft("I am a string", 3)
-MsgBox(0, "æœ€å·¦è¾¹ä¸‰ä¸ªå­—ç¬¦ä¸º:", $result)
+Local $result = StringLeft("I am a string", 3)
+MsgBox(0, "×î×ó±ßÈý¸ö×Ö·ûÎª:", $result)

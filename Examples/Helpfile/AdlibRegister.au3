@@ -7,4 +7,4 @@ Func MyAdlib()
 	If WinActive("Error") Then
 		;...
 	EndIf
-EndFunc
+EndFunc   ;==>MyAdlib

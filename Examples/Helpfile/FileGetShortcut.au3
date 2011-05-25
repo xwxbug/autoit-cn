@@ -1,6 +1,6 @@
-ï»¿; è®¾ç½®å¿«æ·æ–¹å¼çƒ­é”®: ctrl+alt+t
-FileCreateShortcut(@WindowsDir & "\Explorer.exe",@DesktopDir & "\Shortcut Test.lnk",@WindowsDir,"/e,c:\", "This is an Explorer link;-)", @SystemDir & "\shell32.dll", "^!t", "15", @SW_MINIMIZE)
+; ÉèÖÃ¿ì½İ·½Ê½ÈÈ¼ü: ctrl+alt+t
+FileCreateShortcut(@WindowsDir & "\Explorer.exe", @DesktopDir & "\Shortcut Test.lnk", @WindowsDir, "/e,c:\", "This is an Explorer link;-)", @SystemDir & "\shell32.dll", "^!t", "15", @SW_MINIMIZE)
 
-; è¯»å–å¿«æ·æ–¹å¼è·¯å¾„
-$details = FileGetShortcut(@DesktopDir & "\Shortcut Test.lnk")
-MsgBox(0, "è·¯å¾„:", $details[0])
+; ¶ÁÈ¡¿ì½İ·½Ê½Â·¾¶
+Local $details = FileGetShortcut(@DesktopDir & "\Shortcut Test.lnk")
+MsgBox(0, "Â·¾¶:", $details[0])

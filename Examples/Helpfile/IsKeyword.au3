@@ -1,2 +1,2 @@
-ï»¿$a = default
-If IsKeyword($a) Then MsgBox(0,"å—¯", "å®ƒçš„ç¡®æ˜¯ä¸€ä¸ªå…³é”®å­—")
+Local $a = Default
+If IsKeyword($a) Then MsgBox(0,"àÅ", "ËüµÄÈ·ÊÇÒ»¸ö¹Ø¼ü×Ö")

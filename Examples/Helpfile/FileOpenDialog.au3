@@ -1,24 +1,24 @@
-ï»¿$message = "æŒ‰ä¸‹ Ctrl æˆ– Shift é”®é€‰æ‹©å¤šä¸ªæ–‡ä»¶."
+Local $message = "°´ÏÂ Ctrl »ò Shift ¼üÑ¡Ôñ¶à¸öÎÄ¼ş."
 
-$var = FileOpenDialog($message, @WindowsDir & "\", "å›¾åƒæ–‡ä»¶ (*.jpg;*.bmp)", 1 + 4 )
+Local $var = FileOpenDialog($message, @WindowsDir & "\", "Í¼ÏñÎÄ¼ş (*.jpg;*.bmp)", 1 + 4 )
 
 If @error Then
-	MsgBox(4096,"","æ²¡æœ‰é€‰æ‹©æ–‡ä»¶!")
+	MsgBox(4096,"","Ã»ÓĞÑ¡ÔñÎÄ¼ş!")
 Else
 	$var = StringReplace($var, "|", @CRLF)
-	MsgBox(4096,"","ä½ é€‰æ‹©äº†:" & $var)
+	MsgBox(4096,"","ÄãÑ¡ÔñÁË:" & $var)
 EndIf
 
 
-; å¤šç­›é€‰ç»„
-$message = "æŒ‰ä¸‹ Ctrl æˆ– Shift é”®é€‰æ‹©å¤šä¸ªæ–‡ä»¶."
+; ¶àÉ¸Ñ¡×é
+$message = "°´ÏÂ Ctrl »ò Shift ¼üÑ¡Ôñ¶à¸öÎÄ¼ş."
 
-$var = FileOpenDialog($message, @WindowsDir & "", "å›¾åƒ (*.jpg;*.bmp)|è§†é¢‘ (*.avi;*.mpg)", 1 + 4 )
+$var = FileOpenDialog($message, @WindowsDir & "", "Í¼Ïñ (*.jpg;*.bmp)|ÊÓÆµ (*.avi;*.mpg)", 1 + 4 )
 
 If @error Then
-	MsgBox(4096,"","æ²¡æœ‰é€‰æ‹©æ–‡ä»¶!")
+	MsgBox(4096,"","Ã»ÓĞÑ¡ÔñÎÄ¼ş!")
 Else
 	$var = StringReplace($var, "|", @CRLF)
-	MsgBox(4096,"","ä½ é€‰æ‹©äº†:" & $var)
+	MsgBox(4096,"","ÄãÑ¡ÔñÁË:" & $var)
 EndIf
 

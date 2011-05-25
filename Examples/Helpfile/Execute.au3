@@ -1,2 +1,2 @@
-я╗┐$a=1
-$v=Execute("$a+1")	; $v швлшо╛ч╜оф╕║ 2
+Local $a = 1
+Local $v=Execute("$a+1")	; $v ▒╗╔ш╓├╬к 2

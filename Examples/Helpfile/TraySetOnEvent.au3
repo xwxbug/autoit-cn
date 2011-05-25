@@ -1,19 +1,19 @@
-ï»¿#include <Constants.au3>
+#include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayOnEventMode",1)
-Opt("TrayMenuMode",1)	;é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayOnEventMode", 1)
+Opt("TrayMenuMode",1)	;Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔÝÍ£ÖÐ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-$exit = TrayCreateItem("Exit")
-TrayItemSetOnEvent(-1,"ExitEvent")
+TrayCreateItem("ÍË³ö")
+TrayItemSetOnEvent(-1, "ExitEvent")
 
-TraySetOnEvent($TRAY_EVENT_PRIMARYDOUBLE,"SpecialEvent")
-TraySetOnEvent($TRAY_EVENT_SECONDARYUP,"SpecialEvent")
+TraySetOnEvent($TRAY_EVENT_PRIMARYDOUBLE, "SpecialEvent")
+TraySetOnEvent($TRAY_EVENT_SECONDARYUP, "SpecialEvent")
 
 TraySetState()
 
 While 1
-	Sleep(10)	; ç©ºé—²å¾ªçŽ¯
+	Sleep(10)	; ¿ÕÏÐÑ­»·
 WEnd
 
 Exit
@@ -23,13 +23,13 @@ Exit
 Func SpecialEvent()
 	Select
 		Case @TRAY_ID = $TRAY_EVENT_PRIMARYDOUBLE
-			Msgbox(64,"SpecialEvent-Info","ä¸»é¼ æ ‡é”®åŒå‡».")
+			MsgBox(64,"SpecialEvent-Info","Ö÷Êó±ê¼üË«»÷.")
 		Case @TRAY_ID = $TRAY_EVENT_SECONDARYUP
-			Msgbox(64,"SpecialEvent-Info","æ¬¡é¼ æ ‡é”®åŒå‡».")
+			MsgBox(64,"SpecialEvent-Info","´ÎÊó±ê¼üË«»÷.")
 	EndSelect
-EndFunc
+EndFunc   ;==>SpecialEvent
 
 
 Func ExitEvent()
 	Exit
-EndFunc
+EndFunc   ;==>ExitEvent

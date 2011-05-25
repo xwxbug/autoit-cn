@@ -1,4 +1,4 @@
-ï»¿Run("notepad.exe")
+Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]","")
-$pos = ControlGetPos("[CLASS:Notepad]", "", "Edit1")
-MsgBox(0, "çª—å£çŠ¶æ€:", "åæ ‡: " & $pos[0] & "," & $pos[1] & " å¤§å°: " & $pos[2] & "," & $pos[3] )
+Local $pos = ControlGetPos("[CLASS:Notepad]", "", "Edit1")
+MsgBox(0, "´°¿Ú×´Ì¬:", "×ø±ê: " & $pos[0] & "," & $pos[1] & " ´óĞ¡: " & $pos[2] & "," & $pos[3] )

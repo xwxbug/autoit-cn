@@ -1,4 +1,4 @@
-ï»¿$text = StringReplace("è¿™ æ˜¯ ä¸€ è¡Œ æ–‡ æœ¬", " ", "-")
-$numreplacements = @extended
-MsgBox(0, "æ–°å­—ç¬¦ä¸²ä¸º:", $text)
-MsgBox(0, "å…±æ›¿æ¢çš„æ•°é‡ä¸º:", $numreplacements)
+Local $text = StringReplace("Õâ ÊÇ Ò» ĞĞ ÎÄ ±¾", " ", "-")
+Local $numreplacements = @extended
+MsgBox(0, "ĞÂ×Ö·û´®Îª:", $text)
+MsgBox(0, "¹²Ìæ»»µÄÊıÁ¿Îª:", $numreplacements)

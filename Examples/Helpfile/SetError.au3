@@ -1,16 +1,16 @@
-ï»¿$result = myDiv(5, 0)
+Local $result = myDiv(5, 0)
 If @error Then
-	MsgBox(4096,"é”™è¯¯", "é™¤æ•°ä¸º 0")
+	MsgBox(4096,"´íÎó", "³ýÊýÎª 0")
 Else
-	MsgBox(4096, "ç»“æžœ", $result)
+	MsgBox(4096, "½á¹û", $result)
 EndIf
 Exit
 
 Func myDiv($dividend, $divisor)
 	If $dividend = 0 And $divisor = 0 Then
-		SetError(2) ;è¡¨è¾¾å¼ä¸º 0/0
+		SetError(2) ;±í´ïÊ½Îª 0/0
 	ElseIf $divisor = 0 Then
-		SetError(1) ;é™¤æ•°ä¸º 0
+		SetError(1) ;³ýÊýÎª 0
 	EndIf
 	Return $dividend / $divisor
-EndFunc
+EndFunc   ;==>myDiv

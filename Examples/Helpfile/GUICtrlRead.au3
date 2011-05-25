@@ -1,12 +1,10 @@
 ﻿#include <GUIConstantsEx.au3>
 
-Opt('MustDeclareVars', 1)
-
 Example()
 
 Func Example()
 	Local $menu1, $n1, $n2, $msg, $menustate, $menutext
-	
+
 	GUICreate("My GUICtrlRead") ; 创建一个居中显示的 GUI 窗口
 
 	$menu1 = GUICtrlCreateMenu("File")

@@ -1,13 +1,12 @@
-ï»¿#Alternate
 Local $hDownload = InetGet("http://www.autoitscript.com/autoit3/files/beta/update.dat", @TempDir & "\update.dat", 1, 1)
 Do
 	Sleep(250)
-Until InetGetInfo($hDownload, 2);æ£€æŸ¥ä¸‹è½½æ˜¯å¦å®Œæˆ.
-Local $aData = InetGetInfo($hDownload);è·å–æ‰€æœ‰ä¿¡æ¯.
-InetClose($hDownload);å…³é—­å¥æŸ„, é‡Šæ”¾èµ„æº.
+Until InetGetInfo($hDownload, 2);¼ì²éÏÂÔØÊÇ·ñÍê³É.
+Local $aData = InetGetInfo($hDownload);»ñÈ¡ËùÓĞĞÅÏ¢.
+InetClose($hDownload);¹Ø±Õ¾ä±ú, ÊÍ·Å×ÊÔ´.
 MsgBox(0, "", "Bytes read: " & $aData[0] & @CRLF & _
-	"Size: " & $aData[1] & @CRLF & _
-	"Complete?: " & $aData[2] & @CRLF & _
-	"Successful?: " & $aData[3] & @CRLF & _
-	"@error: " & $aData[4] & @CRLF & _
-	"@extended: " & $aData[5] & @CRLF)
+		"Size: " & $aData[1] & @CRLF & _
+		"Complete?: " & $aData[2] & @CRLF & _
+		"Successful?: " & $aData[3] & @CRLF & _
+		"@error: " & $aData[4] & @CRLF & _
+		"@extended: " & $aData[5] & @CRLF)

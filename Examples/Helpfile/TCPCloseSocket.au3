@@ -2,8 +2,6 @@
 #include <WindowsConstants.au3>
 #include <ButtonConstants.au3>
 
-Opt('MustDeclareVars', 1)
-
 ;==============================================
 ;==============================================
 ;SERVER!! Start Me First !!!!!!!!!!!!!!!
@@ -30,7 +28,7 @@ Func Example()
 	;==============================================
 	TCPStartup()
 
-	; 创建一个套接字(socket)监听
+	; 创建一个套接字(SOCKET)监听
 	;==============================================
 	$MainSocket = TCPListen($g_IP, 65432, 100)
 	If $MainSocket = -1 Then Exit
@@ -104,12 +102,12 @@ Func Example()
 
 			$recv = TCPRecv($ConnectedSocket, 512)
 
-			If $recv <> "" And $recv <> "~~bye"  Then
+			If $recv <> "" And $recv <> "~~bye" Then
 				; UPDATE EDIT CONTROL WITH DATA WE RECEIVED
 				;----------------------------------------------------------------
 				GUICtrlSetData($edit, GUICtrlRead($edit) & ">" & $recv & @CRLF)
 
-			ElseIf @error Or $recv = "~~bye"  Then
+			ElseIf @error Or $recv = "~~bye" Then
 				; ERROR OCCURRED, CLOSE SOCKET AND RESET ConnectedSocket to -1
 				;----------------------------------------------------------------
 				WinSetTitle($GOOEY, "", "my server - Client Disconnected")

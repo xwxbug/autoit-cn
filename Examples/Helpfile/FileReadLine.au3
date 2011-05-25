@@ -1,16 +1,16 @@
-О╩©$file = FileOpen("test.txt", 0)
+Local $file = FileOpen("test.txt", 0)
 
-; Фё─Ф÷╔Ф┴⌠Е╪─Г └Ф√┤Д╩╤Ф≤╞Е░╕Е▐╞Х╞╩
+; ╪Л╡И╢Р©╙╣днд╪Чйг╥Я©и╤а
 If $file = -1 Then
-	MsgBox(0, "И■≥Х╞╞", "Д╦█Х┐╫Ф┴⌠Е╪─Ф√┤Д╩╤.")
+	MsgBox(0, "╢МнС", "╡╩дэ╢Р©╙нд╪Ч.")
 	Exit
 EndIf
 
-; Ф╞▐Ф╛║Х╞╩Е▐√Д╦─Х║▄Ф√┤Ф°╛,Г⌡╢Е┬╟Ф√┤Д╩╤Г╩⌠Ф²÷.
+; ц©╢н╤ах║р╩ппнд╠╬,ж╠╣╫нд╪Ч╫АйЬ.
 While 1
-	$line = FileReadLine($file)
+	Local $line = FileReadLine($file)
 	If @error = -1 Then ExitLoop
-	MsgBox(0, "Х╞╩Е▐√Г └Х║▄:", $line)
+	MsgBox(0, "╤ах║╣дпп:", $line)
 Wend
 
 FileClose($file)

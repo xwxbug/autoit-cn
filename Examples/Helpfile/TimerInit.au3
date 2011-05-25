@@ -1,4 +1,4 @@
-ï»¿$begin = TimerInit()
-sleep(3000)
-$dif = TimerDiff($begin)
-MsgBox(0,"æ—¶é—´å·®,è¿™ä¸ªè®¡æ—¶çš„ç²¾åº¦æ¯”sleepé«˜",$dif)
+Local $begin = TimerInit()
+Sleep(3000)
+Local $dif = TimerDiff($begin)
+MsgBox(0,"Ê±¼ä²î,Õâ¸ö¼ÆÊ±µÄ¾«¶È±Èsleep¸ß",$dif)

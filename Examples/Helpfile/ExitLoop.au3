@@ -1,8 +1,8 @@
-ï»¿$sum = 0
-While 1 ;é™¤éè°ƒç”¨ ExitLoop ,åˆ™æ— é™å¾ªç¯
-	$ans = InputBox("è¿è¡Œæ¬¡æ•°=" & $sum, _
-		"	è¾“å…¥ä¸€ä¸ªæ­£æ•°.  (è´Ÿæ•°å°†é€€å‡º)")
+Local $sum = 0
+While 1 ;³ı·Çµ÷ÓÃ ExitLoop ,ÔòÎŞÏŞÑ­»·
+	Local $ans = InputBox("ÔËĞĞ´ÎÊı=" & $sum, _
+		"	ÊäÈëÒ»¸öÕıÊı.  (¸ºÊı½«ÍË³ö)")
 	If $ans < 0 Then ExitLoop
 	$sum = $sum + $ans
 WEnd
-MsgBox(0,"æ¬¡æ•°ä¸º:", $sum)
+MsgBox(0,"´ÎÊıÎª:", $sum)

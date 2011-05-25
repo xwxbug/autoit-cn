@@ -1,3 +1,3 @@
-ï»¿$int = 1
-$float = 2.0
-Msgbox(0, "ç±»åž‹", "$int ä¸º " & VarGetType($int) & @CRLF & "$float ä¸º " & VarGetType($float) )
+Local $int = 1
+Local $float = 2.0
+MsgBox(0, "ÀàÐÍ", "$int Îª " & VarGetType($int) & @CRLF & "$float Îª " & VarGetType($float) )

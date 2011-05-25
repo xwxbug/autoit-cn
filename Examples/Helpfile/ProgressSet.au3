@@ -1,8 +1,8 @@
-ï»¿ProgressOn("è¿›åº¦æ¡", "Increments every second", "0 %")
-For $i = 10 to 100 step 10
-	sleep(1000)
+ProgressOn("½ø¶ÈÌõ", "Increments every second", "0 %")
+For $i = 10 To 100 Step 10
+	Sleep(1000)
 	ProgressSet( $i, $i & " %")
 Next
-ProgressSet(100 , "å®Œæˆ", "Complete")
-sleep(500)
+ProgressSet(100 , "Íê³É", "Complete")
+Sleep(500)
 ProgressOff()

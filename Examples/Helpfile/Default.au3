@@ -1,12 +1,12 @@
-ï»¿WinMove("[active]","",default, default, 200,300)	; åªè°ƒæ•´æ´»åŠ¨çª—å£å¤§å°(ä¸ç§»åŠ¨)
+WinMove("[active]","",Default, Default, 200,300)	; Ö»µ÷Õû»î¶¯´°¿Ú´óÐ¡(²»ÒÆ¶¯)
 
-MyFunc2(Default,Default)
+MyFunc2(Default, Default)
 
-Func MyFunc2($Param1 = Default, $Param2 = 'ç¬¬äºŒä¸ªå‚æ•°', $Param3 = Default)
-    If $Param1 = Default Then $Param1 = 'ç¬¬ä¸€ä¸ªå‚æ•°'
-    If $Param3 = Default Then $Param3 = 'ç¬¬ä¸‰ä¸ªå‚æ•°'
+Func MyFunc2($Param1 = Default, $Param2 = 'µÚ¶þ¸ö²ÎÊý', $Param3 = Default)
+	If $Param1 = Default Then $Param1 = 'µÚÒ»¸ö²ÎÊý'
+	If $Param3 = Default Then $Param3 = 'µÚÈý¸ö²ÎÊý'
 
-    MsgBox(0, 'å‚æ•°', '1 = ' & $Param1 & @LF & _
-        '2 = ' & $Param2 & @LF & _
-        '3 = ' & $Param3)
-EndFunc
+	MsgBox(0, '²ÎÊý', '1 = ' & $Param1 & @LF & _
+			'2 = ' & $Param2 & @LF & _
+			'3 = ' & $Param3)
+EndFunc   ;==>MyFunc2

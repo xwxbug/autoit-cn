@@ -1,32 +1,32 @@
-ï»¿;ä½¿ç”¨ä¸€ä¸ªæ•°ç»„
-Dim $aArray[4]
+;Ê¹ÓÃÒ»¸öÊı×é
+Local $aArray[4]
 
-$aArray[0]="a"
-$aArray[1]=0
-$aArray[2]=1.3434
-$aArray[3]="æµ‹è¯•"
+$aArray[0] = "a"
+$aArray[1] = 0
+$aArray[2] = 1.3434
+$aArray[3]="²âÊÔ"
 
-$string = ""
-FOR $element IN $aArray
+Local $string = ""
+For $element In $aArray
 	$string = $string & $element & @CRLF
-NEXT
+Next
 
-Msgbox(0,"For..IN æ•°ç»„æµ‹è¯•","ç»“æœ: " & @CRLF & $string)
+MsgBox(0,"For..IN Êı×é²âÊÔ","½á¹û: " & @CRLF & $string)
 
-;ä½¿ç”¨ä¸€ä¸ªå¯¹è±¡é›†åˆ
+;Ê¹ÓÃÒ»¸ö¶ÔÏó¼¯ºÏ
 
-$oShell = ObjCreate("shell.application")
-$oShellWindows=$oShell.windows
+Local $oShell = ObjCreate("shell.application")
+Local $oShellWindows = $oShell.windows
 
-if Isobj($oShellWindows) then
-  $string=""
+If IsObj($oShellWindows) Then
+	$string = ""
 
-  for $Window in $oShellWindows
-	$String = $String & $Window.LocationName & @CRLF
-  next
+	For $Window In $oShellWindows
+		$string = $string & $Window.LocationName & @CRLF
+	Next
 
-  msgbox(0,"","æ‚¨æ‰“å¼€äº†ä¸‹åˆ—çª—å£:" & @CRLF & $String)
-else
+  MsgBox(0,"","Äú´ò¿ªÁËÏÂÁĞ´°¿Ú:" & @CRLF & $string)
+Else
 
-  msgbox(0,"","æ‚¨æ²¡æœ‰æ‰“å¼€å¤–å£³çª—å£.")
-endif
+  MsgBox(0,"","ÄúÃ»ÓĞ´ò¿ªÍâ¿Ç´°¿Ú.")
+EndIf

@@ -1,2 +1,2 @@
-ï»¿$mem = MemGetStats()
-MsgBox(0, "æ€»ç‰©ç†å†…å­˜æ•° (KB):", $mem[1])
+Local $mem = MemGetStats()
+MsgBox(0, "×ÜÎïÀíÄÚ´æÊı (KB):", $mem[1])

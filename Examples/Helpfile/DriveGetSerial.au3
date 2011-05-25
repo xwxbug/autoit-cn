@@ -1,2 +1,2 @@
-ï»¿$var = DriveGetSerial( "c:\" )
-MsgBox(4096, "åºåˆ—å·: ", $var)
+Local $var = DriveGetSerial("c:\")
+MsgBox(4096, "ĞòÁĞºÅ: ", $var)

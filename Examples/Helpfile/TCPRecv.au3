@@ -1,76 +1,77 @@
-#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+ï»¿#include <GUIConstantsEx.au3>
 
 ;==============================================
 ;==============================================
-;·şÎñ¶Ë! ·şÎñ¶ËÆôÓÃºó,ÔÙÆôÓÃ¿Í»§¶Ë(·şÎñ¶ËÎª½ÓÊÕĞÅÏ¢·½)
+;æœåŠ¡ç«¯! æœåŠ¡ç«¯å¯ç”¨å,å†å¯ç”¨å®¢æˆ·ç«¯(æœåŠ¡ç«¯ä¸ºæ¥æ”¶ä¿¡æ¯æ–¹)
 ;==============================================
 ;==============================================
 
 Example()
 
 Func Example()
-	; ÉèÖÃÒ»Ğ©³£ÓÃĞÅÏ¢
-	; ÔÚÕâÀïÉèÖÃÄãµÄ¹«¹²IPµØÖ· (@IPAddress1).
-;	Local $szServerPC = @ComputerName
-;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
-	Local $szIPADDRESS = @IPAddress1;ÄãµÄ¹«¹²IPµØÖ·
-	Local $nPORT = 33891;¶Ë¿Ú
-	Local $MainSocket, $GOOEY, $edit, $ConnectedSocket, $szIP_Accepted
+	; è®¾ç½®ä¸€äº›å¸¸ç”¨ä¿¡æ¯
+	; åœ¨è¿™é‡Œè®¾ç½®ä½ çš„å…¬å…±IPåœ°å€ (@IPAddress1).
+	;	Local $szServerPC = @ComputerName
+	;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
+	Local $szIPADDRESS = @IPAddress1;ä½ çš„å…¬å…±IPåœ°å€
+	Local $nPORT = 33891;ç«¯å£
+	Local $MainSocket, $edit, $ConnectedSocket, $szIP_Accepted
 	Local $msg, $recv
 
-	; ¿ªÊ¼ TCP ·şÎñ
+	; å¼€å§‹ TCP æœåŠ¡
 	;==============================================
 	TCPStartup()
 
-	; ´´½¨Ò»¸ö¼àÌı "SOCKET".
-	;   Ê¹ÓÃÄúµÄIPµØÖ·ºÍ¶Ë¿Ú33891.
+	; åˆ›å»ºä¸€ä¸ªç›‘å¬ "SOCKET".
+	;   ä½¿ç”¨æ‚¨çš„IPåœ°å€å’Œç«¯å£33891.
 	;==============================================
 	$MainSocket = TCPListen($szIPADDRESS, $nPORT)
 
-	; Èç¹ûÌ×½Ó×Ö´´½¨Ê§°Ü£¬ÍË³ö.
+	; å¦‚æœå¥—æ¥å­—åˆ›å»ºå¤±è´¥,é€€å‡º.
 	If $MainSocket = -1 Then Exit
 
 
-	; ´´½¨Ò»¸öÍ¼ĞÎÓÃ»§½çÃæÏûÏ¢´°
+	; åˆ›å»ºä¸€ä¸ªå›¾å½¢ç”¨æˆ·ç•Œé¢æ¶ˆæ¯çª—
 	;==============================================
-	$GOOEY = GUICreate("My Server (IP: " & $szIPADDRESS & ")", 300, 200)
+	GUICreate("My Server (IP: " & $szIPADDRESS & ")", 300, 200, 100, 100)
 	$edit = GUICtrlCreateEdit("", 10, 10, 280, 180)
 	GUISetState()
 
 
-	; ³õÊ¼»¯Ò»¸ö±äÁ¿ÃèÊöÁ¬½Ó
+	; åˆå§‹åŒ–ä¸€ä¸ªå˜é‡æè¿°è¿æ¥
 	;==============================================
 	$ConnectedSocket = -1
 
 
-	;µÈ´ıºÍ½ÓÊÜÁ¬½Ó
+	;ç­‰å¾…å’Œæ¥å—è¿æ¥
 	;==============================================
 	Do
 		$ConnectedSocket = TCPAccept($MainSocket)
 	Until $ConnectedSocket <> -1
 
 
-	; È¡µÃÁ¬½ÓµÄ¿Í»§¶ËµÄIP
+	; å–å¾—è¿æ¥çš„å®¢æˆ·ç«¯çš„IP
 	$szIP_Accepted = SocketToIP($ConnectedSocket)
 
-	; Ñ­»·Í¼ĞÎÓÃ»§½çÃæÏûÏ¢
+	; å¾ªç¯å›¾å½¢ç”¨æˆ·ç•Œé¢æ¶ˆæ¯
 	;==============================================
 	While 1
 		$msg = GUIGetMsg()
 
-		; ¹Ø±ÕÍ¼ĞÎÓÃ»§½çÃæ
+		; å…³é—­å›¾å½¢ç”¨æˆ·ç•Œé¢
 		;--------------------
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 
-		; ³¢ÊÔ½ÓÊÕ£¨×î¸ß£©2048×Ö½Ú
+		; å°è¯•æ¥æ”¶(æœ€é«˜)2048å­—èŠ‚
 		;----------------------------------------------------------------
 		$recv = TCPRecv($ConnectedSocket, 2048)
 
-		; Èç¹û½ÓÊÕÊ§°Ü(@error)½«¶Ï¿ªÁ¬½Ó   
+		; å¦‚æœæ¥æ”¶å¤±è´¥(@error)å°†æ–­å¼€è¿æ¥   
 		;----------------------------------------------------------------
 		If @error Then ExitLoop
+
+		; convert from UTF-8 to AutoIt native UTF-16
+		$recv = BinaryToString($recv, 4)
 
 		; Update the edit control with what we have received
 		;----------------------------------------------------------------
@@ -84,11 +85,11 @@ Func Example()
 	TCPShutdown()
 EndFunc   ;==>Example
 
-; º¯Êı·µ»ØÒ»¸öÁ¬½ÓµÄÌ×½Ó×ÖµÄIPµØÖ·. 
+; å‡½æ•°è¿”å›ä¸€ä¸ªè¿æ¥çš„å¥—æ¥å­—çš„IPåœ°å€. 
 ;----------------------------------------------------------------------
 Func SocketToIP($SHOCKET)
 	Local $sockaddr, $aRet
-	
+
 	$sockaddr = DllStructCreate("short;ushort;uint;char[8]")
 
 	$aRet = DllCall("Ws2_32.dll", "int", "getpeername", "int", $SHOCKET, _

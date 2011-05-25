@@ -1,6 +1,6 @@
-ï»¿$var = Ping("www.AutoItScript.com",250)
-If $var Then; è¿˜å¯ä»¥:  If @error = 0 Then ...
-    Msgbox(0,"çŠ¶æ€-æˆåŠŸ","æ”¶å‘æ—¶é—´é—´éš”:" & $var & "æ¯«ç§’")
+Local $var = Ping("www.AutoItScript.com", 250)
+If $var Then; »¹¿ÉÒÔ:  If @error = 0 Then ...
+    MsgBox(0,"×´Ì¬-³É¹¦","ÊÕ·¢Ê±¼ä¼ä¸ô:" & $var & "ºÁÃë")
 Else
-    Msgbox(0,"çŠ¶æ€-å¤±è´¥","é”™è¯¯ä»£ç :" & @error)
+    MsgBox(0,"×´Ì¬-Ê§°Ü","´íÎó´úÂë:" & @error)
 EndIf

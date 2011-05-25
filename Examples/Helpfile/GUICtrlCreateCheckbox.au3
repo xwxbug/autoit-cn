@@ -1,16 +1,16 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $msg
-	GUICreate("My GUI Checkbox") ; will create a dialog box that when displayed is centered
+	GUICreate("My GUI Checkbox")  ; 创建一个对话框，并居中显示
 
 	GUICtrlCreateCheckbox("CHECKBOX 1", 10, 10, 120, 20)
 
-	GUISetState() ; will display an  dialog box with 1 checkbox
+	GUISetState()       ; 显示有复选框(Checkbox)控件的对话框
 
-	; Run the GUI until the dialog is closed
+	; 运行界面,直到窗口被关闭
 	While 1
 		$msg = GUIGetMsg()
 

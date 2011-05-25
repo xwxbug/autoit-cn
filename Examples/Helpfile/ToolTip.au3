@@ -1,3 +1,3 @@
-ï»¿; åˆ›å»ºå¹¶æ˜¾ç¤ºå·¥å…·æç¤º(tooltip)åœ¨å±å¹•çš„å·¦ä¸Šæ–¹
-ToolTip("è¿™æ˜¯ä¸€ä¸ªå·¥å…·æç¤º", 0, 0)
-Sleep(2000)	; ç­‰å¾…ä¸¤ç§’è®©å·¥å…·æç¤º(tooltip)æ˜¾ç¤º
+; ´´½¨²¢ÏÔÊ¾¹¤¾ßÌáÊ¾(tooltip)ÔÚÆÁÄ»µÄ×óÉÏ·½
+ToolTip("ÕâÊÇÒ»¸ö¹¤¾ßÌáÊ¾", 0, 0)
+Sleep(2000); µÈ´ýÁ½ÃëÈÃ¹¤¾ßÌáÊ¾(tooltip)ÏÔÊ¾

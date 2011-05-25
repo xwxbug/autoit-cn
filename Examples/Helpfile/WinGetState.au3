@@ -1,14 +1,14 @@
-ï»¿Run("notepad.exe")
+Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 WinSetState("[CLASS:Notepad]","",@SW_MINIMIZE)
 
-; æ£€æŸ¥è®°äº‹æœ¬çª—å£çŠ¶æ€
-$state = WinGetState("[CLASS:Notepad]", "")
+; ¼ì²é¼ÇÊÂ±¾´°¿Ú×´Ì¬
+Local $state = WinGetState("[CLASS:Notepad]", "")
 
-; æ£€æŸ¥è®°äº‹æœ¬çª—å£æ˜¯ä¸æ˜¯"æœ€å°åŒ–"çŠ¶æ€.
+; ¼ì²é¼ÇÊÂ±¾´°¿ÚÊÇ²»ÊÇ"×îĞ¡»¯"×´Ì¬.
 If BitAnd($state, 16) Then
-	MsgBox(0, "ä¾‹å­", "è®°äº‹æœ¬çª—å£æ˜¯æœ€å°åŒ–çš„")
+	MsgBox(0, "Àı×Ó", "¼ÇÊÂ±¾´°¿ÚÊÇ×îĞ¡»¯µÄ")
 Else
-	MsgBox(0, "ä¾‹å­", "è®°äº‹æœ¬çª—å£ä¸æ˜¯æœ€å°åŒ–çš„")	
+	MsgBox(0, "Àı×Ó", "¼ÇÊÂ±¾´°¿Ú²»ÊÇ×îĞ¡»¯µÄ")	
 EndIf
 

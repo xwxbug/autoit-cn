@@ -1,2 +1,2 @@
-ï»¿$var = String(10)
-;$var ä¸ºå­—ç¬¦ä¸² "10"
+Local $var = String(10)
+;$var Îª×Ö·û´® "10"

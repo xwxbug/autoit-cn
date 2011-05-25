@@ -1,18 +1,16 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <ProgressConstants.au3>
-
-Opt('MustDeclareVars', 1)
 
 Example()
 
 Func Example()
 	Local $progressbar1, $progressbar2, $button, $wait, $s, $msg, $m
-	
-	GUICreate("æˆ‘çš„ GUI è¿›åº¦æ¡", 220, 100, 100, 200)
+
+	GUICreate("ÎÒµÄ GUI ½ø¶ÈÌõ", 220, 100, 100, 200)
 	$progressbar1 = GUICtrlCreateProgress(10, 10, 200, 20)
-	GUICtrlSetColor(-1, 32250); åœ¨ Windows XP æ ·å¼ä¸‹ä¸å·¥ä½œ
+	GUICtrlSetColor(-1, 32250); ÔÚ Windows XP ÑùÊ½ÏÂ²»¹¤×÷
 	$progressbar2 = GUICtrlCreateProgress(10, 40, 200, 20, $PBS_SMOOTH)
-	$button = GUICtrlCreateButton("å¼€å§‹", 75, 70, 70, 20)
+	$button = GUICtrlCreateButton("¿ªÊ¼", 75, 70, 70, 20)
 	GUISetState()
 
 	$wait = 20; wait 20ms for next progressstep
@@ -20,16 +18,16 @@ Func Example()
 	Do
 		$msg = GUIGetMsg()
 		If $msg = $button Then
-			GUICtrlSetData($button, "åœæ­¢")
+			GUICtrlSetData($button, "Í£Ö¹")
 			For $i = $s To 100
-				If GUICtrlRead($progressbar1) = 50 Then MsgBox(0, "ä¿¡æ¯", "ä¸€åŠå·²ç»å®Œæˆ...", 1)
+				If GUICtrlRead($progressbar1) = 50 Then MsgBox(0, "ÐÅÏ¢", "Ò»°ëÒÑ¾­Íê³É...", 1)
 				$m = GUIGetMsg()
-				
+
 				If $m = -3 Then ExitLoop
-				
+
 				If $m = $button Then
-					GUICtrlSetData($button, "ç»§ç»­")
-					$s = $i;ä¿å­˜å½“å‰åæ ‡åˆ° $s
+					GUICtrlSetData($button, "¼ÌÐø")
+					$s = $i;±£´æµ±Ç°×ø±êµ½ $s
 					ExitLoop
 				Else
 					$s = 0
@@ -40,7 +38,7 @@ Func Example()
 			Next
 			If $i > 100 Then
 				;		$s=0
-				GUICtrlSetData($button, "å¼€å§‹")
+				GUICtrlSetData($button, "¿ªÊ¼")
 			EndIf
 		EndIf
 	Until $msg = $GUI_EVENT_CLOSE

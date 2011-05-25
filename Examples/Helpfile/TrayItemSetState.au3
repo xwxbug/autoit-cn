@@ -1,23 +1,23 @@
-ï»¿#Include <Constants.au3>
+#include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-$chkitem		= TrayCreateItem("é€‰ä¸­å®ƒ")
+Local $chkitem		= TrayCreateItem("Ñ¡ÖĞËü")
 TrayCreateItem("")
-$checkeditem	= TrayCreateItem("å·²é€‰ä¸­")
+Local $checkeditem	= TrayCreateItem("ÒÑÑ¡ÖĞ")
 TrayCreateItem("")
-$exititem		= TrayCreateItem("é€€å‡º")
+Local $exititem		= TrayCreateItem("ÍË³ö")
 
 TraySetState()
 
 While 1
-	$msg = TrayGetMsg()
+	Local $msg = TrayGetMsg()
 	Select
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $chkitem
-			TrayItemSetState($checkeditem,$TRAY_CHECKED)
+			TrayItemSetState($checkeditem, $TRAY_CHECKED)
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect

@@ -1,16 +1,16 @@
-﻿$file = FileOpen("test.txt", 0)
+Local $file = FileOpen("test.txt", 0)
 
-; 检查打开的文件是否可为读
+; ���򿪵��ļ��Ƿ��Ϊ��
 If $file = -1 Then
-	MsgBox(0, "错误", "不能打开文件.")
+	MsgBox(0, "����", "���ܴ��ļ�.")
 	Exit
 EndIf
 
-; 每次读取一个字符,直到文件结束(译注:读中文必须设置为远大于1的值!)(译注的译注(thesnow):ANSI编码中,一个中文为两个字符/字节)
+; ÿ�ζ�ȡһ���ַ�,ֱ���ļ�����(��ע:�����ı�������ΪԶ����1��ֵ!)(��ע����ע(thesnow):ANSI������,һ������Ϊ�����ַ�/�ֽ�)
 While 1
-	$chars = FileRead($file, 1)
+	Local $chars = FileRead($file, 1)
 	If @error = -1 Then ExitLoop
-	MsgBox(0, "读取的字符:", $chars)
+	MsgBox(0, "��ȡ���ַ�:", $chars)
 Wend
 
 FileClose($file)

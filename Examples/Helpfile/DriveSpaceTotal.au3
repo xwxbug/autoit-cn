@@ -1,2 +1,2 @@
-﻿$var = DriveSpaceTotal( "c:\" )
-MsgBox(4096, " C: 的空间:", $var & " MB")
+Local $var = DriveSpaceTotal("c:\")
+MsgBox(4096, " C: �Ŀռ�:", $var & " MB")

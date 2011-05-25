@@ -1,1 +1,1 @@
-ï»¿$var = FileSelectFolder("é€‰æ‹©ä¸€ä¸ªæ–‡ä»¶å¤¹.", "")
+Local $var = FileSelectFolder("Ñ¡ÔñÒ»¸öÎÄ¼þ¼Ð.", "")

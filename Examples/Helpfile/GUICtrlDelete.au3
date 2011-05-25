@@ -1,18 +1,16 @@
-ï»¿#include <GUIConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $date, $del, $msg
-	
-	GUICreate("æˆ‘çš„GUI-åˆ é™¤æ§ä»¶", 200, 200, 800, 200)
+
+	GUICreate("ÎÒµÄGUI-É¾³ı¿Ø¼ş", 200, 200, 800, 200)
 	$date = GUICtrlCreateDate("1953/04/25", 10, 10, 185, 20)
-	$del = GUICtrlCreateButton("åˆ é™¤æ§ä»¶", 50, 50, 70, 20)
+	$del = GUICtrlCreateButton("É¾³ı¿Ø¼ş", 50, 50, 70, 20)
 	GUISetState()
 
-	; è¿è¡Œ GUI ç­‰å¾…å¯¹è¯æ¡†å…³é—­
+	; ÔËĞĞ GUI µÈ´ı¶Ô»°¿ò¹Ø±Õ
 	Do
 		$msg = GUIGetMsg()
 		If $msg = $del Then

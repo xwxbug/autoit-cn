@@ -1,5 +1,5 @@
-ï»¿$pi = 3.14159265358979
-$x = cos($pi / 4)
+Local $pi = 3.14159265358979
+Local $x = Cos($pi / 4)
 
-$degToRad = $pi / 180
-$y = Cos(90 * $degToRad)  ; 90Â°çš„ä½™å¼¦
+Local $degToRad = $pi / 180
+Local $y = Cos(90 * $degToRad)  ; 90¡ãµÄÓàÏÒ

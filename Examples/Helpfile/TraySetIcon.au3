@@ -1,22 +1,22 @@
-ï»¿#NoTrayIcon
+#NoTrayIcon
 
-Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-$exititem		= TrayCreateItem("Exit")
+Local $exititem = TrayCreateItem("ÍË³ö")
 
 TraySetState()
 
-$start = 0
+Local $start = 0
 While 1
-	$msg = TrayGetMsg()
+	Local $msg = TrayGetMsg()
 	If $msg = $exititem Then ExitLoop
-	$diff = TimerDiff($start)
+	Local $diff = TimerDiff($start)
 	If $diff > 1000 Then
-		$num = -Random(0,100,1)	; è´Ÿçš„éšæœºæ•°
+		Local $num = -Random(0,100,1)	; ¸ºµÄËæ»úÊı
 		ToolTip("#icon=" & $num)
-		TraySetIcon("Shell32.dll",$num)
+		TraySetIcon("Shell32.dll", $num)
 		$start = TimerInit()
-	EndIF
+	EndIf
 WEnd
 
 Exit

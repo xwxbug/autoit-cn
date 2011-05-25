@@ -1,3 +1,3 @@
-О╩©$a = FileGetShortName(@HomeDrive & "\Program Files")
-msgbox(0,"Г÷╜Ф√┤Д╩╤Е░█", $a)
-;$a Е▐╞Х┐╫Ф≤╞ "x:\PROGRA~1"
+Local $a = FileGetShortName(@HomeDrive & "\Program Files")
+MsgBox(0,"╤лнд╪ЧцШ", $a)
+;$a ©идэйг "x:\PROGRA~1"

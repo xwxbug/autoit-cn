@@ -1,2 +1,2 @@
-ï»¿; ä¸ºå¿«æ·æ–¹å¼è®¾ç½® ctrl+alt+t å¿«é€Ÿé”®
-FileCreateShortcut(@WindowsDir & "\Explorer.exe",@DesktopDir & "\Shortcut Test.lnk",@WindowsDir,"/e,c:\", "This is an Explorer link;-)", @SystemDir & "\shell32.dll", "^!t", "15", @SW_MINIMIZE)
+; Îª¿ì½İ·½Ê½ÉèÖÃ ctrl+alt+t ¿ìËÙ¼ü
+FileCreateShortcut(@WindowsDir & "\Explorer.exe", @DesktopDir & "\Shortcut Test.lnk", @WindowsDir, "/e,c:\", "This is an Explorer link;-)", @SystemDir & "\shell32.dll", "^!t", "15", @SW_MINIMIZE)

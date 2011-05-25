@@ -1,17 +1,17 @@
-ï»¿Dim $myArray[10][20]   ;å…ƒç´  0,0 åˆ° 9,19
-$rows = UBound($myArray)
-$cols = UBound($myArray, 2)
-$dims = UBound($myArray, 0)
+Local $myArray[10][20]   ;ÔªËØ 0,0 µ½ 9,19
+Local $rows = UBound($myArray)
+Local $cols = UBound($myArray, 2)
+Local $dims = UBound($myArray, 0)
 
-MsgBox(0, "å½“å‰ " & $dims & "-ç»´æ•°ç»„æœ‰", _
-	$rows & " è¡Œ, " & $cols & " åˆ—")
+MsgBox(0, "µ±Ç° " & $dims & "-Î¬Êı×éÓĞ", _
+	$rows & " ĞĞ, " & $cols & " ÁĞ")
 
-;æ˜¾ç¤º $myArray's å†…å®¹
-$output = ""
-For $r = 0 to UBound($myArray,1) - 1
+;ÏÔÊ¾ $myArray's ÄÚÈİ
+Local $output = ""
+For $r = 0 To UBound($myArray, 1) - 1
 	$output = $output & @LF
-	For $c = 0 to UBound($myArray,2) - 1
+	For $c = 0 To UBound($myArray, 2) - 1
 		$output = $output & $myArray[$r][$c] & " "
 	Next
 Next
-MsgBox(4096,"æ•°ç»„å†…å®¹", $output)
+MsgBox(4096,"Êı×éÄÚÈİ", $output)

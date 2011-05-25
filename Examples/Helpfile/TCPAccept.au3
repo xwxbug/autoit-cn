@@ -1,21 +1,21 @@
-ï»¿;æœåŠ¡å™¨!! è¯·å…ˆè¿è¡Œæˆ‘ !!!!!!!!!!!!!!!
+;·şÎñÆ÷!! ÇëÏÈÔËĞĞÎÒ !!!!!!!!!!!!!!!
 $g_IP = "127.0.0.1"
 
-; å¼€å§‹ TCP æœåŠ¡
+; ¿ªÊ¼ TCP ·şÎñ
 ;==============================================
-TCPStartUp()
+TCPStartup()
 
-; åˆ›å»ºç›‘å¬å¥—æ¥å­—("SOCKET")
+; ´´½¨¼àÌıÌ×½Ó×Ö(SOCKET)
 ;==============================================
-$MainSocket = TCPListen($g_IP, 65432,  100 )
+Local $MainSocket = TCPListen($g_IP, 65432, 100)
 If $MainSocket = -1 Then Exit
 
-;  ç­‰å¾…å®¢æˆ·ç«¯è¿æ¥
+;  µÈ´ı¿Í»§¶ËÁ¬½Ó
 ;--------------------
 While 1
 $ConnectedSocket = TCPAccept( $MainSocket)
-If $ConnectedSocket >= 0 Then
-	msgbox(0,"","æˆ‘çš„æœåŠ¡å™¨ - å®¢æˆ·ç«¯å·²è¿æ¥")
-	exit
-EndIf
-Wend
+	If $ConnectedSocket >= 0 Then
+	MsgBox(0,"","ÎÒµÄ·şÎñÆ÷ - ¿Í»§¶ËÒÑÁ¬½Ó")
+		Exit
+	EndIf
+WEnd

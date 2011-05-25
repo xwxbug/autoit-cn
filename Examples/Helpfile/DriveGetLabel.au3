@@ -1,2 +1,2 @@
-Ôªø$var = DriveGetLabel( "c:\" )
-MsgBox(4096,"Âç∑Ê†á: ",$var)
+Local $var = DriveGetLabel("c:\")
+MsgBox(4096,"æÌ±Í: ",$var)

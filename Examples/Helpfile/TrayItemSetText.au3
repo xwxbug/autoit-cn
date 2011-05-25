@@ -1,26 +1,26 @@
-ï»¿#Include <Constants.au3>
+#include <Constants.au3>
 #NoTrayIcon
 
-Opt("TrayAutoPause",0)	; å½“ç‚¹å‡»æ‰˜ç›˜å›¾æ ‡æ—¶è„šæœ¬ä¸ä¼šæš‚åœ.
+Opt("TrayAutoPause",0)	; µ±µã»÷ÍĞÅÌÍ¼±êÊ±½Å±¾²»»áÔİÍ£.
 
-$valitem	= TrayCreateItem("å€¼:")
+Local $valitem	= TrayCreateItem("Öµ:")
 TrayCreateItem("")
-$aboutitem	= TrayCreateItem("å…³äº")
+Local $aboutitem	= TrayCreateItem("¹ØÓÚ")
 
 TraySetState()
 
-TrayItemSetText($TRAY_ITEM_EXIT,"é€€å‡ºç¨‹åº")
-TrayItemSetText($TRAY_ITEM_PAUSE,"æš‚åœç¨‹åº")
+TrayItemSetText($TRAY_ITEM_EXIT,"ÍË³ö³ÌĞò")
+TrayItemSetText($TRAY_ITEM_PAUSE,"ÔİÍ£³ÌĞò")
 
 While 1
-	$msg = TrayGetMsg()
+	Local $msg = TrayGetMsg()
 	Select
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $valitem
-			TrayItemSetText($valitem,"å€¼:" & Int(Random(1,10,1)))
+			TrayItemSetText($valitem,"Öµ:" & Int(Random(1,10,1)))
 		Case $msg = $aboutitem
-			Msgbox(64,"å…³äº:","AutoIt3-æ‰˜ç›˜-ä¾‹å­")
+			MsgBox(64,"¹ØÓÚ:","AutoIt3-ÍĞÅÌ-Àı×Ó")
 	EndSelect
 WEnd
 

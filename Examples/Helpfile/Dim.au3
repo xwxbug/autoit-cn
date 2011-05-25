@@ -1,14 +1,15 @@
-ï»¿; ä¾‹å­ 1- å£°æ˜å˜é‡
-Dim $x, $y = 23, $z
+Local $weeklyWorkSchedule
+; Àı×Ó 1- ÉùÃ÷±äÁ¿
+Local $x, $y = 23, $z
 Global $_PI = 3.14159, $RADIUS
 Local $_daysWorking = 5
 
-; ä¾‹å­ 2- å£°æ˜æ•°ç»„
+; Àı×Ó 2- ÉùÃ÷Êı×é
 Dim $weeklyWorkSchedule[$_daysWorking]
 Global $chessBoard[8][8]
 Local $mouseCoordinates[2], $windowStats[4]
 
-; ä¾‹å­ 3 - å£°æ˜å¸¸(å˜)é‡
+; Àı×Ó 3 - ÉùÃ÷³£(±ä)Á¿
 Const $x1 = 11, $y1 = 23, $z1 = 55
 Global Const $PI = 3.14159, $E = 2.71828
 Local Const $daysWorking = 5

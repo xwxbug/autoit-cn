@@ -1,29 +1,29 @@
-ï»¿;;è¿™æ˜¯ä¸€ä¸ª UDP æœåŠ¡å™¨
-;;è¯·å…ˆè¿è¡ŒæœåŠ¡ç«¯
+;;ÕâÊÇÒ»¸ö UDP ·şÎñÆ÷
+;;ÇëÏÈÔËĞĞ·şÎñ¶Ë
 
-; å¼€å§‹ UDP æœåŠ¡
+; ¿ªÊ¼ UDP ·şÎñ
 ;==============================================
 UDPStartup()
 
-; æ³¨å†Œæ¸…ç†å‡½æ•°.
+; ×¢²áÇåÀíº¯Êı.
 OnAutoItExitRegister("Cleanup")
 
-; ç»‘å®šåˆ°ä¸€ä¸ªå¥—æ¥å­—(SOCKET)
+; °ó¶¨µ½Ò»¸öÌ×½Ó×Ö(SOCKET)
 ;==============================================
-$socket = UDPBind("127.0.0.1", 65532)
+Local $socket = UDPBind("127.0.0.1", 65532)
 If @error <> 0 Then Exit
 
 While 1
-    $data = UDPRecv($socket, 50)
-    If $data <> "" Then
-        MsgBox(0, "UDP æ•°æ®", $data, 1)
-    EndIf
-    sleep(100)
+	Local $data = UDPRecv($socket, 50)
+	If $data <> "" Then
+        MsgBox(0, "UDP Êı¾İ", $data, 1)
+	EndIf
+	Sleep(100)
 WEnd
 
 Func Cleanup()
-    UDPCloseSocket($socket)
-    UDPShutdown()
-EndFunc
+	UDPCloseSocket($socket)
+	UDPShutdown()
+EndFunc   ;==>Cleanup
 
 

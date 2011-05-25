@@ -1,11 +1,11 @@
-; Press Esc to terminate script, Pause/Break to "pause"
+﻿; 按Esc键终止脚本, 按Pause/Break键暂停
 
 Global $Paused
 HotKeySet("{PAUSE}", "TogglePause")
 HotKeySet("{ESC}", "Terminate")
 HotKeySet("+!d", "ShowMessage") ;Shift-Alt-d
 
-;;;; Body of program would go here ;;;;
+;;;; 下面是程序正文 ;;;;
 While 1
 	Sleep(100)
 WEnd
@@ -15,15 +15,15 @@ Func TogglePause()
 	$Paused = Not $Paused
 	While $Paused
 		Sleep(100)
-		ToolTip('Script is "Paused"', 0, 0)
+		ToolTip('脚本已经"暂停"了',0,0)
 	WEnd
 	ToolTip("")
-EndFunc   ;==>TogglePause
+EndFunc
 
 Func Terminate()
 	Exit 0
-EndFunc   ;==>Terminate
+EndFunc
 
 Func ShowMessage()
-	MsgBox(4096, "", "This is a message.")
-EndFunc   ;==>ShowMessage
+	MsgBox(4096,"标题","这是一个消息.")
+EndFunc

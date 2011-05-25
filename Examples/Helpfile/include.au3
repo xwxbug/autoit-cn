@@ -1,11 +1,10 @@
-ï»¿;;; TIME.AU3 ;;;
-MsgBox(0,"", "ç°åœ¨æ—¶é—´ä¸º " & @HOUR & ":" & @MIN & ":" & @SEC)
+;;; TIME.AU3 ;;;
+MsgBox(0,"", "ÏÖÔÚÊ±¼äÎª " & @HOUR & ":" & @MIN & ":" & @SEC)
 
 ;;; SCRIPT.AU3 ;;;
-#include "TIME.AU3"
-MsgBox(0,"", "ä¾‹å­")
+MsgBox(0,"", "Àı×Ó")
 #include "TIME.AU3"
 Exit
 
-; Running script.au3 will output three message boxes:
-; one with the time, one with 'Example', and another with the time.
+; Running script.au3 will output two message boxes:
+; one with 'Example', followed by one with the time.

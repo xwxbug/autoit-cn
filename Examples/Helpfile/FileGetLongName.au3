@@ -1,3 +1,3 @@
-ï»¿$a = FileGetLongName(@HomeDrive & "\PROGRA~1\")
-msgbox(0,"é•¿æ–‡ä»¶å", $a)
-;$a å¯èƒ½æ˜¯ "x:\Program Files"
+Local $a = FileGetLongName(@HomeDrive & "\PROGRA~1\")
+MsgBox(0,"³¤ÎÄ¼şÃû", $a)
+;$a ¿ÉÄÜÊÇ "x:\Program Files"

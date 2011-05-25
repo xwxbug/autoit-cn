@@ -1,2 +1,2 @@
-ï»¿$var = StringRight("I am a string", 3)
-MsgBox(0, "æœ€å³è¾¹ä¸‰ä¸ªå­—ç¬¦ä¸º:", $var)
+Local $var = StringRight("I am a string", 3)
+MsgBox(0, "×îÓÒ±ßÈı¸ö×Ö·ûÎª:", $var)

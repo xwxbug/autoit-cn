@@ -1,2 +1,2 @@
-п»ї$pos = MouseGetPos()
-MsgBox(0, "йј ж ‡еќђж ‡ X,Y:", $pos[0] & "," & $pos[1])
+Local $pos = MouseGetPos()
+MsgBox(0, "Ку±кЧш±к X,Y:", $pos[0] & "," & $pos[1])

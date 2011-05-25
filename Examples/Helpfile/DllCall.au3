@@ -1,37 +1,37 @@
-ï»¿; *******************************************************
-; ç¤ºä¾‹ 1 - ç›´æ¥è°ƒç”¨ MessageBox API
+; *******************************************************
+; Ê¾Àı 1 - Ö±½Óµ÷ÓÃ MessageBox API
 ; *******************************************************
 
-$result = DllCall("user32.dll", "int", "MessageBox", "hwnd", 0, "str", "è‹¥å¹²æ–‡å­—", "str", "è‹¥å¹²æ ‡é¢˜", "int", 0)
+Local $result = DllCall("user32.dll", "int", "MessageBox", "hwnd", 0, "str", "Èô¸ÉÎÄ×Ö", "str", "Èô¸É±êÌâ", "int", 0)
 
 
 ; *******************************************************
-; ç¤ºä¾‹ 2 - è°ƒç”¨ä¸€ä¸ªå‡½æ•°ä¿®æ”¹å‚æ•°
+; Ê¾Àı 2 - µ÷ÓÃÒ»¸öº¯ÊıĞŞ¸Ä²ÎÊı
 ; *******************************************************
 
-$hwnd = WinGetHandle("[CLASS:Notepad]")
+Local $hwnd = WinGetHandle("[CLASS:Notepad]")
 $result = DllCall("user32.dll", "int", "GetWindowText", "hwnd", $hwnd, "str", "", "int", 32768)
-msgbox(0, "", $result[0])	; è¿”å›çš„å­—ç¬¦æ•°
-msgbox(0, "", $result[2])	; åœ¨å‚æ•° 2 è¿”å›çš„æ–‡æœ¬
+MsgBox(0, "", $result[0])	; ·µ»ØµÄ×Ö·ûÊı
+MsgBox(0, "", $result[2])	; ÔÚ²ÎÊı 2 ·µ»ØµÄÎÄ±¾
 
 
 ; *******************************************************
-; ç¤ºä¾‹ 3 - æ˜¾ç¤ºç³»ç»Ÿæ›´æ”¹å›¾æ ‡çª—å£
+; Ê¾Àı 3 - ÏÔÊ¾ÏµÍ³¸ü¸ÄÍ¼±ê´°¿Ú
 ; *******************************************************
 
-$sFileName  = @SystemDir & '\shell32.dll'
+Local $sFileName = @SystemDir & '\shell32.dll'
 
-; åˆ›å»ºä¸€ä¸ªæ•°æ®ç»“æ„å‚¨å­˜å›¾æ ‡ç´¢å¼•
-$stIcon     =  DllStructCreate("int")
-$stString       = DLLStructCreate("wchar[260]")
-$structsize = DllStructGetSize($stString)/2
+; ´´½¨Ò»¸öÊı¾İ½á¹¹´¢´æÍ¼±êË÷Òı
+Local $stIcon = DllStructCreate("int")
+Local $stString = DllStructCreate("wchar[260]")
+Local $structsize = DllStructGetSize($stString) / 2
 DllStructSetData($stString, 1, $sFileName)
 
-; è¿è¡Œæ›´æ”¹å›¾æ ‡çª—å£ - '62' æ˜¯è¿™ä¸ªå‡½æ•°çš„é¡ºåºå€¼
+; ÔËĞĞ¸ü¸ÄÍ¼±ê´°¿Ú - '62' ÊÇÕâ¸öº¯ÊıµÄË³ĞòÖµ
 DllCall("shell32.dll", "none", 62, "hwnd", 0, "ptr", DllStructGetPtr($stString), "int", $structsize, "ptr", DllStructGetPtr($stIcon))
 
-$sFileName  = DllStructGetData($stString, 1)
-$nIconIndex = DllStructGetData($stIcon, 1)
+$sFileName = DllStructGetData($stString, 1)
+Local $nIconIndex = DllStructGetData($stIcon, 1)
 
-; æ˜¾ç¤ºæ–‡ä»¶åå’Œå›¾æ ‡ç´¢å¼•
-Msgbox(0, "ä¿¡æ¯", "æœ€åé€‰æ‹©çš„æ–‡ä»¶: " & $sFileName & @LF & "å›¾æ ‡ç´¢å¼•: " & $nIconIndex)
+; ÏÔÊ¾ÎÄ¼şÃûºÍÍ¼±êË÷Òı
+MsgBox(0, "ĞÅÏ¢", "×îºóÑ¡ÔñµÄÎÄ¼ş: " & $sFileName & @LF & "Í¼±êË÷Òı: " & $nIconIndex)

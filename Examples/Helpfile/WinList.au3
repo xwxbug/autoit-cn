@@ -1,17 +1,17 @@
-ï»¿$var = WinList()
+Local $var = WinList()
 
-For $i = 1 to $var[0][0]
-  ; åªæ˜¾ç¤ºå¸¦æœ‰æ ‡é¢˜çš„å¯è§çª—å£
-  If $var[$i][0] <> "" AND IsVisible($var[$i][1]) Then
-    MsgBox(0, "è¯¦ç»†ä¿¡æ¯", "æ ‡é¢˜=" & $var[$i][0] & @LF & "å¥æŸ„=" & $var[$i][1])
-  EndIf
+For $i = 1 To $var[0][0]
+  ; Ö»ÏÔÊ¾´øÓĞ±êÌâµÄ¿É¼û´°¿Ú
+	If $var[$i][0] <> "" And IsVisible($var[$i][1]) Then
+		MsgBox(0, "ÏêÏ¸ĞÅÏ¢", "±êÌâ=" & $var[$i][0] & @LF & "¾ä±ú=" & $var[$i][1])
+	EndIf
 Next
 
 Func IsVisible($handle)
-  If BitAnd( WinGetState($handle), 2 ) Then 
-    Return 1
-  Else
-    Return 0
-  EndIf
+	If BitAND(WinGetState($handle), 2) Then
+		Return 1
+	Else
+		Return 0
+	EndIf
 
-EndFunc
+EndFunc   ;==>IsVisible

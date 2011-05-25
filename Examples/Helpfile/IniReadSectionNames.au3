@@ -1,5 +1,5 @@
-﻿$var = IniReadSectionNames(@WindowsDir & "\win.ini")
-If @error Then 
+﻿Local $var = IniReadSectionNames(@WindowsDir & "\win.ini")
+If @error Then
 	MsgBox(4096, "", "错误, 读取INI文件失败.")
 Else
 	For $i = 1 To $var[0]

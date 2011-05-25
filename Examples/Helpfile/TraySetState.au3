@@ -1,32 +1,32 @@
-ï»¿#NoTrayIcon
+#NoTrayIcon
 
-Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-$exititem		= TrayCreateItem("é€€å‡º")
+Local $exititem		= TrayCreateItem("ÍË³ö")
 
-TraySetIcon("è­¦å‘Š")
+TraySetIcon("¾¯¸æ")
 TraySetToolTip("SOS")
 
-TraySetState()	; æ˜¾ç¤ºæ‰˜ç›˜å›¾æ ‡
+TraySetState()	; ÏÔÊ¾ÍĞÅÌÍ¼±ê
 
-$toggle = 0
+Local $toggle = 0
 
 While 1
-	$msg = TrayGetMsg()
+	Local $msg = TrayGetMsg()
 	Select
 		Case $msg = 0
 			Sleep(1000)
 			If $toggle = 0 Then
-				TraySetState()	; æ˜¾ç¤ºæ‰˜ç›˜å›¾æ ‡
+				TraySetState()	; ÏÔÊ¾ÍĞÅÌÍ¼±ê
 				$toggle = 1
 			Else
-				TraySetState(2)	; éšè—æ‰˜ç›˜å›¾æ ‡
+				TraySetState(2)	; Òş²ØÍĞÅÌÍ¼±ê
 				$toggle = 0
-			EndIF
+			EndIf
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect
-		
+
 WEnd
 
 Exit

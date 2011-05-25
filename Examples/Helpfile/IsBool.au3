@@ -1,3 +1,3 @@
-﻿$b = true
-If IsBool($b) Then Msgbox(0,"成功", "$b 是一个布尔值")
+Local $b = True
+If IsBool($b) Then MsgBox(0,"�ɹ�", "$b ��һ������ֵ")
 	

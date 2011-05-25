@@ -1,15 +1,15 @@
-ï»¿Run("notepad.exe")
+Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 ControlSetText("[CLASS:Notepad]","","[CLASSNN:Edit1]","this one")
 
 
 AutoItSetOption("WinTitleMatchMode", 4)
 
-; å¾—åˆ°åŒ…æ‹¬ "this one" å†…å®¹çš„è®°äº‹æœ¬çª—å£çš„å¥æŸ„
-$handle = WinGetHandle("classname=Notepad", "this one")
+; µÃµ½°üÀ¨ "this one" ÄÚÈİµÄ¼ÇÊÂ±¾´°¿ÚµÄ¾ä±ú
+Local $handle = WinGetHandle("[CLASS:Notepad]", "this one")
 If @error Then
-	MsgBox(4096, "é”™è¯¯", "ä¸èƒ½æ‰¾åˆ°æŒ‡å®šçª—å£")
+	MsgBox(4096, "´íÎó", "²»ÄÜÕÒµ½Ö¸¶¨´°¿Ú")
 Else
-	; å‘é€ä¸€äº›æ–‡æœ¬åˆ°è®°äº‹æœ¬çª—å£ç¼–è¾‘æ§ä»¶.
+	; ·¢ËÍÒ»Ğ©ÎÄ±¾µ½¼ÇÊÂ±¾´°¿Ú±à¼­¿Ø¼ş.
 	ControlSend($handle, "", "Edit1", "AbCdE")
 EndIf

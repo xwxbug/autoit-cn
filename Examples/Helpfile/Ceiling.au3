@@ -1,4 +1,4 @@
-ï»¿Dim $msg
+Local $msg
 
 $msg = ""
 $msg = $msg & "Ceiling(4.8) = " & Ceiling(4.8) & @CR
@@ -10,4 +10,4 @@ $msg = $msg & "Ceiling(-4.5) = " & Ceiling(-4.5) & @CR
 $msg = $msg & "Ceiling(-4.8) = " & Ceiling(-4.8) & @CR
 $msg = $msg & "Ceiling(-4) = " & Ceiling(-4) & @CR
 
-MsgBox(64, "æµ‹è¯•ç»“æžœ:", $msg)
+MsgBox(64, "²âÊÔ½á¹û:", $msg)

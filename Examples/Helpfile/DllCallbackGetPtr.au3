@@ -1,18 +1,18 @@
-ï»¿
-; åˆ›å»ºå›è°ƒå‡½æ•°
-$handle = DLLCallbackRegister ("_EnumWindowsProc", "int", "hwnd;lparam")     
 
-; è°ƒç”¨ EnumWindows
+; ´´½¨»Øµ÷º¯Êı
+Local $handle = DllCallbackRegister("_EnumWindowsProc", "int", "hwnd;lparam")
+
+; µ÷ÓÃ EnumWindows
 DllCall("user32.dll", "int", "EnumWindows", "ptr", DllCallbackGetPtr($handle), "lparam", 10)
 
-; åˆ é™¤å›è°ƒå‡½æ•°
+; É¾³ı»Øµ÷º¯Êı
 DllCallbackFree($handle)
 
-; å›è°ƒå‡½æ•°
+; »Øµ÷º¯Êı
 Func _EnumWindowsProc($hWnd, $lParam)
-	If WinGetTitle($hWnd) <> "" And BitAnd(WinGetState($hWnd), 2) Then
-		$res = MsgBox(1, WinGetTitle($hWnd), "$hWnd=" & $hWnd & @CRLF & "lParam=" & $lParam & @CRLF & "$hWnd(type)=" & VarGetType($hWnd))
-		If $res = 2 Then Return 0	; "å–æ¶ˆ"è¢«ç‚¹å‡», è¿”å› 0 å¹¶åœæ­¢æšä¸¾
+	If WinGetTitle($hWnd) <> "" And BitAND(WinGetState($hWnd), 2) Then
+		Local $res = MsgBox(1, WinGetTitle($hWnd), "$hWnd=" & $hWnd & @CRLF & "lParam=" & $lParam & @CRLF & "$hWnd(type)=" & VarGetType($hWnd))
+		If $res = 2 Then Return 0	; "È¡Ïû"±»µã»÷, ·µ»Ø 0 ²¢Í£Ö¹Ã¶¾Ù
 	EndIf
-	Return 1	; è¿”å› 1 ç»§ç»­æšä¸¾
-EndFunc
+	Return 1	; ·µ»Ø 1 ¼ÌĞøÃ¶¾Ù
+EndFunc   ;==>_EnumWindowsProc

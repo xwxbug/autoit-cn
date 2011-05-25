@@ -1,4 +1,4 @@
-ï»¿; åˆ›å»ºäºŒè¿›åˆ¶(binary)æ•°æ® 0x10203040
-$binary = Binary("0x10203040")
-$extract = BinaryMid($binary, 2, 2)
-MsgBox(0, "ç¬¬äºŒä¸ªå­—èŠ‚å’Œç¬¬ä¸‰ä¸ªå­—èŠ‚ä¸º:", $extract)
+; ´´½¨¶ş½øÖÆ(binary)Êı¾İ 0x10203040
+Local $binary = Binary("0x10203040")
+Local $extract = BinaryMid($binary, 2, 2)
+MsgBox(0, "µÚ¶ş¸ö×Ö½ÚºÍµÚÈı¸ö×Ö½ÚÎª:", $extract)

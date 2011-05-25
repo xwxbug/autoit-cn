@@ -3,24 +3,24 @@
 
 GUICreate("My GUI")  ; 创建一个居中显示的 GUI 窗口
 
-$nEdit = GUICtrlCreateEdit ("line 0", 10,10)
-GUICtrlCreateButton ("Ok", 20,200,50)
+Local $nEdit = GUICtrlCreateEdit("line 0", 10, 10)
+GUICtrlCreateButton("Ok", 20, 200, 50)
 
-GUISetState ()
+GUISetState()
 
-For $n=1 To 5
-GUICtrlSetData ($nEdit, @CRLF & "line "& $n)
+For $n = 1 To 5
+	GUICtrlSetData($nEdit, @CRLF & "line " & $n)
 Next
 
 
 ; 运行界面,直到窗口被关闭
 Do
-	$msg = GUIGetMsg()
-	If $msg >0 Then
-		$a=GUICtrlRecvMsg($nEdit, $EM_GETSEL)
-		GUICtrlSetState($nEdit,$GUI_FOCUS)	; set focus back on edit control
+	Local $msg = GUIGetMsg()
+	If $msg > 0 Then
+		Local $a = GUICtrlRecvMsg($nEdit, $EM_GETSEL)
+		GUICtrlSetState($nEdit, $GUI_FOCUS) ; set focus back on edit control
 
-; will display the wParam and lParam values return by the control
-		MsgBox(0,"Current selection",StringFormat("start=%d end=%d", $a[0], $a[1]))
+		; will display the wParam and lParam values return by the control
+		MsgBox(0, "Current selection", StringFormat("start=%d end=%d", $a[0], $a[1]))
 	EndIf
 Until $msg = $GUI_EVENT_CLOSE

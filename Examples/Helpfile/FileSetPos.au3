@@ -3,31 +3,31 @@
 Local Const $sFile = "test.txt"
 Local $hFile = FileOpen($sFile, 2)
 
-; Check if file opened for writing OK
+; 检查文件是否已打开
 If $hFile = -1 Then
-	MsgBox(0, "Error", "Unable to open file.")
+	MsgBox(0, "错误", "无法打开文件.")
 	Exit
 EndIf
 
-; Write something to the file.
+; 向此前已打开的文本文件尾追加一行数据.
 FileWriteLine($hFile, "Line1")
 FileWriteLine($hFile, "Line2")
 FileWriteLine($hFile, "Line3")
 
-; Flush the file to disk.
+; 保存该文本文件内存缓冲区数据到磁盘.相等于保存操作.
 FileFlush($hFile)
 
-; Check file position and try to read contents for current position.
-MsgBox(0, "", "Position: " & FileGetPos($hFile) & @CRLF & "Data: " & @CRLF & FileRead($hFile))
+; 读取当前文件坐标内容
+MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
-; Now, adjust the position to the beginning.
+; 设置当前文件坐标.
 Local $n = FileSetPos($hFile, 0, $FILE_BEGIN)
 
-; Check file position and try to read contents for current position.
-MsgBox(0, "", "Position: " & FileGetPos($hFile) & @CRLF & "Data: " & @CRLF & FileRead($hFile))
+;读取当前文件坐标内容
+MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
-; Close the handle.
+; 关闭此前已打开的文件.
 FileClose($hFile)
 
-; Clean up the temporary file.
+;删除临时文件.
 FileDelete($sFile)

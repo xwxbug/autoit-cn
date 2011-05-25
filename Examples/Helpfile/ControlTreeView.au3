@@ -1,34 +1,34 @@
-ï»¿; ä½œè€…:         Zedna
+; ×÷Õß:         Zedna
 
 #include <GUIConstantsEx.au3>
 #include <TreeviewConstants.au3>
 #include <WindowsConstants.au3>
 
-$gui = GUICreate("ControlTreeview æµ‹è¯•", 212, 212)
-$treeview = GUICtrlCreateTreeView(6, 6, 200, 160, BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_CHECKBOXES), $WS_EX_CLIENTEDGE)
-$h_tree = ControlGetHandle($gui, "", $treeview)
+Local $gui = GUICreate("ControlTreeview ²âÊÔ", 212, 212)
+Local $treeview = GUICtrlCreateTreeView(6, 6, 200, 160, BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_CHECKBOXES), $WS_EX_CLIENTEDGE)
+Local $h_tree = ControlGetHandle($gui, "", $treeview)
 
-$root = GUICtrlCreateTreeViewItem("æ ¹", $treeview)
-$item1 = GUICtrlCreateTreeViewItem("é¡¹ç›® 1", $root)
-$item2 = GUICtrlCreateTreeViewItem("é¡¹ç›® 2", $root)
-$item3 = GUICtrlCreateTreeViewItem("é¡¹ç›® 3", $root)
-$item4 = GUICtrlCreateTreeViewItem("é¡¹ç›® 4", $root)
-$item41 = GUICtrlCreateTreeViewItem("é¡¹ç›® 41", $item4)
-$item42 = GUICtrlCreateTreeViewItem("é¡¹ç›® 42", $item4)
-$item5 = GUICtrlCreateTreeViewItem("é¡¹ç›® 5", $root)
+Local $root = GUICtrlCreateTreeViewItem("¸ù", $treeview)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 1", $root)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 2", $root)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 3", $root)
+Local $item4 = GUICtrlCreateTreeViewItem("ÏîÄ¿ 4", $root)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 41", $item4)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 42", $item4)
+GUICtrlCreateTreeViewItem("ÏîÄ¿ 5", $root)
 
 GUISetState(@SW_SHOW)
 
-; ä¸€äº›ä¾‹å­
-ControlTreeView ($gui, "", $h_tree, "Expand", "æ ¹")
+; Ò»Ğ©Àı×Ó
+ControlTreeView ($gui, "", $h_tree, "Expand", "¸ù")
 
-ControlTreeView ($gui, "", $h_tree, "Exists", "æ ¹|é¡¹ç›® 4")
-ControlTreeView ($gui, "", $h_tree, "Check", "æ ¹|é¡¹ç›® 4")
-ControlTreeView ($gui, "", $h_tree, "Select", "æ ¹|é¡¹ç›® 4")
-ControlTreeView ($gui, "", $h_tree, "Expand", "æ ¹|é¡¹ç›® 4")
+ControlTreeView ($gui, "", $h_tree, "Exists", "¸ù|ÏîÄ¿ 4")
+ControlTreeView ($gui, "", $h_tree, "Check", "¸ù|ÏîÄ¿ 4")
+ControlTreeView ($gui, "", $h_tree, "Select", "¸ù|ÏîÄ¿ 4")
+ControlTreeView ($gui, "", $h_tree, "Expand", "¸ù|ÏîÄ¿ 4")
 
 While 1
-	$msg = GUIGetMsg()
+	Local $msg = GUIGetMsg()
 	Select
 		Case $msg = $GUI_EVENT_CLOSE
 			ExitLoop

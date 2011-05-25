@@ -1,19 +1,19 @@
-#include <GUIConstantsEx.au3>
+﻿#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $ani1, $buttonstart, $buttonstop, $msg
 
-	GUICreate("My GUI Animation", 300, 200)
+	GUICreate("My GUI Animation", 360, 200)
 	$ani1 = GUICtrlCreateAvi(@SystemDir & "\shell32.dll", 165, 50, 10)
 
-	$buttonstart = GUICtrlCreateButton("start", 50, 150, 70, 22)
-	$buttonstop = GUICtrlCreateButton("stop", 150, 150, 70, 22)
+	$buttonstart = GUICtrlCreateButton("开始", 100, 150, 70, 22)
+	$buttonstop = GUICtrlCreateButton("停止", 200, 150, 70, 22)
 
 	GUISetState()
 
-	; Run the GUI until the dialog is closed
+	; 运行界面,直到窗口被关闭
 	While 1
 		$msg = GUIGetMsg()
 

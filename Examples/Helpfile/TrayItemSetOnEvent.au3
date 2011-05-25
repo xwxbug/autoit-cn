@@ -1,22 +1,22 @@
-ï»¿#NoTrayIcon
+#NoTrayIcon
 
-Opt("TrayOnEventMode",1)
-Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayOnEventMode", 1)
+Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔÝÍ£ÖÐ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-TraySetClick(16)	; åªæœ‰å•å‡»ç¬¬äºŒä¸ªé¼ æ ‡æŒ‰é”®(é»˜è®¤å³é”®)æ‰ä¼šæ˜¾ç¤ºæ‰˜ç›˜èœå•.
+TraySetClick(16)	; Ö»ÓÐµ¥»÷µÚ¶þ¸öÊó±ê°´¼ü(Ä¬ÈÏÓÒ¼ü)²Å»áÏÔÊ¾ÍÐÅÌ²Ëµ¥.
 
-$infoitem = TrayCreateItem("ä¿¡æ¯")
-TrayItemSetOnEvent(-1,"ShowInfo")
+TrayCreateItem("ÐÅÏ¢")
+TrayItemSetOnEvent(-1, "ShowInfo")
 
 TrayCreateItem("")
 
-$exititem = TrayCreateItem("é€€å‡º")
-TrayItemSetOnEvent(-1,"ExitScript")
+TrayCreateItem("ÍË³ö")
+TrayItemSetOnEvent(-1, "ExitScript")
 
 TraySetState()
 
 While 1
-	Sleep(10)	; ç©ºé—²å¾ªçŽ¯
+	Sleep(10)	; ¿ÕÏÐÑ­»·
 WEnd
 
 Exit
@@ -24,10 +24,10 @@ Exit
 
 ; Functions
 Func ShowInfo()
-	Msgbox(0,"Info","æ‰˜ç›˜ OnEvent æ¨¡å¼æ¼”ç¤º")
-EndFunc
+	MsgBox(0,"Info","ÍÐÅÌ OnEvent Ä£Ê½ÑÝÊ¾")
+EndFunc   ;==>ShowInfo
 
 
 Func ExitScript()
 	Exit
-EndFunc
+EndFunc   ;==>ExitScript

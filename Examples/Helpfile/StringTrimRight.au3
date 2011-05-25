@@ -1,2 +1,2 @@
-ï»¿$result = StringTrimRight("I am a string", 3)
-MsgBox(0, "å»æ‰æœ€å³æ–¹3ä¸ªå­—ç¬¦åçš„å­—ç¬¦ä¸²ä¸º:", $result)
+Local $result = StringTrimRight("I am a string", 3)
+MsgBox(0, "È¥µô×îÓÒ·½3¸ö×Ö·ûºóµÄ×Ö·û´®Îª:", $result)

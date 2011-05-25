@@ -1,14 +1,14 @@
-ï»¿$size = DirGetSize(@HomeDrive)
-Msgbox(0,"","å¤§å°(MB) :" & Round($size / 1024 / 1024))
+Local $size = DirGetSize(@HomeDrive)
+MsgBox(0,"","´óĞ¡(MB) :" & Round($size / 1024 / 1024))
 
 $size = DirGetSize(@WindowsDir, 2)
-Msgbox(0,"","å¤§å°(MB) :" & Round($size / 1024 / 1024))
+MsgBox(0,"","´óĞ¡(MB) :" & Round($size / 1024 / 1024))
 
-$timer	= TimerInit()
-$size	= DirGetSize("\\10.0.0.1\h$",1);è¯•è¯•å¡«å…¥ä¸€ä¸ªçœŸå®è·¯å¾„
-$diff	= Round(TimerDiff($timer) / 1000)	; æŒ‰ç§’è®¡æ—¶
+Local $timer = TimerInit()
+$size	= DirGetSize("\\10.0.0.1\h$",1);ÊÔÊÔÌîÈëÒ»¸öÕæÊµÂ·¾¶
+Local $diff	= Round(TimerDiff($timer) / 1000)	; °´Ãë¼ÆÊ±
 If IsArray($size) Then
-	Msgbox(0,"DirGetSize-ä¿¡æ¯","å¤§å°(å­—èŠ‚):" & $size[0] & @LF _
-		& "æ–‡ä»¶:" & $size[1] & @LF & "æ–‡ä»¶å¤¹:" & $size[2] & @LF _
-		& "ç”¨æ—¶(ç§’):" & $diff)
+	MsgBox(0,"DirGetSize-ĞÅÏ¢","´óĞ¡(×Ö½Ú):" & $size[0] & @LF _
+		& "ÎÄ¼ş:" & $size[1] & @LF & "ÎÄ¼ş¼Ğ:" & $size[2] & @LF _
+		& "ÓÃÊ±(Ãë):" & $diff)
 EndIf

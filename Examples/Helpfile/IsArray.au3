@@ -1,4 +1,4 @@
-ï»¿$pos = WinGetPos("[CLASS:Notepad]")
+Local $pos = WinGetPos("[CLASS:Notepad]")
 If IsArray($pos) Then
-	MsgBox(0, "çª—å£å®½åº¦", $pos[3])
+	MsgBox(0, "´°¿Ú¿í¶È", $pos[3])
 EndIf

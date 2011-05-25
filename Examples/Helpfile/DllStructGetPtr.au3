@@ -1,61 +1,61 @@
-ï»¿;ç¤ºä¾‹1
-;è·å–çª—å£å¥æŸ„å¹¶ä½¿ç”¨ WinGetPos è·å–çª—å£çŸ©å½¢
-$hwnd	= WinGetHandle("")
-$coor	= WinGetPos($hwnd)
+;Ê¾Àı1
+;»ñÈ¡´°¿Ú¾ä±ú²¢Ê¹ÓÃ WinGetPos »ñÈ¡´°¿Ú¾ØĞÎ
+Local $hwnd = WinGetHandle("")
+Local $coor = WinGetPos($hwnd)
 
-;å»ºç«‹æ•°æ®ç»“æ„
-$rect	= DllStructCreate("int;int;int;int")
+;½¨Á¢Êı¾İ½á¹¹
+Local $rect = DllStructCreate("int;int;int;int")
 
-;æ„æˆ DllCall
-DLLCall("user32.dll","int","GetWindowRect", _
-		"hwnd",$hwnd, _
-		"ptr",DllStructGetPtr($rect)) ; ä½¿ç”¨ DllStructGetPtr åè°ƒç”¨ DllCall
+;¹¹³É DllCall
+DllCall("user32.dll", "int", "GetWindowRect", _
+		"hwnd", $hwnd, _
+		"ptr",DllStructGetPtr($rect)) ; Ê¹ÓÃ DllStructGetPtr ºóµ÷ÓÃ DllCall
 
-;è·å–è¿”å›çš„çŸ©å½¢
-$l = DllStructGetData($rect,1)
-$t = DllStructGetData($rect,2)
-$r = DllStructGetData($rect,3)
-$b = DllStructGetData($rect,4)
+;»ñÈ¡·µ»ØµÄ¾ØĞÎ
+Local $l = DllStructGetData($rect, 1)
+Local $t = DllStructGetData($rect, 2)
+Local $r = DllStructGetData($rect, 3)
+Local $b = DllStructGetData($rect, 4)
 
-;é‡Šæ”¾æ•°æ®ç»“æ„
+;ÊÍ·ÅÊı¾İ½á¹¹
 $rect = 0
 
-;æ˜¾ç¤º WinGetPos çš„ç»“æœå’Œè¿”å›çš„çŸ©å½¢
-MsgBox(0,"Larry æµ‹è¯• :)","WinGetPos(): (" & $coor[0] & "," & $coor[1] & _
+;ÏÔÊ¾ WinGetPos µÄ½á¹ûºÍ·µ»ØµÄ¾ØĞÎ
+MsgBox(0,"Larry ²âÊÔ :)","WinGetPos(): (" & $coor[0] & "," & $coor[1] & _
 		") (" & $coor[2] + $coor[0] & "," & $coor[3] + $coor[1] & ")" & @CRLF & _
 		"GetWindowRect(): (" & $l & "," & $t & ") (" & $r & "," & $b & ")")
 
-;ç¤ºä¾‹2
-; DllStructGetPtr å‚è€ƒé¡¹ç›®
-$a			= DllStructCreate("int")
-if @error Then
-	MsgBox(0,"","DllStructCreate é”™è¯¯" & @error);
-	exit
-endif
+;Ê¾Àı2
+; DllStructGetPtr ²Î¿¼ÏîÄ¿
+Local $a = DllStructCreate("int")
+If @error Then
+	MsgBox(0,"","DllStructCreate ´íÎó" & @error);
+	Exit
+EndIf
 
-$b	= DllStructCreate("uint",DllStructGetPtr($a,1))
-if @error Then
-	MsgBox(0,"","DllStructCreate é”™è¯¯ " & @error);
-	exit
-endif
+$b = DllStructCreate("uint", DllStructGetPtr($a, 1))
+If @error Then
+	MsgBox(0,"","DllStructCreate ´íÎó " & @error);
+	Exit
+EndIf
 
-$c	= DllStructCreate("float",DllStructGetPtr($a,1))
-if @error Then
-	MsgBox(0,"","DllStructCreate é”™è¯¯ " & @error);
-	exit
-endif
+Local $c = DllStructCreate("float", DllStructGetPtr($a, 1))
+If @error Then
+	MsgBox(0,"","DllStructCreate ´íÎó " & @error);
+	Exit
+EndIf
 
-;è®¾ç½®æ•°æ®
-DllStructSetData($a,1,-1)
+;ÉèÖÃÊı¾İ
+DllStructSetData($a, 1, -1)
 
 ;=========================================================
-;	æ˜¾ç¤ºç›¸åŒæ•°æ®çš„ä¸åŒç±»å‹
+;	ÏÔÊ¾ÏàÍ¬Êı¾İµÄ²»Í¬ÀàĞÍ
 ;=========================================================
-MsgBox(0,"DllStruct", _
-		"int: " & DllStructGetData($a,1) & @CRLF & _
-		"uint: " & DllStructGetData($b,1) & @CRLF & _
-		"float: " & DllStructGetData($c,1) & @CRLF & _
+MsgBox(0, "DllStruct", _
+		"int: " & DllStructGetData($a, 1) & @CRLF & _
+		"uint: " & DllStructGetData($b, 1) & @CRLF & _
+		"float: " & DllStructGetData($c, 1) & @CRLF & _
 		"")
 
-; é‡Šæ”¾åˆ†é…çš„å†…å­˜
+; ÊÍ·Å·ÖÅäµÄÄÚ´æ
 $a = 0

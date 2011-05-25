@@ -1,7 +1,7 @@
-ï»¿BlockInput(1)
+BlockInput(1)
 
 Run("notepad")
 WinWaitActive("[CLASS:Notepad]")
-Send("{F5}")  ;ç²˜è´´å½“å‰æ—¶é—´å’Œæ—¥æœŸ
+Send("{F5}") ;Õ³Ìùµ±Ç°Ê±¼äºÍÈÕÆÚ
 
 BlockInput(0)

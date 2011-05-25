@@ -1,3 +1,3 @@
-ï»¿$dll = DllOpen("user32.dll")
-$result = DllCall($dll, "int", "MessageBox", "hwnd", 0, "str", "è‹¥å¹²æ–‡æœ¬", "str", "è‹¥å¹²æ ‡é¢˜", "int", 0)
+Local $dll = DllOpen("user32.dll")
+Local $result = DllCall($dll, "int", "MessageBox", "hwnd", 0, "str", "Èô¸ÉÎÄ±¾", "str", "Èô¸É±êÌâ", "int", 0)
 DllClose($dll)

@@ -1,3 +1,3 @@
-ï»¿$struct = DllStructCreate("char[256]")
-$x = IsDllStruct($struct)
-if $x then msgbox(32,"",'$struct' & ' æ˜¯ä¸€ä¸ªè‡ªå®šä¹‰æ•°æ®ç»“æ„')
+Local $struct = DllStructCreate("char[256]")
+Local $x = IsDllStruct($struct)
+if $x then msgbox(32,"",'$struct' & ' ÊÇÒ»¸ö×Ô¶¨ÒåÊı¾İ½á¹¹')

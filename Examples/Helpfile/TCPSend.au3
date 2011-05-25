@@ -1,5 +1,3 @@
-Opt('MustDeclareVars', 1)
-
 ;==============================================
 ;==============================================
 ;客户端! 运行前必须确保服务端已运行(客户端为发送信息方)
@@ -13,8 +11,8 @@ Func Example()
 	;--------------------------
 	Local $ConnectedSocket, $szData
 	; 设置 $szIPADDRESS 为服务端IP. 这里使用本地的机器名称转换为 IP 地址
-;	Local $szServerPC = @ComputerName
-;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
+	;	Local $szServerPC = @ComputerName
+	;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
 	Local $szIPADDRESS = @IPAddress1
 	Local $nPORT = 33891
 
@@ -32,7 +30,7 @@ Func Example()
 
 	; 如果发生了错误... 显示出来
 	If @error Then
-		MsgBox(4112, "错误", "TCP连接失败,服务端未启用！错误代码: " & @error)
+		MsgBox(4112, "错误", "TCP连接失败,服务端未启用!错误代码: " & @error)
 		; 如果这里没有错误,就循环一个 inputbox 用于发送数据
 		; 到服务端
 	Else
@@ -45,7 +43,8 @@ Func Example()
 			If @error Or $szData = "" Then ExitLoop
 
 			; 我们确保在 $szData 中有数据... 然后尝试通过连接发送数据.
-			TCPSend($ConnectedSocket, $szData)
+			; convert AutoIt native UTF-16 to UTF-8
+			TCPSend($ConnectedSocket, StringToBinary($szData, 4))
 
 			; 如果发送失败(@error)将断开连接
 			;----------------------------------------------------------------

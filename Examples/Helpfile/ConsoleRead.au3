@@ -1,6 +1,6 @@
-; 1、编译此脚本 "ConsoleRead.exe".
-; 2、以命令提示符的方式打开程序ConsoleRead.exe所在目录在.
-; 3、键入以下命令行:
+; 1,编译此脚本 "ConsoleRead.exe".
+; 2,以命令提示符的方式打开程序ConsoleRead.exe所在目录在.
+; 3,键入以下命令行:
 ;	echo Hello! | ConsoleRead.exe
 ;
 ; When invoked in a console window, the above command echos the text "Hello!"
@@ -17,4 +17,4 @@ While True
 	If @error Then ExitLoop
 	Sleep(25)
 WEnd
-MsgBox(0, "", "Received: " & @CRLF & @CRLF & $data)
+MsgBox(0, "", "返回: " & @CRLF & @CRLF & $data)

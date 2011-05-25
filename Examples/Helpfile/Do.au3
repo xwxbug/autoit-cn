@@ -1,5 +1,5 @@
-﻿$i = 0
+Local $i = 0
 Do
-	MsgBox(0, "$i 当前值是:", $i)
+	MsgBox(0, "$i ��ǰֵ��:", $i)
 	$i = $i + 1
 Until $i = 10

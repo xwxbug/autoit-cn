@@ -1,21 +1,21 @@
-ï»¿;;æœåŠ¡å™¨!! å…ˆæ‰“å¼€æˆ‘ !!!!!!!!!!!!!!!
+;·şÎñÆ÷!! ÏÈ´ò¿ªÎÒ !!!!!!!!!!!!!!!
 $g_IP = "127.0.0.1"
 
-; å¼€å§‹ UDP æœåŠ¡
+; ¿ªÊ¼ UDP ·şÎñ
 ;==============================================
-UDPStartUp()
+UDPStartup()
 
-; æ³¨å†Œæ¸…ç†å‡½æ•°.
+; ×¢²áÇåÀíº¯Êı.
 OnAutoItExitRegister("Cleanup")
 
-; åˆ›å»ºä¸€ä¸ªç›‘å¬å¥—æ¥å­—("SOCKET")
+; ´´½¨Ò»¸ö¼àÌıÌ×½Ó×Ö("SOCKET")
 ;==============================================
-$socket = UDPBind($g_IP, 65432)
+Local $socket = UDPBind($g_IP, 65432)
 If @error <> 0 Then Exit
 
-;--- è¿™é‡Œæ˜¯æ‚¨çš„ä»£ç 
+;--- ÕâÀïÊÇÄúµÄ´úÂë
 
 Func Cleanup()
-    UDPCloseSocket($socket)
-    UDPShutdown()
-EndFunc
+	UDPCloseSocket($socket)
+	UDPShutdown()
+EndFunc   ;==>Cleanup

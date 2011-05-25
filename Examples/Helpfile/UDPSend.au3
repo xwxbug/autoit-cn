@@ -1,30 +1,30 @@
-ï»¿;;è¿™æ˜¯ä¸€ä¸ª UDP å®¢æˆ·ç«¯
-;;è¯·å…ˆè¿è¡ŒæœåŠ¡ç«¯
+;;ÕâÊÇÒ»¸ö UDP ¿Í»§¶Ë
+;;ÇëÏÈÔËÐÐ·þÎñ¶Ë
 
-; å¼€å§‹ UDP æœåŠ¡
+; ¿ªÊ¼ UDP ·þÎñ
 ;==============================================
 UDPStartup()
 
-; æ³¨å†Œæ¸…ç†å‡½æ•°.
+; ×¢²áÇåÀíº¯Êý.
 OnAutoItExitRegister("Cleanup")
 
-; æ‰“å¼€ä¸€ä¸ª"å¥—æŽ¥å­—"("SOCKET")
+; ´ò¿ªÒ»¸ö"Ì×½Ó×Ö"("SOCKET")
 ;==============================================
-$socket = UDPOpen("127.0.0.1", 65532)
+Local $socket = UDPOpen("127.0.0.1", 65532)
 If @error <> 0 Then Exit
 
-$n=0
+Local $n = 0
 While 1
-    Sleep(2000)
-    $n = $n + 1
-    $status = UDPSend($socket, "æ¶ˆæ¯ #" & $n)
-    If $status = 0 then 
-        MsgBox(0, "é”™è¯¯", "å½“å‘é€ UDP æ¶ˆæ¯æ—¶å‘ç”Ÿé”™è¯¯: " & @error)
-        Exit
-    EndIf
+	Sleep(2000)
+	$n = $n + 1
+	Local $status = UDPSend($socket, "ÏûÏ¢ #" & $n)
+	If $status = 0 Then
+		MsgBox(0, "´íÎó", "µ±·¢ËÍ UDP ÏûÏ¢Ê±·¢Éú´íÎó: " & @error)
+		Exit
+	EndIf
 WEnd
 
 Func Cleanup()
-    UDPCloseSocket($socket)
-    UDPShutdown()
-EndFunc
+	UDPCloseSocket($socket)
+	UDPShutdown()
+EndFunc   ;==>Cleanup

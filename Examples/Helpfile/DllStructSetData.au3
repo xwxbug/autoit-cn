@@ -1,5 +1,5 @@
-ï»¿;=========================================================
-;	åˆ›å»ºæ•°æ®ç»“æ„
+;=========================================================
+;	´´½¨Êı¾İ½á¹¹
 ;	struct {
 ;		int				var1;
 ;		unsigned char	var2;
@@ -7,39 +7,39 @@
 ;		char			var4[128];
 ;	}
 ;=========================================================
-$str		= "int;ubyte;uint;char[128]"
-$a			= DllStructCreate($str)
-if @error Then
-	MsgBox(0,"","DllStructCreate å‘ç”Ÿé”™è¯¯" & @error);
-	exit
-endif
+Local $str = "int;byte;uint;char[128]"
+Local $a = DllStructCreate($str)
+If @error Then
+	MsgBox(0,"","DllStructCreate ·¢Éú´íÎó" & @error);
+	Exit
+EndIf
 
 ;=========================================================
-;	è®¾ç½®æ•°æ®ç»“æ„ä¸­çš„æ•°æ®
+;	ÉèÖÃÊı¾İ½á¹¹ÖĞµÄÊı¾İ
 ;	struct.var1	= -1;
 ;	struct.var2	= 255;
-;	struct.var3	= INT_MAX; -1 å°†è‡ªåŠ¨ç¡®å®šç±»å‹(unsigned int)
+;	struct.var3	= INT_MAX; -1 ½«×Ô¶¯È·¶¨ÀàĞÍ(unsigned int)
 ;	strcpy(struct.var4,"Hello");
 ;	struct.var4[0]	= 'h';
 ;=========================================================
-DllStructSetData($a,1,-1)
-DllStructSetData($a,2,255)
-DllStructSetData($a,3,-1)
-DllStructSetData($a,4,"Hello")
-DllStructSetData($a,4,Asc("h"),1)
+DllStructSetData($a, 1, -1)
+DllStructSetData($a, 2, 255)
+DllStructSetData($a, 3, -1)
+DllStructSetData($a, 4, "Hello")
+DllStructSetData($a, 4, Asc("h"), 1)
 
 ;=========================================================
-;	æ˜¾ç¤ºæ•°æ®ç»“æ„çš„ä¿¡æ¯
+;	ÏÔÊ¾Êı¾İ½á¹¹µÄĞÅÏ¢
 ;=========================================================
-MsgBox(0,"DllStruct","æ•°æ®ç»“æ„å¤§å°: " & DllStructGetSize($a) & @CRLF & _
-		"æ•°æ®ç»“æ„æŒ‡é’ˆ: " & DllStructGetPtr($a) & @CRLF & _
+MsgBox(0,"DllStruct","Êı¾İ½á¹¹´óĞ¡: " & DllStructGetSize($a) & @CRLF & _
+		"Êı¾İ½á¹¹Ö¸Õë: " & DllStructGetPtr($a) & @CRLF & _
 		"Data:" & @CRLF & _
-		DllStructGetData($a,1) & @CRLF & _
-		DllStructGetData($a,2) & @CRLF & _
-		DllStructGetData($a,3) & @CRLF & _
-		DllStructGetData($a,4))
+		DllStructGetData($a, 1) & @CRLF & _
+		DllStructGetData($a, 2) & @CRLF & _
+		DllStructGetData($a, 3) & @CRLF & _
+		DllStructGetData($a, 4))
 
 ;=========================================================
-;	é‡Šæ”¾ä¸ºæ•°æ®ç»“æ„åˆ†é…çš„å†…å­˜
+;	ÊÍ·ÅÎªÊı¾İ½á¹¹·ÖÅäµÄÄÚ´æ
 ;=========================================================
 $a = 0

@@ -1,24 +1,24 @@
-ï»¿#NoTrayIcon
+#NoTrayIcon
 
-Opt("TrayMenuMode",1)	; é»˜è®¤èœå•é¡¹ç›® (è„šæœ¬æš‚åœä¸­/é€€å‡º)(Script Paused/Exit) å°†ä¸ä¼šæ˜¾ç¤º. 
+Opt("TrayMenuMode",1)	; Ä¬ÈÏ²Ëµ¥ÏîÄ¿ (½Å±¾ÔİÍ£ÖĞ/ÍË³ö)(Script Paused/Exit) ½«²»»áÏÔÊ¾. 
 
-$getitem	= TrayCreateItem("å¾—åˆ°çŠ¶æ€")
+Local $getitem	= TrayCreateItem("µÃµ½×´Ì¬")
 TrayCreateItem("")
-$aboutitem	= TrayCreateItem("å…³äº")
+Local $aboutitem	= TrayCreateItem("¹ØÓÚ")
 TrayCreateItem("")
-$exititem	= TrayCreateItem("é€€å‡º")
+Local $exititem	= TrayCreateItem("ÍË³ö")
 
 TraySetState()
 
 While 1
-	$msg = TrayGetMsg()
+	Local $msg = TrayGetMsg()
 	Select
 		Case $msg = 0
 			ContinueLoop
 		Case $msg = $getitem
-			Msgbox(64,"çŠ¶æ€",TrayItemGetState($aboutitem))
+			MsgBox(64,"×´Ì¬",TrayItemGetState($aboutitem))
 		Case $msg = $aboutitem
-			Msgbox(64,"å…³äº:","AutoIt3-æ‰˜ç›˜-ä¾‹å­")
+			MsgBox(64,"¹ØÓÚ:","AutoIt3-ÍĞÅÌ-Àı×Ó")
 		Case $msg = $exititem
 			ExitLoop
 	EndSelect
