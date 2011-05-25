@@ -11140,7 +11140,7 @@ EndFunc   ;==>_WinAPI_GetTextFace
 ; Link...........: @@MsdnLink@@ GetTextMetrics
 ; Example........: Yes
 ; ===============================================================================================================================
-
+#cs
 Func _WinAPI_GetTextMetrics($hDC)
 
 ;	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
@@ -11152,7 +11152,7 @@ Func _WinAPI_GetTextMetrics($hDC)
 	EndIf
 	Return $tTEXTMETRIC
 EndFunc   ;==>_WinAPI_GetTextMetrics
-
+#ce
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetThemeAppProperties
 ; Description....: Retrieves the property flags that control how visual styles are applied in the current application.

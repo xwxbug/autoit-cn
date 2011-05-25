@@ -154,12 +154,13 @@ Global Const $OFN_READONLY				= 0x00000001
 Global Const $OFN_SHAREAWARE			= 0x00004000
 Global Const $OFN_SHOWHELP				= 0x00000010
 Global Const $OFN_EX_NOPLACESBAR		= 0x00000001
-
+#cs
 ;GetTextMetrics flags
 Global Const $TMPF_FIXED_PITCH			= 0x01
 Global Const $TMPF_VECTOR				= 0x02
 Global Const $TMPF_TRUETYPE				= 0x04
 Global Const $TMPF_DEVICE				= 0x08
+#ce
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
