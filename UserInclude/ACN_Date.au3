@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 ;===============================================================================
 ;
@@ -20,13 +20,13 @@ Func _DateDayOfWeekC($iDayNum = @WDAY)
 	;==============================================
 	Local $aDayOfWeek[8]
 
-	$aDayOfWeek[1] = "æ˜ŸæœŸå¤©"
-	$aDayOfWeek[2] = "æ˜ŸæœŸä¸€"
-	$aDayOfWeek[3] = "æ˜ŸæœŸäºŒ"
-	$aDayOfWeek[4] = "æ˜ŸæœŸä¸‰"
-	$aDayOfWeek[5] = "æ˜ŸæœŸå››"
-	$aDayOfWeek[6] = "æ˜ŸæœŸäº”"
-	$aDayOfWeek[7] = "æ˜ŸæœŸå…­"
+	$aDayOfWeek[1] = "ĞÇÆÚÌì"
+	$aDayOfWeek[2] = "ĞÇÆÚÒ»"
+	$aDayOfWeek[3] = "ĞÇÆÚ¶ş"
+	$aDayOfWeek[4] = "ĞÇÆÚÈı"
+	$aDayOfWeek[5] = "ĞÇÆÚËÄ"
+	$aDayOfWeek[6] = "ĞÇÆÚÎå"
+	$aDayOfWeek[7] = "ĞÇÆÚÁù"
 	Select
 		Case Not StringIsInt($iDayNum)
 			SetError(1)
@@ -60,18 +60,18 @@ Func _DateMonthOfYear($iMonthNum = @MON)
 	;==============================================
 	Local $aMonthOfYear[13]
 
-	$aMonthOfYear[1] = "ä¸€æœˆ"
-	$aMonthOfYear[2] = "äºŒæœˆ"
-	$aMonthOfYear[3] = "ä¸‰æœˆ"
-	$aMonthOfYear[4] = "å››æœˆ"
-	$aMonthOfYear[5] = "äº”æœˆ"
-	$aMonthOfYear[6] = "å…­æœˆ"
-	$aMonthOfYear[7] = "ä¸ƒæœˆ"
-	$aMonthOfYear[8] = "å…«æœˆ"
-	$aMonthOfYear[9] = "ä¹æœˆ"
-	$aMonthOfYear[10] = "åæœˆ"
-	$aMonthOfYear[11] = "åä¸€æœˆ"
-	$aMonthOfYear[12] = "åäºŒæœˆ"
+	$aMonthOfYear[1] = "Ò»ÔÂ"
+	$aMonthOfYear[2] = "¶şÔÂ"
+	$aMonthOfYear[3] = "ÈıÔÂ"
+	$aMonthOfYear[4] = "ËÄÔÂ"
+	$aMonthOfYear[5] = "ÎåÔÂ"
+	$aMonthOfYear[6] = "ÁùÔÂ"
+	$aMonthOfYear[7] = "ÆßÔÂ"
+	$aMonthOfYear[8] = "°ËÔÂ"
+	$aMonthOfYear[9] = "¾ÅÔÂ"
+	$aMonthOfYear[10] = "Ê®ÔÂ"
+	$aMonthOfYear[11] = "Ê®Ò»ÔÂ"
+	$aMonthOfYear[12] = "Ê®¶şÔÂ"
 
 	Select
 		Case Not StringIsInt($iMonthNum)

@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 Global $WM_MOUSEACTIVATE				= 0x0021
 Global $WM_NCHITTEST					= 0x0084
 Global $WM_NCMOUSEMOVE					= 0x00A0
@@ -65,8 +65,8 @@ EndFunc
 ;					A double-click is a series of two clicks of a mouse button, the second occurring within a specified time after the first. 
 ;					The double-click time is the maximum number of milliseconds that may occur between the first and second clicks of a double-click. 
 ; Syntax.........: _API_SetDoubleClickTime()
-; Parameters ....: $uInterval = time with milliseconds(åŒå‡»é—´éš”æ—¶é—´,å•ä½ä¸ºæ¯«ç§’).
-; Return values .: Returns 1 if successful(æˆåŠŸ); otherwise, 0(å¤±è´¥).
+; Parameters ....: $uInterval = time with milliseconds(Ë«»÷¼ä¸ôÊ±¼ä,µ¥Î»ÎªºÁÃë).
+; Return values .: Returns 1 if successful(³É¹¦); otherwise, 0(Ê§°Ü).
 ; Author ........: thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......: 
@@ -87,7 +87,7 @@ EndFunc
 ; Parameters ....: $fSwap = Specifies whether the mouse button meanings are reversed or restored. 
 ;					If this parameter is TRUE, the left button generates right-button messages and the right button generates left-button messages. 
 ;					If this parameter is FALSE, the buttons are restored to their original meanings. 
-; Return values .: Returns 1 if successful(æˆåŠŸ); otherwise, 0(å¤±è´¥).
+; Return values .: Returns 1 if successful(³É¹¦); otherwise, 0(Ê§°Ü).
 ; Author ........: thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......: 
@@ -102,7 +102,7 @@ Func _API_SwapMouseButton($fSwap=False)
 EndFunc
 
 
-; ä¸‹æ–¹å‡½æ•°ä¸æ˜“å·¥ä½œ,å°å¿ƒä½¿ç”¨.
+; ÏÂ·½º¯Êı²»Ò×¹¤×÷,Ğ¡ĞÄÊ¹ÓÃ.
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _API_MouseNotification()
 ; Description ...: Mouse Notification

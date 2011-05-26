@@ -1,33 +1,33 @@
-ï»¿#Region AutoIt3Wrapper é¢„ç¼–è¯‘å‚æ•°(å®Œæ•´å‚æ•°)
-;** è¿™ä¸ªåˆ—è¡¨ä¸­ä¸­çš„ç¼–è¯‘å™¨å®šä¹‰æ˜¯ä¸º AutoIt3Wrapper.exe ä½¿ç”¨çš„ï¼ŒåŒæ—¶ä¹Ÿå…¼å®¹ACNè®ºå›çš„ACNWrapper.exe.
-;** æ³¨é‡Šè¡Œä¸éœ€è¦æ‚¨åˆ é™¤ï¼Œè¿™æ˜¯ä¸€äº›æè¿°ä¿¡æ¯ï¼Œä¸ä¼šåˆ°æœ€ç»ˆçš„EXEä¸­.
+#Region AutoIt3Wrapper Ô¤±àÒë²ÎÊı(ÍêÕû²ÎÊı)
+;** Õâ¸öÁĞ±íÖĞÖĞµÄ±àÒëÆ÷¶¨ÒåÊÇÎª AutoIt3Wrapper.exe Ê¹ÓÃµÄ£¬Í¬Ê±Ò²¼æÈİACNÂÛÌ³µÄACNWrapper.exe.
+;** ×¢ÊÍĞĞ²»ĞèÒªÄúÉ¾³ı£¬ÕâÊÇÒ»Ğ©ÃèÊöĞÅÏ¢£¬²»»áµ½×îÖÕµÄEXEÖĞ.
 ;===============================================================================================================
-;** AUTOIT3 è®¾ç½®
-#AutoIt3Wrapper_UseX64=                         ;(Y/N) ä½¿ç”¨ X64 ç‰ˆæœ¬çš„ AutoIt3_x64/AUT2EXE_x64. é»˜è®¤=N
-#AutoIt3Wrapper_Run_Debug_Mode=                 ;(Y/N) è¿è¡Œè„šæœ¬äºæ§åˆ¶å›¾è°ƒè¯•. é»˜è®¤=N
+;** AUTOIT3 ÉèÖÃ
+#AutoIt3Wrapper_UseX64=                         ;(Y/N) Ê¹ÓÃ X64 °æ±¾µÄ AutoIt3_x64/AUT2EXE_x64. Ä¬ÈÏ=N
+#AutoIt3Wrapper_Run_Debug_Mode=                 ;(Y/N) ÔËĞĞ½Å±¾ÓÚ¿ØÖÆÍ¼µ÷ÊÔ. Ä¬ÈÏ=N
 #AutoIt3Wrapper_Run_SciTE_Minimized=            ;(Y/N) Minimize SciTE while script is running. Default=n
 #AutoIt3Wrapper_Run_SciTE_OutputPane_Minimized= ;(Y/N) Toggle SciTE output pane at run time so its not shown. Default=n
 ;===============================================================================================================
-;** AUT2EXE è®¾ç½®
-#AutoIt3Wrapper_Icon=                           ;éœ€è¦ä½¿ç”¨çš„å›¾æ ‡(è·¯å¾„)åç§°,æ”¯æŒEXE,DLL,ICO
-#AutoIt3Wrapper_OutFile=                        ;ç›®æ ‡ exe/a3x æ–‡ä»¶å.
-#AutoIt3Wrapper_OutFile_Type=exe                ;a3x=å°å‹ AutoIt3 æ–‡ä»¶; exe=æ ‡å‡†å¯æ‰§è¡Œæ–‡ä»¶(é»˜è®¤)
-#AutoIt3Wrapper_Compression=                    ;å‹ç¼©å‚æ•° 0-4 ?=ä½ 2=ä¸­ 4=é«˜ é»˜è®¤=2
-#AutoIt3Wrapper_UseUpx=                         ;(Y/N) å‹ç¼©è¾“å‡ºçš„ç¨‹åº.  é»˜è®¤=Y
+;** AUT2EXE ÉèÖÃ
+#AutoIt3Wrapper_Icon=                           ;ĞèÒªÊ¹ÓÃµÄÍ¼±ê(Â·¾¶)Ãû³Æ,Ö§³ÖEXE,DLL,ICO
+#AutoIt3Wrapper_OutFile=                        ;Ä¿±ê exe/a3x ÎÄ¼şÃû.
+#AutoIt3Wrapper_OutFile_Type=exe                ;a3x=Ğ¡ĞÍ AutoIt3 ÎÄ¼ş; exe=±ê×¼¿ÉÖ´ĞĞÎÄ¼ş(Ä¬ÈÏ)
+#AutoIt3Wrapper_Compression=                    ;Ñ¹Ëõ²ÎÊı 0-4 ?=µÍ 2=ÖĞ 4=¸ß Ä¬ÈÏ=2
+#AutoIt3Wrapper_UseUpx=                         ;(Y/N) Ñ¹ËõÊä³öµÄ³ÌĞò.  Ä¬ÈÏ=Y
 #AutoIt3Wrapper_UPX_Parameters=                 ;Override the default setting for UPX.
-#AutoIt3Wrapper_Change2CUI=                     ;(Y/N) ä¿®æ”¹è¾“å‡ºçš„ç¨‹åºä¸ºCUI(æ§åˆ¶å°ç¨‹åº). é»˜è®¤=N
+#AutoIt3Wrapper_Change2CUI=                     ;(Y/N) ĞŞ¸ÄÊä³öµÄ³ÌĞòÎªCUI(¿ØÖÆÌ¨³ÌĞò). Ä¬ÈÏ=N
 ;===============================================================================================================
-;** ç›®æ ‡ç¨‹åºèµ„æºä¿¡æ¯
-#AutoIt3Wrapper_Res_Comment=                    ;æ³¨é‡Š
-#AutoIt3Wrapper_Res_Description=                ;è¯¦ç»†ä¿¡æ¯
-#AutoIt3Wrapper_Res_Fileversion=                ;æ–‡ä»¶ç‰ˆæœ¬
-#AutoIt3Wrapper_Res_FileVersion_AutoIncrement=  ;(Y/N/P)è‡ªåŠ¨æ›´æ–°ç‰ˆæœ¬  . é»˜è®¤=N P=æç¤º
+;** Ä¿±ê³ÌĞò×ÊÔ´ĞÅÏ¢
+#AutoIt3Wrapper_Res_Comment=                    ;×¢ÊÍ
+#AutoIt3Wrapper_Res_Description=                ;ÏêÏ¸ĞÅÏ¢
+#AutoIt3Wrapper_Res_Fileversion=                ;ÎÄ¼ş°æ±¾
+#AutoIt3Wrapper_Res_FileVersion_AutoIncrement=  ;(Y/N/P)×Ô¶¯¸üĞÂ°æ±¾  . Ä¬ÈÏ=N P=ÌáÊ¾
 #AutoIt3Wrapper_Res_ProductVersion=             ;Product Version. Default is the AutoIt3 version used.
-#AutoIt3Wrapper_Res_Language=                   ;èµ„æºè¯­è¨€ä»£ç . å®˜æ–¹é»˜è®¤ 2057=è‹±è¯­ (è‹±å›½),ACNç‰ˆæœ¬é»˜è®¤ 2052=ç®€ä½“ä¸­æ–‡(ä¸­å›½)
-#AutoIt3Wrapper_Res_LegalCopyright=             ;ç‰ˆæƒ
-#AutoIt3Wrapper_res_requestedExecutionLevel=    ;None, asInvoker, highestAvailable or requireAdministrator   (é»˜è®¤=None)
+#AutoIt3Wrapper_Res_Language=                   ;×ÊÔ´ÓïÑÔ´úÂë. ¹Ù·½Ä¬ÈÏ 2057=Ó¢Óï (Ó¢¹ú),ACN°æ±¾Ä¬ÈÏ 2052=¼òÌåÖĞÎÄ(ÖĞ¹ú)
+#AutoIt3Wrapper_Res_LegalCopyright=             ;°æÈ¨
+#AutoIt3Wrapper_res_requestedExecutionLevel=    ;None, asInvoker, highestAvailable or requireAdministrator   (Ä¬ÈÏ=None)
 #AutoIt3Wrapper_res_Compatibility=    		;Vista,Windows7 . Both alloweed seperated by a comma     (default=None)
-#AutoIt3Wrapper_Res_SaveSource=                 ;(Y/N) ä¿æŒæºä»£ç å¤‡ä»½åˆ°EXEèµ„æºä¸­. é»˜è®¤=N
+#AutoIt3Wrapper_Res_SaveSource=                 ;(Y/N) ±£³ÖÔ´´úÂë±¸·İµ½EXE×ÊÔ´ÖĞ. Ä¬ÈÏ=N
 ; If _Res_SaveSource=Y the content of Scriptsource depends on the _Run_Obfuscator and #obfuscator_parameters directives:
 ;
 ;	 If _Run_Obfuscator=Y then
@@ -81,9 +81,9 @@
 ;===============================================================================================================
 ; RUN BEFORE AND AFTER definitions
 ; The following directives can contain: these variables
-; Â Â %in% , %out%, %icon% which will be replaced by the fullpath\filename.
-; Â Â %scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
-; Â Â %fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
+; 0„20„2%in% , %out%, %icon% which will be replaced by the fullpath\filename.
+; 0„20„2%scriptdir% same as @ScriptDir and %scriptfile% = filename without extension.
+; 0„20„2%fileversion% is the information from the #AutoIt3Wrapper_Res_Fileversion directive
 ;   %scitedir% will be replaced by the SciTE program directory
 ;   %autoitdir% will be replaced by the AutoIt3 program directory
 #AutoIt3Wrapper_Run_Before=                     ;process to run before compilation - you can have multiple records that will be processed in sequence
@@ -93,14 +93,14 @@
 #AutoIt3Wrapper_Add_Constants=                  ;Add the needed standard constant include files. Will only run one time.
 #EndRegion
 
-#cs ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿
+#cs £ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß
 
- AU3 ç‰ˆæœ¬: 
- è„šæœ¬ä½œè€…: 
+ AU3 °æ±¾: 
+ ½Å±¾×÷Õß: 
 	Email: 
 	QQ/TM: 
- è„šæœ¬ç‰ˆæœ¬: 
- è„šæœ¬åŠŸèƒ½: 
+ ½Å±¾°æ±¾: 
+ ½Å±¾¹¦ÄÜ: 
 
-#ce ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿è„šæœ¬å¼€å§‹ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿
+#ce £ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß½Å±¾¿ªÊ¼£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß
 

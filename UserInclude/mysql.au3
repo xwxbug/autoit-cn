@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #cs
 	Function Name:    _MySQLConnect
@@ -14,7 +14,7 @@
 	@Error = 2
 	MySQL ODBC Driver not installed.
 	Author(s):        cdkid
-	è¯´æ˜:éœ€è¦å®‰è£…MYsqlçš„ODBCé©±åŠ¨,ä¸‹è½½åœ°å€:
+	ËµÃ÷:ĞèÒª°²×°MYsqlµÄODBCÇı¶¯,ÏÂÔØµØÖ·:
 	http://dev.mysql.com/downloads/connector/odbc/3.51.html
 #ce
 
