@@ -1,6 +1,6 @@
-Ôªø#include <Color.au3>
+#include <Color.au3>
 
 $nColor = 0x8090ff
 
 $aColor = _ColorGetRGB( $nColor )
-MsgBox( 4096, "AutoIt", "È¢úËâ≤‰∏∫=" & Hex($nColor) & @CRLF & " Á∫¢=" & Hex($aColor[0],2) & " Áªø=" & Hex($aColor[1],2) & " Ëìù=" & Hex($aColor[2],2))
+MsgBox( 4096, "AutoIt", "—’…´Œ™=" & Hex($nColor) & @CRLF & " ∫Ï=" & Hex($aColor[0],2) & " ¬Ã=" & Hex($aColor[1],2) & " ¿∂=" & Hex($aColor[2],2))

@@ -1,7 +1,7 @@
-Ôªø#include <Color.au3>
+#include <Color.au3>
 
 Dim $aColor[3] = [0x80, 0x90, 0xff]
 
 $nColor = _ColorSetRGB( $aColor )
-MsgBox( 4096, "AutoIt", " Á∫¢=" & Hex($aColor[0],2) & " Áªø=" & Hex($aColor[1],2) & " Ëìù=" & Hex($aColor[2],2) & @CRLF & _
-				"È¢úËâ≤=" & Hex($nColor))
+MsgBox( 4096, "AutoIt", " ∫Ï=" & Hex($aColor[0],2) & " ¬Ã=" & Hex($aColor[1],2) & " ¿∂=" & Hex($aColor[2],2) & @CRLF & _
+				"—’…´=" & Hex($nColor))

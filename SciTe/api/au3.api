@@ -282,7 +282,7 @@ DllCallbackGetPtr ( handle ) Returns the pointer to a callback function that can
 DllCallbackRegister ( "function", "return type", "params" ) Creates a user-defined DLL Callback function.
 DllClose ( dllhandle ) Closes a previously opened DLL.
 DllOpen ( "filename" ) Opens a DLL file for use in DllCall.
-DllStructCreate ( "Struct" [,Pointer] ) Creates a C/C++ style structure to be used in DllCall.
+DllStructCreate ( Struct [,Pointer] ) Creates a C/C++ style structure to be used in DllCall.
 DllStructGetData ( Struct, Element [, index ] ) Returns the data of an element of the struct.
 DllStructGetPtr ( Struct [,Element]) Returns the pointer to the struct or an element in the struct.
 DllStructGetSize ( Struct ) Returns the size of the struct in bytes.

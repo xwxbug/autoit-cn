@@ -82,7 +82,8 @@ Func _Security__GetAccountSid($sAccount, $sSystem = "")
 	Local $aAcct = _Security__LookupAccountName($sAccount, $sSystem)
 	If @error Then Return SetError(@error, 0, 0)
 
-	Return _Security__StringSidToSid($aAcct[0])
+	If IsArray($aAcct) Then Return _Security__StringSidToSid($aAcct[0])
+	Return ''
 EndFunc   ;==>_Security__GetAccountSid
 
 ; #FUNCTION# ====================================================================================================================

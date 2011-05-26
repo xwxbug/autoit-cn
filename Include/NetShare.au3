@@ -181,7 +181,7 @@ Global Const $tagSHARE_INFO_2 = "ptr NetName;dword Type;ptr Remark;dword Permiss
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagSTAT_SERVER_0 = "dword Start;dword FOpens;dword DevOpens;dword JobsQueued;dword SOpens;dword STimedOut;dword SErrorOut;" & _
+Global Const $tagSTAT_SERVER_0 = "align 4;dword Start;dword FOpens;dword DevOpens;dword JobsQueued;dword SOpens;dword STimedOut;dword SErrorOut;" & _
 		"dword PWErrors;dword PermErrors;dword SysErrors;uint64 ByteSent;uint64 ByteRecv;dword AvResponse;dword ReqBufNeed;dword BigBufNeed"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -708,7 +708,7 @@ EndFunc   ;==>_Net_Share_SessionGetInfo
 ;                  $sComment    - String that contains an optional comment about the shared resource
 ;                  +this is the name of the print queue being shared.
 ;                  $iMaxUses    - The maximum number of concurrent connections that the  shared  resource  can  accommodate.  The
-;                  +number of connections is unlimited if the value specified is ¨C1.
+;                  +number of connections is unlimited if the value specified is –1.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
@@ -945,7 +945,7 @@ EndFunc   ;==>_Net_Share_ShareGetInfo
 ;                  $sShare   - Specifies the name of the share to set information on
 ;                  $sComment - String that contains an optional comment about the shared resource
 ;                  $iMaxUses - Indicates the maximum number of connections that the  resource  can  accommodate.  The  number  of
-;                  +connections is unlimited if this value is ¨C1.
+;                  +connections is unlimited if this value is –1.
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)

@@ -55,7 +55,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 
 	$tInfo = DllStructCreate($tagNMTTDISPINFO, $ilParam)
 	$iCode = DllStructGetData($tInfo, "Code")
-	If $iCode = $TTN_GETDISPINFO Then
+	If $iCode = $TTN_GETDISPINFOW Then
 		$iID = DllStructGetData($tInfo, "IDFrom")
 		Switch $iID
 			Case $idNew

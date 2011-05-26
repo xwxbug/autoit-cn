@@ -63,7 +63,9 @@ function AutoHScroll:SetWidth(pane)
 			line = line_temp
 		end
 	end
-
+	if line ~= nil then
+		return -1
+	end
 	-- Test if the line number has changed compared to the cached line.
 	if self.cache[pane] ~= line then
 		-- Display debug diagnostics about the change.  The offset + 1 is due

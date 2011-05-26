@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "MenuConstants.au3"
 #include "WinAPI.au3"
@@ -106,11 +106,7 @@ Global Const $__MENUCONSTANT_OBJID_CLIENT = 0xFFFFFFFC
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;$tagMENUBARINFO
 ;$tagMDINEXTMENU
-;$tagMENUEX_TEMPLATE_HEADER
-;$tagMENUEX_TEMPLATE_ITEM
 ;$tagMENUGETOBJECTINFO
-;$tagMENUITEMTEMPLATE
-;$tagMENUITEMTEMPLATEHEADER
 ;$tagTPMPARAMS
 ; ===============================================================================================================================
 
@@ -143,40 +139,6 @@ Global Const $tagMENUBARINFO = "dword Size;" & $tagRECT & ";handle hMenu;handle 
 Global Const $tagMDINEXTMENU = "handle hMenuIn;handle hMenuNext;hwnd hWndNext"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUEX_TEMPLATE_HEADER
-; Description ...: tagMENUEX_TEMPLATE_HEADER structure
-; Fields ........: Version - Template version number. This member must be 1 for extended menu templates.
-;                  Offset  - Offset of the first tagMENUEX_TEMPLATE_ITEM structure, relative to the end of this structure member.
-;                  +If the first item definition immediately follows the HelpId member, this member should be 4.
-;                  HelpID  - Help identifier of menu bar
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUEX_TEMPLATE_HEADER = "word Version;word Offset;dword HelpID"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUEX_TEMPLATE_ITEM
-; Description ...: tagMENUEX_TEMPLATE_ITEM structure
-; Fields ........: HelpID  - Help identifier for a drop down menu or submenu.  This member, which is included only for items that
-;                  +open drop down menus or submenus, is located at the first dword boundary following the variable  length  Text
-;                  +member.
-;                  Type    - Menu item type
-;                  State   - Menu item state
-;                  MenuID  - Menu item identifier
-;                  ResInfo - Value specifying whether the menu item is the last item in the menu bar, drop down menu, submenu, or
-;                  +shortcut menu and whether it is an item that opens a drop down menu or submenu.  This member can be  zero  or
-;                  +more of these values:
-;                  |0x0001 - The structure defines a item that opens a drop down menu or submenu.  Subsequent  structures  define
-;                  +menu items in the corresponding drop down menu or submenu.
-;                  |0x0080 - The structure defines the last menu item
-;                  Text    - Menu item text. This is a null terminated Unicode string aligned on a word boundary. The size of the
-;                  +menu item definition varies depending on the length of this string.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUEX_TEMPLATE_ITEM = "dword HelpID;dword Type;dword State;dword MenuID;word ResInfo;ptr Text"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMENUGETOBJECTINFO
 ; Description ...: tagMENUGETOBJECTINFO structure
 ; Fields ........: Flags - Position of the mouse cursor with respect to the item indicated by Pos. It can be one of the following
@@ -194,36 +156,6 @@ Global Const $tagMENUEX_TEMPLATE_ITEM = "dword HelpID;dword Type;dword State;dwo
 ;                  $MNS_DRAGDROP set
 ; ===============================================================================================================================
 Global Const $tagMENUGETOBJECTINFO = "dword Flags;uint Pos;handle hMenu;ptr RIID;ptr Obj"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUITEMTEMPLATE
-; Description ...: tagMENUITEMTEMPLATE structure
-; Fields ........: Option - Specifies one or more of the following predefined menu options that control  the  appearance  of  the
-;                  +menu item:
-;                  |$MF_CHECKED      - Indicates that the menu item has a check mark next to it
-;                  |$MF_GRAYED       - Indicates that the menu item is initially inactive and drawn with a gray effect
-;                  |$MF_HELP         - Indicates that the menu item has a vertical separator to its left
-;                  |$MF_MENUBARBREAK - Indicates that the menu item is placed in a new column, separated by a bar
-;                  |$MF_MENUBREAK    - Indicates that the menu item is placed in a new column
-;                  |$MF_OWNERDRAW    - Indicates that the menu item is owner drawn
-;                  |$MF_POPUP        - Indicates that the item is one that opens a drop down menu or submenu
-;                  ID     - Specifies the menu item identifier
-;                  String - Specifies the null terminated string for the menu item
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUITEMTEMPLATE = "word Option;word ID;ptr String"
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagMENUITEMTEMPLATEHEADER
-; Description ...: tagMENUITEMTEMPLATEHEADER structure
-; Fields ........: Version - Specifies the version number. This member must be zero.
-;                  Offset  - Specifies the offset in bytes from the end of the header.  The menu item list begins at this offset.
-;                  +Usually, this member is zero, and the menu item list follows immediately after the header.
-; Author ........: Paul Campbell (PaulIA)
-; Remarks .......:
-; ===============================================================================================================================
-Global Const $tagMENUITEMTEMPLATEHEADER = "word Version;word Offset"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagTPMPARAMS

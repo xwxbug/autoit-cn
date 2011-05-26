@@ -114,7 +114,7 @@
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagPOINT = "long X;long Y"
+Global Const $tagPOINT = "struct;long X;long Y;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagRECT
@@ -126,7 +126,7 @@ Global Const $tagPOINT = "long X;long Y"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagRECT = "long Left;long Top;long Right;long Bottom"
+Global Const $tagRECT = "struct;long Left;long Top;long Right;long Bottom;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagSIZE
@@ -136,7 +136,7 @@ Global Const $tagRECT = "long Left;long Top;long Right;long Bottom"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagSIZE = "long X;long Y"
+Global Const $tagSIZE = "struct;long X;long Y;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMARGINS
@@ -162,7 +162,7 @@ Global Const $tagMARGINS = "int cxLeftWidth;int cxRightWidth;int cyTopHeight;int
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagFILETIME = "dword Lo;dword Hi"
+Global Const $tagFILETIME = "struct;dword Lo;dword Hi;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagSYSTEMTIME
@@ -178,7 +178,7 @@ Global Const $tagFILETIME = "dword Lo;dword Hi"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagSYSTEMTIME = "word Year;word Month;word Dow;word Day;word Hour;word Minute;word Second;word MSeconds"
+Global Const $tagSYSTEMTIME = "struct;word Year;word Month;word Dow;word Day;word Hour;word Minute;word Second;word MSeconds;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTIME_ZONE_INFORMATION
@@ -195,7 +195,7 @@ Global Const $tagSYSTEMTIME = "word Year;word Month;word Dow;word Day;word Hour;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTIME_ZONE_INFORMATION = "long Bias;wchar StdName[32];word StdDate[8];long StdBias;wchar DayName[32];word DayDate[8];long DayBias"
+Global Const $tagTIME_ZONE_INFORMATION = "struct;long Bias;wchar StdName[32];word StdDate[8];long StdBias;wchar DayName[32];word DayDate[8];long DayBias;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMHDR
@@ -206,7 +206,7 @@ Global Const $tagTIME_ZONE_INFORMATION = "long Bias;wchar StdName[32];word StdDa
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMHDR = "hwnd hWndFrom;uint_ptr IDFrom;INT Code"
+Global Const $tagNMHDR = "struct;hwnd hWndFrom;uint_ptr IDFrom;INT Code;endstruct"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -246,9 +246,10 @@ Global Const $tagCOMBOBOXEXITEM = "uint Mask;int_ptr Item;ptr Text;int TextMax;i
 ;                  +indicating that the item being dragged is the item displayed in the edit portion of the control.
 ;                  szText                 - The character buffer that contains the text of the item being dragged
 ; Author ........: Gary Frost (gafrost)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;ptr szText"
+Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;wchar szText[260]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMCBEENDEDIT
@@ -265,9 +266,10 @@ Global Const $tagNMCBEDRAGBEGIN = $tagNMHDR & ";int ItemID;ptr szText"
 ;                  |$CBENF_KILLFOCUS     - The edit box lost the keyboard focus
 ;                  |$CBENF_RETURN        - The user completed the edit operation by pressing ENTER
 ; Author ........: Gary Frost (gafrost)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";bool fChanged;int NewSelection;ptr szText;int Why"
+Global Const $tagNMCBEENDEDIT = $tagNMHDR & ";bool fChanged;int NewSelection;wchar szText[260];int Why"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMCOMBOBOXEX
@@ -388,7 +390,7 @@ Global Const $tagNMDATETIMEFORMAT = $tagNMHDR & ";ptr Format;" & $tagSYSTEMTIME 
 ;                  receives the maximum allowable size of the text that will be displayed in the callback field. This structure
 ;                  is used with the $DTN_FORMATQUERY notification message.
 ; ===============================================================================================================================
-Global Const $tagNMDATETIMEFORMATQUERY = $tagNMHDR & ";ptr Format;long SizeX;long SizeY"
+Global Const $tagNMDATETIMEFORMATQUERY = $tagNMHDR & ";ptr Format;struct;long SizeX;long SizeY;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMDATETIMEKEYDOWN
@@ -492,7 +494,7 @@ Global Const $tagGDIPBITMAPDATA = "uint Width;uint Height;int Stride;int Format;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPENCODERPARAM = "byte GUID[16];dword Count;dword Type;ptr Values"
+Global Const $tagGDIPENCODERPARAM = "byte GUID[16];ulong Count;ulong Type;ptr Values"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPENCODERPARAMS
@@ -500,9 +502,10 @@ Global Const $tagGDIPENCODERPARAM = "byte GUID[16];dword Count;dword Type;ptr Va
 ; Fields ........: Count  - Number of $tagGDIPENCODERPARAM structures in the array
 ;                  Params - Start of $tagGDIPENCODERPARAM structures
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPENCODERPARAMS = "dword Count;byte Params[0]"
+Global Const $tagGDIPENCODERPARAMS = "uint Count;byte Params[1]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPRECTF
@@ -573,9 +576,10 @@ Global Const $tagGDIPIMAGECODECINFO = "byte CLSID[16];byte FormatID[16];ptr Code
 ; Fields ........: Count  - Number of tagGDIPENCODERPARAM structures in the array
 ;                  Params - Start of tagGDIPENCODERPARAM structures
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPPENCODERPARAMS = "dword Count;byte Params[0]"
+Global Const $tagGDIPPENCODERPARAMS = "uint Count;byte Params[1]"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -725,7 +729,7 @@ Global Const $tagNMIPADDRESS = $tagNMHDR & ";int Field;int Value"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVFINDINFO = "uint Flags;ptr Text;lparam Param;" & $tagPOINT & ";uint Direction"
+Global Const $tagLVFINDINFO = "struct;uint Flags;ptr Text;lparam Param;" & $tagPOINT & ";uint Direction;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagLVHITTESTINFO
@@ -744,16 +748,19 @@ Global Const $tagLVFINDINFO = "uint Flags;ptr Text;lparam Param;" & $tagPOINT & 
 ;                  Item    - Receives the index of the matching item. Or if hit-testing a subitem,  this  value  represents  the
 ;                  +subitem's parent item.
 ;                  SubItem - Receives the index of the matching subitem. When hit-testing an item, this member will be zero.
+;                  iGroup  - Group index of the item hit (read only). Valid only for owner data. If the point is within an item that is displayed in multiple groups then iGroup will specify the group index of the item.
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVHITTESTINFO = $tagPOINT & ";uint Flags;int Item;int SubItem"
+Global Const $tagLVHITTESTINFO = $tagPOINT & ";uint Flags;int Item;int SubItem;int iGroup"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagLVITEM
 ; Description ...: Specifies or receives the attributes of a list-view item
 ; Fields ........: Mask      - Set of flags that specify which members of this structure contain data to be set or which members
 ;                  +are being requested. This member can have one or more of the following flags set:
+;				   |$LVIF_COLFMT Microsoft Windows Vista and later. The piColFmt member is valid or must be set. If this flag is used, the cColumns member is valid or must be set.
 ;                  |$LVIF_COLUMNS     - The Columns member is valid
 ;                  |$LVIF_DI_SETITEM  - The operating system should store the requested list item information
 ;                  |$LVIF_GROUPID     - The GroupID member is valid
@@ -775,11 +782,14 @@ Global Const $tagLVHITTESTINFO = $tagPOINT & ";uint Flags;int Item;int SubItem"
 ;                  GroupID   - Identifier of the tile view group that receives the item
 ;                  Columns   - Number of tile view columns to display for this item
 ;                  pColumns  - Pointer to the array of column indices
+;                  piColFmt  - A pointer to an array of the following flags (alone or in combination, specifying the format of each subitem in extended tile view (Windows 7 and later).
+;                  iGroup    - Group index of the item. Valid only for owner data/callback (single item in multiple groups).
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVITEM = "uint Mask;int Item;int SubItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;lparam Param;" & _
-		"int Indent;int GroupID;uint Columns;ptr pColumns"
+Global Const $tagLVITEM = "struct;uint Mask;int Item;int SubItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;lparam Param;" & _
+		"int Indent;int GroupID;uint Columns;ptr pColumns;ptr piColFmt;int iGroup;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLISTVIEW
@@ -797,7 +807,7 @@ Global Const $tagLVITEM = "uint Mask;int Item;int SubItem;uint State;uint StateM
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMLISTVIEW = $tagNMHDR & ";int Item;int SubItem;uint NewState;uint OldState;uint Changed;" & _
-		"long ActionX;long ActionY;lparam Param"
+		"struct;long ActionX;long ActionY;endstruct;lparam Param"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVCUSTOMDRAW
@@ -863,10 +873,10 @@ Global Const $tagNMLISTVIEW = $tagNMHDR & ";int Item;int SubItem;uint NewState;u
 ; Author ........: Gary Frost
 ; Remarks .......: $LVxxx_ constants require ListViewConstants.au3, $CDxx_ constants require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagNMLVCUSTOMDRAW = $tagNMHDR & ";dword dwDrawStage;handle hdc;long Left;long Top;long Right;long Bottom;" & _
-		"dword_ptr dwItemSpec;uint uItemState;lparam lItemlParam" & _
+Global Const $tagNMLVCUSTOMDRAW = "struct;" & $tagNMHDR & ";dword dwDrawStage;handle hdc;" & $tagRECT & _
+		";dword_ptr dwItemSpec;uint uItemState;lparam lItemlParam;endstruct" & _
 		";dword clrText;dword clrTextBk;int iSubItem;dword dwItemType;dword clrFace;int iIconEffect;" & _
-		"int iIconPhase;int iPartId;int iStateId;long TextLeft;long TextTop;long TextRight;long TextBottom;uint uAlign"
+		"int iIconPhase;int iPartId;int iStateId;struct;long TextLeft;long TextTop;long TextRight;long TextBottom;endstruct;uint uAlign"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVDISPINFO
@@ -932,12 +942,13 @@ Global Const $tagNMLVDISPINFO = $tagNMHDR & ";" & $tagLVITEM
 ;                  |VK_NEXT
 ;                  |This member is valid only if $LVFI_NEARESTXY is set in the flags member.
 ; Author ........: Gary Frost (gafrost)
+; Modified ......: jpm
 ; Remarks .......: This notification gives an application (or the notification receiver) the opportunity to customize an incremental search.
 ;                  For example, if the search items are numeric, the application can perform a numerical search instead of a string search.
 ;                  The application sets the Param member to the result of the search, or to another application defined value to fail the
 ;                  search and indicate to the control how to proceed
 ; ===============================================================================================================================
-Global Const $tagNMLVFINDITEM = $tagNMHDR & ";" & $tagLVFINDINFO
+Global Const $tagNMLVFINDITEM = $tagNMHDR & ";int Start;" & $tagLVFINDINFO
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVGETINFOTIP
@@ -1006,7 +1017,7 @@ Global Const $tagNMITEMACTIVATE = $tagNMHDR & ";int Index;int SubItem;uint NewSt
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMLVKEYDOWN = $tagNMHDR & ";align 1;word VKey;uint Flags"
+Global Const $tagNMLVKEYDOWN = "align 1;" & $tagNMHDR & ";word VKey;uint Flags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVSCROLL
@@ -1051,10 +1062,16 @@ Global Const $tagNMLVSCROLL = $tagNMHDR & ";int DX;int DY"
 ;                  Minute   - Minute
 ;                  Second   - Seconds
 ;                  MSeconds - Milliseconds
+;                  $tagRECT - The RECT of the hit-tested location.
+;                  iOffset  - When displaying more than one calendar, this is the offset of the calendar at the hit-tested point (zero-based).
+;                  iRow     - The row number for the calendar grid that the given hit point was over.
+;                  iCol     - The column number for the calendar grid that the given point was over.
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagMCHITTESTINFO = "uint Size;" & $tagPOINT & ";uint Hit;" & $tagSYSTEMTIME
+Global Const $tagMCHITTESTINFO = "uint Size;" & $tagPOINT & ";uint Hit;" & $tagSYSTEMTIME & _
+		";" & $tagRECT & ";int iOffset;int iRow;int iCol"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagMCMONTHRANGE
@@ -1182,9 +1199,9 @@ Global Const $tagNMDAYSTATE = $tagNMHDR & ";" & $tagSYSTEMTIME & ";int DayState;
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMSELCHANGE = $tagNMHDR & ";word BegYear;word BegMonth;word BegDOW;word BegDay;" & _
-		"word BegHour;word BegMinute;word BegSecond;word BegMSeconds;word EndYear;word EndMonth;word EndDOW;" & _
-		"word EndDay;word EndHour;word EndMinute;word EndSecond;word EndMSeconds"
+Global Const $tagNMSELCHANGE = $tagNMHDR & _
+		";struct;word BegYear;word BegMonth;word BegDOW;word BegDay;word BegHour;word BegMinute;word BegSecond;word BegMSeconds;endstruct;" & _
+		"struct;word EndYear;word EndMonth;word EndDOW;word EndDay;word EndHour;word EndMinute;word EndSecond;word EndMSeconds;endstruct"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1200,10 +1217,12 @@ Global Const $tagNMSELCHANGE = $tagNMHDR & ";word BegYear;word BegMonth;word Beg
 ;                  pObject  - A pointer to an object provided by the window processing the notification message
 ;                  +The application processing the notification message sets this member
 ;                  Result   - COM success or failure flags. The application processing the notification message sets this member
+;                  dwFlags  - control specific flags (hints as to where in iItem it hit)
 ; Author ........: Gary Frost (gafrost)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;long Result"
+Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;long Result;dword dwFlags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTCKEYDOWN
@@ -1223,7 +1242,7 @@ Global Const $tagNMOBJECTNOTIFY = $tagNMHDR & ";int Item;ptr piid;ptr pObject;lo
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";word VKey;uint Flags"
+Global Const $tagNMTCKEYDOWN = "align 1;" & $tagNMHDR & ";word VKey;uint Flags"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1239,8 +1258,8 @@ Global Const $tagNMTCKEYDOWN = $tagNMHDR & ";word VKey;uint Flags"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTVITEM = "uint Mask;handle hItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" & _
-		"int Children;lparam Param"
+Global Const $tagTVITEM = "struct;uint Mask;handle hItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" & _
+		"int Children;lparam Param;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTVITEMEX
@@ -1274,10 +1293,19 @@ Global Const $tagTVITEM = "uint Mask;handle hItem;uint State;uint StateMask;ptr 
 ;                  |1 - The item has one or more child items
 ;                  Param         - A value to associate with the item
 ;                  Integral      - Height of the item
+;                  uStateEx      - One or more (as a bitwise combination) of the following extended states.
+;                                  Value Meaning:
+;									TVIS_EX_DISABLED Windows Vista and later. Creates a control that is drawn in grey, that the user cannot interact with.
+;									TVIS_EX_FLAT Creates a flat item—the item is virtual and is not visible in the tree; instead, its children take its place in the tree hierarchy.
+;									TVIS_EX_HWND Creates a separate HWND for the item.
+;                  hwnd          - Not used; must be NULL.
+;                  iExpandedImage- Index of the image in the control's image list to display when the item is in the expanded state.
+;                  iReserved     - Reserved member. Do not use.
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTVITEMEX = $tagTVITEM & ";int Integral"
+Global Const $tagTVITEMEX = "struct;" & $tagTVITEM & ";int Integral;uint uStateEx;hwnd hwnd;int iExpandedImage;int iReserved;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTREEVIEW
@@ -1309,10 +1337,12 @@ Global Const $tagTVITEMEX = $tagTVITEM & ";int Integral"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTREEVIEW = $tagNMHDR & ";uint Action;uint OldMask;handle OldhItem;uint OldState;uint OldStateMask;" & _
-		"ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;lparam OldParam;uint NewMask;handle NewhItem;" & _
-		"uint NewState;uint NewStateMask;ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;" & _
-		"lparam NewParam;long PointX;long PointY"
+Global Const $tagNMTREEVIEW = $tagNMHDR & ";uint Action;" & _
+		"struct;uint OldMask;handle OldhItem;uint OldState;uint OldStateMask;" & _
+		"ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;lparam OldParam;endstruct;" & _
+		"struct;uint NewMask;handle NewhItem;uint NewState;uint NewStateMask;" & _
+		"ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;lparam NewParam;endstruct;" & _
+		"struct;long PointX;long PointY;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVCUSTOMDRAW
@@ -1355,8 +1385,9 @@ Global Const $tagNMTREEVIEW = $tagNMHDR & ";uint Action;uint OldMask;handle Oldh
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......: $CDxx_ constants require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagNMTVCUSTOMDRAW = $tagNMHDR & ";dword DrawStage;handle HDC;long Left;long Top;long Right;long Bottom;" & _
-		"dword_ptr ItemSpec;uint ItemState;lparam ItemParam;dword ClrText;dword ClrTextBk;int Level"
+Global Const $tagNMTVCUSTOMDRAW = "struct;" & $tagNMHDR & ";dword DrawStage;handle HDC;" & $tagRECT & _
+		";dword_ptr ItemSpec;uint ItemState;lparam ItemParam;endstruct" & _
+		";dword ClrText;dword ClrTextBk;int Level"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMTVDISPINFO
@@ -1437,7 +1468,7 @@ Global Const $tagTVHITTESTINFO = $tagPOINT & ";uint Flags;handle Item"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMTVKEYDOWN = $tagNMHDR & ";word VKey;uint Flags"
+Global Const $tagNMTVKEYDOWN = "align 1;" & $tagNMHDR & ";word VKey;uint Flags"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1472,7 +1503,7 @@ Global Const $tagNMMOUSE = $tagNMHDR & ";dword_ptr ItemSpec;dword_ptr ItemData;"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTOKEN_PRIVILEGES = "dword Count;int64 LUID;dword Attributes"
+Global Const $tagTOKEN_PRIVILEGES = "dword Count;align 4;int64 LUID;dword Attributes"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1636,13 +1667,16 @@ Global Const $tagMENUITEMINFO = "uint Size;uint Mask;uint Type;uint State;uint I
 ;                  cxHeader   - Version 4.71. Size of the band's header, in pixels.
 ;                  |The band header is the area between the edge of the band and the edge of the child window.
 ;                  |This is the area where band text and images are displayed, if they are specified.
-;                  |If this value is specified, it will override the normal header dimensions that the control calculates for the band.
+;                  |If this value is specified, it will override the normal header dimensions that the control caculates for the band.
+;				   $tagRECT   - Version 6. Location of the chevron.
+;                  uChevronState - Version 6. A combination of the Object State Constants.
 ; Author ........: Gary Frost
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagREBARBANDINFO = "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" & _
 		"int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" & _
-		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader"
+		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader;" & $tagRECT & ";uint uChevronState"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARAUTOBREAK
@@ -1675,8 +1709,9 @@ Global Const $tagNMREBARAUTOBREAK = $tagNMHDR & ";uint uBand;uint wID;lparam lPa
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMRBAUTOSIZE = $tagNMHDR & ";bool fChanged;long TargetLeft;long TargetTop;long TargetRight;long TargetBottom;" & _
-		"long ActualLeft;long ActualTop;long ActualRight;long ActualBottom"
+Global Const $tagNMRBAUTOSIZE = $tagNMHDR & ";bool fChanged;" & _
+		"struct;long TargetLeft;long TargetTop;long TargetRight;long TargetBottom;endstruct;" & _
+		"struct;long ActualLeft;long ActualTop;long ActualRight;long ActualBottom;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBAR
@@ -1736,8 +1771,9 @@ Global Const $tagNMREBARCHEVRON = $tagNMHDR & ";uint uBand;uint wID;lparam lPara
 ; Author ........: Gary Frost
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;long CLeft;long CTop;long CRight;long CBottom;" & _
-		"long BLeft;long BTop;long BRight;long BBottom"
+Global Const $tagNMREBARCHILDSIZE = $tagNMHDR & ";uint uBand;uint wID;" & _
+		"struct;long CLeft;long CTop;long CRight;long CBottom;endstruct;" & _
+		"struct;long BLeft;long BTop;long BRight;long BBottom;endstruct"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************
@@ -1767,8 +1803,6 @@ Global Const $tagCOLORSCHEME = "dword Size;dword BtnHighlight;dword BtnShadow"
 ;                  idCommand - Command identifier associated with the button. This identifier is used in a WM_COMMAND message when the button is chosen
 ;                  fsState   - Button state flags. This member can be a combination of the values listed in Toolbar Button States
 ;                  fsStyle   - Button style. This member can be a combination of the button style values listed in Toolbar Control and Button Styles
-;				   bReserved1	- Reserved.  Do not use.
-;				   bReserved2	- Reserved.  Do not use.
 ;                  dwData    - Application-defined value
 ;                  iString   - Zero-based index of the button string, or a pointer to a string buffer that contains text for the button
 ;                  cchText  - Count of characters in the button text
@@ -1781,7 +1815,7 @@ Global Const $tagCOLORSCHEME = "dword Size;dword BtnHighlight;dword BtnShadow"
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMTOOLBAR = $tagNMHDR & ";int iItem;" & _
-		"int iBitmap;int idCommand;byte fsState;byte fsStyle;align;dword_ptr dwData;int_ptr iString" & _
+		"struct;int iBitmap;int idCommand;byte fsState;byte fsStyle;dword_ptr dwData;int_ptr iString;endstruct" & _
 		";int cchText;ptr pszText;" & $tagRECT
 
 ; #STRUCTURE# ===================================================================================================================
@@ -1922,7 +1956,7 @@ Global Const $tagNETRESOURCE = "dword Scope;dword Type;dword DisplayType;dword U
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagOVERLAPPED = "ulong_ptr Internal;ulong_ptr InternalHigh;dword Offset;dword OffsetHigh;handle hEvent"
+Global Const $tagOVERLAPPED = "ulong_ptr Internal;ulong_ptr InternalHigh;struct;dword Offset;dword OffsetHigh;endstruct;handle hEvent"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagOPENFILENAME
@@ -2085,8 +2119,8 @@ Global Const $tagOPENFILENAME = "dword StructSize;hwnd hwndOwner;handle hInstanc
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagBITMAPINFO = "dword Size;long Width;long Height;word Planes;word BitCount;dword Compression;dword SizeImage;" & _
-		"long XPelsPerMeter;long YPelsPerMeter;dword ClrUsed;dword ClrImportant;dword RGBQuad"
+Global Const $tagBITMAPINFO = "struct;dword Size;long Width;long Height;word Planes;word BitCount;dword Compression;dword SizeImage;" & _
+		"long XPelsPerMeter;long YPelsPerMeter;dword ClrUsed;dword ClrImportant;endstruct;dword RGBQuad"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagBLENDFUNCTION
@@ -2115,7 +2149,7 @@ Global Const $tagBLENDFUNCTION = "byte Op;byte Flags;byte Alpha;byte Format"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGUID = "dword Data1;word Data2;word Data3;byte Data4[8]"
+Global Const $tagGUID = "ulong Data1;ushort Data2;ushort Data3;byte Data4[8]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagWINDOWPLACEMENT
@@ -2152,7 +2186,7 @@ Global Const $tagGUID = "dword Data1;word Data2;word Data3;byte Data4[8]"
 ; Author ........: PsaltyDS
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWINDOWPLACEMENT = "uint length; uint flags;uint showCmd;long ptMinPosition[2];long ptMaxPosition[2];long rcNormalPosition[4]"
+Global Const $tagWINDOWPLACEMENT = "uint length;uint flags;uint showCmd;long ptMinPosition[2];long ptMaxPosition[2];long rcNormalPosition[4]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagWINDOWPOS
@@ -2204,7 +2238,7 @@ Global Const $tagWINDOWPOS = "hwnd hWnd;hwnd InsertAfter;int X;int Y;int CX;int 
 ; Author ........: Gary Frost
 ; Remarks .......: $SIF_xxxxx and $SB_xxxxx for scrollbar require WindowsConstants.au3
 ; ===============================================================================================================================
-Global Const $tagSCROLLINFO = "uint cbSize;uint fMask;int  nMin;int  nMax;uint nPage;int  nPos;int  nTrackPos"
+Global Const $tagSCROLLINFO = "uint cbSize;uint fMask;int nMin;int nMax;uint nPage;int nPos;int nTrackPos"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagSCROLLBARINFO
@@ -2391,7 +2425,7 @@ Global Const $tagSECURITY_ATTRIBUTES = "dword Length;ptr Descriptor;bool Inherit
 ; Author ........: Jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; dword nFileSizeHigh; dword nFileSizeLow; dword dwReserved0; dword dwReserved1; wchar cFileName[260]; wchar cAlternateFileName[14]"
+Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes;dword ftCreationTime[2];dword ftLastAccessTime[2];dword ftLastWriteTime[2];dword nFileSizeHigh;dword nFileSizeLow;dword dwReserved0;dword dwReserved1;wchar cFileName[260];wchar cAlternateFileName[14]"
 
 ; ===============================================================================================================================
 ; *******************************************************************************************************************************

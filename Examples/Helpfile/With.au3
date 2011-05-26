@@ -1,4 +1,4 @@
-锘縇ocal $oExcel = ObjCreate("Excel.Application")	;鏈緥闇�瑕佸畨瑁卭ffice
+Local $oExcel = ObjCreate("Excel.Application")	;本例需要安装office
 $oExcel.visible = 1
 $oExcel.workbooks.add
 

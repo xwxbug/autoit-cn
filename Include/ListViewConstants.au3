@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListView_Constants
@@ -124,10 +124,17 @@ Global Const $LVCFMT_IMAGE = 0x0800
 Global Const $LVCFMT_LEFT = 0x0000
 Global Const $LVCFMT_RIGHT = 0x0001
 
+Global Const $LVCFMT_LINE_BREAK = 0x100000
+Global Const $LVCFMT_FILL = 0x200000
+Global Const $LVCFMT_WRAP = 0x400000
+Global Const $LVCFMT_NO_TITLE = 0x800000
+Global Const $LVCFMT_TILE_PLACEMENTMASK = BitOR($LVCFMT_LINE_BREAK, $LVCFMT_FILL)
+
 Global Const $LVFI_NEARESTXY = 0x0040
 Global Const $LVFI_PARAM = 0x0001
 Global Const $LVFI_PARTIAL = 0x0008
 Global Const $LVFI_STRING = 0x0002
+Global Const $LVFI_SUBSTRING = 0x0004
 Global Const $LVFI_WRAP = 0x0020
 
 Global Const $LVGA_FOOTER_LEFT = 0x00000008
@@ -162,6 +169,16 @@ Global Const $LVHT_ONITEMSTATEICON = 0x00000008
 Global Const $LVHT_TOLEFT = 0x00000040
 Global Const $LVHT_TORIGHT = 0x00000020
 Global Const $LVHT_ONITEM = BitOR($LVHT_ONITEMICON, $LVHT_ONITEMLABEL, $LVHT_ONITEMSTATEICON)
+
+Global Const $LVHT_EX_GROUP_HEADER = 0x10000000
+Global Const $LVHT_EX_GROUP_FOOTER = 0x20000000
+Global Const $LVHT_EX_GROUP_COLLAPSE = 0x40000000
+Global Const $LVHT_EX_GROUP_BACKGROUND = 0x80000000
+Global Const $LVHT_EX_GROUP_STATEICON = 0x01000000
+Global Const $LVHT_EX_GROUP_SUBSETLINK = 0x02000000
+Global Const $LVHT_EX_GROUP = BitOR($LVHT_EX_GROUP_BACKGROUND, $LVHT_EX_GROUP_COLLAPSE, $LVHT_EX_GROUP_FOOTER, $LVHT_EX_GROUP_HEADER, $LVHT_EX_GROUP_STATEICON, $LVHT_EX_GROUP_SUBSETLINK)
+Global Const $LVHT_EX_ONCONTENTS = 0x04000000	; On item AND not on the background
+Global Const $LVHT_EX_FOOTER = 0x08000000
 
 Global Const $LVIF_COLFMT = 0x00010000
 Global Const $LVIF_COLUMNS = 0x00000200

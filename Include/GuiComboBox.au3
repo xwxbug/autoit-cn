@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "ComboConstants.au3"
 #include "DirConstants.au3"
@@ -162,8 +162,8 @@ Global Const $__COMBOBOXCONSTANT_DEFAULT_GUI_FONT	= 17
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCOMBOBOXINFO = "dword Size;long EditLeft;long EditTop;long EditRight;long EditBottom;long BtnLeft;long BtnTop;" & _
-		"long BtnRight;long BtnBottom;dword BtnState;hwnd hCombo;hwnd hEdit;hwnd hList"
+Global Const $tagCOMBOBOXINFO = "dword Size;struct;long EditLeft;long EditTop;long EditRight;long EditBottom;endstruct;" & _
+		"struct;long BtnLeft;long BtnTop;long BtnRight;long BtnBottom;endstruct;dword BtnState;hwnd hCombo;hwnd hEdit;hwnd hList"
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlComboBox_AddDir
@@ -448,7 +448,7 @@ EndFunc   ;==>_GUICtrlComboBox_EndUpdate
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is â€“1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -476,7 +476,7 @@ EndFunc   ;==>_GUICtrlComboBox_FindString
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is â€“1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -798,7 +798,7 @@ EndFunc   ;==>_GUICtrlComboBox_GetHorizontalExtent
 ; Syntax.........: _GUICtrlComboBox_GetItemHeight($hWnd, $iIndex = -1)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iIndex      - Determines which height to get:
-;                  |â€“1          - Retrieve the height of the selection field
+;                  |¨C1          - Retrieve the height of the selection field
 ;                  | 0          - Retrieve the height of list items
 ; Return values .: Success      - The height, in pixels
 ;                  Failure      - -1
@@ -1089,7 +1089,7 @@ EndFunc   ;==>_GUICtrlComboBox_InitStorage
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If the $iIndex parameter is â€“1, the string is added to the end of the list.
+; Remarks .......: If the $iIndex parameter is ¨C1, the string is added to the end of the list.
 ;+
 ;                  If the ComboBox has $WS_HSCROLL style and you insert a string wider than the ComboBox,
 ;                  you should use the _GUICtrlComboBox_SetHorizontalExtent function to ensure the horizontal scrollbar appears.
@@ -1194,7 +1194,7 @@ EndFunc   ;==>_GUICtrlComboBox_ResetContent
 ; Remarks .......: When the search reaches the bottom of the list, it continues from the top of the list back to the
 ;                  item specified by the wParam parameter.
 ;+
-;                  If $iIndex is â€“1, the entire list is searched from the beginning.
+;                  If $iIndex is ¨C1, the entire list is searched from the beginning.
 ;                  A string is selected only if the characters from the starting point match the characters in the
 ;                  prefix string
 ;+
@@ -1246,9 +1246,9 @@ EndFunc   ;==>_GUICtrlComboBox_SetCueBanner
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If $iIndex is â€“1, any current selection in the list is removed and the edit control is cleared.
+; Remarks .......: If $iIndex is ¨C1, any current selection in the list is removed and the edit control is cleared.
 ;+
-;                  If $iIndex is greater than the number of items in the list or if $iIndex is â€“1, the return value
+;                  If $iIndex is greater than the number of items in the list or if $iIndex is ¨C1, the return value
 ;                  is -1 and the selection is cleared.
 ; Related .......: _GUICtrlComboBox_GetCurSel
 ; Link ..........:
@@ -1298,7 +1298,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetDroppedWidth
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The positions are zero-based. The first character of the edit control is in the zero position.
-;                  If $iStop is â€“1, all text from the starting position to the last character in the edit control is selected.
+;                  If $iStop is ¨C1, all text from the starting position to the last character in the edit control is selected.
 ;+
 ;                  The first character after the last selected character is in the ending position.
 ;+
@@ -1394,7 +1394,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetHorizontalExtent
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iHeight     - The height, in pixels, of the combo box component identified by $iComponent
 ;                  $iComponent  - Use the following values:
-;                  |â€“1          - Set the height of the selection field
+;                  |¨C1          - Set the height of the selection field
 ;                  | 0          - Set the height of list items
 ; Return values .: Failure      - If height is invalid, the return value is -1.
 ; Author ........: Gary Frost (gafrost)

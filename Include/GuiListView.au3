@@ -364,10 +364,15 @@ Global Const $tagLVBKIMAGE = "ulong Flags;hwnd hBmp;ptr Image;uint ImageMax;int 
 ;                  SubItem - Index of subitem associated with the column
 ;                  Image   - Zero based index of an image within the image list
 ;                  Order   - Zero-based column offset. Column offset is in left-to-right order.
+;                  Microsoft Windos Vista or later
+;                    cxMin;       // min snap point
+;                    cxDefault;   // default snap point
+;                    cxIdeal;     // read only. ideal may not eqaul current width if auto sized (LVS_EX_AUTOSIZECOLUMNS) to a lesser width.
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVCOLUMN = "uint Mask;int Fmt;int CX;ptr Text;int TextMax;int SubItem;int Image;int Order"
+Global Const $tagLVCOLUMN = "uint Mask;int Fmt;int CX;ptr Text;int TextMax;int SubItem;int Image;int Order;int cxMin;int cxDefault;int cxIdeal"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVGROUP
@@ -395,10 +400,28 @@ Global Const $tagLVCOLUMN = "uint Mask;int Fmt;int CX;ptr Text;int TextMax;int S
 ;                  |LVGA_HEADER_CENTER - Header text is centered horizontally in the window
 ;                  |LVGA_HEADER_LEFT   - Header text is aligned at the left of the window
 ;                  |LVGA_HEADER_RIGHT  - Header text is aligned at the right of the window.
+;                  Microsoft Windos Vista or later
+;                      pszSubtitle;
+;                      cchSubtitle;
+;                      pszTask;
+;                      cchTask;
+;                      pszDescriptionTop;
+;                      cchDescriptionTop;
+;                      pszDescriptionBottom;
+;                      cchDescriptionBottom;
+;                      iTitleImage;
+;                      iExtendedImage;
+;                      iFirstItem;         // Read only
+;                      cItems;             // Read only
+;                      pszSubsetTitle;     // NULL if group is not subset
+;                      cchSubsetTitle;
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLVGROUP = "uint Size;uint Mask;ptr Header;int HeaderMax;ptr Footer;int FooterMax;int GroupID;uint StateMask;uint State;uint Align"
+Global Const $tagLVGROUP = "uint Size;uint Mask;ptr Header;int HeaderMax;ptr Footer;int FooterMax;int GroupID;uint StateMask;uint State;uint Align;" & _
+    "ptr  pszSubtitle;uint cchSubtitle;ptr pszTask;uint cchTask;ptr pszDescriptionTop;uint cchDescriptionTop;ptr pszDescriptionBottom;" & _
+    "uint cchDescriptionBottom;int iTitleImage;int iExtendedImage;int iFirstItem;uint cItems;ptr pszSubsetTitle;uint cchSubsetTitle"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagLVINSERTMARK

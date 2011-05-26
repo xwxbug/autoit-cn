@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.1 第一汉化版 PRE
+程序版本:3.3.7.2 第一汉化版 PRE
 汉化作者:thesnoW(ALL),Sxd(ADF),rikthhpgf2005(ADF),kodin(Example)
 中文论坛:http://www.AutoItX.com
 =========================================================
@@ -15,7 +15,25 @@ AutoIt工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 3.3.7.1 (2011-05-25) 第一汉化版 PRE
-AutoIt:
+AutoIt 3.3.7.1 (2011-05-25):
+[G][*]修正: #1040: _ScreenCapture_Capture(): 光标捕捉时 GDI 对象泄漏.
+[G][*]修正: #1599: TraySetItemText() 回到默认菜单项目.
+[G][*]修正: #1282: 当GUI创建时 WinMove 前调用 GUICtrlSetPos 的问题.
+[G][*]修正: #1397: HotKeySet() 不能检测部分俄文键盘.
+[G][*]修正: #1531: 输入框,编辑框,列表,组合框,上下按钮在黑色系统主题下的文本颜色. 
+[G][*]修正: #1617: GuiCreate 创建失败后,当 AutoIt 退出时,GuiDelete 可能泄漏到一个循环(loop).
+[G][*]修正: #1596: GUICtrlSetPos() 默认(default) = 无修改.
+[G][*]修正: #1485: ContinueCase 时崩溃.
+[G][*]修正: #1626: TCPRecv()/TCPSend() 文档关于 Unicode 传输.
+[G][*]修正: #1653: WM_KEYLAST Windows 2000 消息文档.
+[G][*]修正: #1669: StringRegExpReplace() 文档中关于替换字符串中含有双反斜杠 "\".
+[G][*]修正: #1673: WinGetProcess() 文档例子.
+[G][*]修正: #1677: 多级循环中出现无效ContinueLoop.
+[G][*]修正: #1684: FileRead() 二进制读取内存分配错误.
+[G][*]修正: #1685: BitRotate() shift 参数.
+[G][*]修正: #1734: GUICtrlCreateAVI() 崩溃于负子字段.
+[G][*]修正: #1923: 当 FileOpen/FileClose 时消耗大量内存.
+[G][*]修正: #1883: IsHWnd(), 返回值. (问题: 值(Value) = 布尔(Bool)).
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
 [G][!]更新: WinAPIEx UDF库 更新到3.3版.
@@ -67,7 +85,7 @@ SciTe:
 [H][!]更新: 更新SciTe到2.25版.
 [H][+]新增: 新增快捷键CTRL+K,用于转换文本为AU3字符串表达式
 [G][!]更新: 更新tidy为2.1.0.12
-[G][!]更新: 更新代码迷惑为1.0.28.14
+[G][!]更新: 更新代码迷惑为1.0.28.15
 
 3.3.6.1 (2010-11-03) 第二汉化版
 AutoIt:

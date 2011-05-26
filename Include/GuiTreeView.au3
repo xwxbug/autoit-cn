@@ -237,9 +237,10 @@ Global Const $__TREEVIEWCONSTANT_DEFAULT_GUI_FONT = 17
 ;                  Param         - A value to associate with the item
 ;                  Integral      - Height of the item
 ; Author ........: Paul Campbell (PaulIA)
+; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTVINSERTSTRUCT = "handle Parent;handle InsertAfter;" & $tagTVITEM
+Global Const $tagTVINSERTSTRUCT = "handle Parent;handle InsertAfter;" & $tagTVITEMEX
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlTreeView_Add

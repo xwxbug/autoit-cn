@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "WinAPI.au3"
 #include "StructureConstants.au3"
@@ -171,7 +171,7 @@ Global Const $WNNC_CRED_MANAGER = 0xFFFF0000
 ;                  |$CONNDLG_NOT_PERSIST - Do not restore the connection at logon
 ;                  DevNum   - If the call to the _WNet_ConnectionDialog1 function is successful, this member returns  the  number
 ;                  +of the connected device. The value is 1 for A:, 2 for B:, 3 for C:, and so on.  If the user made a deviceless
-;                  +connection, the value is â€“1.
+;                  +connection, the value is –1.
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
@@ -243,7 +243,7 @@ Global Const $tagNETCONNECTINFOSTRUCT = "dword Size;dword Flags;dword Speed;dwor
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagNETINFOSTRUCT = "dword Size;dword Version;dword Status;dword Char;ulong_ptr Handle;word NetType;dword Printers;dword Drives;short Reserved"
+Global Const $tagNETINFOSTRUCT = "dword Size;dword Version;dword Status;dword Char;ulong_ptr Handle;word NetType;dword Printers;dword Drives"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagREMOTE_NAME_INFO
@@ -555,7 +555,7 @@ EndFunc   ;==>_WinNet_ConnectionDialog
 ;                  | 8 - Restore the connection at logon
 ;                  |16 - Do not restore the connection at logon
 ; Return values .: Success      - The number of the connected device.  The value is 1 for A:, 2 for B:, 3 for C: and  so  on.  If
-;                  +the user made a deviceless connection, the value is â€“1.
+;                  +the user made a deviceless connection, the value is –1.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; Remarks .......:
@@ -672,7 +672,7 @@ EndFunc   ;==>_WinNet_DisconnectDialog1
 ; Syntax.........: _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 ; Parameters ....: $hEnum       - Handle that identifies an enumeration instance.  The handle is returned by  the  _WinNet_OpenEnum
 ;                  +function.
-;                  $iCount      - Number of entries requested.  If the number requested is  â€“1,  the  function  returns  as  many
+;                  $iCount      - Number of entries requested.  If the number requested is  –1,  the  function  returns  as  many
 ;                  +entries as possible. If the function succeeds, on return the variable contains the number of entries actually
 ;                  +read
 ;                  $pBuffer     - Pointer to the buffer that receives the enumeration results.  The results are  returned  as  an

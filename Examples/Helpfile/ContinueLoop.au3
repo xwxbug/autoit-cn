@@ -1,11 +1,11 @@
-﻿;示例 1 显示从 1 到 10 中除了 7 以外的所有数字
+;ʾ�� 1 ��ʾ�� 1 �� 10 �г��� 7 �������������
 For $i = 1 to 10
 	If $i = 7 Then ContinueLoop
-	MsgBox(0, "$i 的当前值为:", $i, 1)
+	MsgBox(0, "$i �ĵ�ǰֵΪ:", $i, 1)
 Next
 
-;示例 2 显示从 1 到 10 中除了 3 和 7 以外的所有数字
+;ʾ�� 2 ��ʾ�� 1 �� 10 �г��� 3 �� 7 �������������
 For $i = 1 to 10
 	If $i = 3 Or $i = 7 Then ContinueLoop
-	MsgBox(0, "$i 的当前值为:", $i, 1)
+	MsgBox(0, "$i �ĵ�ǰֵΪ:", $i, 1)
 Next

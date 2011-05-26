@@ -213,7 +213,7 @@ Global Const $_GCR_E_INVALIDARG = 0x80070057
 ;$tagPARAFORMAT2
 ;$tagSETTEXTEX
 ;$tagTEXTRANGE
-;$tagEN_MSGFILTER
+;$tagMSGFILTER
 ;$tagENLINK
 ;__GCR_ConvertRomanToNumber
 ;__GCR_ConvertTwipsToSpaceUnit
@@ -252,7 +252,7 @@ Global Const $_GCR_E_INVALIDARG = 0x80070057
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagEDITSTREAM = "dword_ptr dwCookie;dword dwError;ptr pfnCallback"
+Global Const $tagEDITSTREAM = "align 4;dword_ptr dwCookie;dword dwError;ptr pfnCallback"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagBIDIOPTIONS
@@ -311,7 +311,8 @@ Global Const $tagBIDIOPTIONS = "uint cbSize;word wMask;word wEffects"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCHARFORMAT = "uint cbSize;dword dwMask;dword dwEffects;long yHeight;long yOffset;dword crCharColor;byte bCharSet;byte bPitchAndFamily;wchar szFaceName[32]"
+Global Const $tagCHARFORMAT = "struct;uint cbSize;dword dwMask;dword dwEffects;long yHeight;long yOffset;dword crCharColor;" & _
+		"byte bCharSet;byte bPitchAndFamily;wchar szFaceName[32];endstruct"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagCHARFORMAT2
@@ -401,7 +402,7 @@ Global Const $tagCHARFORMAT2 = $tagCHARFORMAT & ";word wWeight;short sSpacing;dw
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCHARRANGE = "long cpMin;long cpMax"
+Global Const $tagCHARRANGE = "struct;long cpMin;long cpMax;endstruct"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagFINDTEXT
@@ -445,7 +446,7 @@ Global Const $tagFINDTEXTEX = $tagCHARRANGE & ";ptr lpstrText;long cpMinRang;lon
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGETTEXTEX = "dword cb;dword flags;uint codepage;ptr lpDefaultChar;ptr lpbUsedDefChar"
+Global Const $tagGETTEXTEX = "align 4;dword cb;dword flags;uint codepage;ptr lpDefaultChar;ptr lpbUsedDefChar"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagGETTEXTLENGTHEX
@@ -731,7 +732,7 @@ Global Const $tagSETTEXTEX = "dword flags;uint codepage"
 Global Const $tagTEXTRANGE = $tagCHARRANGE & ";ptr lpstrText"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: $tagEN_MSGFILTER
+; Name...........: $tagMSGFILTER
 ; Description ...: Contains information about a keyboard or mouse event.
 ; Fields ........: hWndFrom - Window handle to the control sending a message
 ;                  IDFrom   - Identifier of the control sending a message
@@ -742,7 +743,7 @@ Global Const $tagTEXTRANGE = $tagCHARRANGE & ";ptr lpstrText"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagEN_MSGFILTER = $tagNMHDR & ";uint msg;wparam wParam;lparam lParam"
+Global Const $tagMSGFILTER = "align 4;" & $tagNMHDR & ";uint msg;wparam wParam;lparam lParam"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagENLINK
@@ -758,7 +759,7 @@ Global Const $tagEN_MSGFILTER = $tagNMHDR & ";uint msg;wparam wParam;lparam lPar
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagENLINK = $tagNMHDR & ";uint msg;wparam wParam;lparam lParam;" & $tagCHARRANGE
+Global Const $tagENLINK = "align 4;" & $tagNMHDR & ";uint msg;wparam wParam;lparam lParam;" & $tagCHARRANGE
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _GUICtrlRichEdit_AppendText

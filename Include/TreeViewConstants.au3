@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: TreeView_Constants
@@ -79,7 +79,9 @@ Global Const $TVIF_STATE = 0x00000008
 Global Const $TVIF_HANDLE = 0x00000010
 Global Const $TVIF_SELECTEDIMAGE = 0x00000020
 Global Const $TVIF_CHILDREN = 0x00000040
-Global Const $TVIF_INTEGRAL = 0x00000080
+Global Const $TVIF_INTEGRAL  = 0x00000080
+Global Const $TVIF_EXPANDEDIMAGE = 0x00000100
+Global Const $TVIF_STATEEX = 0x00000200
 Global Const $TVIF_DI_SETITEM = 0x00001000
 
 ; image list params

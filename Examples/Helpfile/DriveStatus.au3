@@ -1,2 +1,2 @@
-ï»¿Local $var = DriveStatus("c:\")
-MsgBox(4096,"é©±åŠ¨å™¨çŠ¶æ€",$var)
+Local $var = DriveStatus("c:\")
+MsgBox(4096,"Çı¶¯Æ÷×´Ì¬",$var)

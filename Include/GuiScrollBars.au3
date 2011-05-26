@@ -574,14 +574,14 @@ Func _GUIScrollBars_Init($hWnd, $iHMax = -1, $ivMax = -1)
 	$tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
 
 	; Set the vertical scrolling range and page size
-	DllStructSetData($tSCROLLINFO, "fMask", BitOR($_SCROLLBARCONSTANTS_SIF_PAGE, $_SCROLLBARCONSTANTS_SIF_PAGE))
+	DllStructSetData($tSCROLLINFO, "fMask", BitOR($_SCROLLBARCONSTANTS_SIF_RANGE, $_SCROLLBARCONSTANTS_SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
-	DllStructSetData($tSCROLLINFO, "nMax", $ivMax)
+	DllStructSetData($tSCROLLINFO, "nMax", $aSB_WindowInfo[$index][7])
 	DllStructSetData($tSCROLLINFO, "nPage", $yClient / $yChar)
 	_GUIScrollBars_SetScrollInfo($hWnd, $_SCROLLBARCONSTANTS_SB_VERT, $tSCROLLINFO)
 
 	; Set the horizontal scrolling range and page size
-	DllStructSetData($tSCROLLINFO, "fMask", BitOR($_SCROLLBARCONSTANTS_SIF_PAGE, $_SCROLLBARCONSTANTS_SIF_PAGE))
+	DllStructSetData($tSCROLLINFO, "fMask", BitOR($_SCROLLBARCONSTANTS_SIF_RANGE, $_SCROLLBARCONSTANTS_SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
 	DllStructSetData($tSCROLLINFO, "nMax", 2 + $aSB_WindowInfo[$index][1] / $xChar)
 	DllStructSetData($tSCROLLINFO, "nPage", $xClient / $xChar)
