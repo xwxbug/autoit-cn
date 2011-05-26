@@ -1,34 +1,34 @@
-ï»¿Local $a = WinGetCaretPos()
+Local $a = WinGetCaretPos()
 If Not @error Then 
-	ToolTip("ç¬¬ä¸€ä¸ªæ’å…¥ç¬¦åæ ‡", $a[0], $a[1])
+	ToolTip("µÚÒ»¸ö²åÈë·û×ø±ê", $a[0], $a[1])
 	MouseMove($a[0],$a[1])
 EndIf
 Sleep(2000)
 
 Local $b = _CaretPos()
 If Not @error Then 
-	ToolTip("ç¬¬äºŒä¸ªæ’å…¥ç¬¦åæ ‡", $b[0], $b[1])
+	ToolTip("µÚ¶ş¸ö²åÈë·û×ø±ê", $b[0], $b[1])
 	MouseMove($b[0],$b[1])
 EndIf
 
 Sleep(2000)
 
-; å¾—åˆ° MDI æ–‡æœ¬ç¼–è¾‘å™¨çš„ä¸€äº›å¯é æ–¹æ³•.
+; µÃµ½ MDI ÎÄ±¾±à¼­Æ÷µÄÒ»Ğ©¿É¿¿·½·¨.
 Func _CaretPos()
 	Local $x_adjust = 5
 	Local $y_adjust = 40
 
-	Opt("CaretCoordMode", 0)              ;ç›¸å¯¹æ¨¡å¼
-	Local $c = WinGetCaretPos()           ;ç›¸å¯¹æ’å…¥ç¬¦åæ ‡
-	Local $w = WinGetPos("")              ;çª—å£åæ ‡
-	Local $f = ControlGetFocus("","")     ;æ–‡æœ¬åŒºåŸŸ "å¥æŸ„"
-	Local $e = ControlGetPos("", "", $f)  ;æ–‡æœ¬åŒºåŸŸåæ ‡
+	Opt("CaretCoordMode", 0)              ;Ïà¶ÔÄ£Ê½
+	Local $c = WinGetCaretPos()           ;Ïà¶Ô²åÈë·û×ø±ê
+	Local $w = WinGetPos("")              ;´°¿Ú×ø±ê
+	Local $f = ControlGetFocus("","")     ;ÎÄ±¾ÇøÓò "¾ä±ú"
+	Local $e = ControlGetPos("", "", $f)  ;ÎÄ±¾ÇøÓò×ø±ê
 
 	Local $t[2]
 	If IsArray($c) And IsArray($w) And IsArray($e) Then
 		$t[0] = $c[0] + $w[0] + $e[0] + $x_adjust
 		$t[1] = $c[1] + $w[1] + $e[1] + $y_adjust
-		Return $t     ;å½“å‰å…‰æ ‡çš„ç»å¯¹å±å¹•åæ ‡
+		Return $t     ;µ±Ç°¹â±êµÄ¾ø¶ÔÆÁÄ»×ø±ê
 	Else
 		SetError(1)
 	EndIf

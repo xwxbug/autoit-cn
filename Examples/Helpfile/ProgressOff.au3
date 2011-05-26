@@ -1,1 +1,1 @@
-﻿ProgressOff()
+ProgressOff()

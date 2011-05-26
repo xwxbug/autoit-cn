@@ -1,27 +1,27 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $Button_1, $Button_2, $msg
-	GUICreate("My GUI Button") ; åˆ›å»ºä¸€ä¸ªå¯¹è¯æ¡†ï¼Œå¹¶å±…ä¸­æ˜¾ç¤º
+	GUICreate("My GUI Button") ; ´´½¨Ò»¸ö¶Ô»°¿ò£¬²¢¾ÓÖÐÏÔÊ¾
 
 	Opt("GUICoordMode", 2)
-	$Button_1 = GUICtrlCreateButton("æ‰“å¼€è®°äº‹æœ¬", 10, 30, 100)
-	$Button_2 = GUICtrlCreateButton("æµ‹è¯•æŒ‰é’®", 0, -1)
+	$Button_1 = GUICtrlCreateButton("´ò¿ª¼ÇÊÂ±¾", 10, 30, 100)
+	$Button_2 = GUICtrlCreateButton("²âÊÔ°´Å¥", 0, -1)
 
-	GUISetState()      ; æ˜¾ç¤ºæœ‰ä¸¤ä¸ªæŒ‰é’®çš„å¯¹è¯æ¡†
+	GUISetState()      ; ÏÔÊ¾ÓÐÁ½¸ö°´Å¥µÄ¶Ô»°¿ò
 
-	; è¿è¡Œç•Œé¢ï¼Œç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËÐÐ½çÃæ£¬Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 		Select
 			Case $msg = $GUI_EVENT_CLOSE
 				ExitLoop
 			Case $msg = $Button_1
-				Run('Notepad.exe')    ; ç‚¹å‡»æŒ‰é’® 1 æ‰“å¼€è®°äº‹æœ¬
+				Run('Notepad.exe')    ; µã»÷°´Å¥ 1 ´ò¿ª¼ÇÊÂ±¾
 			Case $msg = $Button_2
-				MsgBox(0, 'æµ‹è¯•', 'ä½ ç‚¹å‡»äº†æµ‹è¯•æŒ‰é’®')    ; ç‚¹å‡»æŒ‰é’® 2 æ˜¾ç¤ºä¸€ä¸ªç®€å•çš„å¯¹è¯æ¡†
+				MsgBox(0, '²âÊÔ', 'Äãµã»÷ÁË²âÊÔ°´Å¥')    ; µã»÷°´Å¥ 2 ÏÔÊ¾Ò»¸ö¼òµ¥µÄ¶Ô»°¿ò
 		EndSelect
 	WEnd
 EndFunc   ;==>Example

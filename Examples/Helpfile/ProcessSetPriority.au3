@@ -1,4 +1,4 @@
-О╩©Run("Notepad.exe")
+Run("Notepad.exe")
 ProcessSetPriority("notepad.exe", 0)
-; Х╝╬Г╫╝Х╝╟Д╨▀Ф°╛Г └Д╪≤Е┘┬Г╨╖Д╦╨О╪ Г╘╨И≈╡/Д╫▌
+; иХжц╪гйб╠╬╣дсеох╪╤н╙ё╨©уоп/╣м
 

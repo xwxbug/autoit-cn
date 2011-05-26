@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -7,16 +7,16 @@ Func Example()
 
 	GUICreate("My GUI (GetControlState)")
 	$n = GUICtrlCreateCheckbox("checkbox", 10, 10)
-	GUICtrlSetState(-1, 1) 	; è°ƒæ•´æŒ‡å®šæŽ§ä»¶çš„çŠ¶æ€
+	GUICtrlSetState(-1, 1) 	; µ÷ÕûÖ¸¶¨¿Ø¼þµÄ×´Ì¬
 
-	GUISetState()       ; æ˜¾ç¤ºä¸€ä¸ªç©ºç™½çš„çª—å£
+	GUISetState()       ; ÏÔÊ¾Ò»¸ö¿Õ°×µÄ´°¿Ú
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËÐÐ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
-	MsgBox(0, "çŠ¶æ€", StringFormat("GUICtrlRead=%d\nGUICtrlGetState=%d", GUICtrlRead($n), GUICtrlGetState($n)))
+	MsgBox(0, "×´Ì¬", StringFormat("GUICtrlRead=%d\nGUICtrlGetState=%d", GUICtrlRead($n), GUICtrlGetState($n)))
 EndFunc   ;==>Example

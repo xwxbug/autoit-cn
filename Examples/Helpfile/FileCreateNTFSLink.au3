@@ -1,5 +1,5 @@
-ï»¿FileChangeDir(@ScriptDir)
+FileChangeDir(@ScriptDir)
 
 DirCreate('dir')
 FileWriteLine("test.txt", "test")
-MsgBox(0,"ç¡¬é“¾æŽ¥", FileCreateNTFSLink("test.txt", "dir\test.log", 1))
+MsgBox(0,"Ó²Á´½Ó", FileCreateNTFSLink("test.txt", "dir\test.log", 1))

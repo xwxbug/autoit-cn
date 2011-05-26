@@ -1,2 +1,2 @@
-ï»¿Local $result = StringUpper("I am 4-word string")
-MsgBox(0, "è½¬æ¢å­—ç¬¦ä¸²ä¸ºå¤§å†™å­—æ¯:", $result)
+Local $result = StringUpper("I am 4-word string")
+MsgBox(0, "×ª»»×Ö·û´®Îª´óĞ´×ÖÄ¸:", $result)

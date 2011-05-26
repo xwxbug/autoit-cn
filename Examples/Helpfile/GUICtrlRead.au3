@@ -1,29 +1,29 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $menu1, $n1, $n2, $msg, $menustate, $menutext
 
-	GUICreate("My GUICtrlRead") ; åˆ›å»ºä¸€ä¸ªå±…ä¸­æ˜¾ç¤ºçš„ GUI çª—å£
+	GUICreate("My GUICtrlRead") ; ´´½¨Ò»¸ö¾ÓÖÐÏÔÊ¾µÄ GUI ´°¿Ú
 
 	$menu1 = GUICtrlCreateMenu("File")
 
 	$n1 = GUICtrlCreateList("", 10, 10, -1, 100)
 	GUICtrlSetData(-1, "item1|item2|item3", "item2")
 
-	$n2 = GUICtrlCreateButton("è¯»å–", 10, 110, 50)
-	GUICtrlSetState(-1, $GUI_FOCUS) ; è¿™ä¸ªæŒ‰é’®æ˜¯é‡ç‚¹
+	$n2 = GUICtrlCreateButton("¶ÁÈ¡", 10, 110, 50)
+	GUICtrlSetState(-1, $GUI_FOCUS) ; Õâ¸ö°´Å¥ÊÇÖØµã
 
-	GUISetState() ; æ˜¾ç¤ºä¸€ä¸ªç©ºç™½çš„çª—å£
-	; è¿è¡Œç•Œé¢ï¼Œç›´åˆ°çª—å£è¢«å…³é—­
+	GUISetState() ; ÏÔÊ¾Ò»¸ö¿Õ°×µÄ´°¿Ú
+	; ÔËÐÐ½çÃæ£¬Ö±µ½´°¿Ú±»¹Ø±Õ
 	Do
 		$msg = GUIGetMsg()
 		If $msg = $n2 Then
-			MsgBox(0, "è¯»å–é€‰ä¸­çš„é¡¹ç›®", GUICtrlRead($n1)) ; è¯»å–é€‰ä¸­çš„é¡¹ç›®
-			$menustate = GUICtrlRead($menu1) ; è¯»å–æŒ‡å®šæŽ§ä»¶çš„çŠ¶æ€æˆ–ç›¸å…³æ•°æ®.
-			$menutext = GUICtrlRead($menu1, 1) ; è¯»å–æŒ‡å®šæŽ§ä»¶çš„æ‰©å±•ä¿¡æ¯.
-			MsgBox(0, "è¯»å–èœå•çš„çŠ¶æ€å’Œæ–‡æœ¬", "çŠ¶æ€:" & $menustate & @LF & "æ–‡æœ¬:" & $menutext)
+			MsgBox(0, "¶ÁÈ¡Ñ¡ÖÐµÄÏîÄ¿", GUICtrlRead($n1)) ; ¶ÁÈ¡Ñ¡ÖÐµÄÏîÄ¿
+			$menustate = GUICtrlRead($menu1) ; ¶ÁÈ¡Ö¸¶¨¿Ø¼þµÄ×´Ì¬»òÏà¹ØÊý¾Ý.
+			$menutext = GUICtrlRead($menu1, 1) ; ¶ÁÈ¡Ö¸¶¨¿Ø¼þµÄÀ©Õ¹ÐÅÏ¢.
+			MsgBox(0, "¶ÁÈ¡²Ëµ¥µÄ×´Ì¬ºÍÎÄ±¾", "×´Ì¬:" & $menustate & @LF & "ÎÄ±¾:" & $menutext)
 		EndIf
 	Until $msg = $GUI_EVENT_CLOSE
 EndFunc   ;==>Example

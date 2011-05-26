@@ -1,8 +1,8 @@
-ï»¿ProgressOn("è¿›åº¦æ¡", "æ¯ç§’é€’å¢", "0 %")
+ProgressOn("½ø¶ÈÌõ", "Ã¿ÃëµİÔö", "0 %")
 For $i = 10 To 100 Step 10
 	Sleep(1000)
 	ProgressSet( $i, $i & " %")
 Next
-ProgressSet(100 , "å®Œæˆ", "å…¨éƒ¨å®Œæˆ")
+ProgressSet(100 , "Íê³É", "È«²¿Íê³É")
 Sleep(500)
 ProgressOff()

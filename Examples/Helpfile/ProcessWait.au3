@@ -1,1 +1,1 @@
-﻿ProcessWait("notepad.exe")
+ProcessWait("notepad.exe")

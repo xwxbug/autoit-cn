@@ -1,7 +1,7 @@
-ï»¿Local $hDownload = InetGet("http://www.autoitscript.com/autoit3/files/beta/update.dat", @TempDir & "\update.dat", 1, 1)
+Local $hDownload = InetGet("http://www.autoitscript.com/autoit3/files/beta/update.dat", @TempDir & "\update.dat", 1, 1)
 Do
 	Sleep(250)
-Until InetGetInfo($hDownload, 2);æ£€æŸ¥ä¸‹è½½æ˜¯å¦å®Œæˆ.
+Until InetGetInfo($hDownload, 2);¼ì²éÏÂÔØÊÇ·ñÍê³É.
 Local $nBytes = InetGetInfo($hDownload, 0)
-InetClose($hDownload);å…³é—­å¥æŸ„, é‡Šæ”¾èµ„æº.
+InetClose($hDownload);¹Ø±Õ¾ä±ú, ÊÍ·Å×ÊÔ´.
 MsgBox(0, "", "Bytes read: " & $nBytes)

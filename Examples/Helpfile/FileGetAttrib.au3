@@ -1,22 +1,22 @@
-ï»¿Local $attrib = FileGetAttrib("c:\boot.ini")
+Local $attrib = FileGetAttrib("c:\boot.ini")
 If @error Then
-	MsgBox(4096,"é”™è¯¯", "æ— æ³•è·å¾—å±æ€§.")
+	MsgBox(4096,"´íÎó", "ÎŞ·¨»ñµÃÊôĞÔ.")
 	Exit
 Else
 	If StringInStr($attrib, "R") Then
-	MsgBox(4096,"æ–‡ä»¶å±æ€§", "åªè¯»æ–‡ä»¶.")
+	MsgBox(4096,"ÎÄ¼şÊôĞÔ", "Ö»¶ÁÎÄ¼ş.")
 	EndIf
 EndIf
 
-;æ˜¾ç¤ºæŒ‡å®šæ–‡ä»¶çš„å®Œæ•´å±æ€§ä»£ç 
-;äº‹å®ä¸Šæ•°ç»„é‡Œæ¯ä¸€ä¸ªå¤§å†™å­—æ¯æ˜¯å”¯ä¸€çš„
+;ÏÔÊ¾Ö¸¶¨ÎÄ¼şµÄÍêÕûÊôĞÔ´úÂë
+;ÊÂÊµÉÏÊı×éÀïÃ¿Ò»¸ö´óĞ´×ÖÄ¸ÊÇÎ¨Ò»µÄ
 
 Local $input = StringSplit("R,A,S,H,N,D,O,C,T", ",")
-Local $output = StringSplit("åªè¯» /, å­˜æ¡£ /, ç³»ç»Ÿ /, éšè— /" & _
-		", æ™®é€š /, ç›®å½• /, è„±æœºæ–‡ä»¶ /, å‹ç¼© /, ä¸´æ—¶ /",  ",")
+Local $output = StringSplit("Ö»¶Á /, ´æµµ /, ÏµÍ³ /, Òş²Ø /" & _
+		", ÆÕÍ¨ /, Ä¿Â¼ /, ÍÑ»úÎÄ¼ş /, Ñ¹Ëõ /, ÁÙÊ± /",  ",")
 For $i = 1 To 9
 	$attrib = StringReplace($attrib, $input[$i], $output[$i], 0, 1)
-	;StringReplace æœ€åä¸€ä¸ªå‚æ•°æ˜¯æŒ‡ åŒºåˆ†å¤§å°å†™
+	;StringReplace ×îºóÒ»¸ö²ÎÊıÊÇÖ¸ Çø·Ö´óĞ¡Ğ´
 Next
-$attrib = StringTrimRight($attrib, 2) ;ç§»é™¤åæ–œæ 
-MsgBox(0,"å®Œæ•´çš„æ–‡ä»¶å±æ€§:", $attrib)
+$attrib = StringTrimRight($attrib, 2) ;ÒÆ³ı·´Ğ±¸Ü
+MsgBox(0,"ÍêÕûµÄÎÄ¼şÊôĞÔ:", $attrib)

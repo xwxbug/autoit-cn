@@ -1,5 +1,5 @@
-ï»¿Local $bak = ClipGet()
-MsgBox(0, "å‰ªè´´æ¿å†…å®¹:", $bak)
+Local $bak = ClipGet()
+MsgBox(0, "¼ôÌù°åÄÚÈİ:", $bak)
 
-ClipPut($bak & "é™„åŠ æ–‡æœ¬")
-MsgBox(0, "å‰ªè´´æ¿å†…å®¹:", ClipGet())
+ClipPut($bak & "¸½¼ÓÎÄ±¾")
+MsgBox(0, "¼ôÌù°åÄÚÈİ:", ClipGet())

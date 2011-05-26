@@ -1,1 +1,1 @@
-﻿WinMinimizeAllUndo()
+WinMinimizeAllUndo()

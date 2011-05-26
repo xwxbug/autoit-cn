@@ -1,1 +1,1 @@
-﻿FileDelete("D:\*.tmp")
+FileDelete("D:\*.tmp")

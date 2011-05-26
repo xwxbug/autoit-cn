@@ -1,6 +1,6 @@
-ï»¿
-; ä½¿ç”¨å½“å‰ç”¨æˆ·æ˜ å°„ X: é©±åŠ¨å™¨åˆ° \\myserver\stuff 
+
+; Ê¹ÓÃµ±Ç°ÓÃ»§Ó³Éä X: Çı¶¯Æ÷µ½ \\myserver\stuff 
 DriveMapAdd("X:", "\\myserver\stuff")
 
-; æ˜ å°„ X ç£ç›˜åˆ° \\myserver2\stuff2 ,ä½¿ç”¨ç”¨æˆ·å:"jon" ,åŸŸ:"domainx" å¯†ç :"tickle"
+; Ó³Éä X ´ÅÅÌµ½ \\myserver2\stuff2 ,Ê¹ÓÃÓÃ»§Ãû:"jon" ,Óò:"domainx" ÃÜÂë:"tickle"
 DriveMapAdd("X:", "\\myserver2\stuff2", 0, "domainx\jon", "tickle")

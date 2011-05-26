@@ -1,10 +1,10 @@
-ï»¿IniWrite("C:\Temp\myfile.ini", "è®¾ç½®", "åäººäººæ•°", "12345")
+IniWrite("C:\Temp\myfile.ini", "ÉèÖÃ", "»µÈËÈËÊı", "12345")
 
 Local $var = IniReadSection("C:\Temp\myfile.ini", "section2")
 If @error Then
-	MsgBox(4096, "", "é”™è¯¯, è¯»å–INIæ–‡ä»¶å¤±è´¥.")
+	MsgBox(4096, "", "´íÎó, ¶ÁÈ¡INIÎÄ¼şÊ§°Ü.")
 Else
 	For $i = 1 To $var[0][0]
-		MsgBox(4096, "", "å…³é”®å­—: " & $var[$i][0] & @CRLF & "å€¼: " & $var[$i][1])
+		MsgBox(4096, "", "¹Ø¼ü×Ö: " & $var[$i][0] & @CRLF & "Öµ: " & $var[$i][1])
 	Next
 EndIf

@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 
 Example()
@@ -8,28 +8,28 @@ Func Example()
 	Local $infoitem, $exititem, $recentfilesmenu, $viewmenu
 	Local $viewstatusitem, $cancelbutton, $statuslabel, $msg, $file
 
-	GUICreate("æˆ‘çš„å›¾å½¢èœå•", 300, 200)
+	GUICreate("ÎÒµÄÍ¼ĞÎ²Ëµ¥", 300, 200)
 
 	Global $defaultstatus = "Ready"
 
-	$filemenu = GUICtrlCreateMenu("æ–‡ä»¶(&F)")
-	$fileitem = GUICtrlCreateMenuItem("æ‰“å¼€", $filemenu)
-	GUICtrlSetState(-1, $GUI_DEFBUTTON);è°ƒæ•´æŒ‡å®šæ§ä»¶ä¸ºçª—å£çš„é»˜è®¤æŒ‰é’®
-	$helpmenu = GUICtrlCreateMenu("?"); åˆ›å»ºä¸€ä¸ªèœå•æ§ä»¶
-	GUICtrlCreateMenuItem("ä¿å­˜", $filemenu)
-	GUICtrlSetState(-1, $GUI_DISABLE);è°ƒæ•´æŒ‡å®šæ§ä»¶ä¸ºç°è‰²çŠ¶æ€
-	$infoitem = GUICtrlCreateMenuItem("ä¿¡æ¯", $helpmenu)
-	$exititem = GUICtrlCreateMenuItem("é€€å‡º", $filemenu)
-	$recentfilesmenu = GUICtrlCreateMenu("å†å²æ–‡ä»¶", $filemenu, 1)
+	$filemenu = GUICtrlCreateMenu("ÎÄ¼ş(&F)")
+	$fileitem = GUICtrlCreateMenuItem("´ò¿ª", $filemenu)
+	GUICtrlSetState(-1, $GUI_DEFBUTTON);µ÷ÕûÖ¸¶¨¿Ø¼şÎª´°¿ÚµÄÄ¬ÈÏ°´Å¥
+	$helpmenu = GUICtrlCreateMenu("?"); ´´½¨Ò»¸ö²Ëµ¥¿Ø¼ş
+	GUICtrlCreateMenuItem("±£´æ", $filemenu)
+	GUICtrlSetState(-1, $GUI_DISABLE);µ÷ÕûÖ¸¶¨¿Ø¼şÎª»ÒÉ«×´Ì¬
+	$infoitem = GUICtrlCreateMenuItem("ĞÅÏ¢", $helpmenu)
+	$exititem = GUICtrlCreateMenuItem("ÍË³ö", $filemenu)
+	$recentfilesmenu = GUICtrlCreateMenu("ÀúÊ·ÎÄ¼ş", $filemenu, 1)
 
-	GUICtrlCreateMenuItem("", $filemenu, 2) 	; åˆ›å»ºåˆ†éš”çº¿
+	GUICtrlCreateMenuItem("", $filemenu, 2) 	; ´´½¨·Ö¸ôÏß
 
-	$viewmenu = GUICtrlCreateMenu("æŸ¥çœ‹", -1, 1); åˆ›å»ºä¸€ä¸ªèœå•æ§ä»¶
-	$viewstatusitem = GUICtrlCreateMenuItem("çŠ¶æ€æ ", $viewmenu)
-	GUICtrlSetState(-1, $GUI_CHECKED);è°ƒæ•´æŒ‡å®šæ§ä»¶ä¸ºé€‰ä¸­çŠ¶æ€
-	GUICtrlCreateButton("ç¡®å®š", 50, 130, 70, 20)
+	$viewmenu = GUICtrlCreateMenu("²é¿´", -1, 1); ´´½¨Ò»¸ö²Ëµ¥¿Ø¼ş
+	$viewstatusitem = GUICtrlCreateMenuItem("×´Ì¬À¸", $viewmenu)
+	GUICtrlSetState(-1, $GUI_CHECKED);µ÷ÕûÖ¸¶¨¿Ø¼şÎªÑ¡ÖĞ×´Ì¬
+	GUICtrlCreateButton("È·¶¨", 50, 130, 70, 20)
 	GUICtrlSetState(-1, $GUI_FOCUS)
-	$cancelbutton = GUICtrlCreateButton("å–æ¶ˆ", 180, 130, 70, 20)
+	$cancelbutton = GUICtrlCreateButton("È¡Ïû", 180, 130, 70, 20)
 
 	$statuslabel = GUICtrlCreateLabel($defaultstatus, 0, 165, 300, 16, BitOR($SS_SIMPLE, $SS_SUNKEN))
 
@@ -38,7 +38,7 @@ Func Example()
 		$msg = GUIGetMsg()
 
 		If $msg = $fileitem Then
-			$file = FileOpenDialog("é€‰æ‹©æ–‡ä»¶...", @TempDir, "All (*.*)")
+			$file = FileOpenDialog("Ñ¡ÔñÎÄ¼ş...", @TempDir, "All (*.*)")
 			If @error <> 1 Then GUICtrlCreateMenuItem($file, $recentfilesmenu)
 		EndIf
 		If $msg = $viewstatusitem Then
@@ -51,7 +51,7 @@ Func Example()
 			EndIf
 		EndIf
 		If $msg = $GUI_EVENT_CLOSE Or $msg = $cancelbutton Or $msg = $exititem Then ExitLoop
-		If $msg = $infoitem Then MsgBox(0, "ä¿¡æ¯", "ä»…ä»…æµ‹è¯•...")
+		If $msg = $infoitem Then MsgBox(0, "ĞÅÏ¢", "½ö½ö²âÊÔ...")
 	WEnd
 	GUIDelete()
 EndFunc   ;==>Example

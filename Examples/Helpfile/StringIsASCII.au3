@@ -1,2 +1,2 @@
-ï»¿Local $x = StringIsASCII("è¿™æ˜¯ä¸€ä¸ªä¾‹å­.")
-MsgBox(0,"æ£€æŸ¥ç»“æžœ", "è¿”å›žå€¼ä¸º:" & $x)
+Local $x = StringIsASCII("ÕâÊÇÒ»¸öÀý×Ó.")
+MsgBox(0,"¼ì²é½á¹û", "·µ»ØÖµÎª:" & $x)

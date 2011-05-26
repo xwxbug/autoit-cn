@@ -1,8 +1,8 @@
-ï»¿
+
 Run("notepad.exe")
 Sleep(1000)
 
 
 If WinActive("[CLASS:Notepad]") Then
-	MsgBox(0, "", "è®°äº‹æœ¬çª—å£æ˜¯æ´»åŠ¨çš„")
+	MsgBox(0, "", "¼ÇÊÂ±¾´°¿ÚÊÇ»î¶¯µÄ")
 EndIf

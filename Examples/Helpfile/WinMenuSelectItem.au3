@@ -1,5 +1,5 @@
-ï»¿; å°†ä¼šé€‰æ‹©è®°äº‹æœ¬çš„>æ–‡æœ¬>é¡µé¢è®¾ç½®èœå•
+; ½«»áÑ¡Ôñ¼ÇÊÂ±¾µÄ>ÎÄ±¾>Ò³ÃæÉèÖÃ²Ëµ¥
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
-WinMenuSelectItem("[CLASS:Notepad]", "", "æ–‡ä»¶(&F)", "é¡µé¢è®¾ç½®(&U)..." )
+WinMenuSelectItem("[CLASS:Notepad]", "", "ÎÄ¼ş(&F)", "Ò³ÃæÉèÖÃ(&U)..." )

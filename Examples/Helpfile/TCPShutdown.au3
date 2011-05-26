@@ -1,3 +1,3 @@
-ï»¿TCPStartup()	; å¼€å§‹ TCP æœåŠ¡
+TCPStartup()	; ¿ªÊ¼ TCP ·şÎñ
 
-TCPShutdown ( )	; åœæ­¢ TCP æœåŠ¡
+TCPShutdown ( )	; Í£Ö¹ TCP ·şÎñ

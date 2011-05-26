@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -48,7 +48,7 @@ Func Example()
 EndFunc   ;==>Example
 
 
-; è®¾ç½®èœå•é¢œè‰²
+; ÉèÖÃ²Ëµ¥ÑÕÉ«
 Func SetMenuColor($nMenuID, $nColor)
 	Local $hMenu, $hBrush, $stMenuInfo
 	Local Const $MIM_APPLYTOSUBMENUS = 0x80000000

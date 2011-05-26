@@ -1,2 +1,2 @@
-锘縇ocal $result = StringTrimLeft("I am a string", 3)
-MsgBox(0, "鍘绘帀瀛楃涓蹭腑鏈�宸﹁竟涓変釜瀛楃鍚庣殑瀛楃涓蹭负:", $result)
+Local $result = StringTrimLeft("I am a string", 3)
+MsgBox(0, "去掉字符串中最左边三个字符后的字符串为:", $result)

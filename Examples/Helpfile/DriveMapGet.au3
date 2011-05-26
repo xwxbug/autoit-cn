@@ -1,7 +1,7 @@
-ï»¿
-; ä½¿ç”¨å½“å‰ç”¨æˆ·æ˜ å°„ X: é©±åŠ¨å™¨åˆ° \\myserver\stuff 
+
+; Ê¹ÓÃµ±Ç°ÓÃ»§Ó³Éä X: Çı¶¯Æ÷µ½ \\myserver\stuff 
 DriveMapAdd("X:", "\\myserver\stuff")
 
-; è·å–æ˜ å°„è¯¦ç»†ä¿¡æ¯
-MsgBox(0, "é©±åŠ¨å™¨ X: æ˜ å°„åˆ°", DriveMapGet("X:"))
+; »ñÈ¡Ó³ÉäÏêÏ¸ĞÅÏ¢
+MsgBox(0, "Çı¶¯Æ÷ X: Ó³Éäµ½", DriveMapGet("X:"))
 

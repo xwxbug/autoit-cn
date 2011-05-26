@@ -1,9 +1,9 @@
-ï»¿Run("notepad.exe")
+Run("notepad.exe")
 WinWait("[CLASS:Notepad]")
 
 SendKeepActive("[CLASS:Notepad]")
 
-; å½“åœ¨æš‚åœæœŸé—´ä¿æŒçª—å£æ¿€æ´»çŠ¶æ€.
+; µ±ÔÚÔİÍ£ÆÚ¼ä±£³Ö´°¿Ú¼¤»î×´Ì¬.
 For $i = 1 to 10
 	Sleep(1000)
 	Send("Hello")

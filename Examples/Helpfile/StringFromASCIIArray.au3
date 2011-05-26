@@ -1,14 +1,14 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
-; å­—ç¬¦ä¸²è½¬æ¢ä¸º ASCII ç æ•°ç»„.
+; ×Ö·û´®×ª»»Îª ASCII ÂëÊý×é.
 Local $a = StringToASCIIArray("abc")
 
-; æ˜¾ç¤ºåŒ…å«æ¯ä¸ªå­—ç¬¦çš„ASCIIç çš„æ•°ç»„.
+; ÏÔÊ¾°üº¬Ã¿¸ö×Ö·ûµÄASCIIÂëµÄÊý×é.
 _ArrayDisplay($a)
 
-; ASCII ç æ•°ç»„è½¬æ¢ä¸ºå­—ç¬¦ä¸².
+; ASCII ÂëÊý×é×ª»»Îª×Ö·û´®.
 Local $s = StringFromASCIIArray($a)
 
-;è½¬æ¢ç»“æžœå°†ä¼šè¿”å›ž ASCII ç è¡¨ç¤ºçš„å­—ç¬¦ä¸².
-MsgBox(0, "è½¬æ¢ç»“æžœ", $s)
+;×ª»»½á¹û½«»á·µ»Ø ASCII Âë±íÊ¾µÄ×Ö·û´®.
+MsgBox(0, "×ª»»½á¹û", $s)
 

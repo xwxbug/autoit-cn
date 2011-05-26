@@ -1,2 +1,2 @@
-锘縇ocal $nSize = InetGetSize("http://www.autoitscript.com/autoit3/files/beta/update.dat")
-MsgBox(0, "杩滅▼鏂囦欢澶у皬:", $nSize)
+Local $nSize = InetGetSize("http://www.autoitscript.com/autoit3/files/beta/update.dat")
+MsgBox(0, "远程文件大小:", $nSize)

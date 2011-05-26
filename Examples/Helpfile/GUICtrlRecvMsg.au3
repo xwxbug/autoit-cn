@@ -1,7 +1,7 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
 
-GUICreate("My GUI")  ; åˆ›å»ºä¸€ä¸ªå±…ä¸­æ˜¾ç¤ºçš„ GUI çª—å£
+GUICreate("My GUI")  ; ´´½¨Ò»¸ö¾ÓÖÐÏÔÊ¾µÄ GUI ´°¿Ú
 
 Local $nEdit = GUICtrlCreateEdit("line 0", 10, 10)
 GUICtrlCreateButton("Ok", 20, 200, 50)
@@ -13,7 +13,7 @@ For $n = 1 To 5
 Next
 
 
-; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+; ÔËÐÐ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 Do
 	Local $msg = GUIGetMsg()
 	If $msg > 0 Then

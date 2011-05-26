@@ -1,1 +1,1 @@
-﻿ControlEnable("[CLASS:Notepad]", "", "MDIClient1")
+ControlEnable("[CLASS:Notepad]", "", "MDIClient1")

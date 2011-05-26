@@ -1,4 +1,4 @@
-﻿Run("notepad.exe")
+Run("notepad.exe")
 Local $hWnd = WinGetHandle("[CLASS:Notepad]")
 If IsPtr($hWnd) Then
 	MsgBox(4096, "", "It's a valid Ptr")

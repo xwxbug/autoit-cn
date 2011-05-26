@@ -1,8 +1,8 @@
-ï»¿Local $var = IniReadSectionNames(@WindowsDir & "\win.ini")
+Local $var = IniReadSectionNames(@WindowsDir & "\win.ini")
 If @error Then
-	MsgBox(4096, "", "é”™è¯¯, è¯»å–INIæ–‡ä»¶å¤±è´¥.")
+	MsgBox(4096, "", "´íÎó, ¶ÁÈ¡INIÎÄ¼şÊ§°Ü.")
 Else
 	For $i = 1 To $var[0]
-		MsgBox(4096, "", "å­—æ®µå:" & $var[$i])
+		MsgBox(4096, "", "×Ö¶ÎÃû:" & $var[$i])
 	Next
 EndIf

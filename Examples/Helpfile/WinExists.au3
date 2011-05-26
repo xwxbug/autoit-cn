@@ -1,7 +1,7 @@
-ï»¿Run("notepad.exe")
+Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
 
 
 If WinExists("[CLASS:Notepad]") Then
-	MsgBox(0, "", "è®°äº‹æœ¬çª—å£å­˜åœ¨")
+	MsgBox(0, "", "¼ÇÊÂ±¾´°¿Ú´æÔÚ")
 EndIf

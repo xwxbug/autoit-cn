@@ -1,12 +1,12 @@
-ï»¿#OnAutoItStartRegister "MyTestFunc"
+#OnAutoItStartRegister "MyTestFunc"
 #OnAutoItStartRegister "MyTestFunc2"
 
 Sleep(1000)
 
 Func MyTestFunc()
-	MsgBox(64, "å¼€å§‹ç»“æžœ 2", 'å¼€å§‹æ¶ˆæ¯ä»Ž MyTestFunc() å‡½æ•°')
+	MsgBox(64, "¿ªÊ¼½á¹û 2", '¿ªÊ¼ÏûÏ¢´Ó MyTestFunc() º¯Êý')
 EndFunc   ;==>MyTestFunc
 
 Func MyTestFunc2()
-	MsgBox(64, "å¼€å§‹ç»“æžœ 3", 'å¼€å§‹æ¶ˆæ¯ä»Ž MyTestFunc() å‡½æ•°')
+	MsgBox(64, "¿ªÊ¼½á¹û 3", '¿ªÊ¼ÏûÏ¢´Ó MyTestFunc() º¯Êý')
 EndFunc   ;==>MyTestFunc2

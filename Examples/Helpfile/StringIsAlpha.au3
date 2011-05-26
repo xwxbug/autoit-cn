@@ -1,2 +1,2 @@
-ï»¿Local $x = "This is a sentence with whitespace."
-MsgBox(0,"æ£€æŸ¥ç»“æžœ", "è¿”å›žå€¼ä¸º:" & StringIsAlpha($x))
+Local $x = "This is a sentence with whitespace."
+MsgBox(0,"¼ì²é½á¹û", "·µ»ØÖµÎª:" & StringIsAlpha($x))

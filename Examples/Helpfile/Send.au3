@@ -1,5 +1,5 @@
-ï»¿Send("#r")
-WinWaitActive("è¿è¡Œ")
+Send("#r")
+WinWaitActive("ÔËĞĞ")
 Send("notepad.exe{Enter}")
 WinWaitActive("[CLASS:Notepad]")
 Send("Today's time/date is {F5}")

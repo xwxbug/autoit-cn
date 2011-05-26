@@ -1,1 +1,1 @@
-锘縄f IsAdmin() Then MsgBox(0, "", "鏈▼搴忔嫢鏈夌鐞嗗憳鏉冮檺")
+If IsAdmin() Then MsgBox(0, "", "本程序拥有管理员权限")

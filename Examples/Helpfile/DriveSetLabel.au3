@@ -1,1 +1,1 @@
-ï»¿DriveSetLabel("C:\", "æ–°å·æ ‡")
+DriveSetLabel("C:\", "ĞÂ¾í±ê")

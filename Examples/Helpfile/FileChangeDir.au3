@@ -1,1 +1,1 @@
-﻿FileChangeDir(@WindowsDir)
+FileChangeDir(@WindowsDir)

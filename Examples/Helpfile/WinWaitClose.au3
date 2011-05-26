@@ -1,7 +1,7 @@
-﻿Run("notepad.exe")
+Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]")
-;等待记事本窗口被关闭
+;�ȴ����±����ڱ��ر�
 WinWaitClose("[CLASS:Notepad]")
 
-;等待记事本窗口被关闭,最大等5秒,如果任然未关闭,脚本继续
+;�ȴ����±����ڱ��ر�,����5��,�����Ȼδ�ر�,�ű�����
 WinWaitClose("[CLASS:Notepad]", "", 5)

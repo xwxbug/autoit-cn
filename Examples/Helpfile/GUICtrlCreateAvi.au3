@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
@@ -8,12 +8,12 @@ Func Example()
 	GUICreate("My GUI Animation", 360, 200)
 	$ani1 = GUICtrlCreateAvi(@SystemDir & "\shell32.dll", 165, 50, 10)
 
-	$buttonstart = GUICtrlCreateButton("å¼€å§‹", 100, 150, 70, 22)
-	$buttonstop = GUICtrlCreateButton("åœæ­¢", 200, 150, 70, 22)
+	$buttonstart = GUICtrlCreateButton("¿ªÊ¼", 100, 150, 70, 22)
+	$buttonstop = GUICtrlCreateButton("Í£Ö¹", 200, 150, 70, 22)
 
 	GUISetState()
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 

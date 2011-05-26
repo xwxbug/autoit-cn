@@ -1,1 +1,1 @@
-﻿ControlClick("[CLASS:Notepad]", "", "MDIClient1")
+ControlClick("[CLASS:Notepad]", "", "MDIClient1")

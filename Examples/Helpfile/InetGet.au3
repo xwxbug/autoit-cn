@@ -1,12 +1,12 @@
-ï»¿InetGet("http://www.mozilla.org", @TempDir & "\mozilla.html")
+InetGet("http://www.mozilla.org", @TempDir & "\mozilla.html")
 InetGet("http://www.autoitscript.com", @TempDir & "autoitscript.html", 1)
 InetGet("ftp://ftp.mozilla.org/pub/mozilla.org/README", @TempDir & "\Mozilla-README.txt", 1)
 
-; é«˜çº§ä¾‹å­ - ä½¿ç”¨åå°ä¸‹è½½
+; ¸ß¼¶Àı×Ó - Ê¹ÓÃºóÌ¨ÏÂÔØ
 Local $hDownload = InetGet("http://www.autoitscript.com/autoit3/files/beta/update.dat", @TempDir & "\update.dat", 1, 1)
 Do
 	Sleep(250)
-Until InetGetInfo($hDownload, 2)	; æ£€æŸ¥ä¸‹è½½æ˜¯å¦å®Œæˆ.
+Until InetGetInfo($hDownload, 2)	; ¼ì²éÏÂÔØÊÇ·ñÍê³É.
 Local $nBytes = InetGetInfo($hDownload, 0)
-InetClose($hDownload)	; å…³é—­å¥æŸ„,é‡Šæ”¾èµ„æº.
-MsgBox(0, "", "å­—èŠ‚è¯»å–: " & $nBytes)
+InetClose($hDownload)	; ¹Ø±Õ¾ä±ú,ÊÍ·Å×ÊÔ´.
+MsgBox(0, "", "×Ö½Ú¶ÁÈ¡: " & $nBytes)

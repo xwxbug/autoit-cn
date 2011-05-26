@@ -1,10 +1,10 @@
-ï»¿#NoTrayIcon
+#NoTrayIcon
 
 TraySetState()
-TraySetToolTip("è¿™æ˜¯æˆ‘ä¸€ä¸ªæ–°çš„æ‰˜ç›˜å·¥å…·æç¤ºæ–‡æœ¬!")
+TraySetToolTip("ÕâÊÇÎÒÒ»¸öĞÂµÄÍĞÅÌ¹¤¾ßÌáÊ¾ÎÄ±¾!")
 
 While 1
-	Sleep(10)	; ç©ºé—²å¾ªç¯
+	Sleep(10)	; ¿ÕÏĞÑ­»·
 WEnd
 
 Exit

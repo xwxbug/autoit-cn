@@ -1,9 +1,9 @@
-ï»¿; *******************************************************
+; *******************************************************
 ; Example 1 - Register and later deregister a custom and the default Word.au3 error handler
 ; *******************************************************
 ;
 #include <Word.au3>
-; æ³¨å†Œè‡ªå®šä¹‰çš„é”™è¯¯å¥æŸ„
+; ×¢²á×Ô¶¨ÒåµÄ´íÎó¾ä±ú
 _WordErrorHandlerRegister ("MyErrFunc")
 ; Do something
 ; Deregister the customer error handler
@@ -16,7 +16,7 @@ _WordErrorHandlerRegister ()
 Exit
 
 Func MyErrFunc()
-	;é‡è¦ï¼šé”™è¯¯å¯¹è±¡å˜é‡å¿…é¡»å‘½åä¸º $oWordErrorHandler
+	;ÖØÒª£º´íÎó¶ÔÏó±äÁ¿±ØĞëÃüÃûÎª $oWordErrorHandler
 	$ErrorScriptline = $oWordErrorHandler.scriptline
 	$ErrorNumber = $oWordErrorHandler.number
 	$ErrorNumberHex = Hex($oWordErrorHandler.number, 8)

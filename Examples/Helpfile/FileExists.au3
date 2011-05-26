@@ -1,17 +1,17 @@
-ï»¿If FileExists("C:\autoexec.bat") Then
-	MsgBox(4096, "C:\autoexec.bat æ–‡ä»¶", "å­˜åœ¨")
+If FileExists("C:\autoexec.bat") Then
+	MsgBox(4096, "C:\autoexec.bat ÎÄ¼ş", "´æÔÚ")
 Else
-	MsgBox(4096,"C:\autoexec.bat æ–‡ä»¶", "ä¸å­˜åœ¨")
+	MsgBox(4096,"C:\autoexec.bat ÎÄ¼ş", "²»´æÔÚ")
 EndIf
 
 If FileExists("C:\") Then
-	MsgBox(4096, "C:\ ç›®å½• ", "å­˜åœ¨")
+	MsgBox(4096, "C:\ Ä¿Â¼ ", "´æÔÚ")
 Else
-	MsgBox(4096,"C:\ ç›®å½•" , "ä¸å­˜åœ¨")
+	MsgBox(4096,"C:\ Ä¿Â¼" , "²»´æÔÚ")
 EndIf
 
 If FileExists("D:") Then
-	MsgBox(4096, "é©±åŠ¨å™¨ D: ", "å­˜åœ¨")
+	MsgBox(4096, "Çı¶¯Æ÷ D: ", "´æÔÚ")
 Else
-	MsgBox(4096,"é©±åŠ¨å™¨ D: ", "ä¸å­˜åœ¨")
+	MsgBox(4096,"Çı¶¯Æ÷ D: ", "²»´æÔÚ")
 EndIf

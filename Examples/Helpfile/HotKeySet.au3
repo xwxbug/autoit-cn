@@ -1,11 +1,11 @@
-ï»¿; æŒ‰Escé”®ç»ˆæ­¢è„šæœ¬, æŒ‰Pause/Breaké”®æš‚åœ
+; °´Esc¼üÖÕÖ¹½Å±¾, °´Pause/Break¼üÔİÍ£
 
 Global $Paused
 HotKeySet("{PAUSE}", "TogglePause")
 HotKeySet("{ESC}", "Terminate")
 HotKeySet("+!d", "ShowMessage") ;Shift-Alt-d
 
-;;;; ä¸‹é¢æ˜¯ç¨‹åºæ­£æ–‡ ;;;;
+;;;; ÏÂÃæÊÇ³ÌĞòÕıÎÄ ;;;;
 While 1
 	Sleep(100)
 WEnd
@@ -15,7 +15,7 @@ Func TogglePause()
 	$Paused = Not $Paused
 	While $Paused
 		Sleep(100)
-		ToolTip('è„šæœ¬å·²ç»"æš‚åœ"äº†',0,0)
+		ToolTip('½Å±¾ÒÑ¾­"ÔİÍ£"ÁË',0,0)
 	WEnd
 	ToolTip("")
 EndFunc
@@ -25,5 +25,5 @@ Func Terminate()
 EndFunc
 
 Func ShowMessage()
-	MsgBox(4096,"æ ‡é¢˜","è¿™æ˜¯ä¸€ä¸ªæ¶ˆæ¯.")
+	MsgBox(4096,"±êÌâ","ÕâÊÇÒ»¸öÏûÏ¢.")
 EndFunc

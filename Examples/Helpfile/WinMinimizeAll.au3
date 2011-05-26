@@ -1,1 +1,1 @@
-﻿WinMinimizeAll()
+WinMinimizeAll()

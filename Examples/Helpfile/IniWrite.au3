@@ -1,1 +1,1 @@
-锘縄niWrite("C:\Temp\myfile.ini", "璁剧疆", "鍧忎汉浜烘暟", "12345")
+IniWrite("C:\Temp\myfile.ini", "设置", "坏人人数", "12345")

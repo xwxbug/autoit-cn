@@ -1,16 +1,16 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $msg
-	GUICreate("My GUI Checkbox")  ; åˆ›å»ºä¸€ä¸ªå¯¹è¯æ¡†ï¼Œå¹¶å±…ä¸­æ˜¾ç¤º
+	GUICreate("My GUI Checkbox")  ; ´´½¨Ò»¸ö¶Ô»°¿ò£¬²¢¾ÓÖĞÏÔÊ¾
 
 	GUICtrlCreateCheckbox("CHECKBOX 1", 10, 10, 120, 20)
 
-	GUISetState()       ; æ˜¾ç¤ºæœ‰å¤é€‰æ¡†(Checkbox)æ§ä»¶çš„å¯¹è¯æ¡†
+	GUISetState()       ; ÏÔÊ¾ÓĞ¸´Ñ¡¿ò(Checkbox)¿Ø¼şµÄ¶Ô»°¿ò
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 

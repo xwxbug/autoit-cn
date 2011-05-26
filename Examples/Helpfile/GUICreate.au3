@@ -1,17 +1,17 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 
 Example1()
 Example2()
 
-;ç¤ºä¾‹ 1
+;Ê¾Àı 1
 Func Example1()
 	Local $msg
 
-	GUICreate("My GUI") ; åˆ›å»ºä¸€ä¸ªå±…ä¸­æ˜¾ç¤ºçš„ GUI çª—å£
-	GUISetState(@SW_SHOW) ; æ˜¾ç¤ºä¸€ä¸ªç©ºç™½çš„çª—å£
+	GUICreate("My GUI") ; ´´½¨Ò»¸ö¾ÓÖĞÏÔÊ¾µÄ GUI ´°¿Ú
+	GUISetState(@SW_SHOW) ; ÏÔÊ¾Ò»¸ö¿Õ°×µÄ´°¿Ú
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 
@@ -20,19 +20,19 @@ Func Example1()
 	GUIDelete()
 EndFunc   ;==>Example1
 
-;ç¤ºä¾‹ 2
+;Ê¾Àı 2
 Func Example2()
 	Local $sFile = "..\GUI\logo4.gif"
 
 	Local $gui = GUICreate("Background", 400, 100)
-	; åˆ›å»ºèƒŒæ™¯å›¾ç‰‡
+	; ´´½¨±³¾°Í¼Æ¬
 	GUICtrlCreatePic("..\GUI\msoobe.jpg", 0, 0, 400, 100)
 
 	GUISetState(@SW_SHOW)
 
-	; åˆ›å»ºé€æ˜çš„ MDIå­çª—å£
+	; ´´½¨Í¸Ã÷µÄ MDI×Ó´°¿Ú
 	GUICreate("", 169, 68, 20, 20, $WS_POPUP, BitOR($WS_EX_LAYERED, $WS_EX_MDICHILD), $gui)
-	; é€æ˜å›¾ç‰‡
+	; Í¸Ã÷Í¼Æ¬
 	GUICtrlCreatePic($sFile, 0, 0, 169, 68)
 	GUISetState(@SW_SHOW)
 

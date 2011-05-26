@@ -1,4 +1,4 @@
-﻿; Fill in the username and password appropriate for your system.
+; Fill in the username and password appropriate for your system.
 Local $sUserName = "Username"
 Local $sPassword = "Password"
 

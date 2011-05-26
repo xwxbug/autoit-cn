@@ -1,3 +1,3 @@
-ï»¿SplashTextOn("ä¾‹å­", "Splash å±å¹•")
+SplashTextOn("Àı×Ó", "Splash ÆÁÄ»")
 Sleep(5000)
 SplashOff()

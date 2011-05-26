@@ -1,17 +1,17 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $msg
-	GUICreate("My GUI combo")  ; åˆ›å»ºä¸€ä¸ªå¯¹è¯æ¡†,å¹¶å±…ä¸­æ˜¾ç¤º
+	GUICreate("My GUI combo")  ; ´´½¨Ò»¸ö¶Ô»°¿ò,²¢¾ÓÖĞÏÔÊ¾
 
-	GUICtrlCreateCombo("item1", 10, 10) ; åˆ›å»ºä¸€ä¸ªç»„åˆåˆ—è¡¨æ¡†(ComboBox)æ§ä»¶
-	GUICtrlSetData(-1, "item2|item3", "item3") ; åœ¨åˆ—è¡¨æ¡†ä¸­æ·»åŠ æ–°çš„é¡¹ç›®ï¼Œå¹¶è®¾ç½®ä¸€ä¸ªæ–°çš„é»˜è®¤å€¼
+	GUICtrlCreateCombo("item1", 10, 10) ; ´´½¨Ò»¸ö×éºÏÁĞ±í¿ò(ComboBox)¿Ø¼ş
+	GUICtrlSetData(-1, "item2|item3", "item3") ; ÔÚÁĞ±í¿òÖĞÌí¼ÓĞÂµÄÏîÄ¿£¬²¢ÉèÖÃÒ»¸öĞÂµÄÄ¬ÈÏÖµ
 
 	GUISetState()
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 

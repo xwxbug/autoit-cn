@@ -1,2 +1,2 @@
-﻿Run("notepad.exe")
+Run("notepad.exe")
 ControlCommand("[CLASS:Notepad]", "", "Edit1", "GetLineCount", "")

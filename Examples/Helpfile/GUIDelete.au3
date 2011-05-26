@@ -1,20 +1,20 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
 Example()
 
 Func Example()
 	Local $msg
 
-	GUICreate("My GUI")  ; åˆ›å»ºä¸€ä¸ªå±…ä¸­æ˜¾ç¤ºçš„ GUI çª—å£
+	GUICreate("My GUI")  ; ´´½¨Ò»¸ö¾ÓÖÐÏÔÊ¾µÄ GUI ´°¿Ú
 
-	GUISetState()       ; æ˜¾ç¤ºä¸€ä¸ªç©ºç™½çš„çª—å£
+	GUISetState()       ; ÏÔÊ¾Ò»¸ö¿Õ°×µÄ´°¿Ú
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËÐÐ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	While 1
 		$msg = GUIGetMsg()
 
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
-	GUIDelete()	; å°†è¿”å›ž 1
+	GUIDelete()	; ½«·µ»Ø 1
 EndFunc   ;==>Example

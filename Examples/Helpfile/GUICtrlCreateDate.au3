@@ -1,4 +1,4 @@
-ï»¿#include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <DateTimeConstants.au3>
 
 Example1()
@@ -6,7 +6,7 @@ Example2()
 Example3()
 Example4()
 
-; ç¤ºä¾‹1
+; Ê¾Àı1
 Func Example1()
 	Local $date, $msg
 
@@ -14,7 +14,7 @@ Func Example1()
 	$date = GUICtrlCreateDate("1953/04/25", 10, 10, 185, 20)
 	GUISetState()
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	Do
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
@@ -23,7 +23,7 @@ Func Example1()
 	GUIDelete()
 EndFunc   ;==>Example1
 
-; ç¤ºä¾‹2
+; Ê¾Àı2
 Func Example2()
 	Local $n, $msg
 
@@ -31,7 +31,7 @@ Func Example2()
 	$n = GUICtrlCreateDate("", 10, 10, 100, 20, $DTS_SHORTDATEFORMAT)
 	GUISetState()
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	Do
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
@@ -40,14 +40,14 @@ Func Example2()
 	GUIDelete()
 EndFunc   ;==>Example2
 
-; ç¤ºä¾‹3
+; Ê¾Àı3
 Func Example3()
 	Local $date, $DTM_SETFORMAT_, $style
 
 	GUICreate("My GUI get date", 200, 200, 800, 200)
 	$date = GUICtrlCreateDate("1953/04/25", 10, 10, 185, 20)
 
-	; è®¾ç½®é»˜è®¤æ ¼å¼(æ³¨æ„å¸®åŠ©ä¸Šçš„è¯´æ˜)
+	; ÉèÖÃÄ¬ÈÏ¸ñÊ½(×¢Òâ°ïÖúÉÏµÄËµÃ÷)
 	$DTM_SETFORMAT_ = 0x1032 ; $DTM_SETFORMATW
 	$style = "yyyy/MM/dd HH:mm:ss"
 	GUICtrlSendMsg($date, $DTM_SETFORMAT_, 0, $style)
@@ -59,7 +59,7 @@ Func Example3()
 	MsgBox(0, "Time", GUICtrlRead($date))
 EndFunc   ;==>Example3
 
-; ç¤ºä¾‹4
+; Ê¾Àı4
 Func Example4()
 	Local $n, $msg
 
@@ -67,7 +67,7 @@ Func Example4()
 	$n = GUICtrlCreateDate("", 20, 20, 100, 20, $DTS_TIMEFORMAT)
 	GUISetState()
 
-	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
+	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
 	Do
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE

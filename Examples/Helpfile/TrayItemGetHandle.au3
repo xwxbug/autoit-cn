@@ -42,7 +42,7 @@ Func SetMenuColor($nMenuID, $nColor)
 	Local $hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $nColor)
 	$hBrush = $hBrush[0]
 
-	Local $stMenuInfo = DllStructCreate("dword;dword;dword;uint;dword;dword;ptr")
+	Local $stMenuInfo = DllStructCreate("dword;dword;dword;uint;ptr;dword;ptr")
 	DllStructSetData($stMenuInfo, 1, DllStructGetSize($stMenuInfo))
 	DllStructSetData($stMenuInfo, 2, BitOR($MIM_APPLYTOSUBMENUS, $MIM_BACKGROUND))
 	DllStructSetData($stMenuInfo, 5, $hBrush)

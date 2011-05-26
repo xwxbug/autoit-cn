@@ -1,19 +1,19 @@
-ï»¿; INIæ–‡ä»¶å†™å…¥æ¼”ç¤º,æ–‡ä»¶å°†ä¼šåœ¨æ¡Œé¢åˆ›å»º.
+; INIÎÄ¼þÐ´ÈëÑÝÊ¾,ÎÄ¼þ½«»áÔÚ×ÀÃæ´´½¨.
 Local $sIni = @DesktopDir & "\AutoIt-Test.ini"
 
-; å°†æ•°æ®å†™å…¥åˆ°æ ‡å‡†INIæ–‡ä»¶çš„ä¸€ä¸ªå­—æ®µ.
+; ½«Êý¾ÝÐ´Èëµ½±ê×¼INIÎÄ¼þµÄÒ»¸ö×Ö¶Î.
 Local $sData = "Key1=Value1" & @LF & "Key2=Value2" & @LF & "Key3=Value3"
 IniWriteSection($sIni, "Section1", $sData)
 
-;åˆ›å»ºä¸€ä¸ªæ–°çš„å­—æ®µ,å¹¶å°†æ•°ç»„æ•°æ®å†™å…¥.
-Local $aData1 = IniReadSection($sIni, "Section1")	; è¯»å–åˆšåˆšå†™å…¥çš„å†…å®¹.
+;´´½¨Ò»¸öÐÂµÄ×Ö¶Î,²¢½«Êý×éÊý¾ÝÐ´Èë.
+Local $aData1 = IniReadSection($sIni, "Section1")	; ¶ÁÈ¡¸Õ¸ÕÐ´ÈëµÄÄÚÈÝ.
 For $i = 1 To UBound($aData1) - 1
-	$aData1[$i][1] &= "-" & $i	; æ›´æ”¹æŸäº›æ•°æ®
+	$aData1[$i][1] &= "-" & $i	; ¸ü¸ÄÄ³Ð©Êý¾Ý
 Next
 
-IniWriteSection($sIni, "Section2", $aData1)	; å†™å…¥æ–°çš„æ•°æ®
+IniWriteSection($sIni, "Section2", $aData1)	; Ð´ÈëÐÂµÄÊý¾Ý
 
-; åˆ›å»ºä¸€ä¸ªè‡ªå®šä¹‰çš„äºŒç»´æ•°ç»„,å¹¶å°†æ•°ç»„æ•°æ®å†™å…¥.
+; ´´½¨Ò»¸ö×Ô¶¨ÒåµÄ¶þÎ¬Êý×é,²¢½«Êý×éÊý¾ÝÐ´Èë.
 Local $aData2[3][2] = [["FirstKey", "FirstValue"],["SecondKey", "SecondValue"],["ThirdKey", "ThirdValue"]]
-;å®šä¹‰æ•°ç»„å…ƒç´ ç´¢å¼•,ç”±ç´¢å¼•0å¼€å§‹å†™å…¥.
+;¶¨ÒåÊý×éÔªËØË÷Òý,ÓÉË÷Òý0¿ªÊ¼Ð´Èë.
 IniWriteSection($sIni, "Section3", $aData2, 0)

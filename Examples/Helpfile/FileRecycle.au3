@@ -1,1 +1,1 @@
-﻿FileRecycle("C:\*.tmp")
+FileRecycle("C:\*.tmp")

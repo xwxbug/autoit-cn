@@ -1,8 +1,8 @@
-ï»¿#include <ScreenCapture.au3>
+#include <ScreenCapture.au3>
 
-; æ•æ‰å…¨å±
+; ²¶×½È«ÆÁ
 _ScreenCapture_Capture(@MyDocumentsDir & "\GDIPlus_Image1.jpg")
 
-; æ•æ‰åŒºåŸŸ
+; ²¶×½ÇøÓò
 _ScreenCapture_Capture(@MyDocumentsDir & "\GDIPlus_Image2.jpg", 0, 0, 796, 596)
 
