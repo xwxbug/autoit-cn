@@ -14,7 +14,29 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.1 (2011-05-25) 第一汉化版 PRE
+3.3.7.2 (2011-05-26) 第一汉化版 PRE
+3.3.7.2 (Beta)
+[G][!]新增: 在 DllStructCreate() 中使用 Struct/EndStruct 来解决 X86/X64 数据对齐问题.
+[G][!]更新: 使用 VC10 编译(VS2010). 解决 Win2000/XP 下 AutoIt, Aut2Exe, Au3Info, Au3Check 和 AutoItHelp的执行问题.
+[G][*]修正: #1860: DriveStatus 空参数下返回READY.
+[G][*]修正: #1854: StringIsFloat 在非浮点数上返回 1.
+[G][*]修正: #1910: 修改 $TTN_GETDISPINFO 为 $TTN_GETDISPINFOW.
+[G][*]修正: #1844: SplashTextOn 当使用opt(可选参数)和@CRLF / @LF时损坏变量.
+[G][*]修正: #1932: 卸载器, 注册表, 应用程序路径. (+beta).
+[G][*]修正: #1929: SetMenuColor() 不能工作于64位系统.
+[G][*]修正: #1479: 64位 ListView WM_NOTIFY 消息.
+
+UDFs:
+[G][*]修正: #1920: Security.au3 中第 85 行的错误报告导致脚本崩溃
+[G][*]修正: #1895: _GUIScrollBars_Init() Bug.
+[G][*]修正: #1891: _ArrayDisplay (......,i$iTranspose,...) 描述错误.
+
+
+3.3.7.1 (Beta)
+[G][*]修正: 一些文件未使用静态库编译.
+
+
+3.3.7.0 (Beta)
 AutoIt 3.3.7.1 (2011-05-25):
 [G][*]修正: #1040: _ScreenCapture_Capture(): 光标捕捉时 GDI 对象泄漏.
 [G][*]修正: #1599: TraySetItemText() 回到默认菜单项目.
