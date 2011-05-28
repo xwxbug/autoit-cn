@@ -1,2 +1,6 @@
 Local $var = DriveGetLabel("c:\")
-MsgBox(4096,"卷标: ",$var)
+If $var='' Then
+	MsgBox(4096,"错误","C 盘卷标未设置")
+Else
+	MsgBox(4096,"C 盘卷标: ",$var)
+EndIf

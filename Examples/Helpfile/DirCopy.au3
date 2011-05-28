@@ -1,1 +1,5 @@
-DirCopy(@MyDocumentsDir, "C:\Backups\MyDocs", 1)
+DirCreate("c:\dir_test\dir1")
+FileWrite("c:\dir_test\dir1\test.txt",'test')
+DirCopy("c:\dir_test\dir1", "c:\dir_test\dir2", 1)
+MsgBox(32,"","文件夹已复制")
+DirRemove("c:\dir_test",1)

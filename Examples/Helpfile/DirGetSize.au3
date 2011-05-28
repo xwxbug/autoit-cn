@@ -5,7 +5,7 @@ $size = DirGetSize(@WindowsDir, 2)
 MsgBox(0,"","大小(MB) :" & Round($size / 1024 / 1024))
 
 Local $timer = TimerInit()
-$size	= DirGetSize("\\10.0.0.1\h$",1);试试填入一个真实路径
+$size	= DirGetSize("\\10.0.0.1\h$",1);请试试填入一个真实路径
 Local $diff	= Round(TimerDiff($timer) / 1000)	; 按秒计时
 If IsArray($size) Then
 	MsgBox(0,"DirGetSize-信息","大小(字节):" & $size[0] & @LF _
