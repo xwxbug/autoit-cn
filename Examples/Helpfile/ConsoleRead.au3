@@ -3,9 +3,7 @@
 ; 3,键入以下命令行:
 ;	echo Hello! | ConsoleRead.exe
 ;
-; When invoked in a console window, the above command echos the text "Hello!"
-; but instead of dispalying it, the | tells the console to pipe it to the STDIN stream
-; of the ConsoleRead.exe process.
+
 If Not @Compiled Then
 	MsgBox(0, "提示", "此脚本必须编译后才能正确显示.")
 	Exit -1

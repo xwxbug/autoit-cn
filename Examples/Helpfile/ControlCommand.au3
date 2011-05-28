@@ -1,2 +1,3 @@
 Run("notepad.exe")
-ControlCommand("[CLASS:Notepad]", "", "Edit1", "GetLineCount", "")
+WinWaitActive("[CLASS:Notepad]","")
+ControlCommand("[CLASS:Notepad]", "", "Edit1", "EditPaste", "放点文本进去")

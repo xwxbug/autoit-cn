@@ -1,4 +1,4 @@
-;可以用作调试用, 类似 MsgBox 效果.
+;可以用作调试用, 用于在STDOUT输出文本内容.
 
 Local $var = "Test"
 ConsoleWrite("var=" & $var & @CRLF)

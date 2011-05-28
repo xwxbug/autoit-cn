@@ -1,4 +1,3 @@
 Run("notepad.exe")
 WinWaitActive("[CLASS:Notepad]","")
-ControlSend("[CLASS:Notepad]", "", "Edit1", "This is a line of text in the notepad window")
-;ControlSend不支持中文
+ControlSend("[CLASS:Notepad]", "", "Edit1", "将会发送一些文本到记事本窗口去.")
