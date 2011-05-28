@@ -1,4 +1,3 @@
-
 Local $x = BitNot(5)
 
 #cs ×¢ÊÍ:
