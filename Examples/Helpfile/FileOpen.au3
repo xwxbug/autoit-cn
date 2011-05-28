@@ -15,7 +15,7 @@ FileClose($file)
 ;示例 2 官方默认例子
 ;================================================
 ; 自动创建目录结构的另外一个例子.
-$file = FileOpen("test.txt", 10) ; 等同 2 + 8 (清除 + 创建目录)
+$file = FileOpen(@ScriptDir & "\test\test.txt", 10) ; 等同 2 + 8 (清除内容 + 目录不存在就创建)
 
 If $file = -1 Then
 	MsgBox(0, "错误", "不能打开文件.")

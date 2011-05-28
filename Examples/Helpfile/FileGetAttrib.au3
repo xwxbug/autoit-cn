@@ -1,4 +1,4 @@
-Local $attrib = FileGetAttrib("c:\boot.ini")
+Local $attrib = FileGetAttrib(@WindowsDir & "\win.ini")
 If @error Then
 	MsgBox(4096,"错误", "无法获得属性.")
 	Exit

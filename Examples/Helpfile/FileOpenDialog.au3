@@ -10,7 +10,7 @@ Else
 EndIf
 
 
-; 多筛选组
+; 多组筛选
 $message = "按下 Ctrl 或 Shift 键选择多个文件."
 
 $var = FileOpenDialog($message, @WindowsDir & "", "图像 (*.jpg;*.bmp)|视频 (*.avi;*.mpg)", 1 + 4 )
