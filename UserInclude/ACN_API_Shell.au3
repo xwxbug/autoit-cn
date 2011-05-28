@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _API_ShellAbout
@@ -48,7 +48,7 @@ Func _API_PickIconDlg(ByRef $sFileName,ByRef $IconIndex)
 	Local	$structsize		= DllStructGetSize($pszIconPath)
 	DllStructSetData($pszIconPath, 1, $sFileName)
 	DllStructSetData($piIconIndex, 1, $IconIndex)
-	; è°ƒç”¨ PickIconDlg API - '62' ä¸ºåºå·å€¼,éƒ¨åˆ†ç³»ç»Ÿæ²¡æœ‰å‘½åå‡½æ•°å,åªæœ‰åºå·,æ‰€ä»¥ä¸ºäº†å…¼å®¹ä½¿ç”¨62.
+	; µ÷ÓÃ PickIconDlg API - '62' ÎªĞòºÅÖµ,²¿·ÖÏµÍ³Ã»ÓĞÃüÃûº¯ÊıÃû,Ö»ÓĞĞòºÅ,ËùÒÔÎªÁË¼æÈİÊ¹ÓÃ62.
 	Local $ret=DllCall("shell32.dll", "Int", 62, "hwnd", 0, "ptr", DllStructGetPtr($pszIconPath), "int", $structsize, "ptr", DllStructGetPtr($piIconIndex))
 	If IsArray($ret) Then
 		If $ret[0]=0 Then

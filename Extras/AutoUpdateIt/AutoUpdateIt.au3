@@ -1,5 +1,5 @@
 #NoTrayIcon
-#Region ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
+#Region ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_icon=lemon.ico
 #AutoIt3Wrapper_useansi=n
 #AutoIt3Wrapper_outfile=..\..\AllFile\Extras\AutoUpdateIt\AutoUpdateIt.exe
@@ -10,20 +10,20 @@
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=n
 #AutoIt3Wrapper_useupx=n
 #AutoIt3Wrapper_Run_AU3Check=y
-#EndRegion ;**** å‚æ•°åˆ›å»ºäº AutoIt3Wrapper_GUI ****
+#EndRegion ;**** ²ÎÊı´´½¨ÓÚ AutoIt3Wrapper_GUI ****
 ;
 ; =======================================================================
 ; AutoUpdateIt
-; åŸä½œ: Rob Saunders
-; ä¿®æ”¹: JPM/strik3r0475
-; å†ä¿®æ”¹: thesnow@www.autoit.net.cn
-; å‘½ä»¤è¡Œé€‰é¡¹:
+; Ô­×÷: Rob Saunders
+; ĞŞ¸Ä: JPM/strik3r0475
+; ÔÙĞŞ¸Ä: thesnow@www.autoit.net.cn
+; ÃüÁîĞĞÑ¡Ïî:
 ;  - AutoUpdateIt.au3 [/release | /beta | /prebeta] [/silent] [/noproxy]
-;    - /release		ä¸‹è½½æ­£å¼ç‰ˆæœ¬
-;    - /beta		ä¸‹è½½æµ‹è¯•ç‰ˆæœ¬
-;    - /prebeta   	ä¸‹è½½é¢„æµ‹è¯•ç‰ˆæœ¬
-;    - /silent		é™é»˜å®‰è£…
-;    - /noproxy   	ä½¿ç”¨ç›´æ¥è¿æ¥(ä¸ä½¿ç”¨ IE ä»£ç†)
+;    - /release		ÏÂÔØÕıÊ½°æ±¾
+;    - /beta		ÏÂÔØ²âÊÔ°æ±¾
+;    - /prebeta   	ÏÂÔØÔ¤²âÊÔ°æ±¾
+;    - /silent		¾²Ä¬°²×°
+;    - /noproxy   	Ê¹ÓÃÖ±½ÓÁ¬½Ó(²»Ê¹ÓÃ IE ´úÀí)
 ;
 ; History:
 ;  - 1.50 - Rewrote the code to new Inet... functions (InetClose, InetGetInfo) (by Prog@ndy)
@@ -71,9 +71,9 @@
 #include <StaticConstants.au3>
 
 ; ========================================
-; 				å£°æ˜å˜é‡
+; 				ÉùÃ÷±äÁ¿
 ; ========================================
-Global Const $s_Title = 'è‡ªåŠ¨æ›´æ–°'
+Global Const $s_Title = '×Ô¶¯¸üĞÂ'
 ;Global Const $s_Version = '1.41'
 Global Const $s_Version= FileGetVersion(@ScriptFullPath)
 Global Const $s_DatFile = 'http://www.autoitscript.com/autoit3/files/beta/update.dat'
@@ -102,7 +102,7 @@ Global $i_ProgOn, $i_StatusPercent
 Global $i_InetGetHandle
 
 ; ========================================
-; 			è¯»å–æ³¨å†Œè¡¨è®¾ç½®
+; 			¶ÁÈ¡×¢²á±íÉèÖÃ
 ; ========================================
 Global $s_DefDownDir = RegRead($s_Au3UpReg, 'DownloadDir')
 If @error Then
@@ -113,29 +113,29 @@ If Not @error And FileExists($s_Au3Path & '\AutoIt3.exe') Then
 	$s_CurrVer = FileGetVersion($s_Au3Path & "\AutoIt3.exe")
 	$s_CurrDate = _FriendlyDate(FileGetTime($s_Au3Path & "\AutoIt3.exe", 0, 1))
 Else
-	$s_Au3Path = 'å®‰è£…è·¯å¾„æ²¡æœ‰æ‰¾åˆ°'
-	$s_CurrVer = 'æ²¡æœ‰æ‰¾åˆ°'
-	$s_CurrDate = 'æ²¡æœ‰æ‰¾åˆ°'
+	$s_Au3Path = '°²×°Â·¾¶Ã»ÓĞÕÒµ½'
+	$s_CurrVer = 'Ã»ÓĞÕÒµ½'
+	$s_CurrDate = 'Ã»ÓĞÕÒµ½'
 EndIf
 Global $s_BetaPath = RegRead64('HKLM\Software\AutoIt v3\AutoIt', 'betaInstallDir')
 If Not @error And FileExists($s_BetaPath & '\AutoIt3.exe') Then
 	$s_CurrBetaVer = FileGetVersion($s_BetaPath & "\AutoIt3.exe")
 	$s_CurrBetaDate = _FriendlyDate(FileGetTime($s_BetaPath & "\AutoIt3.exe", 0, 1))
 Else
-	$s_BetaPath = 'å®‰è£…è·¯å¾„æ²¡æœ‰æ‰¾åˆ°'
-	$s_CurrBetaVer = 'æ²¡æœ‰æ‰¾åˆ°'
-	$s_CurrBetaDate = 'æ²¡æœ‰æ‰¾åˆ°'
+	$s_BetaPath = '°²×°Â·¾¶Ã»ÓĞÕÒµ½'
+	$s_CurrBetaVer = 'Ã»ÓĞÕÒµ½'
+	$s_CurrBetaDate = 'Ã»ÓĞÕÒµ½'
 EndIf
 ; ========================================
-; 			å‘½ä»¤è¡Œæ–¹å¼æ£€æŸ¥ç¨‹åºæ›´æ–°
+; 			ÃüÁîĞĞ·½Ê½¼ì²é³ÌĞò¸üĞÂ
 ; ========================================
 If _StringInArray($CmdLine, '/noproxy') Then HttpSetProxy(1)
 If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or _StringInArray($CmdLine, '/prebeta') Then
 	Opt('TrayIconHide', 0)
-	_Status('æ›´æ–°æ£€æŸ¥ä¸­...')
+	_Status('¸üĞÂ¼ì²éÖĞ...')
 	InetGet($s_DatFile, $s_DatFile_Local, 1 )
 	If @error<>0 Then
-		_Status('ä¸èƒ½è¿æ¥åˆ°ç«™ç‚¹', 'è¯·æ£€æŸ¥æ‚¨çš„ç½‘ç»œè¿æ¥')
+		_Status('²»ÄÜÁ¬½Óµ½Õ¾µã', 'Çë¼ì²éÄúµÄÍøÂçÁ¬½Ó')
 		Sleep(4000)
 		Exit
 	EndIf
@@ -157,9 +157,9 @@ If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or 
 		$i_InetGetHandle = InetGet($s_AutoUpdate, $s_DownTemp, 1, 1)
 		$s_DownSize = Round($i_DownSize / 1024) & ' KB'
 		Do
-			_Status('ä¸‹è½½æ›´æ–°ä¸­', '', InetGetInfo($i_InetGetHandle, 0), $i_DownSize)
+			_Status('ÏÂÔØ¸üĞÂÖĞ', '', InetGetInfo($i_InetGetHandle, 0), $i_DownSize)
 		Until InetGetInfo($i_InetGetHandle, 2)
-		_Status('ä¸‹è½½å®Œæˆ', 'å¯åŠ¨å®‰è£…ç¨‹åº')
+		_Status('ÏÂÔØÍê³É', 'Æô¶¯°²×°³ÌĞò')
 		InetClose($i_InetGetHandle)
 		$i_InetGetHandle=-1
 		Sleep(1000)
@@ -169,73 +169,73 @@ If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or 
 			_Start('"' & $s_DownTemp & '"')
 		EndIf
 	Else
-		_Status('æ²¡æœ‰å‘ç°æ–°ç‰ˆæœ¬')
+		_Status('Ã»ÓĞ·¢ÏÖĞÂ°æ±¾')
 		Sleep(1000)
 	EndIf
 	Exit
 EndIf
 ; ========================================
-; 				GUI - ä¸»ç•Œé¢
+; 				GUI - Ö÷½çÃæ
 ; ========================================
 Opt("GuiResizeMode", $GUI_DOCKALL)
 $gui_Main = GUICreate($s_Title, 350, 310 + 20)
-$me_Mn_Help = GUICtrlCreateMenu('å¸®åŠ©[&H]')
-$me_Mn_Proxy = GUICtrlCreateMenuItem('å…³é—­ IE çš„ä»£ç†æœåŠ¡å™¨', $me_Mn_Help)
-$me_Mn_VisitSite = GUICtrlCreateMenuItem('ç™»å½• AutoIt3 å®˜æ–¹ç½‘ç«™[&V]', $me_Mn_Help)
-$snow_Mn_VisitSite = GUICtrlCreateMenuItem('ç™»å½• AutoIt3 ä¸­æ–‡è®ºå›[&C]', $me_Mn_Help)
-$me_Mn_About = GUICtrlCreateMenuItem('å…³äº[&A]', $me_Mn_Help)
+$me_Mn_Help = GUICtrlCreateMenu('°ïÖú[&H]')
+$me_Mn_Proxy = GUICtrlCreateMenuItem('¹Ø±Õ IE µÄ´úÀí·şÎñÆ÷', $me_Mn_Help)
+$me_Mn_VisitSite = GUICtrlCreateMenuItem('µÇÂ¼ AutoIt3 ¹Ù·½ÍøÕ¾[&V]', $me_Mn_Help)
+$snow_Mn_VisitSite = GUICtrlCreateMenuItem('µÇÂ¼ AutoIt3 ÖĞÎÄÂÛÌ³[&C]', $me_Mn_Help)
+$me_Mn_About = GUICtrlCreateMenuItem('¹ØÓÚ[&A]', $me_Mn_Help)
 $lb_separator = GUICtrlCreateLabel('', 0, 0, 350, 2, $SS_SUNKEN)
-$gr_Instal_Details = GUICtrlCreateGroup('æœ¬åœ°å®‰è£…ç¨‹åºä¿¡æ¯:', 5, 5, 340, 70)
-GUICtrlCreateLabel('æ­£å¼ç‰ˆæœ¬: ' & $s_CurrVer, 15, 25, 160, 15)
-GUICtrlCreateLabel('æ—¥æœŸ: ' & $s_CurrDate, 15, 40, 160, 15)
-GUICtrlCreateLabel('è·¯å¾„: ' & $s_Au3Path, 15, 55, 160, 15)
+$gr_Instal_Details = GUICtrlCreateGroup('±¾µØ°²×°³ÌĞòĞÅÏ¢:', 5, 5, 340, 70)
+GUICtrlCreateLabel('ÕıÊ½°æ±¾: ' & $s_CurrVer, 15, 25, 160, 15)
+GUICtrlCreateLabel('ÈÕÆÚ: ' & $s_CurrDate, 15, 40, 160, 15)
+GUICtrlCreateLabel('Â·¾¶: ' & $s_Au3Path, 15, 55, 160, 15)
 GUICtrlSetFont(-1, 6)
-GUICtrlCreateLabel('æµ‹è¯•ç‰ˆæœ¬: ' & $s_CurrBetaVer, 190, 25, 150, 15)
-GUICtrlCreateLabel('æ—¥æœŸ: ' & $s_CurrBetaDate, 190, 40, 150, 15)
-GUICtrlCreateLabel('è·¯å¾„: ' & $s_BetaPath, 190, 55, 150, 15)
+GUICtrlCreateLabel('²âÊÔ°æ±¾: ' & $s_CurrBetaVer, 190, 25, 150, 15)
+GUICtrlCreateLabel('ÈÕÆÚ: ' & $s_CurrBetaDate, 190, 40, 150, 15)
+GUICtrlCreateLabel('Â·¾¶: ' & $s_BetaPath, 190, 55, 150, 15)
 GUICtrlSetFont(-1, 6)
-$gr_Mn_Release = GUICtrlCreateGroup('æœ€æ–°æ­£å¼å‘å¸ƒç‰ˆæœ¬', 5, 85, 165, 60)
-$lb_Mn_ReleaseVer = GUICtrlCreateLabel('ç‰ˆæœ¬: è½½å…¥ä¸­...', 15, 105, 145, 15)
-$lb_Mn_ReleaseDate = GUICtrlCreateLabel('æ—¥æœŸ: è½½å…¥ä¸­...', 15, 120, 145, 15)
-$gr_Mn_Beta = GUICtrlCreateGroup('æœ€æ–°å‘å¸ƒæµ‹è¯•ç‰ˆæœ¬', 180, 85, 165, 60)
-$lb_Mn_BetaVer = GUICtrlCreateLabel('ç‰ˆæœ¬: è½½å…¥ä¸­...', 190, 105, 145, 15)
-$lb_Mn_BetaDate = GUICtrlCreateLabel('æ—¥æœŸ: è½½å…¥ä¸­...', 190, 120, 145, 15)
-$gr_Mn_PreBeta = GUICtrlCreateGroup('æœ€æ–°å‘å¸ƒæ±‰åŒ–ç‰ˆæœ¬', 180 + 175, 85, 165, 60)
-$lb_Mn_PreBetaVer = GUICtrlCreateLabel('ç‰ˆæœ¬: è½½å…¥ä¸­...', 190 + 175, 105, 145, 15)
-$lb_Mn_PreBetaDate = GUICtrlCreateLabel('æ—¥æœŸ: è½½å…¥ä¸­...', 190 + 175, 120, 145, 15)
+$gr_Mn_Release = GUICtrlCreateGroup('×îĞÂÕıÊ½·¢²¼°æ±¾', 5, 85, 165, 60)
+$lb_Mn_ReleaseVer = GUICtrlCreateLabel('°æ±¾: ÔØÈëÖĞ...', 15, 105, 145, 15)
+$lb_Mn_ReleaseDate = GUICtrlCreateLabel('ÈÕÆÚ: ÔØÈëÖĞ...', 15, 120, 145, 15)
+$gr_Mn_Beta = GUICtrlCreateGroup('×îĞÂ·¢²¼²âÊÔ°æ±¾', 180, 85, 165, 60)
+$lb_Mn_BetaVer = GUICtrlCreateLabel('°æ±¾: ÔØÈëÖĞ...', 190, 105, 145, 15)
+$lb_Mn_BetaDate = GUICtrlCreateLabel('ÈÕÆÚ: ÔØÈëÖĞ...', 190, 120, 145, 15)
+$gr_Mn_PreBeta = GUICtrlCreateGroup('×îĞÂ·¢²¼ºº»¯°æ±¾', 180 + 175, 85, 165, 60)
+$lb_Mn_PreBetaVer = GUICtrlCreateLabel('°æ±¾: ÔØÈëÖĞ...', 190 + 175, 105, 145, 15)
+$lb_Mn_PreBetaDate = GUICtrlCreateLabel('ÈÕÆÚ: ÔØÈëÖĞ...', 190 + 175, 120, 145, 15)
 GUIStartGroup()
-$ra_Mn_DoneNotify = GUICtrlCreateRadio('ä¸‹è½½å®Œæˆåä»€ä¹ˆéƒ½ä¸åš[&N]', 5, 155, 340, 15)
-$ra_Mn_DoneRun = GUICtrlCreateRadio('ä¸‹è½½å®Œæˆåè‡ªåŠ¨å®‰è£…[&A]', 5, 175, 340, 15)
+$ra_Mn_DoneNotify = GUICtrlCreateRadio('ÏÂÔØÍê³ÉºóÊ²Ã´¶¼²»×ö[&N]', 5, 155, 340, 15)
+$ra_Mn_DoneRun = GUICtrlCreateRadio('ÏÂÔØÍê³Éºó×Ô¶¯°²×°[&A]', 5, 175, 340, 15)
 ; Check default done option
-If RegRead($s_Au3UpReg, 'DoneOption') = 'è¿è¡Œ[&R]' Then
+If RegRead($s_Au3UpReg, 'DoneOption') = 'ÔËĞĞ[&R]' Then
 	GUICtrlSetState($ra_Mn_DoneRun, $GUI_CHECKED)
 Else
 	GUICtrlSetState($ra_Mn_DoneNotify, $GUI_CHECKED)
 EndIf
-$bt_Mn_Close = GUICtrlCreateButton('å…³é—­[&C]', 10, 275, 330, 25)
+$bt_Mn_Close = GUICtrlCreateButton('¹Ø±Õ[&C]', 10, 275, 330, 25)
 ; ========================================
-; æ§ä»¶è®¾ç½® - ä¸‹è½½æŒ‰é’®
+; ¿Ø¼şÉèÖÃ - ÏÂÔØ°´Å¥
 ; ========================================
-$bt_Mn_ReleaseDl = GUICtrlCreateButton('ä¸‹è½½æ­£å¼ç‰ˆæœ¬[&R]', 5, 195, 165, 30)
+$bt_Mn_ReleaseDl = GUICtrlCreateButton('ÏÂÔØÕıÊ½°æ±¾[&R]', 5, 195, 165, 30)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$lb_Mn_ReleaseSize = GUICtrlCreateLabel('å¤§å°: è½½å…¥ä¸­...', 5, 230, 165, 15, $SS_CENTER)
-$lb_Mn_ReleasePage = GUICtrlCreateLabel('ç™»å½•ä¸‹è½½é¡µ', 5, 245, 165, 15, $SS_CENTER)
+$lb_Mn_ReleaseSize = GUICtrlCreateLabel('´óĞ¡: ÔØÈëÖĞ...', 5, 230, 165, 15, $SS_CENTER)
+$lb_Mn_ReleasePage = GUICtrlCreateLabel('µÇÂ¼ÏÂÔØÒ³', 5, 245, 165, 15, $SS_CENTER)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetFont(-1, 9, 400, 4)
 GUICtrlSetColor(-1, 0x0000ff)
 GUICtrlSetCursor(-1, 0)
-$bt_Mn_BetaDl = GUICtrlCreateButton('ä¸‹è½½æµ‹è¯•ç‰ˆæœ¬[&B]', 180, 195, 165, 30)
+$bt_Mn_BetaDl = GUICtrlCreateButton('ÏÂÔØ²âÊÔ°æ±¾[&B]', 180, 195, 165, 30)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$lb_Mn_BetaSize = GUICtrlCreateLabel('å¤§å°: è½½å…¥ä¸­...', 180, 230, 165, 15, $SS_CENTER)
-$lb_Mn_BetaPage = GUICtrlCreateLabel('ç™»å½•ä¸‹è½½é¡µ', 180, 245, 165, 15, $SS_CENTER)
+$lb_Mn_BetaSize = GUICtrlCreateLabel('´óĞ¡: ÔØÈëÖĞ...', 180, 230, 165, 15, $SS_CENTER)
+$lb_Mn_BetaPage = GUICtrlCreateLabel('µÇÂ¼ÏÂÔØÒ³', 180, 245, 165, 15, $SS_CENTER)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetFont(-1, 9, 400, 4)
 GUICtrlSetColor(-1, 0x0000ff)
 GUICtrlSetCursor(-1, 0)
-$bt_Mn_PreBetaDl = GUICtrlCreateButton('ä¸‹è½½é¢„æµ‹è¯•ç‰ˆæœ¬[&P]', 180 + 175, 195, 165, 30)
+$bt_Mn_PreBetaDl = GUICtrlCreateButton('ÏÂÔØÔ¤²âÊÔ°æ±¾[&P]', 180 + 175, 195, 165, 30)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$lb_Mn_PreBetaSize = GUICtrlCreateLabel('å¤§å°: è½½å…¥ä¸­...', 180 + 175, 230, 165, 15, $SS_CENTER)
-$lb_Mn_PreBetaPage = GUICtrlCreateLabel('ç™»å½•ä¸‹è½½é¡µ', 180 + 175, 245, 165, 15, $SS_CENTER)
+$lb_Mn_PreBetaSize = GUICtrlCreateLabel('´óĞ¡: ÔØÈëÖĞ...', 180 + 175, 230, 165, 15, $SS_CENTER)
+$lb_Mn_PreBetaPage = GUICtrlCreateLabel('µÇÂ¼ÏÂÔØÒ³', 180 + 175, 245, 165, 15, $SS_CENTER)
 GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlSetFont(-1, 9, 400, 4)
 GUICtrlSetColor(-1, 0x0000ff)
@@ -250,15 +250,15 @@ $a_DownButtons = StringSplit($bt_Mn_ReleaseDl & '.' & _
 		$lb_Mn_PreBetaSize & '.' & _
 		$lb_Mn_PreBetaPage, '.')
 ; ========================================
-; 			æ§ä»¶è®¾ç½® - ä¸‹è½½æ˜¾ç¤º
+; 			¿Ø¼şÉèÖÃ - ÏÂÔØÏÔÊ¾
 ; ========================================
-$lb_Mn_DwnToTtl = GUICtrlCreateLabel('ä¸‹è½½åˆ°:', 5, 195, 290, 15, $SS_LEFTNOWORDWRAP)
+$lb_Mn_DwnToTtl = GUICtrlCreateLabel('ÏÂÔØµ½:', 5, 195, 290, 15, $SS_LEFTNOWORDWRAP)
 $lb_Mn_DwnToTxt = GUICtrlCreateLabel('', 5, 210, 290, 15, $SS_LEFTNOWORDWRAP)
 $pg_Mn_Progress = GUICtrlCreateProgress(5, 225, 340, 20)
 $lb_Mn_Progress = GUICtrlCreateLabel('', 5, 250, 290, 15)
-$bt_Mn_OpenFile = GUICtrlCreateButton('æ‰“å¼€[&O]', 75, 275, 75, 25)
+$bt_Mn_OpenFile = GUICtrlCreateButton('´ò¿ª[&O]', 75, 275, 75, 25)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$bt_Mn_OpenFolder = GUICtrlCreateButton('æ‰“å¼€æ–‡ä»¶å¤¹[&F]', 155, 275, 95, 25)
+$bt_Mn_OpenFolder = GUICtrlCreateButton('´ò¿ªÎÄ¼ş¼Ğ[&F]', 155, 275, 95, 25)
 GUICtrlSetState(-1, $GUI_DISABLE)
 $a_DownDisplay = StringSplit($lb_Mn_DwnToTtl & '.' & _
 		$lb_Mn_DwnToTxt & '.' & _
@@ -268,32 +268,32 @@ $a_DownDisplay = StringSplit($lb_Mn_DwnToTtl & '.' & _
 		$bt_Mn_OpenFolder, '.')
 _GuiCtrlGroupSetState($a_DownDisplay, $GUI_HIDE)
 ; ========================================
-; GUI - å…³äº
+; GUI - ¹ØÓÚ
 ; ========================================
-$gui_About = GUICreate('å…³äº', 360, 140, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $gui_Main)
-GUICtrlCreateLabel($s_Title & ' v' & $s_Version & ' - AutoIt3 ç¨‹åºæ›´æ–°' & @LF & _
+$gui_About = GUICreate('¹ØÓÚ', 360, 140, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $gui_Main)
+GUICtrlCreateLabel($s_Title & ' v' & $s_Version & ' - AutoIt3 ³ÌĞò¸üĞÂ' & @LF & _
 		@LF & _
-		'	è¿™ä¸ªç¨‹åºé€šè¿‡ä¿®æ”¹åŸå…ˆçš„æ›´æ–°æ–‡ä»¶æ‰å¾—ä»¥å®ç°. ' & @CR & _
-		'	æ„Ÿè°¢æˆ‘ä»¬æ‹¥æœ‰ä¸€ä¸ªè¿™ä¹ˆå¼ºå¤§çš„è„šæœ¬è½¯ä»¶ã€‚' & @CR & @CR & _
-		'	è¯·å¤šæ”¯æŒæˆ‘ä»¬è®ºå›å“¦ï¼', 5, 5, 310, 86)
-$lb_Ab_VisitSite = GUICtrlCreateLabel('ç™»å½•AutoItå®˜æ–¹ç½‘ç«™', 5, 90, 145, 15)
+		'	Õâ¸ö³ÌĞòÍ¨¹ıĞŞ¸ÄÔ­ÏÈµÄ¸üĞÂÎÄ¼ş²ÅµÃÒÔÊµÏÖ. ' & @CR & _
+		'	¸ĞĞ»ÎÒÃÇÓµÓĞÒ»¸öÕâÃ´Ç¿´óµÄ½Å±¾Èí¼ş¡£' & @CR & @CR & _
+		'	Çë¶àÖ§³ÖÎÒÃÇÂÛÌ³Å¶£¡', 5, 5, 310, 86)
+$lb_Ab_VisitSite = GUICtrlCreateLabel('µÇÂ¼AutoIt¹Ù·½ÍøÕ¾', 5, 90, 145, 15)
 GUICtrlSetFont(-1, 9, 400, 4)
 GUICtrlSetColor(-1, 0x0000ff)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip(-1, 'http://www.autoitscript.com')
-$lb_Ab_ContactAuthor = GUICtrlCreateLabel('ç™»å½•Autoitä¸­æ–‡è®ºå›', 5, 110, 145, 15)
+$lb_Ab_ContactAuthor = GUICtrlCreateLabel('µÇÂ¼AutoitÖĞÎÄÂÛÌ³', 5, 110, 145, 15)
 GUICtrlSetFont(-1, 9, 400, 4)
 GUICtrlSetColor(-1, 0x0000ff)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip(-1, 'http://www.autoit.net.cn')
-$bt_Ab_Close = GUICtrlCreateButton('å…³é—­[&C]', 220, 90, 100, 30)
+$bt_Ab_Close = GUICtrlCreateButton('¹Ø±Õ[&C]', 220, 90, 100, 30)
 ; ========================================
-; åº”ç”¨ç¨‹åºå¼€å§‹
+; Ó¦ÓÃ³ÌĞò¿ªÊ¼
 ; ========================================
-; æ˜¾ç¤ºä¸»çª—å£
+; ÏÔÊ¾Ö÷´°¿Ú
 If _StringInArray($CmdLine, '/noproxy') Then GUICtrlSetState($me_Mn_Proxy, $GUI_CHECKED)
 GUISetState(@SW_SHOW, $gui_Main)
-; ä¸‹è½½æ›´æ–°æ–‡ä»¶
+; ÏÂÔØ¸üĞÂÎÄ¼ş
 If $b_Download_UpdateDat Then
 	$i_InetGetHandle = InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
 Else
@@ -304,12 +304,12 @@ While 1
 	$a_GMsg = GUIGetMsg(1)
 	If Not $i_DatFileLoaded And  InetGetInfo($i_InetGetHandle,2) Then
 		If InetGetInfo($i_InetGetHandle,3) = False And $b_Download_UpdateDat Then
-			$i_Res = MsgBox(5 + 16 + 8192, 'å‡ºé”™å•¦!', 'æ— æ³•è¿æ¥åˆ°å®˜æ–¹æœåŠ¡å™¨.' & @LF & _
-					'è¯·å°è¯•ä¸‹åˆ—æ“ä½œ:' & @LF & _
-					' - ç¡®è®¤ç”µè„‘å·²ç»è¿æ¥åˆ°å› ç‰¹ç½‘' & @LF & _
-					' - é˜²ç«å¢™ä¸è¦ç¦æ­¢æœ¬ç¨‹åºè¿æ¥åˆ°å› ç‰¹ç½‘' & @CRLF & _
-					' - ç™»å½• å®˜æ–¹ç½‘ç«™æˆ–è€…ä¸­æ–‡è®ºå› è¿›è¡Œè½¯ä»¶ä¸‹è½½' & @LF & _
-					' - ç¡®è®¤å®˜æ–¹æˆ–è€…ä¸­æ–‡è®ºå›è¿˜æ²¡æœ‰å€’é—­	Îµ|^_^|Ğ·')
+			$i_Res = MsgBox(5 + 16 + 8192, '³ö´íÀ²!', 'ÎŞ·¨Á¬½Óµ½¹Ù·½·şÎñÆ÷.' & @LF & _
+					'Çë³¢ÊÔÏÂÁĞ²Ù×÷:' & @LF & _
+					' - È·ÈÏµçÄÔÒÑ¾­Á¬½Óµ½ÒòÌØÍø' & @LF & _
+					' - ·À»ğÇ½²»Òª½ûÖ¹±¾³ÌĞòÁ¬½Óµ½ÒòÌØÍø' & @CRLF & _
+					' - µÇÂ¼ ¹Ù·½ÍøÕ¾»òÕßÖĞÎÄÂÛÌ³ ½øĞĞÈí¼şÏÂÔØ' & @LF & _
+					' - È·ÈÏ¹Ù·½»òÕßÖĞÎÄÂÛÌ³»¹Ã»ÓĞµ¹±Õ	¦Å|^_^|§Ù')
 			If $i_Res = 4 Then
 				$i_InetGetHandle = InetGet($s_DatFile, $s_DatFile_Local, 1, 1)
 			Else
@@ -338,26 +338,26 @@ While 1
 			$i_BetaSizeKB = Round($i_BetaSize / 1024)
 			$i_PreBetaSizeKB = Round($i_PreBetaSize / 1024)
 			If _CompareVersions($s_ReleaseVer, $s_CurrVer) Then
-				GUICtrlSetData($gr_Mn_Release, 'æœ€æ–°æ­£å¼ç‰ˆæœ¬ *æ–°ç‰ˆæœ¬*')
+				GUICtrlSetData($gr_Mn_Release, '×îĞÂÕıÊ½°æ±¾ *ĞÂ°æ±¾*')
 				GUICtrlSetColor($gr_Mn_Release, 0x0000ff)
 			EndIf
-			GUICtrlSetData($lb_Mn_ReleaseVer, 'ç‰ˆæœ¬: ' & $s_ReleaseVer)
+			GUICtrlSetData($lb_Mn_ReleaseVer, '°æ±¾: ' & $s_ReleaseVer)
 			If _CompareVersions($s_LatestBetaVer, $s_CurrBetaVer) Then
-				GUICtrlSetData($gr_Mn_Beta, 'æœ€æ–°æµ‹è¯•ç‰ˆæœ¬ *æ–°ç‰ˆæœ¬*')
+				GUICtrlSetData($gr_Mn_Beta, '×îĞÂ²âÊÔ°æ±¾ *ĞÂ°æ±¾*')
 				GUICtrlSetColor($gr_Mn_Beta, 0x0000ff)
 			EndIf
-			GUICtrlSetData($lb_Mn_BetaVer, 'ç‰ˆæœ¬: ' & $s_LatestBetaVer)
+			GUICtrlSetData($lb_Mn_BetaVer, '°æ±¾: ' & $s_LatestBetaVer)
 			If _CompareVersions($s_PreBetaVer, $s_CurrVer) Then
-				GUICtrlSetData($gr_Mn_PreBeta, 'æœ€æ–°é¢„æµ‹è¯•ç‰ˆæœ¬ *æ–°ç‰ˆæœ¬*')
+				GUICtrlSetData($gr_Mn_PreBeta, '×îĞÂÔ¤²âÊÔ°æ±¾ *ĞÂ°æ±¾*')
 				GUICtrlSetColor($gr_Mn_PreBeta, 0x0000ff)
 			EndIf
-			GUICtrlSetData($lb_Mn_PreBetaVer, 'ç‰ˆæœ¬: ' & $s_PreBetaVer)
-			GUICtrlSetData($lb_Mn_ReleaseDate, 'æ—¥æœŸ: ' & _FriendlyDate($i_ReleaseDate))
-			GUICtrlSetData($lb_Mn_BetaDate, 'æ—¥æœŸ: ' & _FriendlyDate($i_BetaDate))
-			GUICtrlSetData($lb_Mn_PreBetaDate, 'æ—¥æœŸ: ' & _FriendlyDate($i_PreBetaDate))
-			GUICtrlSetData($lb_Mn_ReleaseSize, 'å¤§å°: ' & $i_ReleaseSizeKB & ' KB')
-			GUICtrlSetData($lb_Mn_BetaSize, 'å¤§å°: ' & $i_BetaSizeKB & ' KB')
-			GUICtrlSetData($lb_Mn_PreBetaSize, 'å¤§å°: ' & $i_PreBetaSizeKB & ' KB')
+			GUICtrlSetData($lb_Mn_PreBetaVer, '°æ±¾: ' & $s_PreBetaVer)
+			GUICtrlSetData($lb_Mn_ReleaseDate, 'ÈÕÆÚ: ' & _FriendlyDate($i_ReleaseDate))
+			GUICtrlSetData($lb_Mn_BetaDate, 'ÈÕÆÚ: ' & _FriendlyDate($i_BetaDate))
+			GUICtrlSetData($lb_Mn_PreBetaDate, 'ÈÕÆÚ: ' & _FriendlyDate($i_PreBetaDate))
+			GUICtrlSetData($lb_Mn_ReleaseSize, '´óĞ¡: ' & $i_ReleaseSizeKB & ' KB')
+			GUICtrlSetData($lb_Mn_BetaSize, '´óĞ¡: ' & $i_BetaSizeKB & ' KB')
+			GUICtrlSetData($lb_Mn_PreBetaSize, '´óĞ¡: ' & $i_PreBetaSizeKB & ' KB')
 			GUICtrlSetTip($lb_Mn_ReleasePage, $s_ReleasePage)
 			GUICtrlSetTip($lb_Mn_BetaPage, $s_BetaPage)
 			GUICtrlSetTip($lb_Mn_PreBetaPage, $s_PreBetaPage)
@@ -376,24 +376,24 @@ While 1
 			$s_DnBytes = Round(InetGetInfo($i_InetGetHandle, 0) / 1024) & ' KB'
 			$s_DnSize = Round($i_DownSize / 1024) & ' KB'
 			GUICtrlSetData($pg_Mn_Progress, $i_DnPercent)
-			GUICtrlSetData($lb_Mn_Progress, 'ä¸‹è½½è¿›åº¦: ' & $i_DnPercent & '% (' & $s_DnBytes & ' of ' & $s_DnSize & ')')
+			GUICtrlSetData($lb_Mn_Progress, 'ÏÂÔØ½ø¶È: ' & $i_DnPercent & '% (' & $s_DnBytes & ' of ' & $s_DnSize & ')')
 		Else
 			GUICtrlSetData($pg_Mn_Progress, 100)
 			InetClose($i_InetGetHandle)
 			If Not FileMove($s_DownTemp, $s_DownPath, 1) Then
-				MsgBox(16 + 8192, 'é”™è¯¯', 'ç§»åŠ¨æ–‡ä»¶é”™è¯¯.')
-				GUICtrlSetData($lb_Mn_Progress, 'é”™è¯¯')
+				MsgBox(16 + 8192, '´íÎó', 'ÒÆ¶¯ÎÄ¼ş´íÎó.')
+				GUICtrlSetData($lb_Mn_Progress, '´íÎó')
 			Else
 				If GUICtrlRead($ra_Mn_DoneRun) = $GUI_CHECKED Then
 					_Start('"' & $s_DownPath & '"')
 					Exit
 				Else
-					GUICtrlSetData($lb_Mn_Progress, 'ä¸‹è½½å®Œæˆ!')
-					GUICtrlSetData($bt_Mn_Close, 'å…³é—­[&C]')
+					GUICtrlSetData($lb_Mn_Progress, 'ÏÂÔØÍê³É!')
+					GUICtrlSetData($bt_Mn_Close, '¹Ø±Õ[&C]')
 					GUICtrlSetState($bt_Mn_OpenFile, $GUI_ENABLE)
 					GUICtrlSetState($bt_Mn_OpenFolder, $GUI_ENABLE)
-					$i_Response = MsgBox(4 + 64 + 256 + 8192, $s_Title, 'ä¸‹è½½å®Œæˆ!' & @LF & _
-							'ä½ éœ€è¦ç°åœ¨å®‰è£…å—?')
+					$i_Response = MsgBox(4 + 64 + 256 + 8192, $s_Title, 'ÏÂÔØÍê³É!' & @LF & _
+							'ÄãĞèÒªÏÖÔÚ°²×°Âğ?')
 					If $i_Response = 6 Then
 						_Start('"' & $s_DownPath & '"')
 						Exit
@@ -412,7 +412,7 @@ While 1
 				RegWrite($s_Au3UpReg, 'DoneOption', 'REG_SZ', 'Notify')
 				; Download buttons
 			Case $a_GMsg[0] = $bt_Mn_ReleaseDl
-				$YesNo=MsgBox(36,"æ³¨æ„!","å®˜æ–¹ç‰ˆæœ¬å’Œæ±‰åŒ–ç‰ˆæœ¬å¹¶ä¸å…¼å®¹,å¯èƒ½ä¼šé€ æˆåŠŸèƒ½ç´Šä¹±.æ˜¯å¦ç»§ç»­ä¸‹è½½?")
+				$YesNo=MsgBox(36,"×¢Òâ!","¹Ù·½°æ±¾ºÍºº»¯°æ±¾²¢²»¼æÈİ,¿ÉÄÜ»áÔì³É¹¦ÄÜÎÉÂÒ.ÊÇ·ñ¼ÌĞøÏÂÔØ?")
 				if $YesNo=6 Then
 					$tmp = StringInStr($s_ReleaseFile, '/', 0, -1)
 					$s_DefFileName = StringTrimLeft($s_ReleaseFile, $tmp)
@@ -421,7 +421,7 @@ While 1
 					_DownloadFile($s_ReleaseFile, 'autoit-v3-setup.exe')
 				EndIf
 			Case $a_GMsg[0] = $bt_Mn_BetaDl
-				$YesNo=MsgBox(36,"æ³¨æ„!","å®˜æ–¹ç‰ˆæœ¬å’Œæ±‰åŒ–ç‰ˆæœ¬å¹¶ä¸å…¼å®¹,å¯èƒ½ä¼šé€ æˆåŠŸèƒ½ç´Šä¹±.æ˜¯å¦ç»§ç»­ä¸‹è½½?")
+				$YesNo=MsgBox(36,"×¢Òâ!","¹Ù·½°æ±¾ºÍºº»¯°æ±¾²¢²»¼æÈİ,¿ÉÄÜ»áÔì³É¹¦ÄÜÎÉÂÒ.ÊÇ·ñ¼ÌĞøÏÂÔØ?")
 				if $YesNo=6 Then
 					$tmp = StringInStr($s_BetaFile, '/', 0, -1)
 					$s_DefFileName = StringTrimLeft($s_BetaFile, $tmp)
@@ -495,7 +495,7 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 	EndIf
 
 	$i_InetGetHandle = InetGet($s_DownUrl, $s_DownTemp, 1, 1)
-	$s_DownPath = FileSaveDialog('å¦å­˜ä¸º', $s_DefDownDir, 'å¯æ‰§è¡Œæ–‡ä»¶ (*.exe)', 16, $s_DownName)
+	$s_DownPath = FileSaveDialog('Áí´æÎª', $s_DefDownDir, '¿ÉÖ´ĞĞÎÄ¼ş (*.exe)', 16, $s_DownName)
 	If Not @error Then
 		If Not (StringRight($s_DownPath, 4) = '.exe') Then
 			$s_DownPath = $s_DownPath & '.exe'
@@ -504,7 +504,7 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 		$s_DownFolder = StringLeft($s_DownPath, $tmp)
 		RegWrite($s_Au3UpReg, 'DownloadDir', 'REG_SZ', $s_DownFolder)
 		GUICtrlSetData($lb_Mn_DwnToTxt, _ClipPath($s_DownPath, 55))
-		GUICtrlSetData($lb_Mn_Progress, 'ä¸‹è½½è¿›åº¦: è®¡ç®—ä¸­...')
+		GUICtrlSetData($lb_Mn_Progress, 'ÏÂÔØ½ø¶È: ¼ÆËãÖĞ...')
 		_GuiCtrlGroupSetState($a_DownButtons, $GUI_HIDE)
 		_GuiCtrlGroupSetState($a_DownButtons, $GUI_DISABLE)
 		_GuiCtrlGroupSetState($a_DownDisplay, $GUI_SHOW)
@@ -513,7 +513,7 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 		Else
 			GUICtrlSetPos($bt_Mn_Close, 265, 275, 75, 25)
 		EndIf
-		GUICtrlSetData($bt_Mn_Close, 'å–æ¶ˆ')
+		GUICtrlSetData($bt_Mn_Close, 'È¡Ïû')
 		$i_DnInitiated = 1
 	Else
 		InetClose($i_InetGetHandle)
@@ -524,9 +524,9 @@ EndFunc   ;==>_DownloadFile
 
 Func _CancelDownload($i_Flag = 0)
 	If $i_DnInitiated Then
-		$i_Response = MsgBox(4 + 64 + 256 + 8192, $s_Title, 'æ³¨æ„:æ‚¨é€‰æ‹©äº†å–æ¶ˆä¸‹è½½.' & @LF & _
-				'æ‚¨å·²ç»ä¸‹è½½çš„éƒ¨åˆ†ä¼šè¢«åˆ é™¤.' & @LF & _
-				'æ˜¯å¦çœŸçš„è¦å–æ¶ˆä¸‹è½½?')
+		$i_Response = MsgBox(4 + 64 + 256 + 8192, $s_Title, '×¢Òâ:ÄúÑ¡ÔñÁËÈ¡ÏûÏÂÔØ.' & @LF & _
+				'ÄúÒÑ¾­ÏÂÔØµÄ²¿·Ö»á±»É¾³ı.' & @LF & _
+				'ÊÇ·ñÕæµÄÒªÈ¡ÏûÏÂÔØ?')
 		If $i_Response = 6 Then
 			$i_DnInitiated = 0
 			InetClose($i_InetGetHandle)
@@ -535,7 +535,7 @@ Func _CancelDownload($i_Flag = 0)
 				Exit
 			EndIf
 			_GuiCtrlGroupSetState($a_DownDisplay, $GUI_HIDE)
-			GUICtrlSetData($bt_Mn_Close, 'å…³é—­[&C]')
+			GUICtrlSetData($bt_Mn_Close, '¹Ø±Õ[&C]')
 			If $s_PreBetaVer <> '' Then
 				GUICtrlSetPos($bt_Mn_Close, 10, 275, 330 + 175, 25)
 			Else
@@ -552,12 +552,12 @@ EndFunc   ;==>_CancelDownload
 
 
 Func _LoadUpdateData()
-	$s_ReleaseVer = IniRead($s_DatFile_Local, 'AutoIt', 'version', 'é”™è¯¯è¯»å–æ–‡ä»¶')
+	$s_ReleaseVer = IniRead($s_DatFile_Local, 'AutoIt', 'version', '´íÎó¶ÁÈ¡ÎÄ¼ş')
 	$s_ReleaseFile = IniRead($s_DatFile_Local, 'AutoIt', 'setup', '')
 	$s_ReleasePage = IniRead($s_DatFile_Local, 'AutoIt', 'index', 'http://www.autoitscript.com')
 	$i_ReleaseSize = IniRead($s_DatFile_Local, 'AutoIt', 'filesize', 0)
 	$i_ReleaseDate = IniRead($s_DatFile_Local, 'AutoIt', 'filetime', 0)
-	$s_LatestBetaVer = IniRead($s_DatFile_Local, 'AutoItBeta', 'version', 'é”™è¯¯è¯»å–æ–‡ä»¶')
+	$s_LatestBetaVer = IniRead($s_DatFile_Local, 'AutoItBeta', 'version', '´íÎó¶ÁÈ¡ÎÄ¼ş')
 	$s_BetaFile = IniRead($s_DatFile_Local, 'AutoItBeta', 'setup', '')
 	$s_BetaPage = IniRead($s_DatFile_Local, 'AutoItBeta', 'index', 'http://www.autoitscript.com')
 	$i_BetaSize = IniRead($s_DatFile_Local, 'AutoItBeta', 'filesize', 0)
@@ -606,20 +606,20 @@ Func _NumSuffix($i_Num)
 	Local $s_Num
 	Switch Int($i_Num)
 		Case 1, 21, 31
-			$s_Num = Int($i_Num) & ' æ—¥'
+			$s_Num = Int($i_Num) & ' ÈÕ'
 		Case 2, 22
-			$s_Num = Int($i_Num) & ' æ—¥'
+			$s_Num = Int($i_Num) & ' ÈÕ'
 		Case 3, 23
-			$s_Num = Int($i_Num) & ' æ—¥'
+			$s_Num = Int($i_Num) & ' ÈÕ'
 		Case Else
-			$s_Num = Int($i_Num) & ' æ—¥'
+			$s_Num = Int($i_Num) & ' ÈÕ'
 	EndSwitch
 	Return $s_Num
 EndFunc   ;==>_NumSuffix
 
 
 Func _FriendlyDate($s_Date)
-	Local $a_Months = StringSplit('1æœˆ,2æœˆ,3æœˆ,4æœˆ,5æœˆ,6æœˆ,7æœˆ,8æœˆ,9æœˆ,10æœˆ,11æœˆ,12æœˆ', ',')
+	Local $a_Months = StringSplit('1ÔÂ,2ÔÂ,3ÔÂ,4ÔÂ,5ÔÂ,6ÔÂ,7ÔÂ,8ÔÂ,9ÔÂ,10ÔÂ,11ÔÂ,12ÔÂ', ',')
 	Local $s_Year, $s_Month, $s_Day
 	$s_Year = StringLeft($s_Date, 4)
 	$s_Month = StringMid($s_Date, 5, 2)
@@ -710,7 +710,7 @@ Func _Status($s_MainText, $s_SubText = '', $i_BytesRead = -1, $i_DownSize = -1)
 			If $i_BytesRead = -1 Then
 				ProgressSet($i_StatusPercent, $s_SubText, $s_MainText)
 			Else
-				$s_DownStatus = 'å·²ä¸‹è½½:' & Round($i_BytesRead / 1024) & ' æ€»:' & Round($i_DownSize / 1024) & ' KB'
+				$s_DownStatus = 'ÒÑÏÂÔØ:' & Round($i_BytesRead / 1024) & ' ×Ü:' & Round($i_DownSize / 1024) & ' KB'
 				$i_StatusPercent = Round($i_BytesRead / $i_DownSize * 100)
 				ProgressSet($i_StatusPercent, $s_DownStatus, $s_MainText)
 			EndIf

@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "ButtonConstants.au3"
 #include "SendMessage.au3"
@@ -132,7 +132,7 @@ EndFunc   ;==>_GUICtrlButton_Click
 ;                  |  $BS_AUTOCHECKBOX    - Creates a check box in which the check state switches between selected and cleared each time the user selects the check box.
 ;                  |  $BS_AUTORADIOBUTTON - Same as a radio button, except that when the user selects it, the button automatically highlights itself and removes the selection from any other radio buttons with the same style in the same group.
 ;                  |  $BS_FLAT            - Specifies that the button is two-dimensional; it does not use the default shading to create a 3-D image.
-;                  |  $BS_GROUPBOX        - Creates a rectangle in which other buttons can be grouped. Any text associated with this style is displayed in the rectangleâ€™s upper-left corner.
+;                  |  $BS_GROUPBOX        - Creates a rectangle in which other buttons can be grouped. Any text associated with this style is displayed in the rectangle’s upper-left corner.
 ;                  |  $BS_PUSHLIKE        - Makes a button (such as a check box, three-state check box, or radio button) look and act like a push button. The button looks raised when it isn't pushed or checked, and sunken when it is pushed or checked.
 ;                  -
 ;                  |  $BS_DEFPUSHBUTTON   - Creates a push button with a heavy black border. If the button is in a dialog box, the user can select the button by pressing the ENTER key, even when the button does not have the input focus. This style is useful for enabling the user to quickly select the most likely option, or default.
@@ -425,7 +425,7 @@ EndFunc   ;==>_GUICtrlButton_GetNote
 ; Description ...: Gets the length of the note text that may be displayed in the description for a command link button
 ; Syntax.........: _GUICtrlButton_GetNoteLength($hWnd)
 ; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - Returns the length of the note text in WCHARsâ€”not including any terminating NULL WCHAR
+; Return values .: Success - Returns the length of the note text in WCHARs—not including any terminating NULL WCHAR
 ;                  Failure - 0
 ; Author ........: Gary Frost
 ; Modified.......:

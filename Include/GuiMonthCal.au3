@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "DateTimeConstants.au3"
 #include "Memory.au3"

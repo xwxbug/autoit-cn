@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "IPAddressConstants.au3"
 #include "Memory.au3"

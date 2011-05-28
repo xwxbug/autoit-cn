@@ -1,4 +1,4 @@
-﻿Global Const $FO_COPY = 0x0002 ; Copies the files specified in pFrom to the location specified in pTo
+Global Const $FO_COPY = 0x0002 ; Copies the files specified in pFrom to the location specified in pTo
 Global Const $FO_DELETE = 0x0003 ; Deletes the files specified in pFrom (pTo is ignored)
 Global Const $FO_MOVE = 0x0001 ; Moves the files specified in pFrom to the location specified in pTo
 Global Const $FO_RENAME = 0x0004 ; Renames the files specified in pFrom

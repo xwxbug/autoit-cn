@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 ; _API_AnimateWindow() Commands
 Global Const $AW_HOR_POSITIVE =            0x00000001
 Global Const $AW_HOR_NEGATIVE =            0x00000002
@@ -12,11 +12,11 @@ Global Const $AW_BLEND        =            0x00080000
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........:	_API_AnimateWindow
-; Description ...:	åŠ¨ç”»çª—å£(æ¯”å¦‚ç™¾å¶çª—æ˜¾ç¤ºçª—å£)
+; Description ...:	¶¯»­´°¿Ú(±ÈÈç°ÙÒ¶´°ÏÔÊ¾´°¿Ú)
 ; Syntax.........:	_API_AnimateWindow( $hwnd,$dwTime=200,$dwFlags)
-; Parameters ....:	$hwnd	-	çª—å£å¥æŸ„
-; 					$dwTime	-	æ˜¾ç¤ºåŠ¨ç”»æ—¶é—´,å•ä½ä¸ºæ¯«ç§’,é»˜è®¤200æ¯«ç§’.
-;					$dwFlags	-	æ˜¾ç¤ºæ•ˆæœ
+; Parameters ....:	$hwnd	-	´°¿Ú¾ä±ú
+; 					$dwTime	-	ÏÔÊ¾¶¯»­Ê±¼ä,µ¥Î»ÎªºÁÃë,Ä¬ÈÏ200ºÁÃë.
+;					$dwFlags	-	ÏÔÊ¾Ğ§¹û
 ;						$AW_SLIDE	-	Uses slide animation. By default, roll animation is used. This flag is ignored when used with AW_CENTER. 
 ;						$AW_ACTIVATE	-	Activates the window. Do not use this value with AW_HIDE. 
 ;						$AW_BLEND	-	Uses a fade effect. This flag can be used only if hwnd is a top-level window. 
@@ -26,8 +26,8 @@ Global Const $AW_BLEND        =            0x00080000
 ;						$AW_HOR_NEGATIVE	-	Animates the window from right to left. This flag can be used with roll or slide animation. It is ignored when used with AW_CENTER or AW_BLEND.
 ;						$AW_VER_POSITIVE	-	Animates the window from top to bottom. This flag can be used with roll or slide animation. It is ignored when used with AW_CENTER or AW_BLEND. 
 ;						$AW_VER_NEGATIVE	-	Animates the window from bottom to top. This flag can be used with roll or slide animation. It is ignored when used with AW_CENTER or AW_BLEND. 
-; Return values .:	å¦‚æœå‡½æ•°æˆåŠŸ, è¿”å›å€¼ä¸ºé 0.
-;					å¦‚æœå‡½æ•°å¤±è´¥, è¿”å›å€¼ä¸º 0. 
+; Return values .:	Èç¹ûº¯Êı³É¹¦, ·µ»ØÖµÎª·Ç 0.
+;					Èç¹ûº¯ÊıÊ§°Ü, ·µ»ØÖµÎª 0. 
 ; Author ........:	thesnoW(rundll32@126.com)
 ; Modified.......:
 ; Remarks .......:	The function will fail in the following situations: 

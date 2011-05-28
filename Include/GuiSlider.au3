@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "SliderConstants.au3"
 #include "WinAPI.au3"

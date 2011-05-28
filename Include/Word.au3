@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Microsoft Word Automation UDF Library for AutoIt3
@@ -1359,7 +1359,7 @@ EndFunc   ;==>_WordErrorNotify
 ;					@Extended	- Contains invalid parameter number
 ; Author ........: Bob Anthony
 ; Remarks .......: If you specify the document name, your code can only run macros in documents
-;				   related to the current context â€” not just any macro in any document.
+;				   related to the current context ¡ª not just any macro in any document.
 ; ===============================================================================================================================
 Func _WordMacroRun(ByRef $o_object, $s_MacroName, $v_Arg1 = Default, $v_Arg2 = Default, $v_Arg3 = Default, $v_Arg4 = Default, $v_Arg5 = Default, $v_Arg6 = Default, $v_Arg7 = Default, $v_Arg8 = Default, $v_Arg9 = Default, $v_Arg10 = Default, $v_Arg11 = Default, $v_Arg12 = Default, $v_Arg13 = Default, $v_Arg14 = Default, $v_Arg15 = Default, $v_Arg16 = Default, $v_Arg17 = Default, $v_Arg18 = Default, $v_Arg19 = Default, $v_Arg20 = Default, $v_Arg21 = Default, $v_Arg22 = Default, $v_Arg23 = Default, $v_Arg24 = Default, $v_Arg25 = Default, $v_Arg26 = Default, $v_Arg27 = Default, $v_Arg28 = Default, $v_Arg29 = Default, $v_Arg30 = Default)
 

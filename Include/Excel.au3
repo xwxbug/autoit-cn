@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Microsoft Excel COM UDF library for AutoIt v3

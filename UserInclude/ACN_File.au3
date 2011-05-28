@@ -1,14 +1,14 @@
-ï»¿#include-once
+#include-once
 
 ;===============================================================================
 ;
-; Description:      è¿”å›æŒ‡å®šæ–‡æœ¬æ–‡ä»¶çš„è¡Œæ•°.
+; Description:      ·µ»ØÖ¸¶¨ÎÄ±¾ÎÄ¼şµÄĞĞÊı.
 ; Syntax:           _FileCountLines( $sFilePath )
-; Parameter(s):     $sFilePath - è·¯å¾„+æ–‡ä»¶å
-; Requirement(s):   æ— 
-; Return Value(s):  æˆåŠŸ - è¿”å›æ–‡ä»¶çš„è¡Œæ•°
-;                   å¤±è´¥ - è¿”å›0 å¹¶è®¾ç½® @error = 1
-; Author(s):        Tylo <tylo at start dot no> ä¿®æ­£ by thesnow
+; Parameter(s):     $sFilePath - Â·¾¶+ÎÄ¼şÃû
+; Requirement(s):   ÎŞ
+; Return Value(s):  ³É¹¦ - ·µ»ØÎÄ¼şµÄĞĞÊı
+;                   Ê§°Ü - ·µ»Ø0 ²¢ÉèÖÃ @error = 1
+; Author(s):        Tylo <tylo at start dot no> ĞŞÕı by thesnow
 ;
 ;===============================================================================
 Func _FileCountLines($sFilePath)
@@ -25,11 +25,11 @@ EndFunc   ;==>_FileCountLines
 
 ;======================================================
 ;
-; å‡½æ•°åç§°:		_EncryptFile($sFilePath)
-; è¯¦ç»†ä¿¡æ¯:		åŠ å¯†æ–‡ä»¶,NTFSç£ç›˜ç³»ç»Ÿè‡ªå¸¦çš„EFSåŠ å¯†
-; $sFilePath:	$sFilePath ä¸ºæ‚¨æƒ³åŠ å¯†çš„æ–‡ä»¶.
-; è¿”å›å€¼ :		æ²¡æœ‰
-; ä½œè€…:			thesnow(rundll32@126.com)
+; º¯ÊıÃû³Æ:		_EncryptFile($sFilePath)
+; ÏêÏ¸ĞÅÏ¢:		¼ÓÃÜÎÄ¼ş,NTFS´ÅÅÌÏµÍ³×Ô´øµÄEFS¼ÓÃÜ
+; $sFilePath:	$sFilePath ÎªÄúÏë¼ÓÃÜµÄÎÄ¼ş.
+; ·µ»ØÖµ :		Ã»ÓĞ
+; ×÷Õß:			thesnow(rundll32@126.com)
 ;
 ;======================================================
 
@@ -42,11 +42,11 @@ EndFunc
 
 ;======================================================
 ;
-; å‡½æ•°åç§°:		_DecryptFile($sFilePath)
-; è¯¦ç»†ä¿¡æ¯:		è§£å¯†æ–‡ä»¶,NTFSç£ç›˜ç³»ç»Ÿè‡ªå¸¦çš„EFSåŠ å¯†
-; $sFilePath:	$sFilePath ä¸ºæ‚¨æƒ³è§£å¯†çš„æ–‡ä»¶.
-; è¿”å›å€¼ :		æ²¡æœ‰
-; ä½œè€…:			thesnow(rundll32@126.com)
+; º¯ÊıÃû³Æ:		_DecryptFile($sFilePath)
+; ÏêÏ¸ĞÅÏ¢:		½âÃÜÎÄ¼ş,NTFS´ÅÅÌÏµÍ³×Ô´øµÄEFS¼ÓÃÜ
+; $sFilePath:	$sFilePath ÎªÄúÏë½âÃÜµÄÎÄ¼ş.
+; ·µ»ØÖµ :		Ã»ÓĞ
+; ×÷Õß:			thesnow(rundll32@126.com)
 ;
 ;======================================================
 
@@ -59,13 +59,13 @@ EndFunc
 
 ;======================================================
 ;
-; å‡½æ•°åç§°:		_HideSystemFolder($PathCode,$Hide)
-; è¯¦ç»†ä¿¡æ¯:		éšè—ç³»ç»Ÿç‰¹æ®Šæ–‡ä»¶å¤¹.
-; $PathCode:	ç³»ç»Ÿæ–‡ä»¶å¤¹ä»£ç :
-;				0,æ§åˆ¶é¢æ¿/1,ç¨‹åºæ–‡ä»¶å¤¹ç›®å½•/2,ç³»ç»Ÿæ‰€åœ¨é©±åŠ¨å™¨/3,windowsç›®å½•
-; $Hide:		éšè—ä¸º1,ä¸éšè—ä¸º0.
-; è¿”å›å€¼ :		æˆåŠŸè¿”å›1,å¤±è´¥(æ–‡ä»¶å¤¹ä»£ç é”™è¯¯)è¿”å›0,å¤±è´¥(éšè—ä»£ç é”™è¯¯),è¿”å›0.
-; ä½œè€…:			thesnow(rundll32@126.com)
+; º¯ÊıÃû³Æ:		_HideSystemFolder($PathCode,$Hide)
+; ÏêÏ¸ĞÅÏ¢:		Òş²ØÏµÍ³ÌØÊâÎÄ¼ş¼Ğ.
+; $PathCode:	ÏµÍ³ÎÄ¼ş¼Ğ´úÂë:
+;				0,¿ØÖÆÃæ°å/1,³ÌĞòÎÄ¼ş¼ĞÄ¿Â¼/2,ÏµÍ³ËùÔÚÇı¶¯Æ÷/3,windowsÄ¿Â¼
+; $Hide:		Òş²ØÎª1,²»Òş²ØÎª0.
+; ·µ»ØÖµ :		³É¹¦·µ»Ø1,Ê§°Ü(ÎÄ¼ş¼Ğ´úÂë´íÎó)·µ»Ø0,Ê§°Ü(Òş²Ø´úÂë´íÎó),·µ»Ø0.
+; ×÷Õß:			thesnow(rundll32@126.com)
 ;
 ;======================================================
 
@@ -88,17 +88,17 @@ EndFunc
 
 ;======================================================
 ;
-; å‡½æ•°åç§°:		_FileReadAsUnicode($sFile,$dCodepage)
-; è¯¦ç»†ä¿¡æ¯:		è¯»å–ANSIæ–‡ä»¶è¿”å›UNICODEå­—ç¬¦.
-; $sFile:		æ–‡ä»¶è·¯å¾„.
-; $dCodepage:	ä»£ç é¡µ.å‚è€ƒ http://msdn.microsoft.com/en-us/library/dd317756.aspx
-; è¿”å›å€¼ :		æˆåŠŸè¿”å›UNICODEå­—ç¬¦,è®¾ç½®SetExtendedä¸ºè¿”å›çš„å­—ç¬¦æ•°.
-;				å¤±è´¥,è¿”å›ç©ºå­—ç¬¦å¹¶è®¾ç½®@error.
-;				@error=-1	æ–‡ä»¶ä¸å­˜åœ¨
-;				@error=-2	æ–‡ä»¶ä¸ºUTF-32ç¼–ç 
-;				@error=-3	æ–‡ä»¶æ— æ³•æ‰“å¼€
-;				@error=-4	æ–‡ä»¶æ— æ³•è¿›è¡Œç¼–ç è½¬æ¢
-; ä½œè€…:			thesnow(rundll32@126.com)
+; º¯ÊıÃû³Æ:		_FileReadAsUnicode($sFile,$dCodepage)
+; ÏêÏ¸ĞÅÏ¢:		¶ÁÈ¡ANSIÎÄ¼ş·µ»ØUNICODE×Ö·û.
+; $sFile:		ÎÄ¼şÂ·¾¶.
+; $dCodepage:	´úÂëÒ³.²Î¿¼ http://msdn.microsoft.com/en-us/library/dd317756.aspx
+; ·µ»ØÖµ :		³É¹¦·µ»ØUNICODE×Ö·û,ÉèÖÃSetExtendedÎª·µ»ØµÄ×Ö·ûÊı.
+;				Ê§°Ü,·µ»Ø¿Õ×Ö·û²¢ÉèÖÃ@error.
+;				@error=-1	ÎÄ¼ş²»´æÔÚ
+;				@error=-2	ÎÄ¼şÎªUTF-32±àÂë
+;				@error=-3	ÎÄ¼şÎŞ·¨´ò¿ª
+;				@error=-4	ÎÄ¼şÎŞ·¨½øĞĞ±àÂë×ª»»
+; ×÷Õß:			thesnow(rundll32@126.com)
 ;
 ;======================================================
 
@@ -150,10 +150,10 @@ Func _GetFileEnc($TheFile)
 ;~ FF FE UTF-16, little-endian
 ;~ EF BB BF UTF-8
 	If $Test_File = "0x0000FFFE" then
-		$FileEnc=-1;'UTF32BE'	ä¸æ”¯æŒ
+		$FileEnc=-1;'UTF32BE'	²»Ö§³Ö
 	Else 
 		if $Test_File = "0xFFFE0000" Then
-			$FileEnc=-1;'UTF32LE'	ä¸æ”¯æŒ
+			$FileEnc=-1;'UTF32LE'	²»Ö§³Ö
 		Else
 			$hTest_File = FileOpen($TheFile, 16)
 			$Test_File = FileRead($hTest_File, 2)

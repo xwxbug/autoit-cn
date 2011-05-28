@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 ; Pid = Run() seems to need admin rights under vista 64
 #requireadmin

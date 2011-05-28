@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "AVIConstants.au3"
 #include "Memory.au3"

@@ -1,4 +1,4 @@
-﻿#include-once
+#include-once
 
 #include "MemoryConstants.au3"
 #include "StructureConstants.au3"

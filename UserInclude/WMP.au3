@@ -1,4 +1,4 @@
-﻿#cs
+#cs
 	_wmpcreate($show, $left, $top, $width = 100, $height = 100)
 	$show:     1 = shows controls
 	2 = hides controls

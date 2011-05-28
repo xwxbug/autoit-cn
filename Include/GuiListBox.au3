@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 #include "ListBoxConstants.au3"
 #include "DirConstants.au3"
@@ -1164,7 +1164,7 @@ EndFunc   ;==>_GUICtrlListBox_ResetContent
 ;                  $sText       - String that contains the string for which to search.
 ;                  $iIndex      - Specifies the zero based index of the item before the first item to be searched.  When the
 ;                  +search reaches the bottom of the list box, it continues searching from the top of the list box back to the
-;                  +item specified by $iIndex.  If $iIndex is â€“1, the entire list box is searched from the beginning.
+;                  +item specified by $iIndex.  If $iIndex is –1, the entire list box is searched from the beginning.
 ; Return values .: Success      - The zero based index of the selected item
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
@@ -1246,7 +1246,7 @@ EndFunc   ;==>_GUICtrlListBox_SelItemRangeEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlListBox_SetAnchorIndex
-; Description ...: Set the anchor itemâ€”that is, the item from which a multiple selection starts
+; Description ...: Set the anchor item—that is, the item from which a multiple selection starts
 ; Syntax.........: _GUICtrlListBox_SetAnchorIndex($hWnd, $iIndex)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iIndex      - Specifies the zero based index of the item

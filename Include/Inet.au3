@@ -11,39 +11,32 @@
 ; Dll ...........: wininet.dll, ws2_32.dll, msvcrt.dll
 ; ===============================================================================================================================
 
-; #FUNCTION# ====================================================================================================================
+; #FUNCTION# =========================================================================================================
 ; Name...........: _GetIP
-; Description ...: Get public IP address of a network/computer.
+; Description ...: Retrieves the Public IP Address of a Network/Computer.
+; Syntax.........: _GetIP()
 ; Parameters ....: None
-; Return values .: On Success - Returns the public IP Address
-;                  On Failure - -1  and sets @ERROR = 1
-; Author ........: Larry/Ezzetabi & Jarvis Stubblefield
-; Remarks .......: Internet access.
-; ===============================================================================================================================
+; Requirement(s).: v3.3.2.0 or higher
+; Return values .: Success - Returns Public IP Address.
+;                  Failure - Returns -1 & sets @error = 1
+; Author ........: guinness
+; Example........; Yes
+;=====================================================================================================================
 Func _GetIP()
-	Local $ip, $t_ip
-	If InetGet("http://checkip.dyndns.org/?rnd1=" & Random(1, 65536) & "&rnd2=" & Random(1, 65536), @TempDir & "\~ip.tmp") Then
-		$ip = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
-		FileDelete(@TempDir & "\~ip.tmp")
-		$ip = StringTrimLeft($ip, StringInStr($ip, ":") + 1)
-		$ip = StringTrimRight($ip, StringLen($ip) - StringInStr($ip, "/") + 2)
-		$t_ip = StringSplit($ip, '.')
-		If $t_ip[0] = 4 And StringIsDigit($t_ip[1]) And StringIsDigit($t_ip[2]) And StringIsDigit($t_ip[3]) And StringIsDigit($t_ip[4]) Then
-			Return $ip
-		EndIf
-	EndIf
-	If InetGet("http://www.whatismyip.com/?rnd1=" & Random(1, 65536) & "&rnd2=" & Random(1, 65536), @TempDir & "\~ip.tmp") Then
-		$ip = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
-		FileDelete(@TempDir & "\~ip.tmp")
-		$ip = StringTrimLeft($ip, StringInStr($ip, "Your ip is") + 10)
-		$ip = StringLeft($ip, StringInStr($ip, " ") - 1)
-		$ip = StringStripWS($ip, 8)
-		$t_ip = StringSplit($ip, '.')
-		If $t_ip[0] = 4 And StringIsDigit($t_ip[1]) And StringIsDigit($t_ip[2]) And StringIsDigit($t_ip[3]) And StringIsDigit($t_ip[4]) Then
-			Return $ip
-		EndIf
-	EndIf
-	Return SetError(1, 0, -1)
+    Local $aReturn, $bRead, $sRead
+    $bRead = InetRead("http://checkip.dyndns.org/")
+    $sRead = BinaryToString($bRead)
+    $aReturn = StringRegExp($sRead, '(?s)(?i)<body>Current IP Address: (.*?)</body>', 3)
+    If Not @error Then
+        Return $aReturn[0]
+    EndIf
+
+    $bRead = InetRead("http://www.whatismyip.com/automation/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
+    $sRead = BinaryToString($bRead)
+    If @error Then
+        Return SetError(1, 0, -1)
+    EndIf
+    Return $sRead
 EndFunc   ;==>_GetIP
 
 ; #FUNCTION# ====================================================================================================================

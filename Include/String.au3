@@ -1,4 +1,4 @@
-ï»¿#include-once
+#include-once
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: String
@@ -314,11 +314,11 @@ Func _StringProper($s_String)
 		$s_CurChar = StringMid($s_String, $iX, 1)
 		Select
 			Case $CapNext = 1
-				If StringRegExp($s_CurChar, '[a-zA-ZÂ0â€ 8-Â0â€¹7Â0â€8Â0â€œ4Â0â€”6Â0â€”0]') Then
+				If StringRegExp($s_CurChar, '[a-zA-Z0†8-0‹70”80“40—60—0]') Then
 					$s_CurChar = StringUpper($s_CurChar)
 					$CapNext = 0
 				EndIf
-			Case Not StringRegExp($s_CurChar, '[a-zA-ZÂ0â€ 8-Â0â€¹7Â0â€8Â0â€œ4Â0â€”6Â0â€”0]')
+			Case Not StringRegExp($s_CurChar, '[a-zA-Z0†8-0‹70”80“40—60—0]')
 				$CapNext = 1
 			Case Else
 				$s_CurChar = StringLower($s_CurChar)
