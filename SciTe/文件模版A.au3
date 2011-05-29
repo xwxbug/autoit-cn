@@ -1,30 +1,31 @@
-ï»¿#Region AutoIt3Wrapper é¢„ç¼–è¯‘å‚æ•°(å¸¸ç”¨å‚æ•°)
-#AutoIt3Wrapper_Icon= 										;å›¾æ ‡,æ”¯æŒEXE,DLL,ICO
-#AutoIt3Wrapper_OutFile=									;è¾“å‡ºæ–‡ä»¶å
-#AutoIt3Wrapper_OutFile_Type=exe							;æ–‡ä»¶ç±»å‹
-#AutoIt3Wrapper_Compression=4								;å‹ç¼©ç­‰çº§
-#AutoIt3Wrapper_UseUpx=y 									;ä½¿ç”¨å‹ç¼©
-#AutoIt3Wrapper_Res_Comment= 								;æ³¨é‡Š
-#AutoIt3Wrapper_Res_Description=							;è¯¦ç»†ä¿¡æ¯
-#AutoIt3Wrapper_Res_Fileversion=							;æ–‡ä»¶ç‰ˆæœ¬
-#AutoIt3Wrapper_Res_FileVersion_AutoIncrement=p				;è‡ªåŠ¨æ›´æ–°ç‰ˆæœ¬  
-#AutoIt3Wrapper_Res_LegalCopyright= 						;ç‰ˆæƒ
-#AutoIt3Wrapper_Change2CUI=N                   				;ä¿®æ”¹è¾“å‡ºçš„ç¨‹åºä¸ºCUI(æ§åˆ¶å°ç¨‹åº)
-;#AutoIt3Wrapper_Res_Field=AutoIt Version|%AutoItVer%		;è‡ªå®šä¹‰èµ„æºæ®µ
-;#AutoIt3Wrapper_Run_Tidy=                   				;è„šæœ¬æ•´ç†
-;#AutoIt3Wrapper_Run_Obfuscator=      						;ä»£ç è¿·æƒ‘
-;#AutoIt3Wrapper_Run_AU3Check= 								;è¯­æ³•æ£€æŸ¥
-;#AutoIt3Wrapper_Run_Before= 								;è¿è¡Œå‰
-;#AutoIt3Wrapper_Run_After=									;è¿è¡Œå
-#EndRegion AutoIt3Wrapper é¢„ç¼–è¯‘å‚æ•°è®¾ç½®å®Œæˆ
-#cs ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿
+#Region AutoIt3Wrapper Ô¤±àÒë²ÎÊı(³£ÓÃ²ÎÊı)
+#AutoIt3Wrapper_Icon= 										;Í¼±ê,Ö§³ÖEXE,DLL,ICO
+#AutoIt3Wrapper_OutFile=									;Êä³öÎÄ¼şÃû
+#AutoIt3Wrapper_OutFile_Type=exe							;ÎÄ¼şÀàĞÍ
+#AutoIt3Wrapper_Compression=4								;Ñ¹ËõµÈ¼¶
+#AutoIt3Wrapper_UseUpx=y 									;Ê¹ÓÃÑ¹Ëõ
+#AutoIt3Wrapper_Res_Comment= 								;×¢ÊÍ
+#AutoIt3Wrapper_Res_Description=							;ÏêÏ¸ĞÅÏ¢
+#AutoIt3Wrapper_Res_Fileversion=							;ÎÄ¼ş°æ±¾
+#AutoIt3Wrapper_Res_FileVersion_AutoIncrement=p				;×Ô¶¯¸üĞÂ°æ±¾  
+#AutoIt3Wrapper_Res_LegalCopyright= 						;°æÈ¨
+#AutoIt3Wrapper_Change2CUI=N                   				;ĞŞ¸ÄÊä³öµÄ³ÌĞòÎªCUI(¿ØÖÆÌ¨³ÌĞò)
+;#AutoIt3Wrapper_Res_Field=AutoIt Version|%AutoItVer%		;×Ô¶¨Òå×ÊÔ´¶Î
+;#AutoIt3Wrapper_Run_Tidy=                   				;½Å±¾ÕûÀí
+;#AutoIt3Wrapper_Run_Obfuscator=      						;´úÂëÃÔ»ó
+;#AutoIt3Wrapper_Run_AU3Check= 								;Óï·¨¼ì²é
+;#AutoIt3Wrapper_Run_Before= 								;ÔËĞĞÇ°
+;#AutoIt3Wrapper_Run_After=									;ÔËĞĞºó
+;#AutoIt3Wrapper_UseX64=n									;Ê¹ÓÃ64Î»½âÊÍÆ÷
+#EndRegion AutoIt3Wrapper Ô¤±àÒë²ÎÊıÉèÖÃÍê³É
+#cs £ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß
 
- Au3 ç‰ˆæœ¬:
- è„šæœ¬ä½œè€…: 
+ Au3 °æ±¾:
+ ½Å±¾×÷Õß: 
 	Email: 
 	QQ/TM: 
- è„šæœ¬ç‰ˆæœ¬: 
- è„šæœ¬åŠŸèƒ½: 
+ ½Å±¾°æ±¾: 
+ ½Å±¾¹¦ÄÜ: 
 
-#ce ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿è„šæœ¬å¼€å§‹ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿ï¼¿
+#ce £ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß½Å±¾¿ªÊ¼£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß£ß
 

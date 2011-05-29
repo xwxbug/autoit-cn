@@ -57,33 +57,33 @@ With?4
 #AutoIt3Wrapper_Compression?1
 #AutoIt3Wrapper_cvsWrapper_Parameters?1
 #AutoIt3Wrapper_Icon?1
-#AutoIt3Wrapper_Outfile?1
-#AutoIt3Wrapper_Outfile_Type?1
-#AutoIt3Wrapper_Plugin_Funcs?1
+#AutoIt3Wrapper_OutFile?1
+#AutoIt3Wrapper_OutFile_Type?1
+#AutoIt3Wrapper_PlugIn_Funcs?1
 #AutoIt3Wrapper_Res_Comment?1
 #AutoIt3Wrapper_Res_Description?1
 #AutoIt3Wrapper_Res_Field?1
 #AutoIt3Wrapper_Res_File_Add?1
-#AutoIt3Wrapper_Res_Fileversion?1
+#AutoIt3Wrapper_Res_FileVersion?1
 #AutoIt3Wrapper_Res_FileVersion_AutoIncrement?1
 #AutoIt3Wrapper_Res_Icon_Add?1
 #AutoIt3Wrapper_Res_Language?1
 #AutoIt3Wrapper_Res_LegalCopyright?1
-#AutoIt3Wrapper_Res_ProductVersion?1
-#AutoIt3Wrapper_res_requestedExecutionLevel?1
+#AutoIt3Wrapper_Res_requestedExecutionLevel?1
 #AutoIt3Wrapper_Res_SaveSource?1
 #AutoIt3Wrapper_Run_After?1
-#AutoIt3Wrapper_Run_Au3check?1
+#AutoIt3Wrapper_Run_Au3Check?1
 #AutoIt3Wrapper_Run_Before?1
 #AutoIt3Wrapper_Run_cvsWrapper?1
 #AutoIt3Wrapper_Run_Debug_Mode?1
 #AutoIt3Wrapper_Run_Obfuscator?1
+#AutoIt3Wrapper_Run_SciTE_Minimized?1
+#AutoIt3Wrapper_Run_SciTE_OutputPane_Minimized?1
 #AutoIt3Wrapper_Run_Tidy?1
 #AutoIt3Wrapper_ShowGUI?1
 #AutoIt3Wrapper_Tidy_Stop_OnError?1
-#AutoIt3Wrapper_UPX_Parameters?1
 #AutoIt3Wrapper_UseAnsi?1
-#AutoIt3Wrapper_UseUpx?1
+#AutoIt3Wrapper_UseUPX?1
 #AutoIt3Wrapper_UseX64?1
 #AutoIt3Wrapper_Version?1
 #EndRegion?1
@@ -209,7 +209,7 @@ AutoItSetOption ( "CaretCoordMode", param ) Sets the way coords are used in the 
 AutoItSetOption ( "ExpandEnvStrings", param ) Changes how literal strings and % symbols are interpreted.  By default strings are treated literally, this option allows you to use %environment% variables inside strings, e.g., "The temp directory is: %temp%". 1 = expand environment variables (similar to AutoIt v2) 0 = do not expand environment variables (default) Without this option the usual way would be: 	"The temp directory is: " & EnvGet("temp") 
 AutoItSetOption ( "ExpandVarStrings", param ) Changes how literal strings and variable/macro ($ and @) symbols are interpreted.  By default strings are treated literally, this option allows you to use variables and macros inside strings, e.g., "The value of var1 is $var1$". 1 = expand variables (when in this mode and you want to use a literal $ or @ then double it up: "This is a single dollar $$ sign". 0 = do not expand variables (default) 
 AutoItSetOption ( "GUICloseOnESC", param ) When ESC is pressed on a GUI the $GUI_EVENT_CLOSE message is sent.  This option toggles this behavior on and off. 1 = Send the $GUI_EVENT_CLOSE message when ESC is pressed (default). 0 = Don't send the $GUI_EVENT_CLOSE message when ESC is pressed. 
-AutoItSetOption ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positionining relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
+AutoItSetOption ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positioning relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
 AutoItSetOption ( "GUIDataSeparatorChar", param ) Define the character which delimits subitems in GUICtrlSetData. The default character is '|'. 
 AutoItSetOption ( "GUIOnEventMode", param ) Enable/disable OnEvent functions notifications. 0 = (default) disable. 1 = enable. 
 AutoItSetOption ( "GUIResizeMode", param ) Change default resizing for a control. 0 = (default) keep default control resizing. &lt;1024 = anytype of resizing see <a href="GUICtrlSetResizing.htm">GUICtrlSetResizing</a>. 
@@ -222,7 +222,7 @@ AutoItSetOption ( "MustDeclareVars", param ) If this option is used then all var
 AutoItSetOption ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 AutoItSetOption ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 AutoItSetOption ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
-AutoItSetOption ( "SendKeyDelay", param ) Alters the the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
+AutoItSetOption ( "SendKeyDelay", param ) Alters the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 AutoItSetOption ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses (and many games) you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 AutoItSetOption ( "TCPTimeout", param ) Defines the time before TCP functions stop if no communication. Time in milliseconds before timeout (default=100). 
 AutoItSetOption ( "TrayAutoPause", param ) Script pauses when click on tray icon. 0 = no pause 1 = pause (default). If there is no DefaultMenu no pause will occurs. 
@@ -245,7 +245,7 @@ BinaryToString ( expression [, flag] ) Converts a binary variant into a string.
 BitAND ( value1, value2 [, value n] ) Performs a bitwise AND operation.
 BitNOT ( value ) Performs a bitwise NOT operation.
 BitOR ( value1, value2 [, value n] ) Performs a bitwise OR operation.
-BitRotate ( value , shift [, size] ) Performs a bit shifting operation, with rotation.
+BitRotate ( value [, shift [, size]] ) Performs a bit shifting operation, with rotation.
 BitShift ( value, shift ) Performs a bit shifting operation.
 BitXOR ( value1, value2 [, value n] ) Performs a bitwise exclusive OR (XOR) operation.
 BlockInput ( flag ) Disable/enable the mouse and keyboard.
@@ -283,6 +283,7 @@ ControlCommand ( "title", "text", "classnameNN", "EditPaste", 'string' ) Pastes 
 ControlCommand ( "title", "text", "classnameNN", "CurrentTab", "" ) Returns the current Tab shown of a SysTabControl32
 ControlCommand ( "title", "text", "classnameNN", "TabRight", "" ) Moves to the next tab to the right of a SysTabControl32
 ControlCommand ( "title", "text", "classnameNN", "TabLeft", "" ) Moves to the next tab to the left of a SysTabControl32
+ControlCommand ( "title", "text", "classnameNN", "SendCommandID", Command ID ) Simulates the WM_COMMAND message. Usually used for ToolbarWindow32 controls - use the ToolBar tab of Au3Info to get the Command ID.
 ControlDisable ( "title", "text", controlID) Disables or "grays-out" a control.
 ControlEnable ( "title", "text", controlID ) Enables a "grayed-out" control.
 ControlFocus ( "title", "text", controlID ) Sets input focus to a given control on a window.
@@ -322,7 +323,7 @@ DllCallbackGetPtr ( handle ) Returns the pointer to a callback function that can
 DllCallbackRegister ( "function", "return type", "params" ) Creates a user-defined DLL Callback function.
 DllClose ( dllhandle ) Closes a previously opened DLL.
 DllOpen ( "filename" ) Opens a DLL file for use in DllCall.
-DllStructCreate ( "Struct" [,Pointer] ) Creates a C/C++ style structure to be used in DllCall.
+DllStructCreate ( Struct [,Pointer] ) Creates a C/C++ style structure to be used in DllCall.
 DllStructGetData ( Struct, Element [, index ] ) Returns the data of an element of the struct.
 DllStructGetPtr ( Struct [,Element]) Returns the pointer to the struct or an element in the struct.
 DllStructGetSize ( Struct ) Returns the size of the struct in bytes.
@@ -430,7 +431,7 @@ GUICtrlSetGraphic ( controlID, type [, par1  [, ... par6]] ) Modifies the data f
 GUICtrlSetImage ( controlID, filename [, iconname [, icontype]] ) Sets the bitmap or icon image to use for a control.
 GUICtrlSetLimit ( controlID, max [, min] ) Limits the number of characters/pixels for a control.
 GUICtrlSetOnEvent ( controlID, "function" ) Defines a user-defined function to be called when a control is clicked.
-GUICtrlSetPos ( controlID, left, top [, width [, height]] ) Changes the position of a control within the GUI window.
+GUICtrlSetPos ( controlID, left [, top [, width [, height]]] ) Changes the position of a control within the GUI window.
 GUICtrlSetResizing ( controlID, resizing ) Defines the resizing method used by a control.
 GUICtrlSetState ( controlID, state ) Changes the state of a control.
 GUICtrlSetStyle ( controlID, style [, exStyle] ) Changes the style of a control.
@@ -509,7 +510,7 @@ Opt ( "CaretCoordMode", param ) Sets the way coords are used in the caret functi
 Opt ( "ExpandEnvStrings", param ) Changes how literal strings and % symbols are interpreted.  By default strings are treated literally, this option allows you to use %environment% variables inside strings, e.g., "The temp directory is: %temp%". 1 = expand environment variables (similar to AutoIt v2) 0 = do not expand environment variables (default) Without this option the usual way would be: 	"The temp directory is: " & EnvGet("temp") 
 Opt ( "ExpandVarStrings", param ) Changes how literal strings and variable/macro ($ and @) symbols are interpreted.  By default strings are treated literally, this option allows you to use variables and macros inside strings, e.g., "The value of var1 is $var1$". 1 = expand variables (when in this mode and you want to use a literal $ or @ then double it up: "This is a single dollar $$ sign". 0 = do not expand variables (default) 
 Opt ( "GUICloseOnESC", param ) When ESC is pressed on a GUI the $GUI_EVENT_CLOSE message is sent.  This option toggles this behavior on and off. 1 = Send the $GUI_EVENT_CLOSE message when ESC is pressed (default). 0 = Don't send the $GUI_EVENT_CLOSE message when ESC is pressed. 
-Opt ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positionining relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
+Opt ( "GUICoordMode", param ) Alters the position of a control defined by <a href="GUICtrlSetPos.htm">GUICtrlSetPos</a>. 1 = absolute coordinates (default) still relative to the dialog box. 0 = relative position to the start of the last control (upper left corner). 2 = cell positioning relative to current cell. A -1 for left or top parameter don't increment the start. So next line is -1,offset; next cell is offset,-1; current cell is -1,-1. Obviously "offset" cannot be -1 which reserved to indicate the no increment. But if you can use a multiple of the width you choose to skip or go back. 
 Opt ( "GUIDataSeparatorChar", param ) Define the character which delimits subitems in GUICtrlSetData. The default character is '|'. 
 Opt ( "GUIOnEventMode", param ) Enable/disable OnEvent functions notifications. 0 = (default) disable. 1 = enable. 
 Opt ( "GUIResizeMode", param ) Change default resizing for a control. 0 = (default) keep default control resizing. &lt;1024 = anytype of resizing see <a href="GUICtrlSetResizing.htm">GUICtrlSetResizing</a>. 
@@ -522,7 +523,7 @@ Opt ( "MustDeclareVars", param ) If this option is used then all variables must 
 Opt ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functions, either absolute coords or coords relative to the window defined by hwnd (default active window): 0 = relative coords to the defined window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the defined window 
 Opt ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 Opt ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
-Opt ( "SendKeyDelay", param ) Alters the the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
+Opt ( "SendKeyDelay", param ) Alters the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 Opt ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses (and many games) you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 Opt ( "TCPTimeout", param ) Defines the time before TCP functions stop if no communication. Time in milliseconds before timeout (default=100). 
 Opt ( "TrayAutoPause", param ) Script pauses when click on tray icon. 0 = no pause 1 = pause (default). If there is no DefaultMenu no pause will occurs. 
@@ -645,7 +646,7 @@ TraySetOnEvent ( specialID, "function" ) Defines a user function to be called wh
 TraySetPauseIcon ( [filename [, iconID] ) Loads/Sets a specified tray pause icon.
 TraySetState ( [ flag ] ) Sets the state of the tray icon.
 TraySetToolTip ( [text] ) (Re)Sets the tooltip text for the tray icon.
-TrayTip ( "title", "text", timeout [, option] ) Displays a balloon tip from the AutoIt Icon. (2000/XP only)
+TrayTip ( "title", "text", timeout [, option] ) Displays a balloon tip from the AutoIt Icon.
 UBound ( Array [, Dimension] ) Returns the size of array dimensions.
 UDPBind ( IPAddr, port ) Create a socket bound to an incoming connection.
 UDPCloseSocket ( socketarray ) Close a UDP socket.
@@ -689,7 +690,7 @@ _ArrayCombinations (ByRef $avArray, $iSet [, $sDelim = ""]) Returns an Array of 
 _ArrayConcatenate (ByRef $avArrayTarget, Const ByRef $avArraySource [, $iStart = 0]) Concatenate two arrays. (Requires: #Include <Array.au3>)
 _ArrayDelete (ByRef $avArray, $iElement) Deletes the specified element from the given array. (Requires: #Include <Array.au3>)
 _ArrayDisplay (Const ByRef $avArray [, $sTitle = "Array: ListView Display" [, $iItemLimit = -1 [, $iTranspose = 0 [, $sSeparator = "" [, $sReplace = "|" [, $sHeader = ""]]]]]]) Displays given 1D or 2D array array in a listview. (Requires: #Include <Array.au3>)
-_ArrayFindAll (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iPartial = 0 [, $iSubItem = 0]]]]]) Find the indices of all ocurrences of a search query between two points in a 1D or 2D array using _ArraySearch(). (Requires: #Include <Array.au3>)
+_ArrayFindAll (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iCompare = 0 [, $iSubItem = 0]]]]]) Find the indices of all ocurrences of a search query between two points in a 1D or 2D array using _ArraySearch(). (Requires: #Include <Array.au3>)
 _ArrayInsert (ByRef $avArray, $iElement [, $vValue = ""]) Add a new value at the specified position. (Requires: #Include <Array.au3>)
 _ArrayMax (Const ByRef $avArray [, $iCompNumeric = 0 [, $iStart = 0 [, $iEnd = 0]]]) Returns the highest value held in an array. (Requires: #Include <Array.au3>)
 _ArrayMaxIndex (Const ByRef $avArray [, $iCompNumeric = 0 [, $iStart = 0 [, $iEnd = 0]]]) Returns the index where the highest value occurs in the array. (Requires: #Include <Array.au3>)
@@ -699,7 +700,7 @@ _ArrayPermute (ByRef $avArray [, $sDelim = ""]) Returns an Array of the Permutat
 _ArrayPop (ByRef $avArray) Returns the last element of an array, deleting that element from the array at the same time. (Requires: #Include <Array.au3>)
 _ArrayPush (ByRef $avArray, $vValue [, $iDirection = 0]) Add new values without increasing array size by inserting at the end the new value and deleting the first one or vice versa. (Requires: #Include <Array.au3>)
 _ArrayReverse (ByRef $avArray [, $iStart = 0 [, $iEnd = 0]]) Takes the given array and reverses the order in which the elements appear in the array. (Requires: #Include <Array.au3>)
-_ArraySearch (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iPartial = 0 [, $iForward = 1 [, $iSubItem = -1]]]]]]) Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted. (Requires: #Include <Array.au3>)
+_ArraySearch (Const ByRef $avArray, $vValue [, $iStart = 0 [, $iEnd = 0 [, $iCase = 0 [, $iCompare= 0 [, $iForward = 1 [, $iSubItem = -1]]]]]]) Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted. (Requires: #Include <Array.au3>)
 _ArraySort (ByRef $avArray[, $iDescending = 0 [, $iStart = 0 [, $iEnd = 0 [, $iSubItem = 0]]]]) Sort a 1D or 2D array on a specific index using the quicksort/insertionsort algorithms. (Requires: #Include <Array.au3>)
 _ArraySwap (ByRef $vItem1, ByRef $vItem2) Swaps two items. (Requires: #Include <Array.au3>)
 _ArrayToClip (Const ByRef $avArray [, $iStart = 0 [, $iEnd = 0]]) Sends the contents of an array to the clipboard, each element delimited by a carriage return. (Requires: #Include <Array.au3>)
@@ -733,10 +734,12 @@ _ClipPutFile ($sFile [, $sSeparator = "|"]) Copy Files to Clipboard Like Explore
 _ColorConvertHSLtoRGB ($avArray) Converts HSL to RGB (Requires: #Include <Color.au3>)
 _ColorConvertRGBtoHSL ($avArray) Converts RGB to HSL (Requires: #Include <Color.au3>)
 _ColorGetBlue ($nColor) Returns the blue component of a given color. (Requires: #Include <Color.au3>)
+_ColorGetCOLORREF ($nColor) Returns the COLORREF color. (Requires: #Include <Color.au3>)
 _ColorGetGreen ($nColor) Returns the green component of a given color. (Requires: #Include <Color.au3>)
 _ColorGetRed ($nColor) Returns the red component of a given color. (Requires: #Include <Color.au3>)
 _ColorGetRGB ($nColor) Returns an array containing RGB values in their respective positions. (Requires: #Include <Color.au3>)
-_ColorSetRGB ($aColor) Returns the RGB color to work with (COLORREF). (Requires: #Include <Color.au3>)
+_ColorSetCOLORREF ($aColor) Returns the COLORREF color. (Requires: #Include <Color.au3>)
+_ColorSetRGB ($aColor) Returns the RGB color. (Requires: #Include <Color.au3>)
 _Crypt_DecryptData ($vData, $vCryptKey, $iALG_ID[, $fFinal = True]) Decrypts data using the supplied key (Requires: #Include <Crypt.au3>)
 _Crypt_DecryptFile ($sSourceFile, $sDestinationFile, $vCryptKey, $iALG_ID) Decrypts a file with specified key and algorithm (Requires: #Include <Crypt.au3>)
 _Crypt_DeriveKey ($vPassword, $iALG_ID [, $iHash_ALG_ID = $CALG_MD5 ] ) Creates a key from algorithm and password (Requires: #Include <Crypt.au3>)
@@ -849,7 +852,7 @@ _FileCreate ($sFilePath) Creates or zero's out the length of the file specified.
 _FileListToArray ($sPath [, $sFilter = "*" [, $iFlag = 0]]) Lists files and\or folders in a specified path (Similar to using Dir with the /B Switch) (Requires: #Include <File.au3>)
 _FilePrint ($s_File [, $i_Show = @SW_HIDE]) Prints a plain text file. (Requires: #Include <File.au3>)
 _FileReadToArray ($sFilePath, ByRef $aArray) Reads the specified file into an array. (Requires: #Include <File.au3>)
-_FileWriteFromArray ($File, $a_Array [, $i_Base = 0 [, $i_UBound = 0]]) Writes Array records to the specified file. (Requires: #Include <File.au3>)
+_FileWriteFromArray ($File, $a_Array [, $i_Base = 0 [, $i_UBound = 0 [, $s_Delim= "|"]]]) Writes Array records to the specified file. (Requires: #Include <File.au3>)
 _FileWriteLog ($sLogPath, $sLogMsg [, $iFlag = -1]) Writes current date,time and the specified text to a log file. (Requires: #Include <File.au3>)
 _FileWriteToLine ($sFile, $iLine, $sText [, $fOverWrite = 0]) Writes text to a specific line in a file. (Requires: #Include <File.au3>)
 _FTP_Close ($l_InternetSession) Closes the _FTP_Open session. (Requires: #Include <FTPEx.au3>)
@@ -921,7 +924,7 @@ _GDIPlus_FontDispose ($hFont) Release a Font object (Requires: #Include <GDIPlus
 _GDIPlus_FontFamilyCreate ($sFamily) Create a Font Family object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_FontFamilyDispose ($hFamily) Release a Font Family object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_GraphicsClear ($hGraphics[, $iARGB = 0xFF000000]) Clears a Graphics object to a specified color (Requires: #Include <GDIPlus.au3>)
-_GDIPlus_GraphicsCreateFromHDC ($hDC) Create a Graphics object from a device contect (DC) (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_GraphicsCreateFromHDC ($hDC) Create a Graphics object from a device context (DC) (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_GraphicsCreateFromHWND ($hWnd) Create a Graphics object from a window handle (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_GraphicsDispose ($hGraphics) Release a Graphics object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_GraphicsDrawArc ($hGraphics, $iX, $iY, $iWidth, $iHeight, $fStartAngle, $fSweepAngle[, $hPen = 0]) Draw an arc (Requires: #Include <GDIPlus.au3>)
@@ -967,7 +970,7 @@ _GDIPlus_MatrixDispose ($hMatrix) Release a matrix object (Requires: #Include <G
 _GDIPlus_MatrixRotate ($hMatrix, $fAngle[, $bAppend = False]) Updates a matrix with the product of itself and a rotation matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixScale ($hMatrix, $fScaleX, $fScaleY[, $bOrder = False]) Updates a matrix with the product of itself and a scaling matrix (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_MatrixTranslate ($hMatrix, $fOffsetX, $fOffsetY[, $bAppend = False]) Updates a matrix with the product of itself and a translation matrix (Requires: #Include <GDIPlus.au3>)
-_GDIPlus_ParamAdd (ByRef $tParams, $sGUID, $iCount, $iType, $pValues) Add a value to an enocder parameter list (Requires: #Include <GDIPlus.au3>)
+_GDIPlus_ParamAdd (ByRef $tParams, $sGUID, $iCount, $iType, $pValues) Add a value to an encoder parameter list (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_ParamInit ($iCount) Initialize an encoder parameter list (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_PenCreate ([$iARGB = 0xFF000000[, $nWidth = 1[, $iUnit = 2]]]) Create a pen object (Requires: #Include <GDIPlus.au3>)
 _GDIPlus_PenDispose ($hPen) Release a pen object (Requires: #Include <GDIPlus.au3>)
@@ -1677,10 +1680,10 @@ _GUICtrlRebar_SetBandStyleNoGripper ($hWnd, $iIndex[, $fEnabled = True]) Set whe
 _GUICtrlRebar_SetBandStyleTopAlign ($hWnd, $iIndex[, $fEnabled = True]) Set whether to keep band in top row (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetBandStyleUseChevron ($hWnd, $iIndex[, $fEnabled = True]) Set whether to display drop-down button (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetBandStyleVariableHeight ($hWnd, $iIndex[, $fEnabled = True]) Set whether the band can be resized by the rebar control (Requires: #Include <GuiRebar.au3>)
-_GUICtrlRebar_SetBandText ($hWnd, $iIndex, $sText) Retrieves the display text for the band (Requires: #Include <GuiRebar.au3>)
+_GUICtrlRebar_SetBandText ($hWnd, $iIndex, $sText) Sets the display text for the band of a rebar control (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetBarInfo ($hWnd, $himl) Sets the characteristics of a rebar control (Requires: #Include <GuiRebar.au3>)
-_GUICtrlRebar_SetBKColor ($hWnd, $iColor) Retrieves a rebar control's default background color (Requires: #Include <GuiRebar.au3>)
-_GUICtrlRebar_SetColorScheme ($hWnd, $BtnHighlight, $BtnShadow) Retrieves a rebar control's default background color (Requires: #Include <GuiRebar.au3>)
+_GUICtrlRebar_SetBKColor ($hWnd, $iColor) Sets the default background color of a rebar control (Requires: #Include <GuiRebar.au3>)
+_GUICtrlRebar_SetColorScheme ($hWnd, $BtnHighlight, $BtnShadow) Sets the color scheme of a rebar control (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetTextColor ($hWnd, $iColor) Sets a rebar control's default text color (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetToolTips ($hWnd, $hToolTip) Associates a ToolTip control with the rebar control (Requires: #Include <GuiRebar.au3>)
 _GUICtrlRebar_SetUnicodeFormat ($hWnd[, $fUnicode = True]) Sets the Unicode character format flag for the control (Requires: #Include <GuiRebar.au3>)
@@ -1855,6 +1858,7 @@ _GUICtrlStatusBar_SetText ($hWnd, $sText = "", $iPart = 0, $iUFlag = 0) Sets the
 _GUICtrlStatusBar_SetTipText ($hWnd, $iPart, $sText) Sets the ToolTip text for a part (Requires: #Include <GuiStatusBar.au3>)
 _GUICtrlStatusBar_SetUnicodeFormat ($hWnd[, $fUnicode = True]) Sets the Unicode character format flag (Requires: #Include <GuiStatusBar.au3>)
 _GUICtrlStatusBar_ShowHide ($hWnd, $iState) Show/Hide the StatusBar control (Requires: #Include <GuiStatusBar.au3>)
+_GUICtrlTab_ActivateTab ($hWnd, $iIndex) Activates a tab by its index (Requires: #Include <GuiTab.au3>)
 _GUICtrlTab_ClickTab ($hWnd, $iIndex[, $sButton = "left"[, $fMove = False[, $iClicks = 1[, $iSpeed = 1]]]]) Clicks a tab (Requires: #Include <GuiTab.au3>)
 _GUICtrlTab_Create ($hWnd, $iX, $iY[, $iWidth=150[, $iHeight=150[, $iStyle=0x00000040[, $iExStyle=0x00000000]]]]) Create a TabControl control (Requires: #Include <GuiTab.au3>)
 _GUICtrlTab_DeleteAllItems ($hWnd) Deletes all tabs (Requires: #Include <GuiTab.au3>)
@@ -2322,7 +2326,7 @@ _NowCalc () Returns the current Date and Time in format YYYY/MM/DD HH:MM:SS for 
 _NowCalcDate () Returns the current Date in format YYYY/MM/DD. (Requires: #Include <Date.au3>)
 _NowDate () Returns the current Date in the Pc's format. (Requires: #Include <Date.au3>)
 _NowTime ([$sType = 3]) Returns the current Time in the requested format. (Requires: #Include <Date.au3>)
-_PathFull ($sRelativePath) Creates a path based on the relative path you provide. The newly created absolute path is returned (Requires: #Include <File.au3>)
+_PathFull ($sRelativePath [, $sBasePath = @WorkingDir]) Creates a path based on the relative path you provide. The newly created absolute path is returned (Requires: #Include <File.au3>)
 _PathGetRelative ($sFrom, $sTo) Returns the relative path to a directory (Requires: #Include <File.au3>)
 _PathMake ($szDrive, $szDir, $szFName, $szExt) Creates a path from drive, directory, file name and file extension parts. Not all parts must be passed. (Requires: #Include <File.au3>)
 _PathSplit ($szPath, ByRef $szDrive, ByRef $szDir, ByRef $szFName, ByRef $szExt) Splits a path into the drive, directory, file name and file extension parts. An empty string is set if a part is missing. (Requires: #Include <File.au3>)
@@ -2332,7 +2336,7 @@ _Radian ( $nDegrees ) Converts degrees to radians. (Requires: #include <Math.au3
 _ReplaceStringInFile ($szFileName, $szSearchString, $szReplaceString [, $fCaseness = 0 [, $fOccurance = 1]]) Replaces a string with another string in the given text file (binary won't work!) (Requires: #Include <File.au3>)
 _RunDOS ( $sCommand ) Executes a DOS command in a hidden command window. (Requires: #include <Process.au3>)
 _ScreenCapture_Capture ([$sFileName = "" [, $iLeft = 0 [, $iTop = 0 [, $iRight = -1 [, $iBottom = -1 [, $fCursor = True]]]]]]) Captures a region of the screen (Requires: #Include <ScreenCapture.au3>)
-_ScreenCapture_CaptureWnd ($sFileName, $hWnd [, $iLeft = 0 [, $iTop = 0 [, $iRight = -1 [, $iBottom = -1 [, $fCursor = True]]]]]) Captures a screen shot of a specified window (Requires: #Include <ScreenCapture.au3>)
+_ScreenCapture_CaptureWnd ($sFileName, $hWnd [, $iLeft = 0 [, $iTop = 0 [, $iRight = -1 [, $iBottom = -1 [, $fCursor = True]]]]]) Captures a screen shot of a specified window or controlID (Requires: #Include <ScreenCapture.au3>)
 _ScreenCapture_SaveImage ($sFileName, $hBitmap [, $fFreeBmp = True]) Saves an image to file (Requires: #Include <ScreenCapture.au3>)
 _ScreenCapture_SetBMPFormat ($iFormat) Sets the bit format that will be used for BMP screen captures (Requires: #Include <ScreenCapture.au3>)
 _ScreenCapture_SetJPGQuality ($iQuality) Sets the quality level that will be used for JPEG screen captures (Requires: #Include <ScreenCapture.au3>)
@@ -2345,7 +2349,7 @@ _Security__GetTokenInformation ($hToken, $iClass) Retrieves a specified type of 
 _Security__ImpersonateSelf ([$iLevel = 2]) Obtains an access token that impersonates the calling process security context (Requires: #Include <Security.au3>)
 _Security__IsValidSid ($pSID) Validates a SID (Requires: #Include <Security.au3>)
 _Security__LookupAccountName ($sAccount [, $sSystem = ""]) Retrieves a security identifier (SID) for the account and the name of the domain (Requires: #Include <Security.au3>)
-_Security__LookupAccountSid ($vSID) Retrieves the name of the account for a SID (Requires: #Include <Security.au3>)
+_Security__LookupAccountSid ($vSID [, $sSystem = ""]) Retrieves the name of the account for a SID (Requires: #Include <Security.au3>)
 _Security__LookupPrivilegeValue ($sSystem, $sName) Retrieves the locally unique identifier (LUID) for a privilege value (Requires: #Include <Security.au3>)
 _Security__OpenProcessToken ($hProcess, $iAccess) Returns the process handle of the calling process (Requires: #Include <Security.au3>)
 _Security__OpenThreadToken ($iAccess[, $hThread = 0 [, $fOpenAsSelf = False]]) Opens the access token associated with a thread (Requires: #Include <Security.au3>)
@@ -2369,19 +2373,21 @@ _SoundResume ( $aSnd_id ) Resume a paused sound. (Requires: #include <Sound.au3>
 _SoundSeek (ByRef $aSnd_id, $iHour, $iMin, $iSec ) Seeks the sound to the specified position  (Requires: #include <Sound.au3>)
 _SoundStatus ( $aSnd_id ) Returns the status of the sound  (Requires: #include <Sound.au3>)
 _SoundStop (ByRef $aSnd_id ) Stop a playing sound. (Requires: #include <Sound.au3>)
-_SQLite_Changes ( [ $hDB ] ) Returns number of changes (excluding triggers) of the last transaction (Requires: #include <SQLite.au3>)
-_SQLite_Close ( [ $hDB ] ) Close a SQLite database. (Requires: #include <SQLite.au3>)
-_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $bReturn = 0 ]] ) Returns or prints a 2Dimensional array formated to Console (Requires: #include <SQLite.au3>)
-_SQLite_Encode ( $vData ) Encodes strings or binary data for use in SQLite query's (Requires: #include <SQLite.au3>)
+_SQLite_Changes ( [ $hDB ] ) Returns the number of database rows that were changed by the most recently completed statement with this connection (Requires: #include <SQLite.au3>)
+_SQLite_Close ( [ $hDB ] ) Close an open database. (Requires: #include <SQLite.au3>)
+_SQLite_Display2DResult ( $aResult [, $iCellWidth = 0 [, $bReturn = 0 ]] ) Returns or prints to Console a formated display of a 2Dimensional array (Requires: #include <SQLite.au3>)
+_SQLite_Encode ( $vData ) Binary encodes a string, number or binary data for use as BLOB in SQLite statements. (Requires: #include <SQLite.au3>)
 _SQLite_ErrCode ( [ $hDB ] ) Returns last error code (numeric) (Requires: #include <SQLite.au3>)
 _SQLite_ErrMsg ( [ $hDB ] ) Returns a string describing in english the error condition for the most recent sqlite3_* API call (Requires: #include <SQLite.au3>)
-_SQLite_Escape ( $sString [, $iBuffSize ] ) Escapes a string (Requires: #include <SQLite.au3>)
+_SQLite_Escape ( $sString ) Escapes a string or number for use as TEXT in SQLite statements (Requires: #include <SQLite.au3>)
 _SQLite_Exec ( $hDB, $sSQL [, $sCallBack ] ) Executes a SQLite query, does not handle results. (Requires: #include <SQLite.au3>)
+_SQLite_FastEncode ( $vData ) Fast encodes binary data (exclusively) for use in SQLite statements (Requires: #include <SQLite.au3>)
+_SQLite_FastEscape ( $sString ) Fast escapes a string or number for use as TEXT in SQLite statements (Requires: #include <SQLite.au3>)
 _SQLite_FetchData ( $hQuery, ByRef $aRow [, $fBinary  = False [, $fDoNotFinalize = False]] ) Fetches 1 row of data from a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
 _SQLite_FetchNames ( $hQuery, ByRef $aNames ) Read out the Column names of a _SQLite_Query() based query (Requires: #include <SQLite.au3>)
-_SQLite_GetTable ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize = 64 ] ) Passes Out a 1Dimensional Array Containing Tablenames and Data of Executed Query. (Requires: #include <SQLite.au3>)
-_SQLite_GetTable2d ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize [, $fSwichDimensions = False ]] ) Passes out a 2Dimensional array containing Column names and Data of executed Query (Requires: #include <SQLite.au3>)
-_SQLite_LastInsertRowID ( [ $hDB ] ) Returns the ROWID of the most recent insert in the database (Requires: #include <SQLite.au3>)
+_SQLite_GetTable ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize = -1 ] ) Passes Out a 1Dimensional Array Containing Tablenames and Data of Executed Query. (Requires: #include <SQLite.au3>)
+_SQLite_GetTable2d ( $hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns [, $iCharSize = -1 [, $fSwichDimensions = False ]] ) Passes out a 2Dimensional array containing column names and data of executed query (Requires: #include <SQLite.au3>)
+_SQLite_LastInsertRowID ( [ $hDB ] ) Returns the ROWID of the most recent insert in the database by this connection (Requires: #include <SQLite.au3>)
 _SQLite_LibVersion ( ) Returns the version number of the library (Requires: #include <SQLite.au3>)
 _SQLite_Open ( [ $sDatabase_Filename = ":memory:" [,$iAccessMode [,$iEncoding ]]] ) Opens/creates a SQLite database. (Requires: #include <SQLite.au3>)
 _SQLite_Query ( $hDB, $sSQL, ByRef $hQuery ) Prepares a SQLite Query (Requires: #include <SQLite.au3>)
@@ -2391,9 +2397,9 @@ _SQLite_QuerySingleRow ( $hDB, $sSQL, ByRef $aRow ) Read out the first row of th
 _SQLite_SafeMode ( $fSafeModeState ) Disable or Enable Safe mode (Requires: #include <SQLite.au3>)
 _SQLite_SetTimeout ( [ $hDB = -1 [, $iTimeout = 1000 ]] ) Sets timeout for busy handler (Requires: #include <SQLite.au3>)
 _SQLite_Shutdown ( ) Unloads SQLite.dll (Requires: #include <SQLite.au3>)
-_SQLite_SQLiteExe ( $sDatabaseFile, $sInput, ByRef $sOutput [, $sSQLiteExeFilename = "SQLite3.exe" ] ) Executes commands in SQLite.exe (Requires: #include <SQLite.au3>)
-_SQLite_Startup ( [ $sDll_Filename = "sqlite3.dll" [, $bUTF8ErrorMsg = False ]] ) Loads SQLite.dll (Requires: #include <SQLite.au3>)
-_SQLite_TotalChanges ( [ $hDB ] ) Returns number of all changes (including triggers) of all transactions (Requires: #include <SQLite.au3>)
+_SQLite_SQLiteExe ( $sDatabaseFile, $sInput, ByRef $sOutput [, $sSQLiteExeFilename = "SQLite3.exe" ] ) Executes commands in SQLite3.exe (Requires: #include <SQLite.au3>)
+_SQLite_Startup ( [ $sDll_Filename = "sqlite3.dll" [, $bUTF8ErrorMsg = False ]] ) Loads SQLite3.dll (Requires: #include <SQLite.au3>)
+_SQLite_TotalChanges ( [ $hDB ] ) Returns number of all changes (including via triggers and foreign keys) from start of connection (Requires: #include <SQLite.au3>)
 _StringBetween ($s_String, $s_Start, $s_End [, $v_Case = -1]) Returns the string between the start search string and the end search string. (Requires: #Include <String.au3>)
 _StringEncrypt ($i_Encrypt, $s_EncryptText, $s_EncryptPassword [, $i_EncryptLevel = 1]) An RC4 based string encryption function. (Requires: #Include <String.au3>)
 _StringExplode ($sString, $sDelimiter [, $iLimit] ) Splits up a string into substrings depending on the given delimiters as PHP Explode v5. (Requires: #Include <String.au3>)
@@ -2499,7 +2505,7 @@ _WinAPI_GetDlgItem ($hWnd, $iItemID) Retrieves the handle of a control in the sp
 _WinAPI_GetFileSizeEx ($hFile) Retrieves the size of the specified file (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetFocus () Retrieves the handle of the window that has the keyboard focus (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetForegroundWindow () Returns the handle of the foreground window (Requires: #Include <WinAPI.au3>)
-_WinAPI_GetGuiResources ([$iflag = 1 [, $hProcess = -1}}) Retrieves the count of handles to graphical user interface (GUI) objects in use by the specified process (Requires: #Include <WinAPI.au3>)
+_WinAPI_GetGuiResources ([$iflag = 1 [, $hProcess = -1]]) Retrieves the count of handles to graphical user interface (GUI) objects in use by the specified process (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetIconInfo ($hIcon) Retrieves information about the specified icon or cursor (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetLastError () Returns the calling thread's lasterror code value (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetLastErrorMessage () Returns the calling threads last error message (Requires: #Include <WinAPI.au3>)
@@ -2520,6 +2526,7 @@ _WinAPI_GetSysColor ($iIndex) Retrieves the current color of the specified displ
 _WinAPI_GetSysColorBrush ($iIndex) retrieves a handle identifying a logical brush that corresponds to the specified color index (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetSystemMetrics ($iIndex) Retrieves the specified system metric or system configuration setting (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetTextExtentPoint32 ($hDC, $sText) Computes the width and height of the specified string of text (Requires: #Include <WinAPI.au3>)
+_WinAPI_GetTextMetrics ($hDC) Retrieves basic information for the currently selected font. (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetWindow ($hWnd, $iCmd) Retrieves the handle of a window that has a specified relationship to the specified window (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetWindowDC ($hWnd) Retrieves the device context (DC) for the entire window (Requires: #Include <WinAPI.au3>)
 _WinAPI_GetWindowHeight ($hWnd) Returns the height of the window (Requires: #Include <WinAPI.au3>)
@@ -2616,7 +2623,7 @@ _WinAPI_UpdateWindow ($hWnd) Updates the client area of a window by sending a WM
 _WinAPI_WaitForInputIdle ($hProcess [, $iTimeout = -1]) Waits until a process is waiting for user input with no input pending, or a time out (Requires: #Include <WinAPI.au3>)
 _WinAPI_WaitForMultipleObjects ($iCount, $pHandles [, $fWaitAll = False [, $iTimeout = -1]]) Waits until one or all of the specified objects are in the signaled state (Requires: #Include <WinAPI.au3>)
 _WinAPI_WaitForSingleObject ($hHandle [, $iTimeout = -1]) Waits until the specified object is in the signaled state (Requires: #Include <WinAPI.au3>)
-_WinAPI_WideCharToMultiByte ($pUnicode [, $iCodePage = 0 [, $iFlags = 0 [, $bRetString = True]]]) Converts a Unicode string to a multibyte string (Requires: #Include <WinAPI.au3>)
+_WinAPI_WideCharToMultiByte ($pUnicode [, $iCodePage = 0 [, $bRetString = True]]) Converts a Unicode string to a multibyte string (Requires: #Include <WinAPI.au3>)
 _WinAPI_WindowFromPoint (ByRef $tPoint) Retrieves the handle of the window that contains the specified point (Requires: #Include <WinAPI.au3>)
 _WinAPI_WriteConsole ($hConsole, $sText) Writes a character string to a console screen buffer (Requires: #Include <WinAPI.au3>)
 _WinAPI_WriteFile ($hFile, $pBuffer, $iToWrite, ByRef $iWritten [, $pOverlapped = 0]) Writes data to a file at the position specified by the file pointer (Requires: #Include <WinAPI.au3>)
