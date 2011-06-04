@@ -35,7 +35,7 @@
 '********************************************************************
 -->
 
-<title>Scriptomatic V 2.0 by The Microsoft Scripting Guys	[收集:thesnow at www.autoit.com.cn]</title>
+<title>Scriptomatic V 2.0 by The Microsoft Scripting Guys	[收集:thesnow at www.autoitx.com]</title>
 
 <HTA:APPLICATION 
      ID="objScriptomatic" 
@@ -258,7 +258,7 @@ Sub LoadWMIClasses
       '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
       wmi_classes.InnerHTML = ""
       strHTML = "<select style=""width:350px;"" onChange=""ComposeCode()"" name=ClassesPulldown>" & _
-                "<option value=""PulldownMessage"">Select a WMI class"
+                "<option value=""PulldownMessage"">选项一个 WMI 类"
 
       For Each strWMIClass in objClassDictionary.Keys
          strHTML = strHTML & "<option value= " & Chr(34) & _
@@ -1155,7 +1155,7 @@ End Sub
 Sub OpenScript()
 
 strHTML = "<html><head>"
-strHTML = strHTML & "<title>Select a File...</title>"
+strHTML = strHTML & "<title>选择一个文件...</title>"
 strHTML = strHTML & "<script language=vbscript>"
 strHTML = strHTML & "Function SubmitFileName()" & vbCrLf
 strHTML = strHTML & "opener.LoadScript(document.all.file_name.value)" & vbCrLf
@@ -1178,7 +1178,7 @@ End Sub
 Sub LoadComputerNamesFromFile()
 
 strHTML = "<html><head>"
-strHTML = strHTML & "<title>Select a File...</title>"
+strHTML = strHTML & "<title>选择一个文件...</title>"
 strHTML = strHTML & "<script language=vbscript>"
 strHTML = strHTML & "Function SetComputersFromFile()" & vbCrLf
 strHTML = strHTML & "opener.SetComputers(document.all.computer_list.value)" & vbCrLf

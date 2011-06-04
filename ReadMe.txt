@@ -18,32 +18,32 @@ AutoIt工具箱提供了安装卸载功能.
 
 3.3.7.8  (Beta)
 AutoIt:
-[G][*]修正: #1908: ObjName() returns empty string for HTMLDocument with IE9.
+[G][*]修正: #1908: IE9下使用 ObjName() 获取HTMLDocument返回空字符串.
+[H][!]更新: sqlite数据库管理控制台sqlite3.exe更新为3.7.6.3版本
+[H][!]更新: sqlite数据库动态链接库sqlite3.dll更新为3.7.6.3版本
+[H][!]更新: sqlite数据库分析工具sqlite3_analyzer.exe更新为3.7.6.3版本
+[H][!]更新: sqlite数据库管理工具SQLiteQuery.exe更新为1.4版本
 
 UDFs:
-[G][*]修正: #1859: Bug in _WeekNumberISO?
+[G][*]修正: #1859: _WeekNumberISO 中可能存在的bug.
 
 
 3.3.7.7  (Beta)
-
 AutoIt:
-[G][*]修正: #1586: DllStructSetData(char, 1, string-with-NUL-character), junk data(?)
-[G][*]修正: #1633: Second AdlibRegister function starts at once when first function is too slow.
+[G][*]修正: #1586: DllStructSetData(char, 1, string-with-NUL-character), 垃圾数据(?)
+            指:设置字符串时,字符串中包含空字符(NULL),计算机遇到NULL字符将视为结束符.
+[G][*]修正: #1633: 当第一个 AdlibRegister 函数运行过慢,当超过计时器时间,第二个开始运行了.
 
 Au3Info:
-- Added: Option "Use Spy++ control detection logic" toggle added to Au3Info (this was the mode always used in recent
-	releases, but the very old method that used to be used is useful in certain applications (for example, putty.exe)
-[G][*]修正: #1746: Option "Use Spy++ control detection logic" toggle added to Au3Info.
-
+[G][+]新增: 选项 "使用 Spy++ 控件检测方法" 已添加到 Au3Info
+            这是以前版本使用的方式,在更早以前使用的检测方式对某些程序检测非常有用,所以重新添加了.(例如 putty.exe)
 
 3.3.7.6  (Beta)
 [G][*]修正: 3.3.7.3 出现的包含文件解析问题
 [G][*]修正: GUICtrlCreateLabel() 当未使用高度时,文本设置大小出现问题.
 
-
 3.3.7.5  (Beta)
 [G][*]修正: 3.3.7.3 出现的 StringFormat 内存错误.
-
 
 3.3.7.4  (Beta)
 
