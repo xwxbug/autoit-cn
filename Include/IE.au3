@@ -557,7 +557,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-		Case "DispHTMLWindow2" ; Window, Frame, iFrame
+		Case "HTMLWindow2" ; Window, Frame, iFrame
 			While Not (String($o_object.document.readyState) = "complete" Or $o_object.document.readyState = 4 Or $f_Abort)
 				If (TimerDiff($IELoadWaitTimer) > $i_timeout) Then
 					$i_ErrorStatusCode = $_IEStatus_LoadWaitTimeout
@@ -582,7 +582,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-		Case "DispHTMLDocument" ; Document
+		Case "HTMLDocument" ; Document
 			$oTemp = $o_object.parentWindow
 			While Not (String($oTemp.document.readyState) = "complete" Or $oTemp.document.readyState = 4 Or $f_Abort)
 				If (TimerDiff($IELoadWaitTimer) > $i_timeout) Then
@@ -3685,21 +3685,21 @@ Func __IEIsObjType(ByRef $o_object, $s_type)
 		Case "browser"
 			If ($s_Name = "IWebBrowser2") Or ($s_Name = "IWebBrowser") Then $objectOK = True
 		Case "window"
-			If $s_Name = "DispHTMLWindow2" Then $objectOK = True
+			If $s_Name = "HTMLWindow2" Then $objectOK = True
 		Case "documentContainer"
 			If __IEIsObjType($o_object, "window") Or __IEIsObjType($o_object, "browser") Then $objectOK = True
 		Case "document"
-			If $s_Name = "DispHTMLDocument" Then $objectOK = True
+			If $s_Name = "HTMLDocument" Then $objectOK = True
 		Case "table"
-			If $s_Name = "DispHTMLTable" Then $objectOK = True
+			If $s_Name = "HTMLTable" Then $objectOK = True
 		Case "form"
-			If $s_Name = "DispHTMLFormElement" Then $objectOK = True
+			If $s_Name = "HTMLFormElement" Then $objectOK = True
 		Case "forminputelement"
-			If ($s_Name = "DispHTMLInputElement") Or ($s_Name = "DispHTMLSelectElement") Or ($s_Name = "DispHTMLTextAreaElement") Then $objectOK = True
+			If ($s_Name = "HTMLInputElement") Or ($s_Name = "HTMLSelectElement") Or ($s_Name = "HTMLTextAreaElement") Then $objectOK = True
 		Case "elementcollection"
-			If ($s_Name = "DispHTMLElementCollection") Then $objectOK = True
+			If ($s_Name = "HTMLElementCollection") Then $objectOK = True
 		Case "formselectelement"
-			If $s_Name = "DispHTMLSelectElement" Then $objectOK = True
+			If $s_Name = "HTMLSelectElement" Then $objectOK = True
 		Case Else
 			; Unsupported ObjType specified
 			Return SetError($_IEStatus_InvalidValue, 2, 0)

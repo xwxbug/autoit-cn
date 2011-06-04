@@ -1480,33 +1480,33 @@ EndFunc   ;==>_TimeToTicks
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
-	; Check for erroneous input in $Day, $Month & $Year
-	If $iDay > 31 Or $iDay < 1 Then
-		Return SetError(1,0,-1)
-	ElseIf $iMonth > 12 Or $iMonth < 1 Then
-		Return SetError(1,0,-1)
-	ElseIf $iYear < 1 Or $iYear > 2999 Then
-		Return SetError(1,0,-1)
-	EndIf
+    ; Check for erroneous input in $Day, $Month & $Year
+    If $iDay > 31 Or $iDay < 1 Then
+        Return SetError(1, 0, -1)
+    ElseIf $iMonth > 12 Or $iMonth < 1 Then
+        Return SetError(1, 0, -1)
+    ElseIf $iYear < 1 Or $iYear > 2999 Then
+        Return SetError(1, 0, -1)
+    EndIf
 
-	Local $idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
-	Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
+    Local $idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay) - 1;
+    Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1) - 1;
 
-	If ($iMonth = 1 And 3 < $iDow0101 And $iDow0101 < 7 - ($iDay - 1)) Then
-		;days before week 1 of the current year have the same week number as
-		;the last day of the last week of the previous year
-		$idow = $iDow0101 - 1;
-		$iDow0101 = _DateToDayOfWeekISO($iYear - 1, 1, 1);
-		$iMonth = 12
-		$iDay = 31
-		$iYear = $iYear - 1
-	ElseIf ($iMonth = 12 And 30 - ($iDay - 1) < _DateToDayOfWeekISO($iYear + 1, 1, 1) And _DateToDayOfWeekISO($iYear + 1, 1, 1) < 4) Then
-		; days after the last week of the current year have the same week number as
-		; the first day of the next year, (i.e. 1)
-		Return 1;
-	EndIf
+    If ($iMonth = 1 And 3 < $iDow0101 And $iDow0101 < 7 - ($iDay - 1)) Then
+        ;days before week 1 of the current year have the same week number as
+        ;the last day of the last week of the previous year
+        $idow = $iDow0101 - 1;
+        $iDow0101 = _DateToDayOfWeekISO($iYear - 1, 1, 1) - 1;
+        $iMonth = 12
+        $iDay = 31
+        $iYear = $iYear - 1
+    ElseIf ($iMonth = 12 And 30 - ($iDay - 1) < _DateToDayOfWeekISO($iYear + 1, 1, 1) - 1 And _DateToDayOfWeekISO($iYear + 1, 1, 1) - 1 < 4) Then
+        ; days after the last week of the current year have the same week number as
+        ; the first day of the next year, (i.e. 1)
+        Return 1;
+    EndIf
 
-	Return Int((_DateToDayOfWeekISO($iYear, 1, 1) < 4) + 4 * ($iMonth - 1) + (2 * ($iMonth - 1) + ($iDay - 1) + $iDow0101 - $idow + 6) * 36 / 256)
+    Return Int((_DateToDayOfWeekISO($iYear, 1, 1) - 1 < 4) + 4 * ($iMonth - 1) + (2 * ($iMonth - 1) + ($iDay - 1) + $iDow0101 - $idow + 6) * 36 / 256)
 
 EndFunc   ;==>_WeekNumberISO
 

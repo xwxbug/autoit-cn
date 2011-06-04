@@ -1,4 +1,4 @@
-﻿;CONSTANTS
+;CONSTANTS
 Global Const $AW_FADE_IN = 0x00080000;fade-in
 Global Const $AW_FADE_OUT = 0x00090000;fade-out
 Global Const $AW_SLIDE_IN_LEFT = 0x00040001;slide in from left

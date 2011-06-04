@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.6 第一汉化版
+程序版本:3.3.7.8 第一汉化版
 汉化作者:thesnoW(ALL),Sxd(ADF),rikthhpgf2005(ADF),kodin(Example)
 中文论坛:http://www.AutoItX.com
 =========================================================
@@ -14,7 +14,27 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.6 (2011-05-30) 第一汉化版
+3.3.7.8 (2011-05-30) 第一汉化版
+
+3.3.7.8  (Beta)
+AutoIt:
+[G][*]修正: #1908: ObjName() returns empty string for HTMLDocument with IE9.
+
+UDFs:
+[G][*]修正: #1859: Bug in _WeekNumberISO?
+
+
+3.3.7.7  (Beta)
+
+AutoIt:
+[G][*]修正: #1586: DllStructSetData(char, 1, string-with-NUL-character), junk data(?)
+[G][*]修正: #1633: Second AdlibRegister function starts at once when first function is too slow.
+
+Au3Info:
+- Added: Option "Use Spy++ control detection logic" toggle added to Au3Info (this was the mode always used in recent
+	releases, but the very old method that used to be used is useful in certain applications (for example, putty.exe)
+[G][*]修正: #1746: Option "Use Spy++ control detection logic" toggle added to Au3Info.
+
 
 3.3.7.6  (Beta)
 [G][*]修正: 3.3.7.3 出现的包含文件解析问题
@@ -39,7 +59,7 @@ UDFs:
 
 3.3.7.2 (Beta)
 AutoIt:
-[G][!]新增: 在 DllStructCreate() 中使用 Struct/EndStruct 来解决 X86/X64 数据对齐问题.
+[G][+]新增: 在 DllStructCreate() 中使用 Struct/EndStruct 来解决 X86/X64 数据对齐问题.
 [G][!]更新: 使用 VC10 编译(VS2010). 解决 Win2000/XP 下 AutoIt, Aut2Exe, Au3Info, Au3Check 和 AutoItHelp的执行问题.
 [G][*]修正: #1860: DriveStatus 空参数下返回READY.
 [G][*]修正: #1854: StringIsFloat 在非浮点数上返回 1.
@@ -83,7 +103,7 @@ AutoIt 3.3.7.1 (2011-05-25):
 [H][!]更新: ACNWrapper GUI控件位置修正.
 [H][!]更新: ACNWrapper 对 au3check 的汉化的补全.
 [G][!]更新: WinAPIEx UDF库 更新到3.3版.
-[G][!]新增: WinHttp 1.6.1.8 UDF库.
+[G][+]新增: WinHttp 1.6.1.8 UDF库.
 [H][-]移除: 移除AU3TOOL.exe对配置文件的修正,目前已由SciTe处理.
 [H][!]更新: MPRESS 更新到2.18版.
 
@@ -91,12 +111,12 @@ AutoItX:
 [G][*]修正: #1686: AU3_PixelSearch 崩溃.
 
 UDFs:
-[G][!]新增: _DebugSetup() 可以报告到一个记事本窗口.
-[G][!]新增: #1371: 允许默认关键字于 _TempFile().
-[G][!]新增: #1527: Test example to have doc example working.
-[G][!]新增: #1636: _Security__LookupAccountSID() 在远程系统工作.
-[G][!]新增: #1569: _ArraySearch() $iPartial (->$iCompare) 扩展为支持匹配相同类型变量.
-[G][!]新增: #1557: VK_xBUTTON 于 Constants.au3.
+[G][+]新增: _DebugSetup() 可以报告到一个记事本窗口.
+[G][+]新增: #1371: 允许默认关键字于 _TempFile().
+[G][+]新增: #1527: Test example to have doc example working.
+[G][+]新增: #1636: _Security__LookupAccountSID() 在远程系统工作.
+[G][+]新增: #1569: _ArraySearch() $iPartial (->$iCompare) 扩展为支持匹配相同类型变量.
+[G][+]新增: #1557: VK_xBUTTON 于 Constants.au3.
 [G][*]修正: #1542: _DebugSetup() 关闭后使用GUI句柄事件.
 [G][*]修正: #1549: _SQLite_Escape() crash for strings > 64K (> 3.3.0.0).
 [G][*]修正: #1517: _GUICtrlListView_simpleSort with checkbox.
@@ -118,8 +138,8 @@ UDFs:
 [G][!]更新: _SQLite 3.6.22 -> 3.7.2.0
 
 Au3Check:
-[G][!]新增: #forcedef 定义 来强制定义变量定义为后式分配[Assign()].
-[G][!]新增: -w 7 检查 ByRef 参数传递.
+[G][+]新增: #forcedef 定义 来强制定义变量定义为后式分配[Assign()].
+[G][+]新增: -w 7 检查 ByRef 参数传递.
 [G][*]修正: Const Enum 不正确错误.
 [G][*]修正: 全局(Global)声明在函数中(func)不能检测.
 [G][*]修正: #1051: no ERROR if keyword not followed by a separator as Local$a.
