@@ -27,6 +27,8 @@ AutoIt:
 UDFs:
 [G][*]修正: #1859: _WeekNumberISO 中可能存在的bug.
 
+SciTe:
+[G][!]更新: 更新代码迷惑为1.0.28.18
 
 3.3.7.7  (Beta)
 AutoIt:

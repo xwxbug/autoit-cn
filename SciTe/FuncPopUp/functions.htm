@@ -1,14 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <head>
-  <title>函数</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+  <title>函数 参考详细列表</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link href="css/default.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<h1>函数 参考</h1>
+<h1>函数 参考列表</h1>
 <p>下面是 函数 的详细列表.&nbsp;
-点击 函数 名称得到详细信息.</p>
+点击各个函数名称得到详细介绍.</p>
 <p>&nbsp;</p>
 
 <table bordercolor="#c0c0c0" cellpadding="3" cellspacing="0" width="100%" border="1">
@@ -25,12 +25,12 @@
   <td>求某个数的反余弦值(arcCosine).</td>
 </tr>
 <tr>
-  <td><a href="functions/AdlibDisable.htm">AdlibDisable</a></td>
-  <td>禁用 Adlib 功能.</td>
+  <td><a href="functions/AdlibRegister.htm">AdlibRegister</a></td>
+  <td>注册一个 Adlib 函数.</td>
 </tr>
 <tr>
-  <td><a href="functions/AdlibEnable.htm">AdlibEnable</a></td>
-  <td>启用 Adlib 功能.</td>
+  <td><a href="functions/AdlibUnRegister.htm">AdlibUnRegister</a></td>
+  <td>反注册 adlib 函数.</td>
 </tr>
 <tr>
   <td><a href="functions/Asc.htm">Asc</a></td>
@@ -54,7 +54,7 @@
 </tr>
 <tr>
   <td><a href="functions/AutoItSetOption.htm">AutoItSetOption</a></td>
-  <td>调整Autoit各种函数/参数的运作方式.</td>
+  <td>调整 AutoIt 各种函数/参数的运作方式.</td>
 </tr>
 <tr>
   <td><a href="functions/AutoItWinGetTitle.htm">AutoItWinGetTitle</a></td>
@@ -98,7 +98,7 @@
 </tr>
 <tr>
   <td><a href="functions/BitRotate.htm">BitRotate</a></td>
-  <td>执行位移操作, with rotation.</td>
+  <td>执行位移操作, 使用旋转法.</td>
 </tr>
 <tr>
   <td><a href="functions/BitShift.htm">BitShift</a></td>
@@ -134,7 +134,7 @@
 </tr>
 <tr>
   <td><a href="functions/ChrW.htm">ChrW</a></td>
-  <td>返回一个字符对应的Unicode(统一的字符编码标准, 采用多字节对字符进行编码)代码.</td>
+  <td>返回一个字符对应的UNICODE(统一的字符编码标准, 采用多字节对字符进行编码)代码.</td>
 </tr>
 <tr>
   <td><a href="functions/ClipGet.htm">ClipGet</a></td>
@@ -378,7 +378,7 @@
 </tr>
 <tr>
   <td><a href="functions/FileCreateNTFSLink.htm">FileCreateNTFSLink</a></td>
-  <td>创建一个 NTFS 硬盘连接到一个文件或者文件夹.</td>
+  <td>创建一个 NTFS 硬连接到一个文件或者文件夹.</td>
 </tr>
 <tr>
   <td><a href="functions/FileCreateShortcut.htm">FileCreateShortcut</a></td>
@@ -398,15 +398,27 @@
 </tr>
 <tr>
   <td><a href="functions/FileFindNextFile.htm">FileFindNextFile</a></td>
-  <td>搜索指定字符串并返回(下一个)与之匹配的文件名，但要求在调用过 FileFindFirstFile 函数之后.</td>
+  <td>搜索指定字符串并返回(下一个)与之匹配的文件名,但要求在调用过 FileFindFirstFile 函数之后.</td>
+</tr>
+<tr>
+  <td><a href="functions/FileFlush.htm">FileFlush</a></td>
+  <td>刷新文件缓冲器中的数据到磁盘.</td>
 </tr>
 <tr>
   <td><a href="functions/FileGetAttrib.htm">FileGetAttrib</a></td>
   <td>返回指定文件的属性代码.</td>
 </tr>
 <tr>
+  <td><a href="functions/FileGetEncoding.htm">FileGetEncoding</a></td>
+  <td>检测一个正在使用的文件的文本编码.</td>
+</tr>
+<tr>
   <td><a href="functions/FileGetLongName.htm">FileGetLongName</a></td>
   <td>返回指定路径的长文件名.</td>
+</tr>
+<tr>
+  <td><a href="functions/FileGetPos.htm">FileGetPos</a></td>
+  <td>返回当前文件坐标.</td>
 </tr>
 <tr>
   <td><a href="functions/FileGetShortcut.htm">FileGetShortcut</a></td>
@@ -473,12 +485,16 @@
   <td>修改一个或多个文件的属性.</td>
 </tr>
 <tr>
+  <td><a href="functions/FileSetPos.htm">FileSetPos</a></td>
+  <td>设置当前文件坐标.</td>
+</tr>
+<tr>
   <td><a href="functions/FileSetTime.htm">FileSetTime</a></td>
   <td>修改一个或多个文件的时间戳.</td>
 </tr>
 <tr>
   <td><a href="functions/FileWrite.htm">FileWrite</a></td>
-  <td>向此前已打开的文本文件尾追加一行数据.</td>
+  <td>向此前已打开的文本/数据文件尾追加数据.</td>
 </tr>
 <tr>
   <td><a href="functions/FileWriteLine.htm">FileWriteLine</a></td>
@@ -510,7 +526,7 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateCombo.htm">GUICtrlCreateCombo</a></td>
-  <td>在GUI上创建一个选择框(ComboBox)控件.</td>
+  <td>在GUI上创建一个组合列表框(ComboBox)控件.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateContextMenu.htm">GUICtrlCreateContextMenu</a></td>
@@ -546,7 +562,7 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateLabel.htm">GUICtrlCreateLabel</a></td>
-  <td>在GUI上创建一个静态的 Label 控件.</td>
+  <td>在GUI上创建一个静态标签(Label)控件.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateList.htm">GUICtrlCreateList</a></td>
@@ -606,11 +622,11 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateTreeViewItem.htm">GUICtrlCreateTreeViewItem</a></td>
-  <td>在GUI上创建一个 TreeView 控件项目。</td>
+  <td>在GUI上创建一个 TreeViewItem 控件.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlCreateUpdown.htm">GUICtrlCreateUpdown</a></td>
-  <td>在GUI上创建一个 Updown（上下箭头）控件。</td>
+  <td>在GUI上创建一个 Updown(上下按钮)控件.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlDelete.htm">GUICtrlDelete</a></td>
@@ -618,11 +634,11 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlGetHandle.htm">GUICtrlGetHandle</a></td>
-  <td>返回一个指定控件或者项目 (Menu, ContextMenu, TreeViewItem)的句柄.</td>
+  <td>返回一个指定控件的句柄或者特殊(项目)句柄(Menu, ContextMenu, TreeViewItem).</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlGetState.htm">GUICtrlGetState</a></td>
-  <td>获取指定控件的当前状态。</td>
+  <td>获取指定控件的当前状态.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlRead.htm">GUICtrlRead</a></td>
@@ -630,27 +646,27 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlRecvMsg.htm">GUICtrlRecvMsg</a></td>
-  <td>获取控件消息。向指定控件发送消息并获取返回的 lParam 的值。</td>
+  <td>向指定控件发送消息并获取返回的 lParam 的信息.(获取控件消息)</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlRegisterListViewSort.htm">GUICtrlRegisterListViewSort</a></td>
-  <td>Register a user defined function for an internal listview sorting callback function.</td>
+  <td>为内部listview排序回调函数注册一个用户自定义函数.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSendMsg.htm">GUICtrlSendMsg</a></td>
-  <td>向指定控件发送消息。</td>
+  <td>发送一个消息到控件.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSendToDummy.htm">GUICtrlSendToDummy</a></td>
-  <td>向指定的 Dummy（虚拟）控件发送消息</td>
+  <td>向指定的 Dummy(虚拟) 控件发送消息</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetBkColor.htm">GUICtrlSetBkColor</a></td>
-  <td>设置指定控件的背景颜色。</td>
+  <td>设置指定控件的背景颜色.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetColor.htm">GUICtrlSetColor</a></td>
-  <td>设置指定控件的文本颜色。</td>
+  <td>设置指定控件的文本颜色.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetCursor.htm">GUICtrlSetCursor</a></td>
@@ -662,11 +678,11 @@
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetDefBkColor.htm">GUICtrlSetDefBkColor</a></td>
-  <td>Sets the default background color of all the controls of the GUI window.</td>
+  <td>设置 GUI 窗口中所有控件的默认背景色.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetDefColor.htm">GUICtrlSetDefColor</a></td>
-  <td>Sets the default text color of all the controls of the GUI window.</td>
+  <td>设置 GUI 窗口中所有控件文本默认颜色.</td>
 </tr>
 <tr>
   <td><a href="functions/GUICtrlSetFont.htm">GUICtrlSetFont</a></td>
@@ -730,7 +746,7 @@
 </tr>
 <tr>
   <td><a href="functions/GUISetAccelerators.htm">GUISetAccelerators</a></td>
-  <td>Sets the accelerator table to be used in a GUI window.</td>
+  <td>为 GUI 窗口设置快捷键表.</td>
 </tr>
 <tr>
   <td><a href="functions/GUISetBkColor.htm">GUISetBkColor</a></td>
@@ -742,7 +758,7 @@
 </tr>
 <tr>
   <td><a href="functions/GUISetCursor.htm">GUISetCursor</a></td>
-  <td>设置（鼠标经过窗口时的）鼠标指针.</td>
+  <td>设置(鼠标经过窗口时的)鼠标指针.</td>
 </tr>
 <tr>
   <td><a href="functions/GUISetFont.htm">GUISetFont</a></td>
@@ -789,16 +805,32 @@
   <td>设置访问HTTP时使用的代理服务器.</td>
 </tr>
 <tr>
+  <td><a href="functions/HttpSetUserAgent.htm">HttpSetUserAgent</a></td>
+  <td>设置 InetGet() 和 InetRead() 请求的用户代理(user-agent)字符串.</td>
+</tr>
+<tr>
   <td><a href="functions/HWnd.htm">HWnd</a></td>
   <td>转换一个表达式为 HWND 句柄.</td>
 </tr>
 <tr>
+  <td><a href="functions/InetClose.htm">InetClose</a></td>
+  <td>关闭一个由 InetGet() 返回的句柄.</td>
+</tr>
+<tr>
   <td><a href="functions/InetGet.htm">InetGet</a></td>
-  <td>通过HTTP或FTP协议从互联网上下载指定文件.</td>
+  <td>通过HTTP,HTTPS或FTP协议从互联网上下载指定文件.</td>
+</tr>
+<tr>
+  <td><a href="functions/InetGetInfo.htm">InetGetInfo</a></td>
+  <td>返回一个由InetGet()函数返回的句柄的详细信息.</td>
 </tr>
 <tr>
   <td><a href="functions/InetGetSize.htm">InetGetSize</a></td>
   <td>以字节为单位返回存放在互联网上的指定文件的大小.</td>
+</tr>
+<tr>
+  <td><a href="functions/InetRead.htm">InetRead</a></td>
+  <td>通过HTTP,HTTPS或FTP协议从互联网上下载一个文件.</td>
 </tr>
 <tr>
   <td><a href="functions/IniDelete.htm">IniDelete</a></td>
@@ -822,7 +854,7 @@
 </tr>
 <tr>
   <td><a href="functions/IniWrite.htm">IniWrite</a></td>
-  <td>向某标准配置文件(*.ini)中写入某个数值.</td>
+  <td>写入一个值到标准格式的 .ini 文件.</td>
 </tr>
 <tr>
   <td><a href="functions/IniWriteSection.htm">IniWriteSection</a></td>
@@ -874,7 +906,7 @@
 </tr>
 <tr>
   <td><a href="functions/IsKeyword.htm">IsKeyword</a></td>
-  <td>检查一个变量是否是一个关键字(例子: Default-默认).</td>
+  <td>检查一个变量是否是一个关键字(例子: Default(默认)).</td>
 </tr>
 <tr>
   <td><a href="functions/IsNumber.htm">IsNumber</a></td>
@@ -918,7 +950,7 @@
 </tr>
 <tr>
   <td><a href="functions/MouseGetCursor.htm">MouseGetCursor</a></td>
-  <td>返回当前鼠标指针形状的ID.</td>
+  <td>返回当前鼠标指针光标的ID.</td>
 </tr>
 <tr>
   <td><a href="functions/MouseGetPos.htm">MouseGetPos</a></td>
@@ -934,7 +966,7 @@
 </tr>
 <tr>
   <td><a href="functions/MouseWheel.htm">MouseWheel</a></td>
-  <td>产生向上或向下滚动鼠标滚轮事件.仅支持NT/2000/XP.</td>
+  <td>产生向上或向下滚动鼠标滚轮事件.仅支持NT/2000/XP及更高.</td>
 </tr>
 <tr>
   <td><a href="functions/MsgBox.htm">MsgBox</a></td>
@@ -946,7 +978,7 @@
 </tr>
 <tr>
   <td><a href="functions/ObjCreate.htm">ObjCreate</a></td>
-  <td>创建一个指定的 COM 对象.</td>
+  <td>通过一个指定的类名引用一个 COM 对象.</td>
 </tr>
 <tr>
   <td><a href="functions/ObjEvent.htm">ObjEvent</a></td>
@@ -954,11 +986,19 @@
 </tr>
 <tr>
   <td><a href="functions/ObjGet.htm">ObjGet</a></td>
-  <td>Retrieves a reference to a COM object from an existing process or filename.</td>
+  <td>对 COM 对象从现有的进程或文件名检索一个参考.</td>
 </tr>
 <tr>
   <td><a href="functions/ObjName.htm">ObjName</a></td>
-  <td>Returns the name or interface description of an Object</td>
+  <td>返回一个对象的名称或者接口描述</td>
+</tr>
+<tr>
+  <td><a href="functions/OnAutoItExitRegister.htm">OnAutoItExitRegister</a></td>
+  <td>注册一个当Autoit退出时执行的函数.</td>
+</tr>
+<tr>
+  <td><a href="functions/OnAutoItExitUnRegister.htm">OnAutoItExitUnRegister</a></td>
+  <td>反注册一个由AutoIt退出时将调用的用户自定义函数.</td>
 </tr>
 <tr>
   <td><a href="functions/Ping.htm">Ping</a></td>
@@ -977,8 +1017,16 @@
   <td>在指定矩形区域中搜寻与指定颜色值匹配的象素(并返回第一个匹配的象素的坐标).</td>
 </tr>
 <tr>
+  <td><a href="functions/PluginClose.htm">PluginClose</a></td>
+  <td>关闭一个插件文件</td>
+</tr>
+<tr>
+  <td><a href="functions/PluginOpen.htm">PluginOpen</a></td>
+  <td>打开一个插件文件.</td>
+</tr>
+<tr>
   <td><a href="functions/ProcessClose.htm">ProcessClose</a></td>
-  <td>结束某个进程.</td>
+  <td>终止某个进程.</td>
 </tr>
 <tr>
   <td><a href="functions/ProcessExists.htm">ProcessExists</a></td>
@@ -1058,7 +1106,7 @@
 </tr>
 <tr>
   <td><a href="functions/RunAsWait.htm">RunAsWait</a></td>
-  <td>Runs an external program under the context of a different user and pauses script execution until the program finishes.</td>
+  <td>在不同的用户环境中运行一个外部程序并暂停脚本执行直到程序结束.</td>
 </tr>
 <tr>
   <td><a href="functions/RunWait.htm">RunWait</a></td>
@@ -1134,7 +1182,7 @@
 </tr>
 <tr>
   <td><a href="functions/StderrRead.htm">StderrRead</a></td>
-  <td>Reads from the STDERR stream of a previously run child process.</td>
+  <td>从以前运行的子进程读取 STDERR 流.</td>
 </tr>
 <tr>
   <td><a href="functions/StdinWrite.htm">StdinWrite</a></td>
@@ -1142,7 +1190,7 @@
 </tr>
 <tr>
   <td><a href="functions/StdioClose.htm">StdioClose</a></td>
-  <td>Closes all resources associated with a process previously run with STDIO redirection.</td>
+  <td>关闭前面运行(run)的进程的STDIO流的所有资源.</td>
 </tr>
 <tr>
   <td><a href="functions/StdoutRead.htm">StdoutRead</a></td>
@@ -1170,7 +1218,7 @@
 </tr>
 <tr>
   <td><a href="functions/StringInStr.htm">StringInStr</a></td>
-  <td>检查某个字符串是否含有给定的子串.</td>
+  <td>检查某个字符串是否含有指定的子字符串.</td>
 </tr>
 <tr>
   <td><a href="functions/StringIsAlNum.htm">StringIsAlNum</a></td>
@@ -1254,7 +1302,7 @@
 </tr>
 <tr>
   <td><a href="functions/StringStripWS.htm">StringStripWS</a></td>
-  <td>删去字符串中的所有"空白符".</td>
+  <td>删去字符串中的"空白符".</td>
 </tr>
 <tr>
   <td><a href="functions/StringToASCIIArray.htm">StringToASCIIArray</a></td>
@@ -1362,7 +1410,7 @@
 </tr>
 <tr>
   <td><a href="functions/TrayItemSetState.htm">TrayItemSetState</a></td>
-  <td>设置当前系统托盘项目控件的状态.</td>
+  <td>设置当前系统托盘菜单/项目控件的状态.</td>
 </tr>
 <tr>
   <td><a href="functions/TrayItemSetText.htm">TrayItemSetText</a></td>
@@ -1394,7 +1442,7 @@
 </tr>
 <tr>
   <td><a href="functions/TrayTip.htm">TrayTip</a></td>
-  <td>在托盘图标上显示一个气球提示 (仅支持2000/XP)</td>
+  <td>在托盘图标上显示一个气球提示</td>
 </tr>
 <tr>
   <td><a href="functions/UBound.htm">UBound</a></td>
@@ -1402,7 +1450,7 @@
 </tr>
 <tr>
   <td><a href="functions/UDPBind.htm">UDPBind</a></td>
-  <td>创建一个引入连接的套接字(socket)绑定.</td>
+  <td>创建一个入口连接的套接字(socket)绑定.</td>
 </tr>
 <tr>
   <td><a href="functions/UDPCloseSocket.htm">UDPCloseSocket</a></td>
