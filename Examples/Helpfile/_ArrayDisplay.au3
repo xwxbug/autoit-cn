@@ -34,6 +34,6 @@ _ArrayDisplay($avArray, "$avArray 为一个活动窗口包含的'类'列表")
 ;===============================================================================
 ; Example 4 (a 2D array)
 ;===============================================================================
-Local $avArray[2][5] = [["JPM", "Holger", "Jon", "Larry", "Jeremy"], ["Valik", "Cyberslug", "Nutster", "JdeB", "Tylo"]]
+Local $avArray[2][5] = [["JPM", "Holger", "Jon", "Larry", "Jeremy"],["Valik", "Cyberslug", "Nutster", "JdeB", "Tylo"]]
 _ArrayDisplay($avArray, "$avArray 为二维数组")
 _ArrayDisplay($avArray, "$avArray 为二维数组, 颠倒的", -1, 1)

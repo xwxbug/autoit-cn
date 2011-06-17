@@ -1,38 +1,39 @@
-﻿; *******************************************************
-; 示例 1 - 创建一个新的Microsoft Word文件并打开(创建成功则自动保存到相应路径)
+; *******************************************************
+; ʾ�� 1 - ����һ���µ�Microsoft Word�ļ�����(�����ɹ����Զ����浽��Ӧ·��)
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate (@ScriptDir & "\Test.doc")
+
+Local $oWordApp = _WordCreate(@ScriptDir & "\Test.doc")
 
 ; *******************************************************
-; 示例 2 - 尝试附加到一个已存在的word窗口
-;               如果文件不存在，创建一个新的Microsoft Word文件并打开.
+; ʾ�� 2 - ���Ը��ӵ�һ���Ѵ��ڵ�word����
+;               ����ļ������ڣ�����һ���µ�Microsoft Word�ļ�����.
 ; *******************************************************
-;尝试附加到一个已存在的word窗口
+;���Ը��ӵ�һ���Ѵ��ڵ�word����
 #include <Word.au3>
-$oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 1)
-; 检查返回值 @extended 判断连接是否成功
+$oWordApp = _WordCreate(@ScriptDir & "\Test.doc", 1)
+; ��鷵��ֵ @extended �ж������Ƿ�ɹ�
 If @extended Then
-	MsgBox(0, "附加成功", "附加到现有的窗口")
+	MsgBox(0, "���ӳɹ�", "���ӵ����еĴ���")
 Else
-	MsgBox(0, "附加失败", "创建新窗口")
+	MsgBox(0, "����ʧ��", "�����´���")
 EndIf
 
 ; *******************************************************
-; 示例 3 - 创建一个新Microsoft Word文件并打开
+; ʾ�� 3 - ����һ����Microsoft Word�ļ�����
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate ()
+$oWordApp = _WordCreate()
 
 ; *******************************************************
-; 示例 4 -创建一个新的Microsoft Word文件并打开(指定窗口为隐藏状态)，
-;            追加一些文本，然后保存更改退出.
+; ʾ�� 4 -����һ���µ�Microsoft Word�ļ�����(ָ������Ϊ����״̬)��
+;            ׷��һЩ�ı���Ȼ�󱣴�����˳�.
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 0, 0)
-$oDoc = _WordDocGetCollection ($oWordApp, 0)
-$oDoc.Range.insertAfter ("这是追加的文本内容.")
+$oWordApp = _WordCreate(@ScriptDir & "\Test.doc", 0, 0)
+Local $oDoc = _WordDocGetCollection($oWordApp, 0)
+$oDoc.Range.insertAfter ("����׷�ӵ��ı�����.")
 _WordQuit ($oWordApp, -1)

@@ -9,20 +9,20 @@ _Main()
 Func _Main()
 	Local $tFile, $tLocal
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Get system time
+	; 获取系统时间
 	Local $tSystem = _Date_Time_GetSystemTime()
 	$tFile = _Date_Time_SystemTimeToFileTime(DllStructGetPtr($tSystem))
 	;	--------------------------------------
 	$tLocal = _Date_Time_FileTimeToLocalFileTime(DllStructGetPtr($tFile))
 	MemoWrite("Local file time .: " & _Date_Time_FileTimeToStr($tLocal))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $btn_SetData, $btn_GetData
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Clipboard", 600, 450)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -17,7 +17,7 @@ Func _Main()
 	$btn_GetData = GUICtrlCreateButton("Get ClipBoard Data", 300, 410, 120, 30)
 	GUISetState()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE

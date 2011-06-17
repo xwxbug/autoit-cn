@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $tFile
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -19,7 +19,7 @@ Func _Main()
 	$tFile = _Date_Time_EncodeFileTime(@MON, @MDAY, @YEAR, @HOUR, @MIN, @SEC)
 	MemoWrite("Current date/time .: " & _Date_Time_FileTimeToStr($tFile))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

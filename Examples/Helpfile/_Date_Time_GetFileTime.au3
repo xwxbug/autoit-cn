@@ -10,13 +10,13 @@ _Main()
 Func _Main()
 	Local $hFile, $tFile, $aTime
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Create test file and set file times
+	; 创建测试文件并设置文件时间
 	$hFile = _WinAPI_CreateFile(@ScriptDir & "\Test.xyz", 1)
 	If $hFile = 0 Then _WinAPI_ShowError("Unable to create file")
 	$tFile = _Date_Time_EncodeFileTime(@MON, @MDAY, @YEAR, @HOUR, @MIN, @SEC)
@@ -24,7 +24,7 @@ Func _Main()
 	_Date_Time_SetFileTime($hFile, $pFile, $pFile, $pFile)
 	_WinAPI_CloseHandle($hFile)
 
-	; Read file times
+	; 读取文件时间
 	$hFile = _WinAPI_CreateFile(@ScriptDir & "\Test.xyz", 2)
 	If $hFile = 0 Then _WinAPI_ShowError("Unable to open file")
 	$aTime = _Date_Time_GetFileTime($hFile)
@@ -34,7 +34,7 @@ Func _Main()
 	MemoWrite("Accessed .: " & _Date_Time_FileTimeToStr($aTime[1]))
 	MemoWrite("Modified .: " & _Date_Time_FileTimeToStr($aTime[2]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

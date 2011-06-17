@@ -1,40 +1,41 @@
-ï»¿; ******************************************************************************************
-; ç¤ºä¾‹ 1 æ‰“å¼€ä¸€ä¸ªæ–°çš„å·¥ä½œè¡¨å¹¶è¿”å›å…¶å¯¹è±¡æ ‡è¯†ç¬¦, å¡«å……ä¸€äº›å•å…ƒæ ¼å¹¶ä½¿ç”¨ä¸åŒå‚æ•°å°†å€¼è¯»å…¥æ•°ç»„, ç„¶åä¿å­˜å¹¶å…³é—­æ–‡ä»¶.
+; ******************************************************************************************
+; Ê¾Àı 1 ´ò¿ªÒ»¸öĞÂµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û, Ìî³äÒ»Ğ©µ¥Ôª¸ñ²¢Ê¹ÓÃ²»Í¬²ÎÊı½«Öµ¶ÁÈëÊı×é, È»ºó±£´æ²¢¹Ø±ÕÎÄ¼ş.
+;
 ; ******************************************************************************************
 
 #include <Excel.au3>
 #include <Array.au3>
 
-Local $oExcel = _ExcelBookNew() ;åˆ›å»ºä¸€ä¸ªæ–°çš„å·¥ä½œè¡¨å¹¶æ‰“å¼€
+Local $oExcel = _ExcelBookNew() ;´´½¨Ò»¸öĞÂµÄ¹¤×÷±í²¢´ò¿ª
 
-;ä½¿ç”¨ä¸€ä¸ªç®€å•çš„å¾ªç¯å’Œéšæœºæ•°å­—å¡«å……å•å…ƒæ ¼
-For $y = 1 To 10 ;ä»ç¬¬ä¸€åˆ—å¼€å§‹
+;Ê¹ÓÃÒ»¸ö¼òµ¥µÄÑ­»·ºÍËæ»úÊı×ÖÌî³äµ¥Ôª¸ñ
+For $y = 1 To 10 ;´ÓµÚÒ»ÁĞ¿ªÊ¼
 	For $x = 1 To 15
-		_ExcelWriteCell($oExcel, Round(Random(1000, 10000), 0), $x, $y) ;å‘æ–‡ä»¶å†™å…¥éšæœºæ•°å­—ä¿¡æ¯
+		_ExcelWriteCell($oExcel, Round(Random(1000, 10000), 0), $x, $y) ;ÏòÎÄ¼şĞ´ÈëËæ»úÊı×ÖĞÅÏ¢
 	Next
 Next
 
-$aArray = _ExcelReadSheetToArray($oExcel) ;ä½¿ç”¨é»˜è®¤å‚æ•°
-_ArrayDisplay($aArray, "ä½¿ç”¨é»˜è®¤å‚æ•°")
+Local $aArray = _ExcelReadSheetToArray($oExcel) ;Ê¹ÓÃÄ¬ÈÏ²ÎÊı
+_ArrayDisplay($aArray, "Ê¹ÓÃÄ¬ÈÏ²ÎÊı")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 2) ;ä»ç¬¬2è¡Œå¼€å§‹
-_ArrayDisplay($aArray, "ä»ç¬¬2è¡Œå¼€å§‹")
+$aArray = _ExcelReadSheetToArray($oExcel, 2) ;´ÓµÚ2ĞĞ¿ªÊ¼
+_ArrayDisplay($aArray, "´ÓµÚ2ĞĞ¿ªÊ¼")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 1, 2) ;ä»ç¬¬2åˆ—å¼€å§‹
-_ArrayDisplay($aArray, "ä»ç¬¬2åˆ—å¼€å§‹")
+$aArray = _ExcelReadSheetToArray($oExcel, 1, 2) ;´ÓµÚ2ÁĞ¿ªÊ¼
+_ArrayDisplay($aArray, "´ÓµÚ2ÁĞ¿ªÊ¼")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 5) ;è¯»å–5è¡Œ
-_ArrayDisplay($aArray, "è¯»å–5è¡Œ")
+$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 5) ;¶ÁÈ¡5ĞĞ
+_ArrayDisplay($aArray, "¶ÁÈ¡5ĞĞ")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 0, 2) ;è¯»å–2åˆ—
-_ArrayDisplay($aArray, "è¯»å–2åˆ—")
+$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 0, 2) ;¶ÁÈ¡2ÁĞ
+_ArrayDisplay($aArray, "¶ÁÈ¡2ÁĞ")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 2, 3, 4, 5) ;ä»ç¬¬2è¡Œç¬¬3åˆ—å¼€å§‹, è¯»å–4è¡Œ5åˆ—
-_ArrayDisplay($aArray, "ä»ç¬¬2è¡Œç¬¬3åˆ—å¼€å§‹, è¯»å–4è¡Œ5åˆ—")
+$aArray = _ExcelReadSheetToArray($oExcel, 2, 3, 4, 5) ;´ÓµÚ2ĞĞµÚ3ÁĞ¿ªÊ¼, ¶ÁÈ¡4ĞĞ5ÁĞ
+_ArrayDisplay($aArray, "´ÓµÚ2ĞĞµÚ3ÁĞ¿ªÊ¼, ¶ÁÈ¡4ĞĞ5ÁĞ")
 
-$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 0, 0, True);ä½¿ç”¨é»˜è®¤å‚æ•°, é™¤éè·¨åˆ—(çœŸ)
-_ArrayDisplay($aArray, "ä½¿ç”¨é»˜è®¤å‚æ•°, é™¤éè·¨åˆ—(çœŸ)")
+$aArray = _ExcelReadSheetToArray($oExcel, 1, 1, 0, 0, True);Ê¹ÓÃÄ¬ÈÏ²ÎÊı, ³ı·Ç¿çÁĞ(Õæ)
+_ArrayDisplay($aArray, "Ê¹ÓÃÄ¬ÈÏ²ÎÊı, ³ı·Ç¿çÁĞ(Õæ)")
 
-MsgBox(0, "é€€å‡º", "æŒ‰[ç¡®å®š]ä¿å­˜æ–‡ä»¶å¹¶é€€å‡º")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; åœ¨ä¸´æ—¶ç›®å½•ä¿å­˜æ–‡ä»¶, å¦‚æœæ–‡ä»¶å·²å­˜åœ¨åˆ™è¦†ç›–åŸæ–‡ä»¶
-_ExcelBookClose($oExcel) ; å…³é—­å·¥ä½œè¡¨, é€€å‡º
+MsgBox(0, "ÍË³ö", "°´[È·¶¨]±£´æÎÄ¼ş²¢ÍË³ö")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; ÔÚÁÙÊ±Ä¿Â¼±£´æÎÄ¼ş, Èç¹ûÎÄ¼şÒÑ´æÔÚÔò¸²¸ÇÔ­ÎÄ¼ş
+_ExcelBookClose($oExcel) ; ¹Ø±Õ¹¤×÷±í, ÍË³ö

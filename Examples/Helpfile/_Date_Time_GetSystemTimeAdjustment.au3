@@ -1,7 +1,7 @@
 #include <Date.au3>
 #include <WinAPI.au3>
 
-; Under Vista the Windows API "SetSystemTimeAdjustment" may be rejected due to system security
+; 由于系统安全性在 Vista 中 Windows API "SetSystemTimeAdjustment" 可能被拒绝
 
 _Main()
 
@@ -12,7 +12,7 @@ Func _Main()
 	Run("RunDll32.exe shell32.dll,Control_RunDLL timedate.cpl")
 	WinWaitActive("[CLASS:#32770]")
 
-	; Get current time adjustments
+	; 获取本地协调时
 	$aInfo = _Date_Time_GetSystemTimeAdjustment()
 
 	; Slow down clock

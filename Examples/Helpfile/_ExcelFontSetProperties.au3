@@ -1,120 +1,120 @@
-ï»¿; *****************************************************************
-; ç¤ºä¾‹ 1 æ‰“å¼€ä¸€ä¸ªæ–°çš„å·¥ä½œè¡¨å¹¶è¿”å›å…¶å¯¹è±¡æ ‡è¯†ç¬¦, ç„¶åè®¾ç½®ä¸€ä¸ªèŒƒå›´å†…çš„å­—ä½“å±æ€§.
+; *****************************************************************
+; Ê¾Àı 1 ´ò¿ªÒ»¸öĞÂµÄ¹¤×÷±í²¢·µ»ØÆä¶ÔÏó±êÊ¶·û, È»ºóÉèÖÃÒ»¸ö·¶Î§ÄÚµÄ×ÖÌåÊôĞÔ.
 ; *****************************************************************
 #include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;åˆ›å»ºä¸€ä¸ªæ–°çš„å·¥ä½œè¡¨å¹¶æ‰“å¼€
+Local $oExcel = _ExcelBookNew() ;´´½¨Ò»¸öĞÂµÄ¹¤×÷±í²¢´ò¿ª
 Local $sRangeOrRowStart = 1, $iColStart = 1, $iRowEnd = 10, $iColEnd = 10
 Local $fBold, $fItalic, $fUnderline, $i = 1
 
-;ä½¿ç”¨ä¸€ä¸ªç®€å•çš„å¾ªç¯å’Œéšæœºæ•°å­—å¡«å……å•å…ƒæ ¼
+;Ê¹ÓÃÒ»¸ö¼òµ¥µÄÑ­»·ºÍËæ»úÊı×ÖÌî³äµ¥Ôª¸ñ
 For $i = 1 To 10
 	For $j = 1 To 10
-		_ExcelWriteCell($oExcel, Round(Random(1, 100), 0), $i, $j) ;å‘æ–‡ä»¶å†™å…¥éšæœºæ•°å­—ä¿¡æ¯
+		_ExcelWriteCell($oExcel, Round(Random(1, 100), 0), $i, $j) ;ÏòÎÄ¼şĞ´ÈëËæ»úÊı×ÖĞÅÏ¢
 	Next
 Next
 
-MsgBox(0, "æç¤º", "æ³¨æ„å­—ä½“å±æ€§,ä¸‹é¢å°†ä¼šæ˜¾ç¤ºæ‰€æœ‰å¯èƒ½çš„ç»„åˆï¼" & @CRLF & "æŒ‰[ç¡®å®š]å¼€å§‹")
+MsgBox(0, "ÌáÊ¾", "×¢Òâ×ÖÌåÊôĞÔ,ÏÂÃæ½«»áÏÔÊ¾ËùÓĞ¿ÉÄÜµÄ×éºÏ£¡" & @CRLF & "°´[È·¶¨]¿ªÊ¼")
 
 $i = 1
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, True, True, True)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 $i += 1
 Sleep(2500)
 
 _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart, $iRowEnd, $iColEnd, False, False, False)
-ToolTip("è®¾ç½®ä¸€ä¸ªæ–°çš„å­—ä½“å±æ€§: " & $i)
+ToolTip("ÉèÖÃÒ»¸öĞÂµÄ×ÖÌåÊôĞÔ: " & $i)
 
-MsgBox(0, "é€€å‡º", "æŒ‰[ç¡®å®š]ä¿å­˜æ–‡ä»¶å¹¶é€€å‡º")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ;ä¿å­˜è‡³ä¸´æ—¶ç›®å½•ä¸­,å¦‚æœæ–‡ä»¶å·²å­˜åœ¨å°†è¦†ç›–åŸæ–‡ä»¶
-_ExcelBookClose($oExcel)  ;å…³é—­å·¥ä½œè¡¨.
+MsgBox(0, "ÍË³ö", "°´[È·¶¨]±£´æÎÄ¼ş²¢ÍË³ö")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ;±£´æÖÁÁÙÊ±Ä¿Â¼ÖĞ,Èç¹ûÎÄ¼şÒÑ´æÔÚ½«¸²¸ÇÔ­ÎÄ¼ş
+_ExcelBookClose($oExcel)  ;¹Ø±Õ¹¤×÷±í.

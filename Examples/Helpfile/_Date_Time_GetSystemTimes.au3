@@ -9,20 +9,20 @@ _Main()
 Func _Main()
 	Local $aTime
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Get system times
+	; 获取系统时间
 	$aTime = _Date_Time_GetSystemTimes()
 
 	MemoWrite("Idle time ...: " & _Date_Time_FileTimeToStr($aTime[0]))
 	MemoWrite("System time .: " & _Date_Time_FileTimeToStr($aTime[1]))
 	MemoWrite("User time ...: " & _Date_Time_FileTimeToStr($aTime[2]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

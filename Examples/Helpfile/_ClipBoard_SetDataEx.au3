@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $btn_SetData, $btn_GetData, $hMemory, $hLock, $tData, $sData, $iSize
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Clipboard", 600, 450)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -18,16 +18,16 @@ Func _Main()
 	$btn_GetData = GUICtrlCreateButton("Get ClipBoard Data", 300, 410, 120, 30)
 	GUISetState()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
 			Case $btn_SetData
-				; Open clipboard
+				; 打开剪贴板
 				If Not _ClipBoard_Open(0) Then _WinAPI_ShowError("_ClipBoard_Open failed")
 
-				; Empty clipboard
+				; 清空剪贴板
 				If Not _ClipBoard_Empty() Then _WinAPI_ShowError("_ClipBoard_Empty failed")
 
 				; Create global memory buffer (show why using _ClipBoard_SetData is MUCH easier!)
@@ -44,7 +44,7 @@ Func _Main()
 				; Write clipboard text
 				If Not _ClipBoard_SetDataEx($hMemory, $CF_TEXT) Then _WinAPI_ShowError("_ClipBoard_SetDataEx failed")
 
-				; Close clipboard
+				; 关闭剪贴板
 				_ClipBoard_Close()
 			Case $btn_GetData
 				MemoWrite(_ClipBoard_GetData())

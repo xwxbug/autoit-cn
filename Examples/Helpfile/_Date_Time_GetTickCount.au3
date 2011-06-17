@@ -7,7 +7,7 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -16,7 +16,7 @@ Func _Main()
 	; Get tick count
 	MemoWrite("Tick count .: " & _Date_Time_GetTickCount())
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

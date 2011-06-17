@@ -1,6 +1,6 @@
 #include <Crypt.au3>
 
-; Example showing usage of _Crypt_Shutdown:
+; 显示 _Crypt_Shutdown 的用法示例:
 
 Local $sTest = "The quick brown fox jumps over the lazy dog"
 

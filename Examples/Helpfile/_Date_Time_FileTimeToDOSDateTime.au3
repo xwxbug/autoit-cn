@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $tFile, $aDOS
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -21,7 +21,7 @@ Func _Main()
 	MemoWrite("DOS date .: 0x" & Hex($aDOS[0], 4))
 	MemoWrite("DOS time .: 0x" & Hex($aDOS[1], 4))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

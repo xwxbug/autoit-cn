@@ -1,51 +1,53 @@
-ï»¿; **************************************************************************************************************
-; ç¤ºä¾‹ 1 - åŸºäºŽæ‰€é€‰æ‹©çš„æ¨¡å¼é™„åŠ åˆ°ç¬¬ä¸€ä¸ªåŒ¹é…å­—ç¬¦ä¸²çš„Microsoft Excelçš„å®žä¾‹ä¸Š.
 ; **************************************************************************************************************
+; Ê¾Àý 1 - »ùÓÚËùÑ¡ÔñµÄÄ£Ê½¸½¼Óµ½µÚÒ»¸öÆ¥Åä×Ö·û´®µÄMicrosoft ExcelµÄÊµÀýÉÏ.
+; **************************************************************************************************************
+
+#include <Excel.au3>
+#include <File.au3>
+
+Local $sFilePath = @TempDir & "\Temp.xls"
+If Not _FileCreate($sFilePath) Then ;´´½¨Ò»¸ö.XLSÎÄ¼þ
+	MsgBox(4096, "´íÎó", " ´´½¨ÎÄ¼þÊ±³ö´í - " & @error)
+EndIf
+
+_ExcelBookOpen($sFilePath)
+Local $oExcel = _ExcelBookAttach($sFilePath) ;ËÑË÷Ä£Ê½: Excel¹¤×÷±íÂ·¾¶(Ä¬ÈÏÄ£Ê½)
+_ExcelWriteCell($oExcel, "¿´µ½ÁËÂð?Ð´ÈëÐÅÏ¢³É¹¦ÁË!", 1, 1) ;¶ÔÖ¸¶¨µÄExcel¹¤×÷±íµ¥Ôª¸ñÐ´ÈëÐÅÏ¢.
+MsgBox(0, "ÍË³ö", "°´[È·¶¨]±£´æÎÄ¼þ²¢ÍË³ö")
+_ExcelBookClose($oExcel, 1, 0);ÔÚÃ»ÓÐÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼þ,È»ºó¹Ø±Õ.
+
+; **************************************************************************************************************
+; Ê¾Àý 2 - »ùÓÚËùÑ¡ÔñµÄÄ£Ê½¸½¼Óµ½µÚÒ»¸öÆ¥Åä×Ö·û´®µÄMicrosoft ExcelµÄÊµÀýÉÏ.
+; **************************************************************************************************************
+
 #include <Excel.au3>
 #include <File.au3>
 
 $sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then ;åˆ›å»ºä¸€ä¸ª.XLSæ–‡ä»¶
-	MsgBox(4096, "é”™è¯¯", " åˆ›å»ºæ–‡ä»¶æ—¶å‡ºé”™ - " & @error)
+If Not _FileCreate($sFilePath) Then  ;´´½¨Ò»¸ö.XLSÎÄ¼þ
+	MsgBox(4096, "´íÎó", " ´´½¨ÎÄ¼þÊ±³ö´í - " & @error)
 EndIf
 
 _ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach($sFilePath) ;æœç´¢æ¨¡å¼: Excelå·¥ä½œè¡¨è·¯å¾„(é»˜è®¤æ¨¡å¼)
-_ExcelWriteCell($oExcel, "çœ‹åˆ°äº†å—?å†™å…¥ä¿¡æ¯æˆåŠŸäº†!", 1, 1) ;å¯¹æŒ‡å®šçš„Excelå·¥ä½œè¡¨å•å…ƒæ ¼å†™å…¥ä¿¡æ¯.
-MsgBox(0, "é€€å‡º", "æŒ‰[ç¡®å®š]ä¿å­˜æ–‡ä»¶å¹¶é€€å‡º")
-_ExcelBookClose($oExcel, 1, 0);åœ¨æ²¡æœ‰ä»»ä½•æç¤ºçš„æƒ…å†µä¸‹ä¿å­˜è¯¥æ–‡ä»¶,ç„¶åŽå…³é—­.
+$oExcel = _ExcelBookAttach("Temp.xls", "FileName") ;ËÑË÷Ä£Ê½: Excel¹¤×÷±íµÄÃû³Æ
+_ExcelWriteCell($oExcel, "¿´µ½ÁËÂð?Ð´ÈëÐÅÏ¢³É¹¦ÁË!", 1, 1) ;¶ÔÖ¸¶¨µÄExcel¹¤×÷±íµ¥Ôª¸ñÐ´ÈëÐÅÏ¢.
+MsgBox(0, "ÍË³ö", "°´[È·¶¨]±£´æÎÄ¼þ²¢ÍË³ö")
+_ExcelBookClose($oExcel, 1, 0);ÔÚÃ»ÓÐÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼þ,È»ºó¹Ø±Õ.
 
 ; **************************************************************************************************************
-; ç¤ºä¾‹ 2 - åŸºäºŽæ‰€é€‰æ‹©çš„æ¨¡å¼é™„åŠ åˆ°ç¬¬ä¸€ä¸ªåŒ¹é…å­—ç¬¦ä¸²çš„Microsoft Excelçš„å®žä¾‹ä¸Š.
+; Ê¾Àý 3 - »ùÓÚËùÑ¡ÔñµÄÄ£Ê½¸½¼Óµ½µÚÒ»¸öÆ¥Åä×Ö·û´®µÄMicrosoft ExcelµÄÊµÀýÉÏ.()
 ; **************************************************************************************************************
+
 #include <Excel.au3>
 #include <File.au3>
 
 $sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then  ;åˆ›å»ºä¸€ä¸ª.XLSæ–‡ä»¶
-	MsgBox(4096, "é”™è¯¯", " åˆ›å»ºæ–‡ä»¶æ—¶å‡ºé”™ - " & @error)
+If Not _FileCreate($sFilePath) Then ;´´½¨Ò»¸ö.XLSÎÄ¼þ
+	MsgBox(4096, "´íÎó", " ´´½¨ÎÄ¼þÊ±³ö´í - " & @error)
 EndIf
 
 _ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach("Temp.xls", "FileName") ;æœç´¢æ¨¡å¼: Excelå·¥ä½œè¡¨çš„åç§°
-_ExcelWriteCell($oExcel, "çœ‹åˆ°äº†å—?å†™å…¥ä¿¡æ¯æˆåŠŸäº†!", 1, 1) ;å¯¹æŒ‡å®šçš„Excelå·¥ä½œè¡¨å•å…ƒæ ¼å†™å…¥ä¿¡æ¯.
-MsgBox(0, "é€€å‡º", "æŒ‰[ç¡®å®š]ä¿å­˜æ–‡ä»¶å¹¶é€€å‡º")
-_ExcelBookClose($oExcel, 1, 0);åœ¨æ²¡æœ‰ä»»ä½•æç¤ºçš„æƒ…å†µä¸‹ä¿å­˜è¯¥æ–‡ä»¶,ç„¶åŽå…³é—­.
-
-
-; **************************************************************************************************************
-; ç¤ºä¾‹ 3 - åŸºäºŽæ‰€é€‰æ‹©çš„æ¨¡å¼é™„åŠ åˆ°ç¬¬ä¸€ä¸ªåŒ¹é…å­—ç¬¦ä¸²çš„Microsoft Excelçš„å®žä¾‹ä¸Š.()
-; **************************************************************************************************************
-#include <Excel.au3>
-#include <File.au3>
-
-$sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then ;åˆ›å»ºä¸€ä¸ª.XLSæ–‡ä»¶
-	MsgBox(4096, "é”™è¯¯", " åˆ›å»ºæ–‡ä»¶æ—¶å‡ºé”™ - " & @error)
-EndIf
-
-_ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach("Microsoft Excel - Temp", "Title") ;æœç´¢æ¨¡å¼: Excelå·¥ä½œè¡¨çš„çª—å£æ ‡é¢˜
-_ExcelWriteCell($oExcel, "çœ‹åˆ°äº†å—?å†™å…¥ä¿¡æ¯æˆåŠŸäº†!", 1, 1) ;å¯¹æŒ‡å®šçš„Excelå·¥ä½œè¡¨å•å…ƒæ ¼å†™å…¥ä¿¡æ¯.
-MsgBox(0, "é€€å‡º", "æŒ‰[ç¡®å®š]ä¿å­˜æ–‡ä»¶å¹¶é€€å‡º")
-_ExcelBookClose($oExcel, 1, 0) ;åœ¨æ²¡æœ‰ä»»ä½•æç¤ºçš„æƒ…å†µä¸‹ä¿å­˜è¯¥æ–‡ä»¶,ç„¶åŽå…³é—­.
+$oExcel = _ExcelBookAttach("Microsoft Excel - Temp", "Title") ;ËÑË÷Ä£Ê½: Excel¹¤×÷±íµÄ´°¿Ú±êÌâ
+_ExcelWriteCell($oExcel, "¿´µ½ÁËÂð?Ð´ÈëÐÅÏ¢³É¹¦ÁË!", 1, 1) ;¶ÔÖ¸¶¨µÄExcel¹¤×÷±íµ¥Ôª¸ñÐ´ÈëÐÅÏ¢.
+MsgBox(0, "ÍË³ö", "°´[È·¶¨]±£´æÎÄ¼þ²¢ÍË³ö")
+_ExcelBookClose($oExcel, 1, 0) ;ÔÚÃ»ÓÐÈÎºÎÌáÊ¾µÄÇé¿öÏÂ±£´æ¸ÃÎÄ¼þ,È»ºó¹Ø±Õ.

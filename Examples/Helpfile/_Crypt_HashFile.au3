@@ -2,9 +2,9 @@
 #include <StaticConstants.au3>
 #include <Crypt.au3>
 
-; Example of hashing files
+; 散列化文件示例
 
-; Create GUI
+; 创建 GUI
 GUICreate("Hasher", 370, 60)
 Local $hFileControl = GUICtrlCreateInput("", 5, 5, 200, 20)
 Local $hBrowseButton = GUICtrlCreateButton("...", 210, 5, 35, 20)
@@ -28,7 +28,7 @@ Do
 
 		Case $hCalcButton
 			Local $iALG_ID = 0
-			; What algorthm did the user choose?
+			; 用户选择什么算法?
 			Switch GUICtrlRead($hHashCombo)
 				Case "MD2"
 					$iALG_ID = $CALG_MD2

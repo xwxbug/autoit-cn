@@ -2,7 +2,7 @@
 
 Local $a_font
 
-; Example 1
+; 示例 1
 $a_font = _ChooseFont("Arial", 8)
 If (@error) Then
 	MsgBox(0, "", "错误 _ChooseFont: " & @error)
@@ -10,7 +10,7 @@ Else
 	MsgBox(0, "", "字体名称: " & $a_font[2] & @LF & "大小: " & $a_font[3] & @LF & "字形: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR 颜色: " & $a_font[6] & @LF & "Hex RGB 颜色: " & $a_font[7])
 EndIf
 
-; Example 2
+; 示例 2
 $a_font = _ChooseFont()
 If (@error) Then
 	MsgBox(0, "", "错误 _ChooseFont: " & @error)
@@ -19,7 +19,7 @@ Else
 	MsgBox(0, "", "字体名称: " & $a_font[2] & @LF & "大小: " & $a_font[3] & @LF & "字形: " & $a_font[4] & @LF & "COLORREF rgbColors: " & $a_font[5] & @LF & "Hex BGR 颜色: " & $a_font[6] & @LF & "Hex RGB 颜色: " & $a_font[7])
 EndIf
 
-; Example 3
+; 示例 3
 Local $FontName = $a_font[2]
 Local $FontSize = $a_font[3]
 Local $ColorRef = $a_font[5]

@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $aFormats[3] = [2, $CF_TEXT, $CF_OEMTEXT]
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Clipboard", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -20,7 +20,7 @@ Func _Main()
 	MemoWrite("Priority formats .:. " & _ClipBoard_GetPriorityFormat($aFormats))
 	MemoWrite("Unicode available .: " & _ClipBoard_IsFormatAvailable($CF_UNICODETEXT))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

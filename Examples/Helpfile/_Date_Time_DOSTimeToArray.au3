@@ -9,17 +9,17 @@ _Main()
 Func _Main()
 	Local $aDate
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Time", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Show FAT time
+	; 显示 FAT 时间
 	$aDate = _Date_Time_DOSTimeToArray(0x944a) ; 18:34:20
 	MemoWrite("FAT time .: " & StringFormat("%02d:%02d:%02d", $aDate[0], $aDate[1], $aDate[2]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

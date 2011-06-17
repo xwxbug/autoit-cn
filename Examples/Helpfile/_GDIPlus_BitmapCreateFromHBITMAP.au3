@@ -7,30 +7,30 @@ _Main()
 Func _Main()
 	Local $hGUI, $hBMP, $hBitmap, $hGraphic
 
-	; Capture upper left corner of screen
+	; 捕获屏幕的左上角
 	$hBMP = _ScreenCapture_Capture("", 0, 0, 400, 300)
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
 	GUISetState()
 
-	; Initialize GDI+ library
+	; 初始化 GDI+ 库
 	_GDIPlus_Startup()
 
-	; Draw bitmap to GUI
+	; 在 GUI 中描绘位图
 	$hBitmap = _GDIPlus_BitmapCreateFromHBITMAP($hBMP)
 	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 	_GDIPlus_GraphicsDrawImage($hGraphic, $hBitmap, 0, 0)
 
-	; Clean up resources
+	; 清理资源
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($hBitmap)
 	_WinAPI_DeleteObject($hBMP)
 
-	; Shut down GDI+ library
+	; 关闭 GDI+ 库
 	_GDIPlus_Shutdown()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

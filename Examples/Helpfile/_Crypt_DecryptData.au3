@@ -1,6 +1,6 @@
 #include <Crypt.au3>
 
-; This example shows how to decrypt a string
+; 这个示例演示如何解密字符串
 
 Local Const $bEncrypted = Binary("0x040A0D2594CE1FFC8E4CE5BC14E8724B6B5900225EA8E45CF328" & _
 		"9D0D6A48E490E53FB66F39FF5CA967C5F6CD04D399AF09E18E7A91EEA32F7BBBB714DEC6865128CE3A" & _

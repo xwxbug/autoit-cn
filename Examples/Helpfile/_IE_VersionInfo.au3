@@ -3,5 +3,6 @@
 ; *******************************************************
 ;
 #include <IE.au3>
-$aVersion = _IE_VersionInfo ()
+
+Local $aVersion = _IE_VersionInfo()
 MsgBox(0, "IE.au3 版本", $aVersion[5] & " 发布于 " & $aVersion[4])

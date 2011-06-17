@@ -4,7 +4,7 @@
 #include <Crypt.au3>
 #include <WinAPI.au3>
 
-; Example of realtime RC4 encryption
+; 实时 RC4 加密示例
 
 GUICreate("Realtime Encrypting", 400, 300, -1)
 Global $hInputEdit = GUICtrlCreateEdit("", 0, 0, 400, 150, $ES_WANTRETURN)

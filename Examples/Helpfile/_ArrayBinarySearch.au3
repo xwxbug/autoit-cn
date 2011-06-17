@@ -25,17 +25,17 @@ _ArrayDisplay($avArray, "$avArray 排序后 _ArraySort()")
 ; 查找存在的项目
 Local $iKeyIndex = _ArrayBinarySearch($avArray, "Jon")
 If Not @error Then
-	MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
+   MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-	MsgBox(0,'项目未找到',' 错误: ' & @error)
+   MsgBox(0,'项目未找到',' 错误: ' & @error)
 EndIf
 
 ; 查找不存在的项目
 $iKeyIndex = _ArrayBinarySearch($avArray, "Unknown")
 If Not @error Then
-	MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
+   MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-	MsgBox(0,'项目未找到',' 错误: ' & @error)
+   MsgBox(0,'项目未找到',' 错误: ' & @error)
 EndIf
 
 
@@ -53,7 +53,7 @@ _ArrayDisplay($avArray, "$avArray 排序后 _ArraySort()")
  ; 开始于索引 1 跳过 $avArray[0]
 $iKeyIndex = _ArrayBinarySearch($avArray, "c", 1)
 If Not @error Then
-	MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
+   MsgBox(0,'项目找到了',' 索引: ' & $iKeyIndex)
 Else
-	MsgBox(0,'项目未找到',' 错误: ' & @error)
+   MsgBox(0,'项目未找到',' 错误: ' & @error)
 EndIf

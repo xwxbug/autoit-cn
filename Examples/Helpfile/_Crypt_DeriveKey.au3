@@ -6,7 +6,7 @@ Local $StringsToCrypt[6] = ["Bluth", "Sunny", "AutoIt3", "SciTe", 42, "42"]
 Local $Crypted[6]
 
 
-; We don't need _Crypt_Startup since DeriveKey/DestroyKey handles it internally
+; 由于 DeriveKey/DestroyKey 会内部处理, 所以我们不需要 _Crypt_Startup
 Local $Key = _Crypt_DeriveKey("supersecretpassword", $CALG_RC4)
 
 Local $DisplayStr = ""

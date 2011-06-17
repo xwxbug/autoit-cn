@@ -33,7 +33,7 @@ Func _ShowChoice($GUI, $iMemo, $Type, $Choose, $sMessage)
 	Local $cr
 	If $Choose <> -1 Then
 
-		If $Type = 0 Then ; convert COLORREF to RGB for this example
+		If $Type = 0 Then ; 为此例把 COLORREF 转换成 RGB
 			$cr = Hex($Choose, 6)
 			GUISetBkColor('0x' & StringMid($cr, 5, 2) & StringMid($cr, 3, 2) & StringMid($cr, 1, 2), $GUI)
 		Else

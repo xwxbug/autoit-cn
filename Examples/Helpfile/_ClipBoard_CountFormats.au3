@@ -10,16 +10,16 @@ _Main()
 Func _Main()
 	Local $hGUI, $iFormat, $iCount
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Clipboard", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Open the clipboard
+	; 打开剪贴板
 	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
 
-	; Show clipboard formats available
+	; 显示可用的剪贴板格式
 	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())
 
 	; Enumerate clipboard formats
@@ -31,10 +31,10 @@ Func _Main()
 		EndIf
 	Until $iFormat = 0
 
-	; Close the clipboard
+	; 关闭剪贴板
 	_ClipBoard_Close()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
