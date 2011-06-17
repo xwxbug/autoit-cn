@@ -10,10 +10,10 @@
 
 #include <Debug.au3>
 
-_DebugSetup("Check Excel", True) ; start displaying debug environment
+_DebugSetup("Check Excel", True) ; 开始显示调试环境
 For $i = 1 To 4
 	WinActivate("Microsoft Excel")
-	; interact with Excel
+	; 与 Excel 交互
 	Send("{Down}")
-	_DebugOut("Moved Mouse Down") ; forces debug notepad window to take control
+	_DebugOut("Moved Mouse Down") ; 强制控制调试的记事本窗口
 Next

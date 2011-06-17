@@ -8,15 +8,15 @@ _Main()
 Func _Main()
 	Local $hEventLog, $aEvent
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("EventLog", 400, 300)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 300, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Read most current event record
+	; 读取最近的事件记录
 	$hEventLog = _EventLog__Open("", "Application")
-	$aEvent = _EventLog__Read($hEventLog, True, False) ; read last event
+	$aEvent = _EventLog__Read($hEventLog, True, False) ; 读取最后一条事件
 ;~ 	$hEventLog = _EventLog__Open("", "System")
 ;~ 	$aEvent = _EventLog__Read($hEventLog)
 ;~ 	$aEvent = _EventLog__Read($hEventLog, True, False)
@@ -34,13 +34,13 @@ Func _Main()
 	_EventLog__Close($hEventLog)
 
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
