@@ -1,4 +1,4 @@
-﻿#include <Crypt.au3>
+#include <Crypt.au3>
 
 ; This example shows how to decrypt a string
 
