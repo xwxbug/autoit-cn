@@ -1,11 +1,11 @@
-﻿; *******************************************************
-; 示例 1 - 创建一个新的Microsoft Word文件并打开,获取文本内容后退出.
+; *******************************************************
+; ʾ�� 1 - ����һ���µ�Microsoft Word�ļ�����,��ȡ�ı����ݺ��˳�.
 ;
 ; *******************************************************
 ;
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 0, 0)
-; 显示获取的文本内容
+; ��ʾ��ȡ���ı�����
 $sText = $oWordApp.ActiveDocument.Range.Text
-MsgBox(0, "获取文本内容", $sText)
+MsgBox(0, "��ȡ�ı�����", $sText)
 _WordQuit ($oWordApp)

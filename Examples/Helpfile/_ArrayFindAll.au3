@@ -1,6 +1,6 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray[5] = [0, 1, 2, 1, 0]
 Local $aiResult = _ArrayFindAll($avArray, 0)
 _ArrayDisplay($avArray, "$avArray")
-_ArrayDisplay($aiResult, "æœç´¢æ•°ç»„($avArray)ä¸­åŒ…å« 0 çš„ç»“æœ")
+_ArrayDisplay($aiResult, "ËÑË÷Êı×é($avArray)ÖĞ°üº¬ 0 µÄ½á¹û")

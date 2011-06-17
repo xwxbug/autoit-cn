@@ -1,3 +1,3 @@
-ï»¿#include <Inet.au3>
+#include <Inet.au3>
 $PublicIP = _GetIP()
-MsgBox(0, "IP åœ°å€", "æ‚¨çš„ IP åœ°å€ä¸º: " & $PublicIP)
+MsgBox(0, "IP µØÖ·", "ÄúµÄ IP µØÖ·Îª: " & $PublicIP)

@@ -1,20 +1,20 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 ;===============================================================================
-; ç¤ºä¾‹ 1 (ä½¿ç”¨ä¸€ç»´æ•°ç»„)
+; Ê¾Àı 1 (Ê¹ÓÃÒ»Î¬Êı×é)
 ;===============================================================================
 Local $avArray[10] = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
-_ArrayDisplay($avArray, "é»˜è®¤æ’åºæ–¹å¼" )
+_ArrayDisplay($avArray, "Ä¬ÈÏÅÅĞò·½Ê½" )
 _ArraySort($avArray)
-_ArrayDisplay($avArray, "å‡åºæ’åˆ—æ–¹å¼" )
+_ArrayDisplay($avArray, "ÉıĞòÅÅÁĞ·½Ê½" )
 _ArraySort($avArray, 1)
-_ArrayDisplay($avArray, "é™åºæ’åˆ—æ–¹å¼" )
+_ArrayDisplay($avArray, "½µĞòÅÅÁĞ·½Ê½" )
 _ArraySort($avArray, 0, 3, 6)
-_ArrayDisplay($avArray, "æ’å€¼æ’åºæ–¹å¼ 3 to 6" )
+_ArrayDisplay($avArray, "²åÖµÅÅĞò·½Ê½ 3 to 6" )
 
 ;===============================================================================
-; ç¤ºä¾‹ 2 (ä½¿ç”¨äºŒç»´æ•°ç»„)
+; Ê¾Àı 2 (Ê¹ÓÃ¶şÎ¬Êı×é)
 ;===============================================================================
 Local $avArray[5][3] = [ _
 [5, 20, 8], _
@@ -23,10 +23,10 @@ Local $avArray[5][3] = [ _
 [2, 35, 0], _
 [1, 19, 6]]
 
-_ArrayDisplay($avArray, "é»˜è®¤æ’åºæ–¹å¼" )
+_ArrayDisplay($avArray, "Ä¬ÈÏÅÅĞò·½Ê½" )
 _ArraySort($avArray, 0, 0, 0, 0);
-_ArrayDisplay($avArray, "å‰¯ç´¢å¼•0å‡åºæ’åˆ—æ–¹å¼" )
+_ArrayDisplay($avArray, "¸±Ë÷Òı0ÉıĞòÅÅÁĞ·½Ê½" )
 _ArraySort($avArray, 0, 0, 0, 1)
-_ArrayDisplay($avArray, "å‰¯ç´¢å¼•1å‡åºæ’åˆ—æ–¹å¼" )
+_ArrayDisplay($avArray, "¸±Ë÷Òı1ÉıĞòÅÅÁĞ·½Ê½" )
 _ArraySort($avArray, 0, 0, 0, 2)
-_ArrayDisplay($avArray, "å‰¯ç´¢å¼•2å‡åºæ’åˆ—æ–¹å¼" )
+_ArrayDisplay($avArray, "¸±Ë÷Òı2ÉıĞòÅÅÁĞ·½Ê½" )

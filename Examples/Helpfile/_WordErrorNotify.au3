@@ -1,12 +1,12 @@
-﻿; *******************************************************
-; 示例 1 - 检查 _WordErrorNotify 的当前状态, 如果状态为打开则关闭,如果状态为关闭则打开
+; *******************************************************
+; ʾ�� 1 - ��� _WordErrorNotify �ĵ�ǰ״̬, ���״̬Ϊ����ر�,���״̬Ϊ�ر����
 ; *******************************************************
 ;
 #include <Word.au3>
 If _WordErrorNotify () Then
-	MsgBox(0, "_WordErrorNotify 状态", "状态为打开, 关闭它.")
+	MsgBox(0, "_WordErrorNotify ״̬", "״̬Ϊ��, �ر���.")
 	_WordErrorNotify (1)
 Else
-	MsgBox(0, "_WordErrorNotify 状态", "状态为关闭, 打开它.")
+	MsgBox(0, "_WordErrorNotify ״̬", "״̬Ϊ�ر�, ����.")
 	_WordErrorNotify (0)
 EndIf

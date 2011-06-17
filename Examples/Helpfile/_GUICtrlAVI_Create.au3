@@ -1,10 +1,10 @@
-ï»¿#include <GuiConstantsEx.au3>
+#include <GuiConstantsEx.au3>
 #include <GuiAVI.au3>
 #include <WindowsConstants.au3>
 
 Opt('MustDeclareVars', 1)
 
-$Debug_AVI = False ; æ£€æŸ¥ä¼ é€’ç»™AVIå‡½æ•°çš„ç±»å, è®¾ç½®ä¸ºçœŸå¹¶ä½¿ç”¨å¦ä¸€æŽ§ä»¶å¥æŸ„è§‚å¯Ÿå…¶å·¥ä½œ
+$Debug_AVI = False ; ¼ì²é´«µÝ¸øAVIº¯ÊýµÄÀàÃû, ÉèÖÃÎªÕæ²¢Ê¹ÓÃÁíÒ»¿Ø¼þ¾ä±ú¹Û²ìÆä¹¤×÷
 
 Global $hAVI
 
@@ -16,21 +16,21 @@ Func _Example1()
     If @AutoItX64 Then $Wow64 = "\Wow6432Node"
     Local $hGUI, $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\Examples\GUI\SampleAVI.avi"
 
-    ; åˆ›å»º GUI çª—å£
-    $hGUI = GUICreate("(ç¤ºä¾‹ 1) åˆ›å»º AVI æŽ§ä»¶", 300, 100)
+    ; ´´½¨ GUI ´°¿Ú
+    $hGUI = GUICreate("(Ê¾Àý 1) ´´½¨ AVI ¿Ø¼þ", 300, 100)
     $hAVI = _GUICtrlAVI_Create ($hGUI, $sFile, -1, 10, 10)
     GUISetState()
 
     GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-    ; åœ¨åŠ¨ç”»æŽ§ä»¶é‡Œæ’­æ”¾ AVI å½±ç‰‡
+    ; ÔÚ¶¯»­¿Ø¼þÀï²¥·Å AVI Ó°Æ¬
     _GUICtrlAVI_Play ($hAVI)
 
-    ; å¾ªçŽ¯ç›´åˆ°ç”¨æˆ·é€€å‡º
+    ; Ñ­»·Ö±µ½ÓÃ»§ÍË³ö
     Do
     Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-    ; å…³é—­å½±ç‰‡å‰ªè¾‘
+    ; ¹Ø±ÕÓ°Æ¬¼ô¼­
     _GUICtrlAVI_Close ($hAVI)
 
 
@@ -40,21 +40,21 @@ EndFunc   ;==>_Example1
 Func _Example2()
     Local $hGUI
 
-    ; åˆ›å»º GUI çª—å£
-    $hGUI = GUICreate("(ç¤ºä¾‹ 2) åˆ›å»º AVI æŽ§ä»¶", 300, 100)
+    ; ´´½¨ GUI ´°¿Ú
+    $hGUI = GUICreate("(Ê¾Àý 2) ´´½¨ AVI ¿Ø¼þ", 300, 100)
     $hAVI = _GUICtrlAVI_Create ($hGUI, @SystemDir & "\Shell32.dll", 165, 10, 10)
     GUISetState()
 
     GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-    ; åœ¨åŠ¨ç”»æŽ§ä»¶é‡Œæ’­æ”¾ AVI å½±ç‰‡
+    ; ÔÚ¶¯»­¿Ø¼þÀï²¥·Å AVI Ó°Æ¬
     _GUICtrlAVI_Play ($hAVI)
 
-    ; å¾ªçŽ¯ç›´åˆ°ç”¨æˆ·é€€å‡º
+    ; Ñ­»·Ö±µ½ÓÃ»§ÍË³ö
     Do
     Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-    ; å…³é—­å½±ç‰‡å‰ªè¾‘
+    ; ¹Ø±ÕÓ°Æ¬¼ô¼­
     _GUICtrlAVI_Close ($hAVI)
 
 
@@ -69,16 +69,16 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
     Switch $hWndFrom
         Case $hAVI
             Switch $iCode
-                Case $ACN_START ; é€šçŸ¥åŠ¨ç”»æŽ§ä»¶çˆ¶çª—å£ç›¸å…³å½±ç‰‡å‰ªè¾‘å·²å¼€å§‹æ’­æ”¾
+                Case $ACN_START ; Í¨Öª¶¯»­¿Ø¼þ¸¸´°¿ÚÏà¹ØÓ°Æ¬¼ô¼­ÒÑ¿ªÊ¼²¥·Å
                     _DebugPrint("$ACN_START" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
                             "-->IDFrom:" & @TAB & $iIDFrom & @LF & _
                             "-->Code:" & @TAB & $iCode)
-                    ; æ²¡æœ‰è¿”å›žå€¼
-                Case $ACN_STOP ; é€šçŸ¥åŠ¨ç”»æŽ§ä»¶çˆ¶çª—å£ç›¸å…³å½±ç‰‡å‰ªè¾‘å·²åœæ­¢æ’­æ”¾
+                    ; Ã»ÓÐ·µ»ØÖµ
+                Case $ACN_STOP ; Í¨Öª¶¯»­¿Ø¼þ¸¸´°¿ÚÏà¹ØÓ°Æ¬¼ô¼­ÒÑÍ£Ö¹²¥·Å
                     _DebugPrint("$ACN_STOP" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
                             "-->IDFrom:" & @TAB & $iIDFrom & @LF & _
                             "-->Code:" & @TAB & $iCode)
-                    ; æ²¡æœ‰è¿”å›žå€¼
+                    ; Ã»ÓÐ·µ»ØÖµ
             EndSwitch
     EndSwitch
     Return $GUI_RUNDEFMSG

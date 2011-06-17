@@ -1,3 +1,3 @@
-ï»¿#include <Math.au3>
+#include <Math.au3>
 
-$x = _Min(25, 10)  ; è¿”å›ž 10
+$x = _Min(25, 10)  ; ·µ»Ø 10

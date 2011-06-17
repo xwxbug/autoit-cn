@@ -1,11 +1,11 @@
-ï»¿; *******************************************************
-; ç¤ºä¾‹ 1 - åˆ›å»ºä¸€ä¸ªæ–°çš„Microsoft Wordæ–‡ä»¶å¹¶æ‰“å¼€ï¼Œéšè—Wordçª—å£, ç„¶åå†ä½¿å…¶å¯è§.
+; *******************************************************
+; Ê¾Àı 1 - ´´½¨Ò»¸öĞÂµÄMicrosoft WordÎÄ¼ş²¢´ò¿ª£¬Òş²ØWord´°¿Ú, È»ºóÔÙÊ¹Æä¿É¼û.
 ;
 ; *******************************************************
 ;
 #include <Word.au3>
 $oWordApp = _WordCreate (@ScriptDir & "\Test.doc")
 Sleep(2000)
-_WordPropertySet ($oWordApp, "visible", False);éšè—
+_WordPropertySet ($oWordApp, "visible", False);Òş²Ø
 Sleep(2000)
-_WordPropertySet ($oWordApp, "visible", True);æ˜¾ç¤º
+_WordPropertySet ($oWordApp, "visible", True);ÏÔÊ¾

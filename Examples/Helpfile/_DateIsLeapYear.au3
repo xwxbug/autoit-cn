@@ -1,7 +1,7 @@
-ï»¿#include <Date.au3>
+#include <Date.au3>
 
 If _DateIsLeapYear( @YEAR ) Then
-	MsgBox( 4096, "é—°å¹´", "ä»Šå¹´æ˜¯é—°å¹´,æœ‰366å¤©(æœ‰é—°æœˆé™¤å¤–)." )
+	MsgBox( 4096, "ÈòÄê", "½ñÄêÊÇÈòÄê,ÓÐ366Ìì(ÓÐÈòÔÂ³ýÍâ)." )
 Else
-	MsgBox( 4096, "é—°å¹´", "ä»Šå¹´ä¸æ˜¯é—°å¹´." )
+	MsgBox( 4096, "ÈòÄê", "½ñÄê²»ÊÇÈòÄê." )
 EndIf

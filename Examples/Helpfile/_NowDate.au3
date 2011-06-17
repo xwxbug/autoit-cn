@@ -1,2 +1,2 @@
-ï»¿#include <Date.au3>
-MsgBox(0,'',"ç°åœ¨æ—¥æœŸä¸º:" & _NowDate())
+#include <Date.au3>
+MsgBox(0,'',"ÏÖÔÚÈÕÆÚÎª:" & _NowDate())

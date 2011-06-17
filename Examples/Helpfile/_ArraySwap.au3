@@ -1,10 +1,10 @@
-ï»¿#include <Array.au3>
+#include <Array.au3>
 
 Local $avArray[2]
 
 $avArray[0] = "World!"
 $avArray[1] = "Hello"
 
-_ArrayDisplay($avArray, "é»˜è®¤å€¼")
+_ArrayDisplay($avArray, "Ä¬ÈÏÖµ")
 _ArraySwap($avArray[0], $avArray[1])
-_ArrayDisplay($avArray, "äº’æ¢ä¸¤ä¸ªé¡¹ç›®")
+_ArrayDisplay($avArray, "»¥»»Á½¸öÏîÄ¿")

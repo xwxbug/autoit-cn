@@ -1,9 +1,9 @@
-ï»¿#include <Date.au3>
-;#include <ACN_Date.au3>	;å¦‚æžœè¦ä½¿ç”¨ä¸­æ–‡çš„æ˜ŸæœŸåç§°æˆ–è€…æœˆåç§°è¯·ä½¿ç”¨è¿™ä¸ª #include
-; è¿”å›žé•¿å
+#include <Date.au3>
+;#include <ACN_Date.au3>	;Èç¹ûÒªÊ¹ÓÃÖÐÎÄµÄÐÇÆÚÃû³Æ»òÕßÔÂÃû³ÆÇëÊ¹ÓÃÕâ¸ö #include
+; ·µ»Ø³¤Ãû
 $sLongDayName = _DateDayOfWeek( @WDAY )
 
-; è¿”å›žçŸ­å
+; ·µ»Ø¶ÌÃû
 $sShortDayName = _DateDayOfWeek( @WDAY, 1 )
 
-MsgBox( 4096, "ä¸€å‘¨ä¸­çš„ä¸€å¤©", "ä»Šå¤©æ˜¯: " & $sLongDayName & " (" & $sShortDayName & ")" )
+MsgBox( 4096, "Ò»ÖÜÖÐµÄÒ»Ìì", "½ñÌìÊÇ: " & $sLongDayName & " (" & $sShortDayName & ")" )
