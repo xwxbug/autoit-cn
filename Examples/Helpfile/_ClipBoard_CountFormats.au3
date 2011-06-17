@@ -22,7 +22,7 @@ Func _Main()
 	; 显示可用的剪贴板格式
 	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())
 
-	; Enumerate clipboard formats
+	; 枚举剪贴板格式
 	Do
 		$iFormat = _ClipBoard_EnumFormats($iFormat)
 		If $iFormat <> 0 Then
@@ -40,7 +40,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

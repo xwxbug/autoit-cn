@@ -30,7 +30,7 @@ Func _Main()
 	_ClipBoard_ChangeChain($hGUI, $hNext)
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
@@ -38,13 +38,13 @@ EndFunc   ;==>MemoWrite
 ; 处理 $WM_CHANGECBCHAIN 消息
 Func WM_CHANGECBCHAIN($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg
-	; Show that message was received
+	; 显示接收到的消息
 	MemoWrite("***** $WM_CHANGECBCHAIN *****")
 
-	; If the next window is closing, repair the chain
+	; 如果下一个窗口正在关闭, 那么修复链
 	If $iwParam = $hNext Then
 		$hNext = $ilParam
-		; Otherwise pass the message to the next viewer
+		; 否则传递消息到下一个查看器
 	ElseIf $hNext <> 0 Then
 		_SendMessage($hNext, $WM_CHANGECBCHAIN, $iwParam, $ilParam, 0, "hwnd", "hwnd")
 	EndIf
@@ -53,7 +53,7 @@ EndFunc   ;==>WM_CHANGECBCHAIN
 ; 处理 $WM_DRAWCLIPBOARD 消息
 Func WM_DRAWCLIPBOARD($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg
-	; Display any text on clipboard
+	; 显示剪贴板中的文本
 	MemoWrite(_ClipBoard_GetData())
 
 	; 传递消息到下一个查看器

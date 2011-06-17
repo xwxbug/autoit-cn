@@ -32,7 +32,7 @@ $avArray = StringSplit(WinGetClassList("", ""), @LF)
 _ArrayDisplay($avArray, "$avArray 为一个活动窗口包含的'类'列表")
 
 ;===============================================================================
-; Example 4 (a 2D array)
+; 示例 4 (一个二维数组)
 ;===============================================================================
 Local $avArray[2][5] = [["JPM", "Holger", "Jon", "Larry", "Jeremy"],["Valik", "Cyberslug", "Nutster", "JdeB", "Tylo"]]
 _ArrayDisplay($avArray, "$avArray 为二维数组")

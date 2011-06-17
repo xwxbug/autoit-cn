@@ -12,7 +12,7 @@ Global $hOutputEdit = GUICtrlCreateEdit("", 0, 150, 400, 150, $ES_READONLY)
 GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 GUISetState(@SW_SHOW)
 
-; To optimize perfomance we start the library and create a key
+; 为了改善性能我们初始化库并创建密匙
 _Crypt_Startup()
 Local $hKey = _Crypt_DeriveKey("SomePassword", $CALG_RC4)
 
@@ -25,7 +25,7 @@ _Crypt_Shutdown()
 
 Func WM_COMMAND($hWinHandle, $iMsg, $wParam, $lParam)
 	#forceref $hWinHandle, $iMsg, $lParam
-	; If something was changed in the input editbox
+	; 当输入编辑框中数据变化时
 	If _WinAPI_HiWord($wParam) = $EN_CHANGE And _WinAPI_LoWord($wParam) = $hInputEdit Then
 		Local $bEncrypted = _Crypt_EncryptData(GUICtrlRead($hInputEdit), $hKey, $CALG_USERKEY)
 		GUICtrlSetData($hOutputEdit, $bEncrypted)

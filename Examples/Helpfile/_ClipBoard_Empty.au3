@@ -33,7 +33,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Show clipboard statistics
+; 显示剪贴板统计信息
 Func ShowData($hGUI)
 	MemoWrite("GUI handle ............: " & $hGUI)
 	MemoWrite("Clipboard owner .......: " & _ClipBoard_GetOwner())
@@ -42,7 +42,7 @@ Func ShowData($hGUI)
 	MemoWrite()
 EndFunc   ;==>ShowData
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

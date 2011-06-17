@@ -16,7 +16,7 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Register a new clipboard format
+	; 注册一个新的剪贴板格式
 	$iFormat = _ClipBoard_RegisterFormat("AutoIt Library Text")
 	If $iFormat = 0 Then _WinAPI_ShowError("_ClipBoard_RegisterFormat failed")
 
@@ -29,7 +29,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

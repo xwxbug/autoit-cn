@@ -2,7 +2,7 @@
 
 Local $avArray[20]
 
-; Populate test array.
+; 为测试数组的元素赋值.
 For $i = 0 To UBound($avArray) - 1
 	$avArray[$i] = Random(-20000, 20000, 1)
 Next

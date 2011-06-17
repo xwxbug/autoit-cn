@@ -30,7 +30,7 @@ Func _Main()
 				; 清空剪贴板
 				If Not _ClipBoard_Empty() Then _WinAPI_ShowError("_ClipBoard_Empty failed")
 
-				; Create global memory buffer (show why using _ClipBoard_SetData is MUCH easier!)
+				; 创建全局的内存缓冲区 (显示为什么使用 _ClipBoard_SetData 会更容易!)
 				$sData = "Hello from AutoIt"
 				$iSize = StringLen($sData) + 1
 				$hMemory = _MemGlobalAlloc($iSize, $GHND)
@@ -41,7 +41,7 @@ Func _Main()
 				DllStructSetData($tData, "Text", $sData)
 				_MemGlobalUnlock($hMemory)
 
-				; Write clipboard text
+				; 写入文本到剪贴板
 				If Not _ClipBoard_SetDataEx($hMemory, $CF_TEXT) Then _WinAPI_ShowError("_ClipBoard_SetDataEx failed")
 
 				; 关闭剪贴板
@@ -53,7 +53,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

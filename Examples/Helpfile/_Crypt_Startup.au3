@@ -4,11 +4,11 @@
 
 Local $sTest = "The quick brown fox jumps over the lazy dog"
 
-; Testing Crypt library with startup and shutdown
+; 初始化加密库后进行测试, 并在完成后关闭
 _Crypt_Startup()
 MsgBox(0, "MD5", $sTest & @CRLF & _Crypt_HashData($sTest, $CALG_MD5))
 _Crypt_Shutdown()
 
-; Test Without
+; 没有初始化加密库时进行测试
 MsgBox(0, "MD5", $sTest & @CRLF & _Crypt_HashData($sTest, $CALG_MD5))
 
