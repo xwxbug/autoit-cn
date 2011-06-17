@@ -5,10 +5,10 @@ _Main()
 Func _Main()
 	Local $hBmp
 
-	; Capture full screen
+	; 捕获整个屏幕
 	$hBmp = _ScreenCapture_Capture("")
 
-	; Save bitmap to file
+	; 保存位图到文件
 	_ScreenCapture_SaveImage(@MyDocumentsDir & "\GDIPlus_Image.jpg", $hBmp)
 
 EndFunc   ;==>_Main

@@ -6,7 +6,7 @@ While 1
 	Sleep(250)
 	If _IsPressed("24", $dll) Then
 		ConsoleWrite("_IsPressed - Home Key Pressed" & @CRLF)
-		; Wait until key is released
+		; 一直等待,直到按键被释放
 		While _IsPressed("24", $dll)
 			Sleep(250)
 		WEnd

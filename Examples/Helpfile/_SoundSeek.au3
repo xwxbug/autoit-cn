@@ -1,12 +1,12 @@
 #include <Sound.au3>
 
-;open sound file : must be modified if run under Vista
+;打开声音文件: 在 Vista 中运行时必须对路径进行修改
 Local $sound = _SoundOpen(@WindowsDir & "\media\Windows XP Startup.wav")
 If @error = 2 Then
 	MsgBox(0, "Error", "The file does not exist")
 	Exit
 ElseIf @extended <> 0 Then
-	Local $extended = @extended ;assign because @extended will be set after DllCall
+	Local $extended = @extended ;赋值, 因为 @extended 可能会在 DllCall 后被设置成其它返回值
 	Local $stText = DllStructCreate("char[128]")
 	Local $errorstring = DllCall("winmm.dll", "short", "mciGetErrorStringA", "str", $extended, "ptr", DllStructGetPtr($stText), "int", 128)
 	MsgBox(0, "Error", "The open failed." & @CRLF & "Error Number: " & $extended & @CRLF & "Error Description: " & DllStructGetData($stText, 1) & @CRLF & "Please Note: The sound may still play correctly.")
@@ -15,10 +15,10 @@ Else
 EndIf
 _SoundPlay($sound, 0)
 
-;play one second of sound
+;播放声音一秒
 Sleep(1000)
 
-;seek to 2 seconds into sound
+;搜寻定位到声音的 2 秒处
 _SoundSeek($sound, 0, 0, 2)
 ConsoleWrite("After _SoundSeek: " & _SoundPos($sound, 2) & " _SoundStatus: " & _SoundStatus($sound) & @CRLF)
 _SoundSeek($sound, 0, 0, 1)
