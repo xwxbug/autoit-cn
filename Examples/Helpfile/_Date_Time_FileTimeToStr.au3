@@ -15,7 +15,7 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Encode a file time
+	; 对文件时间进行编码
 	$tFile = _Date_Time_EncodeFileTime(@MON, @MDAY, @YEAR, @HOUR, @MIN, @SEC)
 	MemoWrite("Current date/time .: " & _Date_Time_FileTimeToStr($tFile))
 
@@ -25,7 +25,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

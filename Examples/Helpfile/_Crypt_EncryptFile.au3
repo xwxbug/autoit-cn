@@ -108,7 +108,7 @@ Func Update()
 		Case 1
 			WinSetTitle($hWnd, "", "Processing... /")
 		Case 2
-			WinSetTitle($hWnd, "", "Processing... —")
+			WinSetTitle($hWnd, "", "Processing... ¡ª")
 		Case 3
 			WinSetTitle($hWnd, "", "Processing... \")
 	EndSwitch

@@ -13,7 +13,7 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Get tick count
+	; 获取毫秒数
 	MemoWrite("Tick count .: " & _Date_Time_GetTickCount())
 
 	; 循环直到用户退出
@@ -22,7 +22,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

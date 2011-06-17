@@ -1,6 +1,6 @@
 #include <Date.au3>
 
-; Julian date of today.
+; 今天的儒略日 (Julian date).
 Local $sJulDate = _DateToDayValue(@YEAR, @MON, @MDAY)
 MsgBox(4096, "", "Todays Julian date is: " & $sJulDate)
 

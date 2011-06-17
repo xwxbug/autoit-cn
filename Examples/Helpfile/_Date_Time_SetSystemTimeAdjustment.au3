@@ -1,21 +1,21 @@
 #include <Date.au3>
 #include <WinAPI.au3>
 
-; Under Vista the Windows API "SetSystemTimeAdjustment" may be rejected due to system security
+; 由于系统安全性,在 Vista 中 Windows API "SetSystemTimeAdjustment" 可能被拒绝
 
 _Main()
 
 Func _Main()
 	Local $aInfo
 
-	; Open the clock so we can watch the fun
+	; 打开时钟这样我们可以观察到有趣的现象
 	Run("RunDll32.exe shell32.dll,Control_RunDLL timedate.cpl")
 	WinWaitActive("[CLASS:#32770]")
 
-	; Get current time adjustments
+	; 获取当前时间调整设置
 	$aInfo = _Date_Time_GetSystemTimeAdjustment()
 
-	; Slow down clock
+	; 减慢时钟
 	If Not _Date_Time_SetSystemTimeAdjustment($aInfo[1] / 10, False) Then
 		MsgBox(4096, "Error", "System clock cannot be DOWN" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 		Exit
@@ -24,7 +24,7 @@ Func _Main()
 
 	Sleep(5000)
 
-	; Speed up clock
+	; 加快时钟
 	If Not _Date_Time_SetSystemTimeAdjustment($aInfo[1] * 10, False) Then
 		MsgBox(4096, "Error", "System clock cannot be UP" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 	EndIf
@@ -32,7 +32,7 @@ Func _Main()
 
 	Sleep(5000)
 
-	; Reset time adjustment
+	; 重设时间调整设置
 	If Not _Date_Time_SetSystemTimeAdjustment($aInfo[1], True) Then
 		MsgBox(4096, "Error", "System clock cannot be RESET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 	Else
