@@ -5,7 +5,7 @@
 
 Opt("MustDeclareVars", 1)
 
-; Time
+; Ê±¼ä
 Global $aTime = _WinHttpTimeToSystemTime("Sat, 21 Aug 2010 22:04:43 GMT")
 _ArrayDisplay($aTime, "_WinHttpTimeToSystemTime()")
 

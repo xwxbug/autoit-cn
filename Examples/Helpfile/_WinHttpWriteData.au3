@@ -4,31 +4,31 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "www.snee.com")
-; Specify the reguest
+; 指明请求
 Global $hRequest = _WinHttpOpenRequest($hConnect, "POST", "xml/crud/posttest.cgi?sgs")
 
 Global $sPostData = "Additional data to send"
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest, Default, Default, StringLen($sPostData))
 
-; Write additional data to send
+; 写入附加数据到发送中
 _WinHttpWriteData($hRequest, $sPostData)
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
-; Check if there is data available...
+; 检查数据是否有效...
 If _WinHttpQueryDataAvailable($hRequest) Then
 	MsgBox(64, "OK", _WinHttpReadData($hRequest))
 Else
 	MsgBox(48, "Error", "Site is experiencing problems (or you).")
 EndIf
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

@@ -4,25 +4,25 @@
 
 Opt("MustDeclareVars", 1)
 
-; Welcome to California. CALIFORNIA DEPARTMENT OF MOTOR VEHICLES
+; 欢迎来到加州. 加州机动车局
 Global $sDomain = "eg.dmv.ca.gov"
 Global $sPage = "foa/welcome.do"
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, $sDomain)
 
-; Make a SimpleSSL request
+; 生成简单的 SSL 请求
 Global $hRequestSSL = _WinHttpSimpleSendSSLRequest($hConnect, Default, $sPage)
 
-; Read...
+; 读取...
 Global $sReturned = _WinHttpSimpleReadData($hRequestSSL)
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequestSSL)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
 
-; See what's returned
+; 看看返回的是什么
 ConsoleWrite($sReturned & @CRLF)
 MsgBox(64 + 262144, "Done", "Page source is printed to console")

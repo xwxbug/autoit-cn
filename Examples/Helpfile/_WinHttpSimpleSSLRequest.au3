@@ -4,27 +4,27 @@
 
 Opt("MustDeclareVars", 1)
 
-; !!!Note that this example will fail because of invalid username and password!!!
+; !!!注意如果用户名和密码无效, 那么此例子将失败!!!
 
-; Use real data for authentication
+; 使用真实的数据用来身份验证
 Global $sUserName = "SomeUserName"
 Global $sPassword = "SomePassword"
 Global $sDomain = "www.google.com"
 Global $sPage = "accounts/ClientLogin"
-; Visit http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html for more informations
+; 访问 http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html 获取更多信息
 Global $sAdditionalData = "accountType=HOSTED_OR_GOOGLE&Email=" & $sUserName & "&Passwd=" & $sPassword & "&service=mail&source=Gulp-CalGulp-1.05"
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, $sDomain)
 
-; SimpleSSL-request it...
+; 进行简单 SSL 请求...
 Global $sReturned = _WinHttpSimpleSSLRequest($hConnect, "POST", $sPage, Default, $sAdditionalData)
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
 
-; See what's returned
+; 看看返回的是什么
 MsgBox(0, "Returned", $sReturned)

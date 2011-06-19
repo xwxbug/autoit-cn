@@ -4,22 +4,22 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "w3schools.com")
-; Make a request
+; 生成请求
 Global $hRequest = _WinHttpSimpleSendRequest($hConnect, Default, "tags/tag_input.asp")
 
 If $hRequest Then
-	; Simple-read...
+	; 简单读取...
 	ConsoleWrite(_WinHttpSimpleReadData($hRequest) & @CRLF)
 	MsgBox(64, "Okey do!", "Returned source is print to concole. Check it.")
 Else
 	MsgBox(48, "Error", "Error ocurred for _WinHttpSimpleSendRequest, Error number is " & @error)
 EndIf
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

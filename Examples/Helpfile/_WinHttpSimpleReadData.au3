@@ -4,18 +4,18 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "thetimes.co.uk")
-; Request
+; 请求
 Global $hRequest = _WinHttpSimpleSendRequest($hConnect)
 
-; Simple-read...
+; 简单读取...
 Global $sRead = _WinHttpSimpleReadData($hRequest)
 MsgBox(64, "Returned (first 1100 characters)", StringLeft($sRead, 1100) & "...")
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
