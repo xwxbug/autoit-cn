@@ -1,5 +1,6 @@
 #include-once
 #include <StructureConstants.au3>
+#Include <ToolbarConstants.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 #include <WinAPI.au3>
@@ -94,7 +95,7 @@ EndFunc   ;==>OnAutoItExit
 ; WM_NOTIFY event handler
 Func WM_Notify_Events($hWndGUI, $MsgID, $wParam, $lParam)
 	#forceref $hWndGUI, $MsgID, $wParam
-	Local $tNMHDR, $hwndFrom, $code,$TB_COMMANDTOINDEX=1049
+	Local $tNMHDR, $hwndFrom, $code
 	$tNMHDR = DllStructCreate($tagNMHDR, $lParam)
 	$hwndFrom = DllStructGetData($tNMHDR, "hWndFrom")
 	$code = DllStructGetData($tNMHDR, "Code")
@@ -119,10 +120,8 @@ Func WM_Notify_Events($hWndGUI, $MsgID, $wParam, $lParam)
 					;----------------------------------------------------------------------------------------------
 					; NMTOOLBAR STRUCTURED
 					;----------------------------------------------------------------------------------------------
-;				Case $TBN_BEGINDRAG, $TBN_DELETINGBUTTON, $TBN_DRAGOUT, $TBN_DROPDOWN, $TBN_ENDDRAG, _
-;						$TBN_GETBUTTONINFO, $TBN_GETBUTTONINFOW, $TBN_QUERYDELETE, $TBN_QUERYINSERT
 				Case $TBN_BEGINDRAG, $TBN_DELETINGBUTTON, $TBN_DRAGOUT, $TBN_DROPDOWN, $TBN_ENDDRAG, _
-						$TBN_QUERYDELETE, $TBN_QUERYINSERT
+						$TBN_GETBUTTONINFOA, $TBN_GETBUTTONINFOW, $TBN_QUERYDELETE, $TBN_QUERYINSERT
 					$tNMTOOLBAR = DllStructCreate($tagNMTOOLBAR, $lParam)
 					$iItem = DllStructGetData($tNMTOOLBAR, "iItem")
 			EndSwitch

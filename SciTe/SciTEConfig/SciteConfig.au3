@@ -4,9 +4,9 @@
 #AutoIt3Wrapper_UseX64=n
 #AutoIt3Wrapper_Res_Comment=Configure SciTE settings For AutoIt3
 #AutoIt3Wrapper_Res_Description=Configure SciTE settings For AutoIt3
-#AutoIt3Wrapper_Res_Fileversion=1.6.7.6
+#AutoIt3Wrapper_Res_Fileversion=1.6.8.0
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
-#AutoIt3Wrapper_Res_LegalCopyright=Copyright © 2009 Jos van der Zande
+#AutoIt3Wrapper_Res_LegalCopyright=Copyright © 2011 Jos van der Zande
 #AutoIt3Wrapper_Res_Field=Made By|Jos van der Zande
 #AutoIt3Wrapper_Res_Field=Email|jdeb at autoitscript dot com
 #AutoIt3Wrapper_Res_Field=AutoIt Version|%AutoItVer%
@@ -25,6 +25,8 @@
 #include <Misc.au3>
 #include <Date.au3>
 #include <file.au3>
+#Include <Color.au3>
+
 ;
 Global $AutoIT3_Dir = ""
 #Region Commandline lexing
@@ -132,9 +134,12 @@ $Ahnd = WinGetHandle(AutoItWinGetTitle())
 $FontType = '"Courier New"'
 $FontSize = "10"
 Opt("GUICoordMode", 1)
-GUICreate("SciTE Config for AutoIt3. ver:" & $VERSION, 410, 500, Default, Default, Default, $WS_EX_TOPMOST)
+$hMain_GUI = GUICreate("SciTE Config for AutoIt3. ver:" & $VERSION, 410, 500, Default, Default, Default, $WS_EX_TOPMOST)
 Global $Background_Color = ""
 Global $CaretLine_Color = ""
+Global $Selection_Color = ""
+Global $Selection_BkColor = ""
+Global $Selection_Alpha = 0
 Global $Backups = 0
 Global $ProperCase = 1
 Global $CheckuUpdatesSciTE4AutoIt3 = 0
@@ -240,8 +245,16 @@ $BaseY = 60
 ;$BaseY = 148
 $H_Background_Label = GUICtrlCreateLabel("背景色:" & StringLower($Background_Color), $BaseX + 5, $BaseY, 150, 20)
 $H_CaretLine_Label = GUICtrlCreateLabel("插入行颜色:" & StringLower($CaretLine_Color), $BaseX + 5, $BaseY + 20, 150, 20)
+$H_Selection_Label = GUICtrlCreateLabel("Selected Color", $BaseX + 5, $BaseY + 20, 150, 20)
+$H_Alpha_Label = GUICtrlCreateLabel("Alpha", $BaseX + 170 + 84 + 55, $BaseY + 22, 100, 20)
 $H_Background_Color = GUICtrlCreateButton("背景", $BaseX + 170, $BaseY, 80, 20)
 $H_CaretLine_Color = GUICtrlCreateButton("插入行", $BaseX + 170, $BaseY + 20, 80, 20)
+$H_Selection_Color = GUICtrlCreateButton("Fore", $BaseX + 170, $BaseY + 20, 40, 20)
+$H_Selection_BkColor = GUICtrlCreateButton("Back", $BaseX + 170 + 40, $BaseY + 20, 40, 20)
+$H_Selection_Alpha = GUICtrlCreateInput($Selection_Alpha, $BaseX + 170 + 84, $BaseY + 20, 50, 20)
+GUICtrlCreateUpdown(-1, 0x0005) ; $UDS_ALIGNRIGHT, $UDS_WRAP
+GUICtrlSetLimit(-1, 255, 0)
+
 $BaseY = $BaseY + 50
 GUICtrlCreateLabel("B", $BaseX + 170, $BaseY, 20, 20)
 GUICtrlSetFont(-1, $SYN_Font_Size, 900, 0, $SYN_Font_Type)
@@ -448,6 +461,17 @@ While 1
 			If $tempcolor <> 0 Then $CaretLine_Color = $tempcolor
 			GUICtrlSetBkColor($H_CaretLine_Label, $CaretLine_Color)
 			GUICtrlSetData($H_CaretLine_Label, "Caret line Color:" & StringLower($CaretLine_Color))
+
+		Case $rc = $H_Selection_Color
+			$tempcolor = SelectColor($Selection_Color, $Selection_Color)
+			If $tempcolor <> 0 Then $Selection_Color = $tempcolor
+			GUICtrlSetColor($H_Selection_Label, $Selection_Color)
+
+		Case $rc = $H_Selection_BkColor
+			$tempcolor = SelectColor($Selection_BkColor, $Selection_BkColor)
+			If $tempcolor <> 0 Then $Selection_BkColor = $tempcolor
+			GUICtrlSetBkColor($H_Selection_Label, _AlphaFactor($Selection_BkColor))
+
 		Case $rc = $H_SciTE4AutoIT3Updates
 			CheckForUpdates(0)
 	EndSelect
@@ -481,6 +505,12 @@ While 1
 			GUICtrlSetFont($H_Syn_Label[$x], $SYN_Font_Size, 400 + $Syn_Bold[$x] * 200, $Syn_Italic[$x] * 2 + $Syn_Underline[$x] * 4, $SYN_Font_Type)
 		EndIf
 	Next
+
+	; I would normally look for EN_CHANGE but thought this was less complicated
+	If GUICtrlRead($H_Selection_Alpha) <> $Selection_Alpha Then
+		$Selection_Alpha = GUICtrlRead($H_Selection_Alpha)
+		GUICtrlSetBkColor($H_Selection_Label, _AlphaFactor($Selection_BkColor))
+	EndIf
 WEnd
 Exit
 ;
@@ -521,6 +551,8 @@ Func Update_Window()
 	EndIf
 	GUICtrlSetBkColor($H_Background_Label, $Background_Color)
 	GUICtrlSetBkColor($H_CaretLine_Label, $CaretLine_Color)
+	GUICtrlSetColor($H_Selection_Label, $Selection_Color)
+	GUICtrlSetBkColor($H_Selection_Label, _AlphaFactor($Selection_BkColor))
 	For $x = 1 To 16
 		GUICtrlSetColor($H_Syn_Label[$x], $Syn_fColor[$x])
 		If $Syn_bColor_Default[$x] = $GUI_CHECKED Then
@@ -557,6 +589,9 @@ Func Get_Current_config()
 	; Init background colors
 	$Background_Color = "0xffffff"
 	$CaretLine_Color = "0xFF0000"
+	$Selection_Color = ""
+	$Selection_BkColor = ""
+	$Selection_Alpha = 50
 	; init array
 	For $z = 1 To 16
 		$Syn_fColor[$z] = "0x000000"
@@ -583,6 +618,18 @@ Func Get_Current_config()
 			$Background_Color = StringTrimLeft($rest, StringInStr($rest, "back:") + 4)
 			$Background_Color = StringReplace($Background_Color, "#", "0X")
 		EndIf
+	EndIf
+	If $Selection_Color = "" Then
+		$Selection_Color = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:selection.fore")
+		$Selection_Color = StringReplace($Selection_Color, "#", "0X")
+	EndIf
+	If  $Selection_BkColor = "" Then
+		$Selection_BkColor = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:selection.back")
+		$Selection_BkColor = StringReplace($Selection_BkColor, "#", "0X")
+	EndIf
+	If $Selection_Alpha <> 50 Then
+		$Selection_Alpha = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:selection.alpha")
+		$Selection_Alpha = Number($Selection_Alpha)
 	EndIf
 	$CaretLine_Color = SendSciTE_GetInfo($My_Hwnd, $SciTE_hwnd, "askproperty:caret.line.back")
 	$CaretLine_Color = StringReplace($CaretLine_Color, "#", "0X")
@@ -755,6 +802,13 @@ Func Update_SciTE_User($Task)
 			FileWriteLine($H_au3PropNew, "#CaretLineBackground")
 			FileWriteLine($H_au3PropNew, "caret.line.back=#" & StringTrimLeft($CaretLine_Color, 2))
 		EndIf
+
+		; Selection color
+		FileWriteLine($H_au3PropNew, "#Selection Foreground/background and Alpha")
+		FileWriteLine($H_au3PropNew, "selection.fore=#" & StringTrimLeft($Selection_Color, 2))
+		FileWriteLine($H_au3PropNew, "selection.alpha=" & $Selection_Alpha)
+		FileWriteLine($H_au3PropNew, "selection.back=#" & StringTrimLeft($Selection_BkColor, 2))
+
 		;Write bracket color
 ;~ #
 		FileWriteLine($H_au3PropNew, "# Brace highlight")
@@ -877,7 +931,7 @@ Func CheckForUpdates($Silent = 1)
 		If $SciTE4AutoIt3WebDate <> $SciTE4AutoIt3Date Then
 			$msg = "Your SciTE4AutoIt3 version is " & $SciTE4AutoIt3Date & @LF & @LF & _
 					"The latest SciTE4AutoIt3 version is " & $SciTE4AutoIt3WebDate & @LF & @LF & _
-					"Do you want to goto the SciTE4AutoIt3 Download page?"
+					"Do you want to go to the SciTE4AutoIt3 Download page?"
 			If MsgBox(4 + 262144, "New SciTE4AutoIt3 installer available", $msg) = 6 Then
 				Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.shtml", '', @SW_HIDE)
 			EndIf
@@ -885,7 +939,7 @@ Func CheckForUpdates($Silent = 1)
 			; Check for Patch updates
 			If $SciTE4Au3UpdWebDate <> "" And $SciTE4Au3UpdWebDate <> $SciTE4Au3UpdDate Then
 				$msg = "There is a SciTE4Au3Upd installer available dated: " & $SciTE4Au3UpdWebDate & @LF & _
-						"Do you want to goto the SciTE4AutoIt3 Download page?"
+						"Do you want to go to the SciTE4AutoIt3 Download page?"
 				If MsgBox(4 + 262144, "New SciTE4Au3Upd installer available", $msg) = 6 Then
 					Run(@ComSpec & " /c start http://www.autoitscript.com/autoit3/scite/downloads.shtml", '', @SW_HIDE)
 				EndIf
@@ -1191,3 +1245,20 @@ Func RunReqAdmin($Autoit3Commands, $prompt = 1)
 	WEnd
 	FileDelete($temp_Script)
 EndFunc   ;==>RunReqAdmin
+
+; This was my best attempt at getting the alpha value to correctly affect the background colour as is does in SciTE
+Func _AlphaFactor($Colour)
+	Local $iFactor = .8 * (255 - $Selection_Alpha) / 255 ; The .8 is a fudge to make the colour look right - probably a monitor thing
+	Local $aColours[3]
+	Local $Comp = _ColorGetRed($Colour)
+	Local $Inc = (0xFF - $Comp) * $iFactor
+	$aColours[0] = $Comp + $Inc
+	$Comp = _ColorGetGreen($Colour)
+	$Inc = (0xFF - $Comp) * $iFactor
+	$aColours[1] = $Comp + $Inc
+	$Comp = _ColorGetBlue($Colour)
+	$Inc = (0xFF - $Comp) * $iFactor
+	$aColours[2] = $Comp + $Inc
+	Return _ColorSetRGB($aColours)
+EndFunc
+

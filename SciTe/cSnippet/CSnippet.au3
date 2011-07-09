@@ -4,7 +4,7 @@
 #AutoIt3Wrapper_Compression=4
 #AutoIt3Wrapper_Res_Comment=Help in Managing Code Snippets, Original Concept/Code by MikeOsdx, Help interfacing with SciTE by JdeB
 #AutoIt3Wrapper_Res_Description=Code Snippet for SciTE
-#AutoIt3Wrapper_Res_Fileversion=1.0.5.12
+#AutoIt3Wrapper_Res_Fileversion=1.0.5.13
 #AutoIt3Wrapper_Res_LegalCopyright=GaryFrost
 #AutoIt3Wrapper_Res_Field=CompanyName|aka gafrost
 #AutoIt3Wrapper_Res_Field=OriginalFilename|CSnippet.exe
@@ -13,11 +13,15 @@
 #AutoIt3Wrapper_Res_Field=Internal Name|CSnippet.exe
 #AutoIt3Wrapper_Res_Field=Status|Release
 #AutoIt3Wrapper_useupx=n
+#AutoIt3Wrapper_UseX64=n
 #AutoIt3Wrapper_AU3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w 7
 #EndRegion ;**** 参数创建于 AutoIt3Wrapper_GUI ****
 
 ;Code Snippet for SciTE
 #include <GUIConstantsEx.au3>
+#Include <StructureConstants.au3>
+#Include <ToolbarConstants.au3>
+#Include <WindowsConstants.au3>
 #include <file.au3>
 #include <array.au3>
 #include <Inet.au3>
@@ -31,6 +35,7 @@
 #include <GuiToolBar.au3>
 #include <GuiToolTip.au3>
 #include <GuiTreeView.au3>
+#Include <ButtonConstants.au3>
 #include 'Includes\WinAnimate.au3'
 #include "Includes\Menus.au3"
 #include 'Includes\CommCtrl.au3'
@@ -105,7 +110,8 @@ Func _MainListView(ByRef $copy_file)
 	_SizeWindow($PosX, $PosY, $PosW, $PosH, $file) ;Retrieve pos and size of window from INI
 	WinWaitActive("SciTE", "Source", 30)
 	$SciTE = WinGetHandle("SciTE", "Source")
-	$main_GUI = GUICreate("Code Snippet", $PosW, $PosH + 17, $PosX, $PosY, BitOR($WS_THICKFRAME, $WS_SIZEBOX, $WS_OVERLAPPEDWINDOW, $WS_CLIPSIBLINGS), $WS_EX_MDICHILD, $SciTE)
+	;$main_GUI = GUICreate("Code Snippet", $PosW, $PosH + 17, $PosX, $PosY, BitOR($WS_THICKFRAME, $WS_SIZEBOX, $WS_OVERLAPPEDWINDOW, $WS_CLIPSIBLINGS), $WS_EX_MDICHILD, $SciTE)
+	$main_GUI = GUICreate("Code Snippet", $PosW, $PosH + 17, @DesktopWidth-350, $PosY, BitOR($WS_THICKFRAME, $WS_SIZEBOX, $WS_OVERLAPPEDWINDOW, $WS_CLIPSIBLINGS), $WS_EX_MDICHILD, $SciTE)
 	GUIRegisterMsg($WM_GETMINMAXINFO, "MY_WM_GETMINMAXINFO")
 	$hMenuFont = _CreateMenuFont ($main_GUI, 'MS Sans Serif') ; Create a usable font for using in ownerdrawn menus
 	WinSetOnTop($main_GUI, "", 1)
@@ -288,7 +294,7 @@ Func _MainListView(ByRef $copy_file)
 	GUIRegisterMsg($WM_SIZE, "_WinResized")
 	
 	$dll_mem = DllOpen(@SystemDir & "\psapi.dll")
-	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000)
+	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000);AdlibEnable("_ReduceMemory", 60000)
 	While 1
 		
 		$msg = GUIGetMsg()
@@ -650,11 +656,11 @@ Func _MainTreeView(ByRef $copy_file)
 	If Not FileExists(@ScriptDir & '\filetype1.ico') Then FileInstall('filetype1.ico', @ScriptDir & '\filetype1.ico')
 	$export_folder = IniRead($file, "~xx123Data", "ExportDir", @ScriptDir)
 	$import_folder = IniRead($file, "~xx123Data", "ImportDir", @ScriptDir)
-	
+	$PosX = @DesktopWidth-350
 	_SizeWindow($PosX, $PosY, $PosW, $PosH, $file) ;Retrieve pos and size of window from INI
 	WinWaitActive("SciTE", "Source", 30)
 	$SciTE = WinGetHandle("SciTE", "Source")
-	$main_GUI = GUICreate("Code Snippet", $PosW, $PosH + 17, $PosX, $PosY, BitOR($WS_THICKFRAME, $WS_SIZEBOX, $WS_OVERLAPPEDWINDOW, $WS_CLIPSIBLINGS), $WS_EX_MDICHILD, $SciTE)
+	$main_GUI = GUICreate("Code Snippet", $PosW, $PosH + 17, @DesktopWidth-350, $PosY, BitOR($WS_THICKFRAME, $WS_SIZEBOX, $WS_OVERLAPPEDWINDOW, $WS_CLIPSIBLINGS), $WS_EX_MDICHILD, $SciTE)
 	GUIRegisterMsg($WM_GETMINMAXINFO, "MY_WM_GETMINMAXINFO")
 	
 	; remember last clip viewer in queue and set our GUI as first in queue
@@ -834,7 +840,7 @@ Func _MainTreeView(ByRef $copy_file)
 	GUIRegisterMsg($WM_SIZE, "_WinResized")
 	
 	$dll_mem = DllOpen(@SystemDir & "\psapi.dll")
-	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000)
+	If $dll_mem <> - 1 Then AdlibRegister("_ReduceMemory", 60000);AdlibEnable("_ReduceMemory", 60000)
 	While 1
 		
 		$msg = GUIGetMsg()
@@ -1407,10 +1413,24 @@ EndFunc   ;==>ImportSnippet
 ;that has been stored in the Snippets.ini file from the _OnExit() function
 ;=====================================================================================
 Func _SizeWindow(ByRef $PosX, ByRef $PosY, ByRef $PosW, ByRef $PosH, ByRef $file)
-	$PosX = IniRead($file, "~xx123Data", "X", @DesktopWidth - 205)
+	$PosX = IniRead($file, "~xx123Data", "X", @DesktopWidth - 250)
+	If NOT $PosX <10 Then
+		$PosX = @DesktopWidth - 250
+		IniWrite($file, "~xx123Data", "X", $PosX)
+	EndIf
 	$PosY = IniRead($file, "~xx123Data", "Y", 25)
+	If $PosY > @DesktopHeight -30 Then
+		$PosY = 25
+		IniWrite($file, "~xx123Data", "Y", $PosY)
+	EndIf
 	$PosW = IniRead($file, "~xx123Data", "W", 240)
 	$PosH = IniRead($file, "~xx123Data", "H", 528)
+	If $PosH < 0 Then
+		$PosH = 528
+		IniWrite($file, "~xx123Data", "H", $PosH)
+	EndIf
+	If $PosX + $PosW > @DesktopWidth - 50 Then IniWrite($file, "~xx123Data", "X", @DesktopWidth - 250)
+	;ClipPut(@DesktopWidth -$PosW)
 EndFunc   ;==>_SizeWindow
 
 Func _KeepWindowsDocked(ByRef $GUI1, ByRef $GUI2, ByRef $Dock, ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2)

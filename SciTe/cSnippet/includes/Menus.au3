@@ -178,8 +178,6 @@ EndFunc
 ;********************************************************************
 
 Func _GetMenuInfos(ByRef $nS, ByRef $nX)
-	Local $SM_CXSMICON=49
-	Local $SM_CXMENUCHECK=71
 	$nS	= _WinAPI_GetSystemMetrics($SM_CXSMICON)
 	$nX	= _WinAPI_GetSystemMetrics($SM_CXMENUCHECK)
 EndFunc
