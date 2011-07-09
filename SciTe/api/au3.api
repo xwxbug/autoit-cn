@@ -50,51 +50,10 @@ With?4
 #NoTrayIcon?2
 #OnAutoItStartRegister?2
 #RequireAdmin?2
-#AutoIt3Wrapper_Add_Constants?1
-#AutoIt3Wrapper_Au3Check_Parameters?1
-#AutoIt3Wrapper_Au3Check_Stop_OnWarning?1
-#AutoIt3Wrapper_Change2CUI?1
-#AutoIt3Wrapper_Compression?1
-#AutoIt3Wrapper_cvsWrapper_Parameters?1
-#AutoIt3Wrapper_Icon?1
-#AutoIt3Wrapper_OutFile?1
-#AutoIt3Wrapper_OutFile_Type?1
-#AutoIt3Wrapper_PlugIn_Funcs?1
-#AutoIt3Wrapper_Res_Comment?1
-#AutoIt3Wrapper_Res_Description?1
-#AutoIt3Wrapper_Res_Field?1
-#AutoIt3Wrapper_Res_File_Add?1
-#AutoIt3Wrapper_Res_FileVersion?1
-#AutoIt3Wrapper_Res_FileVersion_AutoIncrement?1
-#AutoIt3Wrapper_Res_Icon_Add?1
-#AutoIt3Wrapper_Res_Language?1
-#AutoIt3Wrapper_Res_LegalCopyright?1
-#AutoIt3Wrapper_Res_requestedExecutionLevel?1
-#AutoIt3Wrapper_Res_SaveSource?1
-#AutoIt3Wrapper_Run_After?1
-#AutoIt3Wrapper_Run_Au3Check?1
-#AutoIt3Wrapper_Run_Before?1
-#AutoIt3Wrapper_Run_cvsWrapper?1
-#AutoIt3Wrapper_Run_Debug_Mode?1
-#AutoIt3Wrapper_Run_Obfuscator?1
-#AutoIt3Wrapper_Run_SciTE_Minimized?1
-#AutoIt3Wrapper_Run_SciTE_OutputPane_Minimized?1
-#AutoIt3Wrapper_Run_Tidy?1
-#AutoIt3Wrapper_ShowGUI?1
-#AutoIt3Wrapper_Tidy_Stop_OnError?1
-#AutoIt3Wrapper_UseAnsi?1
-#AutoIt3Wrapper_UseUPX?1
-#AutoIt3Wrapper_UseX64?1
-#AutoIt3Wrapper_Version?1
-#EndRegion?1
+#endregion?1
+#forcedef?1
 #forceref?1
-#Obfuscator_Ignore_Funcs?1
-#Obfuscator_Ignore_Variables?1
-#Obfuscator_Off?1
-#Obfuscator_On?1
-#Obfuscator_Parameters?1
-#Region?1
-#Tidy_Parameters?1
+#region?1
 @AppDataCommonDir?3
 @AppDataDir?3
 @AutoItExe?3
@@ -223,7 +182,7 @@ AutoItSetOption ( "PixelCoordMode", param ) Sets the way coords are used in the 
 AutoItSetOption ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 AutoItSetOption ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
 AutoItSetOption ( "SendKeyDelay", param ) Alters the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
-AutoItSetOption ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses (and many games) you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
+AutoItSetOption ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 AutoItSetOption ( "TCPTimeout", param ) Defines the time before TCP functions stop if no communication. Time in milliseconds before timeout (default=100). 
 AutoItSetOption ( "TrayAutoPause", param ) Script pauses when click on tray icon. 0 = no pause 1 = pause (default). If there is no DefaultMenu no pause will occurs. 
 AutoItSetOption ( "TrayIconDebug", param ) If enabled shows the current script line in the tray icon tip to help debugging. 0 = no debug information (default) 1 = show debug 
@@ -524,7 +483,7 @@ Opt ( "PixelCoordMode", param ) Sets the way coords are used in the pixel functi
 Opt ( "SendAttachMode", param ) Specifies if AutoIt attaches input threads when using Send() function.  When not attaching (default mode=0) detecting the state of capslock/scrolllock and numlock can be unreliable under NT4.  However, when you specify attach mode=1 the Send("{... down/up}") syntax will not work and there may be problems with sending keys to "hung" windows.  ControlSend() ALWAYS attaches and is not affected by this mode. 0 = don't attach (default) 1 = attach 
 Opt ( "SendCapslockMode", param ) Specifies if AutoIt should store the state of capslock before a Send function and restore it afterwards. 0 = don't store/restore 1 = store and restore (default) 
 Opt ( "SendKeyDelay", param ) Alters the length of the brief pause in between sent keystrokes.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
-Opt ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses (and many games) you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
+Opt ( "SendKeyDownDelay", param ) Alters the length of time a key is held down before being released during a keystroke.  For applications that take a while to register keypresses you may need to raise this value from the default.  A value of 0 removes the delay completely. Time in milliseconds to pause (default=5). 
 Opt ( "TCPTimeout", param ) Defines the time before TCP functions stop if no communication. Time in milliseconds before timeout (default=100). 
 Opt ( "TrayAutoPause", param ) Script pauses when click on tray icon. 0 = no pause 1 = pause (default). If there is no DefaultMenu no pause will occurs. 
 Opt ( "TrayIconDebug", param ) If enabled shows the current script line in the tray icon tip to help debugging. 0 = no debug information (default) 1 = show debug 

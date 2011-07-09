@@ -1812,9 +1812,9 @@ Func __WordIsObjType(ByRef $o_object, $s_type)
 				$objectOK = True
 			EndIf
 		Case "application"
-			If $s_Name = "_Application" Then $objectOK = True
+			If $s_Name = "Application" Then $objectOK = True
 		Case "document"
-			If $s_Name = "_Document" Then $objectOK = True
+			If $s_Name = "Document" Then $objectOK = True
 		Case "documents"
 			If $s_Name = "Documents" Then $objectOK = True
 		Case "range"

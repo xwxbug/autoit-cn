@@ -12,7 +12,7 @@ MsgBox(0, "Coin toss", $Msg)
 MsgBox(0, "Roll of die", "You rolled a " & Random(1, 6, 1))
 
 Local $StockPrice = 98
-;In the middle of a stock market simulation game
+;In the middle of a stock market simulation
 Local $StockPriceChange = Random(-10, 10, 1) ; generate an integer between -10 and 10
 $StockPrice = $StockPrice + $StockPriceChange
 If $StockPriceChange < 0 Then

@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.10 第一汉化版
+程序版本:3.3.7.13 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,7 +17,27 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.10 (2011-06-17) 第一汉化版
+3.3.7.13 (2011-07-XX) 第一汉化版
+3.3.7.13 (Beta)
+
+[G][*]修正: ObjName() crash introduced in 3.3.7.12.
+
+
+3.3.7.12 (Beta)
+
+[G][+]新增: Additional flags added to ObjName(). (Plus rewrite of ObjName() from trancexx)
+[G][*]修正: COM regression from previous beta.
+
+3.3.7.11 (Beta)
+
+AutoIt:
+[G][!]更新: PCRE updated to 8.12.
+- Added: COM support for pure "OUT" parameters.
+
+[G][*]修正: Potential memory leak in COM error event code.
+
+UDFs:
+[G][*]修正: #1946: _WordCreate Error.
 
 3.3.7.10 (Beta)
 AutoIt:
