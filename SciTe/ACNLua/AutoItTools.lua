@@ -53,26 +53,6 @@ function AutoItTools:OnStartup()
 		f:close()
 		self.Beta = '1'
 	end
-    -- check if au3.properties needs to be changed
-	--  if 	props['BETA_AUTOIT'] ~= self.Beta then
-	--	print("需要修改 au3.properties: BETA_AUTOIT = " .. self.Beta)
-	--	f = io.open(props['SciteDefaultHome'].."\\属性文件\\au3.properties")
-	--	if f ~= nil then
-	--		self.au3propinfo = f:read('*a')
-	--		f:close()
-	--		-- update the setting for BETA_AUTOIT
-	--		self.au3propinfo = string.gsub(self.au3propinfo,"BETA_AUTOIT=%d","BETA_AUTOIT=" .. self.Beta)
-	--		f = io.open(props['SciteDefaultHome'].."\\属性文件\\au3.properties","w")
-	--		f:write(self.au3propinfo)
-	--		f:close()
-	--		props['BETA_AUTOIT'] = self.Beta
-	--		-- Trigger reload of the properties 
-	--		scite.Open(props['SciteDefaultHome'].."\\属性文件\\au3.properties")
-	--		scite.MenuCommand(IDM_SAVE)
-	--		scite.MenuCommand(IDM_CLOSE)
-	--	end
-	--end
-	--
 	print('->	+++++++++++++++++++++++++++++++++++++++++++++++++')
 	print('+>	+欢迎使用 ACN 中文论坛出品的 AUTOIT V3 汉化版!	+')
 	print('+>	+	--===Http://wWw.AutoItX.cOm===--	+')
@@ -173,6 +153,8 @@ function AutoItTools:DebugMsgBoxAdd()
 		print("光标下没有任何文本")
 		return
 	end
+	local word = word:gsub("\r", "")     -- remove CR
+	local word = word:gsub("\n", "")     -- remove LF
 	local word2 = word:gsub("'", "''")     -- replace quote by 2 quotes
 	local line = editor:LineFromPosition(editor.CurrentPos) + 1
 	editor:LineEnd()
@@ -253,6 +235,8 @@ function AutoItTools:DebugConsoleWriteAdd()
 		print("光标下没有任何文本.")
 		return
 	end
+	local word = word:gsub("\r", "")     -- replace quote by 2 quotes
+	local word = word:gsub("\n", "")     -- replace quote by 2 quotes
 	local word2 = word:gsub("'", "''")     -- replace quote by 2 quotes
 	local line = editor:LineFromPosition(editor.CurrentPos) + 1
 	editor:LineEnd()
@@ -315,35 +299,262 @@ end -- OldCodeGoto()
 -- Creates a function header for an AutoIt 3 function.
 --
 -- Parameters:
---	s - The name of a function.
---	p - The parameters to the function.
+--  s - The name of a function.
+--  p - The parameters to the function.
 --
 -- Returns:
---	A string containing the function header.
+--  A string containing the function header.
 --------------------------------------------------------------------------------
 function AutoItTools:CreateFunctionHeader(s, p)
-	local nl = self:NewLineInUse()
+    -- Change these :)
+    local defAuthor = props['UDFCreator']    -- Initial Author value
+    local defLineMax = 129                   -- Max length of line. AutoIt standard is 129.
+    local defSplit = 21                      -- Default index for '-' after param.
 
-	local res = "; " .. string.rep("=", 67) .. nl .. "; " .. s .. p .. nl .. ";" .. nl .. "; Description." .. nl .. "; Parameters:"
-	local params = false
+    local nl = self:NewLineInUse()
 
-	for byref, parameter, optional in p:gmatch("(%w-)%s*($[%w_]+)%s*([=]?[^,%)]*)") do
-		if parameter ~= "" and parameter ~= nil then
-			params = true
-			if byref ~= "" and byref ~= nil then
-				res = res .. nl .. ";\t" .. parameter .. " - IN/OUT - "
-			elseif optional ~= "" and optional ~= nil then
-				res = res .. nl .. ";\t" .. parameter .. " - IN/OPTIONAL - "
-			else
-				res = res .. nl .. ";\t" .. parameter .. " - IN - "
-			end
-		end
-	end
-	if params == false then
-		res = res .. nl .. ";\tNone."
-	end
-	return res .. nl .. "; Returns:" .. nl .. ";\tNone." .. nl .. "; " .. string.rep("=", 67) .. nl
-end	-- CreateFunctionHeader()
+    local outStart   = "FUNCTION"
+    local outName    = s
+    local outDesc    = ""
+    local outSyntax  = ""
+    local outParams  = ""
+    local outReturn  = "None"
+    local outAuthor  = defAuthor
+    local outModify  = ""
+    local outRemarks = ""
+    local outRelated = ""
+    local outLink    = ""
+    local outExample = "No"
+
+    local name = s
+    local params = p
+
+    if name:sub(0, 2) == "__" then
+        outStart = "INTERNAL_USE_ONLY"
+    end
+
+    outSyntax = name .. "("
+
+    local paramSynt = ""
+    local iOptionals = 0
+    local fBroken = false
+    local sModifiers = ""
+    if params ~= "" and params ~= nil then
+        for byref, parameter, optional in string.gfind(params, "(%w-%s*%w*)%s*($[%w_]+)%s*[=]?%s*(.-)[,%)]") do
+            if parameter ~= "" and parameter ~= nil then
+                if outParams ~= "" then
+                    outParams = outParams .. nl .. ";" .. string.rep(" ", 18)
+                end
+
+                outParams = outParams .. parameter .. string.rep(" ", defSplit - string.len(parameter)) .. "- "
+
+                sModifiers = ""
+                if optional ~= "" and optional ~= nil then
+                    outParams = outParams .. "[optional] "
+
+                    if paramSynt ~= "" then
+                        paramSynt = paramSynt .. "[, "
+                    else
+                        paramSynt = paramSynt .. "["
+                    end
+
+                    iOptionals = iOptionals + 1
+                else
+                    byref = string.gsub(byref:lower(), "%s", "")
+                    if byref ~= "" then
+                        if byref == "byref" then
+                            outParams = outParams .. "[in/out] "
+                            sModifiers = "Byref "
+                        else
+                            if byref == "const" then
+                                outParams = outParams .. "[const] "
+                                sModifiers = "Const "
+                            else
+                                if byref == "byrefconst" or byref == "constbyref" then
+                                    outParams = outParams .. "[in/out and const] "
+                                    sModifiers = "Const Byref "
+                                else
+                                    print("Unrecognised parameter modifiers: '" .. byref .. "'")
+                                end
+                            end
+                        end
+                    end
+
+                    if paramSynt ~= "" then
+                        paramSynt = paramSynt .. ", "
+                    end
+                end
+
+                if fBroken then
+                    if string.len(paramSynt) + string.len(parameter) + iOptionals + 2 + 19 > defLineMax then
+                        outSyntax = outSyntax .. paramSynt .. nl .. ";" .. string.rep(" ", 18)
+                        paramSynt = ""
+                        fBroken = true
+                    end
+                else
+                    if string.len(outSyntax) + string.len(paramSynt) + string.len(parameter) + iOptionals + 2 + 19 > defLineMax then
+                        outSyntax = outSyntax .. paramSynt .. nl .. ";" .. string.rep(" ", 18)
+                        paramSynt = ""
+                        fBroken = true
+                    end
+                end
+                paramSynt = paramSynt .. sModifiers .. parameter
+
+                if optional ~= "" and optional ~= nil then
+                    paramSynt = paramSynt .. " = " .. optional
+                end
+
+                local paramtype = parameter:sub(2, 2)
+                local isarray = false
+                if paramtype == "a" then
+                    paramtype = parameter:sub(3, 3)
+                    isarray = true
+                end
+
+                local sAdd
+                if paramtype == "i" then
+                    sAdd = "integer"
+                elseif paramtype == "f" then
+                    sAdd = "boolean"
+                elseif paramtype == "b" then
+                    sAdd = "binary"
+                elseif paramtype == "n" then
+                    sAdd = "floating point number"
+                elseif paramtype == "s" then
+                    sAdd = "string"
+                elseif paramtype == "h" then
+                    sAdd = "handle"
+                elseif paramtype == "v" then
+                    sAdd = "variant"
+                elseif paramtype == "p" then
+                    sAdd = "pointer"
+                elseif paramtype == "t" then
+                    sAdd = "dll struct"
+                else
+                    sAdd = "unknown"
+                end
+
+                if isarray then
+                    outParams = outParams .. "An array of " .. sAdd .. "s."
+                else
+                    if sAdd:sub(1, 1):find("[AEIOUaeiou]") ~= nil then
+                        outParams = outParams .. "An " .. sAdd .. " value."
+                    else
+                        outParams = outParams .. "A " .. sAdd .. " value."
+                    end
+                end
+
+                if optional ~= "" and optional ~= nil then
+                    outParams = outParams .. " Default is " .. optional .. "."
+                end
+            end
+        end
+    else
+        outParams = "None"
+    end
+
+    outSyntax = outSyntax .. paramSynt .. string.rep("]", iOptionals) .. ")"
+
+    local res = "; #" .. outStart .. "# " .. string.rep("=", defLineMax - 5 - outStart:len()) .. nl
+    res = res .. "; Name ..........: " .. outName .. nl
+    res = res .. "; Description ...: " .. outDesc .. nl
+    res = res .. "; Syntax ........: " .. outSyntax .. nl
+    res = res .. "; Parameters ....: " .. outParams .. nl
+    res = res .. "; Return values .: " .. outReturn .. nl
+    res = res .. "; Author ........: " .. outAuthor .. nl
+    res = res .. "; Modified ......: " .. outModify .. nl
+    res = res .. "; Remarks .......: " .. outRemarks .. nl
+    res = res .. "; Related .......: " .. outRelated .. nl
+    res = res .. "; Link ..........: " .. outLink .. nl
+    res = res .. "; Example .......: " .. outExample .. nl
+    res = res .. "; " .. string.rep("=", defLineMax - 2) .. nl
+
+    return res
+end -- CreateFunctionHeader()
+
+--------------------------------------------------------------------------------
+-- CreateStructureHeader(s, p)
+--
+-- Creates a structure header for an AutoIt 3 struct.
+--
+-- Parameters:
+--  s - The name of a structure.
+--  p - The complete structure definition.
+--
+-- Returns:
+--  A string containing the structure header.
+--------------------------------------------------------------------------------
+function AutoItTools:CreateStructureHeader(s, p)
+    local defAuthor = props['UDFCreator']    -- Initial Author value
+
+    local defLineMax = 129                   -- Max length of line. AutoIt standard is 129.
+    local defSplit = 21                      -- Default index for '-' after param.
+
+    local nl = self:NewLineInUse()
+
+    local outStart   = "STRUCTURE"
+    local outName    = s
+    local outDesc    = ""
+    local outFields  = ""
+    local outAuthor  = defAuthor
+    local outRemarks = ""
+    local outRelated = ""
+
+    local str
+    if p ~= "" and p ~= nil then
+        p = p:sub(p:find("[\"']"), -1)
+
+        for sect in string.gfind(p, "%s*(.-)%s*[;\"']") do
+
+            if sect:match("[Aa][Ll][Ii][Gg][Nn]%s+%d+") then
+                -- Align statement: Ignore
+            else
+                str = sect:match("^%s*&%s*$([%w_]+)%s&%s*$")
+                if str ~= nil then
+                    -- Substruct
+
+                    if outFields ~= "" then
+                        outFields = outFields .. nl .. ";" .. string.rep(" ", 18)
+                    end
+
+                    outFields = outFields .. str .. string.rep(" ", defSplit - string.len(str)) .. "- A $" .. str .. " structure."
+                else
+                    if sect == nil or sect == "" or sect:upper() == "STRUCT" or sect:upper() == "ENDSTRUCT" then
+                        -- Substruct or empty: Ignore
+                    else
+                        local datatype, name = sect:match("^(.-)%s+(.-)$")
+
+                        if outFields ~= "" then
+                            outFields = outFields .. nl .. ";" .. string.rep(" ", 18)
+                        end
+
+                        outFields = outFields .. name .. string.rep(" ", defSplit - string.len(name)) .. "- "
+
+                        if datatype:sub(1, 1):find("[AEIOUaeiou]") ~= nil then
+                            outFields = outFields .. "An "
+                        else
+                            outFields = outFields .. "A "
+                        end
+
+                        outFields = outFields .. datatype .. " value."
+                    end
+                end
+            end
+
+        end
+    end
+
+    local res = "; #" .. outStart .. "# " .. string.rep("=", defLineMax - 5 - outStart:len()) .. nl
+    res = res .. "; Name ..........: " .. outName .. nl
+    res = res .. "; Description ...: " .. outDesc .. nl
+    res = res .. "; Fields ........: " .. outFields .. nl
+    res = res .. "; Author ........: " .. outAuthor .. nl
+    res = res .. "; Remarks .......: " .. outRemarks .. nl
+    res = res .. "; Related .......: " .. outRelated .. nl
+    res = res .. "; " .. string.rep("=", defLineMax - 2) .. nl
+
+    return res
+end -- CreateStructureHeader
 
 --------------------------------------------------------------------------------
 -- InsertFunctionHeader()
@@ -353,32 +564,72 @@ end	-- CreateFunctionHeader()
 -- Tool: AutoItTools.InsertFunctionHeader $(au3) savebefore:no,groupundo:yes Ctrl+Alt+H Insert Function Header
 --------------------------------------------------------------------------------
 function AutoItTools:InsertFunctionHeader()
-	local line, pos = editor:GetCurLine()
-	local pos = editor.CurrentPos - pos
-	local lineNum = editor:LineFromPosition(pos)
-	local from, to, name = line:find("[Ff][Uu][Nn][Cc][%s]*([%w%s_]*)")
-	if to ~= nil then
-		local pfrom, pto, pname = line:find("(%(.-[%)_])")
-		local i = 0
-		if pto ~= nil then
-			while pname:find("_%s*$") do	-- Found an underscore, so need to get the next line, too
-				i = i + 1
-				local tmp = editor:GetLine(lineNum+i)
-				local wfrom = pname:find("_%s*$")
-				local nfrom = tmp:find("[^%s]")
-				pname = pname:sub(1, wfrom-1) .. tmp:sub(nfrom, -1)
-				pname = 	pname:gsub("[\n\r]", "")
-			end
-			editor:Home()
-			editor:AddText(self:CreateFunctionHeader(name,pname))
-		else
-			print("Argument list not found, unable to insert header.")
-		end
-	else
+    local line, pos = editor:GetCurLine()
+    local pos = editor.CurrentPos - pos
+    local lineNum = editor:LineFromPosition(pos)
+    local from, to, name = line:find("[Ff][Uu][Nn][Cc][%s]*([%w%s_]*)")
+    local struct = false
+
+    if to == nil then
+        from, to, name = line:find("[Gg][Ll][Oo][Bb][Aa][Ll]%s+[Cc][Oo][Nn][Ss][Tt]%s+($[%w_]+)")
+        struct = true
+        if to == nil then
+            print("Function or struct definition not found, unable to insert header.")
+            return
+        end
+    end
+
+    -- remove comments from the line
+    from, to =  line:find(";")
+    while from ~= nil do
+        -- print(pos+from .. " type:" .. editor.StyleAt[pos+from])
+        if editor.StyleAt[pos+from] == SCE_AU3_COMMENT then
+            line = string.sub (line, 1 , from-1)   -- remove comment
+            from = nil                             -- exit loop
+        else
+            from, to =  line:find(";",from+1)      -- find next ; as this one is not a comment
+        end
+    end
+    -- print(" line:" .. line)
+    local pfrom, pto = line:find("%(")    -- check for opening parenthesis
+    if struct then
+        pfrom, pto = line:find("[\"']")
+    end
+
+    if pto ~= nil then
+        local i = 0
+        local tmp
+        while line:find("%s+_%s*$") do    -- found a line continuation
+            line = line:gsub("%s+_%s*$", "")    -- remove it
+            i = i + 1
+            pos = editor:PositionFromLine(lineNum+i)    -- set new position
+            tmp = editor:GetLine(lineNum+i)
+            -- remove comments from the line
+            from, to =  tmp:find(";")
+            while from ~= nil do
+                -- print(pos+from .. " type:" .. editor.StyleAt[pos+from])
+                if editor.StyleAt[pos+from] == SCE_AU3_COMMENT then
+                    tmp = string.sub (tmp, 1 , from-1)   -- remove comment
+                    from = nil                             -- exit loop
+                else
+                    from, to =  tmp:find(";",from+1)      -- find next ; as this one is not a comment
+                end
+            end
+            tmp = tmp:gsub("^%s*", "")    -- remove leading white space
+            line = line .. tmp
+        end
+        editor:Home()
+        line = line:gsub("[\r\n]", "")    -- remove line breaks
+        line = line:gsub("[\"']%s*&%s*[\"']", "") -- remove string joins
+        if name:sub(1, 1) == "$" then
+            editor:AddText(self:CreateStructureHeader(name, line))
+        else
+            editor:AddText(self:CreateFunctionHeader(name, line))
+        end
+    else
 		print("函数定义未发现, 不能插入头.")
 	end
-end	-- InsertFunctionHeader()
-
+end -- InsertFunctionHeader()
 --------------------------------------------------------------------------------
 -- ConsoleWritePattern(with_comment)
 --
@@ -1110,24 +1361,30 @@ end
 --------------------------------------------------------------------------------
 function AutoItTools:OnBeforeSave(filename)
 	local sbck = tonumber(props['backup.files'])
-	-- no backup specified
+	-- backup specified and bigger than 0 ?
 	if sbck == nil or sbck == 0 then
 		return false
 	end
 	local nbck = 1
+	local bfil1 = ""
+	if sbck > 1 then
+		bfil1 = ".1"
+	end
+	-- check first file backup file format without number and rename it to *.1.bak
+	if sbck > 1 and io.open (filename.. "." .. ".bak", "r") == nil and io.open (filename.. "." .. ".1.bak", "r") == nil then
+		os.rename (filename .. ".bak", filename .. ".1.bak")
+	end
+	-- rename all files to +1
 	while (sbck > nbck ) do
 		local fn1 = sbck-nbck
 		local fn2 = sbck-nbck+1
 		os.remove (filename.. "." .. fn2 .. ".bak")
-		if fn1 == 1 then
-			os.rename (filename .. ".bak", filename .. "." .. fn2 .. ".bak")
-		else
-			os.rename (filename .. "." .. fn1 .. ".bak", filename .. "." .. fn2 .. ".bak")
-		end
+		os.rename (filename .. "." .. fn1 .. ".bak", filename .. "." .. fn2 .. ".bak")
 		nbck = nbck + 1
 	end
-	os.remove (filename.. "." .. ".bak")
-	os.rename (filename, filename .. ".bak")
+	-- rename original to .1.bak or .bak depending on number of backups
+	os.remove (filename.. bfil1 .. ".bak")
+	os.rename (filename, filename .. bfil1 .. ".bak")
 	return false
 end
 
