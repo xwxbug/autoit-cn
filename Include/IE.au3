@@ -3698,8 +3698,8 @@ Func __IEIsObjType(ByRef $o_object, $s_type)
 			If ($s_Name = "HTMLInputElement") Or ($s_Name = "HTMLSelectElement") Or ($s_Name = "HTMLTextAreaElement") Then $objectOK = True
 		Case "elementcollection"
 			If ($s_Name = "HTMLElementCollection") Then $objectOK = True
-		Case "elementcollection"
-			If ($s_Name = "DispHTMLElementCollection") Then $objectOK = True
+		Case "formselectelement"
+			If $s_Name = "HTMLSelectElement" Then $objectOK = True
 		Case Else
 			; Unsupported ObjType specified
 			Return SetError($_IEStatus_InvalidValue, 2, 0)

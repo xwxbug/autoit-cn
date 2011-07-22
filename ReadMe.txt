@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.13 第一汉化版
+程序版本:3.3.7.14 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,7 +17,15 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.13 (2011-07-XX) 第一汉化版
+
+3.3.7.14 (2011-07-XX) 第一汉化版
+
+[G][*]修正: 3.3.7.8 中对IE.au3的失误修改
+[G][*]修正: #1956: 3.3.7.10 COM error getting reference to document in frame.
+[G][*]修正: Attempts to use values for COM OUT parameters trapped.
+
+
+3.3.7.13 (Beta)
 
 AutoIt:
 [G][*]修正: ObjName() crash introduced in 3.3.7.12.
@@ -37,7 +45,7 @@ SciTe:
 
 AutoIt:
 [G][!]更新: PCRE updated to 8.12.
-- Added: COM support for pure "OUT" parameters.
+[G][+]新增: COM support for pure "OUT" parameters.
 
 [G][*]修正: Potential memory leak in COM error event code.
 
