@@ -19,11 +19,13 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 
 3.3.7.14 (2011-07-XX) 第一汉化版
-
+AutoIt:
 [G][*]修正: 3.3.7.8 中对IE.au3的失误修改
 [G][*]修正: #1956: 3.3.7.10 COM error getting reference to document in frame.
 [G][*]修正: Attempts to use values for COM OUT parameters trapped.
 
+SciTe:
+[G][!]更新: 更新代码迷惑为1.0.29.4
 
 3.3.7.13 (Beta)
 
