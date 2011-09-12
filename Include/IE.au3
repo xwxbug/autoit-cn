@@ -3683,7 +3683,7 @@ Func __IEIsObjType(ByRef $o_object, $s_type)
 				$objectOK = True
 			EndIf
 		Case "browser"
-			If ($s_Name = "IWebBrowser2") Or ($s_Name = "IWebBrowser") Then $objectOK = True
+			If ($s_Name = "IWebBrowser2") Or ($s_Name = "IWebBrowser") Or ($s_Name = "WebBrowser") Then $objectOK = True
 		Case "window"
 			If $s_Name = "HTMLWindow2" Then $objectOK = True
 		Case "documentContainer"

@@ -277,6 +277,7 @@ DirGetSize ( "path" [, flag] ) Returns the size in bytes of a given directory.
 DirMove ( "source dir", "dest dir" [, flag] ) Moves a directory and all sub-directories and files.
 DirRemove ( "path" [, recurse] ) Deletes a directory/folder.
 DllCall ( "dll", "return type", "function" [, type1, param1 [, type n, param n]] ) Dynamically calls a function in a DLL.
+DllCallAddress ( "return type", address [, type1, param1 [, type n, param n]] ) Dynamically calls a function at a specific memory address. <div class="experimental">Warning: This is an advanced function.  Incorrect use of this function may cause AutoIt to crash. Before using this function make sure <a href="DllCall.htm">DllCall()</a> doesn't do what you need.</div>
 DllCallbackFree ( handle ) Frees a previously created handle created with DllCallbackRegister.
 DllCallbackGetPtr ( handle ) Returns the pointer to a callback function that can be passed to the Win32 API.
 DllCallbackRegister ( "function", "return type", "params" ) Creates a user-defined DLL Callback function.
