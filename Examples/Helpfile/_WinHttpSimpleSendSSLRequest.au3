@@ -4,9 +4,9 @@
 
 Opt("MustDeclareVars", 1)
 
-; 欢迎来到加州. 加州机动车局
-Global $sDomain = "eg.dmv.ca.gov"
-Global $sPage = "foa/welcome.do"
+; Windows Live ID. JavaScript required to sign in, remember that.
+Global $sDomain = "accountservices.passport.net"
+Global $sPage = "uiresetpw.srf"
 
 ; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
