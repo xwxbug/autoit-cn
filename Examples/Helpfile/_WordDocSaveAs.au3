@@ -4,12 +4,13 @@
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate ()
-$oDoc = _WordDocGetCollection ($oWordApp, 0)
+
+Local $oWordApp = _WordCreate()
+Local $oDoc = _WordDocGetCollection($oWordApp, 0)
 
 Sleep(3500);延迟以便观察变化
 $oDoc.Range.Text = "这是追加的文本内容."
 Sleep(3500);延迟以便观察变化
 
-_WordDocSaveAs ($oDoc, @ScriptDir & "\Test.doc")
-_WordQuit ($oWordApp)
+_WordDocSaveAs($oDoc, @ScriptDir & "\Test.doc")
+_WordQuit($oWordApp)

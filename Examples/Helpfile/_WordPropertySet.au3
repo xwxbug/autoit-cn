@@ -4,7 +4,8 @@
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate (@ScriptDir & "\Test.doc")
+
+Local $oWordApp = _WordCreate(@ScriptDir & "\Test.doc")
 Sleep(2000)
 _WordPropertySet ($oWordApp, "visible", False);вўВи
 Sleep(2000)

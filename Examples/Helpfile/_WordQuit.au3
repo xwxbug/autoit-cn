@@ -4,8 +4,9 @@
 ; *******************************************************
 ;
 #include <Word.au3>
-$oWordApp = _WordCreate (@ScriptDir & "\Test.doc", 0, 0)
+
+Local $oWordApp = _WordCreate(@ScriptDir & "\Test.doc", 0, 0)
 ; 显示获取的文本内容
-$sText = $oWordApp.ActiveDocument.Range.Text
+Local $sText = $oWordApp.ActiveDocument.Range.Text
 MsgBox(0, "获取文本内容", $sText)
-_WordQuit ($oWordApp)
+_WordQuit($oWordApp)

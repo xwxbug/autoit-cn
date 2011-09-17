@@ -4,8 +4,9 @@
 ; *******************************************************
 ;
 #include <IE.au3>
-$oIE = _IECreate ("http://sourceforge.net", 0, 0)
+
+Local $oIE = _IECreate("http://sourceforge.net", 0, 0)
 ; 显示这个页面中名称是"sfmarquee"元素的innerText
-$oMarquee = _IEGetObjByName ($oIE, "sfmarquee")
+Local $oMarquee = _IEGetObjByName($oIE, "sfmarquee")
 MsgBox(0, "SourceForge 信息", $oMarquee.innerText)
-_IEQuit ($oIE)
+_IEQuit($oIE)

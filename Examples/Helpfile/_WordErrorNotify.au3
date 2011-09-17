@@ -3,10 +3,11 @@
 ; *******************************************************
 ;
 #include <Word.au3>
-If _WordErrorNotify () Then
+
+If _WordErrorNotify() Then
 	MsgBox(0, "_WordErrorNotify 状态", "状态为打开, 关闭它.")
-	_WordErrorNotify (1)
+	_WordErrorNotify(1)
 Else
 	MsgBox(0, "_WordErrorNotify 状态", "状态为关闭, 打开它.")
-	_WordErrorNotify (0)
+	_WordErrorNotify(0)
 EndIf

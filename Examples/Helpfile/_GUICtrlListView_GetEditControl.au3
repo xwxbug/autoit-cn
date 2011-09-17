@@ -1,24 +1,21 @@
-#AutoIt3Wrapper_au3check_parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
-Opt('MustDeclareVars', 1)
-
 $Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
-Global $hListView
+Global $hListView, $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hImage
-	
-	GUICreate("ListView Get Edit Control", 400, 300)
-	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268, BitOR($LVS_EDITLABELS, $LVS_REPORT))
+	Local $hGui, $hImage
+
+	$hGui = GUICreate("ListView Get Edit Control", 400, 300)
+	$hListView = _GUICtrlListView_Create($hGui, "", 2, 2, 394, 1188, BitOR($LVS_EDITLABELS, $LVS_REPORT))
+	$iMemo = GUICtrlCreateEdit("", 2, 124, 396, 174, 0)
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_DOUBLEBUFFER))
-	_GUICtrlListView_SetUnicodeFormat($hListView, False)
 	GUISetState()
 
 	; Load images
@@ -43,10 +40,11 @@ Func _Main()
 
 	; Edit item 0 label with time out
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-	
+
 	_GUICtrlListView_EditLabel($hListView, 0)
-	_DebugPrint("Edit Handle: " & _GUICtrlListView_GetEditControl($hListView))
-	
+	MemoWrite("Edit Handle: 0x" & Hex(_GUICtrlListView_GetEditControl($hListView)) & _
+			" IsPtr = " & IsPtr(_GUICtrlListView_GetEditControl($hListView)) & " IsHwnd = " & IsHWnd(_GUICtrlListView_GetEditControl($hListView)))
+
 	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
@@ -65,7 +63,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $hWndFrom
 		Case $hWndListView
 			Switch $iCode
-				Case $LVN_BEGINLABELEDIT, $LVN_BEGINLABELEDITW ; Start of label editing for an item
+				Case $LVN_BEGINLABELEDITA, $LVN_BEGINLABELEDITW ; Start of label editing for an item
 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 					_DebugPrint("$LVN_BEGINLABELEDIT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
@@ -97,7 +95,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
 					; No return value
-				Case $LVN_ENDLABELEDIT, $LVN_ENDLABELEDITW ; The end of label editing for an item
+				Case $LVN_ENDLABELEDITA, $LVN_ENDLABELEDITW ; The end of label editing for an item
 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 					If (DllStructGetData($tInfo, "Text") <> 0) Then
 						Local $tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))
@@ -209,3 +207,8 @@ Func _DebugPrint($s_text, $line = @ScriptLineNumber)
 			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
 			"+======================================================" & @LF)
 EndFunc   ;==>_DebugPrint
+
+; Write a line to the memo control
+Func MemoWrite($sMessage)
+	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
+EndFunc   ;==>MemoWrite

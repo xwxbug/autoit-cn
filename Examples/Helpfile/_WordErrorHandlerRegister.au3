@@ -4,29 +4,29 @@
 ;
 #include <Word.au3>
 ; 注册自定义的错误句柄
-_WordErrorHandlerRegister ("MyErrFunc")
+_WordErrorHandlerRegister("MyErrFunc")
 ; Do something
 ; Deregister the customer error handler
-_WordErrorHandlerDeregister ()
+_WordErrorHandlerDeRegister()
 ; Do something else
 ; Register the default IE.au3 COM Error Handler
-_WordErrorHandlerRegister ()
+_WordErrorHandlerRegister()
 ; Do more work
 
 Exit
 
 Func MyErrFunc()
 	;重要：错误对象变量必须命名为 $oWordErrorHandler
-	$ErrorScriptline = $oWordErrorHandler.scriptline
-	$ErrorNumber = $oWordErrorHandler.number
-	$ErrorNumberHex = Hex($oWordErrorHandler.number, 8)
-	$ErrorDescription = StringStripWS($oWordErrorHandler.description, 2)
-	$ErrorWinDescription = StringStripWS($oWordErrorHandler.WinDescription, 2)
-	$ErrorSource = $oWordErrorHandler.Source
-	$ErrorHelpFile = $oWordErrorHandler.HelpFile
-	$ErrorHelpContext = $oWordErrorHandler.HelpContext
-	$ErrorLastDllError = $oWordErrorHandler.LastDllError
-	$ErrorOutput = ""
+	Local $ErrorScriptline = $oWordErrorHandler.scriptline
+	Local $ErrorNumber = $oWordErrorHandler.number
+	Local $ErrorNumberHex = Hex($oWordErrorHandler.number, 8)
+	Local $ErrorDescription = StringStripWS($oWordErrorHandler.description, 2)
+	Local $ErrorWinDescription = StringStripWS($oWordErrorHandler.WinDescription, 2)
+	Local $ErrorSource = $oWordErrorHandler.Source
+	Local $ErrorHelpFile = $oWordErrorHandler.HelpFile
+	Local $ErrorHelpContext = $oWordErrorHandler.HelpContext
+	Local $ErrorLastDllError = $oWordErrorHandler.LastDllError
+	Local $ErrorOutput = ""
 	$ErrorOutput &= "--> COM Error Encountered in " & @ScriptName & @CR
 	$ErrorOutput &= "----> $ErrorScriptline = " & $ErrorScriptline & @CR
 	$ErrorOutput &= "----> $ErrorNumberHex = " & $ErrorNumberHex & @CR
