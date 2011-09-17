@@ -1,4 +1,4 @@
-#Include <Constants.au3>
+#Include <APIConstants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
@@ -14,7 +14,7 @@ Dim $aVertex[2][3] = [[0, 0, 0xAA00FF], [400, 400, 0x33004D]]
 
 OnAutoItExitRegister('OnAutoItExit')
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 $Pic = GUICtrlCreatePic('', 0, 0, 400, 400)
 GUICtrlSetCursor(-1, 0)
@@ -23,15 +23,15 @@ $Label = GUICtrlCreateLabel('', 176, 176, 48, 48)
 GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 $hLabel = GUICtrlGetHandle($Label)
 
-; Extract icon
+; 提取图标
 $hIcon = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 130, 48, 48)
 
-; Register label window proc
+; 注册标签窗口过程
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
 $hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
 
-; Create gradient
+; 创建渐变
 $hDC = _WinAPI_GetDC($hPic)
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmap($hDC, 400, 400)
@@ -42,7 +42,7 @@ _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hDestDC, $hDestSv)
 _WinAPI_DeleteDC($hDestDC)
 
-; Set gradient to control
+; 设置渐变到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

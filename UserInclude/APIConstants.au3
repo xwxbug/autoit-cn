@@ -4,28 +4,624 @@
 
     Title:          API Constants UDF Library for AutoIt3
     Filename:       APIConstants.au3
-    Description:    Constants to be used with WinAPIEx UDF library.
+    Description:    Constants that can be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.3 / 3.3.6.1
+    Version:        3.4 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
-    Uses:           WindowsConstants.au3
+    Uses:           BorderConstants.au3, Constants.au3, FileConstants.au3, FontConstants.au3, FrameConstants.au3, MemoryConstants.au3, MenuConstants.au3, ProcessConstants.au3, SecurityConstants.au3, WindowsConstants.au3
     Note:           -
 
 #ce
 
 #Include-once
 
+#Include <BorderConstants.au3>
+#Include <Constants.au3>
+#Include <FileConstants.au3>
+#Include <FontConstants.au3>
+#Include <FrameConstants.au3>
+#Include <MemoryConstants.au3>
+#Include <MenuConstants.au3>
+#Include <ProcessConstants.au3>
+#Include <SecurityConstants.au3>
 #Include <WindowsConstants.au3>
 
 #EndRegion Header
 
-#Region Initialization
-
-Global Const $__WINVER = __Ver()
-
-#EndRegion Initialization
-
 #Region Global Variables and Constants
+
+; ===============================================================================================================================
+; Standard Access Rights
+; ===============================================================================================================================
+
+Global Const $DELETE = 0x00010000
+Global Const $READ_CONTROL = 0x00020000
+Global Const $SYNCHRONIZE = 0x00100000
+Global Const $WRITE_DAC = 0x00040000
+Global Const $WRITE_OWNER = 0x00080000
+
+Global Const $STANDARD_RIGHTS_ALL = BitOR($DELETE, $READ_CONTROL, $SYNCHRONIZE, $WRITE_DAC, $WRITE_OWNER)
+Global Const $STANDARD_RIGHTS_EXECUTE = $READ_CONTROL
+Global Const $STANDARD_RIGHTS_READ = $READ_CONTROL
+Global Const $STANDARD_RIGHTS_REQUIRED = BitOR($DELETE, $READ_CONTROL, $WRITE_DAC, $WRITE_OWNER)
+Global Const $STANDARD_RIGHTS_WRITE = $READ_CONTROL
+
+; ===============================================================================================================================
+; Window Classes
+; ===============================================================================================================================
+
+Global Const $WC_ANIMATE = 'SysAnimate32'
+Global Const $WC_BUTTON = 'Button'
+Global Const $WC_COMBOBOX = 'ComboBox'
+Global Const $WC_COMBOBOXEX = 'ComboBoxEx32'
+Global Const $WC_DATETIMEPICK = 'SysDateTimePick32'
+Global Const $WC_EDIT = 'Edit'
+Global Const $WC_HEADER = 'SysHeader32'
+Global Const $WC_HOTKEY = 'msctls_hotkey32'
+Global Const $WC_IPADDRESS = 'SysIPAddress32'
+Global Const $WC_LINK = 'SysLink'
+Global Const $WC_LISTBOX = 'ListBox'
+Global Const $WC_LISTVIEW = 'SysListView32'
+Global Const $WC_MONTHCAL = 'SysMonthCal32'
+Global Const $WC_NATIVEFONTCTL = 'NativeFontCtl'
+Global Const $WC_PAGESCROLLER = 'SysPager'
+Global Const $WC_PROGRESS = 'msctls_progress32'
+Global Const $WC_REBAR = 'ReBarWindow32'
+Global Const $WC_SCROLLBAR = 'ScrollBar'
+Global Const $WC_STATIC = 'Static'
+Global Const $WC_STATUSBAR = 'msctls_statusbar32'
+Global Const $WC_TABCONTROL = 'SysTabControl32'
+Global Const $WC_TOOLBAR = 'ToolbarWindow32'
+Global Const $WC_TOOLTIPS = 'tooltips_class32'
+Global Const $WC_TRACKBAR = 'msctls_trackbar32'
+Global Const $WC_TREEVIEW = 'SysTreeView32'
+Global Const $WC_UPDOWN = 'msctls_updown32'
+
+; ===============================================================================================================================
+; Window Messages
+; ===============================================================================================================================
+
+Global Const $WM_NULL = 0x0000
+;Global Const $WM_CREATE = 0x0001
+;Global Const $WM_DESTROY = 0x0002
+;Global Const $WM_MOVE = 0x0003
+Global Const $WM_SIZEWAIT = 0x0004
+;Global Const $WM_SIZE = 0x0005
+;Global Const $WM_ACTIVATE = 0x0006
+;Global Const $WM_SETFOCUS = 0x0007
+;Global Const $WM_KILLFOCUS = 0x0008
+Global Const $WM_SETVISIBLE = 0x0009
+;Global Const $WM_ENABLE = 0x000A
+;Global Const $WM_SETREDRAW = 0x000B
+;Global Const $WM_SETTEXT = 0x000C
+;Global Const $WM_GETTEXT = 0x000D
+;Global Const $WM_GETTEXTLENGTH = 0x000E
+;Global Const $WM_PAINT = 0x000F
+;Global Const $WM_CLOSE = 0x0010
+Global Const $WM_QUERYENDSESSION = 0x0011
+;Global Const $WM_QUIT = 0x0012
+Global Const $WM_QUERYOPEN = 0x0013
+;Global Const $WM_ERASEBKGND = 0x0014
+;Global Const $WM_SYSCOLORCHANGE = 0x0015
+Global Const $WM_ENDSESSION = 0x0016
+Global Const $WM_SYSTEMERROR = 0x0017
+;Global Const $WM_SHOWWINDOW = 0x0018
+;Global Const $WM_CTLCOLOR = 0x0019
+Global Const $WM_SETTINGCHANGE = 0x001A
+;Global Const $WM_DEVMODECHANGE = 0x001B
+;Global Const $WM_ACTIVATEAPP = 0x001C
+;Global Const $WM_FONTCHANGE = 0x001D
+;Global Const $WM_TIMECHANGE = 0x001E
+;Global Const $WM_CANCELMODE = 0x001F
+;Global Const $WM_SETCURSOR = 0x0020
+;Global Const $WM_MOUSEACTIVATE = 0x0021
+;Global Const $WM_CHILDACTIVATE = 0x0022
+;Global Const $WM_QUEUESYNC = 0x0023
+;Global Const $WM_GETMINMAXINFO = 0x0024
+Global Const $WM_LOGOFF = 0x0025
+;Global Const $WM_PAINTICON = 0x0026
+;Global Const $WM_ICONERASEBKGND = 0x0027
+;Global Const $WM_NEXTDLGCTL = 0x0028
+Global Const $WM_ALTTABACTIVE = 0x0029
+;Global Const $WM_SPOOLERSTATUS = 0x002A
+;Global Const $WM_DRAWITEM = 0x002B
+;Global Const $WM_MEASUREITEM = 0x002C
+;Global Const $WM_DELETEITEM = 0x002D
+;Global Const $WM_VKEYTOITEM = 0x002E
+;Global Const $WM_CHARTOITEM = 0x002F
+;Global Const $WM_SETFONT = 0x0030
+;Global Const $WM_GETFONT = 0x0031
+;Global Const $WM_SETHOTKEY = 0x0032
+;Global Const $WM_GETHOTKEY = 0x0033
+Global Const $WM_FILESYSCHANGE = 0x0034
+Global Const $WM_ISACTIVEICON = 0x0035
+Global Const $WM_QUERYPARKICON = 0x0036
+;Global Const $WM_QUERYDRAGICON = 0x0037
+Global Const $WM_WINHELP = 0x0038
+;Global Const $WM_COMPAREITEM = 0x0039
+Global Const $WM_FULLSCREEN = 0x003A
+Global Const $WM_CLIENTSHUTDOWN = 0x003B
+Global Const $WM_DDEMLEVENT = 0x003C
+;Global Const $WM_GETOBJECT = 0x003D
+Global Const $WM_CALCSCROLL = 0x003F
+Global Const $WM_TESTING = 0x0040
+;Global Const $WM_COMPACTING = 0x0041
+Global Const $WM_OTHERWINDOWCREATED = 0x0042
+Global Const $WM_OTHERWINDOWDESTROYED = 0x0043
+;Global Const $WM_COMMNOTIFY = 0x0044
+Global Const $WM_MEDIASTATUSCHANGE = 0x0045
+;Global Const $WM_WINDOWPOSCHANGING = 0x0046
+;Global Const $WM_WINDOWPOSCHANGED = 0x0047
+;Global Const $WM_POWER = 0x0048
+Global Const $WM_COPYGLOBALDATA = 0x0049
+;Global Const $WM_COPYDATA = 0x004A
+;Global Const $WM_CANCELJOURNAL = 0x004B
+Global Const $WM_LOGONNOTIFY = 0x004C
+Global Const $WM_KEYF1 = 0x004D
+;Global Const $WM_NOTIFY = 0x004E
+Global Const $WM_ACCESS_WINDOW = 0x004F
+;Global Const $WM_INPUTLANGCHANGEREQUEST = 0x0050
+;Global Const $WM_INPUTLANGCHANGE = 0x0051
+;Global Const $WM_TCARD = 0x0052
+;Global Const $WM_HELP = 0x0053
+;Global Const $WM_USERCHANGED = 0x0054
+;Global Const $WM_NOTIFYFORMAT = 0x0055
+Global Const $WM_QM_ACTIVATE = 0x0060
+Global Const $WM_HOOK_DO_CALLBACK = 0x0061
+Global Const $WM_SYSCOPYDATA = 0x0062
+Global Const $WM_FINALDESTROY = 0x0070
+Global Const $WM_MEASUREITEM_CLIENTDATA = 0x0071
+;Global Const $WM_CONTEXTMENU = 0x007B
+;Global Const $WM_STYLECHANGING = 0x007C
+;Global Const $WM_STYLECHANGED = 0x007D
+;Global Const $WM_DISPLAYCHANGE = 0x007E
+;Global Const $WM_GETICON = 0x007F
+;Global Const $WM_SETICON = 0x0080
+;Global Const $WM_NCCREATE = 0x0081
+;Global Const $WM_NCDESTROY = 0x0082
+;Global Const $WM_NCCALCSIZE = 0x0083
+;Global Const $WM_NCHITTEST = 0x0084
+;Global Const $WM_NCPAINT = 0x0085
+;Global Const $WM_NCACTIVATE = 0x0086
+;Global Const $WM_GETDLGCODE = 0x0087
+;Global Const $WM_SYNCPAINT = 0x0088
+Global Const $WM_SYNCTASK = 0x0089
+Global Const $WM_KLUDGEMINRECT = 0x008B
+Global Const $WM_LPKDRAWSWITCHWND = 0x008C
+Global Const $WM_UAHDESTROYWINDOW = 0x0090
+Global Const $WM_UAHDRAWMENU = 0x0091
+Global Const $WM_UAHDRAWMENUITEM = 0x0092
+Global Const $WM_UAHINITMENU = 0x0093
+Global Const $WM_UAHMEASUREMENUITEM = 0x0094
+Global Const $WM_UAHNCPAINTMENUPOPUP = 0x0095
+;Global Const $WM_NCMOUSEMOVE = 0x00A0
+;Global Const $WM_NCLBUTTONDOWN = 0x00A1
+;Global Const $WM_NCLBUTTONUP = 0x00A2
+;Global Const $WM_NCLBUTTONDBLCLK = 0x00A3
+;Global Const $WM_NCRBUTTONDOWN = 0x00A4
+;Global Const $WM_NCRBUTTONUP = 0x00A5
+;Global Const $WM_NCRBUTTONDBLCLK = 0x00A6
+;Global Const $WM_NCMBUTTONDOWN = 0x00A7
+;Global Const $WM_NCMBUTTONUP = 0x00A8
+;Global Const $WM_NCMBUTTONDBLCLK = 0x00A9
+Global Const $WM_NCXBUTTONDOWN = 0x00AB
+Global Const $WM_NCXBUTTONUP = 0x00AC
+Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
+Global Const $WM_NCUAHDRAWCAPTION = 0x00AE
+Global Const $WM_NCUAHDRAWFRAME = 0x00AF
+Global Const $WM_INPUT_DEVICE_CHANGE = 0x00FE
+Global Const $WM_INPUT = 0x00FF
+;Global Const $WM_KEYDOWN = 0x0100
+;Global Const $WM_KEYUP = 0x0101
+;Global Const $WM_CHAR = 0x0102
+;Global Const $WM_DEADCHAR = 0x0103
+;Global Const $WM_SYSKEYDOWN = 0x0104
+;Global Const $WM_SYSKEYUP = 0x0105
+;Global Const $WM_SYSCHAR = 0x0106
+;Global Const $WM_SYSDEADCHAR = 0x0107
+Global Const $WM_YOMICHAR = 0x0108
+Global Const $WM_UNICHAR = 0x0109
+Global Const $WM_CONVERTREQUEST = 0x010A
+Global Const $WM_CONVERTRESULT = 0x010B
+Global Const $WM_IM_INFO = 0x010C
+Global Const $WM_IME_STARTCOMPOSITION = 0x010D
+Global Const $WM_IME_ENDCOMPOSITION = 0x010E
+Global Const $WM_IME_COMPOSITION = 0x010F
+;Global Const $WM_INITDIALOG = 0x0110
+;Global Const $WM_COMMAND = 0x0111
+;Global Const $WM_SYSCOMMAND = 0x0112
+;Global Const $WM_TIMER = 0x0113
+;Global Const $WM_HSCROLL = 0x0114
+;Global Const $WM_VSCROLL = 0x0115
+;Global Const $WM_INITMENU = 0x0116
+;Global Const $WM_INITMENUPOPUP = 0x0117
+Global Const $WM_SYSTIMER = 0x0118
+Global Const $WM_GESTURE = 0x0119
+Global Const $WM_GESTURENOTIFY = 0x011A
+Global Const $WM_GESTUREINPUT = 0x011B
+Global Const $WM_GESTURENOTIFIED = 0x011C
+;Global Const $WM_MENUSELECT = 0x011F
+;Global Const $WM_MENUCHAR = 0x0120
+;Global Const $WM_ENTERIDLE = 0x0121
+;Global Const $WM_MENURBUTTONUP = 0x0122
+;Global Const $WM_MENUDRAG = 0x0123
+;Global Const $WM_MENUGETOBJECT = 0x0124
+;Global Const $WM_UNINITMENUPOPUP = 0x0125
+;Global Const $WM_MENUCOMMAND = 0x0126
+;Global Const $WM_CHANGEUISTATE = 0x0127
+;Global Const $WM_UPDATEUISTATE = 0x0128
+;Global Const $WM_QUERYUISTATE = 0x0129
+Global Const $WM_LBTRACKPOINT = 0x0131
+;Global Const $WM_CTLCOLORMSGBOX = 0x0132
+;Global Const $WM_CTLCOLOREDIT = 0x0133
+;Global Const $WM_CTLCOLORLISTBOX = 0x0134
+;Global Const $WM_CTLCOLORBTN = 0x0135
+;Global Const $WM_CTLCOLORDLG = 0x0136
+;Global Const $WM_CTLCOLORSCROLLBAR = 0x0137
+;Global Const $WM_CTLCOLORSTATIC = 0x0138
+;Global Const $WM_MOUSEMOVE = 0x0200
+;Global Const $WM_LBUTTONDOWN = 0x0201
+;Global Const $WM_LBUTTONUP = 0x0202
+;Global Const $WM_LBUTTONDBLCLK = 0x0203
+;Global Const $WM_RBUTTONDOWN = 0x0204
+;Global Const $WM_RBUTTONUP = 0x0205
+Global Const $WM_RBUTTONDBLCLK = 0x0206
+;Global Const $WM_MBUTTONDOWN = 0x0207
+;Global Const $WM_MBUTTONUP = 0x0208
+Global Const $WM_MBUTTONDBLCLK = 0x0209
+;Global Const $WM_MOUSEWHEEL = 0x020A
+;Global Const $WM_XBUTTONDOWN = 0x020B
+;Global Const $WM_XBUTTONUP = 0x020C
+;Global Const $WM_XBUTTONDBLCLK = 0x020D
+;Global Const $WM_MOUSEHWHEEL = 0x020E
+Global Const $WM_PARENTNOTIFY = 0x0210
+Global Const $WM_ENTERMENULOOP = 0x0211
+Global Const $WM_EXITMENULOOP = 0x0212
+Global Const $WM_NEXTMENU = 0x0213
+;Global Const $WM_SIZING = 0x0214
+Global Const $WM_CAPTURECHANGED = 0x0215
+Global Const $WM_MOVING = 0x0216
+Global Const $WM_POWERBROADCAST = 0x0218
+Global Const $WM_DEVICECHANGE = 0x0219
+Global Const $WM_MDICREATE = 0x0220
+Global Const $WM_MDIDESTROY = 0x0221
+Global Const $WM_MDIACTIVATE = 0x0222
+Global Const $WM_MDIRESTORE = 0x0223
+Global Const $WM_MDINEXT = 0x0224
+Global Const $WM_MDIMAXIMIZE = 0x0225
+Global Const $WM_MDITILE = 0x0226
+Global Const $WM_MDICASCADE = 0x0227
+Global Const $WM_MDIICONARRANGE = 0x0228
+Global Const $WM_MDIGETACTIVE = 0x0229
+Global Const $WM_DROPOBJECT = 0x022A
+Global Const $WM_QUERYDROPOBJECT = 0x022B
+Global Const $WM_BEGINDRAG = 0x022C
+Global Const $WM_DRAGLOOP = 0x022D
+Global Const $WM_DRAGSELECT = 0x022E
+Global Const $WM_DRAGMOVE = 0x022F
+Global Const $WM_MDISETMENU = 0x0230
+Global Const $WM_ENTERSIZEMOVE = 0x0231
+Global Const $WM_EXITSIZEMOVE = 0x0232
+Global Const $WM_DROPFILES = 0x0233
+Global Const $WM_MDIREFRESHMENU = 0x0234
+Global Const $WM_TOUCH = 0x0240
+Global Const $WM_IME_SETCONTEXT = 0x0281
+Global Const $WM_IME_NOTIFY = 0x0282
+Global Const $WM_IME_CONTROL = 0x0283
+Global Const $WM_IME_COMPOSITIONFULL = 0x0284
+Global Const $WM_IME_SELECT = 0x0285
+Global Const $WM_IME_CHAR = 0x0286
+Global Const $WM_IME_SYSTEM = 0x0287
+Global Const $WM_IME_REQUEST = 0x0288
+Global Const $WM_IME_KEYDOWN = 0x0290
+Global Const $WM_IME_KEYUP = 0x0291
+Global Const $WM_NCMOUSEHOVER = 0x02A0
+Global Const $WM_MOUSEHOVER = 0x02A1
+Global Const $WM_NCMOUSELEAVE = 0x02A2
+Global Const $WM_MOUSELEAVE = 0x02A3
+Global Const $WM_WTSSESSION_CHANGE = 0x02B1
+Global Const $WM_TABLET_FIRST = 0x02C0
+Global Const $WM_TABLET_LAST = 0x02DF
+;Global Const $WM_CUT = 0x0300
+;Global Const $WM_COPY = 0x0301
+;Global Const $WM_PASTE = 0x0302
+;Global Const $WM_CLEAR = 0x0303
+;Global Const $WM_UNDO = 0x0304
+;Global Const $WM_RENDERFORMAT = 0x0305
+;Global Const $WM_RENDERALLFORMATS = 0x0306
+;Global Const $WM_DESTROYCLIPBOARD = 0x0307
+;Global Const $WM_DRAWCLIPBOARD = 0x0308
+;Global Const $WM_PAINTCLIPBOARD = 0x0309
+;Global Const $WM_VSCROLLCLIPBOARD = 0x030A
+;Global Const $WM_SIZECLIPBOARD = 0x030B
+;Global Const $WM_ASKCBFORMATNAME = 0x030C
+;Global Const $WM_CHANGECBCHAIN = 0x030D
+;Global Const $WM_HSCROLLCLIPBOARD = 0x030E
+Global Const $WM_QUERYNEWPALETTE = 0x030F
+Global Const $WM_PALETTEISCHANGING = 0x0310
+Global Const $WM_PALETTECHANGED = 0x0311
+Global Const $WM_HOTKEY = 0x0312
+Global Const $WM_SYSMENU = 0x0313
+Global Const $WM_HOOKMSG = 0x0314
+Global Const $WM_EXITPROCESS = 0x0315
+Global Const $WM_WAKETHREAD = 0x0316
+Global Const $WM_PRINT = 0x0317
+Global Const $WM_PRINTCLIENT = 0x0318
+Global Const $WM_APPCOMMAND = 0x0319
+Global Const $WM_THEMECHANGED = 0x031A
+Global Const $WM_UAHINIT = 0x031B
+Global Const $WM_DESKTOPNOTIFY = 0x031C
+Global Const $WM_CLIPBOARDUPDATE = 0x031D
+Global Const $WM_DWMCOMPOSITIONCHANGED = 0x031E
+Global Const $WM_DWMNCRENDERINGCHANGED = 0x031F
+Global Const $WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320
+Global Const $WM_DWMWINDOWMAXIMIZEDCHANGE = 0x0321
+Global Const $WM_DWMEXILEFRAME = 0x0322
+Global Const $WM_DWMSENDICONICTHUMBNAIL = 0x0323
+Global Const $WM_MAGNIFICATION_STARTED = 0x0324
+Global Const $WM_MAGNIFICATION_ENDED = 0x0325
+Global Const $WM_DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326
+Global Const $WM_DWMTHUMBNAILSIZECHANGED = 0x0327
+Global Const $WM_MAGNIFICATION_OUTPUT = 0x0328
+Global Const $WM_MEASURECONTROL = 0x0330
+Global Const $WM_GETACTIONTEXT = 0x0331
+Global Const $WM_FORWARDKEYDOWN = 0x0333
+Global Const $WM_FORWARDKEYUP = 0x0334
+Global Const $WM_GETTITLEBARINFOEX = 0x033F
+Global Const $WM_NOTIFYWOW = 0x0340
+Global Const $WM_HANDHELDFIRST = 0x0358
+Global Const $WM_HANDHELDLAST = 0x035F
+Global Const $WM_AFXFIRST = 0x0360
+Global Const $WM_AFXLAST = 0x037F
+Global Const $WM_PENWINFIRST = 0x0380
+Global Const $WM_PENWINLAST = 0x038F
+Global Const $WM_DDE_INITIATE = 0x03E0
+Global Const $WM_DDE_TERMINATE = 0x03E1
+Global Const $WM_DDE_ADVISE = 0x03E2
+Global Const $WM_DDE_UNADVISE = 0x03E3
+Global Const $WM_DDE_ACK = 0x03E4
+Global Const $WM_DDE_DATA = 0x03E5
+Global Const $WM_DDE_REQUEST = 0x03E6
+Global Const $WM_DDE_POKE = 0x03E7
+Global Const $WM_DDE_EXECUTE = 0x03E8
+Global Const $WM_DBNOTIFICATION = 0x03FD
+Global Const $WM_NETCONNECT = 0x03FE
+Global Const $WM_HIBERNATE = 0x03FF
+;Global Const $WM_USER = 0x0400
+
+; ===============================================================================================================================
+; DEVMODE structure
+; ===============================================================================================================================
+
+Global Const $DM_BITSPERPEL = 0x00040000
+Global Const $DM_COLLATE = 0x0008000
+Global Const $DM_COLOR = 0x00000800
+Global Const $DM_COPIES = 0x00000100
+Global Const $DM_DEFAULTSOURCE = 0x00000200
+Global Const $DM_DISPLAYFIXEDOUTPUT = 0x20000000
+Global Const $DM_DISPLAYFLAGS = 0x00200000
+Global Const $DM_DISPLAYFREQUENCY = 0x00400000
+Global Const $DM_DISPLAYORIENTATION = 0x00000080
+Global Const $DM_DITHERTYPE = 0x04000000
+Global Const $DM_DUPLEX = 0x0001000
+Global Const $DM_FORMNAME = 0x00010000
+Global Const $DM_ICMINTENT = 0x01000000
+Global Const $DM_ICMMETHOD = 0x00800000
+Global Const $DM_LOGPIXELS = 0x00020000
+Global Const $DM_MEDIATYPE = 0x02000000
+Global Const $DM_NUP = 0x00000040
+Global Const $DM_ORIENTATION = 0x00000001
+Global Const $DM_PANNINGHEIGHT = 0x10000000
+Global Const $DM_PANNINGWIDTH = 0x08000000
+Global Const $DM_PAPERLENGTH = 0x00000004
+Global Const $DM_PAPERSIZE = 0x00000002
+Global Const $DM_PAPERWIDTH = 0x00000008
+Global Const $DM_PELSHEIGHT = 0x00100000
+Global Const $DM_PELSWIDTH = 0x00080000
+Global Const $DM_POSITION = 0x00000020
+Global Const $DM_PRINTQUALITY = 0x00000400
+Global Const $DM_SCALE = 0x00000010
+Global Const $DM_TTOPTION = 0x0004000
+Global Const $DM_YRESOLUTION = 0x0002000
+
+Global Const $DMPAPER_LETTER = 1 ; US Letter 8 1/2 x 11 in
+Global Const $DMPAPER_LETTERSMALL = 2 ; US Letter Small 8 1/2 x 11 in
+Global Const $DMPAPER_TABLOID = 3 ; US Tabloid 11 x 17 in
+Global Const $DMPAPER_LEDGER = 4 ; US Ledger 17 x 11 in
+Global Const $DMPAPER_LEGAL = 5 ; US Legal 8 1/2 x 14 in
+Global Const $DMPAPER_STATEMENT = 6 ; US Statement 5 1/2 x 8 1/2 in
+Global Const $DMPAPER_EXECUTIVE = 7 ; US Executive 7 1/4 x 10 1/2 in
+Global Const $DMPAPER_A3 = 8 ; A3 297 x 420 mm
+Global Const $DMPAPER_A4 = 9 ; A4 210 x 297 mm
+Global Const $DMPAPER_A4SMALL = 10 ; A4 Small 210 x 297 mm
+Global Const $DMPAPER_A5 = 11 ; A5 148 x 210 mm
+Global Const $DMPAPER_B4 = 12 ; B4 (JIS) 257 x 364 mm
+Global Const $DMPAPER_B5 = 13 ; B5 (JIS) 182 x 257 mm
+Global Const $DMPAPER_FOLIO = 14 ; Folio 8 1/2 x 13 in
+Global Const $DMPAPER_QUARTO = 15 ; Quarto 215 x 275 mm
+Global Const $DMPAPER_10X14 = 16 ; 10 x 14 in
+Global Const $DMPAPER_11X17 = 17 ; 11 x 17 in
+Global Const $DMPAPER_NOTE = 18 ; US Note 8 1/2 x 11 in
+Global Const $DMPAPER_ENV_9 = 19 ; US Envelope #9 3 7/8 x 8 7/8
+Global Const $DMPAPER_ENV_10 = 20 ; US Envelope #10 4 1/8 x 9 1/2
+Global Const $DMPAPER_ENV_11 = 21 ; US Envelope #11 4 1/2 x 10 3/8
+Global Const $DMPAPER_ENV_12 = 22 ; US Envelope #12 4 3/4 x 11 in
+Global Const $DMPAPER_ENV_14 = 23 ; US Envelope #14 5 x 11 1/2
+Global Const $DMPAPER_CSHEET = 24 ; C size sheet
+Global Const $DMPAPER_DSHEET = 25 ; D size sheet
+Global Const $DMPAPER_ESHEET = 26 ; E size sheet
+Global Const $DMPAPER_ENV_DL = 27 ; Envelope DL 110 x 220mm
+Global Const $DMPAPER_ENV_C5 = 28 ; Envelope C5 162 x 229 mm
+Global Const $DMPAPER_ENV_C3 = 29 ; Envelope C3 324 x 458 mm
+Global Const $DMPAPER_ENV_C4 = 30 ; Envelope C4 229 x 324 mm
+Global Const $DMPAPER_ENV_C6 = 31 ; Envelope C6 114 x 162 mm
+Global Const $DMPAPER_ENV_C65 = 32 ; Envelope C65 114 x 229 mm
+Global Const $DMPAPER_ENV_B4 = 33 ; Envelope B4 250 x 353 mm
+Global Const $DMPAPER_ENV_B5 = 34 ; Envelope B5 176 x 250 mm
+Global Const $DMPAPER_ENV_B6 = 35 ; Envelope B6 176 x 125 mm
+Global Const $DMPAPER_ENV_ITALY = 36 ; Envelope 110 x 230 mm
+Global Const $DMPAPER_ENV_MONARCH = 37 ; US Envelope Monarch 3.875 x 7.5 in
+Global Const $DMPAPER_ENV_PERSONAL = 38 ; 6 3/4 US Envelope 3 5/8 x 6 1/2 in
+Global Const $DMPAPER_FANFOLD_US = 39 ; US Std Fanfold 14 7/8 x 11 in
+Global Const $DMPAPER_FANFOLD_STD_GERMAN = 40 ; German Std Fanfold 8 1/2 x 12 in
+Global Const $DMPAPER_FANFOLD_LGL_GERMAN = 41 ; German Legal Fanfold 8 1/2 x 13 in
+Global Const $DMPAPER_ISO_B4 = 42 ; B4 (ISO) 250 x 353 mm
+Global Const $DMPAPER_JAPANESE_POSTCARD = 43 ; Japanese Postcard 100 x 148 mm
+Global Const $DMPAPER_9X11 = 44 ; 9 x 11 in
+Global Const $DMPAPER_10X11 = 45 ; 10 x 11 in
+Global Const $DMPAPER_15X11 = 46 ; 15 x 11 in
+Global Const $DMPAPER_ENV_INVITE = 47 ; Envelope Invite 220 x 220 mm
+Global Const $DMPAPER_RESERVED_48 = 48 ; Reserved
+Global Const $DMPAPER_RESERVED_49 = 49 ; Reserved
+Global Const $DMPAPER_LETTER_EXTRA = 50 ; US Letter Extra 9 1/2 x 12 in
+Global Const $DMPAPER_LEGAL_EXTRA = 51 ; US Legal Extra 9 1/2 x 15 in
+Global Const $DMPAPER_TABLOID_EXTRA = 52 ; US Tabloid Extra 11.69 x 18 in
+Global Const $DMPAPER_A4_EXTRA = 53 ; A4 Extra 9.27 x 12.69 in
+Global Const $DMPAPER_LETTER_TRANSVERSE = 54 ; Letter Transverse 8 1/2 x 11 in
+Global Const $DMPAPER_A4_TRANSVERSE = 55 ; A4 Transverse 210 x 297 mm
+Global Const $DMPAPER_LETTER_EXTRA_TRANSVERSE = 56 ; Letter Extra Transverse 9 1/2 x 12 in
+Global Const $DMPAPER_A_PLUS = 57 ; SuperA/SuperA/A4 227 x 356 mm
+Global Const $DMPAPER_B_PLUS = 58 ; SuperB/SuperB/A3 305 x 487 mm
+Global Const $DMPAPER_LETTER_PLUS = 59 ; US Letter Plus 8.5 x 12.69 in
+Global Const $DMPAPER_A4_PLUS = 60 ; A4 Plus 210 x 330 mm
+Global Const $DMPAPER_A5_TRANSVERSE = 61 ; A5 Transverse 148 x 210 mm
+Global Const $DMPAPER_B5_TRANSVERSE = 62 ; B5 (JIS) Transverse 182 x 257 mm
+Global Const $DMPAPER_A3_EXTRA = 63 ; A3 Extra 322 x 445 mm
+Global Const $DMPAPER_A5_EXTRA = 64 ; A5 Extra 174 x 235 mm
+Global Const $DMPAPER_B5_EXTRA = 65 ; B5 (ISO) Extra 201 x 276 mm
+Global Const $DMPAPER_A2 = 66 ; A2 420 x 594 mm
+Global Const $DMPAPER_A3_TRANSVERSE = 67 ; A3 Transverse 297 x 420 mm
+Global Const $DMPAPER_A3_EXTRA_TRANSVERSE = 68 ; A3 Extra Transverse 322 x 445 mm
+Global Const $DMPAPER_DBL_JAPANESE_POSTCARD = 69 ; Japanese Double Postcard 200 x 148 mm
+Global Const $DMPAPER_A6 = 70 ; A6 105 x 148 mm
+Global Const $DMPAPER_JENV_KAKU2 = 71 ; Japanese Envelope Kaku #2
+Global Const $DMPAPER_JENV_KAKU3 = 72  ; Japanese Envelope Kaku #3
+Global Const $DMPAPER_JENV_CHOU3 = 73 ; Japanese Envelope Chou #3
+Global Const $DMPAPER_JENV_CHOU4 = 74 ; Japanese Envelope Chou #4
+Global Const $DMPAPER_LETTER_ROTATED = 75 ; Letter Rotated 11 x 8 1/2 11 in
+Global Const $DMPAPER_A3_ROTATED = 76 ; A3 Rotated 420 x 297 mm
+Global Const $DMPAPER_A4_ROTATED = 77 ; A4 Rotated 297 x 210 mm
+Global Const $DMPAPER_A5_ROTATED = 78 ; A5 Rotated 210 x 148 mm
+Global Const $DMPAPER_B4_JIS_ROTATED = 79 ; B4 (JIS) Rotated 364 x 257 mm
+Global Const $DMPAPER_B5_JIS_ROTATED = 80 ; B5 (JIS) Rotated 257 x 182 mm
+Global Const $DMPAPER_JAPANESE_POSTCARD_ROTATED = 81 ; Japanese Postcard Rotated 148 x 100 mm
+Global Const $DMPAPER_DBL_JAPANESE_POSTCARD_ROTATED = 82 ; Double Japanese Postcard Rotated 148 x 200 mm
+Global Const $DMPAPER_A6_ROTATED = 83 ; A6 Rotated 148 x 105 mm
+Global Const $DMPAPER_JENV_KAKU2_ROTATED = 84 ; Japanese Envelope Kaku #2 Rotated
+Global Const $DMPAPER_JENV_KAKU3_ROTATED = 85 ; Japanese Envelope Kaku #3 Rotated
+Global Const $DMPAPER_JENV_CHOU3_ROTATED = 86 ; Japanese Envelope Chou #3 Rotated
+Global Const $DMPAPER_JENV_CHOU4_ROTATED = 87 ; Japanese Envelope Chou #4 Rotated
+Global Const $DMPAPER_B6_JIS = 88 ; B6 (JIS) 128 x 182 mm
+Global Const $DMPAPER_B6_JIS_ROTATED = 89 ; B6 (JIS) Rotated 182 x 128 mm
+Global Const $DMPAPER_12X11 = 90 ; 12 x 11 in
+Global Const $DMPAPER_JENV_YOU4 = 91 ; Japanese Envelope You #4
+Global Const $DMPAPER_JENV_YOU4_ROTATED = 92 ; Japanese Envelope You #4 Rotated
+Global Const $DMPAPER_P16K = 93 ; PRC 16K 146 x 215 mm
+Global Const $DMPAPER_P32K = 94 ; PRC 32K 97 x 151 mm
+Global Const $DMPAPER_P32KBIG = 95 ; PRC 32K(Big) 97 x 151 mm
+Global Const $DMPAPER_PENV_1 = 96 ; PRC Envelope #1 102 x 165 mm
+Global Const $DMPAPER_PENV_2 = 97 ; PRC Envelope #2 102 x 176 mm
+Global Const $DMPAPER_PENV_3 = 98 ; PRC Envelope #3 125 x 176 mm
+Global Const $DMPAPER_PENV_4 = 99 ; PRC Envelope #4 110 x 208 mm
+Global Const $DMPAPER_PENV_5 = 100 ; PRC Envelope #5 110 x 220 mm
+Global Const $DMPAPER_PENV_6 = 101 ; PRC Envelope #6 120 x 230 mm
+Global Const $DMPAPER_PENV_7 = 102 ; PRC Envelope #7 160 x 230 mm
+Global Const $DMPAPER_PENV_8 = 103 ; PRC Envelope #8 120 x 309 mm
+Global Const $DMPAPER_PENV_9 = 104 ; PRC Envelope #9 229 x 324 mm
+Global Const $DMPAPER_PENV_10 = 105 ; PRC Envelope #10 324 x 458 mm
+Global Const $DMPAPER_P16K_ROTATED = 106 ; PRC 16K Rotated
+Global Const $DMPAPER_P32K_ROTATED = 107 ; PRC 32K Rotated
+Global Const $DMPAPER_P32KBIG_ROTATED = 108 ; PRC 32K(Big) Rotated
+Global Const $DMPAPER_PENV_1_ROTATED = 109 ; PRC Envelope #1 Rotated 165 x 102 mm
+Global Const $DMPAPER_PENV_2_ROTATED = 110 ; PRC Envelope #2 Rotated 176 x 102 mm
+Global Const $DMPAPER_PENV_3_ROTATED = 111 ; PRC Envelope #3 Rotated 176 x 125 mm
+Global Const $DMPAPER_PENV_4_ROTATED = 112 ; PRC Envelope #4 Rotated 208 x 110 mm
+Global Const $DMPAPER_PENV_5_ROTATED = 113 ; PRC Envelope #5 Rotated 220 x 110 mm
+Global Const $DMPAPER_PENV_6_ROTATED = 114 ; PRC Envelope #6 Rotated 230 x 120 mm
+Global Const $DMPAPER_PENV_7_ROTATED = 115 ; PRC Envelope #7 Rotated 230 x 160 mm
+Global Const $DMPAPER_PENV_8_ROTATED = 116 ; PRC Envelope #8 Rotated 309 x 120 mm
+Global Const $DMPAPER_PENV_9_ROTATED = 117 ; PRC Envelope #9 Rotated 324 x 229 mm
+Global Const $DMPAPER_PENV_10_ROTATED = 118 ; PRC Envelope #10 Rotated 458 x 324 mm
+Global Const $DMPAPER_USER = 256
+
+Global Const $DMBIN_UPPER = 1
+Global Const $DMBIN_LOWER = 2
+Global Const $DMBIN_MIDDLE = 3
+Global Const $DMBIN_MANUAL = 4
+Global Const $DMBIN_ENVELOPE = 5
+Global Const $DMBIN_ENVMANUAL = 6
+Global Const $DMBIN_AUTO = 7
+Global Const $DMBIN_TRACTOR = 8
+Global Const $DMBIN_SMALLFMT = 9
+Global Const $DMBIN_LARGEFMT = 10
+Global Const $DMBIN_LARGECAPACITY = 11
+Global Const $DMBIN_CASSETTE = 14
+Global Const $DMBIN_FORMSOURCE = 15
+Global Const $DMBIN_USER = 256
+
+Global Const $DMRES_DRAFT = -1
+Global Const $DMRES_LOW = -2
+Global Const $DMRES_MEDIUM = -3
+Global Const $DMRES_HIGH = -4
+
+Global Const $DMDO_DEFAULT = 0
+Global Const $DMDO_90 = 1
+Global Const $DMDO_180 = 2
+Global Const $DMDO_270 = 3
+
+Global Const $DMDFO_DEFAULT = 0
+Global Const $DMDFO_STRETCH = 1
+Global Const $DMDFO_CENTER = 2
+
+Global Const $DMCOLOR_MONOCHROME = 1
+Global Const $DMCOLOR_COLOR = 2
+
+Global Const $DMDUP_SIMPLEX = 1
+Global Const $DMDUP_VERTICAL = 2
+Global Const $DMDUP_HORIZONTAL = 3
+
+Global Const $DMTT_BITMAP = 1
+Global Const $DMTT_DOWNLOAD = 2
+Global Const $DMTT_SUBDEV = 3
+Global Const $DMTT_DOWNLOAD_OUTLINE = 4
+
+Global Const $DMCOLLATE_FALSE = 0
+Global Const $DMCOLLATE_TRUE = 1
+
+Global Const $DM_GRAYSCALE = 1
+Global Const $DM_INTERLACED = 2
+
+Global Const $DMNUP_SYSTEM = 1
+Global Const $DMNUP_ONEUP = 2
+
+Global Const $DMICMMETHOD_NONE = 1
+Global Const $DMICMMETHOD_SYSTEM = 2
+Global Const $DMICMMETHOD_DRIVER = 3
+Global Const $DMICMMETHOD_DEVICE = 4
+Global Const $DMICMMETHOD_USER = 256
+
+Global Const $DMICM_SATURATE = 1
+Global Const $DMICM_CONTRAST = 2
+Global Const $DMICM_COLORIMETRIC = 3
+Global Const $DMICM_ABS_COLORIMETRIC = 4
+Global Const $DMICM_USER = 256
+
+Global Const $DMMEDIA_STANDARD = 1
+Global Const $DMMEDIA_TRANSPARENCY = 2
+Global Const $DMMEDIA_GLOSSY = 3
+Global Const $DMMEDIA_USER = 256
+
+Global Const $DMDITHER_NONE = 1
+Global Const $DMDITHER_COARSE = 2
+Global Const $DMDITHER_FINE = 3
+Global Const $DMDITHER_LINEART = 4
+Global Const $DMDITHER_ERRORDIFFUSION = 5
+Global Const $DMDITHER_RESERVED6 = 6
+Global Const $DMDITHER_RESERVED7 = 7
+Global Const $DMDITHER_RESERVED8 = 8
+Global Const $DMDITHER_RESERVED9 = 9
+Global Const $DMDITHER_GRAYSCALE = 10
+Global Const $DMDITHER_USER = 256
 
 ; ===============================================================================================================================
 ; _WinAPI_ActivateKeyboardLayout(), _WinAPI_LoadKeyboardLayout()
@@ -51,18 +647,63 @@ Global Const $FR_PRIVATE = 0x10
 Global Const $FR_NOT_ENUM = 0x20
 
 ; ===============================================================================================================================
+; _WinAPI_AdjustTokenPrivileges()
+; ===============================================================================================================================
+
+;Global Const $SE_ASSIGNPRIMARYTOKEN_NAME = 'SeAssignPrimaryTokenPrivilege'
+;Global Const $SE_AUDIT_NAME = 'SeAuditPrivilege'
+;Global Const $SE_BACKUP_NAME = 'SeBackupPrivilege'
+;Global Const $SE_CHANGE_NOTIFY_NAME = 'SeChangeNotifyPrivilege'
+;Global Const $SE_CREATE_GLOBAL_NAME = 'SeCreateGlobalPrivilege'
+;Global Const $SE_CREATE_PAGEFILE_NAME = 'SeCreatePagefilePrivilege'
+;Global Const $SE_CREATE_PERMANENT_NAME = 'SeCreatePermanentPrivilege'
+Global Const $SE_CREATE_SYMBOLIC_LINK_NAME = 'SeCreateSymbolicLinkPrivilege'
+;Global Const $SE_CREATE_TOKEN_NAME = 'SeCreateTokenPrivilege'
+;Global Const $SE_DEBUG_NAME = 'SeDebugPrivilege'
+;Global Const $SE_ENABLE_DELEGATION_NAME = 'SeEnableDelegationPrivilege'
+;Global Const $SE_IMPERSONATE_NAME = 'SeImpersonatePrivilege'
+;Global Const $SE_INC_BASE_PRIORITY_NAME = 'SeIncreaseBasePriorityPrivilege'
+;Global Const $SE_INCREASE_QUOTA_NAME = 'SeIncreaseQuotaPrivilege'
+Global Const $SE_INC_WORKING_SET_NAME = 'SeIncreaseWorkingSetPrivilege'
+;Global Const $SE_LOAD_DRIVER_NAME = 'SeLoadDriverPrivilege'
+;Global Const $SE_LOCK_MEMORY_NAME = 'SeLockMemoryPrivilege'
+;Global Const $SE_MACHINE_ACCOUNT_NAME = 'SeMachineAccountPrivilege'
+;Global Const $SE_MANAGE_VOLUME_NAME = 'SeManageVolumePrivilege'
+;Global Const $SE_PROF_SINGLE_PROCESS_NAME = 'SeProfileSingleProcessPrivilege'
+Global Const $SE_RELABEL_NAME = 'SeRelabelPrivilege'
+;Global Const $SE_REMOTE_SHUTDOWN_NAME = 'SeRemoteShutdownPrivilege'
+;Global Const $SE_RESTORE_NAME = 'SeRestorePrivilege'
+;Global Const $SE_SECURITY_NAME = 'SeSecurityPrivilege'
+;Global Const $SE_SHUTDOWN_NAME = 'SeShutdownPrivilege'
+;Global Const $SE_SYNC_AGENT_NAME = 'SeSyncAgentPrivilege'
+;Global Const $SE_SYSTEM_ENVIRONMENT_NAME = 'SeSystemEnvironmentPrivilege'
+;Global Const $SE_SYSTEM_PROFILE_NAME = 'SeSystemProfilePrivilege'
+;Global Const $SE_SYSTEMTIME_NAME = 'SeSystemtimePrivilege'
+;Global Const $SE_TAKE_OWNERSHIP_NAME = 'SeTakeOwnershipPrivilege'
+;Global Const $SE_TCB_NAME = 'SeTcbPrivilege'
+Global Const $SE_TIME_ZONE_NAME = 'SeTimeZonePrivilege'
+Global Const $SE_TRUSTED_CREDMAN_ACCESS_NAME = 'SeTrustedCredManAccessPrivilege'
+;Global Const $SE_UNDOCK_NAME = 'SeUndockPrivilege'
+;Global Const $SE_UNSOLICITED_INPUT_NAME = 'SeUnsolicitedInputPrivilege'
+
+;Global Const $SE_PRIVILEGE_ENABLED = 0x00000002
+;Global Const $SE_PRIVILEGE_ENABLED_BY_DEFAULT = 0x00000001
+;Global Const $SE_PRIVILEGE_REMOVED = 0x00000004
+;Global Const $SE_PRIVILEGE_USED_FOR_ACCESS = 0x80000000
+
+; ===============================================================================================================================
 ; _WinAPI_AnimateWindow()
 ; ===============================================================================================================================
 
-Global Const $AW_SLIDE = 0x00040000
 Global Const $AW_ACTIVATE = 0x00020000
 Global Const $AW_BLEND = 0x00080000
-Global Const $AW_HIDE = 0x00010000
 Global Const $AW_CENTER = 0x00000010
-Global Const $AW_HOR_POSITIVE = 0x00000001
+Global Const $AW_HIDE = 0x00010000
 Global Const $AW_HOR_NEGATIVE = 0x00000002
-Global Const $AW_VER_POSITIVE = 0x00000004
+Global Const $AW_HOR_POSITIVE = 0x00000001
+Global Const $AW_SLIDE = 0x00040000
 Global Const $AW_VER_NEGATIVE = 0x00000008
+Global Const $AW_VER_POSITIVE = 0x00000004
 
 ; ===============================================================================================================================
 ; _WinAPI_AssocGetPerceivedType()
@@ -163,60 +804,62 @@ Global Const $BSM_VXDS = 0x01
 ; _WinAPI_BrowseForFolderDlg()
 ; ===============================================================================================================================
 
-Global Const $BIF_RETURNONLYFSDIRS = 0x00000001
-Global Const $BIF_DONTGOBELOWDOMAIN = 0x00000002
-Global Const $BIF_STATUSTEXT = 0x00000004
-Global Const $BIF_RETURNFSANCESTORS = 0x00000008
-Global Const $BIF_EDITBOX = 0x00000010
-Global Const $BIF_VALIDATE = 0x00000020
-Global Const $BIF_NEWDIALOGSTYLE = 0x00000040
-Global Const $BIF_BROWSEINCLUDEURLS = 0x00000080
-Global Const $BIF_USENEWUI = BitOR($BIF_EDITBOX, $BIF_NEWDIALOGSTYLE)
-Global Const $BIF_UAHINT = 0x00000100
-Global Const $BIF_NONEWFOLDERBUTTON = 0x00000200
-Global Const $BIF_NOTRANSLATETARGETS = 0x00000400
+Global Const $BIF_BROWSEFILEJUNCTIONS = 0x00010000
 Global Const $BIF_BROWSEFORCOMPUTER = 0x00001000
 Global Const $BIF_BROWSEFORPRINTER = 0x00002000
 Global Const $BIF_BROWSEINCLUDEFILES = 0x00004000
+Global Const $BIF_BROWSEINCLUDEURLS = 0x00000080
+Global Const $BIF_DONTGOBELOWDOMAIN = 0x00000002
+Global Const $BIF_EDITBOX = 0x00000010
+Global Const $BIF_NEWDIALOGSTYLE = 0x00000040
+Global Const $BIF_NONEWFOLDERBUTTON = 0x00000200
+Global Const $BIF_NOTRANSLATETARGETS = 0x00000400
+Global Const $BIF_RETURNFSANCESTORS = 0x00000008
+Global Const $BIF_RETURNONLYFSDIRS = 0x00000001
 Global Const $BIF_SHAREABLE = 0x00008000
-
-; *Windows 7 or later
-Global Const $BIF_BROWSEFILEJUNCTIONS = 0x00010000
+Global Const $BIF_STATUSTEXT = 0x00000004
+Global Const $BIF_USENEWUI = BitOR($BIF_EDITBOX, $BIF_NEWDIALOGSTYLE)
+Global Const $BIF_UAHINT = 0x00000100
+Global Const $BIF_VALIDATE = 0x00000020
 
 Global Const $BFFM_INITIALIZED = 1
 Global Const $BFFM_IUNKNOWN = 5
 Global Const $BFFM_SELCHANGED = 2
 Global Const $BFFM_VALIDATEFAILED = 4
 
-Global Const $BFFM_ENABLEOK = 0x0465 ; WM_USER + 101
-Global Const $BFFM_SETOKTEXT = 0x0469 ; WM_USER + 105
-Global Const $BFFM_SETSELECTION = 0x0467 ; WM_USER + 103
-Global Const $BFFM_SETEXPANDED = 0x046A ; WM_USER + 106
-Global Const $BFFM_SETSTATUSTEXT = 0x0468 ; WM_USER + 104
+Global Const $BFFM_SETSTATUSTEXTA = $WM_USER + 100
+Global Const $BFFM_ENABLEOK = $WM_USER + 101
+Global Const $BFFM_SETSELECTIONA = $WM_USER + 102
+Global Const $BFFM_SETSELECTIONW = $WM_USER + 103
+Global Const $BFFM_SETSTATUSTEXTW = $WM_USER + 104
+Global Const $BFFM_SETOKTEXT = $WM_USER + 105
+Global Const $BFFM_SETEXPANDED = $WM_USER + 106
 
 ; ===============================================================================================================================
 ; _WinAPI_CalculatePopupWindowPosition()
 ; ===============================================================================================================================
 
-; *Included in MenuConstants.au3
+;Global Const $TPM_CENTERALIGN = 0x00000004
+;Global Const $TPM_LEFTALIGN = 0x00000000
+;Global Const $TPM_RIGHTALIGN = 0x00000008
 
-#cs
+;Global Const $TPM_BOTTOMALIGN = 0x00000020
+;Global Const $TPM_TOPALIGN = 0x00000000
+;Global Const $TPM_VCENTERALIGN = 0x00000010
 
-Global Const $TPM_CENTERALIGN = 0x00000004
-Global Const $TPM_LEFTALIGN = 0x00000000
-Global Const $TPM_RIGHTALIGN = 0x00000008
+;Global Const $TPM_HORIZONTAL = 0x00000000
+;Global Const $TPM_VERTICAL = 0x00000040
 
-Global Const $TPM_BOTTOMALIGN = 0x00000020
-Global Const $TPM_TOPALIGN = 0x00000000
-Global Const $TPM_VCENTERALIGN = 0x00000010
-
-Global Const $TPM_HORIZONTAL = 0x00000000
-Global Const $TPM_VERTICAL = 0x00000040
-
-#ce
-
-; *Windows 7 or later
 Global Const $TPM_WORKAREA = 0x00010000
+
+; ===============================================================================================================================
+; _WinAPI_CascadeWindows(), _WinAPI_TileWindows()
+; ===============================================================================================================================
+
+Global Const $MDITILE_HORIZONTAL = 0x01
+Global Const $MDITILE_SKIPDISABLED = 0x02
+Global Const $MDITILE_VERTICAL = 0x00
+Global Const $MDITILE_ZORDER = 0x04
 
 ; ===============================================================================================================================
 ; _WinAPI_ChildWindowFromPointEx()
@@ -228,17 +871,6 @@ Global Const $CWP_SKIPDISABLED = 0x02
 Global Const $CWP_SKIPTRANSPARENT = 0x04
 
 ; ===============================================================================================================================
-; _WinAPI_CreateDIBSection()
-; ===============================================================================================================================
-
-Global Const $BI_RGB = 0
-Global Const $BI_RLE8 = 1
-Global Const $BI_RLE4 = 2
-Global Const $BI_BITFIELDS = 3
-Global Const $BI_JPEG = 4
-Global Const $BI_PNG = 5
-
-; ===============================================================================================================================
 ; _WinAPI_CoInitialize()
 ; ===============================================================================================================================
 
@@ -246,6 +878,46 @@ Global Const $COINIT_APARTMENTTHREADED = 0x02
 Global Const $COINIT_DISABLE_OLE1DDE = 0x04
 Global Const $COINIT_MULTITHREADED = 0x00
 Global Const $COINIT_SPEED_OVER_MEMORY = 0x08
+
+; ===============================================================================================================================
+; _WinAPI_CommDlgExtendedErrorEx()
+; ===============================================================================================================================
+
+Global Const $CDERR_DIALOGFAILURE = 0xFFFF
+Global Const $CDERR_FINDRESFAILURE = 0x0006
+Global Const $CDERR_INITIALIZATION = 0x0002
+Global Const $CDERR_LOADRESFAILURE = 0x0007
+Global Const $CDERR_LOADSTRFAILURE = 0x0005
+Global Const $CDERR_LOCKRESFAILURE = 0x0008
+Global Const $CDERR_MEMALLOCFAILURE = 0x0009
+Global Const $CDERR_MEMLOCKFAILURE = 0x000A
+Global Const $CDERR_NOHINSTANCE = 0x0004
+Global Const $CDERR_NOHOOK = 0x000B
+Global Const $CDERR_NOTEMPLATE = 0x0003
+Global Const $CDERR_REGISTERMSGFAIL = 0x000C
+Global Const $CDERR_STRUCTSIZE = 0x0001
+
+Global Const $PDERR_CREATEICFAILURE = 0x100A
+Global Const $PDERR_DEFAULTDIFFERENT = 0x100C
+Global Const $PDERR_DNDMMISMATCH = 0x1009
+Global Const $PDERR_GETDEVMODEFAIL = 0x1005
+Global Const $PDERR_INITFAILURE = 0x1006
+Global Const $PDERR_LOADDRVFAILURE = 0x1004
+Global Const $PDERR_NODEFAULTPRN = 0x1008
+Global Const $PDERR_NODEVICES = 0x1007
+Global Const $PDERR_PARSEFAILURE = 0x1002
+Global Const $PDERR_PRINTERNOTFOUND = 0x100B
+Global Const $PDERR_RETDEFFAILURE = 0x1003
+Global Const $PDERR_SETUPFAILURE = 0x1001
+
+Global Const $CFERR_MAXLESSTHANMIN = 0x2002
+Global Const $CFERR_NOFONTS = 0x2001
+
+Global Const $FNERR_BUFFERTOOSMALL = 0x3003
+Global Const $FNERR_INVALIDFILENAME = 0x3002
+Global Const $FNERR_SUBCLASSFAILURE = 0x3001
+
+Global Const $FRERR_BUFFERLENGTHZERO = 0x4001
 
 ; ===============================================================================================================================
 ; _WinAPI_CopyFileEx(), _WinAPI_MoveFileEx()
@@ -274,25 +946,19 @@ Global Const $PROGRESS_QUIET = 3
 ; _WinAPI_CopyImage()
 ; ===============================================================================================================================
 
-; *Included in Constants.au3
-
-#cs
-
-Global Const $LR_DEFAULTCOLOR = 0x0000
-Global Const $LR_DEFAULTSIZE = 0x0040
-Global Const $LR_COLOR = 0x0002
-Global Const $LR_COPYDELETEORG = 0x0008
-Global Const $LR_COPYFROMRESOURCE = 0x4000
-Global Const $LR_COPYRETURNORG = 0x0004
-Global Const $LR_CREATEDIBSECTION = 0x2000
-Global Const $LR_LOADFROMFILE = 0x0010
-Global Const $LR_LOADMAP3DCOLORS = 0x1000
-Global Const $LR_LOADTRANSPARENT = 0x0020
-Global Const $LR_MONOCHROME = 0x0001
-Global Const $LR_SHARED = 0x8000
-Global Const $LR_VGACOLOR = 0x0080
-
-#ce
+;Global Const $LR_DEFAULTCOLOR = 0x0000
+;Global Const $LR_DEFAULTSIZE = 0x0040
+;Global Const $LR_COLOR = 0x0002
+;Global Const $LR_COPYDELETEORG = 0x0008
+;Global Const $LR_COPYFROMRESOURCE = 0x4000
+;Global Const $LR_COPYRETURNORG = 0x0004
+;Global Const $LR_CREATEDIBSECTION = 0x2000
+;Global Const $LR_LOADFROMFILE = 0x0010
+;Global Const $LR_LOADMAP3DCOLORS = 0x1000
+;Global Const $LR_LOADTRANSPARENT = 0x0020
+;Global Const $LR_MONOCHROME = 0x0001
+;Global Const $LR_SHARED = 0x8000
+;Global Const $LR_VGACOLOR = 0x0080
 
 ; ===============================================================================================================================
 ; _WinAPI_CreateBrushIndirect()
@@ -319,44 +985,80 @@ Global Const $DIB_PAL_COLORS = 1
 Global Const $DIB_RGB_COLORS = 0
 
 ; ===============================================================================================================================
+; _WinAPI_CreateDesktop(), _WinAPI_OpenDesktop(), _WinAPI_OpenInputDesktop()
+; ===============================================================================================================================
+
+Global Const $DESKTOP_CREATEMENU = 0x0004
+Global Const $DESKTOP_CREATEWINDOW = 0x0002
+Global Const $DESKTOP_ENUMERATE = 0x0040
+Global Const $DESKTOP_HOOKCONTROL = 0x0008
+Global Const $DESKTOP_JOURNALPLAYBACK = 0x0020
+Global Const $DESKTOP_JOURNALRECORD = 0x0010
+Global Const $DESKTOP_READOBJECTS = 0x0001
+Global Const $DESKTOP_SWITCHDESKTOP = 0x0100
+Global Const $DESKTOP_WRITEOBJECTS = 0x0080
+Global Const $DESKTOP_ALL_ACCESS = BitOR($DESKTOP_CREATEMENU, $DESKTOP_CREATEWINDOW, $DESKTOP_ENUMERATE, $DESKTOP_HOOKCONTROL, $DESKTOP_JOURNALPLAYBACK, $DESKTOP_JOURNALRECORD, $DESKTOP_READOBJECTS, $DESKTOP_SWITCHDESKTOP, $DESKTOP_WRITEOBJECTS)
+
+; ===============================================================================================================================
+; _WinAPI_CreateDIBSection()
+; ===============================================================================================================================
+
+Global Const $BI_RGB = 0
+Global Const $BI_RLE8 = 1
+Global Const $BI_RLE4 = 2
+Global Const $BI_BITFIELDS = 3
+Global Const $BI_JPEG = 4
+Global Const $BI_PNG = 5
+
+; ===============================================================================================================================
 ; _WinAPI_CreateFileEx(), _WinAPI_SetFileAttributes(), _WinAPI_SetFileAttributes()
 ; ===============================================================================================================================
 
-; *Included in FileConstants.au3
+;Global Const $CREATE_NEW = 1
+;Global Const $CREATE_ALWAYS = 2
+;Global Const $OPEN_EXISTING = 3
+;Global Const $OPEN_ALWAYS = 4
+;Global Const $TRUNCATE_EXISTING = 5
 
-#cs
+;Global Const $GENERIC_ALL = 0x10000000
+;Global Const $GENERIC_EXECUTE = 0x20000000
+;Global Const $GENERIC_WRITE = 0x40000000
+;Global Const $GENERIC_READ = 0x80000000
 
-Global Const $CREATE_NEW = 1
-Global Const $CREATE_ALWAYS = 2
-Global Const $OPEN_EXISTING = 3
-Global Const $OPEN_ALWAYS = 4
-Global Const $TRUNCATE_EXISTING = 5
+Global Const $FILE_APPEND_DATA = 0x0004
+Global Const $FILE_DELETE_CHILD = 0x0040
+Global Const $FILE_EXECUTE = 0x0020
+Global Const $FILE_READ_ATTRIBUTES = 0x0080
+Global Const $FILE_READ_DATA = 0x0001
+Global Const $FILE_READ_EA = 0x0008
+Global Const $FILE_WRITE_ATTRIBUTES = 0x0100
+Global Const $FILE_WRITE_DATA = 0x0002
+Global Const $FILE_WRITE_EA = 0x0010
+Global Const $FILE_ADD_FILE = $FILE_WRITE_DATA
+Global Const $FILE_ADD_SUBDIRECTORY = $FILE_APPEND_DATA
+Global Const $FILE_CREATE_PIPE_INSTANCE = $FILE_APPEND_DATA
+Global Const $FILE_LIST_DIRECTORY = $FILE_READ_DATA
+Global Const $FILE_TRAVERSE = $FILE_EXECUTE
+Global Const $FILE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $FILE_APPEND_DATA, $FILE_DELETE_CHILD, $FILE_EXECUTE, $FILE_READ_ATTRIBUTES, $FILE_READ_DATA, $FILE_READ_EA, $FILE_WRITE_ATTRIBUTES, $FILE_WRITE_DATA, $FILE_WRITE_EA)
 
-Global Const $GENERIC_ALL = 0x10000000
-Global Const $GENERIC_EXECUTE = 0x20000000
-Global Const $GENERIC_WRITE = 0x40000000
-Global Const $GENERIC_READ = 0x80000000
+;Global Const $FILE_SHARE_READ = 0x01
+;Global Const $FILE_SHARE_WRITE = 0x02
+;Global Const $FILE_SHARE_DELETE = 0x04
 
-Global Const $FILE_SHARE_READ = 0x01
-Global Const $FILE_SHARE_WRITE = 0x02
-Global Const $FILE_SHARE_DELETE = 0x04
-
-Global Const $FILE_ATTRIBUTE_READONLY = 0x00000001
-Global Const $FILE_ATTRIBUTE_HIDDEN = 0x00000002
-Global Const $FILE_ATTRIBUTE_SYSTEM = 0x00000004
-Global Const $FILE_ATTRIBUTE_DIRECTORY = 0x00000010
-Global Const $FILE_ATTRIBUTE_ARCHIVE = 0x00000020
-Global Const $FILE_ATTRIBUTE_DEVICE = 0x00000040
-Global Const $FILE_ATTRIBUTE_NORMAL = 0x00000080
-Global Const $FILE_ATTRIBUTE_TEMPORARY = 0x00000100
-Global Const $FILE_ATTRIBUTE_SPARSE_FILE = 0x00000200
-Global Const $FILE_ATTRIBUTE_REPARSE_POINT = 0x00000400
-Global Const $FILE_ATTRIBUTE_COMPRESSED = 0x00000800
-Global Const $FILE_ATTRIBUTE_OFFLINE = 0x00001000
-Global Const $FILE_ATTRIBUTE_NOT_CONTENT_INDEXED = 0x00002000
-Global Const $FILE_ATTRIBUTE_ENCRYPTED = 0x00004000
-
-#ce
+;Global Const $FILE_ATTRIBUTE_READONLY = 0x00000001
+;Global Const $FILE_ATTRIBUTE_HIDDEN = 0x00000002
+;Global Const $FILE_ATTRIBUTE_SYSTEM = 0x00000004
+;Global Const $FILE_ATTRIBUTE_DIRECTORY = 0x00000010
+;Global Const $FILE_ATTRIBUTE_ARCHIVE = 0x00000020
+;Global Const $FILE_ATTRIBUTE_DEVICE = 0x00000040
+;Global Const $FILE_ATTRIBUTE_NORMAL = 0x00000080
+;Global Const $FILE_ATTRIBUTE_TEMPORARY = 0x00000100
+;Global Const $FILE_ATTRIBUTE_SPARSE_FILE = 0x00000200
+;Global Const $FILE_ATTRIBUTE_REPARSE_POINT = 0x00000400
+;Global Const $FILE_ATTRIBUTE_COMPRESSED = 0x00000800
+;Global Const $FILE_ATTRIBUTE_OFFLINE = 0x00001000
+;Global Const $FILE_ATTRIBUTE_NOT_CONTENT_INDEXED = 0x00002000
+;Global Const $FILE_ATTRIBUTE_ENCRYPTED = 0x00004000
 
 Global Const $FILE_FLAG_BACKUP_SEMANTICS = 0x02000000
 Global Const $FILE_FLAG_DELETE_ON_CLOSE = 0x04000000
@@ -380,23 +1082,17 @@ Global Const $SECURITY_IMPERSONATION = 0x00020000
 ; _WinAPI_CreateFileMapping(), _WinAPI_OpenFileMapping()
 ; ===============================================================================================================================
 
-; *Included in MemoryConstants.au3
-
-#cs
-
-Global Const $PAGE_EXECUTE = 0x0010
-Global Const $PAGE_EXECUTE_READ = 0x0020
-Global Const $PAGE_EXECUTE_READWRITE = 0x0040
+;Global Const $PAGE_EXECUTE = 0x0010
+;Global Const $PAGE_EXECUTE_READ = 0x0020
+;Global Const $PAGE_EXECUTE_READWRITE = 0x0040
 Global Const $PAGE_EXECUTE_WRITECOPY = 0x0080
-Global Const $PAGE_GUARD = 0x0100
-Global Const $PAGE_NOACCESS = 0x0001
-Global Const $PAGE_NOCACHE = 0x0200
-Global Const $PAGE_READONLY = 0x0002
-Global Const $PAGE_READWRITE = 0x0004
+;Global Const $PAGE_GUARD = 0x0100
+;Global Const $PAGE_NOACCESS = 0x0001
+;Global Const $PAGE_NOCACHE = 0x0200
+;Global Const $PAGE_READONLY = 0x0002
+;Global Const $PAGE_READWRITE = 0x0004
 Global Const $PAGE_WRITECOMBINE = 0x0400
 Global Const $PAGE_WRITECOPY = 0x0008
-
-#ce
 
 Global Const $SEC_COMMIT = 0x08000000
 Global Const $SEC_IMAGE = 0x01000000
@@ -405,11 +1101,43 @@ Global Const $SEC_NOCACHE = 0x10000000
 Global Const $SEC_RESERVE = 0x04000000
 Global Const $SEC_WRITECOMBINE = 0x40000000
 
-Global Const $FILE_MAP_ALL_ACCESS = 0x001F
+Global Const $SECTION_EXTEND_SIZE = 0x0010
+Global Const $SECTION_MAP_EXECUTE = 0x0008
+Global Const $SECTION_MAP_READ = 0x0004
+Global Const $SECTION_MAP_WRITE = 0x0002
+Global Const $SECTION_QUERY = 0x0001
+Global Const $SECTION_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SECTION_EXTEND_SIZE, $SECTION_MAP_EXECUTE, $SECTION_MAP_READ, $SECTION_MAP_WRITE, $SECTION_QUERY)
+
 Global Const $FILE_MAP_COPY = 0x0001
 Global Const $FILE_MAP_EXECUTE = 0x0020
 Global Const $FILE_MAP_READ = 0x0004
 Global Const $FILE_MAP_WRITE = 0x0002
+Global Const $FILE_MAP_ALL_ACCESS = $SECTION_ALL_ACCESS
+
+; ===============================================================================================================================
+; _WinAPI_CreatePen(), _WinAPI_ExtCreatePen()
+; ===============================================================================================================================
+
+;Global Const $PS_SOLID = 0
+;Global Const $PS_DASH = 1
+;Global Const $PS_DOT = 2
+;Global Const $PS_DASHDOT = 3
+;Global Const $PS_DASHDOTDOT = 4
+;Global Const $PS_NULL = 5
+;Global Const $PS_INSIDEFRAME = 6
+Global Const $PS_USERSTYLE = 7
+Global Const $PS_ALTERNATE = 8
+
+Global Const $PS_ENDCAP_ROUND = 0x00000000
+Global Const $PS_ENDCAP_SQUARE = 0x00000100
+Global Const $PS_ENDCAP_FLAT = 0x00000200
+
+Global Const $PS_JOIN_BEVEL = 0x00001000
+Global Const $PS_JOIN_MITER = 0x00002000
+Global Const $PS_JOIN_ROUND = 0x00000000
+
+Global Const $PS_GEOMETRIC = 0x00010000
+Global Const $PS_COSMETIC = 0x00000000
 
 ; ===============================================================================================================================
 ; _WinAPI_CreatePolygonRgn()
@@ -419,33 +1147,60 @@ Global Const $ALTERNATE = 1
 Global Const $WINDING = 2
 
 ; ===============================================================================================================================
+; _WinAPI_CreateProcess()
+; ===============================================================================================================================
+
+Global Const $CREATE_BREAKAWAY_FROM_JOB = 0x01000000
+Global Const $CREATE_DEFAULT_ERROR_MODE = 0x04000000
+Global Const $CREATE_NEW_CONSOLE = 0x00000010
+Global Const $CREATE_NEW_PROCESS_GROUP = 0x00000200
+Global Const $CREATE_NO_WINDOW = 0x08000000
+Global Const $CREATE_PROTECTED_PROCESS = 0x00040000
+Global Const $CREATE_PRESERVE_CODE_AUTHZ_LEVEL = 0x02000000
+Global Const $CREATE_SEPARATE_WOW_VDM = 0x00000800
+Global Const $CREATE_SHARED_WOW_VDM = 0x00001000
+Global Const $CREATE_SUSPENDED = 0x00000004
+Global Const $CREATE_UNICODE_ENVIRONMENT = 0x00000400
+
+; ===============================================================================================================================
+; _WinAPI_CreateWindowStation(), _WinAPI_OpenWindowStation()
+; ===============================================================================================================================
+
+Global Const $WINSTA_ACCESSCLIPBOARD = 0x0004
+Global Const $WINSTA_ACCESSGLOBALATOMS = 0x0020
+Global Const $WINSTA_CREATEDESKTOP = 0x0008
+Global Const $WINSTA_ENUMDESKTOPS = 0x0001
+Global Const $WINSTA_ENUMERATE = 0x0100
+Global Const $WINSTA_EXITWINDOWS = 0x0040
+Global Const $WINSTA_READATTRIBUTES = 0x0002
+Global Const $WINSTA_READSCREEN = 0x0200
+Global Const $WINSTA_WRITEATTRIBUTES = 0x0010
+Global Const $WINSTA_ALL_ACCESS = BitOR($WINSTA_ACCESSCLIPBOARD, $WINSTA_ACCESSGLOBALATOMS, $WINSTA_CREATEDESKTOP, $WINSTA_ENUMDESKTOPS, $WINSTA_ENUMERATE, $WINSTA_EXITWINDOWS, $WINSTA_READATTRIBUTES, $WINSTA_READSCREEN, $WINSTA_WRITEATTRIBUTES)
+
+Global Const $CWF_CREATE_ONLY = 0x01
+
+; ===============================================================================================================================
 ; _WinAPI_DeferWindowPos()
 ; ===============================================================================================================================
 
-; *Included in Constants.au3
+;Global Const $HWND_BOTTOM = 1
+;Global Const $HWND_NOTOPMOST = -2
+;Global Const $HWND_TOP = 0
+;Global Const $HWND_TOPMOST = -1
 
-#cs
-
-Global Const $HWND_BOTTOM = 1
-Global Const $HWND_NOTOPMOST = -2
-Global Const $HWND_TOP = 0
-Global Const $HWND_TOPMOST = -1
-
-Global Const $SWP_DRAWFRAME = 0x0020
-Global Const $SWP_FRAMECHANGED = 0x0020
-Global Const $SWP_HIDEWINDOW = 0x0080
-Global Const $SWP_NOACTIVATE = 0x0010
-Global Const $SWP_NOCOPYBITS = 0x0100
-Global Const $SWP_NOMOVE = 0x0002
-Global Const $SWP_NOOWNERZORDER = 0x0200
-Global Const $SWP_NOREDRAW = 0x0008
-Global Const $SWP_NOREPOSITION = 0x0200
-Global Const $SWP_NOSENDCHANGING = 0x0400
-Global Const $SWP_NOSIZE = 0x0001
-Global Const $SWP_NOZORDER = 0x0004
-Global Const $SWP_SHOWWINDOW = 0x0040
-
-#ce
+;Global Const $SWP_DRAWFRAME = 0x0020
+;Global Const $SWP_FRAMECHANGED = 0x0020
+;Global Const $SWP_HIDEWINDOW = 0x0080
+;Global Const $SWP_NOACTIVATE = 0x0010
+;Global Const $SWP_NOCOPYBITS = 0x0100
+;Global Const $SWP_NOMOVE = 0x0002
+;Global Const $SWP_NOOWNERZORDER = 0x0200
+;Global Const $SWP_NOREDRAW = 0x0008
+;Global Const $SWP_NOREPOSITION = 0x0200
+;Global Const $SWP_NOSENDCHANGING = 0x0400
+;Global Const $SWP_NOSIZE = 0x0001
+;Global Const $SWP_NOZORDER = 0x0004
+;Global Const $SWP_SHOWWINDOW = 0x0040
 
 ; ===============================================================================================================================
 ; _WinAPI_DefineDosDevice()
@@ -699,73 +1454,74 @@ Global Const $SMART_RCV_DRIVE_DATA = 0x0007C088
 Global Const $SMART_SEND_DRIVE_COMMAND = 0x0007C084
 
 ; ===============================================================================================================================
+; _WinAPI_DllGetVersion()
+; ===============================================================================================================================
+
+Global Const $DLLVER_PLATFORM_WINDOWS = 0x01
+Global Const $DLLVER_PLATFORM_NT = 0x02
+
+; ===============================================================================================================================
 ; _WinAPI_DrawShadowText()
 ; ===============================================================================================================================
 
-; *Included in WindowsConstants.au3
-
-#cs
-
-Global Const $DT_BOTTOM = 0x00000008
-Global Const $DT_CALCRECT = 0x00000400
-Global Const $DT_CENTER = 0x00000001
-Global Const $DT_EDITCONTROL = 0x00002000
-Global Const $DT_END_ELLIPSIS = 0x00008000
-Global Const $DT_EXPANDTABS = 0x00000040
-Global Const $DT_EXTERNALLEADING = 0x00000200
-Global Const $DT_HIDEPREFIX = 0x00100000
-Global Const $DT_INTERNAL = 0x00001000
-Global Const $DT_LEFT = 0x00000000
-Global Const $DT_MODIFYSTRING = 0x00010000
-Global Const $DT_NOCLIP = 0x00000100
-Global Const $DT_NOFULLWIDTHCHARBREAK = 0x00080000
-Global Const $DT_NOPREFIX = 0x00000800
-Global Const $DT_PATH_ELLIPSIS = 0x00004000
-Global Const $DT_PREFIXONLY = 0x00200000
-Global Const $DT_RIGHT = 0x00000002
-Global Const $DT_RTLREADING = 0x00020000
-Global Const $DT_SINGLELINE = 0x00000020
-Global Const $DT_TABSTOP = 0x00000080
-Global Const $DT_TOP = 0x00000000
-Global Const $DT_VCENTER = 0x00000004
-Global Const $DT_WORDBREAK = 0x00000010
-Global Const $DT_WORD_ELLIPSIS = 0x00040000
-
-#ce
+;Global Const $DT_BOTTOM = 0x00000008
+;Global Const $DT_CALCRECT = 0x00000400
+;Global Const $DT_CENTER = 0x00000001
+;Global Const $DT_EDITCONTROL = 0x00002000
+;Global Const $DT_END_ELLIPSIS = 0x00008000
+;Global Const $DT_EXPANDTABS = 0x00000040
+;Global Const $DT_EXTERNALLEADING = 0x00000200
+;Global Const $DT_HIDEPREFIX = 0x00100000
+;Global Const $DT_INTERNAL = 0x00001000
+;Global Const $DT_LEFT = 0x00000000
+;Global Const $DT_MODIFYSTRING = 0x00010000
+;Global Const $DT_NOCLIP = 0x00000100
+;Global Const $DT_NOFULLWIDTHCHARBREAK = 0x00080000
+;Global Const $DT_NOPREFIX = 0x00000800
+;Global Const $DT_PATH_ELLIPSIS = 0x00004000
+;Global Const $DT_PREFIXONLY = 0x00200000
+;Global Const $DT_RIGHT = 0x00000002
+;Global Const $DT_RTLREADING = 0x00020000
+;Global Const $DT_SINGLELINE = 0x00000020
+;Global Const $DT_TABSTOP = 0x00000080
+;Global Const $DT_TOP = 0x00000000
+;Global Const $DT_VCENTER = 0x00000004
+;Global Const $DT_WORDBREAK = 0x00000010
+;Global Const $DT_WORD_ELLIPSIS = 0x00040000
 
 ; ===============================================================================================================================
 ; _WinAPI_DrawThemeEdge()
 ; ===============================================================================================================================
 
-Global Const $BDR_RAISEDINNER = 0x04
-Global Const $BDR_SUNKENINNER = 0x08
-Global Const $BDR_RAISEDOUTER = 0x01
-Global Const $BDR_SUNKENOUTER = 0x02
+;Global Const $BDR_RAISEDINNER = 0x04
+;Global Const $BDR_SUNKENINNER = 0x08
+;Global Const $BDR_RAISEDOUTER = 0x01
+;Global Const $BDR_SUNKENOUTER = 0x02
 
-Global Const $EDGE_BUMP = BitOR($BDR_RAISEDOUTER, $BDR_SUNKENINNER)
-Global Const $EDGE_ETCHED = BitOR($BDR_SUNKENOUTER, $BDR_RAISEDINNER)
-Global Const $EDGE_RAISED = BitOR($BDR_RAISEDOUTER, $BDR_RAISEDINNER)
-Global Const $EDGE_SUNKEN = BitOR($BDR_SUNKENOUTER, $BDR_SUNKENINNER)
+;Global Const $EDGE_BUMP = BitOR($BDR_RAISEDOUTER, $BDR_SUNKENINNER)
+;Global Const $EDGE_ETCHED = BitOR($BDR_SUNKENOUTER, $BDR_RAISEDINNER)
+;Global Const $EDGE_RAISED = BitOR($BDR_RAISEDOUTER, $BDR_RAISEDINNER)
+;Global Const $EDGE_SUNKEN = BitOR($BDR_SUNKENOUTER, $BDR_SUNKENINNER)
 
-Global Const $BF_ADJUST = 0x2000
-Global Const $BF_BOTTOM = 0x0008
-Global Const $BF_DIAGONAL = 0x0010
-Global Const $BF_FLAT = 0x4000
-Global Const $BF_LEFT = 0x0001
-Global Const $BF_MIDDLE = 0x0800
-Global Const $BF_MONO = 0x8000
-Global Const $BF_RIGHT = 0x0004
-Global Const $BF_SOFT = 0x1000
-Global Const $BF_TOP = 0x0002
-Global Const $BF_BOTTOMLEFT = BitOR($BF_BOTTOM, $BF_LEFT)
-Global Const $BF_BOTTOMRIGHT = BitOR($BF_BOTTOM, $BF_RIGHT)
-Global Const $BF_DIAGONAL_ENDBOTTOMLEFT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_LEFT)
-Global Const $BF_DIAGONAL_ENDBOTTOMRIGHT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_RIGHT)
-Global Const $BF_DIAGONAL_ENDTOPLEFT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_LEFT)
-Global Const $BF_DIAGONAL_ENDTOPRIGHT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_RIGHT)
-Global Const $BF_RECT = BitOR($BF_LEFT, $BF_TOP, $BF_RIGHT, $BF_BOTTOM)
-Global Const $BF_TOPLEFT = BitOR($BF_TOP, $BF_LEFT)
-Global Const $BF_TOPRIGHT = BitOR($BF_TOP, $BF_RIGHT)
+;Global Const $BF_ADJUST = 0x2000
+;Global Const $BF_BOTTOM = 0x0008
+;Global Const $BF_DIAGONAL = 0x0010
+;Global Const $BF_FLAT = 0x4000
+;Global Const $BF_LEFT = 0x0001
+;Global Const $BF_MIDDLE = 0x0800
+;Global Const $BF_MONO = 0x8000
+;Global Const $BF_RIGHT = 0x0004
+;Global Const $BF_SOFT = 0x1000
+;Global Const $BF_TOP = 0x0002
+;Global Const $BF_BOTTOMLEFT = BitOR($BF_BOTTOM, $BF_LEFT)
+;Global Const $BF_BOTTOMRIGHT = BitOR($BF_BOTTOM, $BF_RIGHT)
+;Global Const $BF_DIAGONAL_ENDBOTTOMLEFT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_LEFT)
+;Global Const $BF_DIAGONAL_ENDBOTTOMRIGHT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_RIGHT)
+;Global Const $BF_DIAGONAL_ENDTOPLEFT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_LEFT)
+;Global Const $BF_DIAGONAL_ENDTOPRIGHT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_RIGHT)
+;Global Const $BF_RECT = BitOR($BF_LEFT, $BF_TOP, $BF_RIGHT, $BF_BOTTOM)
+;Global Const $BF_TOPLEFT = BitOR($BF_TOP, $BF_LEFT)
+;Global Const $BF_TOPRIGHT = BitOR($BF_TOP, $BF_RIGHT)
 
 ; ===============================================================================================================================
 ; _WinAPI_DrawThemeTextEx()
@@ -798,25 +1554,20 @@ Global Const $TST_CONTINUOUS = 2
 Global Const $DUPLICATE_CLOSE_SOURCE = 0x01
 Global Const $DUPLICATE_SAME_ACCESS = 0x02
 
-; *Included in ProcessConstants.au3
-
-#cs
-
-Global Const $PROCESS_ALL_ACCESS = 0x001F0FFF
-Global Const $PROCESS_CREATE_PROCESS = 0x00000080
-Global Const $PROCESS_CREATE_THREAD = 0x00000002
-Global Const $PROCESS_DUP_HANDLE = 0x00000040
-Global Const $PROCESS_QUERY_INFORMATION = 0x00000400
-Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x00001000
-Global Const $PROCESS_SET_INFORMATION = 0x00000200
-Global Const $PROCESS_SET_QUOTA = 0x00000100
-Global Const $PROCESS_SUSPEND_RESUME = 0x00000800
-Global Const $PROCESS_TERMINATE = 0x00000001
-Global Const $PROCESS_VM_OPERATION = 0x00000008
-Global Const $PROCESS_VM_READ = 0x00000010
-Global Const $PROCESS_VM_WRITE = 0x00000020
-
-#ce
+;Global Const $PROCESS_CREATE_PROCESS = 0x0080
+;Global Const $PROCESS_CREATE_THREAD = 0x0002
+;Global Const $PROCESS_DUP_HANDLE = 0x0040
+;Global Const $PROCESS_QUERY_INFORMATION = 0x0400
+Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+;Global Const $PROCESS_SET_INFORMATION = 0x0200
+;Global Const $PROCESS_SET_QUOTA = 0x0100
+;Global Const $PROCESS_SET_SESSIONID = 0x0004
+;Global Const $PROCESS_SUSPEND_RESUME = 0x0800
+;Global Const $PROCESS_TERMINATE = 0x0001
+;Global Const $PROCESS_VM_OPERATION = 0x0008
+;Global Const $PROCESS_VM_READ = 0x0010
+;Global Const $PROCESS_VM_WRITE = 0x0020
+;Global Const $PROCESS_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $PROCESS_CREATE_PROCESS, $PROCESS_CREATE_THREAD, $PROCESS_DUP_HANDLE, $PROCESS_QUERY_INFORMATION, $PROCESS_SET_INFORMATION, $PROCESS_SET_QUOTA, $PROCESS_SET_SESSIONID, $PROCESS_SUSPEND_RESUME, $PROCESS_TERMINATE, $PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
 
 ; ===============================================================================================================================
 ; _WinAPI_DwmGetWindowAttribute(), _WinAPI_DwmSetWindowAttribute()
@@ -831,8 +1582,6 @@ Global Const $DWMWA_NONCLIENT_RTL_LAYOUT = 6
 Global Const $DWMWA_FORCE_ICONIC_REPRESENTATION = 7
 Global Const $DWMWA_FLIP3D_POLICY = 8
 Global Const $DWMWA_EXTENDED_FRAME_BOUNDS = 9
-
-; *Windows 7 or later
 Global Const $DWMWA_HAS_ICONIC_BITMAP = 10
 Global Const $DWMWA_DISALLOW_PEEK = 11
 Global Const $DWMWA_EXCLUDED_FROM_PEEK = 12
@@ -852,8 +1601,14 @@ Global Const $DWMFLIP3D_EXCLUDEABOVE = 2
 Global Const $ENUM_CURRENT_SETTINGS = -1
 Global Const $ENUM_REGISTRY_SETTINGS = -2
 
-Global Const $DM_GRAYSCALE = 0x01
-Global Const $DM_INTERLACED = 0x02
+; ===============================================================================================================================
+; _WinAPI_EnumProcessModules()
+; ===============================================================================================================================
+
+Global Const $LIST_MODULES_32BIT = 1
+Global Const $LIST_MODULES_64BIT = 2
+Global Const $LIST_MODULES_ALL = 3
+Global Const $LIST_MODULES_DEFAULT = 0
 
 ; ===============================================================================================================================
 ; _WinAPI_ExtFloodFill()
@@ -866,17 +1621,11 @@ Global Const $FLOODFILLSURFACE = 1
 ; _WinAPI_ExtSelectClipRgn(), _WinAPI_SelectClipPath()
 ; ===============================================================================================================================
 
-; *Included in WindowsConstants.au3
-
-#cs
-
-Global Const $RGN_AND = 1
-Global Const $RGN_OR = 2
-Global Const $RGN_XOR = 3
-Global Const $RGN_DIFF = 4
-Global Const $RGN_COPY = 5
-
-#ce
+;Global Const $RGN_AND = 1
+;Global Const $RGN_OR = 2
+;Global Const $RGN_XOR = 3
+;Global Const $RGN_DIFF = 4
+;Global Const $RGN_COPY = 5
 
 ; ===============================================================================================================================
 ; _WinAPI_FindResource(), _WinAPI_FindResourceEx(), _WinAPI_UpdateResource()
@@ -903,6 +1652,28 @@ Global Const $RT_RCDATA = 10
 Global Const $RT_STRING = 6
 Global Const $RT_VERSION = 16
 Global Const $RT_VXD = 20
+
+; ===============================================================================================================================
+; _WinAPI_FindText(), _WinAPI_ReplaceText()
+; ===============================================================================================================================
+
+Global Const $FR_DIALOGTERM = 0x00000040
+;Global Const $FR_DOWN = 0x00000001
+Global Const $FR_ENABLEHOOK = 0x00000100
+Global Const $FR_ENABLETEMPLATE = 0x00000200
+Global Const $FR_ENABLETEMPLATEHANDLE = 0x00002000
+Global Const $FR_FINDNEXT = 0x00000008
+Global Const $FR_HIDEUPDOWN = 0x00004000
+Global Const $FR_HIDEMATCHCASE = 0x00008000
+Global Const $FR_HIDEWHOLEWORD = 0x00010000
+;Global Const $FR_MATCHCASE = 0x00000004
+Global Const $FR_NOMATCHCASE = 0x00000800
+Global Const $FR_NOUPDOWN = 0x00000400
+Global Const $FR_NOWHOLEWORD = 0x00001000
+Global Const $FR_REPLACE = 0x00000010
+Global Const $FR_REPLACEALL = 0x00000020
+Global Const $FR_SHOWHELP = 0x00000080
+;Global Const $FR_WHOLEWORD = 0x00000002
 
 ; ===============================================================================================================================
 ; _WinAPI_FormatDriveDlg()
@@ -981,20 +1752,35 @@ Global Const $DOCKINFO_USER_DOCKED = 0x05
 Global Const $DOCKINFO_USER_UNDOCKED = 0x06
 
 ; ===============================================================================================================================
+; _WinAPI_GetCurrentObject(), _WinAPI_GetObjectType()
+; ===============================================================================================================================
+
+Global Const $OBJ_BITMAP = 7
+Global Const $OBJ_BRUSH = 2
+Global Const $OBJ_COLORSPACE = 14
+Global Const $OBJ_DC = 3
+Global Const $OBJ_ENHMETADC = 12
+Global Const $OBJ_ENHMETAFILE = 13
+Global Const $OBJ_EXTPEN = 11
+Global Const $OBJ_FONT = 6
+Global Const $OBJ_MEMDC = 10
+Global Const $OBJ_METADC = 4
+Global Const $OBJ_METAFILE = 9
+Global Const $OBJ_PAL = 5
+Global Const $OBJ_PEN = 1
+Global Const $OBJ_REGION = 8
+
+; ===============================================================================================================================
 ; _WinAPI_GetDateFormat()
 ; ===============================================================================================================================
 
-Global Const $DATE_LONGDATE = 0x02
-Global Const $DATE_SHORTDATE = 0x01
-Global Const $DATE_USE_ALT_CALENDAR = 0x04
-
-; *Windows Vista or later
-Global Const $DATE_LTRREADING = 0x10
-Global Const $DATE_RTLREADING = 0x20
-Global Const $DATE_YEARMONTH = 0x08
-
-; *Windows 7 or later
 Global Const $DATE_AUTOLAYOUT = 0x40
+Global Const $DATE_LONGDATE = 0x02
+Global Const $DATE_LTRREADING = 0x10
+Global Const $DATE_SHORTDATE = 0x01
+Global Const $DATE_RTLREADING = 0x20
+Global Const $DATE_USE_ALT_CALENDAR = 0x04
+Global Const $DATE_YEARMONTH = 0x08
 
 ; ===============================================================================================================================
 ; _WinAPI_GetDCEx()
@@ -1032,67 +1818,77 @@ Global Const $DRIVE_BUS_TYPE_SD = 0x0C
 Global Const $DRIVE_BUS_TYPE_MMC = 0x0D
 
 ; ===============================================================================================================================
-; _WinAPI_GetDriveNumber()
+; _WinAPI_IOCTL()
 ; ===============================================================================================================================
 
-Global Const $FILE_DEVICE_8042_PORT = 0x27
-Global Const $FILE_DEVICE_ACPI = 0x32
-Global Const $FILE_DEVICE_BATTERY = 0x29
-Global Const $FILE_DEVICE_BEEP = 0x01
-Global Const $FILE_DEVICE_BUS_EXTENDER = 0x2A
-Global Const $FILE_DEVICE_CD_ROM = 0x02
-Global Const $FILE_DEVICE_CD_ROM_FILE_SYSTEM = 0x03
-Global Const $FILE_DEVICE_CHANGER = 0x30
-Global Const $FILE_DEVICE_CONTROLLER = 0x04
-Global Const $FILE_DEVICE_DATALINK = 0x05
-Global Const $FILE_DEVICE_DFS = 0x06
-Global Const $FILE_DEVICE_DFS_FILE_SYSTEM = 0x35
-Global Const $FILE_DEVICE_DFS_VOLUME = 0x36
-Global Const $FILE_DEVICE_DISK = 0x07
-Global Const $FILE_DEVICE_DISK_FILE_SYSTEM = 0x08
-Global Const $FILE_DEVICE_DVD = 0x33
-Global Const $FILE_DEVICE_FILE_SYSTEM = 0x09
-Global Const $FILE_DEVICE_FIPS = 0x3A
-Global Const $FILE_DEVICE_FULLSCREEN_VIDEO = 0x34
-Global Const $FILE_DEVICE_INPORT_PORT = 0x0A
-Global Const $FILE_DEVICE_KEYBOARD = 0x0B
-Global Const $FILE_DEVICE_KS = 0x2F
-Global Const $FILE_DEVICE_KSEC = 0x39
-Global Const $FILE_DEVICE_MAILSLOT = 0x0C
-Global Const $FILE_DEVICE_MASS_STORAGE = 0x2D
-Global Const $FILE_DEVICE_MIDI_IN = 0x0D
-Global Const $FILE_DEVICE_MIDI_OUT = 0x0E
-Global Const $FILE_DEVICE_MODEM = 0x2B
-Global Const $FILE_DEVICE_MOUSE = 0x0F
-Global Const $FILE_DEVICE_MULTI_UNC_PROVIDER = 0x10
-Global Const $FILE_DEVICE_NAMED_PIPE = 0x11
-Global Const $FILE_DEVICE_NETWORK = 0x12
-Global Const $FILE_DEVICE_NETWORK_BROWSER = 0x13
-Global Const $FILE_DEVICE_NETWORK_FILE_SYSTEM = 0x14
-Global Const $FILE_DEVICE_NETWORK_REDIRECTOR = 0x28
-Global Const $FILE_DEVICE_NULL = 0x15
-Global Const $FILE_DEVICE_PARALLEL_PORT = 0x16
-Global Const $FILE_DEVICE_PHYSICAL_NETCARD = 0x17
-Global Const $FILE_DEVICE_PRINTER = 0x18
-Global Const $FILE_DEVICE_SCANNER = 0x19
-Global Const $FILE_DEVICE_SCREEN = 0x1C
-Global Const $FILE_DEVICE_SERENUM = 0x37
-Global Const $FILE_DEVICE_SERIAL_MOUSE_PORT = 0x1A
-Global Const $FILE_DEVICE_SERIAL_PORT = 0x1B
-Global Const $FILE_DEVICE_SMARTCARD = 0x31
-Global Const $FILE_DEVICE_SMB = 0x2E
-Global Const $FILE_DEVICE_SOUND = 0x1D
-Global Const $FILE_DEVICE_STREAMS = 0x1E
-Global Const $FILE_DEVICE_TAPE = 0x1F
-Global Const $FILE_DEVICE_TAPE_FILE_SYSTEM = 0x20
-Global Const $FILE_DEVICE_TERMSRV = 0x38
-Global Const $FILE_DEVICE_TRANSPORT = 0x21
-Global Const $FILE_DEVICE_UNKNOWN = 0x22
-Global Const $FILE_DEVICE_VDM = 0x2C
-Global Const $FILE_DEVICE_VIDEO = 0x23
-Global Const $FILE_DEVICE_VIRTUAL_DISK = 0x24
-Global Const $FILE_DEVICE_WAVE_IN = 0x25
-Global Const $FILE_DEVICE_WAVE_OUT = 0x26
+Global Const $FILE_DEVICE_8042_PORT = 0x0027
+Global Const $FILE_DEVICE_ACPI = 0x0032
+Global Const $FILE_DEVICE_BATTERY = 0x0029
+Global Const $FILE_DEVICE_BEEP = 0x0001
+Global Const $FILE_DEVICE_BUS_EXTENDER = 0x002A
+Global Const $FILE_DEVICE_CD_ROM = 0x0002
+Global Const $FILE_DEVICE_CD_ROM_FILE_SYSTEM = 0x0003
+Global Const $FILE_DEVICE_CHANGER = 0x0030
+Global Const $FILE_DEVICE_CONTROLLER = 0x0004
+Global Const $FILE_DEVICE_DATALINK = 0x0005
+Global Const $FILE_DEVICE_DFS = 0x0006
+Global Const $FILE_DEVICE_DFS_FILE_SYSTEM = 0x0035
+Global Const $FILE_DEVICE_DFS_VOLUME = 0x0036
+Global Const $FILE_DEVICE_DISK = 0x0007
+Global Const $FILE_DEVICE_DISK_FILE_SYSTEM = 0x0008
+Global Const $FILE_DEVICE_DVD = 0x0033
+Global Const $FILE_DEVICE_FILE_SYSTEM = 0x0009
+Global Const $FILE_DEVICE_FIPS = 0x003A
+Global Const $FILE_DEVICE_FULLSCREEN_VIDEO = 0x0034
+Global Const $FILE_DEVICE_INPORT_PORT = 0x000A
+Global Const $FILE_DEVICE_KEYBOARD = 0x000B
+Global Const $FILE_DEVICE_KS = 0x002F
+Global Const $FILE_DEVICE_KSEC = 0x0039
+Global Const $FILE_DEVICE_MAILSLOT = 0x000C
+Global Const $FILE_DEVICE_MASS_STORAGE = 0x002D
+Global Const $FILE_DEVICE_MIDI_IN = 0x000D
+Global Const $FILE_DEVICE_MIDI_OUT = 0x000E
+Global Const $FILE_DEVICE_MODEM = 0x002B
+Global Const $FILE_DEVICE_MOUSE = 0x000F
+Global Const $FILE_DEVICE_MULTI_UNC_PROVIDER = 0x0010
+Global Const $FILE_DEVICE_NAMED_PIPE = 0x0011
+Global Const $FILE_DEVICE_NETWORK = 0x0012
+Global Const $FILE_DEVICE_NETWORK_BROWSER = 0x0013
+Global Const $FILE_DEVICE_NETWORK_FILE_SYSTEM = 0x0014
+Global Const $FILE_DEVICE_NETWORK_REDIRECTOR = 0x0028
+Global Const $FILE_DEVICE_NULL = 0x0015
+Global Const $FILE_DEVICE_PARALLEL_PORT = 0x0016
+Global Const $FILE_DEVICE_PHYSICAL_NETCARD = 0x0017
+Global Const $FILE_DEVICE_PRINTER = 0x0018
+Global Const $FILE_DEVICE_SCANNER = 0x0019
+Global Const $FILE_DEVICE_SCREEN = 0x001C
+Global Const $FILE_DEVICE_SERENUM = 0x0037
+Global Const $FILE_DEVICE_SERIAL_MOUSE_PORT = 0x001A
+Global Const $FILE_DEVICE_SERIAL_PORT = 0x001B
+Global Const $FILE_DEVICE_SMARTCARD = 0x0031
+Global Const $FILE_DEVICE_SMB = 0x002E
+Global Const $FILE_DEVICE_SOUND = 0x001D
+Global Const $FILE_DEVICE_STREAMS = 0x001E
+Global Const $FILE_DEVICE_TAPE = 0x001F
+Global Const $FILE_DEVICE_TAPE_FILE_SYSTEM = 0x0020
+Global Const $FILE_DEVICE_TERMSRV = 0x0038
+Global Const $FILE_DEVICE_TRANSPORT = 0x0021
+Global Const $FILE_DEVICE_UNKNOWN = 0x0022
+Global Const $FILE_DEVICE_VDM = 0x002C
+Global Const $FILE_DEVICE_VIDEO = 0x0023
+Global Const $FILE_DEVICE_VIRTUAL_DISK = 0x0024
+Global Const $FILE_DEVICE_WAVE_IN = 0x0025
+Global Const $FILE_DEVICE_WAVE_OUT = 0x0026
+
+Global Const $FILE_ANY_ACCESS = 0x00
+Global Const $FILE_SPECIAL_ACCESS = $FILE_ANY_ACCESS
+Global Const $FILE_READ_ACCESS = 0x01
+Global Const $FILE_WRITE_ACCESS = 0x02
+
+Global Const $METHOD_BUFFERED = 0
+Global Const $METHOD_IN_DIRECT = 1
+Global Const $METHOD_OUT_DIRECT = 2
+Global Const $METHOD_NEITHER = 3
 
 ; ===============================================================================================================================
 ; _WinAPI_GetDriveType()
@@ -1116,6 +1912,16 @@ Global Const $SEM_NOGPFAULTERRORBOX = 0x0002
 Global Const $SEM_NOOPENFILEERRORBOX = 0x8000
 
 ; ===============================================================================================================================
+; _WinAPI_GetFileType()
+; ===============================================================================================================================
+
+Global Const $FILE_TYPE_CHAR = 0x0002
+Global Const $FILE_TYPE_DISK = 0x0001
+Global Const $FILE_TYPE_PIPE = 0x0003
+Global Const $FILE_TYPE_REMOTE = 0x8000
+Global Const $FILE_TYPE_UNKNOWN = 0x0000
+
+; ===============================================================================================================================
 ; _WinAPI_GetFinalPathNameByHandle()
 ; ===============================================================================================================================
 
@@ -1126,6 +1932,13 @@ Global Const $VOLUME_NAME_DOS = 0x0
 Global Const $VOLUME_NAME_GUID = 0x1
 Global Const $VOLUME_NAME_NONE = 0x4
 Global Const $VOLUME_NAME_NT = 0x2
+
+; ===============================================================================================================================
+; _WinAPI_GetGraphicsMode(), _WinAPI_SetGraphicsMode()
+; ===============================================================================================================================
+
+Global Const $GM_COMPATIBLE = 1
+Global Const $GM_ADVANCED = 2
 
 ; ===============================================================================================================================
 ; _WinAPI_GetGUIThreadInfo()
@@ -1148,14 +1961,8 @@ Global Const $HANDLE_FLAG_PROTECT_FROM_CLOSE = 0x00000002
 ; _WinAPI_GetLayeredWindowAttributes(), _WinAPI_SetLayeredWindowAttributes()
 ; ===============================================================================================================================
 
-; *Included in WindowsConstants.au3
-
-#cs
-
-Global Const $LWA_COLORKEY = 0x01
-Global Const $LWA_ALPHA = 0x02
-
-#ce
+;Global Const $LWA_COLORKEY = 0x01
+;Global Const $LWA_ALPHA = 0x02
 
 ; ===============================================================================================================================
 ; _WinAPI_GetLocaleInfo(), _WinAPI_SetLocaleInfo()
@@ -1292,6 +2099,19 @@ Global Const $LOCALE_SYSTEM_DEFAULT = 0x0800
 Global Const $LOCALE_USER_DEFAULT = 0x0400
 
 ; ===============================================================================================================================
+; _WinAPI_GetMapMode(), _WinAPI_SetMapMode()
+; ===============================================================================================================================
+
+Global Const $MM_ANISOTROPIC = 8
+Global Const $MM_HIENGLISH = 5
+Global Const $MM_HIMETRIC = 3
+Global Const $MM_ISOTROPIC = 7
+Global Const $MM_LOENGLISH = 4
+Global Const $MM_LOMETRIC = 2
+Global Const $MM_TEXT = 1
+Global Const $MM_TWIPS = 6
+
+; ===============================================================================================================================
 ; _WinAPI_GetModuleHandleEx()
 ; ===============================================================================================================================
 
@@ -1299,25 +2119,6 @@ Global Const $GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS = 0x00000004
 Global Const $GET_MODULE_HANDLE_EX_FLAG_PIN = 0x00000001
 Global Const $GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT = 0x00000002
 Global Const $GET_MODULE_HANDLE_EX_FLAG_DEFAULT = 0x00000000
-
-; ===============================================================================================================================
-; _WinAPI_GetObjectType()
-; ===============================================================================================================================
-
-Global Const $OBJ_BITMAP = 7
-Global Const $OBJ_BRUSH = 2
-Global Const $OBJ_COLORSPACE = 14
-Global Const $OBJ_DC = 3
-Global Const $OBJ_ENHMETADC = 12
-Global Const $OBJ_ENHMETAFILE = 13
-Global Const $OBJ_EXTPEN = 11
-Global Const $OBJ_FONT = 6
-Global Const $OBJ_MEMDC = 10
-Global Const $OBJ_METADC = 4
-Global Const $OBJ_METAFILE = 9
-Global Const $OBJ_PAL = 5
-Global Const $OBJ_PEN = 1
-Global Const $OBJ_REGION = 8
 
 ; ===============================================================================================================================
 ; _WinAPI_GetROP2(), _WinAPI_SetROP2()
@@ -1342,49 +2143,61 @@ Global Const $R2_WHITE = 16
 Global Const $R2_XORPEN = 7
 
 ; ===============================================================================================================================
+; _WinAPI_GetStartupInfo()
+; ===============================================================================================================================
+
+;Global Const $STARTF_FORCEONFEEDBACK = 0x00000040
+;Global Const $STARTF_FORCEOFFFEEDBACK = 0x00000080
+Global Const $STARTF_PREVENTPINNING = 0x00002000
+;Global Const $STARTF_RUNFULLSCREEN = 0x00000020
+Global Const $STARTF_TITLEISAPPID = 0x00001000
+Global Const $STARTF_TITLEISLINKNAME = 0x00000800
+;Global Const $STARTF_USECOUNTCHARS = 0x00000008
+;Global Const $STARTF_USEFILLATTRIBUTE = 0x00000010
+;Global Const $STARTF_USEHOTKEY = 0x00000200
+;Global Const $STARTF_USEPOSITION = 0x00000004
+;Global Const $STARTF_USESHOWWINDOW = 0x00000001
+;Global Const $STARTF_USESIZE = 0x00000002
+;Global Const $STARTF_USESTDHANDLES = 0x00000100
+
+; ===============================================================================================================================
 ; _WinAPI_GetSysColor(), _WinAPI_SetSysColor()
 ; ===============================================================================================================================
 
-; *Included in WindowsConstants.au3
-
-#cs
-
-Global Const $COLOR_3DDKSHADOW = 21
-Global Const $COLOR_3DFACE = 15
-Global Const $COLOR_3DHIGHLIGHT = 20
-Global Const $COLOR_3DLIGHT = 22
-Global Const $COLOR_3DSHADOW = 16
-Global Const $COLOR_ACTIVEBORDER = 10
-Global Const $COLOR_ACTIVECAPTION = 2
-Global Const $COLOR_APPWORKSPACE = 12
-Global Const $COLOR_BACKGROUND = 1
-Global Const $COLOR_BTNFACE = 15
-Global Const $COLOR_BTNHIGHLIGHT = 20
-Global Const $COLOR_BTNSHADOW = 16
-Global Const $COLOR_BTNTEXT = 18
-Global Const $COLOR_CAPTIONTEXT = 9
-Global Const $COLOR_DESKTOP = 1
-Global Const $COLOR_GRADIENTACTIVECAPTION = 27
-Global Const $COLOR_GRADIENTINACTIVECAPTION = 28
-Global Const $COLOR_GRAYTEXT = 17
-Global Const $COLOR_HIGHLIGHT = 13
-Global Const $COLOR_HIGHLIGHTTEXT = 14
-Global Const $COLOR_HOTLIGHT = 26
-Global Const $COLOR_INACTIVEBORDER = 11
-Global Const $COLOR_INACTIVECAPTION = 3
-Global Const $COLOR_INACTIVECAPTIONTEXT = 19
-Global Const $COLOR_INFOBK = 24
-Global Const $COLOR_INFOTEXT = 23
-Global Const $COLOR_MENU = 4
-Global Const $COLOR_MENUHILIGHT = 29
-Global Const $COLOR_MENUBAR = 30
-Global Const $COLOR_MENUTEXT = 7
-Global Const $COLOR_SCROLLBAR = 0
-Global Const $COLOR_WINDOW = 5
-Global Const $COLOR_WINDOWFRAME = 6
-Global Const $COLOR_WINDOWTEXT = 8
-
-#ce
+;Global Const $COLOR_3DDKSHADOW = 21
+;Global Const $COLOR_3DFACE = 15
+;Global Const $COLOR_3DHIGHLIGHT = 20
+;Global Const $COLOR_3DLIGHT = 22
+;Global Const $COLOR_3DSHADOW = 16
+;Global Const $COLOR_ACTIVEBORDER = 10
+;Global Const $COLOR_ACTIVECAPTION = 2
+;Global Const $COLOR_APPWORKSPACE = 12
+;Global Const $COLOR_BACKGROUND = 1
+;Global Const $COLOR_BTNFACE = 15
+;Global Const $COLOR_BTNHIGHLIGHT = 20
+;Global Const $COLOR_BTNSHADOW = 16
+;Global Const $COLOR_BTNTEXT = 18
+;Global Const $COLOR_CAPTIONTEXT = 9
+;Global Const $COLOR_DESKTOP = 1
+;Global Const $COLOR_GRADIENTACTIVECAPTION = 27
+;Global Const $COLOR_GRADIENTINACTIVECAPTION = 28
+;Global Const $COLOR_GRAYTEXT = 17
+;Global Const $COLOR_HIGHLIGHT = 13
+;Global Const $COLOR_HIGHLIGHTTEXT = 14
+;Global Const $COLOR_HOTLIGHT = 26
+;Global Const $COLOR_INACTIVEBORDER = 11
+;Global Const $COLOR_INACTIVECAPTION = 3
+;Global Const $COLOR_INACTIVECAPTIONTEXT = 19
+;Global Const $COLOR_INFOBK = 24
+;Global Const $COLOR_INFOTEXT = 23
+;Global Const $COLOR_MENU = 4
+;Global Const $COLOR_MENUHILIGHT = 29
+;Global Const $COLOR_MENUBAR = 30
+;Global Const $COLOR_MENUTEXT = 7
+;Global Const $COLOR_SCROLLBAR = 0
+;Global Const $COLOR_WINDOW = 5
+;Global Const $COLOR_WINDOWFRAME = 6
+;Global Const $COLOR_WINDOWTEXT = 8
 
 ; ===============================================================================================================================
 ; _WinAPI_GetSystemInfo()
@@ -1426,10 +2239,10 @@ Global Const $VTA_RIGHT = $TA_TOP
 ; _WinAPI_GetTextMetrics()
 ; ===============================================================================================================================
 
-Global Const $TMPF_FIXED_PITCH = 0x01
-Global Const $TMPF_VECTOR = 0x02
-Global Const $TMPF_TRUETYPE = 0x04
-Global Const $TMPF_DEVICE = 0x08
+;Global Const $TMPF_FIXED_PITCH = 0x01
+;Global Const $TMPF_VECTOR = 0x02
+;Global Const $TMPF_TRUETYPE = 0x04
+;Global Const $TMPF_DEVICE = 0x08
 
 ; ===============================================================================================================================
 ; _WinAPI_GetThemeAppProperties(), _WinAPI_SetThemeAppProperties()
@@ -1484,6 +2297,27 @@ Global Const $TIME_NOSECONDS = 0x02
 Global Const $TIME_NOTIMEMARKER = 0x04
 
 ; ===============================================================================================================================
+; _WinAPI_GetUDFColorMode(), _WinAPI_SetUDFColorMode()
+; ===============================================================================================================================
+
+Global Const $UDF_BGR = 1
+Global Const $UDF_RGB = 0
+
+; ===============================================================================================================================
+; _WinAPI_GetUserObjectInformation(), _WinAPI_SetUserObjectInformation()
+; ===============================================================================================================================
+
+Global Const $UOI_FLAGS = 1
+Global Const $UOI_HEAPSIZE = 5
+Global Const $UOI_IO = 6
+Global Const $UOI_NAME = 2
+Global Const $UOI_TYPE = 3
+Global Const $UOI_USER_SID = 4
+
+Global Const $DF_ALLOWOTHERACCOUNTHOOK = 0x01
+Global Const $WSF_VISIBLE = 0x01
+
+; ===============================================================================================================================
 ; _WinAPI_GetVersionEx()
 ; ===============================================================================================================================
 
@@ -1506,22 +2340,31 @@ Global Const $VER_NT_SERVER = 0x0000003
 Global Const $VER_NT_WORKSTATION = 0x0000001
 
 ; ===============================================================================================================================
+; _WinAPI_GetWindowDisplayAffinity(), _WinAPI_SetWindowDisplayAffinity()
+; ===============================================================================================================================
+
+Global Const $WDA_MONITOR = 0x01
+
+; ===============================================================================================================================
 ; _WinAPI_GetWindowLongEx(), _WinAPI_SetWindowLongEx()
 ; ===============================================================================================================================
 
-; *Included in Constants.au3
+;Global Const $GWL_EXSTYLE = -20
+;Global Const $GWL_HINSTANCE = -6
+;Global Const $GWL_HWNDPARENT = -8
+;Global Const $GWL_ID = -12
+;Global Const $GWL_STYLE = -16
+;Global Const $GWL_USERDATA = -21
+;Global Const $GWL_WNDPROC = -4
 
-#cs
+; ===============================================================================================================================
+; _WinAPI_GetWorldTransform(), _WinAPI_SetWorldTransform()
+; ===============================================================================================================================
 
-Global Const $GWL_EXSTYLE = -20
-Global Const $GWL_HINSTANCE = -6
-Global Const $GWL_HWNDPARENT = -8
-Global Const $GWL_ID = -12
-Global Const $GWL_STYLE = -16
-Global Const $GWL_USERDATA = -21
-Global Const $GWL_WNDPROC = -4
-
-#ce
+Global Const $MWT_IDENTITY = 0x01
+Global Const $MWT_LEFTMULTIPLY = 0x02
+Global Const $MWT_RIGHTMULTIPLY = 0x03
+Global Const $MWT_SET = 0x04
 
 ; ===============================================================================================================================
 ; _WinAPI_IsNetworkAlive()
@@ -1569,14 +2412,10 @@ Global Const $KEYEVENTF_KEYUP = 0x02
 ; _WinAPI_Keybd_Event() and similar
 ; ===============================================================================================================================
 
-; *Included (some) in Constants.au3
-
-#cs
-
-Global Const $VK_LBUTTON = 0x01
-Global Const $VK_RBUTTON = 0x02
+;Global Const $VK_LBUTTON = 0x01
+;Global Const $VK_RBUTTON = 0x02
 Global Const $VK_CANCEL = 0x03
-Global Const $VK_MBUTTON = 0x04
+;Global Const $VK_MBUTTON = 0x04
 Global Const $VK_XBUTTON1 = 0x05
 Global Const $VK_XBUTTON2 = 0x06
 Global Const $VK_BACK = 0x08
@@ -1590,14 +2429,14 @@ Global Const $VK_PAUSE = 0x13
 Global Const $VK_CAPITAL = 0x14
 Global Const $VK_ESCAPE = 0x1B
 Global Const $VK_SPACE = 0x20
-Global Const $VK_PRIOR = 0x21
-Global Const $VK_NEXT = 0x22
-Global Const $VK_END = 0x23
-Global Const $VK_HOME = 0x24
-Global Const $VK_LEFT = 0x25
-Global Const $VK_UP = 0x26
-Global Const $VK_RIGHT = 0x27
-Global Const $VK_DOWN = 0x28
+;Global Const $VK_PRIOR = 0x21
+;Global Const $VK_NEXT = 0x22
+;Global Const $VK_END = 0x23
+;Global Const $VK_HOME = 0x24
+;Global Const $VK_LEFT = 0x25
+;Global Const $VK_UP = 0x26
+;Global Const $VK_RIGHT = 0x27
+;Global Const $VK_DOWN = 0x28
 Global Const $VK_SELECT = 0x29
 Global Const $VK_PRINT = 0x2A
 Global Const $VK_EXECUTE = 0x2B
@@ -1734,173 +2573,131 @@ Global Const $VK_NONAME = 0xFC
 Global Const $VK_PA1 = 0xFD
 Global Const $VK_OEM_CLEAR = 0xFE
 
-#ce
-
 ; ===============================================================================================================================
 ; _WinAPI_LoadCursor()
 ; ===============================================================================================================================
 
-; *Included in Constants.au3
-
-#cs
-
-Global Const $IDC_APPSTARTING = 32650
-Global Const $IDC_HAND = 32649
-Global Const $IDC_ARROW = 32512
-Global Const $IDC_CROSS = 32515
-Global Const $IDC_IBEAM = 32513
-Global Const $IDC_ICON = 32641
-Global Const $IDC_NO = 32648
-Global Const $IDC_SIZE = 32640
-Global Const $IDC_SIZEALL = 32646
-Global Const $IDC_SIZENESW = 32643
-Global Const $IDC_SIZENS = 32645
-Global Const $IDC_SIZENWSE = 32642
-Global Const $IDC_SIZEWE = 32644
-Global Const $IDC_UPARROW = 32516
-Global Const $IDC_WAIT = 32514
-
-#ce
+;Global Const $IDC_APPSTARTING = 32650
+;Global Const $IDC_HAND = 32649
+;Global Const $IDC_ARROW = 32512
+;Global Const $IDC_CROSS = 32515
+;Global Const $IDC_IBEAM = 32513
+;Global Const $IDC_ICON = 32641
+;Global Const $IDC_NO = 32648
+;Global Const $IDC_SIZE = 32640
+;Global Const $IDC_SIZEALL = 32646
+;Global Const $IDC_SIZENESW = 32643
+;Global Const $IDC_SIZENS = 32645
+;Global Const $IDC_SIZENWSE = 32642
+;Global Const $IDC_SIZEWE = 32644
+;Global Const $IDC_UPARROW = 32516
+;Global Const $IDC_WAIT = 32514
 
 ; ===============================================================================================================================
 ; _WinAPI_LoadIconWithScaleDown()
 ; ===============================================================================================================================
 
-; *Included in Constants.au3
-
-#cs
-
-Global Const $IDI_APPLICATION = 32512
-Global Const $IDI_ASTERISK = 32516
-Global Const $IDI_EXCLAMATION = 32515
-Global Const $IDI_HAND = 32513
-Global Const $IDI_QUESTION = 32514
+;Global Const $IDI_APPLICATION = 32512
+;Global Const $IDI_ASTERISK = 32516
+;Global Const $IDI_EXCLAMATION = 32515
+;Global Const $IDI_HAND = 32513
+;Global Const $IDI_QUESTION = 32514
 Global Const $IDI_SHIELD = 32518
-Global Const $IDI_WINLOGO = 32517
+;Global Const $IDI_WINLOGO = 32517
 Global Const $IDI_ERROR = $IDI_HAND
 Global Const $IDI_INFORMATION = $IDI_ASTERISK
 Global Const $IDI_WARNING = $IDI_EXCLAMATION
 
-#ce
-
 ; ===============================================================================================================================
-; _WinAPI_LookupPrivilegeValue()
+; _WinAPI_LoadLibraryEx()
 ; ===============================================================================================================================
 
-; *Included in SecurityConstants.au3
+Global Const $LOAD_IGNORE_CODE_AUTHZ_LEVEL = 0x00000010
+;Global Const $LOAD_LIBRARY_AS_DATAFILE = 0x00000002
+Global Const $LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040
+Global Const $LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020
+Global Const $LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200
+Global Const $LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000
+Global Const $LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100
+Global Const $LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800
+Global Const $LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400
+;Global Const $LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
 
-#cs
+; ===============================================================================================================================
+; _WinAPI_MapVirtualKey()
+; ===============================================================================================================================
 
-Global Const $SE_ASSIGNPRIMARYTOKEN_NAME = 'SeAssignPrimaryTokenPrivilege'
-Global Const $SE_AUDIT_NAME = 'SeAuditPrivilege'
-Global Const $SE_BACKUP_NAME = 'SeBackupPrivilege'
-Global Const $SE_CHANGE_NOTIFY_NAME = 'SeChangeNotifyPrivilege'
-Global Const $SE_CREATE_GLOBAL_NAME = 'SeCreateGlobalPrivilege'
-Global Const $SE_CREATE_PAGEFILE_NAME = 'SeCreatePagefilePrivilege'
-Global Const $SE_CREATE_PERMANENT_NAME = 'SeCreatePermanentPrivilege'
-Global Const $SE_CREATE_SYMBOLIC_LINK_NAME = 'SeCreateSymbolicLinkPrivilege'
-Global Const $SE_CREATE_TOKEN_NAME = 'SeCreateTokenPrivilege'
-Global Const $SE_DEBUG_NAME = 'SeDebugPrivilege'
-Global Const $SE_ENABLE_DELEGATION_NAME = 'SeEnableDelegationPrivilege'
-Global Const $SE_IMPERSONATE_NAME = 'SeImpersonatePrivilege'
-Global Const $SE_INC_BASE_PRIORITY_NAME = 'SeIncreaseBasePriorityPrivilege'
-Global Const $SE_INCREASE_QUOTA_NAME = 'SeIncreaseQuotaPrivilege'
-Global Const $SE_INC_WORKING_SET_NAME = 'SeIncreaseWorkingSetPrivilege'
-Global Const $SE_LOAD_DRIVER_NAME = 'SeLoadDriverPrivilege'
-Global Const $SE_LOCK_MEMORY_NAME = 'SeLockMemoryPrivilege'
-Global Const $SE_MACHINE_ACCOUNT_NAME = 'SeMachineAccountPrivilege'
-Global Const $SE_MANAGE_VOLUME_NAME = 'SeManageVolumePrivilege'
-Global Const $SE_PROF_SINGLE_PROCESS_NAME = 'SeProfileSingleProcessPrivilege'
-Global Const $SE_RELABEL_NAME = 'SeRelabelPrivilege'
-Global Const $SE_REMOTE_SHUTDOWN_NAME = 'SeRemoteShutdownPrivilege'
-Global Const $SE_RESTORE_NAME = 'SeRestorePrivilege'
-Global Const $SE_SECURITY_NAME = 'SeSecurityPrivilege'
-Global Const $SE_SHUTDOWN_NAME = 'SeShutdownPrivilege'
-Global Const $SE_SYNC_AGENT_NAME = 'SeSyncAgentPrivilege'
-Global Const $SE_SYSTEM_ENVIRONMENT_NAME = 'SeSystemEnvironmentPrivilege'
-Global Const $SE_SYSTEM_PROFILE_NAME = 'SeSystemProfilePrivilege'
-Global Const $SE_SYSTEMTIME_NAME = 'SeSystemtimePrivilege'
-Global Const $SE_TAKE_OWNERSHIP_NAME = 'SeTakeOwnershipPrivilege'
-Global Const $SE_TCB_NAME = 'SeTcbPrivilege'
-Global Const $SE_TIME_ZONE_NAME = 'SeTimeZonePrivilege'
-Global Const $SE_TRUSTED_CREDMAN_ACCESS_NAME = 'SeTrustedCredManAccessPrivilege'
-Global Const $SE_UNDOCK_NAME = 'SeUndockPrivilege'
-Global Const $SE_UNSOLICITED_INPUT_NAME = 'SeUnsolicitedInputPrivilege'
-
-#ce
+Global Const $MAPVK_VK_TO_CHAR = 2
+Global Const $MAPVK_VK_TO_VSC = 0
+Global Const $MAPVK_VSC_TO_VK = 1
+Global Const $MAPVK_VSC_TO_VK_EX = 3
 
 ; ===============================================================================================================================
 ; _WinAPI_MessageBoxCheck(), _WinAPI_MessageBoxIndirect()
 ; ===============================================================================================================================
 
-; *Included (some) in Constants.au3
-
-#cs
-
-Global Const $MB_ABORTRETRYIGNORE = 0x00000002
+;Global Const $MB_ABORTRETRYIGNORE = 0x00000002
 Global Const $MB_CANCELTRYCONTINUE = 0x00000006
 Global Const $MB_HELP = 0x00004000
-Global Const $MB_OK = 0x00000000
-Global Const $MB_OKCANCEL = 0x00000001
-Global Const $MB_RETRYCANCEL = 0x00000005
-Global Const $MB_YESNO = 0x00000004
-Global Const $MB_YESNOCANCEL = 0x00000003
+;Global Const $MB_OK = 0x00000000
+;Global Const $MB_OKCANCEL = 0x00000001
+;Global Const $MB_RETRYCANCEL = 0x00000005
+;Global Const $MB_YESNO = 0x00000004
+;Global Const $MB_YESNOCANCEL = 0x00000003
 
-Global Const $MB_ICONEXCLAMATION = 0x00000030
+;Global Const $MB_ICONEXCLAMATION = 0x00000030
 Global Const $MB_ICONWARNING = 0x00000030
 Global Const $MB_ICONINFORMATION = 0x00000040
-Global Const $MB_ICONASTERISK = 0x00000040
-Global Const $MB_ICONQUESTION = 0x00000020
+;Global Const $MB_ICONASTERISK = 0x00000040
+;Global Const $MB_ICONQUESTION = 0x00000020
 Global Const $MB_ICONSTOP = 0x00000010
 Global Const $MB_ICONERROR = 0x00000010
-Global Const $MB_ICONHAND = 0x00000010
+;Global Const $MB_ICONHAND = 0x00000010
 Global Const $MB_USERICON = 0x00000080
 
-Global Const $MB_DEFBUTTON1 = 0x00000000
-Global Const $MB_DEFBUTTON2 = 0x00000100
-Global Const $MB_DEFBUTTON3 = 0x00000200
+;Global Const $MB_DEFBUTTON1 = 0x00000000
+;Global Const $MB_DEFBUTTON2 = 0x00000100
+;Global Const $MB_DEFBUTTON3 = 0x00000200
 Global Const $MB_DEFBUTTON4 = 0x00000300
 
-Global Const $MB_APPLMODAL = 0x00000000
-Global Const $MB_SYSTEMMODAL = 0x00001000
-Global Const $MB_TASKMODAL = 0x00002000
+;Global Const $MB_APPLMODAL = 0x00000000
+;Global Const $MB_SYSTEMMODAL = 0x00001000
+;Global Const $MB_TASKMODAL = 0x00002000
 
 Global Const $MB_DEFAULT_DESKTOP_ONLY = 0x00020000
 Global Const $MB_RIGHT = 0x00080000
 Global Const $MB_RTLREADING = 0x00100000
-Global Const $MB_SETFOREGROUND = 0x00010000L
-Global Const $MB_TOPMOST = 0x00040000
+Global Const $MB_SETFOREGROUND = 0x00010000
+;Global Const $MB_TOPMOST = 0x00040000
 Global Const $MB_SERVICE_NOTIFICATION = 0x00200000
 
-Global Const $IDABORT = 3
-Global Const $IDCANCEL = 2
-Global Const $IDCONTINUE = 11
-Global Const $IDIGNORE = 5
-Global Const $IDNO = 7
-Global Const $IDOK = 1
-Global Const $IDRETRY = 4
-Global Const $IDTRYAGAIN = 10
-Global Const $IDYES = 6
-
-#ce
+;Global Const $IDABORT = 3
+;Global Const $IDCANCEL = 2
+;Global Const $IDCONTINUE = 11
+;Global Const $IDIGNORE = 5
+;Global Const $IDNO = 7
+;Global Const $IDOK = 1
+;Global Const $IDRETRY = 4
+;Global Const $IDTRYAGAIN = 10
+;Global Const $IDYES = 6
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenMutex()
 ; ===============================================================================================================================
 
-Global Const $MUTEX_ALL_ACCESS = 0x001F0001
-Global Const $MUTEX_MODIFY_STATE = 0x00000001
+Global Const $MUTEX_MODIFY_STATE = 0x0001
+Global Const $MUTEX_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $MUTEX_MODIFY_STATE)
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenJobObject(), _WinAPI_QueryInformationJobObject(), _WinAPI_SetInformationJobObject()
 ; ===============================================================================================================================
 
-Global Const $JOB_OBJECT_ALL_ACCESS = 0x001F001F
-Global Const $JOB_OBJECT_ASSIGN_PROCESS = 0x00000001
-Global Const $JOB_OBJECT_QUERY = 0x00000004
-Global Const $JOB_OBJECT_SET_ATTRIBUTES = 0x00000002
-Global Const $JOB_OBJECT_SET_SECURITY_ATTRIBUTES = 0x00000010
-Global Const $JOB_OBJECT_TERMINATE = 0x00000008
+Global Const $JOB_OBJECT_ASSIGN_PROCESS = 0x0001
+Global Const $JOB_OBJECT_QUERY = 0x0004
+Global Const $JOB_OBJECT_SET_ATTRIBUTES = 0x0002
+Global Const $JOB_OBJECT_SET_SECURITY_ATTRIBUTES = 0x0010
+Global Const $JOB_OBJECT_TERMINATE = 0x0008
+Global Const $JOB_OBJECT_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $JOB_OBJECT_ASSIGN_PROCESS, $JOB_OBJECT_QUERY, $JOB_OBJECT_SET_ATTRIBUTES, $JOB_OBJECT_SET_SECURITY_ATTRIBUTES, $JOB_OBJECT_TERMINATE)
 
 Global Const $JOB_OBJECT_LIMIT_ACTIVE_PROCESS = 0x00000008
 Global Const $JOB_OBJECT_LIMIT_AFFINITY = 0x00000010
@@ -1938,60 +2735,80 @@ Global Const $JOB_OBJECT_POST_AT_END_OF_JOB = 1
 ; _WinAPI_OpenProcessToken()
 ; ===============================================================================================================================
 
-; *Included in SecurityConstants.au3
-
-#cs
-
-Global Const $TOKEN_ADJUST_DEFAULT = 0x00000080
-Global Const $TOKEN_ADJUST_GROUPS = 0x00000040
-Global Const $TOKEN_ADJUST_PRIVILEGES = 0x00000020
-Global Const $TOKEN_ADJUST_SESSIONID = 0x00000100
-Global Const $TOKEN_ASSIGN_PRIMARY = 0x00000001
-Global Const $TOKEN_DUPLICATE = 0x00000002
-Global Const $TOKEN_EXECUTE = 0x00020000
-Global Const $TOKEN_IMPERSONATE = 0x00000004
-Global Const $TOKEN_QUERY = 0x00000008
-Global Const $TOKEN_QUERY_SOURCE = 0x00000010
-Global Const $TOKEN_READ = 0x00020008
-Global Const $TOKEN_WRITE = 0x000200E0
-Global Const $TOKEN_ALL_ACCESS = 0x000F01FF
-
-#ce
+;Global Const $TOKEN_ADJUST_DEFAULT = 0x0080
+;Global Const $TOKEN_ADJUST_GROUPS = 0x0040
+;Global Const $TOKEN_ADJUST_PRIVILEGES = 0x0020
+;Global Const $TOKEN_ADJUST_SESSIONID = 0x0100
+;Global Const $TOKEN_ASSIGN_PRIMARY = 0x0001
+;Global Const $TOKEN_DUPLICATE = 0x0002
+Global Const $TOKEN_EXECUTE = $STANDARD_RIGHTS_EXECUTE
+;Global Const $TOKEN_IMPERSONATE = 0x0004
+;Global Const $TOKEN_QUERY = 0x0008
+;Global Const $TOKEN_QUERY_SOURCE = 0x0010
+Global Const $TOKEN_READ = BitOR($STANDARD_RIGHTS_READ, $TOKEN_QUERY)
+Global Const $TOKEN_WRITE = BitOR($STANDARD_RIGHTS_WRITE, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES)
+Global Const $TOKEN_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES, $TOKEN_ADJUST_SESSIONID, $TOKEN_ASSIGN_PRIMARY, $TOKEN_DUPLICATE, $TOKEN_EXECUTE, $TOKEN_IMPERSONATE, $TOKEN_QUERY, $TOKEN_QUERY_SOURCE)
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenSemaphore()
 ; ===============================================================================================================================
 
-Global Const $SEMAPHORE_ALL_ACCESS = 0x001F0003
-Global Const $SEMAPHORE_MODIFY_STATE = 0x00000002
+Global Const $SEMAPHORE_MODIFY_STATE = 0x0002
+Global Const $SEMAPHORE_QUERY_STATE = 0x0001
+Global Const $SEMAPHORE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $SEMAPHORE_MODIFY_STATE, $SEMAPHORE_QUERY_STATE)
+
+; ===============================================================================================================================
+; _WinAPI_PageSetupDlg()
+; ===============================================================================================================================
+
+Global Const $PSD_DEFAULTMINMARGINS = 0x00000000
+Global Const $PSD_DISABLEMARGINS = 0x00000010
+Global Const $PSD_DISABLEORIENTATION = 0x00000100
+Global Const $PSD_DISABLEPAGEPAINTING = 0x00080000
+Global Const $PSD_DISABLEPAPER = 0x00000200
+Global Const $PSD_DISABLEPRINTER = 0x00000020
+Global Const $PSD_ENABLEPAGEPAINTHOOK = 0x00040000
+Global Const $PSD_ENABLEPAGESETUPHOOK = 0x00002000
+Global Const $PSD_ENABLEPAGESETUPTEMPLATE = 0x00008000
+Global Const $PSD_ENABLEPAGESETUPTEMPLATEHANDLE = 0x00020000
+Global Const $PSD_INHUNDREDTHSOFMILLIMETERS = 0x00000008
+Global Const $PSD_INTHOUSANDTHSOFINCHES = 0x00000004
+Global Const $PSD_MARGINS = 0x00000002
+Global Const $PSD_MINMARGINS = 0x00000001
+Global Const $PSD_NONETWORKBUTTON = 0x00200000
+Global Const $PSD_NOWARNING = 0x00000080
+Global Const $PSD_RETURNDEFAULT = 0x00000400
+Global Const $PSD_SHOWHELP = 0x00000800
+
+Global Const $WM_PSD_PAGESETUPDLG = $WM_USER
+Global Const $WM_PSD_FULLPAGERECT = $WM_USER + 1
+Global Const $WM_PSD_MINMARGINRECT = $WM_USER + 2
+Global Const $WM_PSD_MARGINRECT = $WM_USER + 3
+Global Const $WM_PSD_GREEKTEXTRECT = $WM_USER + 4
+Global Const $WM_PSD_ENVSTAMPRECT = $WM_USER + 5
+Global Const $WM_PSD_YAFULLPAGERECT = $WM_USER + 6
 
 ; ===============================================================================================================================
 ; _WinAPI_PatBlt(), _WinAPI_StretchBlt()
 ; ===============================================================================================================================
 
-; *Included in WindowsConstants.au3
-
-#cs
-
-Global Const $BLACKNESS = 0x00000042
-Global Const $CAPTUREBLT = 0x40000000
-Global Const $DSTINVERT = 0x00550009
-Global Const $MERGECOPY = 0x00C000CA
-Global Const $MERGEPAINT = 0x00BB0226
-Global Const $NOMIRRORBITMAP = 0x80000000
-Global Const $NOTSRCCOPY = 0x00330008
-Global Const $NOTSRCERASE = 0x001100A6
-Global Const $PATCOPY = 0x00F00021
-Global Const $PATINVERT = 0x005A0049
-Global Const $PATPAINT = 0x00FB0A09
-Global Const $SRCAND = 0x008800C6
-Global Const $SRCCOPY = 0x00CC0020
-Global Const $SRCERASE = 0x00440328
-Global Const $SRCINVERT = 0x00660046
-Global Const $SRCPAINT = 0x00EE0086
-Global Const $WHITENESS = 0x00FF0062
-
-#ce
+;Global Const $BLACKNESS = 0x00000042
+;Global Const $CAPTUREBLT = 0x40000000
+;Global Const $DSTINVERT = 0x00550009
+;Global Const $MERGECOPY = 0x00C000CA
+;Global Const $MERGEPAINT = 0x00BB0226
+;Global Const $NOMIRRORBITMAP = 0x80000000
+;Global Const $NOTSRCCOPY = 0x00330008
+;Global Const $NOTSRCERASE = 0x001100A6
+;Global Const $PATCOPY = 0x00F00021
+;Global Const $PATINVERT = 0x005A0049
+;Global Const $PATPAINT = 0x00FB0A09
+;Global Const $SRCAND = 0x008800C6
+;Global Const $SRCCOPY = 0x00CC0020
+;Global Const $SRCERASE = 0x00440328
+;Global Const $SRCINVERT = 0x00660046
+;Global Const $SRCPAINT = 0x00EE0086
+;Global Const $WHITENESS = 0x00FF0062
 
 ; ===============================================================================================================================
 ; _WinAPI_PathGetCharType()
@@ -2019,10 +2836,8 @@ Global Const $SND_NOSTOP = 0x00000010
 Global Const $SND_NOWAIT = 0x00002000
 Global Const $SND_PURGE = 0x00000040
 Global Const $SND_RESOURCE = 0x00040004
-Global Const $SND_SYNC = 0x00000000
-
-; *Windows Vista or later
 Global Const $SND_SENTRY = 0x00080000
+Global Const $SND_SYNC = 0x00000000
 Global Const $SND_SYSTEM = 0x00200000
 
 Global Const $SND_ALIAS_SYSTEMASTERISK = 'SystemAsterisk'
@@ -2044,19 +2859,78 @@ Global Const $PT_MOVETO = 6
 Global Const $PT_CLOSEFIGURE = 1
 
 ; ===============================================================================================================================
+; _WinAPI_PrintDlg(), _WinAPI_PrintDlgEx()
+; ===============================================================================================================================
+
+Global Const $PD_ALLPAGES = 0x00000000
+Global Const $PD_COLLATE = 0x00000010
+Global Const $PD_CURRENTPAGE = 0x00400000
+Global Const $PD_DISABLEPRINTTOFILE = 0x00080000
+Global Const $PD_ENABLEPRINTHOOK = 0x00001000
+Global Const $PD_ENABLEPRINTTEMPLATE = 0x00004000
+Global Const $PD_ENABLEPRINTTEMPLATEHANDLE = 0x00010000
+Global Const $PD_ENABLESETUPHOOK = 0x00002000
+Global Const $PD_ENABLESETUPTEMPLATE = 0x00008000
+Global Const $PD_ENABLESETUPTEMPLATEHANDLE = 0x00020000
+Global Const $PD_EXCLUSIONFLAGS = 0x01000000
+Global Const $PD_HIDEPRINTTOFILE = 0x00100000
+Global Const $PD_NOCURRENTPAGE = 0x00800000
+Global Const $PD_NONETWORKBUTTON = 0x00200000
+Global Const $PD_NOPAGENUMS = 0x00000008
+Global Const $PD_NOSELECTION = 0x00000004
+Global Const $PD_NOWARNING = 0x00000080
+Global Const $PD_PAGENUMS = 0x00000002
+Global Const $PD_PRINTSETUP = 0x00000040
+Global Const $PD_PRINTTOFILE = 0x00000020
+Global Const $PD_RETURNDC = 0x00000100
+Global Const $PD_RETURNDEFAULT = 0x00000400
+Global Const $PD_RETURNIC = 0x00000200
+Global Const $PD_SELECTION = 0x00000001
+Global Const $PD_SHOWHELP = 0x00000800
+Global Const $PD_USEDEVMODECOPIES = 0x00040000
+Global Const $PD_USEDEVMODECOPIESANDCOLLATE = $PD_USEDEVMODECOPIES
+Global Const $PD_USELARGETEMPLATE = 0x10000000
+
+Global Const $PD_RESULT_APPLY = 2
+Global Const $PD_RESULT_CANCEL = 0
+Global Const $PD_RESULT_PRINT = 1
+
+; ===============================================================================================================================
+; _WinAPI_RegisterApplicationRestart()
+; ===============================================================================================================================
+
+Global Const $RESTART_NO_CRASH = 0x01
+Global Const $RESTART_NO_HANG = 0x02
+Global Const $RESTART_NO_PATCH = 0x04
+Global Const $RESTART_NO_REBOOT = 0x08
+
+; ===============================================================================================================================
 ; _WinAPI_RegisterHotKey()
 ; ===============================================================================================================================
 
 Global Const $MOD_ALT = 0x0001
 Global Const $MOD_CONTROL = 0x0002
+Global Const $MOD_NOREPEAT = 0x4000
 Global Const $MOD_SHIFT = 0x0004
 Global Const $MOD_WIN = 0x0008
 
-; *Windows 7 or later
-Global Const $MOD_NOREPEAT = 0x4000
+; ===============================================================================================================================
+; _WinAPI_RegisterPowerSettingNotification()
+; ===============================================================================================================================
+
+Global Const $GUID_ACDC_POWER_SOURCE = '{5D3E9A59-E9D5-4B00-A6BD-FF34FF516548}'
+Global Const $GUID_BATTERY_PERCENTAGE_REMAINING = '{A7AD8041-B45A-4CAE-87A3-EECBB468A9E1}'
+Global Const $GUID_IDLE_BACKGROUND_TASK = '{515C31D8-F734-163D-A0FD-11A08C91E8F1}'
+Global Const $GUID_MONITOR_POWER_ON = '{02731015-4510-4526-99E6-E5A17EBD1AEA}'
+Global Const $GUID_POWERSCHEME_PERSONALITY = '{245D8541-3943-4422-B025-13A784F679B7}'
+Global Const $GUID_SYSTEM_AWAYMODE = '{98A7F580-01F7-48AA-9C0F-44352C29E5C0}'
+
+Global Const $GUID_MIN_POWER_SAVINGS = '{8C5E7FDA-E8BF-4A96-9A85-A6E23A8C635C}'
+Global Const $GUID_MAX_POWER_SAVINGS = '{A1841308-3541-4FAB-BC81-F71556F20B4A}'
+Global Const $GUID_TYPICAL_POWER_SAVINGS = '{381B4222-F694-41F0-9685-FF5BB260DF2E}'
 
 ; ===============================================================================================================================
-; _WinAPI_RegisterShellHookWindow
+; _WinAPI_RegisterShellHookWindow()
 ; ===============================================================================================================================
 
 Global Const $HSHELL_WINDOWCREATED = 1
@@ -2089,18 +2963,18 @@ Global Const $HKEY_PERFORMANCE_NLSTEXT = 0x80000060
 Global Const $HKEY_PERFORMANCE_TEXT = 0x80000050
 Global Const $HKEY_USERS = 0x80000003
 
-Global Const $KEY_ALL_ACCESS = 0xF003F
 Global Const $KEY_CREATE_LINK = 0x0020
 Global Const $KEY_CREATE_SUB_KEY = 0x0004
 Global Const $KEY_ENUMERATE_SUB_KEYS = 0x0008
-Global Const $KEY_EXECUTE = 0x20019
 Global Const $KEY_NOTIFY = 0x0010
 Global Const $KEY_QUERY_VALUE = 0x0001
-Global Const $KEY_READ = 0x20019
 Global Const $KEY_SET_VALUE = 0x0002
 Global Const $KEY_WOW64_32KEY = 0x0200
 Global Const $KEY_WOW64_64KEY = 0x0100
-Global Const $KEY_WRITE = 0x20006
+Global Const $KEY_READ = BitOR($STANDARD_RIGHTS_READ, $KEY_ENUMERATE_SUB_KEYS, $KEY_NOTIFY, $KEY_QUERY_VALUE)
+Global Const $KEY_WRITE = BitOR($STANDARD_RIGHTS_WRITE, $KEY_CREATE_SUB_KEY, $KEY_SET_VALUE)
+Global Const $KEY_EXECUTE = $KEY_READ
+Global Const $KEY_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $KEY_CREATE_LINK, $KEY_CREATE_SUB_KEY, $KEY_ENUMERATE_SUB_KEYS, $KEY_NOTIFY, $KEY_QUERY_VALUE, $KEY_SET_VALUE)
 
 Global Const $REG_NOTIFY_CHANGE_NAME = 0x01
 Global Const $REG_NOTIFY_CHANGE_ATTRIBUTES = 0x02
@@ -2112,23 +2986,17 @@ Global Const $REG_OPTION_CREATE_LINK = 0x02
 Global Const $REG_OPTION_NON_VOLATILE = 0x00
 Global Const $REG_OPTION_VOLATILE = 0x01
 
-; *Included in Constants.au3
-
-#cs
-
-Global Const $REG_BINARY = 3
-Global Const $REG_DWORD = 4
-Global Const $REG_DWORD_BIG_ENDIAN = 5
+;Global Const $REG_BINARY = 3
+;Global Const $REG_DWORD = 4
+;Global Const $REG_DWORD_BIG_ENDIAN = 5
 Global Const $REG_DWORD_LITTLE_ENDIAN = 4
-Global Const $REG_EXPAND_SZ = 2
-Global Const $REG_LINK = 6
-Global Const $REG_MULTI_SZ = 7
-Global Const $REG_NONE = 0
+;Global Const $REG_EXPAND_SZ = 2
+;Global Const $REG_LINK = 6
+;Global Const $REG_MULTI_SZ = 7
+;Global Const $REG_NONE = 0
 Global Const $REG_QWORD = 11
 Global Const $REG_QWORD_LITTLE_ENDIAN = 11
-Global Const $REG_SZ = 1
-
-#ce
+;Global Const $REG_SZ = 1
 
 ; ===============================================================================================================================
 ; _WinAPI_ReplaceFile()
@@ -2199,6 +3067,16 @@ Global Const $OCR_UP = 32516
 Global Const $OCR_WAIT = 32514
 Global Const $OCR_ICON = 32641
 Global Const $OCR_SIZE = 32640
+
+; ===============================================================================================================================
+; _WinAPI_SetThreadExecutionState()
+; ===============================================================================================================================
+
+Global Const $ES_AWAYMODE_REQUIRED = 0x00000040
+Global Const $ES_CONTINUOUS = 0x80000000
+Global Const $ES_DISPLAY_REQUIRED = 0x00000002
+Global Const $ES_SYSTEM_REQUIRED =0x00000001
+Global Const $ES_USER_PRESENT = 0x00000004
 
 ; ===============================================================================================================================
 ; _WinAPI_SetWinEventHook()
@@ -2380,6 +3258,40 @@ Global Const $SHGFI_SYSICONINDEX = 0x00004000
 Global Const $SHGFI_TYPENAME = 0x00000400
 Global Const $SHGFI_USEFILEATTRIBUTES = 0x00000010
 
+Global Const $SFGAO_CANCOPY = 0x00000001
+Global Const $SFGAO_CANMOVE = 0x00000002
+Global Const $SFGAO_CANLINK = 0x00000004
+Global Const $SFGAO_STORAGE = 0x00000008
+Global Const $SFGAO_CANRENAME = 0x00000010
+Global Const $SFGAO_CANDELETE = 0x00000020
+Global Const $SFGAO_HASPROPSHEET = 0x00000040
+Global Const $SFGAO_DROPTARGET = 0x00000100
+Global Const $SFGAO_CAPABILITYMASK = BitOR($SFGAO_CANCOPY, $SFGAO_CANMOVE, $SFGAO_CANLINK, $SFGAO_CANRENAME, $SFGAO_CANDELETE, $SFGAO_HASPROPSHEET, $SFGAO_DROPTARGET)
+Global Const $SFGAO_SYSTEM = 0x00001000
+Global Const $SFGAO_ENCRYPTED = 0x00002000
+Global Const $SFGAO_ISSLOW = 0x00004000
+Global Const $SFGAO_GHOSTED = 0x00008000
+Global Const $SFGAO_LINK = 0x00010000
+Global Const $SFGAO_SHARE = 0x00020000
+Global Const $SFGAO_READONLY = 0x00040000
+Global Const $SFGAO_HIDDEN = 0x00080000
+Global Const $SFGAO_DISPLAYATTRMASK = BitOR($SFGAO_ISSLOW, $SFGAO_GHOSTED, $SFGAO_LINK, $SFGAO_SHARE, $SFGAO_READONLY, $SFGAO_HIDDEN)
+Global Const $SFGAO_NONENUMERATED = 0x00100000
+Global Const $SFGAO_NEWCONTENT = 0x00200000
+Global Const $SFGAO_STREAM = 0x00400000
+Global Const $SFGAO_STORAGEANCESTOR = 0x00800000
+Global Const $SFGAO_VALIDATE = 0x01000000
+Global Const $SFGAO_REMOVABLE = 0x02000000
+Global Const $SFGAO_COMPRESSED = 0x04000000
+Global Const $SFGAO_BROWSABLE = 0x08000000
+Global Const $SFGAO_FILESYSANCESTOR = 0x10000000
+Global Const $SFGAO_FOLDER = 0x20000000
+Global Const $SFGAO_FILESYSTEM = 0x40000000
+Global Const $SFGAO_STORAGECAPMASK = BitOR($SFGAO_STORAGE, $SFGAO_LINK, $SFGAO_READONLY, $SFGAO_STREAM, $SFGAO_STORAGEANCESTOR, $SFGAO_FILESYSANCESTOR, $SFGAO_FOLDER, $SFGAO_FILESYSTEM)
+Global Const $SFGAO_HASSUBFOLDER = 0x80000000
+Global Const $SFGAO_CONTENTSMASK = $SFGAO_HASSUBFOLDER
+Global Const $SFGAO_PKEYSFGAOMASK = BitOR($SFGAO_ISSLOW, $SFGAO_READONLY, $SFGAO_HASSUBFOLDER, $SFGAO_VALIDATE)
+
 ; ===============================================================================================================================
 ; _WinAPI_ShellGetKnownFolderPath()
 ; ===============================================================================================================================
@@ -2486,6 +3398,7 @@ Global Const $FOLDERID_Videos = '{18989B1D-99B5-455B-841C-AB7C74E4DDFC}'
 Global Const $FOLDERID_VideosLibrary = '{491E922F-5643-4AF4-A7EB-4E7A138D8174}'
 Global Const $FOLDERID_Windows = '{F38BF404-1D43-42F2-9305-67DE0B28FC23}'
 
+Global Const $KF_FLAG_ALIAS_ONLY = 0x80000000
 Global Const $KF_FLAG_CREATE = 0x00008000
 Global Const $KF_FLAG_DONT_VERIFY = 0x00004000
 Global Const $KF_FLAG_DONT_UNEXPAND = 0x00002000
@@ -2494,9 +3407,6 @@ Global Const $KF_FLAG_INIT = 0x00000800
 Global Const $KF_FLAG_DEFAULT_PATH = 0x00000400
 Global Const $KF_FLAG_NOT_PARENT_RELATIVE = 0x00000200
 Global Const $KF_FLAG_SIMPLE_IDLIST = 0x00000100
-
-; *Windows 7 or later
-Global Const $KF_FLAG_ALIAS_ONLY = 0x80000000
 
 ; ===============================================================================================================================
 ; _WinAPI_ShellGetSetFolderCustomSettings()
@@ -2518,28 +3428,26 @@ Global Const $FCS_WRITE = BitOR($FCS_READ, $FCS_FORCEWRITE)
 ; _WinAPI_ShellGetSettings(), _WinAPI_ShellSetSettings()
 ; ===============================================================================================================================
 
-Global Const $SSF_SHOWALLOBJECTS = 0x00000001
-Global Const $SSF_SHOWEXTENSIONS = 0x00000002
-Global Const $SSF_SHOWCOMPCOLOR = 0x00000008
-Global Const $SSF_SHOWSYSFILES = 0x00000020
-Global Const $SSF_DOUBLECLICKINWEBVIEW = 0x00000080
-Global Const $SSF_DESKTOPHTML = 0x00000200
-Global Const $SSF_WIN95CLASSIC = 0x00000400
-Global Const $SSF_DONTPRETTYPATH = 0x00000800
-Global Const $SSF_MAPNETDRVBUTTON = 0x00001000
-Global Const $SSF_SHOWINFOTIP = 0x00002000
-Global Const $SSF_HIDEICONS = 0x00004000
-Global Const $SSF_NOCONFIRMRECYCLE = 0x00008000
-Global Const $SSF_WEBVIEW = 0x00020000
-Global Const $SSF_SHOWSUPERHIDDEN = 0x00040000
-Global Const $SSF_SEPPROCESS = 0x00080000
-Global Const $SSF_NONETCRAWLING = 0x00100000
-Global Const $SSF_STARTPANELON = 0x00200000
-
-; *Windows Vista or later
 Global Const $SSF_AUTOCHECKSELECT = 0x00800000
+Global Const $SSF_DESKTOPHTML = 0x00000200
+Global Const $SSF_DONTPRETTYPATH = 0x00000800
+Global Const $SSF_DOUBLECLICKINWEBVIEW = 0x00000080
+Global Const $SSF_HIDEICONS = 0x00004000
 Global Const $SSF_ICONSONLY = 0x01000000
+Global Const $SSF_MAPNETDRVBUTTON = 0x00001000
+Global Const $SSF_NOCONFIRMRECYCLE = 0x00008000
+Global Const $SSF_NONETCRAWLING = 0x00100000
+Global Const $SSF_SEPPROCESS = 0x00080000
+Global Const $SSF_SHOWALLOBJECTS = 0x00000001
+Global Const $SSF_SHOWCOMPCOLOR = 0x00000008
+Global Const $SSF_SHOWEXTENSIONS = 0x00000002
+Global Const $SSF_SHOWINFOTIP = 0x00002000
+Global Const $SSF_SHOWSUPERHIDDEN = 0x00040000
+Global Const $SSF_SHOWSYSFILES = 0x00000020
 Global Const $SSF_SHOWTYPEOVERLAY = 0x02000000
+Global Const $SSF_STARTPANELON = 0x00200000
+Global Const $SSF_WIN95CLASSIC = 0x00000400
+Global Const $SSF_WEBVIEW = 0x00020000
 
 ; ===============================================================================================================================
 ; _WinAPI_ShellGetSpecialFolderPath()
@@ -2749,7 +3657,6 @@ Global Const $SHOP_VOLUMEGUID = 4
 ; _WinAPI_ShellOpenFolderAndSelectItems()
 ; ===============================================================================================================================
 
-; *Windows Vista or later
 Global Const $OFASI_EDIT = 0x01
 Global Const $OFASI_OPENDESKTOP = 0x02
 
@@ -2768,13 +3675,196 @@ Global Const $OAIF_URL_PROTOCOL = 0x00000040
 ; _WinAPI_ShellQueryUserNotificationState()
 ; ===============================================================================================================================
 
-; *Windows Vista or later
 Global Const $QUNS_NOT_PRESENT = 1
 Global Const $QUNS_BUSY = 2
 Global Const $QUNS_RUNNING_D3D_FULL_SCREEN = 3
 Global Const $QUNS_PRESENTATION_MODE = 4
 Global Const $QUNS_ACCEPTS_NOTIFICATIONS = 5
 Global Const $QUNS_QUIET_TIME = 6
+
+; ===============================================================================================================================
+; _WinAPI_ShellRestricted()
+; ===============================================================================================================================
+
+Global Const $REST_NORUN = 1
+Global Const $REST_NOCLOSE = 2
+Global Const $REST_NOSAVESET = 3
+Global Const $REST_NOFILEMENU = 4
+Global Const $REST_NOSETFOLDERS = 5
+Global Const $REST_NOSETTASKBAR = 6
+Global Const $REST_NODESKTOP = 7
+Global Const $REST_NOFIND = 8
+Global Const $REST_NODRIVES = 9
+Global Const $REST_NODRIVEAUTORUN = 10
+Global Const $REST_NODRIVETYPEAUTORUN = 11
+Global Const $REST_NONETHOOD = 12
+Global Const $REST_STARTBANNER = 13
+Global Const $REST_RESTRICTRUN = 14
+Global Const $REST_NOPRINTERTABS = 15
+Global Const $REST_NOPRINTERDELETE = 16
+Global Const $REST_NOPRINTERADD = 17
+Global Const $REST_NOSTARTMENUSUBFOLDERS = 18
+Global Const $REST_MYDOCSONNET = 19
+Global Const $REST_NOEXITTODOS = 20
+Global Const $REST_ENFORCESHELLEXTSECURITY = 21
+Global Const $REST_LINKRESOLVEIGNORELINKINFO = 22
+Global Const $REST_NOCOMMONGROUPS = 23
+Global Const $REST_SEPARATEDESKTOPPROCESS = 24
+Global Const $REST_NOWEB = 25
+Global Const $REST_NOTRAYCONTEXTMENU = 26
+Global Const $REST_NOVIEWCONTEXTMENU = 27
+Global Const $REST_NONETCONNECTDISCONNECT = 28
+Global Const $REST_STARTMENULOGOFF = 29
+Global Const $REST_NOSETTINGSASSIST = 30
+Global Const $REST_NOINTERNETICON = 31
+Global Const $REST_NORECENTDOCSHISTORY = 32
+Global Const $REST_NORECENTDOCSMENU = 33
+Global Const $REST_NOACTIVEDESKTOP = 34
+Global Const $REST_NOACTIVEDESKTOPCHANGES = 35
+Global Const $REST_NOFAVORITESMENU = 36
+Global Const $REST_CLEARRECENTDOCSONEXIT = 37
+Global Const $REST_CLASSICSHELL = 38
+Global Const $REST_NOCUSTOMIZEWEBVIEW = 39
+Global Const $REST_NOHTMLWALLPAPER = 40
+Global Const $REST_NOCHANGINGWALLPAPER = 41
+Global Const $REST_NODESKCOMP = 42
+Global Const $REST_NOADDDESKCOMP = 43
+Global Const $REST_NODELDESKCOMP = 44
+Global Const $REST_NOCLOSEDESKCOMP = 45
+Global Const $REST_NOCLOSE_DRAGDROPBAND = 46
+Global Const $REST_NOMOVINGBAND = 47
+Global Const $REST_NOEDITDESKCOMP = 48
+Global Const $REST_NORESOLVESEARCH = 49
+Global Const $REST_NORESOLVETRACK = 50
+Global Const $REST_FORCECOPYACLWITHFILE = 51
+Global Const $REST_NOLOGO3CHANNELNOTIFY = 52
+Global Const $REST_NOFORGETSOFTWAREUPDATE = 53
+Global Const $REST_NOSETACTIVEDESKTOP = 54
+Global Const $REST_NOUPDATEWINDOWS = 55
+Global Const $REST_NOCHANGESTARMENU = 56
+Global Const $REST_NOFOLDEROPTIONS = 57
+Global Const $REST_HASFINDCOMPUTERS = 58
+Global Const $REST_INTELLIMENUS = 59
+Global Const $REST_RUNDLGMEMCHECKBOX = 60
+Global Const $REST_ARP_ShowPostSetup = 61
+Global Const $REST_NOCSC = 62
+Global Const $REST_NOCONTROLPANEL = 63
+Global Const $REST_ENUMWORKGROUP = 64
+Global Const $REST_ARP_NOARP = 65
+Global Const $REST_ARP_NOREMOVEPAGE = 66
+Global Const $REST_ARP_NOADDPAGE = 67
+Global Const $REST_ARP_NOWINSETUPPAGE = 68
+Global Const $REST_GREYMSIADS = 69
+Global Const $REST_NOCHANGEMAPPEDDRIVELABEL = 70
+Global Const $REST_NOCHANGEMAPPEDDRIVECOMMENT = 71
+Global Const $REST_MAXRECENTDOCS = 72
+Global Const $REST_NONETWORKCONNECTIONS = 73
+Global Const $REST_FORCESTARTMENULOGOFF = 74
+Global Const $REST_NOWEBVIEW = 75
+Global Const $REST_NOCUSTOMIZETHISFOLDER = 76
+Global Const $REST_NOENCRYPTION = 77
+Global Const $REST_DONTSHOWSUPERHIDDEN = 78
+Global Const $REST_NOSHELLSEARCHBUTTON = 79
+Global Const $REST_NOHARDWARETAB = 80
+Global Const $REST_NORUNASINSTALLPROMPT = 81
+Global Const $REST_PROMPTRUNASINSTALLNETPATH = 82
+Global Const $REST_NOMANAGEMYCOMPUTERVERB = 83
+Global Const $REST_NORECENTDOCSNETHOOD = 84
+Global Const $REST_DISALLOWRUN = 85
+Global Const $REST_NOWELCOMESCREEN = 86
+Global Const $REST_RESTRICTCPL = 87
+Global Const $REST_DISALLOWCPL = 88
+Global Const $REST_NOSMBALLOONTIP = 89
+Global Const $REST_NOSMHELP = 90
+Global Const $REST_NOWINKEYS = 91
+Global Const $REST_NOENCRYPTONMOVE = 92
+Global Const $REST_NOLOCALMACHINERUN = 93
+Global Const $REST_NOCURRENTUSERRUN = 94
+Global Const $REST_NOLOCALMACHINERUNONCE = 95
+Global Const $REST_NOCURRENTUSERRUNONCE = 96
+Global Const $REST_FORCEACTIVEDESKTOPON = 97
+Global Const $REST_NOCOMPUTERSNEARME = 98
+Global Const $REST_NOVIEWONDRIVE = 99
+Global Const $REST_NONETCRAWL = 100
+Global Const $REST_NOSHAREDDOCUMENTS = 101
+Global Const $REST_NOSMMYDOCS = 102
+Global Const $REST_NOSMMYPICS = 103
+Global Const $REST_ALLOWBITBUCKDRIVES = 104
+Global Const $REST_NONLEGACYSHELLMODE = 105
+Global Const $REST_NOCONTROLPANELBARRICADE = 106
+Global Const $REST_NOSTARTPAGE = 107
+Global Const $REST_NOAUTOTRAYNOTIFY = 108
+Global Const $REST_NOTASKGROUPING = 109
+Global Const $REST_NOCDBURNING = 110
+Global Const $REST_MYCOMPNOPROP = 111
+Global Const $REST_MYDOCSNOPROP = 112
+Global Const $REST_NOSTARTPANEL = 113
+Global Const $REST_NODISPLAYAPPEARANCEPAGE = 114
+Global Const $REST_NOTHEMESTAB = 115
+Global Const $REST_NOVISUALSTYLECHOICE = 116
+Global Const $REST_NOSIZECHOICE = 117
+Global Const $REST_NOCOLORCHOICE = 118
+Global Const $REST_SETVISUALSTYLE = 119
+Global Const $REST_STARTRUNNOHOMEPATH = 120
+Global Const $REST_NOUSERNAMEINSTARTPANEL = 121
+Global Const $REST_NOMYCOMPUTERICON = 122
+Global Const $REST_NOSMNETWORKPLACES = 123
+Global Const $REST_NOSMPINNEDLIST = 124
+Global Const $REST_NOSMMYMUSIC = 125
+Global Const $REST_NOSMEJECTPC = 126
+Global Const $REST_NOSMMOREPROGRAMS = 127
+Global Const $REST_NOSMMFUPROGRAMS = 128
+Global Const $REST_NOTRAYITEMSDISPLAY = 129
+Global Const $REST_NOTOOLBARSONTASKBAR = 130
+Global Const $REST_NOSMCONFIGUREPROGRAMS = 131
+Global Const $REST_HIDECLOCK = 132
+Global Const $REST_NOLOWDISKSPACECHECKS = 133
+Global Const $REST_NOENTIRENETWORK = 134
+Global Const $REST_NODESKTOPCLEANUP = 135
+Global Const $REST_BITBUCKNUKEONDELETE = 136
+Global Const $REST_BITBUCKCONFIRMDELETE = 137
+Global Const $REST_BITBUCKNOPROP = 138
+Global Const $REST_NODISPBACKGROUND = 139
+Global Const $REST_NODISPSCREENSAVEPG = 140
+Global Const $REST_NODISPSETTINGSPG = 141
+Global Const $REST_NODISPSCREENSAVEPREVIEW = 142
+Global Const $REST_NODISPLAYCPL = 143
+Global Const $REST_HIDERUNASVERB = 144
+Global Const $REST_NOTHUMBNAILCACHE = 145
+Global Const $REST_NOSTRCMPLOGICAL = 146
+Global Const $REST_NOPUBLISHWIZARD = 147
+Global Const $REST_NOONLINEPRINTSWIZARD = 148
+Global Const $REST_NOWEBSERVICES = 149
+Global Const $REST_ALLOWUNHASHEDWEBVIEW = 150
+Global Const $REST_ALLOWLEGACYWEBVIEW = 151
+Global Const $REST_REVERTWEBVIEWSECURITY = 152
+Global Const $REST_INHERITCONSOLEHANDLES = 153
+Global Const $REST_SORTMAXITEMCOUNT = 154
+Global Const $REST_NOREMOTERECURSIVEEVENTS = 155
+Global Const $REST_NOREMOTECHANGENOTIFY = 156
+Global Const $REST_NOSIMPLENETIDLIST = 157
+Global Const $REST_NOENUMENTIRENETWORK = 158
+Global Const $REST_NODETAILSTHUMBNAILONNETWORK = 159
+Global Const $REST_NOINTERNETOPENWITH = 160
+Global Const $REST_ALLOWLEGACYLMZBEHAVIOR = 161
+Global Const $REST_DONTRETRYBADNETNAME = 162
+Global Const $REST_ALLOWFILECLSIDJUNCTIONS = 163
+Global Const $REST_NOUPNPINSTALL = 164
+Global Const $REST_ARP_DONTGROUPPATCHES = 165
+Global Const $REST_ARP_NOCHOOSEPROGRAMSPAGE = 166
+Global Const $REST_NODISCONNECT = 167
+Global Const $REST_NOSECURITY = 168
+Global Const $REST_NOFILEASSOCIATE = 169
+Global Const $REST_ALLOWCOMMENTTOGGLE = 170
+Global Const $REST_USEDESKTOPINICACHE = 171
+
+; ===============================================================================================================================
+; _WinAPI_ShellStartNetConnectionDlg()
+; ===============================================================================================================================
+
+;Global Const $RESOURCETYPE_ANY = 0x00
+;Global Const $RESOURCETYPE_DISK = 0x01
+;Global Const $RESOURCETYPE_PRINT = 0x02
 
 ; ===============================================================================================================================
 ; _WinAPI_TrackMouseEvent()
@@ -2790,10 +3880,10 @@ Global Const $TME_QUERY = 0x40000000
 ; _WinAPI_UniqueHardwareID()
 ; ===============================================================================================================================
 
-Global Const $UHID_MB = 0x00
-Global Const $UHID_BIOS = 0x01
-Global Const $UHID_CPU = 0x02
-Global Const $UHID_HDD = 0x04
+Global Const $UHID_MB = 0x0000
+Global Const $UHID_BIOS = 0x0001
+Global Const $UHID_CPU = 0x0002
+Global Const $UHID_HDD = 0x0004
 Global Const $UHID_All = BitOR($UHID_MB, $UHID_BIOS, $UHID_CPU, $UHID_HDD)
 
 ; ===============================================================================================================================
@@ -2801,12 +3891,10 @@ Global Const $UHID_All = BitOR($UHID_MB, $UHID_BIOS, $UHID_CPU, $UHID_HDD)
 ; ===============================================================================================================================
 
 Global Const $URL_DONT_ESCAPE_EXTRA_INFO = 0x02000000
-Global Const $URL_ESCAPE_SPACES_ONLY = 0x04000000
+Global Const $URL_ESCAPE_AS_UTF8 = 0x00040000
 Global Const $URL_ESCAPE_PERCENT = 0x00001000
 Global Const $URL_ESCAPE_SEGMENT_ONLY = 0x00002000
-
-; *Windows 7 or later
-Global Const $URL_ESCAPE_AS_UTF8 = 0x00040000
+Global Const $URL_ESCAPE_SPACES_ONLY = 0x04000000
 
 ; ===============================================================================================================================
 ; _WinAPI_UrlGetPart()
@@ -3152,271 +4240,4 @@ Global Const $TMT_VERSION = 607
 Global Const $TMT_XMLNAME = 1402
 Global Const $TMT_NAME = 600
 
-; ===============================================================================================================================
-; Windows Message (WM) Constants
-; ===============================================================================================================================
-
-;Global Const $WM_ACTIVATE = 0x0006
-;Global Const $WM_ACTIVATEAPP = 0x001C
-Global Const $WM_AFXFIRST = 0x0360
-Global Const $WM_AFXLAST = 0x037F
-Global Const $WM_APP = 0x8000
-Global Const $WM_APPCOMMAND = 0x0319
-;Global Const $WM_ASKCBFORMATNAME = 0x030C
-;Global Const $WM_CANCELJOURNAL = 0x004B
-;Global Const $WM_CANCELMODE = 0x001F
-Global Const $WM_CAPTURECHANGED = 0x0215
-;Global Const $WM_CHANGECBCHAIN = 0x030D
-;Global Const $WM_CHANGEUISTATE = 0x0127
-;Global Const $WM_CHAR = 0x0102
-;Global Const $WM_CHARTOITEM = 0x002F
-;Global Const $WM_CHILDACTIVATE = 0x0022
-;Global Const $WM_CLEAR = 0x0303
-Global Const $WM_CLIPBOARDUPDATE = 0x031D
-;Global Const $WM_CLOSE = 0x0010
-;Global Const $WM_COMMAND = 0x0111
-;Global Const $WM_COMMNOTIFY = 0x0044
-;Global Const $WM_COMPACTING = 0x0041
-;Global Const $WM_COMPAREITEM = 0x0039
-;Global Const $WM_CONTEXTMENU = 0x007B
-;Global Const $WM_COPY = 0x0301
-;Global Const $WM_COPYDATA = 0x004A
-;Global Const $WM_CREATE = 0x0001
-;Global Const $WM_CTLCOLORBTN = 0x0135
-;Global Const $WM_CTLCOLORDLG = 0x0136
-;Global Const $WM_CTLCOLOREDIT = 0x0133
-;Global Const $WM_CTLCOLORLISTBOX = 0x0134
-;Global Const $WM_CTLCOLORMSGBOX = 0x0132
-;Global Const $WM_CTLCOLORSCROLLBAR = 0x0137
-;Global Const $WM_CTLCOLORSTATIC = 0x0138
-;Global Const $WM_CUT = 0x0300
-;Global Const $WM_DEADCHAR = 0x0103
-;Global Const $WM_DELETEITEM = 0x002D
-;Global Const $WM_DESTROY = 0x0002
-;Global Const $WM_DESTROYCLIPBOARD = 0x0307
-Global Const $WM_DEVICECHANGE = 0x0219
-;Global Const $WM_DEVMODECHANGE = 0x001B
-;Global Const $WM_DISPLAYCHANGE = 0x007E
-;Global Const $WM_DRAWCLIPBOARD = 0x0308
-;Global Const $WM_DRAWITEM = 0x002B
-Global Const $WM_DROPFILES = 0x0233
-Global Const $WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320
-Global Const $WM_DWMCOMPOSITIONCHANGED = 0x031E
-Global Const $WM_DWMNCRENDERINGCHANGED = 0x031F
-Global Const $WM_DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326
-Global Const $WM_DWMSENDICONICTHUMBNAIL = 0x0323
-Global Const $WM_DWMWINDOWMAXIMIZEDCHANGE = 0x0321
-;Global Const $WM_ENABLE = 0x000A
-Global Const $WM_ENDSESSION = 0x0016
-;Global Const $WM_ENTERIDLE = 0x0121
-Global Const $WM_ENTERMENULOOP = 0x0211
-Global Const $WM_ENTERSIZEMOVE = 0x0231
-;Global Const $WM_ERASEBKGND = 0x0014
-Global Const $WM_EXITMENULOOP = 0x0212
-Global Const $WM_EXITSIZEMOVE = 0x0232
-;Global Const $WM_FONTCHANGE = 0x001D
-Global Const $WM_GESTURE = 0x0119
-Global Const $WM_GESTURENOTIFY = 0x011A
-;Global Const $WM_GETDLGCODE = 0x0087
-;Global Const $WM_GETFONT = 0x0031
-;Global Const $WM_GETHOTKEY = 0x0033
-;Global Const $WM_GETICON = 0x007F
-;Global Const $WM_GETMINMAXINFO = 0x0024
-;Global Const $WM_GETOBJECT = 0x003D
-;Global Const $WM_GETTEXT = 0x000D
-;Global Const $WM_GETTEXTLENGTH = 0x000E
-Global Const $WM_GETTITLEBARINFOEX = 0x033F
-Global Const $WM_HANDHELDFIRST = 0x0358
-Global Const $WM_HANDHELDLAST = 0x035F
-;Global Const $WM_HELP = 0x0053
-Global Const $WM_HOTKEY = 0x0312
-;Global Const $WM_HSCROLL = 0x0114
-;Global Const $WM_HSCROLLCLIPBOARD = 0x030E
-;Global Const $WM_ICONERASEBKGND = 0x0027
-Global Const $WM_IME_CHAR = 0x0286
-Global Const $WM_IME_COMPOSITION = 0x010F
-Global Const $WM_IME_COMPOSITIONFULL = 0x0284
-Global Const $WM_IME_CONTROL = 0x0283
-Global Const $WM_IME_ENDCOMPOSITION = 0x010E
-Global Const $WM_IME_KEYDOWN = 0x0290
-Global Const $WM_IME_KEYLAST = 0x010F
-Global Const $WM_IME_KEYUP = 0x0291
-Global Const $WM_IME_NOTIFY = 0x0282
-Global Const $WM_IME_REQUEST = 0x0288
-Global Const $WM_IME_SELECT = 0x0285
-Global Const $WM_IME_SETCONTEXT = 0x0281
-Global Const $WM_IME_STARTCOMPOSITION = 0x010D
-;Global Const $WM_INITDIALOG = 0x0110
-;Global Const $WM_INITMENU = 0x0116
-;Global Const $WM_INITMENUPOPUP = 0x0117
-Global Const $WM_INPUT = 0x00FF
-;Global Const $WM_INPUTLANGCHANGE = 0x0051
-;Global Const $WM_INPUTLANGCHANGEREQUEST = 0x0050
-;Global Const $WM_KEYDOWN = 0x0100
-Global Const $WM_KEYFIRST = 0x0100
-Global Const $WM_KEYLAST = 0x0109
-;Global Const $WM_KEYUP = 0x0101
-;Global Const $WM_KILLFOCUS = 0x0008
-;Global Const $WM_LBUTTONDBLCLK = 0x0203
-;Global Const $WM_LBUTTONDOWN = 0x0201
-;Global Const $WM_LBUTTONUP = 0x0202
-Global Const $WM_MBUTTONDBLCLK = 0x0209
-;Global Const $WM_MBUTTONDOWN = 0x0207
-;Global Const $WM_MBUTTONUP = 0x0208
-Global Const $WM_MDIACTIVATE = 0x0222
-Global Const $WM_MDICASCADE = 0x0227
-Global Const $WM_MDICREATE = 0x0220
-Global Const $WM_MDIDESTROY = 0x0221
-Global Const $WM_MDIGETACTIVE = 0x0229
-Global Const $WM_MDIICONARRANGE = 0x0228
-Global Const $WM_MDIMAXIMIZE = 0x0225
-Global Const $WM_MDINEXT = 0x0224
-Global Const $WM_MDIREFRESHMENU = 0x0234
-Global Const $WM_MDIRESTORE = 0x0223
-Global Const $WM_MDISETMENU = 0x0230
-Global Const $WM_MDITILE = 0x0226
-;Global Const $WM_MEASUREITEM = 0x002C
-;Global Const $WM_MENUCHAR = 0x0120
-;Global Const $WM_MENUCOMMAND = 0x0126
-;Global Const $WM_MENUDRAG = 0x0123
-;Global Const $WM_MENUGETOBJECT = 0x0124
-;Global Const $WM_MENURBUTTONUP = 0x0122
-;Global Const $WM_MENUSELECT = 0x011F
-;Global Const $WM_MOUSEACTIVATE = 0x0021
-Global Const $WM_MOUSEFIRST = 0x0200
-Global Const $WM_MOUSEHOVER = 0x02A1
-;Global Const $WM_MOUSEHWHEEL = 0x020E
-Global Const $WM_MOUSELAST = __Def(0x0600, 0x020E, 0x0500, 0x020D) ; 0x020D - 2K, XP / 0x020E - Vista, 7
-Global Const $WM_MOUSELEAVE = 0x02A3
-;Global Const $WM_MOUSEMOVE = 0x0200
-;Global Const $WM_MOUSEWHEEL = 0x020A
-;Global Const $WM_MOVE = 0x0003
-Global Const $WM_MOVING = 0x0216
-;Global Const $WM_NCACTIVATE = 0x0086
-;Global Const $WM_NCCALCSIZE = 0x0083
-;Global Const $WM_NCCREATE = 0x0081
-;Global Const $WM_NCDESTROY = 0x0082
-;Global Const $WM_NCHITTEST = 0x0084
-;Global Const $WM_NCLBUTTONDBLCLK = 0x00A3
-;Global Const $WM_NCLBUTTONDOWN = 0x00A1
-;Global Const $WM_NCLBUTTONUP = 0x00A2
-;Global Const $WM_NCMBUTTONDBLCLK = 0x00A9
-;Global Const $WM_NCMBUTTONDOWN = 0x00A7
-;Global Const $WM_NCMBUTTONUP = 0x00A8
-Global Const $WM_NCMOUSEHOVER = 0x02A0
-Global Const $WM_NCMOUSELEAVE = 0x02A2
-;Global Const $WM_NCMOUSEMOVE = 0x00A0
-;Global Const $WM_NCPAINT = 0x0085
-;Global Const $WM_NCRBUTTONDBLCLK = 0x00A6
-;Global Const $WM_NCRBUTTONDOWN = 0x00A4
-;Global Const $WM_NCRBUTTONUP = 0x00A5
-Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
-Global Const $WM_NCXBUTTONDOWN = 0x00AB
-Global Const $WM_NCXBUTTONUP = 0x00AC
-;Global Const $WM_NEXTDLGCTL = 0x0028
-Global Const $WM_NEXTMENU = 0x0213
-;Global Const $WM_NOTIFY = 0x004E
-;Global Const $WM_NOTIFYFORMAT = 0x0055
-Global Const $WM_NULL = 0x0000
-;Global Const $WM_PAINT = 0x000F
-;Global Const $WM_PAINTCLIPBOARD = 0x0309
-;Global Const $WM_PAINTICON = 0x0026
-Global Const $WM_PALETTECHANGED = 0x0311
-Global Const $WM_PALETTEISCHANGING = 0x0310
-Global Const $WM_PARENTNOTIFY = 0x0210
-;Global Const $WM_PASTE = 0x0302
-Global Const $WM_PENWINFIRST = 0x0380
-Global Const $WM_PENWINLAST = 0x038F
-;Global Const $WM_POWER = 0x0048
-Global Const $WM_POWERBROADCAST = 0x0218
-Global Const $WM_PRINT = 0x0317
-Global Const $WM_PRINTCLIENT = 0x0318
-;Global Const $WM_QUERYDRAGICON = 0x0037
-Global Const $WM_QUERYENDSESSION = 0x0011
-Global Const $WM_QUERYNEWPALETTE = 0x030F
-Global Const $WM_QUERYOPEN = 0x0013
-;Global Const $WM_QUERYUISTATE = 0x0129
-;Global Const $WM_QUEUESYNC = 0x0023
-;Global Const $WM_QUIT = 0x0012
-Global Const $WM_RBUTTONDBLCLK = 0x0206
-;Global Const $WM_RBUTTONDOWN = 0x0204
-;Global Const $WM_RBUTTONUP = 0x0205
-;Global Const $WM_RENDERALLFORMATS = 0x0306
-;Global Const $WM_RENDERFORMAT = 0x0305
-;Global Const $WM_SETCURSOR = 0x0020
-;Global Const $WM_SETFOCUS = 0x0007
-;Global Const $WM_SETFONT = 0x0030
-;Global Const $WM_SETHOTKEY = 0x0032
-;Global Const $WM_SETICON = 0x0080
-;Global Const $WM_SETREDRAW = 0x000B
-;Global Const $WM_SETTEXT = 0x000C
-Global Const $WM_SETTINGCHANGE = 0x001A
-;Global Const $WM_SHOWWINDOW = 0x0018
-;Global Const $WM_SIZE = 0x0005
-;Global Const $WM_SIZECLIPBOARD = 0x030B
-;Global Const $WM_SIZING = 0x0214
-;Global Const $WM_SPOOLERSTATUS = 0x002A
-;Global Const $WM_STYLECHANGED = 0x007D
-;Global Const $WM_STYLECHANGING = 0x007C
-;Global Const $WM_SYNCPAINT = 0x0088
-;Global Const $WM_SYSCHAR = 0x0106
-;Global Const $WM_SYSCOLORCHANGE = 0x0015
-;Global Const $WM_SYSCOMMAND = 0x0112
-;Global Const $WM_SYSDEADCHAR = 0x0107
-;Global Const $WM_SYSKEYDOWN = 0x0104
-;Global Const $WM_SYSKEYUP = 0x0105
-Global Const $WM_TABLET_FIRST = 0x02C0
-Global Const $WM_TABLET_LAST = 0x02DF
-;Global Const $WM_TCARD = 0x0052
-Global Const $WM_THEMECHANGED = 0x031A
-;Global Const $WM_TIMECHANGE = 0x001E
-;Global Const $WM_TIMER = 0x0113
-Global Const $WM_TOUCH = 0x0240
-;Global Const $WM_UNDO = 0x0304
-Global Const $WM_UNICHAR = 0x0109
-;Global Const $WM_UNINITMENUPOPUP = 0x0125
-;Global Const $WM_UPDATEUISTATE = 0x0128
-;Global Const $WM_USER = 0x0400
-;Global Const $WM_USERCHANGED = 0x0054
-;Global Const $WM_VKEYTOITEM = 0x002E
-;Global Const $WM_VSCROLL = 0x0115
-;Global Const $WM_VSCROLLCLIPBOARD = 0x030A
-;Global Const $WM_WINDOWPOSCHANGED = 0x0047
-;Global Const $WM_WINDOWPOSCHANGING = 0x0046
-;Global Const $WM_WININICHANGE = 0x001A
-Global Const $WM_WTSSESSION_CHANGE = 0x02B1
-;Global Const $WM_XBUTTONDBLCLK = 0x020D
-;Global Const $WM_XBUTTONDOWN = 0x020B
-;Global Const $WM_XBUTTONUP = 0x020C
-
 #EndRegion Global Variables and Constants
-
-#Region Internal Functions
-
-Func __Def($iVer1, $iVal1, $iVer2, $iVal2, $iVer3 = Default, $iVal3 = Default, $iVer4 = Default, $iVal4 = Default)
-
-	Local $Count = @NumParams / 2
-
-	For $i = 1 To $Count
-		If $__WINVER >= Eval('iVer' & $i) Then
-			Return Eval('iVal' & $i)
-		EndIf
-	Next
-	Return Eval('iVal' & $Count)
-EndFunc   ;==>__Def
-
-Func __Ver()
-
-	Local $tOS, $Ret
-
-	$tOS = DllStructCreate('dword[5];wchar[128]')
-	DllStructSetData($tOS, 1, DllStructGetSize($tOS), 1)
-	$Ret = DllCall('kernel32.dll', 'int', 'GetVersionExW', 'ptr', DllStructGetPtr($tOS))
-	If (Not @error) And ($Ret[0]) Then
-		Return BitOR(BitShift(DllStructGetData($tOS, 1, 2), -8), DllStructGetData($tOS, 1, 3))
-	Else
-		Return 0
-	EndIf
-EndFunc   ;==>__Ver
-
-#EndRegion Internal Functions

@@ -1,17 +1,16 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
-#Include <File.au3>
 
 Opt('MustDeclareVars', 1)
 
-Global $hFile, $sTemp
+Global $sTemp
 
-; Create temporary file
-$sTemp = _TempFile()
-$hFile = FileOpen($sTemp, 2)
-FileClose($hFile)
+; 创建临时文件
+$sTemp = _WinAPI_GetTempFileName(@TempDir)
 
-; Delete to Recycle Bin
-ConsoleWrite(StringRegExpReplace($sTemp, '^.*\\', '') & @CR)
+ShellExecute('::{645FF040-5081-101B-9F08-00AA002F954E}')
+
+; 删除到回收站
 If FileExists($sTemp) Then
 	_WinAPI_ShellFileOperation($sTemp, '', $FO_DELETE, BitOR($FOF_ALLOWUNDO, $FOF_NO_UI))
 EndIf

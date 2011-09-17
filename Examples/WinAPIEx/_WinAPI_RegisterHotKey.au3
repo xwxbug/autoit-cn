@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -10,9 +11,9 @@ OnAutoItExitRegister('OnAutoItExit')
 $hWnd = GUICreate('')
 GUIRegisterMsg($WM_HOTKEY, 'WM_HOTKEY')
 
-; Set ALT-D
+; …Ë÷√ ALT-D
 _WinAPI_RegisterHotKey($hWnd, 0x0144, $MOD_ALT, 0x44)
-; Set ESC
+; …Ë÷√ ESC
 _WinAPI_RegisterHotKey($hWnd, 0x011B, 0, 0x1B)
 
 While 1

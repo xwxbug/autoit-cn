@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <EditConstants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
@@ -25,9 +26,9 @@ WEnd
 Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
 	Switch $hWnd
 		Case $hForm
-			Switch BitAND($wParam, 0xFFFF)
+			Switch _WinAPI_LoWord($wParam)
 				Case $Input
-					Switch BitShift($wParam, 16)
+					Switch _WinAPI_HiWord($wParam)
 						Case $EN_KILLFOCUS
 							_WinAPI_HideCaret($lParam)
 							_WinAPI_DestroyCaret()

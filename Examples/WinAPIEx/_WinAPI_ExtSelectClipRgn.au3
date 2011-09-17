@@ -1,4 +1,4 @@
-#Include <Constants.au3>
+#Include <APIConstants.au3>
 #Include <GUITab.au3>
 #Include <WinAPIEx.au3>
 
@@ -16,7 +16,7 @@ Global $hForm, $hTab, $tMARGINS, $hDll, $pDll, $hProc
 
 OnAutoItExitRegister('OnAutoItExit')
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 GUICtrlCreateTab(0, 60, 402, 341, $WS_CLIPCHILDREN)
 $hTab = GUICtrlGetHandle(-1)
@@ -30,12 +30,12 @@ GUICtrlCreateTabItem('Tab 3')
 GUICtrlCreateTabItem('')
 GUISetBkColor(0)
 
-; Register Tab window proc
+; 注册标签页窗口过程
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
 $hProc = _WinAPI_SetWindowLongEx($hTab, $GWL_WNDPROC, $pDll)
 
-; Create the "sheet of glass" effect for the Tab client area. You must call this function whenever DWM composition is toggled.
+; 给标签页客户区创建 "玻璃片" 效果. 无论 DWM (桌面窗口管理器) 组件是否切换您必须调用此函数.
 $tMARGINS = DllStructCreate($tagMARGINS)
 DllStructSetData($tMARGINS, 1, 2)
 DllStructSetData($tMARGINS, 2, 2)

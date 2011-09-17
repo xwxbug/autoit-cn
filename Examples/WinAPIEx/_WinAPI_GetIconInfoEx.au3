@@ -1,18 +1,25 @@
-#Include <Constants.au3>
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
 
-Global $tIIEX, $hInstance, $hIcon
+If _WinAPI_GetVersion() < '6.0' Then
+	MsgBox(16, 'Error', 'Require Windows Vista or later.')
+	Exit
+EndIf
 
-$hInstance = _WinAPI_LoadLibrary(@AutoItExe)
+Global $hInstance, $hIcon, $aInfo
+
+$hInstance = _WinAPI_LoadLibraryEx(@AutoItExe, $LOAD_LIBRARY_AS_DATAFILE)
 $hIcon = _WinAPI_LoadImage($hInstance, 99, $IMAGE_ICON, 0, 0, $LR_DEFAULTSIZE)
-$tIIEX = _WinAPI_GetIconInfoEx($hIcon)
-
-ConsoleWrite('Handle: ' & $hIcon & @CR)
-ConsoleWrite('Path:   ' & DllStructGetData($tIIEX, 'ModName') & @CR)
-ConsoleWrite('ID:     ' & DllStructGetData($tIIEX, 'ResID') & @CR)
-ConsoleWrite('Name:   ' & DllStructGetData($tIIEX, 'ResName') & @CR)
-
+$aInfo = _WinAPI_GetIconInfoEx($hIcon)
+If IsArray($aInfo) Then
+	ConsoleWrite('Handle: ' & $hIcon & @CR)
+	ConsoleWrite('Path:   ' & $aInfo[6] & @CR)
+	ConsoleWrite('ID:     ' & $aInfo[5] & @CR)
+	For $i = 3 To 4
+		_WinAPI_DestroyIcon($aInfo[$i])
+	Next
+EndIf
 _WinAPI_FreeLibrary($hInstance)
 _WinAPI_DestroyIcon($hIcon)

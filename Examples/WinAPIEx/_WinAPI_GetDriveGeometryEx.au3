@@ -2,10 +2,10 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $tDISK_GEOMETRY_EX, $Drive = 0
+Global $Data, $Drive = 0
 
 While 1
-	$tDISK_GEOMETRY_EX = _WinAPI_GetDriveGeometryEx($Drive)
+	$Data = _WinAPI_GetDriveGeometryEx($Drive)
 	If @error Then
 		ExitLoop
 	EndIf
@@ -13,11 +13,11 @@ While 1
 		ConsoleWrite('-------------------------------' & @CR)
 	EndIf
 	ConsoleWrite('Drive: ' & $Drive & @CR)
-	ConsoleWrite('Cylinders: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'Cylinders') & @CR)
-	ConsoleWrite('Tracks per Cylinder: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'TracksPerCylinder') & @CR)
-	ConsoleWrite('Sectors per Track: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'SectorsPerTrack') & @CR)
-	ConsoleWrite('Bytes per Sector: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'BytesPerSector') & ' bytes' & @CR)
-	ConsoleWrite('Total Space: ' & DllStructGetData($tDISK_GEOMETRY_EX, 'DiskSize') & ' bytes' & @CR)
+	ConsoleWrite('Cylinders: ' & $Data[0] & @CR)
+	ConsoleWrite('Tracks per Cylinder: ' & $Data[2] & @CR)
+	ConsoleWrite('Sectors per Track: ' & $Data[3] & @CR)
+	ConsoleWrite('Bytes per Sector: ' & $Data[4] & @CR)
+	ConsoleWrite('Total Space: ' & $Data[5] & ' bytes' & @CR)
 	ConsoleWrite('-------------------------------' & @CR)
 	$Drive +=1
 WEnd

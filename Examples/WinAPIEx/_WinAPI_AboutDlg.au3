@@ -14,6 +14,6 @@ While 1
         Case -3
             ExitLoop
         Case $Button
-            _WinAPI_AboutDlg('About', 'About Dialog Box Test', 'Simple Text', _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 130, 32, 32), $hForm)
+            _WinAPI_AboutDlg('About', 'About Dialog Box Test', 'Simple Text', _WinAPI_ShellExtractIcon(@AutoItExe, 0, 32, 32), $hForm)
     EndSwitch
 WEnd

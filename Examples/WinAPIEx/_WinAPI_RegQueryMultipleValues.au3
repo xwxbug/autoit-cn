@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <Array.au3>
 #Include <WinAPIEx.au3>
 
@@ -5,7 +6,7 @@ Opt('MustDeclareVars', 1)
 
 Global $aValent[19][4], $hKey, $tData
 
-; Note that if at least one of the following value names is not found in the specified registry key, the function fails!
+; 注意如果下列值名称有一个没有在指定的注册表键中找到, 函数会失败!
 
 ; HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
 
@@ -31,12 +32,12 @@ $aValent[18][0] = 'Templates'
 
 $hKey = _WinAPI_RegOpenKey($HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', $KEY_QUERY_VALUE)
 If @error Then
-	ConsoleWrite(_WinAPI_GetErrorMessage(@extended) & @CR)
+	MsgBox(16, @extended, _WinAPI_GetErrorMessage(@extended))
 	Exit
 EndIf
 _WinAPI_RegQueryMultipleValues($hKey, $aValent, $tData)
 If @error Then
-	ConsoleWrite(_WinAPI_GetErrorMessage(@extended) & @CR)
+	MsgBox(16, @extended, _WinAPI_GetErrorMessage(@extended))
 	Exit
 EndIf
 

@@ -1,8 +1,7 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
-
-Global Const $VK_NUMLOCK = 0x90
 
 Dim $OnOff[2] = ['OFF', 'ON']
 

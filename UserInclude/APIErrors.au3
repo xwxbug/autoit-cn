@@ -4,9 +4,9 @@
 
     Title:          API Errors UDF Library for AutoIt3
     Filename:       APIErrors.au3
-    Description:    System error codes to be used with WinAPIEx UDF library.
+    Description:    System error codes to be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.3 / 3.3.6.1
+    Version:        3.4 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           None
     Note:           -

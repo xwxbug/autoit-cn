@@ -1,4 +1,4 @@
-#Include <FontConstants.au3>
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -8,12 +8,12 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $tRECT, $Width, $Height, $hObj, $hFont, $hBitmap, $hSource, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 100)
 $Pic = GUICtrlCreatePic('', 20, 20, 360, 60)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create bitmap
+; 创建位图
 $tRECT = _WinAPI_GetClientRect($hPic)
 $Width = DllStructGetData($tRECT, 3) - DllStructGetData($tRECT, 1)
 $Height = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2)
@@ -37,7 +37,7 @@ _WinAPI_DeleteDC($hSrcDC)
 _WinAPI_DeleteObject($hSource)
 _WinAPI_DeleteObject($hFont)
 
-;Set bitmap to control
+;设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

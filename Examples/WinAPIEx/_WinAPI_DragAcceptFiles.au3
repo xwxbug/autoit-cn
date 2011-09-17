@@ -1,4 +1,4 @@
-#Include <Constants.au3>
+#Include <APIConstants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
@@ -8,7 +8,7 @@ Global $hForm, $Msg, $Check, $Label, $hLabel, $hDll, $pDll, $hProc
 
 OnAutoItExitRegister('OnAutoItExit')
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 $Check = GUICtrlCreateCheckbox('Enable Drag && Drop', 10, 370, 120, 19)
 $Label = GUICtrlCreateLabel('', 100, 100, 200, 200)
@@ -17,7 +17,7 @@ GUICtrlSetBkColor(-1, 0xD3D8EF)
 GUICtrlCreateLabel('Drop here', 175, 193, 50, 14)
 GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 
-; Register label window proc
+; 注册标签窗口过程
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
 $hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)

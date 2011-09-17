@@ -1,11 +1,12 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
 
-Global $Text, $Path = @MyDocumentsDir & '\*'
+Global $Text, $Path = @MyDocumentsDir & '\'
 
 While 1
-	$Path = FileOpenDialog('Select File', StringRegExpReplace($Path, '\\[^\\]*$', ''), 'All Files (*.*)', 1 + 2)
+	$Path = FileOpenDialog('Select File', _WinAPI_PathRemoveFileSpec($Path), 'All Files (*.*)', 1 + 2)
 	If $Path Then
 		If _WinAPI_GetBinaryType($Path) Then
 			Switch @extended
@@ -29,7 +30,7 @@ While 1
 		Else
 			$Text = ' is not executable file.'
 		EndIf
-		MsgBox(64, '_WinAPI_GetBinaryType()', '"' & StringRegExpReplace($Path, '^.*\\', '') & '"' & $Text)
+		MsgBox(64, '_WinAPI_GetBinaryType()', '"' & _WinAPI_PathStripPath($Path) & '"' & $Text)
 	Else
 		ExitLoop
 	EndIf

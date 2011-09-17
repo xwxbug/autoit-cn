@@ -1,15 +1,17 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
 
-Global $hParent, $hChild
+Global $hParent = WinGetHandle('[CLASS:Progman;TITLE:Program Manager]')
+Global $hForm
 
-$hParent = GUICreate('Parent', 400, 400, 200, 200)
-GUICtrlCreateLabel('', 0, 0, 0, 0)
-GUISetState()
-$hChild = GUICreate('Child', 200, 200, 0, 0, BitOR($WS_CAPTION, $WS_MAXIMIZEBOX, $WS_MINIMIZEBOX, $WS_POPUP, $WS_SYSMENU))
-_WinAPI_SetParent($hChild, $hParent)
-GUISetState()
+$hForm = GUICreate('MyGUI', 400, 400, 100, 100, -1, $WS_EX_TOOLWINDOW)
+
+; Attach window to the desktop (always on bottom)
+_WinAPI_SetParent($hForm, $hParent)
+
+GUISetState(@SW_SHOWNOACTIVATE)
 
 Do
 Until GUIGetMsg() = -3

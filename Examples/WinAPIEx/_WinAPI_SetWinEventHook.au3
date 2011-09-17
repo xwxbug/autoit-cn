@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <GUIMenu.au3>
 #Include <WinAPIEx.au3>
 
@@ -24,7 +25,7 @@ EndFunc   ;==>OnAutoItExit
 Func _EventProc($hEventHook, $iEvent, $hWnd, $iObjectID, $iChildID, $iThreadID, $iEventTime)
 	Switch $iEvent
 		Case $EVENT_SYSTEM_MENUPOPUPSTART
-			; Add "View - Calculator"
+			; 添加 "查看 - 计算器"
 			$hMenu = _SendMessage($hWnd, $MN_GETHMENU)
 			If (_GUICtrlMenu_IsMenu($hMenu)) And (StringInStr(_GUICtrlMenu_GetItemText($hMenu, 0), 'Status Bar')) And (StringInStr(_WinAPI_GetWindowFileName($hWnd), 'notepad.exe')) Then
 				$Index = _GUICtrlMenu_GetItemCount($hMenu)

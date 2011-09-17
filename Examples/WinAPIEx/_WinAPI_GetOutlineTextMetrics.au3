@@ -1,11 +1,11 @@
-#Include <FontConstants.au3>
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
 
 Global $tOLTM, $tData, $hDC, $hSv, $hFont
 
-; Select "Arial" font to DC and retrieve $tagOUTLINETEXTMETRIC structure
+; 选择 "Arial" 字体到设备环境并获取 $tagOUTLINETEXTMETRIC 结构
 $hDC = _WinAPI_GetDC(0)
 $hFont = _WinAPI_CreateFont(24, 0, 0, 0, $FW_NORMAL , 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $ANTIALIASED_QUALITY, $DEFAULT_PITCH, 'Arial')
 $hSv = _WinAPI_SelectObject($hDC, $hFont)
@@ -21,5 +21,5 @@ If IsDllStruct($tOLTM) Then
 EndIf
 
 Func _otm(ByRef $tOLTM, $sName)
-	Return DllStructGetData(DllStructCreate('wchar[' & (_WinAPI_StrLen(DllStructGetPtr($tOLTM) + DllStructGetData($tOLTM, $sName)) + 1) & ']', DllStructGetPtr($tOLTM) + DllStructGetData($tOLTM, $sName)), 1)
+	Return _WinAPI_GetString(DllStructGetPtr($tOLTM) + DllStructGetData($tOLTM, $sName))
 EndFunc   ;==>_otm

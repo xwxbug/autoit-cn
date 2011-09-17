@@ -1,13 +1,11 @@
 #NoTrayIcon
 
-#Include <Constants.au3>
+#Include <APIConstants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
 Opt('TrayMenuMode', 1)
-
-Global Const $SC_MINIMIZE = 0xF020
 
 Global $hTray = ControlGetHandle('[CLASS:Shell_TrayWnd]', '', 'TrayNotifyWnd1')
 Global $hForm, $GUIMsg, $TrayMsg, $Dummy, $TrayRestoreItem, $TrayExitItem
@@ -38,7 +36,7 @@ While 1
 		Case -3
 			_WinAPI_AnimateWindow($hForm, BitOR($AW_BLEND, $AW_HIDE))
 			ExitLoop
-		Case $Dummy ; Minimize
+		Case $Dummy ; ×îÐ¡»¯
 			_WinAPI_DrawAnimatedRects($hForm, _WinAPI_GetWindowRect($hForm), _WinAPI_GetWindowRect($hTray))
 			GUISetState(@SW_HIDE, $hForm)
 			TraySetState(1)

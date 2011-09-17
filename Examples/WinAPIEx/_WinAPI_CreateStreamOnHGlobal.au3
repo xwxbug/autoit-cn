@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <GDIPlus.au3>
 #Include <Memory.au3>
 #Include <WinAPIEx.au3>
@@ -7,31 +8,32 @@ Opt('MustDeclareVars', 1)
 Global Const $STM_SETIMAGE = 0x0172
 Global Const $STM_GETIMAGE = 0x0173
 
-Global $hForm, $Pic, $hPic, $hBitmap, $hObj, $hImage, $hStream, $bData, $hData, $pData, $tData, $Width, $Height, $Lenght
+Global $hForm, $Pic, $hPic, $hBitmap, $hObj, $hImage, $pStream, $bData, $hData, $pData, $tData, $Width, $Height, $Lenght
 
-; Create bitmap (MSDNLogo.png)
+; 创建位图 (MSDNLogo.png)
 $bData = _Image_MSDNLogo()
 $Lenght = BinaryLen($bData)
-$hData = _MemGlobalAlloc($Lenght, 2)
+$hData = _MemGlobalAlloc($Lenght, $GMEM_MOVEABLE)
 $pData = _MemGlobalLock($hData)
 $tData = DllStructCreate('byte[' & $Lenght & ']', $pData)
 DllStructSetData($tData, 1, $bData)
 _MemGlobalUnlock($hData)
-$hStream = _WinAPI_CreateStreamOnHGlobal($hData)
+$pStream = _WinAPI_CreateStreamOnHGlobal($hData)
 _GDIPlus_Startup()
-$hImage = _GDIPlus_BitmapCreateFromStream($hStream)
+$hImage = _GDIPlus_BitmapCreateFromStream($pStream)
 $hBitmap = _GDIPlus_BitmapCreateHBITMAPFromBitmap($hImage)
 $Width = _GDIPlus_ImageGetWidth($hImage)
 $Height = _GDIPlus_ImageGetHeight($hImage)
 _GDIPlus_ImageDispose($hImage)
+_MemGlobalFree($hData)
 _GDIPlus_Shutdown()
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', $Width, $Height)
 $Pic = GUICtrlCreatePic('', 0 , 0, $Width, $Height)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Set bitmap to control
+; 设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then
@@ -43,14 +45,14 @@ GUISetState()
 Do
 Until GUIGetMsg() = -3
 
-Func _GDIPlus_BitmapCreateFromStream($hStream)
+Func _GDIPlus_BitmapCreateFromStream($pStream)
 
-	Local $aResult = DllCall($ghGDIPDll, 'uint', 'GdipCreateBitmapFromStream', 'ptr', $hStream, 'ptr*', 0)
+	Local $Ret = DllCall($ghGDIPDll, 'uint', 'GdipCreateBitmapFromStream', 'ptr', $pStream, 'ptr*', 0)
 
-	If @error Then
+	If (@error) Or ($Ret[0]) Then
 		Return SetError(@error, @extended, 0)
 	EndIf
-	Return $aResult[2]
+	Return $Ret[2]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromStream
 
 Func _Image_MSDNLogo()

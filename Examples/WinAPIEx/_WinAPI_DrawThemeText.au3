@@ -1,4 +1,4 @@
-#Include <FontConstants.au3>
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -8,18 +8,18 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $tRECT, $hTheme, $hObj, $hFont, $hBitmap, $hSource, $hDC, $hDev, $hSv
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 160, 199)
 $Pic = GUICtrlCreatePic('', 0, 0, 160, 199)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create bitmap
+; 创建位图
 $hDev = _WinAPI_GetDC($hPic)
 $hDC = _WinAPI_CreateCompatibleDC($hDev)
 $hSource = _WinAPI_CreateCompatibleBitmapEx($hDev, 160, 199, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
 $hSv = _WinAPI_SelectObject($hDC, $hSource)
 
-; Draw objects
+; 描绘对象
 $tRECT = _WinAPI_CreateRectEx(25, 25, 110, 25)
 $hFont = _WinAPI_CreateFont(12, 0, 0, 0, $FW_NORMAL , 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $DEFAULT_QUALITY, $DEFAULT_PITCH, 'MS Shell Dlg')
 _WinAPI_SetBkMode($hDC, $TRANSPARENT)
@@ -34,7 +34,7 @@ If Not @error Then
 	_WinAPI_CloseThemeData($hTheme)
 EndIf
 
-; Merge bitmap
+; 合并位图
 $hBitmap = _WinAPI_CreateCompatibleBitmap($hDev, 160, 199)
 _WinAPI_SelectObject($hDC, $hBitmap)
 _WinAPI_DrawBitmap($hDC, 0, 0, $hSource, $MERGECOPY)
@@ -43,7 +43,7 @@ _WinAPI_SelectObject($hDC, $hSv)
 _WinAPI_DeleteObject($hSource)
 _WinAPI_DeleteDC($hDC)
 
-; Set bitmap to control
+; 设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

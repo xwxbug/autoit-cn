@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -6,7 +7,7 @@ Global Const $STM_SETIMAGE = 0x0172
 
 Global $tRECT, $hBitmap, $hMask, $hIcon, $hBrush, $hDC, $hMemDC, $hSv
 
-; Create color bitmap
+; 创建彩色位图
 $hDC = _WinAPI_GetDC(0)
 $hMemDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmapEx($hDC, 32, 32, 0)
@@ -26,7 +27,7 @@ _WinAPI_ReleaseDC(0, $hDC)
 _WinAPI_SelectObject($hMemDC, $hSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Create bitmask bitmap
+; 创建位屏蔽位图
 $hDC = _WinAPI_GetDC(0)
 $hMemDC = _WinAPI_CreateCompatibleDC($hDC)
 $hMask = _WinAPI_CreateBitmap(32, 32, 1, 1)
@@ -47,10 +48,10 @@ _WinAPI_ReleaseDC(0, $hDC)
 _WinAPI_SelectObject($hMemDC, $hSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Create icon
+; 创建图标
 $hIcon = _WinAPI_CreateIconIndirect($hBitmap, $hMask)
 
-; Create GUI
+; 创建 GUI
 GUICreate('MyGUI', 128, 128)
 GUICtrlCreateIcon('', 0, 48, 48, 32, 32)
 GUICtrlSendMsg(-1, $STM_SETIMAGE, 1, $hIcon)

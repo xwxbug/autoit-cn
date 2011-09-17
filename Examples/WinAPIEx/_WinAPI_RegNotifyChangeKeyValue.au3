@@ -1,3 +1,4 @@
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
 
 Opt('MustDeclareVars', 1)
@@ -5,8 +6,12 @@ Opt('TrayAutoPause', 0)
 
 Global $hKey, $hEvent
 
-$hEvent = _WinAPI_CreateEvent()
 $hKey = _WinAPI_RegOpenKey($HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', $KEY_NOTIFY)
+If @error Then
+	MsgBox(16, @extended, _WinAPI_GetErrorMessage(@extended))
+	Exit
+EndIf
+$hEvent = _WinAPI_CreateEvent()
 If Not _WinAPI_RegNotifyChangeKeyValue($hKey, $REG_NOTIFY_CHANGE_LAST_SET, 0, 1, $hEvent) Then
     Exit
 EndIf
