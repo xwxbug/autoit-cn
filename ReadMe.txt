@@ -22,6 +22,7 @@ AutoIt:
 [G][+]新增: DllCallAddress().
 [G][+]新增: ObjCreateInterface() (By trancexx).
 [G][*]修正: #1975: IE 对象为无效对象类型.
+[H][!]更新: 更新ResHacker到3.6.0
 
 3.3.7.14 (Beta)
 AutoIt:
