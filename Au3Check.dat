@@ -72,7 +72,7 @@ $CmdLineRaw
 !DirMove 2 3
 !DirRemove 1 2
 !DllCall 3 255
-!DllCallAddress 2 6
+!DllCallAddress 2 255
 !DllCallbackFree 1 1
 !DllCallbackGetPtr 1 1
 !DllCallbackRegister 3 3
