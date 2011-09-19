@@ -26,6 +26,9 @@ AutoIt:
 [G][!]更新: WinAPIEx UDF库 更新到3.4版.
 [G][!]更新: WinHttp UDF库 更新到1.6.2.5.
 
+SciTe:
+[G][!]更新: 更新代码整理(tidy)为2.2.1.5
+
 3.3.7.14 (Beta)
 AutoIt:
 [G][*]修正: 3.3.7.8 中对IE.au3的失误修改
