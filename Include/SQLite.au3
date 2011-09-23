@@ -61,6 +61,7 @@
 ;__SQLite_Utf8StructToString
 ;__SQLite_ConsoleWrite
 ;__SQLite_Download_SQLite3Dll
+;__SQLite_Print
 ; ===============================================================================================================================
 
 #comments-start
@@ -179,6 +180,7 @@ Global Const $SQLITE_TYPE_NULL     = 5
 Global $g_hDll_SQLite = 0
 Global $g_hDB_SQLite = 0
 Global $g_bUTF8ErrorMsg_SQLite = False
+Global $g_sPrintCallback_SQLite = "__SQLite_ConsoleWrite"
 Global $__gbSafeModeState_SQLite = True	; Safemode State (boolean)
 Global $__ghDBs_SQLite[1] 		 = ['']	; Array of known $hDB handles
 Global $__ghQuerys_SQLite[1]	 = ['']	; Array of known $hQuery handles
@@ -199,7 +201,13 @@ Global $__gaTempFiles_SQLite[1]  = ['']	; Array of used Temp Files
 ; Modified.......: jpm
 ; Remarks .......: _SQLite_Startup([$sDll_Filename]) Loads SQLite3.dll
 ; ===============================================================================================================================
-Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal = 0)
+Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal = 0, $sPrintCallback = $g_sPrintCallback_SQLite)
+	; The $sPrintCallback parameter may look strange to assign it to $g_sPrintCallback_SQLite as
+	; a default.  This is done so that $g_sPrintCallback_SQLite can be pre-initialized with the internal
+	; callback in a single place in case that callback changes.  If the user overrides it then
+	; that value becomes the new default.  An empty string will suppress any display.
+	$g_sPrintCallback_SQLite = $sPrintCallback
+
 	If IsKeyword($bUTF8ErrorMsg) Then $bUTF8ErrorMsg = False
 	$g_bUTF8ErrorMsg_SQLite = $bUTF8ErrorMsg
 
@@ -588,7 +596,7 @@ Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $bReturn = False)
 		Next
 		$sOut &= @CRLF
 		If Not $bReturn Then
-			__SQLite_ConsoleWrite($sOut)
+			__SQLite_Print($sOut)
 			$sOut = ""
 		EndIf
 	Next
@@ -1053,7 +1061,7 @@ Func _SQLite_SQLiteExe($sDatabaseFile, $sInput, ByRef $sOutput, $sSQLiteExeFilen
 		Local $nErrorLevel = RunWait($sCmd, @WorkingDir, @SW_HIDE)
 		If $fDebug = True Then
 			Local $nErrorTemp = @error
-			__SQLite_ConsoleWrite('@@ Debug(_SQLite_SQLiteExe) : $sCmd = ' & $sCmd & @CRLF & '>ErrorLevel: ' & $nErrorLevel & @CRLF)
+			__SQLite_Print('@@ Debug(_SQLite_SQLiteExe) : $sCmd = ' & $sCmd & @CRLF & '>ErrorLevel: ' & $nErrorLevel & @CRLF)
 			SetError($nErrorTemp)
 		EndIf
 		If @error = 1 Or $nErrorLevel = 1 Then
@@ -1210,14 +1218,14 @@ Func __SQLite_VersCmp($sFile, $sVersion)
 EndFunc   ;==>__SQLite_VersCmp
 
 Func __SQLite_hDbg()
-	__SQLite_ConsoleWrite("State : " & $__gbSafeModeState_SQLite & @CRLF)
+	__SQLite_Print("State : " & $__gbSafeModeState_SQLite & @CRLF)
 	Local $aTmp = $__ghDBs_SQLite
 	For $i = 0 To UBound($aTmp) - 1
-		__SQLite_ConsoleWrite("$__ghDBs_SQLite     -> [" & $i & "]" & $aTmp[$i] & @CRLF)
+		__SQLite_Print("$__ghDBs_SQLite     -> [" & $i & "]" & $aTmp[$i] & @CRLF)
 	Next
 	$aTmp = $__ghQuerys_SQLite
 	For $i = 0 To UBound($aTmp) - 1
-		__SQLite_ConsoleWrite("$__ghQuerys_SQLite  -> [" & $i & "]" & $aTmp[$i] & @CRLF)
+		__SQLite_Print("$__ghQuerys_SQLite  -> [" & $i & "]" & $aTmp[$i] & @CRLF)
 	Next
 EndFunc   ;==>__SQLite_hDbg
 
@@ -1229,7 +1237,7 @@ Func __SQLite_ReportError($hDB, $sFunction, $sQuery = Default, $sError = Default
 	$sOut &= "--> Function: " & $sFunction & @CRLF
 	If $sQuery <> "" Then $sOut &= "--> Query:    " & $sQuery & @CRLF
 	$sOut &= "--> Error:    " & $sError & @CRLF
-	__SQLite_ConsoleWrite($sOut & @CRLF)
+	__SQLite_Print($sOut & @CRLF)
 	If Not IsKeyword($vReturnValue) Then Return SetError($curErr, $curExt, $vReturnValue)
 	Return SetError($curErr, $curExt)
 EndFunc   ;==>__SQLite_ReportError
@@ -1311,13 +1319,7 @@ EndFunc   ;==>__SQLite_Utf8StructToString
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func __SQLite_ConsoleWrite($sText)
-	If $g_bUTF8ErrorMsg_SQLite Then
-		; can be used when sending to application such SciTE configured with output.code.page=65001
-		Local $tStr8 = __SQLite_StringToUtf8Struct($sText)
-		ConsoleWrite(DllStructGetData($tStr8, 1))
-	Else
-		ConsoleWrite($sText)
-	EndIf
+	ConsoleWrite($sText)
 EndFunc   ;==>__SQLite_ConsoleWrite
 
 Func __SQLite_Download_SQLite3Dll($tempfile, $version)
@@ -1332,5 +1334,26 @@ Func __SQLite_Download_SQLite3Dll($tempfile, $version)
 	FileSetTime($tempfile, __SQLite_Inline_Modified(), 0)
 	Return SetError($error, 0, $ret)
 EndFunc   ;==>__SQLite_Download_SQLite3Dll
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __SQLite_Print
+; Description ...: Prints an ANSI or UNICODE String to the user-specified callback function.
+; Syntax.........: __SQLite_Print($sText)
+; Parameters ....: $sText - Unicode String
+; Return values .: none
+; Author ........: Valik
+; ===============================================================================================================================
+Func __SQLite_Print($sText)
+	; Don't do anything if there is no callback registered.
+	If $g_sPrintCallback_SQLite Then
+		If $g_bUTF8ErrorMsg_SQLite Then
+			; can be used when sending to application such SciTE configured with output.code.page=65001
+			Local $tStr8 = __SQLite_StringToUtf8Struct($sText)
+			Call($g_sPrintCallback_SQLite, DllStructGetData($tStr8, 1))
+		Else
+			Call($g_sPrintCallback_SQLite, $sText)
+		EndIf
+	EndIf
+EndFunc	;==>__SQLite_Print
 
 #endregion 	SQLite.au3 Internal Functions

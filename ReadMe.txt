@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.15 第一汉化版
+程序版本:3.3.7.17 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,7 +17,25 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.15 (2011-09-XX) 第一汉化版
+3.3.7.17 (2011-09-XX) 第一汉化版
+AutoIt:
+- Added: DllCallAddress() now has an example.
+- Added: Example and incomplete documentation for ObjCreateInterface().
+
+- Fixed #1660: Crash on Mod() with a divisor of 0.
+- Fixed: COM methods no longer change the type of AutoIt variables.
+
+UDFs:
+- Fixed #2009: Incorrect styles listed in _GUICtrlToolbar_Create().
+- Fixed #1009: SQLite library needs to support a user-defined callback for diagnostic messages instead of hard-coding ConsoleWrite().
+
+Au3Check:
+- Fixed #1934: #ForceRef after a single-line If statement ending with a single keyword would cause an incorrect error to be displayed.
+
+3.3.7.16 (20th September, 2011) (Beta)
+- This version was released but immediately pulled due to an error.  See 3.3.7.17 for changes.
+
+3.3.7.15 (2011-09-19) 第一汉化版(SVN.R752)
 AutoIt:
 [G][+]新增: DllCallAddress().
 [G][+]新增: ObjCreateInterface() (By trancexx).
