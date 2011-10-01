@@ -19,7 +19,7 @@ $hOldFont = _WinAPI_SelectObject($hDC, $hFont)
 
 _WinAPI_SetTextColor($hDC, 0x0000FF)
 _WinAPI_SetBkColor($hDC, 0x000000)
-; comment next line to get black background instead of transparent one
+; 注释下一行可以获得黑色背景而不是透明背景
 _WinAPI_SetBkMode($hDC, $TRANSPARENT)
 
 While 1

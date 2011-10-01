@@ -5,6 +5,6 @@
 
 Opt("MustDeclareVars", 1)
 
-; Internet Explorer proxy configuration for the current user:
+; 用于当前用户的 Internet Explorer 代理配置:
 Global $aIEproxy = _WinHttpGetIEProxyConfigForCurrentUser()
 _ArrayDisplay($aIEproxy, "Internet Explorer proxy configuration")

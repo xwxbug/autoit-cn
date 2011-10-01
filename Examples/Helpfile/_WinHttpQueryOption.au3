@@ -4,35 +4,35 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
 
-; Set User-Agent string
+; 设置用户代理字符串
 _WinHttpSetOption($hOpen, $WINHTTP_OPTION_USER_AGENT, "Who the fuc*k is Alice???")
 
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "google.com")
 
-; Specify the reguest
+; 指明请求
 Global $hRequest = _WinHttpOpenRequest($hConnect)
 
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest)
 
-; Check what User-Agent string was used
+; 检查所使用的用户代理字符串
 ConsoleWrite("! Custom agent: " & _WinHttpQueryOption($hOpen, $WINHTTP_OPTION_USER_AGENT) & @CRLF & @CRLF)
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
 Global $sHeader
-; If there is data available...
-If _WinHttpQueryDataAvailable($hRequest) Then $sHeader = _WinHttpQueryHeaders($hRequest) ; ...get full header
+; 如果数据有效...
+If _WinHttpQueryDataAvailable($hRequest) Then $sHeader = _WinHttpQueryHeaders($hRequest) ; ...获取完整头部
 
-; Clean
+; 清理
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
 
-; Display retrieved header
+; 显示获取的头部
 ConsoleWrite($sHeader & @CRLF)

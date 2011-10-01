@@ -8,20 +8,20 @@ Global $sHost = "www.smijesne-slike.net"
 Global $sTarget = "wp-content/uploads/2009/09/7.jpg"
 Global $sDestination = @ScriptDir & "\CatHot.jpg"
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hHttpOpen = _WinHttpOpen()
 If @error Then
 	MsgBox(48, "Error", "Error initializing the usage of WinHTTP functions.")
 	Exit 1
 EndIf
-; Get connection handle
+; 获取连接句柄
 Global $hHttpConnect = _WinHttpConnect($hHttpOpen, $sHost)
 If @error Then
 	MsgBox(48, "Error", "Error specifying the initial target server of an HTTP request.")
 	_WinHttpCloseHandle($hHttpOpen)
 	Exit 2
 EndIf
-; Specify the reguest
+; 指明请求
 Global $hHttpRequest = _WinHttpOpenRequest($hHttpConnect, Default, $sTarget)
 If @error Then
 	MsgBox(48, "Error", "Error creating an HTTP request handle.")
@@ -29,7 +29,7 @@ If @error Then
 	_WinHttpCloseHandle($hHttpOpen)
 	Exit 3
 EndIf
-; Send request
+; 发送请求
 _WinHttpSendRequest($hHttpRequest)
 If @error Then
 	MsgBox(48, "Error", "Error sending specified request.")
@@ -38,17 +38,17 @@ If @error Then
 	Exit 4
 EndIf
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hHttpRequest)
-; Read if available
+; 如果有效则读取
 Global $bChunk, $bData, $hFile
 If _WinHttpQueryDataAvailable($hHttpRequest) Then
 	While 1
-		$bChunk = _WinHttpReadData($hHttpRequest, 2) ; read binary
+		$bChunk = _WinHttpReadData($hHttpRequest, 2) ; 读取二进制
 		If @error Then ExitLoop
-		$bData = _WinHttpBinaryConcat($bData, $bChunk) ; concat two binary data
+		$bData = _WinHttpBinaryConcat($bData, $bChunk) ; 串联两段二进制数据
 	WEnd
-    ; Save it to the file
+    ; 保存到文件
 	$hFile = FileOpen($sDestination, 26)
 	FileWrite($hFile, $bData)
 	FileClose($hFile)
@@ -56,10 +56,10 @@ Else
 	MsgBox(48, "Error occurred", "No data available. " & @CRLF)
 EndIf
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hHttpRequest)
 _WinHttpCloseHandle($hHttpConnect)
 _WinHttpCloseHandle($hHttpOpen)
 
-; See what's downloaded
+; 看看下载的是什么
 ShellExecute($sDestination)

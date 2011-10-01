@@ -4,25 +4,25 @@
 
 Opt("MustDeclareVars", 1)
 
-; Open needed handles
+; 打开需要的句柄
 Global $hOpen = _WinHttpOpen()
 Global $hConnect = _WinHttpConnect($hOpen, "msdn.microsoft.com")
-; Specify the reguest:
+; 指明请求:
 Global $hRequest = _WinHttpOpenRequest($hConnect, Default, "en-us/library/aa384101(VS.85).aspx")
 
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest)
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
-; Get full header
+; 获取完整头部
 Global $sHeader = _WinHttpQueryHeaders($hRequest)
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
 
-; Display retrieved header
+; 显示获取的头部
 MsgBox(0, "Header", $sHeader)

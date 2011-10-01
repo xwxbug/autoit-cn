@@ -4,16 +4,16 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize
+; 初始化
 Global $hOpen = _WinHttpOpen()
-; Specify what to connect to
+; 指明连接到哪里
 Global $hConnect = _WinHttpConnect($hOpen, "en.wikipedia.org")
-; Create request
+; 创建请求
 Global $hRequest = _WinHttpOpenRequest($hConnect, -1, "wiki/Manchester_United_F.C.")
-; Send it
+; 发送它
 _WinHttpSendRequest($hRequest)
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 If @error Then
 	MsgBox(48, "Error", "Error ocurred for WinHttpReceiveResponse, Error number is " & @error)
@@ -21,7 +21,7 @@ Else
 	MsgBox(64, "All right!", "Server at 'en.wikipedia.org' processed the request.")
 EndIf
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

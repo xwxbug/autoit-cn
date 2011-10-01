@@ -9,4 +9,4 @@ If Not _WinHttpCheckPlatform() Then
 	Exit 1
 EndIf
 
-;... The rest of the code
+;... 代码的剩余部分

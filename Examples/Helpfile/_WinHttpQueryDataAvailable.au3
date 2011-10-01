@@ -4,26 +4,26 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "google.com")
-; Specify the reguest
+; 指明请求
 Global $hRequest = _WinHttpOpenRequest($hConnect)
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest)
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
-; Check there is data available...
+; 检查数据是否有效...
 If _WinHttpQueryDataAvailable($hRequest) Then
     MsgBox(64, "OK", "Data from google.com is available!")
 Else
 	MsgBox(48, "Error", "Site is experiencing problems (or you).")
 EndIf
 
-; Clean
+; 清理
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

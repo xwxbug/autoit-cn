@@ -4,12 +4,12 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
 If @error Then
 	MsgBox(48, "Error", "Error initializing the usage of WinHTTP functions.")
 	Exit 1
 EndIf
 
-; Close it
+; 关闭它
 _WinHttpCloseHandle($hOpen)

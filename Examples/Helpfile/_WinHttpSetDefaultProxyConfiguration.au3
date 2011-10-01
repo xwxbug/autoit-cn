@@ -4,7 +4,7 @@
 
 Opt("MustDeclareVars", 1)
 
-; Set No-proxy:
+; 设置不使用代理:
 _WinHttpSetDefaultProxyConfiguration($WINHTTP_ACCESS_TYPE_NO_PROXY)
 
-; ... the rest of the code here...
+; ... 这里是剩余代码...

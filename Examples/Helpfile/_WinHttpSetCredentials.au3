@@ -4,7 +4,7 @@
 
 Opt("MustDeclareVars", 1)
 
-; !!! The result of this script will be this sent to the server:
+; !!!此脚本的结果将被发送到服务器:
 #cs
 	POST /admin.php HTTP/1.1
 	Connection: Keep-Alive
@@ -15,31 +15,31 @@ Opt("MustDeclareVars", 1)
 	Authorization: Basic YWRtaW46YWRtaW4=
 #ce
 
-; My server
+; 我的服务器
 Global $sLocalIP = "127.0.0.1"
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, $sLocalIP)
-; Specify the reguest
+; 指明请求
 Global $hRequest = _WinHttpOpenRequest($hConnect, _
-		"POST", _ ; verb
-		"admin.php", _ ; object
-		Default, _ ; version
+		"POST", _ ; 动作
+		"admin.php", _ ; 目标
+		Default, _ ; 版本
 		Default, _ ; referrer
-		"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") ; accept types
+		"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") ; 接受类型
 
-; Set credentials
+; 设置凭据
 _WinHttpSetCredentials($hRequest, $WINHTTP_AUTH_TARGET_SERVER, $WINHTTP_AUTH_SCHEME_BASIC, "admin", "admin")
 
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest)
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
-; .... The rest of the code here...
+; .... 这里是剩余代码...
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

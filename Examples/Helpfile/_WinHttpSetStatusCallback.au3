@@ -4,46 +4,46 @@
 
 Opt("MustDeclareVars", 1)
 
-; Register Callback function
+; 注册回调函数
 Global $hWINHTTP_STATUS_CALLBACK = DllCallbackRegister("__WINHTTP_STATUS_CALLBACK", "none", "handle;dword_ptr;dword;ptr;dword")
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
-; Associate callback function with this handle
+; 把回调函数和此句柄关联起来
 _WinHttpSetStatusCallback($hOpen, $hWINHTTP_STATUS_CALLBACK)
 
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "google.com")
-; Specify the reguest:
+; 指明请求:
 Global $hRequest = _WinHttpOpenRequest($hConnect)
-; Send request
+; 发送请求
 _WinHttpSendRequest($hRequest)
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 
 Global $sHeader
-; If there is data available...
-If _WinHttpQueryDataAvailable($hRequest) Then $sHeader = _WinHttpQueryHeaders($hRequest) ; ...get full header
+; 如果数据有效...
+If _WinHttpQueryDataAvailable($hRequest) Then $sHeader = _WinHttpQueryHeaders($hRequest) ; ...获取完整头部
 
-; Clean
+; 清理
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)
 
-; Display retrieved header
+; 显示获取的头部
 ConsoleWrite(@CRLF & $sHeader & @CRLF)
 
-; Sleep few seconds to see if there are more events
+; 暂停几秒以便看看是否有更多事件
 Sleep(2000)
 
-; Free the callback when no longer needed (can be omitted in this case)
+; 不需要时释放回调 (此时可以忽略)
 DllCallbackFree($hWINHTTP_STATUS_CALLBACK)
 
 
-; Define callback function
+; 定义回调函数
 Func __WINHTTP_STATUS_CALLBACK($hInternet, $iContext, $iInternetStatus, $pStatusInformation, $iStatusInformationLength)
 	#forceref $hInternet, $iContext, $pStatusInformation, $iStatusInformationLength
 	ConsoleWrite("!->Current status of the connection: " & $iInternetStatus & "    " & @TAB & "    ")
-	; Interpret the status
+	; 解释状态
 	Local $sStatus
 	Switch $iInternetStatus
 		Case $WINHTTP_CALLBACK_STATUS_CLOSING_CONNECTION
@@ -89,6 +89,6 @@ Func __WINHTTP_STATUS_CALLBACK($hInternet, $iContext, $iInternetStatus, $pStatus
 		Case $WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE
 			$sStatus = "Data was successfully written to the server."
 	EndSwitch
-	; Print it
+	; 打印它
 	ConsoleWrite($sStatus & @CRLF)
 EndFunc   ;==>__WINHTTP_STATUS_CALLBACK

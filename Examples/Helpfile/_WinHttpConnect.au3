@@ -4,10 +4,10 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize and get session handle
+; 初始化并获取会话句柄
 Global $hOpen = _WinHttpOpen()
 
-; Get connection handle
+; 获取连接句柄
 Global $hConnect = _WinHttpConnect($hOpen, "www.pravda.ru")
 If @error Then
 	MsgBox(48, "Error", "Error getting connection handle." & @CRLF & "Error number is " & @error)
@@ -16,6 +16,6 @@ Else
 	MsgBox(64, "Yes!", "Handle is get! $hConnect = " & $hConnect)
 EndIf
 
-; Close handles
+; 关闭句柄
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

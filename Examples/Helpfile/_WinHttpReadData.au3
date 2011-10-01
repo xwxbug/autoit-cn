@@ -4,7 +4,7 @@
 
 Opt("MustDeclareVars", 1)
 
-; Initialize
+; 初始化
 Global $hOpen = _WinHttpOpen()
 
 If @error Then
@@ -12,15 +12,15 @@ If @error Then
 	Exit 1
 EndIf
 
-; Specify what to connect to
-Global $hConnect = _WinHttpConnect($hOpen, "yahoo.com") ; <- yours here
+; 指明连接到哪里
+Global $hConnect = _WinHttpConnect($hOpen, "yahoo.com") ; <- 这儿您的目标
 If @error Then
 	MsgBox(48, "Error", "Error specifying the initial target server of an HTTP request.")
 	_WinHttpCloseHandle($hOpen)
 	Exit 2
 EndIf
 
-; Create request
+; 创建请求
 Global $hRequest = _WinHttpOpenRequest($hConnect)
 If @error Then
 	MsgBox(48, "Error", "Error creating an HTTP request handle.")
@@ -29,7 +29,7 @@ If @error Then
 	Exit 3
 EndIf
 
-; Send it
+; 发送它
 _WinHttpSendRequest($hRequest)
 If @error Then
 	MsgBox(48, "Error", "Error sending specified request.")
@@ -39,7 +39,7 @@ If @error Then
 	Exit 4
 EndIf
 
-; Wait for the response
+; 等待响应
 _WinHttpReceiveResponse($hRequest)
 If @error Then
 	MsgBox(48, "Error", "Error waiting for the response from the server.")
@@ -49,21 +49,21 @@ If @error Then
 	Exit 5
 EndIf
 
-; See if there is data to read
+; 看看是否有数据读取
 Global $sChunk, $sData
 If _WinHttpQueryDataAvailable($hRequest) Then
-	; Read
+	; 读取
 	While 1
 		$sChunk = _WinHttpReadData($hRequest)
 		If @error Then ExitLoop
 		$sData &= $sChunk
 	WEnd
-	ConsoleWrite($sData & @CRLF) ; print to console
+	ConsoleWrite($sData & @CRLF) ; 打印到控制台
 Else
 	MsgBox(48, "Error", "Site is experiencing problems.")
 EndIf
 
-; Close handles when they are not needed any more
+; 不再需要那些句柄时关闭它们
 _WinHttpCloseHandle($hRequest)
 _WinHttpCloseHandle($hConnect)
 _WinHttpCloseHandle($hOpen)

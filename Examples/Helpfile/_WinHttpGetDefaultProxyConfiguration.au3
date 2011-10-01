@@ -5,6 +5,6 @@
 
 Opt("MustDeclareVars", 1)
 
-; Current WinHTTP proxy configuration:
+; 当前 WinHTTP 代理配置:
 Global $aProxy = _WinHttpGetDefaultProxyConfiguration()
 _ArrayDisplay($aProxy, "Current WinHTTP proxy configuration")
