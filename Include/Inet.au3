@@ -27,11 +27,11 @@ Func _GetIP()
     $bRead = InetRead("http://checkip.dyndns.org/")
     $sRead = BinaryToString($bRead)
     $aReturn = StringRegExp($sRead, '(?s)(?i)<body>Current IP Address: (.*?)</body>', 3)
-    If Not @error Then
+    If @error = 0 Then
         Return $aReturn[0]
     EndIf
 
-    $bRead = InetRead("http://www.whatismyip.com/automation/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
+    $bRead = InetRead("http://automation.whatismyip.com/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
     $sRead = BinaryToString($bRead)
     If @error Then
         Return SetError(1, 0, -1)

@@ -460,7 +460,7 @@ MouseWheel ( "direction" [, clicks] ) Moves the mouse wheel up or down.  NT/2000
 MsgBox ( flag, "title", "text" [, timeout [, hwnd]] ) Displays a simple message box with optional timeout.
 Number ( expression )  Returns the numeric representation of an expression. 
 ObjCreate ( "classname"  [, "servername" [,"username", ["password"]]] ) Creates a reference to a COM object from the given classname.
-ObjCreateInterface ( "CLSID" , "IID" [,"interface_description", ["something_else_i_forgot"]]] ) Coming soon
+ObjCreateInterface ( "CLSID" , "IID" [,"interface_description", ["flag"]]] ) Creates a reference to an object from the given classname/object pointer, interface identifier and description string.
 ObjEvent ( $ObjectVar, "functionprefix" [, "interface name"] ) Handles incoming events from the given Object.
 ObjEvent ( "AutoIt.Error" [, "function name"] ) Handles incoming events from the given Object.
 ObjGet ( "filename" [, "classname"] ) Retrieves a reference to a COM object from an existing process or filename.
@@ -984,7 +984,7 @@ _GUICtrlButton_GetTextMargin ($hWnd) Gets the margins used to draw text in a but
 _GUICtrlButton_SetCheck ($hWnd[, $iState = $BST_CHECKED]]) Sets the check state of a radio button or check box (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetDontClick ($hWnd[, $fState = True]) Sets the state of $BST_DONTCLICK flag on a button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetFocus ($hWnd[, $fFocus = True]) Sets the keyboard focus to the specified button (Requires: #Include <GuiButton.au3>)
-_GUICtrlButton_SetImage ($hWnd, $sImageFile[, $nIconId = -1[, $fLarge = False]]) Sets the check state of a radio button or check box (Requires: #Include <GuiButton.au3>)
+_GUICtrlButton_SetImage ($hWnd, $sImageFile[, $nIconId = -1[, $fLarge = False]]) Sets the image of a button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetImageList ($hWnd, $hImage[, $nAlign = 0[, $iLeft = 1[, $iTop = 1[, $iRight = 1[, $iBottom = 1]]]]]) Assigns an image list to a button control (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetNote ($hWnd, $sNote) Sets the text of the note associated with a command link button (Requires: #Include <GuiButton.au3>)
 _GUICtrlButton_SetShield ($hWnd[, $fRequired = True]) Sets the elevation required state for a specified button or command link to display an elevated icon (Requires: #Include <GuiButton.au3>)

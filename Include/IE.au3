@@ -242,7 +242,20 @@ Func _IECreate($s_Url = "about:blank", $f_tryAttach = 0, $f_visible = 1, $f_wait
 	If $f_mustUnlock And Not __IELockSetForegroundWindow($LSFW_UNLOCK) Then __IEErrorNotify("Warning", "_IECreate", "", "Foreground Window Unlock Failed!")
 	_IENavigate($o_object, $s_Url, $f_wait)
 
-	Return SetError(@error, 0, $o_object)
+	; Store @error after _IENavigate() so that it can be returned.
+	Local $iError = @error
+
+	; IE9 sets focus to the URL bar when an about: URI is displayed (such as about:blank).  This can cause
+	; _IEAction(..., "focus") to work incorrectly.  It will give focus to the element (as shown by the elements's
+	; appearance changing but) the input caret will not move.  The work-around for this "helpful" behavior is
+	; to explicitly give focus to the document.  We should only do this for about: URIs and on successful
+	; navigate.
+	If Not $iError And StringLeft($s_Url, 6) = "about:" Then
+		Local $oDocument = $o_object.document
+		_IEAction($oDocument, "focus")
+	EndIf
+
+	Return SetError($iError, 0, $o_object)
 EndFunc   ;==>_IECreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -531,8 +544,8 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 	Local $IELoadWaitTimer = TimerInit()
 	If $i_timeout = -1 Then $i_timeout = $__IELoadWaitTimeout
 
-	Switch ObjName($o_object)
-		Case "IWebBrowser2"; InternetExplorer
+	Select
+		Case __IEIsObjType($o_object, "browser"); InternetExplorer
 			While Not (String($o_object.readyState) = "complete" Or $o_object.readyState = 4 Or $f_Abort)
 				; Trap unrecoverable COM errors
 				If (TimerDiff($IELoadWaitTimer) > $i_timeout) Then
@@ -557,7 +570,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-		Case "HTMLWindow2" ; Window, Frame, iFrame
+		Case __IEIsObjType($o_object, "window") ; Window, Frame, iFrame
 			While Not (String($o_object.document.readyState) = "complete" Or $o_object.document.readyState = 4 Or $f_Abort)
 				If (TimerDiff($IELoadWaitTimer) > $i_timeout) Then
 					$i_ErrorStatusCode = $_IEStatus_LoadWaitTimeout
@@ -582,7 +595,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-		Case "HTMLDocument" ; Document
+		Case __IEIsObjType($o_object, "document") ; Document
 			$oTemp = $o_object.parentWindow
 			While Not (String($oTemp.document.readyState) = "complete" Or $oTemp.document.readyState = 4 Or $f_Abort)
 				If (TimerDiff($IELoadWaitTimer) > $i_timeout) Then
@@ -634,7 +647,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-	EndSwitch
+	EndSelect
 
 	; restore error notify and error handler status
 	_IEErrorNotify($f_NotifyStatus) ; restore notification status

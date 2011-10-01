@@ -23,47 +23,26 @@ _IEFormElementSetValue($oQuery, "AutoIt IE.au3")
 _IEFormSubmit($oForm)
 
 ; *******************************************************
-; Example 3 - Login to Hotmail
-; *******************************************************
-
-#include <IE.au3>
-
-; Create a browser window and navigate to hotmail
-$oIE = _IECreate("http://www.hotmail.com")
-
-; get pointers to the login form and username, password and signin fields
-Local $o_form = _IEFormGetObjByName($oIE, "f1")
-Local $o_login = _IEFormElementGetObjByName($o_form, "login")
-Local $o_password = _IEFormElementGetObjByName($o_form, "passwd")
-Local $o_signin = _IEFormElementGetObjByName($o_form, "SI")
-
-Local $username = "your username here"
-Local $password = "your password here"
-
-; Set field values and submit the form
-_IEFormElementSetValue($o_login, $username)
-_IEFormElementSetValue($o_password, $password)
-_IEAction($o_signin, "click")
-
-; *******************************************************
-; Example 4 - Set the value of an INPUT TYPE=FILE element
-;				(security restrictions prevent using _IEFormElementSetValue)
+; Example 3 - Set the value of an INPUT TYPE=TEXT element using Send()
 ; *******************************************************
 
 #include <IE.au3>
 
 $oIE = _IE_Example("form")
 $oForm = _IEFormGetObjByName($oIE, "ExampleForm")
-Local $oInputFile = _IEFormElementGetObjByName($oForm, "fileExample")
+Local $oInputFile = _IEFormElementGetObjByName($oForm, "textExample")
 
 ; Assign input focus to the field and then send the text string
 _IEAction($oInputFile, "focus")
-Send("C:\myfile.txt")
+
+; Select existing content so it will be overwritten.
+_IEAction($oInputFile, "selectall")
+
+Send("This works")
 
 ; *******************************************************
-; Example 5 - Set the value of an INPUT TYPE=FILE element
-;				Same as previous example, but with invisible window
-;				(security restrictions prevent using _IEFormElementSetValue)
+; Example 4 - Set the value of an INPUT TYPE=TEXT element on an invisible
+;				window using ControlSend()
 ; *******************************************************
 ;
 #include <IE.au3>
@@ -74,12 +53,17 @@ $oIE = _IE_Example("form")
 _IEAction($oIE, "invisible")
 
 $oForm = _IEFormGetObjByName($oIE, "ExampleForm")
-$oInputFile = _IEFormElementGetObjByName($oForm, "fileExample")
+$oInputFile = _IEFormElementGetObjByName($oForm, "textExample")
 
 ; Assign input focus to the field and then send the text string
 _IEAction($oInputFile, "focus")
-Local $hIE = _IEPropertyGet($oIE, "hwnd")
-ControlSend($hIE, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "C:\myfile.txt")
 
-MsgBox(0, "Success", "Value set to C:\myfile.txt")
+; Select existing content so it will be overwritten.
+_IEAction($oInputFile, "selectall")
+
+; Get a handle to the IE window.
+Local $hIE = _IEPropertyGet($oIE, "hwnd")
+ControlSend($hIE, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "This works")
+
+MsgBox(0, "Success", "Value set to 'This works'")
 _IEAction($oIE, "visible")
