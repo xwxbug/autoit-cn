@@ -13,7 +13,7 @@ Global $hForm, $hLabel, $hDll, $pDll, $hProc
 
 OnAutoItExitRegister('OnAutoItExit')
 
-; 创建 GUI
+; Create GUI
 $hForm = GUICreate('MyGUI', 240, 240)
 GUICtrlCreateIcon(@ScriptDir & '\Extras\Soccer.ico', 0, 88, 68, 64, 64)
 GUICtrlSetState(-1, $GUI_DISABLE)
@@ -23,12 +23,12 @@ GUICtrlSetState(-1, $GUI_DISABLE)
 $hLabel = GUICtrlGetHandle(-1)
 GUISetBkColor(0)
 
-; 注册标签窗口过程
+; Register label window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;wparam;lparam')
 $pDll = DllCallbackGetPtr($hDll)
 $hProc = _WinAPI_SetWindowLongEx($hLabel, $GWL_WNDPROC, $pDll)
 
-; 给整个窗口创建 "玻璃片" 效果. 无论 DWM (桌面窗口管理器) 组件是否切换您必须调用此函数.
+; Create the "sheet of glass" effect for the entire window. You must call this function whenever DWM composition is toggled.
 _WinAPI_DwmExtendFrameIntoClientArea($hForm)
 
 GUISetState()
@@ -38,7 +38,7 @@ Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 Func _DrawText($hDC, $sText, $tRECT)
 
-	; 根据 Authenticity 的设想
+	; Original idea by Authenticity
 
 	Local $tDTTOPTS, $Width, $Height, $pBits, $hBitmap, $hFont, $hTheme, $hMemDC, $hSv1, $hSv2
 

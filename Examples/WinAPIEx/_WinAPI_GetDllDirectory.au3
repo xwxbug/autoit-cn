@@ -9,7 +9,7 @@ EndIf
 
 Global $hModule = _WinAPI_LoadLibraryEx('Resources.dll', $LOAD_LIBRARY_AS_DATAFILE)
 
-ConsoleWrite(_WinAPI_GetDllDirectory() & @CR)
-ConsoleWrite($hModule & @CR)
+ConsoleWrite('Path:   ' & _WinAPI_GetDllDirectory() & @CR)
+ConsoleWrite('Module: ' & $hModule & @CR)
 
 _WinAPI_FreeLibrary($hModule)

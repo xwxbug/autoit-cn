@@ -5,13 +5,13 @@ Opt('MustDeclareVars', 1)
 
 Global $PID, $hProcess
 
-; _WinAPI_CreateProcess() 将是最好的解决方式
+; _WinAPI_CreateProcess() will be the best solution
 $PID = Run('cmd.exe /k')
 If Not $PID Then
 	Exit
 EndIf
 
-; 注意, 马上打开进程
+; Note, immediately open the process
 If _WinAPI_GetVersion() >= 6.0 Then
 	$hProcess = _WinAPI_OpenProcess($PROCESS_QUERY_LIMITED_INFORMATION, 0, $PID)
 Else
@@ -21,7 +21,7 @@ If Not $hProcess Then
 	Exit
 EndIf
 
-; 等待直到进程退出, 尝试输入 "exit 6"
+; Wait until the process exists, try enter "exit 6"
 While ProcessExists($PID)
 	Sleep(100)
 WEnd

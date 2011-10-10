@@ -7,20 +7,20 @@ Global Const $STM_SETIMAGE = 0x0172
 
 Global $hIcon, $hOverlay, $hResult
 
-; 创建带遮罩(层叠)的图标(48x48)
-$hIcon = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 1, 48, 48)
+; Create icon with overlay mask (48x48)
+$hIcon = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 1, 32, 32)
 If _WinAPI_GetVersion() >= '6.0' Then
-	$hOverlay = _WinAPI_ShellExtractIcon(@SystemDir & '\imageres.dll', 154, 48, 48)
+	$hOverlay = _WinAPI_ShellExtractIcon(@SystemDir & '\imageres.dll', 154, 32, 32)
 Else
-	$hOverlay = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 29, 48, 48)
+	$hOverlay = _WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 29, 32, 32)
 EndIf
 $hResult = _WinAPI_AddIconOverlay($hIcon, $hOverlay)
 _WinAPI_DestroyIcon($hIcon)
 _WinAPI_DestroyIcon($hOverlay)
 
-; 创建 GUI
+; Create GUI
 GUICreate('MyGUI', 128, 128)
-GUICtrlCreateIcon('', 0, 40, 40, 32, 32)
+GUICtrlCreateIcon('', 0, 48, 48, 32, 32)
 GUICtrlSendMsg(-1, $STM_SETIMAGE, 1, $hResult)
 GUISetState()
 

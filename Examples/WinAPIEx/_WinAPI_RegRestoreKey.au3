@@ -7,7 +7,7 @@ Opt('MustDeclareVars', 1)
 
 Global $hKey
 
-; 保存 "HKEY_CURRENT_USER\Software\AutoIt v3" 到 reg.dat
+; Save "HKEY_CURRENT_USER\Software\AutoIt v3" to reg.dat
 $hKey = _WinAPI_RegOpenKey($HKEY_CURRENT_USER, 'Software\AutoIt v3', $KEY_READ)
 If _WinAPI_RegSaveKey($hKey, @ScriptDir & '\reg.dat') Then
 	MsgBox(64, '', '"HKEY_CURRENT_USER\Software\AutoIt v3" has been saved to reg.dat.')
@@ -16,7 +16,7 @@ Else
 EndIf
 _WinAPI_RegCloseKey($hKey)
 
-; 还原 "HKEY_CURRENT_USER\Software\AutoIt v3" 到 "HKEY_CURRENT_USER\Software\AutoIt v3 (副本)"
+; Restore "HKEY_CURRENT_USER\Software\AutoIt v3" to "HKEY_CURRENT_USER\Software\AutoIt v3 (Duplicate)"
 $hKey = _WinAPI_RegCreateKey($HKEY_CURRENT_USER, 'Software\AutoIt v3 (Duplicate)', $KEY_WRITE)
 If _WinAPI_RegRestoreKey($hKey, @ScriptDir & '\reg.dat') Then
 	MsgBox(64, '', '"HKEY_CURRENT_USER\Software\AutoIt v3" has been restored to "HKEY_CURRENT_USER\Software\AutoIt v3 (Duplicate)".')

@@ -11,20 +11,20 @@ EndIf
 
 Global $hForm, $hAutoIt
 
-; 加载位图来创建缩略图
+; Load bitmap to create a thumbnail
 $hAutoIt = _WinAPI_LoadImage(0, @ScriptDir & '\Extras\AutoIt.bmp', $IMAGE_BITMAP, 0, 0, BitOR($LR_LOADFROMFILE, $LR_CREATEDIBSECTION))
 
-; 创建 GUI
+; Create GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 
-; 设置 DWM 窗口属性来提供图标的位图, 并总是使用图标的位图转化成缩略图和实时预览
+; Set DWM window attributes to provide the iconic bitmap, and to always render the thumbnail and live preview using the iconic bitmap
 _WinAPI_DwmSetWindowAttribute($hForm, $DWMWA_FORCE_ICONIC_REPRESENTATION, 1)
 _WinAPI_DwmSetWindowAttribute($hForm, $DWMWA_HAS_ICONIC_BITMAP, 1)
 
-; 注册 WM_DWMSENDICONICLIVEPREVIEWBITMAP 窗口消息来显示实时预览
+; Register WM_DWMSENDICONICLIVEPREVIEWBITMAP window message to display live preview
 GUIRegisterMsg($WM_DWMSENDICONICLIVEPREVIEWBITMAP, 'WM_DWMSENDICONICLIVEPREVIEWBITMAP')
 
-; 注册 WM_DWMSENDICONICTHUMBNAIL 窗口消息来显示缩略图
+; Register WM_DWMSENDICONICTHUMBNAIL window message to display thumbnail
 GUIRegisterMsg($WM_DWMSENDICONICTHUMBNAIL, 'WM_DWMSENDICONICTHUMBNAIL')
 
 GUISetState()

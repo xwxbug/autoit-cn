@@ -14,13 +14,13 @@ If Not $hWnd Then
 	Exit
 EndIf
 
-; 创建 GUI
+; Create GUI
 $Size = WinGetPos($hWnd)
 $hForm = GUICreate('MyGUI', $Size[2] + 80, $Size[3] + 80)
 $Pic = GUICtrlCreatePic('', 40, 40, $Size[2], $Size[3])
 $hPic = GUICtrlGetHandle($Pic)
 
-; 创建位图
+; Create bitmap
 $hDC = _WinAPI_GetDC($hPic)
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmap($hDC, $Size[2], $Size[3])
@@ -38,7 +38,7 @@ _WinAPI_DeleteDC($hDestDC)
 _WinAPI_DeleteDC($hSrcDC)
 _WinAPI_DeleteObject($hBmp)
 
-; 设置位图到控件
+; Set bitmap to control
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

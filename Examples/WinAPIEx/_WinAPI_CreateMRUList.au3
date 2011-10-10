@@ -8,7 +8,7 @@ Global $hForm, $hMRU, $Msg, $Button, $Combo, $Count, $Data = ''
 
 $hMRU = _WinAPI_CreateMRUList($HKEY_CURRENT_USER, 'Software\MyProg\MRU', 5)
 
-; 在注册表中创建 MRU 列表 (仅在首个示例的开始部分)
+; Create MRU list in the registry (only at first start example)
 RegRead('HKCU\Software\MyProg\MRU', 'MRUList')
 If @error Then
 	For $i = 5 To 1 Step -1

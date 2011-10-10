@@ -8,12 +8,12 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $tRECT, $Width, $Height, $hObj, $hFont, $hBitmap, $hSource, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
-; 创建 GUI
+; Create GUI
 $hForm = GUICreate('MyGUI', 400, 100)
 $Pic = GUICtrlCreatePic('', 20, 20, 360, 60)
 $hPic = GUICtrlGetHandle($Pic)
 
-; 创建位图
+; Create bitmap
 $tRECT = _WinAPI_GetClientRect($hPic)
 $Width = DllStructGetData($tRECT, 3) - DllStructGetData($tRECT, 1)
 $Height = DllStructGetData($tRECT, 4) - DllStructGetData($tRECT, 2)
@@ -37,7 +37,7 @@ _WinAPI_DeleteDC($hSrcDC)
 _WinAPI_DeleteObject($hSource)
 _WinAPI_DeleteObject($hFont)
 
-;设置位图到控件
+;Set bitmap to control
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

@@ -5,7 +5,7 @@ Opt('MustDeclareVars', 1)
 
 Global $tOLTM, $tData, $hDC, $hSv, $hFont
 
-; 选择 "Arial" 字体到设备环境并获取 $tagOUTLINETEXTMETRIC 结构
+; Select "Arial" font to DC and retrieve $tagOUTLINETEXTMETRIC structure
 $hDC = _WinAPI_GetDC(0)
 $hFont = _WinAPI_CreateFont(24, 0, 0, 0, $FW_NORMAL , 0, 0, 0, $DEFAULT_CHARSET, $OUT_DEFAULT_PRECIS, $CLIP_DEFAULT_PRECIS, $ANTIALIASED_QUALITY, $DEFAULT_PITCH, 'Arial')
 $hSv = _WinAPI_SelectObject($hDC, $hFont)

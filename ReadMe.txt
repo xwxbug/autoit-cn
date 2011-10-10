@@ -19,6 +19,7 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 3.3.7.18 (2011-10-XX) (Beta) 第一汉化版
 AutoIt:
+[G][!]更新: WinAPIEx UDF库 更新到3.5版.
 [G][+]新增: #1813: Better cross referencing for Int() and Mod().
 [G][+]新增: Something resembling complete documentation for ObjCreateInterface().
 [G][*]修正: IE click action on a form submit button works again.

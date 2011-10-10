@@ -6,7 +6,7 @@
     Filename:       APIConstants.au3
     Description:    Constants that can be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.4 / 3.3.6.1
+    Version:        3.5 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           BorderConstants.au3, Constants.au3, FileConstants.au3, FontConstants.au3, FrameConstants.au3, MemoryConstants.au3, MenuConstants.au3, ProcessConstants.au3, SecurityConstants.au3, WindowsConstants.au3
     Note:           -
@@ -76,6 +76,89 @@ Global Const $WC_TOOLTIPS = 'tooltips_class32'
 Global Const $WC_TRACKBAR = 'msctls_trackbar32'
 Global Const $WC_TREEVIEW = 'SysTreeView32'
 Global Const $WC_UPDOWN = 'msctls_updown32'
+
+; ===============================================================================================================================
+; Dialog Box Styles
+; ===============================================================================================================================
+
+Global Const $DS_3DLOOK = 0x0004
+Global Const $DS_ABSALIGN = 0x0001
+Global Const $DS_CENTER = 0x0800
+Global Const $DS_CENTERMOUSE = 0x1000
+;Global Const $DS_CONTEXTHELP = 0x2000
+Global Const $DS_CONTROL = 0x0400
+Global Const $DS_FIXEDSYS = 0x0008
+Global Const $DS_LOCALEDIT = 0x0020
+;Global Const $DS_MODALFRAME = 0x0080
+Global Const $DS_NOFAILCREATE = 0x0010
+Global Const $DS_NOIDLEMSG = 0x0100
+Global Const $DS_SETFONT = 0x0040
+;Global Const $DS_SETFOREGROUND = 0x0200
+Global Const $DS_SHELLFONT = BitOR($DS_FIXEDSYS, $DS_SETFONT)
+Global Const $DS_SYSMODAL = 0x0002
+
+; ===============================================================================================================================
+; Window Styles
+; ===============================================================================================================================
+
+;Global Const $WS_BORDER = 0x00800000
+;Global Const $WS_CAPTION = 0x00C00000
+;Global Const $WS_CHILD = 0x40000000
+Global Const $WS_CHILDWINDOW = $WS_CHILD
+;Global Const $WS_CLIPCHILDREN = 0x02000000
+;Global Const $WS_CLIPSIBLINGS = 0x04000000
+;Global Const $WS_DISABLED = 0x08000000
+;Global Const $WS_DLGFRAME = 0x00400000
+;Global Const $WS_GROUP = 0x00020000
+;Global Const $WS_HSCROLL = 0x00100000
+Global Const $WS_ICONIC = 0x20000000
+;Global Const $WS_MAXIMIZE = 0x01000000
+;Global Const $WS_MAXIMIZEBOX = 0x00010000
+;Global Const $WS_MINIMIZE = $WS_ICONIC
+;Global Const $WS_MINIMIZEBOX = 0x00020000
+;Global Const $WS_OVERLAPPED = 0x00000000
+;Global Const $WS_OVERLAPPEDWINDOW = BitOR($WS_CAPTION, $WS_MAXIMIZEBOX, $WS_MINIMIZEBOX, $WS_OVERLAPPED, $WS_SYSMENU, $WS_THICKFRAME)
+;Global Const $WS_POPUP = 0x80000000
+;Global Const $WS_POPUPWINDOW = BitOR($WS_BORDER, $WS_POPUP, $WS_SYSMENU)
+;Global Const $WS_SIZEBOX = 0x00040000
+;Global Const $WS_SYSMENU = 0x00080000
+;Global Const $WS_TABSTOP = 0x00010000
+;Global Const $WS_THICKFRAME = $WS_SIZEBOX
+;Global Const $WS_TILED = $WS_OVERLAPPED
+;Global Const $WS_TILEDWINDOW = $WS_OVERLAPPEDWINDOW
+;Global Const $WS_VISIBLE = 0x10000000
+;Global Const $WS_VSCROLL = 0x00200000
+
+; ===============================================================================================================================
+; Extended Window Styles
+; ===============================================================================================================================
+
+;Global Const $WS_EX_ACCEPTFILES = 0x00000010
+;Global Const $WS_EX_APPWINDOW = 0x00040000
+;Global Const $WS_EX_CLIENTEDGE = 0x00000200
+;Global Const $WS_EX_COMPOSITED = 0x02000000
+;Global Const $WS_EX_CONTEXTHELP = 0x00000400
+;Global Const $WS_EX_CONTROLPARENT = 0x00010000
+;Global Const $WS_EX_DLGMODALFRAME = 0x00000001
+;Global Const $WS_EX_LAYERED = 0x00080000
+;Global Const $WS_EX_LAYOUTRTL = 0x00400000
+Global Const $WS_EX_LEFT = 0x00000000
+;Global Const $WS_EX_LEFTSCROLLBAR = 0x00004000
+Global Const $WS_EX_LTRREADING = 0x00000000
+;Global Const $WS_EX_MDICHILD = 0x00000040
+Global Const $WS_EX_NOACTIVATE = 0x08000000
+Global Const $WS_EX_NOINHERITLAYOUT = 0x00100000
+Global Const $WS_EX_NOPARENTNOTIFY = 0x00000004
+;Global Const $WS_EX_OVERLAPPEDWINDOW = BitOR($WS_EX_CLIENTEDGE, $WS_EX_WINDOWEDGE)
+Global Const $WS_EX_PALETTEWINDOW = BitOR($WS_EX_TOOLWINDOW, $WS_EX_TOPMOST, $WS_EX_WINDOWEDGE)
+;Global Const $WS_EX_RIGHT = 0x00001000
+Global Const $WS_EX_RIGHTSCROLLBAR = 0x00000000
+;Global Const $WS_EX_RTLREADING = 0x00002000
+;Global Const $WS_EX_STATICEDGE = 0x00020000
+;Global Const $WS_EX_TOOLWINDOW = 0x00000080
+;Global Const $WS_EX_TOPMOST = 0x00000008
+;Global Const $WS_EX_TRANSPARENT = 0x00000020
+;Global Const $WS_EX_WINDOWEDGE = 0x00000100
 
 ; ===============================================================================================================================
 ; Window Messages
@@ -862,6 +945,19 @@ Global Const $MDITILE_VERTICAL = 0x00
 Global Const $MDITILE_ZORDER = 0x04
 
 ; ===============================================================================================================================
+; _WinAPI_ChangeWindowMessageFilterEx()
+; ===============================================================================================================================
+
+Global Const $MSGFLT_ALLOW = 1
+Global Const $MSGFLT_DISALLOW = 2
+Global Const $MSGFLT_RESET = 0
+
+Global Const $MSGFLTINFO_ALLOWED_HIGHER = 3
+Global Const $MSGFLTINFO_ALREADYALLOWED_FORWND = 1
+Global Const $MSGFLTINFO_ALREADYDISALLOWED_FORWND = 2
+Global Const $MSGFLTINFO_NONE = 0
+
+; ===============================================================================================================================
 ; _WinAPI_ChildWindowFromPointEx()
 ; ===============================================================================================================================
 
@@ -918,6 +1014,13 @@ Global Const $FNERR_INVALIDFILENAME = 0x3002
 Global Const $FNERR_SUBCLASSFAILURE = 0x3001
 
 Global Const $FRERR_BUFFERLENGTHZERO = 0x4001
+
+; ===============================================================================================================================
+; _WinAPI_CompressBitmapBits()
+; ===============================================================================================================================
+
+Global Const $COMPRESSION_BITMAP_PNG = 0
+Global Const $COMPRESSION_BITMAP_JPEG = 1
 
 ; ===============================================================================================================================
 ; _WinAPI_CopyFileEx(), _WinAPI_MoveFileEx()
@@ -1602,6 +1705,37 @@ Global Const $ENUM_CURRENT_SETTINGS = -1
 Global Const $ENUM_REGISTRY_SETTINGS = -2
 
 ; ===============================================================================================================================
+; _WinAPI_EnumDllProc()
+; ===============================================================================================================================
+
+Global Const $SYMOPT_ALLOW_ABSOLUTE_SYMBOLS = 0x00000800
+Global Const $SYMOPT_ALLOW_ZERO_ADDRESS = 0x01000000
+Global Const $SYMOPT_AUTO_PUBLICS = 0x00010000
+Global Const $SYMOPT_CASE_INSENSITIVE = 0x00000001
+Global Const $SYMOPT_DEBUG = 0x80000000
+Global Const $SYMOPT_DEFERRED_LOADS = 0x00000004
+Global Const $SYMOPT_DISABLE_SYMSRV_AUTODETECT = 0x02000000
+Global Const $SYMOPT_EXACT_SYMBOLS = 0x00000400
+Global Const $SYMOPT_FAIL_CRITICAL_ERRORS = 0x00000200
+Global Const $SYMOPT_FAVOR_COMPRESSED = 0x00800000
+Global Const $SYMOPT_FLAT_DIRECTORY = 0x00400000
+Global Const $SYMOPT_IGNORE_CVREC = 0x00000080
+Global Const $SYMOPT_IGNORE_IMAGEDIR = 0x00200000
+Global Const $SYMOPT_IGNORE_NT_SYMPATH = 0x00001000
+Global Const $SYMOPT_INCLUDE_32BIT_MODULES = 0x00002000
+Global Const $SYMOPT_LOAD_ANYTHING = 0x00000040
+Global Const $SYMOPT_LOAD_LINES = 0x00000010
+Global Const $SYMOPT_NO_CPP = 0x00000008
+Global Const $SYMOPT_NO_IMAGE_SEARCH = 0x00020000
+Global Const $SYMOPT_NO_PROMPTS = 0x00080000
+Global Const $SYMOPT_NO_PUBLICS = 0x00008000
+Global Const $SYMOPT_NO_UNQUALIFIED_LOADS = 0x00000100
+Global Const $SYMOPT_OVERWRITE = 0x00100000
+Global Const $SYMOPT_PUBLICS_ONLY = 0x00004000
+Global Const $SYMOPT_SECURE = 0x00040000
+Global Const $SYMOPT_UNDNAME = 0x00000002
+
+; ===============================================================================================================================
 ; _WinAPI_EnumProcessModules()
 ; ===============================================================================================================================
 
@@ -1816,79 +1950,6 @@ Global Const $DRIVE_BUS_TYPE_SAS = 0x0A
 Global Const $DRIVE_BUS_TYPE_SATA = 0x0B
 Global Const $DRIVE_BUS_TYPE_SD = 0x0C
 Global Const $DRIVE_BUS_TYPE_MMC = 0x0D
-
-; ===============================================================================================================================
-; _WinAPI_IOCTL()
-; ===============================================================================================================================
-
-Global Const $FILE_DEVICE_8042_PORT = 0x0027
-Global Const $FILE_DEVICE_ACPI = 0x0032
-Global Const $FILE_DEVICE_BATTERY = 0x0029
-Global Const $FILE_DEVICE_BEEP = 0x0001
-Global Const $FILE_DEVICE_BUS_EXTENDER = 0x002A
-Global Const $FILE_DEVICE_CD_ROM = 0x0002
-Global Const $FILE_DEVICE_CD_ROM_FILE_SYSTEM = 0x0003
-Global Const $FILE_DEVICE_CHANGER = 0x0030
-Global Const $FILE_DEVICE_CONTROLLER = 0x0004
-Global Const $FILE_DEVICE_DATALINK = 0x0005
-Global Const $FILE_DEVICE_DFS = 0x0006
-Global Const $FILE_DEVICE_DFS_FILE_SYSTEM = 0x0035
-Global Const $FILE_DEVICE_DFS_VOLUME = 0x0036
-Global Const $FILE_DEVICE_DISK = 0x0007
-Global Const $FILE_DEVICE_DISK_FILE_SYSTEM = 0x0008
-Global Const $FILE_DEVICE_DVD = 0x0033
-Global Const $FILE_DEVICE_FILE_SYSTEM = 0x0009
-Global Const $FILE_DEVICE_FIPS = 0x003A
-Global Const $FILE_DEVICE_FULLSCREEN_VIDEO = 0x0034
-Global Const $FILE_DEVICE_INPORT_PORT = 0x000A
-Global Const $FILE_DEVICE_KEYBOARD = 0x000B
-Global Const $FILE_DEVICE_KS = 0x002F
-Global Const $FILE_DEVICE_KSEC = 0x0039
-Global Const $FILE_DEVICE_MAILSLOT = 0x000C
-Global Const $FILE_DEVICE_MASS_STORAGE = 0x002D
-Global Const $FILE_DEVICE_MIDI_IN = 0x000D
-Global Const $FILE_DEVICE_MIDI_OUT = 0x000E
-Global Const $FILE_DEVICE_MODEM = 0x002B
-Global Const $FILE_DEVICE_MOUSE = 0x000F
-Global Const $FILE_DEVICE_MULTI_UNC_PROVIDER = 0x0010
-Global Const $FILE_DEVICE_NAMED_PIPE = 0x0011
-Global Const $FILE_DEVICE_NETWORK = 0x0012
-Global Const $FILE_DEVICE_NETWORK_BROWSER = 0x0013
-Global Const $FILE_DEVICE_NETWORK_FILE_SYSTEM = 0x0014
-Global Const $FILE_DEVICE_NETWORK_REDIRECTOR = 0x0028
-Global Const $FILE_DEVICE_NULL = 0x0015
-Global Const $FILE_DEVICE_PARALLEL_PORT = 0x0016
-Global Const $FILE_DEVICE_PHYSICAL_NETCARD = 0x0017
-Global Const $FILE_DEVICE_PRINTER = 0x0018
-Global Const $FILE_DEVICE_SCANNER = 0x0019
-Global Const $FILE_DEVICE_SCREEN = 0x001C
-Global Const $FILE_DEVICE_SERENUM = 0x0037
-Global Const $FILE_DEVICE_SERIAL_MOUSE_PORT = 0x001A
-Global Const $FILE_DEVICE_SERIAL_PORT = 0x001B
-Global Const $FILE_DEVICE_SMARTCARD = 0x0031
-Global Const $FILE_DEVICE_SMB = 0x002E
-Global Const $FILE_DEVICE_SOUND = 0x001D
-Global Const $FILE_DEVICE_STREAMS = 0x001E
-Global Const $FILE_DEVICE_TAPE = 0x001F
-Global Const $FILE_DEVICE_TAPE_FILE_SYSTEM = 0x0020
-Global Const $FILE_DEVICE_TERMSRV = 0x0038
-Global Const $FILE_DEVICE_TRANSPORT = 0x0021
-Global Const $FILE_DEVICE_UNKNOWN = 0x0022
-Global Const $FILE_DEVICE_VDM = 0x002C
-Global Const $FILE_DEVICE_VIDEO = 0x0023
-Global Const $FILE_DEVICE_VIRTUAL_DISK = 0x0024
-Global Const $FILE_DEVICE_WAVE_IN = 0x0025
-Global Const $FILE_DEVICE_WAVE_OUT = 0x0026
-
-Global Const $FILE_ANY_ACCESS = 0x00
-Global Const $FILE_SPECIAL_ACCESS = $FILE_ANY_ACCESS
-Global Const $FILE_READ_ACCESS = 0x01
-Global Const $FILE_WRITE_ACCESS = 0x02
-
-Global Const $METHOD_BUFFERED = 0
-Global Const $METHOD_IN_DIRECT = 1
-Global Const $METHOD_OUT_DIRECT = 2
-Global Const $METHOD_NEITHER = 3
 
 ; ===============================================================================================================================
 ; _WinAPI_GetDriveType()
@@ -2304,6 +2365,14 @@ Global Const $UDF_BGR = 1
 Global Const $UDF_RGB = 0
 
 ; ===============================================================================================================================
+; _WinAPI_GetUpdateRgn(), _WinAPI_GetWindowRgn(), etc.
+; ===============================================================================================================================
+
+;Global Const $COMPLEXREGION = 3
+;Global Const $NULLREGION = 1
+;Global Const $SIMPLEREGION = 2
+
+; ===============================================================================================================================
 ; _WinAPI_GetUserObjectInformation(), _WinAPI_SetUserObjectInformation()
 ; ===============================================================================================================================
 
@@ -2365,6 +2434,79 @@ Global Const $MWT_IDENTITY = 0x01
 Global Const $MWT_LEFTMULTIPLY = 0x02
 Global Const $MWT_RIGHTMULTIPLY = 0x03
 Global Const $MWT_SET = 0x04
+
+; ===============================================================================================================================
+; _WinAPI_IOCTL()
+; ===============================================================================================================================
+
+Global Const $FILE_DEVICE_8042_PORT = 0x0027
+Global Const $FILE_DEVICE_ACPI = 0x0032
+Global Const $FILE_DEVICE_BATTERY = 0x0029
+Global Const $FILE_DEVICE_BEEP = 0x0001
+Global Const $FILE_DEVICE_BUS_EXTENDER = 0x002A
+Global Const $FILE_DEVICE_CD_ROM = 0x0002
+Global Const $FILE_DEVICE_CD_ROM_FILE_SYSTEM = 0x0003
+Global Const $FILE_DEVICE_CHANGER = 0x0030
+Global Const $FILE_DEVICE_CONTROLLER = 0x0004
+Global Const $FILE_DEVICE_DATALINK = 0x0005
+Global Const $FILE_DEVICE_DFS = 0x0006
+Global Const $FILE_DEVICE_DFS_FILE_SYSTEM = 0x0035
+Global Const $FILE_DEVICE_DFS_VOLUME = 0x0036
+Global Const $FILE_DEVICE_DISK = 0x0007
+Global Const $FILE_DEVICE_DISK_FILE_SYSTEM = 0x0008
+Global Const $FILE_DEVICE_DVD = 0x0033
+Global Const $FILE_DEVICE_FILE_SYSTEM = 0x0009
+Global Const $FILE_DEVICE_FIPS = 0x003A
+Global Const $FILE_DEVICE_FULLSCREEN_VIDEO = 0x0034
+Global Const $FILE_DEVICE_INPORT_PORT = 0x000A
+Global Const $FILE_DEVICE_KEYBOARD = 0x000B
+Global Const $FILE_DEVICE_KS = 0x002F
+Global Const $FILE_DEVICE_KSEC = 0x0039
+Global Const $FILE_DEVICE_MAILSLOT = 0x000C
+Global Const $FILE_DEVICE_MASS_STORAGE = 0x002D
+Global Const $FILE_DEVICE_MIDI_IN = 0x000D
+Global Const $FILE_DEVICE_MIDI_OUT = 0x000E
+Global Const $FILE_DEVICE_MODEM = 0x002B
+Global Const $FILE_DEVICE_MOUSE = 0x000F
+Global Const $FILE_DEVICE_MULTI_UNC_PROVIDER = 0x0010
+Global Const $FILE_DEVICE_NAMED_PIPE = 0x0011
+Global Const $FILE_DEVICE_NETWORK = 0x0012
+Global Const $FILE_DEVICE_NETWORK_BROWSER = 0x0013
+Global Const $FILE_DEVICE_NETWORK_FILE_SYSTEM = 0x0014
+Global Const $FILE_DEVICE_NETWORK_REDIRECTOR = 0x0028
+Global Const $FILE_DEVICE_NULL = 0x0015
+Global Const $FILE_DEVICE_PARALLEL_PORT = 0x0016
+Global Const $FILE_DEVICE_PHYSICAL_NETCARD = 0x0017
+Global Const $FILE_DEVICE_PRINTER = 0x0018
+Global Const $FILE_DEVICE_SCANNER = 0x0019
+Global Const $FILE_DEVICE_SCREEN = 0x001C
+Global Const $FILE_DEVICE_SERENUM = 0x0037
+Global Const $FILE_DEVICE_SERIAL_MOUSE_PORT = 0x001A
+Global Const $FILE_DEVICE_SERIAL_PORT = 0x001B
+Global Const $FILE_DEVICE_SMARTCARD = 0x0031
+Global Const $FILE_DEVICE_SMB = 0x002E
+Global Const $FILE_DEVICE_SOUND = 0x001D
+Global Const $FILE_DEVICE_STREAMS = 0x001E
+Global Const $FILE_DEVICE_TAPE = 0x001F
+Global Const $FILE_DEVICE_TAPE_FILE_SYSTEM = 0x0020
+Global Const $FILE_DEVICE_TERMSRV = 0x0038
+Global Const $FILE_DEVICE_TRANSPORT = 0x0021
+Global Const $FILE_DEVICE_UNKNOWN = 0x0022
+Global Const $FILE_DEVICE_VDM = 0x002C
+Global Const $FILE_DEVICE_VIDEO = 0x0023
+Global Const $FILE_DEVICE_VIRTUAL_DISK = 0x0024
+Global Const $FILE_DEVICE_WAVE_IN = 0x0025
+Global Const $FILE_DEVICE_WAVE_OUT = 0x0026
+
+Global Const $FILE_ANY_ACCESS = 0x00
+Global Const $FILE_SPECIAL_ACCESS = $FILE_ANY_ACCESS
+Global Const $FILE_READ_ACCESS = 0x01
+Global Const $FILE_WRITE_ACCESS = 0x02
+
+Global Const $METHOD_BUFFERED = 0
+Global Const $METHOD_IN_DIRECT = 1
+Global Const $METHOD_OUT_DIRECT = 2
+Global Const $METHOD_NEITHER = 3
 
 ; ===============================================================================================================================
 ; _WinAPI_IsNetworkAlive()

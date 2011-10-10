@@ -10,7 +10,7 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $hBitmap, $hObj, $hImage, $pStream, $bData, $hData, $pData, $tData, $Width, $Height, $Lenght
 
-; 创建位图 (MSDNLogo.png)
+; Create bitmap (MSDNLogo.png)
 $bData = _Image_MSDNLogo()
 $Lenght = BinaryLen($bData)
 $hData = _MemGlobalAlloc($Lenght, $GMEM_MOVEABLE)
@@ -24,16 +24,16 @@ $hImage = _GDIPlus_BitmapCreateFromStream($pStream)
 $hBitmap = _GDIPlus_BitmapCreateHBITMAPFromBitmap($hImage)
 $Width = _GDIPlus_ImageGetWidth($hImage)
 $Height = _GDIPlus_ImageGetHeight($hImage)
+_WinAPI_ReleaseStream($pStream)
 _GDIPlus_ImageDispose($hImage)
-_MemGlobalFree($hData)
 _GDIPlus_Shutdown()
 
-; 创建 GUI
+; Create GUI
 $hForm = GUICreate('MyGUI', $Width, $Height)
 $Pic = GUICtrlCreatePic('', 0 , 0, $Width, $Height)
 $hPic = GUICtrlGetHandle($Pic)
 
-; 设置位图到控件
+; Set bitmap to control
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

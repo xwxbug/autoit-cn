@@ -18,10 +18,10 @@ EndIf
 
 OnAutoItExitRegister('OnAutoItExit')
 
-; 创建 GUI
+; Create GUI
 $hForm = GUICreate('', 400, 400)
 
-; 注册窗口过程
+; Register window proc
 $hDll = DllCallbackRegister('_WinProc', 'ptr', 'hwnd;uint;long;ptr')
 $pDll = DllCallbackGetPtr($hDll)
 $hProc = _WinAPI_SetWindowLongEx($hForm, $GWL_WNDPROC, $pDll)

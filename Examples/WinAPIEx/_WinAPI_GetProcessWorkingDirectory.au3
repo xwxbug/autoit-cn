@@ -8,11 +8,11 @@ Opt('MustDeclareVars', 1)
 
 Global $hToken, $aAdjust, $aList = 0
 
-; 为获取对其他进程的完全访问权限而启用 "SeDebugPrivilege" 特权
+; Enable "SeDebugPrivilege" privilege for obtain full access rights to another processes
 $hToken = _WinAPI_OpenProcessToken(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
 _WinAPI_AdjustTokenPrivileges($hToken, $SE_DEBUG_NAME, $SE_PRIVILEGE_ENABLED, $aAdjust)
 
-; 为系统上所有进程获取工作目录
+; Retrieve working directories for all processes the system
 If Not (@error Or @extended) Then
 	$aList = ProcessList()
 	For $i = 1 To $aList[0][0]
@@ -20,7 +20,7 @@ If Not (@error Or @extended) Then
 	Next
 EndIf
 
-; 默认情况下启用 SeDebugPrivilege 特权
+; Restore "SeDebugPrivilege" privilege by default
 _WinAPI_AdjustTokenPrivileges($hToken, $aAdjust, 0, $aAdjust)
 _WinAPI_CloseHandle($hToken)
 

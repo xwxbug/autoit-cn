@@ -5,19 +5,19 @@ Opt('MustDeclareVars', 1)
 
 Global $tSHFCS, $tIcon, $aIcon, $sPath
 
-; 选择文件夹
+; Select folder
 $sPath = FileSelectFolder('Select Folder', '', 0, @ScriptDir)
 If Not $sPath Then
 	Exit
 EndIf
 
-; 选择图标
+; Select icon
 $aIcon = _WinAPI_PickIconDlg()
 If Not IsArray($aIcon) Then
 	Exit
 EndIf
 
-; 设置图标到选择的文件夹
+; Set icon to selected folder
 $tSHFCS = DllStructCreate($tagSHFOLDERCUSTOMSETTINGS)
 DllStructSetData($tSHFCS, 'Size', DllStructGetSize($tSHFCS))
 DllStructSetData($tSHFCS, 'Mask', $FCSM_ICONFILE)

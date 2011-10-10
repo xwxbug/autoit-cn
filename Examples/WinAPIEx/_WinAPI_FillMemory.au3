@@ -2,12 +2,14 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $tStruct1, $tStruct2
+Global $tStruct = DllStructCreate('byte[8]')
 
-$tStruct1 = DllStructCreate('byte[8]')
-_WinAPI_FillMemory(DllStructGetPtr($tStruct1), 8, 0x1D)
+ConsoleWrite(DllStructGetData($tStruct, 1) & @CR)
 
-$tStruct2 = _WinAPI_CopyStruct($tStruct1)
+_WinAPI_FillMemory(DllStructGetPtr($tStruct), 8, 0xAB)
 
-ConsoleWrite('Source:      ' & DllStructGetData($tStruct1, 1) & @CR)
-ConsoleWrite('Destination: ' & DllStructGetData($tStruct2, 1) & @CR)
+ConsoleWrite(DllStructGetData($tStruct, 1) & @CR)
+
+_WinAPI_ZeroMemory(DllStructGetPtr($tStruct), 8)
+
+ConsoleWrite(DllStructGetData($tStruct, 1) & @CR)

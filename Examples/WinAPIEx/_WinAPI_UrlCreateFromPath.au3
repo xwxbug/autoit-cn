@@ -2,5 +2,10 @@
 
 Opt('MustDeclareVars', 1)
 
-ConsoleWrite(_WinAPI_UrlCreateFromPath(@ScriptFullPath) & @CR)
-ConsoleWrite(_WinAPI_UrlCreateFromPath(@ScriptName) & @CR)
+Global $Path = @ScriptFullPath
+
+$Path = _WinAPI_UrlCreateFromPath($Path)
+ConsoleWrite($Path & @CR)
+
+$Path = _WinAPI_PathCreateFromUrl($Path)
+ConsoleWrite($Path & @CR)

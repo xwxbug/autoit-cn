@@ -2,7 +2,7 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $sStruct = 'dword Lenght;short State;uint Flags;handle hBitmap;hwnd hDC;long Rect[4];byte [14];int Reserved[10];wchar Text[80]'
+Global $sStruct = 'dword Lenght;short State;uint Flags;handle hBitmap;hwnd hDC;long Rect[4];byte[14];int Reserved[10];wchar Text[80]'
 Global $tStruct = DllStructCreate($sStruct)
 
 DllStructSetData($tStruct, 1, 80)

@@ -3,9 +3,16 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $sPath = RegRead('HKLM\SOFTWARE\AutoIt v3\AutoIt', 'InstallDir')
-Global $aList = _FileListToArray($sPath, '*.exe', 1)
+Global $Path, $List
 
-If IsArray($aList) Then
-	_WinAPI_ShellOpenFolderAndSelectItems($sPath, $aList, 1)
+If @AutoItX64 Then
+	$Path = RegRead('HKLM\SOFTWARE\Wow6432Node\AutoIt v3\AutoIt', 'InstallDir')
+Else
+	$Path = RegRead('HKLM\SOFTWARE\AutoIt v3\AutoIt', 'InstallDir')
+EndIf
+
+$List = _FileListToArray($Path, '*.exe', 1)
+
+If IsArray($List) Then
+	_WinAPI_ShellOpenFolderAndSelectItems($Path, $List, 1)
 EndIf

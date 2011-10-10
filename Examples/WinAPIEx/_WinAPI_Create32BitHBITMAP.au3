@@ -18,8 +18,8 @@ $Options = TrayCreateItem('Options')
 TrayCreateItem('')
 $Exit  = TrayCreateItem('Exit')
 
-_GUICtrlMenu_SetItemBmp($hMenu, 0, _WinAPI_Create32BitHBITMAP(_WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 207, 16, 16), 1))
-_GUICtrlMenu_SetItemBmp($hMenu, 2, _WinAPI_Create32BitHBITMAP(_WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 131, 16, 16), 1))
+_GUICtrlMenu_SetItemBmp($hMenu, 0, _WinAPI_Create32BitHBITMAP(_WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 207, 16, 16), 1, 1))
+_GUICtrlMenu_SetItemBmp($hMenu, 2, _WinAPI_Create32BitHBITMAP(_WinAPI_ShellExtractIcon(@SystemDir & '\shell32.dll', 131, 16, 16), 1, 1))
 
 TraySetState()
 

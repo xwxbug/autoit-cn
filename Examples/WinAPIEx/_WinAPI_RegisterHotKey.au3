@@ -11,9 +11,9 @@ OnAutoItExitRegister('OnAutoItExit')
 $hWnd = GUICreate('')
 GUIRegisterMsg($WM_HOTKEY, 'WM_HOTKEY')
 
-; …Ë÷√ ALT-D
+; Set ALT-D
 _WinAPI_RegisterHotKey($hWnd, 0x0144, $MOD_ALT, 0x44)
-; …Ë÷√ ESC
+; Set ESC
 _WinAPI_RegisterHotKey($hWnd, 0x011B, 0, 0x1B)
 
 While 1

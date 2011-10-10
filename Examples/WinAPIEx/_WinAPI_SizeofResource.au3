@@ -10,53 +10,53 @@ Global Const $sJpg = @TempDir & '\~Tech.jpg'
 
 Global $Msg, $Button, $hFile, $hFont, $hInstance, $hResource, $hData, $pData, $tData, $hWave, $pWave, $sText, $iSize
 
-; 加载 Resources.dll 到内存
+; Load Resources.dll to memory
 $hInstance = _WinAPI_LoadLibraryEx(@ScriptDir & '\Extras\Resources.dll', $LOAD_LIBRARY_AS_DATAFILE)
 If Not $hInstance Then
 	MsgBox(16, 'Error', @ScriptDir & '\Extras\Resources.dll not found.')
 	Exit
 EndIf
 
-; 从 Resources.dll 库加载 JPEG 资源
+; Load JPEG resource from Resources.dll library
 $hResource = _WinAPI_FindResource($hInstance, 'JPEG', 1)
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; 保存资源到 .jpg 文件
+; Save resource to .jpg file
 $hFile = FileOpen($sJpg, 2 + 16)
 $tData = DllStructCreate('byte[' & $iSize & ']', $pData)
 FileWrite($hFile, DllStructGetData($tData, 1))
 FileClose($hFile)
 
-; 从 Resources.dll 库加载字体资源
+; Load FONT resource from Resources.dll library
 $hResource = _WinAPI_FindResource($hInstance, $RT_FONT, 'TECHNOVIA_CAPS')
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; 添加内存中的字体到系统
+; Add font from a memory to the system
 $hFont = _WinAPI_AddFontMemResourceEx($pData, $iSize)
 
-; 从 Resources.dll 库加载声音资源
+; Load SOUND resource from Resources.dll library
 $hResource = _WinAPI_FindResource($hInstance, 'SOUND', 1)
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; 复制 WAV 到内存为了以后使用
-$hWave = _MemGlobalAlloc($iSize, 2)
+; Copy WAV to memory for use later
+$hWave = _MemGlobalAlloc($iSize, $GMEM_MOVEABLE)
 $pWave = _MemGlobalLock($hWave)
 _MemMoveMemory($pData, $pWave, $iSize)
 ;_MemGlobalUnlock($hWave)
 
-; 从 Resources.dll 库加载字符串资源
+; Load STRING resource from Resources.dll library
 $sText = _WinAPI_LoadString($hInstance, 1)
 
-; 从内存中卸载 Resources.dll
+; Unload Resources.dll from memory
 _WinAPI_FreeLibrary($hInstance)
 
-; 创建 GUI
+; Create GUI
 GUICreate('MyGUI', 350, 350)
 GUICtrlCreatePic($sJpg, 0, 0, 350, 350)
 GUICtrlSetState(-1, $GUI_DISABLE)
@@ -77,6 +77,6 @@ While 1
 	EndSwitch
 WEnd
 
-; 释放资源
+; Free resources
 _WinAPI_RemoveFontMemResourceEx($hFont)
 FileDelete($sJpg)
