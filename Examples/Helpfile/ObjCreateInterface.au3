@@ -27,7 +27,7 @@ Func Example()
  	$oTaskbarList.DeleteTab($hNotepad)
 
 	; Tell the user to look again.
-	MsgBox(4096, "", "Look in the Taskbar.  There hsould no longer be a Notepad entry but Notepad is still running." & @CRLF & @CRLF & "Press OK to continue.")
+	MsgBox(4096, "", "Look in the Taskbar.  There should no longer be a Notepad entry but Notepad is still running." & @CRLF & @CRLF & "Press OK to continue.")
 
 	; Close Notepad.
 	WinClose($hNotepad)

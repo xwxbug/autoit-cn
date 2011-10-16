@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.18 第一汉化版
+程序版本:3.3.7.19 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,7 +17,17 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.18 (2011-10-XX) (Beta) 第一汉化版
+3.3.7.19 (2011-10-XX) (Beta) 第一汉化版
+AutoIt:
+[G][+]新增: "clsid" InterfaceDispatch data type.
+[G][!]更新: "str" and "wstr" InterfaceDispatch data types treated as true byref types.
+[G][!]更新: COM Error handler event has precedence in execution over events fired by other objects.
+[G][!]更新: COM Error handler passes error object as first parameter to user defined error function.
+[G][!]更新: ObjEvent() has new example and more detailed explanation.
+[G][!]更新: COM Error handler properties are read-only.
+[G][-]移除: COM Error object no longer exposes methods Raise() and Clear().
+
+3.3.7.18 (Beta)
 AutoIt:
 [G][!]更新: WinAPIEx UDF库 更新到3.5版.
 [G][+]新增: #1813: Better cross referencing for Int() and Mod().

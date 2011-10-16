@@ -1,70 +1,79 @@
-; ObjEvent example
+Opt("MustDeclareVars", 1)
 
-ProgressOn("Example", "Loading page...")
-Local $oIE = ObjCreate("InternetExplorer.Application.1") ; Create Internet Explorer application
-Local $SinkObject = ObjEvent($oIE, "IEEvent_", "DWebBrowserEvents2") ; Assign events to UDFs starting with IEEvent_
+_Example()
 
-; Do some browsing activities
-$oIE.Visible = 1
-$oIE.RegisterAsDropTarget = 1
-$oIE.RegisterAsBrowser = 1
-$oIE.Navigate("http://www.AutoItScript.com/")
 
-Sleep(3000) ; Give it time to load the web page
 
-$SinkObject = 0 ; Stop IE Events
-$oIE.Quit ; Quit IE
-$oIE = 0
-Exit
 
-; one of many Internet Explorer Event Functions
+Func _Example()
 
-Func IEEvent_ProgressChange($Progress, $ProgressMax)
-	Local $percent = Int(($Progress * 100) / $ProgressMax)
-	If $percent >= 0 And $percent <= 100 Then
-		ProgressSet($percent, $percent & " percent to go.", "loading web page")
+	; Error monitoring. This will trap all COM errors while alive.
+	; This particular object is declared as local, meaning after the function returns it will not exist.
+	Local $oErrorHandler = ObjEvent("AutoIt.Error", "_ErrFunc")
+
+	; Create Internet Explorer object
+	Local $oIE = ObjCreate("InternetExplorer.Application")
+	; Check for errors
+	If @error Then Return
+
+	$oIE.Visible = True ; set visibility
+
+	; Custom sink object
+	Local $oIEEvents = ObjEvent($oIE, "_IEEvent_", "DWebBrowserEvents2")
+
+	; Navigate somewhere
+	$oIE.navigate("http://www.google.com/")
+	; Check for errors while loading
+	If @error Then
+		$oIE.Quit()
+		Return
 	EndIf
 
-EndFunc   ;==>IEEvent_ProgressChange
+	; Wait for page to load
+	While 1
+		If $oIE.readyState = "complete" Or $oIE.readyState = 4 Then ExitLoop
+		Sleep(10)
+	WEnd
 
-Exit
+	; Deliberately cause error by calling non-existing method
+	$oIE.PlayMeARockAndRollSong()
+	; Check for errors
+	If @error Then MsgBox(48 + 262144, "COM Error", "@error is set to COM error number." & @CRLF & "@error = " & @error)
 
-; COM Error Handler example
-; -------------------------
+	; Wait few seconds to see if more events will be fired
+	Sleep(3000)
 
-$oIE = ObjCreate("InternetExplorer.Application.1") ; Create Internet Explorer application
+	; Nothing more to do. Close IE and return from the function
+	$oIE.Quit()
 
-Global $g_eventerror = 0 ; to be checked to know if com error occurs. Must be reset after handling.
+	#forceref $oErrorHandler, $oIEEvents
 
-Local $oMyError = ObjEvent("AutoIt.Error", "MyErrFunc") ; Initialize a COM error handler
+EndFunc   ;==>_Example
 
-$oIE.UnknownMethod ; Deliberately call an undefined method
 
-If $g_eventerror Then
-	$g_eventerror = 0
-	MsgBox(0, "AutoItCOM test", "Test passed: We got an error number: " & @error)
-Else
-	MsgBox(0, "AutoItCOM test", "Test failed!")
-EndIf
+; BeforeNavigate2 method definition
+Func _IEEvent_BeforeNavigate2($IEpDisp, $IEURL, $IEFlags, $IETargetFrameName, $IEPostData, $IEHeaders, $IECancel)
+	ConsoleWrite("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!--BeforeNavigate2 fired--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " & @CRLF & _
+			"$IEpDisp = " & $IEpDisp() & "  -  " & ObjName($IEpDisp) & @CRLF & _ ; e.g. default property and name for the object
+			"$IEURL = " & $IEURL & @CRLF & _
+			"$IEFlags = " & $IEFlags & @CRLF & _
+			"$IETargetFrameName = " & $IETargetFrameName & @CRLF & _
+			"$IEPostData = " & $IEPostData & @CRLF & _
+			"$IEHeaders = " & $IEHeaders & @CRLF & _
+			"$IECancel = " & $IECancel & @CRLF & _
+			"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " & @CRLF & @CRLF)
+EndFunc   ;==>_IEEvent_BeforeNavigate2
 
-Exit
-
-; This is my custom defined error handler
-Func MyErrFunc()
-
-	MsgBox(0, "AutoItCOM Test", "We intercepted a COM Error !" & @CRLF & @CRLF & _
-			"err.description is: " & @TAB & $oMyError.description & @CRLF & _
-			"err.windescription:" & @TAB & $oMyError.windescription & @CRLF & _
-			"err.number is: " & @TAB & Hex($oMyError.number, 8) & @CRLF & _
-			"err.lastdllerror is: " & @TAB & $oMyError.lastdllerror & @CRLF & _
-			"err.scriptline is: " & @TAB & $oMyError.scriptline & @CRLF & _
-			"err.source is: " & @TAB & $oMyError.source & @CRLF & _
-			"err.helpfile is: " & @TAB & $oMyError.helpfile & @CRLF & _
-			"err.helpcontext is: " & @TAB & $oMyError.helpcontext _
-			)
-
-	Local $err = $oMyError.number
-	If $err = 0 Then $err = -1
-
-	$g_eventerror = $err ; to check for after this function returns
-EndFunc   ;==>MyErrFunc
+; User's COM error function. Will be called if COM error occurs
+Func _ErrFunc($oError)
+	; Do anything here.
+ConsoleWrite("err.number is: " & @TAB & $oError.number & @CRLF & _
+			"err.windescription:" & @TAB & $oError.windescription & @CRLF & _
+			"err.description is: " & @TAB & $oError.description & @CRLF & _
+			"err.source is: " & @TAB & $oError.source & @CRLF & _
+			"err.helpfile is: " & @TAB & $oError.helpfile & @CRLF & _
+			"err.helpcontext is: " & @TAB & $oError.helpcontext & @CRLF & _
+			"err.lastdllerror is: " & @TAB & $oError.lastdllerror & @CRLF & _
+			"err.scriptline is: " & @TAB & $oError.scriptline & @CRLF & _
+			"err.retcode is: " & @TAB & $oError.retcode & @CRLF & @CRLF)
+EndFunc   ;==>_ErrFunc

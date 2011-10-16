@@ -248,7 +248,7 @@ ControlEnable ( "title", "text", controlID ) Enables a "grayed-out" control.
 ControlFocus ( "title", "text", controlID ) Sets input focus to a given control on a window.
 ControlGetFocus ( "title" [, "text"] ) Returns the ControlRef# of the control that has keyboard focus within a specified window.
 ControlGetHandle ( "title", "text", controlID ) Retrieves the internal handle of a control.
-ControlGetPos ( "title", "text", controlID ) Retrieves the position and size of a control relative to it's window.
+ControlGetPos ( "title", "text", controlID ) Retrieves the position and size of a control relative to its window.
 ControlGetText ( "title", "text", controlID ) Retrieves text from a control.
 ControlHide ( "title", "text", controlID ) Hides a control.
 ControlListView ( "title", "text", "classnameNN", "DeSelect", From [, To] ) Deselects one or more items.
@@ -516,8 +516,8 @@ ProgressSet ( percent [, "subtext" [, "maintext"]] ) Sets the position and/or te
 Ptr ( expression ) Converts an expression into a pointer variant.
 Random ( [Min [, Max [, Flag]]] ) Generates a pseudo-random float-type number.
 RegDelete ( "keyname" [, "valuename"] ) Deletes a key or value from the registry.
-RegEnumKey ( "keyname", instance ) Reads the name of a subkey according to it's instance.
-RegEnumVal ( "keyname", instance ) Reads the name of a value according to it's instance.
+RegEnumKey ( "keyname", instance ) Reads the name of a subkey according to its instance.
+RegEnumVal ( "keyname", instance ) Reads the name of a value according to its instance.
 RegRead ( "keyname", "valuename" ) Reads a value from the registry.
 RegWrite ( "keyname" [,"valuename" [, "type" [, value]]] ) Creates a key or value in the registry.
 Round ( expression [, decimalplaces]  ) Returns a number rounded to a specified number of decimal places.
@@ -588,8 +588,8 @@ TCPRecv ( mainsocket, maxlen [, flag] ) Receives data from a connected socket.
 TCPSend ( mainsocket, data ) Sends data on a connected socket.
 TCPShutdown ( ) Stops TCP/UDP services.
 TCPStartup ( ) Starts TCP or UDP services.
-TimerDiff ( timestamp ) Returns the difference in time from a previous call to TimerInit().
-TimerInit ( ) Returns a timestamp (in milliseconds).
+TimerDiff ( handle ) Returns the difference in time from a previous call to TimerInit().
+TimerInit ( ) Returns a handle that can be passed to TimerDiff() to calculate the difference in milliseconds.
 ToolTip ( "text" [, x [, y [, "title" [, icon [, options]]]]] ) Creates a tooltip anywhere on the screen.
 TrayCreateItem ( text [, menuID [, menuentry [, menuradioitem]]] ) Creates a menuitem control for the tray.
 TrayCreateMenu ( "sub/menutext" [, menuID [, menuentry]] ) Creates a menu control for the tray menu.
