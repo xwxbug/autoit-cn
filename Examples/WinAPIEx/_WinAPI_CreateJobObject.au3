@@ -7,22 +7,22 @@ Global Const $sTemp = @TempDir & '\Test.au3'
 
 Global $hFile
 
-; Create temporary .au3 file
+; 创建临时 .au3 文件
 $hFile = FileOpen($sTemp, 2)
 For $i = 1 To 3
 	FileWriteLine($hFile, 'Run(@SystemDir & "\calc.exe")')
 Next
 FileClose($hFile)
 
-; Run 3 times the "calc.exe" and wait until you have closed all 3 processes
+; 运行 "calc.exe" 3 次并等待您关闭所有的 3 个进程
 _RunWaitEx(@AutoItExe & ' /AutoIt3ExecuteScript "' & $sTemp & '"')
 
-; Delete temporary .au3 file
+; 删除临时 .au3 文件
 FileDelete($sTemp)
 
 Func _RunWaitEx($sCmd)
 
-	; Original idea by amel27
+	; 根据 amel27 的设想
 
 	Local $tProcess = DllStructCreate($tagPROCESS_INFORMATION)
 	Local $tStartup = DllStructCreate($tagSTARTUPINFO)

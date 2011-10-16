@@ -9312,7 +9312,7 @@ EndFunc   ;==>_WinAPI_FlushViewOfFile
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: The format is controlled by the dialog interface. That is, the user must click the OK button to actually begin the
-;                  format—the format cannot be started programmatically.
+;                  format¡ªthe format cannot be started programmatically.
 ; Related........:
 ; Link...........: @@MsdnLink@@ SHFormatDrive
 ; Example........: Yes
@@ -14015,8 +14015,8 @@ EndFunc   ;==>_WinAPI_GetSystemInfo
 ;                                  255 - Unknown status - unable to read the battery flag information
 ;                            [2] - The percentage of full battery charge remaining. This member can be a value in the range 0 to 100,
 ;                                  or 255 if status is unknown.
-;                            [3] - The number of seconds of battery life remaining, or (–1) if remaining seconds are unknown.
-;                            [4] - The number of seconds of battery life when at full charge, or (–1) if full battery
+;                            [3] - The number of seconds of battery life remaining, or (¨C1) if remaining seconds are unknown.
+;                            [4] - The number of seconds of battery life when at full charge, or (¨C1) if full battery
 ;                                  lifetime is unknown.
 ;
 ;                  Failure - 0 and sets the @error flag to non-zero.

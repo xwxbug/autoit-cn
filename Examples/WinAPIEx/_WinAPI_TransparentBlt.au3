@@ -8,7 +8,7 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic[2], $hPic[2], $hBitmap[2], $hObj, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 260, 140)
 $Pic[0] = GUICtrlCreatePic('', 20, 20, 100, 100)
 $Pic[1] = GUICtrlCreatePic('', 140, 20, 100, 100)
@@ -16,7 +16,7 @@ For $i = 0 To 1
 	$hPic[$i] = GUICtrlGetHandle($Pic[$i])
 Next
 
-; Create bitmap1
+; 创建位图 1
 $hDC = _WinAPI_GetDC($hPic[0])
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap[0] = _WinAPI_CreateCompatibleBitmapEx($hDC, 100, 100, 0xFF00FF)
@@ -32,7 +32,7 @@ _WinAPI_ReleaseDC($hPic[0], $hDC)
 _WinAPI_SelectObject($hDestDC, $hDestSv)
 _WinAPI_DeleteDC($hDestDC)
 
-; Create bitmap2
+; 创建位图 2
 $hDC = _WinAPI_GetDC($hPic[1])
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap[1] = _WinAPI_CreateCompatibleBitmapEx($hDC, 100, 100, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
@@ -47,7 +47,7 @@ _WinAPI_SelectObject($hSrcDC, $hSrcSv)
 _WinAPI_DeleteDC($hDestDC)
 _WinAPI_DeleteDC($hSrcDC)
 
-; Set both bitmaps to controls
+; 设置位图到控件
 For $i = 0 To 1
 	_SendMessage($hPic[$i], $STM_SETIMAGE, 0, $hBitmap[$i])
 	$hObj = _SendMessage($hPic[$i], $STM_GETIMAGE)

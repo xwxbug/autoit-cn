@@ -20,7 +20,7 @@ $Check = GUICtrlCreateCheckBox('Block Windows shutdown', 10, 173, 144, 21)
 GUIRegisterMsg($WM_QUERYENDSESSION, 'WM_QUERYENDSESSION')
 GUISetState()
 
-; Set the highest shutdown priority for the current process to prevent closure the other processes.
+; 为当前进程设置最高的关闭优先级以防止终止其他进程.
 _WinAPI_SetProcessShutdownParameters(0x03FF)
 
 While 1

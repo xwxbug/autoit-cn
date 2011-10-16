@@ -10,53 +10,53 @@ Global Const $sJpg = @TempDir & '\~Tech.jpg'
 
 Global $Msg, $Button, $hFile, $hFont, $hInstance, $hResource, $hData, $pData, $tData, $hWave, $pWave, $sText, $iSize
 
-; Load Resources.dll to memory
+; 加载 Resources.dll 到内存
 $hInstance = _WinAPI_LoadLibraryEx(@ScriptDir & '\Extras\Resources.dll', $LOAD_LIBRARY_AS_DATAFILE)
 If Not $hInstance Then
 	MsgBox(16, 'Error', @ScriptDir & '\Extras\Resources.dll not found.')
 	Exit
 EndIf
 
-; Load JPEG resource from Resources.dll library
+; 从 Resources.dll 库加载 JPEG 资源
 $hResource = _WinAPI_FindResource($hInstance, 'JPEG', 1)
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; Save resource to .jpg file
+; 保存资源到 .jpg 文件
 $hFile = FileOpen($sJpg, 2 + 16)
 $tData = DllStructCreate('byte[' & $iSize & ']', $pData)
 FileWrite($hFile, DllStructGetData($tData, 1))
 FileClose($hFile)
 
-; Load FONT resource from Resources.dll library
+; 从 Resources.dll 库加载字体资源
 $hResource = _WinAPI_FindResource($hInstance, $RT_FONT, 'TECHNOVIA_CAPS')
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; Add font from a memory to the system
+; 添加内存中的字体到系统
 $hFont = _WinAPI_AddFontMemResourceEx($pData, $iSize)
 
-; Load SOUND resource from Resources.dll library
+; 从 Resources.dll 库加载 SOUND 资源
 $hResource = _WinAPI_FindResource($hInstance, 'SOUND', 1)
 $iSize = _WinAPI_SizeOfResource($hInstance, $hResource)
 $hData = _WinAPI_LoadResource($hInstance, $hResource)
 $pData = _WinAPI_LockResource($hData)
 
-; Copy WAV to memory for use later
+; 复制 WAV 到内存为了以后使用
 $hWave = _MemGlobalAlloc($iSize, $GMEM_MOVEABLE)
 $pWave = _MemGlobalLock($hWave)
 _MemMoveMemory($pData, $pWave, $iSize)
 ;_MemGlobalUnlock($hWave)
 
-; Load STRING resource from Resources.dll library
+; 从 Resources.dll 库加载字符串资源
 $sText = _WinAPI_LoadString($hInstance, 1)
 
-; Unload Resources.dll from memory
+; 从内存中卸载 Resources.dll
 _WinAPI_FreeLibrary($hInstance)
 
-; Create GUI
+; 创建 GUI
 GUICreate('MyGUI', 350, 350)
 GUICtrlCreatePic($sJpg, 0, 0, 350, 350)
 GUICtrlSetState(-1, $GUI_DISABLE)
@@ -77,6 +77,6 @@ While 1
 	EndSwitch
 WEnd
 
-; Free resources
+; 释放资源
 _WinAPI_RemoveFontMemResourceEx($hFont)
 FileDelete($sJpg)

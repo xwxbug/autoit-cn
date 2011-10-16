@@ -6,7 +6,7 @@ Opt('MustDeclareVars', 1)
 
 Global $aValent[19][4], $hKey, $tData
 
-; Note that if at least one of the following value names is not found in the specified registry key, the function fails!
+; 注意如果下列值名称有一个没有在指定的注册表键中找到, 函数会失败!
 
 ; HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
 

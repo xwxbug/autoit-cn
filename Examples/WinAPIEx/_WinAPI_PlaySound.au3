@@ -17,7 +17,7 @@ $tWav = DllStructCreate('byte[' & BinaryLen($bWav) & ']')
 DllStructSetData($tWav, 1, $bWav)
 $pWav = DllStructGetPtr($tWav)
 
-; Create GUI
+; ´´½¨ GUI
 $hForm = GUICreate('MyGUI', 200, 200)
 $Button = GUICtrlCreateButton('Play', 70, 70, 60, 60)
 GUISetState()

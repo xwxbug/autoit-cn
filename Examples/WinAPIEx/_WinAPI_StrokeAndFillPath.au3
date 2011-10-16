@@ -8,18 +8,18 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $hObj, $hBitmap, $hBrush, $hPen, $hDC, $hMemDC, $hMemSv
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 241, 241)
 $Pic = GUICtrlCreatePic('', 0, 0, 241, 241)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create bitmap
+; 创建位图
 $hDC = _WinAPI_GetDC($hPic)
 $hMemDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmapEx($hDC, 241, 241, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
 $hMemSv = _WinAPI_SelectObject($hMemDC, $hBitmap)
 
-; Create path
+; 创建路径
 _WinAPI_BeginPath($hMemDC)
 _WinAPI_MoveTo($hMemDC, 220, 78)
 _WinAPI_LineTo($hMemDC, 170, 218)
@@ -39,14 +39,14 @@ _WinAPI_SetDCBrushColor($hMemDC, 0xFFC000)
 _WinAPI_SetDCPenColor($hMemDC, 0xDD0000)
 _WinAPI_StrokeAndFillPath($hMemDC)
 
-; Release objects
+; 释放对象
 _WinAPI_DeleteObject(_WinAPI_SelectObject($hDC, $hBrush))
 _WinAPI_DeleteObject(_WinAPI_SelectObject($hDC, $hPen))
 _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hMemDC, $hMemSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Set bitmap to control
+; 设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

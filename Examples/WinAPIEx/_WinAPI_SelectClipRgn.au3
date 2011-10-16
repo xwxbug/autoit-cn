@@ -10,12 +10,12 @@ Global $hForm, $Pic, $hPic, $hObj, $hRgn, $hBitmap, $hDC, $hMemDC, $hMemSv
 
 Dim $aVertex[3][3] = [[140, -50, 0xFFFF00], [-50, 244, 0x00F0FF], [331, 244, 0xFF00FF]]
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 281, 281)
 $Pic = GUICtrlCreatePic('', 0, 0, 281, 281)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create bitmap
+; 创建位图
 $hDC = _WinAPI_GetDC($hPic)
 $hMemDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmapEx($hDC, 281, 281, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
@@ -28,7 +28,7 @@ _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hMemDC, $hMemSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Set bitmap to control
+; 设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

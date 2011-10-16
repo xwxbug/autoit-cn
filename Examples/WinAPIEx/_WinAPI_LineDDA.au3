@@ -10,12 +10,12 @@ Global $hForm, $Pic, $hPic, $hObj, $hBitmap, $hPen, $hDC, $hMemDC, $hMemSv, $Cou
 Global $hLineProc = DllCallbackRegister('_LineProc', 'none', 'int;int;lparam')
 Global $pLineProc = DllCallBackGetPtr($hLineProc)
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 280, 280)
 $Pic = GUICtrlCreatePic('', 0, 0, 281, 281)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create bitmap
+; 创建位图
 $hDC = _WinAPI_GetDC($hPic)
 $hMemDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmapEx($hDC, 280, 280, _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE)))
@@ -28,7 +28,7 @@ _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hMemDC, $hMemSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Set bitmap to control
+; 设置位图到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then
