@@ -48,14 +48,14 @@ _WinAPI_ReleaseDC(0, $hDC)
 _WinAPI_SelectObject($hMemDC, $hSv)
 _WinAPI_DeleteDC($hMemDC)
 
-; Create icon
+; 创建图标
 $hIcon = _WinAPI_CreateIconIndirect($hXOR, $hAND)
 
 ; Free bitmaps
 _WinAPI_DeleteObject($hXOR)
 _WinAPI_DeleteObject($hAND)
 
-; Create GUI
+; 创建 GUI
 GUICreate('MyGUI', 128, 128)
 GUICtrlCreateIcon('', 0, 48, 48, 32, 32)
 GUICtrlSendMsg(-1, $STM_SETIMAGE, 1, $hIcon)

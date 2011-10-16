@@ -89,7 +89,7 @@ DllStructSetData($tXORBits, 1, $bData)
 ; Create monochrome icon (32x32)
 $hIcon = _WinAPI_CreateIcon(0, 32, 32, 1, 1, $pANDBits, $pXORBits)
 
-; Create GUI
+; ´´½¨ GUI
 GUICreate('MyGUI', 128, 128)
 GUICtrlCreateIcon('', 0, 48, 48, 32, 32)
 GUICtrlSendMsg(-1, $STM_SETIMAGE, 1, $hIcon)

@@ -7,12 +7,12 @@ Global Const $STM_GETIMAGE = 0x0173
 
 Global $hForm, $Pic, $hPic, $hObj, $hBitmap, $hDC, $hDestDC, $hDestSv
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 $Pic = GUICtrlCreatePic('', 0, 0, 400, 400)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create gradient
+; 创建渐变
 $hDC = _WinAPI_GetDC($hPic)
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmapEx($hDC, 400, 400, 0xFFFFFF)
@@ -24,7 +24,7 @@ _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hDestDC, $hDestSv)
 _WinAPI_DeleteDC($hDestDC)
 
-; Set gradient to control
+; 设置渐变到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then

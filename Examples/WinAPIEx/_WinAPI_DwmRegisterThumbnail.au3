@@ -15,15 +15,15 @@ If Not $hWnd Then
 	Exit
 EndIf
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 
 GUISetBkColor(0)
 
-; Create the "sheet of glass" effect for the entire window. You must call this function whenever DWM composition is toggled.
+; 给整个窗口创建 "玻璃片" 效果. 无论 DWM (桌面窗口管理器) 组件是否切换您必须调用此函数.
 _WinAPI_DwmExtendFrameIntoClientArea($hForm)
 
-; Create a DWM thumbnail relationship (2:1)
+; 创建桌面窗口管理器缩略图关系 (2:1)
 $hThumbnail = _WinAPI_DwmRegisterThumbnail($hForm, $hWnd)
 $tSIZE = _WinAPI_DwmQueryThumbnailSourceSize($hThumbnail)
 $Width = DllStructGetData($tSIZE, 1)

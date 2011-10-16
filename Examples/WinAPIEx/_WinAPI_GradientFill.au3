@@ -10,12 +10,12 @@ Global $hForm, $Pic, $hPic, $hObj, $hBitmap, $hDC, $hDestDC, $hDestSv
 Dim $aVertex[6][3] = [[0, 0, 0xFF0000], [400, 400, 0x00FF00], [  0, 400, 0x0000FF], _
                       [0, 0, 0xFF0000], [400,   0, 0xFFFF00], [400, 400, 0x00FF00]]
 
-; Create GUI
+; 创建 GUI
 $hForm = GUICreate('MyGUI', 400, 400)
 $Pic = GUICtrlCreatePic('', 0, 0, 400, 400)
 $hPic = GUICtrlGetHandle($Pic)
 
-; Create gradient
+; 创建渐变
 $hDC = _WinAPI_GetDC($hPic)
 $hDestDC = _WinAPI_CreateCompatibleDC($hDC)
 $hBitmap = _WinAPI_CreateCompatibleBitmap($hDC, 400, 400)
@@ -27,7 +27,7 @@ _WinAPI_ReleaseDC($hPic, $hDC)
 _WinAPI_SelectObject($hDestDC, $hDestSv)
 _WinAPI_DeleteDC($hDestDC)
 
-; Set gradient to control
+; 设置渐变到控件
 _SendMessage($hPic, $STM_SETIMAGE, 0, $hBitmap)
 $hObj = _SendMessage($hPic, $STM_GETIMAGE)
 If $hObj <> $hBitmap Then
