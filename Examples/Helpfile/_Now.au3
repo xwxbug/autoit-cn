@@ -1,3 +1,5 @@
-#include <Date.au3>
+ #include  <Date.au3> 
+ 
+ MsgBox (  4096 ,  "" ,  "Todays date/Time: "  &  _Now ()  ) 
+ 
 
-MsgBox( 4096, "", "当前日期/时间: " & _Now() )

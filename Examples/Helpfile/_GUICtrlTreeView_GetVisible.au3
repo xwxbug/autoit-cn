@@ -1,34 +1,49 @@
-#include <GuiConstantsEx.au3>
-#include <GuiTreeView.au3>
-#include <WindowsConstants.au3>
 
-$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiTreeView.au3> 
+#include  <WindowsConstants.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
+$Debug_TV  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	Local $hItem[100], $iRand, $hTreeView
-	Local $iStyle = BitOR($TVS_EDITLABELS, $TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS)
+_Main () 
 
-	GUICreate("TreeView Get Visible", 400, 300)
+Func _Main () 
 
-	$hTreeView = GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
-	GUISetState()
+    Local  $hItem [ 100 ],  $iRand ,  $hTreeView 
+  
+  Local  $iStyle  =  BitOR ( $TVS_EDITLABELS ,  $TVS_HASBUTTONS ,  $TVS_HASLINES ,  $TVS_LINESATROOT ,  $TVS_DISABLEDRAGDROP ,  $TVS_SHOWSELALWAYS ) 
+    
+    GUICreate ( "TreeView Get 
+Visible" ,  400 ,  300 ) 
+    
+    $hTreeView  =  GUICtrlCreateTreeView ( 2 ,  2 ,  396 ,  268 ,  $iStyle ,  $WS_EX_CLIENTEDGE ) 
+    _GUICtrlTreeView_SetUnicodeFormat ( $hTreeView ,  False ) 
+    GUISetState () 
 
-	_GUICtrlTreeView_BeginUpdate($hTreeView)
-	For $x = 0 To 99
-		$hItem[$x] = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat("[%02d] New Item", $x))
-	Next
-	_GUICtrlTreeView_EndUpdate($hTreeView)
+    _GUICtrlTreeView_BeginUpdate ( $hTreeView ) 
+  
+  For  $x  =  0  To  99 
+        $hItem [ $x ]  =  _GUICtrlTreeView_Add ( $hTreeView ,  0 ,  StringFormat ( "[%02d] New 
+Item" ,  $x )) 
+    Next 
+    _GUICtrlTreeView_EndUpdate ( $hTreeView ) 
 
-	$iRand = Random(40, 99, 1)
-	MsgBox(4160, "Information", StringFormat("Index %d Visible: %s", $iRand, _GUICtrlTreeView_GetVisible($hTreeView, $hItem[$iRand])))
-	_GUICtrlTreeView_EnsureVisible($hTreeView, $hItem[$iRand])
-	MsgBox(4160, "Information", StringFormat("Index %d Visible: %s", $iRand, _GUICtrlTreeView_GetVisible($hTreeView, $hItem[$iRand])))
+  
+  $iRand  =  Random ( 40 ,  99 ,  1 ) 
+  
+  MsgBox ( 4160 ,  "Information" ,  StringFormat ( "Index %d 
+Visible: %s" ,  $iRand ,  _GUICtrlTreeView_GetVisible ( $hTreeView ,  $hItem [ $iRand ]))) 
+    _GUICtrlTreeView_EnsureVisible ( $hTreeView ,  $hItem [ $iRand ]) 
+    MsgBox ( 4160 ,  "Information" ,  StringFormat ( "Index %d Visible: %s" ,  $iRand ,  _GUICtrlTreeView_GetVisible ( $hTreeView ,  $hItem [ $iRand ]))) 
+    
+    ; 循环至用户退出 
+    Do 
+  
+  Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main

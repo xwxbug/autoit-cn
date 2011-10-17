@@ -1,22 +1,31 @@
-#include <GuiEdit.au3>
-#include <GuiConstantsEx.au3>
 
-$Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiEdit.au3> 
+#include  <GuiConstantsEx.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hEdit
+$Debug_Ed  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	GUICreate("Edit Append Text", 400, 300)
-	$hEdit = GUICtrlCreateEdit("This is a test" & @CRLF & "Another Line", 2, 2, 394, 268)
-	GUISetState()
+_Main () 
 
-	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
+Func _Main () 
+    Local  $hEdit 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 创建界面 
+    GUICreate ( "Edit Append 
+Text" ,  400 ,  300 ) 
+    $hEdit  =  GUICtrlCreateEdit ( "This is 
+a test"  &  @CRLF  &  "Another 
+Line" ,  2 ,  2 ,  394 ,  268 ) 
+    GUISetState () 
+
+    _GUICtrlEdit_AppendText ( $hEdit ,  @CRLF  &  "Append to the end?" ) 
+    
+    ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

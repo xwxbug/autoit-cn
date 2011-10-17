@@ -1,39 +1,51 @@
-#include <GuiConstantsEx.au3>
-#include <GuiIPAddress.au3>
 
-$Debug_IP = False ; Check ClassName being passed to IPAddress functions, set to True and use a handle to another control to see it work
+#include  <GuiConstantsEx.au3> 
+#include  <GuiIPAddress.au3> 
 
-Global $iMemo
+Opt ( "MustDeclareVars" ,  1 ) 
 
-_Main()
+$Debug_IP  =  False  ; 检查传递给函数的类名, 
+设置为真且使用另一控件的句柄观察其工作 
 
-Func _Main()
-	Local $hgui, $tIP = DllStructCreate($tagGetIPAddress), $aIP[4] = [24, 168, 2, 128], $hIPAddress
+Global  $iMemo 
 
-	$hgui = GUICreate("IP Address Control GetEx Example", 400, 300)
-	$hIPAddress = _GUICtrlIpAddress_Create($hgui, 2, 4, 125, 20)
-	$iMemo = GUICtrlCreateEdit("", 2, 28, 396, 270, 0)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-	GUISetState(@SW_SHOW)
+_Main () 
 
-	For $x = 0 To 3
-		DllStructSetData($tIP, "Field" & $x + 1, $aIP[$x])
-	Next
+Func _Main () 
+    Local  $hgui ,  $tIP  =  DllStructCreate ( $tagGetIPAddress ),  $aIP [ 4 ]  =  [ 24 ,  168 ,  2 ,  128 ],  $hIPAddress 
+    
+    $hgui  =  GUICreate ( "IP Address 
+Control GetEx 示例" ,  400 ,  300 ) 
+    $hIPAddress  =  _GUICtrlIpAddress_Create  ( $hgui ,  2 ,  4 ,  125 ,  20 ) 
+  
+  $iMemo  =  GUICtrlCreateEdit ( "" ,  2 ,  28 ,  396 ,  270 ,  0 ) 
+    GUICtrlSetFont ( $iMemo ,  9 ,  400 ,  0 ,  "Courier New" ) 
+  
+  GUISetState ( @SW_SHOW ) 
+    
+    For  $x  =  0  To  3 
+        DllStructSetData ( $tIP ,  "Field"  &  $x  +  1 ,  $aIP [ $x ]) 
+    Next 
+    
+    _GUICtrlIpAddress_SetEx  ( $hIPAddress ,  $tIP ) 
 
-	_GUICtrlIpAddress_SetEx($hIPAddress, $tIP)
+    $tIP  =  _GUICtrlIpAddress_GetEx  ( $hIPAddress ) 
 
-	$tIP = _GUICtrlIpAddress_GetEx($hIPAddress)
+    For  $x  =  0  To  3 
+        
+MemoWrite ( "Field "  &  $x  +  1  &  " .....: 
+"  &  DllStructGetData ( $tIP ,  "Field"  &  $x  +  1 )) 
+    Next 
 
-	For $x = 0 To 3
-		MemoWrite("Field " & $x + 1 & " .....: " & DllStructGetData($tIP, "Field" & $x + 1))
-	Next
+    ; 
+等待用户关闭界面 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+EndFunc    ;==>_Main 
 
-	; Wait for user to close GUI
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-EndFunc   ;==>_Main
+; 向memo控件写入文本 
+Func MemoWrite ( $sMessage ) 
+    GUICtrlSetData ( $iMemo ,  $sMessage  &  @CRLF ,  1 ) 
+EndFunc    ;==>MemoWrite 
 
-; Write a line to the memo control
-Func MemoWrite($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-EndFunc   ;==>MemoWrite
+

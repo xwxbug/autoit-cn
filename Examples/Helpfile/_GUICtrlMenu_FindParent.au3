@@ -1,22 +1,33 @@
-#include <GuiMenu.au3>
 
-_Main()
+#include  <GuiMenu.au3> 
 
-Func _Main()
-	Local $hWnd, $hMain
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-	Run("Notepad.exe")
-	WinWaitActive("[CLASS:Notepad]")
-	$hWnd = WinGetHandle("[CLASS:Notepad]")
-	$hMain = _GUICtrlMenu_GetMenu($hWnd)
+_Main () 
 
-	; Show that Menu handle belongs to Notepad
-	Writeln("Notepad handle: 0x" & Hex($hWnd))
-	Writeln("Menu Parent ..: 0x" & Hex(_GUICtrlMenu_FindParent($hMain)))
+Func _Main () 
+    Local  $hWnd ,  $hMain 
 
-EndFunc   ;==>_Main
+    Run ( "Notepad.exe" ) 
+  
+  WinWaitActive ( "[CLASS:Notepad]" ) 
+    $hWnd  =  WinGetHandle ( "[CLASS:Notepad]" ) 
+    $hMain  =  _GUICtrlMenu_GetMenu ( $hWnd ) 
 
-; Write a line of text to Notepad
-Func Writeln($sText)
-	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
-EndFunc   ;==>Writeln
+    ; 显示属于记事本的菜单句柄 
+    
+Writeln ( "Notepad handle: 
+0x"  &  Hex ( $hWnd )) 
+    
+Writeln ( "Menu Parent ..: 
+0x"  &  Hex ( _GUICtrlMenu_FindParent ( $hMain ))) 
+
+EndFunc    ;==>_Main 
+
+; 向记事本写入一行 
+Func Writeln ( $sText ) 
+    ControlSend ( "[CLASS:Notepad]" ,  "" ,  "Edit1" ,  $sText  &  @CR ) 
+EndFunc    ;==>Writeln 
+
+  
+   

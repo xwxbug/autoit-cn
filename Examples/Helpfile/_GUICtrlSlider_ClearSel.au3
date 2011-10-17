@@ -1,27 +1,38 @@
-#include <GuiConstantsEx.au3>
-#include <GuiSlider.au3>
 
-$Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiSlider.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hSlider
+$Debug_S  =  False  ; 检查传递给函数的类名, 
+设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	GUICreate("(Internal) Slider Clear Sel", 400, 296)
-	$hSlider = GUICtrlCreateSlider(2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS, $TBS_ENABLESELRANGE))
-	GUISetState()
+_Main () 
 
-	; Set Sel
-	_GUICtrlSlider_SetSel($hSlider, 10, 50)
+Func _Main () 
+    Local  $hSlider 
 
-	MsgBox(4160, "Information", "Clear Sel")
-	; Clear Sel
-	_GUICtrlSlider_ClearSel($hSlider)
+    ; 创建界面 
+    GUICreate ( "(Internal) 
+Slider Clear Sel" ,  400 ,  296 ) 
+    $hSlider  =  GUICtrlCreateSlider ( 2 ,  2 ,  396 ,  20 ,  BitOR ( $TBS_TOOLTIPS ,  $TBS_AUTOTICKS ,  $TBS_ENABLESELRANGE )) 
+    GUISetState () 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+  
+  ; 设置选区 
+    _GUICtrlSlider_SetSel ( $hSlider ,  10 ,  50 ) 
+    
+    MsgBox ( 4160 ,  "Information" ,  "Clear Sel" ) 
+    ; 
+清除选区 
+    _GUICtrlSlider_ClearSel ( $hSlider ) 
+
+  
+  ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

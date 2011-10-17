@@ -1,10 +1,20 @@
-#AutoIt3Wrapper_AU3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
-#include "WinHttp.au3"
-
-Opt("MustDeclareVars", 1)
-
-; 设置不使用代理:
-_WinHttpSetDefaultProxyConfiguration($WINHTTP_ACCESS_TYPE_NO_PROXY)
-
-; ... 这里是剩余代码...
+19
+ _WinHttpSetDefaultProxyConfiguration      _WinHttpSetDefaultProxyConfiguration   
+设置默认的WinHTTP代理配置 
+ 
+#Include <WinHTTP.au3> 
+_WinHttpSetDefaultProxyConfiguration( $iAccessType, $Proxy, $ProxyBypass ) 
+ 
+   
+参数    
+ $iAccessType  包含权限类型的整数值  
+ $Proxy  包含代理服务器列表的字符串  
+ $ProxyBypass  包含代理旁路列表的字符串  
+   
+返回值 成功: 返回1并设置@error为0 
+失败: 返回0并设置@error且当其为1时表示DllCall失败 
+   
+相关  _WinHttpDetectAutoProxyConfigUrl ,  _WinHttpGetDefaultProxyConfiguration ,  _WinHttpGetIEProxyConfigForCurrentUser 
+   
+参考  搜索MSDN知识库中WinHttpSetDefaultProxyConfiguration的相关信息  
+   

@@ -1,12 +1,16 @@
-; *******************************************************
-; 例 1 - 创建一个隐藏的浏览器窗口, 导航到一个
-;				网站, 获取一些信息并退出
-; *******************************************************
-;
-#include <IE.au3>
-
-Local $oIE = _IECreate("http://sourceforge.net", 0, 0)
-; 显示这个页面中名称是"sfmarquee"元素的innerText
-Local $oMarquee = _IEGetObjByName($oIE, "sfmarquee")
-MsgBox(0, "SourceForge 信息", $oMarquee.innerText)
-_IEQuit($oIE)
+_IEQuit不可以应用在_IECreateEmbedded创建的嵌入浏览器. 该浏览器进程将随他们上一层的GUI窗口关闭而关闭. 
+ 
+   
+相关 _IEAttach ,  _IECreate  
+   
+示例  
+ ; ******************************************************* 
+ ; 示例 - 创建一个不可见的浏览器窗口, 浏览一个网址, 获取一些信息并退出 
+ ; ******************************************************* 
+ #include <IE.au3> 
+ $oIE = _IECreate ( " http://sourceforge.net ", 0 , 0 ) 
+ ; 显示"sfmarquee"页面中一个元素上的innerTextage 
+ $oMarquee = _IEGetObjByName ( $oIE , " sfmarquee " ) 
+ MsgBox ( 0 , " SourceForge Information ", $oMarquee .innerText) 
+ _IEQuit ( $oIE ) 
+ 

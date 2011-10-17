@@ -1,21 +1,31 @@
-#include <GuiConstantsEx.au3>
-#include <GuiIPAddress.au3>
 
-$Debug_IP = False ; Check ClassName being passed to IPAddress functions, set to True and use a handle to another control to see it work
+#include  <GuiConstantsEx.au3> 
+#include  <GuiIPAddress.au3> 
 
-_Main()
+Opt ( "MustDeclareVars" ,  1 ) 
 
-Func _Main()
-	Local $hgui, $hIPAddress
+$Debug_IP  =  False  ; 检查传递给函数的类名, 
+设置为真且使用另一控件的句柄观察其工作 
 
-	$hgui = GUICreate("IP Address Control Set Focus Example", 400, 300)
-	$hIPAddress = _GUICtrlIpAddress_Create($hgui, 2, 4)
-	GUISetState(@SW_SHOW)
+_Main () 
 
-	_GUICtrlIpAddress_Set($hIPAddress, "24.168.2.128")
+Func _Main () 
+    Local  $hgui ,  $hIPAddress 
+    
+    $hgui  =  GUICreate ( "IP Address 
+Control Set Focus 示例" ,  400 ,  300 ) 
+  
+  $hIPAddress  =  _GUICtrlIpAddress_Create  ( $hgui ,  2 ,  4 ) 
+  
+  GUISetState ( @SW_SHOW ) 
 
-	_GUICtrlIpAddress_SetFocus($hIPAddress, 1)
-	; Wait for user to close GUI
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-EndFunc   ;==>_Main
+  
+  _GUICtrlIpAddress_Set  ( $hIPAddress ,  "24.168.2.128" ) 
+
+    _GUICtrlIpAddress_SetFocus  ( $hIPAddress ,  1 ) 
+    ; 等待用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+EndFunc    ;==>_Main 
+
+

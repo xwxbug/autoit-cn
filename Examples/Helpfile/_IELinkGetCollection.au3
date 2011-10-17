@@ -1,14 +1,12 @@
-; *******************************************************
-; Example 1 - Open browser with basic example, get link collection,
-;				loop through items and display the associated link URL references
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IE_Example("basic")
-Local $oLinks = _IELinkGetCollection($oIE)
-Local $iNumLinks = @extended
-MsgBox(0, "Link Info", $iNumLinks & " links found")
-For $oLink In $oLinks
-	MsgBox(0, "Link Info", $oLink.href)
-Next
+ ; ******************************************************* 
+ ; 示例 - 打开带有基本示例的浏览器, 获取链接集, 循环项目并显示相关链接地址的引用 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IE_Example ( " basic " ) 
+ $oLinks = _IELinkGetCollection ( $oIE ) 
+ $iNumLinks = @extended 
+ MsgBox ( 0 , " Link Info ", $iNumLinks & " links found " ) 
+ For $oLink In $oLinks 
+   MsgBox ( 0 , " Link Info ", $oLink .href) 
+ Next 
+ 

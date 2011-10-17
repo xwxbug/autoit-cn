@@ -1,25 +1,34 @@
-#include <GuiMenu.au3>
 
-_Main()
+#include  <GuiMenu.au3> 
 
-Func _Main()
-	Local $hWnd, $hMain, $hFile
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-	; Open Notepad
-	Run("Notepad.exe")
-	WinWaitActive("[CLASS:Notepad]")
-	$hWnd = WinGetHandle("[CLASS:Notepad]")
-	$hMain = _GUICtrlMenu_GetMenu($hWnd)
-	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
+_Main () 
 
-	; Get/Set File default item
-	Writeln("Open is default: " & _GUICtrlMenu_GetItemDefault($hFile, 1))
-	_GUICtrlMenu_SetItemDefault($hFile, 1)
-	Writeln("Open is default: " & _GUICtrlMenu_GetItemDefault($hFile, 1))
+Func _Main () 
+    Local  $hWnd ,  $hMain ,  $hFile 
 
-EndFunc   ;==>_Main
+    ; Open Notepad 
+    Run ( "Notepad.exe" ) 
+  
+  WinWaitActive ( "[CLASS:Notepad]" ) 
+    $hWnd  =  WinGetHandle ( "[CLASS:Notepad]" ) 
+    $hMain  =  _GUICtrlMenu_GetMenu ( $hWnd ) 
+    $hFile  =  _GUICtrlMenu_GetItemSubMenu ( $hMain ,  0 ) 
 
-; Write a line of text to Notepad
-Func Writeln($sText)
-	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
-EndFunc   ;==>Writeln
+    ; Get/Set File default item 
+    Writeln ( "Open 
+is default: "  &  _GUICtrlMenu_GetItemDefault ( $hFile ,  1 )) 
+    _GUICtrlMenu_SetItemDefault ( $hFile ,  1 ) 
+    
+Writeln ( "Open is default: 
+"  &  _GUICtrlMenu_GetItemDefault ( $hFile ,  1 )) 
+
+EndFunc    ;==>_Main 
+
+; Write a line of text to 
+Notepad 
+Func Writeln ( $sText ) 
+    ControlSend ( "[CLASS:Notepad]" ,  "" ,  "Edit1" ,  $sText  &  @CR ) 
+EndFunc    ;==>Writeln 
+

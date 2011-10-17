@@ -1,9 +1,11 @@
-#include <Date.au3>
+ 
+ #include  <Date.au3> 
+ 
+ ; 计算从UNIX时间戳(1970/01/01 00:00:00)以来经历的秒数 
+ $iDateCalc  =  _DateDiff (  's' , "1970/01/01 00:00:00" , _NowCalc ()) 
+ MsgBox (  4096 ,  "" ,  "Number of seconds since EPOCH: "  &  $iDateCalc  ) 
+ 
+ ; 计算今年以经过的小时数 
+ $iDateCalc  =  _DateDiff (  'h' , @YEAR  &  "/01/01 00:00:00" , _NowCalc ()) 
+ MsgBox (  4096 ,  "" ,  "Number of Hours this year: "  &  $iDateCalc  )  
 
-; 计算一个跨越世纪后的秒数,(从1970/01/01 00:00:00) 
-Local $iDateCalc = _DateDiff('s', "1970/01/01 00:00:00", _NowCalc())
-MsgBox( 4096, "", "和现在比较经过的秒数: " & $iDateCalc )
-
-; 计算今年经过的小时数
-$iDateCalc = _DateDiff('h', @YEAR & "/01/01 00:00:00", _NowCalc())
-MsgBox( 4096, "", "计算今年经过的小时数: " & $iDateCalc )

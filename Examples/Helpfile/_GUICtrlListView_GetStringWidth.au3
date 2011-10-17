@@ -1,30 +1,40 @@
-#include <GuiConstantsEx.au3>
-#include <GuiListView.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiListView.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hListView
+$Debug_LV  =  False  ; 检查传递给函数的类名, 
+设置为真并使用另一控件的句柄观察其工作 
 
-	GUICreate("ListView Get String Width", 400, 300)
-	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_REPORT))
-	GUISetState()
+_Main () 
 
-	; Add columns
-	_GUICtrlListView_AddColumn($hListView, "Column 1", 100)
+Func _Main () 
+    Local  $hListView 
+    
+    GUICreate ( "ListView Get String Width" ,  400 ,  300 ) 
+    $hListView  =  GUICtrlCreateListView ( "" ,  2 ,  2 ,  394 ,  268 ,  BitOR ( $LVS_SHOWSELALWAYS ,  $LVS_REPORT )) 
+    GUISetState () 
 
-	; Add items
-	_GUICtrlListView_AddItem($hListView, "Item 1")
-	_GUICtrlListView_AddItem($hListView, "Item 2")
-	_GUICtrlListView_AddItem($hListView, "Item 3")
+    ; 
+添加列 
+    _GUICtrlListView_AddColumn ( $hListView ,  "Column 1" ,  100 ) 
 
-	; Get width of string
-	MsgBox(4160, "Information", 'Width of "Test": ' & _GUICtrlListView_GetStringWidth($hListView, "Test"))
+    ; 添加项目 
+    _GUICtrlListView_AddItem ( $hListView ,  "Item 1" ) 
+    _GUICtrlListView_AddItem ( $hListView ,  "Item 2" ) 
+    _GUICtrlListView_AddItem ( $hListView ,  "Item 3" ) 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+  
+  ; 获取字符串宽度 
+    MsgBox ( 4160 ,  "Information" ,  'Width of "Test": '  &  _GUICtrlListView_GetStringWidth ( $hListView ,  "Test" )) 
+
+  
+  ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

@@ -1,12 +1,10 @@
-; *******************************************************
-; Example 1 - Open a browser with the form example, fill in a form field and
-;				reset the form back to default values
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IE_Example("form")
-Local $oForm = _IEFormGetObjByName($oIE, "ExampleForm")
-Local $oText = _IEFormElementGetObjByName($oForm, "textExample")
-_IEFormElementSetValue($oText, "Hey! It works!")
-_IEFormReset($oForm)
+ ; ******************************************************* 
+ ; 示例 - 打开带有表单示例的浏览器, 填充表单并重新设置为默认值 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IE_Example ( " form " ) 
+ $oForm = _IEFormGetObjByName ( $oIE , " Example Form " ) 
+ $oText = _IEFormElementGetObjByName ( $oForm , " textExample " ) 
+ _IEFormElementSetValue $oText , " Hey! It works! " ) 
+ _IEFormReset $oForm ) 
+ 

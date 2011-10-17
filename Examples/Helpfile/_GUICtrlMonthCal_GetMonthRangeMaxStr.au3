@@ -1,36 +1,47 @@
-#include <GuiConstantsEx.au3>
-#include <GuiMonthCal.au3>
-#include <WindowsConstants.au3>
 
-$Debug_MC = False ; 检查传递给 MonthCal 函数的类名, 设置为 True 并使用指向另一控件的句柄来检查它是否工作
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiMonthCal.au3> 
+#include  <WindowsConstants.au3> 
 
-Global $iMemo
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-_Main()
+$Debug_MC  =  False  ; 检查传递给MonthCal函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-Func _Main()
-	Local $hMonthCal
+Global  $iMemo 
 
-	; 创建 GUI
-	GUICreate("Month Calendar Get Month Range Max String", 400, 300)
-	$hMonthCal = GUICtrlCreateMonthCal("", 4, 4, -1, -1, BitOR($WS_BORDER, $MCS_MULTISELECT), 0x00000000)
+_Main () 
 
-	; 创建 memo 控件
-	$iMemo = GUICtrlCreateEdit("", 4, 168, 392, 128, 0)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-	GUISetState()
+Func _Main () 
+    Local  $tMin ,  $tMax ,  $hMonthCal 
 
-	; 获取月份范围
-	MemoWrite("Month range minimum: " & _GUICtrlMonthCal_GetMonthRangeMinStr($hMonthCal))
-	MemoWrite("Month range maximum: " & _GUICtrlMonthCal_GetMonthRangeMaxStr($hMonthCal))
+    ; 创建界面 
+    GUICreate ( "Month Calendar 
+Get Month Range Max String" ,  400 ,  300 ) 
+  
+  $hMonthCal  =  GUICtrlCreateMonthCal ( "" ,  4 ,  4 ,  - 1 ,  - 1 ,  BitOR ( $WS_BORDER ,  $MCS_MULTISELECT ),  0x00000000 ) 
+    
+    ; 创建memo控件 
+    $iMemo  =  GUICtrlCreateEdit ( "" ,  4 ,  168 ,  392 ,  128 ,  0 ) 
+    GUICtrlSetFont ( $iMemo ,  9 ,  400 ,  0 ,  "Courier New" ) 
+  
+  GUISetState () 
 
-	; 循环直到用户退出
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 
+获取月历范围 
+    MemoWrite ( "Month range minimum: "  &  _GUICtrlMonthCal_GetMonthRangeMinStr ( $hMonthCal )) 
+    MemoWrite ( "Month range maximum: "  &  _GUICtrlMonthCal_GetMonthRangeMaxStr ( $hMonthCal )) 
 
-; 写入消息到 memo
-Func MemoWrite($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-EndFunc   ;==>MemoWrite
+    ; 
+循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+
+; 向memo控件写入信息 
+Func MemoWrite ( $sMessage ) 
+    GUICtrlSetData ( $iMemo ,  $sMessage  &  @CRLF ,  1 ) 
+EndFunc    ;==>MemoWrite 
+

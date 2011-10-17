@@ -1,40 +1,52 @@
-#include <GuiConstantsEx.au3>
-#include <GuiListView.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiListView.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $tInfo, $iI, $hListView
+$Debug_LV  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	GUICreate("ListView Find Item", 400, 300)
-	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
-	GUISetState()
+_Main () 
 
-	; Add columns
-	_GUICtrlListView_AddColumn($hListView, "Items", 100)
+Func _Main () 
+    Local  $tInfo ,  $iI ,  $hListView 
+    
+    GUICreate ( "ListView Find Item" ,  400 ,  300 ) 
+    $hListView  =  GUICtrlCreateListView ( "" ,  2 ,  2 ,  394 ,  268 ) 
+  
+  GUISetState () 
 
-	; Add items
-	_GUICtrlListView_BeginUpdate($hListView)
-	For $iI = 1 To 100
-		_GUICtrlListView_AddItem($hListView, "Item " & $iI)
-	Next
-	_GUICtrlListView_EndUpdate($hListView)
+    ; 
+添加列 
+    _GUICtrlListView_AddColumn ( $hListView ,  "Items" ,  100 ) 
 
-	; Set item 50 parameter value
-	_GUICtrlListView_SetItemParam($hListView, 49, 1234)
+    ; 添加项 
+    _GUICtrlListView_BeginUpdate ( $hListView ) 
+    For  $iI  =  1  To  100 
+        _GUICtrlListView_AddItem ( $hListView ,  "Item "  &  $iI ) 
+    Next 
+    _GUICtrlListView_EndUpdate ( $hListView ) 
 
-	; Search for target item
-	$tInfo = DllStructCreate($tagLVFINDINFO)
-	DllStructSetData($tInfo, "Flags", $LVFI_PARAM)
-	DllStructSetData($tInfo, "Param", 1234)
-	$iI = _GUICtrlListView_FindItem($hListView, -1, $tInfo)
-	MsgBox(4160, "Information", "Target Item Index: " & $iI)
-	_GUICtrlListView_EnsureVisible($hListView, $iI)
+  
+  ; 设置项目50的参数值 
+    _GUICtrlListView_SetItemParam ( $hListView ,  49 ,  1234 ) 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 搜索目标项 
+  
+  $tInfo  =  DllStructCreate ( $tagLVFINDINFO ) 
+  
+  DllStructSetData ( $tInfo ,  "Flags" ,  $LVFI_PARAM ) 
+  
+  DllStructSetData ( $tInfo ,  "Param" ,  1234 ) 
+    $iI  =  _GUICtrlListView_FindItem ( $hListView ,  - 1 ,  $tInfo ) 
+    MsgBox ( 4160 ,  "Information" ,  "Target Item Index: "  &  $iI ) 
+    _GUICtrlListView_EnsureVisible ( $hListView ,  $iI ) 
+
+    ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

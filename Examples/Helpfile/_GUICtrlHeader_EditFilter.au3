@@ -1,38 +1,47 @@
-#include <GuiConstantsEx.au3>
-#include <GuiHeader.au3>
 
-$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#include  <GuiConstantsEx.au3> 
+#include  <GuiHeader.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hGUI, $hHeader
+$Debug_HDR  =  False  ; 检查传递给控件的类名, 
+设置为真并使用另一控件句柄观察其工作 
 
-	; Create GUI
-	$hGUI = GUICreate("Header", 400, 300)
-	$hHeader = _GUICtrlHeader_Create($hGUI)
-	GUISetState()
+_Main () 
 
-	; Add columns
-	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
+Func _Main () 
+    Local  $hGUI ,  $hHeader 
 
-	; Set up filters
-	_GUICtrlHeader_EditFilter($hHeader, 0)
-	Send("Filter 1")
-	Sleep(1000)
-	Send("{ENTER}")
-	_GUICtrlHeader_EditFilter($hHeader, 1)
-	Send("Filter 2")
-	Sleep(1000)
-	Send("{ENTER}")
+    ; 创建界面 
+    $hGUI  =  GUICreate ( "Header" ,  400 ,  300 ) 
+    $hHeader  =  _GUICtrlHeader_Create  ( $hGUI ) 
+    GUISetState () 
 
-	; Clear first filter
-	_GUICtrlHeader_ClearFilter($hHeader, 0)
+    ; 
+添加列 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 1" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 2" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 3" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 4" ,  100 ) 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-EndFunc   ;==>_Main
+    ; 
+设置过滤器 
+    _GUICtrlHeader_EditFilter  ( $hHeader ,  0 ) 
+    Send ( "Filter 1" ) 
+    Sleep ( 1000 ) 
+    Send ( " {ENTER} " ) 
+    _GUICtrlHeader_EditFilter  ( $hHeader ,  1 ) 
+    Send ( "Filter 2" ) 
+    Sleep ( 1000 ) 
+    Send ( " {ENTER} " ) 
+
+    ; 
+清除第一个过滤器 
+    _GUICtrlHeader_ClearFilter  ( $hHeader ,  0 ) 
+
+    ; 循环至用户退出 
+    Do 
+  
+  Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+EndFunc    ;==>_Main 
+

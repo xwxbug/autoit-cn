@@ -1,43 +1,59 @@
-#include <GuiToolbar.au3>
-#include <GuiConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <Constants.au3>
 
-$Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#include  <GuiToolbar.au3> 
+#include  <GuiConstantsEx.au3> 
+#include  <WindowsConstants.au3> 
+#include  <Constants.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hGUI, $hToolbar
-	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
+$Debug_TB  =  False  ; 检查传递给函数的类名, 
+设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	$hGUI = GUICreate("Toolbar", 400, 300)
-	$hToolbar = _GUICtrlToolbar_Create($hGUI)
-	GUISetState()
+_Main () 
 
-	; Add standard system bitmaps
-	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
-		Case 0
-			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_SMALL_COLOR)
-		Case 2
-			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
-	EndSwitch
+Func _Main () 
+    Local  $hGUI ,  $hToolbar ,  $aStrings [ 4 ] 
+    Local  Enum  $idNew  =  1000 ,  $idOpen ,  $idSave ,  $idHelp 
 
-	; Add buttons
-	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
-	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
-	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)
-	_GUICtrlToolbar_AddButtonSep($hToolbar)
-	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
+    ; 创建界面 
+    $hGUI  =  GUICreate ( "Toolbar" ,  400 ,  300 ) 
+    $hToolbar  =  _GUICtrlToolbar_Create ( $hGUI ) 
+    GUISetState () 
 
-	; Show Save button bitmap index
-	MsgBox(4096, "Information", "Changing Save bitmap to Print bitmap")
-	_GUICtrlToolbar_SetButtonBitMap($hToolbar, $idSave, $STD_PRINT)
-	MsgBox(4096, "Information", "Save button bitmap index: " & _GUICtrlToolbar_GetButtonBitmap($hToolbar, $idSave))
+    ; 添加标准系统位图 
+    Switch  _GUICtrlToolbar_GetBitmapFlags ( $hToolbar ) 
+        Case  0 
+      
+      _GUICtrlToolbar_AddBitmap ( $hToolbar ,  1 ,  - 1 ,  $IDB_STD_SMALL_COLOR ) 
+        Case  2 
+            _GUICtrlToolbar_AddBitmap ( $hToolbar ,  1 ,  - 1 ,  $IDB_STD_LARGE_COLOR ) 
+    EndSwitch 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+    ; 添加字符串 
+    $aStrings [ 0 ]  =  _GUICtrlToolbar_AddString ( $hToolbar ,  "&New Button" ) 
+    $aStrings [ 1 ]  =  _GUICtrlToolbar_AddString ( $hToolbar ,  "&Open Button" ) 
+    $aStrings [ 2 ]  =  _GUICtrlToolbar_AddString ( $hToolbar ,  "&Save Button" ) 
+    $aStrings [ 3 ]  =  _GUICtrlToolbar_AddString ( $hToolbar ,  "&Help Button" ) 
 
-EndFunc   ;==>_Main
+    ; 
+添加按钮 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idNew ,  $STD_FILENEW ,  $aStrings [ 0 ]) 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idOpen ,  $STD_FILEOPEN ,  $aStrings [ 1 ]) 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idSave ,  $STD_FILESAVE ,  $aStrings [ 2 ]) 
+    _GUICtrlToolbar_AddButtonSep ( $hToolbar ) 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idHelp ,  $STD_HELP ,  $aStrings [ 3 ]) 
+
+    ; 显示保存按钮位图索引 
+    MsgBox ( 4096 ,  "Information" ,  "Changing Save bitmap to Print bitmap" ) 
+    _GUICtrlToolbar_SetButtonBitMap ( $hToolbar ,  $idSave ,  $STD_PRINT ) 
+  
+  MsgBox ( 4096 ,  "Information" ,  "Save button bitmap index: "  &  _GUICtrlToolbar_GetButtonBitmap ( $hToolbar ,  $idSave )) 
+
+  
+  ; 辑环至用户退出 
+  
+  Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+
+EndFunc    ;==>_Main 
+

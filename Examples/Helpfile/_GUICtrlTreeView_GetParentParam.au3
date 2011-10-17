@@ -1,68 +1,90 @@
-#include <GuiConstantsEx.au3>
-#include <GuiTreeView.au3>
-#include <WindowsConstants.au3>
 
-$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiTreeView.au3> 
+#include  <WindowsConstants.au3> 
 
-Example_Internal()
-Example_External()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func Example_Internal()
+$Debug_TV  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	Local $hItem, $hChild, $hTreeView
-	Local $iStyle = BitOR($TVS_EDITLABELS, $TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS, $TVS_CHECKBOXES)
+示例_Internal () 
+示例_External () 
 
-	GUICreate("TreeView Get Parent Param", 400, 300)
+Func 示例_Internal () 
 
-	$hTreeView = GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
-	GUISetState()
+    Local  $hItem ,  $hChild ,  $hFirst ,  $hTreeView 
+    Local  $iStyle  =  BitOR ( $TVS_EDITLABELS ,  $TVS_HASBUTTONS ,  $TVS_HASLINES ,  $TVS_LINESATROOT ,  $TVS_DISABLEDRAGDROP ,  $TVS_SHOWSELALWAYS ,  $TVS_CHECKBOXES ) 
+    
+    GUICreate ( "TreeView Get Parent Param" ,  400 ,  300 ) 
 
-	_GUICtrlTreeView_BeginUpdate($hTreeView)
-	For $x = 0 To 20
-		$hItem = GUICtrlCreateTreeViewItem(StringFormat("[%02d] New Item", $x), $hTreeView)
-		For $y = 0 To 2
-			$hChild = GUICtrlCreateTreeViewItem(StringFormat("[%02d] New Item", $y), $hItem)
-		Next
-	Next
-	_GUICtrlTreeView_EndUpdate($hTreeView)
+    $hTreeView  =  GUICtrlCreateTreeView ( 2 ,  2 ,  396 ,  268 ,  $iStyle ,  $WS_EX_CLIENTEDGE ) 
+    GUISetState () 
 
-	_GUICtrlTreeView_SelectItem($hTreeView, $hChild)
-	MsgBox(4160, "Information", "Parent Param/ID: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild)) ; same as controlId
+    _GUICtrlTreeView_BeginUpdate ( $hTreeView ) 
+  
+  For  $x  =  0  To  20 
+        $hItem  =  GUICtrlCreateTreeViewItem ( StringFormat ( "[%02d] New 
+Item" ,  $x ),  $hTreeView ) 
+  
+      For  $y  =  0  To  2 
+            $hChild  =  GUICtrlCreateTreeViewItem ( StringFormat ( "[%02d] New 
+Item" ,  $y ),  $hItem ) 
+    
+    Next 
+    Next 
+    _GUICtrlTreeView_EndUpdate ( $hTreeView ) 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>Example_Internal
+  
+  _GUICtrlTreeView_SelectItem ( $hTreeView ,  $hChild ) 
+    MsgBox ( 4160 ,  "Information" ,  "Parent Param/ID: "  &  _GUICtrlTreeView_GetParentParam ( $hTreeView ,  $hChild ))  ; same as controlId 
 
-Func Example_External()
+    ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>示例_Internal 
 
-	Local $GUI, $hItem, $hChild, $iParam = 1, $hTreeView
-	Local $iStyle = BitOR($TVS_EDITLABELS, $TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS, $TVS_CHECKBOXES)
+Func 示例_External () 
 
-	$GUI = GUICreate("(UDF Created) TreeView Get Parent Param", 400, 300)
+    Local  $GUI ,  $hItem ,  $hChild ,  $hFirst ,  $iParam  =  1 ,  $hTreeView 
+    Local  $iStyle  =  BitOR ( $TVS_EDITLABELS ,  $TVS_HASBUTTONS ,  $TVS_HASLINES ,  $TVS_LINESATROOT ,  $TVS_DISABLEDRAGDROP ,  $TVS_SHOWSELALWAYS ,  $TVS_CHECKBOXES ) 
+    
+    $GUI  =  GUICreate ( "(UDF Created) 
+TreeView Get Parent Param" ,  400 ,  300 ) 
 
-	$hTreeView = _GUICtrlTreeView_Create($GUI, 2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
-	GUISetState()
+    $hTreeView  =  _GUICtrlTreeView_Create ( $GUI ,  2 ,  2 ,  396 ,  268 ,  $iStyle ,  $WS_EX_CLIENTEDGE ) 
+    GUISetState () 
 
-	_GUICtrlTreeView_BeginUpdate($hTreeView)
-	For $x = 0 To 20
-		$hItem = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat("[%02d] New Item", $x))
-		_GUICtrlTreeView_SetItemParam($hTreeView, $hItem, $iParam)
-		$iParam += 1
-		For $y = 0 To 2
-			$hChild = _GUICtrlTreeView_AddChild($hTreeView, $hItem, StringFormat("[%02d] New Item", $y))
-			_GUICtrlTreeView_SetItemParam($hTreeView, $hChild, $iParam)
-			$iParam += 1
-		Next
-	Next
-	_GUICtrlTreeView_EndUpdate($hTreeView)
+    _GUICtrlTreeView_BeginUpdate ( $hTreeView ) 
+  
+  For  $x  =  0  To  20 
+        $hItem  =  _GUICtrlTreeView_Add ( $hTreeView ,  0 ,  StringFormat ( "[%02d] New 
+Item" ,  $x )) 
+    
+    _GUICtrlTreeView_SetItemParam ( $hTreeView ,  $hItem ,  $iParam ) 
+        $iParam  +=  1 
+        For  $y  =  0  To  2 
+        
+    $hChild  =  _GUICtrlTreeView_AddChild ( $hTreeView ,  $hItem ,  StringFormat ( "[%02d] New 
+Item" ,  $y )) 
+    
+        _GUICtrlTreeView_SetItemParam ( $hTreeView ,  $hChild ,  $iParam ) 
+    
+        $iParam  +=  1 
+        Next 
+    Next 
+    _GUICtrlTreeView_EndUpdate ( $hTreeView ) 
+  
+  
+    _GUICtrlTreeView_SelectItem ( $hTreeView ,  $hChild ) 
+    MsgBox ( 4160 ,  "Information" ,  "Parent Param: "  &  _GUICtrlTreeView_GetParentParam ( $hTreeView ,  $hChild )) 
 
-	_GUICtrlTreeView_SelectItem($hTreeView, $hChild)
-	MsgBox(4160, "Information", "Parent Param: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild))
+  
+  ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>示例_External 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>Example_External

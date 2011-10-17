@@ -1,31 +1,42 @@
-#include <GUIListBox.au3>
-#include <GuiConstantsEx.au3>
 
-$Debug_LB = False ; Check ClassName being passed to ListBox functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GUIListBox.au3> 
+#include  <GuiConstantsEx.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $aRect, $hListBox
+$Debug_LB  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	GUICreate("List Box Get Item Rect", 400, 296)
-	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
-	GUISetState()
+_Main () 
 
-	; Add strings
-	_GUICtrlListBox_BeginUpdate($hListBox)
-	For $iI = 1 To 9
-		_GUICtrlListBox_AddString($hListBox, StringFormat("%03d : Random string", Random(1, 100, 1)))
-	Next
-	_GUICtrlListBox_EndUpdate($hListBox)
+Func _Main () 
+    Local  $aRect ,  $hListBox 
 
-	; Show item rectangle
-	$aRect = _GUICtrlListBox_GetItemRect($hListBox, 4)
-	MsgBox(4160, "Information", "Item 5 Rectangle: " & $aRect[0] & ", " & $aRect[1] & ", " & $aRect[2] & ", " & $aRect[3])
+    ; 创建界面 
+    GUICreate ( "List Box Get 
+Item Rect" ,  400 ,  296 ) 
+    $hListBox  =  GUICtrlCreateList ( "" ,  2 ,  2 ,  396 ,  296 ) 
+    GUISetState () 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 添加字符串 
+    _GUICtrlListBox_BeginUpdate ( $hListBox ) 
+    For  $iI  =  1  To  9 
+        _GUICtrlListBox_AddString ( $hListBox ,  StringFormat ( "%03d : Random 
+string" ,  Random ( 1 ,  100 ,  1 ))) 
+    Next 
+    _GUICtrlListBox_EndUpdate ( $hListBox ) 
+
+  
+  ; 显示项目矩形 
+    $aRect  =  _GUICtrlListBox_GetItemRect ( $hListBox ,  4 ) 
+    MsgBox ( 4160 ,  "Information" ,  "Item 5 Rectangle: "  &  $aRect [ 0 ]  &  ", 
+"  &  $aRect [ 1 ]  &  ", "  &  $aRect [ 2 ]  &  ", "  &  $aRect [ 3 ]) 
+
+    ; 循环至用户退出 
+    Do 
+  
+  Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

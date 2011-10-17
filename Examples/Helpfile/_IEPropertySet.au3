@@ -1,13 +1,13 @@
-; *******************************************************
-; Example 1 - Open a browser with the basic example, check to see if the
-;				addressbar is visible, if it is not turn it on. Then change
-;				the text displayed in the statusbar
-; *******************************************************
+ ; ******************************************************* 
+ ; 示例 - 打开一个带示例的浏览器, 查看地址栏是否可见, 如果可见则关闭, 不可见则打开 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE  =  _IE_Example  ( "basic" ) 
+ If  _IEPropertyGet  ( $oIE ,  "addressbar" )  Then 
+     MsgBox ( 0 ,  "AddressBar Status" ,  "AddressBar Visible, turning it off" ) 
+     _IEPropertySet  ( $oIE ,  "addressbar" ,  False ) 
+ Else 
+     MsgBox ( 0 ,  "AddressBar Status" ,  "AddressBar Invisible, turning it on" ) 
+     _IEPropertySet  ( $oIE ,  "addressbar" ,  True ) 
+ EndIf  
 
-#include <IE.au3>
-
-Local $oIE = _IE_Example("basic")
-If Not _IEPropertyGet($oIE, "statusbar") Then _IEPropertySet($oIE, "statusbar", True)
-_IEPropertySet($oIE, "statustext", "Look What I can Do")
-Sleep(1000)
-_IEPropertySet($oIE, "statustext", "I can change the status text")

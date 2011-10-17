@@ -1,10 +1,8 @@
-; *******************************************************
-; Example 1 - Open a browser to the AutoIt Homepage, get a reference
-;				to the document object and display a document attribute
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IECreate("http://www.autoitscript.com")
-Local $oDoc = _IEDocGetObj($oIE)
-MsgBox(0, "Document Created Date", $oDoc.fileCreatedDate)
+ ; ******************************************************* 
+ ; 示例 - 打开显示AutoIt主页的浏览器窗口, 获取文档对象的引用并显示文档属性 
+ ; ******************************************************* 
+ #include <IE.au3> 
+ $oIE = _IECreate ( " www.autoitscript.com " ) 
+ $oDoc = _IEDocGetObj ( $oIE ) 
+ MsgBox ( 0 , " Document Created Date ", $oDoc .fileCreateDate) 
+ 

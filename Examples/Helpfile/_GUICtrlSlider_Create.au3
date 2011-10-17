@@ -1,56 +1,60 @@
-#include <GuiConstantsEx.au3>
-#include <GuiSlider.au3>
-#include <WindowsConstants.au3>
 
-$Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+ #AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6 
+ #include <GuiConstantsEx.au3> 
+ #include <GuiSlider.au3> 
+ #include <WindowsConstants.au3> 
+ #include <EditConstants.au3> 
+ 
+ Opt ( 'MustDeclareVars' , 1 ) 
+ 
+ $Debug_S = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
+ 
+ Global $hSlider , $edit 
+ 
+ _Main () 
+ 
+ Func _Main () 
+   Local $hGUI 
 
-Global $hSlider
+   ; 创建界面 
+   $hGUI = GUICreate ( "(UDF Created) Slider Create" , 400 , 296 ) 
+   $hSlider = _GUICtrlSlider_Create ( $hGUI , 2 , 2 , 396 , 20 , BitOR ( $TBS_TOOLTIPS , $TBS_AUTOTICKS )) 
+   $edit = GUICtrlCreateEdit ("", 2 , 24 , 396 , 270 , BitOR ( $WS_VSCROLL , $ES_AUTOVSCROLL )) 
+   GUISetState () 
+ 
+   GUIRegisterMsg ( $WM_NOTIFY , "WM_NOTIFY" ) 
+ 
+   ; 循环至用户退出 
+   Do 
+   Until GUIGetMsg () = $GUI_EVENT_CLOSE 
+   GUIDelete () 
+ EndFunc ;==>_Main 
+ 
+ Func WM_NOTIFY( $hWnd , $iMsg , $iwParam , $ilParam ) 
+   #forceref $hWnd, $iMsg, $iwParam 
+   Local $hWndFrom , $iIDFrom , $iCode , $tNMHDR , $hWndSlider 
+   $hWndSlider = $hSlider 
+   If Not IsHWnd ( $hSlider ) Then $hWndSlider = GUICtrlGetHandle ( $hSlider ) 
+ 
+   $tNMHDR = DllStructCreate ( $tagNMHDR , $ilParam ) 
+   $hWndFrom = HWnd ( DllStructGetData ( $tNMHDR , "hWndFrom" )) 
+   $iIDFrom = DllStructGetData ( $tNMHDR , "IDFrom" ) 
+   $iCode = DllStructGetData ( $tNMHDR , "Code" ) 
+   Switch $hWndFrom 
+     Case $hWndSlider 
+       Switch $iCode 
+         Case $NM_RELEASEDCAPTURE ; 控件释放鼠标捕捉 
+           memowrite( "$NM_RELEASEDCAPTURE" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & $hWndFrom ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & $iIDFrom ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & $iCode ) & @LF ) 
+           ; 无返回值 
+       EndSwitch 
+   EndSwitch 
+   Return $GUI_RUNDEFMSG 
+ EndFunc    ;==>WM_NOTIFY 
+ 
+ Func memowrite( $s_text ) 
+   GUICtrlSetData ( $edit , $s_text & @CRLF , 1) 
+ EndFunc    ;==>memowrite 
 
-_Main()
-
-Func _Main()
-	Local $hGUI
-
-	; Create GUI
-	$hGUI = GUICreate("(UDF Created) Slider Create", 400, 296)
-	$hSlider = _GUICtrlSlider_Create($hGUI, 2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
-	GUISetState()
-
-	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
-
-Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	#forceref $hWnd, $iMsg, $iwParam
-	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR, $hWndSlider
-	$hWndSlider = $hSlider
-	If Not IsHWnd($hSlider) Then $hWndSlider = GUICtrlGetHandle($hSlider)
-
-	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
-	$iCode = DllStructGetData($tNMHDR, "Code")
-	Switch $hWndFrom
-		Case $hWndSlider
-			Switch $iCode
-				Case $NM_RELEASEDCAPTURE ; The control is releasing mouse capture
-					_DebugPrint("$NM_RELEASEDCAPTURE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
-							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
-							"-->Code:" & @TAB & $iCode)
-					; No return value
-			EndSwitch
-	EndSwitch
-	Return $GUI_RUNDEFMSG
-EndFunc   ;==>WM_NOTIFY
-
-Func _DebugPrint($s_text, $line = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_DebugPrint

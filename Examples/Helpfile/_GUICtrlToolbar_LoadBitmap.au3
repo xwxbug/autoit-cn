@@ -1,31 +1,36 @@
-#include <GuiToolbar.au3>
-#include <GuiConstantsEx.au3>
 
-$Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#include  <GuiToolbar.au3> 
+#include  <GuiConstantsEx.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hGUI, $hToolbar
-	Local Enum $idRed = 1000, $idGreen, $idBlue
+$Debug_TB  =  False  ; 检查传递给函数的类名, 
+设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	$hGUI = GUICreate("Toolbar", 400, 300)
-	$hToolbar = _GUICtrlToolbar_Create($hGUI)
-	GUISetState()
+_Main () 
 
-	; Add bitmaps
-	_GUICtrlToolbar_LoadBitmap($hToolbar, @ScriptDir & "\images\Red.bmp")
-	_GUICtrlToolbar_LoadBitmap($hToolbar, @ScriptDir & "\Images\Green.bmp")
-	_GUICtrlToolbar_LoadBitmap($hToolbar, @ScriptDir & "\Images\Blue.bmp")
+Func _Main () 
+    Local  $hGUI ,  $hToolbar 
+    Local  Enum  $idRed = 1000 ,  $idGreen ,  $idBlue 
 
-	; Add buttons
-	_GUICtrlToolbar_AddButton($hToolbar, $idRed, 0)
-	_GUICtrlToolbar_AddButton($hToolbar, $idGreen, 1)
-	_GUICtrlToolbar_AddButton($hToolbar, $idBlue, 2)
+    ; 创建界面 
+    $hGUI  =  GUICreate ( "Toolbar" ,  400 ,  300 ) 
+    $hToolbar  =  _GUICtrlToolbar_Create ( $hGUI ) 
+    GUISetState () 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+    ; 添加位图 
+    _GUICtrlToolbar_LoadBitmap ( $hToolbar ,  @ScriptDir  &  "\images\Red.bmp" ) 
+    _GUICtrlToolbar_LoadBitmap ( $hToolbar ,  @ScriptDir  &  "\Images\Green.bmp" ) 
+    _GUICtrlToolbar_LoadBitmap ( $hToolbar ,  @ScriptDir  &  "\Images\Blue.bmp" ) 
 
-EndFunc   ;==>_Main
+    ; 添加按钮 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idRed ,  0 ) 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idGreen ,  1 ) 
+    _GUICtrlToolbar_AddButton ( $hToolbar ,  $idBlue ,  2 ) 
+
+    ; 循环至用户退出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+
+EndFunc    ;==>_Main 
+

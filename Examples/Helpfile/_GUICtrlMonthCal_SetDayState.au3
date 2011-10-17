@@ -1,30 +1,40 @@
-#include <GuiConstantsEx.au3>
-#include <GuiMonthCal.au3>
-#include <WindowsConstants.au3>
 
-$Debug_MC = False ; Check ClassName being passed to MonthCal functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiMonthCal.au3> 
+#include  <WindowsConstants.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hMonthCal
+$Debug_MC  =  False  ; 检查传递给MonthCal函数的类名, 设置为真并使用另一控件的句柄观察其工作 
 
-	; Create GUI
-	GUICreate("Month Calendar Set Day State", 400, 300)
-	$hMonthCal = GUICtrlCreateMonthCal("", 4, 4, -1, -1, BitOR($WS_BORDER, $MCS_DAYSTATE), 0x00000000)
+_Main () 
 
-	; Get the number of months that we must supply masks for.  Normally, this number will be 3.
-	Local $aMasks[_GUICtrlMonthCal_GetMonthRangeSpan($hMonthCal, True)]
+Func _Main () 
+    Local  $hMonthCal 
 
-	; Make the 1st, 8th and the 16th of the current month bolded. This results in a binary mask of 1000 0000 1000 0001 or
-	; 0x8081 in hex.
-	$aMasks[1] = 0x8081
-	_GUICtrlMonthCal_SetDayState($hMonthCal, $aMasks)
+    ; 创建界面 
+    GUICreate ( "Month Calendar 
+Set Day State" ,  400 ,  300 ) 
+    $hMonthCal  =  GUICtrlCreateMonthCal ( "" ,  4 ,  4 ,  - 1 ,  - 1 ,  BitOR ( $WS_BORDER ,  $MCS_DAYSTATE ),  0x00000000 ) 
 
-	GUISetState()
+    ; 
+获取支持掩码的月份的数字. 通常, 该数字为3. 
+    Local  $aMasks [ _GUICtrlMonthCal_GetMonthRangeSpan ( $hMonthCal ,  True )] 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 粗体化当前月的1号, 8号和16号. 该结果使用1000 0000 
+1000 0001的二进制掩码或十六进制的0x8081. 
+    $aMasks [ 1 ]  =  0x8081 
+    _GUICtrlMonthCal_SetDayState ( $hMonthCal ,  $aMasks ) 
+
+  
+  GUISetState () 
+
+    ; 
+循环至用户瑞出 
+    Do 
+    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

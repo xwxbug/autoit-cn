@@ -1,11 +1,6 @@
-#AutoIt3Wrapper_AU3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
-#include "WinHttp.au3"
-#include <Array.au3>
-
-Opt("MustDeclareVars", 1)
-
-; 时间
-Global $aTime = _WinHttpTimeToSystemTime("Sat, 21 Aug 2010 22:04:43 GMT")
-_ArrayDisplay($aTime, "_WinHttpTimeToSystemTime()")
-
+ #Include <WinHTTP.au3> 
+ #Include <Array.au3> 
+ 
+ ; 将HTTP/1.0时间格式转变为系统时间格式 $time_array = _WinHttpTimeToSystemTime ( " Mon, 12 Jul 2010 20:42:16 GMT " ) 
+ _ArrayDisplay ( $time_array , " _WinHttpTimeToSystemTime() " ) 
+ 

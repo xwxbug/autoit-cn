@@ -1,38 +1,38 @@
-;- This assumes that you have instrument set to GPIB address 3
-; If you have an instrument in a different address change "GPIB::3::0" to the
-; corresponding descriptor. Do the same for the call to _viOpen
-; It shows how to use the _viGTL function with a VISA descriptor and with a
-; VISA device handler. We use _viExecCommand first to force the instrument to go
-; into "Remote mode"
-
-#include <Visa.au3>
-
-Local $h_session = 0
-
-; Query the ID of the instrument in GPIB address 3
-MsgBox(0, "Step 1", "Simple GPIB query using a VISA Descriptor")
-Local $s_answer = _viExecCommand("GPIB::3::0", "*IDN?", 10)
-MsgBox(0, "GPIB QUERY result", $s_answer) ; Show the answer
-
-MsgBox(0, "Step 2", "Go to LOCAL using VISA Descriptor")
-_viGTL("GPIB::1::0") ; Go to local (exit remote control mode)
-
-MsgBox(0, "Step 4", "Open the instrument connection with _viOpen")
-Local $h_instr = _viOpen(3)
-MsgBox(0, "Instrument Handle obtained", "$h_instr = " & $h_instr) ; Show the Session Handle
-; Query the instrument
-
-MsgBox(0, "Step 5", "Query the instrument using the VISA instrument handle")
-$s_answer = _viExecCommand($h_instr, "*IDN?") ; $h_instr is NOT A STRING now!
-MsgBox(0, "GPIB QUERY result", $s_answer) ; Show the answer
-; Query again. There is no need to OPEN the link again
-
-MsgBox(0, "Step 6", "Query again. There is no need to OPEN the link again")
-$s_answer = _viExecCommand($h_instr, "*IDN?")
-MsgBox(0, "GPIB QUERY result", $s_answer) ; Show the answer
-
-MsgBox(0, "Step 7", "Go to LOCAL using VISA instrument handle")
-_viGTL($h_instr); Go to local (this is optional)
-
-MsgBox(0, "Step 8", "Close the Instrument connection using _viClose")
-_viClose($h_instr) ; Close the instrument connection
+ ;-假设将仪器设置到GPIB地址3 
+ ; 如果一个设备有不同地址时将"GPIB::3::0"改变为相应的描述符. 
+ ; 和调用_viOpen相同 
+ ; 该例显示如何在VISA描述符和VISA设备句柄情况下使用_viGTL函数. 
+ ; 首先使用_viExecCommand强制设备进入"远程模式" 
+ 
+ #include  <Visa.au3> 
+ 
+ Dim  $h_session  =  0 
+ 
+ ; 查询GPIB地址3处的仪器编号 
+ MsgBox ( 0 ,  "Step 1" ,  "Simple GPIB query using a VISA Descriptor" ) 
+ Dim  $s_answer  =  _viExecCommand ( "GPIB::3::0" ,  "*IDN?" ,  10 ) 
+ MsgBox ( 0 ,  "GPIB QUERY result" ,  $s_answer )  ; 显示应答 
+ 
+ MsgBox ( 0 ,  "Step 2" ,  "Go to LOCAL using VISA Descriptor" ) 
+ _viGTL ( "GPIB::1::0" )  ; 转为本地(推出远程控制模式) 
+ 
+ MsgBox ( 0 ,  "Step 4" ,  "Open the instrument connection with _viOpen" ) 
+ Dim  $h_instr  =  _viOpen ( 3 ) 
+ MsgBox ( 0 ,  "Instrument Handle obtained" ,   "$h_instr = "  &  $h_instr )  ; 显示会话句柄 
+ ; 查询仪器 
+ 
+ MsgBox ( 0 ,  "Step 5" ,  "Query the instrument using the VISA instrument handle" ) 
+ $s_answer  =  _viExecCommand ( $h_instr ,  "*IDN?" )  ; $h_instr当前不是字符串! 
+ MsgBox ( 0 ,  "GPIB QUERY result" ,  $s_answer )  ; 显示应答 
+ ; 重新查询. 无需再次打开链接 
+ 
+ MsgBox ( 0 ,  "Step 6" ,  "Query again. There is no need to OPEN the link again" ) 
+ $s_answer  =  _viExecCommand ( $h_instr ,  "*IDN?" ) 
+ MsgBox ( 0 ,  "GPIB QUERY result" ,  $s_answer )  ; 显示应答 
+ 
+ MsgBox ( 0 ,  "Step 7" ,  "Go to LOCAL using VISA instrument handle" ) 
+ _viGTL ( $h_instr ) ; 转为本地(此为可选) 
+ 
+ MsgBox ( 0 ,  "Step 8" ,  "Close the Instrument connection using _viClose" ) 
+ _viClose ( $h_instr )  ; 关闭仪器连接 
+ 

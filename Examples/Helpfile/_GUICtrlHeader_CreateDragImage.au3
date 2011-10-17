@@ -1,58 +1,64 @@
-#include <GuiConstantsEx.au3>
-#include <GuiHeader.au3>
-#include <GuiImageList.au3>
-#include <WinAPI.au3>
 
-$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+#include  <GuiConstantsEx.au3> 
+#include  <GuiHeader.au3> 
+#include  <GuiImageList.au3> 
+#include  <WinAPI.au3> 
 
-Global $iMemo
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $hGUI, $hHeader, $hImage, $iMsg, $aSize, $tPos, $tRect, $hDC
+$Debug_HDR  =  False  ; 检查传递给控件的类名, 
+设置为真并使用另一控件句柄观察其工作 
 
-	; Create GUI
-	$hGUI = GUICreate("Header", 400, 300)
-	$hHeader = _GUICtrlHeader_Create($hGUI)
-	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
-	GUISetState()
+_Main () 
 
-	; Add columns
-	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
+Func _Main () 
+    Local  $hGUI ,  $hHeader ,  $hImage ,  $iMsg ,  $aSize ,  $tPos ,  $tRect ,  $hDC 
 
-	; Create a drag image
-	$hImage = _GUICtrlHeader_CreateDragImage($hHeader, 1)
-	$aSize = _GUIImageList_GetIconSize($hImage)
-	$hDC = _WinAPI_GetDC($hGUI)
+    ; 
+创建界面 
+    $hGUI  =  GUICreate ( "Header" ,  400 ,  300 ) 
+    $hHeader  =  _GUICtrlHeader_Create  ( $hGUI ) 
+    GUISetState () 
 
-	MemoWrite("Image drag Handle: " & "0x" & Hex($hImage))
-	MemoWrite("IsPtr  = " & IsPtr($hImage) & " IsHWnd  = " & IsHWnd($hImage))
+    ; 
+添加列 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 1" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 2" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 3" ,  100 ) 
+    _GUICtrlHeader_AddItem  ( $hHeader ,  "Column 4" ,  100 ) 
 
-	; Show drag image at cursor position until user exits
-	Do
-		$iMsg = GUIGetMsg()
-		If $iMsg = $GUI_EVENT_MOUSEMOVE Then
-			If $tPos <> 0 Then
-				$tRect = DllStructCreate($tagRECT)
-				DllStructSetData($tRect, "Left", DllStructGetData($tPos, "X"))
-				DllStructSetData($tRect, "Top", DllStructGetData($tPos, "Y"))
-				DllStructSetData($tRect, "Right", DllStructGetData($tPos, "X") + $aSize[0])
-				DllStructSetData($tRect, "Bottom", DllStructGetData($tPos, "Y") + $aSize[1])
-				_WinAPI_InvalidateRect($hGUI, $tRect)
-			EndIf
-			$tRect = _WinAPI_GetClientRect($hGUI)
-			$tPos = _WinAPI_GetMousePos(True, $hGUI)
-			If _WinAPI_PtInRect($tRect, $tPos) Then
-				_GUIImageList_Draw($hImage, 0, $hDC, DllStructGetData($tPos, "X"), DllStructGetData($tPos, "Y"))
-			EndIf
-		EndIf
-	Until $iMsg = $GUI_EVENT_CLOSE
-EndFunc   ;==>_Main
+    ; 
+创建一个拖曳图像 
+    $hImage  =  _GUICtrlHeader_CreateDragImage  ( $hHeader ,  1 ) 
+    $aSize  =  _GUIImageList_GetIconSize  ( $hImage ) 
+    $hDC  =  _WinAPI_GetDC  ( $hGUI ) 
 
-; Write a line to the memo control
-Func MemoWrite($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-EndFunc   ;==>MemoWrite
+    ; 
+在箭头位置显示拖曳图像直到用户退出 
+    Do 
+        $iMsg  =  GUIGetMsg () 
+        If  $iMsg  =  $GUI_EVENT_MOUSEMOVE  Then 
+            If  $tPos  <>  0  Then 
+            
+    $tRect  =  DllStructCreate ( $tagRECT ) 
+    
+            DllStructSetData ( $tRect ,  "Left" ,  DllStructGetData ( $tPos ,  "X" )) 
+    
+            DllStructSetData ( $tRect ,  "Top" ,  DllStructGetData ( $tPos ,  "Y" )) 
+    
+            DllStructSetData ( $tRect ,  "Right" ,  DllStructGetData ( $tPos ,  "X" )  +  $aSize [ 0 ]) 
+                DllStructSetData ( $tRect ,  "Bottom" ,  DllStructGetData ( $tPos ,  "Y" )  +  $aSize [ 1 ]) 
+                _WinAPI_InvalidateRect  ( $hGUI ,  $tRect ) 
+            EndIf 
+          
+  $tRect  =  _WinAPI_GetClientRect  ( $hGUI ) 
+            $tPos  =  _WinAPI_GetMousePos  ( True ,  $hGUI ) 
+            If  _WinAPI_PtInRect  ( $tRect ,  $tPos )  Then 
+    
+            _GUIImageList_Draw  ( $hImage ,  0 ,  $hDC ,  DllStructGetData ( $tPos ,  "X" ),  DllStructGetData ( $tPos ,  "Y" )) 
+    
+        EndIf 
+        EndIf 
+    Until  $iMsg  =  $GUI_EVENT_CLOSE 
+EndFunc    ;==>_Main 
+

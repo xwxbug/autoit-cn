@@ -1,31 +1,41 @@
-#include <GuiConstantsEx.au3>
-#include <GuiListView.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GuiConstantsEx.au3> 
+#include  <GuiListView.au3> 
 
-_Main()
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-Func _Main()
-	Local $aInfo, $hListView
+$Debug_LV  =  False  ; 检查传递给函数的类名, 
+设置为真并使用另一控件的句柄观察其工作 
 
-	GUICreate("ListView Justify Column", 400, 300)
-	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
-	GUISetState()
+_Main () 
 
-	; Add columns
-	_GUICtrlListView_AddColumn($hListView, "Column 1", 100)
-	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
-	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
+Func _Main () 
+    Local  $aInfo ,  $hListView 
+    
+    GUICreate ( "ListView Justify Column" ,  400 ,  300 ) 
+    $hListView  =  GUICtrlCreateListView ( "" ,  2 ,  2 ,  394 ,  268 ) 
+  
+  GUISetState () 
 
-	; Change column
-	$aInfo = _GUICtrlListView_GetColumn($hListView, 0)
-	MsgBox(4160, "Information", "Column 1 Justification: " & $aInfo[0])
-	_GUICtrlListView_JustifyColumn($hListView, 0, 2)
-	$aInfo = _GUICtrlListView_GetColumn($hListView, 0)
-	MsgBox(4160, "Information", "Column 1 Justification: " & $aInfo[0])
+    ; 
+添加列 
+    _GUICtrlListView_AddColumn ( $hListView ,  "Column 1" ,  100 ) 
+    _GUICtrlListView_AddColumn ( $hListView ,  "Column 2" ,  100 ) 
+    _GUICtrlListView_AddColumn ( $hListView ,  "Column 3" ,  100 ) 
 
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
+    ; 改变列 
+    $aInfo  =  _GUICtrlListView_GetColumn ( $hListView ,  0 ) 
+    MsgBox ( 4160 ,  "Information" ,  "Column 1 Justification: "  &  $aInfo [ 0 ]) 
+    _GUICtrlListView_JustifyColumn ( $hListView ,  0 ,  2 ) 
+    $aInfo  =  _GUICtrlListView_GetColumn ( $hListView ,  0 ) 
+    MsgBox ( 4160 ,  "Information" ,  "Column 1 Justification: "  &  $aInfo [ 0 ]) 
+
+    ; 循环至用户退出 
+    Do 
+  
+  Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
+    GUIDelete () 
+EndFunc    ;==>_Main 
+

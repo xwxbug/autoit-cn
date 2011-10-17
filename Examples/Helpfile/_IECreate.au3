@@ -1,71 +1,57 @@
-; *******************************************************
-; Example 1 - Create a browser window and navigate to a website
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IECreate("www.autoitscript.com")
-
-; *******************************************************
-; Example 2 - Create new browser windows pointing to each of 3 different URLs
-;				if one does not already exist ($f_tryAttach = 1)
-;				do not wait for the page loads to complete ($f_wait = 0)
-; *******************************************************
-
-#include <IE.au3>
-
-_IECreate("www.autoitscript.com", 1, 1, 0)
-_IECreate("my.yahoo.com", 1, 1, 0)
-_IECreate("www.google.com", 1, 1, 0)
-
-; *******************************************************
-; Example 3 - Attempt to attach to an existing browser displaying a particular website URL
-;				Create a new browser and navigate to that site if one does not already exist
-; *******************************************************
-
-#include <IE.au3>
-
-$oIE = _IECreate("www.autoitscript.com", 1)
-; Check @extended return value to see if attach was successful
-If @extended Then
-	MsgBox(0, "", "Attached to Existing Browser")
-Else
-	MsgBox(0, "", "Created New Browser")
-EndIf
-
-; *******************************************************
-; Example 4 - Create an empty browser window and populate it with custom HTML
-; *******************************************************
-
-#include <IE.au3>
-
-$oIE = _IECreate()
-Local $sHTML = "<h1>Hello World!</h1>"
-_IEBodyWriteHTML($oIE, $sHTML)
-
-; *******************************************************
-; Example 5 - Create an invisible browser window, navigate to a website,
-;				retrieve some information and Quit
-; *******************************************************
-
-#include <IE.au3>
-
-$oIE = _IECreate("http://sourceforge.net", 0, 0)
-; Display the innerText on an element on the page with a name of "sfmarquee"
-Local $oMarquee = _IEGetObjByName($oIE, "sfmarquee")
-MsgBox(0, "SourceForge Information", $oMarquee.innerText)
-_IEQuit($oIE)
-
-; *******************************************************
-; Example 6 - Create a browser window attached to a new instance of iexplore.exe
-;				This is often necessary in order to get a new session cookie context
-;				(session cookies are shared among all browser instances sharing the same iexplore.exe)
-; *******************************************************
-
-#include <IE.au3>
-
-ShellExecute("iexplore.exe", "about:blank")
-WinWait("Blank Page")
-$oIE = _IEAttach("about:blank", "url")
-_IELoadWait($oIE)
-_IENavigate($oIE, "www.autoitscript.com")
+ ; ******************************************************* 
+ ; 示例1 - 创建浏览器窗体并浏览网址 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IECreate ( " www.autoitscript.com " ) 
+ 
+ ; ******************************************************* 
+ ; 示例2 - 创建分别指向3个不同地址的浏览器窗体 
+ ;    如果一个已不存在($f_tryAttach = 1)不等待页面加载($f_wait = 0) 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ _IECreate ( " www.autoitscript.com ", 1 , 1 , 0 ) 
+ _IECreate ( " my.yahoo.com ", 1 , 1 , 0 ) 
+ _IECreate ( " www.google.com ", 1 , 1 , 0 ) 
+ 
+ ; ******************************************************* 
+ ; 示例3 - 尝试获取已存在的显示指定网址的浏览器 
+ ;    如果不存在则新建浏览器并浏览该地址 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IECreate ( " www.autoitscript.com ", 1 ) 
+ ; 检查@extended返回值查看获取是否成功 
+ If @extended Then 
+   MsgBox ( 0 , "", " Attached to Existing Browser " ) 
+ Else 
+   MsgBox ( 0 , "", " Created New Browser " ) 
+ EndIf 
+ 
+ ; ******************************************************* 
+ ; 示例4 - 创建空白的浏览器窗口并以自定义HTML填充 
+ ;******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IECreate () 
+ $sHTML = " <h1>Hello World!</h1> " 
+ _IEBodyWriteHTML ( $oIE , $sHTML ) 
+ 
+ ; ******************************************************* 
+ ; 示例5 - 创建隐藏的浏览器窗口, 浏览网址, 获取信息并退出 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IECreate ( " http://sourceforge.net ", 0 , 0 ) 
+ ; 显示页面中名称为"sfmarquee"元素的innerText 
+ $oMarquee = _IEGetObjByName ( $oIE , " sfmarquee " ) 
+ MsgBox ( 0 , " SourceForge Information ", $oMarquee .innerText) 
+ _IEQuit ( $oIE ) 
+ 
+ ; ******************************************************* 
+ ; 示例6 - 新建获取iexplore.exe实例的浏览器窗口. 常用于获取新会话缓存的上下文. 
+ ;    (会话上下文被所有相同的iexplore.exe共享的浏览器实例共享) 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ ShellExecute ( " iexplore.exe ", " about:blank " ) 
+ WinWait ( " Blank Page " ) 
+ $oIE = _IEAttach ( " about:blank ", " url " ) 
+ _IELoadWait ( $oIE ) 
+ _IENavigate ( $oIE , " www.autoitscript.com " ) 
+ 

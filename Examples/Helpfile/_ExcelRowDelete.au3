@@ -1,41 +1,42 @@
-; ***************************************************************
-; Example 1 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Delete 1 row, then Save and Close file.
-; *****************************************************************
+ 
+ ; *************************************************************** 
+ ; 例1 - 打开工作簿并返回其对象标识后使用循环写入单元格. 删除一行后保存并关闭文件. 
+ ; ***************************************************************** 
+ #include  <Excel.au3> 
+ 
+ Local  $oExcel  =  _ExcelBookNew ()  ;新建工作簿, 并使之可见 
+ 
+ For  $i  =  1  To  5  ; 循环 
+     _ExcelWriteCell ( $oExcel ,  $i ,  $i ,  1 )  ;将1到5垂直写入单元格 
+ Next 
+ 
+ ToolTip ( "Deleting Rows Soon..." ) 
+ Sleep ( 3500 ) 
+ 
+ _ExcelRowDelete ( $oExcel ,  1 ,  1 )  ; 删除且仅删除行1 
+ 
+ MsgBox ( 0 ,  "Exiting" ,  "Press OK to Save File and Exit" ) 
+ _ExcelBookSaveAs ( $oExcel ,  @TempDir  &  "\Temp.xls" ,  "xls" ,  0 ,  1 )  ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件 
+ _ExcelBookClose ( $oExcel )  ; 关闭退出 
+ 
+ ; *************************************************************** 
+ ; 例2 - 打开工作簿并返回其对象标识后使用循环写入单元格. 插入几行后保存并关闭文件. 
+ ; ***************************************************************** 
+ 
+ #include  <Excel.au3> 
+ 
+ Local  $oExcel  =  _ExcelBookNew ()  ; 新建工作簿, 并使之可见 
+ 
+ For  $i  =  1  To  5  ;循环 
+     _ExcelWriteCell ( $oExcel ,  $i ,  $i ,  1 )  ;将1到5垂直写入单元格 
+ Next 
+ 
+ ToolTip ( "Deleting Rows Soon..." ) 
+ Sleep ( 3500 ) 
+ 
+ _ExcelRowDelete ( $oExcel ,  3 ,  2 )  ;从行3开始删除2行 
+ 
+ MsgBox ( 0 ,  "Exiting" ,  "Press OK to Save File and Exit" ) 
+ _ExcelBookSaveAs ( $oExcel ,  @TempDir  &  "\Temp.xls" ,  "xls" ,  0 ,  1 )  ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件 
+ _ExcelBookClose ( $oExcel )  ; 关闭退出  
 
-#include <Excel.au3>
-
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
-
-For $i = 1 To 5 ;Loop
-	_ExcelWriteCell($oExcel, $i, $i, 1) ;Write to the Cell Vertically using values 1 to 5
-Next
-
-ToolTip("Deleting Rows Soon...")
-Sleep(3500)
-
-_ExcelRowDelete($oExcel, 1, 1) ;Delete Row 1 and only delete 1 Row
-
-MsgBox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
-
-; ***************************************************************
-; Example 2 - Write to a Cell using a Loop, after opening a workbook and returning its object identifier.  Delete some rows, then Save and Close file.
-; *****************************************************************
-
-#include <Excel.au3>
-
-$oExcel = _ExcelBookNew() ; Open new book, make it visible
-
-For $i = 1 To 5 ;Loop
-	_ExcelWriteCell($oExcel, $i, $i, 1) ;Write to the Cell Vertically using values 1 to 5
-Next
-
-ToolTip("Deleting Rows Soon...")
-Sleep(3500)
-
-_ExcelRowDelete($oExcel, 3, 2) ;Delete Rows starting at row 3, and delete 2 Rows
-
-MsgBox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out

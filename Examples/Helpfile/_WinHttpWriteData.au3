@@ -1,34 +1,45 @@
-#AutoIt3Wrapper_AU3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
-#include "WinHttp.au3"
-
-Opt("MustDeclareVars", 1)
-
-; 初始化并获取会话句柄
-Global $hOpen = _WinHttpOpen()
-; 获取连接句柄
-Global $hConnect = _WinHttpConnect($hOpen, "www.snee.com")
-; 指明请求
-Global $hRequest = _WinHttpOpenRequest($hConnect, "POST", "xml/crud/posttest.cgi?sgs")
-
-Global $sPostData = "Additional data to send"
-; 发送请求
-_WinHttpSendRequest($hRequest, Default, Default, StringLen($sPostData))
-
-; 写入附加数据到发送中
-_WinHttpWriteData($hRequest, $sPostData)
-
-; 等待响应
-_WinHttpReceiveResponse($hRequest)
-
-; 检查数据是否有效...
-If _WinHttpQueryDataAvailable($hRequest) Then
-	MsgBox(64, "OK", _WinHttpReadData($hRequest))
-Else
-	MsgBox(48, "Error", "Site is experiencing problems (or you).")
-EndIf
-
-; 关闭句柄
-_WinHttpCloseHandle($hRequest)
-_WinHttpCloseHandle($hConnect)
-_WinHttpCloseHandle($hOpen)
+ #Include <WinHTTP.au3> 
+ #Include <EditConstants.au3> 
+ #Include <GUIConstantsEx.au3> 
+ #Include <WindowsConstants.au3> 
+ 
+ _Main () 
+ 
+ Func _Main () 
+   Local $hGUI , $iMemo 
+ 
+   ; 创建界面 
+   $hGUI = GUICreate ( "_WinHttpWriteData Example" , 400 , 300 ) 
+ 
+   ; 创建memo控件 
+   $iMemo = GUICtrlCreateEdit ("", 2 , 2 , 396 , 296 , BitOR ( $ES_MULTILINE , $ES_WANTRETURN , $WS_VSCROLL , $ES_AUTOVSCROLL ) 
+   GUISetState () 
+ 
+ 
+   $LocalIP = " www.snee.com "  ; 测试用地址 
+ 
+   $hw_open = _WinHttpOpen () 
+   $hw_connect = _WinHttpConnect ( $hw_open , $LocalIP ) 
+   $h_openRequest = _WinHttpOpenRequest ( $hw_connect , " POST ", " xml/crud/posttest.cgi?sgs " ) 
+ 
+   $data = " abcdefghijklmnopqrstuvwxyz " 
+ 
+   _WinHttpSendRequest ( $h_openRequest , $WINHTTP_NO_ADDITIONAL_HEADERS , $WINHTTP_NO_REQUEST_DATA , StringLen ( $data ) , 0 ) 
+   _WinHttpWriteData ( $h_openRequest , $data ) ;向网页源码提交数据 
+   _WinHttpReceiveResponse ( $h_openRequest ) 
+ 
+   If _WinHttpQueryDataAvailable ( $h_openRequest ) Then 
+     $sText = _WinHttpReadData ( $h_openRequest ) 
+     $sRer = StringRegExpReplace ( $sText , ' (? )( ',  @CRLF & ' $1 ' ) 
+     GUICtrlSetData ( $iMemo , $sRer ) 
+   EndIf 
+ 
+   _WinHttpCloseHandle ( $h_openRequest ) 
+   _WinHttpCloseHandle ( $hw_connect ) 
+   _WinHttpCloseHandle ( $hw_open ) 
+ 
+   ; 循环至用户退出 
+   Do 
+   Until GUIGetMsg () = $GUI_EVENT_CLOSE 
+ EndFunc    ;==>_Main 
+ 

@@ -1,6 +1,7 @@
-#include <Math.au3>
-
-Local $radians = 3.14159265358979
-Local $degrees = _Degree($radians)
-
-MsgBox(0, "Radians to Degrees", $radians & " radians = " & $degrees & " degrees")
+ #Include <Math.au3> 
+ 
+ $radians = 3.14159265358979 
+ $degrees = _Degree ( $PI ) 
+ 
+ MsgBox ( 0 , " Degrees ", $PI & "  radians = " & $degrees & "  degrees " ) 
+ 

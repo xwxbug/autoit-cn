@@ -1,142 +1,152 @@
-#include <GuiConstantsEx.au3>
-#include <GuiDateTimePicker.au3>
-#include <WindowsConstants.au3>
-#include <GuiConstantsEx.au3>
+ 
+ #AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6 
+ #include <GuiConstantsEx.au3> 
+ #include <GuiDateTimePicker.au3> 
+ #include <WindowsConstants.au3> 
+ #include <GuiConstantsEx.au3> 
+ #include <EditConstants.au3> 
+ 
+ Opt ( 'MustDeclareVars' , 1 ) 
+ 
+ $Debug_DTP = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
+ 
+ Global $hDTP , $edit 
+ 
+ _Main () 
+ 
+ Func _Main () 
+   Local $hGUI 
+ 
+   ; 创建界面 
+   $hGUI = GUICreate ( "(UDF Created) DateTimePick Create" , 400 , 300 ) 
+   $edit = GUICtrlCreateEdit ( "" , 2 , 32 , 394 , 258 , BitOR ( $WS_VSCROLL , $ES_AUTOVSCROLL )) 
+   $hDTP = _GUICtrlDTP_Create ( $hGUI , 2 , 6 , 394 ) 
+   GUISetState () 
+ 
+   ; 设置显示格式 
+   _GUICtrlDTP_SetFormat ( $hDTP , "ddd MMM dd, yyyy hh:mm ttt" ) 
+ 
+   GUIRegisterMsg ( $WM_NOTIFY , "WM_NOTIFY" ) 
+ 
+   ; 循环至用户退出 
+   Do 
+   Until GUIGetMsg () = $GUI_EVENT_CLOSE 
+   GUIDelete () 
+ EndFunc ;==>_Main 
+ 
+ Func  WM_NOTIFY( $hWnd , $iMsg , $iwParam , $ilParam ) 
+   #forceref $hWnd, $iMsg, $iwParam 
+   Local $hWndFrom , $iIDFrom , $iCode , $tNMHDR , $tInfo , $tBuffer , $tBuffer2 
+ 
+   $tNMHDR = DllStructCreate ( $tagNMHDR , $ilParam ) 
+   $hWndFrom = HWnd ( DllStructGetData ( $tNMHDR , "hWndFrom" )) 
+   $iIDFrom = DllStructGetData ( $tNMHDR , "IDFrom" ) 
+   $iCode = DllStructGetData ( $tNMHDR , "Code" ) 
+   Switch $hWndFrom 
+     Case $hDTP 
+       Switch $iCode 
+         Case $DTN_CLOSEUP ; 当用户关闭下拉月历时由日期时间拾取器(DTP)控件发送 
+           memowrite ( "$DTN_CLOSEUP" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & $hWndFrom & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & $iIDFrom & @LF ) 
+           memowrite( "-->Code:" & @TAB & $iCode & @LF ) 
+           ; 不使用此消息的返回值 
+         Case $DTN_DATETIMECHANGE ; 无论何时发生改变由日期时间拾取器(DTP)控件发送 
+           $tInfo = DllStructCreate ( $tagNMDATETIMECHANGE , $ilParam ) 
+           memowrite ( "$DTN_DATETIMECHANGE" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           memowrite( "-->Flag:" & @TAB & DllStructGetData ( $tInfo , "Flag" ) & @LF ) 
+           memowrite( "-->Year:" & @TAB & DllStructGetData ( $tInfo , "Year" ) & @LF ) 
+           memowrite( "-->Month:" & @TAB & DllStructGetData ( $tInfo , "Month" ) & @LF ) 
+           memowrite( "-->DOW:" & @TAB & DllStructGetData ( $tInfo , "DOW" ) & @LF ) 
+           memowrite( "-->Day:" & @TAB & DllStructGetData ( $tInfo , "Day" ) & @LF ) 
+           memowrite( "-->Hour:" & @TAB & DllStructGetData ( $tInfo , "Hour" ) & @LF ) 
+           memowrite( "-->Minute:" & @TAB & DllStructGetData ( $tInfo , "Minute" ) & @LF ) 
+           memowrite( "-->Second:" & @TAB & DllStructGetData ( $tInfo , "Second" ) & @LF ) 
+           memowrite( "-->MSecond:" & @TAB & DllStructGetData ( $tInfo , "MSecond" )& @LF ) 
+           Return 0 
+         Case $DTN_DROPDOWN ; 当用户激活下拉月历时由日期时间拾取器(DTP)控件发送 
+           memowrite ( "$DTN_DROPDOWN" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           ; 不使用此消息的返回值 
+         Case $DTN_FORMAT ; 由日期时间拾取器(DTP)控件发送用以要求在回叫区域显示文本 
+           $tInfo = DllStructCreate ( $tagNMDATETIMEFORMAT , $ilParam ) 
+           $tBuffer = DllStructCreate ( "char Format[128]" , DllStructGetData ( $tInfo , "Format" )) 
+           $tBuffer2 = DllStructCreate ( "char Display[64]" , DllStructGetData ( $tInfo , "pDisplay" )) 
+           memowrite( "$DTN_FORMAT" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           memowrite( "-->Format:" & @TAB & DllStructGetData ( $tBuffer , "Format" ) & @LF ) 
+           memowrite( "-->Year:" & @TAB & DllStructGetData ( $tInfo , "Year" ) & @LF ) 
+           memowrite( "-->Month:" & @TAB & DllStructGetData ( $tInfo , "Month" ) & @LF ) 
+           memowrite( "-->DOW:" & @TAB & DllStructGetData ( $tInfo , "DOW" ) & @LF ) 
+           memowrite( "-->Day:" & @TAB & DllStructGetData ( $tInfo , "Day" ) & @LF ) 
+           memowrite( "-->Hour:" & @TAB & DllStructGetData ( $tInfo , "Hour" ) & @LF ) 
+           memowrite( "-->Minute:" & @TAB & DllStructGetData ( $tInfo , "Minute" ) & @LF ) 
+           memowrite( "-->Second:" & @TAB & DllStructGetData ( $tInfo , "Second" ) & @LF ) 
+           memowrite( "-->MSecond:" & @TAB & DllStructGetData ( $tInfo , "MSecond" ) & @LF ) 
+           memowrite( "-->Display:" & @TAB & DllStructGetData ( $tBuffer2 , "Display" ) & @LF ) 
+           Return 0 
+         Case $DTN_FORMATQUERY ; 由日期时间拾取器(DTP)控件发送以获取在回叫区域可显示的最大允许长度的字符串 
+           $tInfo = DllStructCreate ( $tagNMDATETIMEFORMATQUERY , $ilParam ) 
+           $tBuffer = DllStructCreate ( "char Format[128]" , DllStructGetData ( $tInfo , "Format" )) 
+           memowrite( "$DTN_FORMATQUERY" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           memowrite( "-->Format:" & @TAB & DllStructGetData ( $tInfo , "Format" ) & @LF ) 
+           memowrite( "-->SizeX:" & @TAB & DllStructGetData ( $tInfo , "SizeX" ) & @LF ) 
+           memowrite( "-->SizeY:" & @TAB & DllStructGetData ( $tInfo , "SizeY" ) & @LF ) 
+           DllStructSetData ( $tInfo , "SizeX" , 64 ) 
+           DllStructSetData ( $tInfo , "SizeY" , 10 ) 
+           Return 0 
+         Case $DTN_USERSTRING ; 当用户完成编辑控件中的字符串时由日期时间拾取器(DTP)控件发送 
+           $tInfo = DllStructCreate ( $tagNMDATETIMESTRING , $ilParam ) 
+           $tBuffer = DllStructCreate ( "char UserString[128]" , DllStructGetData ( $tInfo , "UserString" )) 
+           memowrite( "$DTN_USERSTRING" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           memowrite( "-->UserString:" & @TAB & DllStructGetData ( $tInfo , "UserString" ) & @LF ) 
+           memowrite( "-->Year:" & @TAB & DllStructGetData ( $tInfo , "Year" ) & @LF ) 
+           memowrite( "-->Month:" & @TAB & DllStructGetData ( $tInfo , "Month" ) & @LF ) 
+           memowrite( "-->DOW:" & @TAB & DllStructGetData ( $tInfo , "DOW" ) & @LF ) 
+           memowrite( "-->Day:" & @TAB & DllStructGetData ( $tInfo , "Day" ) & @LF ) 
+           memowrite( "-->Hour:" & @TAB & DllStructGetData ( $tInfo , "Hour" ) & @LF ) 
+           memowrite( "-->Minute:" & @TAB & DllStructGetData ( $tInfo , "Minute" ) & @LF ) 
+           memowrite( "-->Second:" & @TAB & DllStructGetData ( $tInfo , "Second" ) & @LF ) 
+           memowrite( "-->MSecond:" & @TAB & DllStructGetData ( $tInfo , "MSecond" ) & @LF ) 
+           memowrite( "-->Flags:" & @TAB & DllStructGetData ( $tInfo , "Flags" ) & @LF ) 
+           Return 0 
+         Case $DTN_WMKEYDOWN ; 当用户在回叫区域键入时由日期时间拾取器(DTP)控件发送 
+           $tInfo = DllStructCreate ( $tagNMDATETIMEFORMATQUERY , $ilParam ) 
+           $tBuffer = DllStructCreate ( "char Format[128]" , DllStructGetData ( $tInfo , "Format" )) 
+           memowrite( "$DTN_WMKEYDOWN" & @LF ) 
+           memowrite( "-->hWndFrom:" & @TAB & DllStructGetData ( $tInfo , "hWndFrom" ) & @LF ) 
+           memowrite( "-->IDFrom:" & @TAB & DllStructGetData ( $tInfo , "IDFrom" ) & @LF ) 
+           memowrite( "-->Code:" & @TAB & DllStructGetData ( $tInfo , "Code" ) & @LF ) 
+           memowrite( "-->VirtKey:" & @TAB & DllStructGetData ( $tInfo , "VirtKey" ) & @LF ) 
+           memowrite( "-->Format:" & @TAB & DllStructGetData ( $tInfo , "Format" ) & @LF ) 
+           memowrite( "-->Year:" & @TAB & DllStructGetData ( $tInfo , "Year" ) & @LF ) 
+           memowrite( "-->Month:" & @TAB & DllStructGetData ( $tInfo , "Month" ) & @LF ) 
+           memowrite( "-->DOW:" & @TAB & DllStructGetData ( $tInfo , "DOW" ) & @LF ) 
+           memowrite( "-->Day:" & @TAB & DllStructGetData ( $tInfo , "Day" ) & @LF ) 
+           memowrite( "-->Hour:" & @TAB & DllStructGetData ( $tInfo , "Hour" ) & @LF ) 
+           memowrite( "-->Minute:" & @TAB & DllStructGetData ( $tInfo , "Minute" ) & @LF ) 
+           memowrite( "-->Second:" & @TAB & DllStructGetData ( $tInfo , "Second" ) & @LF ) 
+           memowrite( "-->MSecond:" & @TAB & DllStructGetData ( $tInfo , "MSecond" ) & @LF ) 
+           Return 0 
+       EndSwitch 
+   EndSwitch 
+   Return $GUI_RUNDEFMSG 
+ EndFunc    ;==>WM_NOTIFY 
+ 
+ Func memowrite( $s_text ) 
+   GUICtrlSetData ( $edit , $s_text & @CRLF , 1) 
+ EndFunc    ;==>memowrite 
 
-$Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
-
-Global $hDTP
-
-_Main()
-
-Func _Main()
-	Local $hGUI
-
-	; Create GUI
-	$hGUI = GUICreate("(UDF Created) DateTimePick Create", 400, 300)
-	$hDTP = _GUICtrlDTP_Create($hGUI, 2, 6, 190)
-	GUISetState()
-
-	; Set the display format
-	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
-
-	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
-
-Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	#forceref $hWnd, $iMsg, $iwParam
-	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR, $tInfo, $tBuffer, $tBuffer2
-
-	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
-	$iCode = DllStructGetData($tNMHDR, "Code")
-	Switch $hWndFrom
-		Case $hDTP
-			Switch $iCode
-				Case $DTN_CLOSEUP ; Sent by a date and time picker (DTP) control when the user closes the drop-down month calendar
-					_DebugPrint("$DTN_CLOSEUP" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
-							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
-							"-->Code:" & @TAB & $iCode)
-					; The return value for this notification is not used
-				Case $DTN_DATETIMECHANGE ; Sent by a date and time picker (DTP) control whenever a change occurs
-					$tInfo = DllStructCreate($tagNMDATETIMECHANGE, $ilParam)
-					_DebugPrint("$DTN_DATETIMECHANGE" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
-							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
-							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
-							"-->Flag:" & @TAB & DllStructGetData($tInfo, "Flag") & @LF & _
-							"-->Year:" & @TAB & DllStructGetData($tInfo, "Year") & @LF & _
-							"-->Month:" & @TAB & DllStructGetData($tInfo, "Month") & @LF & _
-							"-->DOW:" & @TAB & DllStructGetData($tInfo, "DOW") & @LF & _
-							"-->Day:" & @TAB & DllStructGetData($tInfo, "Day") & @LF & _
-							"-->Hour:" & @TAB & DllStructGetData($tInfo, "Hour") & @LF & _
-							"-->Minute:" & @TAB & DllStructGetData($tInfo, "Minute") & @LF & _
-							"-->Second:" & @TAB & DllStructGetData($tInfo, "Second") & @LF & _
-							"-->MSecond:" & @TAB & DllStructGetData($tInfo, "MSecond"))
-					Return 0
-				Case $DTN_DROPDOWN ; Sent by a date and time picker (DTP) control when the user activates the drop-down month calendar
-					_DebugPrint("$DTN_DROPDOWN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
-							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
-							"-->Code:" & @TAB & $iCode)
-					; The return value for this notification is not used
-				Case $DTN_FORMAT ; Sent by a date and time picker (DTP) control to request text to be displayed in a callback field
-					$tInfo = DllStructCreate($tagNMDATETIMEFORMAT, $ilParam)
-					$tBuffer = DllStructCreate("char Format[128]", DllStructGetData($tInfo, "Format"))
-					$tBuffer2 = DllStructCreate("char Display[64]", DllStructGetData($tInfo, "pDisplay"))
-					_DebugPrint("$DTN_FORMAT" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
-							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
-							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
-							"-->Format:" & @TAB & DllStructGetData($tBuffer, "Format") & @LF & _
-							"-->Year:" & @TAB & DllStructGetData($tInfo, "Year") & @LF & _
-							"-->Month:" & @TAB & DllStructGetData($tInfo, "Month") & @LF & _
-							"-->DOW:" & @TAB & DllStructGetData($tInfo, "DOW") & @LF & _
-							"-->Day:" & @TAB & DllStructGetData($tInfo, "Day") & @LF & _
-							"-->Hour:" & @TAB & DllStructGetData($tInfo, "Hour") & @LF & _
-							"-->Minute:" & @TAB & DllStructGetData($tInfo, "Minute") & @LF & _
-							"-->Second:" & @TAB & DllStructGetData($tInfo, "Second") & @LF & _
-							"-->MSecond:" & @TAB & DllStructGetData($tInfo, "MSecond") & @LF & _
-							"-->Display:" & @TAB & DllStructGetData($tBuffer2, "Display"))
-					Return 0
-				Case $DTN_FORMATQUERY ; Sent by a date and time picker (DTP) control to retrieve the maximum allowable size of the string that will be displayed in a callback field
-					$tInfo = DllStructCreate($tagNMDATETIMEFORMATQUERY, $ilParam)
-					$tBuffer = DllStructCreate("char Format[128]", DllStructGetData($tInfo, "Format"))
-					_DebugPrint("$DTN_FORMATQUERY" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
-							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
-							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
-							"-->Format:" & @TAB & DllStructGetData($tBuffer, "Format") & @LF & _
-							"-->SizeX:" & @TAB & DllStructGetData($tInfo, "SizeX") & @LF & _
-							"-->SizeY:" & @TAB & DllStructGetData($tBuffer2, "SizeY"))
-					DllStructSetData($tInfo, "SizeX", 64)
-					DllStructSetData($tInfo, "SizeY", 10)
-					Return 0
-				Case $DTN_USERSTRING ; Sent by a date and time picker (DTP) control when a user finishes editing a string in the control
-					$tInfo = DllStructCreate($tagNMDATETIMESTRING, $ilParam)
-					$tBuffer = DllStructCreate("char UserString[128]", DllStructGetData($tInfo, "UserString"))
-					_DebugPrint("$DTN_USERSTRING" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
-							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
-							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
-							"-->UserString:" & @TAB & DllStructGetData($tBuffer, "UserString") & @LF & _
-							"-->Year:" & @TAB & DllStructGetData($tInfo, "Year") & @LF & _
-							"-->Month:" & @TAB & DllStructGetData($tInfo, "Month") & @LF & _
-							"-->DOW:" & @TAB & DllStructGetData($tInfo, "DOW") & @LF & _
-							"-->Day:" & @TAB & DllStructGetData($tInfo, "Day") & @LF & _
-							"-->Hour:" & @TAB & DllStructGetData($tInfo, "Hour") & @LF & _
-							"-->Minute:" & @TAB & DllStructGetData($tInfo, "Minute") & @LF & _
-							"-->Second:" & @TAB & DllStructGetData($tInfo, "Second") & @LF & _
-							"-->MSecond:" & @TAB & DllStructGetData($tInfo, "MSecond") & @LF & _
-							"-->Flags:" & @TAB & DllStructGetData($tInfo, "Flags"))
-					Return 0
-				Case $DTN_WMKEYDOWN ; Sent by a date and time picker (DTP) control when the user types in a callback field
-					$tInfo = DllStructCreate($tagNMDATETIMEFORMATQUERY, $ilParam)
-					$tBuffer = DllStructCreate("char Format[128]", DllStructGetData($tInfo, "Format"))
-					_DebugPrint("$DTN_WMKEYDOWN" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
-							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
-							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
-							"-->VirtKey:" & @TAB & DllStructGetData($tInfo, "VirtKey") & @LF & _
-							"-->Format:" & @TAB & DllStructGetData($tBuffer, "Format") & @LF & _
-							"-->Year:" & @TAB & DllStructGetData($tInfo, "Year") & @LF & _
-							"-->Month:" & @TAB & DllStructGetData($tInfo, "Month") & @LF & _
-							"-->DOW:" & @TAB & DllStructGetData($tInfo, "DOW") & @LF & _
-							"-->Day:" & @TAB & DllStructGetData($tInfo, "Day") & @LF & _
-							"-->Hour:" & @TAB & DllStructGetData($tInfo, "Hour") & @LF & _
-							"-->Minute:" & @TAB & DllStructGetData($tInfo, "Minute") & @LF & _
-							"-->Second:" & @TAB & DllStructGetData($tInfo, "Second") & @LF & _
-							"-->MSecond:" & @TAB & DllStructGetData($tInfo, "MSecond"))
-					Return 0
-			EndSwitch
-	EndSwitch
-	Return $GUI_RUNDEFMSG
-EndFunc   ;==>WM_NOTIFY
-
-Func _DebugPrint($s_text, $line = @ScriptLineNumber)
-	ConsoleWrite( _
-			"!===========================================================" & @LF & _
-			"+======================================================" & @LF & _
-			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
-			"+======================================================" & @LF)
-EndFunc   ;==>_DebugPrint

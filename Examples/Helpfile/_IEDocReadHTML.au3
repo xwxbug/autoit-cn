@@ -1,10 +1,8 @@
-; *******************************************************
-; Example 1 - Open a browser with the basic example, read the document HTML
-;				(all HTML including the <HEAD> and script) and display it in a MsgBox
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IE_Example("basic")
-Local $sHTML = _IEDocReadHTML($oIE)
-MsgBox(0, "Document Source", $sHTML)
+ ; ******************************************************* 
+ ; 示例 - 打开带有基本示例的浏览器, 读取HTML文档(所有包含<HEAD>的HTML及脚本)并在消息框中显示 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IE_Example ( " basic " ) 
+ $sHTML = _IEDocReadHTML ( $oIE ) 
+ MsgBox ( 0 , " Document Source ", $sHTML ) 
+ 

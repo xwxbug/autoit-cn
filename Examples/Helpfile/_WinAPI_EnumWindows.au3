@@ -1,15 +1,13 @@
-#include <WinAPI.au3>
-_Main()
 
-Func _Main()
-	Local $aWindows, $i, $text
-	$aWindows = _WinAPI_EnumWindows()
-	For $i = 1 To $aWindows[0][0]
-		$text = "Window Handle: " & $aWindows[$i][0] & @LF
-		$text &= "Window Class: " & $aWindows[$i][1] & @LF
-		$text &= "Window Title: " & WinGetTitle($aWindows[$i][0]) & @LF
-		$text &= "Window Text: " & WinGetText($aWindows[$i][0]) & @LF
-		$text &= "Window Process: " & WinGetProcess($aWindows[$i][0])
-		MsgBox(0, "Item " & $i & " of " & $aWindows[0][0], $text)
-	Next
-EndFunc   ;==>_Main
+ #include <WinAPI.au3> 
+ #include <Array.au3> 
+ 
+ Local $aWindows = _WinAPI_EnumWindows () 
+ ReDim $aWindows [ $aWindows [ 0 ][ 0 ]][ 5 ] 
+ For $i = 1  To  UBound ( $aWindows ) - 1 
+   $aWindows [ $i ][ 2 ] = WinGetTitle ( $aWindows [ 0 ][ 0 ]) 
+   $aWindows [ $i ][ 3 ] = WinGetText ( $aWindows [ 0 ][ 0 ]) 
+   $aWindows [ $i ][ 4 ] = WinGetProcess ( $aWindows [ 0 ][ 0 ]) 
+ Next 
+ _ArrayDisplay ( $aWindows , ' _WinAPI_EnumWindows ') 
+ 

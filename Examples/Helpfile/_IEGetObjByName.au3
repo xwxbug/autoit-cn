@@ -1,10 +1,8 @@
-; *******************************************************
-; Example 1 - Open a browser to the form example, get an object reference
-;				to the element with the name "ExampleForm".  In this case the
-;				result is identical to using $oForm = _IEFormGetObjByName($oIE, "ExampleForm")
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IE_Example("form")
-Local $oForm = _IEGetObjByName($oIE, "ExampleForm")
+ ; ******************************************************* 
+ ; 示例 - 打开带有表单示例的浏览器, 获取名称为"Example Form"的元素的对象的引用. 
+ ;     在此情况下结果与使用$oForm = _IEFormGetObjByName($oIE, "Example Form")相同 
+ ; ******************************************************* 
+ #include <IE.au3> 
+ $oIE = _IE_Example ( " form " ) 
+ $oForm = _IEGetObjByName ( $oIE , " Example Form " ) 
+ 

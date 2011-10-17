@@ -1,53 +1,73 @@
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <StructureConstants.au3>
-#include <GUIScrollBars.au3>
-#include <ScrollBarConstants.au3>
 
-Global $iMemo
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
+6 
+#include  <GUIConstantsEx.au3> 
+#include  <WindowsConstants.au3> 
+#include  <StructureConstants.au3> 
+#include  <GUIScrollBars.au3> 
+#include  <ScrollBarConstants.au3> 
 
-_Main()
+Opt ( "MustDeclareVars" ,  1 ) 
 
-Func _Main()
-	Local $GUIMsg, $hGUI
+Global  $iMemo 
 
-	$hGUI = GUICreate("ScrollBar Example", 400, 400, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_SIZEBOX))
-	$iMemo = GUICtrlCreateEdit("", 2, 2, 380, 380, BitOR($WS_HSCROLL, $WS_VSCROLL))
-	GUICtrlSetResizing($iMemo, $GUI_DOCKALL)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-	GUISetBkColor(0x88AABB)
+_Main () 
 
-	GUISetState()
+Func _Main () 
+    Local  $GUIMsg ,  $hGUI 
 
-	_GUIScrollBars_Init($hGUI)
+    $hGUI  =  GUICreate ( "ScrollBar 示例" ,  400 ,  400 ,  - 1 ,  - 1 ,  BitOR ( $WS_MINIMIZEBOX ,  $WS_CAPTION ,  $WS_POPUP ,  $WS_SYSMENU ,  $WS_SIZEBOX )) 
+    $iMemo  =  GUICtrlCreateEdit ( "" ,  2 ,  2 ,  380 ,  380 ,  BitOR ( $WS_HSCROLL ,  $WS_VSCROLL )) 
+  
+  GUICtrlSetResizing ( $iMemo ,  $GUI_DOCKALL ) 
+    GUICtrlSetFont ( $iMemo ,  9 ,  400 ,  0 ,  "Courier New" ) 
+  
+  GUISetBkColor ( 0x88AABB ) 
+    
+    GUISetState () 
 
-	MemoWrite("Horizontal" & @CRLF & "--------------------------------------")
-	MemoWrite("nPage....: " & _GUIScrollBars_GetScrollInfoPage($hGUI, $SB_HORZ))
-	MemoWrite("nPos.....: " & _GUIScrollBars_GetScrollInfoPos($hGUI, $SB_HORZ))
-	MemoWrite("nMin.....: " & _GUIScrollBars_GetScrollInfoMin($hGUI, $SB_HORZ))
-	MemoWrite("nMax.....: " & _GUIScrollBars_GetScrollInfoMax($hGUI, $SB_HORZ))
-	MemoWrite("nTrackPos: " & _GUIScrollBars_GetScrollInfoTrackPos($hGUI, $SB_HORZ))
+  
+  _GUIScrollBars_Init ( $hGUI ) 
 
-	MemoWrite(@CRLF & "Vertical" & @CRLF & "--------------------------------------")
-	MemoWrite("nPage....: " & _GUIScrollBars_GetScrollInfoPage($hGUI, $SB_VERT))
-	MemoWrite("nPos.....: " & _GUIScrollBars_GetScrollInfoPos($hGUI, $SB_VERT))
-	MemoWrite("nMin.....: " & _GUIScrollBars_GetScrollInfoMin($hGUI, $SB_VERT))
-	MemoWrite("nMax.....: " & _GUIScrollBars_GetScrollInfoMax($hGUI, $SB_VERT))
-	MemoWrite("nTrackPos: " & _GUIScrollBars_GetScrollInfoTrackPos($hGUI, $SB_VERT))
+    MemoWrite ( "Horizontal"  &  @CRLF  &  "--------------------------------------" ) 
+    MemoWrite ( "nPage....: "  &  _GUIScrollBars_GetScrollInfoPage ( $hGUI ,  $SB_HORZ )) 
+    
+MemoWrite ( "nPos.....: "  &  _GUIScrollBars_GetScrollInfoPos ( $hGUI ,  $SB_HORZ )) 
+    
+MemoWrite ( "nMin.....: "  &  _GUIScrollBars_GetScrollInfoMin ( $hGUI ,  $SB_HORZ )) 
+    
+MemoWrite ( "nMax.....: "  &  _GUIScrollBars_GetScrollInfoMax ( $hGUI ,  $SB_HORZ )) 
+    
+MemoWrite ( "nTrackPos: "  &  _GUIScrollBars_GetScrollInfoTrackPos ( $hGUI ,  $SB_HORZ )) 
 
-	While 1
-		$GUIMsg = GUIGetMsg()
+    MemoWrite ( @CRLF  &  "Vertical"  &  @CRLF  &  "--------------------------------------" ) 
+    MemoWrite ( "nPage....: "  &  _GUIScrollBars_GetScrollInfoPage ( $hGUI ,  $SB_VERT )) 
+    
+MemoWrite ( "nPos.....: "  &  _GUIScrollBars_GetScrollInfoPos ( $hGUI ,  $SB_VERT )) 
+    
+MemoWrite ( "nMin.....: "  &  _GUIScrollBars_GetScrollInfoMin ( $hGUI ,  $SB_VERT )) 
+    
+MemoWrite ( "nMax.....: "  &  _GUIScrollBars_GetScrollInfoMax ( $hGUI ,  $SB_VERT )) 
+    
+MemoWrite ( "nTrackPos: "  &  _GUIScrollBars_GetScrollInfoTrackPos ( $hGUI ,  $SB_VERT )) 
 
-		Switch $GUIMsg
-			Case $GUI_EVENT_CLOSE
-				ExitLoop
-		EndSwitch
-	WEnd
+    While  1 
+        $GUIMsg  =  GUIGetMsg () 
 
-	Exit
-EndFunc   ;==>_Main
+  
+      Switch  $GUIMsg 
+      
+      Case  $GUI_EVENT_CLOSE 
+    
+            ExitLoop 
+        EndSwitch 
+    WEnd 
 
-; Write a line to the memo control
-Func MemoWrite($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-EndFunc   ;==>MemoWrite
+    Exit 
+EndFunc    ;==>_Main 
+
+; 向memo控件写入一行 
+Func MemoWrite ( $sMessage ) 
+    GUICtrlSetData ( $iMemo ,  $sMessage  &  @CRLF ,  1 ) 
+EndFunc    ;==>MemoWrite 
+

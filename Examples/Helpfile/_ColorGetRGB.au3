@@ -1,6 +1,19 @@
-#include <Color.au3>
-
-Local $nColor = 0x8090ff
-
-Local $aColor = _ColorGetRGB($nColor)
-MsgBox(4096, "AutoIt", "Color=" & Hex($nColor) & @CRLF & " Red=" & Hex($aColor[0], 2) & " Blue=" & Hex($aColor[1], 2) & " Green=" & Hex($aColor[2], 2))
+18
+ _ColorGetRGB     _ColorGetRGB   
+返回指定颜色包含的成分的数组 
+ 
+#Include <Color.au3> 
+_ColorGetRGB($nColor) 
+ 
+   
+参数    
+ $nColor  RGB颜色(十六进制代码).  
+   
+返回值 成功: 范围在0-255的各组分值的数组 
+    [0] 红色组分 
+    [1] 绿色组分 
+    [3] 蓝色组分 
+失败: 设置@error为1 
+   
+相关  _ColorSetRGB ,  _ColorGetRed ,  _ColorGetBlue ,  _ColorGetGreen  
+    

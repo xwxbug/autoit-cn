@@ -1,26 +1,38 @@
-#include <GuiMenu.au3>
+示例  
 
-_Main()
+#include  <GuiMenu.au3> 
 
-Func _Main()
-	Local $hWnd, $hMain, $hFile
+Opt ( 'MustDeclareVars' ,  1 ) 
 
-	; Open Notepad
-	Run("Notepad.exe")
-	WinWaitActive("[CLASS:Notepad]")
-	$hWnd = WinGetHandle("[CLASS:Notepad]")
-	$hMain = _GUICtrlMenu_GetMenu($hWnd)
-	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
+_Main () 
 
-	; Change Open item type
-	Writeln("Open item type: 0x" & Hex(_GUICtrlMenu_GetItemType($hFile, 1)))
-	_GUICtrlMenu_SetItemType($hFile, 1, $MFT_RADIOCHECK)
-	_GUICtrlMenu_CheckRadioItem($hFile, 0, 8, 1)
-	Writeln("Open item type: 0x" & Hex(_GUICtrlMenu_GetItemType($hFile, 1)))
+Func _Main () 
+    Local  $hWnd ,  $hMain ,  $hFile 
 
-EndFunc   ;==>_Main
+    ; 打开记事本 
+    Run ( "Notepad.exe" ) 
+  
+  WinWaitActive ( "[CLASS:Notepad]" ) 
+    $hWnd  =  WinGetHandle ( "[CLASS:Notepad]" ) 
+    $hMain  =  _GUICtrlMenu_GetMenu ( $hWnd ) 
+    $hFile  =  _GUICtrlMenu_GetItemSubMenu ( $hMain ,  0 ) 
 
-; Write a line of text to Notepad
-Func Writeln($sText)
-	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
-EndFunc   ;==>Writeln
+    ; 改变打开项目类型 
+    
+Writeln ( "Open item type: 
+0x"  &  Hex ( _GUICtrlMenu_GetItemType ( $hFile ,  1 ))) 
+    _GUICtrlMenu_SetItemType ( $hFile ,  1 ,  $MFT_RADIOCHECK ) 
+    _GUICtrlMenu_CheckRadioItem ( $hFile ,  0 ,  8 ,  1 ) 
+    
+Writeln ( "Open item type: 
+0x"  &  Hex ( _GUICtrlMenu_GetItemType ( $hFile ,  1 ))) 
+
+EndFunc    ;==>_Main 
+
+; 向记事本写入文本 
+Func Writeln ( $sText ) 
+    ControlSend ( "[CLASS:Notepad]" ,  "" ,  "Edit1" ,  $sText  &  @CR ) 
+EndFunc    ;==>Writeln 
+
+  
+   

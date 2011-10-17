@@ -1,40 +1,43 @@
-#include <GUIComboBox.au3>
-#include <GuiConstantsEx.au3>
-#include <Constants.au3>
-
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
-
-Global $iMemo
-
-_Main()
-
-Func _Main()
-	Local $aList, $hCombo
-	Opt("GUIDataSeparatorChar", ",") ; set seperator char to char we want to use
-
-	; Create GUI
-	GUICreate("ComboBox Get List", 400, 296)
-	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
-	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-	GUISetState()
-
-	; Add files
-	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
-
-	; Get List
-	$aList = StringSplit(_GUICtrlComboBox_GetList($hCombo), ",")
-	For $x = 1 To $aList[0]
-		MemoWrite($aList[$x])
-	Next
-
-	; Loop until user exits
-	Do
-	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-	GUIDelete()
-EndFunc   ;==>_Main
-
-; Write a line to the memo control
-Func MemoWrite($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-EndFunc   ;==>MemoWrite
+ #AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6 
+ #include <GUIComboBox.au3> 
+ #include <GuiConstantsEx.au3> 
+ 
+ Opt ( ' MustDeclareVars ', 1 ) 
+ 
+ $Debug_CB = False ; 检查传递给函数的类名, 设置为真并使用另一控件句柄观察其工作 
+ 
+ Global $iMemo 
+ 
+ _Main() 
+ 
+ Func _Main() 
+   Local $aList , $hCombo 
+   Opt ( " GUIDataSeparatorChar ", " , " ) ; 将分隔符设置为想要的 
+ 
+   ; 创建界面 
+   GUICreate ( " ComboBox Get List ", 400 , 296 ) 
+   $hCombo = GUICtrlCreateCombo ( "", 2 , 2 , 396 , 296 ) 
+   $iMemo = GUICtrlCreateEdit ( "", 10 , 50 , 396 , 266 , 0 ) 
+   GUICtrlSetFont ( $iMemo , 9 , 400 , 0 , " Courier New " ) 
+   GUISetState () 
+ 
+   ; 添加文件 
+   _GUICtrlComboBox_AddDir ( $hCombo , "", $DDL_DRIVES , False ) 
+ 
+   ; 获取列表 
+   $aList = StringSplit ( _GUICtrlComboBox_GetList ( $hCombo ) , " , " ) 
+   For $x = 1  To  $aList [ 0 ] 
+     MemoWrite( $aList [ $x ]) 
+   Next 
+ 
+   ; 循环至用户退出 
+   Do 
+   Until GUIGetMsg () = $GUI_EVENT_CLOSE 
+   GUIDelete () 
+ EndFunc ;==>_Main 
+ 
+ ; 写入memo控件 
+ Func MemoWrite( $sMessage ) 
+   GUICtrlSetData ( $iMemo , $sMessage & @CRLF , 1 ) 
+ EndFunc ;==>MemoWrite 
+ 

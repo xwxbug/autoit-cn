@@ -1,22 +1,18 @@
-; *******************************************************
-; Example 1 - Open a browser with the table example, get a reference to the first table
-;				on the page (index 0) and read its contents into a 2-D array
-; *******************************************************
-
-#include <IE.au3>
-
-Local $oIE = _IE_Example("table")
-Local $oTable = _IETableGetCollection($oIE, 0)
-Local $aTableData = _IETableWriteToArray($oTable)
-
-; *******************************************************
-; Example 2 - Open a browser with the table example, get a reference to the
-;				table collection and display the number of tables on the page
-; *******************************************************
-
-#include <IE.au3>
-
-$oIE = _IE_Example("table")
-$oTable = _IETableGetCollection($oIE)
-Local $iNumTables = @extended
-MsgBox(0, "Table Info", "There are " & $iNumTables & " tables on the page")
+ ; ******************************************************* 
+ ; 示例1 - 打开带有表示例的浏览器, 获取对页面(索引0)上第二张表的引用并将其内容读入2-D数组 
+ ; ******************************************************* 
+ ; 
+ #include  <IE.au3> 
+ $oIE = _IE_Example ( " table " ) 
+ $otable = _IEtableGetCollection ( $oIE , 0 ) 
+ $atableData = _IEtableWriteToArray ( $otable ) 
+ 
+ ; ******************************************************* 
+ ; 示例2 - 打开带有表示例的浏览器, 获取对表集合的引用并显示页中表的数量 
+ ; ******************************************************* 
+ #include  <IE.au3> 
+ $oIE = _IE_Example ( " table " ) 
+ $otable = _IEtableGetCollection ( $oIE ) 
+ $iNumtables = @extended 
+ MsgBox ( 0 , " table Info ", " There are " & $iNumtables & " tables on the page " ) 
+ 

@@ -1,44 +1,43 @@
-; ***************************************************************
-; Example 1 - After opening a workbook and returning its object identifier, Activate a Sheet by using the string value of the Sheet Name
-; *****************************************************************
+ 
+ ; *************************************************************** 
+ ; 例1 - 打开并返回工作簿对象标识后, 通过表名的字符串值激活一张表 
+ ; ***************************************************************** 
+ #include  <Excel.au3> 
+ 
+ Local  $oExcel  =  _ExcelBookNew ()  ;新建工作簿并使之可见 
+ 
+ _ExcelSheetActivate ( $oExcel ,  "Sheet2" ) 
+ 
+ MsgBox ( 0 ,  "Exiting" ,  "Notice How Sheet2 is Active and not Sheet1"  &  @CRLF  &  @CRLF  &  "Now Press OK to Save File and Exit" ) 
+ _ExcelBookSaveAs ( $oExcel ,  @TempDir  &  "\Temp.xls" ,  "xls" ,  0 ,  1 )  ; 将其保存至临时目录; 必要时覆盖已存在的文件 
+ _ExcelBookClose ( $oExcel )  ; 关闭退出 
+ 
+ ; *************************************************************** 
+ ; 例2 - 打开并返回工作簿对象标识后, 通过使用表的索引值激活一张表 
+ ; ***************************************************************** 
+ #include  <Excel.au3> 
+ 
+ Local  $oExcel  =  _ExcelBookNew ()  ;新建工作簿并使之可见 
+ 
+ _ExcelSheetActivate ( $oExcel ,  2 ) 
+ 
+ MsgBox ( 0 ,  "Exiting" ,  "Notice How Sheet2 is Active and not Sheet1"  &  @CRLF  &  @CRLF  &  "Now Press OK to Save File and Exit" ) 
+ _ExcelBookSaveAs ( $oExcel ,  @TempDir  &  "\Temp.xls" ,  "xls" ,  0 ,  1 )  ; 将其保存至临时目录; 必要时覆盖已存在的文件 
+ _ExcelBookClose ( $oExcel )  ; 关闭退出 
+ 
+ ; *************************************************************** 
+ ; 例3 - 打开并返回工作簿对象标识后, 通过使用表的索引值激活一张表 
+ ; ***************************************************************** 
+ #include  <Excel.au3> 
+ 
+ Local  $oExcel  =  _ExcelBookNew ()  ;新建工作簿并使之可见 
+ 
+ $iNumberOfWorksheets  =  $oExcel . Worksheets . Count 
+ 
+ MsgBox ( 0 ,  "" ,  $oExcel . Worksheets . Count ) 
+ _ExcelSheetActivate ( $oExcel ,  2 ) 
+ 
+ MsgBox ( 0 ,  "Exiting" ,  "Notice How Sheet2 is Active and not Sheet1"  &  @CRLF  &  @CRLF  &  "Now Press OK to Save File and Exit" ) 
+ _ExcelBookSaveAs ( $oExcel ,  @TempDir  &  "\Temp.xls" ,  "xls" ,  0 ,  1 )  ; 将其保存至临时目录; 必要时覆盖已存在的文件 
+ _ExcelBookClose ( $oExcel )  ; 关闭退出  
 
-#include <Excel.au3>
-
-Local $oExcel = _ExcelBookNew() ;Create new book, make it visible
-
-_ExcelSheetActivate($oExcel, "Sheet2")
-
-MsgBox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
-
-; ***************************************************************
-; Example 2 - After opening a workbook and returning its object identifier, Activate a Sheet by using the Index Value the Sheet
-; *****************************************************************
-
-#include <Excel.au3>
-
-$oExcel = _ExcelBookNew() ;Create new book, make it visible
-
-_ExcelSheetActivate($oExcel, 2)
-
-MsgBox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
-
-; ***************************************************************
-; Example 2 - After opening a workbook and returning its object identifier, Activate a Sheet by using the Index Value the Sheet
-; *****************************************************************
-
-#include <Excel.au3>
-
-$oExcel = _ExcelBookNew() ;Create new book, make it visible
-
-Local $iNumberOfWorksheets = $oExcel.Worksheets.Count
-
-MsgBox(0, "", $oExcel.Worksheets.Count)
-_ExcelSheetActivate($oExcel, 2)
-
-MsgBox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; Now we save it into the temp directory; overwrite existing file if necessary
-_ExcelBookClose($oExcel) ; And finally we close out
