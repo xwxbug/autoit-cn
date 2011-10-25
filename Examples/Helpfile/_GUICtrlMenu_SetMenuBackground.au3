@@ -1,38 +1,38 @@
 
-#include  <GuiMenu.au3> 
-#include  <WinAPI.au3> 
-#include  <WindowsConstants.au3> 
+#include  <GuiMenu.au3>
+#include  <WinAPI.au3>
+#include  <WindowsConstants.au3>
 
-Opt ( 'MustDeclareVars' ,  1 ) 
+Opt('MustDeclareVars', 1)
 
-_Main () 
+_Main()
 
-Func _Main () 
-    Local  $hWnd ,  $hMain ,  $hFile ,  $hBrush 
+Func _Main()
+	Local $hWnd, $hMain, $hFile, $hBrush
 
-    ; Open Notepad 
-    Run ( "Notepad.exe" ) 
-  
-  WinWaitActive ( "[CLASS:Notepad]" ) 
-    $hWnd  =  WinGetHandle ( "[CLASS:Notepad]" ) 
-    $hMain  =  _GUICtrlMenu_GetMenu ( $hWnd ) 
-    $hFile  =  _GUICtrlMenu_GetItemSubMenu ( $hMain ,  0 ) 
+	; Open Notepad
+	Run("Notepad.exe")
 
-    ; File menu background 
-  
-  Writeln ( "File menu 
-background: 0x"  &  Hex ( _GUICtrlMenu_GetMenuBackground ( $hFile ))) 
-    $hBrush  =  _WinAPI_GetSysColorBrush ( $COLOR_INFOBK ) 
-  
-  _GUICtrlMenu_SetMenuBackground ( $hFile ,  $hBrush ) 
-    Writeln ( "File 
-menu background: 0x"  &  Hex ( _GUICtrlMenu_GetMenuBackground ( $hFile ))) 
+	WinWaitActive("[CLASS:Notepad]")
+	$hWnd = WinGetHandle("[CLASS:Notepad]")
+	$hMain = _GUICtrlMenu_GetMenu($hWnd)
+	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-EndFunc    ;==>_Main 
+	; File menu background
 
-; 
-Write a line of text to Notepad 
-Func Writeln ( $sText ) 
-    ControlSend ( "[CLASS:Notepad]" ,  "" ,  "Edit1" ,  $sText  &  @CR ) 
-EndFunc    ;==>Writeln 
+	Writeln( "File menu
+	background: 0x"  &  Hex ( _GUICtrlMenu_GetMenuBackground ( $hFile )))
+	$hBrush = _WinAPI_GetSysColorBrush($COLOR_INFOBK)
+
+	_GUICtrlMenu_SetMenuBackground($hFile, $hBrush)
+	Writeln( "File
+	menu background: 0x"  &  Hex ( _GUICtrlMenu_GetMenuBackground ( $hFile )))
+
+endfunc   ;==>_Main
+
+;
+Write a line of text to Notepad
+Func Writeln($sText)
+	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
+endfunc   ;==>Writeln
 

@@ -1,32 +1,32 @@
 
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
-6 
-#include  <GuiEdit.au3> 
-#include  <GuiConstantsEx.au3> 
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w
+6
+#include  <GuiEdit.au3>
+#include  <GuiConstantsEx.au3>
 
-Opt ( 'MustDeclareVars' ,  1 ) 
+Opt('MustDeclareVars', 1)
 
-$Debug_Ed  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
+$Debug_Ed = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
 
-_Main () 
+_Main()
 
-Func _Main () 
-    Local  $hEdit 
-    Local  $sFile  =  RegRead ( "HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt" ,  "InstallDir" )  &  "\include\changelog.txt" 
+Func _Main()
+	Local $hEdit
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
 
-    ; 创建界面 
-    GUICreate ( "Edit Get Line" ,  400 ,  300 ) 
-    $hEdit  =  GUICtrlCreateEdit ( "" ,  2 ,  2 ,  394 ,  268 ) 
-  
-  GUISetState () 
-    
-    _GUICtrlEdit_SetText ( $hEdit ,  FileRead ( $sFile )) 
-    
-    MsgBox ( 4160 ,  "Information" ,  _GUICtrlEdit_GetLine ( $hEdit ,  Random ( 0 ,  7 ,  1 ))) 
-    
-    ; 循环至用户退出 
-    Do 
-    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
-    GUIDelete () 
-EndFunc    ;==>_Main 
+	; 创建界面
+	GUICreate("Edit Get Line", 400, 300)
+	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268)
+
+	GUISetState()
+
+	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
+
+	MsgBox(4160, "Information", _GUICtrlEdit_GetLine($hEdit, Random(0, 7, 1)))
+
+	; 循环至用户退出
+	Do
+	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+	GUIDelete()
+endfunc   ;==>_Main
 

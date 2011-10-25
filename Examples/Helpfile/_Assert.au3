@@ -1,5 +1,5 @@
- #include <Debug.au3> 
- 
- $sABC = "" 
- _Assert ( ' $sABC > "" ' ) 
- 
+#include <Debug.au3>
+
+$sABC = ""
+_Assert('$sABC > ""')
+

@@ -1,34 +1,34 @@
 
-#include  <GuiMenu.au3> 
+#include  <GuiMenu.au3>
 
-Opt ( 'MustDeclareVars' ,  1 ) 
+Opt('MustDeclareVars', 1)
 
-_Main () 
+_Main()
 
-Func _Main () 
-    Local  $hWnd ,  $hMain ,  $hFile 
+Func _Main()
+	Local $hWnd, $hMain, $hFile
 
-    ; Open Notepad 
-    Run ( "Notepad.exe" ) 
-  
-  WinWaitActive ( "[CLASS:Notepad]" ) 
-    $hWnd  =  WinGetHandle ( "[CLASS:Notepad]" ) 
-    $hMain  =  _GUICtrlMenu_GetMenu ( $hWnd ) 
-    $hFile  =  _GUICtrlMenu_GetItemSubMenu ( $hMain ,  0 ) 
+	; Open Notepad
+	Run("Notepad.exe")
 
-    ; Get/Set File menu data 
-  
-  Writeln ( "File data: 
-"  &  _GUICtrlMenu_GetMenuData ( $hFile )) 
-    _GUICtrlMenu_SetMenuData ( $hFile ,  1234 ) 
-    
-Writeln ( "File data: "  &  _GUICtrlMenu_GetMenuData ( $hFile )) 
+	WinWaitActive("[CLASS:Notepad]")
+	$hWnd = WinGetHandle("[CLASS:Notepad]")
+	$hMain = _GUICtrlMenu_GetMenu($hWnd)
+	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-EndFunc    ;==>_Main 
+	; Get/Set File menu data
 
-; Write a line of text to 
-Notepad 
-Func Writeln ( $sText ) 
-    ControlSend ( "[CLASS:Notepad]" ,  "" ,  "Edit1" ,  $sText  &  @CR ) 
-EndFunc    ;==>Writeln 
+	Writeln( "File data:
+	"  &  _GUICtrlMenu_GetMenuData ( $hFile ))
+	_GUICtrlMenu_SetMenuData($hFile, 1234)
+
+	Writeln("File data:" & _GUICtrlMenu_GetMenuData($hFile))
+
+endfunc   ;==>_Main
+
+; Write a line of text to
+Notepad
+Func Writeln($sText)
+	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
+endfunc   ;==>Writeln
 

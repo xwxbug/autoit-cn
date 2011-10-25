@@ -7,4 +7,4 @@ $rData = "文本 | 备注 | 1 | 111";在DB1.mdb数据库中添加新记录，输入的必须是工作类
 _accessCreateDB($adSource);在脚本目录创建DB1.mdb数据库
 _accessCreateTable($adSource, $adTable, $adCol);在DB1.mdb数据库中创建表
 $yo = _accessAddRecord($adSource, $adTable, $rData, $adCol = 0);在DB1.mdb数据库中添加新记录
-MsgBox(0, "提示", "数据库添加新记录<" & $rData & ">成功")
+msgbox(0, "提示", "数据库添加新记录<" & $rData & ">成功")

@@ -1,57 +1,57 @@
 
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 
-6 
-#include  <GuiConstantsEx.au3> 
-#include  <GuiTreeView.au3> 
-#include  <GuiImageList.au3> 
-#include  <WindowsConstants.au3> 
+#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w
+6
+#include  <GuiConstantsEx.au3>
+#include  <GuiTreeView.au3>
+#include  <GuiImageList.au3>
+#include  <WindowsConstants.au3>
 
-Opt ( 'MustDeclareVars' ,  1 ) 
+Opt('MustDeclareVars', 1)
 
-$Debug_TV  =  False  ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作 
+$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
 
-_Main () 
+_Main()
 
-Func _Main () 
+Func _Main()
 
-    Local  $hItem [ 6 ],  $hImage ,  $hTreeView 
-    Local  $iStyle  =  BitOR ( $TVS_EDITLABELS ,  $TVS_HASBUTTONS ,  $TVS_HASLINES ,  $TVS_LINESATROOT ,  $TVS_DISABLEDRAGDROP ,  $TVS_SHOWSELALWAYS ,  $TVS_CHECKBOXES ) 
-    
-    GUICreate ( "TreeView Get Indent" ,  400 ,  300 ) 
+	Local $hItem[6], $hImage, $hTreeView
+	Local $iStyle = BitOR($TVS_EDITLABELS, $TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_DISABLEDRAGDROP, $TVS_SHOWSELALWAYS, $TVS_CHECKBOXES)
 
-    $hTreeView  =  GUICtrlCreateTreeView ( 2 ,  2 ,  396 ,  268 ,  $iStyle ,  $WS_EX_CLIENTEDGE ) 
-    GUISetState () 
+	GUICreate("TreeView Get Indent", 400, 300)
 
-    $hImage  =  _GUIImageList_Create ( 16 ,  16 ,  5 ,  3 ) 
-  
-  _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  110 ) 
-    _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  131 ) 
-    _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  165 ) 
-    _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  168 ) 
-    _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  137 ) 
-    _GUIImageList_AddIcon ( $hImage ,  "shell32.dll" ,  146 ) 
-    _GUICtrlTreeView_SetNormalImageList ( $hTreeView ,  $hImage ) 
+	$hTreeView = GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
+	GUISetState()
 
-  
-  _GUICtrlTreeView_BeginUpdate ( $hTreeView ) 
-    For  $x  =  0  To  _GUIImageList_GetImageCount ( $hImage )  -  1 
-        $hItem [ $x ]  =  _GUICtrlTreeView_Add ( $hTreeView ,  0 ,  StringFormat ( "[%02d] New 
-Item" ,  $x  +  1 ),  $x ,  $x ) 
-  
-  Next 
-    _GUICtrlTreeView_EndUpdate ( $hTreeView ) 
+	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 
-    MsgBox ( 4160 ,  "Information" ,  "Indent: "  &  _GUICtrlTreeView_GetIndent ( $hTreeView )) 
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 110)
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 131)
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 165)
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 168)
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 137)
+	_GUIImageList_AddIcon($hImage, "shell32.dll", 146)
+	_GUICtrlTreeView_SetNormalImageList($hTreeView, $hImage)
 
-  
-  _GUICtrlTreeView_SetIndent ( $hTreeView ,  25 ) 
-    
-    MsgBox ( 4160 ,  "Information" ,  "Indent: "  &  _GUICtrlTreeView_GetIndent ( $hTreeView )) 
 
-  
-  ; 循环至用户退出 
-    Do 
-    Until  GUIGetMsg ()  =  $GUI_EVENT_CLOSE 
-    GUIDelete () 
-EndFunc    ;==>_Main 
+	_GUICtrlTreeView_BeginUpdate($hTreeView)
+	For $x = 0 To _GUIImageList_GetImageCount($hImage) - 1
+		$hItem[$x] = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat( "[%02d] New
+		Item" ,  $x  +  1 ),  $x ,  $x )
+
+	Next
+	_GUICtrlTreeView_EndUpdate($hTreeView)
+
+	MsgBox(4160, "Information", "Indent:" & _GUICtrlTreeView_GetIndent($hTreeView))
+
+
+	_GUICtrlTreeView_SetIndent($hTreeView, 25)
+
+	MsgBox(4160, "Information", "Indent:" & _GUICtrlTreeView_GetIndent($hTreeView))
+
+
+	; 循环至用户退出
+	Do
+	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+	GUIDelete()
+endfunc   ;==>_Main
 

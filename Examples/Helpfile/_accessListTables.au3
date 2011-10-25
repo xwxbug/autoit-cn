@@ -4,4 +4,4 @@ $adSource = @ScriptDir & "\DB1.mdb"
 $adTable = "Computer"
 
 $yo = _accessListTables($adSource)
-MsgBox(0, "", $yo)
+msgbox(0, "", $yo)

@@ -6,4 +6,4 @@ $adCol = "a"
 $Find = "A1"
 $adOcc = "0"
 $yo = _accessDeleteRecord($adSource, $adTable, $adCol, $Find, $adOcc)
-MsgBox(0, "", $yo)
+msgbox(0, "", $yo)

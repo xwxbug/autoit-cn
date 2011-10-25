@@ -13,4 +13,4 @@ _BlockInputEx(0)
 
 Func _Quit()
 	Exit
-EndFunc
+endfunc

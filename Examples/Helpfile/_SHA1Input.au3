@@ -14,4 +14,4 @@ Next
 $Hash = _SHA1Result($SHA1CTX)
 FileClose($FileHandle)
 
-MsgBox (0, "Result", $Hash & " in " & Round(TimerDiff($Timer)) & " ms")
+msgbox(0, "Result", $Hash & " in" & Round(TimerDiff($Timer)) & " ms")

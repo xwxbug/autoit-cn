@@ -7,6 +7,6 @@ $adCol = "a"
 $Find = ""
 $adFull = 1
 $yo = _accessQueryLike($adSource, $adTable, $adCol, $Find, $adFull)
-_ArrayDisplay($yo, "返回值")
+_arraydisplay($yo, "返回值")
 $aRecord = StringSplit($yo[1], Chr(28))
-_ArrayDisplay($aRecord, "每个值")
+_arraydisplay($aRecord, "每个值")

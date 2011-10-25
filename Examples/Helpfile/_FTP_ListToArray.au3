@@ -8,7 +8,7 @@ Local $Open = _FTP_Open('MyFTP Control')
 Local $Conn = _FTP_Connect($Open, $server, $username, $pass)
 
 Local $aFile = _FTP_ListToArray($Conn, 2)
-ConsoleWrite('$NbFound = ' & $aFile[0] & '  -> Error code: ' & @error & @crlf)
-ConsoleWrite('$Filename = ' & $aFile[1] & @crlf)
+ConsoleWrite('$NbFound =' & $aFile[0] & '  -> Error code:' & @error & @crlf)
+ConsoleWrite('$Filename =' & $aFile[1] & @crlf)
 
 Local $Ftpc = _FTP_Close($Open)

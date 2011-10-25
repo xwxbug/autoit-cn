@@ -1,4 +1,4 @@
- 
- #include  <Date.au3> 
- MsgBox ( 0 , '' , "The Date is:"  &  _NowDate ()) 
- 
+
+#include  <Date.au3>
+msgbox(0, '', "The Date is:" & _NowDate())
+

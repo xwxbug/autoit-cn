@@ -7,4 +7,4 @@ $adQuery = "文本"
 $adcCol = "a"
 $adData = "文本文本"
 $yo = _accessUpdateRecord($adSource, $adTable, $adCol, $adQuery, $adcCol, $adData)
-MsgBox(0, "", $yo)
+msgbox(0, "", $yo)

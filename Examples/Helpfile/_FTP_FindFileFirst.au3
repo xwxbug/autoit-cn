@@ -9,7 +9,7 @@ Local $Conn = _FTP_Connect($Open, $server, $username, $pass)
 
 Local $h_Handle
 Local $aFile = _FTP_FindFileFirst($Conn, "/pub/software/programming/pcre/", $h_Handle)
-ConsoleWrite('$Filename = ' & $aFile[10] & ' attribute = ' & $aFile[1] & '  -> Error code: ' & @error & @crlf)
+ConsoleWrite('$Filename =' & $aFile[10] & ' attribute =' & $aFile[1] & '  -> Error code:' & @error & @crlf)
 
 Local $FindClose = _FTP_FindFileClose($h_Handle)
 

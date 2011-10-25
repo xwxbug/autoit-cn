@@ -1,0 +1,116 @@
+#Include <GUITab.au3>
+#Include <WinAPIEx.au3>
+
+Opt('MustDeclareVars ', 1)
+Opt('TrayAutoPause ', 1)
+
+If Not _WinAPI_DwmIsCompositionEnabled() Then
+	MsgBox(16, 'Error ', 'Require Windows Vista or later with enabled Aero theme.')
+	Exit
+EndIf
+
+Global Const $PRF_CLIENT = 0x04
+
+Global $hForm, $hTab, $tMARGINS, $hDll, $pDll, $hProc
+
+OnAutoItExitRegister('OnAutoItExit')
+
+; 创建界面
+$hForm = GUICreate ' MyGUI ', 400, 400)
+GUICtrlCreateTab(0, 60, 402, 341, $WS_CLIPCHILDREN)
+$hTab = GUICtrlGetHandle(-1)
+GUICtrlCreateTabItem('Tab 1')
+GUICtrlCreateButton('Button ', 150, 167, 100, 26)
+_WinAPI_SetParent( GUICtrlGetHandle(-1), $hTab)
+GUICtrlCreateTabItem('Tab 2')
+GUICtrlCreateEdit('', 14, 34, 372, 292)
+_WinAPI_SetParent( GUICtrlGetHandle(-1), $hTab)
+GUICtrlCreateTabItem('Tab 3')
+GUICtrlCreateTabItem('')
+GUISetBkColor(0)
+
+; 注册标签窗口进程
+$hDll = DllCallbackRegister ' _WinProc ', 'ptr ', 'hwnd;uint;wparam;lparam')
+$pDll = DllCallbackGetPtr($hDll)
+$hProc = _WinAPI_SetWindowLongEx($hTab, $GWL_WNDPROC, $pDll)
+
+; 在标签区域创建"玻璃标签"效果. 无论何时切换DWM组件都必须调用该函数.
+$tMARGINS = DllStructCreate($tagMARGINS)
+DllStructSetData($tMARGINS, 1, 2)
+DllStructSetData($tMARGINS, 2, 2)
+DllStructSetData($tMARGINS, 3, 82)
+DllStructSetData($tMARGINS, 4, 2)
+_WinAPI_DwmExtendFrameIntoClientArea($hForm, $tMARGINS)
+
+GUISetState()
+
+Do
+Until GUIGetMsg() = -3
+
+Func _WinProc($hWnd, $iMsg, $wParam, $lParam)
+	If _WinAPI_IsThemeActive() Then
+		Switch $iMsg
+			Case $WM_ERASEBKGND
+
+				Local $tRECT, $hBrush, $hRgn, $hPrev
+
+				$hPrev = _WinAPI_GetClipRgn($wParam)
+				$hRgn = _CreateClipRgn($hWnd)
+				_WinAPI_ExtSelectClipRgn($wParam, $hRgn, $RGN_DIFF)
+				$tRECT = _WinAPI_GetClientRect($hWnd)
+				$hBrush = _WinAPI_CreateSolidBrush(0)
+				_WinAPI_FillRect($wParam, DllStructGetPtr($tRECT), $hBrush)
+				_WinAPI_SelectClipRgn($wParam, $hPrev)
+				_WinAPI_DeleteObject($hBrush)
+				_WinAPI_DeleteObject($hRgn)
+				Return 1
+			Case $WM_PAINT
+
+				Local $tPAINTSTRUCT, $hDC, $hRgn
+				$hDC = _WinAPI_BeginPaint($hWnd, $tPAINTSTRUCT)
+				$hRgn = _CreateClipRgn($hWnd)
+				_WinAPI_ExtSelectClipRgn($hDC, $hRgn, $RGN_AND)
+				_WinAPI_CallWindowProc($hProc, $hWnd, $WM_PRINTCLIENT, $hDC, $PRF_CLIENT)
+				_WinAPI_DeleteObject($hRgn)
+				_WinAPI_EndPaint($hWnd, $tPAINTSTRUCT)
+				Return 0
+		EndSwitch
+	EndIf
+	Return _WinAPI_CallWindowProc($hProc, $hWnd, $iMsg, $wParam, $lParam)
+endfunc   ;==>_WinProc
+
+Func _CreateClipRgn($hWnd)
+
+	Local $tRECT, $hTmp, $hRgn, $Ht, $Count, $Sel
+	$Count = _GUICtrlTab_GetItemCount($hWnd)
+	$Sel = _GUICtrlTab_GetCurSel($hWnd)
+	$hRgn = _WinAPI_CreateNullRgn()
+	For $i = 0 To $Count - 1
+		$tRECT = _GUICtrlTab_GetItemRectEx($hWnd, $i)
+		If $i = $Sel Then
+			$hTmp = _WinAPI_CreateRectRgn( DllStructGetData($tRECT, 1) - 2, DllStructGetData($tRECT, 2) - 2, DllStructGetData($tRECT, 3) + 2, DllStructGetData($tRECT, 4))
+			$Ht = DllStructGetData($tRECT, 4)
+			 - DllStructGetData($tRECT, 2) + 2
+		Else
+			If $i = $Count - 1 Then
+				$hTmp = _WinAPI_CreateRectRgn( DllStructGetData($tRECT, 1)
+				, DllStructGetData($tRECT, 2), DllStructGetData($tRECT, 3) - 2, DllStructGetData($tRECT, 4))
+			Else
+				$hTmp = _WinAPI_CreateRectRgn( DllStructGetData($tRECT, 1)
+				, DllStructGetData($tRECT, 2), DllStructGetData($tRECT, 3), DllStructGetData($tRECT, 4))
+			EndIf
+		EndIf
+		_WinAPI_CombineRgn($hRgn, $hRgn, $hTmp, $RGN_OR)
+		_WinAPI_DeleteObject($hTmp)
+	Next
+	$tRECT = _WinAPI_GetClientRect($hWnd)
+	$hTmp = _WinAPI_CreateRectRgn( DllStructGetData($tRECT, 1), DllStructGetData($tRECT, 2) + $Ht, DllStructGetData($tRECT, 3) - 2, DllStructGetData($tRECT, 4) - 1)
+	_WinAPI_CombineRgn($hRgn, $hRgn, $hTmp, $RGN_OR)
+	_WinAPI_DeleteObject($hTmp)
+	Return $hRgn
+endfunc   ;==>_CreateClipRgn
+
+Func OnAutoItExit()
+	_WinAPI_SetWindowLongEx($hTab, $GWL_WNDPROC, $hProc)
+	DllCallbackFree($hDll)
+endfunc   ;==>OnAutoItExit

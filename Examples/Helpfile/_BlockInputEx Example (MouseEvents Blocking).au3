@@ -16,4 +16,4 @@ WEnd
 
 Func _Quit()
 	Exit
-EndFunc
+endfunc
