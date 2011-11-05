@@ -18,6 +18,8 @@ AutoIt工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 3.3.7.19 (2011-10-XX) (Beta) 第一汉化版
+SciTe:
+[H][!]更新: 更新SciTe到3.0.0版.
 AutoIt:
 [G][+]新增: "clsid" InterfaceDispatch data type.
 [G][!]更新: "str" and "wstr" InterfaceDispatch data types treated as true byref types.
