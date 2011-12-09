@@ -1,5 +1,5 @@
-#include <ClipBoard.au3>
-#include <GuiConstantsEx.au3>
+#include <Clipboard.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <SendMessage.au3>
 
