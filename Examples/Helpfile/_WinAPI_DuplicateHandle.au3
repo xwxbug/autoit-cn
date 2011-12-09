@@ -1,14 +1,13 @@
-#include <WinApiEx.au3>
+#include <WinAPI.au3>
 
-Opt('MustDeclareVars ', 1)
+Local $hCurProcessPseudo = _WinAPI_GetCurrentProcess()
+ConsoleWrite("Pseudo handle for current process = " & $hCurProcessPseudo & @CRLF)
 
-Global $hPseudo = _WinAPI_GetCurrentProcess()
-Global $hReal = _WinAPI_DuplicateHandle($hPseudo, $hPseudo, $hPseudo)
+Local $hCurProcess = _WinAPI_DuplicateHandle($hCurProcessPseudo, $hCurProcessPseudo, $hCurProcessPseudo, Default, True, $DUPLICATE_SAME_ACCESS)
+ConsoleWrite("Real handle for current process = " & $hCurProcess & @CRLF)
 
-msgbox(64, '_WinAPI_DuplicateHandle ', 'Process name:' & _WinAPI_GetProcessName() & @CRLF & _
-		' Process ID:' & _WinAPI_GetCurrentProcessID() & @CRLF & _
-		' Pseudo handle:' & $hPseudo & @CRLF & _
-		' Real handle:' & $hReal)
+;...
 
-_WinAPI_CloseHandle($hReal)
+; Close handle when no longer needed
+_WinAPI_CloseHandle($hCurProcess)
 
