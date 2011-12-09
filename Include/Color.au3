@@ -241,10 +241,10 @@ EndFunc   ;==>_ColorGetRed
 ; Example .......:
 ; =================================================================================================
 Func _ColorGetCOLORREF($nColor, $curExt = @extended)
-	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid color value
+	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
 	$aColor[2] = BitAND(BitShift($nColor, 16), 0xFF)
-	$aColor[1] = BitAND(BitShift($nColor,  8), 0xFF)
+	$aColor[1] = BitAND(BitShift($nColor, 8), 0xFF)
 	$aColor[0] = BitAND($nColor, 0xFF)
 	Return SetExtended($curExt, $aColor)
 EndFunc   ;==>_ColorGetCOLORREF
@@ -267,10 +267,10 @@ EndFunc   ;==>_ColorGetCOLORREF
 ; Example .......:
 ; =================================================================================================
 Func _ColorGetRGB($nColor, $curExt = @extended)
-	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0)	; invalid color value
+	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
 	$aColor[0] = BitAND(BitShift($nColor, 16), 0xFF)
-	$aColor[1] = BitAND(BitShift($nColor,  8), 0xFF)
+	$aColor[1] = BitAND(BitShift($nColor, 8), 0xFF)
 	$aColor[2] = BitAND($nColor, 0xFF)
 	Return SetExtended($curExt, $aColor)
 EndFunc   ;==>_ColorGetRGB
@@ -295,12 +295,12 @@ EndFunc   ;==>_ColorGetRGB
 ; Example .......:
 ; =================================================================================================
 Func _ColorSetCOLORREF($aColor, $curExt = @extended)
-	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1)	; invalid array
+	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor
-	For $i = 2 to 0 Step -1
+	For $i = 2 To 0 Step -1
 		$nColor = BitShift($nColor, -8)
 		$iColor = $aColor[$i]
-		If $iColor <0 Or $iColor >  255 Then Return SetError(2, $i, -1)	; invalid color value
+		If $iColor < 0 Or $iColor > 255 Then Return SetError(2, $i, -1) ; invalid color value
 		$nColor += $iColor
 	Next
 	Return SetExtended($curExt, $nColor)
@@ -326,12 +326,12 @@ EndFunc   ;==>_ColorSetCOLORREF
 ; Example .......:
 ; =================================================================================================
 Func _ColorSetRGB($aColor, $curExt = @extended)
-	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1)	; invalid array
+	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor
-	For $i = 0 to 2
+	For $i = 0 To 2
 		$nColor = BitShift($nColor, -8)
 		$iColor = $aColor[$i]
-		If $iColor <0 Or $iColor >  255 Then Return SetError(2, 0, -1)	; invalid color value
+		If $iColor < 0 Or $iColor > 255 Then Return SetError(2, 0, -1) ; invalid color value
 		$nColor += $iColor
 	Next
 	Return SetExtended($curExt, $nColor)

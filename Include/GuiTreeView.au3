@@ -10,7 +10,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: TreeView
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with TreeView control management.
 ;                  A TreeView control is a window that displays a hierarchical list of items, such as the headings in a document,
@@ -396,9 +396,7 @@ Func __GUICtrlTreeView_AddItem($hWnd, $hRelative, $sText, $iMethod, $iImage = -1
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $tInsert = DllStructCreate($tagTVINSERTSTRUCT)
-	Local $pInsert = DllStructGetPtr($tInsert)
 	Switch $iAddMode
 		Case $TVTA_ADDFIRST
 			DllStructSetData($tInsert, "InsertAfter", $TVI_FIRST)
@@ -420,15 +418,15 @@ Func __GUICtrlTreeView_AddItem($hWnd, $hRelative, $sText, $iMethod, $iImage = -1
 
 	Local $hResult
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		DllStructSetData($tInsert, "Text", $pBuffer)
-		$hResult = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pInsert, 0, "wparam", "ptr", "handle")
+		DllStructSetData($tInsert, "Text", DllStructGetPtr($tBuffer))
+		$hResult = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $tInsert, 0, "wparam", "struct*", "handle")
 	Else
 		Local $iInsert = DllStructGetSize($tInsert)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iInsert + $iBuffer, $tMemMap)
 		Local $pText = $pMemory + $iInsert
-		_MemWrite($tMemMap, $pInsert, $pMemory, $iInsert)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		_MemWrite($tMemMap, $tInsert, $pMemory, $iInsert)
+		_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
 		DllStructSetData($tInsert, "Text", $pText)
 		If $fUnicode Then
 			$hResult = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr", "handle")
@@ -823,27 +821,26 @@ Func _GUICtrlTreeView_DisplayRectEx($hWnd, $hItem, $fTextOnly = False)
 	If $Debug_TV Then __UDF_ValidateClassName($hWnd, $__TREEVIEWCONSTANT_ClassName)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $pRect = DllStructGetPtr($tRect)
 	Local $iRet
 	If IsHWnd($hWnd) Then
 		; RECT is expected to point to the item in its first member.
 		DllStructSetData($tRect, "Left", $hItem)
 		If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-			$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, $fTextOnly, $pRect, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, $fTextOnly, $tRect, 0, "wparam", "struct*")
 		Else
 			Local $iRect = DllStructGetSize($tRect)
 			Local $tMemMap
 			Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
-			_MemWrite($tMemMap, $pRect)
+			_MemWrite($tMemMap, $tRect)
 			$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, $fTextOnly, $pMemory, 0, "wparam", "ptr")
-			_MemRead($tMemMap, $pMemory, $pRect, $iRect)
+			_MemRead($tMemMap, $pMemory, $tRect, $iRect)
 			_MemFree($tMemMap)
 		EndIf
 	Else
 		If Not IsHWnd($hItem) Then $hItem = _GUICtrlTreeView_GetItemHandle($hWnd, $hItem)
 		; RECT is expected to point to the item in its first member.
 		DllStructSetData($tRect, "Left", $hItem)
-		$iRet = GUICtrlSendMsg($hWnd, $TVM_GETITEMRECT, $fTextOnly, $pRect)
+		$iRet = GUICtrlSendMsg($hWnd, $TVM_GETITEMRECT, $fTextOnly, DllStructGetPtr($tRect))
 	EndIf
 
 	; On failure ensure Left is set to 0 and not the item handle.
@@ -1580,9 +1577,8 @@ Func _GUICtrlTreeView_GetISearchString($hWnd)
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		_SendMessage($hWnd, $TVM_GETISEARCHSTRINGW, 0, $pBuffer, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TVM_GETISEARCHSTRINGW, 0, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
@@ -1591,7 +1587,7 @@ Func _GUICtrlTreeView_GetISearchString($hWnd)
 		Else
 			_SendMessage($hWnd, $TVM_GETISEARCHSTRINGA, 0, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
+		_MemRead($tMemMap, $pMemory, $tBuffer, $iBuffer)
 		_MemFree($tMemMap)
 	EndIf
 
@@ -1619,25 +1615,25 @@ Func __GUICtrlTreeView_GetItem($hWnd, ByRef $tItem)
 
 	Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
 
-	Local $pItem = DllStructGetPtr($tItem)
 	Local $iRet
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-			$iRet = _SendMessage($hWnd, $TVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr")
+			$iRet = _SendMessage($hWnd, $TVM_GETITEMW, 0, $tItem, 0, "wparam", "struct*")
 		Else
 			Local $iItem = DllStructGetSize($tItem)
 			Local $tMemMap
 			Local $pMemory = _MemInit($hWnd, $iItem, $tMemMap)
-			_MemWrite($tMemMap, $pItem)
+			_MemWrite($tMemMap, $tItem)
 			If $fUnicode Then
 				$iRet = _SendMessage($hWnd, $TVM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 			Else
 				$iRet = _SendMessage($hWnd, $TVM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 			EndIf
-			_MemRead($tMemMap, $pMemory, $pItem, $iItem)
+			_MemRead($tMemMap, $pMemory, $tItem, $iItem)
 			_MemFree($tMemMap)
 		EndIf
 	Else
+		Local $pItem = DllStructGetPtr($tItem)
 		If $fUnicode Then
 			$iRet = GUICtrlSendMsg($hWnd, $TVM_GETITEMW, 0, $pItem)
 		Else
@@ -1734,9 +1730,9 @@ Func _GUICtrlTreeView_GetItemParam($hWnd, $hItem = 0)
 		DllStructSetData($tItem, "hItem", $hItem)
 		; get the item properties
 		If $fUnicode Then
-			If _SendMessage($hWnd, $TVM_GETITEMW, 0, DllStructGetPtr($tItem), 0, "wparam", "ptr") = 0 Then Return False
+			If _SendMessage($hWnd, $TVM_GETITEMW, 0, $tItem, 0, "wparam", "struct*") = 0 Then Return False
 		Else
-			If _SendMessage($hWnd, $TVM_GETITEMA, 0, DllStructGetPtr($tItem), 0, "wparam", "ptr") = 0 Then Return False
+			If _SendMessage($hWnd, $TVM_GETITEMA, 0, $tItem, 0, "wparam", "struct*") = 0 Then Return False
 		EndIf
 	Else
 		; get the handle to item selected
@@ -2037,7 +2033,7 @@ Func _GUICtrlTreeView_GetParentParam($hWnd, $hItem = 0)
 		$hParent = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_PARENT, $hItem, 0, "wparam", "handle", "handle")
 		DllStructSetData($tTVITEM, "hItem", $hParent)
 		; get the item properties
-		If _SendMessage($hWnd, $TVM_GETITEMA, 0, DllStructGetPtr($tTVITEM), 0, "wparam", "ptr") = 0 Then Return False
+		If _SendMessage($hWnd, $TVM_GETITEMA, 0, $tTVITEM, 0, "wparam", "struct*") = 0 Then Return False
 	Else
 		; get the handle to item selected
 		If $hItem = 0x00000000 Then
@@ -2318,20 +2314,19 @@ Func _GUICtrlTreeView_GetState($hWnd, $hItem = 0)
 	If $hItem = 0x00000000 Then Return SetError(1, 1, 0)
 
 	Local $tTVITEM = DllStructCreate($tagTVITEMEX)
-	Local $pItem = DllStructGetPtr($tTVITEM)
 	DllStructSetData($tTVITEM, "Mask", $TVIF_STATE)
 	DllStructSetData($tTVITEM, "hItem", $hItem)
 
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		_SendMessage($hWnd, $TVM_GETITEMA, 0, $pItem)
+		_SendMessage($hWnd, $TVM_GETITEMA, 0, $tTVITEM, 0, "wparam", "struct*")
 	Else
 		Local $iSize = DllStructGetSize($tTVITEM)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iSize, $tMemMap)
-		_MemWrite($tMemMap, $pItem)
+		_MemWrite($tMemMap, $tTVITEM)
 		_SendMessage($hWnd, $TVM_GETITEMA, 0, $pMemory)
-		_MemRead($tMemMap, $pMemory, $pItem, $iSize)
+		_MemRead($tMemMap, $pMemory, $tTVITEM, $iSize)
 		_MemFree($tMemMap)
 	EndIf
 
@@ -2417,29 +2412,27 @@ Func _GUICtrlTreeView_GetText($hWnd, $hItem = 0)
 	Else
 		$tText = DllStructCreate("char Buffer[4096]"); create a text 'area' for receiving the text
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tText)
-	Local $pItem = DllStructGetPtr($tTVITEM)
 
 	DllStructSetData($tTVITEM, "Mask", $TVIF_TEXT)
 	DllStructSetData($tTVITEM, "hItem", $hItem)
 	DllStructSetData($tTVITEM, "TextMax", 4096)
 
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		DllStructSetData($tTVITEM, "Text", $pBuffer)
-		_SendMessage($hWnd, $TVM_GETITEMW, 0, $pItem, 0, "wparam", "ptr")
+		DllStructSetData($tTVITEM, "Text", DllStructGetPtr($tText))
+		_SendMessage($hWnd, $TVM_GETITEMW, 0, $tTVITEM, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tTVITEM)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem + 4096, $tMemMap)
 		Local $pText = $pMemory + $iItem
 		DllStructSetData($tTVITEM, "Text", $pText)
-		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
+		_MemWrite($tMemMap, $tTVITEM, $pMemory, $iItem)
 		If $fUnicode Then
 			_SendMessage($hWnd, $TVM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
 			_SendMessage($hWnd, $TVM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pText, $pBuffer, 4096)
+		_MemRead($tMemMap, $pText, $tText, 4096)
 		_MemFree($tMemMap)
 	EndIf
 
@@ -2577,18 +2570,17 @@ Func _GUICtrlTreeView_GetVisible($hWnd, $hItem)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $pRect = DllStructGetPtr($tRect)
 	DllStructSetData($tRect, "Left", $hItem)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, True, $pRect, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, True, $tRect, 0, "wparam", "struct*")
 	Else
 		Local $iRect = DllStructGetSize($tRect)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
-		_MemWrite($tMemMap, $pRect)
+		_MemWrite($tMemMap, $tRect)
 		$iRet = _SendMessage($hWnd, $TVM_GETITEMRECT, True, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
 		_MemFree($tMemMap)
 	EndIf
 	If $iRet = 0 Then Return False ; item is child item, collapsed and not visible
@@ -2693,18 +2685,17 @@ Func _GUICtrlTreeView_HitTestEx($hWnd, $iX, $iY)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tHitTest = DllStructCreate($tagTVHITTESTINFO)
-	Local $pHitTest = DllStructGetPtr($tHitTest)
 	DllStructSetData($tHitTest, "X", $iX)
 	DllStructSetData($tHitTest, "Y", $iY)
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		_SendMessage($hWnd, $TVM_HITTEST, 0, $pHitTest, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TVM_HITTEST, 0, $tHitTest, 0, "wparam", "struct*")
 	Else
 		Local $iHitTest = DllStructGetSize($tHitTest)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iHitTest, $tMemMap)
-		_MemWrite($tMemMap, $pHitTest)
+		_MemWrite($tMemMap, $tHitTest)
 		_SendMessage($hWnd, $TVM_HITTEST, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pHitTest, $iHitTest)
+		_MemRead($tMemMap, $pMemory, $tHitTest, $iHitTest)
 		_MemFree($tMemMap)
 	EndIf
 	Return $tHitTest
@@ -2796,7 +2787,6 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 	If $Debug_TV Then __UDF_ValidateClassName($hWnd, $__TREEVIEWCONSTANT_ClassName)
 
 	Local $tTVI = DllStructCreate($tagTVINSERTSTRUCT)
-	Local $pInsert = DllStructGetPtr($tTVI)
 
 	Local $iBuffer, $pBuffer
 	If $sItem_Text <> -1 Then
@@ -2813,7 +2803,7 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 		$pBuffer = DllStructGetPtr($tText)
 	Else
 		$iBuffer = 0
-		$pBuffer = -1	; LPSTR_TEXTCALLBACK
+		$pBuffer = -1 ; LPSTR_TEXTCALLBACK
 	EndIf
 
 	Local $hItem_tmp
@@ -2883,7 +2873,7 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 	Local $hItem
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
 		DllStructSetData($tTVI, "Text", $pBuffer)
-		$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pInsert, 0, "wparam", "ptr", "handle")
+		$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $tTVI, 0, "wparam", "struct*", "handle")
 
 	Else
 		Local $iInsert = DllStructGetSize($tTVI)
@@ -2892,11 +2882,11 @@ Func _GUICtrlTreeView_InsertItem($hWnd, $sItem_Text, $hItem_Parent = 0, $hItem_A
 		If $sItem_Text <> -1 Then
 			Local $pText = $pMemory + $iInsert
 			DllStructSetData($tTVI, "Text", $pText)
-			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+			_MemWrite($tMemMap, $tText, $pText, $iBuffer)
 		Else
-			DllStructSetData($tTVI, "Text", -1)	; LPSTR_TEXTCALLBACK
+			DllStructSetData($tTVI, "Text", -1) ; LPSTR_TEXTCALLBACK
 		EndIf
-		_MemWrite($tMemMap, $pInsert, $pMemory, $iInsert)
+		_MemWrite($tMemMap, $tTVI, $pMemory, $iInsert)
 		If $fUnicode Then
 			$hItem = _SendMessage($hWnd, $TVM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr", "handle")
 		Else
@@ -3365,7 +3355,7 @@ Func _GUICtrlTreeView_SetIcon($hWnd, $hItem = 0, $sIconFile = "", $iIconID = 0, 
 
 	Local $tIcon = DllStructCreate("handle")
 	Local $i_count = DllCall("shell32.dll", "uint", "ExtractIconExW", "wstr", $sIconFile, "int", $iIconID, _
-			"handle", 0, "handle", DllStructGetPtr($tIcon), "uint", 1)
+			"handle", 0, "struct*", $tIcon, "uint", 1)
 	If @error Then Return SetError(@error, @extended, 0)
 	If $i_count[0] = 0 Then Return 0
 
@@ -3536,15 +3526,14 @@ Func __GUICtrlTreeView_SetItem($hWnd, ByRef $tItem)
 
 	Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
 
-	Local $pItem = DllStructGetPtr($tItem)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TVM_SETITEMW, 0, $tItem, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem, $tMemMap)
-		_MemWrite($tMemMap, $pItem)
+		_MemWrite($tMemMap, $tItem)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $TVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
@@ -3829,7 +3818,7 @@ Func _GUICtrlTreeView_SetStateImageIndex($hWnd, $hItem, $iIndex)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	If $iIndex < 0 Then
- 		; Invalid index for State Image" & @LF & "State Image List is One-based list
+		; Invalid index for State Image" & @LF & "State Image List is One-based list
 		Return SetError(1, 0, False)
 	EndIf
 
@@ -3897,7 +3886,6 @@ Func _GUICtrlTreeView_SetText($hWnd, $hItem = 0, $sText = "")
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tTVITEM = DllStructCreate($tagTVITEMEX)
-	Local $pItem = DllStructGetPtr($tTVITEM)
 	Local $iBuffer = StringLen($sText) + 1
 	Local $tBuffer
 	Local $fUnicode = _GUICtrlTreeView_GetUnicodeFormat($hWnd)
@@ -3907,23 +3895,22 @@ Func _GUICtrlTreeView_SetText($hWnd, $hItem = 0, $sText = "")
 	Else
 		$tBuffer = DllStructCreate("char Buffer[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	DllStructSetData($tBuffer, "Buffer", $sText)
 	DllStructSetData($tTVITEM, "Mask", BitOR($TVIF_HANDLE, $TVIF_TEXT))
 	DllStructSetData($tTVITEM, "hItem", $hItem)
 	DllStructSetData($tTVITEM, "TextMax", $iBuffer)
 	Local $fResult
 	If _WinAPI_InProcess($hWnd, $__ghTVLastWnd) Then
-		DllStructSetData($tTVITEM, "Text", $pBuffer)
-		$fResult = _SendMessage($hWnd, $TVM_SETITEMW, 0, $pItem, 0, "wparam", "ptr")
+		DllStructSetData($tTVITEM, "Text", DllStructGetPtr($tBuffer))
+		$fResult = _SendMessage($hWnd, $TVM_SETITEMW, 0, $tTVITEM, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tTVITEM)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
 		Local $pText = $pMemory + $iItem
 		DllStructSetData($tTVITEM, "Text", $pText)
-		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		_MemWrite($tMemMap, $tTVITEM, $pMemory, $iItem)
+		_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
 		If $fUnicode Then
 			$fResult = _SendMessage($hWnd, $TVM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else

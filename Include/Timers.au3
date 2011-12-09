@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Timers
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Timers management.
 ;                  An application uses a timer to schedule an event for a window after a specified time has elapsed.
@@ -70,7 +70,7 @@ Func _Timer_GetIdleTime()
 	; Get ticks at last activity
 	Local $tStruct = DllStructCreate("uint;dword");
 	DllStructSetData($tStruct, 1, DllStructGetSize($tStruct));
-	Local $aResult = DllCall("user32.dll", "bool", "GetLastInputInfo", "ptr", DllStructGetPtr($tStruct))
+	Local $aResult = DllCall("user32.dll", "bool", "GetLastInputInfo", "struct*", $tStruct)
 	If @error Or $aResult[0] = 0 Then Return SetError(@error, @extended, 0)
 
 	; Get current ticks since last restart
@@ -79,7 +79,7 @@ Func _Timer_GetIdleTime()
 
 	; Return time since last activity, in ticks (approx milliseconds)
 	Local $iDiff = $avTicks[0] - DllStructGetData($tStruct, 2)
-	If $iDiff < 0 Then  Return SetExtended(1, $avTicks[0])    ; Rollover of ticks counter has occured
+	If $iDiff < 0 Then Return SetExtended(1, $avTicks[0]) ; Rollover of ticks counter has occured
 	; Normal return
 	Return $iDiff
 EndFunc   ;==>_Timer_GetIdleTime
@@ -140,7 +140,7 @@ EndFunc   ;==>_Timer_Init
 ; ===============================================================================================================================
 Func _Timer_KillAllTimers($hWnd)
 	Local $iNumTimers = $_Timers_aTimerIDs[0][0]
-	If $iNumTimers = 0 Then  Return False
+	If $iNumTimers = 0 Then Return False
 	Local $aResult, $hCallBack = 0
 	For $x = $iNumTimers To 1 Step -1
 		If IsHWnd($hWnd) Then

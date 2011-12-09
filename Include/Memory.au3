@@ -7,6 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Memory
+; AutoIt Version : 3.3.7.20++
 ; Description ...: Functions that assist with Memory management.
 ;                  The memory manager implements virtual memory, provides a core set of services such  as  memory  mapped  files,
 ;                  copy-on-write memory, large memory support, and underlying support for the cache manager.
@@ -206,14 +207,14 @@ Func _MemInit($hWnd, $iSize, ByRef $tMemMap)
 	Local $aResult = DllCall("User32.dll", "dword", "GetWindowThreadProcessId", "hwnd", $hWnd, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $iProcessID = $aResult[2]
-	If $iProcessID = 0 Then Return SetError(1, 0, 0)	; Invalid window handle
+	If $iProcessID = 0 Then Return SetError(1, 0, 0) ; Invalid window handle
 
 	Local $iAccess = BitOR($PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
 	Local $hProcess = __Mem_OpenProcess($iAccess, False, $iProcessID, True)
 	Local $iAlloc = BitOR($MEM_RESERVE, $MEM_COMMIT)
 	Local $pMemory = _MemVirtualAllocEx($hProcess, 0, $iSize, $iAlloc, $PAGE_READWRITE)
 
-	If $pMemory = 0 Then Return SetError(2, 0, 0)	; Unable to allocate memory
+	If $pMemory = 0 Then Return SetError(2, 0, 0) ; Unable to allocate memory
 
 	$tMemMap = DllStructCreate($tagMEMMAP)
 	DllStructSetData($tMemMap, "hProc", $hProcess)
@@ -238,7 +239,7 @@ EndFunc   ;==>_MemInit
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemMoveMemory($pSource, $pDest, $iLength)
-	DllCall("kernel32.dll", "none", "RtlMoveMemory", "ptr", $pDest, "ptr", $pSource, "ulong_ptr", $iLength)
+	DllCall("kernel32.dll", "none", "RtlMoveMemory", "struct*", $pDest, "struct*", $pSource, "ulong_ptr", $iLength)
 	If @error Then Return SetError(@error, @extended)
 EndFunc   ;==>_MemMoveMemory
 
@@ -261,7 +262,7 @@ EndFunc   ;==>_MemMoveMemory
 ; ===============================================================================================================================
 Func _MemRead(ByRef $tMemMap, $pSrce, $pDest, $iSize)
 	Local $aResult = DllCall("kernel32.dll", "bool", "ReadProcessMemory", "handle", DllStructGetData($tMemMap, "hProc"), _
-		"ptr", $pSrce, "ptr", $pDest, "ulong_ptr", $iSize, "ulong_ptr*", 0)
+			"ptr", $pSrce, "struct*", $pDest, "ulong_ptr", $iSize, "ulong_ptr*", 0)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_MemRead
@@ -284,7 +285,7 @@ EndFunc   ;==>_MemRead
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _MemWrite(ByRef $tMemMap, $pSrce, $pDest = 0, $iSize = 0, $sSrce = "ptr")
+Func _MemWrite(ByRef $tMemMap, $pSrce, $pDest = 0, $iSize = 0, $sSrce = "struct*")
 	If $pDest = 0 Then $pDest = DllStructGetData($tMemMap, "Mem")
 	If $iSize = 0 Then $iSize = DllStructGetData($tMemMap, "Size")
 	Local $aResult = DllCall("kernel32.dll", "bool", "WriteProcessMemory", "handle", DllStructGetData($tMemMap, "hProc"), _
@@ -432,7 +433,7 @@ EndFunc   ;==>_MemVirtualFreeEx
 ; Link ..........: @@MsdnLink@@ OpenProcess
 ; Example .......:
 ; ===============================================================================================================================
-Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv=False)
+Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
 	; Attempt to open process with standard security priviliges
 	Local $aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
 	If @error Then Return SetError(@error, @extended, 0)
@@ -463,6 +464,6 @@ Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv=False)
 	DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hToken)
 	; No need to test @error.
 
-	Return SetError($iError,  $iLastError, $iRet)
+	Return SetError($iError, $iLastError, $iRet)
 EndFunc   ;==>__Mem_OpenProcess
 

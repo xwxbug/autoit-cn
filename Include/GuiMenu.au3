@@ -6,7 +6,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Menu
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Menu control management.
 ;                  A menu is a list of items that specify options or groups of options (a submenu) for an application. Clicking a
@@ -126,7 +126,6 @@ Global Const $__MENUCONSTANT_OBJID_CLIENT = 0xFFFFFFFC
 ; ===============================================================================================================================
 Global Const $tagMENUBARINFO = "dword Size;" & $tagRECT & ";handle hMenu;handle hWndMenu;bool Focused"
 
-
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: $tagMDINEXTMENU
 ; Description ...: tagMDINEXTMENU structure
@@ -190,7 +189,6 @@ Global Const $tagTPMPARAMS = "uint Size;" & $tagRECT
 Func _GUICtrlMenu_AddMenuItem($hMenu, $sText, $iCmdID = 0, $hSubMenu = 0)
 	Local $iIndex = _GUICtrlMenu_GetItemCount($hMenu)
 	Local $tMenu = DllStructCreate($tagMENUITEMINFO)
-	Local $pMenu = DllStructGetPtr($tMenu)
 	DllStructSetData($tMenu, "Size", DllStructGetSize($tMenu))
 	DllStructSetData($tMenu, "Mask", BitOR($MIIM_ID, $MIIM_STRING, $MIIM_SUBMENU))
 	DllStructSetData($tMenu, "ID", $iCmdID)
@@ -204,7 +202,7 @@ Func _GUICtrlMenu_AddMenuItem($hMenu, $sText, $iCmdID = 0, $hSubMenu = 0)
 		DllStructSetData($tText, "Text", $sText)
 		DllStructSetData($tMenu, "TypeData", DllStructGetPtr($tText))
 	EndIf
-	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", True, "ptr", $pMenu)
+	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", True, "struct*", $tMenu)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return SetExtended($aResult[0], $iIndex)
 EndFunc   ;==>_GUICtrlMenu_AddMenuItem
@@ -257,8 +255,9 @@ EndFunc   ;==>_GUICtrlMenu_AddMenuItem
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlMenu_AppendMenu($hMenu, $iFlags, $iNewItem, $pNewItem)
-	Local $sType= "ptr"
-	If $iFlags = 0 Then $sType= "wstr"		; $MF_STRING is equal to 0
+	Local $sType = "wstr"
+	If BitAND($iFlags, $MF_BITMAP) Then $sType = "handle"
+	If BitAND($iFlags, $MF_OWNERDRAW) Then $sType = "ulong_ptr"
 	Local $aResult = DllCall("User32.dll", "bool", "AppendMenuW", "handle", $hMenu, "uint", $iFlags, "uint_ptr", $iNewItem, $sType, $pNewItem)
 	If @error Then Return SetError(@error, @extended, False)
 	If $aResult[0] = 0 Then Return SetError(10, 0, False)
@@ -850,7 +849,7 @@ Func _GUICtrlMenu_GetItemInfo($hMenu, $iItem, $fByPos = True)
 	Local $tInfo = DllStructCreate($tagMENUITEMINFO)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
 	DllStructSetData($tInfo, "Mask", $MIIM_DATAMASK)
-	Local $aResult = DllCall("User32.dll", "bool", "GetMenuItemInfo", "handle", $hMenu, "uint", $iItem, "bool", $fByPos, "ptr", DllStructGetPtr($tInfo))
+	Local $aResult = DllCall("User32.dll", "bool", "GetMenuItemInfo", "handle", $hMenu, "uint", $iItem, "bool", $fByPos, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tInfo)
 EndFunc   ;==>_GUICtrlMenu_GetItemInfo
@@ -901,7 +900,7 @@ EndFunc   ;==>_GUICtrlMenu_GetItemRect
 ; ===============================================================================================================================
 Func _GUICtrlMenu_GetItemRectEx($hWnd, $hMenu, $iItem)
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $aResult = DllCall("User32.dll", "bool", "GetMenuItemRect", "hwnd", $hWnd, "handle", $hMenu, "uint", $iItem, "ptr", DllStructGetPtr($tRect))
+	Local $aResult = DllCall("User32.dll", "bool", "GetMenuItemRect", "hwnd", $hWnd, "handle", $hMenu, "uint", $iItem, "struct*", $tRect)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tRect)
 EndFunc   ;==>_GUICtrlMenu_GetItemRectEx
@@ -1112,9 +1111,8 @@ Func _GUICtrlMenu_GetMenuBarInfo($hWnd, $iItem = 0, $iObject = 1)
 	Local $aObject[3] = [$__MENUCONSTANT_OBJID_CLIENT, $OBJID_MENU, $OBJID_SYSMENU]
 
 	Local $tInfo = DllStructCreate($tagMENUBARINFO)
-	Local $pInfo = DllStructGetPtr($tInfo)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
-	Local $aResult = DllCall("User32.dll", "bool", "GetMenuBarInfo", "hwnd", $hWnd, "long", $aObject[$iObject], "long", $iItem, "ptr", $pInfo)
+	Local $aResult = DllCall("User32.dll", "bool", "GetMenuBarInfo", "hwnd", $hWnd, "long", $aObject[$iObject], "long", $iItem, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $aInfo[8]
 	$aInfo[0] = DllStructGetData($tInfo, "Left")
@@ -1227,7 +1225,7 @@ Func _GUICtrlMenu_GetMenuInfo($hMenu)
 	Local $tInfo = DllStructCreate($tagMENUINFO)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
 	DllStructSetData($tInfo, "Mask", BitOR($MIM_BACKGROUND, $MIM_HELPID, $MIM_MAXHEIGHT, $MIM_MENUDATA, $MIM_STYLE))
-	Local $aResult = DllCall("User32.dll", "bool", "GetMenuInfo", "handle", $hMenu, "ptr", DllStructGetPtr($tInfo))
+	Local $aResult = DllCall("User32.dll", "bool", "GetMenuInfo", "handle", $hMenu, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tInfo)
 EndFunc   ;==>_GUICtrlMenu_GetMenuInfo
@@ -1307,7 +1305,6 @@ EndFunc   ;==>_GUICtrlMenu_GetSystemMenu
 ; ===============================================================================================================================
 Func _GUICtrlMenu_InsertMenuItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
 	Local $tMenu = DllStructCreate($tagMENUITEMINFO)
-	Local $pMenu = DllStructGetPtr($tMenu)
 	DllStructSetData($tMenu, "Size", DllStructGetSize($tMenu))
 	DllStructSetData($tMenu, "Mask", BitOR($MIIM_ID, $MIIM_STRING, $MIIM_SUBMENU))
 	DllStructSetData($tMenu, "ID", $iCmdID)
@@ -1321,7 +1318,7 @@ Func _GUICtrlMenu_InsertMenuItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu
 		DllStructSetData($tText, "Text", $sText)
 		DllStructSetData($tMenu, "TypeData", DllStructGetPtr($tText))
 	EndIf
-	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", True, "ptr", $pMenu)
+	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", True, "struct*", $tMenu)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUICtrlMenu_InsertMenuItem
@@ -1346,7 +1343,7 @@ EndFunc   ;==>_GUICtrlMenu_InsertMenuItem
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlMenu_InsertMenuItemEx($hMenu, $iIndex, ByRef $tMenu, $fByPos = True)
-	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", $fByPos, "ptr", DllStructGetPtr($tMenu))
+	Local $aResult = DllCall("User32.dll", "bool", "InsertMenuItemW", "handle", $hMenu, "uint", $iIndex, "bool", $fByPos, "struct*", $tMenu)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUICtrlMenu_InsertMenuItemEx
@@ -1808,7 +1805,7 @@ EndFunc   ;==>_GUICtrlMenu_SetItemID
 ; ===============================================================================================================================
 Func _GUICtrlMenu_SetItemInfo($hMenu, $iItem, ByRef $tInfo, $fByPos = True)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
-	Local $aResult = DllCall("User32.dll", "bool", "SetMenuItemInfoW", "handle", $hMenu, "uint", $iItem, "bool", $fByPos, "ptr", DllStructGetPtr($tInfo))
+	Local $aResult = DllCall("User32.dll", "bool", "SetMenuItemInfoW", "handle", $hMenu, "uint", $iItem, "bool", $fByPos, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUICtrlMenu_SetItemInfo
@@ -2095,7 +2092,7 @@ EndFunc   ;==>_GUICtrlMenu_SetMenuHeight
 ; ===============================================================================================================================
 Func _GUICtrlMenu_SetMenuInfo($hMenu, ByRef $tInfo)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
-	Local $aResult = DllCall("User32.dll", "bool", "SetMenuInfo", "handle", $hMenu, "ptr", DllStructGetPtr($tInfo))
+	Local $aResult = DllCall("User32.dll", "bool", "SetMenuInfo", "handle", $hMenu, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUICtrlMenu_SetMenuInfo

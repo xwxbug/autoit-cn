@@ -26,7 +26,7 @@
 ; Link ..........: @@MsdnLink@@ GetLastError
 ; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_GetLastError($curErr=@error, $curExt=@extended)
+Func _WinAPI_GetLastError($curErr = @error, $curExt = @extended)
 	Local $aResult = DllCall("kernel32.dll", "dword", "GetLastError")
 	Return SetError($curErr, $curExt, $aResult[0])
 EndFunc   ;==>_WinAPI_GetLastError
@@ -45,7 +45,7 @@ EndFunc   ;==>_WinAPI_GetLastError
 ; Link ..........: @@MsdnLink@@ SetLastError
 ; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_SetLastError($iErrCode, $curErr=@error, $curExt=@extended)
+Func _WinAPI_SetLastError($iErrCode, $curErr = @error, $curExt = @extended)
 	DllCall("kernel32.dll", "none", "SetLastError", "dword", $iErrCode)
 	Return SetError($curErr, $curExt)
 EndFunc   ;==>_WinAPI_SetLastError

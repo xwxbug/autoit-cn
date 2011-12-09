@@ -8,7 +8,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Slider
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Slider Control "Trackbar" management.
 ; Author(s) .....: Gary Frost (gafrost)
@@ -166,7 +166,7 @@ EndFunc   ;==>_GUICtrlSlider_ClearTics
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Create($hWnd, $iX, $iY, $iWidth = 100, $iHeight = 20, $iStyle = 0x0001, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)	; Invalid Window handle for _GUICtrlSlider_Create 1st parameter
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlSlider_Create 1st parameter
 
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 20
@@ -294,7 +294,7 @@ Func _GUICtrlSlider_GetChannelRectEx($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $TBM_GETCHANNELRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $TBM_GETCHANNELRECT, 0, $tRect, 0, "wparam", "struct*")
 	Return $tRect
 EndFunc   ;==>_GUICtrlSlider_GetChannelRectEx
 
@@ -608,7 +608,7 @@ Func _GUICtrlSlider_GetThumbRectEx($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $TBM_GETTHUMBRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $TBM_GETTHUMBRECT, 0, $tRect, 0, "wparam", "struct*")
 	Return $tRect
 EndFunc   ;==>_GUICtrlSlider_GetThumbRectEx
 

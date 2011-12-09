@@ -149,8 +149,8 @@ Func _ExcelBookNew($fVisible = 1)
 	If $fVisible < 0 Then $fVisible = 0
 	With $oExcel
 		.Visible = $fVisible
-		.WorkBooks.Add
-		.ActiveWorkbook.Sheets(1).Select ()
+		.WorkBooks.Add()
+		.ActiveWorkbook.Sheets(1).Select()
 	EndWith
 	Return $oExcel
 EndFunc   ;==>_ExcelBookNew
@@ -292,7 +292,7 @@ Func _ExcelBookSave($oExcel, $fAlerts = 0)
 	With $oExcel
 		.Application.DisplayAlerts = $fAlerts
 		.Application.ScreenUpdating = $fAlerts
-		.ActiveWorkBook.Save
+		.ActiveWorkBook.Save()
 		If Not $fAlerts Then
 			.Application.DisplayAlerts = 1
 			.Application.ScreenUpdating = 1
@@ -401,20 +401,20 @@ Func _ExcelBookClose($oExcel, $fSave = 1, $fAlerts = 0)
 
 	Switch $sObjName
 		Case "_Workbook"
-			If $fSave Then $oExcel.Save
+			If $fSave Then $oExcel.Save()
 			; Check if multiple workbooks are open
 			; Do not close application if there are
 			If $oExcel.Application.Workbooks.Count > 1 Then
-				$oExcel.Close
+				$oExcel.Close()
 				; Restore the users specified settings
 				$oExcel.Application.DisplayAlerts = $fDisplayAlerts
 				$oExcel.Application.ScreenUpdating = $fScreenUpdating
 			Else
-				$oExcel.Application.Quit
+				$oExcel.Application.Quit()
 			EndIf
 		Case "_Application"
-			If $fSave Then $oExcel.ActiveWorkBook.Save
-			$oExcel.Quit
+			If $fSave Then $oExcel.ActiveWorkBook.Save()
+			$oExcel.Quit()
 		Case Else
 			Return SetError(1, 0, 0)
 	EndSwitch
@@ -613,9 +613,9 @@ Func _ExcelHyperlinkInsert($oExcel, $sLinkText, $sAddress, $sScreenTip, $sRangeO
 	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]", 0) Then
 		If $sRangeOrRow < 1 Then Return SetError(2, 0, 0)
 		If $iColumn < 1 Then Return SetError(2, 1, 0)
-		$oExcel.ActiveSheet.Cells($sRangeOrRow, $iColumn).Select
+		$oExcel.ActiveSheet.Cells($sRangeOrRow, $iColumn).Select()
 	Else
-		$oExcel.ActiveSheet.Range($sRangeOrRow).Select
+		$oExcel.ActiveSheet.Range($sRangeOrRow).Select()
 	EndIf
 	$oExcel.ActiveSheet.Hyperlinks.Add($oExcel.Selection, $sAddress, "", $sScreenTip, $sLinkText)
 	Return 1
@@ -656,7 +656,7 @@ Func _ExcelNumberFormat($oExcel, $sFormat, $sRangeOrRowStart, $iColStart = 1, $i
 		If $iRowEnd < $sRangeOrRowStart Then Return SetError(3, 0, 0)
 		If $iColEnd < $iColStart Then Return SetError(3, 1, 0)
 		With $oExcel.ActiveSheet
-			.Range(.Cells($sRangeOrRowStart, $iColStart), .Cells($iRowEnd, $iColEnd) ).NumberFormat = $sFormat
+			.Range(.Cells($sRangeOrRowStart, $iColStart), .Cells($iRowEnd, $iColEnd)).NumberFormat = $sFormat
 		EndWith
 		Return 1
 	Else
@@ -850,7 +850,7 @@ Func _ExcelRowDelete($oExcel, $iRow, $iNumRows = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If $iRow < 1 Then Return SetError(2, 0, 0)
 	For $x = 1 To $iNumRows
-		$oExcel.ActiveSheet.Rows($iRow).Delete
+		$oExcel.ActiveSheet.Rows($iRow).Delete()
 	Next
 	Return 1
 EndFunc   ;==>_ExcelRowDelete
@@ -877,7 +877,7 @@ Func _ExcelColumnDelete($oExcel, $iColumn, $iNumCols = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If $iColumn < 1 Then Return SetError(2, 0, 0)
 	For $x = 1 To $iNumCols
-		$oExcel.ActiveSheet.Columns($iColumn).Delete
+		$oExcel.ActiveSheet.Columns($iColumn).Delete()
 	Next
 	Return 1
 EndFunc   ;==>_ExcelColumnDelete
@@ -904,7 +904,7 @@ Func _ExcelRowInsert($oExcel, $iRow, $iNumRows = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If $iRow < 1 Then Return SetError(2, 0, 0)
 	For $x = 1 To $iNumRows
-		$oExcel.ActiveSheet.Rows($iRow).Insert
+		$oExcel.ActiveSheet.Rows($iRow).Insert()
 	Next
 	Return 1
 EndFunc   ;==>_ExcelRowInsert
@@ -931,7 +931,7 @@ Func _ExcelColumnInsert($oExcel, $iColumn, $iNumCols = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If $iColumn < 1 Then Return SetError(2, 0, 0)
 	For $x = 1 To $iNumCols
-		$oExcel.ActiveSheet.Columns($iColumn).Insert
+		$oExcel.ActiveSheet.Columns($iColumn).Insert()
 	Next
 	Return 1
 EndFunc   ;==>_ExcelColumnInsert
@@ -954,7 +954,7 @@ EndFunc   ;==>_ExcelColumnInsert
 ; ===============================================================================================================================
 Func _ExcelSheetAddNew($oExcel, $sName = "")
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	$oExcel.ActiveWorkBook.WorkSheets.Add.Activate
+	$oExcel.ActiveWorkBook.WorkSheets.Add().Activate()
 	If $sName = "" Then Return 1
 	$oExcel.ActiveSheet.Name = $sName
 	Return 1
@@ -995,7 +995,7 @@ Func _ExcelSheetDelete($oExcel, $vSheet, $fAlerts = False)
 	If $fAlerts < 0 Then $fAlerts = 0
 	$oExcel.Application.DisplayAlerts = $fAlerts
 	$oExcel.Application.ScreenUpdating = $fAlerts
-	$oExcel.ActiveWorkbook.Sheets($vSheet).Delete
+	$oExcel.ActiveWorkbook.Sheets($vSheet).Delete()
 	$oExcel.Application.DisplayAlerts = True
 	$oExcel.Application.ScreenUpdating = True
 	Return 1
@@ -1099,7 +1099,7 @@ Func _ExcelSheetActivate($oExcel, $vSheet)
 		Next
 		If Not $fFound Then Return SetError(3, 0, 0)
 	EndIf
-	$oExcel.ActiveWorkbook.Sheets($vSheet).Select ()
+	$oExcel.ActiveWorkbook.Sheets($vSheet).Select()
 	Return 1
 EndFunc   ;==>_ExcelSheetActivate
 
@@ -1189,11 +1189,11 @@ Func _ExcelHorizontalAlignSet($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowE
 		If $iColEnd < $iColStart Then Return SetError(3, 1, 0)
 		Switch ($sHorizAlign)
 			Case "left"
-				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).HorizontalAlignment = $xlLeft
+				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).HorizontalAlignment = $xlLeft
 			Case "center", "centre"
-				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).HorizontalAlignment = $xlCenter
+				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).HorizontalAlignment = $xlCenter
 			Case "right"
-				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).HorizontalAlignment = $xlRight
+				$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).HorizontalAlignment = $xlRight
 		EndSwitch
 	Else
 		Switch ($sHorizAlign)
@@ -1243,9 +1243,9 @@ Func _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowEn
 		If $iColStart < 1 Then Return SetError(2, 1, 0)
 		If $iRowEnd < $sRangeOrRowStart Then Return SetError(3, 0, 0)
 		If $iColEnd < $iColStart Then Return SetError(3, 1, 0)
-		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).Font.Bold = $fBold
-		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).Font.Italic = $fItalic
-		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd) ).Font.Underline = $fUnderline
+		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).Font.Bold = $fBold
+		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).Font.Italic = $fItalic
+		$oExcel.Activesheet.Range($oExcel.Cells($sRangeOrRowStart, $iColStart), $oExcel.Cells($iRowEnd, $iColEnd)).Font.Underline = $fUnderline
 	Else
 		$oExcel.Activesheet.Range($sRangeOrRowStart).Font.Bold = $fBold
 		$oExcel.Activesheet.Range($sRangeOrRowStart).Font.Italic = $fItalic

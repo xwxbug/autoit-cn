@@ -156,7 +156,7 @@ EndFunc   ;==>__UDF_FreeGlobalID
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __UDF_DebugPrint($sText, $iLine = @ScriptLineNumber, $err=@error, $ext=@extended)
+Func __UDF_DebugPrint($sText, $iLine = @ScriptLineNumber, $err = @error, $ext = @extended)
 	ConsoleWrite( _
 			"!===========================================================" & @CRLF & _
 			"+======================================================" & @CRLF & _

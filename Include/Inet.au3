@@ -23,20 +23,20 @@
 ; Example........; Yes
 ;=====================================================================================================================
 Func _GetIP()
-    Local $aReturn, $bRead, $sRead
-    $bRead = InetRead("http://checkip.dyndns.org/")
-    $sRead = BinaryToString($bRead)
-    $aReturn = StringRegExp($sRead, '(?s)(?i)<body>Current IP Address: (.*?)</body>', 3)
-    If @error = 0 Then
-        Return $aReturn[0]
-    EndIf
+	Local $aReturn, $bRead, $sRead
+	$bRead = InetRead("http://checkip.dyndns.org/")
+	$sRead = BinaryToString($bRead)
+	$aReturn = StringRegExp($sRead, '(?s)(?i)<body>Current IP Address: (.*?)</body>', 3)
+	If @error = 0 Then
+		Return $aReturn[0]
+	EndIf
 
-    $bRead = InetRead("http://automation.whatismyip.com/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
-    $sRead = BinaryToString($bRead)
-    If @error Then
-        Return SetError(1, 0, -1)
-    EndIf
-    Return $sRead
+	$bRead = InetRead("http://automation.whatismyip.com/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
+	$sRead = BinaryToString($bRead)
+	If @error Then
+		Return SetError(1, 0, -1)
+	EndIf
+	Return $sRead
 EndFunc   ;==>_GetIP
 
 ; #FUNCTION# ====================================================================================================================
@@ -126,11 +126,11 @@ EndFunc   ;==>_INetMail
 ; Author ........: Asimzameer, Walkabout
 ; Modified.......: Jpm
 ; ===============================================================================================================================
-Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_Subject = "", $as_Body = "", $s_helo = "", $s_first=" ", $b_trace = 0)
-	If $s_SmtpServer = "" Or $s_FromAddress = "" Or $s_ToAddress = "" Or $s_FromName = "" Or StringLen($s_FromName) > 256 Then Return SetError(1, 0 ,0)
+Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_Subject = "", $as_Body = "", $s_helo = "", $s_first = " ", $b_trace = 0)
+	If $s_SmtpServer = "" Or $s_FromAddress = "" Or $s_ToAddress = "" Or $s_FromName = "" Or StringLen($s_FromName) > 256 Then Return SetError(1, 0, 0)
 	If $s_helo = "" Then $s_helo = @ComputerName
 
-	If TCPStartup() = 0 Then Return SetError(2, 0 ,0)
+	If TCPStartup() = 0 Then Return SetError(2, 0, 0)
 
 	Local $s_IPAddress, $i_Count
 	StringRegExp($s_SmtpServer, "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)")
@@ -141,17 +141,17 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	EndIf
 	If $s_IPAddress = "" Then
 		TCPShutdown()
-		Return SetError(3, 0 ,0)
+		Return SetError(3, 0, 0)
 	EndIf
 	Local $v_Socket = TCPConnect($s_IPAddress, 25)
 	If $v_Socket = -1 Then
 		TCPShutdown()
-		Return SetError(4, 0 ,0)
+		Return SetError(4, 0, 0)
 	EndIf
 
-	Local $s_Send[6], $s_ReplyCode[6]	; Return code from SMTP server indicating success
+	Local $s_Send[6], $s_ReplyCode[6] ; Return code from SMTP server indicating success
 	$s_Send[0] = "HELO " & $s_helo & @CRLF
-	If StringLeft($s_helo,5) = "EHLO " Then $s_Send[0] = $s_helo & @CRLF
+	If StringLeft($s_helo, 5) = "EHLO " Then $s_Send[0] = $s_helo & @CRLF
 	$s_ReplyCode[0] = "250"
 
 	$s_Send[1] = "MAIL FROM: <" & $s_FromAddress & ">" & @CRLF
@@ -162,13 +162,13 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	$s_ReplyCode[3] = "354"
 
 	Local $aResult = _Date_Time_GetTimeZoneInformation()
-	Local $bias = -$aResult[1]/60
+	Local $bias = -$aResult[1] / 60
 	Local $biasH = Int($bias)
 	Local $biasM = 0
-	If $biasH <> $bias Then $biasM =  Abs($bias - $biasH) * 60
-	$bias =  StringFormat(" (%+.2d%.2d)", $biasH, $biasM)
+	If $biasH <> $bias Then $biasM = Abs($bias - $biasH) * 60
+	$bias = StringFormat(" (%+.2d%.2d)", $biasH, $biasM)
 
-	$s_Send[4] = 	"From:" & $s_FromName & "<" & $s_FromAddress & ">" & @CRLF & _
+	$s_Send[4] = "From:" & $s_FromName & "<" & $s_FromAddress & ">" & @CRLF & _
 			"To:" & "<" & $s_ToAddress & ">" & @CRLF & _
 			"Subject:" & $s_Subject & @CRLF & _
 			"Mime-Version: 1.0" & @CRLF & _
@@ -185,7 +185,7 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 
 	; send header
 	For $i_Count = 1 To UBound($s_Send) - 2
-		If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then Return SetError(50 + $i_Count, 0 ,0)
+		If __SmtpSend($v_Socket, $s_Send[$i_Count], $s_ReplyCode[$i_Count], $b_trace) Then Return SetError(50 + $i_Count, 0, 0)
 	Next
 
 	; send body records (a record can be multiline : take care of a subline beginning with a dot should be ..)
@@ -232,59 +232,59 @@ EndFunc   ;==>__SmtpTrace
 ; Author ........: Asimzameer, Walkabout
 ; Modified.......: Jpm
 ; ===============================================================================================================================
-Func __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply="", $s_first="")
-    Local $s_Receive, $i, $timer
-    If $b_trace Then __SmtpTrace($s_Send)
+Func __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply = "", $s_first = "")
+	Local $s_Receive, $i, $timer
+	If $b_trace Then __SmtpTrace($s_Send)
 
-    If $s_IntReply <> ""  Then
+	If $s_IntReply <> "" Then
 
-        ; Send special first char to awake smtp server
-        If $s_first <> -1 Then
-            If TCPSend($v_Socket, $s_first) = 0 Then
-                TCPCloseSocket($v_Socket)
-                TCPShutdown()
-                Return 1; cannot send
-            EndIf
-        EndIf
+		; Send special first char to awake smtp server
+		If $s_first <> -1 Then
+			If TCPSend($v_Socket, $s_first) = 0 Then
+				TCPCloseSocket($v_Socket)
+				TCPShutdown()
+				Return 1; cannot send
+			EndIf
+		EndIf
 
-        ; Check intermediate reply before HELO acceptation
-        $s_Receive = ""
-        $timer = TimerInit()
-        While StringLeft($s_Receive,StringLen($s_IntReply)) <> $s_IntReply And TimerDiff($timer) < 45000
-            $s_Receive = TCPRecv($v_Socket, 1000)
-            If $b_trace And $s_Receive <> "" Then __SmtpTrace("intermediate->" & $s_Receive)
-        WEnd
-    EndIf
+		; Check intermediate reply before HELO acceptation
+		$s_Receive = ""
+		$timer = TimerInit()
+		While StringLeft($s_Receive, StringLen($s_IntReply)) <> $s_IntReply And TimerDiff($timer) < 45000
+			$s_Receive = TCPRecv($v_Socket, 1000)
+			If $b_trace And $s_Receive <> "" Then __SmtpTrace("intermediate->" & $s_Receive)
+		WEnd
+	EndIf
 
-    ; Send string.
-    If TCPSend($v_Socket, $s_Send) = 0 Then
-        TCPCloseSocket($v_Socket)
-        TCPShutdown()
-        Return 1; cannot send
-    EndIf
+	; Send string.
+	If TCPSend($v_Socket, $s_Send) = 0 Then
+		TCPCloseSocket($v_Socket)
+		TCPShutdown()
+		Return 1; cannot send
+	EndIf
 
-    $timer = TimerInit()
+	$timer = TimerInit()
 
-    $s_Receive = ""
-    While $s_Receive = "" And TimerDiff($timer) < 45000
-        $i += 1
-        $s_Receive = TCPRecv($v_Socket, 1000)
-        If $s_ReplyCode = "" Then ExitLoop
-    WEnd
+	$s_Receive = ""
+	While $s_Receive = "" And TimerDiff($timer) < 45000
+		$i += 1
+		$s_Receive = TCPRecv($v_Socket, 1000)
+		If $s_ReplyCode = "" Then ExitLoop
+	WEnd
 
-    If $s_ReplyCode <> "" Then
-        ; Check replycode
-        If $b_trace Then __SmtpTrace($i & " <- " & $s_Receive)
+	If $s_ReplyCode <> "" Then
+		; Check replycode
+		If $b_trace Then __SmtpTrace($i & " <- " & $s_Receive)
 
-        If StringLeft($s_Receive, StringLen($s_ReplyCode)) <> $s_ReplyCode Then
-            TCPCloseSocket($v_Socket)
-            TCPShutdown()
-            If $b_trace Then __SmtpTrace("<-> " & $s_ReplyCode, 5)
-            Return 2; bad receive code
-        EndIf
-    EndIf
+		If StringLeft($s_Receive, StringLen($s_ReplyCode)) <> $s_ReplyCode Then
+			TCPCloseSocket($v_Socket)
+			TCPShutdown()
+			If $b_trace Then __SmtpTrace("<-> " & $s_ReplyCode, 5)
+			Return 2; bad receive code
+		EndIf
+	EndIf
 
-    Return 0
+	Return 0
 EndFunc   ;==>__SmtpSend
 
 ; #FUNCTION# ====================================================================================================================
@@ -323,7 +323,7 @@ Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 	Local $vbinIP = $vaDllCall[0]
 	If $vbinIP = $INADDR_NONE Then Return SetError(2, 0, "") ; inet_addr Failed
 	$vaDllCall = DllCall($hDll_Ws2_32, "ptr", "gethostbyaddr", "ptr*", $vbinIP, "int", 4, "int", $AF_INET)
-	If @error  Then Return SetError(3, 0, "") ; gethostbyaddr DllCall Failed
+	If @error Then Return SetError(3, 0, "") ; gethostbyaddr DllCall Failed
 	Local $vptrHostent = $vaDllCall[0]
 	If $vptrHostent = 0 Then
 		$vaDllCall = DllCall($hDll_Ws2_32, "int", "WSAGetLastError")

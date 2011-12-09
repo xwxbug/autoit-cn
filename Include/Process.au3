@@ -58,7 +58,7 @@ Func _ProcessGetPriority($vProcess)
 	If Not $i_PID Then Return SetError(1, 0, -1)
 	Local $hDLL = DllOpen('kernel32.dll')
 
-	Do	; Pseudo loop
+	Do ; Pseudo loop
 		Local $aProcessHandle = DllCall($hDLL, 'handle', 'OpenProcess', 'dword', $PROCESS_QUERY_INFORMATION, 'bool', False, 'dword', $i_PID)
 		If @error Then
 			$iError = @error
@@ -80,24 +80,24 @@ Func _ProcessGetPriority($vProcess)
 		If $iError Then ExitLoop
 
 		Switch $aPriority[0]
-			Case 0x00000040		; IDLE_PRIORITY_CLASS
+			Case 0x00000040 ; IDLE_PRIORITY_CLASS
 				$iReturn = 0
-			Case 0x00004000		; BELOW_NORMAL_PRIORITY_CLASS
+			Case 0x00004000 ; BELOW_NORMAL_PRIORITY_CLASS
 				$iReturn = 1
-			Case 0x00000020		; NORMAL_PRIORITY_CLASS
+			Case 0x00000020 ; NORMAL_PRIORITY_CLASS
 				$iReturn = 2
-			Case 0x00008000		; ABOVE_NORMAL_PRIORITY_CLASS
+			Case 0x00008000 ; ABOVE_NORMAL_PRIORITY_CLASS
 				$iReturn = 3
-			Case 0x00000080		; HIGH_PRIORITY_CLASS
+			Case 0x00000080 ; HIGH_PRIORITY_CLASS
 				$iReturn = 4
-			Case 0x00000100		; REALTIME_PRIORITY_CLASS
+			Case 0x00000100 ; REALTIME_PRIORITY_CLASS
 				$iReturn = 5
 			Case Else
 				$iError = 1
 				$iExtended = $aPriority[0]
 				$iReturn = -1
 		EndSwitch
-	Until True	; Executes once
+	Until True ; Executes once
 	DllClose($hDLL)
 	Return SetError($iError, $iExtended, $iReturn)
 EndFunc   ;==>_ProcessGetPriority
@@ -111,7 +111,7 @@ EndFunc   ;==>_ProcessGetPriority
 ;                  Failure      - 0 and sets @Error to non-zero
 ; Author ........: Jeremy Landes <jlandes at landeserve dot com>
 ; ===============================================================================================================================
-Func _RunDOS($sCommand)
+Func _RunDos($sCommand)
 	Local $nResult = RunWait(@ComSpec & " /C " & $sCommand, "", @SW_HIDE)
 	Return SetError(@error, @extended, $nResult)
 EndFunc   ;==>_RunDOS

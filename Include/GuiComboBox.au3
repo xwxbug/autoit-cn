@@ -9,7 +9,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ComboBox
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with ComboBox control management.
 ; Author(s) .....: gafrost, PaulIA, Valik
@@ -22,15 +22,15 @@ Global $Debug_CB = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__COMBOBOXCONSTANT_ClassName		= "ComboBox"
-Global Const $__COMBOBOXCONSTANT_EM_GETLINE		= 0xC4
-Global Const $__COMBOBOXCONSTANT_EM_LINEINDEX	= 0xBB
-Global Const $__COMBOBOXCONSTANT_EM_LINELENGTH	= 0xC1
-Global Const $__COMBOBOXCONSTANT_EM_REPLACESEL	= 0xC2
+Global Const $__COMBOBOXCONSTANT_ClassName = "ComboBox"
+Global Const $__COMBOBOXCONSTANT_EM_GETLINE = 0xC4
+Global Const $__COMBOBOXCONSTANT_EM_LINEINDEX = 0xBB
+Global Const $__COMBOBOXCONSTANT_EM_LINELENGTH = 0xC1
+Global Const $__COMBOBOXCONSTANT_EM_REPLACESEL = 0xC2
 
-Global Const $__COMBOBOXCONSTANT_WM_SETREDRAW		= 0x000B
-Global Const $__COMBOBOXCONSTANT_WS_TABSTOP			= 0x00010000
-Global Const $__COMBOBOXCONSTANT_DEFAULT_GUI_FONT	= 17
+Global Const $__COMBOBOXCONSTANT_WM_SETREDRAW = 0x000B
+Global Const $__COMBOBOXCONSTANT_WS_TABSTOP = 0x00010000
+Global Const $__COMBOBOXCONSTANT_DEFAULT_GUI_FONT = 17
 ; ===============================================================================================================================
 
 ; #OLD_FUNCTIONS#================================================================================================================
@@ -323,15 +323,15 @@ EndFunc   ;==>_GUICtrlComboBox_BeginUpdate
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlComboBox_Create($hWnd, $sText, $iX, $iY, $iWidth = 100, $iHeight = 120, $iStyle = 0x00200042, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)		; Invalid Window handle for _GUICtrlComboBox_Create 1st parameter
-	If Not IsString($sText) Then Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlComboBox_Create
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlComboBox_Create 1st parameter
+	If Not IsString($sText) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlComboBox_Create
 
 	Local $aText, $sDelimiter = Opt("GUIDataSeparatorChar")
 
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 120
 	Local Const $WS_VSCROLL = 0x00200000
-	If $iStyle = -1 Then $iStyle = BitOr($WS_VSCROLL, $CBS_AUTOHSCROLL, $CBS_DROPDOWN)
+	If $iStyle = -1 Then $iStyle = BitOR($WS_VSCROLL, $CBS_AUTOHSCROLL, $CBS_DROPDOWN)
 	If $iExStyle = -1 Then $iExStyle = 0x00000000
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__COMBOBOXCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_VISIBLE)
@@ -388,7 +388,7 @@ EndFunc   ;==>_GUICtrlComboBox_DeleteString
 ; ===============================================================================================================================
 Func _GUICtrlComboBox_Destroy(ByRef $hWnd)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXCONSTANT_ClassName)
-	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXCONSTANT_ClassName) Then  Return SetError(2, 2, False)
+	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
 	If IsHWnd($hWnd) Then
@@ -448,7 +448,7 @@ EndFunc   ;==>_GUICtrlComboBox_EndUpdate
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is –1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -476,7 +476,7 @@ EndFunc   ;==>_GUICtrlComboBox_FindString
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is –1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -508,10 +508,9 @@ Func _GUICtrlComboBox_GetComboBoxInfo($hWnd, ByRef $tInfo)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	$tInfo = DllStructCreate($tagCOMBOBOXINFO)
-	Local $pInfo = DllStructGetPtr($tInfo)
 	Local $iInfo = DllStructGetSize($tInfo)
 	DllStructSetData($tInfo, "Size", $iInfo)
-	Return _SendMessage($hWnd, $CB_GETCOMBOBOXINFO, 0, $pInfo, 0, "wparam", "ptr") <> 0
+	Return _SendMessage($hWnd, $CB_GETCOMBOBOXINFO, 0, $tInfo, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlComboBox_GetComboBoxInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -556,8 +555,8 @@ Func _GUICtrlComboBox_GetCueBanner($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tText = DllStructCreate("wchar[4096]")
-	If _SendMessage($hWnd, $CB_GETCUEBANNER, DllStructGetPtr($tText), 4096) <> 1 Then Return SetError(-1, 0, "")
-	Return _WinAPI_WideCharToMultiByte(DllStructGetPtr($tText))
+	If _SendMessage($hWnd, $CB_GETCUEBANNER, $tText, 4096, 0, "struct*") <> 1 Then Return SetError(-1, 0, "")
+	Return _WinAPI_WideCharToMultiByte($tText)
 EndFunc   ;==>_GUICtrlComboBox_GetCueBanner
 
 ; #FUNCTION# ====================================================================================================================
@@ -631,7 +630,7 @@ Func _GUICtrlComboBox_GetDroppedControlRectEx($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRECT = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $CB_GETDROPPEDCONTROLRECT, 0, DllStructGetPtr($tRECT), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $CB_GETDROPPEDCONTROLRECT, 0, $tRECT, 0, "wparam", "struct*")
 	Return $tRECT
 EndFunc   ;==>_GUICtrlComboBox_GetDroppedControlRectEx
 
@@ -700,7 +699,7 @@ Func _GUICtrlComboBox_GetEditSel($hWnd)
 	Local $tStart = DllStructCreate("dword Start")
 	Local $tEnd = DllStructCreate("dword End")
 
-	Local $iRet = _SendMessage($hWnd, $CB_GETEDITSEL, DllStructGetPtr($tStart), DllStructGetPtr($tEnd), 0, "ptr", "ptr")
+	Local $iRet = _SendMessage($hWnd, $CB_GETEDITSEL, $tStart, $tEnd, 0, "struct*", "struct*")
 	If $iRet = 0 Then Return SetError($CB_ERR, $CB_ERR, $CB_ERR)
 
 	Local $aSel[2]
@@ -738,7 +737,7 @@ Func _GUICtrlComboBox_GetEditText($hWnd)
 		Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLength + 2 & "]")
 		DllStructSetData($tBuffer, "Len", $iLength + 2)
 
-		Local $iRet = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_GETLINE, $iLine, DllStructGetPtr($tBuffer), 0, "wparam", "ptr")
+		Local $iRet = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_GETLINE, $iLine, $tBuffer, 0, "wparam", "struct*")
 		If $iRet = 0 Then Return SetError(-1, -1, "")
 
 		Local $tText = DllStructCreate("wchar Text[" & $iLength + 1 & "]", DllStructGetPtr($tBuffer))
@@ -798,7 +797,7 @@ EndFunc   ;==>_GUICtrlComboBox_GetHorizontalExtent
 ; Syntax.........: _GUICtrlComboBox_GetItemHeight($hWnd, $iIndex = -1)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iIndex      - Determines which height to get:
-;                  |¨C1          - Retrieve the height of the selection field
+;                  |–1          - Retrieve the height of the selection field
 ;                  | 0          - Retrieve the height of list items
 ; Return values .: Success      - The height, in pixels
 ;                  Failure      - -1
@@ -838,7 +837,7 @@ Func _GUICtrlComboBox_GetLBText($hWnd, $iIndex, ByRef $sText)
 
 	Local $iLen = _GUICtrlComboBox_GetLBTextLen($hWnd, $iIndex)
 	Local $tBuffer = DllStructCreate("wchar Text[" & $iLen + 1 & "]")
-	Local $iRet = _SendMessage($hWnd, $CB_GETLBTEXT, $iIndex, DllStructGetPtr($tBuffer), 0, "wparam", "ptr")
+	Local $iRet = _SendMessage($hWnd, $CB_GETLBTEXT, $iIndex, $tBuffer, 0, "wparam", "struct*")
 
 	If ($iRet == $CB_ERR) Then Return SetError($CB_ERR, $CB_ERR, $CB_ERR)
 
@@ -1089,7 +1088,7 @@ EndFunc   ;==>_GUICtrlComboBox_InitStorage
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If the $iIndex parameter is ¨C1, the string is added to the end of the list.
+; Remarks .......: If the $iIndex parameter is –1, the string is added to the end of the list.
 ;+
 ;                  If the ComboBox has $WS_HSCROLL style and you insert a string wider than the ComboBox,
 ;                  you should use the _GUICtrlComboBox_SetHorizontalExtent function to ensure the horizontal scrollbar appears.
@@ -1194,7 +1193,7 @@ EndFunc   ;==>_GUICtrlComboBox_ResetContent
 ; Remarks .......: When the search reaches the bottom of the list, it continues from the top of the list back to the
 ;                  item specified by the wParam parameter.
 ;+
-;                  If $iIndex is ¨C1, the entire list is searched from the beginning.
+;                  If $iIndex is –1, the entire list is searched from the beginning.
 ;                  A string is selected only if the characters from the starting point match the characters in the
 ;                  prefix string
 ;+
@@ -1233,7 +1232,7 @@ Func _GUICtrlComboBox_SetCueBanner($hWnd, $sText)
 
 	Local $tText = _WinAPI_MultiByteToWideChar($sText)
 
-	Return _SendMessage($hWnd, $CB_SETCUEBANNER, 0, DllStructGetPtr($tText)) = 1
+	Return _SendMessage($hWnd, $CB_SETCUEBANNER, 0, $tText, 0, "wparam", "struct*") = 1
 EndFunc   ;==>_GUICtrlComboBox_SetCueBanner
 
 ; #FUNCTION# ====================================================================================================================
@@ -1246,9 +1245,9 @@ EndFunc   ;==>_GUICtrlComboBox_SetCueBanner
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If $iIndex is ¨C1, any current selection in the list is removed and the edit control is cleared.
+; Remarks .......: If $iIndex is –1, any current selection in the list is removed and the edit control is cleared.
 ;+
-;                  If $iIndex is greater than the number of items in the list or if $iIndex is ¨C1, the return value
+;                  If $iIndex is greater than the number of items in the list or if $iIndex is –1, the return value
 ;                  is -1 and the selection is cleared.
 ; Related .......: _GUICtrlComboBox_GetCurSel
 ; Link ..........:
@@ -1298,7 +1297,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetDroppedWidth
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The positions are zero-based. The first character of the edit control is in the zero position.
-;                  If $iStop is ¨C1, all text from the starting position to the last character in the edit control is selected.
+;                  If $iStop is –1, all text from the starting position to the last character in the edit control is selected.
 ;+
 ;                  The first character after the last selected character is in the ending position.
 ;+
@@ -1394,7 +1393,7 @@ EndFunc   ;==>_GUICtrlComboBox_SetHorizontalExtent
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iHeight     - The height, in pixels, of the combo box component identified by $iComponent
 ;                  $iComponent  - Use the following values:
-;                  |¨C1          - Set the height of the selection field
+;                  |–1          - Set the height of the selection field
 ;                  | 0          - Set the height of list items
 ; Return values .: Failure      - If height is invalid, the return value is -1.
 ; Author ........: Gary Frost (gafrost)

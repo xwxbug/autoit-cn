@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Pipes
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Named Pipes.
 ;                  A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe
@@ -22,33 +22,33 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $FILE_FLAG_FIRST_PIPE_INSTANCE	= 1
-Global Const $FILE_FLAG_OVERLAPPED			= 2
-Global Const $FILE_FLAG_WRITE_THROUGH		= 4
+Global Const $FILE_FLAG_FIRST_PIPE_INSTANCE = 1
+Global Const $FILE_FLAG_OVERLAPPED = 2
+Global Const $FILE_FLAG_WRITE_THROUGH = 4
 
-Global Const $__FILE_FLAG_FIRST_PIPE_INSTANCE	= 0x00080000
-Global Const $__FILE_FLAG_OVERLAPPED			= 0x40000000
-Global Const $__FILE_FLAG_WRITE_THROUGH			= 0x80000000
+Global Const $__FILE_FLAG_FIRST_PIPE_INSTANCE = 0x00080000
+Global Const $__FILE_FLAG_OVERLAPPED = 0x40000000
+Global Const $__FILE_FLAG_WRITE_THROUGH = 0x80000000
 
-Global Const $__PIPE_ACCESS_INBOUND		= 0x00000001
-Global Const $__PIPE_ACCESS_OUTBOUND	= 0x00000002
-Global Const $__PIPE_ACCESS_DUPLEX		= 0x00000003
+Global Const $__PIPE_ACCESS_INBOUND = 0x00000001
+Global Const $__PIPE_ACCESS_OUTBOUND = 0x00000002
+Global Const $__PIPE_ACCESS_DUPLEX = 0x00000003
 
-Global Const $__PIPE_WAIT	= 0x00000000
-Global Const $__PIPE_NOWAIT	= 0x00000001
+Global Const $__PIPE_WAIT = 0x00000000
+Global Const $__PIPE_NOWAIT = 0x00000001
 
-Global Const $__PIPE_READMODE_BYTE		= 0x00000000
-Global Const $__PIPE_READMODE_MESSAGE	= 0x00000002
+Global Const $__PIPE_READMODE_BYTE = 0x00000000
+Global Const $__PIPE_READMODE_MESSAGE = 0x00000002
 
-Global Const $__PIPE_TYPE_BYTE		= 0x00000000
-Global Const $__PIPE_TYPE_MESSAGE	= 0x00000004
+Global Const $__PIPE_TYPE_BYTE = 0x00000000
+Global Const $__PIPE_TYPE_MESSAGE = 0x00000004
 
 Global Const $__PIPE_CLIENT_END = 0x00000000
 Global Const $__PIPE_SERVER_END = 0x00000001
 
-Global Const $__WRITE_DAC				= 0x00040000
-Global Const $__WRITE_OWNER				= 0x00080000
-Global Const $__ACCESS_SYSTEM_SECURITY	= 0x01000000
+Global Const $__WRITE_DAC = 0x00040000
+Global Const $__WRITE_OWNER = 0x00080000
+Global Const $__ACCESS_SYSTEM_SECURITY = 0x01000000
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -245,13 +245,10 @@ EndFunc   ;==>_NamedPipes_CreateNamedPipe
 ; Example .......:
 ; ===============================================================================================================================
 Func _NamedPipes_CreatePipe(ByRef $hReadPipe, ByRef $hWritePipe, $tSecurity = 0, $iSize = 0)
-	Local $pSecurity = 0
-
-	If $tSecurity <> 0 Then $pSecurity = DllStructGetPtr($tSecurity)
-	Local $aResult = DllCall("kernel32.dll", "bool", "CreatePipe", "handle*", 0, "handle*", 0, "ptr", $pSecurity, "dword", $iSize)
+	Local $aResult = DllCall("kernel32.dll", "bool", "CreatePipe", "handle*", 0, "handle*", 0, "struct*", $tSecurity, "dword", $iSize)
 	If @error Then Return SetError(@error, @extended, False)
-	$hReadPipe = $aResult[1]		; read pipe handle
-	$hWritePipe = $aResult[2]		; write pipe handle
+	$hReadPipe = $aResult[1] ; read pipe handle
+	$hWritePipe = $aResult[2] ; write pipe handle
 	Return $aResult[0]
 EndFunc   ;==>_NamedPipes_CreatePipe
 
@@ -303,12 +300,12 @@ Func _NamedPipes_GetNamedPipeHandleState($hNamedPipe)
 			"dword*", 0, "dword*", 0, "wstr", "", "dword", 4096)
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $aState[6]
-	$aState[0] = BitAND($aResult[2], $__PIPE_NOWAIT) <> 0				;	State
-	$aState[1] = BitAND($aResult[2], $__PIPE_READMODE_MESSAGE) <> 0		;	State
-	$aState[2] = $aResult[3]		;	CurInst
-	$aState[3] = $aResult[4]		;	MaxCount
-	$aState[4] = $aResult[5]		;	TimeOut
-	$aState[5] = $aResult[6]		;	Username
+	$aState[0] = BitAND($aResult[2], $__PIPE_NOWAIT) <> 0 ;	State
+	$aState[1] = BitAND($aResult[2], $__PIPE_READMODE_MESSAGE) <> 0 ;	State
+	$aState[2] = $aResult[3] ;	CurInst
+	$aState[3] = $aResult[4] ;	MaxCount
+	$aState[4] = $aResult[5] ;	TimeOut
+	$aState[5] = $aResult[6] ;	Username
 	Return SetError(0, $aResult[0], $aState)
 EndFunc   ;==>_NamedPipes_GetNamedPipeHandleState
 
@@ -335,11 +332,11 @@ Func _NamedPipes_GetNamedPipeInfo($hNamedPipe)
 			"dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $aInfo[5]
-	$aInfo[0] = BitAND($aResult[2], $__PIPE_SERVER_END) <> 0		; Flags
-	$aInfo[1] = BitAND($aResult[2], $__PIPE_TYPE_MESSAGE) <> 0		; Flags
-	$aInfo[2] = $aResult[3]		; OutSize
-	$aInfo[3] = $aResult[4]		; InpSize
-	$aInfo[4] = $aResult[5]		; MaxInst
+	$aInfo[0] = BitAND($aResult[2], $__PIPE_SERVER_END) <> 0 ; Flags
+	$aInfo[1] = BitAND($aResult[2], $__PIPE_TYPE_MESSAGE) <> 0 ; Flags
+	$aInfo[2] = $aResult[3] ; OutSize
+	$aInfo[3] = $aResult[4] ; InpSize
+	$aInfo[4] = $aResult[5] ; MaxInst
 	Return SetError(0, $aResult[0], $aInfo)
 EndFunc   ;==>_NamedPipes_GetNamedPipeInfo
 
@@ -362,16 +359,15 @@ EndFunc   ;==>_NamedPipes_GetNamedPipeInfo
 ; ===============================================================================================================================
 Func _NamedPipes_PeekNamedPipe($hNamedPipe)
 	Local $tBuffer = DllStructCreate("char Text[4096]")
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 
-	Local $aResult = DllCall("kernel32.dll", "bool", "PeekNamedPipe", "handle", $hNamedPipe, "ptr", $pBuffer, "int", 4096, "dword*", 0, _
-				"dword*", 0, "dword*", 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "PeekNamedPipe", "handle", $hNamedPipe, "struct*", $tBuffer, "int", 4096, "dword*", 0, _
+			"dword*", 0, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $aInfo[4]
 	$aInfo[0] = DllStructGetData($tBuffer, "Text")
-	$aInfo[1] = $aResult[4]		; Read
-	$aInfo[2] = $aResult[5]		; Total
-	$aInfo[3] = $aResult[6]		; Left
+	$aInfo[1] = $aResult[4] ; Read
+	$aInfo[2] = $aResult[5] ; Total
+	$aInfo[3] = $aResult[6] ; Left
 	Return SetError(0, $aResult[0], $aInfo)
 EndFunc   ;==>_NamedPipes_PeekNamedPipe
 

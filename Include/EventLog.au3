@@ -5,10 +5,9 @@
 #include "Date.au3"
 #include "Security.au3"
 
-
 ; #INDEX# =======================================================================================================================
 ; Title .........: Event_Log
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist Windows System logs.
 ; Description ...: When an error occurs, the system administrator or support technicians must determine what  caused  the  error,
@@ -160,7 +159,7 @@ EndFunc   ;==>_EventLog__Close
 Func _EventLog__Count($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "GetNumberOfEventLogRecords", "handle", $hEventLog, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] = 0 Then Return  -1
+	If $aResult[0] = 0 Then Return -1
 	Return $aResult[2]
 EndFunc   ;==>_EventLog__Count
 
@@ -203,7 +202,7 @@ Func __EventLog_DecodeComputer($tEventLog)
 	Local $iOffset = DllStructGetSize($tEventLog)
 	; Offset the buffer with the Source string length which appears right
 	; before the Computer name.
-	$iOffset += 2*(StringLen(__EventLog_DecodeSource($tEventLog)) + 1)
+	$iOffset += 2 * (StringLen(__EventLog_DecodeSource($tEventLog)) + 1)
 	; Adjust the length to be a difference instead of absolute address.
 	$iLength -= $iOffset
 	; Adjust the buffer to point to the start of the Computer string.
@@ -259,8 +258,8 @@ Func __EventLog_DecodeDate($iEventTime)
 	Local $pInt64 = DllStructGetPtr($tInt64)
 	Local $tFileTime = DllStructCreate($tagFILETIME, $pInt64)
 	DllStructSetData($tInt64, 1, ($iEventTime * 10000000) + 116444736000000000)
-	Local $tLocalTime = _Date_Time_FileTimeToLocalFileTime(DllStructGetPtr($tFileTime))
-	Local $tSystTime = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tLocalTime))
+	Local $tLocalTime = _Date_Time_FileTimeToLocalFileTime($tFileTime)
+	Local $tSystTime = _Date_Time_FileTimeToSystemTime($tLocalTime)
 	Local $iMonth = DllStructGetData($tSystTime, "Month")
 	Local $iDay = DllStructGetData($tSystTime, "Day")
 	Local $iYear = DllStructGetData($tSystTime, "Year")
@@ -293,8 +292,7 @@ Func __EventLog_DecodeDesc($tEventLog)
 		Local $hDLL = _WinAPI_LoadLibraryEx($aMsgDLL[$iI], $__EVENTLOG_LOAD_LIBRARY_AS_DATAFILE)
 		If $hDLL = 0 Then ContinueLoop
 		Local $tBuffer = DllStructCreate("wchar Text[4096]")
-		Local $pBuffer = DllStructGetPtr($tBuffer)
-		_WinAPI_FormatMessage($iFlags, $hDLL, $iEventID, 0, $pBuffer, 4096, 0)
+		_WinAPI_FormatMessage($iFlags, $hDLL, $iEventID, 0, $tBuffer, 4096, 0)
 		_WinAPI_FreeLibrary($hDLL)
 		$sDesc &= DllStructGetData($tBuffer, "Text")
 	Next
@@ -342,7 +340,7 @@ EndFunc   ;==>__EventLog_DecodeEventID
 ; Example .......:
 ; ===============================================================================================================================
 Func __EventLog_DecodeSource($tEventLog)
-    Local $pEventLog = DllStructGetPtr($tEventLog)
+	Local $pEventLog = DllStructGetPtr($tEventLog)
 	; The buffer length doesn't need to extend past UserSidOffset since
 	; the string appears before that.
 	Local $iLength = DllStructGetData($tEventLog, "UserSidOffset") - 1
@@ -384,7 +382,7 @@ Func __EventLog_DecodeStrings($tEventLog)
 	$aStrings[0] = $iNumStrs
 	For $iI = 1 To $iNumStrs
 		$aStrings[$iI] = DllStructGetData($tBuffer, "Text")
-		$iOffset += 2*(StringLen($aStrings[$iI]) + 1)
+		$iOffset += 2 * (StringLen($aStrings[$iI]) + 1)
 		$tBuffer = DllStructCreate("wchar Text[" & $iDataOffset - $iOffset & "]", $pEventLog + $iOffset)
 	Next
 	Return $aStrings
@@ -408,8 +406,8 @@ Func __EventLog_DecodeTime($iEventTime)
 	Local $pInt64 = DllStructGetPtr($tInt64)
 	Local $tFileTime = DllStructCreate($tagFILETIME, $pInt64)
 	DllStructSetData($tInt64, 1, ($iEventTime * 10000000) + 116444736000000000)
-	Local $tLocalTime = _Date_Time_FileTimeToLocalFileTime(DllStructGetPtr($tFileTime))
-	Local $tSystTime = _Date_Time_FileTimeToSystemTime(DllStructGetPtr($tLocalTime))
+	Local $tLocalTime = _Date_Time_FileTimeToLocalFileTime($tFileTime)
+	Local $tSystTime = _Date_Time_FileTimeToSystemTime($tLocalTime)
 	Local $iHours = DllStructGetData($tSystTime, "Hour")
 	Local $iMinutes = DllStructGetData($tSystTime, "Minute")
 	Local $iSeconds = DllStructGetData($tSystTime, "Second")
@@ -667,30 +665,28 @@ Func _EventLog__Read($hEventLog, $fRead = True, $fForward = True, $iOffset = 0)
 	; First call gets the size for the buffer.  A fake buffer is passed because
 	; the function demands the buffer be non-NULL even when requesting the size.
 	Local $tBuffer = DllStructCreate("wchar[1]")
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $aResult = DllCall("advapi32.dll", "bool", "ReadEventLogW", "handle", $hEventLog, "dword", $iReadFlags, "dword", $iOffset, _
-			"ptr", $pBuffer, "dword", 0, "dword*", 0, "dword*", 0)
+			"struct*", $tBuffer, "dword", 0, "dword*", 0, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, $aEvent)
 
 	; Allocate the buffer and repeat the call obtaining the information.
 	Local $iBytesMin = $aResult[7]
 	$tBuffer = DllStructCreate("wchar[" & $iBytesMin + 1 & "]")
-	$pBuffer = DllStructGetPtr($tBuffer)
 	$aResult = DllCall("advapi32.dll", "bool", "ReadEventLogW", "handle", $hEventLog, "dword", $iReadFlags, "dword", $iOffset, _
-			"ptr", $pBuffer, "dword", $iBytesMin, "dword*", 0, "dword*", 0)
+			"struct*", $tBuffer, "dword", $iBytesMin, "dword*", 0, "dword*", 0)
 	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, $aEvent)
 
-	Local $tEventLog = DllStructCreate($tagEVENTLOGRECORD, $pBuffer)
-	$aEvent[ 0] = True
-	$aEvent[ 1] = DllStructGetData($tEventLog, "RecordNumber")
-	$aEvent[ 2] = __EventLog_DecodeDate(DllStructGetData($tEventLog, "TimeGenerated"))
-	$aEvent[ 3] = __EventLog_DecodeTime(DllStructGetData($tEventLog, "TimeGenerated"))
-	$aEvent[ 4] = __EventLog_DecodeDate(DllStructGetData($tEventLog, "TimeWritten"))
-	$aEvent[ 5] = __EventLog_DecodeTime(DllStructGetData($tEventLog, "TimeWritten"))
-	$aEvent[ 6] = __EventLog_DecodeEventID($tEventLog)
-	$aEvent[ 7] = DllStructGetData($tEventLog, "EventType")
-	$aEvent[ 8] = __EventLog_DecodeTypeStr(DllStructGetData($tEventLog, "EventType"))
-	$aEvent[ 9] = __EventLog_DecodeCategory($tEventLog)
+	Local $tEventLog = DllStructCreate($tagEVENTLOGRECORD, DllStructGetPtr($tBuffer))
+	$aEvent[0] = True
+	$aEvent[1] = DllStructGetData($tEventLog, "RecordNumber")
+	$aEvent[2] = __EventLog_DecodeDate(DllStructGetData($tEventLog, "TimeGenerated"))
+	$aEvent[3] = __EventLog_DecodeTime(DllStructGetData($tEventLog, "TimeGenerated"))
+	$aEvent[4] = __EventLog_DecodeDate(DllStructGetData($tEventLog, "TimeWritten"))
+	$aEvent[5] = __EventLog_DecodeTime(DllStructGetData($tEventLog, "TimeWritten"))
+	$aEvent[6] = __EventLog_DecodeEventID($tEventLog)
+	$aEvent[7] = DllStructGetData($tEventLog, "EventType")
+	$aEvent[8] = __EventLog_DecodeTypeStr(DllStructGetData($tEventLog, "EventType"))
+	$aEvent[9] = __EventLog_DecodeCategory($tEventLog)
 	$aEvent[10] = __EventLog_DecodeSource($tEventLog)
 	$aEvent[11] = __EventLog_DecodeComputer($tEventLog)
 	$aEvent[12] = __EventLog_DecodeUserName($tEventLog)
@@ -760,28 +756,24 @@ EndFunc   ;==>_EventLog__RegisterSource
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Report($hEventLog, $iType, $iCategory, $iEventID, $sUserName, $sDesc, $aData)
-	Local $pSID = 0, $tSID
+	Local $tSID = 0
 
 	If $sUserName <> "" Then
 		$tSID = _Security__GetAccountSid($sUserName)
-		$pSID = DllStructGetPtr($tSID)
 	EndIf
 
 	Local $iData = $aData[0]
 	Local $tData = DllStructCreate("byte[" & $iData & "]")
-	Local $pData = DllStructGetPtr($tData)
 	Local $iDesc = StringLen($sDesc) + 1
 	Local $tDesc = DllStructCreate("wchar[" & $iDesc & "]")
-	Local $pDesc = DllStructGetPtr($tDesc)
 	Local $tPtr = DllStructCreate("ptr")
-	Local $pPtr = DllStructGetPtr($tPtr)
-	DllStructSetData($tPtr, 1, $pDesc)
+	DllStructSetData($tPtr, 1, DllStructGetPtr($tDesc))
 	DllStructSetData($tDesc, 1, $sDesc)
 	For $iI = 1 To $iData
 		DllStructSetData($tData, 1, $aData[$iI], $iI)
 	Next
 	Local $aResult = DllCall("advapi32.dll", "bool", "ReportEventW", "handle", $hEventLog, "word", $iType, "word", $iCategory, _
-			"dword", $iEventID, "ptr", $pSID, "word", 1, "dword", $iData, "ptr", $pPtr, "ptr", $pData)
+			"dword", $iEventID, "struct*", $tSID, "word", 1, "dword", $iData, "struct*", $tPtr, "struct*", $tData)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0] <> 0
 EndFunc   ;==>_EventLog__Report

@@ -7,7 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ComboBoxEx
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with ComboBoxEx control management.
 ;                  ComboBoxEx Controls are an extension of the combo box control that provides native support for item images.
@@ -234,15 +234,15 @@ EndFunc   ;==>_GUICtrlComboBoxEx_BeginUpdate
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_Create($hWnd, $sText, $iX, $iY, $iWidth = 100, $iHeight = 200, $iStyle = 0x00200002, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)		; Invalid Window handle for _GUICtrlComboBoxEx_Create 1st parameter
-	If Not IsString($sText) Then  Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlComboBoxEx_Create
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlComboBoxEx_Create 1st parameter
+	If Not IsString($sText) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlComboBoxEx_Create
 
 	Local $sDelimiter = Opt("GUIDataSeparatorChar")
 
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 200
 	Local Const $WS_VSCROLL = 0x00200000
-	If $iStyle = -1 Then $iStyle = BitOr($WS_VSCROLL, $CBS_DROPDOWN)
+	If $iStyle = -1 Then $iStyle = BitOR($WS_VSCROLL, $CBS_DROPDOWN)
 	If $iExStyle = -1 Then $iExStyle = 0x00000000
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__COMBOBOXCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_VISIBLE)
@@ -317,7 +317,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_DeleteString
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_Destroy(ByRef $hWnd)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName) Then  Return SetError(2, 2, False)
+	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
 	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Then
@@ -372,7 +372,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_EndUpdate
 ;                  When the search reaches the bottom of the ListBox, it continues from the top of the
 ;                  ListBox back to the item specified by $iIndex.
 ;+
-;                  If $iIndex is ¨C1, the entire ListBox is searched from the beginning.
+;                  If $iIndex is –1, the entire ListBox is searched from the beginning.
 ; Related .......: _GUICtrlComboBox_SelectString
 ; Link ..........:
 ; Example .......: Yes
@@ -509,7 +509,7 @@ Func _GUICtrlComboBoxEx_GetDroppedControlRectEx($hWnd)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 
 	Local $tRECT = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $CB_GETDROPPEDCONTROLRECT, 0, DllStructGetPtr($tRECT), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $CB_GETDROPPEDCONTROLRECT, 0, $tRECT, 0, "wparam", "struct*")
 	Return $tRECT
 EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedControlRectEx
 
@@ -553,7 +553,6 @@ Func _GUICtrlComboBoxEx_GetDroppedWidth($hWnd)
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_GetDroppedWidth($hCombo)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedWidth
-
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlComboBoxEx_GetEditControl
@@ -737,21 +736,20 @@ Func _GUICtrlComboBoxEx_GetItemEx($hWnd, ByRef $tItem)
 
 	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
-	Local $pItem = DllStructGetPtr($tItem)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Then
-		$iRet = _SendMessage($hWnd, $CBEM_GETITEMW, 0, $pItem, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $CBEM_GETITEMW, 0, $tItem, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem, $tMemMap)
-		_MemWrite($tMemMap, $pItem)
+		_MemWrite($tMemMap, $tItem)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $CBEM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $CBEM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pItem, $iItem)
+		_MemRead($tMemMap, $pMemory, $tItem, $iItem)
 		_MemFree($tMemMap)
 	EndIf
 	Return $iRet <> 0
@@ -763,7 +761,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetItemEx
 ; Syntax.........: _GUICtrlComboBoxEx_GetItemHeight($hWnd, $iComponent = -1)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iComponent  - Use the following values:
-;                  |¨C1          - Get the height of the selection field
+;                  |–1          - Get the height of the selection field
 ;                  | 0          - Get the height of list items
 ; Return values .: Success      - The height, in pixels
 ;                  Failure      - -1
@@ -1197,11 +1195,10 @@ EndFunc   ;==>_GUICtrlComboBoxEx_InitStorage
 Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, $iSelecteImage = -1, $iOverlayImage = -1, $iIndent = -1, $iParam = -1)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 
-	Local $iBuffer = 0, $pBuffer = 0, $iMask, $iRet
+	Local $iBuffer = 0, $iMask, $iRet
 	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
 	Local $tItem = DllStructCreate($tagCOMBOBOXEXITEM)
-	Local $pItem = DllStructGetPtr($tItem)
 	If $sText <> -1 Then
 		$iMask = BitOR($CBEIF_TEXT, $CBEIF_LPARAM)
 		$iBuffer = StringLen($sText) + 1
@@ -1212,9 +1209,8 @@ Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, 
 		Else
 			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 		EndIf
-		$pBuffer = DllStructGetPtr($tBuffer)
 		DllStructSetData($tBuffer, "Text", $sText)
-		DllStructSetData($tItem, "Text", $pBuffer)
+		DllStructSetData($tItem, "Text", DllStructGetPtr($tBuffer))
 		DllStructSetData($tItem, "TextMax", $iBuffer)
 	Else
 		$iMask = BitOR($CBEIF_DI_SETITEM, $CBEIF_LPARAM)
@@ -1232,15 +1228,15 @@ Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, 
 	DllStructSetData($tItem, "Indent", $iIndent)
 	DllStructSetData($tItem, "Param", $iParam)
 	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Or ($sText = -1) Then
-		$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMW, 0, $pItem, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMW, 0, $tItem, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
 		Local $pText = $pMemory + $iItem
 		DllStructSetData($tItem, "Text", $pText)
-		_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
-		_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+		_MemWrite($tMemMap, $tItem, $pMemory, $iItem)
+		_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
@@ -1329,9 +1325,9 @@ EndFunc   ;==>_GUICtrlComboBoxEx_ResetContent
 ;                  Failure      - -1
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: If $iIndex is ¨C1, any current selection in the list is removed and the edit control is cleared.
+; Remarks .......: If $iIndex is –1, any current selection in the list is removed and the edit control is cleared.
 ;+
-;                  If $iIndex is greater than the number of items in the list or if $iIndex is ¨C1, the return value
+;                  If $iIndex is greater than the number of items in the list or if $iIndex is –1, the return value
 ;                  is -1 and the selection is cleared.
 ; Related .......: _GUICtrlComboBoxEx_GetCurSel
 ; Link ..........:
@@ -1378,7 +1374,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetDroppedWidth
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; Remarks .......: The positions are zero-based. The first character of the edit control is in the zero position.
-;                  If $iStop is ¨C1, all text from the starting position to the last character in the edit control is selected.
+;                  If $iStop is –1, all text from the starting position to the last character in the edit control is selected.
 ;+
 ;                  The first character after the last selected character is in the ending position.
 ;+
@@ -1532,7 +1528,7 @@ Func _GUICtrlComboBoxEx_SetItem($hWnd, $sText, $iIndex = 0, $iImage = -1, $iSele
 	DllStructSetData($tItem, "Mask", $iMask)
 	DllStructSetData($tItem, "Item", $iIndex)
 	DllStructSetData($tItem, "Text", $pBuffer)
-	DllStructSetData($tItem, "TextMax", $iBuffer*2)
+	DllStructSetData($tItem, "TextMax", $iBuffer * 2)
 	DllStructSetData($tItem, "Image", $iImage)
 	DllStructSetData($tItem, "Param", $iParam)
 	DllStructSetData($tItem, "Indent", $iIndent)
@@ -1561,8 +1557,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetItem
 Func _GUICtrlComboBoxEx_SetItemEx($hWnd, ByRef $tItem)
 	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 
-	Local $pItem = DllStructGetPtr($tItem)
-
 	Local $iItem = DllStructGetSize($tItem)
 	Local $iBuffer = DllStructGetData($tItem, "TextMax")
 	If $iBuffer = 0 Then $iBuffer = 1
@@ -1571,7 +1565,7 @@ Func _GUICtrlComboBoxEx_SetItemEx($hWnd, ByRef $tItem)
 	Local $pMemory = _MemInit($hWnd, $iItem + $iBuffer, $tMemMap)
 	Local $pText = $pMemory + $iItem
 	DllStructSetData($tItem, "Text", $pText)
-	_MemWrite($tMemMap, $pItem, $pMemory, $iItem)
+	_MemWrite($tMemMap, $tItem, $pMemory, $iItem)
 	If $pBuffer <> 0 Then _MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
 	Local $iRet = _SendMessage($hWnd, $CBEM_SETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 	_MemFree($tMemMap)
@@ -1585,7 +1579,7 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetItemEx
 ; Syntax.........: _GUICtrlComboBoxEx_SetItemHeight($hWnd, $iComponent, $iHeight)
 ; Parameters ....: $hWnd        - Handle to control
 ;                  $iComponent  - Use the following values:
-;                  |¨C1          - Set the height of the selection field
+;                  |–1          - Set the height of the selection field
 ;                  | 0          - Set the height of list items
 ;                  $iHeight     - The height, in pixels, of the combo box component identified by $iComponent
 ; Return values .: Failure      - If height is invalid, the return value is -1.

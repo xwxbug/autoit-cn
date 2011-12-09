@@ -165,10 +165,10 @@ Func _ArrayCombinations(ByRef $avArray, $iSet, $sDelim = "")
 	Next
 	Local $iTotal = __Array_Combinations($iN, $iR)
 	Local $iLeft = $iTotal
-	Local  $aResult[$iTotal + 1]
+	Local $aResult[$iTotal + 1]
 	$aResult[0] = $iTotal
 
-	Local  $iCount = 1
+	Local $iCount = 1
 	While $iLeft > 0
 		__Array_GetNext($iN, $iR, $iLeft, $iTotal, $aIdx)
 		For $i = 0 To $iSet - 1
@@ -360,7 +360,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = "Array: ÁÐ±íÊÓÍ¼(ListView)ÏÔÊ
 
 	; Set header up
 	If $sHeader = "" Then
-		$sHeader = "Row  "	; blanks added to adjust column size for big number of rows
+		$sHeader = "Row  " ; blanks added to adjust column size for big number of rows
 		For $i = 0 To $iSubMax
 			$sHeader &= $sSeparator & "Col " & $i
 		Next
@@ -442,7 +442,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = "Array: ÁÐ±íÊÓÍ¼(ListView)ÏÔÊ
 
 	If $iWidth > @DesktopWidth Then $iWidth = @DesktopWidth - 100
 
-	WinMove($hGUI, "", (@DesktopWidth - $iWidth)/2, Default, $iWidth)
+	WinMove($hGUI, "", (@DesktopWidth - $iWidth) / 2, Default, $iWidth)
 
 	; Show dialog
 	GUISetState(@SW_SHOW, $hGUI)

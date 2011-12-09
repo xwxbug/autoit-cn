@@ -8,7 +8,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: StatusBar
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with StatusBar control management.
 ;                  A status bar is a horizontal window at the bottom of a parent window in which an application can display
@@ -24,9 +24,9 @@ Global $Debug_SB = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__STATUSBARCONSTANT_ClassName		= "msctls_statusbar32"
-Global Const $__STATUSBARCONSTANT_WM_SIZE		= 0x05
-Global Const $__STATUSBARCONSTANT_CLR_DEFAULT	= 0xFF000000
+Global Const $__STATUSBARCONSTANT_ClassName = "msctls_statusbar32"
+Global Const $__STATUSBARCONSTANT_WM_SIZE = 0x05
+Global Const $__STATUSBARCONSTANT_CLR_DEFAULT = 0xFF000000
 ; ===============================================================================================================================
 
 ; #OLD_FUNCTIONS#================================================================================================================
@@ -135,12 +135,12 @@ Global Const $tagBORDERS = "int BX;int BY;int RX"
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_Create($hWnd, $vPartEdge = -1, $vPartText = "", $iStyles = -1, $iExStyles = -1)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)	; Invalid Window handle for _GUICtrlStatusBar_Create 1st parameter
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlStatusBar_Create 1st parameter
 
 	Local $iStyle = BitOR($__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
 	If $iStyles = -1 Then $iStyles = 0x00000000
-	If $iExStyles = -1 Then $iExStyles= 0x00000000
+	If $iExStyles = -1 Then $iExStyles = 0x00000000
 
 	Local $aPartWidth[1], $aPartText[1]
 	If @NumParams > 1 Then ; more than param passed in
@@ -307,16 +307,15 @@ Func _GUICtrlStatusBar_GetBorders($hWnd)
 	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 
 	Local $tBorders = DllStructCreate($tagBORDERS)
-	Local $pBorders = DllStructGetPtr($tBorders)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $SB_GETBORDERS, 0, $pBorders, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $SB_GETBORDERS, 0, $tBorders, 0, "wparam", "struct*")
 	Else
 		Local $iSize = DllStructGetSize($tBorders)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iSize, $tMemMap)
 		$iRet = _SendMessage($hWnd, $SB_GETBORDERS, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pBorders, $iSize)
+		_MemRead($tMemMap, $pMemory, $tBorders, $iSize)
 		_MemFree($tMemMap)
 	EndIf
 	Local $aBorders[3]
@@ -414,7 +413,7 @@ EndFunc   ;==>_GUICtrlStatusBar_GetCount
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetHeight($hWnd)
-	Local  $tRect = _GUICtrlStatusBar_GetRectEx($hWnd, 0)
+	Local $tRect = _GUICtrlStatusBar_GetRectEx($hWnd, 0)
 	Return DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top") - (_GUICtrlStatusBar_GetBordersVert($hWnd) * 2)
 EndFunc   ;==>_GUICtrlStatusBar_GetHeight
 
@@ -462,16 +461,15 @@ Func _GUICtrlStatusBar_GetParts($hWnd)
 
 	Local $iCount = _GUICtrlStatusBar_GetCount($hWnd)
 	Local $tParts = DllStructCreate("int[" & $iCount & "]")
-	Local $pParts = DllStructGetPtr($tParts)
 	Local $aParts[$iCount + 1]
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		$aParts[0] = _SendMessage($hWnd, $SB_GETPARTS, $iCount, $pParts, 0, "wparam", "ptr")
+		$aParts[0] = _SendMessage($hWnd, $SB_GETPARTS, $iCount, $tParts, 0, "wparam", "struct*")
 	Else
 		Local $iParts = DllStructGetSize($tParts)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iParts, $tMemMap)
 		$aParts[0] = _SendMessage($hWnd, $SB_GETPARTS, $iCount, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pParts, $iParts)
+		_MemRead($tMemMap, $pMemory, $tParts, $iParts)
 		_MemFree($tMemMap)
 	EndIf
 	For $iI = 1 To $iCount
@@ -500,7 +498,7 @@ EndFunc   ;==>_GUICtrlStatusBar_GetParts
 ; ===============================================================================================================================
 Func _GUICtrlStatusBar_GetRect($hWnd, $iPart)
 	Local $tRect = _GUICtrlStatusBar_GetRectEx($hWnd, $iPart)
-	If @error Then 	Return SetError(@error, 0, 0)
+	If @error Then Return SetError(@error, 0, 0)
 	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
@@ -528,19 +526,18 @@ Func _GUICtrlStatusBar_GetRectEx($hWnd, $iPart)
 	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $pRect = DllStructGetPtr($tRect)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $SB_GETRECT, $iPart, $pRect, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $SB_GETRECT, $iPart, $tRect, 0, "wparam", "struct*")
 	Else
 		Local $iRect = DllStructGetSize($tRect)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 		$iRet = _SendMessage($hWnd, $SB_GETRECT, $iPart, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
 		_MemFree($tMemMap)
 	EndIf
-	Return SetError($iRet=0, 0, $tRect)
+	Return SetError($iRet = 0, 0, $tRect)
 EndFunc   ;==>_GUICtrlStatusBar_GetRectEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -572,9 +569,8 @@ Func _GUICtrlStatusBar_GetText($hWnd, $iPart)
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		_SendMessage($hWnd, $SB_GETTEXTW, $iPart, $pBuffer, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $SB_GETTEXTW, $iPart, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
@@ -583,7 +579,7 @@ Func _GUICtrlStatusBar_GetText($hWnd, $iPart)
 		Else
 			_SendMessage($hWnd, $SB_GETTEXT, $iPart, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
+		_MemRead($tMemMap, $pMemory, $tBuffer, $iBuffer)
 		_MemFree($tMemMap)
 	EndIf
 	Return DllStructGetData($tBuffer, "Text")
@@ -685,9 +681,8 @@ Func _GUICtrlStatusBar_GetTipText($hWnd, $iPart)
 	Else
 		$tBuffer = DllStructCreate("char Text[4096]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		_SendMessage($hWnd, $SB_GETTIPTEXTW, _WinAPI_MakeLong($iPart, 4096), $pBuffer, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $SB_GETTIPTEXTW, _WinAPI_MakeLong($iPart, 4096), $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, 4096, $tMemMap)
@@ -696,7 +691,7 @@ Func _GUICtrlStatusBar_GetTipText($hWnd, $iPart)
 		Else
 			_SendMessage($hWnd, $SB_GETTIPTEXTA, _WinAPI_MakeLong($iPart, 4096), $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pBuffer, 4096)
+		_MemRead($tMemMap, $pMemory, $tBuffer, 4096)
 		_MemFree($tMemMap)
 	EndIf
 	Return DllStructGetData($tBuffer, "Text")
@@ -823,11 +818,11 @@ EndFunc   ;==>_GUICtrlStatusBar_SetBkColor
 Func _GUICtrlStatusBar_SetIcon($hWnd, $iPart, $hIcon = -1, $sIconFile = "")
 	If $Debug_SB Then __UDF_ValidateClassName($hWnd, $__STATUSBARCONSTANT_ClassName)
 
-	If $hIcon = -1 Then	Return _SendMessage($hWnd, $SB_SETICON, $iPart, $hIcon, 0, "wparam", "handle") <> 0  ; Remove Icon
+	If $hIcon = -1 Then Return _SendMessage($hWnd, $SB_SETICON, $iPart, $hIcon, 0, "wparam", "handle") <> 0 ; Remove Icon
 	If StringLen($sIconFile) <= 0 Then Return _SendMessage($hWnd, $SB_SETICON, $iPart, $hIcon) <> 0 ; set icon from icon handle
 	; set icon from file
 	Local $tIcon = DllStructCreate("handle")
-	Local $vResult = DllCall("shell32.dll", "uint", "ExtractIconExW", "wstr", $sIconFile, "int", $hIcon, "ptr", 0, "ptr", DllStructGetPtr($tIcon), "uint", 1)
+	Local $vResult = DllCall("shell32.dll", "uint", "ExtractIconExW", "wstr", $sIconFile, "int", $hIcon, "ptr", 0, "struct*", $tIcon, "uint", 1)
 	If @error Then Return SetError(@error, @extended, False)
 	$vResult = $vResult[0]
 	If $vResult > 0 Then $vResult = _SendMessage($hWnd, $SB_SETICON, $iPart, DllStructGetData($tIcon, 1), 0, "wparam", "handle")
@@ -911,14 +906,13 @@ Func _GUICtrlStatusBar_SetParts($hWnd, $iaParts = -1, $iaPartWidth = 25)
 		DllStructSetData($tParts, $iParts, -1)
 	EndIf
 	;== end set sizing
-	Local $pParts = DllStructGetPtr($tParts)
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		_SendMessage($hWnd, $SB_SETPARTS, $iParts, $pParts, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $SB_SETPARTS, $iParts, $tParts, 0, "wparam", "struct*")
 	Else
 		Local $iSize = DllStructGetSize($tParts)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iSize, $tMemMap)
-		_MemWrite($tMemMap, $pParts)
+		_MemWrite($tMemMap, $tParts)
 		_SendMessage($hWnd, $SB_SETPARTS, $iParts, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -983,16 +977,15 @@ Func _GUICtrlStatusBar_SetText($hWnd, $sText = "", $iPart = 0, $iUFlag = 0)
 	Else
 		$tText = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tText)
 	DllStructSetData($tText, "Text", $sText)
 	If _GUICtrlStatusBar_IsSimple($hWnd) Then $iPart = $SB_SIMPLEID
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $SB_SETTEXTW, BitOR($iPart, $iUFlag), $pBuffer, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $SB_SETTEXTW, BitOR($iPart, $iUFlag), $tText, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
-		_MemWrite($tMemMap, $pBuffer)
+		_MemWrite($tMemMap, $tText)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $SB_SETTEXTW, BitOR($iPart, $iUFlag), $pMemory, 0, "wparam", "ptr")
 		Else
@@ -1031,14 +1024,13 @@ Func _GUICtrlStatusBar_SetTipText($hWnd, $iPart, $sText)
 	Else
 		$tText = DllStructCreate("char TipText[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tText)
 	DllStructSetData($tText, "TipText", $sText)
 	If _WinAPI_InProcess($hWnd, $__ghSBLastWnd) Then
-		_SendMessage($hWnd, $SB_SETTIPTEXTW, $iPart, $pBuffer, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $SB_SETTIPTEXTW, $iPart, $tText, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
-		_MemWrite($tMemMap, $pBuffer, $pMemory, $iBuffer)
+		_MemWrite($tMemMap, $tText, $pMemory, $iBuffer)
 		If $fUnicode Then
 			_SendMessage($hWnd, $SB_SETTIPTEXTW, $iPart, $pMemory, 0, "wparam", "ptr")
 		Else

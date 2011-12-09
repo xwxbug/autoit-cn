@@ -5,7 +5,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WindowsNetworking
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Windows Networking management.
 ;                  The Windows Networking (WNet) functions allow you to implement networking  capabilities  in  your  application
@@ -278,14 +278,13 @@ Global Const $tagREMOTE_NAME_INFO = "ptr Universal;ptr Connection;ptr Remaining"
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection($sLocalName, $sRemoteName, $sPassword = 0)
-	Local $pPassWord = 0
+	Local $tPassword = 0
 	If IsString($sPassword) Then
-		Local $tPassword = DllStructCreate("wchar Text[4096]")
-		$pPassWord = DllStructGetPtr($tPassword)
+		$tPassword = DllStructCreate("wchar Text[4096]")
 		DllStructSetData($tPassword, "Text", $sPassword)
 	EndIf
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnectionW", "wstr", $sRemoteName, "ptr", $pPassWord, "wstr", $sLocalName)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnectionW", "wstr", $sRemoteName, "struct*", $tPassword, "wstr", $sLocalName)
 	If @error Then Return SetError(@error, @extended, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_WinNet_AddConnection
@@ -335,17 +334,15 @@ Func _WinNet_AddConnection2($sLocalName, $sRemoteName, $sUserName = 0, $sPasswor
 	Local $pRemoteName = DllStructGetPtr($tRemoteName)
 	DllStructSetData($tRemoteName, "Text", $sRemoteName)
 
-	Local $pUserName = 0
+	Local $tUserName = 0
 	If IsString($sUserName) Then
-		Local $tUserName = DllStructCreate("wchar Text[1024]")
-		$pUserName = DllStructGetPtr($tUserName)
+		$tUserName = DllStructCreate("wchar Text[1024]")
 		DllStructSetData($tUserName, "Text", $sUserName)
 	EndIf
 
-	Local $pPassWord = 0
+	Local $tPassword = 0
 	If IsString($sPassword) Then
-		Local $tPassword = DllStructCreate("wchar Text[1024]")
-		$pPassWord = DllStructGetPtr($tPassword)
+		$tPassword = DllStructCreate("wchar Text[1024]")
 		DllStructSetData($tPassword, "Text", $sPassword)
 	EndIf
 
@@ -358,12 +355,11 @@ Func _WinNet_AddConnection2($sLocalName, $sRemoteName, $sUserName = 0, $sPasswor
 	If BitAND($iOptions, 32) <> 0 Then $iFlags = BitOR($iFlags, $CONNECT_CMD_SAVECRED)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 	DllStructSetData($tResource, "Type", $iType)
 	DllStructSetData($tResource, "LocalName", $pLocalName)
 	DllStructSetData($tResource, "RemoteName", $pRemoteName)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnection2W", "ptr", $pResource, "ptr", $pPassWord, "ptr", $pUserName, "dword", $iFlags)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnection2W", "struct*", $tResource, "struct*", $tPassword, "struct*", $tUserName, "dword", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_WinNet_AddConnection2
@@ -415,17 +411,15 @@ Func _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $s
 	Local $pRemoteName = DllStructGetPtr($tRemoteName)
 	DllStructSetData($tRemoteName, "Text", $sRemoteName)
 
-	Local $pUserName = 0
+	Local $tUserName = 0
 	If IsString($sUserName) Then
-		Local $tUserName = DllStructCreate("wchar Text[1024]")
-		$pUserName = DllStructGetPtr($tUserName)
+		$tUserName = DllStructCreate("wchar Text[1024]")
 		DllStructSetData($tUserName, "Text", $sUserName)
 	EndIf
 
-	Local $pPassWord = 0
+	Local $tPassword = 0
 	If IsString($sPassword) Then
-		Local $tPassword = DllStructCreate("wchar Text[1024]")
-		$pPassWord = DllStructGetPtr($tPassword)
+		$tPassword = DllStructCreate("wchar Text[1024]")
 		DllStructSetData($tPassword, "Text", $sPassword)
 	EndIf
 
@@ -438,12 +432,11 @@ Func _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $s
 	If BitAND($iOptions, 32) <> 0 Then $iFlags = BitOR($iFlags, $CONNECT_CMD_SAVECRED)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 	DllStructSetData($tResource, "Type", $iType)
 	DllStructSetData($tResource, "LocalName", $pLocalName)
 	DllStructSetData($tResource, "RemoteName", $pRemoteName)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnection3W", "hwnd", $hWnd, "ptr", $pResource, "ptr", $pPassWord, "ptr", $pUserName, "dword", $iFlags)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetAddConnection3W", "hwnd", $hWnd, "struct*", $tResource, "struct*", $tPassword, "struct*", $tUserName, "dword", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_WinNet_AddConnection3
@@ -581,15 +574,14 @@ Func _WinNet_ConnectionDialog1($hWnd, $sRemoteName = "", $iFlags = 2)
 	If BitAND($iFlags, 16) <> 0 Then $iDialog = BitOR($iDialog, $CONNDLG_NOT_PERSIST)
 
 	Local $tConnect = DllStructCreate($tagCONNECTDLGSTRUCT)
-	Local $pConnect = DllStructGetPtr($tConnect)
 	DllStructSetData($tConnect, "Size", DllStructGetSize($tConnect))
 	DllStructSetData($tConnect, "hWnd", $hWnd)
 	DllStructSetData($tConnect, "Resource", $pResource)
 	DllStructSetData($tConnect, "Flags", $iDialog)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetConnectionDialog1W", "ptr", $pConnect)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetConnectionDialog1W", "struct*", $tConnect)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $aResult[0] = -1 Then Return -1	; user cancels the dialog box
+	If $aResult[0] = -1 Then Return -1 ; user cancels the dialog box
 	If $aResult[0] <> 0 Then Return SetError($aResult[0], 0, 0)
 	Return DllStructGetData($tConnect, "DevNum")
 EndFunc   ;==>_WinNet_ConnectionDialog1
@@ -659,7 +651,7 @@ Func _WinNet_DisconnectDialog1($hWnd, $sLocalName, $sRemoteName = "", $iFlags = 
 	DllStructSetData($tDialog, "RemoteName", $pRemoteName)
 	DllStructSetData($tDialog, "Flags", $iOptions)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetDisconnectDialog1W", "ptr", DllStructGetPtr($tDialog))
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetDisconnectDialog1W", "struct*", $tDialog)
 	If @error Then Return SetError(@error, @extended, 0)
 	If $aResult[0] > 0 Then Return SetError($aResult[0], 0, 0)
 	If $aResult[0] = -1 Then Return -1
@@ -752,14 +744,13 @@ Func _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
 	DllStructSetData($tRemoteName, "Text", $sRemoteName)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 	DllStructSetData($tResource, "LocalName", DllStructGetPtr($tLocalName))
 	DllStructSetData($tResource, "RemoteName", DllStructGetPtr($tRemoteName))
 
 	Local $tInfo = DllStructCreate($tagNETCONNECTINFOSTRUCT)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
 
-	Local $aResult = DllCall("mpr.dll", "dword", "MultinetGetConnectionPerformanceW", "ptr", $pResource, "ptr", DllStructGetPtr($tInfo))
+	Local $aResult = DllCall("mpr.dll", "dword", "MultinetGetConnectionPerformanceW", "struct*", $tResource, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, False)
 	Local $aInfo[4]
 	$aInfo[0] = DllStructGetData($tInfo, "Flags")
@@ -789,7 +780,7 @@ Func _WinNet_GetLastError(ByRef $iError, ByRef $sError, ByRef $sName)
 	If @error Then Return SetError(@error, @extended, False)
 	$iError = $aResult[1]
 	$sError = $aResult[2]
-	$sName  = $aResult[3]
+	$sName = $aResult[3]
 	Return $aResult[0]
 EndFunc   ;==>_WinNet_GetLastError
 
@@ -819,10 +810,9 @@ EndFunc   ;==>_WinNet_GetLastError
 ; ===============================================================================================================================
 Func _WinNet_GetNetworkInformation($sName)
 	Local $tInfo = DllStructCreate($tagNETINFOSTRUCT)
-	Local $pInfo = DllStructGetPtr($tInfo)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetNetworkInformationW", "wstr", $sName, "ptr", $pInfo)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetNetworkInformationW", "wstr", $sName, "struct*", $tInfo)
 	If @error Then Return SetError(@error, @extended, False)
 	Local $aInfo[6]
 	$aInfo[0] = DllStructGetData($tInfo, "Version")
@@ -915,18 +905,16 @@ Func _WinNet_GetResourceInformation($sRemoteName, $sProvider = "", $iType = 0)
 	EndIf
 
 	Local $tBuffer = DllStructCreate("wchar Text[16384]")
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 
 	DllStructSetData($tResource, "RemoteName", $pRemote)
 	DllStructSetData($tResource, "Type", $iType)
 	DllStructSetData($tResource, "Provider", $pProvider)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetResourceInformationW", "ptr", $pResource, "ptr", $pBuffer, "dword*", 16384, "wstr", "")
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetResourceInformationW", "struct*", $tResource, "struct*", $tBuffer, "dword*", 16384, "wstr", "")
 	If @error Then Return SetError(@error, @extended, False)
-	Local $aResource = __WinNet_NETRESOURCEToArray($pBuffer)
+	Local $aResource = __WinNet_NETRESOURCEToArray(DllStructGetPtr($tBuffer))
 	$aResource[8] = $aResult[4]
 	Return SetExtended($aResult[0], $aResource)
 EndFunc   ;==>_WinNet_GetResourceInformation
@@ -988,18 +976,16 @@ Func _WinNet_GetResourceParent($sRemoteName, $sProvider, $iType = 0)
 	DllStructSetData($tProvider, "Text", $sProvider)
 
 	Local $tBuffer = DllStructCreate("byte[16384]")
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 
 	DllStructSetData($tResource, "RemoteName", $pRemote)
 	DllStructSetData($tResource, "Type", $iType)
 	DllStructSetData($tResource, "Provider", $pProvider)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetResourceParentW", "ptr", $pResource, "ptr", $pBuffer, "dword*", 16384)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetResourceParentW", "struct*", $tResource, "struct*", $tBuffer, "dword*", 16384)
 	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], __WinNet_NETRESOURCEToArray($pBuffer))
+	Return SetExtended($aResult[0], __WinNet_NETRESOURCEToArray(DllStructGetPtr($tBuffer)))
 EndFunc   ;==>_WinNet_GetResourceParent
 
 ; #FUNCTION# ====================================================================================================================
@@ -1021,15 +1007,13 @@ EndFunc   ;==>_WinNet_GetResourceParent
 Func _WinNet_GetUniversalName($sLocalPath)
 	Local $iLocal = StringLen($sLocalPath) + 1
 	Local $tLocal = DllStructCreate("wchar Text[" & $iLocal & "]")
-	Local $pLocal = DllStructGetPtr($tLocal)
 	DllStructSetData($tLocal, "Text", $sLocalPath)
 
 	Local $tBuffer = DllStructCreate("byte[16384]")
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetUniversalNameW", "ptr", $pLocal, "dword", 2, "ptr", $pBuffer, "dword*", 16384)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetUniversalNameW", "struct*", $tLocal, "dword", 2, "struct*", $tBuffer, "dword*", 16384)
 	If @error Then Return SetError(@error, @extended, False)
-	Local $tRemote = DllStructCreate($tagREMOTE_NAME_INFO, $pBuffer)
+	Local $tRemote = DllStructCreate($tagREMOTE_NAME_INFO, DllStructGetPtr($tBuffer))
 	Local $pText = DllStructGetData($tRemote, "Universal")
 	Local $tText = DllStructCreate("wchar Text[4096]", $pText)
 	Local $aPath[3]
@@ -1232,13 +1216,12 @@ EndFunc   ;==>_WinNet_OpenEnum
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_RestoreConnection($sDevice = "", $hWnd = 0, $fUseUI = True)
-	Local $pDevice = 0
+	Local $tDevice = 0
 	If $sDevice <> "" Then
-		Local $tDevice = _WinAPI_MultiByteToWideChar($sDevice)
-		$pDevice = DllStructGetPtr($tDevice)
+		$tDevice = _WinAPI_MultiByteToWideChar($sDevice)
 	EndIf
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetRestoreConnectionW", "hwnd", $hWnd, "ptr", $pDevice, "bool", $fUseUI)
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetRestoreConnectionW", "hwnd", $hWnd, "struct*", $tDevice, "bool", $fUseUI)
 	If @error Then Return SetError(@error, @extended, False)
 	Return SetError($aResult[0], 0, $aResult[0] = 0)
 EndFunc   ;==>_WinNet_RestoreConnection
@@ -1294,19 +1277,17 @@ Func _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sP
 	Local $tRemoteName = DllStructCreate("wchar Text[" & $iRemoteName & "]")
 	Local $pRemoteName = DllStructGetPtr($tRemoteName)
 
-	Local $pUserName = 0
+	Local $tUserName = 0
 	If IsString($sUserName) Then
 		Local $iUserName = StringLen($sUserName) + 1
-		Local $tUserName = DllStructCreate("wchar Text[" & $iUserName & "]")
-		$pUserName = DllStructGetPtr($tUserName)
+		$tUserName = DllStructCreate("wchar Text[" & $iUserName & "]")
 		DllStructSetData($tUserName, "Text", $sUserName)
 	EndIf
 
-	Local $pPassWord = 0
+	Local $tPassword = 0
 	If IsString($sPassword) Then
 		Local $iPassword = StringLen($sPassword) + 1
-		Local $tPassword = DllStructCreate("wchar Text[" & $iPassword & "]")
-		$pPassWord = DllStructGetPtr($tPassword)
+		$tPassword = DllStructCreate("wchar Text[" & $iPassword & "]")
 		DllStructSetData($tPassword, "Text", $sPassword)
 	EndIf
 
@@ -1319,7 +1300,6 @@ Func _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sP
 	If BitAND($iOptions, 32) <> 0 Then $iFlags = BitOR($iFlags, $CONNECT_CMD_SAVECRED)
 
 	Local $tResource = DllStructCreate($tagNETRESOURCE)
-	Local $pResource = DllStructGetPtr($tResource)
 
 	DllStructSetData($tLocalName, "Text", $sLocalName)
 	DllStructSetData($tRemoteName, "Text", $sRemoteName)
@@ -1327,11 +1307,11 @@ Func _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sP
 	DllStructSetData($tResource, "LocalName", $pLocalName)
 	DllStructSetData($tResource, "RemoteName", $pRemoteName)
 
-	Local $aResult = DllCall("mpr.dll", "dword", "WNetUseConnectionW", "hwnd", $hWnd, "ptr", $pResource, "ptr", $pPassWord, "ptr", $pUserName, _
+	Local $aResult = DllCall("mpr.dll", "dword", "WNetUseConnectionW", "hwnd", $hWnd, "struct*", $tResource, "struct*", $tPassword, "struct*", $tUserName, _
 			"dword", $iFlags, "wstr", "", "dword*", 4096, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, False)
 	Local $aInfo[2]
 	$aInfo[0] = BitAND($aResult[8], $CONNECT_LOCALDRIVE) <> 0
-	$aInfo[1] = $aResult[6]	; AccessName
+	$aInfo[1] = $aResult[6] ; AccessName
 	Return SetExtended($aResult[0], $aInfo)
 EndFunc   ;==>_WinNet_UseConnection

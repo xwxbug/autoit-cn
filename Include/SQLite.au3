@@ -6,7 +6,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: SQLite
-; AutoIt Version : 3.3.7.0
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist access to an SQLite database.
 ; Author(s) .....: Fida Florian (piccaso), jchd, jpm
@@ -116,11 +116,11 @@
 	23.06.08	Fixed _SQLite_* misuse if _SQLite_Startup() failed
 	23.01.09	Fixed memory leak on error -> __SQLite_szFree() internal function
 	01.05.09	Changed _SQLite_*() functions dealing with AutoIt Strings (Unicode string) for queries and results, without ANSI conversion.
-				Note: no point for a Unicode version of _SQLite_SQLiteEXE() since the DOS console doesn't handle Unicode. (jchd)
+	Note: no point for a Unicode version of _SQLite_SQLiteEXE() since the DOS console doesn't handle Unicode. (jchd)
 	02.05.09	Added _SQLite_Open() accepts a second parameter for read/write/create access mode. (jchd)
 	04.05.09	Added _SQLite_Open() accepts a third parameter for UTF8/UTF16 encoding mode (Only use at creation time). (jpm)
-				Warn: _SQLite_Open() is using now Filename that are Unicode as SQLite expects. Previous version was sending only Filenames with
-					  ASCII characters so previously script can have create valid ASCII filenames no more unreachable.
+	Warn: _SQLite_Open() is using now Filename that are Unicode as SQLite expects. Previous version was sending only Filenames with
+	ASCII characters so previously script can have create valid ASCII filenames no more unreachable.
 	25.05.09	_SQLite_Startup extra parameter to force UTF8 char on SciTE console with output.code.page=65001.
 	09.06.09	_SQLite_SaveMode renamed to _SQLite_SafeMode().
 	01.06.10	jchd updates ... _SQLite_FetchData, $iCharSize, _SQLite_QuerySingleRow, _SQLite_GetTable2d, _SQLite_Display2DResult.
@@ -133,46 +133,46 @@
 #comments-end
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $SQLITE_OK			= 0		; /* Successful result */
-Global Const $SQLITE_ERROR		= 1		; /* SQL error or missing database */
-Global Const $SQLITE_INTERNAL	= 2		; /* An internal logic error in SQLite */
-Global Const $SQLITE_PERM		= 3		; /* Access permission denied */
-Global Const $SQLITE_ABORT		= 4		; /* Callback routine requested an abort */
-Global Const $SQLITE_BUSY		= 5		; /* The database file is locked */
-Global Const $SQLITE_LOCKED		= 6		; /* A table in the database is locked */
-Global Const $SQLITE_NOMEM		= 7		; /* A malloc() failed */
-Global Const $SQLITE_READONLY	= 8		; /* Attempt to write a readonly database */
-Global Const $SQLITE_INTERRUPT	= 9		; /* Operation terminated by sqlite_interrupt() */
-Global Const $SQLITE_IOERR		= 10	; /* Some kind of disk I/O error occurred */
-Global Const $SQLITE_CORRUPT	= 11	; /* The database disk image is malformed */
-Global Const $SQLITE_NOTFOUND	= 12	; /* (Internal Only) Table or record not found */
-Global Const $SQLITE_FULL		= 13	; /* Insertion failed because database is full */
-Global Const $SQLITE_CANTOPEN	= 14	; /* Unable to open the database file */
-Global Const $SQLITE_PROTOCOL	= 15	; /* Database lock protocol error */
-Global Const $SQLITE_EMPTY		= 16	; /* (Internal Only) Database table is empty */
-Global Const $SQLITE_SCHEMA		= 17	; /* The database schema changed */
-Global Const $SQLITE_TOOBIG		= 18	; /* Too much data for one row of a table */
-Global Const $SQLITE_CONSTRAINT	= 19	; /* Abort due to constraint violation */
-Global Const $SQLITE_MISMATCH	= 20	; /* Data type mismatch */
-Global Const $SQLITE_MISUSE		= 21	; /* Library used incorrectly */
-Global Const $SQLITE_NOLFS		= 22	; /* Uses OS features not supported on host */
-Global Const $SQLITE_AUTH		= 23	; /* Authorization denied */
-Global Const $SQLITE_ROW		= 100	; /* sqlite_step() has another row ready */
-Global Const $SQLITE_DONE		= 101	; /* sqlite_step() has finished executing */
+Global Const $SQLITE_OK = 0 ; /* Successful result */
+Global Const $SQLITE_ERROR = 1 ; /* SQL error or missing database */
+Global Const $SQLITE_INTERNAL = 2 ; /* An internal logic error in SQLite */
+Global Const $SQLITE_PERM = 3 ; /* Access permission denied */
+Global Const $SQLITE_ABORT = 4 ; /* Callback routine requested an abort */
+Global Const $SQLITE_BUSY = 5 ; /* The database file is locked */
+Global Const $SQLITE_LOCKED = 6 ; /* A table in the database is locked */
+Global Const $SQLITE_NOMEM = 7 ; /* A malloc() failed */
+Global Const $SQLITE_READONLY = 8 ; /* Attempt to write a readonly database */
+Global Const $SQLITE_INTERRUPT = 9 ; /* Operation terminated by sqlite_interrupt() */
+Global Const $SQLITE_IOERR = 10 ; /* Some kind of disk I/O error occurred */
+Global Const $SQLITE_CORRUPT = 11 ; /* The database disk image is malformed */
+Global Const $SQLITE_NOTFOUND = 12 ; /* (Internal Only) Table or record not found */
+Global Const $SQLITE_FULL = 13 ; /* Insertion failed because database is full */
+Global Const $SQLITE_CANTOPEN = 14 ; /* Unable to open the database file */
+Global Const $SQLITE_PROTOCOL = 15 ; /* Database lock protocol error */
+Global Const $SQLITE_EMPTY = 16 ; /* (Internal Only) Database table is empty */
+Global Const $SQLITE_SCHEMA = 17 ; /* The database schema changed */
+Global Const $SQLITE_TOOBIG = 18 ; /* Too much data for one row of a table */
+Global Const $SQLITE_CONSTRAINT = 19 ; /* Abort due to constraint violation */
+Global Const $SQLITE_MISMATCH = 20 ; /* Data type mismatch */
+Global Const $SQLITE_MISUSE = 21 ; /* Library used incorrectly */
+Global Const $SQLITE_NOLFS = 22 ; /* Uses OS features not supported on host */
+Global Const $SQLITE_AUTH = 23 ; /* Authorization denied */
+Global Const $SQLITE_ROW = 100 ; /* sqlite_step() has another row ready */
+Global Const $SQLITE_DONE = 101 ; /* sqlite_step() has finished executing */
 
-Global Const $SQLITE_OPEN_READONLY	= 0x01 ; /* Database opened as read-only */
-Global Const $SQLITE_OPEN_READWRITE	= 0x02 ; /* Database opened as read-write */
-Global Const $SQLITE_OPEN_CREATE	= 0x04 ; /* Database will be created if not exists */
+Global Const $SQLITE_OPEN_READONLY = 0x01 ; /* Database opened as read-only */
+Global Const $SQLITE_OPEN_READWRITE = 0x02 ; /* Database opened as read-write */
+Global Const $SQLITE_OPEN_CREATE = 0x04 ; /* Database will be created if not exists */
 
-Global Const $SQLITE_ENCODING_UTF8		= 0 ; /* Database will be created if not exists with UTF8 encoding (default) */
-Global Const $SQLITE_ENCODING_UTF16		= 1 ; /* Database will be created if not exists with UTF16le encoding */
-Global Const $SQLITE_ENCODING_UTF16be	= 2 ; /* Database will be created if not exists with UTF16be encoding (special usage) */
+Global Const $SQLITE_ENCODING_UTF8 = 0 ; /* Database will be created if not exists with UTF8 encoding (default) */
+Global Const $SQLITE_ENCODING_UTF16 = 1 ; /* Database will be created if not exists with UTF16le encoding */
+Global Const $SQLITE_ENCODING_UTF16be = 2 ; /* Database will be created if not exists with UTF16be encoding (special usage) */
 
-Global Const $SQLITE_TYPE_INTEGER  = 1		; /* column types */
-Global Const $SQLITE_TYPE_FLOAT    = 2
-Global Const $SQLITE_TYPE_TEXT     = 3
-Global Const $SQLITE_TYPE_BLOB     = 4
-Global Const $SQLITE_TYPE_NULL     = 5
+Global Const $SQLITE_TYPE_INTEGER = 1 ; /* column types */
+Global Const $SQLITE_TYPE_FLOAT = 2
+Global Const $SQLITE_TYPE_TEXT = 3
+Global Const $SQLITE_TYPE_BLOB = 4
+Global Const $SQLITE_TYPE_NULL = 5
 
 ; ===============================================================================================================================
 
@@ -181,11 +181,11 @@ Global $g_hDll_SQLite = 0
 Global $g_hDB_SQLite = 0
 Global $g_bUTF8ErrorMsg_SQLite = False
 Global $g_sPrintCallback_SQLite = "__SQLite_ConsoleWrite"
-Global $__gbSafeModeState_SQLite = True	; Safemode State (boolean)
-Global $__ghDBs_SQLite[1] 		 = ['']	; Array of known $hDB handles
-Global $__ghQuerys_SQLite[1]	 = ['']	; Array of known $hQuery handles
-Global $__ghMsvcrtDll_SQLite 	 = 0	; pseudo dll handle for 'msvcrt.dll'
-Global $__gaTempFiles_SQLite[1]  = ['']	; Array of used Temp Files
+Global $__gbSafeModeState_SQLite = True ; Safemode State (boolean)
+Global $__ghDBs_SQLite[1] = [''] ; Array of known $hDB handles
+Global $__ghQuerys_SQLite[1] = [''] ; Array of known $hQuery handles
+Global $__ghMsvcrtDll_SQLite = 0 ; pseudo dll handle for 'msvcrt.dll'
+Global $__gaTempFiles_SQLite[1] = [''] ; Array of used Temp Files
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
@@ -215,10 +215,10 @@ Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal =
 		Local $bDownloadDLL = True
 		Local $vInlineVersion = Call('__SQLite_Inline_Version')
 		If $bForceLocal Then
-			If @AutoItX64  And StringInStr($sDll_Filename, "_x64") Then $sDll_Filename = StringReplace($sDll_Filename, ".dll", "_x64.dll")
-			$bDownloadDLL = ($bForceLocal<0)
+			If @AutoItX64 And StringInStr($sDll_Filename, "_x64") Then $sDll_Filename = StringReplace($sDll_Filename, ".dll", "_x64.dll")
+			$bDownloadDLL = ($bForceLocal < 0)
 		Else
-			If @AutoItX64 = 0  Then
+			If @AutoItX64 = 0 Then
 				$sDll_Filename = "sqlite3.dll"
 			Else
 				$sDll_Filename = "sqlite3_x64.dll"
@@ -242,7 +242,7 @@ Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal =
 			If FileExists($sDll_Filename) Or $sDll_Filename = "" Then
 				$sDll_Filename = _TempFile(@TempDir, "~", ".dll")
 				_ArrayAdd($__gaTempFiles_SQLite, $sDll_Filename)
-				OnAutoItExitRegister("_SQLite_Shutdown")	; in case the script exit without calling _SQLite_Shutdown()
+				OnAutoItExitRegister("_SQLite_Shutdown") ; in case the script exit without calling _SQLite_Shutdown()
 			Else
 				; Create in SystemDir to avoid reloading
 				$sDll_Filename = @SystemDir & "\" & $sDll_Filename
@@ -303,20 +303,20 @@ EndFunc   ;==>_SQLite_Shutdown
 ; Modified.......: jchd, jpm
 ; ===============================================================================================================================
 Func _SQLite_Open($sDatabase_Filename = Default, $iAccessMode = Default, $iEncoding = Default)
-    If Not $g_hDll_SQLite Then Return SetError(3, $SQLITE_MISUSE, 0)
-    If IsKeyword($sDatabase_Filename) Or Not IsString($sDatabase_Filename) Then $sDatabase_Filename = ":memory:"
+	If Not $g_hDll_SQLite Then Return SetError(3, $SQLITE_MISUSE, 0)
+	If IsKeyword($sDatabase_Filename) Or Not IsString($sDatabase_Filename) Then $sDatabase_Filename = ":memory:"
 	Local $tFilename = __SQLite_StringToUtf8Struct($sDatabase_Filename)
-    If @error Then Return SetError(2, @error, 0)
+	If @error Then Return SetError(2, @error, 0)
 	If IsKeyword($iAccessMode) Then $iAccessMode = BitOR($SQLITE_OPEN_READWRITE, $SQLITE_OPEN_CREATE)
-	Local $OldBase = FileExists($sDatabase_Filename)	; encoding cannot be changed if base already exists
+	Local $OldBase = FileExists($sDatabase_Filename) ; encoding cannot be changed if base already exists
 	If IsKeyword($iEncoding) Then
 		$iEncoding = $SQLITE_ENCODING_UTF8
 	EndIf
-	Local $avRval = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_open_v2", "ptr", DllStructGetPtr($tFilename), _ ; UTF-8 Database filename
-					"long*", 0, _ ; OUT: SQLite db handle
-					"int", $iAccessMode, _ ; database access mode
-					"ptr", 0)
-	If @error Then 	Return SetError(1, @error, 0) ; Dllcall error
+	Local $avRval = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_open_v2", "struct*", $tFilename, _ ; UTF-8 Database filename
+			"long*", 0, _ ; OUT: SQLite db handle
+			"int", $iAccessMode, _ ; database access mode
+			"ptr", 0)
+	If @error Then Return SetError(1, @error, 0) ; Dllcall error
 	If $avRval[0] <> $SQLITE_OK Then
 		__SQLite_ReportError($avRval[2], "_SQLite_Open")
 		_SQLite_Close($avRval[2])
@@ -327,7 +327,7 @@ Func _SQLite_Open($sDatabase_Filename = Default, $iAccessMode = Default, $iEncod
 	__SQLite_hAdd($__ghDBs_SQLite, $avRval[2])
 	If Not $OldBase Then
 		Local $encoding[3] = ["8", "16", "16be"]
-		_SQLite_Exec($avRval[2], 'PRAGMA encoding="UTF-' & $Encoding[$iEncoding] & '";')
+		_SQLite_Exec($avRval[2], 'PRAGMA encoding="UTF-' & $encoding[$iEncoding] & '";')
 	EndIf
 	Return SetExtended($avRval[0], $avRval[2])
 EndFunc   ;==>_SQLite_Open
@@ -354,8 +354,8 @@ EndFunc   ;==>_SQLite_Open
 ; ===============================================================================================================================
 Func _SQLite_GetTable($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns, $iCharSize = -1)
 	$aResult = ''
-    If __SQLite_hChk($hDB, 1) Then Return SetError(@error, 0, $SQLITE_MISUSE)
-    If $iCharSize = "" Or $iCharSize < 1 Or IsKeyword($iCharSize) Then $iCharSize = -1
+	If __SQLite_hChk($hDB, 1) Then Return SetError(@error, 0, $SQLITE_MISUSE)
+	If $iCharSize = "" Or $iCharSize < 1 Or IsKeyword($iCharSize) Then $iCharSize = -1
 	; see comments in _SQlite_GetTable2d
 	Local $hQuery
 	Local $r = _SQLite_Query($hDB, $sSQL, $hQuery)
@@ -364,14 +364,14 @@ Func _SQLite_GetTable($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns
 	Local $aDataRow
 	$r = _SQLite_FetchNames($hQuery, $aDataRow)
 	Local $err = @error
-    If $err Then
+	If $err Then
 		_SQLite_QueryFinalize($hQuery)
 		Return SetError(3, $err, $r)
 	EndIf
-    $iColumns = UBound($aDataRow)
-	Local Const $iRowsIncr = 64		; initially allocate 64 datarows then grow by 4/3 of row count
-	$iRows = 0						; actual number of data rows
-	Local $iAllocRows = $iRowsIncr	; number of allocated data rows
+	$iColumns = UBound($aDataRow)
+	Local Const $iRowsIncr = 64 ; initially allocate 64 datarows then grow by 4/3 of row count
+	$iRows = 0 ; actual number of data rows
+	Local $iAllocRows = $iRowsIncr ; number of allocated data rows
 	Dim $aResult[($iAllocRows + 1) * $iColumns + 1]
 	For $idx = 0 To $iColumns - 1
 		If $iCharSize > 0 Then
@@ -381,7 +381,7 @@ Func _SQLite_GetTable($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns
 	Next
 	While 1
 		$r = _SQLite_FetchData($hQuery, $aDataRow, 0, 0, $iColumns)
-			$err = @error
+		$err = @error
 		Switch $r
 			Case $SQLITE_OK
 				$iRows += 1
@@ -393,8 +393,8 @@ Func _SQLite_GetTable($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns
 					If $iCharSize > 0 Then
 						$aDataRow[$j] = StringLeft($aDataRow[$j], $iCharSize)
 					EndIf
-						$idx += 1
-						$aResult[$idx] = $aDataRow[$j]
+					$idx += 1
+					$aResult[$idx] = $aDataRow[$j]
 				Next
 			Case $SQLITE_DONE
 				ExitLoop
@@ -406,7 +406,7 @@ Func _SQLite_GetTable($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns
 	WEnd
 	$aResult[0] = ($iRows + 1) * $iColumns
 	ReDim $aResult[$aResult[0] + 1]
-	Return($SQLITE_OK)
+	Return ($SQLITE_OK)
 EndFunc   ;==>_SQLite_GetTable
 
 ; #FUNCTION# ====================================================================================================================
@@ -436,15 +436,15 @@ Func _SQLite_Exec($hDB, $sSQL, $sCallBack = "")
 		Return $iRval
 	EndIf
 	Local $tSQL8 = __SQLite_StringToUtf8Struct($sSQL)
-    If @error Then Return SetError(4, @error, 0)
+	If @error Then Return SetError(4, @error, 0)
 	Local $avRval = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_exec", _
 			"ptr", $hDB, _ ; An open database
-			"ptr", DllStructGetPtr($tSQL8), _ ; SQL to be executed
+			"struct*", $tSQL8, _ ; SQL to be executed
 			"ptr", 0, _ ; Callback function
 			"ptr", 0, _ ; 1st argument to callback function
 			"long*", 0) ; Error msg written here
 	If @error Then Return SetError(1, @error, $SQLITE_MISUSE) ; Dllcall error
-	__SQLite_szFree($avRval[5])	; free error message
+	__SQLite_szFree($avRval[5]) ; free error message
 	If $avRval[0] <> $SQLITE_OK Then
 		__SQLite_ReportError($hDB, "_SQLite_Exec", $sSQL)
 		SetError(-1)
@@ -574,7 +574,7 @@ Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $bReturn = False)
 	Local $aiCellWidth
 	If $iCellWidth = 0 Or IsKeyword($iCellWidth) Then
 		Local $iCellWidthMax
-		Dim $aiCellWidth[UBound($aResult, 2) ]
+		Dim $aiCellWidth[UBound($aResult, 2)]
 		For $iRow = 0 To UBound($aResult, 1) - 1
 			For $iCol = 0 To UBound($aResult, 2) - 1
 				$iCellWidthMax = StringLen($aResult[$iRow][$iCol])
@@ -628,7 +628,7 @@ EndFunc   ;==>_SQLite_Display2DResult
 ; Modified.......: jchd
 ; ===============================================================================================================================
 Func _SQLite_GetTable2d($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColumns, $iCharSize = -1, $fSwichDimensions = False)
-    If __SQLite_hChk($hDB, 1) Then Return SetError(@error, 0, $SQLITE_MISUSE)
+	If __SQLite_hChk($hDB, 1) Then Return SetError(@error, 0, $SQLITE_MISUSE)
 	If $iCharSize = "" Or $iCharSize < 1 Or IsKeyword($iCharSize) Then $iCharSize = -1
 	Local $sCallBack = "", $fCallBack = False
 	If IsString($aResult) Then
@@ -652,7 +652,7 @@ Func _SQLite_GetTable2d($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColum
 	While True
 		$iRval_Step = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_step", "ptr", $hQuery)
 		If @error Then
-		$err = @error
+			$err = @error
 			_SQLite_QueryFinalize($hQuery)
 			Return SetError(3, $err, $SQLITE_MISUSE) ; Dllcall error
 		EndIf
@@ -668,19 +668,19 @@ Func _SQLite_GetTable2d($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColum
 	WEnd
 	Local $ret = _SQLite_QueryReset($hQuery)
 	If @error Then
-	$err = @error
+		$err = @error
 		_SQLite_QueryFinalize($hQuery)
 		Return SetError(4, $err, $ret)
 	EndIf
 	Local $aDataRow
-		$r = _SQLite_FetchNames($hQuery, $aDataRow)
+	$r = _SQLite_FetchNames($hQuery, $aDataRow)
 	If @error Then
 		$err = @error
-			_SQLite_QueryFinalize($hQuery)
+		_SQLite_QueryFinalize($hQuery)
 		Return SetError(5, $err, $r)
-		EndIf
-    $iColumns = UBound($aDataRow)
-    If $iColumns <= 0 Then
+	EndIf
+	$iColumns = UBound($aDataRow)
+	If $iColumns <= 0 Then
 		_SQLite_QueryFinalize($hQuery)
 		Return SetError(-1, 0, $SQLITE_DONE)
 	EndIf
@@ -715,7 +715,7 @@ Func _SQLite_GetTable2d($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColum
 		For $i = 1 To $iRows
 			$r = _SQLite_FetchData($hQuery, $aDataRow, 0, 0, $iColumns)
 			If @error Then
-			$err = @error
+				$err = @error
 				_SQLite_QueryFinalize($hQuery)
 				Return SetError(6, $err, $r)
 			EndIf
@@ -740,7 +740,7 @@ Func _SQLite_GetTable2d($hDB, $sSQL, ByRef $aResult, ByRef $iRows, ByRef $iColum
 			EndIf
 		Next
 	EndIf
-	Return(_SQLite_QueryFinalize($hQuery))
+	Return (_SQLite_QueryFinalize($hQuery))
 EndFunc   ;==>_SQLite_GetTable2d
 
 ; #FUNCTION# ====================================================================================================================
@@ -787,7 +787,7 @@ Func _SQLite_Query($hDB, $sSQL, ByRef $hQuery)
 			"wstr", $sSQL, _
 			"int", -1, _
 			"long*", 0, _ ; OUT: Statement handle
-			"long*", 0)   ; OUT: Pointer to unused portion of zSql
+			"long*", 0) ; OUT: Pointer to unused portion of zSql
 	If @error Then Return SetError(1, @error, $SQLITE_MISUSE) ; Dllcall error
 	If $iRval[0] <> $SQLITE_OK Then
 		__SQLite_ReportError($hDB, "_SQLite_Query", $sSQL)
@@ -825,7 +825,7 @@ Func _SQLite_FetchData($hQuery, ByRef $aRow, $fBinary = False, $fDoNotFinalize =
 	Dim $aRow[1]
 	If __SQLite_hChk($hQuery, 7, False) Then Return SetError(@error, 0, $SQLITE_MISUSE)
 	If IsKeyword($fBinary) Then $fBinary = False
-    If IsKeyword($fDoNotFinalize) Then $fDoNotFinalize = False
+	If IsKeyword($fDoNotFinalize) Then $fDoNotFinalize = False
 	Local $iRval_Step = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_step", "ptr", $hQuery)
 	If @error Then Return SetError(1, @error, $SQLITE_MISUSE) ; Dllcall error
 	If $iRval_Step[0] <> $SQLITE_ROW Then
@@ -837,7 +837,7 @@ Func _SQLite_FetchData($hQuery, ByRef $aRow, $fBinary = False, $fDoNotFinalize =
 	If Not $iColumns Then
 		Local $iRval_ColCnt = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_data_count", "ptr", $hQuery)
 		If @error Then Return SetError(2, @error, $SQLITE_MISUSE) ; Dllcall error
-	    If $iRval_ColCnt[0] <= 0 Then Return SetError(-1, 0, $SQLITE_DONE)
+		If $iRval_ColCnt[0] <= 0 Then Return SetError(-1, 0, $SQLITE_DONE)
 		$iColumns = $iRval_ColCnt[0]
 	EndIf
 	ReDim $aRow[$iColumns]
@@ -963,7 +963,7 @@ Func _SQLite_FetchNames($hQuery, ByRef $aNames)
 	If __SQLite_hChk($hQuery, 3, False) Then Return SetError(@error, 0, $SQLITE_MISUSE)
 	Local $avDataCnt = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_column_count", "ptr", $hQuery)
 	If @error Then Return SetError(1, @error, $SQLITE_MISUSE) ; Dllcall error
-    If $avDataCnt[0] <= 0 Then  Return SetError(-1, 0, $SQLITE_DONE)
+	If $avDataCnt[0] <= 0 Then Return SetError(-1, 0, $SQLITE_DONE)
 	ReDim $aNames[$avDataCnt[0]]
 	Local $avColName
 	For $iCnt = 0 To $avDataCnt[0] - 1
@@ -990,7 +990,7 @@ EndFunc   ;==>_SQLite_FetchNames
 ; Author ........: piccaso (Fida Florian), jchd
 ; ===============================================================================================================================
 Func _SQLite_QuerySingleRow($hDB, $sSQL, ByRef $aRow)
-    $aRow = ''
+	$aRow = ''
 	If __SQLite_hChk($hDB, 2) Then Return SetError(@error, 0, $SQLITE_MISUSE)
 	Local $hQuery
 	Local $iRval = _SQLite_Query($hDB, $sSQL, $hQuery)
@@ -998,8 +998,8 @@ Func _SQLite_QuerySingleRow($hDB, $sSQL, ByRef $aRow)
 		_SQLite_QueryFinalize($hQuery)
 		Return SetError(1, 0, $iRval)
 	Else
-        $iRval = _SQLite_FetchData($hQuery, $aRow)
-        If $iRval = $SQLITE_OK Then
+		$iRval = _SQLite_FetchData($hQuery, $aRow)
+		If $iRval = $SQLITE_OK Then
 			_SQLite_QueryFinalize($hQuery)
 			If @error Then
 				Return SetError(4, 0, $iRval)
@@ -1008,7 +1008,7 @@ Func _SQLite_QuerySingleRow($hDB, $sSQL, ByRef $aRow)
 			EndIf
 		Else
 			_SQLite_QueryFinalize($hQuery)
-            Return SetError(3, 0, $iRval)
+			Return SetError(3, 0, $iRval)
 		EndIf
 	EndIf
 EndFunc   ;==>_SQLite_QuerySingleRow
@@ -1035,7 +1035,7 @@ Func _SQLite_SQLiteExe($sDatabaseFile, $sInput, ByRef $sOutput, $sSQLiteExeFilen
 		If Not FileExists($sSQLiteExeFilename) Then
 			Local $aTemp = StringSplit(@AutoItExe, "\")
 			$sSQLiteExeFilename = ""
-			For $i = 1 to $aTemp[0]-1
+			For $i = 1 To $aTemp[0] - 1
 				$sSQLiteExeFilename &= $aTemp[$i] & "\"
 			Next
 			$sSQLiteExeFilename &= "Extras\SQLite\SQLite3.exe"
@@ -1130,10 +1130,10 @@ EndFunc   ;==>_SQLite_Encode
 ; ===============================================================================================================================
 Func _SQLite_Escape($sString, $iBuffSize = Default)
 	If $g_hDll_SQLite = 0 Then Return SetError(1, $SQLITE_MISUSE, "")
-	If IsNumber($sString) Then $sString = String($sString)	; to help number passing common error
+	If IsNumber($sString) Then $sString = String($sString) ; to help number passing common error
 	Local $tSQL8 = __SQLite_StringToUtf8Struct($sString)
 	If @error Then Return SetError(2, @error, 0)
-	Local $aRval = DllCall($g_hDll_SQLite, "ptr:cdecl", "sqlite3_mprintf", "str", "'%q'", "ptr", DllStructGetPtr($tSQL8))
+	Local $aRval = DllCall($g_hDll_SQLite, "ptr:cdecl", "sqlite3_mprintf", "str", "'%q'", "struct*", $tSQL8)
 	If @error Then Return SetError(1, @error, "") ; Dllcall error
 	If IsKeyword($iBuffSize) Or $iBuffSize < 1 Then $iBuffSize = -1
 	Local $sResult = __SQLite_szStringRead($aRval[0], $iBuffSize)
@@ -1153,8 +1153,8 @@ EndFunc   ;==>_SQLite_Escape
 ; Author ........: jchd
 ; ===============================================================================================================================
 Func _SQLite_FastEncode($vData)
-    If Not IsBinary($vData) Then Return SetError(1, 0, "")
-    Return "X'" & Hex($vData) & "'"
+	If Not IsBinary($vData) Then Return SetError(1, 0, "")
+	Return "X'" & Hex($vData) & "'"
 EndFunc   ;==>_SQLite_FastEncode
 
 ; #FUNCTION# ====================================================================================================================
@@ -1168,7 +1168,7 @@ EndFunc   ;==>_SQLite_FastEncode
 ; Author ........: jchd
 ; ===============================================================================================================================
 Func _SQLite_FastEscape($sString)
-    If IsNumber($sString) Then $sString = String($sString)    ; don't raise error if passing a numeric parameter
+	If IsNumber($sString) Then $sString = String($sString) ; don't raise error if passing a numeric parameter
 	If Not IsString($sString) Then Return SetError(1, 0, "")
 	Return ("'" & StringReplace($sString, "'", "''", 0, 1) & "'")
 EndFunc   ;==>_SQLite_FastEscape
@@ -1181,7 +1181,7 @@ EndFunc   ;==>_SQLite_FastEscape
 Func __SQLite_hChk(ByRef $hGeneric, $nError, $bDB = True)
 	If $g_hDll_SQLite = 0 Then Return SetError(1, $SQLITE_MISUSE, $SQLITE_MISUSE)
 	If $hGeneric = -1 Or $hGeneric = "" Or IsKeyword($hGeneric) Then
-		If Not $bDB Then  Return SetError($nError, 0, $SQLITE_ERROR)
+		If Not $bDB Then Return SetError($nError, 0, $SQLITE_ERROR)
 		$hGeneric = $g_hDB_SQLite
 	EndIf
 	If Not $__gbSafeModeState_SQLite Then Return $SQLITE_OK
@@ -1210,8 +1210,8 @@ Func __SQLite_VersCmp($sFile, $sVersion)
 	Local $szFileVersion = StringSplit($avRval[0], ".")
 	Local $MaintVersion = 0
 	If $szFileVersion[0] = 4 Then $MaintVersion = $szFileVersion[4]
-	$szFileVersion = (($szFileVersion[1]*1000 + $szFileVersion[2])*1000 + $szFileVersion[3])*100 + $MaintVersion
-	If $sVersion < 10000000 Then $sVersion = $sVersion * 100	; SQLite.dll.au3::__SQLite_Inline_Version() before 3.7.0.1 does not contain maintenance number
+	$szFileVersion = (($szFileVersion[1] * 1000 + $szFileVersion[2]) * 1000 + $szFileVersion[3]) * 100 + $MaintVersion
+	If $sVersion < 10000000 Then $sVersion = $sVersion * 100 ; SQLite.dll.au3::__SQLite_Inline_Version() before 3.7.0.1 does not contain maintenance number
 
 	If $szFileVersion >= $sVersion Then Return $SQLITE_OK ; Version OK
 	Return $SQLITE_MISMATCH ; Version Older
@@ -1279,11 +1279,11 @@ EndFunc   ;==>__SQLite_szFree
 ; ===============================================================================================================================
 Func __SQLite_StringToUtf8Struct($sString)
 	Local $aResult = DllCall("kernel32.dll", "int", "WideCharToMultiByte", "uint", 65001, "dword", 0, "wstr", $sString, "int", -1, _
-								"ptr", 0, "int", 0, "ptr", 0, "ptr", 0)
+			"ptr", 0, "int", 0, "ptr", 0, "ptr", 0)
 	If @error Then Return SetError(1, @error, "") ; Dllcall error
 	Local $tText = DllStructCreate("char[" & $aResult[0] & "]")
 	$aResult = DllCall("Kernel32.dll", "int", "WideCharToMultiByte", "uint", 65001, "dword", 0, "wstr", $sString, "int", -1, _
-							"ptr", DllStructGetPtr($tText), "int", $aResult[0], "ptr", 0, "ptr", 0)
+			"struct*", $tText, "int", $aResult[0], "ptr", 0, "ptr", 0)
 	If @error Then Return SetError(2, @error, "") ; Dllcall error
 	Return $tText
 EndFunc   ;==>__SQLite_StringToUtf8Struct
@@ -1299,14 +1299,14 @@ EndFunc   ;==>__SQLite_StringToUtf8Struct
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func __SQLite_Utf8StructToString($tText)
-	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", 65001, "dword", 0, "ptr", DllStructGetPtr($tText), "int", -1, _
-								"ptr", 0, "int", 0)
+	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", 65001, "dword", 0, "struct*", $tText, "int", -1, _
+			"ptr", 0, "int", 0)
 	If @error Then Return SetError(1, @error, "") ; Dllcall error
 	Local $tWstr = DllStructCreate("wchar[" & $aResult[0] & "]")
-	$aResult = DllCall("Kernel32.dll", "int", "MultiByteToWideChar", "uint", 65001, "dword", 0, "ptr", DllStructGetPtr($tText), "int", -1, _
-                        "ptr", DllStructGetPtr($tWstr), "int", $aResult[0])
+	$aResult = DllCall("Kernel32.dll", "int", "MultiByteToWideChar", "uint", 65001, "dword", 0, "struct*", $tText, "int", -1, _
+			"struct*", $tWstr, "int", $aResult[0])
 	If @error Then Return SetError(2, @error, "") ; Dllcall error
-    Return DllStructGetData($tWstr, 1)
+	Return DllStructGetData($tWstr, 1)
 EndFunc   ;==>__SQLite_Utf8StructToString
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -1354,6 +1354,6 @@ Func __SQLite_Print($sText)
 			Call($g_sPrintCallback_SQLite, $sText)
 		EndIf
 	EndIf
-EndFunc	;==>__SQLite_Print
+EndFunc   ;==>__SQLite_Print
 
-#endregion 	SQLite.au3 Internal Functions
+#endregion		SQLite.au3 Internal Functions

@@ -7,6 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ImageList
+; AutoIt Version : 3.3.7.20++
 ; Description ...: Functions that assist with ImageList control management.
 ;                  An image list is a collection of images of the same size, each of which can be referred to by its index. Image
 ;                  lists are used to efficiently manage large sets of icons or bitmaps. All images in an image list are contained
@@ -165,9 +166,9 @@ EndFunc   ;==>_GUIImageList_AddBitmap
 Func _GUIImageList_AddIcon($hWnd, $sFile, $iIndex = 0, $fLarge = False)
 	Local $iRet, $tIcon = DllStructCreate("handle Handle")
 	If $fLarge Then
-		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, DllStructGetPtr($tIcon), 0, 1)
+		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, $tIcon, 0, 1)
 	Else
-		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, 0, DllStructGetPtr($tIcon), 1)
+		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, 0, $tIcon, 1)
 	EndIf
 	If $iRet <= 0 Then Return SetError(-1, $iRet, -1)
 
@@ -572,7 +573,6 @@ Func _GUIImageList_GetIcon($hWnd, $iIndex, $iStyle = 0)
 	Return $aResult[0]
 EndFunc   ;==>_GUIImageList_GetIcon
 
-
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUIImageList_GetIconHeight
 ; Description ...: Retrieves the height of the images in an image list
@@ -634,7 +634,7 @@ Func _GUIImageList_GetIconSizeEx($hWnd)
 	Local $tPoint = DllStructCreate($tagPOINT)
 	Local $pPointX = DllStructGetPtr($tPoint, "X")
 	Local $pPointY = DllStructGetPtr($tPoint, "Y")
-	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_GetIconSize", "hwnd", $hWnd, "ptr", $pPointX, "ptr", $pPointY)
+	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_GetIconSize", "hwnd", $hWnd, "struct*", $pPointX, "struct*", $pPointY)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tPoint)
 EndFunc   ;==>_GUIImageList_GetIconSizeEx
@@ -694,7 +694,7 @@ EndFunc   ;==>_GUIImageList_GetImageCount
 ; ===============================================================================================================================
 Func _GUIImageList_GetImageInfoEx($hWnd, $iIndex)
 	Local $tImage = DllStructCreate($tagIMAGEINFO)
-	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_GetImageInfo", "handle", $hWnd, "int", $iIndex, "ptr", DllStructGetPtr($tImage))
+	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_GetImageInfo", "handle", $hWnd, "int", $iIndex, "struct*", $tImage)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $tImage)
 EndFunc   ;==>_GUIImageList_GetImageInfoEx

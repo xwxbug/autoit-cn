@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Clipboard
-; AutoIt Version : 3.2.8++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Clipboard management.
 ;                  The clipboard is a set of functions and messages that enable applications to transfer data.
@@ -257,25 +257,25 @@ Func _ClipBoard_GetData($iFormat = 1)
 
 	;_ClipBoard_Close()		; moved to end: traditionally done *after* copying over the memory
 
-	If $hMemory=0 Then
+	If $hMemory = 0 Then
 		_ClipBoard_Close()
 		Return SetError(-3, 0, 0)
 	EndIf
 
-	Local $pMemoryBlock=_MemGlobalLock($hMemory)
+	Local $pMemoryBlock = _MemGlobalLock($hMemory)
 
-	If $pMemoryBlock=0 Then
+	If $pMemoryBlock = 0 Then
 		_ClipBoard_Close()
-		Return SetError(-4,0,0)
+		Return SetError(-4, 0, 0)
 	EndIf
 
 	; Get the actual memory size of the ClipBoard memory object (in bytes)
-	Local $iDataSize=_MemGlobalSize($hMemory)
+	Local $iDataSize = _MemGlobalSize($hMemory)
 
 	If $iDataSize = 0 Then
 		_MemGlobalUnlock($hMemory)
 		_ClipBoard_Close()
-		Return SetError(-5,0,"")
+		Return SetError(-5, 0, "")
 	EndIf
 
 	Local $tData
@@ -284,7 +284,7 @@ Func _ClipBoard_GetData($iFormat = 1)
 			$tData = DllStructCreate("char[" & $iDataSize & "]", $pMemoryBlock)
 		Case $CF_UNICODETEXT
 			; Round() shouldn't be necessary, as CF_UNICODETEXT should be 2-bytes wide & thus evenly-divisible
-			$iDataSize=Round($iDataSize/2)
+			$iDataSize = Round($iDataSize / 2)
 			$tData = DllStructCreate("wchar[" & $iDataSize & "]", $pMemoryBlock)
 		Case Else
 			; Binary data return for all other formats
@@ -437,7 +437,7 @@ Func _ClipBoard_GetPriorityFormat($aFormats)
 		DllStructSetData($tData, 1, $aFormats[$iI], $iI)
 	Next
 
-	Local $aResult = DllCall("user32.dll", "int", "GetPriorityClipboardFormat", "ptr", DllStructGetPtr($tData), "int", $aFormats[0])
+	Local $aResult = DllCall("user32.dll", "int", "GetPriorityClipboardFormat", "struct*", $tData, "int", $aFormats[0])
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_ClipBoard_GetPriorityFormat
@@ -616,9 +616,9 @@ Func _ClipBoard_SetData($vData, $iFormat = 1)
 			$iSize = StringLen($vData)
 		Else
 			; Unsupported data type
-			Return SetError(2,0,0)
-		Endif
-		$iSize+=1
+			Return SetError(2, 0, 0)
+		EndIf
+		$iSize += 1
 
 		; Memory allocation is in bytes, yet Unicode text is 2-bytes wide
 		If $iFormat = $CF_UNICODETEXT Then

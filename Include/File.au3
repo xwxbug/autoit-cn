@@ -308,7 +308,7 @@ EndFunc   ;==>_FileWriteFromArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _FileWriteLog($sLogPath, $sLogMsg, $iFlag = -1)
-	Local $iOpenMode = $FO_APPEND
+	Local $hOpenFile = $sLogPath, $iOpenMode = $FO_APPEND
 
 	Local $sDateNow = @YEAR & "-" & @MON & "-" & @MDAY
 	Local $sTimeNow = @HOUR & ":" & @MIN & ":" & @SEC
@@ -319,13 +319,24 @@ Func _FileWriteLog($sLogPath, $sLogMsg, $iFlag = -1)
 		$iOpenMode = $FO_OVERWRITE
 	EndIf
 
-	Local $hOpenFile = FileOpen($sLogPath, $iOpenMode)
-	If $hOpenFile = -1 Then Return SetError(1, 0, 0)
+	; Open output file for appending to the end/overwriting, or use input file handle if passed
+	If IsString($sLogPath) Then
+		$hOpenFile = FileOpen($sLogPath, $iOpenMode)
+		If $hOpenFile = -1 Then
+			Return SetError(1, 0, 0)
+		EndIf
+	EndIf
 
-	Local $iWriteFile = FileWriteLine($hOpenFile, $sMsg)
-	Local $iRet = FileClose($hOpenFile)
-	If $iWriteFile = -1 Then Return SetError(2, $iRet, 0)
-	Return $iRet
+	Local $iReturn = FileWriteLine($hOpenFile, $sMsg)
+
+	; Close file only if specified by a string path
+	If IsString($sLogPath) Then
+		$iReturn = FileClose($hOpenFile)
+	EndIf
+	If $iReturn <= 0 Then
+		Return SetError(2, $iReturn, 0)
+	EndIf
+	Return $iReturn
 EndFunc   ;==>_FileWriteLog
 
 ; #FUNCTION# ====================================================================================================================
@@ -365,7 +376,7 @@ Func _FileWriteToLine($sFile, $iLine, $sText, $fOverWrite = 0)
 	Local $sRead_File = FileRead($sFile)
 	Local $aSplit_File = StringSplit(StringStripCR($sRead_File), @LF)
 	If UBound($aSplit_File) < $iLine Then Return SetError(1, 0, 0)
-    Local $iEncoding = FileGetEncoding($sFile)
+	Local $iEncoding = FileGetEncoding($sFile)
 	Local $hFile = FileOpen($sFile, $iEncoding + $FO_OVERWRITE)
 	If $hFile = -1 Then Return SetError(3, 0, 0)
 
@@ -709,7 +720,7 @@ Func _ReplaceStringInFile($szFileName, $szSearchString, $szReplaceString, $fCase
 	;===============================================================================
 	;== Open the output file in write mode
 	;===============================================================================
-    Local $iEncoding = FileGetEncoding($szFileName)
+	Local $iEncoding = FileGetEncoding($szFileName)
 	Local $hWriteHandle = FileOpen($szFileName, $iEncoding + $FO_OVERWRITE)
 	If $hWriteHandle = -1 Then Return SetError(2, 0, -1)
 	;===============================================================================

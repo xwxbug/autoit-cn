@@ -95,12 +95,12 @@ Func _DebugBugReportEnv(Const $curerr = @error, Const $curext = @extended)
 	Local $MUIlang = ""
 	If @OSLang <> @MUILang Then $MUIlang = " MUILang:" & @MUILang
 	Local $KBLayout = ""
-	If @OSLang <> StringRight(@KBLayout,4) Then $KBLayout = " Keyboard:" & @KBLayout
+	If @OSLang <> StringRight(@KBLayout, 4) Then $KBLayout = " Keyboard:" & @KBLayout
 	Local $CPUArch = ""
 	If @OSArch <> @CPUArch Then $CPUArch = " CPUArch:" & @CPUArch
 	Return SetError($curerr, $curext, "AutoIt:" & @AutoItVersion & $AutoItX64 & $AdminMode & $Compiled & _
 			"   (Os:" & @OSVersion & $OsServicePack & "/" & @OSArch & _
-			"   OSLang:" & @OSLang & $MUILang & $KBLayout & $CPUArch & ")")
+			"   OSLang:" & @OSLang & $MUIlang & $KBLayout & $CPUArch & ")")
 EndFunc   ;==>_DebugBugReportEnv
 
 ; #FUNCTION# ====================================================================================================================
@@ -171,9 +171,9 @@ Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vRepo
 			; Report notepad window
 			$__gsReportCallBack_Debug = "__Debug_ReportNotepadWrite("
 		Case Else
-			If Not IsString($vReportType) Then Return SetError(2, 0, 0)	; invalid Report type
+			If Not IsString($vReportType) Then Return SetError(2, 0, 0) ; invalid Report type
 			; private callback
-			If $vReportType = "" Then Return SetError(3, 0, 0)		; invalid callback function
+			If $vReportType = "" Then Return SetError(3, 0, 0) ; invalid callback function
 			$__gsReportCallBack_Debug = $vReportType & "("
 			$vReportType = 6
 	EndSwitch
@@ -290,7 +290,7 @@ Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @Scr
 
 	If IsBool($vVar) And IsInt($bErrExt) Then
 		; to kept some compatibility with 3.3.1.3 if really needed for non breaking
-		If StringLeft($varName,1) = "$" Then $varName = StringTrimLeft($varName,1)
+		If StringLeft($varName, 1) = "$" Then $varName = StringTrimLeft($varName, 1)
 		$vVar = Eval($varName)
 		$varName = "???"
 	EndIf
@@ -301,17 +301,17 @@ Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @Scr
 		Local $nDims = UBound($vVar, 0)
 		Local $nRows = UBound($vVar, 1)
 		Local $nCols = UBound($vVar, 2)
-		For $d = 1 to $nDims
+		For $d = 1 To $nDims
 			$sData &= "[" & UBound($vVar, $d) & "]"
 		Next
 
 		If $nDims <= 2 Then
-			For $r = 0 to $nRows - 1
+			For $r = 0 To $nRows - 1
 				$sData &= @CRLF & "[" & $r & "] "
 				If $nDims = 1 Then
 					$sData &= __Debug_DataFormat($vVar[$r]) & @TAB
 				Else
-					For $c = 0 to $nCols - 1
+					For $c = 0 To $nCols - 1
 						$sData &= __Debug_DataFormat($vVar[$r][$c]) & @TAB
 					Next
 				EndIf
@@ -343,20 +343,20 @@ EndFunc   ;==>_DebugReportVar
 ; Example .......:
 ; ===============================================================================================================================
 Func __Debug_DataFormat($vData)
-	Local $nLenMax = 25		; to truncate String, Binary
+	Local $nLenMax = 25 ; to truncate String, Binary
 	Local $sTruncated = ""
 	If IsString($vData) Then
 		If StringLen($vData) > $nLenMax Then
 			$vData = StringLeft($vData, $nLenMax)
 			$sTruncated = " ..."
 		EndIf
-		Return '"' & $vData  & '"' & $sTruncated
+		Return '"' & $vData & '"' & $sTruncated
 	ElseIf IsBinary($vData) Then
 		If BinaryLen($vData) > $nLenMax Then
 			$vData = BinaryMid($vData, 1, $nLenMax)
 			$sTruncated = " ..."
 		EndIf
-		Return $vData  & $sTruncated
+		Return $vData & $sTruncated
 	ElseIf IsDllStruct($vData) Or IsArray($vData) Or IsObj($vData) Then
 		Return __Debug_DataType($vData)
 	Else
@@ -389,9 +389,9 @@ Func __Debug_DataType($vData)
 		Case "Binary"
 			$sType &= ":" & BinaryLen($vData)
 		Case "Ptr"
-			If IsHWnd($vData)  Then $sType = "Hwnd"
+			If IsHWnd($vData) Then $sType = "Hwnd"
 	EndSwitch
-	Return "{" &  $sType & "}"
+	Return "{" & $sType & "}"
 EndFunc   ;==>__Debug_DataType
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -491,7 +491,7 @@ EndFunc   ;==>__Debug_ReportWindowCreate
 ; ===============================================================================================================================
 #obfuscator_off
 Func __Debug_ReportWindowWrite($sData)
-#obfuscator_on
+	#obfuscator_on
 	If $__gbReportWindowClosed_Debug Then __Debug_ReportWindowCreate()
 
 	Local Const $WM_GETTEXTLENGTH = 0x000E
@@ -522,14 +522,14 @@ Func __Debug_ReportWindowWaitClose()
 	Local $hWndReportWindow = WinGetHandle($__gsReportTitle_Debug, $__gsReportWindowText_Debug)
 	Opt("WinDetectHiddenText", $nOld)
 
-	$nOld = Opt('GUIOnEventMode', 0)	; save event mode in case user script was using event mode
+	$nOld = Opt('GUIOnEventMode', 0) ; save event mode in case user script was using event mode
 	Local Const $GUI_EVENT_CLOSE = -3
 	Local $aMsg
 	While WinExists(HWnd($hWndReportWindow))
 		$aMsg = GUIGetMsg(1)
-		If  $aMsg[1] = $hWndReportWindow And $aMsg[0] = $GUI_EVENT_CLOSE Then GUIDelete($hWndReportWindow)
+		If $aMsg[1] = $hWndReportWindow And $aMsg[0] = $GUI_EVENT_CLOSE Then GUIDelete($hWndReportWindow)
 	WEnd
-	Opt('GUIOnEventMode', $nOld)	; restore event mode
+	Opt('GUIOnEventMode', $nOld) ; restore event mode
 
 	$__ghReportEdit_Debug = 0
 	$__gbReportWindowWaitClose_Debug = True
@@ -588,7 +588,7 @@ EndFunc   ;==>__Debug_ReportNotepadCreate
 ; ===============================================================================================================================
 #obfuscator_off
 Func __Debug_ReportNotepadWrite($sData)
-#obfuscator_on
+	#obfuscator_on
 	If $__ghReportEdit_Debug = 0 Then __Debug_ReportNotepadCreate()
 
 	ControlCommand($__ghReportEdit_Debug, "", "Edit1", "EditPaste", String($sData))
@@ -624,7 +624,7 @@ Func __Debug_ReportWrite($sData, $bLastError = False, $curext = @extended)
 	Local $bBlock = BlockInput(1)
 	BlockInput(0) ; force enable state so user can move mouse if needed
 
-	$sData = StringReplace($sData, "'", "''")	; in case the data contains '
+	$sData = StringReplace($sData, "'", "''") ; in case the data contains '
 	Execute($__gsReportCallBack_Debug & "'" & $sData & "')")
 
 	If Not $bBlock Then BlockInput(1) ; restore disable state

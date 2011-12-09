@@ -12,7 +12,7 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__SOUNDCONSTANT_SNDID_MARKER		= 0x49442d2d
+Global Const $__SOUNDCONSTANT_SNDID_MARKER = 0x49442d2d
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -186,8 +186,8 @@ EndFunc   ;==>_SoundOpen
 Func _SoundClose($aSndID)
 	If Not IsArray($aSndID) Or Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid sound ID
 
-    __SoundMciSendString("close " & $aSndID[0])
-	If  @error Then Return SetError(1, @error, 0)
+	__SoundMciSendString("close " & $aSndID[0])
+	If @error Then Return SetError(1, @error, 0)
 	Return 1
 EndFunc   ;==>_SoundClose
 
@@ -253,10 +253,10 @@ Func _SoundStop(ByRef $aSndID)
 
 	;stop
 	__SoundMciSendString("stop " & $vTemp[0])
-	If @error  Then Return SetError(2, @error, 0)
+	If @error Then Return SetError(2, @error, 0)
 	;seek to start
 	__SoundMciSendString("seek " & $vTemp[0] & " to start")
-	If @error  Then Return SetError(1, @error, 0)
+	If @error Then Return SetError(1, @error, 0)
 	;return
 	Return 1
 EndFunc   ;==>_SoundStop
@@ -527,9 +527,9 @@ EndFunc   ;==>__SoundMciSendString
 ; ===============================================================================================================================
 Func __SoundReadTLENFromMP3($sTag)
 	; Check that an ID3v2.3 tag is present
-	If StringLeft($sTag, 10) <> "0x49443303" Then Return SetError(1, 0, 0)	; ID3
+	If StringLeft($sTag, 10) <> "0x49443303" Then Return SetError(1, 0, 0) ; ID3
 
-	Local $iTemp = StringInStr($sTag, "544C454E") + 21		; TLEN
+	Local $iTemp = StringInStr($sTag, "544C454E") + 21 ; TLEN
 	$sTag = StringTrimLeft($sTag, $iTemp)
 	Local $sTemp = ""
 
@@ -541,7 +541,7 @@ Func __SoundReadTLENFromMP3($sTag)
 		EndIf
 	Next
 
-	Local $iLengthMs = Number( BinaryToString("0x" & $sTemp) )  ; Number( HexToString($sTemp) )
+	Local $iLengthMs = Number(BinaryToString("0x" & $sTemp)) ; Number( HexToString($sTemp) )
 
 	If $iLengthMs <= 0 Then Return SetError(1, 0, 0)
 	Local $iLengthHour, $iLengthMin, $iLengthSecs
@@ -565,7 +565,7 @@ EndFunc   ;==>__SoundReadTLENFromMP3
 ; Example .......:
 ; ===============================================================================================================================
 Func __SoundReadXingFromMP3($sTag)
-	Local $iXingPos = StringInStr($sTag, "58696E67")	; Xing
+	Local $iXingPos = StringInStr($sTag, "58696E67") ; Xing
 	If $iXingPos = 0 Then Return SetError(1, 0, 0)
 
 	; Read fields flag
@@ -662,7 +662,7 @@ EndFunc   ;==>__SoundReadXingFromMP3
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func __SoundTicksToTime($iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs)
-	If Number($iTicks) < 0 Then Return SetError(1,0,0)
+	If Number($iTicks) < 0 Then Return SetError(1, 0, 0)
 	If Number($iTicks) = 0 Then
 		$iHours = 0
 		$iTicks = 0
@@ -698,6 +698,6 @@ EndFunc   ;==>__SoundTicksToTime
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func __SoundTimeToTicks($iHours = @HOUR, $iMins = @MIN, $iSecs = @SEC)
-	If Not (StringIsInt($iHours) And StringIsInt($iMins) And StringIsInt($iSecs)) Then Return SetError(1,0,0)
-	Return  1000 * ((3600 * $iHours) + (60 * $iMins) + $iSecs)
+	If Not (StringIsInt($iHours) And StringIsInt($iMins) And StringIsInt($iSecs)) Then Return SetError(1, 0, 0)
+	Return 1000 * ((3600 * $iHours) + (60 * $iMins) + $iSecs)
 EndFunc   ;==>__SoundTimeToTicks

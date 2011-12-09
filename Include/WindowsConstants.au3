@@ -81,16 +81,27 @@ Global Const $WM_SETREDRAW = 0x000B
 Global Const $WM_SETTEXT = 0x000C
 Global Const $WM_PAINT = 0x000F
 Global Const $WM_CLOSE = 0x0010
+Global Const $WM_QUERYENDSESSION = 0x0011
 Global Const $WM_QUIT = 0x0012
 Global Const $WM_ERASEBKGND = 0x0014
+Global Const $WM_QUERYOPEN = 0x0013
 Global Const $WM_SYSCOLORCHANGE = 0x0015
+Global Const $WM_ENDSESSION = 0x0016
 Global Const $WM_SHOWWINDOW = 0x0018
+
+Global Const $WM_SETTINGCHANGE = 0x001A
 Global Const $WM_WININICHANGE = 0x001A
 Global Const $WM_DEVMODECHANGE = 0x001B
 Global Const $WM_ACTIVATEAPP = 0x001C
 Global Const $WM_FONTCHANGE = 0x001D
 Global Const $WM_TIMECHANGE = 0x001E
 Global Const $WM_CANCELMODE = 0x001F
+
+Global Const $WM_IME_STARTCOMPOSITION = 0x010D
+Global Const $WM_IME_ENDCOMPOSITION = 0x010E
+Global Const $WM_IME_COMPOSITION = 0x010F
+Global Const $WM_IME_KEYLAST = 0x010F
+
 Global Const $WM_SETCURSOR = 0x0020
 Global Const $WM_MOUSEACTIVATE = 0x0021
 Global Const $WM_CHILDACTIVATE = 0x0022
@@ -127,12 +138,65 @@ Global Const $WM_HELP = 0x0053
 Global Const $WM_USERCHANGED = 0x0054
 Global Const $WM_NOTIFYFORMAT = 0x0055
 
+Global Const $WM_PARENTNOTIFY = 0x0210
+Global Const $WM_ENTERMENULOOP = 0x0211
+Global Const $WM_EXITMENULOOP = 0x0212
+Global Const $WM_NEXTMENU = 0x0213
+Global Const $WM_CAPTURECHANGED = 0x0215
+Global Const $WM_MOVING = 0x0216
+Global Const $WM_POWERBROADCAST = 0x0218
+Global Const $WM_DEVICECHANGE = 0x0219
+Global Const $WM_MDICREATE = 0x0220
+Global Const $WM_MDIDESTROY = 0x0221
+Global Const $WM_MDIACTIVATE = 0x0222
+Global Const $WM_MDIRESTORE = 0x0223
+Global Const $WM_MDINEXT = 0x0224
+Global Const $WM_MDIMAXIMIZE = 0x0225
+Global Const $WM_MDITILE = 0x0226
+Global Const $WM_MDICASCADE = 0x0227
+Global Const $WM_MDIICONARRANGE = 0x0228
+Global Const $WM_MDIGETACTIVE = 0x0229
+Global Const $WM_MDISETMENU = 0x0230
+Global Const $WM_ENTERSIZEMOVE = 0x0231
+Global Const $WM_EXITSIZEMOVE = 0x0232
+Global Const $WM_DROPFILES = 0x0233
+Global Const $WM_MDIREFRESHMENU = 0x0234
+Global Const $WM_IME_SETCONTEXT = 0x0281
+Global Const $WM_IME_NOTIFY = 0x0282
+Global Const $WM_IME_CONTROL = 0x0283
+Global Const $WM_IME_COMPOSITIONFULL = 0x0284
+Global Const $WM_IME_SELECT = 0x0285
+Global Const $WM_IME_CHAR = 0x0286
+Global Const $WM_IME_REQUEST = 0x0288
+Global Const $WM_IME_KEYDOWN = 0x0290
+Global Const $WM_IME_KEYUP = 0x0291
+Global Const $WM_NCMOUSEHOVER = 0x02A0
+Global Const $WM_MOUSEHOVER = 0x02A1
+Global Const $WM_NCMOUSELEAVE = 0x02A2
+Global Const $WM_MOUSELEAVE = 0x02A3
+Global Const $WM_WTSSESSION_CHANGE = 0x02B1
+Global Const $WM_TABLET_FIRST = 0x02C0
+Global Const $WM_TABLET_LAST = 0x02DF
+
 Global Const $WM_CUT = 0x0300
 Global Const $WM_COPY = 0x0301
 Global Const $WM_PASTE = 0x0302
 Global Const $WM_CLEAR = 0x0303
 Global Const $WM_UNDO = 0x0304
-
+Global Const $WM_PALETTEISCHANGING = 0x0310
+Global Const $WM_HOTKEY = 0x0312
+Global Const $WM_PALETTECHANGED = 0x0311
+Global Const $WM_PRINT = 0x0317
+Global Const $WM_PRINTCLIENT = 0x0318
+Global Const $WM_APPCOMMAND = 0x0319
+Global Const $WM_QUERYNEWPALETTE = 0x030F
+Global Const $WM_THEMECHANGED = 0x031A
+Global Const $WM_HANDHELDFIRST = 0x0358
+Global Const $WM_HANDHELDLAST = 0x035F
+Global Const $WM_AFXFIRST = 0x0360
+Global Const $WM_AFXLAST = 0x037F
+Global Const $WM_PENWINFIRST = 0x0380
+Global Const $WM_PENWINLAST = 0x038F
 
 Global Const $WM_CONTEXTMENU = 0x007B
 Global Const $WM_STYLECHANGING = 0x007C
@@ -159,8 +223,12 @@ Global Const $WM_NCRBUTTONDBLCLK = 0x00A6
 Global Const $WM_NCMBUTTONDOWN = 0x00A7
 Global Const $WM_NCMBUTTONUP = 0x00A8
 Global Const $WM_NCMBUTTONDBLCLK = 0x00A9
+Global Const $WM_NCXBUTTONDOWN = 0x00AB
+Global Const $WM_NCXBUTTONUP = 0x00AC
+Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
 
 Global Const $WM_KEYDOWN = 0x0100
+Global Const $WM_KEYFIRST = 0x0100
 Global Const $WM_KEYUP = 0x0101
 Global Const $WM_CHAR = 0x0102
 Global Const $WM_DEADCHAR = 0x0103
@@ -168,6 +236,8 @@ Global Const $WM_SYSKEYDOWN = 0x0104
 Global Const $WM_SYSKEYUP = 0x0105
 Global Const $WM_SYSCHAR = 0x0106
 Global Const $WM_SYSDEADCHAR = 0x0107
+Global Const $WM_KEYLAST = 0x0109
+Global Const $WM_UNICHAR = 0x0109
 
 Global Const $WM_INITDIALOG = 0x0110
 Global Const $WM_COMMAND = 0x0111
@@ -199,6 +269,8 @@ Global Const $WM_CTLCOLOR = 0x0019
 
 Global Const $MN_GETHMENU = 0x01E1
 
+Global Const $WM_APP = 0x8000
+
 ; Windows Notification Message Constants
 Global Const $NM_FIRST = 0
 
@@ -222,16 +294,17 @@ Global Const $NM_LDOWN = $NM_FIRST - 20
 Global Const $NM_RDOWN = $NM_FIRST - 21
 Global Const $NM_THEMECHANGED = $NM_FIRST - 22
 
+Global Const $WM_MOUSEFIRST = 0x0200
 Global Const $WM_MOUSEMOVE = 0x0200
 Global Const $WM_LBUTTONDOWN = 0x0201
 Global Const $WM_LBUTTONUP = 0x0202
 Global Const $WM_LBUTTONDBLCLK = 0x0203
 Global Const $WM_RBUTTONDOWN = 0x0204
 Global Const $WM_RBUTTONUP = 0x0205
-Global Const $WM_RBUTTONDBLCK = 0x0206
+Global Const $WM_RBUTTONDBLCLK = 0x0206
 Global Const $WM_MBUTTONDOWN = 0x0207
 Global Const $WM_MBUTTONUP = 0x0208
-Global Const $WM_MBUTTONDBLCK = 0x0209
+Global Const $WM_MBUTTONDBLCLK = 0x0209
 Global Const $WM_MOUSEWHEEL = 0x020A
 Global Const $WM_XBUTTONDOWN = 0x020B
 Global Const $WM_XBUTTONUP = 0x020C

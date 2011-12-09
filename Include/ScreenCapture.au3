@@ -5,7 +5,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ScreenCapture
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Screen Capture management.
 ;                  This module allows you to copy the screen or a region of the screen and save it to file. Depending on the type
@@ -81,7 +81,7 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 		If $aCursor[1] Then
 			Local $hIcon = _WinAPI_CopyIcon($aCursor[2])
 			Local $aIcon = _WinAPI_GetIconInfo($hIcon)
- 			_WinAPI_DeleteObject($aIcon[4])	; delete bitmap mask return by _WinAPI_GetIconInfo()
+			_WinAPI_DeleteObject($aIcon[4]) ; delete bitmap mask return by _WinAPI_GetIconInfo()
 			If $aIcon[5] <> 0 Then _WinAPI_DeleteObject($aIcon[5]); delete bitmap hbmColor return by _WinAPI_GetIconInfo()
 			_WinAPI_DrawIcon($hCDC, $aCursor[3] - $aIcon[2] - $iLeft, $aCursor[4] - $aIcon[3] - $iTop, $hIcon)
 			_WinAPI_DestroyIcon($hIcon)
@@ -123,13 +123,13 @@ EndFunc   ;==>_ScreenCapture_Capture
 ; Credits .......: Thanks to SmOke_N for his suggestion for capturing part of the client window
 ; ===============================================================================================================================
 Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
-	If Not IsHwnd($hWnd) Then $hWnd = WinGetHandle($hWnd)
+	If Not IsHWnd($hWnd) Then $hWnd = WinGetHandle($hWnd)
 	Local $tRect = DllStructCreate($tagRECT)
 	; needed to get rect when Aero theme is active : Thanks Kafu, Zedna
 	Local Const $DWMWA_EXTENDED_FRAME_BOUNDS = 9
-    Local $bRet = DllCall("dwmapi.dll", "long", "DwmGetWindowAttribute", "hwnd", $hWnd, "dword", $DWMWA_EXTENDED_FRAME_BOUNDS, "ptr", DllStructGetPtr($tRect), "dword", DllStructGetSize($tRect))
-	If (@error Or $bRet[0] Or  (Abs(DllStructGetData($tRect, "Left")) + Abs(DllStructGetData($tRect, "Top")) + _
-					Abs(DllStructGetData($tRect, "Right")) + Abs(DllStructGetData($tRect, "Bottom")) ) = 0) Then
+	Local $bRet = DllCall("dwmapi.dll", "long", "DwmGetWindowAttribute", "hwnd", $hWnd, "dword", $DWMWA_EXTENDED_FRAME_BOUNDS, "struct*", $tRect, "dword", DllStructGetSize($tRect))
+	If (@error Or $bRet[0] Or (Abs(DllStructGetData($tRect, "Left")) + Abs(DllStructGetData($tRect, "Top")) + _
+			Abs(DllStructGetData($tRect, "Right")) + Abs(DllStructGetData($tRect, "Bottom"))) = 0) Then
 		$tRect = _WinAPI_GetWindowRect($hWnd)
 		If @error Then Return SetError(@error, @extended, 0)
 	EndIf
@@ -199,7 +199,7 @@ Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
 			_GDIPlus_ParamAdd($tParams, $GDIP_EPGCOMPRESSION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Compression"))
 	EndSwitch
 	Local $pParams = 0
-	If IsDllStruct($tParams) Then $pParams = DllStructGetPtr($tParams)
+	If IsDllStruct($tParams) Then $pParams = $tParams
 
 	Local $iRet = _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, $pParams)
 	_GDIPlus_ImageDispose($hImage)

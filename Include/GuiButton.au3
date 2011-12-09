@@ -7,7 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Button
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Button control management.
 ;                  A button is a control the user can click to provide input to an application.
@@ -19,7 +19,7 @@ Global $Debug_Btn = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $tagBUTTON_IMAGELIST = "ptr ImageList;"& $tagRECT & ";uint Align"
+Global Const $tagBUTTON_IMAGELIST = "ptr ImageList;" & $tagRECT & ";uint Align"
 Global Const $tagBUTTON_SPLITINFO = "uint mask;handle himlGlyph;uint uSplitStyle;" & $tagSIZE
 ;~ mask
 ;~ A set of flags that specify which members of this structure contain data to be set or which members are being requested. Set this member to one or more of the following flags.
@@ -323,7 +323,7 @@ Func _GUICtrlButton_GetIdealSize($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tSize = DllStructCreate($tagSIZE), $aSize[2]
-	Local $iRet = _SendMessage($hWnd, $BCM_GETIDEALSIZE, 0, DllStructGetPtr($tSize))
+	Local $iRet = _SendMessage($hWnd, $BCM_GETIDEALSIZE, 0, $tSize, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(-1, -1, $aSize)
 	$aSize[0] = DllStructGetData($tSize, "X")
 	$aSize[1] = DllStructGetData($tSize, "Y")
@@ -382,7 +382,7 @@ Func _GUICtrlButton_GetImageList($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $tBUTTON_IMAGELIST = DllStructCreate($tagBUTTON_IMAGELIST), $aImageList[6]
-	If Not _SendMessage($hWnd, $BCM_GETIMAGELIST, 0, DllStructGetPtr($tBUTTON_IMAGELIST)) Then Return SetError(-1, -1, $aImageList)
+	If Not _SendMessage($hWnd, $BCM_GETIMAGELIST, 0, $tBUTTON_IMAGELIST, 0, "wparam", "struct*") Then Return SetError(-1, -1, $aImageList)
 	$aImageList[0] = DllStructGetData($tBUTTON_IMAGELIST, "ImageList")
 	$aImageList[1] = DllStructGetData($tBUTTON_IMAGELIST, "Left")
 	$aImageList[2] = DllStructGetData($tBUTTON_IMAGELIST, "Right")
@@ -416,8 +416,8 @@ Func _GUICtrlButton_GetNote($hWnd)
 	Local $tNote = DllStructCreate("wchar Note[" & $iLen & "]")
 	Local $tLen = DllStructCreate("dword")
 	DllStructSetData($tLen, 1, $iLen)
-	If Not _SendMessage($hWnd, $BCM_GETNOTE, DllStructGetPtr($tLen), DllStructGetPtr($tNote)) Then Return SetError(-1, 0, "")
-	Return _WinAPI_WideCharToMultiByte(DllStructGetPtr($tNote))
+	If Not _SendMessage($hWnd, $BCM_GETNOTE, $tLen, $tNote, 0, "struct*", "struct*") Then Return SetError(-1, 0, "")
+	Return _WinAPI_WideCharToMultiByte($tNote)
 EndFunc   ;==>_GUICtrlButton_GetNote
 
 ; #FUNCTION# ====================================================================================================================
@@ -471,7 +471,7 @@ Func _GUICtrlButton_GetSplitInfo($hWnd)
 
 	Local $tSplitInfo = DllStructCreate($tagBUTTON_SPLITINFO), $aInfo[4]
 	DllStructSetData($tSplitInfo, "mask", BitOR($BCSIF_GLYPH, $BCSIF_IMAGE, $BCSIF_SIZE, $BCSIF_STYLE))
-	If Not _SendMessage($hWnd, $BCM_GETSPLITINFO, 0, DllStructGetPtr($tSplitInfo)) Then Return SetError(-1, 0, $aInfo)
+	If Not _SendMessage($hWnd, $BCM_GETSPLITINFO, 0, $tSplitInfo, 0, "wparam", "struct*") Then Return SetError(-1, 0, $aInfo)
 	$aInfo[0] = DllStructGetData($tSplitInfo, "himlGlyph")
 	$aInfo[1] = DllStructGetData($tSplitInfo, "uSplitStyle")
 	$aInfo[2] = DllStructGetData($tSplitInfo, "X")
@@ -548,7 +548,7 @@ Func _GUICtrlButton_GetTextMargin($hWnd)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $tRect = DllStructCreate($tagRECT), $aRect[4]
-	If Not _SendMessage($hWnd, $BCM_GETTEXTMARGIN, 0, DllStructGetPtr($tRect)) Then Return SetError(-1, -1, $aRect)
+	If Not _SendMessage($hWnd, $BCM_GETTEXTMARGIN, 0, $tRect, 0, "wparam", "struct*") Then Return SetError(-1, -1, $aRect)
 	$aRect[0] = DllStructGetData($tRect, "Left")
 	$aRect[1] = DllStructGetData($tRect, "Top")
 	$aRect[2] = DllStructGetData($tRect, "Right")
@@ -699,9 +699,9 @@ Func _GUICtrlButton_SetImage($hWnd, $sImageFile, $nIconId = -1, $fLarge = False)
 			Local $tIcon = DllStructCreate("handle Handle")
 			Local $iRet
 			If $fLarge Then
-				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, DllStructGetPtr($tIcon), 0, 1)
+				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, $tIcon, 0, 1)
 			Else
-				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, 0, DllStructGetPtr($tIcon), 1)
+				$iRet = _WinAPI_ExtractIconEx($sImageFile, $nIconId, 0, $tIcon, 1)
 			EndIf
 			If Not $iRet Then Return SetError(-1, -1, False)
 			$hPrevImage = _SendMessage($hWnd, $BM_SETIMAGE, 1, DllStructGetData($tIcon, "Handle"))
@@ -764,7 +764,7 @@ Func _GUICtrlButton_SetImageList($hWnd, $hImage, $nAlign = 0, $iLeft = 1, $iTop 
 	DllStructSetData($tBUTTON_IMAGELIST, "Align", $nAlign)
 
 	Local $fEnabled = _GUICtrlButton_Enable($hWnd, False)
-	Local $iRet = _SendMessage($hWnd, $BCM_SETIMAGELIST, 0, DllStructGetPtr($tBUTTON_IMAGELIST)) <> 0
+	Local $iRet = _SendMessage($hWnd, $BCM_SETIMAGELIST, 0, $tBUTTON_IMAGELIST, 0, "wparam", "struct*") <> 0
 	_GUICtrlButton_Enable($hWnd)
 	If Not $fEnabled Then _GUICtrlButton_Enable($hWnd, False)
 	Return $iRet
@@ -789,7 +789,7 @@ Func _GUICtrlButton_SetNote($hWnd, $sNote)
 	If $Debug_Btn Then __UDF_ValidateClassName($hWnd, $__BUTTONCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $tNote = _WinAPI_MultiByteToWideChar($sNote)
-	Return _SendMessage($hWnd, $BCM_SETNOTE, 0, DllStructGetPtr($tNote)) <> 0
+	Return _SendMessage($hWnd, $BCM_SETNOTE, 0, $tNote, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlButton_SetNote
 
 ; #FUNCTION# ====================================================================================================================
@@ -892,7 +892,7 @@ Func _GUICtrlButton_SetSplitInfo($hWnd, $himlGlyph = -1, $iSplitStyle = $BCSS_AL
 
 	DllStructSetData($tSplitInfo, "mask", $iMask)
 
-	Return _SendMessage($hWnd, $BCM_SETSPLITINFO, 0, DllStructGetPtr($tSplitInfo)) <> 0
+	Return _SendMessage($hWnd, $BCM_SETSPLITINFO, 0, $tSplitInfo, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlButton_SetSplitInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -986,7 +986,7 @@ Func _GUICtrlButton_SetTextMargin($hWnd, $iLeft = 1, $iTop = 1, $iRight = 1, $iB
 	DllStructSetData($tRect, "Top", $iTop)
 	DllStructSetData($tRect, "Right", $iRight)
 	DllStructSetData($tRect, "Bottom", $iBottom)
-	Return _SendMessage($hWnd, $BCM_SETTEXTMARGIN, 0, DllStructGetPtr($tRect)) <> 0
+	Return _SendMessage($hWnd, $BCM_SETTEXTMARGIN, 0, $tRect, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlButton_SetTextMargin
 
 ; #FUNCTION# ====================================================================================================================

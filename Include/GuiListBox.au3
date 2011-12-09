@@ -10,7 +10,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListBox
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with ListBox control management.
 ; Author(s) .....: Paul Campbell (PaulIA)
@@ -22,7 +22,7 @@ Global $Debug_LB = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__LISTBOXCONSTANT_ClassName  = "ListBox"
+Global Const $__LISTBOXCONSTANT_ClassName = "ListBox"
 Global Const $__LISTBOXCONSTANT_ClassNames = $__LISTBOXCONSTANT_ClassName & "|TListbox"
 Global Const $__LISTBOXCONSTANT_WS_TABSTOP = 0x00010000
 Global Const $__LISTBOXCONSTANT_DEFAULT_GUI_FONT = 17
@@ -299,7 +299,7 @@ Func _GUICtrlListBox_Create($hWnd, $sText, $iX, $iY, $iWidth = 100, $iHeight = 2
 	If $iWidth = -1 Then $iWidth = 100
 	If $iHeight = -1 Then $iHeight = 200
 	Local Const $WS_VSCROLL = 0x00200000, $WS_HSCROLL = 0x00100000, $WS_BORDER = 0x00800000
-	If $iStyle = -1 Then $iStyle = BitOr($WS_BORDER, $WS_VSCROLL, $WS_HSCROLL, $LBS_SORT)
+	If $iStyle = -1 Then $iStyle = BitOR($WS_BORDER, $WS_VSCROLL, $WS_HSCROLL, $LBS_SORT)
 	If $iExStyle = -1 Then $iExStyle = 0x00000200
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_VISIBLE, $__LISTBOXCONSTANT_WS_TABSTOP, $__UDFGUICONSTANT_WS_CHILD, $LBS_NOTIFY)
@@ -726,7 +726,7 @@ Func _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
 	If $Debug_LB Then __UDF_ValidateClassName($hWnd, $__LISTBOXCONSTANT_ClassNames)
 	Local $tRect = DllStructCreate($tagRECT)
 	If IsHWnd($hWnd) Then
-		_SendMessage($hWnd, $LB_GETITEMRECT, $iIndex, DllStructGetPtr($tRect), 0, "wparam", "ptr")
+		_SendMessage($hWnd, $LB_GETITEMRECT, $iIndex, $tRect, 0, "wparam", "struct*")
 	Else
 		GUICtrlSendMsg($hWnd, $LB_GETITEMRECT, $iIndex, DllStructGetPtr($tRect))
 	EndIf
@@ -918,7 +918,7 @@ Func _GUICtrlListBox_GetSelItems($hWnd)
 		ReDim $aArray[$iCount + 1]
 		Local $tArray = DllStructCreate("int[" & $iCount & "]")
 		If IsHWnd($hWnd) Then
-			_SendMessage($hWnd, $LB_GETSELITEMS, $iCount, DllStructGetPtr($tArray), 0, "wparam", "ptr")
+			_SendMessage($hWnd, $LB_GETSELITEMS, $iCount, $tArray, 0, "wparam", "struct*")
 		Else
 			GUICtrlSendMsg($hWnd, $LB_GETSELITEMS, $iCount, DllStructGetPtr($tArray))
 		EndIf
@@ -980,7 +980,7 @@ Func _GUICtrlListBox_GetText($hWnd, $iIndex)
 
 	Local $tText = DllStructCreate("wchar Text[" & _GUICtrlListBox_GetTextLen($hWnd, $iIndex) + 1 & "]")
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	_SendMessage($hWnd, $LB_GETTEXT, $iIndex, DllStructGetPtr($tText), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $LB_GETTEXT, $iIndex, $tText, 0, "wparam", "struct*")
 	Return DllStructGetData($tText, "Text")
 EndFunc   ;==>_GUICtrlListBox_GetText
 
@@ -1549,7 +1549,7 @@ Func _GUICtrlListBox_SetTabStops($hWnd, $aTabStops)
 		DllStructSetData($tTabStops, 1, $aTabStops[$iI], $iI)
 	Next
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_SETTABSTOPS, $iCount, DllStructGetPtr($tTabStops), 0, "wparam", "ptr") = 0
+		Return _SendMessage($hWnd, $LB_SETTABSTOPS, $iCount, $tTabStops, 0, "wparam", "struct*") = 0
 	Else
 		Return GUICtrlSendMsg($hWnd, $LB_SETTABSTOPS, $iCount, DllStructGetPtr($tTabStops)) = 0
 	EndIf

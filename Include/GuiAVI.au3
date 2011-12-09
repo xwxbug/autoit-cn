@@ -8,7 +8,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Animation
-; AutoIt Version : 3.2.8++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with AVI control management.
 ;                  An animation control is a window that displays an Audio-Video Interleaved (AVI) clip.  An AVI clip is a series
@@ -39,15 +39,15 @@ Global $gh_AVLastWnd
 ; #MESSAGES# ====================================================================================================================
 Global Const $__AVICONSTANT_WM_USER = 0X400
 Global Const $ACM_OPENA = $__AVICONSTANT_WM_USER + 100
-Global Const $ACM_PLAY  = $__AVICONSTANT_WM_USER + 101
-Global Const $ACM_STOP  = $__AVICONSTANT_WM_USER + 102
+Global Const $ACM_PLAY = $__AVICONSTANT_WM_USER + 101
+Global Const $ACM_STOP = $__AVICONSTANT_WM_USER + 102
 Global Const $ACM_ISPLAYING = $__AVICONSTANT_WM_USER + 104
 Global Const $ACM_OPENW = $__AVICONSTANT_WM_USER + 103
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
 Global Const $ACN_START = 0x00000001 ; Notifies the control's parent that the AVI has started playing
-Global Const $ACN_STOP  = 0x00000002 ; Notifies the control's parent that the AVI has stopped playing
+Global Const $ACN_STOP = 0x00000002 ; Notifies the control's parent that the AVI has stopped playing
 ; ===============================================================================================================================
 
 ; #STYLES# ======================================================================================================================
@@ -126,8 +126,8 @@ EndFunc   ;==>_GUICtrlAVI_Close
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0, $iStyle = 0x00000006, $iExStyle = 0x00000000)
-	If Not IsHWnd($hWnd) Then  Return SetError(1, 0, 0)		; Invalid Window handle for 1st parameter
-	If Not IsString($sFile) Then  Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlAVI_Create
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for 1st parameter
+	If Not IsString($sFile) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlAVI_Create
 
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
@@ -227,12 +227,11 @@ Func _GUICtrlAVI_Open($hWnd, $sFileName)
 		$iRet = _SendMessage($hWnd, $ACM_OPENW, 0, $sFileName, 0, "wparam", "wstr")
 	Else
 		Local $tBuffer = DllStructCreate("wchar Text[" & StringLen($sFileName) + 1 & "]")
-		Local $pBuffer = DllStructGetPtr($tBuffer)
 		DllStructSetData($tBuffer, "Text", $sFileName)
 		Local $tMemMap
 		_MemInit($hWnd, DllStructGetSize($tBuffer), $tMemMap)
-		_MemWrite($tMemMap, $pBuffer)
-		$iRet = _SendMessage($hWnd, $ACM_OPENW, True, $pBuffer, 0, "wparam", "ptr")
+		_MemWrite($tMemMap, $tBuffer)
+		$iRet = _SendMessage($hWnd, $ACM_OPENW, True, $tBuffer, 0, "wparam", "struct*")
 		_MemFree($tMemMap)
 	EndIf
 	If $iRet <> 0 Then _GUICtrlAVI_Seek($hWnd, 0)

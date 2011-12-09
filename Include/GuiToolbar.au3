@@ -9,7 +9,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Toolbar
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with Toolbar control management.
 ;                  A toolbar is a control window that contains one or more buttons.  Each button, when clicked by a user, sends a
@@ -255,17 +255,16 @@ Func _GUICtrlToolbar_AddBitmap($hWnd, $iButtons, $hInst, $iID)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tBitmap = DllStructCreate($tagTBADDBITMAP)
-	Local $pBitmap = DllStructGetPtr($tBitmap)
 	DllStructSetData($tBitmap, "hInst", $hInst)
 	DllStructSetData($tBitmap, "ID", $iID)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_ADDBITMAP, $iButtons, $pBitmap, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_ADDBITMAP, $iButtons, $tBitmap, 0, "wparam", "struct*")
 	Else
 		Local $iBitmap = DllStructGetSize($tBitmap)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBitmap, $tMemMap)
-		_MemWrite($tMemMap, $pBitmap, $pMemory, $iBitmap)
+		_MemWrite($tMemMap, $tBitmap, $pMemory, $iBitmap)
 		$iRet = _SendMessage($hWnd, $TB_ADDBITMAP, $iButtons, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -319,7 +318,6 @@ Func _GUICtrlToolbar_AddButton($hWnd, $iID, $iImage, $iString = 0, $iStyle = 0, 
 	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $tButton = DllStructCreate($tagTBBUTTON)
-	Local $pButton = DllStructGetPtr($tButton)
 	DllStructSetData($tButton, "Bitmap", $iImage)
 	DllStructSetData($tButton, "Command", $iID)
 	DllStructSetData($tButton, "State", $iState)
@@ -328,12 +326,12 @@ Func _GUICtrlToolbar_AddButton($hWnd, $iID, $iImage, $iString = 0, $iStyle = 0, 
 	DllStructSetData($tButton, "String", $iString)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSW, 1, $pButton, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSW, 1, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton, $tMemMap)
-		_MemWrite($tMemMap, $pButton, $pMemory, $iButton)
+		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSW, 1, $pMemory, 0, "wparam", "ptr")
 		Else
@@ -393,15 +391,14 @@ Func _GUICtrlToolbar_AddString($hWnd, $sString)
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	DllStructSetData($tBuffer, "Text", $sString)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_ADDSTRINGW, 0, $pBuffer, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_ADDSTRINGW, 0, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
-		_MemWrite($tMemMap, $pBuffer, $pMemory, $iBuffer)
+		_MemWrite($tMemMap, $tBuffer, $pMemory, $iBuffer)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_ADDSTRINGW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
@@ -970,24 +967,23 @@ Func _GUICtrlToolbar_GetButtonInfoEx($hWnd, $iCommandID)
 	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $tButton = DllStructCreate($tagTBBUTTONINFO)
-	Local $pButton = DllStructGetPtr($tButton)
 	Local $iButton = DllStructGetSize($tButton)
 	Local $iMask = BitOR($TBIF_IMAGE, $TBIF_STATE, $TBIF_STYLE, $TBIF_LPARAM, $TBIF_SIZE)
 	DllStructSetData($tButton, "Size", $iButton)
 	DllStructSetData($tButton, "Mask", $iMask)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOW, $iCommandID, $pButton, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOW, $iCommandID, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton, $tMemMap)
-		_MemWrite($tMemMap, $pButton, $pMemory, $iButton)
+		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOW, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOA, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pButton, $iButton)
+		_MemRead($tMemMap, $pMemory, $tButton, $iButton)
 		_MemFree($tMemMap)
 	EndIf
 	Return SetError($iRet = -1, 0, $tButton)
@@ -1059,15 +1055,14 @@ Func _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $pRect = DllStructGetPtr($tRect)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $pRect, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $tRect, 0, "wparam", "struct*")
 	Else
 		Local $iRect = DllStructGetSize($tRect)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
 		_MemFree($tMemMap)
 	EndIf
 	Return $tRect
@@ -1192,10 +1187,9 @@ Func _GUICtrlToolbar_GetButtonText($hWnd, $iCommandID)
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTW, $iCommandID, $pBuffer, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTW, $iCommandID, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
@@ -1204,7 +1198,7 @@ Func _GUICtrlToolbar_GetButtonText($hWnd, $iCommandID)
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTA, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
+		_MemRead($tMemMap, $pMemory, $tBuffer, $iBuffer)
 		_MemFree($tMemMap)
 	EndIf
 	Return SetError($iRet > 0, 0, DllStructGetData($tBuffer, "Text"))
@@ -1231,15 +1225,14 @@ Func _GUICtrlToolbar_GetColorScheme($hWnd)
 
 	Local $tColor = DllStructCreate($tagCOLORSCHEME)
 	Local $iColor = DllStructGetSize($tColor)
-	Local $pColor = DllStructGetPtr($tColor)
 	DllStructSetData($tColor, "Size", $iColor)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETCOLORSCHEME, 0, $pColor, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETCOLORSCHEME, 0, $tColor, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iColor, $tMemMap)
 		$iRet = _SendMessage($hWnd, $TB_GETCOLORSCHEME, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pColor, $iColor)
+		_MemRead($tMemMap, $pMemory, $tColor, $iColor)
 		_MemFree($tMemMap)
 	EndIf
 	$aColor[0] = DllStructGetData($tColor, "BtnHighlight")
@@ -1374,15 +1367,14 @@ Func _GUICtrlToolbar_GetInsertMark($hWnd)
 	Local $aMark[2], $iRet
 
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
-	Local $pMark = DllStructGetPtr($tMark)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETINSERTMARK, 0, $pMark, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETINSERTMARK, 0, $tMark, 0, "wparam", "struct*")
 	Else
 		Local $iMark = DllStructGetSize($tMark)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iMark, $tMemMap)
 		$iRet = _SendMessage($hWnd, $TB_GETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pMark, $iMark)
+		_MemRead($tMemMap, $pMemory, $tMark, $iMark)
 		_MemFree($tMemMap)
 	EndIf
 	$aMark[0] = DllStructGetData($tMark, "Button")
@@ -1430,15 +1422,14 @@ Func _GUICtrlToolbar_GetMaxSize($hWnd)
 	Local $aSize[2], $iRet
 
 	Local $tSize = DllStructCreate($tagSIZE)
-	Local $pSize = DllStructGetPtr($tSize)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETMAXSIZE, 0, $pSize, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETMAXSIZE, 0, $tSize, 0, "wparam", "struct*")
 	Else
 		Local $iSize = DllStructGetSize($tSize)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iSize, $tMemMap)
 		$iRet = _SendMessage($hWnd, $TB_GETMAXSIZE, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pSize, $iSize)
+		_MemRead($tMemMap, $pMemory, $tSize, $iSize)
 		_MemFree($tMemMap)
 	EndIf
 	$aSize[0] = DllStructGetData($tSize, "X")
@@ -1469,17 +1460,16 @@ Func _GUICtrlToolbar_GetMetrics($hWnd)
 
 	Local $tMetrics = DllStructCreate($tagTBMETRICS)
 	Local $iMetrics = DllStructGetSize($tMetrics)
-	Local $pMetrics = DllStructGetPtr($tMetrics)
 	Local $iMask = BitOR($TBMF_PAD, $TBMF_BUTTONSPACING)
 	DllStructSetData($tMetrics, "Size", $iMetrics)
 	DllStructSetData($tMetrics, "Mask", $iMask)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_GETMETRICS, 0, $pMetrics, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_GETMETRICS, 0, $tMetrics, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iMetrics, $tMemMap)
 		_SendMessage($hWnd, $TB_GETMETRICS, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pMetrics, $iMetrics)
+		_MemRead($tMemMap, $pMemory, $tMetrics, $iMetrics)
 		_MemFree($tMemMap)
 	EndIf
 	$aMetrics[0] = DllStructGetData($tMetrics, "XPad")
@@ -1571,10 +1561,9 @@ Func _GUICtrlToolbar_GetString($hWnd, $iIndex)
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
-	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_GETSTRINGW, _WinAPI_MakeLong($iBuffer, $iIndex), $pBuffer, 0, "long", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_GETSTRINGW, _WinAPI_MakeLong($iBuffer, $iIndex), $tBuffer, 0, "long", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
@@ -1583,7 +1572,7 @@ Func _GUICtrlToolbar_GetString($hWnd, $iIndex)
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETSTRINGA, _WinAPI_MakeLong($iBuffer, $iIndex), $pMemory, 0, "long", "ptr")
 		EndIf
-		_MemRead($tMemMap, $pMemory, $pBuffer, $iBuffer)
+		_MemRead($tMemMap, $pMemory, $tBuffer, $iBuffer)
 		_MemFree($tMemMap)
 	EndIf
 	Return SetError($iRet = -1, 0, DllStructGetData($tBuffer, "Text"))
@@ -1888,17 +1877,16 @@ Func _GUICtrlToolbar_HitTest($hWnd, $iX, $iY)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tPoint = DllStructCreate($tagPOINT)
-	Local $pPoint = DllStructGetPtr($tPoint)
 	DllStructSetData($tPoint, "X", $iX)
 	DllStructSetData($tPoint, "Y", $iY)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_HITTEST, 0, $pPoint, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_HITTEST, 0, $tPoint, 0, "wparam", "struct*")
 	Else
 		Local $iPoint = DllStructGetSize($tPoint)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iPoint, $tMemMap)
-		_MemWrite($tMemMap, $pPoint, $pMemory, $iPoint)
+		_MemWrite($tMemMap, $tPoint, $pMemory, $iPoint)
 		$iRet = _SendMessage($hWnd, $TB_HITTEST, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -1923,16 +1911,15 @@ Func _GUICtrlToolbar_IndexToCommand($hWnd, $iIndex)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tButton = DllStructCreate($tagTBBUTTON)
-	Local $pButton = DllStructGetPtr($tButton)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_GETBUTTON, $iIndex, $pButton, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_GETBUTTON, $iIndex, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton, $tMemMap)
-		_MemWrite($tMemMap, $pButton, $pMemory, $iButton)
+		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
 		_SendMessage($hWnd, $TB_GETBUTTON, $iIndex, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pButton, $iButton)
+		_MemRead($tMemMap, $pMemory, $tButton, $iButton)
 		_MemFree($tMemMap)
 	EndIf
 	Return DllStructGetData($tButton, "Command")
@@ -1982,10 +1969,9 @@ Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $i
 
 	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
-	Local $pBuffer, $tBuffer, $iRet
+	Local $tBuffer, $iRet
 
 	Local $tButton = DllStructCreate($tagTBBUTTON)
-	Local $pButton = DllStructGetPtr($tButton)
 	Local $iBuffer = StringLen($sText) + 1
 	If $iBuffer > 1 Then
 		If $fUnicode Then
@@ -1994,9 +1980,8 @@ Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $i
 		Else
 			$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 		EndIf
-		$pBuffer = DllStructGetPtr($tBuffer)
 		DllStructSetData($tBuffer, "Text", $sText)
-		DllStructSetData($tButton, "String", $pBuffer)
+		DllStructSetData($tButton, "String", DllStructGetPtr($tBuffer))
 	EndIf
 	DllStructSetData($tButton, "Bitmap", $iImage)
 	DllStructSetData($tButton, "Command", $iID)
@@ -2004,16 +1989,16 @@ Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $i
 	DllStructSetData($tButton, "Style", $iStyle)
 	DllStructSetData($tButton, "Param", $iParam)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONW, $iIndex, $pButton, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONW, $iIndex, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton + $iBuffer, $tMemMap)
 		Local $pText = $pMemory + $iButton
-		_MemWrite($tMemMap, $pButton, $pMemory, $iButton)
+		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
 		If $iBuffer > 1 Then
 			DllStructSetData($tButton, "String", $pText)
-			_MemWrite($tMemMap, $pBuffer, $pText, $iBuffer)
+			_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
 		EndIf
 		If $fUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONW, $iIndex, $pMemory, 0, "wparam", "ptr")
@@ -2051,22 +2036,20 @@ Func _GUICtrlToolbar_InsertMarkHitTest($hWnd, $iX, $iY)
 	Local $aMark[2], $iRet
 
 	Local $tPoint = DllStructCreate($tagPOINT)
-	Local $pPoint = DllStructGetPtr($tPoint)
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
-	Local $pMark = DllStructGetPtr($tMark)
 	DllStructSetData($tPoint, "X", $iX)
 	DllStructSetData($tPoint, "Y", $iY)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_INSERTMARKHITTEST, $pPoint, $pMark, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_INSERTMARKHITTEST, $tPoint, $tMark, 0, "struct*", "struct*")
 	Else
 		Local $iPoint = DllStructGetSize($tPoint)
 		Local $iMark = DllStructGetSize($tMark)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iPoint + $iMark, $tMemMap)
 		Local $pMarkPtr = $pMemory + $iPoint
-		_MemWrite($tMemMap, $pPoint, $pMemory, $iPoint)
+		_MemWrite($tMemMap, $tPoint, $pMemory, $iPoint)
 		$iRet = _SendMessage($hWnd, $TB_INSERTMARKHITTEST, $pMemory, $pMarkPtr, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMarkPtr, $pMark, $iMark)
+		_MemRead($tMemMap, $pMarkPtr, $tMark, $iMark)
 		_MemFree($tMemMap)
 	EndIf
 	$aMark[0] = DllStructGetData($tMark, "Button")
@@ -2272,15 +2255,14 @@ Func _GUICtrlToolbar_MapAccelerator($hWnd, $cAccel)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tCommand = DllStructCreate("int Data")
-	Local $pCommand = DllStructGetPtr($tCommand)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($cAccel), $pCommand, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($cAccel), $tCommand, 0, "wparam", "struct*")
 	Else
 		Local $iCommand = DllStructGetSize($tCommand)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iCommand, $tMemMap)
 		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($cAccel), $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pCommand, $iCommand)
+		_MemRead($tMemMap, $pMemory, $tCommand, $iCommand)
 		_MemFree($tMemMap)
 	EndIf
 	Return DllStructGetData($tCommand, "Data")
@@ -2489,19 +2471,18 @@ EndFunc   ;==>_GUICtrlToolbar_SetButtonInfo
 Func _GUICtrlToolbar_SetButtonInfoEx($hWnd, $iCommandID, $tButton)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
-	Local $pButton = DllStructGetPtr($tButton)
 	Local $iButton = DllStructGetSize($tButton)
 	DllStructSetData($tButton, "Size", $iButton)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		$iRet = _SendMessage($hWnd, $TB_SETBUTTONINFOW, $iCommandID, $pButton, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $TB_SETBUTTONINFOW, $iCommandID, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iBuffer = DllStructGetData($tButton, "TextMax")
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton + $iBuffer, $tMemMap)
 		Local $pBuffer = $pMemory + $iButton
 		DllStructSetData($tButton, "Text", $pBuffer)
-		_MemWrite($tMemMap, $pButton, $pMemory, $iButton)
+		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
 		_MemWrite($tMemMap, $pBuffer, $pBuffer, $iBuffer)
 		$iRet = _SendMessage($hWnd, $TB_SETBUTTONINFOW, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
@@ -2710,17 +2691,16 @@ Func _GUICtrlToolbar_SetColorScheme($hWnd, $iHighlight, $iShadow)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tColor = DllStructCreate($tagCOLORSCHEME)
-	Local $pColor = DllStructGetPtr($tColor)
 	Local $iColor = DllStructGetSize($tColor)
 	DllStructSetData($tColor, "Size", $iColor)
 	DllStructSetData($tColor, "BtnHighlight", $iHighlight)
 	DllStructSetData($tColor, "BtnShadow", $iShadow)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETCOLORSCHEME, 0, $pColor, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_SETCOLORSCHEME, 0, $tColor, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iColor, $tMemMap)
-		_MemWrite($tMemMap, $pColor, $pMemory, $iColor)
+		_MemWrite($tMemMap, $tColor, $pMemory, $iColor)
 		_SendMessage($hWnd, $TB_SETCOLORSCHEME, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -2924,16 +2904,15 @@ Func _GUICtrlToolbar_SetInsertMark($hWnd, $iButton, $iFlags = 0)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
-	Local $pMark = DllStructGetPtr($tMark)
 	DllStructSetData($tMark, "Button", $iButton)
 	DllStructSetData($tMark, "Flags", $iFlags)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETINSERTMARK, 0, $pMark, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_SETINSERTMARK, 0, $tMark, 0, "wparam", "struct*")
 	Else
 		Local $iMark = DllStructGetSize($tMark)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iMark, $tMemMap)
-		_MemWrite($tMemMap, $pMark, $pMemory, $iMark)
+		_MemWrite($tMemMap, $tMark, $pMemory, $iMark)
 		_SendMessage($hWnd, $TB_SETINSERTMARK, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -3002,7 +2981,6 @@ Func _GUICtrlToolbar_SetMetrics($hWnd, $iXPad, $iYPad, $iXSpacing, $iYSpacing)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tMetrics = DllStructCreate($tagTBMETRICS)
-	Local $pMetrics = DllStructGetPtr($tMetrics)
 	Local $iMetrics = DllStructGetSize($tMetrics)
 	Local $iMask = BitOR($TBMF_PAD, $TBMF_BUTTONSPACING)
 	DllStructSetData($tMetrics, "Size", $iMetrics)
@@ -3012,11 +2990,11 @@ Func _GUICtrlToolbar_SetMetrics($hWnd, $iXPad, $iYPad, $iXSpacing, $iYSpacing)
 	DllStructSetData($tMetrics, "XSpacing", $iXSpacing)
 	DllStructSetData($tMetrics, "YSpacing", $iYSpacing)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETMETRICS, 0, $pMetrics, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_SETMETRICS, 0, $tMetrics, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iMetrics, $tMemMap)
-		_MemWrite($tMemMap, $pMetrics, $pMemory, $iMetrics)
+		_MemWrite($tMemMap, $tMetrics, $pMemory, $iMetrics)
 		_SendMessage($hWnd, $TB_SETMETRICS, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -3096,15 +3074,14 @@ Func _GUICtrlToolbar_SetRows($hWnd, $iRows, $fLarger = True)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	Local $pRect = DllStructGetPtr($tRect)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $fLarger), $pRect, 0, "long", "ptr")
+		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $fLarger), $tRect, 0, "long", "struct*")
 	Else
 		Local $iRect = DllStructGetSize($tRect)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $fLarger), $pMemory, 0, "long", "ptr")
-		_MemRead($tMemMap, $pMemory, $pRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
 		_MemFree($tMemMap)
 	EndIf
 	Local $aRect[4]
@@ -3383,14 +3360,13 @@ Func _GUICtrlToolbar_SetWindowTheme($hWnd, $sTheme)
 	If $Debug_TB Then __UDF_ValidateClassName($hWnd, $__TOOLBARCONSTANT_ClassName)
 
 	Local $tTheme = _WinAPI_MultiByteToWideChar($sTheme)
-	Local $pTheme = DllStructGetPtr($tTheme)
 	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETWINDOWTHEME, 0, $pTheme, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_SETWINDOWTHEME, 0, $tTheme, 0, "wparam", "struct*")
 	Else
 		Local $iTheme = DllStructGetSize($tTheme)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iTheme, $tMemMap)
-		_MemWrite($tMemMap, $pTheme, $pMemory, $iTheme)
+		_MemWrite($tMemMap, $tTheme, $pMemory, $iTheme)
 		_SendMessage($hWnd, $TB_SETWINDOWTHEME, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf

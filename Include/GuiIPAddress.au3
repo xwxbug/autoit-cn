@@ -9,7 +9,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: IPAddress
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: Functions that assist with IPAddress control management.
 ; Author(s) .....: Gary Frost (gafrost)
@@ -22,11 +22,11 @@ Global $Debug_IP = False
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $__IPADDRESSCONSTANT_ClassName			= "SysIPAddress32"
-Global Const $__IPADDRESSCONSTANT_WS_TABSTOP		= 0x00010000
-Global Const $__IPADDRESSCONSTANT_DEFAULT_GUI_FONT	= 17
-Global Const $__IPADDRESSCONSTANT_LOGPIXELSX		= 88
-Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY		= 2
+Global Const $__IPADDRESSCONSTANT_ClassName = "SysIPAddress32"
+Global Const $__IPADDRESSCONSTANT_WS_TABSTOP = 0x00010000
+Global Const $__IPADDRESSCONSTANT_DEFAULT_GUI_FONT = 17
+Global Const $__IPADDRESSCONSTANT_LOGPIXELSX = 88
+Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY = 2
 ; ===============================================================================================================================
 
 ; #OLD_FUNCTIONS#================================================================================================================
@@ -84,7 +84,7 @@ Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY		= 2
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeight = 25, $iStyles = 0x00000000, $iExstyles = 0x00000000)
-	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0)	; Invalid Window handle for _GUICtrlIpAddress_Create 1st parameter
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlIpAddress_Create 1st parameter
 
 	If $iStyles = -1 Then $iStyles = 0x00000000
 	If $iExstyles = -1 Then $iExstyles = 0x00000000
@@ -95,7 +95,7 @@ Func _GUICtrlIpAddress_Create($hWnd, $iX, $iY, $iWidth = 125, $iHeight = 25, $iS
 	Local $tICCE = DllStructCreate('dword dwSize;dword dwICC')
 	DllStructSetData($tICCE, "dwSize", DllStructGetSize($tICCE))
 	DllStructSetData($tICCE, "dwICC", $ICC_INTERNET_CLASSES)
-	DllCall('comctl32.dll', 'bool', 'InitCommonControlsEx', 'ptr', DllStructGetPtr($tICCE))
+	DllCall('comctl32.dll', 'bool', 'InitCommonControlsEx', 'struct*', $tICCE)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
@@ -230,16 +230,15 @@ Func _GUICtrlIpAddress_GetEx($hWnd)
 	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
 
 	Local $tIP = DllStructCreate($tagGETIPAddress)
-	Local $pIP = DllStructGetPtr($tIP)
 	If @error Then Return SetError(1, 1, "")
 	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
-		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $pIP, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $tIP, 0, "wparam", "struct*")
 	Else
 		Local $iIP = DllStructGetSize($tIP)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iIP, $tMemMap)
 		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pIP, $iIP)
+		_MemRead($tMemMap, $pMemory, $tIP, $iIP)
 		_MemFree($tMemMap)
 	EndIf
 	Return $tIP
@@ -337,11 +336,11 @@ EndFunc   ;==>_GUICtrlIpAddress_SetArray
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetEx($hWnd, $tIP)
-    If $Debug_IP Then __UDF_ValidateClassName($hWnd, $tIP)
+	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $tIP)
 
-    _SendMessage($hWnd, $IPM_SETADDRESS, 0, _
-		_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3")), _
-				BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
+	_SendMessage($hWnd, $IPM_SETADDRESS, 0, _
+			_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3")), _
+			BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
 EndFunc   ;==>_GUICtrlIpAddress_SetEx
 
 ; #FUNCTION# ====================================================================================================================

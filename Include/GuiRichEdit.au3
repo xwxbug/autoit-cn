@@ -1,4 +1,5 @@
 #include-once
+
 #include "Clipboard.au3"
 #include "RichEditConstants.au3"
 #include "EditConstants.au3"
@@ -10,7 +11,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Rich Edit
-; AutoIt Version:  3.3.0++
+; AutoIt Version : 3.3.7.20++
 ; Language:        English
 ; Description:     Programmer-friendly Rich Edit control
 ; Author(s): GaryFrost, grham, Prog@ndy, KIP, c.haslam
@@ -260,7 +261,7 @@ Global Const $tagEDITSTREAM = "align 4;dword_ptr dwCookie;dword dwError;ptr pfnC
 ; Fields ........: cbSize    - Specifies the size, in bytes, of the structure
 ;                  wMask     - A set of mask bits that determine which of the wEffects flags will be set to 1 or 0 by the rich edit control. This approach eliminates the need to read the effects flags before changing them.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOM_DEFPARADIR       - Default paragraph direction¡ªimplies alignment (obsolete).
+;                  |  $BOM_DEFPARADIR       - Default paragraph direction—implies alignment (obsolete).
 ;                  |  $BOM_PLAINTEXT        - Use plain text layout (obsolete).
 ;                  |  $BOM_NEUTRALOVERRIDE  - Override neutral layout.
 ;                  |  $BOM_CONTEXTREADING   - Context reading order.
@@ -268,7 +269,7 @@ Global Const $tagEDITSTREAM = "align 4;dword_ptr dwCookie;dword dwError;ptr pfnC
 ;                  |  $BOM_LEGACYBIDICLASS  - Treatment of plus, minus, and slash characters in right-to-left (LTR) or bidirectional text.
 ;                  wEffects  - A set of flags that indicate the desired or current state of the effects flags. Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOE_RTLDIR           - Default paragraph direction¡ªimplies alignment (obsolete).
+;                  |  $BOE_RTLDIR           - Default paragraph direction—implies alignment (obsolete).
 ;                  |  $BOE_PLAINTEXT        - Uses plain text layout (obsolete).
 ;                  |  $BOE_NEUTRALOVERRIDE  - Overrides neutral layout.
 ;                  |  $BOE_CONTEXTREADING   - Context reading order.
@@ -787,10 +788,10 @@ Func _GUICtrlRichEdit_AppendText($hWnd, $sText)
 	Local $iRet
 	If StringLeft($sText, 5) <> "{\rtf" And StringLeft($sText, 5) <> "{urtf" Then
 		DllStructSetData($tSetText, 2, $CP_UNICODE)
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "wstr")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "wstr")
 	Else
 		DllStructSetData($tSetText, 2, $CP_ACP)
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "STR")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "STR")
 	EndIf
 	If Not $iRet Then Return SetError(700, 0, False)
 	Return True
@@ -1019,8 +1020,8 @@ EndFunc   ;==>_GUICtrlRichEdit_Copy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop, $iWidth = 150, $iHeight = 150, $iStyle = -1, $iExStyle = -1)
-	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(1, 0, 0)		; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
-	If Not IsString($sText) Then Return SetError(2, 0, 0)	; 2nd parameter not a string for _GUICtrlRichEdit_Create
+	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
+	If Not IsString($sText) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlRichEdit_Create
 
 	If Not __GCR_IsNumeric($iLeft, ">=0") Then Return SetError(103, 0, 0)
 	If Not __GCR_IsNumeric($iTop, ">=0") Then Return SetError(104, 0, 0)
@@ -1219,7 +1220,7 @@ Func _GUICtrlRichEdit_FindText($hWnd, $sText, $fForward = True, $fMatchCase = Fa
 	If $fWholeWord Then $iWparam = BitOR($iWparam, $FR_WHOLEWORD)
 	If $fMatchCase Then $iWparam = BitOR($iWparam, $FR_MATCHCASE)
 	$iWparam = BitOR($iWparam, $iBehavior)
-	Return _SendMessage($hWnd, $EM_FINDTEXTW, $iWparam, DllStructGetPtr($tFindtext), "wparam", "ptr")
+	Return _SendMessage($hWnd, $EM_FINDTEXTW, $iWparam, $tFindtext, "wparam", "ptr", "struct*")
 EndFunc   ;==>_GUICtrlRichEdit_FindText
 
 ; #FUNCTION# ====================================================================================================================
@@ -1284,7 +1285,7 @@ Func _GUICtrlRichEdit_FindTextInRange($hWnd, $sText, $iStart = 0, $iEnd = -1, $f
 	If $fWholeWord Then $iWparam = BitOR($iWparam, $FR_WHOLEWORD)
 	If $fMatchCase Then $iWparam = BitOR($iWparam, $FR_MATCHCASE)
 	$iWparam = BitOR($iWparam, $iBehavior)
-	_SendMessage($hWnd, $EM_FINDTEXTEXW, $iWparam, DllStructGetPtr($tFindtext), "iWparam", "ptr")
+	_SendMessage($hWnd, $EM_FINDTEXTEXW, $iWparam, $tFindtext, "iWparam", "ptr", "struct*")
 	Local $aRet[2]
 	$aRet[0] = DllStructGetData($tFindtext, "cpMinRang")
 	$aRet[1] = DllStructGetData($tFindtext, "cpMaxRange")
@@ -1346,7 +1347,7 @@ Func _GUICtrlRichEdit_GetCharAttributes($hWnd)
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT2)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
 	;	$iWparam = _Iif($fDefault,$SCF_DEFAULT,$SCF_SELECTION)	; SCF_DEFAULT doesn't work
-	Local $iMask = _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, DllStructGetPtr($tCharFormat), 0, "wparam", "ptr")
+	Local $iMask = _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*")
 
 	Local $iEffects = DllStructGetData($tCharFormat, 3)
 
@@ -1469,7 +1470,7 @@ Func _GUICtrlRichEdit_GetCharPosFromXY($hWnd, $iX, $iY)
 	Local $tPointL = DllStructCreate("LONG x; LONG y;")
 	DllStructSetData($tPointL, 1, $iX)
 	DllStructSetData($tPointL, 2, $iY)
-	Local $iRet = _SendMessage($hWnd, $EM_CHARFROMPOS, 0, DllStructGetPtr($tPointL), 0, "wparam", "ptr")
+	Local $iRet = _SendMessage($hWnd, $EM_CHARFROMPOS, 0, $tPointL, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(-1, 0, 0)
 	Return $iRet
 EndFunc   ;==>_GUICtrlRichEdit_GetCharPosFromXY
@@ -1582,7 +1583,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetCharWordBreakInfo
 Func _GUICtrlRichEdit_GetBkColor($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
-	Local $iBkColor =_SendMessage($hWnd, $EM_SETBKGNDCOLOR, False, 0)
+	Local $iBkColor = _SendMessage($hWnd, $EM_SETBKGNDCOLOR, False, 0)
 	_SendMessage($hWnd, $EM_SETBKGNDCOLOR, False, $iBkColor)
 	Return $iBkColor
 EndFunc   ;==>_GUICtrlRichEdit_GetBkColor
@@ -1620,9 +1621,9 @@ Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplC
 	If Not IsBool($fCrToCrLf) Then Return SetError(102, 0, "")
 	If Not __GCR_IsNumeric($iCodePage) Then Return SetError(103, 0, "")
 
-	Local $iLen = _GUICtrlRichEdit_GetTextLength($hWnd, False,True) + 1
-	Local $sUni=''
-	If $iCodePage=$CP_UNICODE Or Not $iCodePage Then $sUni="w"
+	Local $iLen = _GUICtrlRichEdit_GetTextLength($hWnd, False, True) + 1
+	Local $sUni = ''
+	If $iCodePage = $CP_UNICODE Or Not $iCodePage Then $sUni = "w"
 	Local $tText = DllStructCreate($sUni & "char[" & $iLen & "]")
 
 	Local $tGetTextEx = DllStructCreate($tagGETTEXTEX)
@@ -1632,21 +1633,21 @@ Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplC
 	If $fCrToCrLf Then $iFlags = $GT_USECRLF
 	DllStructSetData($tGetTextEx, "flags", $iFlags)
 
-	If $iCodePage = 0 Then $iCodePage =  $CP_UNICODE
+	If $iCodePage = 0 Then $iCodePage = $CP_UNICODE
 	DllStructSetData($tGetTextEx, "codepage", $iCodePage)
 
-	Local  $pUsedDefChar = 0, $pDefaultChar = 0
+	Local $pUsedDefChar = 0, $pDefaultChar = 0
 	If $sReplChar <> "" Then
 		Local $tDefaultChar = DllStructCreate("char")
-		$pDefaultChar = DllStructGetPtr( $tDefaultChar, 1)
-		DllStructSetData( $tDefaultChar, 1, $sReplChar)
+		$pDefaultChar = DllStructGetPtr($tDefaultChar, 1)
+		DllStructSetData($tDefaultChar, 1, $sReplChar)
 		Local $tUsedDefChar = DllStructCreate("bool")
-		$pUsedDefChar = DllStructGetPtr( $tUsedDefChar, 1)
+		$pUsedDefChar = DllStructGetPtr($tUsedDefChar, 1)
 	EndIf
 	DllStructSetData($tGetTextEx, "lpDefaultChar", $pDefaultChar)
 	DllStructSetData($tGetTextEx, "lpbUsedDefChar", $pUsedDefChar)
 
-	Local $iRet = _SendMessage($hWnd, $EM_GETTEXTEX, DllStructGetPtr($tGetTextEx), DllStructGetPtr($tText))
+	Local $iRet = _SendMessage($hWnd, $EM_GETTEXTEX, $tGetTextEx, $tText, 0, "struct*", "struct*")
 	If $iRet = 0 Then Return SetError(700, 0, "")
 	If $sReplChar <> "" Then SetExtended(DllStructGetData($tUsedDefChar, 1) <> 0)
 	Return DllStructGetData($tText, 1)
@@ -1685,7 +1686,7 @@ Func _GUICtrlRichEdit_GetTextLength($hWnd, $fExact = True, $fChars = False)
 	$iFlags = BitOR($iFlags, _Iif($fChars, $GTL_DEFAULT, $GTL_NUMBYTES))
 	DllStructSetData($tGetTextLen, 1, $iFlags)
 	DllStructSetData($tGetTextLen, 2, _Iif($fChars, $CP_ACP, $CP_UNICODE))
-	Local $iRet = _SendMessage($hWnd, $EM_GETTEXTLENGTHEX, DllStructGetPtr($tGetTextLen), 0)
+	Local $iRet = _SendMessage($hWnd, $EM_GETTEXTLENGTHEX, $tGetTextLen, 0, 0, "struct*")
 	Return $iRet
 EndFunc   ;==>_GUICtrlRichEdit_GetTextLength
 
@@ -1835,7 +1836,7 @@ Func _GUICtrlRichEdit_GetRECT($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tRect = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $EM_GETRECT, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $EM_GETRECT, 0, $tRect, 0, "wparam", "struct*")
 	Local $aiRect[4]
 	$aiRect[0] = DllStructGetData($tRect, "Left")
 	$aiRect[1] = DllStructGetData($tRect, "Top")
@@ -2311,7 +2312,7 @@ Func _GUICtrlRichEdit_GetParaNumbering($hWnd)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
 	DllStructSetData($tParaFormat, 2, BitOR($PFM_NUMBERING, $PFM_NUMBERINGSTART, $PFM_NUMBERINGSTYLE))
 	__GCR_SendGetParaFormatMessage($hWnd, $tParaFormat)
- 	If @error Then Return SetError(@error, 0, "")
+	If @error Then Return SetError(@error, 0, "")
 
 	Local $iMask = DllStructGetData($tParaFormat, "dwMask")
 	Local $iChar = DllStructGetData($tParaFormat, "wNumbering")
@@ -2502,7 +2503,7 @@ Func _GUICtrlRichEdit_GetParaSpacing($hWnd)
 		Case 5
 			$sRet = StringFormat("%.2f", $iInter / 20) & " lines;"
 	EndSwitch
-	Local $iMask = 0	; perhaps a BUG (jpm) always 0
+	Local $iMask = 0 ; perhaps a BUG (jpm) always 0
 	$sRet &= __GCR_GetParaScopeChar($hWnd, $iMask, $PFM_LINESPACING) & ";"
 
 	Local $iBefore = DllStructGetData($tParaFormat, "dySpaceBefore")
@@ -2618,7 +2619,7 @@ Func _GUICtrlRichEdit_GetScrollPos($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tPoint = DllStructCreate($tagPOINT)
-	_SendMessage($hWnd, $EM_GETSCROLLPOS, 0, DllStructGetPtr($tPoint))
+	_SendMessage($hWnd, $EM_GETSCROLLPOS, 0, $tPoint, 0, "wparam", "struct*")
 	Local $aRet[2]
 	$aRet[0] = DllStructGetData($tPoint, "x")
 	$aRet[1] = DllStructGetData($tPoint, "y")
@@ -2645,7 +2646,7 @@ Func _GUICtrlRichEdit_GetSel($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
 	Local $tCharRange = DllStructCreate($tagCHARRANGE)
-	_SendMessage($hWnd, $EM_EXGETSEL, 0, DllStructGetPtr($tCharRange))
+	_SendMessage($hWnd, $EM_EXGETSEL, 0, $tCharRange, 0, "wparam", "struct*")
 	Local $aRet[2]
 	$aRet[0] = DllStructGetData($tCharRange, 1)
 	$aRet[1] = DllStructGetData($tCharRange, 2)
@@ -2673,7 +2674,7 @@ Func _GUICtrlRichEdit_GetSelAA($hWnd)
 
 	Local $aiLowHigh = _GUICtrlRichEdit_GetSel($hWnd)
 
-	If $aiLowHigh[0] = $aiLowHigh[1] Then Return SetError(-1, 0, 0)		; no text selected
+	If $aiLowHigh[0] = $aiLowHigh[1] Then Return SetError(-1, 0, 0) ; no text selected
 
 	_SendMessage($hWnd, $EM_SETSEL, -1, 0) ; deselect
 
@@ -2688,7 +2689,7 @@ Func _GUICtrlRichEdit_GetSelAA($hWnd)
 	EndIf
 	; restore selection
 	_SendMessage($hWnd, $EM_SETSEL, $aiLowHigh[0], $aiLowHigh[1])
-	_WinAPI_SetFocus($hWnd)		; need to have the selection updated
+	_WinAPI_SetFocus($hWnd) ; need to have the selection updated
 	Return $aRet
 EndFunc   ;==>_GUICtrlRichEdit_GetSelAA
 
@@ -2714,7 +2715,7 @@ Func _GUICtrlRichEdit_GetSelText($hWnd)
 
 	Local $aiLowHigh = _GUICtrlRichEdit_GetSel($hWnd)
 	Local $tText = DllStructCreate("wchar[" & $aiLowHigh[1] - $aiLowHigh[0] + 1 & "]")
-	_SendMessage($hWnd, $EM_GETSELTEXT, 0, DllStructGetPtr($tText))
+	_SendMessage($hWnd, $EM_GETSELTEXT, 0, $tText, 0, "wparam", "struct*")
 	Return DllStructGetData($tText, 1)
 EndFunc   ;==>_GUICtrlRichEdit_GetSelText
 
@@ -2765,7 +2766,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetSpaceUnit
 ; Link ..........: @@MsdnLink@@ EM_GETLINE
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _GUICtrlRichEdit_GetTextinLine($hWnd, $iLine)
+Func _GUICtrlRichEdit_GetTextInLine($hWnd, $iLine)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not __GCR_IsNumeric($iLine, ">0,-1") Then Return SetError(1021, 0, False)
 	If $iLine > _GUICtrlRichEdit_GetLineCount($hWnd) Then Return SetError(1022, 0, False)
@@ -2775,7 +2776,7 @@ Func _GUICtrlRichEdit_GetTextinLine($hWnd, $iLine)
 	Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLen + 2 & "]")
 	DllStructSetData($tBuffer, "Len", $iLen + 2)
 	If $iLine <> -1 Then $iLine -= 1
-	Local $iRet = _SendMessage($hWnd, $EM_GETLINE, $iLine, DllStructGetPtr($tBuffer), 10, "wparam", "ptr")
+	Local $iRet = _SendMessage($hWnd, $EM_GETLINE, $iLine, $tBuffer, 10, "wparam", "struct*")
 	If $iRet = 0 Then Return SetError(700, 0, False)
 	Local $tString = DllStructCreate("wchar Text[" & $iLen + 1 & "]", DllStructGetPtr($tBuffer))
 	Return StringLeft(DllStructGetData($tString, "Text"), $iLen)
@@ -2814,7 +2815,7 @@ Func _GUICtrlRichEdit_GetTextInRange($hWnd, $iStart, $iEnd)
 	DllStructSetData($tTextRange, 1, $iStart)
 	DllStructSetData($tTextRange, 2, $iEnd)
 	DllStructSetData($tTextRange, 3, DllStructGetPtr($tText))
-	_SendMessage($hWnd, $EM_GETTEXTRANGE, 0, DllStructGetPtr($tTextRange), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $EM_GETTEXTRANGE, 0, $tTextRange, 0, "wparam", "struct*")
 	Return DllStructGetData($tText, 1)
 EndFunc   ;==>_GUICtrlRichEdit_GetTextInRange
 
@@ -2866,7 +2867,7 @@ Func _GUICtrlRichEdit_GetXYFromCharPos($hWnd, $iCharPos)
 	If $iCharPos > _GUICtrlRichEdit_GetTextLength($hWnd) Then Return SetError(1022, 0, 0)
 
 	Local $tPoint = DllStructCreate($tagPOINT)
-	_SendMessage($hWnd, $EM_POSFROMCHAR, DllStructGetPtr($tPoint), $iCharPos, 0, "ptr", "lparam")
+	_SendMessage($hWnd, $EM_POSFROMCHAR, $tPoint, $iCharPos, 0, "struct*", "lparam")
 	Local $aRet[2]
 	$aRet[0] = DllStructGetData($tPoint, "X")
 	$aRet[1] = DllStructGetData($tPoint, "Y")
@@ -2923,7 +2924,7 @@ Func _GUICtrlRichEdit_HideSelection($hWnd, $fHide = True)
 	If Not IsBool($fHide) Then Return SetError(102, 0, False)
 
 	_SendMessage($hWnd, $EM_HIDESELECTION, $fHide, 0)
-	_WinAPI_SetFocus($hWnd)		; need to have the selection updated
+	_WinAPI_SetFocus($hWnd) ; need to have the selection updated
 EndFunc   ;==>_GUICtrlRichEdit_HideSelection
 
 ; #FUNCTION# ====================================================================================================================
@@ -2954,12 +2955,12 @@ Func _GUICtrlRichEdit_InsertText($hWnd, $sText)
 	Local $iRet
 	If StringLeft($sText, 5) <> "{\rtf" And StringLeft($sText, 5) <> "{urtf" Then
 		DllStructSetData($tSetText, 2, $CP_UNICODE)
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "wstr")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "wstr")
 	Else
 		DllStructSetData($tSetText, 2, $CP_ACP)
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "STR")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "STR")
 	EndIf
-	If Not $iRet Then Return SetError(103, 0, False)	; cannot be set
+	If Not $iRet Then Return SetError(103, 0, False) ; cannot be set
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_InsertText
 
@@ -3005,7 +3006,7 @@ Func _GUICtrlRichEdit_IsTextSelected($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $tCharRange = DllStructCreate($tagCHARRANGE)
-	_SendMessage($hWnd, $EM_EXGETSEL, 0, DllStructGetPtr($tCharRange))
+	_SendMessage($hWnd, $EM_EXGETSEL, 0, $tCharRange, 0, "wparam", "struct*")
 	Return DllStructGetData($tCharRange, 2) <> DllStructGetData($tCharRange, 1)
 EndFunc   ;==>_GUICtrlRichEdit_IsTextSelected
 
@@ -3124,14 +3125,13 @@ Func _GUICtrlRichEdit_ReplaceText($hWnd, $sText, $fCanUndo = True)
 
 	Local $tText = DllStructCreate("wchar Text[" & StringLen($sText) + 1 & "]")
 	DllStructSetData($tText, "Text", $sText)
-	Local $ptrBuf = DllStructGetPtr($tText)
 	If _WinAPI_InProcess($hWnd, $gh_RELastWnd) Then
-		_SendMessage($hWnd, $EM_REPLACESEL, $fCanUndo, $ptrBuf, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $EM_REPLACESEL, $fCanUndo, $tText, 0, "wparam", "struct*")
 	Else
 		Local $iText = DllStructGetSize($tText)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iText, $tMemMap)
-		_MemWrite($tMemMap, $ptrBuf)
+		_MemWrite($tMemMap, $tText)
 		_SendMessage($hWnd, $EM_REPLACESEL, $fCanUndo, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -3351,7 +3351,7 @@ Func _GUICtrlRichEdit_SetCharAttributes($hWnd, $sStatesAndAtts, $fWord = False)
 	DllStructSetData($tCharFormat, 2, $iMask)
 	DllStructSetData($tCharFormat, 3, $iEffects)
 	Local $iWparam = _Iif($fWord, BitOR($SCF_WORD, $SCF_SELECTION), $SCF_SELECTION)
-	Local $iRet = _SendMessage($hWnd, $EM_SETCHARFORMAT, $iWparam, DllStructGetPtr($tCharFormat))
+	Local $iRet = _SendMessage($hWnd, $EM_SETCHARFORMAT, $iWparam, $tCharFormat, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(700, 0, False)
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetCharAttributes
@@ -3384,16 +3384,16 @@ Func _GUICtrlRichEdit_SetCharBkColor($hWnd, $iBkColor = Default)
 		DllStructSetData($tCharFormat, 3, $CFE_AUTOBACKCOLOR)
 		$iBkColor = 0
 	Else
-		If BitAnd($iBkColor, 0xff000000) Then Return SetError(1022, 0, False)
+		If BitAND($iBkColor, 0xff000000) Then Return SetError(1022, 0, False)
 	EndIf
 
 	DllStructSetData($tCharFormat, 2, $CFM_BACKCOLOR)
 	DllStructSetData($tCharFormat, 12, $iBkColor)
-	Local $ai = _GuiCtrlRichEdit_GetSel($hWnd)
+	Local $ai = _GUICtrlRichEdit_GetSel($hWnd)
 	If $ai[0] = $ai[1] Then
-		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_ALL, DllStructGetPtr($tCharFormat)) <> 0
+		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_ALL, $tCharFormat, 0, "wparam", "struct*") <> 0
 	Else
-		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, DllStructGetPtr($tCharFormat)) <> 0
+		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*") <> 0
 	EndIf
 EndFunc   ;==>_GUICtrlRichEdit_SetCharBkColor
 
@@ -3425,16 +3425,16 @@ Func _GUICtrlRichEdit_SetCharColor($hWnd, $iColor = Default)
 		DllStructSetData($tCharFormat, 3, $CFE_AUTOCOLOR)
 		$iColor = 0
 	Else
-		If BitAnd($iColor, 0xff000000) Then Return SetError(1022, 0, False)
+		If BitAND($iColor, 0xff000000) Then Return SetError(1022, 0, False)
 	EndIf
 
 	DllStructSetData($tCharFormat, 2, $CFM_COLOR)
 	DllStructSetData($tCharFormat, 6, $iColor)
-	Local $ai = _GuiCtrlRichEdit_GetSel($hWnd)
+	Local $ai = _GUICtrlRichEdit_GetSel($hWnd)
 	If $ai[0] = $ai[1] Then
-		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_ALL, DllStructGetPtr($tCharFormat)) <> 0
+		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_ALL, $tCharFormat, 0, "wparam", "struct*") <> 0
 	Else
-		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, DllStructGetPtr($tCharFormat)) <> 0
+		Return _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*") <> 0
 	EndIf
 EndFunc   ;==>_GUICtrlRichEdit_SetCharColor
 
@@ -3465,7 +3465,7 @@ Func _GUICtrlRichEdit_SetBkColor($hWnd, $iBngColor = Default)
 		$fSysColor = True
 		$iBngColor = 0
 	Else
-		If BitAnd($iBngColor, 0xff000000) Then Return SetError(1022, 0, False)
+		If BitAND($iBngColor, 0xff000000) Then Return SetError(1022, 0, False)
 	EndIf
 
 	_SendMessage($hWnd, $EM_SETBKGNDCOLOR, $fSysColor, $iBngColor)
@@ -3565,7 +3565,7 @@ Func _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops, $fRedraw = True)
 	Else
 		Return SetError(1021, 0, False)
 	EndIf
-	Local $fResult = _SendMessage($hWnd, $EM_SETTABSTOPS, $iWparam, DllStructGetPtr($tTabStops), 0, "wparam", "ptr") <> 0
+	Local $fResult = _SendMessage($hWnd, $EM_SETTABSTOPS, $iWparam, $tTabStops, 0, "wparam", "struct*") <> 0
 	If $fRedraw Then _WinAPI_InvalidateRect($hWnd) ; redraw the control
 	Return $fResult
 EndFunc   ;==>_GUICtrlRichEdit_SetTabStops
@@ -3731,7 +3731,7 @@ Func _GUICtrlRichEdit_SetFont($hWnd, $iPoints = Default, $sName = Default, $iCha
 	EndIf
 	DllStructSetData($tCharFormat, 2, $iDwMask)
 
-	Local $iRet = _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, DllStructGetPtr($tCharFormat), 0, "wparam", "ptr")
+	Local $iRet = _SendMessage($hWnd, $EM_SETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(@error + 200, 0, False)
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetFont
@@ -3771,12 +3771,12 @@ Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight 
 	If Not ($iBottom = Default Or __GCR_IsNumeric($iBottom, ">0")) Then Return SetError(1024, 0, False)
 
 	If @NumParams = 1 Then
-		Local $aPos= ControlGetPos($hWnd,"","")
+		Local $aPos = ControlGetPos($hWnd, "", "")
 		$iLeft = 2
 		$iTop = 2
 		$iRight = $aPos[2]
 		$iBottom = $aPos[3]
-		_GUICtrlRichEdit_SetRECT( $hWnd, $iLeft, $iTop, $iRight, $iBottom)
+		_GUICtrlRichEdit_SetRECT($hWnd, $iLeft, $iTop, $iRight, $iBottom)
 		Return True
 	Else
 		Local $as = _GUICtrlRichEdit_GetRECT($hWnd)
@@ -3800,7 +3800,7 @@ Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight 
 		DllStructSetData($tRect, "Right", Number($iRight))
 		DllStructSetData($tRect, "Bottom", Number($iBottom))
 		Local $iMsg = _Iif($bRedraw, $EM_SETRECT, $EM_SETRECTNP)
-		_SendMessage($hWnd, $iMsg, 0, DllStructGetPtr($tRect), 0, "wparam", "ptr")
+		_SendMessage($hWnd, $iMsg, 0, $tRect, 0, "wparam", "struct*")
 	EndIf
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetRECT
@@ -3878,7 +3878,7 @@ Func _GUICtrlRichEdit_SetParaAlignment($hWnd, $sAlignment)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
 	DllStructSetData($tParaFormat, 2, $PFM_ALIGNMENT)
 	DllStructSetData($tParaFormat, 8, $iAlignment)
-	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat)) <> 0
+	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetParaAlignment
 
 ; #FUNCTION# ====================================================================================================================
@@ -3963,7 +3963,7 @@ Func _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
 	DllStructSetData($tParaFormat, 2, $iMask)
 	DllStructSetData($tParaFormat, 4, $iEffects)
-	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat), 0, "wparam", "ptr") <> 0
+	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetParaAttributes
 
 ; #FUNCTION# ====================================================================================================================
@@ -4094,7 +4094,7 @@ Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = D
 	;	DllStructGetData($tParaFormat, 23, $iWidth * $_GRE_TwipsPeSpaceUnit)
 	DllStructSetData($tParaFormat, "wBorders", $iBorders)
 	DllStructSetData($tParaFormat, "dwMask", $PFM_BORDER)
-	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat), 0, "wparam", "ptr") <> 0
+	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetParaBorder
 
 ; #FUNCTION# ====================================================================================================================
@@ -4155,7 +4155,7 @@ Func _GUICtrlRichEdit_SetParaIndents($hWnd, $vLeft = Default, $iRight = Default,
 	DllStructSetData($tParaFormat, "dxOffset", $iDxOfs * $_GRE_TwipsPeSpaceUnit)
 	DllStructSetData($tParaFormat, "dxRightIndent", $iRight * $_GRE_TwipsPeSpaceUnit)
 	DllStructSetData($tParaFormat, 2, BitOR($PFM_STARTINDENT, $PFM_OFFSET, $PFM_RIGHTINDENT)) ; absolute
-	Local $iRet = _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat))
+	Local $iRet = _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(700, 0, False)
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetParaIndents
@@ -4216,7 +4216,7 @@ Func _GUICtrlRichEdit_SetParaNumbering($hWnd, $sStyle, $iTextToNbrSpace = Defaul
 		DllStructSetData($tParaFormat, 21, $iTwips)
 	EndIf
 	DllStructSetData($tParaFormat, 2, $iPFM)
-	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat)) <> 0
+	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetParaNumbering
 
 ; #FUNCTION# ====================================================================================================================
@@ -4276,7 +4276,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaNumbering
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight = Default, $sStyle = Default, $sForeColor = Default, $sBackColor = Default)
-	Local $iS = 0	; perhaps a BUG (jpm) only referenced
+	Local $iS = 0 ; perhaps a BUG (jpm) only referenced
 	Local Const $sStyles = ";non;dhz;dvt;ddd;dud;dgr;dtr;lhz;lrt;ldd;lud;lgr;ltr;"
 	Local Const $sClrs = ";blk;blu;cyn;grn;mag;red;yel;whi;dbl;dgn;dmg;drd;dyl;dgy;lgy;"
 
@@ -4330,7 +4330,7 @@ Func _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight = Default, $sStyle = Defaul
 	$iN = $iStyle + BitShift($iFore, -4) + BitShift($iBack, -8)
 	DllStructSetData($tParaFormat, "wShadingStyle", $iN)
 	DllStructSetData($tParaFormat, "dwMask", $PFM_SHADING)
-	Local $iRet = _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat))
+	Local $iRet = _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*")
 	If Not $iRet Then Return SetError(700, 0, False)
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetParaShading
@@ -4408,7 +4408,7 @@ Func _GUICtrlRichEdit_SetParaSpacing($hWnd, $vInter = Default, $iBefore = Defaul
 	EndIf
 	If $iMask <> 0 Then
 		DllStructSetData($tParaFormat, "dwMask", $iMask)
-		Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat)) <> 0
+		Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 	Else
 		Return True
 	EndIf
@@ -4490,7 +4490,7 @@ Func _GUICtrlRichEdit_SetParaTabStops($hWnd, $sTabStops)
 		DllStructSetData($tParaFormat, "cTabCount", $asTabs[0])
 	EndIf
 	DllStructSetData($tParaFormat, "dwMask", $PFM_TABSTOPS)
-	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, DllStructGetPtr($tParaFormat)) <> 0
+	Return _SendMessage($hWnd, $EM_SETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetParaTabStops
 
 ; #FUNCTION# ====================================================================================================================
@@ -4579,7 +4579,7 @@ Func _GUICtrlRichEdit_SetScrollPos($hWnd, $iX, $iY)
 	Local $tPoint = DllStructCreate($tagPOINT)
 	DllStructSetData($tPoint, 1, $iX)
 	DllStructSetData($tPoint, 2, $iY)
-	Return _SendMessage($hWnd, $EM_SETSCROLLPOS, 0, DllStructGetPtr($tPoint), 0) <> 0
+	Return _SendMessage($hWnd, $EM_SETSCROLLPOS, 0, $tPoint, 0, "wparam", "struct*") <> 0
 EndFunc   ;==>_GUICtrlRichEdit_SetScrollPos
 
 ; #FUNCTION# ====================================================================================================================
@@ -4613,7 +4613,7 @@ Func _GUICtrlRichEdit_SetSel($hWnd, $iAnchor, $iActive, $fHideSel = False)
 	If Not IsBool($fHideSel) Then Return SetError(104, 0, False)
 	_SendMessage($hWnd, $EM_SETSEL, $iAnchor, $iActive)
 	If $fHideSel Then _SendMessage($hWnd, $EM_HIDESELECTION, $fHideSel)
-	_WinAPI_SetFocus($hWnd)		; need to have the selection updated
+	_WinAPI_SetFocus($hWnd) ; need to have the selection updated
 	Return True
 EndFunc   ;==>_GUICtrlRichEdit_SetSel
 
@@ -4677,9 +4677,9 @@ Func _GUICtrlRichEdit_SetText($hWnd, $sText)
 	Local $iRet
 	If StringLeft($sText, 5) <> "{\rtf" And StringLeft($sText, 5) <> "{urtf" Then
 		DllStructSetData($tSetText, 2, $CP_UNICODE)
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "wstr")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "wstr")
 	Else
-		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, DllStructGetPtr($tSetText), $sText, 0, "ptr", "STR")
+		$iRet = _SendMessage($hWnd, $EM_SETTEXTEX, $tSetText, $sText, 0, "struct*", "STR")
 	EndIf
 	If Not $iRet Then Return SetError(700, 0, False)
 	Return True
@@ -4748,7 +4748,7 @@ Func _GUICtrlRichEdit_StreamFromFile($hWnd, $sFilespec)
 	If Not _GUICtrlRichEdit_IsTextSelected($hWnd) Then
 		_GUICtrlRichEdit_SetText($hWnd, "")
 	EndIf
-	Local $iQchs = _SendMessage($hWnd, $EM_STREAMIN, $iWparam, DllStructGetPtr($tEditStream))
+	Local $iQchs = _SendMessage($hWnd, $EM_STREAMIN, $iWparam, $tEditStream, 0, "wparam", "struct*")
 	FileClose($hFile)
 	Local $iError = DllStructGetData($tEditStream, "dwError")
 	If $iError <> 1 Then SetError(700, $iError, False)
@@ -4790,7 +4790,7 @@ Func _GUICtrlRichEdit_StreamFromVar($hWnd, $sVar)
 	If Not _GUICtrlRichEdit_IsTextSelected($hWnd) Then
 		_GUICtrlRichEdit_SetText($hWnd, "")
 	EndIf
-	_SendMessage($hWnd, $EM_STREAMIN, $iWparam, DllStructGetPtr($tEditStream))
+	_SendMessage($hWnd, $EM_STREAMIN, $iWparam, $tEditStream, 0, "wparam", "struct*")
 	Local $iError = DllStructGetData($tEditStream, "dwError")
 	If $iError <> 1 Then Return SetError(700, $iError, False)
 	Return True
@@ -4851,13 +4851,13 @@ Func _GUICtrlRichEdit_StreamToFile($hWnd, $sFilespec, $fIncludeCOM = True, $iOpt
 	If $iCodePage <> 0 Then
 		$iWparam = BitOR($iWparam, $SF_USECODEPAGE, BitShift($iCodePage, -16))
 	EndIf
-	Local $tEditStream	= DllStructCreate($tagEDITSTREAM)
+	Local $tEditStream = DllStructCreate($tagEDITSTREAM)
 	DllStructSetData($tEditStream, "pfnCallback", DllCallbackGetPtr($_GRC_StreamToFileCallback))
 	Local $hFile = FileOpen($sFilespec, 2) ; overwrite
 	If $hFile - 1 Then Return SetError(102, 0, False)
 
 	DllStructSetData($tEditStream, "dwCookie", $hFile) ; -> Send handle to CallbackFunc
-	_SendMessage($hWnd, $EM_STREAMOUT, $iWparam, DllStructGetPtr($tEditStream))
+	_SendMessage($hWnd, $EM_STREAMOUT, $iWparam, $tEditStream, 0, "wparam", "struct*")
 	FileClose($hFile)
 	Local $iError = DllStructGetData($tEditStream, "dwError")
 	If $iError <> 0 Then SetError(700, $iError, False)
@@ -4922,11 +4922,11 @@ Func _GUICtrlRichEdit_StreamToVar($hWnd, $fRtf = True, $fIncludeCOM = True, $iOp
 		$iWparam = BitOR($iWparam, $SF_USECODEPAGE, BitShift($iCodePage, -16))
 	EndIf
 
-	Local $tEditStream	= DllStructCreate($tagEDITSTREAM)
+	Local $tEditStream = DllStructCreate($tagEDITSTREAM)
 	DllStructSetData($tEditStream, "pfnCallback", DllCallbackGetPtr($_GRC_StreamToVarCallback))
 
 	$_GRC_sStreamVar = ""
-	_SendMessage($hWnd, $EM_STREAMOUT, $iWparam, DllStructGetPtr($tEditStream))
+	_SendMessage($hWnd, $EM_STREAMOUT, $iWparam, $tEditStream, 0, "wparam", "struct*")
 	Local $iError = DllStructGetData($tEditStream, "dwError")
 	If $iError <> 0 Then SetError(700, $iError, "")
 	Return $_GRC_sStreamVar
@@ -5360,7 +5360,7 @@ Func __GCR_SendGetCharFormatMessage($hWnd, $tCharFormat)
 		$aiAnchAct = _GUICtrlRichEdit_GetSelAA($hWnd)
 		_GUICtrlRichEdit_SetSel($hWnd, $aiAnchAct[0], $aiAnchAct[0] + 1, True) ; select first char, hiding selection
 	EndIf
-	Local $iRet = _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, DllStructGetPtr($tCharFormat))
+	Local $iRet = _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*")
 	If $fIsSel Then _GUICtrlRichEdit_SetSel($hWnd, $aiAnchAct[0], $aiAnchAct[1])
 	Return $iRet
 EndFunc   ;==>__GCR_SendGetCharFormatMessage
@@ -5390,9 +5390,9 @@ Func __GCR_SendGetParaFormatMessage($hWnd, $tParaFormat)
 		_GUICtrlRichEdit_SetSel($hWnd, $iN, $iN + 1, True)
 	EndIf
 
-	_SendMessage($hWnd, $EM_GETPARAFORMAT, 0, DllStructGetPtr($tParaFormat), 0, "wparam", "ptr")
+	_SendMessage($hWnd, $EM_GETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*")
 
-	If Not $fIsSel Then	_GUICtrlRichEdit_SetSel($hWnd, $iInsPt, $iInsPt)
+	If Not $fIsSel Then _GUICtrlRichEdit_SetSel($hWnd, $iInsPt, $iInsPt)
 
 	Return True
 EndFunc   ;==>__GCR_SendGetParaFormatMessage

@@ -238,13 +238,13 @@ Func _WordAttach($s_string, $s_mode = "FilePath")
 				Case "filename"
 					If $o_window.Document.Name = $s_string Then
 						$i_ErrorStatusCode = $_WordStatus_Success
-						$o_window.Activate
+						$o_window.Activate()
 						$return = $o_window.Application
 					EndIf
 				Case "filepath"
 					If $o_window.Document.FullName = $s_string Then
 						$i_ErrorStatusCode = $_WordStatus_Success
-						$o_window.Activate
+						$o_window.Activate()
 						$return = $o_window.Application
 					EndIf
 				Case "hwnd"
@@ -252,20 +252,20 @@ Func _WordAttach($s_string, $s_mode = "FilePath")
 					If IsHWnd($h_hwnd) Then
 						If $h_hwnd = $s_string Then
 							$i_ErrorStatusCode = $_WordStatus_Success
-							$o_window.Activate
+							$o_window.Activate()
 							$return = $o_window.Application
 						EndIf
 					EndIf
 				Case "text"
-					If StringInStr($o_window.Document.Range.Text, $s_string) Then
+					If StringInStr($o_window.Document.Range().Text, $s_string) Then
 						$i_ErrorStatusCode = $_WordStatus_Success
-						$o_window.Activate
+						$o_window.Activate()
 						$return = $o_window.Application
 					EndIf
 				Case "title"
 					If ($o_window.Caption & " - " & $o_window.Application.Caption) = $s_string Then
 						$i_ErrorStatusCode = $_WordStatus_Success
-						$o_window.Activate
+						$o_window.Activate()
 						$return = $o_window.Application
 					EndIf
 				Case Else
@@ -289,13 +289,13 @@ Func _WordAttach($s_string, $s_mode = "FilePath")
 			Return SetError($_WordStatus_Success, 0, $return)
 		Case $_WordStatus_NoMatch
 			__WordErrorNotify("Warning", "_WordAttach", "$_WordStatus_NoMatch")
-			Return SetError($_WordStatus_NoMatch, 0 ,0)
+			Return SetError($_WordStatus_NoMatch, 0, 0)
 		Case $_WordStatus_InvalidValue
 			__WordErrorNotify("Error", "_WordAttach", "$_WordStatus_InvalidValue", $s_ErrorMSG)
 			Return SetError($_WordStatus_InvalidValue, $i_Extended, 0)
 		Case Else
 			__WordErrorNotify("Error", "_WordAttach", "$_WordStatus_GeneralError", "Invalid Error Status - Notify Word.au3 developer")
-			Return SetError($_WordStatus_GeneralError, 0 ,0)
+			Return SetError($_WordStatus_GeneralError, 0, 0)
 	EndSwitch
 EndFunc   ;==>_WordAttach
 
@@ -334,9 +334,9 @@ Func _WordQuit(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 1, $f_R
 		Return SetError($_WordStatus_InvalidObjectType, 1, 0)
 	EndIf
 
-	$o_object.Quit ($i_SaveChanges, $i_OriginalFormat, $f_RouteDocument)
+	$o_object.Quit($i_SaveChanges, $i_OriginalFormat, $f_RouteDocument)
 	$o_object = 0
-	Return SetError($_WordStatus_Success, 0 ,1)
+	Return SetError($_WordStatus_Success, 0, 1)
 EndFunc   ;==>_WordQuit
 
 ; #FUNCTION# ====================================================================================================================
@@ -374,7 +374,7 @@ Func _WordDocAdd(ByRef $o_object, $i_DocumentType = 0, $s_Template = "", $f_NewT
 		Return SetError($_WordStatus_InvalidObjectType, 1, 0)
 	EndIf
 	;
-	Local $o_doc = $o_object.Documents.Add ($s_Template, $f_NewTemplate, $i_DocumentType)
+	Local $o_doc = $o_object.Documents.Add($s_Template, $f_NewTemplate, $i_DocumentType)
 	If Not IsObj($o_doc) Then
 		__WordErrorNotify("Error", "_WordDocAdd", "", "Document Object Creation Failed")
 		Return SetError($_WordStatus_GeneralError, 0, 0)
@@ -455,7 +455,7 @@ Func _WordDocOpen(ByRef $o_object, $s_FilePath, $f_ConfirmConversions = 0, $i_Fo
 		EndIf
 	EndIf
 
-	$o_doc = $o_object.Documents.Open ($s_FilePath, $f_ConfirmConversions, $f_ReadOnly, $f_AddToRecentFiles, _
+	$o_doc = $o_object.Documents.Open($s_FilePath, $f_ConfirmConversions, $f_ReadOnly, $f_AddToRecentFiles, _
 			$s_PasswordDocument, "", $f_Revert, $s_WritePasswordDocument, "", $i_Format)
 	If Not IsObj($o_doc) Then
 		__WordErrorNotify("Error", "_WordDocOpen", "", "Document Object Creation Failed")
@@ -563,7 +563,7 @@ Func _WordDocSaveAs(ByRef $o_object, $s_FilePath = "", $i_Format = 0, $f_ReadOnl
 		$s_FilePath = $o_object.FullName
 	EndIf
 
-	$o_object.SaveAs ($s_FilePath, $i_Format, $f_LockComments, $s_Password, _
+	$o_object.SaveAs($s_FilePath, $i_Format, $f_LockComments, $s_Password, _
 			$f_AddToRecentFiles, $s_WritePassword, $f_ReadOnlyRecommended)
 	Return SetError($_WordStatus_Success, 0, 1)
 EndFunc   ;==>_WordDocSaveAs
@@ -602,7 +602,7 @@ Func _WordDocClose(ByRef $o_object, $i_SaveChanges = -2, $i_OriginalFormat = 2, 
 		Return SetError($_WordStatus_InvalidObjectType, 1, 0)
 	EndIf
 
-	$o_object.Close ($i_SaveChanges, $i_OriginalFormat, $f_RouteDocument)
+	$o_object.Close($i_SaveChanges, $i_OriginalFormat, $f_RouteDocument)
 	Return SetError($_WordStatus_Success, 0, 1)
 EndFunc   ;==>_WordDocClose
 
@@ -642,7 +642,7 @@ Func _WordDocGetCollection(ByRef $o_object, $v_index = -1)
 			Case $v_index = 0
 				Return SetError($_WordStatus_Success, $o_object.Documents.Count, $o_object.ActiveDocument)
 			Case $v_index > 0 And $v_index <= $o_object.Documents.Count
-				Return SetError($_WordStatus_Success, $o_object.Documents.Count, $o_object.Documents ($v_index))
+				Return SetError($_WordStatus_Success, $o_object.Documents.Count, $o_object.Documents($v_index))
 			Case $v_index < -1
 				__WordErrorNotify("Error", "_WordDocGetCollection", "$_WordStatus_InvalidValue")
 				Return SetError($_WordStatus_InvalidValue, 2, 0)
@@ -730,7 +730,7 @@ Func _WordDocFindReplace(ByRef $o_object, $s_FindText = "", $s_ReplaceWith = "",
 		Case $v_SearchRange = -1
 			$v_SearchRange = $o_object.Application.Selection.Range
 		Case $v_SearchRange = 0
-			$v_SearchRange = $o_object.Range
+			$v_SearchRange = $o_object.Range()
 		Case $v_SearchRange > -1
 			__WordErrorNotify("Error", "_WordDocFindReplace", "$_WordStatus_InvalidValue")
 			Return SetError($_WordStatus_InvalidValue, 5, 0)
@@ -744,8 +744,8 @@ Func _WordDocFindReplace(ByRef $o_object, $s_FindText = "", $s_ReplaceWith = "",
 	Local $return
 	Local $o_Find = $v_SearchRange.Find
 	With $o_Find
-		.ClearFormatting ()
-		.Replacement.ClearFormatting ()
+		.ClearFormatting()
+		.Replacement.ClearFormatting()
 		$return = .Execute($s_FindText, $f_MatchCase, $f_MatchWholeWord, $f_MatchWildcards, $f_MatchSoundsLike, _
 				$f_MatchAllWordForms, $f_Forward, $i_Wrap, $f_Format, $s_ReplaceWith, $i_Replace)
 	EndWith
@@ -874,7 +874,7 @@ Func _WordDocPrint(ByRef $o_object, $f_Background = 0, $i_Copies = 1, $i_Orienta
 	$i_From = String($i_From)
 	$i_To = String($i_To)
 	If Not $i_ErrorStatusCode Then
-		$o_object.PrintOut ($f_Background, 0, $i_Range, "", $i_From, $i_To, $i_Item, $i_Copies, $s_Pages, $i_PageType, 0, $f_Collate)
+		$o_object.PrintOut($f_Background, 0, $i_Range, "", $i_From, $i_To, $i_Item, $i_Copies, $s_Pages, $i_PageType, 0, $f_Collate)
 		If @error = $_WordStatus_ComError Then
 			$i_ErrorStatusCode = $_WordStatus_ComError
 		EndIf
@@ -951,7 +951,7 @@ Func _WordDocPropertyGet(ByRef $o_object, $v_property)
 				$s_ErrorMSG = "The specified property is not supported."
 				$i_Extended = 2
 			Case 1 To 30
-				$s_Property = $o_object.BuiltInDocumentProperties ($v_property).value
+				$s_Property = $o_object.BuiltInDocumentProperties($v_property).value
 				If @error = $_WordStatus_ComError Then
 					$i_ErrorStatusCode = $_WordStatus_ComError
 					$s_ErrorMSG = "The specified property has not been defined."
@@ -966,14 +966,14 @@ Func _WordDocPropertyGet(ByRef $o_object, $v_property)
 		Switch $v_property
 			Case "Title", "Subject", "Author", "Keywords", "Comments", "Template", "Last Author", "Revision Number", "Application Name", _
 					"Last Print Date", "Creation Date", "Last Save Time", "Total Editing Time", "Security", "Category", "Manager", "Company", "Hyperlink base"
-				$s_Property = $o_object.BuiltInDocumentProperties ($v_property).value
+				$s_Property = $o_object.BuiltInDocumentProperties($v_property).value
 				If @error = $_WordStatus_ComError Then
 					$i_ErrorStatusCode = $_WordStatus_ComError
 					$s_ErrorMSG = "The specified property has not been defined."
 					$i_Extended = 2
 				EndIf
 			Case "Pages", "Words", "Characters", "Characters (with spaces)", "Bytes", "Lines", "Paragraphs"
-				$s_Property = $o_object.BuiltInDocumentProperties ("Number of " & $v_property).value
+				$s_Property = $o_object.BuiltInDocumentProperties("Number of " & $v_property).value
 				If @error = $_WordStatus_ComError Then
 					$i_ErrorStatusCode = $_WordStatus_ComError
 					$s_ErrorMSG = "The specified property has not been defined."
@@ -1046,7 +1046,7 @@ Func _WordDocPropertySet(ByRef $o_object, $v_property, $v_newvalue)
 	If IsNumber($v_property) Then
 		Switch $v_property
 			Case 1 To 6, 9, 18, 20, 21, 29
-				$o_object.BuiltInDocumentProperties ($v_property).value = $v_newvalue
+				$o_object.BuiltInDocumentProperties($v_property).value = $v_newvalue
 				If @error = $_WordStatus_ComError Then
 					$i_ErrorStatusCode = $_WordStatus_ComError
 					$s_ErrorMSG = "There was an error while setting the selected property."
@@ -1065,7 +1065,7 @@ Func _WordDocPropertySet(ByRef $o_object, $v_property, $v_newvalue)
 		Switch $v_property
 			Case "Title", "Subject", "Author", "Keywords", "Comments", "Template", _
 					"Application Name", "Category", "Manager", "Company", "Hyperlink base"
-				$o_object.BuiltInDocumentProperties ($v_property).value = $v_newvalue
+				$o_object.BuiltInDocumentProperties($v_property).value = $v_newvalue
 				If @error = $_WordStatus_ComError Then
 					$i_ErrorStatusCode = $_WordStatus_ComError
 					$s_ErrorMSG = "There was an error while setting the selected property."
@@ -1129,7 +1129,7 @@ Func _WordDocLinkGetCollection(ByRef $o_object, $i_index = -1)
 		Case $i_index = -1
 			Return SetError($_WordStatus_Success, $o_object.Hyperlinks.Count, $o_object.Hyperlinks)
 		Case $i_index > 0 And $i_index <= $o_object.Hyperlinks.Count
-			Return SetError($_WordStatus_Success, $o_object.Hyperlinks.Count, $o_object.Hyperlinks.Item ($i_index))
+			Return SetError($_WordStatus_Success, $o_object.Hyperlinks.Count, $o_object.Hyperlinks.Item($i_index))
 		Case $i_index < -1 Or $i_index = 0
 			__WordErrorNotify("Error", "_WordDocLinkGetCollection", "$_WordStatus_InvalidValue")
 			Return SetError($_WordStatus_InvalidValue, 2, 0)
@@ -1177,14 +1177,14 @@ Func _WordDocAddLink(ByRef $o_object, $o_Anchor = "", $s_Address = "", $s_SubAdd
 	EndIf
 
 	If $o_Anchor = "" Then
-		$o_Anchor = $o_object.Range
+		$o_Anchor = $o_object.Range()
 	EndIf
 
 	If $s_Address = "" Then
 		$s_Address = $o_object.FullName
 	EndIf
 
-	$o_object.Hyperlinks.Add ($o_Anchor, $s_Address, $s_SubAddress, $s_ScreenTip, $s_TextToDisplay, $s_Target)
+	$o_object.Hyperlinks.Add($o_Anchor, $s_Address, $s_SubAddress, $s_ScreenTip, $s_TextToDisplay, $s_Target)
 	Return SetError($_WordStatus_Success, 0, 1)
 EndFunc   ;==>_WordDocAddLink
 
@@ -1250,9 +1250,9 @@ Func _WordDocAddPicture(ByRef $o_object, $s_FilePath, $f_LinkToFile = 0, $f_Save
 	_WordErrorNotify(False)
 
 	If $f_Range Then
-		$o_Shape = $o_object.InlineShapes.AddPicture ($s_FilePath, $f_LinkToFile, $f_SaveWithDocument, $o_Range)
+		$o_Shape = $o_object.InlineShapes.AddPicture($s_FilePath, $f_LinkToFile, $f_SaveWithDocument, $o_Range)
 	Else
-		$o_Shape = $o_object.InlineShapes.AddPicture ($s_FilePath, $f_LinkToFile, $f_SaveWithDocument)
+		$o_Shape = $o_object.InlineShapes.AddPicture($s_FilePath, $f_LinkToFile, $f_SaveWithDocument)
 	EndIf
 	If @error = $_WordStatus_ComError Then $i_ErrorStatusCode = $_WordStatus_ComError
 
@@ -1453,70 +1453,70 @@ Func _WordPropertyGet(ByRef $o_object, $s_Property)
 	$s_Property = StringLower($s_Property)
 	Switch $s_Property
 		Case "activeprinter"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.ActivePrinter ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.ActivePrinter)
 		Case "capslock"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.CapsLock ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.CapsLock)
 		Case "screentips"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.DisplayScreenTips ())
+				Return SetError($_WordStatus_Success, 0, $o_object.DisplayScreenTips)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayScreenTips ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayScreenTips)
 			EndIf
 		Case "scrollbars"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayScrollBars ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayScrollBars)
 		Case "statusbar"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayStatusBar ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.DisplayStatusBar)
 		Case "height"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.Height ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Height)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Height ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Height)
 			EndIf
 		Case "language"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.Language ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.Language)
 		Case "left"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0,$o_object.Left ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Left)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Left ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Left)
 			EndIf
 		Case "numlock"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.Numlock ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.Numlock)
 		Case "path"
 			If __WordIsObjType($o_object, "document") Then
-				Return SetError($_WordStatus_Success, 0 ,$o_object.Path ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Path)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Path ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Path)
 			EndIf
 		Case "screenupdating"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.ScreenUpdating ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.ScreenUpdating)
 		Case "startuppath"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.StartupPath ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.StartupPath)
 		Case "top"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.Top ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Top)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Top ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Top)
 			EndIf
 		Case "version"
-			Return SetError($_WordStatus_Success, 0, $o_object.Application.Version ())
+			Return SetError($_WordStatus_Success, 0, $o_object.Application.Version)
 		Case "visible"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.Visible ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Visible)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Visible ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Visible)
 			EndIf
 		Case "width"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.Width ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Width)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.Width ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.Width)
 			EndIf
 		Case "windowstate"
 			If __WordIsObjType($o_object, "window") Then
-				Return SetError($_WordStatus_Success, 0, $o_object.WindowState ())
+				Return SetError($_WordStatus_Success, 0, $o_object.WindowState)
 			Else
-				Return SetError($_WordStatus_Success, 0, $o_object.Application.WindowState ())
+				Return SetError($_WordStatus_Success, 0, $o_object.Application.WindowState)
 			EndIf
 		Case Else
 			; Unsupported Property
@@ -1592,7 +1592,7 @@ Func _WordPropertySet(ByRef $o_object, $s_Property, $v_newvalue)
 			EndIf
 		Case "visible"
 			If __WordIsObjType($o_object, "window") Then
-				$o_object.visible = $v_newvalue
+				$o_object.Visible = $v_newvalue
 			Else
 				$o_object.Application.Visible = $v_newvalue
 			EndIf
@@ -1715,7 +1715,7 @@ Func __WordInternalErrorHandlerRegister()
 	$oWordErrorHandler = ""
 	$oWordErrorHandler = ObjEvent("AutoIt.Error", "__WordInternalErrorHandler")
 	If IsObj($oWordErrorHandler) Then Return SetError($_WordStatus_Success, 0, 1)
-	Return SetError($_WordStatus_GeneralError,0, 0)
+	Return SetError($_WordStatus_GeneralError, 0, 0)
 EndFunc   ;==>__WordInternalErrorHandlerRegister
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

@@ -4,14 +4,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Internet Explorer Automation UDF Library for AutoIt3
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.7.20++
 ; Language ......: English
 ; Description ...: A collection of functions for creating, attaching to, reading from and manipulating Internet Explorer.
 ; Author(s) .....: DaleHohm, big_daddy
 ; Dll ...........: user32.dll, ole32.dll, oleacc.dll
 ; ===============================================================================================================================
 
-#Region Header
+#region Header
 #cs
 	Title:   Internet Explorer Automation UDF Library for AutoIt3
 	Filename:  IE.au3
@@ -20,111 +20,111 @@
 	Version:  V2.4-1
 	Last Update: 4/26/08
 	Requirements: AutoIt3 3.2 or higher, Developed/Tested on WindowsXP Pro with Internet Explorer6 and Internet Explorer7
-
+	
 	Note: Special thanks to big_daddy for working on documentation and creating helpfile for T2.0!
-
+	
 	Update History:
 	===================================================
 	V2.4-1 4/26/08
-
+	
 	Fixes
 	_IEAttach, windowtitle, fixed bug matching window title when IE windowtitle registry key is not set
 	_IEPropertyGet, toolbars, broken, now works
-
+	
 	New Features
-
+	
 	Enhancements
 	_IEGetObjById added requested Id to console output on NoMatch
 	_IEGetObjByName added requested Id and index to console output on NoMatch
-
+	
 	---------------------------------------------------
 	V2.4-0 12/31/07
-
+	
 	Fixes
 	_IELoadWait looping logic corrected to prevent nuisance console COM messages with small loadwait timeouts
 	_IEAttach embedded and dialogbox modes update DllCall syntax (hopefully works with bugfix to DllCall post 3.2.10.0 that caused embedded to fail)
 	_IEAttach moved Shell.Window object creation after embedded/dialogbox logic so that they can run without explorer.exe running
 	_IECreate and _IENavigate documentation, added Windows Vista UAC information
 	_IEFormElementGetValue returns NULL string if value is NULL instead of integer 0
-
+	
 	New Features
 	Added uniqueID to _IEPropertyGet
 	Added "instance" mode to _IEAttach
 	Added "$i_instance" parameter to _IEAttach
 	- thanks to my 13-year-old daughter for helping me think through the logic of the _IEAttach additions :-)
-
+	
 	---------------------------------------------------
 	V2.3-1 8/13/07
-
+	
 	Fixes
 	_IELoadWait to handle "Access is denied" errors in foreign language variants
 	_IEFormElementCheckBoxSelect and _IEFormElementRadioSelect errors with singletons
-
+	
 	Enhancements
 	Enhanced _IEPropertyGet() width and height to work for document elements in addition to the browser window
-
+	
 	New Features
 	Added browserX, browserY, screenX and screenY to _IEPropertyGet()
 	Added Transpose option to _IETableWriteToArray
-
+	
 	---------------------------------------------------
 	V2.3-0 8/11/07
-
+	
 	This version was not released due to regression corrected in V2.3-1
-
+	
 	---------------------------------------------------
 	V2.2-1 5/9/07
-
+	
 	Fixes
 	Trap and report Client Disconnected errors in _IELoadWait when Browser is deleted prior to operation
-
+	
 	---------------------------------------------------
 	V2.2-0 5/8/07
-
+	
 	Fixes
 	Fixed typos in _IEPropertyGet() directives appversion and appminorversion
 	Updated links in _IE_Introduction('basic')
-
+	
 	Enhancements
 	Several documentation
-
+	
 	New Features
 	_IEGetObjById() added
-
+	
 	---------------------------------------------------
 	V2.1-0 12/16/06
-
+	
 	Fixes
 	_IEFormElementOptionSelect() - fixed problem with using "byText" mode that resulted in always selecting a blank text choice if it existed
 	_IEAttach() - fixed error generated if certain IE emulators were running (e.g. Firefox IETab extension, Maxathon etc.)
 	Forced datatype to String for many internal variables where unexpected numerics could have caused erroneous condition matches
 	Modified _IELoadWait() to trap and report more cases of "Access is Denied" cross-domain security errors
 	Modified _IEFormElementCheckboxSelect() and _IEFormElementRadioSelect() so that element name resolution is scoped to the form (Thanks martijn)
-
+	
 	Enhancements
 	Modified _IEFormElementSetValue() and _IEFormElement*Select() functions to fire onClick event in addition to onChange event
 	Generate error if _IEFormElementSetValue() attempted on IMPUT TYPE=FILE element
-
+	
 	New Features
 	_IEPropertyGet() - added referrer, theatermode, toolbar, contenteditable, innertext, outertext, innerhtml, outerhtml, title
 	_IEPropertySet() - added theatermode, toolbar, contenteditable, innertext, outertext, innerhtml, outerhtml, title, silent
 	_IEAttach() - added "windowtitle" mode that will attempt to match a substring in the full window title instead of document title
 	_IEDocInsertText() function added
 	_IEDocInsertHTML() function added
-
+	
 	Changes
 	_IETableWriteToArray now reads TH (table header) cells into the output array instead of ignoring them
 	_IEPropertySet removed LocationName and LocationURL that were read-only - please use _IENavigate instead
-
+	
 	Developer Notes
 	added __IENavigate to Internal Functions to test 4 new parameters to the browser Navigate method - see header notes
 	Previous version, T2.0-5, was released with AutoIt V3.2
 	---------------------------------------------------
-
+	
 	===================================================
 #ce
-#EndRegion Header
-#Region Global Variables and Constants
+#endregion Header
+#region Global Variables and Constants
 Global Const $IEAU3VersionInfo[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
 Global Const $LSFW_LOCK = 1, $LSFW_UNLOCK = 2
 Global $__IELoadWaitTimeout = 300000 ; 5 Minutes
@@ -169,8 +169,8 @@ Global Enum Step * 2 _; NotificationMethod
 		$_IENotifyMethod_Console = 1, _
 		$_IENotifyMethod_ToolTip, _
 		$_IENotifyMethod_MsgBox
-#EndRegion Global Variables and Constants
-#Region Core functions
+#endregion Global Variables and Constants
+#region Core functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IECreate
 ; Description ...: Create an Internet Explorer Browser Window
@@ -694,8 +694,8 @@ Func _IELoadWaitTimeout($i_timeout = -1)
 	EndIf
 EndFunc   ;==>_IELoadWaitTimeout
 
-#EndRegion Core functions
-#Region Frame Functions
+#endregion Core functions
+#region Frame Functions
 ; Security Note on Frame functions:
 ; Note that security restriction in Internet Explorer related to cross-site scripting
 ; between frames can cause serious problems with the frame functions.  Functions that
@@ -756,10 +756,10 @@ Func _IEFrameGetCollection(ByRef $o_object, $i_index = -1)
 	Select
 		Case $i_index = -1
 			Return SetError($_IEStatus_Success, $o_object.document.parentwindow.frames.length, _
-						$o_object.document.parentwindow.frames)
+					$o_object.document.parentwindow.frames)
 		Case $i_index > -1 And $i_index < $o_object.document.parentwindow.frames.length
 			Return SetError($_IEStatus_Success, $o_object.document.parentwindow.frames.length, _
-						$o_object.document.parentwindow.frames.item($i_index))
+					$o_object.document.parentwindow.frames.item($i_index))
 		Case $i_index < -1
 			__IEErrorNotify("Error", "_IEFrameGetCollection", "$_IEStatus_InvalidValue", "$i_index < -1")
 			Return SetError($_IEStatus_InvalidValue, 2, 0)
@@ -820,8 +820,8 @@ Func _IEFrameGetObjByName(ByRef $o_object, $s_Name)
 	EndIf
 EndFunc   ;==>_IEFrameGetObjByName
 
-#EndRegion Frame Functions
-#Region Link functions
+#endregion Frame Functions
+#region Link functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IELinkClickByText
 ; Description ...: Simulate a mouse click on a link with text sub-string matching the string provided
@@ -857,7 +857,7 @@ Func _IELinkClickByText(ByRef $o_object, $s_linkText, $i_index = 0, $f_wait = 1)
 		$linktext = $link.outerText & "" ; Append empty string to prevent problem with no outerText (image) links
 		If $linktext = $s_linkText Then
 			If ($found = $i_index) Then
-				$link.click
+				$link.click()
 				If $f_wait Then
 					_IELoadWait($o_object)
 					Return SetError(@error, 0, -1)
@@ -902,7 +902,7 @@ Func _IELinkClickByIndex(ByRef $o_object, $i_index, $f_wait = 1)
 	$i_index = Number($i_index)
 	If ($i_index >= 0) And ($i_index <= $oLinks.length - 1) Then
 		$oLink = $oLinks($i_index)
-		$oLink.click
+		$oLink.click()
 		If $f_wait Then
 			_IELoadWait($o_object)
 			Return SetError(@error, 0, -1)
@@ -940,10 +940,10 @@ Func _IELinkGetCollection(ByRef $o_object, $i_index = -1)
 	Select
 		Case $i_index = -1
 			Return SetError($_IEStatus_Success, $o_object.document.links.length, _
-						$o_object.document.links)
+					$o_object.document.links)
 		Case $i_index > -1 And $i_index < $o_object.document.links.length
 			Return SetError($_IEStatus_Success, $o_object.document.links.length, _
-						$o_object.document.links.item($i_index))
+					$o_object.document.links.item($i_index))
 		Case $i_index < -1
 			__IEErrorNotify("Error", "_IELinkGetCollection", "$_IEStatus_InvalidValue")
 			Return SetError($_IEStatus_InvalidValue, 2, 0)
@@ -952,8 +952,8 @@ Func _IELinkGetCollection(ByRef $o_object, $i_index = -1)
 			Return SetError($_IEStatus_NoMatch, 2, 0)
 	EndSelect
 EndFunc   ;==>_IELinkGetCollection
-#EndRegion Link functions
-#Region Image functions
+#endregion Link functions
+#region Image functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IEImgClick
 ; Description ...: Simulate a mouse click on an image.  Match by sub-string match of alt text, name or src
@@ -1005,7 +1005,7 @@ Func _IEImgClick(ByRef $o_object, $s_linkText, $s_mode = "src", $i_index = 0, $f
 		EndSelect
 		If StringInStr($linktext, $s_linkText) Then
 			If ($found = $i_index) Then
-				$img.click
+				$img.click()
 				If $f_wait Then
 					_IELoadWait($o_object)
 					Return SetError(@error, 0, -1)
@@ -1057,8 +1057,8 @@ Func _IEImgGetCollection(ByRef $o_object, $i_index = -1)
 	EndSelect
 EndFunc   ;==>_IEImgGetCollection
 
-#EndRegion Image functions
-#Region Form functions
+#endregion Image functions
+#region Form functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IEFormGetCollection
 ; Description ...: Returns a collection object variable representing the Forms in the document
@@ -1492,7 +1492,7 @@ EndFunc   ;==>_IEFormElementOptionSelect
 ;					@Extended	- Contains invalid parameter number
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
-Func _IEFormElementCheckboxSelect(ByRef $o_object, $s_string, $s_Name = "", $f_select = 1, $s_mode = "byValue", $f_fireEvent = 1)
+Func _IEFormElementCheckBoxSelect(ByRef $o_object, $s_string, $s_Name = "", $f_select = 1, $s_mode = "byValue", $f_fireEvent = 1)
 	If Not IsObj($o_object) Then
 		__IEErrorNotify("Error", "_IEFormElementCheckboxSelect", "$_IEStatus_InvalidDataType")
 		Return SetError($_IEStatus_InvalidDataType, 1, 0)
@@ -1752,7 +1752,7 @@ Func _IEFormImageClick(ByRef $o_object, $s_linkText, $s_mode = "src", $i_index =
 			EndSelect
 			If StringInStr($linktext, $s_linkText) Then
 				If ($found = $i_index) Then
-					$img.click
+					$img.click()
 					If $f_wait Then
 						_IELoadWait($o_object)
 						Return SetError(@error, 0, -1)
@@ -1799,7 +1799,7 @@ Func _IEFormSubmit(ByRef $o_object, $f_wait = 1)
 	;
 
 	Local $o_window = $o_object.document.parentWindow
-	$o_object.submit
+	$o_object.submit()
 	If $f_wait Then
 		_IELoadWait($o_window)
 		Return SetError(@error, 0, -1)
@@ -1830,11 +1830,11 @@ Func _IEFormReset(ByRef $o_object)
 		Return SetError($_IEStatus_InvalidObjectType, 1, 0)
 	EndIf
 	;
-	$o_object.reset
+	$o_object.reset()
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEFormReset
-#EndRegion Form functions
-#Region Table functions
+#endregion Form functions
+#region Table functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IETableGetCollection
 ; Description ...: Returns a collection object variable representing all the tables in a document
@@ -1860,11 +1860,11 @@ Func _IETableGetCollection(ByRef $o_object, $i_index = -1)
 	$i_index = Number($i_index)
 	Select
 		Case $i_index = -1
-			Return SetError($_IEStatus_Success, $o_object.document.GetElementsByTagName("table" ).length, _
+			Return SetError($_IEStatus_Success, $o_object.document.GetElementsByTagName("table").length, _
 					$o_object.document.GetElementsByTagName("table"))
-		Case $i_index > -1 And $i_index < $o_object.document.GetElementsByTagName("table" ).length
-			Return SetError($_IEStatus_Success, $o_object.document.GetElementsByTagName("table" ).length, _
-					$o_object.document.GetElementsByTagName("table" ).item($i_index))
+		Case $i_index > -1 And $i_index < $o_object.document.GetElementsByTagName("table").length
+			Return SetError($_IEStatus_Success, $o_object.document.GetElementsByTagName("table").length, _
+					$o_object.document.GetElementsByTagName("table").item($i_index))
 		Case $i_index < -1
 			__IEErrorNotify("Error", "_IETableGetCollection", "$_IEStatus_InvalidValue", "$i_index < -1")
 			Return SetError($_IEStatus_InvalidValue, 2, 0)
@@ -1931,8 +1931,8 @@ Func _IETableWriteToArray(ByRef $o_object, $f_transpose = False)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, $a_TableCells)
 EndFunc   ;==>_IETableWriteToArray
-#EndRegion Table functions
-#Region Read/Write functions
+#endregion Table functions
+#region Read/Write functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IEBodyReadHTML
 ; Description ...: Returns the HTML inside the <body> tag of the document
@@ -2188,7 +2188,7 @@ Func _IEHeadInsertEventScript(ByRef $o_object, $s_htmlFor, $s_event, $s_script)
 		Return SetError($_IEStatus_InvalidDataType, 1, 0)
 	EndIf
 
-	Local $o_head = $o_object.document.all.tags("HEAD" ).Item(0)
+	Local $o_head = $o_object.document.all.tags("HEAD").Item(0)
 	Local $o_script = $o_object.document.createElement("script")
 	With $o_script
 		.defer = True
@@ -2201,8 +2201,8 @@ Func _IEHeadInsertEventScript(ByRef $o_object, $s_htmlFor, $s_event, $s_script)
 	$o_head.appendChild($o_script)
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEHeadInsertEventScript
-#EndRegion Read/Write functions
-#Region Utility functions
+#endregion Read/Write functions
+#region Utility functions
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IEDocGetObj
 ; Description ...: Given any DOM object, returns a reference to the associated document object
@@ -2268,10 +2268,10 @@ Func _IETagNameGetCollection(ByRef $o_object, $s_TagName, $i_index = -1)
 	Select
 		Case $i_index = -1
 			Return SetError($_IEStatus_Success, $oTemp.GetElementsByTagName($s_TagName).length, _
-						$oTemp.GetElementsByTagName($s_TagName))
+					$oTemp.GetElementsByTagName($s_TagName))
 		Case $i_index > -1 And $i_index < $oTemp.GetElementsByTagName($s_TagName).length
 			Return SetError($_IEStatus_Success, $oTemp.GetElementsByTagName($s_TagName).length, _
-						$oTemp.GetElementsByTagName($s_TagName).item($i_index))
+					$oTemp.GetElementsByTagName($s_TagName).item($i_index))
 		Case $i_index < -1
 			__IEErrorNotify("Error", "_IETagNameGetCollection", "$_IEStatus_InvalidValue", "$i_index < -1")
 			Return SetError($_IEStatus_InvalidValue, 3, 0)
@@ -2356,7 +2356,7 @@ Func _IEGetObjByName(ByRef $o_object, $s_Id, $i_index = 0)
 	$i_index = Number($i_index)
 	If $i_index = -1 Then
 		Return SetError($_IEStatus_Success, $o_object.document.GetElementsByName($s_Id).length, _
-					$o_object.document.GetElementsByName($s_Id))
+				$o_object.document.GetElementsByName($s_Id))
 	Else
 		If IsObj($o_object.document.GetElementsByName($s_Id).item($i_index)) Then
 			Return SetError($_IEStatus_Success, $o_object.document.GetElementsByName($s_Id).length, _
@@ -2621,7 +2621,7 @@ Func _IEPropertyGet(ByRef $o_object, $s_property)
 				WEnd
 			EndIf
 			Return SetError($_IEStatus_Success, 0, _
-						$iTemp + $o_object.document.parentWindow.screenLeft)
+					$iTemp + $o_object.document.parentWindow.screenLeft)
 		Case $s_property = "screeny"
 			If __IEIsObjType($o_object, "window") Or __IEIsObjType($o_object, "document") Then
 				__IEErrorNotify("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
@@ -2638,7 +2638,7 @@ Func _IEPropertyGet(ByRef $o_object, $s_property)
 				WEnd
 			EndIf
 			Return SetError($_IEStatus_Success, 0, _
-						$iTemp + $o_object.document.parentWindow.screenTop)
+					$iTemp + $o_object.document.parentWindow.screenTop)
 		Case $s_property = "height"
 			If __IEIsObjType($o_object, "window") Or __IEIsObjType($o_object, "document") Then
 				__IEErrorNotify("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
@@ -2725,7 +2725,7 @@ Func _IEPropertyGet(ByRef $o_object, $s_property)
 				__IEErrorNotify("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($_IEStatus_InvalidObjectType, 1, 0)
 			EndIf
-			Return SetError($_IEStatus_Success,0, $o_object.ReadyState())
+			Return SetError($_IEStatus_Success, 0, $o_object.ReadyState())
 		Case $s_property = "resizable"
 			If Not __IEIsObjType($o_object, "browser") Then
 				__IEErrorNotify("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
@@ -3114,7 +3114,7 @@ Func _IEErrorHandlerRegister($s_functionName = "__IEInternalErrorHandler")
 	$oIEErrorHandler = ""
 	$oIEErrorHandler = ObjEvent("AutoIt.Error", $s_functionName)
 	If IsObj($oIEErrorHandler) Then
-			Return SetError($_IEStatus_Success, 0, 1)
+		Return SetError($_IEStatus_Success, 0, 1)
 	Else
 		__IEErrorNotify("Error", "_IEPropertySet", "$_IEStatus_GeneralError", _
 				"Error Handler Not Registered - Check existance of error function")
@@ -3164,8 +3164,8 @@ Func _IEQuit(ByRef $o_object)
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEQuit
 
-#EndRegion Utility functions
-#Region General
+#endregion Utility functions
+#region General
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IE_Introduction
 ; Description ...: Display introductory information about IE.au3 in a new browser window
@@ -3564,8 +3564,8 @@ Func _IE_VersionInfo()
 	Return SetError($_IEStatus_Success, 0, $IEAU3VersionInfo)
 EndFunc   ;==>_IE_VersionInfo
 
-#EndRegion General
-#Region Internal functions
+#endregion General
+#region Internal functions
 ;
 ; Internal Functions with names starting with two underscores will not be documented
 ; as user functions
@@ -3623,7 +3623,7 @@ Func __IEControlGetObjFromHWND(ByRef $hWin)
 	DllStructSetData($typUUID, 4, 0x26, 7)
 	DllStructSetData($typUUID, 4, 0x37, 8)
 
-	Local $aRet = DllCall("oleacc.dll", "long", "ObjectFromLresult", "lresult", $lResult, "ptr", DllStructGetPtr($typUUID), _
+	Local $aRet = DllCall("oleacc.dll", "long", "ObjectFromLresult", "lresult", $lResult, "struct*", $typUUID, _
 			"wparam", 0, "idispatch*", 0)
 	If @error Then Return SetError(3, @error, 0)
 
@@ -3812,9 +3812,9 @@ Func __IEComErrorUnrecoverable()
 	EndSelect
 EndFunc   ;==>__IEComErrorUnrecoverable
 
-#EndRegion Internal functions
+#endregion Internal functions
 
-#Region ProtoType Functions
+#region ProtoType Functions
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __IENavigate
 ; Description ...: ** Unsupported version of _IENavigate (note second underscore in function name)
@@ -3891,14 +3891,14 @@ EndFunc   ;==>__IENavigate
 	;    http://www.autoitscript.com/forum/index.php?act=Search
 	;
 	; searches for the string safearray and returns the results as posts
-
+	
 	$sFormAction = "http://www.autoitscript.com/forum/index.php?act=Search&CODE=01"
 	$sHeader = "Content-Type: application/x-www-form-urlencoded"
-
+	
 	$sDataToPost = "keywords=safearray&namesearch=&forums%5B%5D=all&searchsubs=1&prune=0&prune_type=newer&sort_key=last_post&sort_order=desc&search_in=posts&result_type=posts"
 	$oDataToPostBstr = __IEStringToBstr($sDataToPost) ; convert string to BSTR
 	ConsoleWrite(__IEBstrToString($oDataToPostBstr) & @CRLF) ; prove we can convert it back to a string
-
+	
 	$oIE = _IECreate()
 	$oIE.Navigate( $sFormAction, Default, Default, $oDataToPostBstr, $sHeader)
 	; or
@@ -3919,7 +3919,7 @@ Func __IEStringToBstr($s_string, $s_charSet = "us-ascii")
 	$o_Stream.Type = $adTypeBinary
 	$o_Stream.Position = 0
 
-	Return $o_Stream.Read
+	Return $o_Stream.Read()
 EndFunc   ;==>__IEStringToBstr
 
 Func __IEBstrToString($o_bstr, $s_charSet = "us-ascii")
@@ -3936,7 +3936,7 @@ Func __IEBstrToString($o_bstr, $s_charSet = "us-ascii")
 	$o_Stream.CharSet = $s_charSet
 	$o_Stream.Position = 0
 
-	Return $o_Stream.ReadText
+	Return $o_Stream.ReadText()
 EndFunc   ;==>__IEBstrToString
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -4035,4 +4035,4 @@ Func __IETempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExten
 	Return $s_TempName
 EndFunc   ;==>__IETempFile
 
-#EndRegion ProtoType Functions
+#endregion ProtoType Functions

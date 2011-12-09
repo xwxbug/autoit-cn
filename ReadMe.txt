@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.19 第一汉化版
+程序版本:3.3.7.22 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,7 +17,50 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
-3.3.7.19 (2011-10-XX) (Beta) 第一汉化版
+
+3.3.7.22 (2011-12-XX) (Beta) 第一汉化版
+AutoIt:
+[G][+]新增: #2042: @OSVersion returns "Win_8" on Windows 8.
+
+[G][!]更新: Dec(), Int(), Number() have second optional parameter defining non-default behavior.
+[G][!]更新: Hex() detects doubles internally and processes them respecting binary format.
+[G][!]更新: New visual style for the documetnation.
+
+UDFs:
+[G][+]新增: _WinAPI_StringLenA() and _WinAPI_StringLenW() functions.
+[G][+]新增: _WinAPI_DuplicateHandle() function.
+[G][+]新增: _Security__CreateProcessWithToken(), _Security__DuplicateTokenEx and _Security__SetTokenInformation functions.
+[G][+]新增: #1925: $WS_EX_LAYOUTRTL control style to the documentation.
+[G][+]新增: #2049: Missing windows message codes to WindowsConstants.au3.
+[G][*]修正: #1777: Issues with Security.au3.
+[G][*]修正: #2055: replaced DllStructGetPtr with "struct*" throughout UDFs.
+[G][*]修正: #2048: Windows constants $WM_RBUTTONDBLCLK and $WM_MBUTTONDBLCLK were named incorrectly.
+[G][*]修正: #2034: _GUICtrlMenu_AppendMenu dllcall type set wrong.
+[G][*]修正: #2060: Various documentation errors.
+
+3.3.7.21 (6th November, 2011) (Beta)
+AutoIt:
+[G][*]修正: Various documentation typos and grammatical errors.
+[G][*]修正: #1982: Crash in FileGetShortName() and FileGetLongName().
+[G][*]修正: #2046: DirGetSize("") was returning the size of the working directory root instead of -1 and setting @error.
+[G][*]修正: #2037: COM execution slowdown.
+[G][!]更新: Parentheses are required when invoking objects after all method names in order to have correct internal handling.
+[G][!]更新: Hex() default sizing for pointer types.
+
+UDFs:
+[G][*]修正: #2004: Functions that accept Control ID/Handle were not correctly documented.
+[G][*]修正: #1951: Missing parameter in documentation for _SQLite_SQLiteExe().
+[G][*]修正: #1442: File handle can now be passed to _FileWriteLog().
+
+3.3.7.20 (22.10.2011) (Beta)
+
+AutoIt:
+[G][+]新增: "struct" as DllCall and InterfaceDispatch data type.
+[G][*]修正: #1519, #1694: Int() and Number() returning wrong.
+[G][!]更新: Dec() and Hex() work with 64bit integers.
+[G][-]移除: Int() and Hex() no longer set @error.
+
+3.3.7.19 (Beta)
 SciTe:
 [H][!]更新: 更新SciTe到3.0.1版.
 

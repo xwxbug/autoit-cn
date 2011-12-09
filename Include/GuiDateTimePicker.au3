@@ -9,6 +9,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Date_Time_Picker
+; AutoIt Version : 3.3.7.20++
 ; Description ...: Functions that assist with date and time picker (DTP) control management.
 ;                  A date and time picker (DTP) control provides a simple and intuitive interface through which to exchange date
 ;                  and time information with a user.  For example, with a DTP control you can ask the user to enter a date and
@@ -254,16 +255,15 @@ Func _GUICtrlDTP_GetRangeEx($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 
 	Local $tRange = DllStructCreate($tagDTPRANGE)
-	Local $pRange = DllStructGetPtr($tRange)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
-		$iRet = _SendMessage($hWnd, $DTM_GETRANGE, 0, $pRange, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $DTM_GETRANGE, 0, $tRange, 0, "wparam", "struct*")
 	Else
 		Local $iRange = DllStructGetSize($tRange)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRange, $tMemMap)
 		$iRet = _SendMessage($hWnd, $DTM_GETRANGE, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pRange, $iRange)
+		_MemRead($tMemMap, $pMemory, $tRange, $iRange)
 		_MemFree($tMemMap)
 	EndIf
 	DllStructSetData($tRange, "MinValid", BitAND($iRet, $GDTR_MIN) <> 0)
@@ -322,16 +322,15 @@ Func _GUICtrlDTP_GetSystemTimeEx($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 
 	Local $tDate = DllStructCreate($tagSYSTEMTIME)
-	Local $pDate = DllStructGetPtr($tDate)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
-		$iRet = _SendMessage($hWnd, $DTM_GETSYSTEMTIME, 0, $pDate, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $DTM_GETSYSTEMTIME, 0, $tDate, 0, "wparam", "struct*")
 	Else
 		Local $iDate = DllStructGetSize($tDate)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iDate, $tMemMap)
 		$iRet = _SendMessage($hWnd, $DTM_GETSYSTEMTIME, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $pDate, $iDate)
+		_MemRead($tMemMap, $pMemory, $tDate, $iDate)
 		_MemFree($tMemMap)
 	EndIf
 	Return SetError($iRet, $iRet, $tDate)
@@ -382,7 +381,7 @@ Func _GUICtrlDTP_SetFormat($hWnd, $sFormat)
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
 		$iRet = _SendMessage($hWnd, $DTM_SETFORMATW, 0, $sFormat, 0, "wparam", "wstr")
 	Else
-		Local $iMemory = 2*(StringLen($sFormat) + 1)
+		Local $iMemory = 2 * (StringLen($sFormat) + 1)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iMemory, $tMemMap)
 		_MemWrite($tMemMap, $sFormat, $pMemory, $iMemory, "wstr")
@@ -506,17 +505,16 @@ EndFunc   ;==>_GUICtrlDTP_SetRange
 Func _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 
-	Local $pRange = DllStructGetPtr($tRange)
 	Local $iFlags = 0, $iRet
 	If DllStructGetData($tRange, "MinValid") Then $iFlags = BitOR($iFlags, $GDTR_MIN)
 	If DllStructGetData($tRange, "MaxValid") Then $iFlags = BitOR($iFlags, $GDTR_MAX)
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
-		$iRet = _SendMessage($hWnd, $DTM_SETRANGE, $iFlags, $pRange, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $DTM_SETRANGE, $iFlags, $tRange, 0, "wparam", "struct*")
 	Else
 		Local $iRange = DllStructGetSize($tRange)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRange, $tMemMap)
-		_MemWrite($tMemMap, $pRange)
+		_MemWrite($tMemMap, $tRange)
 		$iRet = _SendMessage($hWnd, $DTM_SETRANGE, $iFlags, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -580,19 +578,18 @@ Func _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate, $fFlag = False)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iFlag, $iRet
 
-	Local $pDate = DllStructGetPtr($tDate)
 	If $fFlag Then
 		$iFlag = $GDT_NONE
 	Else
 		$iFlag = $GDT_VALID
 	EndIf
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
-		$iRet = _SendMessage($hWnd, $DTM_SETSYSTEMTIME, $iFlag, $pDate, 0, "wparam", "ptr")
+		$iRet = _SendMessage($hWnd, $DTM_SETSYSTEMTIME, $iFlag, $tDate, 0, "wparam", "struct*")
 	Else
 		Local $iDate = DllStructGetSize($tDate)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iDate, $tMemMap)
-		_MemWrite($tMemMap, $pDate)
+		_MemWrite($tMemMap, $tDate)
 		$iRet = _SendMessage($hWnd, $DTM_SETSYSTEMTIME, $iFlag, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf

@@ -2,6 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: String
+; AutoIt Version : 3.3.7.20++
 ; Description ...: Functions that assist with String management.
 ; Author(s) .....: Jarvis Stubblefield, SmOke_N, Valik, Wes Wolfe-Wolvereness, WeaponX, Louis Horvath, JdeB, Jeremy Landes, Jon
 ; ===============================================================================================================================
@@ -314,11 +315,11 @@ Func _StringProper($s_String)
 		$s_CurChar = StringMid($s_String, $iX, 1)
 		Select
 			Case $CapNext = 1
-				If StringRegExp($s_CurChar, '[a-zA-Z0†8-0‹70”80“40—60—0]') Then
+				If StringRegExp($s_CurChar, '[a-zA-ZÀ-ÿšœžŸ]') Then
 					$s_CurChar = StringUpper($s_CurChar)
 					$CapNext = 0
 				EndIf
-			Case Not StringRegExp($s_CurChar, '[a-zA-Z0†8-0‹70”80“40—60—0]')
+			Case Not StringRegExp($s_CurChar, '[a-zA-ZÀ-ÿšœžŸ]')
 				$CapNext = 1
 			Case Else
 				$s_CurChar = StringLower($s_CurChar)
@@ -395,7 +396,7 @@ Func _StringReverse($s_String)
 	Local $t_chars = DllStructCreate("char[" & $i_len + 1 & "]")
 	DllStructSetData($t_chars, 1, $s_String)
 
-	Local $a_rev = DllCall("msvcrt.dll", "ptr:cdecl", "_strrev", "ptr", DllStructGetPtr($t_chars))
+	Local $a_rev = DllCall("msvcrt.dll", "ptr:cdecl", "_strrev", "struct*", $t_chars)
 	If @error Or $a_rev[0] = 0 Then Return SetError(2, 0, "")
 
 	Return DllStructGetData($t_chars, 1)
