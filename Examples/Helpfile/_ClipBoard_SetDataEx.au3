@@ -1,27 +1,24 @@
-#include <GuiConstantsEx.au3>
-#include <ClipBoard.au3>
+#include <GUIConstantsEx.au3>
+#include <Clipboard.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-#include <GUIEdit.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $btn_SetData, $btn_GetData, $hMemory, $hLock, $tData, $sData, $iSize
+	Local $btn_SetData, $btn_GetData, $hMemory, $hLock, $tData, $sData, $iSize
 
-	; 创建界面
-	$hGUI = GUICreate("Clipboard", 400, 350)
-	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
+	; 创建 GUI
+	GUICreate("Clipboard", 600, 450)
+	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-	$btn_SetData = GUICtrlCreateButton("Set ClipBoard Data", 50, 310, 120, 30)
-	$btn_GetData = GUICtrlCreateButton("Get ClipBoard Data", 210, 310, 120, 30)
+	$btn_SetData = GUICtrlCreateButton("Set ClipBoard Data", 150, 410, 120, 30)
+	$btn_GetData = GUICtrlCreateButton("Get ClipBoard Data", 300, 410, 120, 30)
 	GUISetState()
 
-	; 循环至用户退出
+	; 循环直到用户退出
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
@@ -33,7 +30,7 @@ Func _Main()
 				; 清空剪贴板
 				If Not _ClipBoard_Empty() Then _WinAPI_ShowError("_ClipBoard_Empty failed")
 
-				; 创建全局内存缓冲(显示为什么使用_ClipBoard_SetData相当简单!)
+				; 创建全局的内存缓冲区 (显示为什么使用 _ClipBoard_SetData 会更容易!)
 				$sData = "Hello from AutoIt"
 				$iSize = StringLen($sData) + 1
 				$hMemory = _MemGlobalAlloc($iSize, $GHND)
@@ -44,20 +41,19 @@ Func _Main()
 				DllStructSetData($tData, "Text", $sData)
 				_MemGlobalUnlock($hMemory)
 
-				; 写入剪贴板文本
+				; 写入文本到剪贴板
 				If Not _ClipBoard_SetDataEx($hMemory, $CF_TEXT) Then _WinAPI_ShowError("_ClipBoard_SetDataEx failed")
 
 				; 关闭剪贴板
 				_ClipBoard_Close()
 			Case $btn_GetData
-				MemoWrite( _ClipBoard_GetData())
+				MemoWrite(_ClipBoard_GetData())
 		EndSwitch
 	WEnd
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

@@ -1,13 +1,17 @@
+#include <Crypt.au3>
 
-#include  <Crypt.au3>
+_Crypt_Startup() ; To optimize performance start the crypt library, though the same results will be shown if it isn't.
 
-$sTest = "The quick brown fox jumps over the lazy dog"
+Local $sData = "..upon a time there was a language without any standardized cryptographic functions. That language is no more." ; Data that will be hashed.
 
-; 测试加密库的启动和结束
-_Crypt_Startup()
-msgbox(0, "MD5", $sTest & @CRLF & _Crypt_HashData($sTest, $CALG_MD5))
-_Crypt_Shutdown()
+Local $sOutput = "The following results show the supported algorithms for retrieving the hash of the data." & @CRLF & @CRLF & _
+"Text: " & $sData & @CRLF & _
+"MD2: " & _Crypt_HashData($sData, $CALG_MD2) & @CRLF & _
+"MD4: " & _Crypt_HashData($sData, $CALG_MD4) & @CRLF & _
+"MD5: " & _Crypt_HashData($sData, $CALG_MD5) & @CRLF & _
+"SHA1: " & _Crypt_HashData($sData, $CALG_SHA1)
 
-; 不带测试
-msgbox(0, "MD5", $sTest & @CRLF & _Crypt_HashData($sTest, $CALG_MD5))
+MsgBox(0, "Supported algorithms", $sOutput)
+
+_Crypt_Shutdown() ; Shutdown the crypt library.
 

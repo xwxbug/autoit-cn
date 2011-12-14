@@ -69,10 +69,10 @@ Func MY_WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 		EndIf
 		Return 0 ; Only workout clicking on the button
 	EndIf
-	; Proceed the default Autoit3 internal message commands.
+	; Proceed the default AutoIt3 internal message commands.
 	; You also can complete let the line out.
 	; !!! But only 'Return' (without any value) will not proceed
-	; the default Autoit3-message in the future !!!
+	; the default AutoIt3-message in the future !!!
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>MY_WM_COMMAND
 
@@ -112,7 +112,7 @@ Func MY_WM_DRAWITEM($hWnd, $Msg, $wParam, $lParam)
 	EndIf
 
 	$stDrawItem = 0
-	Return $GUI_RUNDEFMSG ; Proceed the default Autoit3 internal message commands
+	Return $GUI_RUNDEFMSG ; Proceed the default AutoIt3 internal message commands
 EndFunc   ;==>MY_WM_DRAWITEM
 
 

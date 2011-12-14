@@ -1,9 +1,7 @@
-#include <GuiConstantsEx.au3>
-#include <ClipBoard.au3>
+#include <GUIConstantsEx.au3>
+#include <Clipboard.au3>
 #include <WindowsConstants.au3>
 #include <SendMessage.au3>
-
-Opt('MustDeclareVars ', 1)
 
 Global $iMemo, $hNext = 0
 
@@ -12,54 +10,55 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; 创建界面
-	$hGUI = GUICreate(" Clipboard ", 600, 400)
+	; 创建 GUI
+	$hGUI = GUICreate("Clipboard", 600, 400)
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
 	; 初始化剪贴板查看器
 	$hNext = _ClipBoard_SetViewer($hGUI)
 
-	GUIRegisterMsg($WM_CHANGECBCHAIN, "WM_CHANGECBCHAIN ")
-	GUIRegisterMsg($WM_DRAWCLIPBOARD, "WM_DRAWCLIPBOARD ")
+	GUIRegisterMsg($WM_CHANGECBCHAIN, "WM_CHANGECBCHAIN")
+	GUIRegisterMsg($WM_DRAWCLIPBOARD, "WM_DRAWCLIPBOARD")
 
-	MemoWrite(" GUI handle ....:" & $hGUI)
-	MemoWrite(" Viewer handle .:" & _ClipBoard_GetViewer())
+	MemoWrite("GUI handle ....: " & $hGUI)
+	MemoWrite("Viewer handle .: " & _ClipBoard_GetViewer())
 
-	; 循环至用户退出
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 	; 关闭剪贴板查看器
 	_ClipBoard_ChangeChain($hGUI, $hNext)
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
+EndFunc   ;==>MemoWrite
 
-; 处理$WM_CHANGECBCHAIN消息
+; 处理 $WM_CHANGECBCHAIN 消息
 Func WM_CHANGECBCHAIN($hWnd, $iMsg, $iwParam, $ilParam)
-	; 显示收到的消息
-	MemoWrite(" ***** $WM_CHANGECBCHAIN ***** ")
+	#forceref $hWnd, $iMsg
+	; 显示接收到的消息
+	MemoWrite("***** $WM_CHANGECBCHAIN *****")
 
-	; 如果下一窗口正在关闭 , 修复剪贴板链
+	; 如果下一个窗口正在关闭, 那么修复链
 	If $iwParam = $hNext Then
 		$hNext = $ilParam
-		; 否则将消息传递到下一查看器
+		; 否则传递消息到下一个查看器
 	ElseIf $hNext <> 0 Then
-		_SendMessage($hNext, $WM_CHANGECBCHAIN, $iwParam, $ilParam, 0, "hwnd ", "hwnd ")
+		_SendMessage($hNext, $WM_CHANGECBCHAIN, $iwParam, $ilParam, 0, "hwnd", "hwnd")
 	EndIf
-endfunc   ;==>WM_CHANGECBCHAIN
+EndFunc   ;==>WM_CHANGECBCHAIN
 
-; 处理$WM_DRAWCLIPBOARD消息
+; 处理 $WM_DRAWCLIPBOARD 消息
 Func WM_DRAWCLIPBOARD($hWnd, $iMsg, $iwParam, $ilParam)
-	; 显示剪贴板上的任意文本
-	MemoWrite( _ClipBoard_GetData())
+	#forceref $hWnd, $iMsg
+	; 显示剪贴板中的文本
+	MemoWrite(_ClipBoard_GetData())
 
-	; 将消息传递到下一查看器
+	; 传递消息到下一个查看器
 	If $hNext <> 0 Then _SendMessage($hNext, $WM_DRAWCLIPBOARD, $iwParam, $ilParam)
-endfunc   ;==>WM_DRAWCLIPBOARD
-
+EndFunc   ;==>WM_DRAWCLIPBOARD

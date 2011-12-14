@@ -1,60 +1,56 @@
+#include <Crypt.au3>
+#include <ComboConstants.au3>
+#include <GUIConstantsEx.au3>
 
-#include  <GUIConstantsEx.au3>
-#include  <StaticConstants.au3>
-#include  <Crypt.au3>
+Local $bAlgorithm = $CALG_SHA1
 
-; 文件散列化示例
-
-; 创建界面
-$hWnd = GUICreate("Hasher", 370, 60)
-$hFileControl = GUICtrlCreateInput("", 5, 5, 200, 20)
-$hBrowseButton = GUICtrlCreateButton("...", 210, 5, 35, 20)
-$hHashCombo = GUICtrlCreateCombo("MD5", 250, 5, 50, 20)
-GUICtrlSetData(-1, "MD2|MD4|SHA1")
-$hCalcButton = GUICtrlCreateButton("Calculate", 305, 5, 60, 20)
-$hHashLabel = GUICtrlCreateLabel("Hash Digest", 5, 35, 365, 20, $SS_CENTER)
-
+GUICreate("Hash File", 425, 70)
+Local $iInput = GUICtrlCreateInput(@ScriptFullPath, 5, 5, 200, 20)
+Local $iBrowse = GUICtrlCreateButton("...", 210, 5, 35, 20)
+Local $iCombo = GUICtrlCreateCombo("", 250, 5, 100, 20, $CBS_DROPDOWNLIST)
+GUICtrlSetData(-1, "MD2|MD4|MD5|SHA1", "SHA1")
+Local $iCalculate = GUICtrlCreateButton("Calculate", 355, 40, 65, 25)
+Local $iHashLabel = GUICtrlCreateLabel("Hash Digest", 5, 50, 350, 25)
 GUISetState(@SW_SHOW)
 
-_Crypt_Startup()
+_Crypt_Startup() ; To optimize performance start the crypt library.
 
-Do
-	$msg = GUIGetMsg()
+While 1
+	Switch GUIGetMsg()
+		Case $GUI_EVENT_CLOSE
+			Exit
 
-	Switch $msg
-		Case $hBrowseButton
-			$sFile = FileOpenDialog("Open file", "", "All files (*.*;)")
-			GUICtrlSetData($hFileControl, $sFile)
-
-		Case $hCalcButton
-			$iALG_ID = 0
-			; 用户选择的算法
-			Switch GUICtrlread($hHashCombo)
-				Case "MD2"
-					$iALG_ID = $CALG_MD2
-				Case "MD4"
-					$iALG_ID = $CALG_MD4
-				Case "MD5"
-					$iALG_ID = $CALG_MD5
-				Case "SHA1"
-					$iALG_ID = $CALG_SHA1
-				Case Else
-					msgbox(16, "Error", "Not a valid algorithm!")
-					ContinueLoop
-			EndSwitch
-			$sFile = GUICtrlRead($hFileControl)
-			If Not FileExists($sFile) Then
-				msgbox(16, "Error", "Invalid file")
+		Case $iBrowse
+			Local $sFilePath = FileOpenDialog("Open a file", "", "All files (*.*)") ; Select a file to find the hash.
+			If @error Then
 				ContinueLoop
 			EndIf
-			$bDigest = _Crypt_HashFile($sFile, $iALG_ID)
-			GUICtrlSetData($hHashLabel, $bDigest)
+			GUICtrlSetData($iInput, $sFilePath) ; Set the inputbox with the filepath.
+			GUICtrlSetData($iHashLabel, "Hash Digest") ; Reset the hash digest label.
 
-		Case $GUI_EVENT_CLOSE
-			ExitLoop
+		Case $iCombo ; Check when the combobox is selected and retrieve the correct algorithm.
+			Switch GUICtrlRead($iCombo) ; Read the combobox selection.
+				Case "MD2"
+					$bAlgorithm = $CALG_MD2
 
+				Case "MD4"
+					$bAlgorithm = $CALG_MD4
+
+				Case "MD5"
+					$bAlgorithm = $CALG_MD5
+
+				Case "SHA1"
+					$bAlgorithm = $CALG_SHA1
+
+			EndSwitch
+
+		Case $iCalculate
+			Local $sRead = GUICtrlRead($iInput)
+			If StringStripWS($sRead, 8) <> "" And FileExists($sRead) Then ; Check there is a file available to find the hash digest
+				Local $bHash = _Crypt_HashFile($sRead, $bAlgorithm) ; Create a hash of the file.
+				GUICtrlSetData($iHashLabel, $bHash) ; Set the hash digest label with the hash data.
+			EndIf
 	EndSwitch
-Until False
+WEnd
 
-_Crypt_Shutdown()
-
+_Crypt_Shutdown() ; Shutdown the crypt library.

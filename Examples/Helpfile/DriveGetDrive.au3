@@ -1,7 +1,10 @@
-Local $var = DriveGetDrive("all")
-If Not @error Then
-	MsgBox(4096,"", "找到 " & $var[0] & " 个驱动器")
-	For $i = 1 To $var[0]
-		MsgBox(4096,"驱动器 " & $i, $var[$i])
+Local $aArray = DriveGetDrive("ALL")
+If @error Then
+	; An error occurred when retrieving the drives.
+	MsgBox(4096, "DriveGetDrive", "It appears an error occurred.")
+Else
+	For $i = 1 To $aArray[0]
+		; Show all the drives found and convert the drive letter to uppercase.
+		MsgBox(4096, "DriveGetDrive", "Drive " & $i & "/" & $aArray[0] & ":" & @CRLF &	StringUpper($aArray[$i]))
 	Next
 EndIf

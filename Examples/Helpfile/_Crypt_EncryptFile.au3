@@ -1,119 +1,103 @@
+#include <Crypt.au3>
+#include <ComboConstants.au3>
+#include <GUIConstantsEx.au3>
 
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
-#include  <Crypt.au3>
+Local $bAlgorithm = $CALG_RC4
+Local $sFilePath = ""
 
-$hWnd = GUICreate("File Encrypter", 234, 178, 260, 238)
-$InFileLabel = GUICtrlCreateLabel("Input file", 8, 0, 44, 17)
-$InFileInput = GUICtrlCreateInput("", 8, 16, 169, 21)
-$OutFileLabel = GUICtrlCreateLabel("Output file", 8, 48, 52, 17)
-$OutFileInput = GUICtrlCreateInput("", 8, 64, 169, 21)
-$InFileButton = GUICtrlCreateButton("...", 184, 16, 35, 20, $WS_GROUP)
-$OutFileButton = GUICtrlCreateButton("...", 184, 64, 35, 20, $WS_GROUP)
-$AlgoLabel = GUICtrlCreateLabel("Algorithm", 8, 96, 47, 17)
-$AlgoCombo = GUICtrlCreateCombo("RC4", 8, 112, 65, 25)
-GUICtrlSetData(-1, "3DES|AES 128|AES 192|AES 256|DES|RC2")
-$PasswordLabel = GUICtrlCreateLabel("Password", 88, 96, 50, 17)
-$PasswordInput = GUICtrlCreateInput("", 88, 112, 129, 21)
-$EncryptButton = GUICtrlCreateButton("Encrypt File", 8, 144, 211, 25, $WS_GROUP)
+GUICreate("File Encrypter", 425, 100)
+Local $iSourceInput = GUICtrlCreateInput("", 5, 5, 200, 20)
+Local $iSourceBrowse = GUICtrlCreateButton("...", 210, 5, 35, 20)
+
+Local $iDestinationInput = GUICtrlCreateInput("", 5, 30, 200, 20)
+Local $iDestinationBrowse = GUICtrlCreateButton("...", 210, 30, 35, 20)
+
+GUICtrlCreateLabel("Password:", 5, 60, 200, 20)
+Local $iPasswordInput = GUICtrlCreateInput("", 5, 75, 200, 20)
+
+Local $iCombo = GUICtrlCreateCombo("", 210, 75, 100, 20, $CBS_DROPDOWNLIST)
+GUICtrlSetData(-1, "3DES|AES (128bit)|AES (192bit)|AES (256bit)|DES|RC2|RC4", "RC4")
+Local $iEncrypt = GUICtrlCreateButton("Encrypt", 355, 70, 65, 25)
 GUISetState(@SW_SHOW)
 
-Global $Increase = 0
-
 While 1
-	$nMsg = GUIGetMsg()
-	Switch $nMsg
+	Switch GUIGetMsg()
 		Case $GUI_EVENT_CLOSE
 			Exit
-		Case $InFileButton
-			$file = FileOpenDialog("Input File", "", "All files (*.*;)")
-			If $file <> "" Then GUICtrlSetData($InFileInput, $file)
-		Case $OutFileButton
-			$file = FileSaveDialog("Output file", "", "Any file (*.*;)")
-			If $file <> "" Then GUICtrlSetData($OutFileInput, $file)
 
-		Case $EncryptButton
-			$infile = GUICtrlRead($InFileInput)
-			If Not FileExists($infile) Then
-				MsgBox(16, "Error", "Input file doesn't exists!")
+		Case $iSourceBrowse
+			$sFilePath = FileOpenDialog("Select a file to encrypt.", "", "All files (*.*)") ; Select a file to encrypt.
+			If @error Then
 				ContinueLoop
 			EndIf
+			GUICtrlSetData($iSourceInput, $sFilePath) ; Set the inputbox with the filepath.
 
-			$outfile = GUICtrlRead($OutFileInput)
-			If $outfile = "" Then
-				MsgBox(16, "Error", "Please input a output file")
+		Case $iDestinationBrowse
+			$sFilePath = FileSaveDialog("Save the file as ...", "", "All files (*.*)") ; Select a file to save the encrypted data to.
+			If @error Then
 				ContinueLoop
 			EndIf
+			GUICtrlSetData($iDestinationInput, $sFilePath) ; Set the inputbox with the filepath.
 
-			$algo = 0
-			Switch GUICtrlRead($AlgoCombo)
+		Case $iCombo ; Check when the combobox is selected and retrieve the correct algorithm.
+			Switch GUICtrlRead($iCombo) ; Read the combobox selection.
 				Case "3DES"
-					$algo = $CALG_3DES
+					$bAlgorithm = $CALG_3DES
+
+				Case "AES (128bit)"
+					If @OSVersion = "WIN_2000" Then
+						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.") ; Show an error if the system is Windows 2000.
+						ContinueLoop
+					EndIf
+					$bAlgorithm = $CALG_AES_128
+
+				Case "AES (192bit)"
+					If @OSVersion = "WIN_2000" Then
+						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						ContinueLoop
+					EndIf
+					$bAlgorithm = $CALG_AES_192
+
+				Case "AES (256bit)"
+					If @OSVersion = "WIN_2000" Then
+						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						ContinueLoop
+					EndIf
+					$bAlgorithm = $CALG_AES_256
+
 				Case "DES"
-					$algo = $CALG_DES
+					$bAlgorithm = $CALG_DES
+
 				Case "RC2"
-					$algo = $CALG_RC2
+					$bAlgorithm = $CALG_RC2
+
 				Case "RC4"
-					$algo = $CALG_RC4
-				Case "AES 128"
-					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on this system!")
-						ContinueLoop
-					EndIf
-					$algo = $CALG_AES_128
-				Case "AES 192"
-					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on this system!")
-						ContinueLoop
-					EndIf
-					$algo = $CALG_AES_192
-				Case "AES 256"
-					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on this system!")
-						ContinueLoop
-					EndIf
-					$algo = $CALG_AES_256
+					$bAlgorithm = $CALG_RC4
+
 			EndSwitch
-			$password = GUICtrlRead($PasswordInput)
-			If $password = "" Then
-				MsgBox(16, "Error", "Please input a password")
-				ContinueLoop
-			EndIf
 
-			AdlibRegister("Update", 333)
-			$success = _Crypt_EncryptFile($infile, $outfile, $password, $algo)
-			If $success Then
-				MsgBox(0, "Success", "Operation succeeded")
+		Case $iEncrypt
+			Local $sSourceRead = GUICtrlRead($iSourceInput) ; Read the source filepath input.
+			Local $sDestinationRead = GUICtrlRead($iDestinationInput) ; Read the destination filepath input.
+			Local $sPasswordRead = GUICtrlRead($iPasswordInput) ; Read the password input.
+			If StringStripWS($sSourceRead, 8) <> "" And StringStripWS($sDestinationRead, 8) <> "" And StringStripWS($sPasswordRead, 8) <> "" And FileExists($sSourceRead) Then ; Check there is a file available to encrypt and a password has been set.
+				Local $iSuccess = _Crypt_EncryptFile($sSourceRead, $sDestinationRead, $sPasswordRead, $bAlgorithm) ; Encrypt the file.
+				If $iSuccess Then
+					MsgBox(0, "Success", "Operation succeeded.")
+				Else
+					Switch @error
+						Case 1
+							MsgBox(16, "Error", "Failed to create the key.")
+						Case 2
+							MsgBox(16, "Error", "Couldn't open the source file.")
+						Case 3
+							MsgBox(16, "Error", "Couldn't open the destination file.")
+						Case 4 Or 5
+							MsgBox(16, "Error", "Encryption error.")
+					EndSwitch
+				EndIf
 			Else
-				Switch @error
-					Case 1
-						MsgBox(16, "Fail", "Failed to create key")
-					Case 2
-						MsgBox(16, "Fail", "Couldn't open source file")
-					Case 3
-						MsgBox(16, "Fail", "Couldn't open destination file")
-					Case 4 or 5
-						MsgBox(16, "Fail", "Encryption error")
-				EndSwitch
+				MsgBox(16, "Error", "Please ensure the relevant information has been entered correctly.")
 			EndIf
-
-			AdlibUnRegister("Update")
-			WinSetTitle($hWnd, "", "File Encrypter")
 	EndSwitch
 WEnd
-
-Func Update()
-	Switch Mod($Increase, 4)
-		Case 0
-			WinSetTitle($hWnd, "", "Processing... |")
-		Case 1
-			WinSetTitle($hWnd, "", "Processing... /")
-		Case 2
-			WinSetTitle($hWnd, "", "Processing... ?)
-		Case 3
-			WinSetTitle($hWnd, "", "Processing... \")
-	EndSwitch
-
-	$Increase += 1
-endfunc   ;==>Update
-

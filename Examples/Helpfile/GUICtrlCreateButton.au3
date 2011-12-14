@@ -4,7 +4,7 @@ Example()
 
 Func Example()
 	Local $Button_1, $Button_2, $msg
-	GUICreate("My GUI Button") ; 创建一个对话框，并居中显示
+	GUICreate("My GUI Button") ; 创建一个对话框,并居中显示
 
 	Opt("GUICoordMode", 2)
 	$Button_1 = GUICtrlCreateButton("打开记事本", 10, 30, 100)
@@ -12,7 +12,7 @@ Func Example()
 
 	GUISetState()      ; 显示有两个按钮的对话框
 
-	; 运行界面，直到窗口被关闭
+	; 运行界面,直到窗口被关闭
 	While 1
 		$msg = GUIGetMsg()
 		Select

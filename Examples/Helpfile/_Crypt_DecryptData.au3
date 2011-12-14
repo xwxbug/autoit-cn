@@ -1,11 +1,12 @@
+#include <Crypt.au3>
 
-#include  <Crypt.au3>
+Local Const $sUserKey = "CryptPassword" ; Declare a password string to decrypt/encrypt the data.
+Local $sData = "..upon a time there was a language without any standardized cryptographic functions. That language is no more." ; Data that will be encrypted.
 
-; 该例显示如何解密字符串
+Local $bEncrypted = _Crypt_EncryptData($sData, $sUserKey, $CALG_RC4) ; Encrypt the data using the generic password string.
 
-Local Const $bEncrypted = Binary("0x040A0D2594CE1FFC8E4CE5BC14E8724B6B5900225EA8E45CF328" & _
-		"9D0D6A48E490E53FB66F39FF5CA967C5F6CD04D399AF09E18E7A91EEA32F7BBBB714DEC6865128CE3A4F1BB" & _
-		"826554B69B7AC96E8AAA639656F0323E34745167F4B72FF4984A1C4B81E1F66DDD9743B9C664406D76B52")
+$bEncrypted = _Crypt_DecryptData($bEncrypted, $sUserKey, $CALG_RC4) ; Decrypt the data using the generic password string. The return value is a binary string.
+MsgBox(0, "Decrypted data", BinaryToString($bEncrypted)) ; Convert the binary string using BinaryToString to display the initial data we encrypted.
 
-msgbox(0, "Decrypted data", BinaryToString( _Crypt_DecryptData($bEncrypted, "once", $CALG_RC2)))
+
 

@@ -1,2 +1,2 @@
-Local $var = DriveStatus("c:\")
-MsgBox(4096,"Çý¶¯Æ÷×´Ì¬",$var)
+Local $sStatus = DriveStatus(@HomeDrive & "\") ; Find the status of the home drive, generally this is the C:\ drive.
+MsgBox(4096, "Status", $sStatus)

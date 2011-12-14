@@ -7,6 +7,10 @@
 Example()
 
 Func Example()
+	; 开始 TCP 服务
+	;==============================================
+	TCPStartup()
+
 	; 设置一些常用信息
 	;--------------------------
 	Local $ConnectedSocket, $szData
@@ -15,10 +19,6 @@ Func Example()
 	;	Local $szIPADDRESS = TCPNameToIP($szServerPC)
 	Local $szIPADDRESS = @IPAddress1
 	Local $nPORT = 33891
-
-	; 开始 TCP 服务
-	;==============================================
-	TCPStartup()
 
 	; 初始化一个变量描述连接
 	;==============================================

@@ -1,4 +1,4 @@
-Local $t = FileGetTime(@WindowsDir & "\Notepad.exe", 1)
+Local $t = FileGetTime(@WindowsDir & "\notepad.exe", 1)
 
 If Not @error Then
 	Local $yyyymd = $t[0] & "/" & $t[1] & "/" & $t[2]
