@@ -1,416 +1,12 @@
 #AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 
 #include-once
+#include "WinHttpConstants.au3"
 
-Global Const $INTERNET_DEFAULT_PORT = 0
-Global Const $INTERNET_DEFAULT_HTTP_PORT = 80
-Global Const $INTERNET_DEFAULT_HTTPS_PORT = 443
-
-Global Const $INTERNET_SCHEME_HTTP = 1
-Global Const $INTERNET_SCHEME_HTTPS = 2
-
-Global Const $ICU_ESCAPE = 0x80000000
-
-; For WinHttpOpen
-Global Const $WINHTTP_FLAG_ASYNC = 0x10000000
-
-; For WinHttpOpenRequest  ;
-Global Const $WINHTTP_FLAG_ESCAPE_PERCENT = 0x00000004
-Global Const $WINHTTP_FLAG_NULL_CODEPAGE = 0x00000008
-Global Const $WINHTTP_FLAG_ESCAPE_DISABLE = 0x00000040
-Global Const $WINHTTP_FLAG_ESCAPE_DISABLE_QUERY = 0x00000080
-Global Const $WINHTTP_FLAG_BYPASS_PROXY_CACHE = 0x00000100
-Global Const $WINHTTP_FLAG_REFRESH = $WINHTTP_FLAG_BYPASS_PROXY_CACHE
-Global Const $WINHTTP_FLAG_SECURE = 0x00800000
-
-Global Const $WINHTTP_ACCESS_TYPE_DEFAULT_PROXY = 0
-Global Const $WINHTTP_ACCESS_TYPE_NO_PROXY = 1
-Global Const $WINHTTP_ACCESS_TYPE_NAMED_PROXY = 3
-
-Global Const $WINHTTP_NO_PROXY_NAME = ""
-Global Const $WINHTTP_NO_PROXY_BYPASS = ""
-
-Global Const $WINHTTP_NO_REFERER = ""
-Global Const $WINHTTP_DEFAULT_ACCEPT_TYPES = 0
-
-Global Const $WINHTTP_NO_ADDITIONAL_HEADERS = ""
-Global Const $WINHTTP_NO_REQUEST_DATA = ""
-
-Global Const $WINHTTP_HEADER_NAME_BY_INDEX = ""
-Global Const $WINHTTP_NO_OUTPUT_BUFFER = 0
-Global Const $WINHTTP_NO_HEADER_INDEX = 0
-
-Global Const $WINHTTP_ADDREQ_INDEX_MASK = 0x0000FFFF
-Global Const $WINHTTP_ADDREQ_FLAGS_MASK = 0xFFFF0000
-Global Const $WINHTTP_ADDREQ_FLAG_ADD_IF_NEW = 0x10000000
-Global Const $WINHTTP_ADDREQ_FLAG_ADD = 0x20000000
-Global Const $WINHTTP_ADDREQ_FLAG_COALESCE_WITH_COMMA = 0x40000000
-Global Const $WINHTTP_ADDREQ_FLAG_COALESCE_WITH_SEMICOLON = 0x01000000
-Global Const $WINHTTP_ADDREQ_FLAG_COALESCE = $WINHTTP_ADDREQ_FLAG_COALESCE_WITH_COMMA
-Global Const $WINHTTP_ADDREQ_FLAG_REPLACE = 0x80000000
-
-Global Const $WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH = 0
-
-; For WinHttp{Set and Query} Options  ;
-Global Const $WINHTTP_OPTION_CALLBACK = 1
-Global Const $WINHTTP_FIRST_OPTION = $WINHTTP_OPTION_CALLBACK
-Global Const $WINHTTP_OPTION_RESOLVE_TIMEOUT = 2
-Global Const $WINHTTP_OPTION_CONNECT_TIMEOUT = 3
-Global Const $WINHTTP_OPTION_CONNECT_RETRIES = 4
-Global Const $WINHTTP_OPTION_SEND_TIMEOUT = 5
-Global Const $WINHTTP_OPTION_RECEIVE_TIMEOUT = 6
-Global Const $WINHTTP_OPTION_RECEIVE_RESPONSE_TIMEOUT = 7
-Global Const $WINHTTP_OPTION_HANDLE_TYPE = 9
-Global Const $WINHTTP_OPTION_READ_BUFFER_SIZE = 12
-Global Const $WINHTTP_OPTION_WRITE_BUFFER_SIZE = 13
-Global Const $WINHTTP_OPTION_PARENT_HANDLE = 21
-Global Const $WINHTTP_OPTION_EXTENDED_ERROR = 24
-Global Const $WINHTTP_OPTION_SECURITY_FLAGS = 31
-Global Const $WINHTTP_OPTION_SECURITY_CERTIFICATE_STRUCT = 32
-Global Const $WINHTTP_OPTION_URL = 34
-Global Const $WINHTTP_OPTION_SECURITY_KEY_BITNESS = 36
-Global Const $WINHTTP_OPTION_PROXY = 38
-Global Const $WINHTTP_OPTION_USER_AGENT = 41
-Global Const $WINHTTP_OPTION_CONTEXT_VALUE = 45
-Global Const $WINHTTP_OPTION_CLIENT_CERT_CONTEXT = 47
-Global Const $WINHTTP_OPTION_REQUEST_PRIORITY = 58
-Global Const $WINHTTP_OPTION_HTTP_VERSION = 59
-Global Const $WINHTTP_OPTION_DISABLE_FEATURE = 63
-Global Const $WINHTTP_OPTION_CODEPAGE = 68
-Global Const $WINHTTP_OPTION_MAX_CONNS_PER_SERVER = 73
-Global Const $WINHTTP_OPTION_MAX_CONNS_PER_1_0_SERVER = 74
-Global Const $WINHTTP_OPTION_AUTOLOGON_POLICY = 77
-Global Const $WINHTTP_OPTION_SERVER_CERT_CONTEXT = 78
-Global Const $WINHTTP_OPTION_ENABLE_FEATURE = 79
-Global Const $WINHTTP_OPTION_WORKER_THREAD_COUNT = 80
-Global Const $WINHTTP_OPTION_PASSPORT_COBRANDING_TEXT = 81
-Global Const $WINHTTP_OPTION_PASSPORT_COBRANDING_URL = 82
-Global Const $WINHTTP_OPTION_CONFIGURE_PASSPORT_AUTH = 83
-Global Const $WINHTTP_OPTION_SECURE_PROTOCOLS = 84
-Global Const $WINHTTP_OPTION_ENABLETRACING = 85
-Global Const $WINHTTP_OPTION_PASSPORT_SIGN_OUT = 86
-Global Const $WINHTTP_OPTION_PASSPORT_RETURN_URL = 87
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY = 88
-Global Const $WINHTTP_OPTION_MAX_HTTP_AUTOMATIC_REDIRECTS = 89
-Global Const $WINHTTP_OPTION_MAX_HTTP_STATUS_CONTINUE = 90
-Global Const $WINHTTP_OPTION_MAX_RESPONSE_HEADER_SIZE = 91
-Global Const $WINHTTP_OPTION_MAX_RESPONSE_DRAIN_SIZE = 92
-Global Const $WINHTTP_OPTION_CONNECTION_INFO = 93
-Global Const $WINHTTP_OPTION_CLIENT_CERT_ISSUER_LIST = 94
-Global Const $WINHTTP_OPTION_SPN = 96
-Global Const $WINHTTP_OPTION_GLOBAL_PROXY_CREDS = 97
-Global Const $WINHTTP_OPTION_GLOBAL_SERVER_CREDS = 98
-Global Const $WINHTTP_OPTION_UNLOAD_NOTIFY_EVENT = 99
-Global Const $WINHTTP_OPTION_REJECT_USERPWD_IN_URL = 100
-Global Const $WINHTTP_OPTION_USE_GLOBAL_SERVER_CREDENTIALS = 101
-Global Const $WINHTTP_LAST_OPTION = $WINHTTP_OPTION_USE_GLOBAL_SERVER_CREDENTIALS
-Global Const $WINHTTP_OPTION_USERNAME = 0x1000
-Global Const $WINHTTP_OPTION_PASSWORD = 0x1001
-Global Const $WINHTTP_OPTION_PROXY_USERNAME = 0x1002
-Global Const $WINHTTP_OPTION_PROXY_PASSWORD = 0x1003
-
-Global Const $WINHTTP_CONNS_PER_SERVER_UNLIMITED = 0xFFFFFFFF
-
-Global Const $WINHTTP_AUTOLOGON_SECURITY_LEVEL_MEDIUM = 0
-Global Const $WINHTTP_AUTOLOGON_SECURITY_LEVEL_LOW = 1
-Global Const $WINHTTP_AUTOLOGON_SECURITY_LEVEL_HIGH = 2
-Global Const $WINHTTP_AUTOLOGON_SECURITY_LEVEL_DEFAULT = $WINHTTP_AUTOLOGON_SECURITY_LEVEL_MEDIUM
-
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY_NEVER = 0
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY_DISALLOW_HTTPS_TO_HTTP = 1
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY_ALWAYS = 2
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY_LAST = $WINHTTP_OPTION_REDIRECT_POLICY_ALWAYS
-Global Const $WINHTTP_OPTION_REDIRECT_POLICY_DEFAULT = $WINHTTP_OPTION_REDIRECT_POLICY_DISALLOW_HTTPS_TO_HTTP
-
-Global Const $WINHTTP_DISABLE_PASSPORT_AUTH = 0x00000000
-Global Const $WINHTTP_ENABLE_PASSPORT_AUTH = 0x10000000
-Global Const $WINHTTP_DISABLE_PASSPORT_KEYRING = 0x20000000
-Global Const $WINHTTP_ENABLE_PASSPORT_KEYRING = 0x40000000
-
-Global Const $WINHTTP_DISABLE_COOKIES = 0x00000001
-Global Const $WINHTTP_DISABLE_REDIRECTS = 0x00000002
-Global Const $WINHTTP_DISABLE_AUTHENTICATION = 0x00000004
-Global Const $WINHTTP_DISABLE_KEEP_ALIVE = 0x00000008
-Global Const $WINHTTP_ENABLE_SSL_REVOCATION = 0x00000001
-Global Const $WINHTTP_ENABLE_SSL_REVERT_IMPERSONATION = 0x00000002
-Global Const $WINHTTP_DISABLE_SPN_SERVER_PORT = 0x00000000
-Global Const $WINHTTP_ENABLE_SPN_SERVER_PORT = 0x00000001
-Global Const $WINHTTP_OPTION_SPN_MASK = $WINHTTP_ENABLE_SPN_SERVER_PORT
-
-; WinHTTP error codes  ;
-Global Const $WINHTTP_ERROR_BASE = 12000
-Global Const $ERROR_WINHTTP_OUT_OF_HANDLES = 12001
-Global Const $ERROR_WINHTTP_TIMEOUT = 12002
-Global Const $ERROR_WINHTTP_INTERNAL_ERROR = 12004
-Global Const $ERROR_WINHTTP_INVALID_URL = 12005
-Global Const $ERROR_WINHTTP_UNRECOGNIZED_SCHEME = 12006
-Global Const $ERROR_WINHTTP_NAME_NOT_RESOLVED = 12007
-Global Const $ERROR_WINHTTP_INVALID_OPTION = 12009
-Global Const $ERROR_WINHTTP_OPTION_NOT_SETTABLE = 12011
-Global Const $ERROR_WINHTTP_SHUTDOWN = 12012
-Global Const $ERROR_WINHTTP_LOGIN_FAILURE = 12015
-Global Const $ERROR_WINHTTP_OPERATION_CANCELLED = 12017
-Global Const $ERROR_WINHTTP_INCORRECT_HANDLE_TYPE = 12018
-Global Const $ERROR_WINHTTP_INCORRECT_HANDLE_STATE = 12019
-Global Const $ERROR_WINHTTP_CANNOT_CONNECT = 12029
-Global Const $ERROR_WINHTTP_CONNECTION_ERROR = 12030
-Global Const $ERROR_WINHTTP_RESEND_REQUEST = 12032
-Global Const $ERROR_WINHTTP_SECURE_CERT_DATE_INVALID = 12037
-Global Const $ERROR_WINHTTP_SECURE_CERT_CN_INVALID = 12038
-Global Const $ERROR_WINHTTP_CLIENT_AUTH_CERT_NEEDED = 12044
-Global Const $ERROR_WINHTTP_SECURE_INVALID_CA = 12045
-Global Const $ERROR_WINHTTP_SECURE_CERT_REV_FAILED = 12057
-Global Const $ERROR_WINHTTP_CANNOT_CALL_BEFORE_OPEN = 12100
-Global Const $ERROR_WINHTTP_CANNOT_CALL_BEFORE_SEND = 12101
-Global Const $ERROR_WINHTTP_CANNOT_CALL_AFTER_SEND = 12102
-Global Const $ERROR_WINHTTP_CANNOT_CALL_AFTER_OPEN = 12103
-Global Const $ERROR_WINHTTP_HEADER_NOT_FOUND = 12150
-Global Const $ERROR_WINHTTP_INVALID_SERVER_RESPONSE = 12152
-Global Const $ERROR_WINHTTP_INVALID_HEADER = 12153
-Global Const $ERROR_WINHTTP_INVALID_QUERY_REQUEST = 12154
-Global Const $ERROR_WINHTTP_HEADER_ALREADY_EXISTS = 12155
-Global Const $ERROR_WINHTTP_REDIRECT_FAILED = 12156
-Global Const $ERROR_WINHTTP_SECURE_CHANNEL_ERROR = 12157
-Global Const $ERROR_WINHTTP_BAD_AUTO_PROXY_SCRIPT = 12166
-Global Const $ERROR_WINHTTP_UNABLE_TO_DOWNLOAD_SCRIPT = 12167
-Global Const $ERROR_WINHTTP_SECURE_INVALID_CERT = 12169
-Global Const $ERROR_WINHTTP_SECURE_CERT_REVOKED = 12170
-Global Const $ERROR_WINHTTP_NOT_INITIALIZED = 12172
-Global Const $ERROR_WINHTTP_SECURE_FAILURE = 12175
-Global Const $ERROR_WINHTTP_AUTO_PROXY_SERVICE_ERROR = 12178
-Global Const $ERROR_WINHTTP_SECURE_CERT_WRONG_USAGE = 12179
-Global Const $ERROR_WINHTTP_AUTODETECTION_FAILED = 12180
-Global Const $ERROR_WINHTTP_HEADER_COUNT_EXCEEDED = 12181
-Global Const $ERROR_WINHTTP_HEADER_SIZE_OVERFLOW = 12182
-Global Const $ERROR_WINHTTP_CHUNKED_ENCODING_HEADER_SIZE_OVERFLOW = 12183
-Global Const $ERROR_WINHTTP_RESPONSE_DRAIN_OVERFLOW = 12184
-Global Const $ERROR_WINHTTP_CLIENT_CERT_NO_PRIVATE_KEY = 12185
-Global Const $ERROR_WINHTTP_CLIENT_CERT_NO_ACCESS_PRIVATE_KEY = 12186
-Global Const $WINHTTP_ERROR_LAST = 12186
-
-; WinHttp status codes  ;
-Global Const $HTTP_STATUS_CONTINUE = 100
-Global Const $HTTP_STATUS_SWITCH_PROTOCOLS = 101
-Global Const $HTTP_STATUS_OK = 200
-Global Const $HTTP_STATUS_CREATED = 201
-Global Const $HTTP_STATUS_ACCEPTED = 202
-Global Const $HTTP_STATUS_PARTIAL = 203
-Global Const $HTTP_STATUS_NO_CONTENT = 204
-Global Const $HTTP_STATUS_RESET_CONTENT = 205
-Global Const $HTTP_STATUS_PARTIAL_CONTENT = 206
-Global Const $HTTP_STATUS_WEBDAV_MULTI_STATUS = 207
-Global Const $HTTP_STATUS_AMBIGUOUS = 300
-Global Const $HTTP_STATUS_MOVED = 301
-Global Const $HTTP_STATUS_REDIRECT = 302
-Global Const $HTTP_STATUS_REDIRECT_METHOD = 303
-Global Const $HTTP_STATUS_NOT_MODIFIED = 304
-Global Const $HTTP_STATUS_USE_PROXY = 305
-Global Const $HTTP_STATUS_REDIRECT_KEEP_VERB = 307
-Global Const $HTTP_STATUS_BAD_REQUEST = 400
-Global Const $HTTP_STATUS_DENIED = 401
-Global Const $HTTP_STATUS_PAYMENT_REQ = 402
-Global Const $HTTP_STATUS_FORBIDDEN = 403
-Global Const $HTTP_STATUS_NOT_FOUND = 404
-Global Const $HTTP_STATUS_BAD_METHOD = 405
-Global Const $HTTP_STATUS_NONE_ACCEPTABLE = 406
-Global Const $HTTP_STATUS_PROXY_AUTH_REQ = 407
-Global Const $HTTP_STATUS_REQUEST_TIMEOUT = 408
-Global Const $HTTP_STATUS_CONFLICT = 409
-Global Const $HTTP_STATUS_GONE = 410
-Global Const $HTTP_STATUS_LENGTH_REQUIRED = 411
-Global Const $HTTP_STATUS_PRECOND_FAILED = 412
-Global Const $HTTP_STATUS_REQUEST_TOO_LARGE = 413
-Global Const $HTTP_STATUS_URI_TOO_LONG = 414
-Global Const $HTTP_STATUS_UNSUPPORTED_MEDIA = 415
-Global Const $HTTP_STATUS_RETRY_WITH = 449
-Global Const $HTTP_STATUS_SERVER_ERROR = 500
-Global Const $HTTP_STATUS_NOT_SUPPORTED = 501
-Global Const $HTTP_STATUS_BAD_GATEWAY = 502
-Global Const $HTTP_STATUS_SERVICE_UNAVAIL = 503
-Global Const $HTTP_STATUS_GATEWAY_TIMEOUT = 504
-Global Const $HTTP_STATUS_VERSION_NOT_SUP = 505
-Global Const $HTTP_STATUS_FIRST = $HTTP_STATUS_CONTINUE
-Global Const $HTTP_STATUS_LAST = $HTTP_STATUS_VERSION_NOT_SUP
-
-Global Const $SECURITY_FLAG_IGNORE_UNKNOWN_CA = 0x00000100
-Global Const $SECURITY_FLAG_IGNORE_CERT_DATE_INVALID = 0x00002000
-Global Const $SECURITY_FLAG_IGNORE_CERT_CN_INVALID = 0x00001000
-Global Const $SECURITY_FLAG_IGNORE_CERT_WRONG_USAGE = 0x00000200
-Global Const $SECURITY_FLAG_SECURE = 0x00000001
-Global Const $SECURITY_FLAG_STRENGTH_WEAK = 0x10000000
-Global Const $SECURITY_FLAG_STRENGTH_MEDIUM = 0x40000000
-Global Const $SECURITY_FLAG_STRENGTH_STRONG = 0x20000000
-
-Global Const $ICU_NO_ENCODE = 0x20000000
-Global Const $ICU_DECODE = 0x10000000
-Global Const $ICU_NO_META = 0x08000000
-Global Const $ICU_ENCODE_SPACES_ONLY = 0x04000000
-Global Const $ICU_BROWSER_MODE = 0x02000000
-Global Const $ICU_ENCODE_PERCENT = 0x00001000
-
-; Query flags  ;
-Global Const $WINHTTP_QUERY_MIME_VERSION = 0
-Global Const $WINHTTP_QUERY_CONTENT_TYPE = 1
-Global Const $WINHTTP_QUERY_CONTENT_TRANSFER_ENCODING = 2
-Global Const $WINHTTP_QUERY_CONTENT_ID = 3
-Global Const $WINHTTP_QUERY_CONTENT_DESCRIPTION = 4
-Global Const $WINHTTP_QUERY_CONTENT_LENGTH = 5
-Global Const $WINHTTP_QUERY_CONTENT_LANGUAGE = 6
-Global Const $WINHTTP_QUERY_ALLOW = 7
-Global Const $WINHTTP_QUERY_PUBLIC = 8
-Global Const $WINHTTP_QUERY_DATE = 9
-Global Const $WINHTTP_QUERY_EXPIRES = 10
-Global Const $WINHTTP_QUERY_LAST_MODIFIED = 11
-Global Const $WINHTTP_QUERY_MESSAGE_ID = 12
-Global Const $WINHTTP_QUERY_URI = 13
-Global Const $WINHTTP_QUERY_DERIVED_FROM = 14
-Global Const $WINHTTP_QUERY_COST = 15
-Global Const $WINHTTP_QUERY_LINK = 16
-Global Const $WINHTTP_QUERY_PRAGMA = 17
-Global Const $WINHTTP_QUERY_VERSION = 18
-Global Const $WINHTTP_QUERY_STATUS_CODE = 19
-Global Const $WINHTTP_QUERY_STATUS_TEXT = 20
-Global Const $WINHTTP_QUERY_RAW_HEADERS = 21
-Global Const $WINHTTP_QUERY_RAW_HEADERS_CRLF = 22
-Global Const $WINHTTP_QUERY_CONNECTION = 23
-Global Const $WINHTTP_QUERY_ACCEPT = 24
-Global Const $WINHTTP_QUERY_ACCEPT_CHARSET = 25
-Global Const $WINHTTP_QUERY_ACCEPT_ENCODING = 26
-Global Const $WINHTTP_QUERY_ACCEPT_LANGUAGE = 27
-Global Const $WINHTTP_QUERY_AUTHORIZATION = 28
-Global Const $WINHTTP_QUERY_CONTENT_ENCODING = 29
-Global Const $WINHTTP_QUERY_FORWARDED = 30
-Global Const $WINHTTP_QUERY_FROM = 31
-Global Const $WINHTTP_QUERY_IF_MODIFIED_SINCE = 32
-Global Const $WINHTTP_QUERY_LOCATION = 33
-Global Const $WINHTTP_QUERY_ORIG_URI = 34
-Global Const $WINHTTP_QUERY_REFERER = 35
-Global Const $WINHTTP_QUERY_RETRY_AFTER = 36
-Global Const $WINHTTP_QUERY_SERVER = 37
-Global Const $WINHTTP_QUERY_TITLE = 38
-Global Const $WINHTTP_QUERY_USER_AGENT = 39
-Global Const $WINHTTP_QUERY_WWW_AUTHENTICATE = 40
-Global Const $WINHTTP_QUERY_PROXY_AUTHENTICATE = 41
-Global Const $WINHTTP_QUERY_ACCEPT_RANGES = 42
-Global Const $WINHTTP_QUERY_SET_COOKIE = 43
-Global Const $WINHTTP_QUERY_COOKIE = 44
-Global Const $WINHTTP_QUERY_REQUEST_METHOD = 45
-Global Const $WINHTTP_QUERY_REFRESH = 46
-Global Const $WINHTTP_QUERY_CONTENT_DISPOSITION = 47
-Global Const $WINHTTP_QUERY_AGE = 48
-Global Const $WINHTTP_QUERY_CACHE_CONTROL = 49
-Global Const $WINHTTP_QUERY_CONTENT_BASE = 50
-Global Const $WINHTTP_QUERY_CONTENT_LOCATION = 51
-Global Const $WINHTTP_QUERY_CONTENT_MD5 = 52
-Global Const $WINHTTP_QUERY_CONTENT_RANGE = 53
-Global Const $WINHTTP_QUERY_ETAG = 54
-Global Const $WINHTTP_QUERY_HOST = 55
-Global Const $WINHTTP_QUERY_IF_MATCH = 56
-Global Const $WINHTTP_QUERY_IF_NONE_MATCH = 57
-Global Const $WINHTTP_QUERY_IF_RANGE = 58
-Global Const $WINHTTP_QUERY_IF_UNMODIFIED_SINCE = 59
-Global Const $WINHTTP_QUERY_MAX_FORWARDS = 60
-Global Const $WINHTTP_QUERY_PROXY_AUTHORIZATION = 61
-Global Const $WINHTTP_QUERY_RANGE = 62
-Global Const $WINHTTP_QUERY_TRANSFER_ENCODING = 63
-Global Const $WINHTTP_QUERY_UPGRADE = 64
-Global Const $WINHTTP_QUERY_VARY = 65
-Global Const $WINHTTP_QUERY_VIA = 66
-Global Const $WINHTTP_QUERY_WARNING = 67
-Global Const $WINHTTP_QUERY_EXPECT = 68
-Global Const $WINHTTP_QUERY_PROXY_CONNECTION = 69
-Global Const $WINHTTP_QUERY_UNLESS_MODIFIED_SINCE = 70
-Global Const $WINHTTP_QUERY_PROXY_SUPPORT = 75
-Global Const $WINHTTP_QUERY_AUTHENTICATION_INFO = 76
-Global Const $WINHTTP_QUERY_PASSPORT_URLS = 77
-Global Const $WINHTTP_QUERY_PASSPORT_CONFIG = 78
-Global Const $WINHTTP_QUERY_MAX = 78
-Global Const $WINHTTP_QUERY_CUSTOM = 65535
-Global Const $WINHTTP_QUERY_FLAG_REQUEST_HEADERS = 0x80000000
-Global Const $WINHTTP_QUERY_FLAG_SYSTEMTIME = 0x40000000
-Global Const $WINHTTP_QUERY_FLAG_NUMBER = 0x20000000
-
-; Callback options  ;
-Global Const $WINHTTP_CALLBACK_STATUS_RESOLVING_NAME = 0x00000001
-Global Const $WINHTTP_CALLBACK_STATUS_NAME_RESOLVED = 0x00000002
-Global Const $WINHTTP_CALLBACK_STATUS_CONNECTING_TO_SERVER = 0x00000004
-Global Const $WINHTTP_CALLBACK_STATUS_CONNECTED_TO_SERVER = 0x00000008
-Global Const $WINHTTP_CALLBACK_STATUS_SENDING_REQUEST = 0x00000010
-Global Const $WINHTTP_CALLBACK_STATUS_REQUEST_SENT = 0x00000020
-Global Const $WINHTTP_CALLBACK_STATUS_RECEIVING_RESPONSE = 0x00000040
-Global Const $WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED = 0x00000080
-Global Const $WINHTTP_CALLBACK_STATUS_CLOSING_CONNECTION = 0x00000100
-Global Const $WINHTTP_CALLBACK_STATUS_CONNECTION_CLOSED = 0x00000200
-Global Const $WINHTTP_CALLBACK_STATUS_HANDLE_CREATED = 0x00000400
-Global Const $WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING = 0x00000800
-Global Const $WINHTTP_CALLBACK_STATUS_DETECTING_PROXY = 0x00001000
-Global Const $WINHTTP_CALLBACK_STATUS_REDIRECT = 0x00004000
-Global Const $WINHTTP_CALLBACK_STATUS_INTERMEDIATE_RESPONSE = 0x00008000
-Global Const $WINHTTP_CALLBACK_STATUS_SECURE_FAILURE = 0x00010000
-Global Const $WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE = 0x00020000
-Global Const $WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE = 0x00040000
-Global Const $WINHTTP_CALLBACK_STATUS_READ_COMPLETE = 0x00080000
-Global Const $WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE = 0x00100000
-Global Const $WINHTTP_CALLBACK_STATUS_REQUEST_ERROR = 0x00200000
-Global Const $WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE = 0x00400000
-Global Const $WINHTTP_CALLBACK_FLAG_RESOLVE_NAME = BitOR($WINHTTP_CALLBACK_STATUS_RESOLVING_NAME, $WINHTTP_CALLBACK_STATUS_NAME_RESOLVED)
-Global Const $WINHTTP_CALLBACK_FLAG_CONNECT_TO_SERVER = BitOR($WINHTTP_CALLBACK_STATUS_CONNECTING_TO_SERVER, $WINHTTP_CALLBACK_STATUS_CONNECTED_TO_SERVER)
-Global Const $WINHTTP_CALLBACK_FLAG_SEND_REQUEST = BitOR($WINHTTP_CALLBACK_STATUS_SENDING_REQUEST, $WINHTTP_CALLBACK_STATUS_REQUEST_SENT)
-Global Const $WINHTTP_CALLBACK_FLAG_RECEIVE_RESPONSE = BitOR($WINHTTP_CALLBACK_STATUS_RECEIVING_RESPONSE, $WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED)
-Global Const $WINHTTP_CALLBACK_FLAG_CLOSE_CONNECTION = BitOR($WINHTTP_CALLBACK_STATUS_CLOSING_CONNECTION, $WINHTTP_CALLBACK_STATUS_CONNECTION_CLOSED)
-Global Const $WINHTTP_CALLBACK_FLAG_HANDLES = BitOR($WINHTTP_CALLBACK_STATUS_HANDLE_CREATED, $WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING)
-Global Const $WINHTTP_CALLBACK_FLAG_DETECTING_PROXY = $WINHTTP_CALLBACK_STATUS_DETECTING_PROXY
-Global Const $WINHTTP_CALLBACK_FLAG_REDIRECT = $WINHTTP_CALLBACK_STATUS_REDIRECT
-Global Const $WINHTTP_CALLBACK_FLAG_INTERMEDIATE_RESPONSE = $WINHTTP_CALLBACK_STATUS_INTERMEDIATE_RESPONSE
-Global Const $WINHTTP_CALLBACK_FLAG_SECURE_FAILURE = $WINHTTP_CALLBACK_STATUS_SECURE_FAILURE
-Global Const $WINHTTP_CALLBACK_FLAG_SENDREQUEST_COMPLETE = $WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE
-Global Const $WINHTTP_CALLBACK_FLAG_HEADERS_AVAILABLE = $WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE
-Global Const $WINHTTP_CALLBACK_FLAG_DATA_AVAILABLE = $WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE
-Global Const $WINHTTP_CALLBACK_FLAG_READ_COMPLETE = $WINHTTP_CALLBACK_STATUS_READ_COMPLETE
-Global Const $WINHTTP_CALLBACK_FLAG_WRITE_COMPLETE = $WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE
-Global Const $WINHTTP_CALLBACK_FLAG_REQUEST_ERROR = $WINHTTP_CALLBACK_STATUS_REQUEST_ERROR
-Global Const $WINHTTP_CALLBACK_FLAG_ALL_COMPLETIONS = BitOR($WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE, $WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE, $WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE, $WINHTTP_CALLBACK_STATUS_READ_COMPLETE, $WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE, $WINHTTP_CALLBACK_STATUS_REQUEST_ERROR)
-Global Const $WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS = 0xFFFFFFFF
-
-Global Const $API_RECEIVE_RESPONSE = 1
-Global Const $API_QUERY_DATA_AVAILABLE = 2
-Global Const $API_READ_DATA = 3
-Global Const $API_WRITE_DATA = 4
-Global Const $API_SEND_REQUEST = 5
-
-Global Const $WINHTTP_HANDLE_TYPE_SESSION = 1
-Global Const $WINHTTP_HANDLE_TYPE_CONNECT = 2
-Global Const $WINHTTP_HANDLE_TYPE_REQUEST = 3
-
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_CERT_REV_FAILED = 0x00000001
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_INVALID_CERT = 0x00000002
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_CERT_REVOKED = 0x00000004
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_INVALID_CA = 0x00000008
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_CERT_CN_INVALID = 0x00000010
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_CERT_DATE_INVALID = 0x00000020
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_CERT_WRONG_USAGE = 0x00000040
-Global Const $WINHTTP_CALLBACK_STATUS_FLAG_SECURITY_CHANNEL_ERROR = 0x80000000
-
-Global Const $WINHTTP_AUTH_SCHEME_BASIC = 0x00000001
-Global Const $WINHTTP_AUTH_SCHEME_NTLM = 0x00000002
-Global Const $WINHTTP_AUTH_SCHEME_PASSPORT = 0x00000004
-Global Const $WINHTTP_AUTH_SCHEME_DIGEST = 0x00000008
-Global Const $WINHTTP_AUTH_SCHEME_NEGOTIATE = 0x00000010
-
-Global Const $WINHTTP_AUTH_TARGET_SERVER = 0x00000000
-Global Const $WINHTTP_AUTH_TARGET_PROXY = 0x00000001
-
-
-Global Const $WINHTTP_AUTOPROXY_AUTO_DETECT = 0x00000001
-Global Const $WINHTTP_AUTOPROXY_CONFIG_URL = 0x00000002
-Global Const $WINHTTP_AUTOPROXY_RUN_INPROCESS = 0x00010000
-Global Const $WINHTTP_AUTOPROXY_RUN_OUTPROCESS_ONLY = 0x00020000
-Global Const $WINHTTP_AUTO_DETECT_TYPE_DHCP = 0x00000001
-Global Const $WINHTTP_AUTO_DETECT_TYPE_DNS_A = 0x00000002
 ; #INDEX# ===================================================================================
 ; Title ...............: WinHttp
 ; File Name............: WinHttp.au3
-; File Version.........: 1.6.2.1
+; File Version.........: 1.6.2.6
 ; Min. AutoIt Version..: v3.3.2.0
 ; Description .........: AutoIt wrapper for WinHttp functions
 ; Author... ...........: trancexx, ProgAndy
@@ -448,6 +44,7 @@ DllOpen("winhttp.dll") ; making sure reference count never reaches 0
 ;_WinHttpSetTimeouts
 ;_WinHttpSimpleFormFill
 ;_WinHttpSimpleReadData
+;_WinHttpSimpleReadDataAsync
 ;_WinHttpSimpleRequest
 ;_WinHttpSimpleSendRequest
 ;_WinHttpSimpleSendSSLRequest
@@ -459,7 +56,7 @@ DllOpen("winhttp.dll") ; making sure reference count never reaches 0
 
 ; #FUNCTION# ;===============================================================================
 ; Name...........: _WinHttpAddRequestHeaders
-; Description ...: Adds one or more HTTP request headers to the HTTP request handle.
+; Description ...: 添加一个或者多个 HTTP 请求头到 HTTP 请求句柄.
 ; Syntax.........: _WinHttpAddRequestHeaders ($hRequest, $sHeaders [, $iModifiers = Default ])
 ; Parameters ....: $hRequest - Handle returned by _WinHttpOpenRequest function.
 ;                  $sHeader - [optional] Header(s) to append to the request.
@@ -475,7 +72,7 @@ DllOpen("winhttp.dll") ; making sure reference count never reaches 0
 ; Example .......: 3456
 ;============================================================================================
 Func _WinHttpAddRequestHeaders($hRequest, $sHeader, $iModifier = Default)
-	If $iModifier = Default Or $iModifier = -1 Then $iModifier = $WINHTTP_ADDREQ_FLAG_ADD_IF_NEW
+	__WinHttpDefault($iModifier, $WINHTTP_ADDREQ_FLAG_ADD_IF_NEW)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "bool", "WinHttpAddRequestHeaders", _
 			"handle", $hRequest, _
 			"wstr", $sHeader, _
@@ -578,7 +175,7 @@ EndFunc   ;==>_WinHttpCloseHandle
 ; Example .......:
 ;============================================================================================
 Func _WinHttpConnect($hSession, $sServerName, $iServerPort = Default)
-	If $iServerPort = Default Or $iServerPort = -1 Then $iServerPort = $INTERNET_DEFAULT_PORT
+	__WinHttpDefault($iServerPort, $INTERNET_DEFAULT_PORT)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "handle", "WinHttpConnect", _
 			"handle", $hSession, _
 			"wstr", $sServerName, _
@@ -615,7 +212,7 @@ EndFunc   ;==>_WinHttpConnect
 ; Example .......:
 ;============================================================================================
 Func _WinHttpCrackUrl($sURL, $iFlag = Default)
-	If $iFlag = Default Or $iFlag = -1 Then $iFlag = $ICU_ESCAPE
+	__WinHttpDefault($iFlag, $ICU_ESCAPE)
 	Local $tURL_COMPONENTS = DllStructCreate("dword StructSize;" & _
 			"ptr SchemeName;" & _
 			"dword SchemeNameLength;" & _
@@ -925,7 +522,7 @@ EndFunc   ;==>_WinHttpGetIEProxyConfigForCurrentUser
 ;                  $iAccessType - [optional] Type of access required. Default is $WINHTTP_ACCESS_TYPE_NO_PROXY.
 ;                  $sProxyName - [optional] The name of the proxy server to use when proxy access is specified by setting $iAccessType to $WINHTTP_ACCESS_TYPE_NAMED_PROXY. Default is $WINHTTP_NO_PROXY_NAME.
 ;                  $sProxyBypass - [optional] An optional list of host names or IP addresses, or both, that should not be routed through the proxy when $iAccessType is set to $WINHTTP_ACCESS_TYPE_NAMED_PROXY. Default is $WINHTTP_NO_PROXY_BYPASS.
-;                  $iFlag - [optional] Integer that contains the flags that indicate various options affecting the behavior of this function. Default is 0.
+;                  $iFlag - [optional] Integer containing the flags that indicate various options affecting the behavior of this function. Default is 0.
 ; Return values .: Success - Returns valid session handle.
 ;                  Failure - Returns 0 and sets @error:
 ;                  |1 - DllCall failed
@@ -937,11 +534,11 @@ EndFunc   ;==>_WinHttpGetIEProxyConfigForCurrentUser
 ; Example .......:
 ;============================================================================================
 Func _WinHttpOpen($sUserAgent = Default, $iAccessType = Default, $sProxyName = Default, $sProxyBypass = Default, $iFlag = Default)
-	If $sUserAgent = Default Or $sUserAgent = -1 Then $sUserAgent = "AutoIt/3.3"
-	If $iAccessType = Default Or $iAccessType = -1 Then $iAccessType = $WINHTTP_ACCESS_TYPE_NO_PROXY
-	If $sProxyName = Default Or $sProxyName = -1 Then $sProxyName = $WINHTTP_NO_PROXY_NAME
-	If $sProxyBypass = Default Or $sProxyBypass = -1 Then $sProxyBypass = $WINHTTP_NO_PROXY_BYPASS
-	If $iFlag = Default Or $iFlag = -1 Then $iFlag = 0
+	__WinHttpDefault($sUserAgent, "AutoIt/3.3")
+	__WinHttpDefault($iAccessType, $WINHTTP_ACCESS_TYPE_NO_PROXY)
+	__WinHttpDefault($sProxyName, $WINHTTP_NO_PROXY_NAME)
+	__WinHttpDefault($sProxyBypass, $WINHTTP_NO_PROXY_BYPASS)
+	__WinHttpDefault($iFlag, 0)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "handle", "WinHttpOpen", _
 			"wstr", $sUserAgent, _
 			"dword", $iAccessType, _
@@ -962,7 +559,7 @@ EndFunc   ;==>_WinHttpOpen
 ;                  $sVersion - [optional] HTTP version. Default is "HTTP/1.1"
 ;                  $sReferrer - [optional] URL of the document from which the URL in the request $sObjectName was obtained. Default is $WINHTTP_NO_REFERER.
 ;                  $sAcceptTypes - [optional] Media types accepted by the client. Default is $WINHTTP_DEFAULT_ACCEPT_TYPES
-;                  $iFlags - [optional] Integer that contains the Internet flag values. Default is $WINHTTP_FLAG_ESCAPE_DISABLE
+;                  $iFlags - [optional] Integer specifying the Internet flag values. Default is $WINHTTP_FLAG_ESCAPE_DISABLE
 ; Return values .: Success - Returns valid session handle.
 ;                  Failure - Returns 0 and sets @error:
 ;                  |1 - DllCall failed
@@ -974,13 +571,13 @@ EndFunc   ;==>_WinHttpOpen
 ; Example .......:
 ;============================================================================================
 Func _WinHttpOpenRequest($hConnect, $sVerb = Default, $sObjectName = Default, $sVersion = Default, $sReferrer = Default, $sAcceptTypes = Default, $iFlags = Default)
-	If $sVerb = Default Or $sVerb = -1 Then $sVerb = "GET"
-	If $sObjectName = Default Or $sObjectName = -1 Then $sObjectName = ""
-	If $sVersion = Default Or $sVersion = -1 Then $sVersion = "HTTP/1.1"
-	If $sReferrer = Default Or $sReferrer = -1 Then $sReferrer = $WINHTTP_NO_REFERER
-	If $iFlags = Default Or $iFlags = -1 Then $iFlags = $WINHTTP_FLAG_ESCAPE_DISABLE
+	__WinHttpDefault($sVerb, "GET")
+	__WinHttpDefault($sObjectName, "")
+	__WinHttpDefault($sVersion, "HTTP/1.1")
+	__WinHttpDefault($sReferrer, $WINHTTP_NO_REFERER)
+	__WinHttpDefault($iFlags, $WINHTTP_FLAG_ESCAPE_DISABLE)
 	Local $pAcceptTypes
-	If $sAcceptTypes = Default Or $sAcceptTypes = -1 Then
+	If $sAcceptTypes = Default Or Number($sAcceptTypes) = -1 Then
 		$pAcceptTypes = $WINHTTP_DEFAULT_ACCEPT_TYPES
 	Else
 		Local $aTypes = StringSplit($sAcceptTypes, ",", 2)
@@ -1048,9 +645,9 @@ EndFunc   ;==>_WinHttpQueryDataAvailable
 ; Example .......:
 ;============================================================================================
 Func _WinHttpQueryHeaders($hRequest, $iInfoLevel = Default, $sName = Default, $iIndex = Default)
-	If $iInfoLevel = Default Or $iInfoLevel = -1 Then $iInfoLevel = $WINHTTP_QUERY_RAW_HEADERS_CRLF
-	If $sName = Default Or $sName = -1 Then $sName = $WINHTTP_HEADER_NAME_BY_INDEX
-	If $iIndex = Default Or $iIndex = -1 Then $iIndex = $WINHTTP_NO_HEADER_INDEX
+	__WinHttpDefault($iInfoLevel, $WINHTTP_QUERY_RAW_HEADERS_CRLF)
+	__WinHttpDefault($sName, $WINHTTP_HEADER_NAME_BY_INDEX)
+	__WinHttpDefault($iIndex, $WINHTTP_NO_HEADER_INDEX)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "bool", "WinHttpQueryHeaders", _
 			"handle", $hRequest, _
 			"dword", $iInfoLevel, _
@@ -1061,58 +658,6 @@ Func _WinHttpQueryHeaders($hRequest, $iInfoLevel = Default, $sName = Default, $i
 	If @error Or Not $aCall[0] Then Return SetError(1, 0, "")
 	Return SetExtended($aCall[6], $aCall[4])
 EndFunc   ;==>_WinHttpQueryHeaders
-
-; #FUNCTION# ====================================================================================================================
-; Name ..........: _WinHttpQueryInfo
-; Description ...: Retrieves header information associated with an HTTP request.
-; Syntax ........: _WinHttpQueryInfo($hInternet, $iInfoLevel[, $iIndex = 0[, $iBufferSize = 2048]])
-; Parameters ....: $hInternet - A handle returned by a call to _WinIHttpOpenRequest
-;                  $iInfoLevel       - The attribute to be retrieved and flags that modify the request. Can be a combination of the $HTTP_QUERY_* variables.
-;                  $iIndex           - [optional] The zero-based header index used to enumerate multiple headers with the same name.
-;                  $iBufferSize      - [optional] The number of bytes to allocate to the buffer for retrieving the header
-; Return values .: Success - An array with the following format:
-;                  |[0] - A DllStruct containing a byte array of size $iBufferSize
-;                  |[1] - The number of bytes actually written to the array
-;                  |@extended is set to the index of the next header, or $ERROR_HTTP_HEADER_NOT_FOUND if the next header cannot be found
-;                  Failure - ""; if DllCall fails, sets @error to 1; if function call fails, sets @error to 2, sets @extended to the number of bytes required to retrieve the header
-; Author ........: Ultima
-; Modified.......:
-; Remarks .......: Because HttpQueryInfo can return strings, SYSTEMTIME structures, or DWORDs, it is up to the user to decide how
-;                  the returned struct is to be read/interpreted. To convert from a byte array into a SYSTEMTIME structure, for
-;                  example, one can perform something like
-;                  Local $tTime = DllStructCreate($tagSYSTEMTIME, DllStructGetPtr($tBuffer))
-;                  where $tBuffer is the returned buffer. $tTime can then be acted upon as if it were a SYSTEMTIME struct.
-; Related .......:
-; Link ..........: @@MsdnLink@@ HttpQueryInfo
-; Example .......:
-; ===============================================================================================================================
-Func _WinHttpQueryInfo($hInternet, $iInfoLevel, $iIndex = 0, $iBufferSize = 2048)
-	; Set data/structures up
-	Local $tIndex = DllStructCreate("dword")
-	DllStructSetData($tIndex, 1, $iIndex)
-
-	Local $tBufferLength = DllStructCreate("dword")
-	DllStructSetData($tBufferLength, 1, $iBufferSize)
-
-	Local $tBuffer = DllStructCreate("byte[" & $iBufferSize & "]")
-
-	; Make DLL call
-	Local $avResult = DllCall($hWINHTTPDLL__WINHTTP, _
-		"int", "HttpQueryInfoW", _
-			"ptr",   $hInternet, _
-			"dword", $iInfoLevel, _
-			"ptr",   DllStructGetPtr($tBuffer), _
-			"ptr",   DllStructGetPtr($tBufferLength), _
-			"ptr",   DllStructGetPtr($tIndex) _
-	)
-
-	; Return response
-	If @error Then Return SetError(1, 0, "")
-	If Not $avResult[0] Then Return SetError(2, DllStructGetData($tBufferLength, 1), "")
-
-	Local $avReturn[2] = [$tBuffer, DllStructGetData($tBufferLength, 1)]
-	Return SetError(0, DllStructGetData($tIndex, 1), $avReturn)
-EndFunc   ;==>_WinINet_HttpQueryInfo
 
 ; #FUNCTION# ;===============================================================================
 ; Name...........: _WinHttpQueryOption
@@ -1169,7 +714,7 @@ EndFunc   ;==>_WinHttpQueryOption
 ; Syntax.........: _WinHttpReadData($hRequest [, $iMode = Default [, $iNumberOfBytesToRead = Default ]])
 ; Parameters ....: $hRequest - Valid handle returned from a previous call to _WinHttpOpenRequest().
 ;                  $iMode - [optional] Integer representing reading mode. Default is 0 (charset is decoded as it is ANSI).
-;                  $iNumberOfBytesToRead - [optional] Integer. The number of bytes to read. Default is 8192 bytes.
+;                  $iNumberOfBytesToRead - [optional] The number of bytes to read. Default is 8192 bytes.
 ; Return values .: Success - Returns data read.
 ;                          - @extended receives the number of bytes read.
 ;                  Special: Sets @error to -1 if no more data to read (end reached).
@@ -1185,16 +730,24 @@ EndFunc   ;==>_WinHttpQueryOption
 ; Link ..........: http://msdn.microsoft.com/en-us/library/aa384104(VS.85).aspx
 ; Example .......:
 ;============================================================================================
-Func _WinHttpReadData($hRequest, $iMode = Default, $iNumberOfBytesToRead = Default)
-	If $iMode = Default Or $iMode = -1 Then $iMode = 0
-	If $iNumberOfBytesToRead = Default Or $iNumberOfBytesToRead = -1 Then $iNumberOfBytesToRead = 8192
+Func _WinHttpReadData($hRequest, $iMode = Default, $iNumberOfBytesToRead = Default, $pBuffer = Default)
+	__WinHttpDefault($iMode, 0)
+	__WinHttpDefault($iNumberOfBytesToRead, 8192)
 	Local $tBuffer
 	Switch $iMode
 		Case 1, 2
-			$tBuffer = DllStructCreate("byte[" & $iNumberOfBytesToRead & "]")
+			If $pBuffer And $pBuffer <> Default Then
+				$tBuffer = DllStructCreate("byte[" & $iNumberOfBytesToRead & "]", $pBuffer)
+			Else
+				$tBuffer = DllStructCreate("byte[" & $iNumberOfBytesToRead & "]")
+			EndIf
 		Case Else
 			$iMode = 0
-			$tBuffer = DllStructCreate("char[" & $iNumberOfBytesToRead & "]")
+			If $pBuffer And $pBuffer <> Default Then
+				$tBuffer = DllStructCreate("char[" & $iNumberOfBytesToRead & "]", $pBuffer)
+			Else
+				$tBuffer = DllStructCreate("char[" & $iNumberOfBytesToRead & "]")
+			EndIf
 	EndSwitch
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "bool", "WinHttpReadData", _
 			"handle", $hRequest, _
@@ -1263,10 +816,10 @@ EndFunc   ;==>_WinHttpReceiveResponse
 ; Example .......:
 ;============================================================================================
 Func _WinHttpSendRequest($hRequest, $sHeaders = Default, $sOptional = Default, $iTotalLength = Default, $iContext = Default)
-	If $sHeaders = Default Or $sHeaders = -1 Then $sHeaders = $WINHTTP_NO_ADDITIONAL_HEADERS
-	If $sOptional = Default Or $sOptional = -1 Then $sOptional = $WINHTTP_NO_REQUEST_DATA
-	If $iTotalLength = Default Or $iTotalLength = -1 Then $iTotalLength = 0
-	If $iContext = Default Or $iContext = -1 Then $iContext = 0
+	__WinHttpDefault($sHeaders, $WINHTTP_NO_ADDITIONAL_HEADERS)
+	__WinHttpDefault($sOptional, $WINHTTP_NO_REQUEST_DATA)
+	__WinHttpDefault($iTotalLength, 0)
+	__WinHttpDefault($iContext, 0)
 	Local $pOptional = 0, $iOptionalLength = 0
 	If @NumParams > 2 Then
 		Local $tOptional
@@ -1288,37 +841,6 @@ Func _WinHttpSendRequest($hRequest, $sHeaders = Default, $sOptional = Default, $
 	Return 1
 EndFunc   ;==>_WinHttpSendRequest
 
-; #FUNCTION# ====================================================================================================================
-; Name ..........: _WinHttpSendRequestEx
-; Description ...: Sends the specified request to the HTTP server.
-; Syntax ........: _WinHttpSendRequestEx($hRequest[, $hBuffersIn = 0[, $hContext = 0]])
-; Parameters ....: $hRequest - A handle returned by a call to _WinINet_HttpOpenRequest
-;                  $pBuffersIn       - [optional] A pointer to an INTERNET_BUFFERS structure.
-;                  $hContext         - [optional] An application-defined value used to identify the application context in callback operations. Can be a DWORD value, or a pointer to a DllStruct.
-; Return values .: Success - True
-;                  Failure - False, sets @error to 1
-; Author ........: Ultima
-; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ HttpSendRequestEx
-; Example .......:
-; ===============================================================================================================================
-Func _WinHttpSendRequestEx($hRequest, $pBuffersIn = 0, $hContext = 0)
-	; Make DLL call
-	Local $avResult = DllCall($hWINHTTPDLL__WINHTTP, _
-		"int", "HttpSendRequestExW", _
-			"ptr",   $hRequest, _
-			"ptr",   $pBuffersIn, _
-			"ptr",   0, _
-			"dword", 0, _
-			"ptr",   $hContext _
-	)
-
-	; Return response
-	If @error Or Not $avResult[0] Then Return SetError(1, 0, False)
-	Return True
-EndFunc   ;==>_WinINet_HttpSendRequestEx
 ; #FUNCTION# ;===============================================================================
 ; Name...........: _WinHttpSetCredentials
 ; Description ...: Passes the required authorization credentials to the server.
@@ -1482,7 +1004,7 @@ EndFunc   ;==>_WinHttpSetOption
 ; Example .......:
 ;============================================================================================
 Func _WinHttpSetStatusCallback($hInternet, $hInternetCallback, $iNotificationFlags = Default)
-	If $iNotificationFlags = Default Or $iNotificationFlags = -1 Then $iNotificationFlags = $WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS
+	__WinHttpDefault($iNotificationFlags, $WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "ptr", "WinHttpSetStatusCallback", _
 			"handle", $hInternet, _
 			"ptr", DllCallbackGetPtr($hInternetCallback), _
@@ -1516,10 +1038,10 @@ EndFunc   ;==>_WinHttpSetStatusCallback
 ; Example .......:
 ;============================================================================================
 Func _WinHttpSetTimeouts($hInternet, $iResolveTimeout = Default, $iConnectTimeout = Default, $iSendTimeout = Default, $iReceiveTimeout = Default)
-	If $iResolveTimeout = Default Or $iResolveTimeout = -1 Then $iResolveTimeout = 0
-	If $iConnectTimeout = Default Or $iConnectTimeout = -1 Then $iConnectTimeout = 60000
-	If $iSendTimeout = Default Or $iSendTimeout = -1 Then $iSendTimeout = 30000
-	If $iReceiveTimeout = Default Or $iReceiveTimeout = -1 Then $iReceiveTimeout = 30000
+	__WinHttpDefault($iResolveTimeout, 0)
+	__WinHttpDefault($iConnectTimeout, 60000)
+	__WinHttpDefault($iSendTimeout, 30000)
+	__WinHttpDefault($iReceiveTimeout, 30000)
 	Local $aCall = DllCall($hWINHTTPDLL__WINHTTP, "bool", "WinHttpSetTimeouts", _
 			"handle", $hInternet, _
 			"int", $iResolveTimeout, _
@@ -1541,12 +1063,13 @@ EndFunc   ;==>_WinHttpSetTimeouts
 ;                  $sData1 - [optional] Data to set to coresponding field.
 ;                  (...) - [optional] Other pairs of Id/Data. Overall number of fields is 40.
 ; Return values .: Success - Returns HTML source of the page returned by the server on submited form.
-;                  Failure - Returns empt string and sets @error:
+;                  Failure - Returns empty string and sets @error:
 ;                  |1 - No forms on the page
 ;                  |2 - Invalid form
 ;                  |3 - No forms with specified attributes on the page
 ;                  |4 - Connection problems
 ;                  |5 - form's "action" is invalid
+;                  |6 - invalid session handle passed
 ; Author ........: trancexx
 ; Modified.......:
 ; Remarks .......: In case form requires redirection and $hInternet is internet handle, this handle will be closed and replaced with new and required one.
@@ -1580,12 +1103,13 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 	#forceref $sFieldId11, $sData11, $sFieldId12, $sData12, $sFieldId13, $sData13, $sFieldId14, $sData14, $sFieldId15, $sData15, $sFieldId16, $sData16, $sFieldId17, $sData17, $sFieldId18, $sData18, $sFieldId19, $sData19, $sFieldId20, $sData20
 	#forceref $sFieldId21, $sData21, $sFieldId22, $sData22, $sFieldId23, $sData23, $sFieldId24, $sData24, $sFieldId25, $sData25, $sFieldId26, $sData26, $sFieldId27, $sData27, $sFieldId28, $sData28, $sFieldId29, $sData29, $sFieldId30, $sData30
 	#forceref $sFieldId31, $sData31, $sFieldId32, $sData32, $sFieldId33, $sData33, $sFieldId34, $sData34, $sFieldId35, $sData35, $sFieldId36, $sData36, $sFieldId37, $sData37, $sFieldId38, $sData38, $sFieldId39, $sData39, $sFieldId40, $sData40
-	If $sActionPage = Default Or $sActionPage = -1 Then $sActionPage = ""
+	__WinHttpDefault($sActionPage, "")
 	; Get page source
 	Local $hOpen, $sHTML, $fVarForm
 	If IsString($hInternet) Then ; $hInternet is page source
 		$sHTML = $hInternet
-		$hOpen = $sActionPage ; session handle
+		If _WinHttpQueryOption($sActionPage, $WINHTTP_OPTION_HANDLE_TYPE) <> $WINHTTP_HANDLE_TYPE_SESSION Then Return SetError(6, 0, "")
+		$hOpen = $sActionPage
 		$fVarForm = True
 	Else
 		$sHTML = _WinHttpSimpleRequest($hInternet, Default, $sActionPage, Default, Default, "Accept: text/html;q=0.9,text/plain;q=0.8,*/*;q=0.5")
@@ -1620,11 +1144,9 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 	Local $aCrackURL, $sNewURL
 	; Loop thru all forms on the page and find one that was specified
 	For $iFormOrdinal = 0 To UBound($aForm) - 1
-		If $fGetFormByIndex Then
-			If $iFormOrdinal <> $iFormIndex Then ContinueLoop
-		EndIf
+		If $fGetFormByIndex And $iFormOrdinal <> $iFormIndex Then ContinueLoop
 		$sForm = $aForm[$iFormOrdinal]
-		; Extract form attsibutes
+		; Extract form attributes
 		$sAttributes = StringRegExp($sForm, "(?s)(.*?)>", 3)
 		If Not @error Then $sAttributes = $sAttributes[0]
 		$aAttributes = StringRegExp($sAttributes, '\s*([^=]+)\h*=\h*(?:"|''|)(.*?)(?:"|''| |\Z)', 3) ; e.g. method="post" or method=post or method='post'
@@ -1642,16 +1164,12 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 					$sEnctype = $aAttributes[$i + 1]
 				Case "id"
 					$sId = $aAttributes[$i + 1]
-					If $fGetFormById Then
-						If $sFormId <> Default And $aAttributes[$i + 1] <> $sFormId Then ContinueLoop 2
-					EndIf
+					If $fGetFormById And $sFormId <> Default And $aAttributes[$i + 1] <> $sFormId Then ContinueLoop 2
 				Case "method"
 					$sMethod = $aAttributes[$i + 1]
 				Case "name"
 					$sName = $aAttributes[$i + 1]
-					If $fGetFormByName Then
-						If $sFormName <> $sName Then ContinueLoop 2
-					EndIf
+					If $fGetFormByName And $sFormName <> $sName Then ContinueLoop 2
 			EndSwitch
 		Next
 		If $sFormId <> Default And $fGetFormById And $sFormId <> $sId Then ContinueLoop
@@ -1659,13 +1177,15 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 		If Not $sMethod Then $sMethod = "GET"
 		$aCrackURL = _WinHttpCrackUrl($sAction)
 		If @error Then
-			If StringLeft($sAction, 1) <> "/" Then
-				Local $sCurrent
-				Local $aURL = StringRegExp($sActionPage, '(.*)/', 3)
-				If Not @error Then $sCurrent = $aURL[0]
-				If $sCurrent Then $sAction = $sCurrent & "/" & $sAction
+			If $sAction Then
+				If StringLeft($sAction, 1) <> "/" Then
+					Local $sCurrent
+					Local $aURL = StringRegExp($sActionPage, '(.*)/', 3)
+					If Not @error Then $sCurrent = $aURL[0]
+					If $sCurrent Then $sAction = $sCurrent & "/" & $sAction
+				EndIf
+				If StringLeft($sAction, 1) = "?" Then $sAction = $sActionPage & $sAction
 			EndIf
-			If StringLeft($sAction, 1) = "?" Then $sAction = $sActionPage & $sAction
 			If Not $sAction Then $sAction = $sActionPage
 			$sAction = StringRegExpReplace($sAction, "\A(/*\.\./)*", "") ; /../
 		Else
@@ -1675,7 +1195,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 		If $fVarForm And Not $sNewURL Then Return SetError(5, 0, "") ; "action" must have URL specified
 		; Requested form is found. Set $fSend flag to true
 		$fSend = True
-		Local $aSplit, $sBoundary, $sPassedId, $sPassedData, $iNumRepl, $fMuftiPart = False, $sSubmit, $sRadio, $sCheckBox, $sButton
+		Local $aSplit, $sBoundary, $sPassedId, $sPassedData, $iNumRepl, $fMultiPart = False, $sSubmit, $sRadio, $sCheckBox, $sButton
 		Local $sGrSep = Chr(29)
 		$aInput = StringRegExp($sForm, "(?si)<\h*(?:input|textarea|label|fieldset|legend|select|optgroup|option|button)\h*(.*?)/*\h*>", 3)
 		If @error Then Return SetError(2, 0, "") ; invalid form
@@ -1809,32 +1329,33 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 				EndIf
 			Case "multipart/form-data"
 				If $sMethod = "POST" Then ; can't be GET
-					$fMuftiPart = True
+					$fMultiPart = True
 					; Define boundary line
 					$sBoundary = StringFormat("%s%.5f", "----WinHttpBoundaryLine_", Random(10000, 99999))
+					Local $sCDisp = 'Content-Disposition: form-data; name="'
 					For $i = 0 To UBound($aInput) - 1 ; for all input elements
 						__WinHttpFormAttrib($aInputIds, $i, $aInput[$i])
 						If $aInputIds[1][$i] Then ; if there is 'name' field
 							If $aInputIds[3][$i] = "file" Then
 								$sAddData &= "--" & $sBoundary & @CRLF & _
-										'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"; filename=""' & @CRLF & @CRLF & _
+										$sCDisp & $aInputIds[1][$i] & '"; filename=""' & @CRLF & @CRLF & _
 										$aInputIds[2][$i] & @CRLF
 							Else
 								$sAddData &= "--" & $sBoundary & @CRLF & _
-										'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+										$sCDisp & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
 										$aInputIds[2][$i] & @CRLF
 							EndIf
 							If $aInputIds[3][$i] = "submit" Then $sSubmit &= "--" & $sBoundary & @CRLF & _
-									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$sCDisp & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
 									$aInputIds[2][$i] & @CRLF & $sGrSep
 							If $aInputIds[3][$i] = "radio" Then $sRadio &= "--" & $sBoundary & @CRLF & _
-									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$sCDisp & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
 									$aInputIds[2][$i] & @CRLF & $sGrSep
 							If $aInputIds[3][$i] = "checkbox" Then $sCheckBox &= "--" & $sBoundary & @CRLF & _
-									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$sCDisp & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
 									$aInputIds[2][$i] & @CRLF & $sGrSep
 							If $aInputIds[3][$i] = "button" Then $sButton &= "--" & $sBoundary & @CRLF & _
-									'Content-Disposition: form-data; name="' & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
+									$sCDisp & $aInputIds[1][$i] & '"' & @CRLF & @CRLF & _
 									$aInputIds[2][$i] & @CRLF & $sGrSep
 						EndIf
 					Next
@@ -1852,7 +1373,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 								If $aInputIds[0][$j] = $sPassedId Then
 									If $aInputIds[3][$j] = "file" Then
 										$sAddData = StringReplace($sAddData, _
-												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+												$sCDisp & $aInputIds[1][$j] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
 												__WinHttpFileContent($sAccept, $aInputIds[1][$j], $sPassedData, $sBoundary))
 									ElseIf $aInputIds[3][$j] = "submit" Then
 										If $sPassedData = True Then ; if this "submit" is set to TRUE then
@@ -1860,7 +1381,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 												Local $fMDelId = False
 												For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
 													If $sChunkSub = "--" & $sBoundary & @CRLF & _
-															'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+															$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 															$aInputIds[2][$j] & @CRLF Then
 														If $fMDelId Then $sAddData = StringReplace($sAddData, $sChunkSub, "", 1) ; Removing duplicates
 														$fMDelId = True
@@ -1876,7 +1397,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 											If $sPassedData = $aInputIds[2][$j] Then
 												For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
 													If $sChunkSub <> "--" & $sBoundary & @CRLF & _
-															'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+															$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 															$sPassedData & @CRLF Then $sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the set one
 												Next
 												$sRadio = ""
@@ -1884,21 +1405,21 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 										EndIf
 									ElseIf $aInputIds[3][$j] = "checkbox" Then
 										$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q--" & $sBoundary & @CRLF & _
-												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+												$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 												$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
 										If StringRight($sCheckBox, 1) = $sGrSep Then $sCheckBox = StringTrimRight($sCheckBox, 1)
 									ElseIf $aInputIds[3][$j] = "button" Then
 										$sButton = StringRegExpReplace($sButton, "(?i)\Q--" & $sBoundary & @CRLF & _
-												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+												$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 												$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
 										If StringRight($sButton, 1) = $sGrSep Then $sButton = StringTrimRight($sButton, 1)
 									Else
 										$sAddData = StringReplace($sAddData, _
-												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
-												'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
+												$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+												$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
 										$iNumRepl = @extended
 										If $iNumRepl > 1 Then ; equalize ; TODO: remove duplicates
-											$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & 'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
+											$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & $sCDisp & $aInputIds[1][$j] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
 										EndIf
 									EndIf
 								EndIf
@@ -1907,7 +1428,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 							For $j = 0 To UBound($aInputIds, 2) - 1
 								If $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "file" Then
 									$sAddData = StringReplace($sAddData, _
-											'Content-Disposition: form-data; name="' & $aSplit[1] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
+											$sCDisp & $aSplit[1] & '"; filename=""' & @CRLF & @CRLF & $aInputIds[2][$j] & @CRLF, _
 											__WinHttpFileContent($sAccept, $aInputIds[1][$j], $sPassedData, $sBoundary))
 								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "submit" Then
 									If $sPassedData = True Then ; if this "submit" is set to TRUE then
@@ -1915,7 +1436,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 											Local $fMDel = False
 											For $sChunkSub In StringSplit($sSubmit, $sGrSep, 3) ; go tru all "submit" controls
 												If $sChunkSub = "--" & $sBoundary & @CRLF & _
-														'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+														$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 														$aInputIds[2][$j] & @CRLF Then
 													If $fMDel Then $sAddData = StringReplace($sAddData, $sChunkSub, "", 1) ; Removing duplicates
 													$fMDel = True
@@ -1933,7 +1454,7 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 									If $sRadio Then ; If not already processed; only the first is valid
 										For $sChunkSub In StringSplit($sRadio, $sGrSep, 3) ; go tru all "radio" controls
 											If $sChunkSub <> "--" & $sBoundary & @CRLF & _
-													'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+													$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 													$sPassedData & @CRLF Then $sAddData = StringReplace($sAddData, $sChunkSub, "") ; delete all but the set one
 										Next
 										$sRadio = ""
@@ -1941,23 +1462,23 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 									ContinueLoop 2 ; process next parameter
 								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "checkbox" Then
 									$sCheckBox = StringRegExpReplace($sCheckBox, "(?i)\Q--" & $sBoundary & @CRLF & _
-											'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+											$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 											$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
 									If StringRight($sCheckBox, 1) = $sGrSep Then $sCheckBox = StringTrimRight($sCheckBox, 1)
 									ContinueLoop 2 ; process next parameter
 								ElseIf $aInputIds[1][$j] = $aSplit[1] And $aInputIds[3][$j] = "button" Then
 									$sButton = StringRegExpReplace($sButton, "(?i)\Q--" & $sBoundary & @CRLF & _
-											'Content-Disposition: form-data; name="' & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
+											$sCDisp & $aInputIds[1][$j] & '"' & @CRLF & @CRLF & _
 											$sPassedData & @CRLF & "\E" & $sGrSep & "*", "")
 									If StringRight($sButton, 1) = $sGrSep Then $sButton = StringTrimRight($sButton, 1)
 									ContinueLoop 2 ; process next parameter
 								EndIf
 							Next
-							$sAddData = StringRegExpReplace($sAddData, '(?si)\Q' & 'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', _
-									'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
+							$sAddData = StringRegExpReplace($sAddData, '(?si)\Q' & $sCDisp & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', _
+									$sCDisp & $aSplit[1] & '"' & @CRLF & @CRLF & $sPassedData & @CRLF)
 							$iNumRepl = @extended
 							If $iNumRepl > 1 Then ; remove duplicates
-								$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & 'Content-Disposition: form-data; name="' & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
+								$sAddData = StringRegExpReplace($sAddData, '(?si)\Q--' & $sBoundary & @CRLF & $sCDisp & $aSplit[1] & '"' & '\E\r\n\r\n.*?\r\n', "", $iNumRepl - 1)
 							EndIf
 						EndIf
 					Next
@@ -1976,10 +1497,10 @@ Func _WinHttpSimpleFormFill(ByRef $hInternet, $sActionPage = Default, $sFormId =
 				$hInternet = _WinHttpConnect($hOpen, $sNewURL)
 			EndIf
 		EndIf
-		Local $hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMuftiPart, $sBoundary, $sAddData)
+		Local $hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData)
 		If _WinHttpQueryHeaders($hRequest, $WINHTTP_QUERY_STATUS_CODE) > $HTTP_STATUS_BAD_REQUEST Then
 			_WinHttpCloseHandle($hRequest)
-			$hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMuftiPart, $sBoundary, $sAddData, True) ; try adding $WINHTTP_FLAG_SECURE
+			$hRequest = __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData, True) ; try adding $WINHTTP_FLAG_SECURE
 		EndIf
 		Local $sReturned = _WinHttpSimpleReadData($hRequest)
 		If @error Then
@@ -2014,7 +1535,7 @@ EndFunc   ;==>_WinHttpSimpleFormFill
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinHttpSimpleReadData($hRequest, $iMode = Default)
-	If $iMode = Default Or $iMode = -1 Then $iMode = 0
+	__WinHttpDefault($iMode, 0)
 	If $iMode > 2 Or $iMode < 0 Then Return SetError(1, 0, '')
 	Local $vData = ''
 	If $iMode = 2 Then $vData = Binary('')
@@ -2035,6 +1556,31 @@ Func _WinHttpSimpleReadData($hRequest, $iMode = Default)
 	EndIf
 	Return SetError(2, 0, $vData)
 EndFunc   ;==>_WinHttpSimpleReadData
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinHttpSimpleReadDataAsync
+; Description ...: Reads data from a request in asynchronous mode
+; Syntax.........: _WinHttpSimpleReadDataAsync($hInternet, Byref $pBuffer [, $iNumberOfBytesToRead = Default ])
+; Parameters ....: $hInternet - Request handle (first parameter while in callback function).
+;                  $pBuffer - Pointer to memory buffer to which to read.
+;                  $iNumberOfBytesToRead - [optional] The number of bytes to read. Default is 8192 bytes.
+;                  |0 - ASCII-String
+;                  |1 - UTF-8-String
+;                  |2 - binary data
+; Return values .: Same as for _WinHttpReadData. Due to async nature here it has no meaning except in case of possible error.
+; Author ........: trancexx
+; Modified.......:
+; Remarks .......: WinHttp is rentrant during asynchronous completion callback. Make sure you have only one callback running and only one request handled though it at time.
+;                  +Also make sure memory buffer is at least 8192 bytes in size if $iNumberOfBytesToRead is left default.
+; Related .......: _WinHttpSimpleReadData, _WinHttpReadData
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func _WinHttpSimpleReadDataAsync($hInternet, ByRef $pBuffer, $iNumberOfBytesToRead = Default)
+	__WinHttpDefault($iNumberOfBytesToRead, 8192)
+	Local $vOut = _WinHttpReadData($hInternet, 2, $iNumberOfBytesToRead, $pBuffer)
+	Return SetError(@error, @extended, $vOut)
+EndFunc   ;==>_WinHttpSimpleReadDataAsync
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinHttpSimpleRequest
@@ -2069,13 +1615,13 @@ EndFunc   ;==>_WinHttpSimpleReadData
 ; ===============================================================================================================================
 Func _WinHttpSimpleRequest($hConnect, $sType = Default, $sPath = Default, $sReferrer = Default, $sData = Default, $sHeader = Default, $fGetHeaders = Default, $iMode = Default)
 	; Author: ProgAndy
-	If $sType = Default Or $sType = -1 Then $sType = "GET"
-	If $sPath = Default Or $sPath = -1 Then $sPath = ""
-	If $sReferrer = Default Or $sReferrer = -1 Then $sReferrer = $WINHTTP_NO_REFERER
-	If $sData = Default Or $sData = -1 Then $sData = $WINHTTP_NO_REQUEST_DATA
-	If $sHeader = Default Or $sHeader = -1 Then $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS
-	If $fGetHeaders = Default Or $fGetHeaders = -1 Then $fGetHeaders = False
-	If $iMode = Default Or $iMode = -1 Then $iMode = 0
+	__WinHttpDefault($sType, "GET")
+	__WinHttpDefault($sPath, "")
+	__WinHttpDefault($sReferrer, $WINHTTP_NO_REFERER)
+	__WinHttpDefault($sData, $WINHTTP_NO_REQUEST_DATA)
+	__WinHttpDefault($sHeader, $WINHTTP_NO_ADDITIONAL_HEADERS)
+	__WinHttpDefault($fGetHeaders, False)
+	__WinHttpDefault($iMode, 0)
 	If $iMode > 2 Or $iMode < 0 Then Return SetError(4, 0, 0)
 	Local $hRequest = _WinHttpSimpleSendRequest($hConnect, $sType, $sPath, $sReferrer, $sData, $sHeader)
 	If @error Then Return SetError(@error, 0, 0)
@@ -2113,11 +1659,11 @@ EndFunc   ;==>_WinHttpSimpleRequest
 ; ===============================================================================================================================
 Func _WinHttpSimpleSendRequest($hConnect, $sType = Default, $sPath = Default, $sReferrer = Default, $sData = Default, $sHeader = Default)
 	; Author: ProgAndy
-	If $sType = Default Or $sType = -1 Then $sType = "GET"
-	If $sPath = Default Or $sPath = -1 Then $sPath = ""
-	If $sReferrer = Default Or $sReferrer = -1 Then $sReferrer = $WINHTTP_NO_REFERER
-	If $sData = Default Or $sData = -1 Then $sData = $WINHTTP_NO_REQUEST_DATA
-	If $sHeader = Default Or $sHeader = -1 Then $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS
+	__WinHttpDefault($sType, "GET")
+	__WinHttpDefault($sPath, "")
+	__WinHttpDefault($sReferrer, $WINHTTP_NO_REFERER)
+	__WinHttpDefault($sData, $WINHTTP_NO_REQUEST_DATA)
+	__WinHttpDefault($sHeader, $WINHTTP_NO_ADDITIONAL_HEADERS)
 	Local $hRequest = _WinHttpOpenRequest($hConnect, $sType, $sPath, Default, $sReferrer)
 	If Not $hRequest Then Return SetError(1, @error, 0)
 	If $sType = "POST" And $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS Then $sHeader = "Content-Type: application/x-www-form-urlencoded" & @CRLF
@@ -2152,11 +1698,11 @@ EndFunc   ;==>_WinHttpSimpleSendRequest
 ; ===============================================================================================================================
 Func _WinHttpSimpleSendSSLRequest($hConnect, $sType = Default, $sPath = Default, $sReferrer = Default, $sData = Default, $sHeader = Default)
 	; Author: ProgAndy
-	If $sType = Default Or $sType = -1 Then $sType = "GET"
-	If $sPath = Default Or $sPath = -1 Then $sPath = ""
-	If $sReferrer = Default Or $sReferrer = -1 Then $sReferrer = $WINHTTP_NO_REFERER
-	If $sData = Default Or $sData = -1 Then $sData = $WINHTTP_NO_REQUEST_DATA
-	If $sHeader = Default Or $sHeader = -1 Then $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS
+	__WinHttpDefault($sType, "GET")
+	__WinHttpDefault($sPath, "")
+	__WinHttpDefault($sReferrer, $WINHTTP_NO_REFERER)
+	__WinHttpDefault($sData, $WINHTTP_NO_REQUEST_DATA)
+	__WinHttpDefault($sHeader, $WINHTTP_NO_ADDITIONAL_HEADERS)
 	Local $hRequest = _WinHttpOpenRequest($hConnect, $sType, $sPath, Default, $sReferrer, Default, BitOR($WINHTTP_FLAG_SECURE, $WINHTTP_FLAG_ESCAPE_DISABLE))
 	If Not $hRequest Then Return SetError(1, @error, 0)
 	If $sType = "POST" And $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS Then $sHeader = "Content-Type: application/x-www-form-urlencoded" & @CRLF
@@ -2200,13 +1746,13 @@ EndFunc   ;==>_WinHttpSimpleSendSSLRequest
 ; ===============================================================================================================================
 Func _WinHttpSimpleSSLRequest($hConnect, $sType = Default, $sPath = Default, $sReferrer = Default, $sData = Default, $sHeader = Default, $fGetHeaders = Default, $iMode = Default)
 	; Author: ProgAndy
-	If $sType = Default Or $sType = -1 Then $sType = "GET"
-	If $sPath = Default Or $sPath = -1 Then $sPath = ""
-	If $sReferrer = Default Or $sReferrer = -1 Then $sReferrer = $WINHTTP_NO_REFERER
-	If $sData = Default Or $sData = -1 Then $sData = $WINHTTP_NO_REQUEST_DATA
-	If $sHeader = Default Or $sHeader = -1 Then $sHeader = $WINHTTP_NO_ADDITIONAL_HEADERS
-	If $fGetHeaders = Default Or $fGetHeaders = -1 Then $fGetHeaders = False
-	If $iMode = Default Or $iMode = -1 Then $iMode = 0
+	__WinHttpDefault($sType, "GET")
+	__WinHttpDefault($sPath, "")
+	__WinHttpDefault($sReferrer, $WINHTTP_NO_REFERER)
+	__WinHttpDefault($sData, $WINHTTP_NO_REQUEST_DATA)
+	__WinHttpDefault($sHeader, $WINHTTP_NO_ADDITIONAL_HEADERS)
+	__WinHttpDefault($fGetHeaders, False)
+	__WinHttpDefault($iMode, 0)
 	If $iMode > 2 Or $iMode < 0 Then Return SetError(4, 0, 0)
 	Local $hRequest = _WinHttpSimpleSendSSLRequest($hConnect, $sType, $sPath, $sReferrer, $sData, $sHeader)
 	If @error Then Return SetError(@error, 0, 0)
@@ -2322,7 +1868,7 @@ EndFunc   ;==>_WinHttpTimeToSystemTime
 ; Example .......:
 ;============================================================================================
 Func _WinHttpWriteData($hRequest, $vData, $iMode = Default)
-	If $iMode = Default Or $iMode = -1 Then $iMode = 0
+	__WinHttpDefault($iMode, 0)
 	Local $iNumberOfBytesToWrite, $tData
 	If $iMode = 1 Then
 		$iNumberOfBytesToWrite = BinaryLen($vData)
@@ -2359,15 +1905,10 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 	; Check $sFileString string
 	If StringRight($sFileString, 1) = "|" Then $sFileString = StringTrimRight($sFileString, 1)
 	Local $aFiles = StringSplit($sFileString, "|", 2)
-	Local $sFile, $hFile, $sContentData
 	If UBound($aFiles) = 1 Then
-		$sFile = $aFiles[0]
-		$hFile = FileOpen($sFile, 0)
-		$sContentData = FileRead($hFile)
-		FileClose($hFile)
-		$sOut &= '; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-				"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
-		Return $sOut ; Nothing more. Return
+		$sOut &= '; filename="' & StringRegExpReplace($aFiles[0], ".*\\", "") & '"' & @CRLF & _
+				"Content-Type: " & __WinHttpMIMEType($aFiles[0]) & @CRLF & @CRLF & FileRead($aFiles[0]) & @CRLF
+		Return $sOut ; That's it
 	EndIf
 	; Multiple files specified, separated by "|". Support on server side required!
 	If $fNonStandard Then
@@ -2375,13 +1916,9 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 		$sOut = "" ; discharge
 		Local $iFiles = UBound($aFiles)
 		For $i = 0 To $iFiles - 1
-			$sFile = $aFiles[$i]
-			$hFile = FileOpen($sFile, 0)
-			$sContentData = FileRead($hFile)
-			FileClose($hFile)
 			$sOut &= 'Content-Disposition: form-data; name="' & $sName & '"' & _
-					'; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-					"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
+					'; filename="' & StringRegExpReplace($aFiles[$i], ".*\\", "") & '"' & @CRLF & _
+					"Content-Type: " & __WinHttpMIMEType($aFiles[$i]) & @CRLF & @CRLF & FileRead($aFiles[$i]) & @CRLF
 			If $i < $iFiles - 1 Then $sOut &= "--" & $sBoundaryMain & @CRLF
 		Next
 	Else
@@ -2389,13 +1926,9 @@ Func __WinHttpFileContent($sAccept, $sName, $sFileString, $sBoundaryMain)
 		Local $sBoundary = StringFormat("%s%.5f", "----WinHttpSubBoundaryLine_", Random(10000, 99999))
 		$sOut &= @CRLF & "Content-Type: multipart/mixed; boundary=" & $sBoundary & @CRLF & @CRLF
 		For $i = 0 To UBound($aFiles) - 1
-			$sFile = $aFiles[$i]
-			$hFile = FileOpen($sFile, 0)
-			$sContentData = FileRead($hFile)
-			FileClose($hFile)
 			$sOut &= "--" & $sBoundary & @CRLF & _
-					'Content-Disposition: file; filename="' & StringRegExpReplace($sFile, ".*\\", "") & '"' & @CRLF & _
-					"Content-Type: " & __WinHttpMIMEType($sFile) & @CRLF & @CRLF & $sContentData & @CRLF
+					'Content-Disposition: file; filename="' & StringRegExpReplace($aFiles[$i], ".*\\", "") & '"' & @CRLF & _
+					"Content-Type: " & __WinHttpMIMEType($aFiles[$i]) & @CRLF & @CRLF & FileRead($aFiles[$i]) & @CRLF
 		Next
 		$sOut &= "--" & $sBoundary & "--" & @CRLF
 	EndIf
@@ -2473,14 +2006,14 @@ Func __WinHttpFormAttrib(ByRef $aAttrib, $i, $sElement)
 	If Not @error Then $aAttrib[3][$i] = $aArray[UBound($aArray) - 1] ; type
 EndFunc   ;==>__WinHttpFormAttrib
 
-Func __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMuftiPart, $sBoundary, $sAddData, $fSecure = False)
+Func __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMultiPart, $sBoundary, $sAddData, $fSecure = False)
 	Local $hRequest
 	If $fSecure Then
 		$hRequest = _WinHttpOpenRequest($hInternet, $sMethod, $sAction, Default, Default, Default, $WINHTTP_FLAG_SECURE)
 	Else
 		$hRequest = _WinHttpOpenRequest($hInternet, $sMethod, $sAction)
 	EndIf
-	If $fMuftiPart Then
+	If $fMultiPart Then
 		_WinHttpAddRequestHeaders($hRequest, "Content-Type: multipart/form-data; boundary=" & $sBoundary)
 	Else
 		If $sMethod = "POST" Then _WinHttpAddRequestHeaders($hRequest, "Content-Type: application/x-www-form-urlencoded")
@@ -2491,6 +2024,10 @@ Func __WinHttpFormSend($hInternet, $sMethod, $sAction, $fMuftiPart, $sBoundary, 
 	_WinHttpReceiveResponse($hRequest)
 	Return $hRequest
 EndFunc   ;==>__WinHttpFormSend
+
+Func __WinHttpDefault(ByRef $vInput, $vOutput)
+	If $vInput = Default Or Number($vInput) = -1 Then $vInput = $vOutput
+EndFunc   ;==>__WinHttpDefault
 
 Func __WinHttpMemGlobalFree($pMem)
 	Local $aCall = DllCall("kernel32.dll", "ptr", "GlobalFree", "ptr", $pMem)
