@@ -1,18 +1,15 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiReBar.au3>
-#include <GuiToolBar.au3>
+#include <GuiToolbar.au3>
 #include <GuiComboBox.au3>
 #include <GuiDateTimePicker.au3>
+#include <GuiEdit.au3>
 #include <WindowsConstants.au3>
 #include <Constants.au3>
-#include <GuiConstantsEx.au3>
-#include <EditConstants.au3>
-
-Opt("MustDeclareVars", 1)
+#include <GUIConstantsEx.au3>
 
 $Debug_RB = False
 
-Global $hReBar, $edit
+Global $hReBar
 
 _Main()
 
@@ -24,14 +21,14 @@ Func _Main()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; 创建伸缩条控件
-	$hReBar = _GUICtrlReBar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
+	; create the rebar control
+	$hReBar = _GUICtrlRebar_Create($hgui, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
 
 
-	; 在伸缩条中创建工具栏
-	$hToolbar = _GUICtrlToolBar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
+	; create a toolbar to put in the rebar
+	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
 
-	; 添加标准系统位图
+	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_SMALL_COLOR)
@@ -39,41 +36,43 @@ Func _Main()
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 	EndSwitch
 
-	; 添加按钮
+	; Add buttons
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)
 	_GUICtrlToolbar_AddButtonSep($hToolbar)
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
-	; 在伸缩条内创建组合框
+	; create a combobox to put in the rebar
 	$hCombo = _GUICtrlComboBox_Create($hgui, "", 0, 0, 120)
+
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	; 在伸缩条内创建日期时间拾取器
+	; create a date time picker to put in the rebar
 	$hDTP = _GUICtrlDTP_Create($hgui, 0, 0, 190)
 
-	; 在伸缩条内创建输入框
-	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
+	; create a input box to put in the rebar
+;~ 	$hInput = GUICtrlCreateInput("Input control", 0, 0, 120, 20)
+	$hInput = _GUICtrlEdit_Create($hgui, "Input control", 0, 0, 120, 20)
 
-	; 默认添加为附加
 
-	; 添加带控件的区段
-	_GUICtrlReBar_AddBand($hReBar, $hCombo, 120, 200, "Dir *.exe")
+	; default for add is append
 
-	; 添加带日期时间拾取器的区段
-	_GUICtrlReBar_AddBand($hReBar, $hDTP, 120)
+	; add band with control
+	_GUICtrlRebar_AddBand($hReBar, $hCombo, 120, 200, "Dir *.exe")
 
-	; 在伸缩条起始处添加带工具栏的区段
-	_GUICtrlReBar_AddToolBarBand($hReBar, $hToolbar, "", 0)
+	; add band with date time picker
+	_GUICtrlRebar_AddBand($hReBar, $hDTP, 120)
 
-	; 添加其他控件
-	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+	; add band with toolbar to begining of rebar
+	_GUICtrlRebar_AddToolBarBand($hReBar, $hToolbar, "", 0)
 
-	; 添加memo控件查看操作
-	$edit = GUICtrlCreateEdit("", 2, 60, 396, 296, $WS_VSCROLL)
+	;add another control
+;~ 	_GUICtrlReBar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "Name:")
+	_GUICtrlRebar_AddBand($hReBar, $hInput, 120, 200, "Name:")
+
 
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUISetState(@SW_SHOW)
@@ -84,180 +83,171 @@ Func _Main()
 				Exit
 		EndSwitch
 	WEnd
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam
-	Local $hWndFrom, $iIDFrom, $tNMREBAR, $iCode, $tNMHDR
-	Local $tAUTOBREAK, $tAUTOSIZE, $tCHEVRON, $tOBJECTNOTIFY, $tCHILDSIZE
+	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR
+	Local $tAUTOBREAK, $tAUTOSIZE, $tNMREBAR, $tCHEVRON, $tCHILDSIZE, $tOBJECTNOTIFY
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hReBar
 			Switch $iCode
 				Case $RBN_AUTOBREAK
-					; 通知伸缩条主窗体控件中将显示中断符号. 主窗体确定是否生成中断符
+					; Notifies a rebar's parent that a break will appear in the bar. The parent determines whether to make the break
 					$tAUTOBREAK = DllStructCreate($tagNMREBARAUTOBREAK, $ilParam)
-					memowrite("$RBN_AUTOBREAK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tAUTOBREAK, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tAUTOBREAK, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tAUTOBREAK, "Code") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam") & @LF)
-					memowrite("-->uMsg:" & @TAB & DllStructGetData($tAUTOBREAK, "uMsg") & @LF)
-					memowrite("-->fStyleCurrent:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyleCurrent") & @LF)
-					memowrite("-->fAutoBreak:" & @TAB & DllStructGetData($tAUTOBREAK, "fAutoBreak"))
-					; 无效返回值
+					_DebugPrint("$RBN_AUTOBREAK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tAUTOBREAK, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tAUTOBREAK, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tAUTOBREAK, "Code") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam") & @LF & _
+							"-->uMsg:" & @TAB & DllStructGetData($tAUTOBREAK, "uMsg") & @LF & _
+							"-->fStyleCurrent:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyleCurrent") & @LF & _
+							"-->fAutoBreak:" & @TAB & DllStructGetData($tAUTOBREAK, "fAutoBreak"))
+					; Return value not used
 				Case $RBN_AUTOSIZE
-					; 伸缩条自动伸缩时由具有$RBS_AUTOSIZE样式的控件发送
+					; Sent by a rebar control created with the $RBS_AUTOSIZE style when the rebar automatically resizes itself
 					$tAUTOSIZE = DllStructCreate($tagNMRBAUTOSIZE, $ilParam)
-					memowrite("$RBN_AUTOSIZE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tAUTOSIZE, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tAUTOSIZE, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tAUTOSIZE, "Code") & @LF)
-					memowrite("-->fChanged:" & @TAB & DllStructGetData($tAUTOSIZE, "fChanged") & @LF)
-					memowrite("-->TargetLeft:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetLeft") & @LF)
-					memowrite("-->TargetTop:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetTop") & @LF)
-					memowrite("-->TargetRight:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetRight") & @LF)
-					memowrite("-->TargetBottom:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetBottom") & @LF)
-					memowrite("-->ActualLeft:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualLeft") & @LF)
-					memowrite("-->ActualTop:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualTop") & @LF)
-					memowrite("-->ActualRight:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualRight") & @LF)
-					memowrite("-->ActualBottom:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualBottom"))
-					; 无返回值
+					_DebugPrint("$RBN_AUTOSIZE" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tAUTOSIZE, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tAUTOSIZE, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tAUTOSIZE, "Code") & @LF & _
+							"-->fChanged:" & @TAB & DllStructGetData($tAUTOSIZE, "fChanged") & @LF & _
+							"-->TargetLeft:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetLeft") & @LF & _
+							"-->TargetTop:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetTop") & @LF & _
+							"-->TargetRight:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetRight") & @LF & _
+							"-->TargetBottom:" & @TAB & DllStructGetData($tAUTOSIZE, "TargetBottom") & @LF & _
+							"-->ActualLeft:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualLeft") & @LF & _
+							"-->ActualTop:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualTop") & @LF & _
+							"-->ActualRight:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualRight") & @LF & _
+							"-->ActualBottom:" & @TAB & DllStructGetData($tAUTOSIZE, "ActualBottom"))
+					; Return value not used
 				Case $RBN_BEGINDRAG
-					; 拖曳区段时发送
+					; Sent by a rebar control when the user begins dragging a band
 					$tNMREBAR = DllStructCreate($tagNMREBAR, $ilParam)
-					memowrite("$RBN_BEGINDRAG" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF)
-					memowrite("-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF)
-					memowrite("-->fStyle:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyle") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam"))
-					Return 0 ; 允许伸缩调继续执行拖曳操作
-;~          Return 1 ; 非0值表示退出拖曳操作
+					_DebugPrint("$RBN_BEGINDRAG" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF & _
+							"-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tNMREBAR, "uBand") & @LF & _
+							"-->fStyle:" & @TAB & DllStructGetData($tNMREBAR, "fStyle") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tNMREBAR, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tNMREBAR, "lParam"))
+					Return 0 ; to allow the rebar to continue the drag operation
+;~ 					Return 1 ; nonzero to abort the drag operation
 				Case $RBN_CHEVRONPUSHED
-					; 按下箭头时由控件发送
-					; 应用程序收到该通知时将显示带有各隐藏工具项的弹出菜单
-					; 使用NMREBARCHEVRON的rc成员查找弹出菜单的正确位置
+					; Sent by a rebar control when a chevron is pushed
+					; When an application receives this notification, it is responsible for displaying a popup menu with items for each hidden tool.
+					; Use the rc member of the NMREBARCHEVRON structure to find the correct position for the popup menu
 					$tCHEVRON = DllStructCreate($tagNMREBARCHEVRON, $ilParam)
-					memowrite("$RBN_CHEVRONPUSHED" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tCHEVRON, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tCHEVRON, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tCHEVRON, "Code") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tCHEVRON, "uBand") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tCHEVRON, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tCHEVRON, "lParam") & @LF)
-					memowrite("-->Left:" & @TAB & DllStructGetData($tCHEVRON, "Left") & @LF)
-					memowrite("-->Top:" & @TAB & DllStructGetData($tCHEVRON, "Top") & @LF)
-					memowrite("-->Right:" & @TAB & DllStructGetData($tCHEVRON, "Right") & @LF)
-					memowrite("-->lParamNM:" & @TAB & DllStructGetData($tCHEVRON, "lParamNM"))
-					; 无返回值
+					_DebugPrint("$RBN_CHEVRONPUSHED" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tCHEVRON, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tCHEVRON, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tCHEVRON, "Code") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tCHEVRON, "uBand") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tCHEVRON, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tCHEVRON, "lParam") & @LF & _
+							"-->Left:" & @TAB & DllStructGetData($tCHEVRON, "Left") & @LF & _
+							"-->Top:" & @TAB & DllStructGetData($tCHEVRON, "Top") & @LF & _
+							"-->Right:" & @TAB & DllStructGetData($tCHEVRON, "Right") & @LF & _
+							"-->lParamNM:" & @TAB & DllStructGetData($tCHEVRON, "lParamNM"))
+					; Return value not used
 				Case $RBN_CHILDSIZE
-					; 区段子窗体改变大小时由控件发送
+					; Sent by a rebar control when a band's child window is resized
 					$tCHILDSIZE = DllStructCreate($tagNMREBARCHILDSIZE, $ilParam)
-					memowrite("$RBN_CHILDSIZE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tCHILDSIZE, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tCHILDSIZE, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tCHILDSIZE, "Code") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tCHILDSIZE, "uBand") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tCHILDSIZE, "wID") & @LF)
-					memowrite("-->CLeft:" & @TAB & DllStructGetData($tCHILDSIZE, "CLeft") & @LF)
-					memowrite("-->CTop:" & @TAB & DllStructGetData($tCHILDSIZE, "CTop") & @LF)
-					memowrite("-->CRight:" & @TAB & DllStructGetData($tCHILDSIZE, "CRight") & @LF)
-					memowrite("-->CBottom:" & @TAB & DllStructGetData($tCHILDSIZE, "CBottom") & @LF)
-					memowrite("-->BLeft:" & @TAB & DllStructGetData($tCHILDSIZE, "BLeft") & @LF)
-					memowrite("-->BTop:" & @TAB & DllStructGetData($tCHILDSIZE, "BTop") & @LF)
-					memowrite("-->BRight:" & @TAB & DllStructGetData($tCHILDSIZE, "BRight") & @LF)
-					memowrite("-->BBottom:" & @TAB & DllStructGetData($tCHILDSIZE, "BBottom"))
-					; 无返回值
+					_DebugPrint("$RBN_CHILDSIZE" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tCHILDSIZE, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tCHILDSIZE, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tCHILDSIZE, "Code") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tCHILDSIZE, "uBand") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tCHILDSIZE, "wID") & @LF & _
+							"-->CLeft:" & @TAB & DllStructGetData($tCHILDSIZE, "CLeft") & @LF & _
+							"-->CTop:" & @TAB & DllStructGetData($tCHILDSIZE, "CTop") & @LF & _
+							"-->CRight:" & @TAB & DllStructGetData($tCHILDSIZE, "CRight") & @LF & _
+							"-->CBottom:" & @TAB & DllStructGetData($tCHILDSIZE, "CBottom") & @LF & _
+							"-->BLeft:" & @TAB & DllStructGetData($tCHILDSIZE, "BandLeft") & @LF & _
+							"-->BTop:" & @TAB & DllStructGetData($tCHILDSIZE, "BTop") & @LF & _
+							"-->BRight:" & @TAB & DllStructGetData($tCHILDSIZE, "BRight") & @LF & _
+							"-->BBottom:" & @TAB & DllStructGetData($tCHILDSIZE, "BBottom"))
+					; Return value not used
 				Case $RBN_DELETEDBAND
-					; 区段被删除后由控件发送
+					; Sent by a rebar control after a band has been deleted
 					$tNMREBAR = DllStructCreate($tagNMREBAR, $ilParam)
-					memowrite("$RBN_DELETEDBAND" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF)
-					memowrite("-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF)
-					memowrite("-->fStyle:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyle") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam"))
-					; 无返回值
+					_DebugPrint("$RBN_DELETEDBAND" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF & _
+							"-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tNMREBAR, "uBand") & @LF & _
+							"-->fStyle:" & @TAB & DllStructGetData($tNMREBAR, "fStyle") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tNMREBAR, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tNMREBAR, "lParam"))
+					; Return value not used
 				Case $RBN_DELETINGBAND
-					; 区段将被删除时由控件发送
+					; Sent by a rebar control when a band is about to be deleted
 					$tNMREBAR = DllStructCreate($tagNMREBAR, $ilParam)
-					memowrite("$RBN_DELETEDBAND" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF)
-					memowrite("-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF)
-					memowrite("-->fStyle:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyle") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam"))
-					; 无返回值
+					_DebugPrint("$RBN_DELETINGBAND" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF & _
+							"-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tNMREBAR, "uBand") & @LF & _
+							"-->fStyle:" & @TAB & DllStructGetData($tNMREBAR, "fStyle") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tNMREBAR, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tNMREBAR, "lParam"))
+					; Return value not used
 				Case $RBN_ENDDRAG
-					; 停止拖曳时由控件发送
+					; Sent by a rebar control when the user stops dragging a band
 					$tNMREBAR = DllStructCreate($tagNMREBAR, $ilParam)
-					memowrite("$RBN_ENDDRAG" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF)
-					memowrite("-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF)
-					memowrite("-->uBand:" & @TAB & DllStructGetData($tAUTOBREAK, "uBand") & @LF)
-					memowrite("-->fStyle:" & @TAB & DllStructGetData($tAUTOBREAK, "fStyle") & @LF)
-					memowrite("-->wID:" & @TAB & DllStructGetData($tAUTOBREAK, "wID") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tAUTOBREAK, "lParam"))
-					; 无返回值
+					_DebugPrint("$RBN_ENDDRAG" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMREBAR, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMREBAR, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMREBAR, "Code") & @LF & _
+							"-->dwMask:" & @TAB & DllStructGetData($tNMREBAR, "dwMask") & @LF & _
+							"-->uBand:" & @TAB & DllStructGetData($tNMREBAR, "uBand") & @LF & _
+							"-->fStyle:" & @TAB & DllStructGetData($tNMREBAR, "fStyle") & @LF & _
+							"-->wID:" & @TAB & DllStructGetData($tNMREBAR, "wID") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tNMREBAR, "lParam"))
+					; Return value not used
 				Case $RBN_GETOBJECT
-					; 当对象被拖到控件区段上时由带有$RBS_REGISTERDROP样式的伸缩条控件发送
+					; Sent by a rebar control created with the $RBS_REGISTERDROP style when an object is dragged over a band in the control
 					$tOBJECTNOTIFY = DllStructCreate($tagNMOBJECTNOTIFY, $ilParam)
-					memowrite("$RBN_GETOBJECT" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "Item") & @LF)
-					memowrite("-->piid:" & @TAB & DllStructGetData($tAUTOBREAK, "piid") & @LF)
-					memowrite("-->pObject:" & @TAB & DllStructGetData($tAUTOBREAK, "pObject") & @LF)
-					memowrite("-->Result:" & @TAB & DllStructGetData($tAUTOBREAK, "Result"))
-					; 无返回值
+					_DebugPrint("$RBN_GETOBJECT" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "Item") & @LF & _
+							"-->piid:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "piid") & @LF & _
+							"-->pObject:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "pObject") & @LF & _
+							"-->Result:" & @TAB & DllStructGetData($tOBJECTNOTIFY, "Result"))
+					; Return value not used
 				Case $RBN_HEIGHTCHANGE
-					; 控件高度改变时发送
-					; 带有$CCS_VERT样式的伸缩条控件在其高度改变时发送
-					memowrite("$RBN_HEIGHTCHANGE" & @LF)
-					memowrite("-->hWndFrom:" & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & $iIDFrom & @LF)
-					memowrite("-->Code:" & $iCode)
-					; 无返回值
+					; Sent by a rebar control when its height has changed
+					; Rebar controls that use the $CCS_VERT style send this notification message when their width changes
+					_DebugPrint("$RBN_HEIGHTCHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; Return value not used
 				Case $RBN_LAYOUTCHANGED
-					; 控件区段布局改变时发送
-					memowrite("$RBN_LAYOUTCHANGED" & @LF)
-					memowrite("-->hWndFrom:" & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & $iIDFrom & @LF)
-					memowrite("-->Code:" & $iCode)
-					; 无返回值
+					; Sent by a rebar control when the user changes the layout of the control's bands
+					_DebugPrint("$RBN_LAYOUTCHANGED" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; Return value not used
 				Case $RBN_MINMAX
-					; 区段最大化或最小化前由控件发送
-					memowrite("$RBN_MINMAX" & @LF)
-					memowrite("-->hWndFrom:" & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & $iIDFrom & @LF)
-					memowrite("-->Code:" & $iCode)
-;~          Return 1 ; 非0值为禁止操作
-					Return 0 ; 0为允许继续
+					; Sent by a rebar control prior to maximizing or minimizing a band
+					_DebugPrint("$RBN_MINMAX" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; a non-zero value to prevent the operation from taking place
+					Return 0 ; zero to allow it to continue
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($edit, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

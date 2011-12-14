@@ -1,24 +1,20 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
 #include <StructureConstants.au3>
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <WinAPI.au3>
-
-Opt('MustDeclareVars', 1)
 
 Global $iMemo
 
 _Example_Defaults()
 _Example_ExplorerStyleMultiSelect()
 _Example_OldStyle()
-_Example_ExplorerStyleSinglSelect() ()
+_Example_ExplorerStyleSinglSelect()
 _Example_ExplorerStyle_NoPlaceBar()
 
 Func _Example_Defaults()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; 创建界面
+	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use defaults", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -28,10 +24,10 @@ Func _Example_Defaults()
 	While 1
 		Switch GUIGetMsg()
 			Case $btn_dialog
-				$aFile = _WinAPI_GetOpenFileName() ; 使用默认值
+				$aFile = _WinAPI_GetOpenFileName() ; use defaults
 				If $aFile[0] = 0 Then
 					$sError = _WinAPI_CommDlgExtendedError()
-					MemoWrite("CommDlgExtendedError (" & @error & "):" & $sError)
+					MemoWrite("CommDlgExtendedError (" & @error & "): " & $sError)
 				Else
 					For $x = 1 To $aFile[0]
 						MemoWrite($aFile[$x])
@@ -42,12 +38,12 @@ Func _Example_Defaults()
 		EndSwitch
 	WEnd
 	GUIDelete($hGui)
-endfunc   ;==>_Example_Defaults
+EndFunc   ;==>_Example_Defaults
 
 Func _Example_ExplorerStyleMultiSelect()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; 创建界面
+	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Explorer Style (Multi Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -58,11 +54,11 @@ Func _Example_ExplorerStyleMultiSelect()
 		Switch GUIGetMsg()
 			Case $btn_dialog
 				$aFile = _WinAPI_GetOpenFileName("My Open File Dialog", _
-						"Text File (*.txt;*.au3)", ".", @Scriptname, "", 1, _
+						"Text File (*.txt;*.au3)", ".", @ScriptName, "", 1, _
 						BitOR($OFN_ALLOWMULTISELECT, $OFN_EXPLORER), 0, $hGui)
 				If $aFile[0] = 0 Then
 					$sError = _WinAPI_CommDlgExtendedError()
-					MemoWrite("CommDlgExtendedError (" & @error & "):" & $sError)
+					MemoWrite("CommDlgExtendedError (" & @error & "): " & $sError)
 				Else
 					For $x = 1 To $aFile[0]
 						MemoWrite($aFile[$x])
@@ -73,12 +69,12 @@ Func _Example_ExplorerStyleMultiSelect()
 		EndSwitch
 	WEnd
 	GUIDelete($hGui)
-endfunc   ;==>_Example_ExplorerStyleMultiSelect
+EndFunc   ;==>_Example_ExplorerStyleMultiSelect
 
 Func _Example_OldStyle()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; 创建界面
+	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Old Style (Multi Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -89,11 +85,11 @@ Func _Example_OldStyle()
 		Switch GUIGetMsg()
 			Case $btn_dialog
 				$aFile = _WinAPI_GetOpenFileName("My Open File Dialog", _
-						"Text File (*.txt)|AutoIt File (*.au3)", ".", @Scriptname, _
+						"Text File (*.txt)|AutoIt File (*.au3)", ".", @ScriptName, _
 						"", 2, $OFN_ALLOWMULTISELECT, 0, $hGui)
 				If $aFile[0] = 0 Then
 					$sError = _WinAPI_CommDlgExtendedError()
-					MemoWrite("CommDlgExtendedError (" & @error & "):" & $sError)
+					MemoWrite("CommDlgExtendedError (" & @error & "): " & $sError)
 				Else
 					For $x = 1 To $aFile[0]
 						MemoWrite($aFile[$x])
@@ -104,12 +100,12 @@ Func _Example_OldStyle()
 		EndSwitch
 	WEnd
 	GUIDelete($hGui)
-endfunc   ;==>_Example_OldStyle
+EndFunc   ;==>_Example_OldStyle
 
-Func _Example_ExplorerStyleSingleSelect()
+Func _Example_ExplorerStyleSinglSelect()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; 创建界面
+	; Create GUI
 	$hGui = GUICreate("GetOpenFileName use Explorer Style (Single Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -120,11 +116,11 @@ Func _Example_ExplorerStyleSingleSelect()
 		Switch GUIGetMsg()
 			Case $btn_dialog
 				$aFile = _WinAPI_GetOpenFileName("My Open File Dialog", _
-						"Text File (*.txt)|AutoIt File (*.au3)", ".", @Scriptname, _
+						"Text File (*.txt)|AutoIt File (*.au3)", ".", @ScriptName, _
 						"", 2, 0, 0, $hGui)
 				If $aFile[0] = 0 Then
 					$sError = _WinAPI_CommDlgExtendedError()
-					MemoWrite("CommDlgExtendedError (" & @error & "):" & $sError)
+					MemoWrite("CommDlgExtendedError (" & @error & "): " & $sError)
 				Else
 					For $x = 1 To $aFile[0]
 						MemoWrite($aFile[$x])
@@ -135,13 +131,13 @@ Func _Example_ExplorerStyleSingleSelect()
 		EndSwitch
 	WEnd
 	GUIDelete($hGui)
-endfunc   ;==>_Example_ExplorerStyleSingleSelect
+EndFunc   ;==>_Example_ExplorerStyleSinglSelect
 
 Func _Example_ExplorerStyle_NoPlaceBar()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; 创建界面
-	$hGui = GUICreate("GetOpenFileName use Explorer Style No Place Bar", 400, 296)
+	; Create GUI
+	$hGui = GUICreate("GetOpenFileName use Explorer Style (Single Select)", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	$btn_dialog = GUICtrlCreateButton("Open Dialog", 155, 270, 90, 20)
@@ -151,11 +147,11 @@ Func _Example_ExplorerStyle_NoPlaceBar()
 		Switch GUIGetMsg()
 			Case $btn_dialog
 				$aFile = _WinAPI_GetOpenFileName("My Open File Dialog", _
-						"Text File (*.txt)|AutoIt File (*.au3)", ".", "", _
-						"", 2, BitOR($OFN_ALLOWMULTISELECT, $OFN_EXPLORER), $hGui)
+						"Text File (*.txt)|AutoIt File (*.au3)", ".", @ScriptName, _
+						"", 2, BitOR($OFN_ALLOWMULTISELECT, $OFN_EXPLORER), $OFN_EX_NOPLACESBAR, $hGui)
 				If $aFile[0] = 0 Then
 					$sError = _WinAPI_CommDlgExtendedError()
-					MemoWrite("CommDlgExtendedError (" & @error & "):" & $sError)
+					MemoWrite("CommDlgExtendedError (" & @error & "): " & $sError)
 				Else
 					For $x = 1 To $aFile[0]
 						MemoWrite($aFile[$x])
@@ -166,10 +162,9 @@ Func _Example_ExplorerStyle_NoPlaceBar()
 		EndSwitch
 	WEnd
 	GUIDelete($hGui)
-endfunc   ;==>_Example_ExplorerStyle_NoPlaceBar
+EndFunc   ;==>_Example_ExplorerStyle_NoPlaceBar
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

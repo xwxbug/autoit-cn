@@ -1,24 +1,28 @@
-23
- _WinAPI_WindowFromPoint     _WinAPI_WindowFromPoint   
-获取包含指定点的窗口的句柄  
-#Include <WinAPI.au3> 
-_WinAPI_WindowFromPoint(ByRef 
-$tPoint) 
- 
-   
-参数    
- $tPoint  定义被检查的点的 $tagPOINT 结构  
-   
-返回值 成功: 包含点的窗口句柄 
-失败: 0 
- 
-   
-备注 WindowFromPoint 函数不会获取一个隐藏窗口或失效窗口的句柄, 尽管点在该窗口上. 
+#include <WinAPI.au3>
 
- 
-   
-相关 $tagPOINT  
-   
-参考 搜索 
-MSDN知识库中WindowFromPoint的相关信息  
-   
+HotKeySet("{ESC}", "Close") ; Set ESC as a hotkey to exit the script.
+
+Global $tStruct = DllStructCreate($tagPOINT) ; Create a structure that defines the point to be checked.
+
+Example()
+
+Func Example()
+	Local $hWnd
+
+	While 1
+		ToolTip("")
+		Position() ; Update the X and Y elements with the X and Y co-ordinates of the mouse.
+		$hWnd = _WinAPI_WindowFromPoint($tStruct) ; Retrieve the window handle.
+		ToolTip($hWnd) ; Set the tooltip with the handle under the mouse pointer.
+		Sleep(100)
+	WEnd
+EndFunc   ;==>Example
+
+Func Position()
+	DllStructSetData($tStruct, "x", MouseGetPos(0))
+	DllStructSetData($tStruct, "y", MouseGetPos(1))
+EndFunc   ;==>Position
+
+Func Close()
+	Exit
+EndFunc   ;==>Close

@@ -1,11 +1,8 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-#include <GUIScrollBars.au3>
+#include <GuiScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -28,22 +25,22 @@ Func _Main()
 	DllStructSetData($tSCROLLINFO, "fMask", $_SCROLLBARCONSTANTS_SIF_ALL)
 	_GUIScrollBars_GetScrollInfo($hGUI, $SB_HORZ, $tSCROLLINFO)
 	MemoWrite("Horizontal" & @CRLF & "--------------------------------------")
-	MemoWrite("nPage....:" & DllStructGetData($tSCROLLINFO, "nPage"))
-	MemoWrite("nPos.....:" & DllStructGetData($tSCROLLINFO, "nPos"))
-	MemoWrite("nMin.....:" & DllStructGetData($tSCROLLINFO, "nMin"))
-	MemoWrite("nMax.....:" & DllStructGetData($tSCROLLINFO, "nMax"))
-	MemoWrite("nTrackPos:" & DllStructGetData($tSCROLLINFO, "nTrackPos"))
+	MemoWrite("nPage....: " & DllStructGetData($tSCROLLINFO, "nPage"))
+	MemoWrite("nPos.....: " & DllStructGetData($tSCROLLINFO, "nPos"))
+	MemoWrite("nMin.....: " & DllStructGetData($tSCROLLINFO, "nMin"))
+	MemoWrite("nMax.....: " & DllStructGetData($tSCROLLINFO, "nMax"))
+	MemoWrite("nTrackPos: " & DllStructGetData($tSCROLLINFO, "nTrackPos"))
 
 	DllStructSetData($tSCROLLINFO, "cbSize", DllStructGetSize($tSCROLLINFO))
 	DllStructSetData($tSCROLLINFO, "fMask", $_SCROLLBARCONSTANTS_SIF_ALL)
 	_GUIScrollBars_GetScrollInfo($hGUI, $SB_VERT, $tSCROLLINFO)
 	$tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hGUI, $SB_VERT)
 	MemoWrite(@CRLF & "Vertical" & @CRLF & "--------------------------------------")
-	MemoWrite("nPage....:" & DllStructGetData($tSCROLLINFO, "nPage"))
-	MemoWrite("nPos.....:" & DllStructGetData($tSCROLLINFO, "nPos"))
-	MemoWrite("nMin.....:" & DllStructGetData($tSCROLLINFO, "nMin"))
-	MemoWrite("nMax.....:" & DllStructGetData($tSCROLLINFO, "nMax"))
-	MemoWrite("nTrackPos:" & DllStructGetData($tSCROLLINFO, "nTrackPos"))
+	MemoWrite("nPage....: " & DllStructGetData($tSCROLLINFO, "nPage"))
+	MemoWrite("nPos.....: " & DllStructGetData($tSCROLLINFO, "nPos"))
+	MemoWrite("nMin.....: " & DllStructGetData($tSCROLLINFO, "nMin"))
+	MemoWrite("nMax.....: " & DllStructGetData($tSCROLLINFO, "nMax"))
+	MemoWrite("nTrackPos: " & DllStructGetData($tSCROLLINFO, "nTrackPos"))
 
 	While 1
 		$GUIMsg = GUIGetMsg()
@@ -55,9 +52,9 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
+EndFunc   ;==>MemoWrite

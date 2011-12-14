@@ -1,14 +1,13 @@
-#include  <math.au3>
+#include <Math.au3>
 
-$I_Var = InputBox('Odd or Even ', 'Enter a number:')
-$I_Result = _MathCheckDiv($I_Var, 2)
+Local $I_Var = InputBox('Odd or Even', 'Enter a number:')
+Local $I_Result = _MathCheckDiv($I_Var, 2)
 If $I_Result = -1 Or @error = 1 Then
-	msgbox(0, '', 'You did not enter a valid number')
+	MsgBox(0, '', 'You did not enter a valid number')
 ElseIf $I_Result = 1 Then
-	msgbox(0, '', 'Number is odd')
+	MsgBox(0, '', 'Number is odd')
 ElseIf $I_Result = 2 Then
-	msgbox(0, '', 'Number is even')
+	MsgBox(0, '', 'Number is even')
 Else
-	msgbox(0, '', 'Could not parse $I_Result')
+	MsgBox(0, '', 'Could not parse $I_Result')
 EndIf
-

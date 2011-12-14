@@ -1,33 +1,28 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiTab.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_TAB = False ; 检查传递给函数的类名, 设置为真并使用另一控件句柄观察其工作
+$Debug_TAB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 _Main()
 
 Func _Main()
 	Local $hTab
 
-	; 创建界面
-	GUICreate(" Tab Control Get Row Count ", 400, 300)
+	; Create GUI
+	GUICreate("Tab Control Get Row Count", 400, 300)
 	$hTab = GUICtrlCreateTab(2, 2, 396, 296, $TCS_MULTILINE)
 	GUISetState()
 
-	; 添加标签页
+	; Add tabs
 	For $x = 0 To 10
-		_GUICtrlTab_InsertItem($hTab, $x, "Tab" & $x + 1)
+		_GUICtrlTab_InsertItem($hTab, $x, "Tab " & $x + 1)
 	Next
 
-	; 获取行数量
-	MsgBox(4160, "Information ", "Row count:" & _GUICtrlTab_GetRowCount($hTab))
+	; Get row count
+	MsgBox(4160, "Information", "Row count: " & _GUICtrlTab_GetRowCount($hTab))
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

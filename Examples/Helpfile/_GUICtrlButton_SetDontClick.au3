@@ -1,28 +1,25 @@
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <GuiButton.au3>
 #include <WindowsConstants.au3>
 #include <GuiMenu.au3>
 
-Opt(" MustDeclareVars ", 1)
-
 Global $btn, $iMemo, $btn2
 
-; 注意这些按钮的 控件ID不能被GuiCtrlRead读取
+; Note the controlId from these buttons can NOT be read with GuiCtrlRead
 
 _Main()
 
 Func _Main()
-	Local $hGUI ;, $aInfo
+	Local $hGUI
 
-	$hGUI = GUICreate(" Buttons ", 400, 400)
+	$hGUI = GUICreate("Buttons", 400, 400)
 	$iMemo = GUICtrlCreateEdit("", 10, 100, 390, 284, $WS_VSCROLL)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 
-	$btn = _GUICtrlButton_Create($hGUI, "Button1 ", 10, 10, 160, 40)
+	$btn = _GUICtrlButton_Create($hGUI, "Button1", 10, 10, 160, 40)
 	_GUICtrlButton_SetDontClick($btn)
 
-	$btn2 = _GUICtrlButton_Create($hGUI, "Button2 ", 10, 55, 160, 40)
+	$btn2 = _GUICtrlButton_Create($hGUI, "Button2", 10, 55, 160, 40)
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
@@ -37,17 +34,15 @@ Func _Main()
 
 	Exit
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 
-; 向编辑框写入信息
-Func > MemoWrite($sMessage)
-GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-;### Tidy Error: next line creates a negative tablevel.
-;### Tidy Error: next line creates a negative tablevel for the line after it.
-endfunc   ;==>_Main
+; Write a line to the memo control
+Func MemoWrite($sMessage)
+	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
+EndFunc   ;==>MemoWrite
 
-; 作用于点击动作：
+; React on a button click
 Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 	#forceref $hWnd, $Msg
 	Local $nNotifyCode = BitShift($wParam, 16)
@@ -59,38 +54,39 @@ Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 		Case $btn, $btn2
 			Switch $nNotifyCode
 				Case $BN_CLICKED
-					If BitAND( _GUICtrlButton_GetState($hCtrl), $BST_DONTCLICK) = $BST_DONTCLICK Then
-						$sText = " $BST_DONTCLICK" & @CRLF
+					If BitAND(_GUICtrlButton_GetState($hCtrl), $BST_DONTCLICK) = $BST_DONTCLICK Then
+						$sText = "$BST_DONTCLICK" & @CRLF
 					Else
-						$sText = " $BN_CLICKED" & @CRLF
+						$sText = "$BN_CLICKED" & @CRLF
 					EndIf
 					MemoWrite($sText & _
-							" -----------------------------" & @CRLF & _
-							" WM_COMMAND - Infos:" & @CRLF & _
-							" -----------------------------" & @CRLF & _
-							" Code" & @TAB & " :" & $nNotifyCode & @CRLF & _
-							" CtrlID" & @TAB & " :" & $nID & @CRLF & _
-							" CtrlHWnd:" & $hCtrl & @CRLF & _
+							"-----------------------------" & @CRLF & _
+							"WM_COMMAND - Infos:" & @CRLF & _
+							"-----------------------------" & @CRLF & _
+							"Code" & @TAB & ":" & $nNotifyCode & @CRLF & _
+							"CtrlID" & @TAB & ":" & $nID & @CRLF & _
+							"CtrlHWnd:" & $hCtrl & @CRLF & _
 							_GUICtrlButton_GetText($hCtrl) & @CRLF)
 				Case $BN_PAINT
-					$sText = " $BN_PAINT" & @CRLF
+					$sText = "$BN_PAINT" & @CRLF
 				Case $BN_PUSHED, $BN_HILITE
-					$sText = " $BN_PUSHED , $BN_HILITE" & @CRLF
+					$sText = "$BN_PUSHED, $BN_HILITE" & @CRLF
 				Case $BN_UNPUSHED, $BN_UNHILITE
-					$sText = " $BN_UNPUSHED" & @CRLF
+					$sText = "$BN_UNPUSHED" & @CRLF
 				Case $BN_DISABLE
-					$sText = " $BN_DISABLE" & @CRLF
+					$sText = "$BN_DISABLE" & @CRLF
 				Case $BN_DBLCLK, $BN_DOUBLECLICKED
-					$sText = " $BN_DBLCLK , $BN_DOUBLECLICKED" & @CRLF
+					$sText = "$BN_DBLCLK, $BN_DOUBLECLICKED" & @CRLF
 				Case $BN_SETFOCUS
-					$sText = " $BN_SETFOCUS" & @CRLF
+					$sText = "$BN_SETFOCUS" & @CRLF
 				Case $BN_KILLFOCUS
-					$sText = " $BN_KILLFOCUS" & @CRLF
+					$sText = "$BN_KILLFOCUS" & @CRLF
 			EndSwitch
-			Return 0 ; 只有点击操作时返回
+			Return 0 ; Only workout clicking on the button
 	EndSwitch
-	; 执行默认的Autoit3内部消息命令. 你完全可以将所需行拆分出来.
-	; !!! 但是不带任何值的'Return'将不会在后续操作中执行默认的Autoit3消息 !!!
+	; Proceed the default AutoIt3 internal message commands.
+	; You also can complete let the line out.
+	; !!! But only 'Return' (without any value) will not proceed
+	; the default AutoIt3-message in the future !!!
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_COMMAND
-
+EndFunc   ;==>WM_COMMAND

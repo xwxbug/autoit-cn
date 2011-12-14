@@ -1,11 +1,8 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-#include <GUIScrollBars.au3>
+#include <GuiScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -26,15 +23,15 @@ Func _Main()
 
 	$tSCROLLBARINFO = _GUIScrollBars_GetScrollBarInfoEx($hGUI, $OBJID_HSCROLL)
 	MemoWrite("Horizontal" & @CRLF & "--------------------------------------")
-	MemoWrite("Left.........:" & DllStructGetData($tSCROLLBARINFO, "Left"))
-	MemoWrite("Top..........:" & DllStructGetData($tSCROLLBARINFO, "Top"))
-	MemoWrite("Right........:" & DllStructGetData($tSCROLLBARINFO, "Right"))
-	MemoWrite("Bottom.......:" & DllStructGetData($tSCROLLBARINFO, "Bottom"))
-	MemoWrite("dxyLineButton:" & DllStructGetData($tSCROLLBARINFO, "dxyLineButton"))
-	MemoWrite("xyThumbTop...:" & DllStructGetData($tSCROLLBARINFO, "xyThumbTop"))
-	MemoWrite("xyThumbBottom:" & DllStructGetData($tSCROLLBARINFO, "xyThumbBottom"))
+	MemoWrite("Left.........: " & DllStructGetData($tSCROLLBARINFO, "Left"))
+	MemoWrite("Top..........: " & DllStructGetData($tSCROLLBARINFO, "Top"))
+	MemoWrite("Right........: " & DllStructGetData($tSCROLLBARINFO, "Right"))
+	MemoWrite("Bottom.......: " & DllStructGetData($tSCROLLBARINFO, "Bottom"))
+	MemoWrite("dxyLineButton: " & DllStructGetData($tSCROLLBARINFO, "dxyLineButton"))
+	MemoWrite("xyThumbTop...: " & DllStructGetData($tSCROLLBARINFO, "xyThumbTop"))
+	MemoWrite("xyThumbBottom: " & DllStructGetData($tSCROLLBARINFO, "xyThumbBottom"))
 	For $x = 0 To 5
-		MemoWrite("rgstate[" & $x & "]...:" & DllStructGetData($tSCROLLBARINFO, "rgstate", $x + 1))
+		MemoWrite("rgstate[" & $x & "]...: " & DllStructGetData($tSCROLLBARINFO, "rgstate", $x + 1))
 	Next
 
 	While 1
@@ -47,10 +44,9 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

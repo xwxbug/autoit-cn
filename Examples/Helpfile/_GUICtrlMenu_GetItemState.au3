@@ -1,32 +1,24 @@
-
-#include  <GuiMenu.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiMenu.au3>
 
 _Main()
 
 Func _Main()
 	Local $hWnd, $hMain, $hFile
 
-	; 打开记事本
-	Run("Notepad.exe")
-
+	; Open Notepad
+	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
 	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-	; 获取打开项目状态
+	; Get Open item state
 	_GUICtrlMenu_SetItemChecked($hFile, 1)
-	Writeln( "Open
-	item state: "  &  _GUICtrlMenu_GetItemState ( $hFile ,  1 ))
+	Writeln("Open item state: " & _GUICtrlMenu_GetItemState($hFile, 1))
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向记事本写入文本
+; Write a line of text to Notepad
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
-endfunc   ;==>Writeln
-
-
-
+EndFunc   ;==>Writeln

@@ -1,9 +1,6 @@
-
-#include  <GuiMenu.au3>
-#include  <GuiConstantsEx.au3>
-#include  <WinAPI.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiMenu.au3>
+#include <GUIConstantsEx.au3>
+#include <WinAPI.au3>
 
 Global $iMemo
 
@@ -13,7 +10,7 @@ Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain, $hBmp1, $hBmp2
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste, $idAbout
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
 	; Create File menu
@@ -22,11 +19,9 @@ Func _Main()
 	_GUICtrlMenu_InsertMenuItem($hFile, 1, "&Open", $idOpen)
 	_GUICtrlMenu_InsertMenuItem($hFile, 2, "&Save", $idSave)
 	_GUICtrlMenu_InsertMenuItem($hFile, 3, "", 0)
-
 	_GUICtrlMenu_InsertMenuItem($hFile, 4, "E&xit", $idExit)
 
-	;
-	Create Edit menu
+	; Create Edit menu
 	$hEdit = _GUICtrlMenu_CreateMenu()
 	_GUICtrlMenu_InsertMenuItem($hEdit, 0, "&Cut", $idCut)
 	_GUICtrlMenu_InsertMenuItem($hEdit, 1, "C&opy", $idCopy)
@@ -45,47 +40,36 @@ Func _Main()
 	; Set window menu
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 
-	;
-	Create memo control
+	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 276, 0)
-
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-
 	GUISetState()
 
-	;
-	Set File menu checked / unchecked bitmaps
+	; Set File menu checked/unchecked bitmaps
 	$hBmp1 = _WinAPI_CreateSolidBitmap($hGUI, 0xFF0000, 11, 11)
-
 	$hBmp2 = _WinAPI_CreateSolidBitmap($hGUI, 0x00FF00, 11, 11)
-
 	_GUICtrlMenu_SetItemBmpChecked($hFile, 0, $hBmp1)
 	_GUICtrlMenu_SetItemBmpChecked($hFile, 1, $hBmp1)
 	_GUICtrlMenu_SetItemBmpChecked($hFile, 2, $hBmp1)
-	_GUICtrlMenu_SetItemBmpUnChecked($hFile, 0, $hBmp2)
-	_GUICtrlMenu_SetItemBmpUnChecked($hFile, 1, $hBmp2)
-	_GUICtrlMenu_SetItemBmpUnChecked($hFile, 2, $hBmp2)
+	_GUICtrlMenu_SetItemBmpUnchecked($hFile, 0, $hBmp2)
+	_GUICtrlMenu_SetItemBmpUnchecked($hFile, 1, $hBmp2)
+	_GUICtrlMenu_SetItemBmpUnchecked($hFile, 2, $hBmp2)
 
-	; Check Open menu
-	item
+	; Check Open menu item
 	_GUICtrlMenu_CheckMenuItem($hFile, 1)
 
-	; Show that bitmap handles
-	match
+	; Show that bitmap handles match
 	MemoWrite("Checked handle ......: 0x" & Hex($hBmp1))
 	MemoWrite("Unchecked handle ....: 0x" & Hex($hBmp2))
-	MemoWrite("Open checked handle .: 0x" & Hex( _GUICtrlMenu_GetItemBmpChecked($hFile, 0)))
-	MemoWrite("Open unchecked handle: 0x" & Hex( _GUICtrlMenu_GetItemBmpUnchecked($hFile, 0)))
+	MemoWrite("Open checked handle .: 0x" & Hex(_GUICtrlMenu_GetItemBmpChecked($hFile, 0)))
+	MemoWrite("Open unchecked handle: 0x" & Hex(_GUICtrlMenu_GetItemBmpUnchecked($hFile, 0)))
 
-	;
-	循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; Write message to
-memo
+; Write message to memo
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

@@ -36,13 +36,13 @@ Func _Main()
 
 	Exit
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 
 ; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
+EndFunc   ;==>MemoWrite
 
 Func WM_NOTIFY($hWnd, $Msg, $wParam, $lParam)
 	#forceref $hWnd, $Msg, $wParam
@@ -57,10 +57,10 @@ Func WM_NOTIFY($hWnd, $Msg, $wParam, $lParam)
 	Switch $nNotifyCode
 		Case $BCN_HOTITEMCHANGE ; Win XP and Above
 			If BitAND($dwFlags, 0x10) = 0x10 Then
-				$sText = "$BCN_HOTITEMCHANGE - Entering:" & @CRLF
+				$sText = "$BCN_HOTITEMCHANGE - Entering: " & @CRLF
 
 			ElseIf BitAND($dwFlags, 0x20) = 0x20 Then
-				$sText = "$BCN_HOTITEMCHANGE - Leaving:" & @CRLF
+				$sText = "$BCN_HOTITEMCHANGE - Leaving: " & @CRLF
 			EndIf
 			MemoWrite($sText & _
 					"-----------------------------" & @CRLF & _
@@ -75,7 +75,7 @@ Func WM_NOTIFY($hWnd, $Msg, $wParam, $lParam)
 			_Popup_Menu($hCtrl)
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
 Func _Popup_Menu($hCtrl)
 	Local $hMenu
@@ -94,7 +94,7 @@ Func _Popup_Menu($hCtrl)
 			MemoWrite("Info - Selected")
 	EndSwitch
 	_GUICtrlMenu_DestroyMenu($hMenu)
-endfunc   ;==>_Popup_Menu
+EndFunc   ;==>_Popup_Menu
 
 ; React on a button click
 Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
@@ -134,9 +134,9 @@ Func WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 					_GUICtrlButton_GetText($hCtrl) & @CRLF)
 			Return 0 ; Only workout clicking on the button
 	EndSwitch
-	; Proceed the default Autoit3 internal message commands.
+	; Proceed the default AutoIt3 internal message commands.
 	; You also can complete let the line out.
 	; !!! But only 'Return' (without any value) will not proceed
-	; the default Autoit3-message in the future !!!
+	; the default AutoIt3-message in the future !!!
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_COMMAND
+EndFunc   ;==>WM_COMMAND

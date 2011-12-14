@@ -1,59 +1,57 @@
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiIPAddress.au3>
 #include <WindowsConstants.au3>
-#include <EditConstants.au3>
 
-Opt("MustDeclareVars", 1)
+$Debug_IP = False ; Check ClassName being passed to IPAddress functions, set to True and use a handle to another control to see it work
 
-$Debug_IP = False ; 检查传递给函数的类名, 设置为真且使用另一控件的句柄观察其工作
-
-Global $hIPAddress, $edit
+Global $hIPAddress
 
 _Main()
 
 Func _Main()
 	Local $hgui
 
-	$hgui = GUICreate("IP Address Control Create Example", 400, 215)
-	$hIPAddress = _GUICtrlIpAddress_Create($hgui, 10, 5, 380, 20)
-	$edit = GUICtrlCreateEdit("", 10, 30, 380, 180, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL))
+	$hgui = GUICreate("IP Address Control Create Example", 400, 300)
+	$hIPAddress = _GUICtrlIpAddress_Create($hgui, 10, 10)
 	GUISetState(@SW_SHOW)
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
 	_GUICtrlIpAddress_Set($hIPAddress, "24.168.2.128")
 
-	; 等待用户关闭界面
+	; Wait for user to close GUI
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $hWndFrom, $iIDFrom, $iCode, $tNMHDR
+	#forceref $hWnd, $iMsg, $iwParam
+	Local $hWndFrom, $iCode, $tNMHDR
 	Local $tInfo
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hIPAddress
 			Switch $iCode
-				Case $IPN_FIELDCHANGED ; 当用户改变控件的一个区域或移动到另一区域时发送
+				Case $IPN_FIELDCHANGED ; Sent when the user changes a field in the control or moves from one field to another
 					$tInfo = DllStructCreate($tagNMIPADDRESS, $ilParam)
-					memowrite("$IPN_FIELDCHANGED" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF)
-					memowrite("-->Field:" & @TAB & DllStructGetData($tInfo, "Field") & @LF)
-					memowrite("-->Value:" & @TAB & DllStructGetData($tInfo, "Value"))
-					; 返回值被忽略
+					_DebugPrint("$IPN_FIELDCHANGED" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tInfo, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tInfo, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tInfo, "Code") & @LF & _
+							"-->Field:" & @TAB & DllStructGetData($tInfo, "Field") & @LF & _
+							"-->Value:" & @TAB & DllStructGetData($tInfo, "Value"))
+					; The return value is ignored
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($edit, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

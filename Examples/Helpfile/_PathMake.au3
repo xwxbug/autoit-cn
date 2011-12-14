@@ -1,5 +1,4 @@
-#include  <file.au3>
-;
-$TestPath = _PathMake(" c: ", "\temp ", "boot ", "ini ")
-msgbox(0, "demo _PathMake ", $TestPath)
+#include <File.au3>
 
+Local $TestPath = _PathMake("c:", "\temp", "boot", "ini")
+MsgBox(0, "demo _PathMake", $TestPath)

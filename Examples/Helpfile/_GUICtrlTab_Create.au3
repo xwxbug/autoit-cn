@@ -1,11 +1,8 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiTab.au3>
 #include <WindowsConstants.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_TAB = False ; 检查传递给函数的类名, 设置为真并使用另一控件句柄观察其工作
+$Debug_TAB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $hTab
 
@@ -14,24 +11,22 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; 创建界面
-	$hGUI = GUICreate(" (UDF Created) Tab Control Create ", 400, 300)
+	; Create GUI
+	$hGUI = GUICreate("(UDF Created) Tab Control Create", 400, 300)
 	$hTab = _GUICtrlTab_Create($hGUI, 2, 2, 396, 296)
-	$iMemo = GUICtrlCreateEdit(" ", 2, 32, 396, 266, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL))
 	GUISetState()
 
-	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY ")
+	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; 添加标签页
-	_GUICtrlTab_InsertItem($hTab, 0, "Tab 1 ")
-	_GUICtrlTab_InsertItem($hTab, 1, "Tab 2 ")
-	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3 ")
-
-	; 循环至用户退出
+	; Add tabs
+	_GUICtrlTab_InsertItem($hTab, 0, "Tab 1")
+	_GUICtrlTab_InsertItem($hTab, 1, "Tab 2")
+	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam
@@ -40,51 +35,49 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	If Not IsHWnd($hTab) Then $hWndTab = GUICtrlGetHandle($hTab)
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom "))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom ")
-	$iCode = DllStructGetData($tNMHDR, "Code ")
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
+	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
+	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hWndTab
 			Switch $iCode
-				Case $NM_CLICK ; 在控件中点击鼠标左键
-					memowrite(" $NM_CLICK ")
-					memowrite(" --> hWndFrom:" & @TAB & $hWndFrom)
-					memowrite(" -->DFrom:" & @TAB & $iIDFrom)
-					memowrite(" -->Code:" & @TAB & $iCode)
-					; 标签控件忽略返回值
-				Case $NM_DBLCLK ; 在控件中双击鼠标左键
-					memowrite(" $NM_DBLCLK ")
-					memowrite(" --> hWndFrom:" & @TAB & $hWndFrom)
-					memowrite(" -->DFrom:" & @TAB & $iIDFrom)
-					memowrite(" -->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0为允许默认操作
-				Case $NM_RCLICK ; 在控件中点击鼠标右键
-					memowrite(" $NM_RCLICK ")
-					memowrite(" --> hWndFrom:" & @TAB & $hWndFrom)
-					memowrite(" -->DFrom:" & @TAB & $iIDFrom)
-					memowrite(" -->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0为允许默认操作
-				Case $NM_RDBLCLK ; 在控件中双击鼠标右键
-					memowrite(" $NM_RDBLCLK ")
-					memowrite(" --> hWndFrom:" & @TAB & $hWndFrom)
-					memowrite(" -->DFrom:" & @TAB & $iIDFrom)
-					memowrite(" -->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0为允许默认操作
-				Case $NM_RELEASEDCAPTURE ; 控件释放鼠标捕捉
-					memowrite(" $NM_RELEASEDCAPTURE ")
-					memowrite(" --> hWndFrom:" & @TAB & $hWndFrom)
-					memowrite(" -->DFrom:" & @TAB & $iIDFrom)
-					memowrite(" -->Code:" & @TAB & $iCode)
-					; 无返回值
+				Case $NM_CLICK ; The user has clicked the left mouse button within the control
+					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; The return value is ignored by the tab control
+				Case $NM_DBLCLK ; The user has double-clicked the left mouse button within the control
+					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_RCLICK ; The user has clicked the right mouse button within the control
+					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_RDBLCLK ; The user has clicked the right mouse button within the control
+					_DebugPrint("$NM_RDBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_RELEASEDCAPTURE ; control is releasing mouse capture
+					_DebugPrint("$NM_RELEASEDCAPTURE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; No return value
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($iMemo, $s_text, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

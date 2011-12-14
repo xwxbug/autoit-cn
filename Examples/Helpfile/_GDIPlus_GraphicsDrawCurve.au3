@@ -1,22 +1,18 @@
-
-#include  <GuiConstantsEx.au3>
-#include  <GDIPlus.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
+#include <GDIPlus.au3>
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $hWnd, $hGraphic, $aPoints[5][2]
+	Local $hGUI, $hGraphic, $aPoints[5][2]
 
-	; 创建界面
+	; 创建 GUI
 	$hGUI = GUICreate("GDI+", 400, 300)
-	$hWnd = WinGetHandle("GDI+")
 	GUISetState()
 
-	; 绘制基线
+	; 描绘基数样条
 	_GDIPlus_Startup()
-	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hWnd)
+	$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 
 	$aPoints[0][0] = 4
 	$aPoints[1][0] = 0
@@ -31,13 +27,12 @@ Func _Main()
 	_GDIPlus_GraphicsDrawCurve($hGraphic, $aPoints)
 
 
-	; 循环至用户退出
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-	; 清除资源
+	; 清理资源
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_Shutdown()
 
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

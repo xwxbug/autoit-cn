@@ -1,4 +1,4 @@
-#include  <file.au3>
-$TestPath = _PathFull(@ScriptDir & " ..\..\test ")
-msgbox(0, "demo _PathFull ", @ScriptDir & @lf & $TestPath)
+#include <File.au3>
 
+Local $TestPath = _PathFull(@ScriptDir & "..\..\test")
+MsgBox(0, "demo _PathFull", @ScriptDir & @LF & $TestPath)

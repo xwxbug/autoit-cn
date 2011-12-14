@@ -1,11 +1,8 @@
+#include <GUIConstantsEx.au3>
+#include <GuiStatusBar.au3>
+#include <WindowsConstants.au3>
 
-#include  <GuiConstantsEx.au3>
-#include  <GuiStatusBar.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_SB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $hStatus
 
@@ -16,9 +13,8 @@ Func _Main()
 	Local $hGUI
 	Local $aParts[3] = [75, 150, -1]
 
-	; 创建界面
-	$hGUI = GUICreate( "StatusBar
-	Resize" ,  400 ,  300 ,  - 1 ,  - 1 ,  $WS_SIZEBOX )
+	; Create GUI
+	$hGUI = GUICreate("StatusBar Resize", 400, 300, -1, -1, $WS_SIZEBOX)
 
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
 	_GUICtrlStatusBar_SetParts($hStatus, $aParts)
@@ -26,18 +22,15 @@ Func _Main()
 
 	GUIRegisterMsg($WM_SIZE, "WM_SIZE")
 
-
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-;
-界面尺寸改变时改变状态栏尺寸
+; Resize the status bar when GUI size changes
 Func WM_SIZE($hWnd, $iMsg, $iwParam, $ilParam)
+	#forceref $hWnd, $iMsg, $iwParam, $ilParam
 	_GUICtrlStatusBar_Resize($hStatus)
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_SIZE
-
-
+EndFunc   ;==>WM_SIZE

@@ -1,13 +1,9 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GuiEdit.au3>
 #include <WinAPI.au3> ; used for Lo/Hi word
 #include <WindowsConstants.au3>
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 
-Opt('MustDeclareVars', 1)
-
-$Debug_Ed = False ; 查看传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_Ed = False ; Check ClassName being passed to Edit functions, set to True and use a handle to another control to see it work
 
 Global $hEdit
 
@@ -17,40 +13,38 @@ _Example2()
 Func _Example1()
 	Local $hGUI
 
-	; 创建界面
-	$hGUI = GUICreate("Edit Create", 400, 532)
+	; Create GUI
+	$hGUI = GUICreate("Edit Create", 400, 300)
 	$hEdit = _GUICtrlEdit_Create($hGUI, "This is a test" & @CRLF & "Another Line", 2, 2, 394, 268)
-	$iMemo = GUICtrlCreateEdit("", 2, 272, 394, 258, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL, $ES_READONLY))
 	GUISetState()
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Example1
+EndFunc   ;==>_Example1
 
 Func _Example2()
 	Local $hGUI
 
-	; 创建界面
-	$hGUI = GUICreate("Edit Create", 400, 532)
+	; Create GUI
+	$hGUI = GUICreate("Edit Create", 400, 300)
 	$hEdit = _GUICtrlEdit_Create($hGUI, "", 2, 2, 394, 268)
-	$iMemo = GUICtrlCreateEdit("", 2, 272, 394, 258, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL, $ES_READONLY))
 	GUISetState()
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
 	_GUICtrlEdit_SetText($hEdit, "This is a test" & @CRLF & "Another Line")
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Example2
+EndFunc   ;==>_Example2
 
 Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg
@@ -62,74 +56,70 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $hWndFrom
 		Case $hEdit, $hWndEdit
 			Switch $iCode
-				Case $EN_ALIGN_LTR_EC ; 将编辑控件方向改为从左到右时发送
-					memowrite("$EN_ALIGN_LTR_EC" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_ALIGN_RTL_EC ; 将编辑控件方向改为从右到左时发送
-					memowrite("$EN_ALIGN_RTL_EC" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_CHANGE ; 改变控件中的文本时发送
-					memowrite("$EN_CHANGE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_ERRSPACE ; 控件无法分配足够内存用于指定请求时发送
-					memowrite("$EN_ERRSPACE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_HSCROLL ; 点击控件水平滚动条时发送
-					memowrite("$EN_HSCROLL" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_KILLFOCUS ; 控件丢失键盘焦点时发送
-					memowrite("$EN_KILLFOCUS" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_MAXTEXT ; 当前文本插入已超过编辑框字符的指定数量时发送
-					memowrite("$EN_MAXTEXT" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 当编辑控件不具有$ES_AUTOHSCROLL样式且将插入的字符的数量超过编辑控件宽度时会发送.
-					; 当编辑控件不具有$ES_AUTOVSCROLL样式且插入文本行数加原文本行数总行数超过控件高度时也会发送
-					; 无返回值
-				Case $EN_SETFOCUS ; 控件收到键盘焦点时发送
-					memowrite("$EN_SETFOCUS" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_UPDATE ; 编辑控件将重绘时发送
-					memowrite("$EN_UPDATE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
-				Case $EN_VSCROLL ; 点击编辑控件垂直滚动条或在控件上转动鼠标滚轮时发送
-					memowrite("$EN_VSCROLL" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					; 无返回值
+				Case $EN_ALIGN_LTR_EC ; Sent when the user has changed the edit control direction to left-to-right
+					_DebugPrint("$EN_ALIGN_LTR_EC" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_ALIGN_RTL_EC ; Sent when the user has changed the edit control direction to right-to-left
+					_DebugPrint("$EN_ALIGN_RTL_EC" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_CHANGE ; Sent when the user has taken an action that may have altered text in an edit control
+					_DebugPrint("$EN_CHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_ERRSPACE ; Sent when an edit control cannot allocate enough memory to meet a specific request
+					_DebugPrint("$EN_ERRSPACE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_HSCROLL ; Sent when the user clicks an edit control's horizontal scroll bar
+					_DebugPrint("$EN_HSCROLL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_KILLFOCUS ; Sent when an edit control loses the keyboard focus
+					_DebugPrint("$EN_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_MAXTEXT ; Sent when the current text insertion has exceeded the specified number of characters for the edit control
+					_DebugPrint("$EN_MAXTEXT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; This message is also sent when an edit control does not have the $ES_AUTOHSCROLL style and the number of characters to be
+					; inserted would exceed the width of the edit control.
+					; This message is also sent when an edit control does not have the $ES_AUTOVSCROLL style and the total number of lines resulting
+					; from a text insertion would exceed the height of the edit control
+
+					; no return value
+				Case $EN_SETFOCUS ; Sent when an edit control receives the keyboard focus
+					_DebugPrint("$EN_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_UPDATE ; Sent when an edit control is about to redraw itself
+					_DebugPrint("$EN_UPDATE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
+				Case $EN_VSCROLL ; Sent when the user clicks an edit control's vertical scroll bar or when the user scrolls the mouse wheel over the edit control
+					_DebugPrint("$EN_VSCROLL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; no return value
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_COMMAND
+EndFunc   ;==>WM_COMMAND
 
-Func memowrite($s_text)
-	GUICtrlSetData($iMemo, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

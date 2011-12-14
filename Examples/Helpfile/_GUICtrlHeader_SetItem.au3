@@ -1,59 +1,55 @@
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiHeader.au3>
 #include <GuiImageList.au3>
 #include <WinAPI.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_HDR = False ; 检查传递给函数的类名 , 设置为真并使用另一控件的句柄观察其工作
+$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $hHeader, $msg, $hImage, $tItem, $item
+	Local $hGUI, $hHeader, $hImage, $tItem
 
-	; 创建界面
-	$hGUI = GUICreate('Header ', 420, 300)
-	$item = GUICtrlCreateButton('set/get item ', 270, 118, 190, 20)
+	; Create GUI
+	$hGUI = GUICreate("Header", 400, 300)
 	$hHeader = _GUICtrlHeader_Create($hGUI)
-	$iMemo = GUICtrlCreateEdit('', 2, 24, 426, 240)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	$iMemo = GUICtrlCreateEdit("", 2, 24, 396, 274, 0)
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; 添加图像
+	; Create an image list with images
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0xFF0000, 11, 11))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0x00FF00, 11, 11))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0x0000FF, 11, 11))
 	_GUICtrlHeader_SetImageList($hHeader, $hImage)
 
-	; 添加列
-	_GUICtrlHeader_AddItem($hHeader, "Column 1 ", 110, 0, 0)
-	_GUICtrlHeader_AddItem($hHeader, "Column 2 ", 110, 0, 1)
-	_GUICtrlHeader_AddItem($hHeader, "Column 3 ", 110, 0, 2)
-	_GUICtrlHeader_AddItem($hHeader, "Column 4 ", 100)
+	; Add columns
+	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100, 0, 0)
+	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100, 0, 1)
+	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100, 0, 2)
+	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
 
+	; Set column 3 image index
+	$tItem = DllStructCreate($tagHDITEM)
+	DllStructSetData($tItem, "Mask", $HDI_IMAGE)
+	DllStructSetData($tItem, "Image", 0)
+	_GUICtrlHeader_SetItem($hHeader, 2, $tItem)
+
+	; Show column 3 image index
+	$tItem = DllStructCreate($tagHDITEM)
+	DllStructSetData($tItem, "Mask", $HDI_IMAGE)
+	_GUICtrlHeader_GetItem($hHeader, 2, $tItem)
+	MemoWrite("Column 3 image index: " & DllStructGetData($tItem, "Image"))
+
+	; Loop until user exits
 	Do
-		$msg = GUIGetMsg()
-		If $msg = $item Then
-			; 设置列3图像索引
-			$tItem = DllStructCreate($tagHDITEM)
-			DllStructSetData($tItem, "Mask", $HDI_IMAGE)
-			DllStructSetData($tItem, "Image", 2)
-			_GUICtrlHeader_SetItem($hHeader, 2, $tItem)
-			; 显示列3图像索引
-			$tItem = DllStructCreate($tagHDITEM)
-			DllStructSetData($tItem, "Mask", $HDI_IMAGE)
-			_GUICtrlHeader_GetItem($hHeader, 2, $tItem)
-			MemoWrite('Column 3 image index:' & DllStructGetData($tItem, "Image"))
-		EndIf
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

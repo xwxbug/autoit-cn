@@ -1,11 +1,8 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-#include <GUIScrollBars.au3>
+#include <GuiScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -25,17 +22,17 @@ Func _Main()
 	_GUIScrollBars_Init($hGUI)
 
 	$RangeMinMax = _GUIScrollBars_GetScrollRange($hGUI, $SB_VERT)
-	MemoWrite("Vertical Min/Max:" & $RangeMinMax[0] & "/" & $RangeMinMax[1])
+	MemoWrite("Vertical Min/Max: " & $RangeMinMax[0] & "/" & $RangeMinMax[1])
 	$RangeMinMax = _GUIScrollBars_GetScrollRange($hGUI, $SB_HORZ)
-	MemoWrite("Horizontal Min/Max:" & $RangeMinMax[0] & "/" & $RangeMinMax[1])
+	MemoWrite("Horizontal Min/Max: " & $RangeMinMax[0] & "/" & $RangeMinMax[1])
 	Sleep(1000)
 	_GUIScrollBars_SetScrollRange($hGUI, $SB_VERT, 3, 30)
 	$RangeMinMax = _GUIScrollBars_GetScrollRange($hGUI, $SB_VERT)
-	MemoWrite("New Vertical Min/Max:" & $RangeMinMax[0] & "/" & $RangeMinMax[1])
+	MemoWrite("New Vertical Min/Max: " & $RangeMinMax[0] & "/" & $RangeMinMax[1])
 	Sleep(1000)
 	_GUIScrollBars_SetScrollRange($hGUI, $SB_HORZ, 10, 98)
 	$RangeMinMax = _GUIScrollBars_GetScrollRange($hGUI, $SB_HORZ)
-	MemoWrite("New Horizontal Min/Max:" & $RangeMinMax[0] & "/" & $RangeMinMax[1])
+	MemoWrite("New Horizontal Min/Max: " & $RangeMinMax[0] & "/" & $RangeMinMax[1])
 
 	While 1
 		$GUIMsg = GUIGetMsg()
@@ -47,10 +44,9 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

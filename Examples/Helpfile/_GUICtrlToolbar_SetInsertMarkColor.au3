@@ -1,12 +1,9 @@
+#include <GuiToolbar.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#include <Constants.au3>
 
-#include  <GuiToolbar.au3>
-#include  <GuiConstantsEx.au3>
-#include  <WindowsConstants.au3>
-#include  <Constants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_TB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 Global $iMemo
 
 _Main()
@@ -15,62 +12,45 @@ Func _Main()
 	Local $hGUI, $hToolbar, $aMark
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Toolbar", 400, 300)
 	$hToolbar = _GUICtrlToolbar_Create($hGUI)
 	$iMemo = GUICtrlCreateEdit("", 2, 36, 396, 262, $WS_VSCROLL)
-
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
-
 	GUISetState()
 
-	;
-	添加标准系统位图
+	; Add standard system bitmaps
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
-
 		Case 0
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_SMALL_COLOR)
 		Case 2
-
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 	EndSwitch
 
-	; 添加按钮
+	; Add buttons
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
-
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)
-
 	_GUICtrlToolbar_AddButtonSep($hToolbar)
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
-
-	; 设置插入标记
-
+	; Set insert mark
 	_GUICtrlToolbar_SetInsertMarkColor($hToolbar, 0xFF0000)
 	_GUICtrlToolbar_SetInsertMark($hToolbar, 1, 1)
 
-	; 显示插入标记
+	; Show insert mark
 	$aMark = _GUICtrlToolbar_GetInsertMark($hToolbar)
+	MemoWrite("Index ........: " & $aMark[0])
+	MemoWrite("Relationship .: " & $aMark[1])
+	MemoWrite("Mark color ...: 0x" & Hex(_GUICtrlToolbar_GetInsertMarkColor($hToolbar), 6))
 
-	MemoWrite( "Index ........:
-	"  &  $aMark [ 0 ])
-
-	MemoWrite( "Relationship .:
-	"  &  $aMark [ 1 ])
-
-	MemoWrite( "Mark color ...:
-	0x"  &  Hex ( _GUICtrlToolbar_GetInsertMarkColor ( $hToolbar ),  6 ))
-
-	; 循环至用户退出
-
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; Write message to memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

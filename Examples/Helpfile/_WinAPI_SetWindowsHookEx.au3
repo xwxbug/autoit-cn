@@ -1,56 +1,54 @@
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-
-Opt('MustDeclareVars ', 1)
 
 Global $hHook, $hStub_KeyProc, $buffer = ""
 
 _Main()
 
 Func _Main()
+	OnAutoItExitRegister("Cleanup")
+
 	Local $hmod
 
-	$hStub_KeyProc = DllCallbackRegister(" _KeyProc ", "long ", "int;wparam;lparam ")
+	$hStub_KeyProc = DllCallbackRegister("_KeyProc", "long", "int;wparam;lparam")
 	$hmod = _WinAPI_GetModuleHandle(0)
 	$hHook = _WinAPI_SetWindowsHookEx($WH_KEYBOARD_LL, DllCallbackGetPtr($hStub_KeyProc), $hmod)
 
-	MsgBox(4096, "", "Click OK , then in notepad type..." & _
-			@LF & @LF & " Jon" & @LF & " AutoIt" & @LF & @LF & " Press Esc to exit script ")
+	MsgBox(4096, "", "Click OK, then in notepad type..." & _
+			@LF & @LF & "Jon" & @LF & "AutoIt" & @LF & @LF & "Press Esc to exit script")
 
-	Run(" Notepad ")
-	WinWait(" Untitled - ")
-	WinActivate(" Untitled - ")
+	Run("notepad.exe")
+	WinWait("[CLASS:Notepad]")
+	WinActivate("[CLASS:Notepad]")
 
 	While 1
 		Sleep(10)
 	WEnd
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func EvaluateKey($keycode)
-	If(($keycode > 64) And($keycode < 91)) _ ; a - z
-			Or(($keycode > 96) And($keycode < 123)) _ ; A - Z
-			Or(($keycode > 47) And($keycode < 58)) Then ; 0 - 9
+	If (($keycode > 64) And ($keycode < 91)) _ ; a - z
+			Or (($keycode > 96) And ($keycode < 123)) _ ; A - Z
+			Or (($keycode > 47) And ($keycode < 58)) Then ; 0 - 9
 		$buffer &= Chr($keycode)
 		Switch $buffer
-			Case " Jon "
-				ToolTip(" What can you say? ")
-			Case " AutoIt "
-				ToolTip(" AutoIt Rocks ")
+			Case "Jon"
+				ToolTip("What can you say?")
+			Case "AutoIt"
+				ToolTip("AutoIt Rocks")
 		EndSwitch
-	ElseIf($keycode > 159) And($keycode < 164) Then
+	ElseIf ($keycode > 159) And ($keycode < 164) Then
 		Return
-	ElseIf($keycode = 27) Then ; esc key
+	ElseIf ($keycode = 27) Then ; esc key
 		Exit
 	Else
 		$buffer = ""
 	EndIf
-endfunc   ;==>EvaluateKey
+EndFunc   ;==>EvaluateKey
 
 ;===========================================================
-; »Øµ÷º¯Êý
+; callback function
 ;===========================================================
 Func _KeyProc($nCode, $wParam, $lParam)
 	Local $tKEYHOOKS
@@ -59,25 +57,24 @@ Func _KeyProc($nCode, $wParam, $lParam)
 		Return _WinAPI_CallNextHookEx($hHook, $nCode, $wParam, $lParam)
 	EndIf
 	If $wParam = $WM_KEYDOWN Then
-		EvaluateKey( DllStructGetData($tKEYHOOKS, "vkCode "))
+		EvaluateKey(DllStructGetData($tKEYHOOKS, "vkCode"))
 	Else
-		Local $flags = DllStructGetData($tKEYHOOKS, "flags ")
+		Local $flags = DllStructGetData($tKEYHOOKS, "flags")
 		Switch $flags
 			Case $LLKHF_ALTDOWN
-				MsgBox('', '', '$LLKHF_ALTDOWN')
+				ConsoleWrite("$LLKHF_ALTDOWN" & @CRLF)
 			Case $LLKHF_EXTENDED
-				MsgBox('', '', '$LLKHF_EXTENDED')
+				ConsoleWrite("$LLKHF_EXTENDED" & @CRLF)
 			Case $LLKHF_INJECTED
-				MsgBox('', '', '$LLKHF_INJECTED')
+				ConsoleWrite("$LLKHF_INJECTED" & @CRLF)
 			Case $LLKHF_UP
-				MsgBox('', '', '$LLKHF_UP: scanCode -' & DllStructGetData($tKEYHOOKS, "scanCode ") & @TAB & " vkCode -" & DllStructGetData($tKEYHOOKS, "vkCode "))
+				ConsoleWrite("$LLKHF_UP: scanCode - " & DllStructGetData($tKEYHOOKS, "scanCode") & @TAB & "vkCode - " & DllStructGetData($tKEYHOOKS, "vkCode") & @CRLF)
 		EndSwitch
 	EndIf
 	Return _WinAPI_CallNextHookEx($hHook, $nCode, $wParam, $lParam)
-endfunc   ;==>_KeyProc
+EndFunc   ;==>_KeyProc
 
-Func OnAutoItExit()
+Func Cleanup()
 	_WinAPI_UnhookWindowsHookEx($hHook)
 	DllCallbackFree($hStub_KeyProc)
-endfunc   ;==>OnAutoItExit
-
+EndFunc   ;==>Cleanup

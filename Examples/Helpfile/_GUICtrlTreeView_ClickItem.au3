@@ -1,16 +1,11 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiTreeView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
-#include <EditConstants.au3>
 
-Opt('MustDeclareVars', 1)
+$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
-$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
-
-Global $hTreeView, $edit
+Global $hTreeView
 
 _Main()
 
@@ -21,8 +16,7 @@ Func _Main()
 
 	GUICreate("TreeView Click Item", 400, 300)
 
-	$edit = GUICtrlCreateEdit("", 201, 2, 199, 296, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL))
-	$hTreeView = GUICtrlCreateTreeView(2, 2, 197, 296, $iStyle, $WS_EX_CLIENTEDGE)
+	$hTreeView = GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
@@ -49,11 +43,11 @@ Func _Main()
 
 	_GUICtrlTreeView_ClickItem($hTreeView, $hItem, "left", False, 2)
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam
@@ -62,47 +56,45 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	If Not IsHWnd($hTreeView) Then $hWndTreeview = GUICtrlGetHandle($hTreeView)
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hWndTreeview
 			Switch $iCode
-				Case $NM_CLICK ; 在控件内单击鼠标左键
-					memowrite("$NM_CLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-					; 无返回值
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0 为允许默认操作
-				Case $NM_DBLCLK ; 在控件内双击鼠标左键
-					memowrite("$NM_DBLCLK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0 为允许默认操作
-				Case $NM_RCLICK ; 在控件内点击鼠标右键
-					memowrite("$NM_RCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0 为允许默认操作
-				Case $NM_RDBLCLK ; 在控件内双击鼠标右键
-					memowrite("$NM_RDBLCLK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-;~          Return 1 ; 非0为不允许默认操作
-					Return 0 ; 0 为允许默认操作
+				Case $NM_CLICK ; The user has clicked the left mouse button within the control
+					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_DBLCLK ; The user has double-clicked the left mouse button within the control
+					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_RCLICK ; The user has clicked the right mouse button within the control
+					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
+				Case $NM_RDBLCLK ; The user has clicked the right mouse button within the control
+					_DebugPrint("$NM_RDBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+;~ 					Return 1 ; nonzero to not allow the default processing
+					Return 0 ; zero to allow the default processing
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($edit, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

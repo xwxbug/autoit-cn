@@ -1,26 +1,24 @@
 #include <GuiMenu.au3>
 
-Opt('MustDeclareVars', 1)
-
 _Main()
 
 Func _Main()
 	Local $hWnd, $hMain, $hFile, $tInfo
 
-	; 打开记事本
-	Run("Notepad.exe")
+	; Open Notepad
+	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
 	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-	; 获取/设置文件菜单信息
+	; Get/Set File menu information
 	$tInfo = _GUICtrlMenu_GetMenuInfo($hFile)
-	Writeln("Menu style ..........:" & DllStructGetData($tInfo, "Style"))
-	Writeln("Menu max height .....:" & DllStructGetData($tInfo, "YMax"))
-	Writeln("Menu background brush:" & DllStructGetData($tInfo, "hBack"))
-	Writeln("Menu context help ID :" & DllStructGetData($tInfo, "ContextHelpID"))
-	Writeln("Menu data ...........:" & DllStructGetData($tInfo, "MenuData"))
+	Writeln("Menu style ..........: " & DllStructGetData($tInfo, "Style"))
+	Writeln("Menu max height .....: " & DllStructGetData($tInfo, "YMax"))
+	Writeln("Menu background brush: " & DllStructGetData($tInfo, "hBack"))
+	Writeln("Menu context help ID : " & DllStructGetData($tInfo, "ContextHelpID"))
+	Writeln("Menu data ...........: " & DllStructGetData($tInfo, "MenuData"))
 	Writeln("")
 	$tInfo = DllStructCreate($tagMENUINFO)
 	DllStructSetData($tInfo, "Size", DllStructGetSize($tInfo))
@@ -30,17 +28,16 @@ Func _Main()
 	DllStructSetData($tInfo, "MenuData", 4567)
 	_GUICtrlMenu_SetMenuInfo($hFile, $tInfo)
 	$tInfo = _GUICtrlMenu_GetMenuInfo($hFile)
-	Writeln("Menu style ..........:" & DllStructGetData($tInfo, "Style"))
-	Writeln("Menu max height .....:" & DllStructGetData($tInfo, "YMax"))
-	Writeln("Menu background brush:" & DllStructGetData($tInfo, "hBack"))
-	Writeln("Menu context help ID :" & DllStructGetData($tInfo, "ContextHelpID"))
-	Writeln("Menu data ...........:" & DllStructGetData($tInfo, "MenuData"))
+	Writeln("Menu style ..........: " & DllStructGetData($tInfo, "Style"))
+	Writeln("Menu max height .....: " & DllStructGetData($tInfo, "YMax"))
+	Writeln("Menu background brush: " & DllStructGetData($tInfo, "hBack"))
+	Writeln("Menu context help ID : " & DllStructGetData($tInfo, "ContextHelpID"))
+	Writeln("Menu data ...........: " & DllStructGetData($tInfo, "MenuData"))
 	Writeln("")
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向记事本写入一行文本
+; Write a line of text to Notepad
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
-endfunc   ;==>Writeln
-
+EndFunc   ;==>Writeln

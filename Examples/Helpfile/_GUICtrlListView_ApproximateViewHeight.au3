@@ -1,40 +1,33 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 #include <Constants.au3>
-#include <Winapi.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_LV = False ; 检查传递给函数的类名 , 设置为真并使用另一控件句柄观察其工作
+$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
 _Main()
 
 Func _Main()
 	Local $iY, $hListView
 
-	GUICreate(" ListView Approximate View Height ", 400, 300)
+	GUICreate("ListView Approximate View Height", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
-	_GUICtrlListView_SetUnicodeFormat($hListView, False)
 	GUISetState()
 
-	; 添加列
-	_GUICtrlListView_InsertColumn($hListView, 0, "Column 1 ", 100)
+	; Add column
+	_GUICtrlListView_InsertColumn($hListView, 0, "Column 1", 100)
 
-	; 添加项
+	; Add items
 	For $iI = 0 To 9
-		_GUICtrlListView_AddItem($hListView, "Row" & $iI)
+		_GUICtrlListView_AddItem($hListView, "Row " & $iI)
 	Next
 
-	MsgBox(4096, "Information ", "Approximate View Height ")
-	; 改变视图高度
+	MsgBox(4096, "Information", "Approximate View Height")
+	; Resize view height
 	$iY = _GUICtrlListView_ApproximateViewHeight($hListView)
-	_WinAPI_SetWindowPos( GUICtrlGetHandle($hListView), 0, 2, 2, 394, $iY + 40, $SWP_NOZORDER)
+	_WinAPI_SetWindowPos(GUICtrlGetHandle($hListView), 0, 2, 2, 394, $iY, $SWP_NOZORDER)
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

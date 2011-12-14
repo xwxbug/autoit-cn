@@ -1,11 +1,7 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
-#include  <GUIScrollBars.au3>
-#include  <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#include <GuiScrollBars.au3>
+#include <ScrollBarConstants.au3>
 
 Global $iMemo
 
@@ -14,7 +10,7 @@ _Main()
 Func _Main()
 	Local $GUIMsg, $hGUI, $aRect
 
-	$hGUI = GUICreate("ScrollBar 示例", 400, 400, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_SIZEBOX))
+	$hGUI = GUICreate("ScrollBar Example", 400, 400, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_SIZEBOX))
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 380, 360, BitOR($WS_HSCROLL, $WS_VSCROLL))
 	GUICtrlSetResizing($iMemo, $GUI_DOCKALL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -26,17 +22,17 @@ Func _Main()
 
 	$aRect = _GUIScrollBars_GetScrollBarRect($hGUI, $OBJID_HSCROLL)
 	MemoWrite("Horizontal" & @CRLF & "--------------------------------------")
-	MemoWrite("Left.........:" & $aRect[0])
-	MemoWrite("Top..........:" & $aRect[1])
-	MemoWrite("Right........:" & $aRect[2])
-	MemoWrite("Bottom.......:" & $aRect[3])
+	MemoWrite("Left.........: " & $aRect[0])
+	MemoWrite("Top..........: " & $aRect[1])
+	MemoWrite("Right........: " & $aRect[2])
+	MemoWrite("Bottom.......: " & $aRect[3])
 
 	$aRect = _GUIScrollBars_GetScrollBarRect($hGUI, $OBJID_VSCROLL)
 	MemoWrite(@CRLF & "--------------------------------------" & @CRLF & "Vertical" & @CRLF & "--------------------------------------")
-	MemoWrite("Left.........:" & $aRect[0])
-	MemoWrite("Top..........:" & $aRect[1])
-	MemoWrite("Right........:" & $aRect[2])
-	MemoWrite("Bottom.......:" & $aRect[3])
+	MemoWrite("Left.........: " & $aRect[0])
+	MemoWrite("Top..........: " & $aRect[1])
+	MemoWrite("Right........: " & $aRect[2])
+	MemoWrite("Bottom.......: " & $aRect[3])
 
 
 	While 1
@@ -49,10 +45,9 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

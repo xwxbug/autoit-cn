@@ -1,15 +1,11 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 #include <GuiStatusBar.au3>
 #include <WindowsConstants.au3>
-#include <EditConstants.au3>
 
-Opt('MustDeclareVars', 1)
+$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
 
-$Debug_LV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
-
-Global $hListView, $edit, $hStatus
+Global $hListView, $hStatus
 
 _Main()
 
@@ -19,12 +15,11 @@ Func _Main()
 	$hGUI = GUICreate("ListView Get Hover Time", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_GRIDLINES, $LVS_EX_TRACKSELECT))
-	$edit = GUICtrlCreateEdit("", 2, 104, 394, 210, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL))
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
 	_GUICtrlStatusBar_SetSimple($hStatus, True)
 	GUISetState()
 
-	; 添加列
+	; Add columns
 	_GUICtrlListView_AddColumn($hListView, "Column 1", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
@@ -36,23 +31,23 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($hListView, 1, "Row 2: Col 2", 1)
 	_GUICtrlListView_InsertItem($hListView, "Row 3: Col 1", -1)
 
-	; 设置停留时间
+	; Set hover time
 	_GUICtrlListView_SetHoverTime($hListView, 1234)
-	MsgBox(4160, "Information", "Hover Time (milliseconds):" & _GUICtrlListView_GetHoverTime($hListView))
+	MsgBox(4160, "Information", "Hover Time (milliseconds): " & _GUICtrlListView_GetHoverTime($hListView))
 
-	;注册 WM_NOTIFY 事件
+	;Register WM_NOTIFY  events
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func ListView_HOTTRACK($iSubItem)
 	Local $HotItem = _GUICtrlListView_GetHotItem($hListView)
-	If $HotItem <> -1 Then _GUICtrlStatusBar_SetText($hStatus, "Hot Item:" & $HotItem & " SubItem:" & $iSubItem)
-endfunc   ;==>ListView_HOTTRACK
+	If $HotItem <> -1 Then _GUICtrlStatusBar_SetText($hStatus, "Hot Item: " & $HotItem & " SubItem: " & $iSubItem)
+EndFunc   ;==>ListView_HOTTRACK
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam
@@ -61,156 +56,149 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	If Not IsHWnd($hListView) Then $hWndListView = GUICtrlGetHandle($hListView)
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hWndListView
 			Switch $iCode
-				Case $LVN_COLUMNCLICK ; 点击一列
+				Case $LVN_COLUMNCLICK ; A column was clicked
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
-					memowrite("$LVN_COLUMNCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-					; 无返回值
-				Case $LVN_DELETEITEM ; 将删除一项
+					_DebugPrint("$LVN_COLUMNCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
+					; No return value
+				Case $LVN_DELETEITEM ; An item is about to be deleted
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
-					memowrite("$LVN_DELETEITEM" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-					; 无返回值
-				Case $LVN_HOTTRACK ; 当鼠标移动到一个项目上时由控件发送
+					_DebugPrint("$LVN_DELETEITEM" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
+					; No return value
+				Case $LVN_HOTTRACK ; Sent by a list-view control when the user moves the mouse over an item
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
-					ListView_HOTTRACK( DllStructGetData($tInfo, "SubItem "))
-;~        memowrite("$LVN_HOTTRACK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF)
-;~        memowrite("IDFrom:" & @TAB & $iIDFrom & @LF)
-;~        memowrite("Code:" & @TAB & $iCode & @LF)
-;~        memowrite("Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF)
-;~        memowrite("SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-;~        memowrite("NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-;~        memowrite("OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-;~        memowrite("Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-;~        memowrite("ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-;~        memowrite("ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-;~        memowrite("Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~        Return 0 ; 允许列表视图执行简单的跟踪选定进程.
-;~        ;Return 1 ; 项目不被选定.
-				Case $LVN_KEYDOWN ; 已按下一键
+					ListView_HOTTRACK(DllStructGetData($tInfo, "SubItem"))
+;~ 					_DebugPrint("$LVN_HOTTRACK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+;~ 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+;~ 							"-->Code:" & @TAB & $iCode & @LF & _
+;~ 							"-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF & _
+;~ 							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+;~ 							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+;~ 							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+;~ 							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
+					Return 0 ; allow the list view to perform its normal track select processing.
+					;Return 1 ; the item will not be selected.
+				Case $LVN_KEYDOWN ; A key has been pressed
 					$tInfo = DllStructCreate($tagNMLVKEYDOWN, $ilParam)
-					memowrite("$LVN_KEYDOWN" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->VKey:" & @TAB & DllStructGetData($tInfo, "VKey") & @LF)
-					memowrite("-->Flags:" & @TAB & DllStructGetData($tInfo, "Flags"))
-					; 无返回值
-				Case $NM_CLICK ; 鼠标左键点击项目时由控件发送
+					_DebugPrint("$LVN_KEYDOWN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->VKey:" & @TAB & DllStructGetData($tInfo, "VKey") & @LF & _
+							"-->Flags:" & @TAB & DllStructGetData($tInfo, "Flags"))
+					; No return value
+				Case $NM_CLICK ; Sent by a list-view control when the user clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
-					memowrite("$NM_CLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF)
-					memowrite("-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; 无返回值
-				Case $NM_DBLCLK ; 鼠标左键双击项目时由控件发送
+					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
+							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
+					; No return value
+				Case $NM_DBLCLK ; Sent by a list-view control when the user double-clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
-					memowrite("$NM_DBLCLK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF)
-					memowrite("-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; 无返回值
-				Case $NM_KILLFOCUS ; 控件失去输入焦点
-					memowrite("$NM_KILLFOCUS" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-					; 无返回值
-				Case $NM_RCLICK ; 鼠标右键点击项目时由控件发送
+					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
+							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
+					; No return value
+				Case $NM_KILLFOCUS ; The control has lost the input focus
+					_DebugPrint("$NM_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; No return value
+				Case $NM_RCLICK ; Sent by a list-view control when the user clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
-					memowrite("$NM_RCBLCLK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF)
-					memowrite("-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					;Return 1 ; 不允许默认操作
-					Return 0 ; 允许默认操作
-				Case $NM_RDBLCLK ; 鼠标右键双击项目时由控件发送
+					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
+							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
+					;Return 1 ; not to allow the default processing
+					Return 0 ; allow the default processing
+				Case $NM_RDBLCLK ; Sent by a list-view control when the user double-clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
-					memowrite("$NM_RDBLCLK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode & @LF)
-					memowrite("-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF)
-					memowrite("-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF)
-					memowrite("-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF)
-					memowrite("-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF)
-					memowrite("-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF)
-					memowrite("-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF)
-					memowrite("-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF)
-					memowrite("-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF)
-					memowrite("-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; 无返回值
-				Case $NM_RETURN ; 控件具有输入焦点且用户已按下ENTER键
-					memowrite("$NM_RETURN" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-					; 无返回值
-				Case $NM_SETFOCUS ; 控件已收到输入焦点
-					memowrite("$NM_SETFOCUS" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & $hWndFrom & @LF)
-					memowrite("-->IDFrom:" & @TAB & $iIDFrom & @LF)
-					memowrite("-->Code:" & @TAB & $iCode)
-					; 无返回值
+					_DebugPrint("$NM_RDBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode & @LF & _
+							"-->Index:" & @TAB & DllStructGetData($tInfo, "Index") & @LF & _
+							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
+							"-->NewState:" & @TAB & DllStructGetData($tInfo, "NewState") & @LF & _
+							"-->OldState:" & @TAB & DllStructGetData($tInfo, "OldState") & @LF & _
+							"-->Changed:" & @TAB & DllStructGetData($tInfo, "Changed") & @LF & _
+							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
+							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
+							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
+							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
+					; No return value
+				Case $NM_RETURN ; The control has the input focus and that the user has pressed the ENTER key
+					_DebugPrint("$NM_RETURN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; No return value
+				Case $NM_SETFOCUS ; The control has received the input focus
+					_DebugPrint("$NM_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
+							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
+							"-->Code:" & @TAB & $iCode)
+					; No return value
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($edit, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

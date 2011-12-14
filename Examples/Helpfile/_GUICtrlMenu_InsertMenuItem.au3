@@ -1,18 +1,16 @@
 #include <GuiMenu.au3>
-#include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 _Main()
 
 Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain
-	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste, $idAbout
+	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
-	; 创建文件菜单
+	; Create File menu
 	$hFile = _GUICtrlMenu_CreateMenu()
 	_GUICtrlMenu_InsertMenuItem($hFile, 0, "&New", $idNew)
 	_GUICtrlMenu_InsertMenuItem($hFile, 1, "&Open", $idOpen)
@@ -20,34 +18,26 @@ Func _Main()
 	_GUICtrlMenu_InsertMenuItem($hFile, 3, "", 0)
 	_GUICtrlMenu_InsertMenuItem($hFile, 4, "E&xit", $idExit)
 
-	; 创建编辑菜单
+	; Create Edit menu
 	$hEdit = _GUICtrlMenu_CreateMenu()
 	_GUICtrlMenu_InsertMenuItem($hEdit, 0, "&Cut", $idCut)
 	_GUICtrlMenu_InsertMenuItem($hEdit, 1, "C&opy", $idCopy)
 	_GUICtrlMenu_InsertMenuItem($hEdit, 2, "&Paste", $idPaste)
 
-	; 创建帮助菜单
+	; Create Help menu
 	$hHelp = _GUICtrlMenu_CreateMenu()
-	_GUICtrlMenu_InsertMenuItem($hHelp, 0, "&About", $idAbout)
 
-	; 创建主菜单
+	; Create Main menu
 	$hMain = _GUICtrlMenu_CreateMenu()
 	_GUICtrlMenu_InsertMenuItem($hMain, 0, "&File", 0, $hFile)
 	_GUICtrlMenu_InsertMenuItem($hMain, 1, "&Edit", 0, $hEdit)
 	_GUICtrlMenu_InsertMenuItem($hMain, 2, "&Help", 0, $hHelp)
 
-	; 设置窗口菜单
+	; Set window menu
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 	GUISetState()
 
-	; 复选选中About菜单项
-	_GUICtrlMenu_CheckMenuItem($hHelp, 0)
-
-	; 单选选中Save菜单项
-	_GUICtrlMenu_CheckRadioItem($hFile, 0, 4, 2)
-
-	; 辑环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

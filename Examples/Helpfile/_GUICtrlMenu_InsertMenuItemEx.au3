@@ -1,7 +1,5 @@
 #include <GuiMenu.au3>
-#include <GuiConstantsEx.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
 
 _Main()
 
@@ -9,10 +7,10 @@ Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste, $idAbout
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
-	; 创建文件菜单
+	; Create File menu
 	$hFile = _GUICtrlMenu_CreateMenu()
 	InsertItem($hFile, 0, "&New", $idNew)
 	InsertItem($hFile, 1, "&Open", $idOpen)
@@ -20,34 +18,34 @@ Func _Main()
 	InsertItem($hFile, 3, "", 0)
 	InsertItem($hFile, 4, "E&xit", $idExit)
 
-	; 创建编辑菜单
+	; Create Edit menu
 	$hEdit = _GUICtrlMenu_CreateMenu()
 	InsertItem($hEdit, 0, "&Cut", $idCut)
 	InsertItem($hEdit, 1, "C&opy", $idCopy)
 	InsertItem($hEdit, 2, "&Paste", $idPaste)
 
-	; 创建帮助菜单
+	; Create Help menu
 	$hHelp = _GUICtrlMenu_CreateMenu()
 	InsertItem($hHelp, 0, "&About", $idAbout)
 
-	; 创建主菜单
+	; Create Main menu
 	$hMain = _GUICtrlMenu_CreateMenu()
 	InsertItem($hMain, 0, "&File", 0, $hFile)
 	InsertItem($hMain, 1, "&Edit", 0, $hEdit)
 	InsertItem($hMain, 2, "&Help", 0, $hHelp)
 
-	; 设置窗体菜单
+	; Set window menu
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 	GUISetState()
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 插入菜单项(较难的方法)
+; Insert menu item (the hard way)
 Func InsertItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
-	Local $tMenu, $tText, $aResult
+	Local $tMenu, $tText
 
 	$tMenu = DllStructCreate($tagMENUITEMINFO)
 	DllStructSetData($tMenu, "Size", DllStructGetSize($tMenu))
@@ -59,10 +57,9 @@ Func InsertItem($hMenu, $iIndex, $sText, $iCmdID = 0, $hSubMenu = 0)
 		DllStructSetData($tMenu, "Type", $MFT_SEPARATOR)
 	Else
 		DllStructSetData($tMenu, "Mask", BitOR($MIIM_ID, $MIIM_STRING, $MIIM_SUBMENU))
-		$tText = DllStructCreate("char Text[" & StringLen($sText) + 1 & "]")
+		$tText = DllStructCreate("wchar Text[" & StringLen($sText) + 1 & "]")
 		DllStructSetData($tText, "Text", $sText)
 		DllStructSetData($tMenu, "TypeData", DllStructGetPtr($tText))
 	EndIf
 	_GUICtrlMenu_InsertMenuItemEx($hMenu, $iIndex, $tMenu)
-endfunc   ;==>InsertItem
-
+EndFunc   ;==>InsertItem

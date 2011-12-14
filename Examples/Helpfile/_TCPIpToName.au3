@@ -1,29 +1,26 @@
+#include <Array.au3>
+#include <Inet.au3>
 
-; Ê¾Àý 1
-#include  <inet.au3>
-Dim $sResult, $sIp
+Global $aResult, $sResult, $sIP
+
+; Example 1
+
 TCPStartup()
-$sIp = TCPNameToIP("hiddensoft.com")
-$sResult = _TCPIpToName($sIp)
+$sIP = TCPNameToIP("hiddensoft.com")
+$sResult = _TCPIpToName($sIP)
 If @error Then
-	msgbox(0, "_TCPIpToName()", "@error =" & @error & @LF & "@extended =" & @extended)
+	MsgBox(0, "_TCPIpToName()", "@error = " & @error & @LF & "@extended = " & @extended)
 Else
-	msgbox(0, "hiddensoft.com realy
-	is:" ,  $sResult )
+	MsgBox(0, "hiddensoft.com really is:", $sResult)
 EndIf
 
-; Ê¾Àý 2
-#include  <array.au3>
-#include  <inet.au3>
-Dim $aResult, $sIp
+; Example 2
+
 TCPStartup()
-$sIp = _GetIP()
-$aResult = _TCPIpToName($sIp, 1)
+$sIP = _GetIP()
+$aResult = _TCPIpToName($sIP, 1)
 If @error Then
-	msgbox(0, "_TCPIpToName()", "@error =" & @error & @LF & "@extended =" & @extended)
+	MsgBox(0, "_TCPIpToName()", "@error = " & @error & @LF & "@extended = " & @extended)
 Else
 	_ArrayDisplay($aResult, "Local Hostname(s)")
 EndIf
-
-
-

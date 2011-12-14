@@ -1,42 +1,38 @@
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GUIComboBox.au3>
-#include <GuiConstantsEx.au3>
+#include <GuiComboBox.au3>
+#include <GUIConstantsEx.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_CB = False ; 检查传递给函数的类名, 设置为真并使用另一控件句柄观察其工作
+$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
 
 _Main()
 
 Func _Main()
 	Local $hCombo
 
-	; 创建界面
-	GUICreate(" ComboBox Replace Edit Sel ", 400, 296)
-	$hCombo = GUICtrlCreateCombo(Courier New " )
+	; Create GUI
+	GUICreate("ComboBox Replace Edit Sel", 400, 296)
+	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	GUISetState()
 
-	; 设置编辑框内选中的文本
-	_GUICtrlComboBox_SetEditText($hCombo, "Old Edit Text ")
+	; Set Edit Text
+	_GUICtrlComboBox_SetEditText($hCombo, "Old Edit Text")
 
-	; 添加文件
+	; Add files
 	_GUICtrlComboBox_BeginUpdate($hCombo)
-	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & " \*.exe ")
+	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	Sleep(500)
 
-	; 设置编辑框内选中的文本
+	; Set selected text in edit box
 	_GUICtrlComboBox_SetEditSel($hCombo, 0, -1)
 
 	Sleep(500)
 
-	; 限制编辑框内的文本
-	_GUICtrlComboBox_ReplaceEditSel($hCombo, "New Edit Text ")
+	; Limit text in edit box
+	_GUICtrlComboBox_ReplaceEditSel($hCombo, "New Edit Text")
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

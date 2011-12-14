@@ -1,12 +1,9 @@
+#include <GuiToolbar.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#include <Constants.au3>
 
-#include  <GuiToolbar.au3>
-#include  <GuiConstantsEx.au3>
-#include  <WindowsConstants.au3>
-#include  <Constants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_TB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $hToolbar, $iMemo
 Global $iItem ; Command identifier of the button associated with the notification.
@@ -17,7 +14,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $aSize, $aStrings[4]
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Toolbar", 600, 400)
 	$hToolbar = _GUICtrlToolbar_Create($hGUI)
 	$aSize = _GUICtrlToolbar_GetMaxSize($hToolbar)
@@ -27,51 +24,50 @@ Func _Main()
 	GUISetState()
 	GUIRegisterMsg($WM_NOTIFY, "_WM_NOTIFY")
 
-	; 添加标准系统位图
+	; Add standard system bitmaps
 	_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 
-	; 添加字符串
+	; Add strings
 	$aStrings[0] = _GUICtrlToolbar_AddString($hToolbar, "&New")
 	$aStrings[1] = _GUICtrlToolbar_AddString($hToolbar, "&Open")
 	$aStrings[2] = _GUICtrlToolbar_AddString($hToolbar, "&Save")
 	$aStrings[3] = _GUICtrlToolbar_AddString($hToolbar, "&Help")
 
-	; 添加按钮
+	; Add buttons
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW, $aStrings[0])
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN, $aStrings[1])
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE, $aStrings[2])
 	_GUICtrlToolbar_AddButtonSep($hToolbar)
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
-	; 快速点击保存按钮
+	; Click Save button using accelerator
 	_GUICtrlToolbar_ClickIndex($hToolbar, 2, "left", True)
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; Write message to memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
+EndFunc   ;==>MemoWrite
 
-; WM_NOTIFY事件句柄
+; WM_NOTIFY event handler
 Func _WM_NOTIFY($hWndGUI, $MsgID, $wParam, $lParam)
 	#forceref $hWndGUI, $MsgID, $wParam
-	Local $tNMHDR, $event, $hwndFrom, $code, $i_idNew, $dwFlags, $lResult, $idFrom, $i_idOld
-	Local $tNMTOOLBAR, $tNMTBHOTITEM
+	Local $tNMHDR, $hwndFrom, $code, $i_idNew, $dwFlags, $i_idOld
+	Local $tNMTBHOTITEM
 	$tNMHDR = DllStructCreate($tagNMHDR, $lParam)
 	$hwndFrom = DllStructGetData($tNMHDR, "hWndFrom")
-	$idFrom = DllStructGetData($tNMHDR, "IDFrom")
 	$code = DllStructGetData($tNMHDR, "Code")
 	Switch $hwndFrom
 		Case $hToolbar
 			Switch $code
 				Case $NM_LDOWN
 					;----------------------------------------------------------------------------------------------
-					MemoWrite("$NM_LDOWN: Clicked Item:" & $iItem & " at index:" & _GUICtrlToolbar_CommandToIndex($hToolbar, $iItem))
+					MemoWrite("$NM_LDOWN: Clicked Item: " & $iItem & " at index: " & _GUICtrlToolbar_CommandToIndex($hToolbar, $iItem))
 					;----------------------------------------------------------------------------------------------
 				Case $TBN_HOTITEMCHANGE
 					$tNMTBHOTITEM = DllStructCreate($tagNMTBHOTITEM, $lParam)
@@ -80,7 +76,7 @@ Func _WM_NOTIFY($hWndGUI, $MsgID, $wParam, $lParam)
 					$iItem = $i_idNew
 					$dwFlags = DllStructGetData($tNMTBHOTITEM, "dwFlags")
 					If BitAND($dwFlags, $HICF_LEAVING) = $HICF_LEAVING Then
-						MemoWrite("$HICF_LEAVING:" & $i_idOld)
+						MemoWrite("$HICF_LEAVING: " & $i_idOld)
 					Else
 						Switch $i_idNew
 							Case $idNew
@@ -104,5 +100,4 @@ Func _WM_NOTIFY($hWndGUI, $MsgID, $wParam, $lParam)
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>_WM_NOTIFY
-
+EndFunc   ;==>_WM_NOTIFY

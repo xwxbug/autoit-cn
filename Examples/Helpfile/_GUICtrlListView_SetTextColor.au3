@@ -1,13 +1,8 @@
+#include <GUIConstantsEx.au3>
+#include <GuiListView.au3>
+#include <Constants.au3>
 
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w
-6
-#include  <GuiConstantsEx.au3>
-#include  <GuiListView.au3>
-#include  <Constants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_LV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为 True 并使用指向另一控件的句柄来检查它是否工作
 
 _Main()
 
@@ -16,13 +11,10 @@ Func _Main()
 
 	GUICreate("ListView Set Text Color", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
-
 	GUISetState()
 
-	;
-	设置颜色
+	; 设置颜色
 	_GUICtrlListView_SetBkColor($hListView, $CLR_MONEYGREEN)
-
 	_GUICtrlListView_SetTextColor($hListView, $CLR_BLACK)
 	_GUICtrlListView_SetTextBkColor($hListView, $CLR_MONEYGREEN)
 
@@ -31,22 +23,18 @@ Func _Main()
 
 	; 添加项目
 	_GUICtrlListView_BeginUpdate($hListView)
-
 	For $iI = 1 To 10
-		_GUICtrlListView_AddItem($hListView, "Item" & $iI)
+		_GUICtrlListView_AddItem($hListView, "Item " & $iI)
 	Next
 	_GUICtrlListView_EndUpdate($hListView)
 
-
 	; 显示颜色
-	MsgBox(4160, "Information", "Back Color ....:" & _GUICtrlListView_GetBkColor($hListView) & @CRLF & _
-			"Text Color ....:" & _GUICtrlListView_GetTextColor($hListView) & @CRLF & _
-			"Text Back Color:" & _GUICtrlListView_GetTextBkColor($hListView))
+	MsgBox(4160, "Information", "Back Color ....: " & _GUICtrlListView_GetBkColor($hListView) & @CRLF & _
+			"Text Color ....: " & _GUICtrlListView_GetTextColor($hListView) & @CRLF & _
+			"Text Back Color: " & _GUICtrlListView_GetTextBkColor($hListView))
 
-
-	; 循环至用户退出
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

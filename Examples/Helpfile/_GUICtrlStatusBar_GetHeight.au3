@@ -1,11 +1,8 @@
+#include <GUIConstantsEx.au3>
+#include <GuiStatusBar.au3>
+#include <WindowsConstants.au3>
 
-#include  <GuiConstantsEx.au3>
-#include  <GuiStatusBar.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_SB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $iMemo
 
@@ -16,30 +13,28 @@ Func _Main()
 	Local $hGUI, $hStatus
 	Local $aParts[3] = [75, 150, -1]
 
-	; 创建界面
-	$hGUI = GUICreate("StatusBar Get Height & Wildth", 400, 300)
+	; Create GUI
+	$hGUI = GUICreate("StatusBar Get Height", 400, 300)
 
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
 	_GUICtrlStatusBar_SetParts($hStatus, $aParts)
 
-	; 创建memo控件
+	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; 获取部分的高度/宽度
-	MemoWrite("Height of parts .:" & _GUICtrlStatusBar_GetHeight($hStatus))
-	MemoWrite("Width of part 1 .:" & _GUICtrlStatusBar_GetWidth($hStatus, 0))
+	; Get parts height/width
+	MemoWrite("Height of parts .: " & _GUICtrlStatusBar_GetHeight($hStatus))
+	MemoWrite("Width of part 1 .: " & _GUICtrlStatusBar_GetWidth($hStatus, 0))
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; Write message to memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
-
+EndFunc   ;==>MemoWrite

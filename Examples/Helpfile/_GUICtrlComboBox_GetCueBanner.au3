@@ -1,11 +1,8 @@
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GUIComboBox.au3>
-#include <GuiConstantsEx.au3>
+#include <GuiComboBox.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_CB = False ; 检查传递给函数的类名, 设置为真并使用另一控件句柄观察其工作
+$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
 
 Global $iMemo
 _Main()
@@ -13,28 +10,28 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; 创建界面
-	GUICreate(" ComboBox ", 400, 296)
-	$hCombo = GUICtrlCreateCombo(Select an Item " )
+	; Create GUI
+	GUICreate("ComboBox Get Count", 400, 296)
+	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
+	_GUICtrlComboBox_SetCueBanner($hCombo, "Select an Item")
 	$iMemo = GUICtrlCreateEdit("", 10, 50, 376, 234, $WS_VSCROLL)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; 添加文件
+	; Add files
 	_GUICtrlComboBox_BeginUpdate($hCombo)
-	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & " \*.exe ")
+	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	MemoWrite(" Cue Banner:" & _GUICtrlComboBox_GetCueBanner($hCombo))
+	MemoWrite("Cue Banner: " & _GUICtrlComboBox_GetCueBanner($hCombo))
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 写入memo控件
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

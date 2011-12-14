@@ -1,26 +1,23 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w
-6 - w 7
-#include  <GuiConstantsEx.au3>
-#include  <WinAPI.au3>
-#include  <GuiListView.au3>
-#include  <GuiImageList.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
+#include <WinAPI.au3>
+#include <GuiListView.au3>
+#include <GuiImageList.au3>
+#include <WindowsConstants.au3>
 
 _Main()
 
 Func _Main()
-	Local $listview, $hImage, $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt", "InstallDir")
+	Local $listview, $hImage
+	Local $Wow64 = ""
+	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
+	Local $AutoItDir = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir")
 	Local $hImage2
 
 	GUICreate("ImageList Duplicate", 410, 300)
 	$listview = GUICtrlCreateListView("", 2, 2, 404, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	GUISetState()
 
-
-	; 创建带图像的图像列表
+	; Create an image list with images
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_AddIcon($hImage, $AutoItDir & "\Icons\filetype1.ico")
 	_GUIImageList_AddIcon($hImage, $AutoItDir & "\Icons\filetype2.ico")
@@ -28,18 +25,14 @@ Func _Main()
 	$hImage2 = _GUIImageList_Duplicate($hImage)
 	_GUICtrlListView_SetImageList($listview, $hImage2, 1)
 
-	; 添加列
+	; Add columns
 	_GUICtrlListView_AddColumn($listview, "Column 1", 100, "Left", 0)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100, "Left", 1)
-
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100, "Left", 2)
-
 	_GUICtrlListView_AddColumn($listview, "Column 4", 100)
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
-
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

@@ -1,12 +1,8 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <WindowsConstants.au3>
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <Timers.au3>
 #include <GuiStatusBar.au3>
 #include <ProgressConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo, $hStatusBar, $progress, $percent = 0, $direction = 1
 Global $iTimer1, $iTimer2
@@ -41,7 +37,7 @@ Func _Example_Events()
 				ExitLoop
 			Case $btn_state
 				If GUICtrlRead($btn_state) = "Start Progress Bar" Then
-					$iTimer2 = _Timer_SetTimer($hGUI, $iWait) ; 创建计时器
+					$iTimer2 = _Timer_SetTimer($hGUI, $iWait) ; create timer
 					If @error Or $iTimer2 = 0 Then ContinueLoop
 					GUICtrlSetData($btn_state, "Stop Progress Bar")
 					GUICtrlSetState($btn_change, $GUI_ENABLE)
@@ -57,16 +53,16 @@ Func _Example_Events()
 				Else
 					$iWait = 10
 				EndIf
-				MemoWrite("Timer for _UpdateProgressBar set at:" & $iWait & " milliseconds")
-				$iTimer2 = _Timer_SetTimer($hGUI, $iWait, "", $iTimer2) ; 以不同间隔重新使用计时器
+				MemoWrite("Timer for _UpdateProgressBar set at: " & $iWait & " milliseconds")
+				$iTimer2 = _Timer_SetTimer($hGUI, $iWait, "", $iTimer2) ; reuse timer with different interval
 		EndSwitch
 	WEnd
 
-	_Timer_KillAllTimers($hGUI)
+	ConsoleWrite("Killed All Timers? " & _Timer_KillAllTimers($hGUI) & @CRLF)
 	GUIDelete()
-endfunc   ;==>_Example_Events
+EndFunc   ;==>_Example_Events
 
-; 计时器事件
+; Timer Events
 Func WM_TIMER($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $ilParam
 
@@ -77,11 +73,11 @@ Func WM_TIMER($hWnd, $iMsg, $iwParam, $ilParam)
 			_UpdateProgressBar()
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_TIMER
+EndFunc   ;==>WM_TIMER
 
 Func _UpdateStatusBarClock()
 	_GUICtrlStatusBar_SetText($hStatusBar, @TAB & @TAB & StringFormat("%02d:%02d:%02d", @HOUR, @MIN, @SEC), 2)
-endfunc   ;==>_UpdateStatusBarClock
+EndFunc   ;==>_UpdateStatusBarClock
 
 Func _UpdateProgressBar()
 	$percent += 5 * $direction
@@ -92,10 +88,9 @@ Func _UpdateProgressBar()
 	ElseIf $percent = 0 Then
 		GUICtrlSetColor($progress, 0x0000ff)
 	EndIf
-endfunc   ;==>_UpdateProgressBar
+EndFunc   ;==>_UpdateProgressBar
 
-; 写入memo控件
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

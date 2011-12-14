@@ -1,184 +1,171 @@
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiHeader.au3>
 #include <WindowsConstants.au3>
-#include <EditConstants.au3>
 
-Opt('MustDeclareVars', 1)
+$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
-$Debug_HDR = False ; 检查传递给控件的类名, 设置为真并使用另一控件句柄观察其工作
-
-Global $hHeader, $edit
+Global $hHeader
 
 _Main()
 
 Func _Main()
 	Local $hGUI
 
-	; 创建界面
+	; Create GUI
 	$hGUI = GUICreate("Header", 400, 300)
 	$hHeader = _GUICtrlHeader_Create($hGUI)
-	$edit = GUICtrlCreateEdit("", 2, 40, 394, 258, BitOR($WS_VSCROLL, $ES_AUTOVSCROLL))
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; 添加列
-	_GUICtrlHeader_AddItem($hHeader, "1", 100)
-	_GUICtrlHeader_AddItem($hHeader, "2", 100)
-	_GUICtrlHeader_AddItem($hHeader, "3", 100)
-	_GUICtrlHeader_AddItem($hHeader, "4", 100)
+	; Add columns
+	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
 
-	; 清除所有过滤器
+	; Clear all filters
 	_GUICtrlHeader_ClearFilterAll($hHeader)
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $hWndFrom, $iIDFrom, $iCode
+	#forceref $hWnd, $iMsg, $iwParam
+	Local $hWndFrom, $iCode
 	Local $tNMHDR, $tNMHEADER, $tNMHDFILTERBTNCLICK, $tNMHDDISPINFO
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
-	$iIDFrom = DllStructGetData($tNMHDR, "IDFrom")
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hHeader
 			Switch $iCode
-				Case $HDN_BEGINDRAG ; 当控件的一个项目被拖曳时发送
+				Case $HDN_BEGINDRAG ; Sent by a header control when a drag operation has begun on one of its items
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_BEGINDRAG" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					Return False ; 允许控件自动管理拖曳操作
-;~            Return True  ; 指示外部(手动)拖曳管理允许控件宿主提供作为拖曳过程一部分的自定义服务
-				Case $HDN_BEGINTRACK, $HDN_BEGINTRACKW ; 通知控件父窗口用户开始拖动控件中的分隔符
+					_DebugPrint("$HDN_BEGINDRAG" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					Return False ; To allow the header control to automatically manage drag-and-drop operations
+;~ 						Return True  ; To indicate external (manual) drag-and-drop management allows the owner of the
+					; control to provide custom services as part of the drag-and-drop process
+				Case $HDN_BEGINTRACK, $HDN_BEGINTRACKW ; Notifies a header control's parent window that the user has begun dragging a divider in the control
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_BEGINTRACK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					Return False ; 允许跟踪分隔符
-;~            Return True  ; 禁止跟踪
-				Case $HDN_DIVIDERDBLCLICK, $HDN_DIVIDERDBLCLICKW ; 通知控件父窗口用户双击控件中的分隔区
+					_DebugPrint("$HDN_BEGINTRACK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					Return False ; To allow tracking of the divider
+;~ 						Return True  ; To prevent tracking
+				Case $HDN_DIVIDERDBLCLICK, $HDN_DIVIDERDBLCLICKW ; Notifies a header control's parent window that the user double-clicked the divider area of the control
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_DIVIDERDBLCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_ENDDRAG ; 针对控件的拖动结束时由控件发送
+					_DebugPrint("$HDN_DIVIDERDBLCLICK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_ENDDRAG ; Sent by a header control when a drag operation has ended on one of its items
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ENDDRAG" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					Return False ; 允许控件自动放置和记录项目
-;~            Return True  ; 阻止放置项目
-				Case $HDN_ENDTRACK, $HDN_ENDTRACKW ; 通知控件父窗口用户完成拖动控件中的分隔区
+					_DebugPrint("$HDN_ENDDRAG" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					Return False ; To allow the control to automatically place and reorder the item
+;~ 						Return True  ; To prevent the item from being placed
+				Case $HDN_ENDTRACK, $HDN_ENDTRACKW ; Notifies a header control's parent window that the user has finished dragging a divider
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ENDTRACK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_FILTERBTNCLICK ; 单击过滤按键或应答$HDM_SETITEM消息时通知控件父窗口
+					_DebugPrint("$HDN_ENDTRACK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_FILTERBTNCLICK ; Notifies the header control's parent window when the filter button is clicked or in response to an $HDM_SETITEM message
 					$tNMHDFILTERBTNCLICK = DllStructCreate($tagNMHDFILTERBTNCLICK, $ilParam)
-					memowrite("$HDN_FILTERBTNCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Item") & @LF)
-					memowrite("-->Left:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Left") & @LF)
-					memowrite("-->Top:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Top") & @LF)
-					memowrite("-->Right:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Right") & @LF)
-					memowrite("-->Bottom:" & @TAB & DllStructGetData($HDN_FILTERBTNCLICK, "Bottom"))
-;~            Return True  ; $HDN_FILTERCHANGE通知将发送到控件父窗口
-					; 该通知使父窗口可将用户界面元素同步
-					Return False ; 当不想发送通知时
-				Case $HDN_FILTERCHANGE ; 通知控件父窗口控件过滤器属性正在改变或被编辑
+					_DebugPrint("$HDN_FILTERBTNCLICK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Item") & @LF & _
+							"-->Left:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Left") & @LF & _
+							"-->Top:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Top") & @LF & _
+							"-->Right:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Right") & @LF & _
+							"-->Bottom:" & @TAB & DllStructGetData($tNMHDFILTERBTNCLICK, "Bottom"))
+;~ 						Return True  ; An $HDN_FILTERCHANGE notification will be sent to the header control's parent window
+					; This notification gives the parent window an opportunity to synchronize its user interface elements
+					Return False ; If you do not want the notification sent
+				Case $HDN_FILTERCHANGE ; Notifies the header control's parent window that the attributes of a header control filter are being changed or edited
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_FILTERCHANGE" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_GETDISPINFO, $HDN_GETDISPINFOW ; 发送给控件宿主控件需要回调标题项的信息
-					$HDN_GETDISPINFO = DllStructCreate($tagNMHDDISPINFO, $ilParam)
-					memowrite("$HDN_GETDISPINFO" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($HDN_GETDISPINFO, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($HDN_GETDISPINFO, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($HDN_GETDISPINFO, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($HDN_GETDISPINFO, "Item"))
-;~            无返回值
-				Case $HDN_ITEMCHANGED, $HDN_ITEMCHANGEDW ; 通知控件父窗口标题项属性已改变
+					_DebugPrint("$HDN_FILTERCHANGE" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_GETDISPINFO, $HDN_GETDISPINFOW ; Sent to the owner of a header control when the control needs information about a callback header item
+					$tNMHDDISPINFO = DllStructCreate($tagNMHDDISPINFO, $ilParam)
+					_DebugPrint("$HDN_GETDISPINFO" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHDDISPINFO, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHDDISPINFO, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHDDISPINFO, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHDDISPINFO, "Item"))
+;~ 						Return LRESULT
+				Case $HDN_ITEMCHANGED, $HDN_ITEMCHANGEDW ; Notifies a header control's parent window that the attributes of a header item have changed
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ITEMCHANGED" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_ITEMCHANGING, $HDN_ITEMCHANGINGW ; 通知控件父窗口标题项属性将改变
+					_DebugPrint("$HDN_ITEMCHANGED" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_ITEMCHANGING, $HDN_ITEMCHANGINGW ; Notifies a header control's parent window that the attributes of a header item are about to change
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ITEMCHANGING" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					Return False ; 允许改变
-;~            Return True  ; 阻止改变
-				Case $HDN_ITEMCLICK, $HDN_ITEMCLICKW ; 通知控件父窗口用户单击控件
+					_DebugPrint("$HDN_ITEMCHANGING" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					Return False ; To allow the changes
+;~ 						Return True  ; To prevent them
+				Case $HDN_ITEMCLICK, $HDN_ITEMCLICKW ; Notifies a header control's parent window that the user clicked the control
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ITEMCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_ITEMDBLCLICK, $HDN_ITEMDBLCLICKW ; 通知控件父窗口用户双击控件
+					_DebugPrint("$HDN_ITEMCLICK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_ITEMDBLCLICK, $HDN_ITEMDBLCLICKW ; Notifies a header control's parent window that the user double-clicked the control
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_ITEMDBLCLICK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					; 无返回值
-				Case $HDN_TRACK, $HDN_TRACKW ; 通知控件父窗口用户正在拖曳标题栏控件中的一个分割区
+					_DebugPrint("$HDN_ITEMDBLCLICK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					; no return value
+				Case $HDN_TRACK, $HDN_TRACKW ; Notifies a header control's parent window that the user is dragging a divider in the header control
 					$tNMHEADER = DllStructCreate($tagNMHEADER, $ilParam)
-					memowrite("$HDN_TRACK" & @LF)
-					memowrite("-->hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF)
-					memowrite("-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF)
-					memowrite("-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF)
-					memowrite("-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF)
-					memowrite("-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
-					Return False ; 继续跟踪分割区
-;~            Return True  ; 结束跟踪
+					_DebugPrint("$HDN_TRACK" & @LF & "--> hWndFrom:" & @TAB & DllStructGetData($tNMHEADER, "hWndFrom") & @LF & _
+							"-->IDFrom:" & @TAB & DllStructGetData($tNMHEADER, "IDFrom") & @LF & _
+							"-->Code:" & @TAB & DllStructGetData($tNMHEADER, "Code") & @LF & _
+							"-->Item:" & @TAB & DllStructGetData($tNMHEADER, "Item") & @LF & _
+							"-->Button:" & @TAB & DllStructGetData($tNMHEADER, "Button"))
+					Return False ; To continue tracking the divider
+;~ 						Return True  ; To end tracking
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
-Func memowrite($s_text)
-	GUICtrlSetData($edit, $s_text & @CRLF, 1)
-endfunc   ;==>memowrite
-
+Func _DebugPrint($s_text, $line = @ScriptLineNumber)
+	ConsoleWrite( _
+			"!===========================================================" & @LF & _
+			"+======================================================" & @LF & _
+			"-->Line(" & StringFormat("%04d", $line) & "):" & @TAB & $s_text & @LF & _
+			"+======================================================" & @LF)
+EndFunc   ;==>_DebugPrint

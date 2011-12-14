@@ -1,10 +1,7 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-#include <GUIScrollBars.au3>
+#include <GuiScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 Global $iMemo
 
@@ -23,32 +20,31 @@ Func _Main()
 
 	_GUIScrollBars_Init($hGUI)
 
-	MemoWrite("Disable down arrow:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_DISABLE_DOWN))
+	MemoWrite("Disable down arrow: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_DISABLE_DOWN))
 	Sleep(3000)
-	MemoWrite("Disable up arrow:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_DISABLE_UP))
+	MemoWrite("Disable up arrow: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_DISABLE_UP))
 	Sleep(3000)
-	MemoWrite("Enable both arrows:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_ENABLE_BOTH))
+	MemoWrite("Enable both arrows: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_VERT, $ESB_ENABLE_BOTH))
 	Sleep(3000)
-	MemoWrite("Disable left arrow:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_DISABLE_LEFT))
+	MemoWrite("Disable left arrow: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_DISABLE_LEFT))
 	Sleep(3000)
-	MemoWrite("Disable right arrow:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_DISABLE_RIGHT))
+	MemoWrite("Disable right arrow: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_DISABLE_RIGHT))
 	Sleep(3000)
-	MemoWrite("Enable both arrows:" & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_ENABLE_BOTH))
+	MemoWrite("Enable both arrows: " & _GUIScrollBars_EnableScrollBar($hGUI, $SB_HORZ, $ESB_ENABLE_BOTH))
 
 	While 1
 		$GUIMsg = GUIGetMsg()
 
 		Switch $GUIMsg
-			Case $GUI_EVENT_CLOSE ;, $nExititem
+			Case $GUI_EVENT_CLOSE;, $nExititem
 				ExitLoop
 		EndSwitch
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

@@ -1,4 +1,4 @@
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <EventLog.au3>
 
 Global $iMemo
@@ -6,32 +6,31 @@ Global $iMemo
 _Main()
 
 Func _Main()
-	Local $hEventLog, $hGUI
+	Local $hEventLog
 
-	; 创建界面
-	$hGUI = GUICreate(" EventLog ", 400, 300)
-	$iMemo = GUICtrlCreateEdit("", 2, > 2, 396, 300, 0)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	; 创建 GUI
+	GUICreate("EventLog", 400, 300)
+	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 300, 0)
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	$hEventLog = _EventLog__Open("", "Application ")
-	_EventLog__Backup($hEventLog, "C:\EventLog.bak ")
+	$hEventLog = _EventLog__Open("", "Application")
+	_EventLog__Backup($hEventLog, "C:\EventLog.bak")
 	_EventLog__Close($hEventLog)
 
-	$hEventLog = _EventLog__OpenBackup("", "C:\EventLog.bak ")
-	MemoWrite(" Log full ........:" & _EventLog__Full($hEventLog))
-	MemoWrite(" Log record count :" & _EventLog__Count($hEventLog))
-	MemoWrite(" Log oldest record:" & _EventLog__Oldest($hEventLog))
+	$hEventLog = _EventLog__OpenBackup("", "C:\EventLog.bak")
+	MemoWrite("Log full ........: " & _EventLog__Full($hEventLog))
+	MemoWrite("Log record count : " & _EventLog__Count($hEventLog))
+	MemoWrite("Log oldest record: " & _EventLog__Oldest($hEventLog))
 	_EventLog__Close($hEventLog)
 
-	; 循环至用户退出
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 写入memo控件
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

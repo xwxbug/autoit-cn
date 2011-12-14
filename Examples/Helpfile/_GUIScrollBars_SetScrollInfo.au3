@@ -1,12 +1,8 @@
-
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-#include <GUIScrollBars.au3>
+#include <GuiScrollBars.au3>
 #include <ScrollBarConstants.au3>
-
-Opt("MustDeclareVars", 1)
 
 _Main()
 
@@ -19,7 +15,7 @@ Func _Main()
 
 	$nFileMenu = GUICtrlCreateMenu("File")
 	$nExititem = GUICtrlCreateMenuItem("Exit", $nFileMenu)
-	$listview = GUICtrlCreateListView("col1  |col2|col3  ", 10, 10, 200, 150) ;,$LVS_SORTDESCENDING)
+	$listview = GUICtrlCreateListView("col1  |col2|col3  ", 10, 10, 200, 150);,$LVS_SORTDESCENDING)
 	$button = GUICtrlCreateButton("Value?", 75, 170, 70, 20)
 	GUICtrlSetResizing($button, $GUI_DOCKALL)
 	For $x = 1 To 30
@@ -62,7 +58,7 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func WM_SIZE($hWnd, $Msg, $wParam, $lParam)
 	#forceref $Msg, $wParam
@@ -81,20 +77,20 @@ Func WM_SIZE($hWnd, $Msg, $wParam, $lParam)
 
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
 
-	; 修正客户区域尺寸
+	; Retrieve the dimensions of the client area.
 	$xClient = BitAND($lParam, 0x0000FFFF)
 	$yClient = BitShift($lParam, 16)
 	$aSB_WindowInfo[$index][4] = $xClient
 	$aSB_WindowInfo[$index][5] = $yClient
 
-	; 设置垂直滚动范围和页面大小
+	; Set the vertical scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
 	DllStructSetData($tSCROLLINFO, "nMax", $ivMax)
 	DllStructSetData($tSCROLLINFO, "nPage", $yClient / $yChar)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_VERT, $tSCROLLINFO)
 
-	; 设置水平滚动范围和页面大小
+	; Set the horizontal scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
 	DllStructSetData($tSCROLLINFO, "nMax", 2 + $xClientMax / $xChar)
@@ -102,7 +98,7 @@ Func WM_SIZE($hWnd, $Msg, $wParam, $lParam)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_HORZ, $tSCROLLINFO)
 
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_SIZE
+EndFunc   ;==>WM_SIZE
 
 Func WM_HSCROLL($hWnd, $Msg, $wParam, $lParam)
 	#forceref $Msg, $lParam
@@ -120,44 +116,45 @@ Func WM_HSCROLL($hWnd, $Msg, $wParam, $lParam)
 	Next
 	If $index = -1 Then Return 0
 
-;~  ; 获取所有水平滚动条信息
+;~ 	; Get all the horizontal scroll bar information
 	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $SB_HORZ)
 	$Min = DllStructGetData($tSCROLLINFO, "nMin")
 	$Max = DllStructGetData($tSCROLLINFO, "nMax")
 	$Page = DllStructGetData($tSCROLLINFO, "nPage")
-	; 为稍后进行比较保留位置
+	; Save the position for comparison later on
 	$xPos = DllStructGetData($tSCROLLINFO, "nPos")
 	$Pos = $xPos
 	$TrackPos = DllStructGetData($tSCROLLINFO, "nTrackPos")
 	#forceref $Min, $Max
 	Switch $nScrollCode
 
-		Case $SB_LINELEFT ; 点击向左箭头
+		Case $SB_LINELEFT ; user clicked left arrow
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos - 1)
 
-		Case $SB_LINERIGHT ; 点击向右箭头
+		Case $SB_LINERIGHT ; user clicked right arrow
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos + 1)
 
-		Case $SB_PAGELEFT ; 点击快速向左
+		Case $SB_PAGELEFT ; user clicked the scroll bar shaft left of the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos - $Page)
 
-		Case $SB_PAGERIGHT ; 点击快速向右
+		Case $SB_PAGERIGHT ; user clicked the scroll bar shaft right of the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos + $Page)
 
-		Case $SB_THUMBTRACK ; 拖动滚动箱
+		Case $SB_THUMBTRACK ; user dragged the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $TrackPos)
 	EndSwitch
 
-;~    // 设置位置然后修正它. 由于窗口的调整可能会和设置的值不同.
+;~    // Set the position and then retrieve it.  Due to adjustments
+;~    //   by Windows it may not be the same as the value set.
 
 	DllStructSetData($tSCROLLINFO, "fMask", $SIF_POS)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_HORZ, $tSCROLLINFO)
 	_GUIScrollBars_GetScrollInfo($hWnd, $SB_HORZ, $tSCROLLINFO)
-	;// 如果位置改变, 滚动窗口并刷新
+	;// If the position has changed, scroll the window and update it
 	$Pos = DllStructGetData($tSCROLLINFO, "nPos")
-	If($Pos <> $xPos) Then _GUIScrollBars_ScrollWindow($hWnd, $xChar * ($xPos - $Pos), 0)
+	If ($Pos <> $xPos) Then _GUIScrollBars_ScrollWindow($hWnd, $xChar * ($xPos - $Pos), 0)
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_HSCROLL
+EndFunc   ;==>WM_HSCROLL
 
 Func WM_VSCROLL($hWnd, $Msg, $wParam, $lParam)
 	#forceref $Msg, $wParam, $lParam
@@ -175,53 +172,53 @@ Func WM_VSCROLL($hWnd, $Msg, $wParam, $lParam)
 	If $index = -1 Then Return 0
 
 
-	; 获取所有垂直滚动条信息
+	; Get all the vertial scroll bar information
 	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $SB_VERT)
 	$Min = DllStructGetData($tSCROLLINFO, "nMin")
 	$Max = DllStructGetData($tSCROLLINFO, "nMax")
 	$Page = DllStructGetData($tSCROLLINFO, "nPage")
-	; 为稍后的比较保存位置
+	; Save the position for comparison later on
 	$yPos = DllStructGetData($tSCROLLINFO, "nPos")
 	$Pos = $yPos
 	$TrackPos = DllStructGetData($tSCROLLINFO, "nTrackPos")
 
 	Switch $nScrollCode
-		Case $SB_TOP ; 点击HOME键盘键
+		Case $SB_TOP ; user clicked the HOME keyboard key
 			DllStructSetData($tSCROLLINFO, "nPos", $Min)
 
-		Case $SB_BOTTOM ; 点击END键盘键
+		Case $SB_BOTTOM ; user clicked the END keyboard key
 			DllStructSetData($tSCROLLINFO, "nPos", $Max)
 
-		Case $SB_LINEUP ; 点击顶部箭头
+		Case $SB_LINEUP ; user clicked the top arrow
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos - 1)
 
-		Case $SB_LINEDOWN ; 点击底部箭头
+		Case $SB_LINEDOWN ; user clicked the bottom arrow
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos + 1)
 
-		Case $SB_PAGEUP ; 点击快速上滚箭头
+		Case $SB_PAGEUP ; user clicked the scroll bar shaft above the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos - $Page)
 
-		Case $SB_PAGEDOWN ; 点击快速下滚箭头
+		Case $SB_PAGEDOWN ; user clicked the scroll bar shaft below the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $Pos + $Page)
 
-		Case $SB_THUMBTRACK ; 拖动滚动箱
+		Case $SB_THUMBTRACK ; user dragged the scroll box
 			DllStructSetData($tSCROLLINFO, "nPos", $TrackPos)
 	EndSwitch
 
-;~    // 设置位置然后修正它. 由于窗口的调整可能会和设置的值不同.
+;~    // Set the position and then retrieve it.  Due to adjustments
+;~    //   by Windows it may not be the same as the value set.
 
 	DllStructSetData($tSCROLLINFO, "fMask", $SIF_POS)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_VERT, $tSCROLLINFO)
 	_GUIScrollBars_GetScrollInfo($hWnd, $SB_VERT, $tSCROLLINFO)
-	;// 如果位置改变, 滚动窗口并升级
+	;// If the position has changed, scroll the window and update it
 	$Pos = DllStructGetData($tSCROLLINFO, "nPos")
 
-	If($Pos <> $yPos) Then
+	If ($Pos <> $yPos) Then
 		_GUIScrollBars_ScrollWindow($hWnd, 0, $yChar * ($yPos - $Pos))
 		$yPos = $Pos
 	EndIf
 
 	Return $GUI_RUNDEFMSG
 
-endfunc   ;==>WM_VSCROLL
-
+EndFunc   ;==>WM_VSCROLL

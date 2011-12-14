@@ -1,76 +1,62 @@
+#include <GuiListBox.au3>
+#include <GUIConstantsEx.au3>
 
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w
-6
-#include  <GUIListBox.au3>
-#include  <GuiConstantsEx.au3>
+$Debug_LB = False ; Check ClassName being passed to ListBox functions, set to True and use a handle to another control to see it work
 
-Opt('MustDeclareVars', 1)
+Example()
+Example2()
 
-$Debug_LB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
-
-示例()
-示例2()
-
-Func 示例()
+Func Example()
 	Local $iIndex, $hListBox
 
-	; 创建界面
-	GUICreate( "List Box Find
-	String" ,  400 ,  296 )
+	; Create GUI
+	GUICreate("List Box Find String", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 
 	GUISetState()
 
-	; 添加字符串
+	; Add strings
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	For $iI = 1 To 9
-		_GUICtrlListBox_AddString($hListBox, StringFormat( "%03d : Random
-		string" ,  Random ( 1 ,  100 ,  1 )))
+		_GUICtrlListBox_AddString($hListBox, StringFormat("%03d : Random string", Random(1, 100, 1)))
 	Next
 	_GUICtrlListBox_InsertString($hListBox, "eXaCt tExT", 3)
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-	;
-	查找项目
+	; Find an item
 	$iIndex = _GUICtrlListBox_FindString($hListBox, "exa")
 	_GUICtrlListBox_SetCurSel($hListBox, $iIndex)
 
-
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>示例
+EndFunc   ;==>Example
 
-Func 示例2()
+Func Example2()
 	Local $iIndex, $hListBox
 
-	; 创建界面
-	GUICreate( "List Box Find
-	String Exact" ,  400 ,  296 )
+	; Create GUI
+	GUICreate("List Box Find String Exact", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 
 	GUISetState()
 
-	; 添加字符串
+	; Add strings
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	For $iI = 1 To 9
-		_GUICtrlListBox_AddString($hListBox, StringFormat( "%03d : Random
-		string" ,  Random ( 1 ,  100 ,  1 )))
+		_GUICtrlListBox_AddString($hListBox, StringFormat("%03d : Random string", Random(1, 100, 1)))
 	Next
 	_GUICtrlListBox_InsertString($hListBox, "eXa", 2)
 	_GUICtrlListBox_InsertString($hListBox, "eXaCt tExT", 3)
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-
-	; 查找字符串
+	; Find an item
 	$iIndex = _GUICtrlListBox_FindString($hListBox, "exact text", True)
 	_GUICtrlListBox_SetCurSel($hListBox, $iIndex)
 
-	;
-	循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>示例2
-
+EndFunc   ;==>Example2

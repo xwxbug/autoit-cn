@@ -1,12 +1,9 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiTreeView.au3>
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $hImage, $hStateImage
 
@@ -20,7 +17,6 @@ Func _Main()
 	GUICreate("TreeView Hit Test", 400, 300)
 
 	$hTreeView = GUICtrlCreateTreeView(2, 2, 396, 268, $iStyle, $WS_EX_CLIENTEDGE)
-	_GUICtrlTreeView_SetUnicodeFormat($hTreeView, True)
 	GUISetState()
 
 	_CreateNormalImageList()
@@ -46,40 +42,40 @@ Func _Main()
 
 	$iYRand = Random(0, 268, 1)
 	$iXRand = Random(0, 396, 1)
-	MsgBox(4160, "Information", StringFormat("Hit Test (%d, %d): %s", $iXRand, $iYRand, _GetHitString( _GUICtrlTreeView_HitTest($hTreeView, $iXRand, $iYRand))))
+	MsgBox(4160, "Information", StringFormat("Hit Test (%d, %d): %s", $iXRand, $iYRand, _GetHitString(_GUICtrlTreeView_HitTest($hTreeView, $iXRand, $iYRand))))
 
-	; 循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 Func _GetHitString($iResult)
 	Switch $iResult
 		Case 1
-			Return "In the client area, but below the last item" ; 客户区中最后项下
+			Return "In the client area, but below the last item"
 		Case 2
-			Return "On the bitmap associated with an item" ; 与项目相关的位图上
+			Return "On the bitmap associated with an item"
 		Case 4
-			Return "On the text associated with an item" ; 与项目相关的文本上
+			Return "On the text associated with an item"
 		Case 8
-			Return "In the indentation associated with an item" ; 与项目相关的缩进中
+			Return "In the indentation associated with an item"
 		Case 16
-			Return "On the button associated with an item" ; 与项目相关的按钮上
+			Return "On the button associated with an item"
 		Case 32
-			Return "In the area to the right of an item" ; 项目右侧区域
+			Return "In the area to the right of an item"
 		Case 64
-			Return "On the state icon for a item that is in a user-defined state" ; 用户定义状态的项目状态图标上
+			Return "On the state icon for a item that is in a user-defined state"
 		Case 128
-			Return "Above the client area" ; 用户区上
+			Return "Above the client area"
 		Case 256
-			Return "Below the client area" ; 用户区下
+			Return "Below the client area"
 		Case 512
-			Return "To the left of the client area" ; 用户区左
+			Return "To the left of the client area"
 		Case 1024
-			Return "To the right of the client area" ; 用户区右
+			Return "To the right of the client area"
 	EndSwitch
-endfunc   ;==>_GetHitString
+EndFunc   ;==>_GetHitString
 
 Func _CreateNormalImageList()
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
@@ -89,11 +85,10 @@ Func _CreateNormalImageList()
 	_GUIImageList_AddIcon($hImage, "shell32.dll", 168)
 	_GUIImageList_AddIcon($hImage, "shell32.dll", 137)
 	_GUIImageList_AddIcon($hImage, "shell32.dll", 146)
-endfunc   ;==>_CreateNormalImageList
+EndFunc   ;==>_CreateNormalImageList
 
 Func _CreateStateImageList()
 	$hStateImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hStateImage, "shell32.dll", 3)
 	_GUIImageList_AddIcon($hStateImage, "shell32.dll", 4)
-endfunc   ;==>_CreateStateImageList
-
+EndFunc   ;==>_CreateStateImageList

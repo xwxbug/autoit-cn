@@ -1,14 +1,12 @@
-#include  <GuiConstantsEx.au3>
-#include  <Misc.au3>
-
-Opt(" MustDeclareVars ", 1)
+#include <GUIConstantsEx.au3>
+#include <Misc.au3>
 
 _Main()
 
 Func _Main()
 	Local $GUI, $coords[4]
 
-	$GUI = GUICreate(" Mouse Trap Example ", 392, 323)
+	$GUI = GUICreate("Mouse Trap Example", 392, 323)
 
 	GUISetState()
 
@@ -24,5 +22,4 @@ Func _Main()
 	WEnd
 	_MouseTrap()
 	Exit
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

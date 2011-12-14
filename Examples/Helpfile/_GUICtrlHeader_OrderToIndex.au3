@@ -1,9 +1,7 @@
-#include <GuiConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiHeader.au3>
 
-Opt('MustDeclareVars ', 1)
-
-$Debug_HDR = False ; 检查传递给函数的类名 , 设置为真并使用另一控件的句柄观察其工作
+$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
 
 Global $iMemo
 
@@ -12,27 +10,28 @@ _Main()
 Func _Main()
 	Local $hGUI, $hHeader
 
-	; 创建界面
-	$hGUI = GUICreate('Header ', 400, 300)
+	; Create GUI
+	$hGUI = GUICreate("Header", 400, 300)
 	$hHeader = _GUICtrlHeader_Create($hGUI)
-	$iMemo = GUICtrlCreateEdit('', 2, 24, 396, 274)
+	$iMemo = GUICtrlCreateEdit("", 2, 24, 396, 274, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; 添加列
-	_GUICtrlHeader_AddItem($hHeader, "Column 1 ", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 2 ", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 3 ", 100)
-	_GUICtrlHeader_AddItem($hHeader, "Column 4 ", 100)
+	; Add columns
+	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)
+	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
 
-	MemoWrite('Order 3 index:' & _GUICtrlHeader_OrderToIndex($hHeader, 2))
+	; Show the index for order 3
+	MemoWrite("Order 3 index: " & _GUICtrlHeader_OrderToIndex($hHeader, 2))
 
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入一行
+; Write a line to the memo control
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite

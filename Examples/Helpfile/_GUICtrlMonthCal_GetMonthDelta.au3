@@ -1,48 +1,36 @@
+#include <GUIConstantsEx.au3>
+#include <GuiMonthCal.au3>
+#include <WindowsConstants.au3>
 
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w
-6
-#include  <GuiConstantsEx.au3>
-#include  <GuiMonthCal.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
-
-$Debug_MC = False ; 检查传递给MonthCal函数的类名, 设置为真并使用另一控件的句柄观察其工作
+$Debug_MC = False ; Check ClassName being passed to MonthCal functions, set to True and use a handle to another control to see it work
 
 Global $iMemo
 
 _Main()
 
 Func _Main()
-	Local $hGUI, $hMonthCal
+	Local $hMonthCal
 
-	; 创建界面
-	GUICreate( "Month Calendar
-	Get / Set Month Delta" ,  400 ,  300 )
+	; Create GUI
+	GUICreate("Month Calendar Get Month Delta", 400, 300)
 	$hMonthCal = GUICtrlCreateMonthCal("", 4, 4, -1, -1, BitOR($WS_BORDER, $MCS_MULTISELECT), 0x00000000)
 
-	; 创建memo控件
+	; Create memo control
 	$iMemo = GUICtrlCreateEdit("", 4, 168, 392, 128, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
-
 	GUISetState()
 
-	;
-	获取 / 设置月历三角
+	; Get/Set month delta
 	_GUICtrlMonthCal_SetMonthDelta($hMonthCal, 2)
+	MemoWrite("Month delta: " & _GUICtrlMonthCal_GetMonthDelta($hMonthCal))
 
-	MemoWrite( "Month delta:
-	"  &  _GUICtrlMonthCal_GetMonthDelta ( $hMonthCal ))
-
-	;
-	循环至用户退出
+	; Loop until user exits
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
-; 向memo控件写入信息
+; Write message to memo
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+EndFunc   ;==>MemoWrite
