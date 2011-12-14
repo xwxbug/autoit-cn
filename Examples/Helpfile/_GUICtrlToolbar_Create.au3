@@ -3,10 +3,10 @@
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 
-$Debug_TB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_TB = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 Global $hToolbar, $iMemo
-Global $iItem ; Command identifier of the button associated with the notification.
+Global $iItem ; 与通告相关联的按钮的命令标识符
 Global Enum $idNew = 1000, $idOpen, $idSave, $idHelp
 
 _Main()
@@ -14,7 +14,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $aSize
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Toolbar", 600, 400)
 	$hToolbar = _GUICtrlToolbar_Create($hGUI)
 	$aSize = _GUICtrlToolbar_GetMaxSize($hToolbar)
@@ -24,28 +24,28 @@ Func _Main()
 	GUISetState()
 	GUIRegisterMsg($WM_NOTIFY, "_WM_NOTIFY")
 
-	; Add standard system bitmaps
+	; 添加标准系统位图
 	_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 
-	; Add buttons
+	; 添加按钮
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)
 	_GUICtrlToolbar_AddButtonSep($hToolbar)
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
 
-; WM_NOTIFY event handler
+; WM_NOTIFY 事件处理程序
 Func _WM_NOTIFY($hWndGUI, $MsgID, $wParam, $lParam)
 	#forceref $hWndGUI, $MsgID, $wParam
 	Local $tNMHDR, $hwndFrom, $code, $i_idNew, $dwFlags, $i_idOld

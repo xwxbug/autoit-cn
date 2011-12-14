@@ -3,7 +3,7 @@
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
-$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 Global $hTreeView
 
@@ -34,12 +34,12 @@ Func _Main()
 		$hItem[$x] = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat("[%02d] New Item", $x + 1), $x, $x)
 	Next
 
-	; Edit item 0 label
+	; 编辑首个项目的标签
 	_GUICtrlTreeView_EditText($hTreeView, $hItem[0])
 	Sleep(1000)
 	_GUICtrlTreeView_EndEdit($hTreeView)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -58,42 +58,42 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $hWndFrom
 		Case $hWndTreeview
 			Switch $iCode
-				Case $NM_CLICK ; The user has clicked the left mouse button within the control
+				Case $NM_CLICK ; 用户在控件中点击了鼠标左键
 					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-;~ 					Return 1 ; nonzero to not allow the default processing
-					Return 0 ; zero to allow the default processing
-				Case $NM_DBLCLK ; The user has double-clicked the left mouse button within the control
+;~ 					Return 1 ; 非零值以不允许进行默认处理
+					Return 0 ; 零则允许进行默认处理
+				Case $NM_DBLCLK ; 用户在控件中双击了鼠标左键
 					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-;~ 					Return 1 ; nonzero to not allow the default processing
-					Return 0 ; zero to allow the default processing
-				Case $NM_RCLICK ; The user has clicked the right mouse button within the control
+;~ 					Return 1 ; 非零值以不允许进行默认处理
+					Return 0 ; 零则允许进行默认处理
+				Case $NM_RCLICK ; 用户在控件中点击了鼠标右键
 					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-;~ 					Return 1 ; nonzero to not allow the default processing
-					Return 0 ; zero to allow the default processing
-				Case $NM_RDBLCLK ; The user has clicked the right mouse button within the control
+;~ 					Return 1 ; 非零值以不允许进行默认处理
+					Return 0 ; 零则允许进行默认处理
+				Case $NM_RDBLCLK ; 用户在控件中点击了鼠标右键
 					_DebugPrint("$NM_RDBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-;~ 					Return 1 ; nonzero to not allow the default processing
-					Return 0 ; zero to allow the default processing
-				Case $NM_KILLFOCUS ; control has lost the input focus
+;~ 					Return 1 ; 非零值以不允许进行默认处理
+					Return 0 ; 零则允许进行默认处理
+				Case $NM_KILLFOCUS ; 控件失去了输入焦点
 					_DebugPrint("$NM_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
-				Case $NM_RETURN ; control has the input focus and that the user has pressed the key
+					; 没有返回值
+				Case $NM_RETURN ; 控件有输入焦点且用户按下了此键
 					_DebugPrint("$NM_RETURN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-;~ 					Return 1 ; nonzero to not allow the default processing
-					Return 0 ; zero to allow the default processing
-;~ 				Case $NM_SETCURSOR ; control is setting the cursor in response to a WM_SETCURSOR message
+;~ 					Return 1 ; 非零值以不允许进行默认处理
+					Return 0 ; 零则允许进行默认处理
+;~ 				Case $NM_SETCURSOR ; 控件正设置光标以响应 WM_SETCURSOR 消息
 ;~ 					Local $tinfo = DllStructCreate($tagNMMOUSE, $ilParam)
 ;~ 					$hWndFrom = HWnd(DllStructGetData($tinfo, "hWndFrom"))
 ;~ 					$iIDFrom = DllStructGetData($tinfo, "IDFrom")
@@ -106,13 +106,13 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->X:" & @TAB & DllStructGetData($tinfo, "X") & @LF & _
 ;~ 							"-->Y:" & @TAB & DllStructGetData($tinfo, "Y") & @LF & _
 ;~ 							"-->HitInfo:" & @TAB & DllStructGetData($tinfo, "HitInfo"))
-;~ 					Return 0 ; to enable the control to set the cursor
-;~ 					Return 1 ; nonzero to prevent the control from setting the cursor
-				Case $NM_SETFOCUS ; control has received the input focus
+;~ 					Return 0 ; 启用控件设置光标
+;~ 					Return 1 ; 非零值以阻止控件设置光标
+				Case $NM_SETFOCUS ; 控件接收到输入焦点
 					_DebugPrint("$NM_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $TVN_BEGINDRAGA, $TVN_BEGINDRAGW
 					_DebugPrint("$TVN_BEGINDRAG")
 				Case $TVN_BEGINLABELEDITA, $TVN_BEGINLABELEDITW
