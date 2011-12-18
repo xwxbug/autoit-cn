@@ -2780,7 +2780,7 @@ Func _GUICtrlRichEdit_GetTextInLine($hWnd, $iLine)
 	If $iRet = 0 Then Return SetError(700, 0, False)
 	Local $tString = DllStructCreate("wchar Text[" & $iLen + 1 & "]", DllStructGetPtr($tBuffer))
 	Return StringLeft(DllStructGetData($tString, "Text"), $iLen)
-EndFunc   ;==>_GUICtrlRichEdit_GetTextinLine
+EndFunc   ;==>_GUICtrlRichEdit_GetTextInLine
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _GUICtrlRichEdit_GetTextInRange

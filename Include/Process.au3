@@ -114,4 +114,4 @@ EndFunc   ;==>_ProcessGetPriority
 Func _RunDos($sCommand)
 	Local $nResult = RunWait(@ComSpec & " /C " & $sCommand, "", @SW_HIDE)
 	Return SetError(@error, @extended, $nResult)
-EndFunc   ;==>_RunDOS
+EndFunc   ;==>_RunDos

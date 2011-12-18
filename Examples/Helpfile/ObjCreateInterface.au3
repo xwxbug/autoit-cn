@@ -24,11 +24,11 @@ Func Example()
 	MsgBox(4096, "", "Look in the Taskbar and you should see an entry for Notepad." & @CRLF & @CRLF & "Press OK to continue.")
 
 	; Delete the Notepad entry from the Taskbar.
- 	$oTaskbarList.DeleteTab($hNotepad)
+	$oTaskbarList.DeleteTab($hNotepad)
 
 	; Tell the user to look again.
 	MsgBox(4096, "", "Look in the Taskbar.  There should no longer be a Notepad entry but Notepad is still running." & @CRLF & @CRLF & "Press OK to continue.")
 
 	; Close Notepad.
 	WinClose($hNotepad)
-EndFunc	; Example()
+EndFunc   ;==>Example

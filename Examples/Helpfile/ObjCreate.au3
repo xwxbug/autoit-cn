@@ -26,7 +26,7 @@ Local $oRemoteMedia = ObjCreate("MediaPlayer.MediaPlayer.1", "name-of-remote-com
 
 If Not @error Then
 	MsgBox(0, "Remote ObjCreate Test", "ObjCreate() of a remote Mediaplayer Object successful !")
-	$oRemoteMedia.Open(@WindowsDir & "\media\Windows XP Startup.wav") ; Play sound if file is present
+	$oRemoteMedia.Open(@WindowsDir & "\media\tada.wav") ; Play sound if file is present
 Else
 	MsgBox(0, "Remote ObjCreate Test", "Failed to open remote Object. Error code: " & Hex(@error, 8))
 EndIf

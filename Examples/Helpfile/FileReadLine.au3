@@ -12,6 +12,6 @@ While 1
 	Local $line = FileReadLine($file)
 	If @error = -1 Then ExitLoop
 	MsgBox(0, "¶ÁÈ¡µÄÐÐ:", $line)
-Wend
+WEnd
 
 FileClose($file)

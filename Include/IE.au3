@@ -1583,7 +1583,7 @@ Func _IEFormElementCheckBoxSelect(ByRef $o_object, $s_string, $s_Name = "", $f_s
 			Return SetError($_IEStatus_InvalidValue, 3, 0)
 	EndSwitch
 
-EndFunc   ;==>_IEFormElementCheckboxSelect
+EndFunc   ;==>_IEFormElementCheckBoxSelect
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _IEFormElementRadioSelect

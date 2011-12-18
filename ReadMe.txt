@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.7.22 第一汉化版
+程序版本:3.3.7.23 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,8 +17,14 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.7.23 (2011-12-XX) (Beta) 第一汉化版
+AutoIt:
+[G][!]更新: Dec(), Int() and Number() default conversion behavior improved.
+[G][!]更新: Adjustments to the documentation visual style.
+[G][!]更新: Various documentation and example fixes.
+[H][!]更新: 更新UPX到3.08版,只是修复bug.
 
-3.3.7.22 (2011-12-XX) (Beta) 第一汉化版
+3.3.7.22 (Beta) 第一汉化版
 AutoIt:
 [G][+]新增: #2042: @OSVersion returns "Win_8" on Windows 8.
 
@@ -38,7 +44,7 @@ UDFs:
 [G][*]修正: #2034: _GUICtrlMenu_AppendMenu dllcall type set wrong.
 [G][*]修正: #2060: Various documentation errors.
 
-3.3.7.21 (6th November, 2011) (Beta)
+3.3.7.21 (Beta)
 AutoIt:
 [G][*]修正: Various documentation typos and grammatical errors.
 [G][*]修正: #1982: Crash in FileGetShortName() and FileGetLongName().
@@ -52,7 +58,7 @@ UDFs:
 [G][*]修正: #1951: Missing parameter in documentation for _SQLite_SQLiteExe().
 [G][*]修正: #1442: File handle can now be passed to _FileWriteLog().
 
-3.3.7.20 (22.10.2011) (Beta)
+3.3.7.20 (Beta)
 
 AutoIt:
 [G][+]新增: "struct" as DllCall and InterfaceDispatch data type.
@@ -152,13 +158,13 @@ SciTe:
 3.3.7.11 (Beta)
 
 AutoIt:
-[G][!]更新: PCRE updated to 8.12.
+[G][!]更新: PCRE 更新为 8.12.
 [G][+]新增: COM support for pure "OUT" parameters.
 
 [G][*]修正: Potential memory leak in COM error event code.
 
 UDFs:
-[G][*]修正: #1946: _WordCreate Error.
+[G][*]修正: #1946: _WordCreate 错误.
 
 3.3.7.10 (Beta)
 AutoIt:

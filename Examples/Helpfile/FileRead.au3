@@ -12,6 +12,6 @@ While 1
 	Local $chars = FileRead($file, 1)
 	If @error = -1 Then ExitLoop
 	MsgBox(0, "¶ÁÈ¡µÄ×Ö·û:", $chars)
-Wend
+WEnd
 
 FileClose($file)

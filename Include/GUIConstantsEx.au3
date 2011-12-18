@@ -36,7 +36,7 @@ Global Const $GUI_UNCHECKED = 4
 
 Global Const $GUI_DROPACCEPTED = 8
 Global Const $GUI_NODROPACCEPTED = 4096
-Global Const $GUI_ACCEPTFILES = $GUI_DROPACCEPTED	; to be suppressed
+Global Const $GUI_ACCEPTFILES = $GUI_DROPACCEPTED ; to be suppressed
 
 Global Const $GUI_SHOW = 16
 Global Const $GUI_HIDE = 32
@@ -68,11 +68,11 @@ Global Const $GUI_DOCKVCENTER = 0x0080
 Global Const $GUI_DOCKWIDTH = 0x0100
 Global Const $GUI_DOCKHEIGHT = 0x0200
 
-Global Const $GUI_DOCKSIZE = 0x0300	; width+height
-Global Const $GUI_DOCKMENUBAR = 0x0220	; top+height
-Global Const $GUI_DOCKSTATEBAR = 0x0240	; bottom+height
-Global Const $GUI_DOCKALL = 0x0322	; left+top+width+height
-Global Const $GUI_DOCKBORDERS = 0x0066	; left+top+right+bottom
+Global Const $GUI_DOCKSIZE = 0x0300 ; width+height
+Global Const $GUI_DOCKMENUBAR = 0x0220 ; top+height
+Global Const $GUI_DOCKSTATEBAR = 0x0240 ; bottom+height
+Global Const $GUI_DOCKALL = 0x0322 ; left+top+width+height
+Global Const $GUI_DOCKBORDERS = 0x0066 ; left+top+right+bottom
 
 ; Graphic
 Global Const $GUI_GR_CLOSE = 1

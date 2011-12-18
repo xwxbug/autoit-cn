@@ -30,7 +30,7 @@ While $count < 5
 
 	; Print the count
 	MsgBox(0, "AutoIt 例子", "计数器为: " & $count)
-Wend
+WEnd
 
 ; Finished!
 MsgBox(0, "AutoIt 例子", "完成!")

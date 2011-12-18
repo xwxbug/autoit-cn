@@ -22,7 +22,7 @@ Func swap(ByRef $a, ByRef $b)  ;交换两个变量的内容
 EndFunc   ;==>swap
 
 Func today()  ;以 mm/dd/yyyy 的形式返回当前日期
-	return (@MON & "/" & @MDAY & "/" & @YEAR)
+	Return (@MON & "/" & @MDAY & "/" & @YEAR)
 EndFunc   ;==>today
 
 Func max($x, $y)  ;返回两个数中的较大值

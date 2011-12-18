@@ -64,7 +64,7 @@ EndFunc   ;==>WM_HSCROLL
 ; ===============================================================================================================================
 Func WM_NCHITTEST($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam, $ilParam
-	if ($hWnd = $hGUI2) and ($iMsg = $WM_NCHITTEST) Then Return $HTCAPTION
+	If ($hWnd = $hGUI2) And ($iMsg = $WM_NCHITTEST) Then Return $HTCAPTION
 EndFunc   ;==>WM_NCHITTEST
 
 ; ===============================================================================================================================

@@ -177,7 +177,7 @@ EndFunc   ;==>HourDone
 ; Draw the hour hand
 ; ===============================================================================================================================
 Func HourDraw()
-	if ($aLast[2][0] = $aCurr[2][0]) and ($aLast[2][1] = $aCurr[2][1]) Then Return
+	If ($aLast[2][0] = $aCurr[2][0]) And ($aLast[2][1] = $aCurr[2][1]) Then Return
 	_GDIPlus_GraphicsDrawLine($aHour[$eGraphic], $iCenter, $iCenter, $aCurr[2][0], $aCurr[2][1], $aHour[$ePen])
 	ResourceSet($hHour, $aHour)
 EndFunc   ;==>HourDraw
@@ -205,7 +205,7 @@ EndFunc   ;==>MinDone
 ; Draw the minute hand
 ; ===============================================================================================================================
 Func MinDraw()
-	if ($aLast[1][0] = $aCurr[1][0]) and ($aLast[1][1] = $aCurr[1][1]) Then Return
+	If ($aLast[1][0] = $aCurr[1][0]) And ($aLast[1][1] = $aCurr[1][1]) Then Return
 	_GDIPlus_GraphicsFillRect($aMin[$eGraphic], 0, 0, $iRadius * 2, $iRadius * 2)
 	_GDIPlus_GraphicsDrawLine($aMin[$eGraphic], $iCenter, $iCenter, $aCurr[1][0], $aCurr[1][1], $aMin[$ePen])
 	ResourceSet($hMin, $aMin)
@@ -233,7 +233,7 @@ EndFunc   ;==>SecDone
 ; Draw the second hand
 ; ===============================================================================================================================
 Func SecDraw()
-	if ($aLast[0][0] = $aCurr[0][0]) and ($aLast[0][1] = $aCurr[0][1]) Then Return
+	If ($aLast[0][0] = $aCurr[0][0]) And ($aLast[0][1] = $aCurr[0][1]) Then Return
 	_GDIPlus_GraphicsFillRect($aSec[$eGraphic], 0, 0, $iRadius * 2, $iRadius * 2)
 	_GDIPlus_GraphicsDrawLine($aSec[$eGraphic], $iCenter, $iCenter, $aCurr[0][0], $aCurr[0][1], $aSec[$ePen])
 	ResourceSet($hSec, $aSec)
@@ -311,7 +311,7 @@ EndFunc   ;==>TimeDone
 Func TimeDraw()
 	Local $sString, $aSize
 
-	if ($aLast[0][0] = $aCurr[0][0]) and ($aLast[0][1] = $aCurr[0][1]) Then Return
+	If ($aLast[0][0] = $aCurr[0][0]) And ($aLast[0][1] = $aCurr[0][1]) Then Return
 	$sString = StringFormat("%02d:%02d:%02d", @HOUR, @MIN, @SEC)
 	$aSize = _GDIPlus_GraphicsMeasureString($aTime[$eGraphic], $sString, $aTime[$eFont], $aTime[$eLayout], $aTime[$eFormat])
 	DllStructSetData($aTime[$eLayout], "X", $iRadius - (DllStructGetData($aSize[0], "Width") / 2))

@@ -13,10 +13,10 @@ Global $sImage, $hImage, $sCLSID
 
 ; Get BMP file to convert
 $sImage = InputBox("BMP to JPG", "Enter File Name:", @MyDocumentsDir & "\Image.bmp", "", 200, 130)
-if @Error or not FileExists($sImage) then Exit
+If @error Or Not FileExists($sImage) Then Exit
 
 ; Initialize GDI+ library
-_GDIPlus_StartUp()
+_GDIPlus_Startup()
 
 ; Load image
 $hImage = _GDIPlus_ImageLoadFromFile($sImage)
@@ -28,4 +28,4 @@ $sCLSID = _GDIPlus_EncodersGetCLSID("JPG")
 _GDIPlus_ImageSaveToFileEx($hImage, @MyDocumentsDir & "\AutoItImage.jpg", $sCLSID)
 
 ; Shut down GDI+ library
-_GDIPlus_ShutDown()
+_GDIPlus_Shutdown()

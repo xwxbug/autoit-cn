@@ -136,7 +136,7 @@ Func ReadRequest()
 	$pBuffer = DllStructGetPtr($tBuffer)
 	$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, $pOverlap)
 
-	If $bSuccess and ($iRead <> 0) Then
+	If $bSuccess And ($iRead <> 0) Then
 		; The read operation completed successfully
 		Debug("ReadRequest .......: Read success")
 	Else
@@ -148,7 +148,7 @@ Func ReadRequest()
 		Else
 			; Read the command from the pipe
 			$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, $pOverlap)
-			If Not $bSuccess or ($iRead = 0) Then
+			If Not $bSuccess Or ($iRead = 0) Then
 				LogError("ReadRequest .......: _WinAPI_ReadFile failed")
 				ReconnectClient()
 				Return
@@ -173,7 +173,7 @@ Func CheckPending()
 	Local $bSuccess, $iWritten
 
 	$bSuccess = _WinAPI_GetOverlappedResult($hPipe, $pOverlap, $iWritten, False)
-	If Not $bSuccess or ($iWritten <> $iToWrite) Then
+	If Not $bSuccess Or ($iWritten <> $iToWrite) Then
 		Debug("CheckPending ......: Write reconnecting")
 		ReconnectClient()
 	Else
@@ -207,10 +207,10 @@ Func RelayOutput()
 	DllStructSetData($tBuffer, "Text", $sLine)
 	; Relay the data back to the client
 	$bSuccess = _WinAPI_WriteFile($hPipe, $pBuffer, $iToWrite, $iWritten, $pOverlap)
-	If $bSuccess and ($iWritten = $iToWrite) Then
+	If $bSuccess And ($iWritten = $iToWrite) Then
 		Debug("RelayOutput .......: Write success")
 	Else
-		If Not $bSuccess and (_WinAPI_GetLastError() = $ERROR_IO_PENDING) Then
+		If Not $bSuccess And (_WinAPI_GetLastError() = $ERROR_IO_PENDING) Then
 			Debug("RelayOutput .......: Write pending")
 			$iState = 2
 		Else

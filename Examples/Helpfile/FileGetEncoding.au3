@@ -1,7 +1,6 @@
-Local $encoding = FileGetEncoding(@WindowsDir & "\system.ini")
-If $encoding=-1 Then
+Local $iEncoding = FileGetEncoding(@ScriptFullPath) ; Retrieve the file encoding of the running script.
+If @error Then
 	MsgBox(4096, "错误", "不能获取文件编码.")
-	Exit
 Else
-	MsgBox(4096, "", "文件编码为:" & $encoding)
+	MsgBox(4096, "FileGetEncoding", "The value returned was: " & $iEncoding) ; The value returned for this example should be 0 or ANSI.
 EndIf

@@ -130,30 +130,30 @@ Global Const $TB_SETWINDOWTHEME = 0x2000 + 11
 ; ===============================================================================================================================
 
 ; #NOTIFICATIONS# ===============================================================================================================
-Global Const $TBN_FIRST		= -700
-Global Const $TBN_GETBUTTONINFOA	= $TBN_FIRST - 0  ; Retrieves toolbar customization information
-Global Const $TBN_BEGINDRAG			= $TBN_FIRST - 1  ; The user has begun dragging a button in a toolbar
-Global Const $TBN_ENDDRAG			= $TBN_FIRST - 2  ; The user has stopped dragging a button in a toolbar
-Global Const $TBN_BEGINADJUST		= $TBN_FIRST - 3  ; The user has begun customizing a toolbar
-Global Const $TBN_ENDADJUST			= $TBN_FIRST - 4  ; The user has stopped customizing a toolbar
-Global Const $TBN_RESET				= $TBN_FIRST - 5  ; The user has reset the content of the Customize Toolbar dialog box
-Global Const $TBN_QUERYINSERT		= $TBN_FIRST - 6  ; Determines whether a button may be inserted during customization
-Global Const $TBN_QUERYDELETE		= $TBN_FIRST - 7  ; Determines whether a button may be deleted during customization
-Global Const $TBN_TOOLBARCHANGE		= $TBN_FIRST - 8  ; The user has customized a toolbar
-Global Const $TBN_CUSTHELP			= $TBN_FIRST - 9  ; The user has chosen the Help button in the Customize Toolbar dialog box
-Global Const $TBN_DROPDOWN			= $TBN_FIRST - 10 ; The user clicked a dropdown button
-Global Const $TBN_GETOBJECT			= $TBN_FIRST - 12 ; Sent to request a drop target object
-Global Const $TBN_HOTITEMCHANGE		= $TBN_FIRST - 13 ; The hot (highlighted) item has changed
-Global Const $TBN_DRAGOUT			= $TBN_FIRST - 14 ; The user clicked a button and then moveed the cursor off the button
-Global Const $TBN_DELETINGBUTTON	= $TBN_FIRST - 15 ; A button is about to be deleted
-Global Const $TBN_GETDISPINFOA		= $TBN_FIRST - 16 ; Retrieves display information for a toolbar item
-Global Const $TBN_GETDISPINFOW		= $TBN_FIRST - 17 ; [Unicode] Retrieves display information for a toolbar item
-Global Const $TBN_GETINFOTIPA		= $TBN_FIRST - 18 ; Retrieves infotip information for a toolbar item
-Global Const $TBN_GETINFOTIPW		= $TBN_FIRST - 19 ; [Unicode] Retrieves infotip information for a toolbar item
-Global Const $TBN_GETBUTTONINFOW	= $TBN_FIRST - 20 ; [Unicode] Retrieves toolbar customization information
-Global Const $TBN_RESTORE			= $TBN_FIRST - 21 ; A toolbar is in the process of being restored
-Global Const $TBN_SAVE				= $TBN_FIRST - 22 ; A toolbar is in the process of being saved
-Global Const $TBN_INITCUSTOMIZE		= $TBN_FIRST - 23 ; Customizing has started
+Global Const $TBN_FIRST = -700
+Global Const $TBN_GETBUTTONINFOA = $TBN_FIRST - 0 ; Retrieves toolbar customization information
+Global Const $TBN_BEGINDRAG = $TBN_FIRST - 1 ; The user has begun dragging a button in a toolbar
+Global Const $TBN_ENDDRAG = $TBN_FIRST - 2 ; The user has stopped dragging a button in a toolbar
+Global Const $TBN_BEGINADJUST = $TBN_FIRST - 3 ; The user has begun customizing a toolbar
+Global Const $TBN_ENDADJUST = $TBN_FIRST - 4 ; The user has stopped customizing a toolbar
+Global Const $TBN_RESET = $TBN_FIRST - 5 ; The user has reset the content of the Customize Toolbar dialog box
+Global Const $TBN_QUERYINSERT = $TBN_FIRST - 6 ; Determines whether a button may be inserted during customization
+Global Const $TBN_QUERYDELETE = $TBN_FIRST - 7 ; Determines whether a button may be deleted during customization
+Global Const $TBN_TOOLBARCHANGE = $TBN_FIRST - 8 ; The user has customized a toolbar
+Global Const $TBN_CUSTHELP = $TBN_FIRST - 9 ; The user has chosen the Help button in the Customize Toolbar dialog box
+Global Const $TBN_DROPDOWN = $TBN_FIRST - 10 ; The user clicked a dropdown button
+Global Const $TBN_GETOBJECT = $TBN_FIRST - 12 ; Sent to request a drop target object
+Global Const $TBN_HOTITEMCHANGE = $TBN_FIRST - 13 ; The hot (highlighted) item has changed
+Global Const $TBN_DRAGOUT = $TBN_FIRST - 14 ; The user clicked a button and then moveed the cursor off the button
+Global Const $TBN_DELETINGBUTTON = $TBN_FIRST - 15 ; A button is about to be deleted
+Global Const $TBN_GETDISPINFOA = $TBN_FIRST - 16 ; Retrieves display information for a toolbar item
+Global Const $TBN_GETDISPINFOW = $TBN_FIRST - 17 ; [Unicode] Retrieves display information for a toolbar item
+Global Const $TBN_GETINFOTIPA = $TBN_FIRST - 18 ; Retrieves infotip information for a toolbar item
+Global Const $TBN_GETINFOTIPW = $TBN_FIRST - 19 ; [Unicode] Retrieves infotip information for a toolbar item
+Global Const $TBN_GETBUTTONINFOW = $TBN_FIRST - 20 ; [Unicode] Retrieves toolbar customization information
+Global Const $TBN_RESTORE = $TBN_FIRST - 21 ; A toolbar is in the process of being restored
+Global Const $TBN_SAVE = $TBN_FIRST - 22 ; A toolbar is in the process of being saved
+Global Const $TBN_INITCUSTOMIZE = $TBN_FIRST - 23 ; Customizing has started
 
 ; Toolbar Notifications
 Global Const $HICF_ACCELERATOR = 0x4 ;The change in the hot item was caused by a shortcut key

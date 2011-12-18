@@ -29,9 +29,9 @@ Func Example()
 	; This should never be done in a real application (Use _SendMessage() instead) but
 	; it demonstrates how to use the function.
 	DllCallAddress("LRESULT", $pWndProc, "HWND", $hWnd, "UINT", $WM_CLOSE, "WPARAM", 0, "LPARAM", 0)
-EndFunc	; Example()
+EndFunc   ;==>Example
 
 Func OnClose()
 	GUIDelete(@GUI_WinHandle)
 	MsgBox(4096, "DllCallAddress Example Msg", "Close event received, the test window should now be closed.")
-EndFunc	; OnClose()
+EndFunc   ;==>OnClose

@@ -461,6 +461,7 @@ EndFunc   ;==>_MouseTrap
 Func _Singleton($sOccurenceName, $iFlag = 0)
 	Local Const $ERROR_ALREADY_EXISTS = 183
 	Local Const $SECURITY_DESCRIPTOR_REVISION = 1
+	Local $tSecurityAttributes = 0
 
 	If BitAND($iFlag, 2) Then
 		; The size of SECURITY_DESCRIPTOR is 20 bytes.  We just
@@ -479,7 +480,7 @@ Func _Singleton($sOccurenceName, $iFlag = 0)
 			If @error Then Return SetError(@error, @extended, 0)
 			If $aRet[0] Then
 				; Create a SECURITY_ATTRIBUTES structure.
-				Local $tSecurityAttributes = DllStructCreate($tagSECURITY_ATTRIBUTES)
+				$tSecurityAttributes = DllStructCreate($tagSECURITY_ATTRIBUTES)
 				; Assign the members.
 				DllStructSetData($tSecurityAttributes, 1, DllStructGetSize($tSecurityAttributes))
 				DllStructSetData($tSecurityAttributes, 2, DllStructGetPtr($tSecurityDescriptor))

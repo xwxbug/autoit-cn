@@ -3,7 +3,7 @@ OnAutoItExitRegister("MyTestFunc2")
 
 Sleep(1000)
 
-OnAutoItExitUnregister("MyTestFunc")
+OnAutoItExitUnRegister("MyTestFunc")
 
 Func MyTestFunc()
 	MsgBox(64, "Exit Results 1", 'Exit Message from MyTestFunc()')

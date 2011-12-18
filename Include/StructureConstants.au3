@@ -1006,7 +1006,7 @@ Global Const $tagNMLVGETINFOTIP = $tagNMHDR & ";dword Flags;ptr Text;int TextMax
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMITEMACTIVATE = $tagNMHDR & ";int Index;int SubItem;uint NewState;uint OldState;uint Changed;" & _
-			$tagPOINT & ";lparam lParam;uint KeyFlags"
+		$tagPOINT & ";lparam lParam;uint KeyFlags"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMLVKEYDOWN

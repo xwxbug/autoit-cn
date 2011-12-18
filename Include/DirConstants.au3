@@ -9,12 +9,12 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $DDL_ARCHIVE	= 0x00000020
-Global Const $DDL_DIRECTORY	= 0x00000010
-Global Const $DDL_DRIVES	= 0x00004000
-Global Const $DDL_EXCLUSIVE	= 0x00008000
-Global Const $DDL_HIDDEN	= 0x00000002
-Global Const $DDL_READONLY	= 0x00000001
-Global Const $DDL_READWRITE	= 0x00000000
-Global Const $DDL_SYSTEM	= 0x00000004
+Global Const $DDL_ARCHIVE = 0x00000020
+Global Const $DDL_DIRECTORY = 0x00000010
+Global Const $DDL_DRIVES = 0x00004000
+Global Const $DDL_EXCLUSIVE = 0x00008000
+Global Const $DDL_HIDDEN = 0x00000002
+Global Const $DDL_READONLY = 0x00000001
+Global Const $DDL_READWRITE = 0x00000000
+Global Const $DDL_SYSTEM = 0x00000004
 ; ===============================================================================================================================

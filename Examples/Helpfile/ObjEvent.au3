@@ -1,5 +1,3 @@
-Opt("MustDeclareVars", 1)
-
 _Example()
 
 
@@ -67,7 +65,7 @@ EndFunc   ;==>_IEEvent_BeforeNavigate2
 ; User's COM error function. Will be called if COM error occurs
 Func _ErrFunc($oError)
 	; Do anything here.
-ConsoleWrite("err.number is: " & @TAB & $oError.number & @CRLF & _
+	ConsoleWrite("err.number is: " & @TAB & $oError.number & @CRLF & _
 			"err.windescription:" & @TAB & $oError.windescription & @CRLF & _
 			"err.description is: " & @TAB & $oError.description & @CRLF & _
 			"err.source is: " & @TAB & $oError.source & @CRLF & _

@@ -5,6 +5,6 @@ If @error Then
 Else
 	For $i = 1 To $aArray[0]
 		; Show all the drives found and convert the drive letter to uppercase.
-		MsgBox(4096, "DriveGetDrive", "Drive " & $i & "/" & $aArray[0] & ":" & @CRLF &	StringUpper($aArray[$i]))
+		MsgBox(4096, "DriveGetDrive", "Drive " & $i & "/" & $aArray[0] & ":" & @CRLF & StringUpper($aArray[$i]))
 	Next
 EndIf

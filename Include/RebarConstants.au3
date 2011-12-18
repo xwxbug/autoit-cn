@@ -99,18 +99,18 @@ Global Const $RBBIM_HEADERSIZE = 0x800
 Global Const $RBIM_IMAGELIST = 0x1
 
 ; $tagREBARBANDINFO constants for fstyle
-Global Const $RBBS_BREAK = 0x1        ; The band is on a new line
-Global Const $RBBS_CHILDEDGE = 0x4        ; The band has an edge at the top and bottom of the child window
-Global Const $RBBS_FIXEDBMP = 0x20       ; The background bitmap does not move when the band is resized
-Global Const $RBBS_FIXEDSIZE = 0x2        ; The band can't be sized. With this style, the sizing grip is not displayed on the band
-Global Const $RBBS_GRIPPERALWAYS = 0x80       ; The band will always have a sizing grip, even if it is the only band in the rebar
-Global Const $RBBS_HIDDEN = 0x8        ; The band will not be visible
-Global Const $RBBS_HIDETITLE = 0x400      ; Keep band title hidden
-Global Const $RBBS_NOGRIPPER = 0x100      ; The band will never have a sizing grip, even if there is more than one band in the rebar
-Global Const $RBBS_NOVERT = 0x10       ; Don't show when vertical
-Global Const $RBBS_TOPALIGN = 0x800      ; Keep band in top row
-Global Const $RBBS_USECHEVRON = 0x200      ; Display drop-down button
-Global Const $RBBS_VARIABLEHEIGHT = 0x40       ; The band can be resized by the rebar control; cyIntegral and cyMaxChild affect how the rebar will resize the band
+Global Const $RBBS_BREAK = 0x1 ; The band is on a new line
+Global Const $RBBS_CHILDEDGE = 0x4 ; The band has an edge at the top and bottom of the child window
+Global Const $RBBS_FIXEDBMP = 0x20 ; The background bitmap does not move when the band is resized
+Global Const $RBBS_FIXEDSIZE = 0x2 ; The band can't be sized. With this style, the sizing grip is not displayed on the band
+Global Const $RBBS_GRIPPERALWAYS = 0x80 ; The band will always have a sizing grip, even if it is the only band in the rebar
+Global Const $RBBS_HIDDEN = 0x8 ; The band will not be visible
+Global Const $RBBS_HIDETITLE = 0x400 ; Keep band title hidden
+Global Const $RBBS_NOGRIPPER = 0x100 ; The band will never have a sizing grip, even if there is more than one band in the rebar
+Global Const $RBBS_NOVERT = 0x10 ; Don't show when vertical
+Global Const $RBBS_TOPALIGN = 0x800 ; Keep band in top row
+Global Const $RBBS_USECHEVRON = 0x200 ; Display drop-down button
+Global Const $RBBS_VARIABLEHEIGHT = 0x40 ; The band can be resized by the rebar control; cyIntegral and cyMaxChild affect how the rebar will resize the band
 
 ; $tagRBHITTESTINFO constants for flags
 Global Const $RBHT_CAPTION = 0x2
