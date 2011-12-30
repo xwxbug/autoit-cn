@@ -23,6 +23,8 @@ AutoIt:
 [G][!]更新: Adjustments to the documentation visual style.
 [G][!]更新: Various documentation and example fixes.
 [H][!]更新: 更新UPX到3.08版,只是修复bug.
+SciTe:
+[H][!]更新: 更新SciTe到3.0.2版.
 
 3.3.7.22 (Beta) 第一汉化版
 AutoIt:
