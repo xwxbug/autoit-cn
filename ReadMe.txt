@@ -25,6 +25,8 @@ AutoIt:
 [H][!]更新: 更新UPX到3.08版,只是修复bug.
 SciTe:
 [H][!]更新: 更新SciTe到3.0.2版.
+Extras:
+[H][+]新增: SubVersion 1.8-DEV(无运行时需求)
 
 3.3.7.22 (Beta) 第一汉化版
 AutoIt:
