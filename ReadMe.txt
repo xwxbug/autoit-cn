@@ -23,6 +23,7 @@ AutoIt:
 [G][!]更新: Adjustments to the documentation visual style.
 [G][!]更新: Various documentation and example fixes.
 [H][!]更新: 更新UPX到3.08版,只是修复bug.
+[H][!]更新: 更新AU3工具箱(AU3TOOL),对新版本SVN(1.8-DEV)版本控制系统的支持.
 SciTe:
 [H][!]更新: 更新SciTe到3.0.2版.
 Extras:
