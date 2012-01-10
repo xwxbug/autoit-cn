@@ -1,48 +1,49 @@
-;===============================================================================
-; 例子:      示例 1
-; 函数名称:   _accessCreateTable()
-; 描述:      在现有的数据库文件中建立表
-; 语法:       _accessCreateTable($adSource, $adTable, $adCol)
-; 参数:      $adSource  - 打开数据库文件的完整路径以及数据库文件名
-;            $adTable - 搜索的表名称
-;            $adCol - 字段类型必须用分隔符'|'分割标头名称和字段类型
-; 类型:      1、TEXT(数值1-255)=文本：char(n)  n表示文本大小
-;            2、MEMO=备注
-;            3、COUNTER=自动编号
-;            4、INTEGER=数字
-;            5、YESNO=是/否 (bit)
-;            6、DATETIME=时间日期
-;            7、CURRENCY=货币
-;            8、OLEOBJECT=OLE 对象
-;            9、BYTE=字节型
-;            10、LONG=长整型
-;            11、SHORT=整型
-;            12、SONGLE=单精度
-;            13、DOUBLE=双精度
-;            14、BINARY=二进制
-;===============================================================================
+#cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+ 例子:      示例 1
+ 函数名称:   _accessCreateTable()
+ 描述:      在现有的数据库文件中建立表
+ 语法:       _accessCreateTable($adSource, $adTable, $adCol)
+ 参数:      $adSource  - 打开数据库文件的完整路径以及数据库文件名
+            $adTable - 搜索的表名称
+            $adCol - 字段类型必须用分隔符'|'分割标头名称和字段类型
+ 类型:      1、TEXT(数值1-255)=文本：char(n)  n表示文本大小
+            2、MEMO=备注
+            3、COUNTER=自动编号
+            4、INTEGER=数字
+            5、YESNO=是/否 (bit)
+            6、DATETIME=时间日期
+            7、CURRENCY=货币
+            8、OLEOBJECT=OLE 对象
+            9、BYTE=字节型
+            10、LONG=长整型
+            11、SHORT=整型
+            12、SONGLE=单精度
+            13、DOUBLE=双精度
+            14、BINARY=二进制
+			15、primary key=设置索引为：有(无重复)
+#ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 #include <Access.au3>
 $adSource = @ScriptDir & "\DB1.mdb"
-$adTable = "Computer"
-$adCol = "a COUNTER | b MEMO | c TEXT(10) | d INTEGER | e YESNO | f DATETIME | g CURRENCY | h OLEOBJECT"
+$adTable = "Table1"
+$adCol = "id COUNTER primary key | name text(255) | pass text(255)"
 
 _accessCreateTable($adSource, $adTable, $adCol);在DB1.mdb数据库中创建表
 MsgBox(64, "提示", "创建表成功", 5)
-;===============================================================================
-; 例子:      示例 2
-; 描述:      在现有的数据库文件中建立表
-; 说明:      用ADODB的连接打开(Connection)对象，连接到指定的数据库并打开，
-;			 执行CREATE TABLE (创建新表)，名称为声明变量中的名称。
-;            用ADODB打开数据库，执行ALTERTABLE(修改数据库表)，
-;			 “ADDididentity(1,1)primarykey,namechar(255),passchar(255)”表示添加ID、name、pass数据列。
-;			 “identity(1,1)primarykey”是指此数据列为索引，“char(255)”是数据类型
-;			 （建议使用text 表示文本类型，使用char容易造成在没有安装Access的客户机上多出“…”的省略号，
-;			 因为指定的255字节会全部被显示），最后关闭本次连接。
-;===============================================================================
+#cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+ 例子:      示例 2
+ 描述:      在现有的数据库文件中建立表
+ 说明:      用ADODB的连接打开(Connection)对象，连接到指定的数据库并打开，
+			 执行CREATE TABLE (创建新表)，名称为声明变量中的名称。
+            用ADODB打开数据库，执行ALTERTABLE(修改数据库表)，
+			 “ADDididentity(1,1)primarykey,namechar(255),passchar(255)”表示添加ID、name、pass数据列。
+			 “identity(1,1)primarykey”是指此数据列为索引，“char(255)”是数据类型
+			 （建议使用text 表示文本类型，使用char容易造成在没有安装Access的客户机上多出“…”的省略号，
+			 因为指定的255字节会全部被显示），最后关闭本次连接。
+#ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
-$adTable = "Computer"
+$adTable = "Table2"
 
 If FileExists($adSource) Then
 	$addtbl = ObjCreate("ADODB.Connection")
@@ -54,19 +55,19 @@ If FileExists($adSource) Then
 Else
 	MsgBox(64, "错误", "数据库文件不存在", 5)
 EndIf
-;===============================================================================
-; 例子:      示例 3
-; 函数名称:   _accessCreateTable()
-; 描述:      在现有的数据库文件中建立表
-; 语法:       _accessCreateTable($adSource, $adTable, $adCol)
-; 参数:      $adSource  - 打开数据库文件的完整路径以及数据库文件名
-;            $adTable - 搜索的表名称
-;            $adCol - 字段类型必须用分隔符'|'分割标头名称和字段类型
-;===============================================================================
+#cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+ 例子:      示例 3
+ 函数名称:   _accessCreateTable()
+ 描述:      在现有的数据库文件中建立表
+ 语法:       _accessCreateTable($adSource, $adTable, $adCol)
+ 参数:      $adSource  - 打开数据库文件的完整路径以及数据库文件名
+            $adTable - 搜索的表名称
+            $adCol - 字段类型必须用分隔符'|'分割标头名称和字段类型
+#ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
-$adTable = "Computer"
-$adCol = "a COUNTER | b MEMO | c TEXT(10) | d INTEGER | e YESNO | f DATETIME | g CURRENCY | h OLEOBJECT"
+$adTable = "Table3"
+$adCol = "id COUNTER primary key | name text(255) | pass text(255)"
 
 _accessCreateTable($adSource, $adTable, $adCol)
 
