@@ -1,25 +1,27 @@
-;===============================================================================
-; 例子:        示例 1
-; 函数名称:   _accessCompactDB()
-; 描述:       压缩数据库文件(*. mdb)
-; 语法:       _accessCompactDB($adSource)
-; 参数:       $adSource - 打开数据库文件的完整路径
-;===============================================================================
+#cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+ 例子:        示例 1
+ 函数名称:   _accessCompactDB()
+ 描述:       压缩数据库文件(*. mdb)
+ 语法:       _accessCompactDB($adSource)
+ 参数:       $adSource - 打开数据库文件的完整路径
+#ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 #include <Access.au3>
 
 $adSource = @ScriptDir & "\DB1.mdb"
 _accessCompactDB($adSource)
-;===============================================================================
-; 例子:        示例 2
-; 函数名称:   _accessCompactDB()
-; 描述:       压缩数据库文件(*. mdb)
-; 语法:       _accessCompactDB($adSource)
-; 参数:       $adSource - 打开数据库文件的完整路径
-;===============================================================================
+MsgBox(64, "提示", "压缩数据库成功", 5)
+#cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+ 例子:        示例 2
+ 函数名称:   _accessCompactDB()
+ 描述:       压缩数据库文件(*. mdb)
+ 语法:       _accessCompactDB($adSource)
+ 参数:       $adSource - 打开数据库文件的完整路径
+#ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
 _accessCompactDB($adSource)
+MsgBox(64, "提示", "压缩数据库成功", 5)
 
 Func _accessCompactDB($adSource)
    If FileExists($adSource) Then
