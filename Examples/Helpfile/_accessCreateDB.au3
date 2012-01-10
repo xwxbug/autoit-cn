@@ -7,11 +7,10 @@
 ;===============================================================================
 #AutoIt3Wrapper_UseX64 = n
 #include <Access.au3>
-$mdb_data_path = @ScriptDir & "\DB1.mdb"
+$adSource = @ScriptDir & "\DB1.mdb"
 
-_accessCreateDB($mdb_data_path)
+_accessCreateDB($adSource)
 MsgBox(64, "提示", "建立数据库成功", 5)
-
 ;===============================================================================
 ; 例子:      示例 2
 ; 描述:      创建一个数据库文件(*. mdb)
@@ -23,11 +22,11 @@ MsgBox(64, "提示", "建立数据库成功", 5)
 ;            最后是结束创建。(ActiveConnection指示目录所属的 ADO Connection 对象)
 ;===============================================================================
 #AutoIt3Wrapper_UseX64 = n
-$mdb_data_path = @ScriptDir & "\DB1.mdb"
+$adSource = @ScriptDir & "\DB1.mdb"
 
-If Not FileExists($mdb_data_path) Then;如果脚本所在目录没有发现数据库文件，则创建数据库文件，
+If Not FileExists($adSource) Then;如果脚本所在目录没有发现数据库文件，则创建数据库文件，
 	$newMdb = ObjCreate("ADOX.Catalog")
-	$newMdb.Create("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & $mdb_data_path);创建新的目录
+	$newMdb.Create("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & $adSource);创建新的目录
 	$newMdb.ActiveConnection.Close
 	MsgBox(64, "提示", "建立数据库成功", 5)
 Else
@@ -41,9 +40,9 @@ EndIf
 ; 参数:       $adSource  - 创建数据库文件的完整路径
 ;===============================================================================
 #AutoIt3Wrapper_UseX64 = n
-$mdb_data_path = @ScriptDir & "\DB1.mdb"
+$adSource = @ScriptDir & "\DB1.mdb"
 
-_accessCreateDB($mdb_data_path)
+_accessCreateDB($adSource)
 
 Func _accessCreateDB($adSource)
 	$oProvider = "Microsoft.Jet.OLEDB.4.0; "
