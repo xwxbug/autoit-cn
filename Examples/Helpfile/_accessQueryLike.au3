@@ -10,6 +10,7 @@
                  $adFull    如果 = 1 使用Chr(28)作为分隔符. (默认)
 							如果 <> 1 返回一个包含指定字段的每一条记录的数组
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+#AutoIt3Wrapper_UseX64 = n
 #include <Access.au3>
 #include <Array.au3>
 Dim $yo
@@ -26,9 +27,8 @@ $aRecord = StringSplit($yo[1], Chr(28))
 _ArrayDisplay($aRecord, "读取指定某列所有数据")
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 2
-	函数名称:
-	描述:       在数据库文件中读取表数据
-	语法:       读取表内所有数据 (SELECT * FROM 表名称)
+	描述:       在数据库文件中读取表数据(读取所有列的数据)
+	语法:       SELECT 列名称 FROM 表名称
 	说明:       BOF 指示当前记录位置位于 Recordset 对象的第一个记录之前.
 	            EOF 指示当前记录位置位于 Recordset 对象的最后一个记录之后.
 	            BOF 和 EOF 属性返回布尔型值。使用 BOF 和 EOF 属性可确定 Recordset
@@ -41,6 +41,7 @@ _ArrayDisplay($aRecord, "读取指定某列所有数据")
 	            $RS.Fields(0).Value 是读取数据表中每一列第1个字段的值，它类
 	            似数组，从0开始，往后面依此类推。
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+#AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
 $adTable = "Table1"
 $addfld = ObjCreate("ADODB.Connection")
@@ -58,9 +59,10 @@ $addfld.Close
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 3
 	函数名称:
-	描述:       在数据库文件中读取表数据
-	语法:       读取指定某列所有数据 (SELECT 列名称 FROM 表名称)
+	描述:       在数据库文件中读取表数据(读取指定列的数据)
+	语法:       SELECT 列名称 FROM 表名称
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+#AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
 $adTable = "Table1"
 $adCol = "id,name,pass"
