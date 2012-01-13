@@ -1,7 +1,7 @@
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 1
 	函数名称:    _accessCountFields()
-	描述:        读取数据库文件中，指定表中的列数
+	描述:        读取数据库文件中，指定表中的字段数
 	语法:        _accessCountFields($adSource, $adTable)
 	参数:        $adSource  打开数据库文件的完整路径以及数据库文件名
 	             $adTable   搜索的表名称
@@ -11,10 +11,10 @@
 $adSource = @ScriptDir & "\DB1.mdb"
 $adTable = "Table1"
 $yo = _accessCountFields($adSource, $adTable)
-MsgBox(0, "提示", $adTable & "表中有【" & $yo & "】个列.")
+MsgBox(0, "提示", $adTable & "表中有【" & $yo & "】个字段.")
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 2
-	描述:        读取数据库文件中，指定表中的列数
+	描述:        读取数据库文件中，指定表中的字段数
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
@@ -23,12 +23,12 @@ $addfld = ObjCreate("ADODB.Connection")
 $addfld.Open("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & $adSource)
 $RS = ObjCreate("ADODB.Recordset")
 $RS.open($adTable, $addfld, 3, 3)
-MsgBox(0, "提示", $adTable & "表中有【" & $RS.Fields.count & "】个列.")
+MsgBox(0, "提示", $adTable & "表中有【" & $RS.Fields.count & "】个字段.")
 $RS.close
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 3
 	函数名称:    _accessCountFields()
-	描述:        读取数据库文件中，指定表中的列数
+	描述:        读取数据库文件中，指定表中的字段数
 	语法:        _accessCountFields($adSource, $adTable)
 	参数:        $adSource  打开数据库文件的完整路径以及数据库文件名
 	             $adTable   搜索的表名称
@@ -37,7 +37,7 @@ $RS.close
 $adSource = @ScriptDir & "\DB1.mdb"
 $adTable = "Table1"
 $yo = _accessCountFields($adSource, $adTable)
-MsgBox(0, "提示", $adTable & "表中有【" & $yo & "】个列.")
+MsgBox(0, "提示", $adTable & "表中有【" & $yo & "】个字段.")
 
 Func _accessCountFields($adSource,$adTable)
    $oADO = 'ADODB.Connection'
