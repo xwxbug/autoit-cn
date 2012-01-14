@@ -16,9 +16,8 @@ _accessClearTable($adSource, $adTable)
 MsgBox(64, "提示", "清除 " & $adTable & " 表记录成功.", 5)
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 	例子:        示例 2
-	描述:       清除数据库文件指定表的所有记录  
-    语法:   	DELETE * FROM 表名(删除所有记录)
-				DELETE FROM 表名 WHERE 列名称 = 值(删除某行记录)
+	描述:       清除数据库文件指定表的所有记录
+	语法:   	DELETE * FROM 表名(删除所有记录)
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
@@ -26,8 +25,7 @@ $adTable = "Table1"
 
 $addfld = ObjCreate("ADODB.Connection")
 $addfld.Open("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" & $adSource)
-$sQuery = "DELETE * FROM " & $adTable;删除所有记录
-;~ $sQuery = "DELETE FROM " & $adTable & " WHERE pass=" & "'1'";删除某行记录
+$sQuery = "DELETE * FROM " & $adTable
 $addfld.execute($sQuery)
 $addfld.close
 MsgBox(64, "提示", "清除 " & $adTable & " 表记录成功.", 5)
