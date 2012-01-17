@@ -17,11 +17,12 @@ $Find = "A"
 
 MsgBox(0, 0, _accessQueryStr($adSource, $adTable, $adCol, $Find));成功则返回字段的值，失败则返回空字符串
 #cs ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
-	例子:        示例 2
-    描述:        搜索数据库中的指定字符串，并返回搜索结果
-    语法:        SELECT * FROM " 表名 Where 字段名 = '字符串'
-    参数:        $RS.Fields($adCol).Value = 返回搜索结果
-                 Bof 和 Eof 分别指示指针指向头以前和尾以后。结果为True和False.
+	例子:       示例 2
+    描述:       搜索数据库中的指定字符串，并返回搜索结果
+    语法:       SELECT * FROM " 表名 Where 字段名 = '字符串'
+    参数:       $RS.Fields($adCol).Value = 返回搜索结果
+				当您首次打开一个 Recordset 时，当前记录指针将指向第一个记录，
+				同时 BOF 和 EOF 属性为 False。如果没有记录，BOF 和 EOF 属性为 True。
 #ce ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿脚本开始＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 #AutoIt3Wrapper_UseX64 = n
 $adSource = @ScriptDir & "\DB1.mdb"
