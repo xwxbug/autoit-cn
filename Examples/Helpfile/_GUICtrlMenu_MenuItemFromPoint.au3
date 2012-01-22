@@ -5,32 +5,32 @@ _Main()
 Func _Main()
 	Local $hWnd, $hMain, $hFile, $tRect, $tPoint, $iX, $iY, $iIndex
 
-	; Open Notepad
+	; 打开记事本
 	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
 	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-	; Open File menu
+	; 打开文件菜单
 	Send("!f")
 	Sleep(1000)
 
-	; Move mouse over Open menu item
+	; 在打开菜单项上移动鼠标
 	$tRect = _GUICtrlMenu_GetItemRectEx($hWnd, $hFile, 1)
 	$tPoint = _Lib_PointFromRect($tRect, True)
 	_Lib_GetXYFromPoint($tPoint, $iX, $iY)
 	MouseMove($iX, $iY, 1)
 	Sleep(1000)
 
-	; Get menu item from current mouse position
+	; 获取当前鼠标位置的菜单项
 	$iIndex = _GUICtrlMenu_MenuItemFromPoint($hWnd, $hFile)
 	Send("{ESC 2}")
 	Writeln("Menu item under cursor was: " & $iIndex)
 
 EndFunc   ;==>_Main
 
-; Write a line of text to Notepad
+; 写入一行文本到记事本
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
 EndFunc   ;==>Writeln

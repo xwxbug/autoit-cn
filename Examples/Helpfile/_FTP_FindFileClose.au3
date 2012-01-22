@@ -11,6 +11,6 @@ Local $h_Handle
 Local $aFile = _FTP_FindFileFirst($Conn, "/pub/software/programming/pcre/", $h_Handle)
 
 Local $FindClose = _FTP_FindFileClose($h_Handle)
-ConsoleWrite('$FindClose =' & $FindClose & '  -> Error code:' & @error & @crlf)
+ConsoleWrite('$FindClose = ' & $FindClose & '  -> Error code: ' & @error & @CRLF)
 
 Local $Ftpc = _FTP_Close($Open)

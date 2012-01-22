@@ -1,54 +1,42 @@
-#Include <GuiConstantsEx.au3>
+#Include <APIConstants.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
-Opt('MustDeclareVars ', 1)
+Opt('MustDeclareVars', 1)
 
-Global Const $Flags = BitOR($BIF_RETURNONLYFSDIRS, $BIF_EDITBOX, $BIF_VALIDATE)
 Global Const $InitDir = @ProgramFilesDir
 
-Global $hBrowseProc = DllCallbackRegister('_BrowseProc ', 'int ', 'hwnd;uint;long;ptr')
-Global $tData = DllStructCreate('wchar[' & ( StringLen($InitDir) + 1) & ' ]')
-Global $Path, $iMemo
+Global $hBrowseProc, $pBrowseProc, $pText, $Path
 
-_Main()
+$hBrowseProc = DllCallbackRegister('_BrowseProc','int', 'hwnd;uint;long;ptr')
+$pBrowseProc = DllCallbackGetPtr($hBrowseProc)
 
-Func _Main()
-	GUICreate(" selected item ", 360, 360, 200, 200)
-	$iMemo = GUICtrlCreateEdit("", 2, 2, 356, 356)
-	GUISetState()
+$pText = _WinAPI_CreateString($InitDir)
+$Path = _WinAPI_BrowseForFolderDlg(_WinAPI_PathStripToRoot($InitDir), 'Select a folder from the list below.', BitOR($BIF_RETURNONLYFSDIRS, $BIF_EDITBOX, $BIF_VALIDATE), $pBrowseProc, $pText)
+_WinAPI_FreeMemory($pText)
 
-	DllStructSetData($tData, 1, $InitDir)
-	$Path = _WinAPI_BrowseForFolderDlg( StringLeft($InitDir, 3), 'Select a folder from the list below. ', $Flags, DllCallbackGetPtr($hBrowseProc), DllStructGetPtr($tData))
+If $Path Then
+	ConsoleWrite('--------------------------------------------------' & @CR)
+	ConsoleWrite($Path & @CR)
+EndIf
 
-	If $Path Then
-		memowrite('--------------------------------------------------' & @CR)
-		memowrite($Path & @CR)
-	EndIf
-
-	DllCallbackFree($hBrowseProc)
-endfunc   ;==>_Main
+DllCallbackFree($hBrowseProc)
 
 Func _BrowseProc($hWnd, $iMsg, $wParam, $lParam)
 
-	Local $tData
+	Local $Path
 
 	Switch $iMsg
 		Case $BFFM_INITIALIZED
-			_WinAPI_SetWindowText($hWnd, 'Select Folder')
-			_SendMessage($hWnd, $BFFM_SETSELECTION, 1, $lParam)
+			_WinAPI_SetWindowText($hWnd, 'MyTitle')
+			_SendMessage($hWnd, $BFFM_SETSELECTIONW, 1, $lParam)
 		Case $BFFM_SELCHANGED
-			memowrite( _WinAPI_ShellGetPathFromIDList($wParam) & @CR)
+			$Path = _WinAPI_ShellGetPathFromIDList($wParam)
+			If Not @error Then
+				ConsoleWrite($Path & @CR)
+			EndIf
 		Case $BFFM_VALIDATEFAILED
-			$tData = DllStructCreate( _WinAPI_StrLen($wParam), $wParam)
-			MsgBox(16, 'Error ', DllStructGetData($tData, 1) & ' is invalid. ', 0, $hWnd)
+			MsgBox(16, 'Error', _WinAPI_GetString($wParam) & ' is invalid.', 0, $hWnd)
 			Return 1
 	EndSwitch
-	Return 0
-endfunc   ;==>_BrowseProc
-
-; 向memo控件写入信息
-Func MemoWrite($sMessage = "")
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
-
+    Return 0
+EndFunc ;==> _BrowseProc

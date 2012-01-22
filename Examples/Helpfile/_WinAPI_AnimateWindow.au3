@@ -1,14 +1,14 @@
-#Include  <GUIConstantsEx.au3>
-#Include  <Constants.au3>
-#Include  <WinAPIEx.au3>
-#Include  <WindowsConstants.au3>
+#NoTrayIcon
 
-Opt('TrayMenuMode ', 1)
+#Include <APIConstants.au3>
+#Include <GUIConstantsEx.au3>
+#Include <WinAPIEx.au3>
 
-Global Const $SC_MINIMIZE = 0xF020
+Opt('MustDeclareVars', 1)
+Opt('TrayMenuMode', 1)
 
-Global $hTray = ControlGetHandle('[CLASS:Shell_TrayWnd] ', '', 'TrayNotifyWnd1')
-Global $hForm, $GUIMsg, $TrayMsg, $Dummy, $TrayRestoreItem, $TrayExitItem
+Global $hTray = ControlGetHandle('[CLASS:Shell_TrayWnd]', '', 'TrayNotifyWnd1')
+Global $hForm, $Msg, $Dummy, $TrayRestoreItem, $TrayExitItem
 
 $TrayRestoreItem = TrayCreateItem('Restore')
 TrayItemSetState(-1, $TRAY_DEFAULT)
@@ -22,36 +22,35 @@ GUIRegisterMsg($WM_SYSCOMMAND, 'WM_SYSCOMMAND')
 GUISetState()
 
 While 1
-	$TrayMsg = TrayGetMsg()
-	Switch $TrayMsg
-		Case $GUI_EVENT_CLOSE
-			_WinAPI_DrawAnimateRect($hForm, _WinAPI_GetWindowRect($hTray), _WinAPI_GetWindowRect($hForm))
+	$Msg = TrayGetMsg()
+	Switch $Msg
+		Case $TrayRestoreItem
+			_WinAPI_DrawAnimatedRects($hForm, _WinAPI_GetWindowRect($hTray), _WinAPI_GetWindowRect($hForm))
 			GUISetState(@SW_SHOW, $hForm)
-			TraySetClick(2)
-		Case $Dummy
+			TraySetState(2)
+		Case $TrayExitItem
 			ExitLoop
 	EndSwitch
-	$TrayMsg = GUIGetMsg()
-	Switch $GUIMsg
+	$Msg = GUIGetMsg()
+	Switch $Msg
 		Case $GUI_EVENT_CLOSE
 			_WinAPI_AnimateWindow($hForm, BitOR($AW_BLEND, $AW_HIDE))
 			ExitLoop
-		Case $Dummy
-			_WinAPI_DrawAnimateRect($hForm, _WinAPI_GetWindowRect($hForm), _WinAPI_GetWindowRect($hTray))
-			GUISetState(@SW_SHOW, $hForm)
-			TraySetClick(1)
+		Case $Dummy ; Minimize
+			_WinAPI_DrawAnimatedRects($hForm, _WinAPI_GetWindowRect($hForm), _WinAPI_GetWindowRect($hTray))
+			GUISetState(@SW_HIDE, $hForm)
+			TraySetState(1)
 	EndSwitch
 WEnd
 
-Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
+Func WM_SYSCOMMAND($hWnd, $iMsg, $wParam, $lParam)
 	Switch $hWnd
 		Case $hForm
 			Switch $wParam
 				Case $SC_MINIMIZE
-					GUICtrlCreateDummy()
+					GUICtrlSendToDummy($Dummy)
 					Return 0
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_COMMAND
-
+EndFunc   ;==>WM_SYSCOMMAND

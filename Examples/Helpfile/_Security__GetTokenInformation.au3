@@ -9,7 +9,7 @@ Func Example_TokInfo()
 	If @error Then Return ; check for possible errors
 
 	Local $hToken = _Security__OpenProcessToken($hProcess, $TOKEN_ALL_ACCESS)
-    ; If token is get...
+	; If token is get...
 	If $hToken Then
 		; Get information about the type of this token:
 		Local $tInfo = _Security__GetTokenInformation($hToken, $TOKENTYPE)

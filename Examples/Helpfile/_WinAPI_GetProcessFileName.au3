@@ -1,10 +1,9 @@
 #Include <WinAPIEx.au3>
 
-Opt('MustDeclareVars ', 1)
+Opt('MustDeclareVars', 1)
 
-Global $PID = ProcessExists('Explorer.exe')
+Global $ID = ProcessExists('SciTE.exe')
 
-If $PID > 0 Then
-	msgbox(0, 'Proc Name ', _WinAPI_GetProcessFileName($ID))
+If $ID Then
+	ConsoleWrite(_WinAPI_GetProcessFileName($ID) & @CR)
 EndIf
-

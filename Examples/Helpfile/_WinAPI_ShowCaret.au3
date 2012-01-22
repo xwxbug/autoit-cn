@@ -1,34 +1,34 @@
+#Include <APIConstants.au3>
 #Include <EditConstants.au3>
 #Include <GUIConstantsEx.au3>
 #Include <WinAPIEx.au3>
-#Include <WindowsConstants.au3>
 
-Opt('MustDeclareVars ', 1)
+Opt('MustDeclareVars', 1)
 
 Global $hForm, $Msg, $Input, $Button, $Duration = Default, $hBitmap = _WinAPI_CreateSolidBitmap(0, 0x00AEFF, 10, 14)
 
 OnAutoItExitRegister('OnAutoItExit')
 
-$hForm = GUICreate('MyGUI ', 400, 93)
+$hForm = GUICreate('MyGUI', 400, 93)
 $Input = GUICtrlCreateInput('', 20, 20, 360, 20)
-$Button = GUICtrlCreateButton('Exit ', 165, 59, 70, 23)
+$Button = GUICtrlCreateButton('Exit', 165, 59, 70, 23)
 GUIRegisterMsg($WM_COMMAND, 'WM_COMMAND')
 GUISetState()
 
 While 1
-	$Msg = GUIGetMsg()
-	Switch $Msg
-		Case $GUI_EVENT_CLOSE, $Button
-			ExitLoop
-	EndSwitch
+    $Msg = GUIGetMsg()
+    Switch $Msg
+        Case $GUI_EVENT_CLOSE, $Button
+            ExitLoop
+    EndSwitch
 WEnd
 
 Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
 	Switch $hWnd
 		Case $hForm
-			Switch BitAND($wParam, 0xFFFF)
+			Switch _WinAPI_LoWord($wParam)
 				Case $Input
-					Switch BitShift($wParam, 16)
+					Switch _WinAPI_HiWord($wParam)
 						Case $EN_KILLFOCUS
 							_WinAPI_HideCaret($lParam)
 							_WinAPI_DestroyCaret()
@@ -41,13 +41,12 @@ Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
 					EndSwitch
 			EndSwitch
 	EndSwitch
-	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_COMMAND
+    Return $GUI_RUNDEFMSG
+EndFunc   ;==>WM_COMMAND
 
 Func OnAutoItExit()
-	_WinAPI_FreeObject($hBitmap)
-	If $Duration Default Then
+	_WinAPI_DeleteObject($hBitmap)
+	If $Duration <> Default Then
 		_WinAPI_SetCaretBlinkTime($Duration)
 	EndIf
-endfunc   ;==>OnAutoItExit
-
+EndFunc   ;==>OnAutoItExit

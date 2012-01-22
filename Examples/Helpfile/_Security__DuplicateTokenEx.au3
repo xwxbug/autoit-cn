@@ -16,7 +16,7 @@ If $hProcess Then
 		Local $hTokDuplicate = _Security__DuplicateTokenEx($hTokOriginal, $TOKEN_ALL_ACCESS, $SECURITYIMPERSONATION, $TOKENPRIMARY)
 		; Close the original token
 		_WinAPI_CloseHandle($hTokOriginal)
-        ; What's created is a primary token (!)
+		; What's created is a primary token (!)
 		; ... Do whatever with that token here ...
 
 		MsgBox(262144, "DuplicateTokenEx", "$hTokDuplicate = " & $hTokDuplicate)
