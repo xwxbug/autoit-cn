@@ -8,7 +8,7 @@ Opt('MustDeclareVars', 1)
 Global Const $STM_SETIMAGE = 0x0172
 Global Const $STM_GETIMAGE = 0x0173
 
-Global $hForm, $Msg, $Pic, $Slider, $tSIZE, $W, $H, $hBitmap
+Global $hForm, $Msg, $Pic, $hSlider, $Slider, $tSIZE, $W, $H, $hBitmap
 
 ; Load image
 $hBitmap = _WinAPI_LoadImage(0, @ScriptDir & '\Extras\Compass.bmp', $IMAGE_BITMAP, 0, 0, $LR_LOADFROMFILE)
@@ -22,6 +22,7 @@ $Pic = GUICtrlCreatePic('', 0, 0, $W, $H)
 GUICtrlCreateGraphic(0, $H, $W, 1)
 GUICtrlSetBkColor(-1, 0xDFDFDF)
 $Slider = GUICtrlCreateSlider(0, $H + 1, $W, 25, BitOR($TBS_BOTH, $TBS_NOTICKS))
+$hSlider = GUICtrlGetHandle(-1)
 GUICtrlSetLimit(-1, 360, 0)
 GUICtrlSetData(-1, 0)
 
@@ -96,9 +97,12 @@ Func _SetBitmapRotate($hWnd, $hBitmap, $iAngle)
 EndFunc   ;==>_SetBitmapRotate
 
 Func WM_HSCROLL($hWnd, $iMsg, $wParam, $lParam)
-	Switch _WinAPI_GetDlgCtrlID($lParam)
-		Case $Slider
-			_SetBitmapRotate($Pic, $hBitmap, GUICtrlRead($Slider))
+	Switch $hWnd
+		Case $hForm
+			Switch $lParam
+				Case $hSlider
+					_SetBitmapRotate($Pic, $hBitmap, GUICtrlRead($Slider))
+			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_HSCROLL

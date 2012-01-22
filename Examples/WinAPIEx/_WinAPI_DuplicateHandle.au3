@@ -6,7 +6,7 @@ Global $hPseudo = _WinAPI_GetCurrentProcess()
 Global $hReal = _WinAPI_DuplicateHandle($hPseudo, $hPseudo, $hPseudo)
 
 ConsoleWrite('Process name:  ' & _WinAPI_GetProcessName() & @CR)
-ConsoleWrite('Process ID:    ' & _WinAPI_GetCurrentProcessID() & @CR)
+ConsoleWrite('Process ID:    ' & @AutoItPID & @CR)
 ConsoleWrite('Pseudo handle: ' & $hPseudo & @CR)
 ConsoleWrite('Real handle:   ' & $hReal & @CR)
 

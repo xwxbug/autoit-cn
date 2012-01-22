@@ -8,24 +8,24 @@ Global Const $sName = 'MyProg'
 
 Global $tWCEX, $tClass, $tIcon, $hProc, $hInstance, $hCursor, $hIcon, $hIconSm, $Exit = False
 
-; 获取当前进程的模块句柄
+; Get module handle for the current process
 $hInstance = _WinAPI_GetModuleHandle(0)
 
-; 创建类光标
+; Create a class cursor
 $hCursor = _WinAPI_LoadCursor(0, 32512) ; IDC_ARROW
 
-; 创建类图标 (大和小)
+; Create a class icons (large and small)
 $tIcon = DllStructCreate('ptr;ptr')
 _WinAPI_ExtractIconEx(@SystemDir & '\shell32.dll', 130, DllStructGetPtr($tIcon, 1), DllStructGetPtr($tIcon, 2), 1)
 $hIcon = DllStructGetData($tIcon, 1)
 $hIconSm = DllStructGetData($tIcon, 2)
 
-; 创建 DLL 回调函数 (窗口过程)
+; Create DLL callback function (window procedure)
 $hProc = DllCallbackRegister('_WndProc', 'lresult', 'hwnd;uint;wparam;lparam')
 
-; 创建并填充 $tagWNDCLASSEX 结构
-$tWCEX = DllStructCreate($tagWNDCLASSEX)
-DllStructSetData($tWCEX, 'Size', DllStructGetSize($tWCEX))
+; Create and fill $tagWNDCLASSEX structure
+$tWCEX = DllStructCreate($tagWNDCLASSEX & 'wchar[' & (StringLen($sClass) + 1) & ']')
+DllStructSetData($tWCEX, 'Size', DllStructGetPtr($tWCEX, 13) - DllStructGetPtr($tWCEX))
 DllStructSetData($tWCEX, 'Style', 0)
 DllStructSetData($tWCEX, 'hWndProc', DllCallbackGetPtr($hProc))
 DllStructSetData($tWCEX, 'ClsExtra', 0)
@@ -35,13 +35,14 @@ DllStructSetData($tWCEX, 'hIcon', $hIcon)
 DllStructSetData($tWCEX, 'hCursor', $hCursor)
 DllStructSetData($tWCEX, 'hBackground', _WinAPI_CreateSolidBrush(_WinAPI_GetSysColor($COLOR_3DFACE)))
 DllStructSetData($tWCEX, 'MenuName', 0)
-DllStructSetData($tWCEX, 'ClassName', _WinAPI_CreateString($sClass, $tClass))
+DllStructSetData($tWCEX, 'ClassName', DllStructGetPtr($tWCEX, 13))
 DllStructSetData($tWCEX, 'hIconSm', $hIconSm)
+DllStructSetData($tWCEX, 13, $sClass)
 
-; 注册窗口类
+; Register a window class
 _WinAPI_RegisterClassEx($tWCEX)
 
-; 创建窗口
+; Create a window
 _WinAPI_CreateWindowEx(0, $sClass, $sName, BitOR($WS_CAPTION, $WS_POPUPWINDOW, $WS_VISIBLE), (@DesktopWidth - 400) / 2, (@DesktopHeight - 400) / 2, 400, 400, 0)
 
 While 1
@@ -51,11 +52,12 @@ While 1
     EndIf
 WEnd
 
-; 注消窗口类并释放不需要的资源
+; Unregister window class and release unnecessary resources
 _WinAPI_UnregisterClass($sClass, $hInstance)
 _WinAPI_DestroyCursor($hCursor)
 _WinAPI_DestroyIcon($hIcon)
 _WinAPI_DestroyIcon($hIconSm)
+
 DllCallbackFree($hProc)
 
 Func _WinAPI_DefWindowProcW($hWnd, $iMsg, $wParam, $lParam)

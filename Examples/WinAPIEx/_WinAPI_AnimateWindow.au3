@@ -8,7 +8,7 @@ Opt('MustDeclareVars', 1)
 Opt('TrayMenuMode', 1)
 
 Global $hTray = ControlGetHandle('[CLASS:Shell_TrayWnd]', '', 'TrayNotifyWnd1')
-Global $hForm, $GUIMsg, $TrayMsg, $Dummy, $TrayRestoreItem, $TrayExitItem
+Global $hForm, $Msg, $Dummy, $TrayRestoreItem, $TrayExitItem
 
 $TrayRestoreItem = TrayCreateItem('Restore')
 TrayItemSetState(-1, $TRAY_DEFAULT)
@@ -22,8 +22,8 @@ GUIRegisterMsg($WM_SYSCOMMAND, 'WM_SYSCOMMAND')
 GUISetState()
 
 While 1
-	$TrayMsg = TrayGetMsg()
-	Switch $TrayMsg
+	$Msg = TrayGetMsg()
+	Switch $Msg
 		Case $TrayRestoreItem
 			_WinAPI_DrawAnimatedRects($hForm, _WinAPI_GetWindowRect($hTray), _WinAPI_GetWindowRect($hForm))
 			GUISetState(@SW_SHOW, $hForm)
@@ -31,12 +31,12 @@ While 1
 		Case $TrayExitItem
 			ExitLoop
 	EndSwitch
-	$GUIMsg = GUIGetMsg()
-	Switch $GUIMsg
-		Case -3
+	$Msg = GUIGetMsg()
+	Switch $Msg
+		Case $GUI_EVENT_CLOSE
 			_WinAPI_AnimateWindow($hForm, BitOR($AW_BLEND, $AW_HIDE))
 			ExitLoop
-		Case $Dummy ; ×îÐ¡»¯
+		Case $Dummy ; Minimize
 			_WinAPI_DrawAnimatedRects($hForm, _WinAPI_GetWindowRect($hForm), _WinAPI_GetWindowRect($hTray))
 			GUISetState(@SW_HIDE, $hForm)
 			TraySetState(1)

@@ -30,7 +30,7 @@ Func _GetTabBodyColor($hForm)
 
 	Local $hTheme, $Color, $Part, $Default = _WinAPI_SwitchColor(_WinAPI_GetSysColor($COLOR_3DFACE))
 
-	$hTheme = _WinAPI_OpenThemeData($hForm, 'Tab')
+	$hTheme = _WinAPI_OpenThemeData($hForm, 'TAB')
 	If @error Then
 		Return $Default
 	EndIf

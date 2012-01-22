@@ -6,7 +6,7 @@
     Filename:       APIConstants.au3
     Description:    Constants that can be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.5 / 3.3.6.1
+    Version:        3.6 / 3.3.8.0
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           BorderConstants.au3, Constants.au3, FileConstants.au3, FontConstants.au3, FrameConstants.au3, MemoryConstants.au3, MenuConstants.au3, ProcessConstants.au3, SecurityConstants.au3, WindowsConstants.au3
     Note:           -
@@ -34,17 +34,17 @@
 ; Standard Access Rights
 ; ===============================================================================================================================
 
-Global Const $DELETE = 0x00010000
-;~ Global Const $READ_CONTROL = 0x00020000
-;~ Global Const $SYNCHRONIZE = 0x00100000
-;~ Global Const $WRITE_DAC = 0x00040000
-;~ Global Const $WRITE_OWNER = 0x00080000
+;Global Const $DELETE = 0x00010000
+;Global Const $READ_CONTROL = 0x00020000
+;Global Const $SYNCHRONIZE = 0x00100000
+;Global Const $WRITE_DAC = 0x00040000
+;Global Const $WRITE_OWNER = 0x00080000
 
-;~ Global Const $STANDARD_RIGHTS_ALL = BitOR($DELETE, $READ_CONTROL, $SYNCHRONIZE, $WRITE_DAC, $WRITE_OWNER)
-;~ Global Const $STANDARD_RIGHTS_EXECUTE = $READ_CONTROL
-;~ Global Const $STANDARD_RIGHTS_READ = $READ_CONTROL
-;~ Global Const $STANDARD_RIGHTS_REQUIRED = BitOR($DELETE, $READ_CONTROL, $WRITE_DAC, $WRITE_OWNER)
-;~ Global Const $STANDARD_RIGHTS_WRITE = $READ_CONTROL
+;Global Const $STANDARD_RIGHTS_ALL = BitOR($DELETE, $READ_CONTROL, $SYNCHRONIZE, $WRITE_DAC, $WRITE_OWNER)
+;Global Const $STANDARD_RIGHTS_EXECUTE = $READ_CONTROL
+;Global Const $STANDARD_RIGHTS_READ = $READ_CONTROL
+;Global Const $STANDARD_RIGHTS_REQUIRED = BitOR($DELETE, $READ_CONTROL, $WRITE_DAC, $WRITE_OWNER)
+;Global Const $STANDARD_RIGHTS_WRITE = $READ_CONTROL
 
 ; ===============================================================================================================================
 ; Window Classes
@@ -181,16 +181,16 @@ Global Const $WM_SETVISIBLE = 0x0009
 ;Global Const $WM_GETTEXTLENGTH = 0x000E
 ;Global Const $WM_PAINT = 0x000F
 ;Global Const $WM_CLOSE = 0x0010
-;~ Global Const $WM_QUERYENDSESSION = 0x0011
+;Global Const $WM_QUERYENDSESSION = 0x0011
 ;Global Const $WM_QUIT = 0x0012
-;~ Global Const $WM_QUERYOPEN = 0x0013
+;Global Const $WM_QUERYOPEN = 0x0013
 ;Global Const $WM_ERASEBKGND = 0x0014
 ;Global Const $WM_SYSCOLORCHANGE = 0x0015
-;~ Global Const $WM_ENDSESSION = 0x0016
+;Global Const $WM_ENDSESSION = 0x0016
 Global Const $WM_SYSTEMERROR = 0x0017
 ;Global Const $WM_SHOWWINDOW = 0x0018
 ;Global Const $WM_CTLCOLOR = 0x0019
-;~ Global Const $WM_SETTINGCHANGE = 0x001A
+;Global Const $WM_SETTINGCHANGE = 0x001A
 ;Global Const $WM_DEVMODECHANGE = 0x001B
 ;Global Const $WM_ACTIVATEAPP = 0x001C
 ;Global Const $WM_FONTCHANGE = 0x001D
@@ -287,9 +287,9 @@ Global Const $WM_UAHNCPAINTMENUPOPUP = 0x0095
 ;Global Const $WM_NCMBUTTONDOWN = 0x00A7
 ;Global Const $WM_NCMBUTTONUP = 0x00A8
 ;Global Const $WM_NCMBUTTONDBLCLK = 0x00A9
-;~ Global Const $WM_NCXBUTTONDOWN = 0x00AB
-;~ Global Const $WM_NCXBUTTONUP = 0x00AC
-;~ Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
+;Global Const $WM_NCXBUTTONDOWN = 0x00AB
+;Global Const $WM_NCXBUTTONUP = 0x00AC
+;Global Const $WM_NCXBUTTONDBLCLK = 0x00AD
 Global Const $WM_NCUAHDRAWCAPTION = 0x00AE
 Global Const $WM_NCUAHDRAWFRAME = 0x00AF
 Global Const $WM_INPUT_DEVICE_CHANGE = 0x00FE
@@ -303,13 +303,13 @@ Global Const $WM_INPUT = 0x00FF
 ;Global Const $WM_SYSCHAR = 0x0106
 ;Global Const $WM_SYSDEADCHAR = 0x0107
 Global Const $WM_YOMICHAR = 0x0108
-;~ Global Const $WM_UNICHAR = 0x0109
+;Global Const $WM_UNICHAR = 0x0109
 Global Const $WM_CONVERTREQUEST = 0x010A
 Global Const $WM_CONVERTRESULT = 0x010B
 Global Const $WM_IM_INFO = 0x010C
-;~ Global Const $WM_IME_STARTCOMPOSITION = 0x010D
-;~ Global Const $WM_IME_ENDCOMPOSITION = 0x010E
-;~ Global Const $WM_IME_COMPOSITION = 0x010F
+;Global Const $WM_IME_STARTCOMPOSITION = 0x010D
+;Global Const $WM_IME_ENDCOMPOSITION = 0x010E
+;Global Const $WM_IME_COMPOSITION = 0x010F
 ;Global Const $WM_INITDIALOG = 0x0110
 ;Global Const $WM_COMMAND = 0x0111
 ;Global Const $WM_SYSCOMMAND = 0x0112
@@ -348,63 +348,63 @@ Global Const $WM_LBTRACKPOINT = 0x0131
 ;Global Const $WM_LBUTTONDBLCLK = 0x0203
 ;Global Const $WM_RBUTTONDOWN = 0x0204
 ;Global Const $WM_RBUTTONUP = 0x0205
-;~ Global Const $WM_RBUTTONDBLCLK = 0x0206
+;Global Const $WM_RBUTTONDBLCLK = 0x0206
 ;Global Const $WM_MBUTTONDOWN = 0x0207
 ;Global Const $WM_MBUTTONUP = 0x0208
-;~ Global Const $WM_MBUTTONDBLCLK = 0x0209
+;Global Const $WM_MBUTTONDBLCLK = 0x0209
 ;Global Const $WM_MOUSEWHEEL = 0x020A
 ;Global Const $WM_XBUTTONDOWN = 0x020B
 ;Global Const $WM_XBUTTONUP = 0x020C
 ;Global Const $WM_XBUTTONDBLCLK = 0x020D
 ;Global Const $WM_MOUSEHWHEEL = 0x020E
-;~ Global Const $WM_PARENTNOTIFY = 0x0210
-;~ Global Const $WM_ENTERMENULOOP = 0x0211
-;~ Global Const $WM_EXITMENULOOP = 0x0212
-;~ Global Const $WM_NEXTMENU = 0x0213
+;Global Const $WM_PARENTNOTIFY = 0x0210
+;Global Const $WM_ENTERMENULOOP = 0x0211
+;Global Const $WM_EXITMENULOOP = 0x0212
+;Global Const $WM_NEXTMENU = 0x0213
 ;Global Const $WM_SIZING = 0x0214
-;~ Global Const $WM_CAPTURECHANGED = 0x0215
-;~ Global Const $WM_MOVING = 0x0216
-;~ Global Const $WM_POWERBROADCAST = 0x0218
-;~ Global Const $WM_DEVICECHANGE = 0x0219
-;~ Global Const $WM_MDICREATE = 0x0220
-;~ Global Const $WM_MDIDESTROY = 0x0221
-;~ Global Const $WM_MDIACTIVATE = 0x0222
-;~ Global Const $WM_MDIRESTORE = 0x0223
-;~ Global Const $WM_MDINEXT = 0x0224
-;~ Global Const $WM_MDIMAXIMIZE = 0x0225
-;~ Global Const $WM_MDITILE = 0x0226
-;~ Global Const $WM_MDICASCADE = 0x0227
-;~ Global Const $WM_MDIICONARRANGE = 0x0228
-;~ Global Const $WM_MDIGETACTIVE = 0x0229
+;Global Const $WM_CAPTURECHANGED = 0x0215
+;Global Const $WM_MOVING = 0x0216
+;Global Const $WM_POWERBROADCAST = 0x0218
+;Global Const $WM_DEVICECHANGE = 0x0219
+;Global Const $WM_MDICREATE = 0x0220
+;Global Const $WM_MDIDESTROY = 0x0221
+;Global Const $WM_MDIACTIVATE = 0x0222
+;Global Const $WM_MDIRESTORE = 0x0223
+;Global Const $WM_MDINEXT = 0x0224
+;Global Const $WM_MDIMAXIMIZE = 0x0225
+;Global Const $WM_MDITILE = 0x0226
+;Global Const $WM_MDICASCADE = 0x0227
+;Global Const $WM_MDIICONARRANGE = 0x0228
+;Global Const $WM_MDIGETACTIVE = 0x0229
 Global Const $WM_DROPOBJECT = 0x022A
 Global Const $WM_QUERYDROPOBJECT = 0x022B
 Global Const $WM_BEGINDRAG = 0x022C
 Global Const $WM_DRAGLOOP = 0x022D
 Global Const $WM_DRAGSELECT = 0x022E
 Global Const $WM_DRAGMOVE = 0x022F
-;~ Global Const $WM_MDISETMENU = 0x0230
-;~ Global Const $WM_ENTERSIZEMOVE = 0x0231
-;~ Global Const $WM_EXITSIZEMOVE = 0x0232
-;~ Global Const $WM_DROPFILES = 0x0233
-;~ Global Const $WM_MDIREFRESHMENU = 0x0234
+;Global Const $WM_MDISETMENU = 0x0230
+;Global Const $WM_ENTERSIZEMOVE = 0x0231
+;Global Const $WM_EXITSIZEMOVE = 0x0232
+;Global Const $WM_DROPFILES = 0x0233
+;Global Const $WM_MDIREFRESHMENU = 0x0234
 Global Const $WM_TOUCH = 0x0240
-;~ Global Const $WM_IME_SETCONTEXT = 0x0281
-;~ Global Const $WM_IME_NOTIFY = 0x0282
-;~ Global Const $WM_IME_CONTROL = 0x0283
-;~ Global Const $WM_IME_COMPOSITIONFULL = 0x0284
-;~ Global Const $WM_IME_SELECT = 0x0285
-;~ Global Const $WM_IME_CHAR = 0x0286
+;Global Const $WM_IME_SETCONTEXT = 0x0281
+;Global Const $WM_IME_NOTIFY = 0x0282
+;Global Const $WM_IME_CONTROL = 0x0283
+;Global Const $WM_IME_COMPOSITIONFULL = 0x0284
+;Global Const $WM_IME_SELECT = 0x0285
+;Global Const $WM_IME_CHAR = 0x0286
 Global Const $WM_IME_SYSTEM = 0x0287
-;~ Global Const $WM_IME_REQUEST = 0x0288
-;~ Global Const $WM_IME_KEYDOWN = 0x0290
-;~ Global Const $WM_IME_KEYUP = 0x0291
-;~ Global Const $WM_NCMOUSEHOVER = 0x02A0
-;~ Global Const $WM_MOUSEHOVER = 0x02A1
-;~ Global Const $WM_NCMOUSELEAVE = 0x02A2
-;~ Global Const $WM_MOUSELEAVE = 0x02A3
-;~ Global Const $WM_WTSSESSION_CHANGE = 0x02B1
-;~ Global Const $WM_TABLET_FIRST = 0x02C0
-;~ Global Const $WM_TABLET_LAST = 0x02DF
+;Global Const $WM_IME_REQUEST = 0x0288
+;Global Const $WM_IME_KEYDOWN = 0x0290
+;Global Const $WM_IME_KEYUP = 0x0291
+;Global Const $WM_NCMOUSEHOVER = 0x02A0
+;Global Const $WM_MOUSEHOVER = 0x02A1
+;Global Const $WM_NCMOUSELEAVE = 0x02A2
+;Global Const $WM_MOUSELEAVE = 0x02A3
+;Global Const $WM_WTSSESSION_CHANGE = 0x02B1
+;Global Const $WM_TABLET_FIRST = 0x02C0
+;Global Const $WM_TABLET_LAST = 0x02DF
 ;Global Const $WM_CUT = 0x0300
 ;Global Const $WM_COPY = 0x0301
 ;Global Const $WM_PASTE = 0x0302
@@ -420,18 +420,18 @@ Global Const $WM_IME_SYSTEM = 0x0287
 ;Global Const $WM_ASKCBFORMATNAME = 0x030C
 ;Global Const $WM_CHANGECBCHAIN = 0x030D
 ;Global Const $WM_HSCROLLCLIPBOARD = 0x030E
-;~ Global Const $WM_QUERYNEWPALETTE = 0x030F
-;~ Global Const $WM_PALETTEISCHANGING = 0x0310
-;~ Global Const $WM_PALETTECHANGED = 0x0311
-;~ Global Const $WM_HOTKEY = 0x0312
+;Global Const $WM_QUERYNEWPALETTE = 0x030F
+;Global Const $WM_PALETTEISCHANGING = 0x0310
+;Global Const $WM_PALETTECHANGED = 0x0311
+;Global Const $WM_HOTKEY = 0x0312
 Global Const $WM_SYSMENU = 0x0313
 Global Const $WM_HOOKMSG = 0x0314
 Global Const $WM_EXITPROCESS = 0x0315
 Global Const $WM_WAKETHREAD = 0x0316
-;~ Global Const $WM_PRINT = 0x0317
-;~ Global Const $WM_PRINTCLIENT = 0x0318
-;~ Global Const $WM_APPCOMMAND = 0x0319
-;~ Global Const $WM_THEMECHANGED = 0x031A
+;Global Const $WM_PRINT = 0x0317
+;Global Const $WM_PRINTCLIENT = 0x0318
+;Global Const $WM_APPCOMMAND = 0x0319
+;Global Const $WM_THEMECHANGED = 0x031A
 Global Const $WM_UAHINIT = 0x031B
 Global Const $WM_DESKTOPNOTIFY = 0x031C
 Global Const $WM_CLIPBOARDUPDATE = 0x031D
@@ -452,12 +452,12 @@ Global Const $WM_FORWARDKEYDOWN = 0x0333
 Global Const $WM_FORWARDKEYUP = 0x0334
 Global Const $WM_GETTITLEBARINFOEX = 0x033F
 Global Const $WM_NOTIFYWOW = 0x0340
-;~ Global Const $WM_HANDHELDFIRST = 0x0358
-;~ Global Const $WM_HANDHELDLAST = 0x035F
-;~ Global Const $WM_AFXFIRST = 0x0360
-;~ Global Const $WM_AFXLAST = 0x037F
-;~ Global Const $WM_PENWINFIRST = 0x0380
-;~ Global Const $WM_PENWINLAST = 0x038F
+;Global Const $WM_HANDHELDFIRST = 0x0358
+;Global Const $WM_HANDHELDLAST = 0x035F
+;Global Const $WM_AFXFIRST = 0x0360
+;Global Const $WM_AFXLAST = 0x037F
+;Global Const $WM_PENWINFIRST = 0x0380
+;Global Const $WM_PENWINLAST = 0x038F
 Global Const $WM_DDE_INITIATE = 0x03E0
 Global Const $WM_DDE_TERMINATE = 0x03E1
 Global Const $WM_DDE_ADVISE = 0x03E2
@@ -1654,23 +1654,8 @@ Global Const $TST_CONTINUOUS = 2
 ; _WinAPI_DuplicateHandle()
 ; ===============================================================================================================================
 
-;~ Global Const $DUPLICATE_CLOSE_SOURCE = 0x01
-;~ Global Const $DUPLICATE_SAME_ACCESS = 0x02
-
-;Global Const $PROCESS_CREATE_PROCESS = 0x0080
-;Global Const $PROCESS_CREATE_THREAD = 0x0002
-;Global Const $PROCESS_DUP_HANDLE = 0x0040
-;Global Const $PROCESS_QUERY_INFORMATION = 0x0400
-Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
-;Global Const $PROCESS_SET_INFORMATION = 0x0200
-;Global Const $PROCESS_SET_QUOTA = 0x0100
-;Global Const $PROCESS_SET_SESSIONID = 0x0004
-;Global Const $PROCESS_SUSPEND_RESUME = 0x0800
-;Global Const $PROCESS_TERMINATE = 0x0001
-;Global Const $PROCESS_VM_OPERATION = 0x0008
-;Global Const $PROCESS_VM_READ = 0x0010
-;Global Const $PROCESS_VM_WRITE = 0x0020
-;Global Const $PROCESS_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $PROCESS_CREATE_PROCESS, $PROCESS_CREATE_THREAD, $PROCESS_DUP_HANDLE, $PROCESS_QUERY_INFORMATION, $PROCESS_SET_INFORMATION, $PROCESS_SET_QUOTA, $PROCESS_SET_SESSIONID, $PROCESS_SUSPEND_RESUME, $PROCESS_TERMINATE, $PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
+;~Global Const $DUPLICATE_CLOSE_SOURCE = 0x01
+;~Global Const $DUPLICATE_SAME_ACCESS = 0x02
 
 ; ===============================================================================================================================
 ; _WinAPI_DwmGetWindowAttribute(), _WinAPI_DwmSetWindowAttribute()
@@ -1743,6 +1728,13 @@ Global Const $LIST_MODULES_32BIT = 1
 Global Const $LIST_MODULES_64BIT = 2
 Global Const $LIST_MODULES_ALL = 3
 Global Const $LIST_MODULES_DEFAULT = 0
+
+; ===============================================================================================================================
+; _WinAPI_EnumUILanguages()
+; ===============================================================================================================================
+
+Global Const $MUI_LANGUAGE_ID = 0x0004
+Global Const $MUI_LANGUAGE_NAME = 0x0008
 
 ; ===============================================================================================================================
 ; _WinAPI_ExtFloodFill()
@@ -2180,6 +2172,20 @@ Global Const $GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS = 0x00000004
 Global Const $GET_MODULE_HANDLE_EX_FLAG_PIN = 0x00000001
 Global Const $GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT = 0x00000002
 Global Const $GET_MODULE_HANDLE_EX_FLAG_DEFAULT = 0x00000000
+
+; ===============================================================================================================================
+; _WinAPI_GetPriorityClass(), _WinAPI_SetPriorityClass()
+; ===============================================================================================================================
+
+Global Const $ABOVE_NORMAL_PRIORITY_CLASS = 0x00008000
+Global Const $BELOW_NORMAL_PRIORITY_CLASS = 0x00004000
+Global Const $HIGH_PRIORITY_CLASS = 0x00000080
+Global Const $IDLE_PRIORITY_CLASS = 0x00000040
+Global Const $NORMAL_PRIORITY_CLASS = 0x00000020
+Global Const $REALTIME_PRIORITY_CLASS = 0x00000100
+
+Global Const $PROCESS_MODE_BACKGROUND_BEGIN = 0x00100000
+Global Const $PROCESS_MODE_BACKGROUND_END = 0x00200000
 
 ; ===============================================================================================================================
 ; _WinAPI_GetROP2(), _WinAPI_SetROP2()
@@ -2874,6 +2880,25 @@ Global Const $JOB_OBJECT_TERMINATE_AT_END_OF_JOB = 0
 Global Const $JOB_OBJECT_POST_AT_END_OF_JOB = 1
 
 ; ===============================================================================================================================
+; _WinAPI_OpenProcess()
+; ===============================================================================================================================
+
+;Global Const $PROCESS_CREATE_PROCESS = 0x0080
+;Global Const $PROCESS_CREATE_THREAD = 0x0002
+;Global Const $PROCESS_DUP_HANDLE = 0x0040
+;Global Const $PROCESS_QUERY_INFORMATION = 0x0400
+Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+;Global Const $PROCESS_SET_INFORMATION = 0x0200
+;Global Const $PROCESS_SET_QUOTA = 0x0100
+;Global Const $PROCESS_SET_SESSIONID = 0x0004
+;Global Const $PROCESS_SUSPEND_RESUME = 0x0800
+;Global Const $PROCESS_TERMINATE = 0x0001
+;Global Const $PROCESS_VM_OPERATION = 0x0008
+;Global Const $PROCESS_VM_READ = 0x0010
+;Global Const $PROCESS_VM_WRITE = 0x0020
+;Global Const $PROCESS_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $PROCESS_CREATE_PROCESS, $PROCESS_CREATE_THREAD, $PROCESS_DUP_HANDLE, $PROCESS_QUERY_INFORMATION, $PROCESS_SET_INFORMATION, $PROCESS_SET_QUOTA, $PROCESS_SET_SESSIONID, $PROCESS_SUSPEND_RESUME, $PROCESS_TERMINATE, $PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
+
+; ===============================================================================================================================
 ; _WinAPI_OpenProcessToken()
 ; ===============================================================================================================================
 
@@ -2883,13 +2908,13 @@ Global Const $JOB_OBJECT_POST_AT_END_OF_JOB = 1
 ;Global Const $TOKEN_ADJUST_SESSIONID = 0x0100
 ;Global Const $TOKEN_ASSIGN_PRIMARY = 0x0001
 ;Global Const $TOKEN_DUPLICATE = 0x0002
-;~ Global Const $TOKEN_EXECUTE = $STANDARD_RIGHTS_EXECUTE
+;Global Const $TOKEN_EXECUTE = $STANDARD_RIGHTS_EXECUTE
 ;Global Const $TOKEN_IMPERSONATE = 0x0004
 ;Global Const $TOKEN_QUERY = 0x0008
 ;Global Const $TOKEN_QUERY_SOURCE = 0x0010
-;~ Global Const $TOKEN_READ = BitOR($STANDARD_RIGHTS_READ, $TOKEN_QUERY)
-;~ Global Const $TOKEN_WRITE = BitOR($STANDARD_RIGHTS_WRITE, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES)
-;~ Global Const $TOKEN_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES, $TOKEN_ADJUST_SESSIONID, $TOKEN_ASSIGN_PRIMARY, $TOKEN_DUPLICATE, $TOKEN_EXECUTE, $TOKEN_IMPERSONATE, $TOKEN_QUERY, $TOKEN_QUERY_SOURCE)
+;Global Const $TOKEN_READ = BitOR($STANDARD_RIGHTS_READ, $TOKEN_QUERY)
+;Global Const $TOKEN_WRITE = BitOR($STANDARD_RIGHTS_WRITE, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES)
+;Global Const $TOKEN_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $TOKEN_ADJUST_DEFAULT, $TOKEN_ADJUST_GROUPS, $TOKEN_ADJUST_PRIVILEGES, $TOKEN_ADJUST_SESSIONID, $TOKEN_ASSIGN_PRIMARY, $TOKEN_DUPLICATE, $TOKEN_EXECUTE, $TOKEN_IMPERSONATE, $TOKEN_QUERY, $TOKEN_QUERY_SOURCE)
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenSemaphore()
@@ -4007,6 +4032,193 @@ Global Const $REST_USEDESKTOPINICACHE = 171
 ;Global Const $RESOURCETYPE_ANY = 0x00
 ;Global Const $RESOURCETYPE_DISK = 0x01
 ;Global Const $RESOURCETYPE_PRINT = 0x02
+
+; ===============================================================================================================================
+; _WinAPI_SystemParametersInfo()
+; ===============================================================================================================================
+
+Global Const $SPI_GETBEEP = 0x0001
+Global Const $SPI_SETBEEP = 0x0002
+Global Const $SPI_GETMOUSE = 0x0003
+Global Const $SPI_SETMOUSE = 0x0004
+Global Const $SPI_GETBORDER = 0x0005
+Global Const $SPI_SETBORDER = 0x0006
+Global Const $SPI_GETKEYBOARDSPEED = 0x000A
+Global Const $SPI_SETKEYBOARDSPEED = 0x000B
+Global Const $SPI_LANGDRIVER = 0x000C
+Global Const $SPI_ICONHORIZONTALSPACING = 0x000D
+Global Const $SPI_GETSCREENSAVETIMEOUT = 0x000E
+Global Const $SPI_SETSCREENSAVETIMEOUT = 0x000F
+Global Const $SPI_GETSCREENSAVEACTIVE = 0x0010
+Global Const $SPI_SETSCREENSAVEACTIVE = 0x0011
+Global Const $SPI_GETGRIDGRANULARITY = 0x0012
+Global Const $SPI_SETGRIDGRANULARITY = 0x0013
+Global Const $SPI_SETDESKWALLPAPER = 0x0014
+Global Const $SPI_SETDESKPATTERN = 0x0015
+Global Const $SPI_GETKEYBOARDDELAY = 0x0016
+Global Const $SPI_SETKEYBOARDDELAY = 0x0017
+Global Const $SPI_ICONVERTICALSPACING = 0x0018
+Global Const $SPI_GETICONTITLEWRAP = 0x0019
+Global Const $SPI_SETICONTITLEWRAP = 0x001A
+Global Const $SPI_GETMENUDROPALIGNMENT = 0x001B
+Global Const $SPI_SETMENUDROPALIGNMENT = 0x001C
+Global Const $SPI_SETDOUBLECLKWIDTH = 0x001D
+Global Const $SPI_SETDOUBLECLKHEIGHT = 0x001E
+Global Const $SPI_GETICONTITLELOGFONT = 0x001F
+Global Const $SPI_SETDOUBLECLICKTIME = 0x0020
+Global Const $SPI_SETMOUSEBUTTONSWAP = 0x0021
+Global Const $SPI_SETICONTITLELOGFONT = 0x0022
+Global Const $SPI_GETFASTTASKSWITCH = 0x0023
+Global Const $SPI_SETFASTTASKSWITCH = 0x0024
+Global Const $SPI_SETDRAGFULLWINDOWS = 0x0025
+Global Const $SPI_GETDRAGFULLWINDOWS = 0x0026
+Global Const $SPI_GETNONCLIENTMETRICS = 0x0029
+Global Const $SPI_SETNONCLIENTMETRICS = 0x002A
+Global Const $SPI_GETMINIMIZEDMETRICS = 0x002B
+Global Const $SPI_SETMINIMIZEDMETRICS = 0x002C
+Global Const $SPI_GETICONMETRICS = 0x002D
+Global Const $SPI_SETICONMETRICS = 0x002E
+Global Const $SPI_SETWORKAREA = 0x002F
+Global Const $SPI_GETWORKAREA = 0x0030
+Global Const $SPI_SETPENWINDOWS = 0x0031
+Global Const $SPI_GETHIGHCONTRAST = 0x0042
+Global Const $SPI_SETHIGHCONTRAST = 0x0043
+Global Const $SPI_GETKEYBOARDPREF = 0x0044
+Global Const $SPI_SETKEYBOARDPREF = 0x0045
+Global Const $SPI_GETSCREENREADER = 0x0046
+Global Const $SPI_SETSCREENREADER = 0x0047
+Global Const $SPI_GETANIMATION = 0x0048
+Global Const $SPI_SETANIMATION = 0x0049
+Global Const $SPI_GETFONTSMOOTHING = 0x004A
+Global Const $SPI_SETFONTSMOOTHING = 0x004B
+Global Const $SPI_SETDRAGWIDTH = 0x004C
+Global Const $SPI_SETDRAGHEIGHT = 0x004D
+Global Const $SPI_SETHANDHELD = 0x004E
+Global Const $SPI_GETLOWPOWERTIMEOUT = 0x004F
+Global Const $SPI_GETPOWEROFFTIMEOUT = 0x0050
+Global Const $SPI_SETLOWPOWERTIMEOUT = 0x0051
+Global Const $SPI_SETPOWEROFFTIMEOUT = 0x0052
+Global Const $SPI_GETLOWPOWERACTIVE = 0x0053
+Global Const $SPI_GETPOWEROFFACTIVE = 0x0054
+Global Const $SPI_SETLOWPOWERACTIVE = 0x0055
+Global Const $SPI_SETPOWEROFFACTIVE = 0x0056
+Global Const $SPI_SETCURSORS = 0x0057
+Global Const $SPI_SETICONS = 0x0058
+Global Const $SPI_GETDEFAULTINPUTLANG = 0x0059
+Global Const $SPI_SETDEFAULTINPUTLANG = 0x005A
+Global Const $SPI_SETLANGTOGGLE = 0x005B
+Global Const $SPI_GETWINDOWSEXTENSION = 0x005C
+Global Const $SPI_SETMOUSETRAILS = 0x005D
+Global Const $SPI_GETMOUSETRAILS = 0x005E
+Global Const $SPI_SETSCREENSAVERRUNNING = 0x0061
+Global Const $SPI_SCREENSAVERRUNNING = $SPI_SETSCREENSAVERRUNNING
+Global Const $SPI_GETFILTERKEYS = 0x0032
+Global Const $SPI_SETFILTERKEYS = 0x0033
+Global Const $SPI_GETTOGGLEKEYS = 0x0034
+Global Const $SPI_SETTOGGLEKEYS = 0x0035
+Global Const $SPI_GETMOUSEKEYS = 0x0036
+Global Const $SPI_SETMOUSEKEYS = 0x0037
+Global Const $SPI_GETSHOWSOUNDS = 0x0038
+Global Const $SPI_SETSHOWSOUNDS = 0x0039
+Global Const $SPI_GETSTICKYKEYS = 0x003A
+Global Const $SPI_SETSTICKYKEYS = 0x003B
+Global Const $SPI_GETACCESSTIMEOUT = 0x003C
+Global Const $SPI_SETACCESSTIMEOUT = 0x003D
+Global Const $SPI_GETSERIALKEYS = 0x003E
+Global Const $SPI_SETSERIALKEYS = 0x003F
+Global Const $SPI_GETSOUNDSENTRY = 0x0040
+Global Const $SPI_SETSOUNDSENTRY = 0x0041
+Global Const $SPI_GETSNAPTODEFBUTTON = 0x005F
+Global Const $SPI_SETSNAPTODEFBUTTON = 0x0060
+Global Const $SPI_GETMOUSEHOVERWIDTH = 0x0062
+Global Const $SPI_SETMOUSEHOVERWIDTH = 0x0063
+Global Const $SPI_GETMOUSEHOVERHEIGHT = 0x0064
+Global Const $SPI_SETMOUSEHOVERHEIGHT = 0x0065
+Global Const $SPI_GETMOUSEHOVERTIME = 0x0066
+Global Const $SPI_SETMOUSEHOVERTIME = 0x0067
+Global Const $SPI_GETWHEELSCROLLLINES = 0x0068
+Global Const $SPI_SETWHEELSCROLLLINES = 0x0069
+Global Const $SPI_GETMENUSHOWDELAY = 0x006A
+Global Const $SPI_SETMENUSHOWDELAY = 0x006B
+Global Const $SPI_GETSHOWIMEUI = 0x006E
+Global Const $SPI_SETSHOWIMEUI = 0x006F
+Global Const $SPI_GETMOUSESPEED = 0x0070
+Global Const $SPI_SETMOUSESPEED = 0x0071
+Global Const $SPI_GETSCREENSAVERRUNNING = 0x0072
+Global Const $SPI_GETDESKWALLPAPER = 0x0073
+Global Const $SPI_GETACTIVEWINDOWTRACKING = 0x1000
+Global Const $SPI_SETACTIVEWINDOWTRACKING = 0x1001
+Global Const $SPI_GETMENUANIMATION = 0x1002
+Global Const $SPI_SETMENUANIMATION = 0x1003
+Global Const $SPI_GETCOMBOBOXANIMATION = 0x1004
+Global Const $SPI_SETCOMBOBOXANIMATION = 0x1005
+Global Const $SPI_GETLISTBOXSMOOTHSCROLLING = 0x1006
+Global Const $SPI_SETLISTBOXSMOOTHSCROLLING = 0x1007
+Global Const $SPI_GETGRADIENTCAPTIONS = 0x1008
+Global Const $SPI_SETGRADIENTCAPTIONS = 0x1009
+Global Const $SPI_GETKEYBOARDCUES = 0x100A
+Global Const $SPI_SETKEYBOARDCUES = 0x100B
+Global Const $SPI_GETMENUUNDERLINES = $SPI_GETKEYBOARDCUES
+Global Const $SPI_SETMENUUNDERLINES = $SPI_SETKEYBOARDCUES
+Global Const $SPI_GETACTIVEWNDTRKZORDER = 0x100C
+Global Const $SPI_SETACTIVEWNDTRKZORDER = 0x100D
+Global Const $SPI_GETHOTTRACKING = 0x100E
+Global Const $SPI_SETHOTTRACKING = 0x100F
+Global Const $SPI_GETMENUFADE = 0x1012
+Global Const $SPI_SETMENUFADE = 0x1013
+Global Const $SPI_GETSELECTIONFADE = 0x1014
+Global Const $SPI_SETSELECTIONFADE = 0x1015
+Global Const $SPI_GETTOOLTIPANIMATION = 0x1016
+Global Const $SPI_SETTOOLTIPANIMATION = 0x1017
+Global Const $SPI_GETTOOLTIPFADE = 0x1018
+Global Const $SPI_SETTOOLTIPFADE = 0x1019
+Global Const $SPI_GETCURSORSHADOW = 0x101A
+Global Const $SPI_SETCURSORSHADOW = 0x101B
+Global Const $SPI_GETMOUSESONAR = 0x101C
+Global Const $SPI_SETMOUSESONAR = 0x101D
+Global Const $SPI_GETMOUSECLICKLOCK = 0x101E
+Global Const $SPI_SETMOUSECLICKLOCK = 0x101F
+Global Const $SPI_GETMOUSEVANISH = 0x1020
+Global Const $SPI_SETMOUSEVANISH = 0x1021
+Global Const $SPI_GETFLATMENU = 0x1022
+Global Const $SPI_SETFLATMENU = 0x1023
+Global Const $SPI_GETDROPSHADOW = 0x1024
+Global Const $SPI_SETDROPSHADOW = 0x1025
+Global Const $SPI_GETBLOCKSENDINPUTRESETS = 0x1026
+Global Const $SPI_SETBLOCKSENDINPUTRESETS = 0x1027
+Global Const $SPI_GETUIEFFECTS = 0x103E
+Global Const $SPI_SETUIEFFECTS = 0x103F
+Global Const $SPI_GETFOREGROUNDLOCKTIMEOUT = 0x2000
+Global Const $SPI_SETFOREGROUNDLOCKTIMEOUT = 0x2001
+Global Const $SPI_GETACTIVEWNDTRKTIMEOUT = 0x2002
+Global Const $SPI_SETACTIVEWNDTRKTIMEOUT = 0x2003
+Global Const $SPI_GETFOREGROUNDFLASHCOUNT = 0x2004
+Global Const $SPI_SETFOREGROUNDFLASHCOUNT = 0x2005
+Global Const $SPI_GETCARETWIDTH = 0x2006
+Global Const $SPI_SETCARETWIDTH = 0x2007
+Global Const $SPI_GETMOUSECLICKLOCKTIME = 0x2008
+Global Const $SPI_SETMOUSECLICKLOCKTIME = 0x2009
+Global Const $SPI_GETFONTSMOOTHINGTYPE = 0x200A
+Global Const $SPI_SETFONTSMOOTHINGTYPE = 0x200B
+Global Const $SPI_GETFONTSMOOTHINGCONTRAST = 0x200C
+Global Const $SPI_SETFONTSMOOTHINGCONTRAST = 0x200D
+Global Const $SPI_GETFOCUSBORDERWIDTH = 0x200E
+Global Const $SPI_SETFOCUSBORDERWIDTH = 0x200F
+Global Const $SPI_GETFOCUSBORDERHEIGHT = 0x2010
+Global Const $SPI_SETFOCUSBORDERHEIGHT = 0x2011
+Global Const $SPI_GETFONTSMOOTHINGORIENTATION = 0x2012
+Global Const $SPI_SETFONTSMOOTHINGORIENTATION = 0x2013
+
+Global Const $FE_FONTSMOOTHINGSTANDARD = 0x0001
+Global Const $FE_FONTSMOOTHINGCLEARTYPE = 0x0002
+Global Const $FE_FONTSMOOTHINGDOCKING = 0x8000
+
+Global Const $FE_FONTSMOOTHINGORIENTATIONBGR = 0x0000
+Global Const $FE_FONTSMOOTHINGORIENTATIONRGB = 0x0001
+
+Global Const $SPIF_UPDATEINIFILE = 0x0001
+Global Const $SPIF_SENDWININICHANGE = 0x0002
+Global Const $SPIF_SENDCHANGE = $SPIF_SENDWININICHANGE
 
 ; ===============================================================================================================================
 ; _WinAPI_TrackMouseEvent()

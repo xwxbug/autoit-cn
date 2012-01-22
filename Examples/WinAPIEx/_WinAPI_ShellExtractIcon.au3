@@ -8,7 +8,7 @@ Global $hForm, $Msg, $Button, $Icon, $hIcon, $Index = 0, $Total = _WinAPI_Extrac
 
 $hForm = GUICreate('MyGUI', 160, 160)
 $Button = GUICtrlCreateButton('Next', 50, 130, 70, 23)
-$Icon = GUICtrlCreateIcon(@SystemDir & '\shell32.dll', 0, 64, 54, 32, 32)
+$Icon = GUICtrlCreateIcon(@SystemDir & '\shell32.dll', 0, 69, 54, 32, 32)
 $hIcon = GUICtrlGetHandle(-1)
 GUISetState()
 

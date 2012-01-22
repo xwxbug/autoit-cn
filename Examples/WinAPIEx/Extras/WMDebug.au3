@@ -6,7 +6,7 @@
     Filename:       WMDebug.au3
     Description:    Helper debug function that used in some examples from the WinAPIEx UDF library package
     Author:         Yashied
-    Version:        3.4 / 3.3.6.1
+    Version:        3.6 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           None
     Note:           -

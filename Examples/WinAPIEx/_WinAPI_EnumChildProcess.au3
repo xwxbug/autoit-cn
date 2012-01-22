@@ -3,10 +3,6 @@
 
 Opt('MustDeclareVars', 1)
 
-Global $PID = _WinAPI_GetParentProcess()
-Global $Data = _WinAPI_EnumChildProcess($PID)
-
-ConsoleWrite(_WinAPI_GetCurrentProcessID() & ' - ' & _WinAPI_GetProcessName() & @CR)
-ConsoleWrite($PID & ' - ' & _WinAPI_GetProcessName($PID) & @CR)
+Global $Data = _WinAPI_EnumChildProcess(_WinAPI_GetParentProcess())
 
 _ArrayDisplay($Data, '_WinAPI_EnumChildProcess')

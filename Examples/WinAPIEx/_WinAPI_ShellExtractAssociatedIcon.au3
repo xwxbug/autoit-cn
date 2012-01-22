@@ -11,7 +11,6 @@ Global $tSHFILEINFO = DllStructCreate($tagSHFILEINFO)
 Dim $Ext[101] = [0]
 
 RegRead('HKCR\.x', '')
-ConsoleWrite(@error & @CR)
 
 While 1
 	$Key = RegEnumKey('HKCR', $Count)

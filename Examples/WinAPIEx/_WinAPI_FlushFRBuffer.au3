@@ -42,6 +42,9 @@ While 1
 			If @error Then
 				$Text = ''
 			EndIf
+			; Disable "Find..." and "Replace..." menu items, otherwise, the script maay crash
+			GUICtrlSetState($FindItem, $GUI_DISABLE)
+			GUICtrlSetState($ReplaceItem, $GUI_DISABLE)
 			Switch $Msg
 				Case $FindItem
 					$hDlg = _WinAPI_FindTextDlg($hForm, $Text, $FR_DOWN, 0, $hRichEdit)
@@ -133,5 +136,8 @@ Func WM_FINDMSGSTRING($hWnd, $iMsg, $wParam, $lParam)
 		Case BitAND($Flags, $FR_DIALOGTERM)
 			; Destroy internal buffer, and free allocated memory
 			_WinAPI_FlushFRBuffer()
+			; Enable "Find..." and "Replace..." menu items
+			GUICtrlSetState($ReplaceItem, $GUI_ENABLE)
+			GUICtrlSetState($FindItem, $GUI_ENABLE)
 	EndSelect
 EndFunc   ;==>WM_FINDMSGSTRING
