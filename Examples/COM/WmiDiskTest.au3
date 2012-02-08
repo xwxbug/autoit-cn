@@ -5,19 +5,19 @@
 ; Use WMI to collect logical drive information
 
 
-$objcol=ObjGet("winmgmts:")
+Local $objcol = ObjGet("winmgmts:")
 
-$instance=$objcol.instancesof("Win32_LogicalDisk")
+Local $instance = $objcol.instancesof("Win32_LogicalDisk")
 
-if @error then
-	Msgbox (0,"","error getting object. Error code: " & @error)
-	exit
-endif
+If @error Then
+	MsgBox(0, "", "error getting object. Error code: " & @error)
+	Exit
+EndIf
 
-$string = "size:" & @TAB & "driveletter:" & @CRLF
+Local $string = "size:" & @TAB & "driveletter:" & @CRLF
 
-FOR $Drive IN $instance
-	$string = $string & $drive.size & @TAB & $drive.deviceid & @CRLF
-NEXT
+For $Drive In $instance
+	$string = $string & $Drive.size & @TAB & $Drive.deviceid & @CRLF
+Next
 
-msgbox(0,"Drive test","Drive information: " & @CRLF & $string)
+MsgBox(0, "Drive test", "Drive information: " & @CRLF & $string)

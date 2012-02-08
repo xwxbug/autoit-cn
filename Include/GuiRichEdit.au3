@@ -22,7 +22,7 @@
 ; #VARIABLES# =====================================================================================
 Global $Debug_RE = False
 Global $_GRE_sRTFClassName, $h_GUICtrlRTF_lib, $_GRE_Version, $_GRE_TwipsPeSpaceUnit = 1440 ; inches
-Global $_GRE_hUser32dll, $_GRE_CF_RTF, $_GRE_CF_RETEXTOBJ
+Global $_GRE_CF_RTF, $_GRE_CF_RETEXTOBJ
 Global $_GRC_StreamFromFileCallback = DllCallbackRegister("__GCR_StreamFromFileCallback", "dword", "long_ptr;ptr;long;ptr")
 Global $_GRC_StreamFromVarCallback = DllCallbackRegister("__GCR_StreamFromVarCallback", "dword", "long_ptr;ptr;long;ptr")
 Global $_GRC_StreamToFileCallback = DllCallbackRegister("__GCR_StreamToFileCallback", "dword", "long_ptr;ptr;long;ptr")
@@ -1020,7 +1020,7 @@ EndFunc   ;==>_GUICtrlRichEdit_Copy
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop, $iWidth = 150, $iHeight = 150, $iStyle = -1, $iExStyle = -1)
-	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
+	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
 	If Not IsString($sText) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlRichEdit_Create
 
 	If Not __GCR_IsNumeric($iLeft, ">=0") Then Return SetError(103, 0, 0)
@@ -2937,7 +2937,7 @@ EndFunc   ;==>_GUICtrlRichEdit_HideSelection
 ;                  Failure - False, and sets @error:
 ;                  |101 - $hWnd is not a handle
 ;                  |102 - $sText = ""
-;                  |700 - Operation failed
+;                  |103 - Cannot be set
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net)
 ; Modified ......: Prog@ndy, Chris Haslam (c.haslam)
 ; Remarks .......:
@@ -3041,7 +3041,6 @@ EndFunc   ;==>_GUICtrlRichEdit_Paste
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
-;                  |102 - $fAndObjects is neither True nor False
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
 ; Remarks .......:
@@ -3298,10 +3297,10 @@ EndFunc   ;==>_GUICtrlRichEdit_ScrollToCaret
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
+;                  |103  - $fWord must be True or False
 ;                  |1021 - length of $sStatesAndAtts is not  multiple of 3
 ;                  |1022 - first character of group not + or -. The character is in @extended
 ;                  |1023 - an abbreviation for an attribute is invalid. It is in @extended
-;                  |103  - $fWord must be True or False
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm
 ; Remarks .......: Some attributes do not display; they are marked with [nd] above.
@@ -3369,7 +3368,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharAttributes
 ;                  |101  - $hWnd is not a handle
 ;                  |1022 - $iColor is invalid
 ; Authors........: Chris Haslam (c.haslam)
-; Modified ......: jpm
+; Modified ......: jpm, guinness
 ; Remarks .......:
 ; Related .......: _GUICtrlRichEdit_GetCharBkColor
 ; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
@@ -3380,7 +3379,7 @@ Func _GUICtrlRichEdit_SetCharBkColor($hWnd, $iBkColor = Default)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT2)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
-	If IsKeyword($iBkColor) Then
+	If $iBkColor = Default Then
 		DllStructSetData($tCharFormat, 3, $CFE_AUTOBACKCOLOR)
 		$iBkColor = 0
 	Else
@@ -3410,7 +3409,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharBkColor
 ;                  |101 - $hWnd is not a handle
 ;                  |1022 - $iColor is invalid
 ; Authors........: Chris Haslam (c.haslam)
-; Modified ......: Jpm
+; Modified ......: Jpm, guinness
 ; Remarks .......:
 ; Related .......: _GUICtrlRichEdit_GetCharColor
 ; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
@@ -3421,7 +3420,7 @@ Func _GUICtrlRichEdit_SetCharColor($hWnd, $iColor = Default)
 
 	Local $tCharFormat = DllStructCreate($tagCHARFORMAT)
 	DllStructSetData($tCharFormat, 1, DllStructGetSize($tCharFormat))
-	If IsKeyword($iColor) Then
+	If $iColor = Default Then
 		DllStructSetData($tCharFormat, 3, $CFE_AUTOCOLOR)
 		$iColor = 0
 	Else
@@ -3451,7 +3450,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetCharColor
 ;                  |101 - $hWnd is not a handle
 ;                  |1022 - $vColor: value not 0 to 100
 ; Authors........: Chris Haslam (c.haslam)
-; Modified ......: Jpm
+; Modified ......: Jpm, guinness
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ EM_SETBKGNDCOLOR
@@ -3461,7 +3460,7 @@ Func _GUICtrlRichEdit_SetBkColor($hWnd, $iBngColor = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 
 	Local $fSysColor = False
-	If IsKeyword($iBngColor) Then
+	If $iBngColor = Default Then
 		$fSysColor = True
 		$iBngColor = 0
 	Else
@@ -3518,13 +3517,13 @@ EndFunc   ;==>_GUICtrlRichEdit_SetLimitOnText
 ; Return values .: Success - True
 ;                : Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
+;                  |103  - $fRedraw must be True or False
 ;                  |1021 - $vTabStops is neither a string nor a number
 ;                  |1022 - $vTabStops is a string but a tab stop in it is not a positive number
 ;                  |1023 - $vTabStops is an empty string
 ;                  |1024 - $vTabStops is a number but it is zero or negative
-;                  |103  - $fRedraw must be True or False
 ; Author ........: KIP
-; Modified.......: Chris Haslam (c.haslam)
+; Modified.......: Chris Haslam (c.haslam), guinness
 ; Remarks .......: Space units are initially inches
 ;                   To enter a tab into a control, press Ctrl_Tab
 ; Related .......: _GUICtrlRichEdit_SetParaTabStops, _GUICtrlRichEdit_SetSpaceUnit
@@ -3541,7 +3540,7 @@ Func _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops, $fRedraw = True)
 	If Not IsBool($fRedraw) Then Return SetError(103, 0, False)
 
 	If IsString($vTabStops) Then ; Set every tabstop manually
-		If $vTabStops = "" Then Return SetError(103, 0, False)
+		If $vTabStops = "" Then Return SetError(1023, 0, False)
 		Local $as = StringSplit($vTabStops, ";")
 		Local $iNumTabStops = $as[0]
 		For $i = 1 To $iNumTabStops
@@ -3686,7 +3685,8 @@ EndFunc   ;==>_GUICtrlRichEdit_SetEventMask
 ;                  |101 - $hWnd is not a handle
 ;                  |102 - $iPoints is not a positive number
 ;                  |103 - $sName is not alphabetic
-;                  |104 - $iLcid is not a number
+;                  |104 - $iCharset is not a number
+;                  |105 - $iLcid is not a number
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
 ; Remarks .......: If a parameter is omitted (or is Default), the value is unchanged
@@ -3755,7 +3755,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetFont
 ;                  |1025 - $iLeft >= $iRight
 ;                  |1026 - $iTop >= $iBottom
 ; Author ........: Chris Haslam (c.haslam)
-; Modified.......: jpm
+; Modified.......: jpm, guinness
 ; Remarks .......: The formatting rectangle is the area in which text is drawn, part of which may not be visible.
 ;                  Parameters default = no change to previous values
 ;                  If only $hWnd defined, formatting is reset as at creation time.
@@ -3766,7 +3766,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetFont
 Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight = Default, $iBottom = Default, $bRedraw = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
 	If Not ($iLeft = Default Or __GCR_IsNumeric($iLeft, ">0")) Then Return SetError(1021, 0, False)
-	If Not ($iTop = Default Or __GCR_IsNumeric($iTop, ">0")) Then Return SetError(10322, 0, False)
+	If Not ($iTop = Default Or __GCR_IsNumeric($iTop, ">0")) Then Return SetError(1022, 0, False)
 	If Not ($iRight = Default Or __GCR_IsNumeric($iRight, ">0")) Then Return SetError(1023, 0, False)
 	If Not ($iBottom = Default Or __GCR_IsNumeric($iBottom, ">0")) Then Return SetError(1024, 0, False)
 
@@ -3850,7 +3850,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetModified
 ;                  |101 - $hWnd is not a handle
 ;                  |102 - invalid $sAlignment
 ; Authors........: Chris Haslam (c.haslam)
-; Modified ......:
+; Modified ......: guinness
 ; Remarks .......: In Richedit 2.0, justify does not display
 ; Related .......: _GUICtrlRichEdit_GetParaAlignment
 ; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
@@ -3872,7 +3872,7 @@ Func _GUICtrlRichEdit_SetParaAlignment($hWnd, $sAlignment)
 		Case "w"
 			$iAlignment = $PFA_FULL_INTERWORD
 		Case Else
-			Return SetError(101, 0, False)
+			Return SetError(102, 0, False)
 	EndSwitch
 	Local $tParaFormat = DllStructCreate($tagPARAFORMAT2)
 	DllStructSetData($tParaFormat, 1, DllStructGetSize($tParaFormat))
@@ -4013,11 +4013,10 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaAttributes
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
-;                  |102  -  value of $sLocation is invalid
-;                  |103 -  value of $ivLineStyle is invalid
-;                  |104 -  value of $sColor is invalid
-;                  |106 - $iSpace is neither a positive number nor zero
-;                  |106  -  $iWidth is neither a positive number nor zero
+;                  |102 - value of $sLocation is invalid
+;                  |103 - value of $ivLineStyle is invalid
+;                  |104 - value of $sColor is invalid
+;                  |105 - $iSpace is neither a positive number nor zero
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
 ; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
@@ -4110,10 +4109,10 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaBorder
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
+;                  |103 - $iRight is not a number
+;                  |104 - $iFirstLine is not a number
 ;                  |1021 - $vLeft is neither a number nor a string consisting of a number
 ;                  |1022 - $vLeft would start body of paragrpah to left of client area
-;                  |103 - $iRight is not a number
-;                  |105 - $iFirstLine is not a number
 ;                  |700 - Operation failed
 ;                  |200 - First line would be outdented beyond the client area
 ; Authors........: Chris Haslam (c.haslam)
@@ -4179,7 +4178,6 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaIndents
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
-;                  |102 - $sStyle is invalid
 ;                  |103 - $iTextToNbrSpace is not a postive number
 ;                  |104 - $fForceRoman must be True or False
 ; Authors........: Chris Haslam (c.haslam)
@@ -4259,11 +4257,11 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaNumbering
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101  - $hWnd is not a handle
-;                  |1021 - $iWeight is not a positive number
-;                  |1022 -  value of $iWeight is invalid
 ;                  |103  -  value of $sStyle is invalid
 ;                  |104  -  value of $sForeColor is invalid
 ;                  |105  -  value of $sBackColor is invalid
+;                  |1021 - $iWeight is not a positive number
+;                  |1022 -  value of $iWeight is invalid
 ;                  |700  -  operation failed
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
@@ -4348,10 +4346,10 @@ EndFunc   ;==>_GUICtrlRichEdit_SetParaShading
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101  - $hWnd is not a handle
-;                  |1021 - $vInter is invalid
-;                  |1022 - Only 1, 1.5 and 2 line spacing can be set via "<n> lines"
 ;                  |103  - $iBefore is neither a positive number nor zero
 ;                  |104  - $iAfter is neither a positive number nor zero
+;                  |1021 - $vInter is invalid
+;                  |1022 - Only 1, 1.5 and 2 line spacing can be set via "<n> lines"
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
 ; Remarks .......: Only settings which are not defaulted are set
@@ -4619,7 +4617,7 @@ EndFunc   ;==>_GUICtrlRichEdit_SetSel
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GUICtrlRichEdit_SetSpaceUnit
-; Description ...: Gets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions
+; Description ...: Sets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions
 ; Syntax.........: _GUICtrlRichEdit_SetSpaceUnit()
 ; Parameters ....: $sUnit - "in", "cm", "mm", "pt" (points), or "tw" (twips, 1/1440 inches, 1/567 centimetres
 ; Return values .: Success - True
@@ -4768,7 +4766,7 @@ EndFunc   ;==>_GUICtrlRichEdit_StreamFromFile
 ; Return values..: Success - True
 ;                  Failure - False and sets @error:
 ;                  |101 - $hWnd is not a handle
-;                  |700  - attempt to stream in too many characters
+;                  |700 - attempt to stream in too many characters
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
 ; Remarks .......: If text is selected, replaces selection, else replaces all text in the control
@@ -5084,14 +5082,14 @@ EndFunc   ;==>__GCR_StreamToFileCallback
 ;                  $ptrQbytes - pointer to number of bytes set in buffer
 ; Return values .: 0
 ; Author ........: Chris Haslam (c.haslam)
-; Modified.......:
+; Modified.......: guinness
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ EditStreamCallback Function
 ; Example .......:
 ; ===============================================================================================================================
 Func __GCR_StreamToVarCallback($dwCookie, $pBuf, $iBuflen, $ptrQbytes)
-	$dwCookie = $dwCookie ; to satisfy AutoItWrapper
+	#forceref $dwCookie
 	Local $tQbytes = DllStructCreate("long", $ptrQbytes)
 	DllStructSetData($tQbytes, 1, 0)
 	Local $tBuf = DllStructCreate("char[" & $iBuflen & "]", $pBuf)
@@ -5374,7 +5372,7 @@ EndFunc   ;==>__GCR_SendGetCharFormatMessage
 ; Return values .: Success - True
 ;                  Failure - error of _SendMessage EM_PARAFORMAT
 ; Author ........: Chris Haslam (c.haslam)
-; Modified.......:
+; Modified.......: guinness
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ EM_PARAFORMAT
@@ -5391,6 +5389,7 @@ Func __GCR_SendGetParaFormatMessage($hWnd, $tParaFormat)
 	EndIf
 
 	_SendMessage($hWnd, $EM_GETPARAFORMAT, 0, $tParaFormat, 0, "wparam", "struct*")
+	If @error Then Return SetError(@error, @extended, False)
 
 	If Not $fIsSel Then _GUICtrlRichEdit_SetSel($hWnd, $iInsPt, $iInsPt)
 

@@ -7,32 +7,32 @@
 ; An Excel file with filename Worksheet.xls must be created in the root directory
 ; of the C:\ drive in order for this example to work.
 
-$FileName=@ScriptDir & "\Worksheet.xls"
+Local $FileName = @ScriptDir & "\Worksheet.xls"
 
-if not FileExists($FileName) then
-  Msgbox (0,"Excel File Test","Can't run this test, because you didn't create the Excel file "& $FileName)
-  Exit
-endif
+If Not FileExists($FileName) Then
+	MsgBox(0, "Excel File Test", "Can't run this test, because you didn't create the Excel file " & $FileName)
+	Exit
+EndIf
 
-$oExcelDoc = ObjGet($FileName)	; Get an Excel Object from an existing filename
+Local $oExcelDoc = ObjGet($FileName) ; Get an Excel Object from an existing filename
 
-if IsObj($oExcelDoc) then
+If IsObj($oExcelDoc) Then
 
-  $String = ""		; String for displaying purposes
+	Local $String = "" ; String for displaying purposes
 
-  ; Some document properties do not return a value, we will ignore those.
-  $OEvent=ObjEvent("AutoIt.Error","nothing")	; Equal to VBscript's On Error Resume Next
-  
-  For $Property In $oExcelDoc.BuiltinDocumentProperties
+	; Some document properties do not return a value, we will ignore those.
+	Local $OEvent = ObjEvent("AutoIt.Error", "nothing") ; Equal to VBscript's On Error Resume Next
+
+	For $Property In $oExcelDoc.BuiltinDocumentProperties
 ;~ 	  $String = $String &  $Property.Name & ":" & $Property.Value & @CRLF
-	  $String = $String &  $Property.Name & ":" & @CRLF
-  Next
+		$String = $String & $Property.Name & ":" & @CRLF
+	Next
 
-  Msgbox(0,"Excel File Test","The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
+	MsgBox(0, "Excel File Test", "The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
 
-  $oExcelDoc.Close		; Close the Excel document
+	$oExcelDoc.Close ; Close the Excel document
 
-else
-  Msgbox (0,"Excel File Test","Error: Could not open "& $FileName & " as an Excel Object.")
-endif
+Else
+	MsgBox(0, "Excel File Test", "Error: Could not open " & $FileName & " as an Excel Object.")
+EndIf
 

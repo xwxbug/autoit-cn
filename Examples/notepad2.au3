@@ -12,12 +12,12 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-Local $answer = MsgBox(4, "AutoIt 例子 (中文)", "这个例子会在运行记事本后输入一些文字并退出.  运行?")
+Local $iAnswer = MsgBox(4, "AutoIt 例子 (中文)", "这个例子会在运行记事本后输入一些文字并退出.  运行?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
-If $answer = 7 Then
+If $iAnswer = 7 Then
 	MsgBox(0, "AutoIt", "好的,再见!")
 	Exit
 EndIf
@@ -27,7 +27,7 @@ EndIf
 Run("notepad.exe")
 
 
-; Wait for the Notepad become active - it is titled "Untitled - Notepad" on English systems
+; Wait for the Notepad to become active. The classname "Notepad" is monitored instead of the window title
 WinWaitActive("[CLASS:Notepad]")
 
 
@@ -39,7 +39,7 @@ Send("First way: ")
 Send("{!}{^}{+}{#}")
 Send("{ENTER}")
 
-; Do it the second way (RAW mode, notice the second parameter is 1)
+; Do it the second way (RAW mode, notice the second parameter of Send is 1)
 Send("Second way: ")
 Send("!^+#", 1)
 

@@ -319,8 +319,17 @@ EndFunc   ;==>_ArrayDelete
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _ArrayDisplay(Const ByRef $avArray, $sTitle = "Array: 列表视图(ListView)显示", $iItemLimit = -1, $iTranspose = 0, $sSeparator = "", $sReplace = "|", $sHeader = "")
+Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sSeparator = Default, $sReplace = Default, $sHeader = Default)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
+
+	; Default values
+	If $sTitle = Default Then $sTitle = "列表视图(ListView)显示数组"
+	If $iItemLimit = Default Then $iItemLimit = -1
+	If $iTranspose = Default Then $iTranspose = 0
+	If $sSeparator = Default Then $sSeparator = ""
+	If $sReplace = Default Then $sReplace = "|"
+	If $sHeader = Default Then $sHeader = ""
+
 	; Dimension checking
 	Local $iDimension = UBound($avArray, 0), $iUBound = UBound($avArray, 1) - 1, $iSubMax = UBound($avArray, 2) - 1
 	If $iDimension > 2 Then Return SetError(2, 0, 0)

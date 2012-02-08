@@ -1,5 +1,6 @@
 #include-once
 
+#include "WinAPI.au3"
 #include "Date.au3"
 
 ; #INDEX# =======================================================================================================================
@@ -8,7 +9,7 @@
 ; Language ......: English
 ; Description ...: Functions that assist with Internet.
 ; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida
-; Dll ...........: wininet.dll, ws2_32.dll, msvcrt.dll
+; Dll ...........: wininet.dll, ws2_32.dll
 ; ===============================================================================================================================
 
 ; #FUNCTION# =========================================================================================================
@@ -358,13 +359,9 @@ EndFunc   ;==>_TCPIpToName
 ; Author ........: Florian Fida
 ; ===============================================================================================================================
 Func __TCPIpToName_szStringRead($iszPtr, $iLen = -1)
-	Local $aStrLen, $vszString
+	Local $vszString
 	If $iszPtr < 1 Then Return "" ; Null Pointer
-	If $iLen < 0 Then
-		$aStrLen = DllCall("msvcrt.dll", "ulong_ptr:cdecl", "strlen", "ptr", $iszPtr)
-		If @error Then Return SetError(1, 0, "") ; strlen Failed
-		$iLen = $aStrLen[0] + 1
-	EndIf
+	If $iLen < 0 Then $iLen = _WinAPI_StringLenA($iszPtr)
 	$vszString = DllStructCreate("char[" & $iLen & "]", $iszPtr)
 	If @error Then Return SetError(2, 0, "")
 	Return SetExtended($iLen, DllStructGetData($vszString, 1))

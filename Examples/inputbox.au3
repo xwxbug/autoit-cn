@@ -10,28 +10,28 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-Local $answer = MsgBox(4, "AutoIt 例子 (英文+您系统的语言)", "这个脚本打开一个输入框,并要求您输入一些文本.  运行?")
+Local $iAnswer = MsgBox(4, "AutoIt 例子 (英文+您系统的语言)", "这个脚本打开一个输入框,并要求您输入一些文本.  运行?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
-If $answer = 7 Then
+If $iAnswer = 7 Then
 	MsgBox(4096, "AutoIt", "好的,再见!")
 	Exit
 EndIf
 
-; Loop around until the user gives a valid "thesnow" answer
-Local $bLoop = 1
-While $bLoop = 1
-	Local $text = InputBox("AutoIt 例子", "请输入:""thesnow"" 并单击确定")
+; Loop around until the user gives a valid "thesnow" answer. This is not case-sensitive, therefore AutoIt and AuToIT are acceptable values as well
+Local $iLoop = 1, $sText = ""
+While $iLoop = 1
+	$sText = InputBox("AutoIt 例子", "请输入:""thesnow"" 并单击确定")
 	If @error = 1 Then
 		MsgBox(4096, "错误", "您按下了 '取消' - 请重试!")
 	Else
 		; They clicked OK, but did they type the right thing?
-	If $text <> "thesnow" Then
+	If $sText <> "thesnow" Then
 			MsgBox(4096, "错误", "难道您不知道小名鼎鼎的 thesnow 吗? - 请重试!")
 		Else
-			$bLoop = 0 ; Exit the loop - ExitLoop would have been an alternative too :)
+			$iLoop = 0 ; Exit the loop - ExitLoop would have been an alternative too :)
 		EndIf
 	EndIf
 WEnd

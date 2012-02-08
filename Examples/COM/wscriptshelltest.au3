@@ -6,20 +6,20 @@
 
 ; This example returns file information for AutoIt.exe
 
-$objFS    = ObjCreate("Scripting.FileSystemObject")
+Local $objFS = ObjCreate("Scripting.FileSystemObject")
 
-$strPath = @AutoItExe
+Local $strPath = @AutoItExe
 
-$objFile = $objFS.GetFile($strPath)
+Local $objFile = $objFS.GetFile($strPath)
 
-WITH $objFile
+With $objFile
 
-Msgbox(0, $strpath ,  _
- @AutoITexe             & " "  & @CRLF & _
- "File Version: "       & $objFS.GetFileVersion($strpath) & @CRLF & _
- "File Size: "          & Round((.Size/1024),2) & " KB" & @CRLF & _
- "Date Created: "       & .DateCreated & @CRLF & _
- "Date Last Modified: " & .DateLastModified  )
+	MsgBox(0, $strPath, _
+			@AutoItExe & " " & @CRLF & _
+			"File Version: " & $objFS.GetFileVersion($strPath) & @CRLF & _
+			"File Size: " & Round((.Size / 1024), 2) & " KB" & @CRLF & _
+			"Date Created: " & .DateCreated & @CRLF & _
+			"Date Last Modified: " & .DateLastModified)
 
-ENDWITH
+EndWith
 

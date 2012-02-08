@@ -9,29 +9,29 @@
 #include "GUIConstants.au3"
 
 ; WMI Requires a separate Sink Event Handler
-$oWMISink=ObjCreate("WbemScripting.SWbemSink")
+Global $oWMISink = ObjCreate("WbemScripting.SWbemSink")
 
-if @Error then
-  Msgbox(0,"","Error opening oWMISink. Error code: " & @error)
-  exit
-endif
+If @error Then
+	MsgBox(0, "", "Error opening oWMISink. Error code: " & @error)
+	Exit
+EndIf
 
 ; Initialize our Event Handler and connect it to the WMI Sink
-$SinkObject=ObjEvent($oWMISink,"MYSINK_")
+Local $SinkObject = ObjEvent($oWMISink, "MYSINK_")
 
-if @error then 
-   Msgbox(0,"","Error initializing Events. Error code: " & @error)
-   exit
-endif
+If @error Then
+	MsgBox(0, "", "Error initializing Events. Error code: " & @error)
+	Exit
+EndIf
 
 
 ; Make a simple GUI to output events
-GUICreate( "WMI Event Test", 640, 480 )
-$GUIEdit=GUICtrlCreateEdit( "WMI Active processes list:" & @CRLF, 10, 10 , 600 , 400 )
-GUISetState()       ;Show GUI
+GUICreate("WMI Event Test", 640, 480)
+Global $GUIEdit = GUICtrlCreateEdit("WMI Active processes list:" & @CRLF, 10, 10, 600, 400)
+GUISetState() ;Show GUI
 
 ; Open WMI
-$oWMI = ObjGet("winmgmts:root\cimv2")
+Local $oWMI = ObjGet("winmgmts:root\cimv2")
 
 ; Execute our asynchronous query
 $oWMI.ExecQueryAsync($oWMISink, "SELECT Name FROM Win32_Process")
@@ -39,39 +39,42 @@ $oWMI.ExecQueryAsync($oWMISink, "SELECT Name FROM Win32_Process")
 
 
 ; Loop until user closes window
+Local $msg
 While 1
-    $msg = GUIGetMsg()
-    If $msg = $GUI_EVENT_CLOSE Then ExitLoop
-Wend
-GUIDelete ()
+	$msg = GUIGetMsg()
+	If $msg = $GUI_EVENT_CLOSE Then ExitLoop
+WEnd
+GUIDelete()
 
-exit
+Exit
 
 
 ;---My Event Functions---
 
 Func MYSINK_Cancel()
-  ; WMI Wants us to cancel the event
-  $oWMISink.Cancel
-  GUICtrlSetData ( $GUIEdit, @cRLF & "Cancel was requested."  & @CRLF , "append" )
-EndFunc
+	; WMI Wants us to cancel the event
+	$oWMISink.Cancel
+	GUICtrlSetData($GUIEdit, @CRLF & "Cancel was requested." & @CRLF, "append")
+EndFunc   ;==>MYSINK_Cancel
 
 
 Func MYSINK_OnProgress()
 
-EndFunc
+EndFunc   ;==>MYSINK_OnProgress
 
 
-Func MYSINK_OnObjectReady($objObject,$objAsyncContext)
+Func MYSINK_OnObjectReady($objObject, $objAsyncContext)
+	#forceref $objAsyncContext
 
-   GUICtrlSetData ( $GUIEdit, "Active Process name is: " & $objObject.Name & @CRLF , "append" )
+	GUICtrlSetData($GUIEdit, "Active Process name is: " & $objObject.Name & @CRLF, "append")
 
-EndFunc
+EndFunc   ;==>MYSINK_OnObjectReady
 
 
-Func MYSINK_OnCompleted($iHResult,$objErrorObject,$objAsyncContext)
-   
-    $oWMISink.Cancel  ; Cancel any leftovers
-    GUICtrlSetData ( $GUIEdit, "Completed: WMI Asynchronous operation is done." & @CRLF , "append" )
-    GUICtrlSetData ($GUIEdit, @CRLF & "You can now close this window" & @CRLF , "append" )
-EndFunc
+Func MYSINK_OnCompleted($iHResult, $objErrorObject, $objAsyncContext)
+	#forceref $iHResult, $objErrorObject, $objAsyncContext
+
+	$oWMISink.Cancel ; Cancel any leftovers
+	GUICtrlSetData($GUIEdit, "Completed: WMI Asynchronous operation is done." & @CRLF, "append")
+	GUICtrlSetData($GUIEdit, @CRLF & "You can now close this window" & @CRLF, "append")
+EndFunc   ;==>MYSINK_OnCompleted

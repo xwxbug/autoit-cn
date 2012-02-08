@@ -6,20 +6,20 @@
 ; See also: http://www.kixtart.org/ubbthreads/showflat.php?Cat=&Number=82164
 
 
-Func EndProc($proc, $strComputer=".")
+Func EndProc($proc, $strComputer = ".")
 
-  $oWMI=ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & $strComputer & "\root\cimv2")
-  $oProcessColl=$oWMI.ExecQuery("Select * from Win32_Process where Name= " & '"'& $Proc & '"')
+	Local $oWMI = ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & $strComputer & "\root\cimv2")
+	Local $oProcessColl = $oWMI.ExecQuery("Select * from Win32_Process where Name= " & '"' & $proc & '"')
 
-  For $Process In $oProcessColl
-    $Process=$Process.Terminate
-  Next
+	For $Process In $oProcessColl
+		$Process = $Process.Terminate
+	Next
 
-EndFunc
+EndFunc   ;==>EndProc
 
 
 ; Example usage
 
-Endproc ("iexplore.exe")  ; Kills all instances of the Internet Explorer :-)
+Endproc("iexplore.exe") ; Kills all instances of the Internet Explorer :-)
 
 

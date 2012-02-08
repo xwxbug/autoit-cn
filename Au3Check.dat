@@ -257,7 +257,7 @@ $CmdLineRaw
 !ObjCreate 1 4
 !ObjCreateInterface 2 4
 !ObjEvent 1 3
-!ObjGet 1 2
+!ObjGet 1 3
 !ObjName 1 2
 !OnAutoItExitRegister 1 1
 !OnAutoItExitUnRegister 1 1

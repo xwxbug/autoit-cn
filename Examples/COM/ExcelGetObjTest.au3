@@ -10,48 +10,48 @@
 
 ; So Excel must be started first!!
 
-$oExcel = ObjGet("","Excel.Application")	; Get an existing Excel Object
+Local $oExcel = ObjGet("", "Excel.Application") ; Get an existing Excel Object
 
-if @error then 
-  Msgbox (0,"ExcelFileTest","You don't have Excel running at this moment. Error code: " & hex(@error,8))
-  exit
-endif
+If @error Then
+	MsgBox(0, "ExcelFileTest", "You don't have Excel running at this moment. Error code: " & Hex(@error, 8))
+	Exit
+EndIf
 
-if IsObj($oExcel) then Msgbox (0,"","You successfully attached to the existing Excel Application.")
+If IsObj($oExcel) Then MsgBox(0, "", "You successfully attached to the existing Excel Application.")
 
 
-$oExcel.Visible = 1		; Let the guy show himself
+$oExcel.Visible = 1 ; Let the guy show himself
 
-$oExcel.workbooks.add		; Add a new workbook
+$oExcel.workbooks.add ; Add a new workbook
 
-				; Example: Fill some cells
+; Example: Fill some cells
 
-Msgbox (0,"","Click 'ok' to fill some cells")
+MsgBox(0, "", "Click 'ok' to fill some cells")
 
-dim $i
-dim $j
+Local $i
+Local $j
 
-WITH $oExcel.activesheet
-  for $i = 1 to 15
-    for $j = 1 to 15
-	.cells($i,$j).value = $i
-    next
-  next   
-  
-  Msgbox (0,"","Click 'ok' to clear the cells")
-  .range("A1:O15").clear
+With $oExcel.activesheet
+	For $i = 1 To 15
+		For $j = 1 To 15
+			.cells($i, $j).value = $i
+		Next
+	Next
 
-ENDWITH
+	MsgBox(0, "", "Click 'ok' to clear the cells")
+	.range("A1:O15").clear
 
-sleep (2000)
+EndWith
 
-$oExcel.activeworkbook.saved = 1	; To prevent 'yes/no' questions from Excel
+Sleep(2000)
 
-$oExcel.quit				; Get rid of him.
+$oExcel.activeworkbook.saved = 1 ; To prevent 'yes/no' questions from Excel
 
-Msgbox (0,"","Is Excel gone now??")	; Nope, should be still in memory.
+$oExcel.quit ; Get rid of him.
 
-$oExcel = 0				; Loose the object
+MsgBox(0, "", "Is Excel gone now??") ; Nope, should be still in memory.
 
-exit
+$oExcel = 0 ; Loose the object
+
+Exit
 

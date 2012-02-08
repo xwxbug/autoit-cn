@@ -4,22 +4,22 @@
 ;
 ; Returns processor information
 
-$MyCompName = @ComputerName
+Local $MyCompName = @ComputerName
 
-$oWMIservice =  ObjGet("winmgmts:\\" & $MyCompName  & "\root\cimv2")
+Local $oWMIservice = ObjGet("winmgmts:\\" & $MyCompName & "\root\cimv2")
 
-if @error then 
-	Msgbox (0,"","error getting object. Error code: " & @error)
-endif
+If @error Then
+	MsgBox(0, "", "error getting object. Error code: " & @error)
+EndIf
 
-$ColProcessors = $oWMIService.ExecQuery("Select * from Win32_Processor")
+Local $ColProcessors = $oWMIservice.ExecQuery("Select * from Win32_Processor")
 
-$Counter = 1
+Local $Counter = 1
 
-FOR $Processor IN $ColProcessors
+For $Processor In $ColProcessors
 
-  Msgbox(0, "WMI Test","Processor " & $Counter & @CRLF & "Id: " & $Processor.processorid & @CRLF & _
-                       "Maximum Clock Speed: " & $Processor.MaxClockSpeed)
-  $Counter = $Counter + 1
+	MsgBox(0, "WMI Test", "Processor " & $Counter & @CRLF & "Id: " & $Processor.processorid & @CRLF & _
+			"Maximum Clock Speed: " & $Processor.MaxClockSpeed)
+	$Counter = $Counter + 1
 
-NEXT
+Next

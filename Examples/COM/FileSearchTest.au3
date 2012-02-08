@@ -7,44 +7,44 @@
 
 Func SearchFiles($strFileSpec, $Subdirs = 0)
 
- $strFileList=""
+	Local $strFileList = ""
 
- $oXlApp = ObjCreate("Excel.Application")
+	Local $oXlApp = ObjCreate("Excel.Application")
 
- $fsoFileSearch = $oXlApp.FileSearch
+	Local $fsoFileSearch = $oXlApp.FileSearch
 
- If @error then 
-  Msgbox(0,"SearchFiles","Error opening FileSearch Object")
- Else
-   With $fsoFileSearch
-      .NewSearch
-      .LookIn = "c:\"
-      .FileName = $strFileSpec
-      .SearchSubFolders = $SubDirs
+	If @error Then
+		MsgBox(0, "SearchFiles", "Error opening FileSearch Object")
+	Else
+		With $fsoFileSearch
+			.NewSearch
+			.LookIn = "c:\"
+			.FileName = $strFileSpec
+			.SearchSubFolders = $Subdirs
 
-      $Number = .Execute()
-      If $Number > 0 Then
-	    For $i = 1 To .FoundFiles.Count
-		$strFileList = $strFileList & .FoundFiles($i) & @CRLF
-	    Next 
-      EndIf
-   EndWith
- Endif
- 
- $fsoFileSearch = ""
+			Local $Number = .Execute()
+			If $Number > 0 Then
+				For $i = 1 To .FoundFiles.Count
+					$strFileList = $strFileList & .FoundFiles($i) & @CRLF
+				Next
+			EndIf
+		EndWith
+	EndIf
 
- $oxlApp.quit
+	$fsoFileSearch = ""
 
- $oxlApp=""
+	$oXlApp.quit
 
- Return $strFileList
-EndFunc
+	$oXlApp = ""
+
+	Return $strFileList
+EndFunc   ;==>SearchFiles
 
 
 
 ; Example usage:
 
-$Result = SearchFiles(@WindowsDir & "\*.txt",0)
+Local $Result = SearchFiles(@WindowsDir & "\*.txt", 0)
 
-MsgBox(0,"FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.txt' resulted in:" & @CRLF & @CRLF & $Result )
+MsgBox(0, "FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.txt' resulted in:" & @CRLF & @CRLF & $Result)
 

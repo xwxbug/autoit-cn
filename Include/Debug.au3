@@ -8,7 +8,7 @@
 ; AutoIt Version : 3.2.3++
 ; Language ......: English
 ; Description ...: Functions to help script debugging.
-; Author(s) .....: Nutster, Jpm, Valik
+; Author(s) .....: Nutster, Jpm, Valik, guinness
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -133,7 +133,7 @@ EndFunc   ;==>_DebugOut
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _DebugSetup
-; Description ...: Sets up a debug session using a specify reporting function.
+; Description ...: Setup up a debug session using a specific reporting type.
 ; Syntax.........: _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, Const $vReportType = 1, $sReportCallBack = "")
 ; Parameters ....: $sTitle           - Title to be displayed on the report window.  Default value is "AutoIt Debug Report".
 ;                  $bBugReportInfos  - Display BugReport infos.  Default value is False.
@@ -141,12 +141,13 @@ EndFunc   ;==>_DebugOut
 ;                                      2 ConsoleWrite.
 ;                                      3 MsgBox.
 ;                                      4 FileWrite into $sReportCallBack defines the filename.
+;                                      5 Report Notepad Window.
 ;                                      any string value = name of specific report function to be used.
 ;                  $sLogFile         - Name of the file  if $vReportType = 4
 ; Return values .: Report type and set @error if already registered
 ; Author ........: jpm
-; Modified.......:
-; Remarks .......: If a specific reporting function is registered then on AutoIt exit it is called without parameter.
+; Modified.......: guinness
+; Remarks .......: If a specific reporting function is registered then on AutoIt exit it is called without parameters.
 ; Related .......: _DebugOut, _DebugReport, _DebugReportEx
 ; Link ..........:
 ; Example .......:
@@ -178,7 +179,7 @@ Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vRepo
 			$vReportType = 6
 	EndSwitch
 
-	If Not IsKeyword($sTitle) Then $__gsReportTitle_Debug = $sTitle
+	If Not ($sTitle = Default) Then $__gsReportTitle_Debug = $sTitle
 	$__giReportType_Debug = $vReportType
 
 	OnAutoItExitRegister("__Debug_ReportClose")
@@ -401,7 +402,7 @@ EndFunc   ;==>__Debug_DataType
 ; Parameters ....:
 ; Return values .:
 ; Author ........: jpm
-; Modified.......:
+; Modified.......: guinness
 ; Remarks .......: If a specific reporting function has been registered then it is called without parameter.
 ; Related .......: _DebugSetup
 ; Link ..........:
@@ -409,6 +410,8 @@ EndFunc   ;==>__Debug_DataType
 ; ===============================================================================================================================
 Func __Debug_ReportClose()
 	If $__giReportType_Debug = 1 Then
+		WinSetOnTop($__gsReportTitle_Debug, "", 1)
+		_DebugReport('>>>>>> Please close the "Report Log Window" to exit <<<<<<<' & @CRLF)
 		__Debug_ReportWindowWaitClose()
 	ElseIf $__giReportType_Debug = 6 Then
 		Execute($__gsReportCallBack_Debug & ")")

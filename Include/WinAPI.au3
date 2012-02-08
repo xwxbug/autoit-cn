@@ -255,6 +255,7 @@ Global Const $DUPLICATE_SAME_ACCESS = 0x00000002
 ;_WinAPI_GetOpenFileName
 ;_WinAPI_GetOverlappedResult
 ;_WinAPI_GetParent
+;_WinAPI_GetProcAddress
 ;_WinAPI_GetProcessAffinityMask
 ;_WinAPI_GetSaveFileName
 ;_WinAPI_GetStockObject
@@ -3229,6 +3230,29 @@ Func _WinAPI_GetParent($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetParent
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetProcAddress
+; Description ...: Retrieves the address of an exported function or variable from the specified module
+; Syntax.........: _WinAPI_GetProcAddress($hModule, $vName)
+; Parameters ....: $hModule    - A handle to the module that contains the function or variable.
+;                  $vName      - The function or variable name, or the function's ordinal value.
+; Return values .: Success     - The address of the exported function or variable.
+;                  Failure     - 0
+; Author ........: trancexx
+; Modified.......:
+; Remarks .......:
+; Related .......: _WinAPI_LoadLibrary, _WinAPI_LoadLibraryEx, _WinAPI_GetModuleHandle
+; Link ..........: @@MsdnLink@@ GetProcAddress
+; Example .......: Yes
+; ===============================================================================================================================
+Func _WinAPI_GetProcAddress($hModule, $vName)
+	Local $sType = "str"
+	If IsNumber($vName) Then $sType = "word" ; if ordinal value passed
+	Local $aCall = DllCall("kernel32.dll", "ptr", "GetProcAddress", "handle", $hModule, $sType, $vName)
+	If @error Or Not $aCall[0] Then Return SetError(1, @extended, 0)
+	Return $aCall[0]
+EndFunc   ;==>_WinAPI_GetProcAddress
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetProcessAffinityMask

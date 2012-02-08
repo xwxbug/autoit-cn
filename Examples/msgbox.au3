@@ -8,7 +8,7 @@
 ;   Demo of using multiple lines in a message box
 ;
 
-; Use the @CRLF macro to do a newline in a MsgBox - it is similar to the \n in v2.64
+; Use the @CRLF macro to create a newline in a MsgBox - it is similar to the \n in v2.64
 ;~ @CR=回车
 ;~ @LF=换行
 ;~ @CRLF=回车+换行

@@ -26,6 +26,7 @@ In?4
 Local?4
 Next?4
 Not?4
+Null?4
 Or?4
 ReDim?4
 Return?4
@@ -463,7 +464,7 @@ ObjCreate ( "classname" [, "servername" [,"username", ["password"]]] ) Creates a
 ObjCreateInterface ( "CLSID" , "IID" [,"interface_description", ["flag"]] ) Creates a reference to an object from the given classname/object pointer, interface identifier and description string.
 ObjEvent ( $ObjectVar, "functionprefix" [, "interface name"] ) Handles incoming events from the given Object.
 ObjEvent ( "AutoIt.Error" [, "function name"] ) Handles incoming events from the given Object.
-ObjGet ( "filename" [, "classname"] ) Retrieves a reference to a COM object from an existing process or filename.
+ObjGet ( "filename" [, "classname" [, instance]]) Retrieves a reference to a COM object from an existing process or filename.
 ObjName ( $Objectvariable [,Flag] ) Returns the name or interface description of an Object
 OnAutoItExitRegister ( "function" ) Registers a function to be called when AutoIt exits.
 OnAutoItExitUnRegister ( "function" ) UnRegisters a function that was called when AutoIt exits.
@@ -765,7 +766,7 @@ _DebugOut ($sOutput [, $bActivate]) Displays output on a debugging session start
 _DebugReport ($sData [,$bLastError = False [,$bExit = False]]) Writes to a debugging session (Requires: #include <Debug.au3>)
 _DebugReportEx ($sData [,$bLastError = False [,$bExit = False]]) Writes to a debugging session a formatted message (Requires: #include <Debug.au3>)
 _DebugReportVar ($sVarname, $vVar [,$bErrExt = False]) Writes to debugging session the content of a variable (Requires: #include <Debug.au3>)
-_DebugSetup ($sTitle = Default, $bBugReportInfos = False, $vReportType = 1, $sLogFile = "") Setups up a debug session  using a specify reporting (Requires: #include <Debug.au3>)
+_DebugSetup ($sTitle = Default, $bBugReportInfos = False, $vReportType = 1, $sLogFile = "") Setup up a debug session using a specific reporting type (Requires: #include <Debug.au3>)
 _Degree ($nRadians) Converts radians to degrees. (Requires: #include <Math.au3>)
 _EventLog__Backup ($hEventLog, $sFileName) Saves the event log to a backup file (Requires: #include <EventLog.au3>)
 _EventLog__Clear ($hEventLog, $sFileName) Clears the event log (Requires: #include <EventLog.au3>)
@@ -840,7 +841,7 @@ _FTP_FindFileNext ($h_Handle) Find Next File on an FTP server. (Requires: #inclu
 _FTP_GetLastResponseInfo (ByRef $dwError, ByRef $szMessage) Retrieves the last error description or server response on the thread calling this function. (Requires: #include <FTPEx.au3>)
 _FTP_ListToArray ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $l_Context]]]) Get Filenames, Directories or Both of current remote directory. (Requires: #include <FTPEx.au3>)
 _FTP_ListToArray2D ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $l_Context]]]) Get Filenames and filesizes of current remote directory. (Requires: #include <FTPEx.au3>)
-_FTP_ListToArrayEx ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $b_Fmt = 1 [, $l_Context]]]]) Get names, sizes, attributes aand times of files/dir of current remote directory. (Requires: #include <FTPEx.au3>)
+_FTP_ListToArrayEx ($l_FTPSession [, $Return_Type = 0 [, $l_Flags = 0 [, $b_Fmt = 1 [, $l_Context]]]]) Get names, sizes, attributes and times of files/dir of current remote directory. (Requires: #include <FTPEx.au3>)
 _FTP_Open ($s_Agent [, $l_AccessType = 1 [, $s_ProxyName = '' [, $s_ProxyBypass = '' [, $l_Flags = 0]]]]) Opens an FTP session. (Requires: #include <FTPEx.au3>)
 _FTP_ProgressDownload ($l_FTPSession, $s_LocalFile, $s_RemoteFile [, $FunctionToCall = ""]) Downloads a file in Binary Mode and shows a Progress window or by Calling a User defined Function. (Requires: #include <FTPEx.au3>)
 _FTP_ProgressUpload ($l_FTPSession, $s_LocalFile, $s_RemoteFile [, $FunctionToCall = ""]) Uploads a file in Binary Mode and shows a Progress window or by Calling a User defined Function (Requires: #include <FTPEx.au3>)
@@ -1737,7 +1738,7 @@ _GUICtrlRichEdit_SetReadOnly ($hWnd [, $fState = True]) Sets or removes the read
 _GUICtrlRichEdit_SetRECT ($hWnd [,$iLeft = Default [, $iTop = Default [, $iRight = Default [, $iBottom = Default [, $bRedraw = True]]]]]) Sets or clears the modification flag (Requires: #include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_SetScrollPos ($hWnd, $iX, $iY) Scrolls the display such that ($ix,$iY) is in the upper left corner of the control (Requires: #include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_SetSel ($hWnd, $iAnchor, $iActive [, $fHideSel = False]) Sets the low and high character position of a selection (Requires: #include <GuiRichEdit.au3>)
-_GUICtrlRichEdit_SetSpaceUnit ($sUnit) Gets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions (Requires: #include <GuiRichEdit.au3>)
+_GUICtrlRichEdit_SetSpaceUnit ($sUnit) Sets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions (Requires: #include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_SetTabStops ($hWnd, $vTabStops [, $fRedraw = True]) Sets tab stops for the control (Requires: #include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_SetText ($hWnd, $sText) Sets the text of a control (Requires: #include <GuiRichEdit.au3>)
 _GUICtrlRichEdit_SetUndoLimit ($hWnd, $iLimit) Sets the maximum number of actions that can stored in the undo queue (Requires: #include <GuiRichEdit.au3>)
@@ -2483,6 +2484,7 @@ _WinAPI_GetObject ($hObject, $iSize, $pObject) Retrieves information for the spe
 _WinAPI_GetOpenFileName ([$sTitle = "" [, $sFilter = "All files (*.*)" [, $sInitalDir = "." [, $sDefaultFile = "" [, $sDefaultExt = "" [, $iFilterIndex = 1 [, $iFlags = 0 [, $iFlagsEx = 0 [, $hwndOwner = 0]]]]]]]]]) Creates an Open dialog box that lets the user specify the drive, directory, and the name of a file or set of files to open (Requires: #include <WinAPI.au3>)
 _WinAPI_GetOverlappedResult ($hFile, $pOverlapped, ByRef $iBytes [, $fWait = False]) Retrieves the results of an overlapped operation (Requires: #include <WinAPI.au3>)
 _WinAPI_GetParent ($hWnd) Retrieves the handle of the specified child window's parent window (Requires: #include <WinAPI.au3>)
+_WinAPI_GetProcAddress ($hModule, $vName) Retrieves the address of an exported function or variable from the specified module (Requires: #include <WinAPI.au3>)
 _WinAPI_GetProcessAffinityMask ($hProcess) Obtains the affinity masks for the process and the system (Requires: #include <WinAPI.au3>)
 _WinAPI_GetSaveFileName ([$sTitle = "" [, $sFilter = "All files (*.*)" [, $sInitalDir = "." [, $sDefaultFile = "" [, $sDefaultExt = "" [, $iFilterIndex = 1 [, $iFlags = 0 [, $iFlagsEx = 0 [, $hwndOwner = 0]]]]]]]]]) Creates a Save dialog box that lets the user specify the drive, directory, and name of a file to save (Requires: #include <WinAPI.au3>)
 _WinAPI_GetStdHandle ($iStdHandle) Retrieves a handle for the standard input, standard output, or standard error device (Requires: #include <WinAPI.au3>)

@@ -9,26 +9,26 @@
 
 Func RegExpTest($patrn, $strng)
 
-   $Retstr = ""
+	Local $Retstr = ""
 
-   $regEx = ObjCreate("VBScript.RegExp") ; Create a regular expression.
+	Local $regEx = ObjCreate("VBScript.RegExp") ; Create a regular expression.
 
-   $regEx.Pattern = $patrn   ; Set pattern.
-   $regEx.IgnoreCase = 1     ; Set case insensitivity: True.
-   $regEx.Global = 1         ; Set global applicability: True.
-   $Matches = $regEx.Execute($strng)   ; Execute search.
+	$regEx.Pattern = $patrn ; Set pattern.
+	$regEx.IgnoreCase = 1 ; Set case insensitivity: True.
+	$regEx.Global = 1 ; Set global applicability: True.
+	Local $Matches = $regEx.Execute($strng) ; Execute search.
 
-   For $Match in $Matches   ; Iterate Matches collection.
-      $RetStr = $RetStr & "Match found at position "
-      $RetStr = $RetStr & $Match.FirstIndex & ". Match Value is '"
-      $RetStr = $RetStr & $Match.Value & "'." & @CRLF
-   Next
+	For $Match In $Matches ; Iterate Matches collection.
+		$Retstr = $Retstr & "Match found at position "
+		$Retstr = $Retstr & $Match.FirstIndex & ". Match Value is '"
+		$Retstr = $Retstr & $Match.Value & "'." & @CRLF
+	Next
 
-   $regEx = ""
+	$regEx = ""
 
-   Return $RetStr
-EndFunc
+	Return $Retstr
+EndFunc   ;==>RegExpTest
 
 
 
-MsgBox(0,"Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))
+MsgBox(0, "Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))

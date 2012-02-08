@@ -1,10 +1,10 @@
 ; WMI example to enumerate services
 
-$ObjWMI= ObjGet("winmgmts://" & @ComputerName)
+Local $ObjWMI = ObjGet("winmgmts://" & @ComputerName)
 
-$string = ""
-for $item in $ObjWMI.ExecQuery("select * from win32_service")
- $string = $string & $item.name & @TAB
-next
+Local $string = ""
+For $item In $ObjWMI.ExecQuery("select * from win32_service")
+	$string = $string & $item.name & @TAB
+Next
 
-msgbox(0,"","Services on this computer: " & @CRLF & $string)
+MsgBox(0, "", "Services on this computer: " & @CRLF & $string)

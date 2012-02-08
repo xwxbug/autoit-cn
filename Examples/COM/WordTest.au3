@@ -4,11 +4,11 @@
 ;
 ; Beta version 06-02-2005
 
-$objWord = ObjCreate("Word.Application")
+Local $objWord = ObjCreate("Word.Application")
 
-msgbox (0,"WordTest","Your Word Version is : " & $objWord.Version)
-msgbox (0,"WordTest","Build: " & $objWord.Build)
+MsgBox(0, "WordTest", "Your Word Version is : " & $objWord.Version)
+MsgBox(0, "WordTest", "Build: " & $objWord.Build)
 
-$objWord.Quit		; Get rid of Word
+$objWord.Quit ; Get rid of Word
 
 

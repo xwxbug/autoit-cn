@@ -1,6 +1,6 @@
 ; AutoIt GUI Example
 ; Created: 17/01/2005 - CyberSlug
-; Modifed: 05/01/2011 - guinness
+; Modifed: 05/12/2011 - guinness
 
 #include <GuiConstantsEx.au3>
 #include <AVIConstants.au3>
@@ -57,7 +57,7 @@ GUICtrlCreateEdit(@CRLF & "  编辑框例子", 10, 110, 150, 70)
 
 ; LIST
 GUICtrlCreateList("", 5, 190, 100, 90)
-GUICtrlSetData(-1, "a.列表|b.例子|c.在|d.这里", "b.列表")
+GUICtrlSetData(-1, "A.列表|B.例子|C.在|D.这里", "B.列表")
 
 ; ICON
 GUICtrlCreateIcon("shell32.dll", 1, 175, 120)

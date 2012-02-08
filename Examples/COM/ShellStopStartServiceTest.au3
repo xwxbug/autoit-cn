@@ -11,17 +11,17 @@
 ; http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/reference/objects/ishelldispatch2/ishelldispatch2.asp
 
 ; Open Windows Shell object
-$oShell=ObjCreate("shell.application")
+Local $oShell = ObjCreate("shell.application")
 
 
-if $oShell.IsServiceRunning("wuauserv") then  
+If $oShell.IsServiceRunning("wuauserv") Then
 
-   $oShell.ServiceStop("wuauserv",false)
+	$oShell.ServiceStop("wuauserv", False)
 
-   Msgbox(0,"Service Stopped","Service: automatic update services is now stopped")
-   
-   $oShell.ServiceStart("wuauserv",false)
+	MsgBox(0, "Service Stopped", "Service: automatic update services is now stopped")
 
-   Msgbox(0,"Service Started","Service: automatic update services is started again")
+	$oShell.ServiceStart("wuauserv", False)
 
-endif
+	MsgBox(0, "Service Started", "Service: automatic update services is started again")
+
+EndIf

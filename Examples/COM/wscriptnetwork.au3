@@ -4,29 +4,29 @@
 ;
 ; Beta version 06-02-2005
 
-$objNetwork = ObjCreate("WScript.Network")
+Local $objNetwork = ObjCreate("WScript.Network")
 
-if @error then 
-	Msgbox (0,"Wscript.network Test","I'm sorry, but creation of object $objNetwork failed. Error code: " & @error)
-	exit
-endif
+If @error Then
+	MsgBox(0, "Wscript.network Test", "I'm sorry, but creation of object $objNetwork failed. Error code: " & @error)
+	Exit
+EndIf
 
-$colDrives = $objNetwork.EnumNetworkDrives
+Local $colDrives = $objNetwork.EnumNetworkDrives
 
-if not IsObj($colDrives) then 
-	Msgbox (0,"Wscript.network Test","I'm sorry, but creation of object $coldrives failed.")
-	exit
-endif
+If Not IsObj($colDrives) Then
+	MsgBox(0, "Wscript.network Test", "I'm sorry, but creation of object $coldrives failed.")
+	Exit
+EndIf
 
-$NumDrives =  $colDrives.Count
+Local $NumDrives = $colDrives.Count
 
-if $NumDrives = 0 then
-	Msgbox(0,"wscript.network", "You have currently no network drives")
-else
- 	For $i = 0 to $colDrives.Count-1 Step 2
-	  Msgbox(0,"Wscript.network", "Drive letter: " & $colDrives.Item($i) & @TAB & " is mapped to: " & $colDrives.Item($i + 1))
-	 Next
-endif
+If $NumDrives = 0 Then
+	MsgBox(0, "wscript.network", "You have currently no network drives")
+Else
+	For $i = 0 To $colDrives.Count - 1 Step 2
+		MsgBox(0, "Wscript.network", "Drive letter: " & $colDrives.Item($i) & @TAB & " is mapped to: " & $colDrives.Item($i + 1))
+	Next
+EndIf
 
 
-exit
+Exit

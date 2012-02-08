@@ -10,12 +10,12 @@
 
 
 ; Prompt the user to run the script - use a Yes/No prompt (4 - see help file)
-Local $answer = MsgBox(4, "AutoIt 例子", "这个脚本将会调用两个自定义函数.  运行?")
+Local $iAnswer = MsgBox(4, "AutoIt 例子", "这个脚本将会调用两个自定义函数.  运行?")
 
 
 ; Check the user's answer to the prompt (see the help file for MsgBox return values)
 ; If "No" was clicked (7) then exit the script
-If $answer = 7 Then
+If $iAnswer = 7 Then
 	MsgBox(0, "AutoIt", "好的,再见!")
 	Exit
 EndIf
@@ -39,6 +39,6 @@ EndFunc   ;==>TestFunc1
 
 
 ; TestFunc2
-Func TestFunc2($var)
-	MsgBox(0, "AutoIt 例子", "内部 TestFunc2() - $var 为: " & $var)
+Func TestFunc2($vVar)
+	MsgBox(0, "AutoIt 例子", "内部 TestFunc2() - $vVar 为: " & $vVar)
 EndFunc   ;==>TestFunc2

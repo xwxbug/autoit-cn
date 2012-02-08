@@ -1314,7 +1314,10 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 		Local $FileArray[1][$ArrayCount], $DirectoryArray[1][$ArrayCount]
 	EndIf
 
-	If $Return_Type < 0 Or $Return_Type > 2 Then Return SetError(1, 0, $FileArray)
+	If $Return_Type < 0 Or $Return_Type > 2 Then
+		$FileArray[0][0] = 0
+		Return SetError(1, 0, $FileArray)
+	EndIf
 
 ;~ Global Const $tagWIN32_FIND_DATA = "DWORD dwFileAttributes; dword ftCreationTime[2]; dword ftLastAccessTime[2]; dword ftLastWriteTime[2]; DWORD nFileSizeHigh; DWORD nFileSizeLow; dword dwReserved0; dword dwReserved1; WCHAR cFileName[260]; WCHAR cAlternateFileName[14];"
 	$tWIN32_FIND_DATA = DllStructCreate($tagWIN32_FIND_DATA)
@@ -1401,10 +1404,18 @@ Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1,
 			EndIf
 			Return $DirectoryArray
 		Case 1
-			ReDim $DirectoryArray[$DirectoryIndex + 1]
+			If $ArrayCount = 1 Then
+				ReDim $DirectoryArray[$DirectoryIndex + 1]
+			Else
+				ReDim $DirectoryArray[$DirectoryIndex + 1][$ArrayCount]
+			EndIf
 			Return $DirectoryArray
 		Case 2
-			ReDim $FileArray[$FileIndex + 1]
+			If $ArrayCount = 1 Then
+				ReDim $FileArray[$FileIndex + 1]
+			Else
+				ReDim $FileArray[$FileIndex + 1][$ArrayCount]
+			EndIf
 			Return $FileArray
 	EndSwitch
 EndFunc   ;==>__FTP_ListToArray

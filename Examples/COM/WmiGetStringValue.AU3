@@ -6,19 +6,19 @@
 ; Retrieving the Internet Explorer home page value using registry-read by WMI
 
 
-$HKEY_CURRENT_USER = 0x80000001
+Const $HKEY_CURRENT_USER = 0x80000001
 
-$strComputer = @ComputerName
+Local $strComputer = @ComputerName
 
-$objReg = ObjGet("winmgmts:\\" & $strComputer & "\root\default:StdRegProv")
-$strKeyPath = "SOFTWARE\Microsoft\Internet Explorer\Main"
-$ValueName = "Start Page"
-$strvalue = ""
-$return = $objReg.GetStringValue($HKEY_CURRENT_USER,$strKeyPath,$ValueName,$strValue)
+Local $objReg = ObjGet("winmgmts:\\" & $strComputer & "\root\default:StdRegProv")
+Local $strKeyPath = "SOFTWARE\Microsoft\Internet Explorer\Main"
+Local $ValueName = "Start Page"
+Local $strvalue = ""
+Local $return = $objReg.GetStringValue($HKEY_CURRENT_USER, $strKeyPath, $ValueName, $strvalue)
 
 
-If $strValue="" Then
-    msgbox(0,"WMIGetStringTest", "The value of your IE start page is either Null or could not be found in the registry.")
+If $strvalue = "" Then
+	MsgBox(0, "WMIGetStringTest", "The value of your IE start page is either Null or could not be found in the registry.")
 Else
-    msgbox(0,"WMIGetStringTest","Your Internet Explorer start page is: " & @CRLF & $strValue)
+	MsgBox(0, "WMIGetStringTest", "Your Internet Explorer start page is: " & @CRLF & $strvalue)
 EndIf

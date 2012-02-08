@@ -15,60 +15,61 @@
 #include "GUIConstants.au3"
 
 ; Create a simple GUI for our output
-GUICreate ( "Event Speech API Test", 640, 480 )
-$GUIEdit=GUICtrlCreateEdit ( "Debug Log:" & @CRLF, 10, 10 , 600 , 400 )
-GUISetState ()       ;Show GUI
+GUICreate("Event Speech API Test", 640, 480)
+Global $GUIEdit = GUICtrlCreateEdit("Debug Log:" & @CRLF, 10, 10, 600, 400)
+GUISetState() ;Show GUI
 
-$RecoContext=ObjCreate("SAPI.SpSharedRecoContext")
-if @error then
-	Msgbox(0,"","Error opening the 'SAPI.SpSharedRecoContext' object. Error number: " & hex(@error,8))
-	exit
-endif
+Local $RecoContext = ObjCreate("SAPI.SpSharedRecoContext")
+If @error Then
+	MsgBox(0, "", "Error opening the 'SAPI.SpSharedRecoContext' object. Error number: " & Hex(@error, 8))
+	Exit
+EndIf
 
 
 
 ; Initialize our Event Handler
 ; Note: The default outgoing event interface will be: _ISpeechRecoContextEvents
-$SinkObject=ObjEvent($RecoContext,"MYEvent_")
-if @error then 
-  GUICtrlSetData ( $GUIEdit, "ObjEvent error: " & @error & @CRLF  , "append" )
-else
-  GUICtrlSetData ( $GUIEdit, "ObjEvent created Successfully!" & @CRLF  , "append" )
+Local $SinkObject = ObjEvent($RecoContext, "MYEvent_")
+If @error Then
+	GUICtrlSetData($GUIEdit, "ObjEvent error: " & @error & @CRLF, "append")
+Else
+	GUICtrlSetData($GUIEdit, "ObjEvent created Successfully!" & @CRLF, "append")
 
-  ;Imported from: SAPI.H
-  $SPRS_INACTIVE	= 0
-  $SPRS_ACTIVE	= 1
-  $SGDSActive=$SPRS_ACTIVE
-  $SGDSInactive=$SPRS_INACTIVE
+	;Imported from: SAPI.H
+	Const $SPRS_INACTIVE = 0
+	Const $SPRS_ACTIVE = 1
+	Local $SGDSActive = $SPRS_ACTIVE
+	Local $SGDSInactive = $SPRS_INACTIVE
 
-  $Grammar = $RecoContext.CreateGrammar(1)
-  $Grammar.DictationLoad
-  $Grammar.DictationSetState($SGDSActive)
+	Local $Grammar = $RecoContext.CreateGrammar(1)
+	$Grammar.DictationLoad
+	$Grammar.DictationSetState($SGDSActive)
 
-  ; Dictation starts here...you may speak now ! 
+	; Dictation starts here...you may speak now !
 
-  GUICtrlSetData ( $GUIEdit, "You have 10 seconds speaking time now...open your microphone and say something !" & @CRLF  , "append" )
-  sleep(10000) 
+	GUICtrlSetData($GUIEdit, "You have 10 seconds speaking time now...open your microphone and say something !" & @CRLF, "append")
+	Sleep(10000)
 
-  ; Stop dictation
-  $Grammar.DictationSetState($SGDSInactive)
+	; Stop dictation
+	$Grammar.DictationSetState($SGDSInactive)
 
-endif
+EndIf
 
-  sleep (5000) ; Some events arrive late...
+Sleep(5000) ; Some events arrive late...
 
-  GUICtrlSetData ( $GUIEdit, @CRLF & "End of dictation time." & @CRLF , "append" )
-  GUICtrlSetData ( $GUIEdit, "You may close this window now !" & @CRLF , "append" )
-  
-  ; Waiting for user to close the window
-  While 1
-    $msg = GUIGetMsg()
-    If $msg = $GUI_EVENT_CLOSE Then ExitLoop
-  Wend
+GUICtrlSetData($GUIEdit, @CRLF & "End of dictation time." & @CRLF, "append")
+GUICtrlSetData($GUIEdit, "You may close this window now !" & @CRLF, "append")
 
-  GUIDelete ()
+; Waiting for user to close the window
+Local $msg
+While 1
+	$msg = GUIGetMsg()
+	If $msg = $GUI_EVENT_CLOSE Then ExitLoop
+WEnd
 
-  exit
+GUIDelete()
+
+Exit
 
 
 
@@ -77,82 +78,90 @@ endif
 ; SAPI Event functions
 
 Func MYEvent_StartStream($StreamNumber, $StreamPosition)
-;     StreamNumber As Long,
-;     StreamPosition As Variant
+	#forceref $StreamPosition
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant
 
- GUICtrlSetData ( $GUIEdit, "StartStream(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+	GUICtrlSetData($GUIEdit, "StartStream(): StreamNumber is:" & $StreamNumber & @CRLF, "append")
 
-EndFunc
-
-
-Func MYEvent_Hypothesis($StreamNumber,$StreamPosition,$Result )
-;     StreamNumber As Long,
-;     StreamPosition As Variant,
-;     Result As ISpeechRecoResult
-
-GUICtrlSetData ( $GUIEdit, "Hypothesis(): Hypothized text is: " & $Result.PhraseInfo.GetText & @CRLF  , "append" )
-
-EndFunc
+EndFunc   ;==>MYEvent_StartStream
 
 
-Func MYEvent_Interference($StreamNumber,$StreamPosition,$Interference)
-;     StreamNumber As Long,
-;     StreamPosition As Variant,
-;     Interference As SpeechInterference
+Func MYEvent_Hypothesis($StreamNumber, $StreamPosition, $Result)
+	#forceref $StreamNumber, $StreamPosition
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant,
+	;     Result As ISpeechRecoResult
 
-GUICtrlSetData ( $GUIEdit, "Interference(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+	GUICtrlSetData($GUIEdit, "Hypothesis(): Hypothized text is: " & $Result.PhraseInfo.GetText & @CRLF, "append")
 
-EndFunc
+EndFunc   ;==>MYEvent_Hypothesis
 
 
-Func MYEvent_Recognition($StreamNumber,$StreamPosition,$RecognitionType,$Result)
-;    StreamNumber As Long,
-;    StreamPosition As Variant,
-;    RecognitionType As SpeechRecognitionType,
-;    Result As ISpeechRecoResult
+Func MYEvent_Interference($StreamNumber, $StreamPosition, $Interference)
+	#forceref $StreamPosition, $Interference
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant,
+	;     Interference As SpeechInterference
 
-GUICtrlSetData ( $GUIEdit, "Recognition(): Recognized text is: " & $Result.PhraseInfo.GetText & @CRLF  , "append" )
+	GUICtrlSetData($GUIEdit, "Interference(): StreamNumber is:" & $StreamNumber & @CRLF, "append")
 
-EndFunc
+EndFunc   ;==>MYEvent_Interference
+
+
+Func MYEvent_Recognition($StreamNumber, $StreamPosition, $RecognitionType, $Result)
+	#forceref $StreamNumber, $StreamPosition, $RecognitionType
+	;    StreamNumber As Long,
+	;    StreamPosition As Variant,
+	;    RecognitionType As SpeechRecognitionType,
+	;    Result As ISpeechRecoResult
+
+	GUICtrlSetData($GUIEdit, "Recognition(): Recognized text is: " & $Result.PhraseInfo.GetText & @CRLF, "append")
+
+EndFunc   ;==>MYEvent_Recognition
 
 
 
 ; SAPI has MANY more Events, but we won't use these here
 
-Func MYEvent_SoundEnd($StreamNumber,$StreamPosition)
-;     StreamNumber As Long,
-;     StreamPosition As Variant
+Func MYEvent_SoundEnd($StreamNumber, $StreamPosition)
+	#forceref $StreamNumber, $StreamPosition
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant
 
-;GUICtrlSetData ( $GUIEdit, "SoundEnd(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+	;GUICtrlSetData ( $GUIEdit, "SoundEnd(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
 
-EndFunc
+EndFunc   ;==>MYEvent_SoundEnd
 
-Func MYEvent_EndStream($StreamNumber,$StreamPosition,$StreamReleased)
-;     StreamNumber As Long,
-;     StreamPosition As Variant,
-;     StreamReleased As Boolean
+Func MYEvent_EndStream($StreamNumber, $StreamPosition, $StreamReleased)
+	#forceref $StreamNumber, $StreamPosition, $StreamReleased
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant,
+	;     StreamReleased As Boolean
 
-; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
-; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamReleased is:" & $StreamReleased & @CRLF  , "append" )
+	; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+	; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamReleased is:" & $StreamReleased & @CRLF  , "append" )
 
-EndFunc
-
-
-Func MYEvent_SoundStart($StreamNumber,$StreamPosition)
-;     StreamNumber As Long,
-;     StreamPosition As Variant
-
-;GUICtrlSetData ( $GUIEdit, "SoundStart(), StreamNumber is: " & $StreamNumber & @CRLF  , "append" )
-;GUICtrlSetData ( $GUIEdit, "SoundStart(): StreamPosition is:" & $StreamPosition & @CRLF  , "append" )
-
-EndFunc
+EndFunc   ;==>MYEvent_EndStream
 
 
-Func MYEvent_PhraseStart($StreamNumber,$StreamPosition)
-;     StreamNumber As Long,
-;     StreamPosition As Variant
+Func MYEvent_SoundStart($StreamNumber, $StreamPosition)
+	#forceref $StreamNumber, $StreamPosition
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant
 
-;GUICtrlSetData ( $GUIEdit, "PhraseStart(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+	;GUICtrlSetData ( $GUIEdit, "SoundStart(), StreamNumber is: " & $StreamNumber & @CRLF  , "append" )
+	;GUICtrlSetData ( $GUIEdit, "SoundStart(): StreamPosition is:" & $StreamPosition & @CRLF  , "append" )
 
-EndFunc
+EndFunc   ;==>MYEvent_SoundStart
+
+
+Func MYEvent_PhraseStart($StreamNumber, $StreamPosition)
+	#forceref $StreamNumber, $StreamPosition
+	;     StreamNumber As Long,
+	;     StreamPosition As Variant
+
+	;GUICtrlSetData ( $GUIEdit, "PhraseStart(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
+
+EndFunc   ;==>MYEvent_PhraseStart
 
