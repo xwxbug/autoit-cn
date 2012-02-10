@@ -8,4 +8,4 @@ While $checksum = PixelChecksum(0, 0, 50, 50)
 	Sleep(100)
 WEnd
 
-MsgBox(0, "", "Something in the region has changed!")
+MsgBox(4096, "", "Something in the region has changed!")

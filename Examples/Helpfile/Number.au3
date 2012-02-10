@@ -1,4 +1,7 @@
-Local $w = Number(1 + 2 + 10) ;returns 13
-Local $x = Number("3.14") ;returns 3.14
-Local $y = Number("24/7") ;returns 24
-Local $z = Number("tmp3") ;returns 0
+Local $iNumber1 = Number(1 + 2 + 10) ; Returns 13.
+Local $iNumber2 = Number("3.14") ; Returns 3.14.
+Local $iNumber3 = Number("24/7") ; Returns 24.
+Local $iNumber4 = Number("tmp3") ; Returns 0 as this is a string.
+
+MsgBox(4096, "", "The following values were converted to a numeric value:" & @CRLF & _
+		$iNumber1 & @CRLF & $iNumber2 & @CRLF & $iNumber3 & @CRLF & $iNumber4)

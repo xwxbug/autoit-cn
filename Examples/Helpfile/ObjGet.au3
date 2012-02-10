@@ -5,7 +5,7 @@
 Local $oExcel = ObjGet("", "Excel.Application") ; Get an existing Excel Object
 
 If @error Then
-	MsgBox(0, "ExcelTest", "Error Getting an active Excel Object. Error code: " & Hex(@error, 8))
+	MsgBox(4096, "ExcelTest", "Error Getting an active Excel Object. Error code: " & Hex(@error, 8))
 	Exit
 EndIf
 
@@ -23,7 +23,7 @@ Exit
 Local $FileName = "C:\Worksheet.xls"
 
 If Not FileExists($FileName) Then
-	MsgBox(0, "Excel File Test", "Can't run this test, because you didn't create the Excel file " & $FileName)
+	MsgBox(4096, "Excel File Test", "Can't run this test, because you didn't create the Excel file " & $FileName)
 	Exit
 EndIf
 
@@ -44,10 +44,10 @@ If IsObj($oExcelDoc) Then
 		$String = $String & $Property.Name & ":" & $Property.Value & @CRLF
 	Next
 
-	MsgBox(0, "Excel File Test", "The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
+	MsgBox(4096, "Excel File Test", "The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
 
 	$oExcelDoc.Close ; Close the Excel document
 
 Else
-	MsgBox(0, "Excel File Test", "Error: Could not open " & $FileName & " as an Excel Object.")
+	MsgBox(4096, "Excel File Test", "Error: Could not open " & $FileName & " as an Excel Object.")
 EndIf

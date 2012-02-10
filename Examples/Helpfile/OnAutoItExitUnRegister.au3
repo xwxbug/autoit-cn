@@ -6,9 +6,9 @@ Sleep(1000)
 OnAutoItExitUnRegister("MyTestFunc")
 
 Func MyTestFunc()
-	MsgBox(64, "Exit Results 1", 'Exit Message from MyTestFunc()')
+	MsgBox(4160, "Exit Results 1", 'Exit Message from MyTestFunc()')
 EndFunc   ;==>MyTestFunc
 
 Func MyTestFunc2()
-	MsgBox(64, "Exit Results 2", 'Exit Message from MyTestFunc()')
+	MsgBox(4160, "Exit Results 2", 'Exit Message from MyTestFunc()')
 EndFunc   ;==>MyTestFunc2

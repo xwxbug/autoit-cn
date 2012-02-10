@@ -1,8 +1,8 @@
 Local $n = 18
 If Mod($n, 2) = 0 Then
-	MsgBox(0, "", $n & " is an even number.")
+	MsgBox(4096, "", $n & " is an even number.")
 Else
-	MsgBox(0, "", $n & " is an odd number.")
+	MsgBox(4096, "", $n & " is an odd number.")
 EndIf
 
 Local $x = Mod(4, 7) ;$x == 4 because the divisor > dividend

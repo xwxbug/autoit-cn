@@ -1,9 +1,16 @@
-Sleep(2000) ;allow time to move mouse before reporting ID
+Sleep(1000) ; Allow time for the cursor to change its state.
 
-;create an array that tells us the meaning of an ID Number
-Local $IDs = StringSplit("AppStarting|Arrow|Cross|Help|IBeam|Icon|No|" & _
-		"Size|SizeAll|SizeNESW|SizeNS|SizeNWSE|SizeWE|UpArrow|Wait|Hand", "|")
-$IDs[0] = "Unknown"
+; Create an array of possible cursor states using StringSplit.
+Local $aArray = StringSplit("Unknown|AppStarting|Arrow|Cross|Help|IBeam|Icon|No|" & _
+		"Size|SizeAll|SizeNESW|SizeNS|SizeNWSE|SizeWE|UpArrow|Wait|Hand", "|", 2) ; The flag parameter is set to flag = 2 as we don't require the total count of the array.
+#cs
+	The array returned will contain the following values:
+	$aArray[0] = "Unknown"
+	$aArray[1] = "AppStarting"
+	$aArray[2] = "Arrow"
+	...
+	$aArray[16] = "Hand"
+#ce
 
-Local $cursor = MouseGetCursor()
-MsgBox(4096, "ID = " & $cursor, "Which means " & $IDs[$cursor])
+Local $iCursor = MouseGetCursor()
+MsgBox(4096, "CursorID = " & $iCursor, "Which means " & $aArray[$iCursor] & ".") ; Use the CursorID value as the index value of the array

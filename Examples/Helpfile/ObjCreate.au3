@@ -13,7 +13,7 @@ If IsObj($oShellWindows) Then
 		$string = $string & $Window.LocationName & @CRLF
 	Next
 
-	MsgBox(0, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $string);
+	MsgBox(4096, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $string);
 
 EndIf
 Exit
@@ -25,10 +25,10 @@ Exit
 Local $oRemoteMedia = ObjCreate("MediaPlayer.MediaPlayer.1", "name-of-remote-computer")
 
 If Not @error Then
-	MsgBox(0, "Remote ObjCreate Test", "ObjCreate() of a remote Mediaplayer Object successful !")
+	MsgBox(4096, "Remote ObjCreate Test", "ObjCreate() of a remote Mediaplayer Object successful !")
 	$oRemoteMedia.Open(@WindowsDir & "\media\tada.wav") ; Play sound if file is present
 Else
-	MsgBox(0, "Remote ObjCreate Test", "Failed to open remote Object. Error code: " & Hex(@error, 8))
+	MsgBox(4096, "Remote ObjCreate Test", "Failed to open remote Object. Error code: " & Hex(@error, 8))
 EndIf
 
 
