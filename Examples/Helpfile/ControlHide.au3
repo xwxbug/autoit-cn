@@ -1,8 +1,24 @@
-Run("winver.exe")
-$HWND=WinWaitActive('[REGEXPTITLE:.+Windows;REGEXPCLASS:#\d+]','')
-If IsHWnd($HWND) Then
-	MsgBox(32,$HWND,'系统关于窗口出现咯...我们隐藏掉确定按钮试试')
-	ControlHide($HWND, "", "Button1")
-Else
-	MsgBox(32,"ERROR","貌似没找到窗口嘛...")
-EndIf
+Example()
+
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
+
+	; Wait 10 seconds for the Notepad window to appear.
+	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
+
+	; Hide the edit control of Notepad using the handle returned by WinWait.
+	ControlHide($hWnd, "", "Edit1")
+
+	; Wait for 2 seconds.
+	Sleep(2000)
+
+	; Show the edit control of Notepad using the handle returned by WinWait.
+	ControlShow($hWnd, "", "Edit1")
+
+	; Wait for 2 seconds.
+	Sleep(2000)
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
+EndFunc   ;==>Example

@@ -1,4 +1,18 @@
-Run("notepad.exe")
-WinWait("[CLASS:Notepad]")
-Local $hHandle = ControlGetHandle("[CLASS:Notepad]", "", "Edit1")
-MsgBox(0, "ControlGetHandle Example", "The control handle of Edit1 is: " & $hHandle)
+Example()
+
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
+
+	; Wait 10 seconds for the Notepad window to appear.
+	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
+
+	; Retrieve the handle of the edit control in Notepad. The handle returned by WinWait is used for the "title" parameter of ControlGetHandle.
+	Local $hControl = ControlGetHandle($hWnd, "", "Edit1")
+
+	; Display the handle of the edit control.
+	MsgBox(4096, "", "The handle of Edit1 is: " & $hControl)
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
+EndFunc   ;==>Example
