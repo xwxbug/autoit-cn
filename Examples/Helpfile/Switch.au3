@@ -10,4 +10,4 @@ Switch @HOUR
 		$msg = "What are you still doing up?"
 EndSwitch
 
-MsgBox(0, Default, $msg)
+MsgBox(4096, Default, $msg)

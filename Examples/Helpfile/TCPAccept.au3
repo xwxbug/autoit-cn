@@ -1,5 +1,5 @@
 ;服务器!! 请先运行我 !!!!!!!!!!!!!!!
-$g_IP = "127.0.0.1"
+Local $g_IP = "127.0.0.1"
 
 ; 开始 TCP 服务
 ;==============================================
@@ -13,9 +13,9 @@ If $MainSocket = -1 Then Exit
 ;  等待客户端连接
 ;--------------------
 While 1
-$ConnectedSocket = TCPAccept( $MainSocket)
+	Local $ConnectedSocket = TCPAccept($MainSocket)
 	If $ConnectedSocket >= 0 Then
-	MsgBox(0,"","我的服务器 - 客户端已连接")
+	MsgBox(4096,"","我的服务器 - 客户端已连接")
 		Exit
 	EndIf
 WEnd

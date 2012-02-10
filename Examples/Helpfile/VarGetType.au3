@@ -7,7 +7,7 @@ Local $nFloat = 2.0
 Local $sString = "Some text"
 Local $vKeyword = Default
 
-MsgBox(0, "Variable Types", "$aArray is an " & VarGetType($aArray) & " variable type." & @CRLF & _
+MsgBox(4096, "Variable Types", "$aArray is an " & VarGetType($aArray) & " variable type." & @CRLF & _
 		"$bBinary is a " & VarGetType($bBinary) & " variable type." & @CRLF & _
 		"$fBoolean is a " & VarGetType($fBoolean) & " variable type." & @CRLF & _
 		"$hWnd is a " & VarGetType($hWnd) & " variable type." & @CRLF & _

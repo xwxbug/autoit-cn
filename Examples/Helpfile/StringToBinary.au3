@@ -48,7 +48,7 @@ Func Example()
 
 	; Display the resulsts.
 	DisplayResults($sString, $sBinary, $sConverted, "UTF8")
-EndFunc
+EndFunc   ;==>Example
 
 ; Helper function which formats the message for display.  It takes the following parameters:
 ; $sOriginal - The original string before conversions.
@@ -57,4 +57,4 @@ EndFunc
 ; $sConversionType - A human friendly name for the encoding type used for the conversion.
 Func DisplayResults($sOriginal, $sBinary, $sConverted, $sConversionType)
 	MsgBox(4096, "", "Original:" & @CRLF & $sOriginal & @CRLF & @CRLF & "Binary:" & @CRLF & $sBinary & @CRLF & @CRLF & $sConversionType & ":" & @CRLF & $sConverted)
-EndFunc
+EndFunc   ;==>DisplayResults
