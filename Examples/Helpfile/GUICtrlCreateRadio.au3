@@ -19,9 +19,9 @@ Func Example()
 			Case $msg = $GUI_EVENT_CLOSE
 				ExitLoop
 			Case $msg = $radio1 And BitAND(GUICtrlRead($radio1), $GUI_CHECKED) = $GUI_CHECKED
-				MsgBox(64, 'Info:', 'You clicked the Radio 1 and it is Checked.')
+				MsgBox(4160, 'Info:', 'You clicked the Radio 1 and it is Checked.')
 			Case $msg = $radio2 And BitAND(GUICtrlRead($radio2), $GUI_CHECKED) = $GUI_CHECKED
-				MsgBox(64, 'Info:', 'You clicked on Radio 2 and it is Checked.')
+				MsgBox(4160, 'Info:', 'You clicked on Radio 2 and it is Checked.')
 		EndSelect
 	WEnd
 EndFunc   ;==>Example

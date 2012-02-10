@@ -42,7 +42,7 @@ Func Example()
 				ExitLoop
 
 			Case $AboutItem
-				MsgBox(64, "About...", "Colored menu sample")
+				MsgBox(4160, "About...", "Colored menu sample")
 		EndSwitch
 	WEnd
 EndFunc   ;==>Example

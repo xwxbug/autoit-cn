@@ -19,7 +19,7 @@ Func Example1()
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
 
-	MsgBox(0, "Date", GUICtrlRead($date))
+	MsgBox(4096, "Date", GUICtrlRead($date))
 	GUIDelete()
 EndFunc   ;==>Example1
 
@@ -56,7 +56,7 @@ Func Example3()
 	While GUIGetMsg() <> $GUI_EVENT_CLOSE
 	WEnd
 
-	MsgBox(0, "Time", GUICtrlRead($date))
+	MsgBox(4096, "Time", GUICtrlRead($date))
 EndFunc   ;==>Example3
 
 ; Ê¾Àý4
@@ -72,6 +72,6 @@ Func Example4()
 		$msg = GUIGetMsg()
 	Until $msg = $GUI_EVENT_CLOSE
 
-	MsgBox(0, "Time", GUICtrlRead($n))
+	MsgBox(4096, "Time", GUICtrlRead($n))
 	GUIDelete()
 EndFunc   ;==>Example4

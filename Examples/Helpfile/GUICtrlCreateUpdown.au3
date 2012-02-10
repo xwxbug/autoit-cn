@@ -24,5 +24,5 @@ Func Example()
 		If $msg = $GUI_EVENT_CLOSE Then ExitLoop
 	WEnd
 
-	MsgBox(0, "Updown", GUICtrlRead($input))
+	MsgBox(4096, "Updown", GUICtrlRead($input))
 EndFunc   ;==>Example

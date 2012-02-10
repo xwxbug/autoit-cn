@@ -21,7 +21,7 @@ Func Example()
 			Case $msg = $Button_1
 				Run('Notepad.exe')    ; 点击按钮 1 打开记事本
 			Case $msg = $Button_2
-				MsgBox(0, '测试', '你点击了测试按钮')    ; 点击按钮 2 显示一个简单的对话框
+				MsgBox(4096, '测试', '你点击了测试按钮')    ; 点击按钮 2 显示一个简单的对话框
 		EndSelect
 	WEnd
 EndFunc   ;==>Example

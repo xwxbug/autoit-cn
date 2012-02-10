@@ -85,7 +85,7 @@ Func Example2()
 				ShowMenu($hGui, $msg, $HelpContext)
 
 			Case $HelpAbout
-				MsgBox(64, "About...", "GUICtrlGetHandle-Sample")
+				MsgBox(4160, "About...", "GUICtrlGetHandle-Sample")
 		EndSwitch
 	WEnd
 	GUIDelete()

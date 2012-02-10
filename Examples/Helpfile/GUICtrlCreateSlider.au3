@@ -18,7 +18,7 @@ Func Example()
 		$msg = GUIGetMsg()
 
 		If $msg = $button Then
-			MsgBox(0, "slider1", GUICtrlRead($slider1), 2)
+			MsgBox(4096, "slider1", GUICtrlRead($slider1), 2)
 		EndIf
 	Until $msg = $GUI_EVENT_CLOSE
 EndFunc   ;==>Example
