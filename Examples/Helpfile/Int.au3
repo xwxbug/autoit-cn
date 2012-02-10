@@ -1,1 +1,2 @@
-Local $var = Int(10.793) ;$var 为整数值 10
+Local $iInt = Int(10.793) ; This will return the value of 10
+MsgBox(4096, "Int", $iInt)

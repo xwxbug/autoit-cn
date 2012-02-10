@@ -1,9 +1,9 @@
-If Not IsDeclared("a") Then
-	MsgBox(0, "", "$a is NOT declared") ; $a has never been assigned
+If Not IsDeclared("Var") Then
+	MsgBox(4096, "", "$Var is NOT declared") ; If $Var has not been declared then display the message box.
 EndIf
 
-Local $a = 1
+Local $Var = 1 ; Declare the variable $Var.
 
-If IsDeclared("a") Then
-	MsgBox(0, "", "$a IS declared") ; due to previous $a=1 assignment
+If IsDeclared("Var") Then
+	MsgBox(4096, "", "$Var IS declared") ; If $Var is declared then display the message box.
 EndIf

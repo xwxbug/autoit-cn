@@ -12,8 +12,8 @@ Func Example()
 
 	; Check if the variable is an array.
 	If IsArray($aPos) Then
-		MsgBox(0, "Success", "Window height: " & $aPos[3])
+		MsgBox(4096, "", "Window height: " & $aPos[3])
 	Else
-		MsgBox(0, "Error", "An error occurred.")
+		MsgBox(4096, "", "An error occurred.")
 	EndIf
 EndFunc   ;==>Example

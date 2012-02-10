@@ -1,2 +1,2 @@
 Local $mem = MemGetStats()
-MsgBox(0, "总物理内存数 (KB):", $mem[1])
+MsgBox(4096, "总物理内存数 (KB):", $mem[1])
