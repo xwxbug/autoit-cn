@@ -5,7 +5,7 @@ Local $hSearch = FileFindFirstFile("*.*")
 
 ; 检查搜索是否成功
 If $hSearch = -1 Then
-	MsgBox(0, "错误", "没有文件/目录 匹配搜索")
+	MsgBox(4096, "错误", "没有文件/目录 匹配搜索")
 	Exit
 EndIf
 

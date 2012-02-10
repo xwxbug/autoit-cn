@@ -8,10 +8,10 @@ Func Example1()
 
 	Local $foo = 2
 	Local $bar = 5
-MsgBox(0,"今天是 " & today(), "$foo 等于:" & $foo)
+	MsgBox(4096,"今天是 " & today(), "$foo 等于:" & $foo)
 	swap($foo, $bar)
-MsgBox(0,"变量 $foo 和 $bar 交换后", "现在 $foo 的值是：" & $foo)
-MsgBox(0,"最后", "3 和 4 中较大的数是:" & max(3,4))
+	MsgBox(4096,"变量 $foo 和 $bar 交换后", "现在 $foo 的值是：" & $foo)
+	MsgBox(4096,"最后", "3 和 4 中较大的数是:" & max(3,4))
 EndFunc   ;==>Example1
 
 Func swap(ByRef $a, ByRef $b)  ;交换两个变量的内容
@@ -48,7 +48,7 @@ Func Test_Numparams($v1 = 0, $v2 = 0, $v3 = 0, $v4 = 0, $v5 = 0, $v6 = 0, $v7 = 
 	For $i = 1 To @NumParams
 		$val &= Eval("v" & $i) & " "
 	Next
-	MsgBox(0, "@NumParams example", "@NumParams =" & @NumParams & @CRLF & @CRLF & $val)
+	MsgBox(4096, "@NumParams example", "@NumParams =" & @NumParams & @CRLF & @CRLF & $val)
 EndFunc   ;==>Test_Numparams
 
 ;End of sample script 2

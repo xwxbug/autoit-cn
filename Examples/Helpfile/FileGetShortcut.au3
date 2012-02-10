@@ -4,7 +4,7 @@ FileCreateShortcut(@WindowsDir & "\explorer.exe", @DesktopDir & "\Shortcut Examp
 ; Retrieve the details of the shortcut.
 Local $aDetails = FileGetShortcut(@DesktopDir & "\Shortcut Example.lnk")
 If Not @error Then
-	MsgBox(0, "FileGetShortcut", "Path: " & $aDetails[0] & @CRLF & _
+	MsgBox(4096, "FileGetShortcut", "Path: " & $aDetails[0] & @CRLF & _
 			"Working directory: " & $aDetails[1] & @CRLF & _
 			"Arguments: " & $aDetails[2] & @CRLF & _
 			"Description: " & $aDetails[3] & @CRLF & _

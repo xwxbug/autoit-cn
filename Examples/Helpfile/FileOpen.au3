@@ -5,7 +5,7 @@ Local $file = FileOpen("test.txt", 0)
 
 ; 检查打开的文件是否可读
 If $file = -1 Then
-	MsgBox(0, "错误", "不能打开文件.")
+	MsgBox(4096, "错误", "不能打开文件.")
 	Exit
 EndIf
 
@@ -18,7 +18,7 @@ FileClose($file)
 $file = FileOpen(@ScriptDir & "\test\test.txt", 10) ; 等同 2 + 8 (清除内容 + 目录不存在就创建)
 
 If $file = -1 Then
-	MsgBox(0, "错误", "不能打开文件.")
+	MsgBox(4096, "错误", "不能打开文件.")
 	Exit
 EndIf
 

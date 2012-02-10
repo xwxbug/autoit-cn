@@ -5,7 +5,7 @@ Local $hFile = FileOpen($sFile, 2)
 
 ; 检查文件是否写入模式
 If $hFile = -1 Then
-	MsgBox(0, "错误", "无法打开文件.")
+	MsgBox(4096, "错误", "无法打开文件.")
 	Exit
 EndIf
 
@@ -18,13 +18,13 @@ FileWriteLine($hFile, "Line3")
 FileFlush($hFile)
 
 ; 读取当前文件坐标内容
-MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
+MsgBox(4096, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
 ; 设置当前文件坐标.
 Local $n = FileSetPos($hFile, 0, $FILE_BEGIN)
 
 ;读取当前文件坐标内容
-MsgBox(0, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
+MsgBox(4096, "", "位置: " & FileGetPos($hFile) & @CRLF & "数据: " & @CRLF & FileRead($hFile))
 
 ;关闭此前已打开的文件.
 FileClose($hFile)

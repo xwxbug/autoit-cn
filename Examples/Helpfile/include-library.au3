@@ -2,6 +2,6 @@
 #include-once
 
 Func myFunc()
-	MsgBox(0, "", "Hello from library.au3")
+	MsgBox(4096, "", "Hello from library.au3")
 EndFunc   ;==>myFunc
 

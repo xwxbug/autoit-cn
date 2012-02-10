@@ -9,4 +9,4 @@ Do
 Until InetGetInfo($hDownload, 2)	; 检查下载是否完成.
 Local $nBytes = InetGetInfo($hDownload, 0)
 InetClose($hDownload)	; 关闭句柄,释放资源.
-MsgBox(0, "", "字节读取: " & $nBytes)
+MsgBox(4096, "", "字节读取: " & $nBytes)
