@@ -5,4 +5,4 @@ While 1 ;除非调用 ExitLoop ,则无限循环
 	If $ans < 0 Then ExitLoop
 	$sum = $sum + $ans
 WEnd
-MsgBox(0,"次数为:", $sum)
+MsgBox(4096,"次数为:", $sum)

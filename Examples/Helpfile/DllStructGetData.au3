@@ -7,7 +7,7 @@ DllStructSetData($tagOSVERSIONINFO, 'dwOSVersionInfoSize', DllStructGetSize($tag
 ; Call the API function 'GetVersionEx' using DLLCall and passing the structure.
 Local $aReturn = DllCall('kernel32.dll', 'int', 'GetVersionEx', 'struct*', $tagOSVERSIONINFO)
 If @error Or Not $aReturn[0] Then
-	MsgBox(0, "DLLCall Error", "An error occurred when retrieving the Operating System information.")
+	MsgBox(4096, "DLLCall Error", "An error occurred when retrieving the Operating System information.")
 EndIf
 
 ; Get specific data from the element strings.
@@ -19,7 +19,7 @@ Local $sServicePack = DllStructGetData($tagOSVERSIONINFO, 'szCSDVersion')
 ; Free the structure.
 $tagOSVERSIONINFO = 0
 
-MsgBox(0, "Operating System information", "Major version: " & $iMajorVersion & @CRLF & _
+MsgBox(4096, "Operating System information", "Major version: " & $iMajorVersion & @CRLF & _
 		"Minor version: " & $iMinorVersion & @CRLF & _
 		"Build: " & $iBuildNumber & @CRLF & _
 		"Service Pack: " & $sServicePack & @CRLF)

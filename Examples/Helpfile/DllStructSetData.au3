@@ -10,7 +10,7 @@
 Local $str = "int;byte;uint;char[128]"
 Local $a = DllStructCreate($str)
 If @error Then
-	MsgBox(0,"","DllStructCreate 发生错误" & @error);
+	MsgBox(4096,"","DllStructCreate 发生错误" & @error);
 	Exit
 EndIf
 
@@ -31,7 +31,7 @@ DllStructSetData($a, 4, Asc("h"), 1)
 ;=========================================================
 ;	显示数据结构的信息
 ;=========================================================
-MsgBox(0,"DllStruct","数据结构大小: " & DllStructGetSize($a) & @CRLF & _
+MsgBox(4096,"DllStruct","数据结构大小: " & DllStructGetSize($a) & @CRLF & _
 		"数据结构指针: " & DllStructGetPtr($a) & @CRLF & _
 		"Data:" & @CRLF & _
 		DllStructGetData($a, 1) & @CRLF & _

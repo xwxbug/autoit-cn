@@ -21,7 +21,7 @@ Local $b = DllStructGetData($rect, 4)
 $rect = 0
 
 ;显示 WinGetPos 的结果和返回的矩形
-MsgBox(0,"Larry 测试 :)","WinGetPos(): (" & $coor[0] & "," & $coor[1] & _
+MsgBox(4096,"Larry 测试 :)","WinGetPos(): (" & $coor[0] & "," & $coor[1] & _
 		") (" & $coor[2] + $coor[0] & "," & $coor[3] + $coor[1] & ")" & @CRLF & _
 		"GetWindowRect(): (" & $l & "," & $t & ") (" & $r & "," & $b & ")")
 
@@ -29,19 +29,19 @@ MsgBox(0,"Larry 测试 :)","WinGetPos(): (" & $coor[0] & "," & $coor[1] & _
 ; DllStructGetPtr 参考项目
 Local $a = DllStructCreate("int")
 If @error Then
-	MsgBox(0,"","DllStructCreate 错误" & @error);
+	MsgBox(4096,"","DllStructCreate 错误" & @error);
 	Exit
 EndIf
 
 $b = DllStructCreate("uint", DllStructGetPtr($a, 1))
 If @error Then
-	MsgBox(0,"","DllStructCreate 错误 " & @error);
+	MsgBox(4096,"","DllStructCreate 错误 " & @error);
 	Exit
 EndIf
 
 Local $c = DllStructCreate("float", DllStructGetPtr($a, 1))
 If @error Then
-	MsgBox(0,"","DllStructCreate 错误 " & @error);
+	MsgBox(4096,"","DllStructCreate 错误 " & @error);
 	Exit
 EndIf
 
@@ -51,7 +51,7 @@ DllStructSetData($a, 1, -1)
 ;=========================================================
 ;	显示相同数据的不同类型
 ;=========================================================
-MsgBox(0, "DllStruct", _
+MsgBox(4096, "DllStruct", _
 		"int: " & DllStructGetData($a, 1) & @CRLF & _
 		"uint: " & DllStructGetData($b, 1) & @CRLF & _
 		"float: " & DllStructGetData($c, 1) & @CRLF & _

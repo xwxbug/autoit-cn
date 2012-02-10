@@ -11,8 +11,8 @@ Local $result = DllCall("user32.dll", "int", "MessageBox", "hwnd", 0, "str", "若
 
 Local $hwnd = WinGetHandle("[CLASS:Notepad]")
 $result = DllCall("user32.dll", "int", "GetWindowText", "hwnd", $hwnd, "str", "", "int", 32768)
-MsgBox(0, "", $result[0])	; 返回的字符数
-MsgBox(0, "", $result[2])	; 在参数 2 返回的文本
+MsgBox(4096, "", $result[0])	; 返回的字符数
+MsgBox(4096, "", $result[2])	; 在参数 2 返回的文本
 
 
 ; *******************************************************
@@ -34,4 +34,4 @@ $sFileName = DllStructGetData($stString, 1)
 Local $nIconIndex = DllStructGetData($stIcon, 1)
 
 ; 显示文件名和图标索引
-MsgBox(0, "信息", "最后选择的文件: " & $sFileName & @LF & "图标索引: " & $nIconIndex)
+MsgBox(4096, "信息", "最后选择的文件: " & $sFileName & @LF & "图标索引: " & $nIconIndex)
