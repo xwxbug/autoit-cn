@@ -1,46 +1,74 @@
+#include <GuiConstantsEx.au3>
+#include <WindowsConstants.au3>
 #Include <WinINet.au3>
 
-; Initialize WinINet
-_WinINet_Startup()
+Global $iMemo
 
-; Set variables
-Global $sServerName = ""
-Global $iServerPort = 21
-Global $sUsername = Default
-Global $sPassword = Default
+_Main()
 
-Global $iPauseTime = 3000
-Global $sDirectory = "/_WININET_UDF_TEST_DIRECTORY_"
+Func _Main()
+	Local $hGUI
 
-; Create handles
-Global $hInternetOpen = _WinINet_InternetOpen("AutoIt/" & @AutoItVersion)
-Global $hInternetConnect = _WinINet_InternetConnect($hInternetOpen, $INTERNET_SERVICE_FTP, $sServerName, $iServerPort, 0, $sUsername, $sPassword)
+	; 创建界面
+	$hGUI = GUICreate(" _WinINet_FtpCommand ", 600, 400)
 
-; Create directory
-ConsoleWrite("Creating directory..." & @CRLF)
-Sleep($iPauseTime)
-_WinINet_FtpCommand($hInternetConnect, "MKD " & $sDirectory)
-ConsoleWrite("Server Response: " & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+	; 创建memo控件
+	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	GUISetState()
 
-; Change current working directory
-ConsoleWrite("Entering created directory..." & @CRLF)
-Sleep($iPauseTime)
-_WinINet_FtpCommand($hInternetConnect, "CWD " & $sDirectory)
-ConsoleWrite("Server Response: " & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+	; 初始化WinINet
+	_WinINet_Startup()
 
-; Change current working directory
-ConsoleWrite("Exiting created directory..." & @CRLF)
-Sleep($iPauseTime)
-_WinINet_FtpCommand($hInternetConnect, "CWD ..")
-ConsoleWrite("Server Response: " & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+	; 设置变量
+	Global $sServerName = ""
+	Global $iServerPort = 21
+	Global $sUsername = Default
+	Global $sPassword = Default
 
-; Remove directory
-ConsoleWrite("Removing created directory..." & @CRLF)
-Sleep($iPauseTime)
-_WinINet_FtpCommand($hInternetConnect, "RMD " & $sDirectory)
-ConsoleWrite("Server Response: " & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+	Global $iPauseTime = 3000
+	Global $sDirectory = " /_WININET_UDF_TEST_DIRECTORY_ "
 
-; Cleanup
-_WinINet_InternetCloseHandle($hInternetConnect)
-_WinINet_InternetCloseHandle($hInternetOpen)
-_WinINet_Shutdown()
+	; 创建句柄
+	Global $hInternetOpen = _WinINet_InternetOpen(" AutoIt/" & @AutoItVersion)
+	Global $hInternetConnect = _WinINet_InternetConnect($hInternetOpen, $INTERNET_SERVICE_FTP, $sServerName, $iServerPort, 0, $sUsername, $sPassword)
+
+	; 创建目录
+	MemoWrite(" Creating directory... ")
+	Sleep($iPauseTime)
+	_WinINet_FtpCommand($hInternetConnect, "MKD" & $sDirectory)
+	MemoWrite(" Server Response:" & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+
+	; 改变当前的工作目录
+	MemoWrite(" Entering created directory... ")
+	Sleep($iPauseTime)
+	_WinINet_FtpCommand($hInternetConnect, "CWD" & $sDirectory)
+	MemoWrite(" Server Response:" & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+
+	; 改变当前的工作目录
+	MemoWrite(" Exiting created directory... ")
+	Sleep($iPauseTime)
+	_WinINet_FtpCommand($hInternetConnect, "CWD .. ")
+	MemoWrite(" Server Response:" & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+
+	; 移除目录
+	MemoWrite(" Removing created directory... ")
+	Sleep($iPauseTime)
+	_WinINet_FtpCommand($hInternetConnect, "RMD" & $sDirectory)
+	MemoWrite(" Server Response:" & _WinINet_InternetGetLastResponseInfo() & @CRLF)
+
+	; 清空
+	_WinINet_InternetCloseHandle($hInternetConnect)
+	_WinINet_InternetCloseHandle($hInternetOpen)
+	_WinINet_Shutdown()
+
+	; 循环至用户退出
+	Do
+	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+endfunc   ;==>_Main
+
+; 向memo控件写入信息
+Func MemoWrite($sMessage = "")
+	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
+endfunc   ;==>MemoWrite
+

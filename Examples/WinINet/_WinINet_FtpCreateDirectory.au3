@@ -1,85 +1,113 @@
+#include <GuiConstantsEx.au3>
+#include <WindowsConstants.au3>
 #Include <WinINet.au3>
 
-; Initialize WinINet
-_WinINet_Startup()
+Global $iMemo
 
-; Set variables
-Global $sServerName = ""
-Global $iServerPort = 21
-Global $sUsername = Default
-Global $sPassword = Default
+_Main()
 
-Global $iPauseTime = 3000
-Global $sDirectory = "/_WININET_UDF_TEST_DIRECTORY_"
-Global $sFile = "_WININET_UDF_TEST_FILE_"
-Global $sFileRenamed = "_WININET_UDF_TEST_FILE_RENAMED_"
+Func _Main()
+	Local $hGUI
 
-; Create handles
-Global $hInternetOpen = _WinINet_InternetOpen("AutoIt/" & @AutoItVersion)
-Global $hInternetConnect = _WinINet_InternetConnect($hInternetOpen, $INTERNET_SERVICE_FTP, $sServerName, $iServerPort, 0, $sUsername, $sPassword)
+	; 创建界面
+	$hGUI = GUICreate(" _WinINet_FtpCreateDirectory ", 600, 400)
 
-; Create new directory
-_WinINet_FtpCreateDirectory($hInternetConnect, $sDirectory)
-_WinINet_FtpSetCurrentDirectory($hInternetConnect, $sDirectory)
-ConsoleWrite("Current Directory: " & _WinINet_FtpGetCurrentDirectory($hInternetConnect) & @CRLF & @CRLF)
+	; 创建memo控件
+	$iMemo = GUICtrlCreateEdit("", 2, 2, 596, 396, $WS_VSCROLL)
+	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New ")
+	GUISetState()
 
-; Create/upload test file
-Sleep($iPauseTime)
-ConsoleWrite("Uploading: " & @TempDir & "\" & $sFile & @CRLF)
-FileWrite(@TempDir & "\" & $sFile, "AutoIt v" & @AutoItVersion)
-_WinINet_FtpPutFile($hInternetConnect, @TempDir & "\" & $sFile, $sFile)
+	; 初始化WinINet
+	_WinINet_Startup()
 
-; Rename test file
-Sleep($iPauseTime)
-ConsoleWrite("Renaming to: " & $sFileRenamed & @CRLF)
-_WinINet_FtpRenameFile($hInternetConnect, $sFile, $sFileRenamed)
+	; 设置变量
+	Global $sServerName = ""
+	Global $iServerPort = 21
+	Global $sUsername = Default
+	Global $sPassword = Default
 
-; Make sure remote file exists
-Global $avFtpFile = _WinINet_FtpFindFirstFile($hInternetConnect, $sFileRenamed)
-If Not @error Then
-	ConsoleWrite("Found: " & DllStructGetData($avFtpFile[1], "FileName") & @CRLF & @CRLF)
+	Global $iPauseTime = 3000
+	Global $sDirectory = " /_WININET_UDF_TEST_DIRECTORY_ "
+	Global $sFile = " _WININET_UDF_TEST_FILE_ "
+	Global $sFileRenamed = " _WININET_UDF_TEST_FILE_RENAMED_ "
 
-	; Check remote file size
+	; 创建句柄
+	Global $hInternetOpen = _WinINet_InternetOpen(" AutoIt/" & @AutoItVersion)
+	Global $hInternetConnect = _WinINet_InternetConnect($hInternetOpen, $INTERNET_SERVICE_FTP, $sServerName, $iServerPort, 0, $sUsername, $sPassword)
+
+	; 创建目录
+	_WinINet_FtpCreateDirectory($hInternetConnect, $sDirectory)
+	_WinINet_FtpSetCurrentDirectory($hInternetConnect, $sDirectory)
+	MemoWrite(" Current Directory:" & _WinINet_FtpGetCurrentDirectory($hInternetConnect) & @CRLF)
+
+	; 创建/上传测试文件
 	Sleep($iPauseTime)
-	ConsoleWrite("Local Size: " & FileGetSize(@TempDir & "\" & $sFile) & @CRLF)
+	MemoWrite(" Uploading:" & @TempDir & " \" & $sFile)
+	FileWrite(@TempDir & " \" & $sFile, "AutoIt v" & @AutoItVersion)
+	_WinINet_FtpPutFile($hInternetConnect, @TempDir & " \" & $sFile, $sFile)
 
-	Global $hFtpOpenFile = _WinINet_FtpOpenFile($hInternetConnect, $sFileRenamed, $GENERIC_READ)
-	Global $iFileSize = _WinINet_FtpGetFileSize($hFtpOpenFile)
-	ConsoleWrite("Remote Size: " & $iFileSize & @CRLF & @CRLF)
-
-	; Read remote file
+	; 重命名测试文件
 	Sleep($iPauseTime)
-	Global $vReceived = Binary("")
+	MemoWrite(" Renaming to:" & $sFileRenamed)
+	_WinINet_FtpRenameFile($hInternetConnect, $sFile, $sFileRenamed)
+
+	; 确定远程文件存在
+	Global $avFtpFile = _WinINet_FtpFindFirstFile($hInternetConnect, $sFileRenamed)
+	If @error Then
+		MemoWrite(" Found:" & DllStructGetData($avFtpFile[1], "FileName ") & @CRLF)
+
+		; 检查远程文件大小
+		Sleep($iPauseTime)
+		MemoWrite(" Local Size:" & FileGetSize(@TempDir & " \" & $sFile))
+
+		Global $hFtpOpenFile = _WinINet_FtpOpenFile($hInternetConnect, $sFileRenamed, $GENERIC_READ)
+		Global $iFileSize = _WinINet_FtpGetFileSize($hFtpOpenFile)
+		MemoWrite(" Remote Size:" & $iFileSize & @CRLF)
+
+		; 读取远程文件
+		Sleep($iPauseTime)
+		Global $vReceived = Binary("")
+		Do
+			$vReceived &= _WinINet_InternetReadFile($hFtpOpenFile, $iFileSize)
+		Until @error Or Not @extended
+		_WinINet_InternetCloseHandle($hFtpOpenFile)
+
+		MemoWrite(" Remote file contents:" & BinaryToString($vReceived) & @CRLF)
+
+		; 下载远程文件
+		Sleep($iPauseTime)
+		_WinINet_FtpGetFile($hInternetConnect, $sFileRenamed, @TempDir & " \" & $sFileRenamed)
+		MemoWrite(" Downloaded file contents:" & FileRead(@TempDir & " \" & $sFileRenamed) & @CRLF)
+
+		; 删除远程文件
+		Sleep($iPauseTime)
+		MemoWrite(" Deleting remote file... ")
+		_WinINet_FtpDeleteFile($hInternetConnect, $sFileRenamed)
+
+		; 删除远程目录
+		Sleep($iPauseTime)
+		MemoWrite(" Deleting remote directory..." & @CRLF)
+		_WinINet_FtpSetCurrentDirectory($hInternetConnect, $sDirectory & " /.. ")
+		_WinINet_FtpRemoveDirectory($hInternetConnect, $sDirectory)
+	EndIf
+
+	; 清空...
+	MemoWrite(" Local cleanup... ")
+	FileDelete(@TempDir & " \" & $sFile)
+	FileDelete(@TempDir & " \" & $sFileRenamed)
+
+	; 清空
+	_WinINet_InternetCloseHandle($hInternetConnect)
+	_WinINet_InternetCloseHandle($hInternetOpen)
+	_WinINet_Shutdown()
+
+	; 循环至用户退出
 	Do
-		$vReceived &= _WinINet_InternetReadFile($hFtpOpenFile, $iFileSize)
-	Until @error Or Not @extended
-	_WinINet_InternetCloseHandle($hFtpOpenFile)
+	Until GUIGetMsg() = $GUI_EVENT_CLOSE
+endfunc   ;==>_Main
 
-	ConsoleWrite("Remote file contents: " & BinaryToString($vReceived) & @CRLF)
+; 向memo控件写入信息
+Func MemoWrite($sMessage = "")
+	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
+endfunc   ;==>MemoWrite
 
-	; Download remote file
-	Sleep($iPauseTime)
-	_WinINet_FtpGetFile($hInternetConnect, $sFileRenamed, @TempDir & "\" & $sFileRenamed)
-	ConsoleWrite("Downloaded file contents: " & FileRead(@TempDir & "\" & $sFileRenamed) & @CRLF & @CRLF)
-
-	; Delete remote file
-	Sleep($iPauseTime)
-	ConsoleWrite("Deleting remote file..."& @CRLF)
-	_WinINet_FtpDeleteFile($hInternetConnect, $sFileRenamed)
-
-	; Delete remote directory
-	Sleep($iPauseTime)
-	ConsoleWrite("Deleting remote directory..."& @CRLF)
-	_WinINet_FtpSetCurrentDirectory($hInternetConnect, $sDirectory & "/..")
-	_WinINet_FtpRemoveDirectory($hInternetConnect, $sDirectory)
-EndIf
-
-; Cleanup...
-ConsoleWrite("Local cleanup..."& @CRLF)
-FileDelete(@TempDir & "\" & $sFile)
-FileDelete(@TempDir & "\" & $sFileRenamed)
-
-; Cleanup
-_WinINet_InternetCloseHandle($hInternetConnect)
-_WinINet_InternetCloseHandle($hInternetOpen)
-_WinINet_Shutdown()
