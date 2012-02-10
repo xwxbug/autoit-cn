@@ -21,4 +21,4 @@ Switch @error
 	$msg = "出现了非常可怕的错误."
 EndSwitch
 
-MsgBox(0, Default, $msg)
+MsgBox(4096, Default, $msg)

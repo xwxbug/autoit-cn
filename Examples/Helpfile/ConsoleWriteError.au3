@@ -1,5 +1,2 @@
-;可以用作调试用, 用于在STDERR输出文本内容.
-
-Local $var = "Test"
-ConsoleWriteError("var=" & $var & @CRLF)
-;运行在文本编辑器,可以捕获控制台输出的数据 "var=Test"
+Local $sString = "An error occurred."
+ConsoleWriteError($sString & @CRLF) ; 在文本编辑器中运行,可以捕获控制台输出的数据,例如SciTE将显示$sString的值.
