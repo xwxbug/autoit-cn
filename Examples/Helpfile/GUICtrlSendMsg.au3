@@ -1,26 +1,27 @@
 #include <GUIConstantsEx.au3>
-#include <EditConstants.au3>
+#include <ProgressConstants.au3>
 
-GUICreate("My GUI") ; will create a dialog box that when displayed is centered
+Example()
 
-Local $nEdit = GUICtrlCreateEdit("line 0", 10, 10)
-GUICtrlCreateButton("Ok", 20, 200, 50)
-GUISetState()
+Func Example()
+	GUICreate("Marquee Progress Bar", 290, 90, -1, -1) ; An example of starting/stopping a scrolling marquee of a progress bar.
+	Local $iProgress = GUICtrlCreateProgress(10, 10, 270, 20, $PBS_MARQUEE)
+	Local $iStart = GUICtrlCreateButton("&Start", 10, 60, 70, 25)
+	Local $iStop = GUICtrlCreateButton("S&top", 85, 60, 70, 25)
 
-Local $n
-For $n = 1 To 5
-	GUICtrlSetData($nEdit, @CRLF & "line " & $n)
-Next
+	GUISetState(@SW_SHOW)
 
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				ExitLoop
 
-; Run the GUI until the dialog is closed
-Do
-	Local $msg = GUIGetMsg()
-	If $msg > 0 Then
-		$n = GUICtrlSendMsg($nEdit, $EM_LINEINDEX, -1, 0)
-		Local $nline = GUICtrlSendMsg($nEdit, $EM_LINEFROMCHAR, $n, 0)
-		GUICtrlSetState($nEdit, $GUI_FOCUS) ; set focus
+			Case $iStart
+				GUICtrlSendMsg($iProgress, $PBM_SETMARQUEE, 1, 50) ; Send the message $PBM_SETMARQUEE and wParam of 1 to start the scrolling marquee.
 
-		MsgBox(0, "Currentline", $nline)
-	EndIf
-Until $msg = $GUI_EVENT_CLOSE
+			Case $iStop
+				GUICtrlSendMsg($iProgress, $PBM_SETMARQUEE, 0, 50) ; Send the message $PBM_SETMARQUEE and wParam of 0 to stop the scrolling marquee.
+
+		EndSwitch
+	WEnd
+EndFunc   ;==>Example

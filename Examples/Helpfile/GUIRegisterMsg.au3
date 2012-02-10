@@ -34,11 +34,11 @@ Func Example()
 
 			Case $nButton
 				; Normally should not run through cause of our MY_WM_COMMAND function
-				MsgBox(0, "Info", "Button pressed")
+				MsgBox(4096, "Info", "Button pressed")
 
 			Case $nButton2
 				; Normally should not run through cause of our MY_WM_COMMAND function
-				MsgBox(0, "Info", "Button2 pressed")
+				MsgBox(4096, "Info", "Button2 pressed")
 		EndSwitch
 	WEnd
 EndFunc   ;==>Example
@@ -57,7 +57,7 @@ Func MY_WM_COMMAND($hWnd, $Msg, $wParam, $lParam)
 			Local $nCtrlID = DllCall("user32.dll", "int", "GetDlgCtrlID", "hwnd", $hFocus[0])
 			PostButtonClick($hWnd, $nCtrlID[0])
 		Else
-			MsgBox(0, "MY_WM_COMMAND", "GUIHWnd" & @TAB & ":" & $hWnd & @LF & _
+			MsgBox(4096, "MY_WM_COMMAND", "GUIHWnd" & @TAB & ":" & $hWnd & @LF & _
 					"MsgID" & @TAB & ":" & $Msg & @LF & _
 					"wParam" & @TAB & ":" & $wParam & @LF & _
 					"lParam" & @TAB & ":" & $lParam & @LF & @LF & _

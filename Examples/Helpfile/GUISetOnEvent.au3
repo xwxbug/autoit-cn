@@ -29,12 +29,12 @@ Func Example()
 EndFunc   ;==>Example
 
 Func OKPressed()
-	MsgBox(0, "OK Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle & " CtrlHandle=" & @GUI_CtrlHandle)
+	MsgBox(4096, "OK Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle & " CtrlHandle=" & @GUI_CtrlHandle)
 EndFunc   ;==>OKPressed
 
 
 Func CancelPressed()
-	MsgBox(0, "Cancel Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle & " CtrlHandle=" & @GUI_CtrlHandle)
+	MsgBox(4096, "Cancel Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle & " CtrlHandle=" & @GUI_CtrlHandle)
 EndFunc   ;==>CancelPressed
 
 
@@ -43,14 +43,14 @@ Func SpecialEvents()
 
 	Select
 		Case @GUI_CtrlId = $GUI_EVENT_CLOSE
-			MsgBox(0, "Close Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
+			MsgBox(4096, "Close Pressed", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
 			Exit
 
 		Case @GUI_CtrlId = $GUI_EVENT_MINIMIZE
-			MsgBox(0, "Window Minimized", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
+			MsgBox(4096, "Window Minimized", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
 
 		Case @GUI_CtrlId = $GUI_EVENT_RESTORE
-			MsgBox(0, "Window Restored", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
+			MsgBox(4096, "Window Restored", "ID=" & @GUI_CtrlId & " WinHandle=" & @GUI_WinHandle)
 
 	EndSelect
 

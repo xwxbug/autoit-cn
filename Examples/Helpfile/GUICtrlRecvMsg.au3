@@ -21,6 +21,6 @@ Do
 		GUICtrlSetState($nEdit, $GUI_FOCUS) ; set focus back on edit control
 
 		; will display the wParam and lParam values return by the control
-		MsgBox(0, "Current selection", StringFormat("start=%d end=%d", $a[0], $a[1]))
+		MsgBox(4096, "Current selection", StringFormat("start=%d end=%d", $a[0], $a[1]))
 	EndIf
 Until $msg = $GUI_EVENT_CLOSE

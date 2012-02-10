@@ -190,39 +190,6 @@ Func LVSort2($hWnd, $nItem1, $nItem2, $nColumn)
 	Return $nResult
 EndFunc   ;==>LVSort2
 
-
-; Retrieve the text of a listview item in a specified column
-Func GetSubItemText2($nCtrlID, $nItemID, $nColumn)
-	Local $stLvfi = DllStructCreate("uint;ptr;int;int[2];int")
-	Local $stBuffer, $nIndex, $stLvi, $sItemText
-
-	DllStructSetData($stLvfi, 1, $LVFI_PARAM) ; Find the item by our saved index
-	DllStructSetData($stLvfi, 3, $nItemID)
-
-	$stBuffer = DllStructCreate("char[260]")
-
-	$nIndex = GUICtrlSendMsg($nCtrlID, $LVM_FINDITEM, -1, DllStructGetPtr($stLvfi));
-
-	$stLvi = DllStructCreate("uint;int;int;uint;uint;ptr;int;int;int;int")
-
-	DllStructSetData($stLvi, 1, $LVIF_TEXT)
-	DllStructSetData($stLvi, 2, $nIndex)
-	DllStructSetData($stLvi, 3, $nColumn)
-	DllStructSetData($stLvi, 6, DllStructGetPtr($stBuffer))
-	DllStructSetData($stLvi, 7, 260)
-
-	GUICtrlSendMsg($nCtrlID, $LVM_GETITEMA, 0, DllStructGetPtr($stLvi));
-
-	$sItemText = DllStructGetData($stBuffer, 1)
-
-	$stLvi = 0
-	$stLvfi = 0
-	$stBuffer = 0
-
-	Return $sItemText
-EndFunc   ;==>GetSubItemText2
-
-
 ; Create and insert items directly into the listview
 Func MyGUICtrlCreateListViewItem($sText, $nCtrlID, $nIndex)
 	Local $stLvItem = DllStructCreate("uint;int;int;uint;uint;ptr;int;int;int;int;")

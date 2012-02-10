@@ -47,7 +47,7 @@ Func Example()
 				Exit
 
 			Case $msg = $button_1
-				MsgBox(0, "Button", "Radio " & $radioval1 & @LF & "Radio " & Chr($radioval2 + Asc("A")) & @LF & GUICtrlRead($input_1) & @LF & GUICtrlRead($input_2))
+				MsgBox(4096, "Button", "Radio " & $radioval1 & @LF & "Radio " & Chr($radioval2 + Asc("A")) & @LF & GUICtrlRead($input_1) & @LF & GUICtrlRead($input_2))
 
 			Case $msg = $radio_1 Or $msg = $radio_2 Or $msg = $radio_3
 				$radioval1 = $msg - $radio_1

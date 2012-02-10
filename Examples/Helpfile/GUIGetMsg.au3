@@ -32,15 +32,15 @@ Func Example()
 		$msg = GUIGetMsg()
 		Select
 			Case $msg = $GUI_EVENT_CLOSE
-				MsgBox(0, "", "Dialog was closed")
+				MsgBox(4096, "", "Dialog was closed")
 				Exit
 			Case $msg = $GUI_EVENT_MINIMIZE
-				MsgBox(0, "", "Dialog minimized", 2)
+				MsgBox(4096, "", "Dialog minimized", 2)
 			Case $msg = $GUI_EVENT_MAXIMIZE
-				MsgBox(0, "", "Dialog restored", 2)
+				MsgBox(4096, "", "Dialog restored", 2)
 
 			Case $msg = $button_1
-				MsgBox(0, "Default button clicked", "Radio " & $radioval1)
+				MsgBox(4096, "Default button clicked", "Radio " & $radioval1)
 
 			Case $msg >= $radio_1 And $msg <= $radio_3
 				$radioval1 = $msg - $radio_1
