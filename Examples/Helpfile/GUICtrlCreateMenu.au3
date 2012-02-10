@@ -51,7 +51,7 @@ Func Example()
 			EndIf
 		EndIf
 		If $msg = $GUI_EVENT_CLOSE Or $msg = $cancelbutton Or $msg = $exititem Then ExitLoop
-		If $msg = $infoitem Then MsgBox(0, "Info", "Only a test...")
+		If $msg = $infoitem Then MsgBox(4096, "Info", "Only a test...")
 	WEnd
 	GUIDelete()
 EndFunc   ;==>Example

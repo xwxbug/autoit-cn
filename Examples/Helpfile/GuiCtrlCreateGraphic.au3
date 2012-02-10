@@ -21,7 +21,7 @@ Func Example()
 			$i = $i + $inc
 			If $i < 0 Or $i > $MAXGr Then Exit
 		EndIf
-		If $msg > 0 Then MsgBox(0, "clicked", $msg & @LF & $a[5], 2)
+		If $msg > 0 Then MsgBox(4096, "clicked", $msg & @LF & $a[5], 2)
 	Until $msg = $GUI_EVENT_CLOSE
 EndFunc   ;==>Example
 

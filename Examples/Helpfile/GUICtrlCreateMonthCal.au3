@@ -13,8 +13,8 @@ Func Example()
 
 	Do
 		$msg = GUIGetMsg()
-		If $msg = $Date Then MsgBox(0, "debug", "calendar clicked")
+		If $msg = $Date Then MsgBox(4096, "debug", "calendar clicked")
 	Until $msg = $GUI_EVENT_CLOSE
 
-	MsgBox(0, $msg, GUICtrlRead($Date), 2)
+	MsgBox(4096, $msg, GUICtrlRead($Date), 2)
 EndFunc   ;==>Example

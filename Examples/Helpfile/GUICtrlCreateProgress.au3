@@ -20,7 +20,7 @@ Func Example()
 		If $msg = $button Then
 			GUICtrlSetData($button, "停止")
 			For $i = $s To 100
-				If GUICtrlRead($progressbar1) = 50 Then MsgBox(0, "信息", "一半已经完成...", 1)
+				If GUICtrlRead($progressbar1) = 50 Then MsgBox(4096, "信息", "一半已经完成...", 1)
 				$m = GUIGetMsg()
 
 				If $m = -3 Then ExitLoop

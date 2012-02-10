@@ -40,7 +40,7 @@ Func _Main()
 				Exit
 
 			Case $iInfoItem
-				MsgBox(64, "Info", "Only a test...")
+				MsgBox(4160, "Info", "Only a test...")
 
 			Case $iFileItem
 				$sFilePath = FileOpenDialog("选择一个文件...", @TempDir, "All (*.*)")

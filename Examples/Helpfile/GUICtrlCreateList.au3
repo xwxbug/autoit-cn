@@ -27,7 +27,7 @@ Func Example()
 			Case $msg = $clear
 				GUICtrlSetData($mylist, "")
 			Case $msg = $close
-				MsgBox(0, "", "the closing button has been clicked", 2)
+				MsgBox(4096, "", "the closing button has been clicked", 2)
 				Exit
 		EndSelect
 	WEnd

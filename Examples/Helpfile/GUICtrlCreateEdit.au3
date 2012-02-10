@@ -93,7 +93,7 @@ EndFunc   ;==>RichEditExample
 
 Func MyErrFunc()
 
-	MsgBox(0, "AutoItCOM Test", "We intercepted a COM Error !" & @CRLF & @CRLF & _
+	MsgBox(4096, "AutoItCOM Test", "We intercepted a COM Error !" & @CRLF & @CRLF & _
 			"err.description is: " & @TAB & $oMyError.description & @CRLF & _
 			"err.windescription:" & @TAB & $oMyError.windescription & @CRLF & _
 			"err.number is: " & @TAB & Hex($oMyError.number, 8) & @CRLF & _

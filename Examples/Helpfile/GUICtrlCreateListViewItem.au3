@@ -26,9 +26,9 @@ Func Example()
 
 		Select
 			Case $msg = $button
-				MsgBox(0, "listview item", GUICtrlRead(GUICtrlRead($listview)), 2)
+				MsgBox(4096, "listview item", GUICtrlRead(GUICtrlRead($listview)), 2)
 			Case $msg = $listview
-				MsgBox(0, "listview", "clicked=" & GUICtrlGetState($listview), 2)
+				MsgBox(4096, "listview", "clicked=" & GUICtrlGetState($listview), 2)
 		EndSelect
 	Until $msg = $GUI_EVENT_CLOSE
 EndFunc   ;==>Example
