@@ -11,7 +11,7 @@ For $element In $aArray
 	$string = $string & $element & @CRLF
 Next
 
-MsgBox(0,"For..IN 数组测试","结果: " & @CRLF & $string)
+MsgBox(4096,"For..IN 数组测试","结果: " & @CRLF & $string)
 
 ;使用一个对象集合
 
@@ -25,8 +25,8 @@ If IsObj($oShellWindows) Then
 		$string = $string & $Window.LocationName & @CRLF
 	Next
 
-  MsgBox(0,"","您打开了下列窗口:" & @CRLF & $string)
+  MsgBox(4096,"","您打开了下列窗口:" & @CRLF & $string)
 Else
 
-  MsgBox(0,"","您没有打开外壳窗口.")
+  MsgBox(4096,"","您没有打开外壳窗口.")
 EndIf
