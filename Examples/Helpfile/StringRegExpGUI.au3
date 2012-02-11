@@ -19,9 +19,8 @@
 #include <StaticConstants.au3>
 Opt("MustDeclareVars", 1)
 Global Const $sSep = Chr(11) ; --> 0x0B = VT - use as a separator for use in the combo control. By default this uses a "|" and this charactor is likely to be used in a pattern file
-Opt("GUIDataSeparatorChar",$sSep)
+Opt("GUIDataSeparatorChar", $sSep)
 Global $sInitialDir = @ScriptDir
-Global $sPatterns = "(.*)"
 Global Const $iGreen = 0xAAFFD5
 Global Const $iGrey = 0xD4D0C8
 Global Const $iRed = 0xFF8888
@@ -33,7 +32,6 @@ Global $hGui_StringToTest ; $hGui_StringToTest holds the currently selected tab 
 ; results from StringRegExp come in 3 forms: a single string (rtn flag 0), a single array (rtn flag 1,2,3) or an array of arrays (rtn flag 4)
 Global $bResultTrueFalseExpected = False
 Global $bArrayOfArraysExpected = False
-Global $sInitialDir ; use to save the location of the previous "Browse" function
 Global $sPatterns = readDatFile()
 GUICreate("StringRegExp Original idea -by w0uter, modified Steve8tch", 550, 596, (@DesktopWidth - 550) / 2, (@DesktopHeight - 570) / 2)
 GUICtrlCreateGroup("The pattern   -  $ptn", 10, 210, 530, 60)
@@ -270,7 +268,7 @@ Func doPtnDel($x)
 	If FileDelete($sDatFile) Then
 		FileWrite($sDatFile, $sDat)
 	Else
-		MsgBox(0, "***ERROR**", "Failed to delete  entry from the dat file" & @CRLF & _
+		MsgBox(4096, "***ERROR**", "Failed to delete  entry from the dat file" & @CRLF & _
 				"Reason: Failed to delete old file.")
 	EndIf
 	;Now read in new dat file
@@ -287,7 +285,7 @@ Func doPtnAdd($x)
 	If FileDelete($sDatFile) Then
 		FileWrite($sDatFile, $sDat)
 	Else
-		MsgBox(0, "***ERROR**", "Failed to delete  entry from the dat file" & @CRLF & _
+		MsgBox(4096, "***ERROR**", "Failed to delete  entry from the dat file" & @CRLF & _
 				"Reason: Failed to delete old file.")
 	EndIf
 	;Now read in new dat file
@@ -322,5 +320,5 @@ Func doDisplayHelp()
 			EndIf
 		EndIf
 	EndIf
-	If $iErr = 1 Then MsgBox(0, "error", "Cannot find help file - sorry")
+	If $iErr = 1 Then MsgBox(4096, "error", "Cannot find help file - sorry")
 EndFunc   ;==>doDisplayHelp

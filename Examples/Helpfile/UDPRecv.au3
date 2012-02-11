@@ -16,7 +16,7 @@ If @error <> 0 Then Exit
 While 1
 	Local $data = UDPRecv($socket, 50)
 	If $data <> "" Then
-        MsgBox(0, "UDP 数据", $data, 1)
+        MsgBox(4096, "UDP 数据", $data, 1)
 	EndIf
 	Sleep(100)
 WEnd

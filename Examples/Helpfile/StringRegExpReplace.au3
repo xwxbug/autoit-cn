@@ -29,5 +29,5 @@ EndFunc   ;==>Test3
 Func Display($sInput, $sOutput)
 	; Format the output.
 	Local $sMsg = StringFormat("Input:\t%s\n\nOutput:\t%s", $sInput, $sOutput)
-	MsgBox(0, "Results", $sMsg)
+	MsgBox(4096, "Results", $sMsg)
 EndFunc   ;==>Display

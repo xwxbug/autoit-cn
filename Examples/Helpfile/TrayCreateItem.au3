@@ -4,7 +4,7 @@
 
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; 默认托盘菜单项目(脚本已暂停/退出脚本) (Script Paused/Exit) 将不显示.
+Opt("TrayMenuMode", 3) ; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示,并且所选项目不能被选中(checkbox不会打勾) . 请参考TrayMenuMode选项1和2(3=1+2).
 
 Local $prefsitem	= TrayCreateItem("参数")
 TrayCreateItem("")

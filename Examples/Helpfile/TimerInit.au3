@@ -1,4 +1,4 @@
-Local $begin = TimerInit()
-Sleep(3000)
-Local $dif = TimerDiff($begin)
-MsgBox(0,"时间差,这个计时的精度比sleep高",$dif)
+Local $hTimer = TimerInit() ; Begin the timer and store the handle in a variable.
+Sleep(3000) ; Sleep for 3 seconds.
+Local $iDiff = TimerDiff($hTimer) ; Find the difference in time from the previous call of TimerInit. The variable we stored the TimerInit handlem is passed as the "handle" to TimerDiff.
+MsgBox(4096,"时间差,这个计时的精度比sleep高",$iDiff)

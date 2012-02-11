@@ -1,51 +1,54 @@
-#include <Constants.au3>
+#NoTrayIcon
 
-Opt("TrayMenuMode", 1) ; 不显示默认关联菜单
+Opt("TrayMenuMode", 3) ; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示,并且所选项目不能被选中(checkbox不会打勾) . 请参考TrayMenuMode选项1和2(3=1+2).
 
-Global Const $MIM_APPLYTOSUBMENUS = 0x80000000
-Global Const $MIM_BACKGROUND = 0x00000002
+Global Const $MIM_APPLYTOSUBMENUS = 0x80000000, $MIM_BACKGROUND = 0x00000002 ; Constants required for SetMenuColor
 
-TraySetIcon("shell32.dll", 21)
-TraySetToolTip("这里有一个小例子显示带颜色的托盘图标" & @LF & "只需你的系统高于 Windows 2000 就能看到.")
+Example()
 
-Local $OptionsMenu	= TrayCreateMenu("选项")
-TrayCreateItem("总在最前", $OptionsMenu)
-TrayItemSetState(-1, $TRAY_CHECKED)
-TrayCreateItem("总是重复", $OptionsMenu)
-TrayCreateItem("")
-Local $AboutItem	= TrayCreateItem("关于")
-TrayCreateItem("")
-Local $ExitItem		= TrayCreateItem("退出例子")
+Func Example()
+	Local $iSettings = TrayCreateMenu("设置") ; Create a tray menu sub menu with two sub items.
+	Local $iDisplay = TrayCreateItem("显示", $iSettings)
+	Local $iPrinter = TrayCreateItem("打印", $iSettings)
+	TrayCreateItem("") ; Create a separator line.
 
-SetMenuColor(0, 0xEEBB99)   ; BGR 颜色值, '0' 的意思是托盘关联菜单自己.
-SetMenuColor($OptionsMenu, 0x66BB99); BGR 颜色值
+	Local $iAbout = TrayCreateItem("关于")
+	TrayCreateItem("") ; Create a separator line.
 
-While 1
-	Local $Msg = TrayGetMsg()
+	Local $iExit = TrayCreateItem("退出例子")
 
-	Switch $Msg
-		Case $ExitItem
-			ExitLoop
+	TraySetState(1) ; Show the tray menu.
 
-		Case $AboutItem
-			MsgBox(64, "关于...", "带颜色的托盘图标例子")
-	EndSwitch
-WEnd
+	SetMenuColor(0, 0xEEBB99)   ; BGR 颜色值, '0' 的意思是托盘关联菜单自己.
+	SetMenuColor($iSettings, 0x66BB99); BGR 颜色值
 
-Exit
+	While 1
+		Switch TrayGetMsg()
+			Case $iAbout ; Display a message box about the AutoIt version and installation path of the AutoIt executable.
+				MsgBox(4096, "", "关于托盘菜单例子." & @CRLF & @CRLF & _
+						"程序版本: " & @AutoItVersion & @CRLF & _
+						"安装路径: " & StringLeft(@AutoItExe, StringInStr(@AutoItExe, "\", 0, -1) - 1)) ; Find the folder of a full path.
 
+			Case $iDisplay, $iPrinter
+				MsgBox(4096, "", "A sub menu item was selected from the tray menu.")
+
+			Case $iExit ; Exit the loop.
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc   ;==>Example
 
 ; 应用菜单颜色
-Func SetMenuColor($nMenuID, $nColor)
-	Local $hMenu  = TrayItemGetHandle($nMenuID) ; 得到内部菜单句柄
+Func SetMenuColor($iMenuID, $iColor)
+	Local $hMenu  = TrayItemGetHandle($iMenuID) ; 得到内部菜单句柄
 
-	Local $hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $nColor)
+	Local $hBrush = DllCall("gdi32.dll", "hwnd", "CreateSolidBrush", "int", $iColor)
 	$hBrush = $hBrush[0]
 
-	Local $stMenuInfo = DllStructCreate("dword;dword;dword;uint;ptr;dword;ptr")
-	DllStructSetData($stMenuInfo, 1, DllStructGetSize($stMenuInfo))
-	DllStructSetData($stMenuInfo, 2, BitOR($MIM_APPLYTOSUBMENUS, $MIM_BACKGROUND))
-	DllStructSetData($stMenuInfo, 5, $hBrush)
+	Local $tMenuInfo = DllStructCreate("dword;dword;dword;uint;ptr;dword;ptr")
+	DllStructSetData($tMenuInfo, 1, DllStructGetSize($tMenuInfo))
+	DllStructSetData($tMenuInfo, 2, BitOR($MIM_APPLYTOSUBMENUS, $MIM_BACKGROUND))
+	DllStructSetData($tMenuInfo, 5, $hBrush)
 
-	DllCall("user32.dll", "int", "SetMenuInfo", "hwnd", $hMenu, "ptr", DllStructGetPtr($stMenuInfo))
+	DllCall("user32.dll", "int", "SetMenuInfo", "hwnd", $hMenu, "ptr", DllStructGetPtr($tMenuInfo))
 EndFunc   ;==>SetMenuColor

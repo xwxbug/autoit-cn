@@ -1,17 +1,21 @@
-Local $myArray[10][20]   ;元素 0,0 到 9,19
-Local $rows = UBound($myArray)
-Local $cols = UBound($myArray, 2)
-Local $dims = UBound($myArray, 0)
+#include <Array.au3> ; Required for _ArrayDisplay.
 
-MsgBox(0, "当前 " & $dims & "-维数组有", _
-	$rows & " 行, " & $cols & " 列")
+Example()
 
-;显示 $myArray's 内容
-Local $output = ""
-For $r = 0 To UBound($myArray, 1) - 1
-	$output = $output & @LF
-	For $c = 0 To UBound($myArray, 2) - 1
-		$output = $output & $myArray[$r][$c] & " "
+Func Example()
+	Local $aArray[10][20] ;元素 0,0 到 9,19
+	Local $iRows = UBound($aArray, 1) ; Total number of rows. In this example it will be 10.
+	Local $iCols = UBound($aArray, 2) ; Total number of columns. In this example it will be 20.
+	Local $iDimension = UBound($aArray, 0) ; The dimension of the array e.g. 1/2/3 dimensional.
+
+	MsgBox(0, "当前 " & $iDimension & "-维数组有", _
+		$iRows & " 行, " & $iCols & " 列")
+
+	; Fill the array with data.
+	For $i = 0 To $iRows - 1
+		For $j = 0 To $iCols - 1
+			$aArray[$i][$j] = "Row: " & $i & " - Col: " & $j
+		Next
 	Next
-Next
-MsgBox(4096,"数组内容", $output)
+	_ArrayDisplay($aArray)
+EndFunc   ;==>Example

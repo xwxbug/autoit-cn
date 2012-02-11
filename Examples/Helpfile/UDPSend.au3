@@ -19,7 +19,7 @@ While 1
 	$n = $n + 1
 	Local $status = UDPSend($socket, "消息 #" & $n)
 	If $status = 0 Then
-		MsgBox(0, "错误", "当发送 UDP 消息时发生错误: " & @error)
+		MsgBox(4096, "错误", "当发送 UDP 消息时发生错误: " & @error)
 		Exit
 	EndIf
 WEnd

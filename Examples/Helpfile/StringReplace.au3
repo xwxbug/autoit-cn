@@ -1,4 +1,4 @@
-Local $text = StringReplace("这 是 一 行 文 本", " ", "-")
-Local $numreplacements = @extended
-MsgBox(0, "新字符串为:", $text)
-MsgBox(0, "共替换的数量为:", $numreplacements)
+Local $sText = StringReplace("这 是 一 行 文 本", " ", "-")
+Local $iReplacements = @extended
+MsgBox(4096, "新字符串", "新字符串为:" & @CRLF & $sText)
+MsgBox(4096, "替换", "共替换的数量为:" & @CRLF & $iReplacements & " 次.")
