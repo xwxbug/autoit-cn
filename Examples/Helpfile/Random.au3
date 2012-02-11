@@ -1,35 +1,23 @@
-;Flip of coin
-Local $Msg
-If Random() < 0.5 Then ; Returns a value between 0 and 1.
-	$Msg = "Heads. 50% Win"
-Else
-	$Msg = "Tails. 50% Loss"
-EndIf
-MsgBox(0, "Coin toss", $Msg)
+Example1() ; Flip a coin.
+Example2() ; Roll a die.
+Example3() ; Create a random string of text.
 
+Func Example1()
+	If Random(0, 1, 1) Then ; Return an integer between 0 and 1.
+		MsgBox(4096, "", "The side of the coin was: Heads") ; If the random integer was 1 then heads was thrown.
+	Else
+		MsgBox(4096, "", "The side of the coin was: Tails") ; If the random integer was 0 then tails was thrown.
+	EndIf
+EndFunc   ;==>Example1
 
-;Roll of a die
-MsgBox(0, "Roll of die", "You rolled a " & Random(1, 6, 1))
+Func Example2()
+	MsgBox(4096, "", "The die landed on number " & Random(1, 6, 1) & ".") ; Return an integer between 1 and 6.
+EndFunc   ;==>Example2
 
-Local $StockPrice = 98
-;In the middle of a stock market simulation
-Local $StockPriceChange = Random(-10, 10, 1) ; generate an integer between -10 and 10
-$StockPrice = $StockPrice + $StockPriceChange
-If $StockPriceChange < 0 Then
-	MsgBox(4096, "Stock Change", "Your stock dropped to $" & $StockPrice)
-ElseIf $StockPriceChange > 0 Then
-	MsgBox(4096, "Stock Change", "Your stock rose to $" & $StockPrice)
-Else
-	MsgBox(4096, "Stock Change", "Your stock stayed at $" & $StockPrice)
-EndIf
-
-
-;Random letter
-Local $Letter
-If Random() < 0.5 Then
-	;Capitals
-	$Letter = Chr(Random(Asc("A"), Asc("Z"), 1))
-Else
-	;Lower case
-	$Letter = Chr(Random(Asc("a"), Asc("z"), 1))
-EndIf
+Func Example3()
+	Local $sText = ""
+	For $i = 1 To Random(5, 20, 1) ; Return an integer between 5 and 20 to determine the length of the string.
+		$sText &= Chr(Random(65, 122, 1)) ; Return an integer between 65 and 122 which represent the ASCII characters between a (lower-case) to Z (upper-case).
+	Next
+	MsgBox(4096, "", "The random string of text was: " & $sText) ; Display the string of text.
+EndFunc   ;==>Example3

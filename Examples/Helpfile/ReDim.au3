@@ -21,7 +21,7 @@ For $I = 0 To UBound($X, 1) - 1
 	Next
 	$MSG = $MSG & @CR
 Next
-MsgBox(0, "ReDim 演示", $MSG)
+MsgBox(4096, "ReDim 演示", $MSG)
 
 $MSG = ""
 For $I = 0 To UBound($Y, 1) - 1
@@ -31,4 +31,4 @@ For $I = 0 To UBound($Y, 1) - 1
 	Next
 	$MSG = $MSG & @CR
 Next
-MsgBox(0, "ReDim 演示", $MSG)
+MsgBox(4096, "ReDim 演示", $MSG)

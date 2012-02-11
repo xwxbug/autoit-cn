@@ -1,19 +1,23 @@
-; INI文件写入演示,文件将会在桌面创建.
-Local $sIni = @DesktopDir & "\AutoIt-Test.ini"
+Example()
 
-; 将数据写入到标准INI文件的一个字段.
-Local $sData = "Key1=Value1" & @LF & "Key2=Value2" & @LF & "Key3=Value3"
-IniWriteSection($sIni, "Section1", $sData)
+Func Example()
+	; Create an INI section structure as an array. The 0th element is how many items are in the array, in this case 3.
+	Local $aSection[4][2] = [[3, ""],["Title", "AutoIt"],["Version", @AutoItVersion],["OS", @OSVersion]]
 
-;创建一个新的字段,并将数组数据写入.
-Local $aData1 = IniReadSection($sIni, "Section1")	; 读取刚刚写入的内容.
-For $i = 1 To UBound($aData1) - 1
-	$aData1[$i][1] &= "-" & $i	; 更改某些数据
-Next
+	; Write the array to the section labelled 'General'.
+	IniWriteSection(@ScriptDir & "\Example.ini", "General", $aSection)
 
-IniWriteSection($sIni, "Section2", $aData1)	; 写入新的数据
+	; Read the INI section labelled 'General'. This will return a 2 dimensional array.
+	Local $aArray = IniReadSection(@ScriptDir & "\Example.ini", "General")
 
-; 创建一个自定义的二维数组,并将数组数据写入.
-Local $aData2[3][2] = [["FirstKey", "FirstValue"],["SecondKey", "SecondValue"],["ThirdKey", "ThirdValue"]]
-;定义数组元素索引,由索引0开始写入.
-IniWriteSection($sIni, "Section3", $aData2, 0)
+	; Check if an error occurred.
+	If Not @error Then
+		; Enumerate through the array displaying the keys and their respective values.
+		For $i = 1 To $aArray[0][0]
+			MsgBox(4096, "", "Key: " & $aArray[$i][0] & @CRLF & "Value: " & $aArray[$i][1])
+		Next
+	EndIf
+
+	; Delete the INI file.
+	FileDelete(@ScriptDir & "\Example.ini")
+EndFunc   ;==>Example

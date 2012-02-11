@@ -2,5 +2,5 @@
 ProcessWaitClose("notepad.exe")
 
 ; 运行记事本,等待记事本进程结束后再执行脚本.
-Local $PID = Run("notepad.exe")
-ProcessWaitClose($PID)
+Local $iPID = Run("notepad.exe")
+ProcessWaitClose($iPID)
