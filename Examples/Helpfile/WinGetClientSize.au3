@@ -1,2 +1,18 @@
-Local $size = WinGetClientSize("[active]")
-MsgBox(0, "活动窗口客户端大小 (宽度,高度):", $size[0] & "," & $size[1])
+Example()
+
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
+
+	; Wait 10 seconds for the Notepad window to appear.
+	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
+
+	; Retrieve the client area of the Notepad window using the handle returned by WinWait.
+	Local $aClientSize = WinGetClientSize($hWnd)
+
+	; Display the height and width of the client area.
+	MsgBox(4096, "", "Width: " & $aClientSize[0] & @CRLF & "Height: " & $aClientSize[1])
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
+EndFunc   ;==>Example

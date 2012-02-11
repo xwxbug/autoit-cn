@@ -1,9 +1,9 @@
-Run("notepad.exe")
-WinWaitActive("[CLASS:Notepad]")
-ControlSetText("[CLASS:Notepad]","","[CLASSNN:Edit1]",Random(0,1000))
-Sleep(500)
+Example()
 
+Func Example()
+	; Retrieve the window text of the active window.
+	Local $sText = WinGetText("[ACTIVE]")
 
-
-Local $text = WinGetText("[CLASS:Notepad]", "")
-MsgBox(0, "读取的文本为:","读取到的文本为: " & $text)
+	; Display the window text.
+	MsgBox(4096, "", $sText)
+EndFunc   ;==>Example

@@ -1,17 +1,13 @@
-Local $var = WinList()
+Example()
 
-For $i = 1 To $var[0][0]
-  ; 只显示带有标题的可见窗口
-	If $var[$i][0] <> "" And IsVisible($var[$i][1]) Then
-		MsgBox(0, "详细信息", "标题=" & $var[$i][0] & @LF & "句柄=" & $var[$i][1])
-	EndIf
-Next
+Func Example()
+	; Retrieve a list of window handles.
+	Local $aList = WinList()
 
-Func IsVisible($handle)
-	If BitAND(WinGetState($handle), 2) Then
-		Return 1
-	Else
-		Return 0
-	EndIf
-
-EndFunc   ;==>IsVisible
+	; Loop through the array displaying only visable windows with a title.
+	For $i = 1 To $aList[0][0]
+		If $aList[$i][0] <> "" And BitAND(WinGetState($aList[$i][1]), 2) Then
+			MsgBox(4096, "Details", "Title: " & $aList[$i][0] & @CRLF & "Handle: " & $aList[$i][1])
+		EndIf
+	Next
+EndFunc   ;==>Example

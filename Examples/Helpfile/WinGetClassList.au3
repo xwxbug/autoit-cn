@@ -1,10 +1,18 @@
+Example()
 
-Run("notepad.exe")
-WinWaitActive("[CLASS:Notepad]")
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
 
+	; Wait 10 seconds for the Notepad window to appear.
+	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
+	; Retrieve the classlist of the Notepad window using the handle returned by WinWait.
+	Local $sClassList = WinGetClassList($hWnd)
 
+	; Display the classlist.
+	MsgBox(4096, "", $sClassList)
 
-
-Local $text = WinGetClassList("[CLASS:Notepad]", "")
-MsgBox(0, "类列表为:", $text)
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
+EndFunc   ;==>Example

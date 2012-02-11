@@ -1,28 +1,27 @@
 #NoTrayIcon
 
-Opt("TrayMenuMode",1)	; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示. 
+Opt("TrayMenuMode", 3) ; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示,并且所选项目不能被选中(checkbox不会打勾) . 请参考TrayMenuMode选项1和2(3=1+2).
 
-Local $settingsitem	= TrayCreateMenu("设置")
-TrayCreateItem("显示", $settingsitem)
-TrayCreateItem("打印", $settingsitem)
-TrayCreateItem("")
-Local $aboutitem		= TrayCreateItem("关于")
-TrayCreateItem("")
-Local $exititem		= TrayCreateItem("退出")
+Example()
 
-TraySetState()
-TraySetClick(16)
+Func Example()
+	Local $iAbout = TrayCreateItem("关于")
+	TrayCreateItem("") ; Create a separator line.
 
-While 1
-	Local $msg = TrayGetMsg()
-	Select
-		Case $msg = 0
-			ContinueLoop
-		Case $msg = $aboutitem
-			MsgBox(64,"关于:","AutoIt3-托盘-例子")
-		Case $msg = $exititem
-			ExitLoop
-	EndSelect
-WEnd
+	Local $iExit = TrayCreateItem("退出")
 
-Exit
+	TraySetState(1) ; Show the tray menu.
+	TraySetClick(64) ; Show the tray menu when the mouse if hovered over the tray icon.
+
+	While 1
+		Switch TrayGetMsg()
+			Case $iAbout ; Display a message box about the AutoIt version and installation path of the AutoIt executable.
+				MsgBox(4096, "", "AutoIt tray menu example." & @CRLF & @CRLF & _
+						"Version: " & @AutoItVersion & @CRLF & _
+						"Install Path: " & StringLeft(@AutoItExe, StringInStr(@AutoItExe, "\", 0, -1) - 1)) ; Find the folder of a full path.
+
+			Case $iExit ; Exit the loop.
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc   ;==>Example

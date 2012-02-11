@@ -1,15 +1,22 @@
-Run("notepad.exe")
-WinWaitActive("[CLASS:Notepad]")
-ControlSetText("[CLASS:Notepad]","","[CLASSNN:Edit1]","this one")
+Example()
 
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
 
-AutoItSetOption("WinTitleMatchMode", 4)
+	; Wait 10 seconds for the Notepad window to appear.
+	WinWait("[CLASS:Notepad]", "", 10)
 
-; 得到包括 "this one" 内容的记事本窗口的句柄
-Local $handle = WinGetHandle("[CLASS:Notepad]", "this one")
-If @error Then
-	MsgBox(4096, "错误", "不能找到指定窗口")
-Else
-	; 发送一些文本到记事本窗口编辑控件.
-	ControlSend($handle, "", "Edit1", "AbCdE")
-EndIf
+	; Retrieve the handle of the Notepad window using the classname of Notepad.
+	Local $hWnd = WinGetHandle("[CLASS:Notepad]")
+	If @error Then
+		MsgBox(4096, "", "An error occurred when trying to retrieve the window handle of Notepad.")
+		Exit
+	EndIf
+
+	; Display the handle of the Notepad window.
+	MsgBox(4096, "", $hWnd)
+
+	; Close the Notepad window using the handle returned by WinGetHandle.
+	WinClose($hWnd)
+EndFunc   ;==>Example

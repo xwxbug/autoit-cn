@@ -1,7 +1,9 @@
-Run("notepad.exe")
-WinWaitActive("[CLASS:Notepad]")
+Example()
 
+Func Example()
+	; Retrieve the window title of the active window.
+	Local $sText = WinGetTitle("[ACTIVE]")
 
-
-Local $title = WinGetTitle("[CLASS:Notepad]", "")
-MsgBox(0, "完整的标题为:", $title)
+	; Display the window title.
+	MsgBox(4096, "", $sText)
+EndFunc   ;==>Example

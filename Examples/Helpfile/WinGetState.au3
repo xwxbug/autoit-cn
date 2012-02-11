@@ -1,14 +1,22 @@
-Run("notepad.exe")
-WinWaitActive("[CLASS:Notepad]")
-WinSetState("[CLASS:Notepad]","",@SW_MINIMIZE)
+Example()
 
-; 检查记事本窗口状态
-Local $state = WinGetState("[CLASS:Notepad]", "")
+Func Example()
+	; Run Notepad
+	Run("notepad.exe")
 
-; 检查记事本窗口是不是"最小化"状态.
-If BitAND($state, 16) Then
-	MsgBox(0, "例子", "记事本窗口是最小化的")
-Else
-	MsgBox(0, "例子", "记事本窗口不是最小化的")	
-EndIf
+	; Wait 10 seconds for the Notepad window to appear.
+	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
+	; Retrieve the state of the Notepad window using the handle returned by WinWait.
+	Local $iState = WinGetState($hWnd)
+
+	; Check if the Notepad window is minimized and display the appropriate message box.
+	If BitAND($iState, 16) Then
+		MsgBox(4096, "", "Notepad is minimized and the state returned by WinGetState was - " & $iState)
+	Else
+		MsgBox(4096, "", "Notepad isn't minimized and the state returned by WinGetState was - " & $iState)
+	EndIf
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
+EndFunc   ;==>Example

@@ -1,32 +1,32 @@
 #NoTrayIcon
 
+Opt("TrayMenuMode", 3) ; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示,并且所选项目不能被选中(checkbox不会打勾) . 请参考TrayMenuMode选项1和2(3=1+2).
 Opt("TrayOnEventMode", 1)
-Opt("TrayMenuMode",1)	; 默认菜单项目 (脚本暂停中/退出)(Script Paused/Exit) 将不会显示. 
 
-TraySetClick(16)	; 只有单击第二个鼠标按键(默认右键)才会显示托盘菜单.
+Example()
 
-TrayCreateItem("信息")
-TrayItemSetOnEvent(-1, "ShowInfo")
+Func Example()
+	TrayCreateItem("关于")
+	TrayItemSetOnEvent(-1, "关于")
 
-TrayCreateItem("")
+	TrayCreateItem("") ; Create a separator line.
 
-TrayCreateItem("退出")
-TrayItemSetOnEvent(-1, "ExitScript")
+	TrayCreateItem("退出")
+	TrayItemSetOnEvent(-1, "ExitScript")
 
-TraySetState()
+	TraySetState(1) ; Show the tray menu.
 
-While 1
-	Sleep(10)	; 空闲循环
-WEnd
+	While 1
+		Sleep(100)	; 空闲循环
+	WEnd
+EndFunc   ;==>Example
 
-Exit
-
-
-; Functions
-Func ShowInfo()
-	MsgBox(0,"Info","托盘 OnEvent 模式演示")
-EndFunc   ;==>ShowInfo
-
+Func About()
+	; Display a message box about the AutoIt version and installation path of the AutoIt executable.
+	MsgBox(4096, "", "AutoIt tray menu example." & @CRLF & @CRLF & _
+			"Version: " & @AutoItVersion & @CRLF & _
+			"Install Path: " & StringLeft(@AutoItExe, StringInStr(@AutoItExe, "\", 0, -1) - 1)) ; Find the folder of a full path.
+EndFunc   ;==>About
 
 Func ExitScript()
 	Exit
