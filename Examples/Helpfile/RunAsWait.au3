@@ -1,12 +1,14 @@
-; Fill in the username and password appropriate for your system.
-Local $sUserName = "Username"
-Local $sPassword = "Password"
+Example()
 
-; Run a command prompt as the other user.
-Local $pid = RunAsWait($sUserName, @ComputerName, $sPassword, 0, @ComSpec, @SystemDir)
+Func Example()
+	; Change the username and password to the appropriate values for your system.
+	Local $sUserName = "Username"
+	Local $sPassword = "Password"
 
-; Wait for the process to close.
-ProcessWaitClose($pid)
+	; Run Notepad and wait for the Notepad process to close. Notepad is run under the user previously specified.
+	Local $iReturn = RunAsWait($sUserName, @ComputerName, $sPassword, 0, "notepad.exe")
 
-; Show a message.
-MsgBox(0, "", "The process we were waiting for has closed.")
+	; Display the return code of the Notepad process.
+	MsgBox(4096, "", "The return code from Notepad was: " & $iReturn)
+EndFunc   ;==>Example
+

@@ -1,3 +1,9 @@
-Local $val = RunWait(@WindowsDir & "\notepad.exe", @WindowsDir, @SW_MAXIMIZE)
-; 脚本将会等待记事本退出.
-MsgBox(0, "程序退出代码:", $val)
+Example()
+
+Func Example()
+	; Run Notepad and wait for the Notepad process to close.
+	Local $iReturn = RunWait("notepad.exe")
+
+	; Display the return code of the Notepad process.
+	MsgBox(4096, "", "The return code from Notepad was: " & $iReturn)
+EndFunc   ;==>Example

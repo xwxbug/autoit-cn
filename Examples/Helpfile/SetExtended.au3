@@ -1,2 +1,2 @@
 SetExtended(10)
-MsgBox(4096, "@Extended 的值为", @extended)
+MsgBox(4096, "" , "@extended 的值为:" & @extended)

@@ -32,7 +32,7 @@ Func Accumulate($State)
 					SetError(1, 0)
 					Return False
 				Else
-					Static $Values[$State + 1] ; Resize the array to accomodate the new value
+					ReDim $Values[$State + 1] ; Resize the array to accomodate the new value
 					$Values[$State] = 1
 					Return 1
 				EndIf
@@ -52,6 +52,6 @@ Next
 For $I In Accumulate(-2)
 	ConsoleWrite($I & ", ")
 Next
-ConsoleWrite("\n");
+ConsoleWrite(@CRLF);
 
 Test1()

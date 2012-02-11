@@ -1,18 +1,23 @@
-; Demonstrates StdoutRead()
 #include <Constants.au3>
 
-Local $foo = Run(@ComSpec & " /c dir foo.bar", @SystemDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
-Local $line
-While 1
-	$line = StdoutRead($foo)
-	If @error Then ExitLoop
-	MsgBox(0, "STDOUT read:", $line)
-WEnd
+Example()
 
-While 1
-	$line = StderrRead($foo)
-	If @error Then ExitLoop
-	MsgBox(0, "STDERR read:", $line)
-WEnd
+Func Example()
+	Local $iPID = Run(@ComSpec & " /c DIR Example.au3", @SystemDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD)
+	Local $sOutput
+	While 1
+		$sOutput = StdoutRead($iPID)
+		If @error Then ; Exit the loop if the process closes or StdoutRead returns an error.
+			ExitLoop
+		EndIf
+		MsgBox(4096, "Stdout Read:", $sOutput)
+	WEnd
 
-MsgBox(0, "Debug", "Exiting...")
+	While 1
+		$sOutput = StderrRead($iPID)
+		If @error Then ; Exit the loop if the process closes or StderrRead returns an error.
+			ExitLoop
+		EndIf
+		MsgBox(4096, "Stderr Read:", $sOutput)
+	WEnd
+EndFunc   ;==>Example

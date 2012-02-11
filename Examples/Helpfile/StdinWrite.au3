@@ -1,17 +1,24 @@
-; Demonstrates the use of StdinWrite()
 #include <Constants.au3>
 
-Local $foo = Run("sort.exe", @SystemDir, @SW_HIDE, $STDIN_CHILD + $STDOUT_CHILD)
-; Write string to be sorted to child sort.exe's STDIN
-StdinWrite($foo, "rat" & @CRLF & "cat" & @CRLF & "bat" & @CRLF)
-; Calling with no 2nd arg closes stream
-StdinWrite($foo)
+Example()
 
-; Read from child's STDOUT and show
-Local $data
-While True
-	$data &= StdoutRead($foo)
-	If @error Then ExitLoop
-	Sleep(25)
-WEnd
-MsgBox(0, "Debug", $data)
+Func Example()
+	Local $iPID = Run("sort.exe", @SystemDir, @SW_HIDE, $STDIN_CHILD + $STDOUT_CHILD)
+
+	; Write a string of items to be sorted to child sort.exe's Stdin.
+	StdinWrite($iPID, "Banana" & @CRLF & "Elephant" & @CRLF & "Apple" & @CRLF & "Deer" & @CRLF & "Car" & @CRLF)
+
+	; Calling StdinWrite without a second parameter closes the stream.
+	StdinWrite($iPID)
+
+	Local $sOutput = "" ; Store the output of StdoutRead to a variable.
+
+	While 1
+		$sOutput &= StdoutRead($iPID) ; Read the Stdout stream of the PID returned by Run.
+		If @error Then ; Exit the loop if the process closes or StdoutRead returns an error.
+			ExitLoop
+		EndIf
+	WEnd
+
+	MsgBox(4096, "", "The sorted string is: " & @CRLF & $sOutput)
+EndFunc   ;==>Example

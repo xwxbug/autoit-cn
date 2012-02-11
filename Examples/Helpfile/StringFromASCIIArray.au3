@@ -1,4 +1,4 @@
-#include <Array.au3>
+#include <Array.au3>	; For _ArrayDisplay()
 
 ; 字符串转换为 ASCII 码数组.
 Local $a = StringToASCIIArray("abc")
@@ -10,5 +10,5 @@ _ArrayDisplay($a)
 Local $s = StringFromASCIIArray($a)
 
 ;转换结果将会返回 ASCII 码表示的字符串.
-MsgBox(0, "转换结果", $s)
+MsgBox(4096, "转换结果", $s)
 
