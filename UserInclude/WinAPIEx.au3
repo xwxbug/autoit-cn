@@ -13608,7 +13608,7 @@ Func _WinAPI_GetPriorityClass($PID = 0)
 	EndIf
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetPriorityClass
-
+#cs
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetProcAddress
 ; Description....: Retrieves the address of a function from the specified dynamic-link library (DLL).
@@ -13634,7 +13634,7 @@ Func _WinAPI_GetProcAddress($hModule, $sProc)
 	EndIf
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetProcAddress
-
+#ce
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetProcessCommandLine
 ; Description....: Retrieves the command-line string for the specified process.
