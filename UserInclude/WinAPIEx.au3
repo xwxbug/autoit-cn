@@ -359,7 +359,7 @@
     _WinAPI_GetPolyFillMode
     _WinAPI_GetPosFromRect
     _WinAPI_GetPriorityClass
-    _WinAPI_GetProcAddress
+    *_WinAPI_GetProcAddress
     _WinAPI_GetProcessCommandLine
     _WinAPI_GetProcessFileName
     _WinAPI_GetProcessHandleCount
