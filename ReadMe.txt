@@ -60,6 +60,8 @@ Au3Check:
 Au3Record:
 [G][*]修正: #2083: There is no longer an error about a missing DLL.
 
+SciTe:
+[G][!]更新: 更新代码整理(tidy)为2.2.1.11
 
 3.3.7.23 (Beta) 第一汉化版
 AutoIt:
