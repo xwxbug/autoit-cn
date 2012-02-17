@@ -9,9 +9,9 @@ Local $oIE = _IE_Example("basic")
 _IELinkClickByText($oIE, "user forum")
 
 ; *******************************************************
-; Example 2 - Open browser to the AutoIt homepage, loop through the links
-;				on the page and click on the link with text "wallpaper"
-;				using a sub-string match.
+; 示例 2 - 打开浏览器并导航到 AutoIt 主页, 循环页面上的
+;				链接并点击文本为 "wallpaper" 的链接
+;				使用子字符串匹配.
 ; *******************************************************
 
 #include <IE.au3>

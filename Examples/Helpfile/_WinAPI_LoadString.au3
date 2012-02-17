@@ -10,24 +10,24 @@ _Main()
 
 Func _Main()
 	Local $hGUI, $hInput, $btn_get, $hReBar, $hInstance, $sText
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("WinAPI", 400, 396)
 
 	$hInput = GUICtrlCreateInput("4209", 0, 0, 100, 20)
 
-	; create the rebar control
+	; 创建伸缩条控件
 	$hReBar = _GUICtrlRebar_Create($hGUI, BitOR($CCS_TOP, $WS_BORDER, $RBS_VARHEIGHT, $RBS_AUTOSIZE, $RBS_BANDBORDERS))
 
 	$iMemo = GUICtrlCreateEdit("", 2, 55, 396, 200, BitOR($WS_VSCROLL, $WS_HSCROLL))
 	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
 
 
-	;add band containing the  control
+	;添加含控件的带区
 	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($hInput), 120, 200, "String ID:")
 
 	$btn_get = GUICtrlCreateButton("Get String", 0, 0, 90, 20)
 
-	;add band containing the  control
+	;添加含控件的带区
 	_GUICtrlRebar_AddBand($hReBar, GUICtrlGetHandle($btn_get), 120, 200)
 
 
@@ -53,7 +53,7 @@ Func _Main()
 	WEnd
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

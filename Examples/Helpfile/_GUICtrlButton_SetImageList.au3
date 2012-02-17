@@ -50,7 +50,7 @@ Func _Main()
 	Exit
 EndFunc   ;==>_Main
 
-; 自定义_GetImageListHandle函数功能：使用图像列表在按钮上设定图像，同时显示文本
+; 使用图像列表在按钮上设置一个图像并显示文本
 Func _GetImageListHandle($sFile, $nIconID = 0, $fLarge = False)
 	Local $iSize = 16
 	If $fLarge Then $iSize = 32

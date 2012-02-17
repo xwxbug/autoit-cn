@@ -17,7 +17,7 @@ Func _Main()
 
 	$rdo2 = GUICtrlCreateRadio("Radio2", 10, 60, 90, 50)
 	_GUICtrlButton_SetCheck($rdo2)
-	_GUICtrlButton_SetFocus($rdo2) ; 设定焦点, 表示这不影响_GUICtrlButton_GetCheck
+	_GUICtrlButton_SetFocus($rdo2) ; 设置焦点, 演示这个不影响 _GUICtrlButton_GetCheck
 
 	$chk = GUICtrlCreateCheckbox("Check1", 10, 120, 90, 50, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 	_GUICtrlButton_SetCheck($chk, $BST_INDETERMINATE)
@@ -39,7 +39,7 @@ Func _Main()
 	Exit
 EndFunc   ;==>_Main
 
-; 自定义函数 MemoWrite 功能动作 ：向编辑框写入当前按钮信息
+; 自定义函数 MemoWrite 功能动作: 向编辑框写入当前按钮信息
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

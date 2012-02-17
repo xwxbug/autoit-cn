@@ -47,7 +47,7 @@ Func _Main()
 	Exit
 EndFunc   ;==>_Main
 
-; 定义函数 MemoWrite 功能动作： 向编辑框写入数据
+; 定义函数 MemoWrite 功能动作: 向编辑框写入数据
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

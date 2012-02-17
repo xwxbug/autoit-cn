@@ -3,31 +3,31 @@
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
+$Debug_CB = False ; 检查传递给 ComboBox/ComboBoxEx 函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 _Main()
 
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Select String", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296, BitOR($CBS_SIMPLE, $CBS_DISABLENOSCROLL, $WS_VSCROLL))
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
-	; Add string
+	; 添加字符串
 	_GUICtrlComboBox_AddString($hCombo, "This string has been added")
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	; select string
+	; 选择字符串
 	_GUICtrlComboBox_SelectString($hCombo, "This")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

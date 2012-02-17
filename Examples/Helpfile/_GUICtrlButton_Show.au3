@@ -23,7 +23,7 @@ Func _Main()
 		$y += 60
 	Next
 
-	; 循环隐藏 按钮
+	; 隐藏按钮
 	For $x = 0 To 5
 		_GUICtrlButton_Show($btn[$x], False)
 		_GUICtrlButton_Show($rdo[$x], False)
@@ -31,7 +31,7 @@ Func _Main()
 		Sleep(500)
 	Next
 
-	; 循环显示 按钮
+	; 显示按钮
 	For $x = 5 To 0 Step -1
 		_GUICtrlButton_Show($chk[$x])
 		_GUICtrlButton_Show($rdo[$x])

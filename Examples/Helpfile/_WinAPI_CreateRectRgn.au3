@@ -73,7 +73,8 @@ Func _GuiHole($h_win, $i_x, $i_y, $i_sizew, $i_sizeh)
 	_WinAPI_SetWindowRgn($h_win, $combined_rgn)
 EndFunc   ;==>_GuiHole
 
-; 根据窗口标题/外观尺寸添加控制区域
+; 添加控件的范围到特定的区域
+; 也考虑窗口标题/框架的大小
 Func _AddCtrlRegion($full_rgn, $ctrl_id)
 	Local $ctrl_pos, $ctrl_rgn
 

@@ -44,7 +44,7 @@ Func _Example1()
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
 			Case $hListView
-				; Kick off the sort callback
+				; 启用回调进行排序
 				_GUICtrlListView_SortItems($hListView, GUICtrlGetState($hListView))
 		EndSwitch
 	WEnd
@@ -137,12 +137,12 @@ Func _WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $hWndFrom
 		Case $hWndListView, $hWndListView2
 			Switch $iCode
-				Case $LVN_COLUMNCLICK ; 已点击一列
+				Case $LVN_COLUMNCLICK ; 点击了一列
 					Local $tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 
-					; Kick off the sort callback
+					; 启用回调进行排序
 					_GUICtrlListView_SortItems($hWndFrom, DllStructGetData($tInfo, "SubItem"))
-					; 无返回值
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $__LISTVIEWCONSTANT_GUI_RUNDEFMSG

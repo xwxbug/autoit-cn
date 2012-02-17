@@ -1,4 +1,4 @@
-; *** 显示计时器窗体示例
+; *** 显示计时器窗口的演示
 #include <GUIConstantsEx.au3>
 #include <Date.au3>
 
@@ -29,7 +29,7 @@ EndFunc   ;==>_Main
 ;
 Func Timer()
 	_TicksToTime(Int(TimerDiff($timer)), $Hour, $Mins, $Secs)
-	Local $sTime = $Time ; 保存当前计时器以便测试及避免碎片..
+	Local $sTime = $Time ; 保存当前时间以测试和避免不稳定..
 	$Time = StringFormat("%02i:%02i:%02i", $Hour, $Mins, $Secs)
 	If $sTime <> $Time Then ControlSetText("Timer", "", "Static1", $Time)
 EndFunc   ;==>Timer

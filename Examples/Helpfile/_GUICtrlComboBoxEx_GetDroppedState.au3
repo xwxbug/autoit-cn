@@ -2,7 +2,7 @@
 #include <GuiImageList.au3>
 #include <GUIConstantsEx.au3>
 
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
+$Debug_CB = False ; 检查传递给 ComboBox/ComboBoxEx 函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 Global $iMemo
 
@@ -11,7 +11,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Get Dropped State", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
@@ -34,31 +34,31 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x, $x)
 	Next
 
-	; get dropped state
+	; 获取下拉状态
 	MemoWrite("Dropped Down State......: " & _GUICtrlComboBoxEx_GetDroppedState($hCombo))
 
 	Sleep(500)
 
-	; show drop down
+	; 显示下拉框
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo, True)
 
 	Sleep(500)
 
-	; get dropped state
+	; 获取下拉状态
 	MemoWrite("Dropped Down State......: " & _GUICtrlComboBoxEx_GetDroppedState($hCombo))
 
 	Sleep(500)
 
-	; hide drop down
+	; 隐藏下拉框
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

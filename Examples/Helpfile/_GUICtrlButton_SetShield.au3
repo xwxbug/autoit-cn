@@ -5,7 +5,7 @@
 
 Global $btn, $btn2
 
-; 注意这些按钮的控件ID不能被GuiCtrlRead读取
+; 注意这些按钮的控件 ID 无法使用 GuiCtrlRead 读取
 
 _Main()
 

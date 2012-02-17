@@ -45,7 +45,7 @@ Func Clickit()
 	_GUICtrlButton_Click($btn[$iRand])
 EndFunc   ;==>Clickit
 
-; 向memo控件写入一行
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

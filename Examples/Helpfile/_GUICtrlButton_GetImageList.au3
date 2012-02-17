@@ -53,12 +53,12 @@ Func _Main()
 	Exit
 EndFunc   ;==>_Main
 
-; 向Memo控件写入信息
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
 
-; 使用图像列表在按钮上设定1个图像并附带文本
+; 使用图像列表在按钮上设置一个图像并显示文本
 Func _GetImageListHandle($sFile, $nIconID = 0, $fLarge = False)
 	Local $iSize = 16
 	If $fLarge Then $iSize = 32
