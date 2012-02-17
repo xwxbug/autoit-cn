@@ -1,11 +1,9 @@
-
-#include  <Date.au3>
+#include <Date.au3>
 
 ; 获取长名称
-$sLongMonthName = _DateToMonth(@MON)
+Local $sLongMonthName = _DateToMonth(@MON)
 
-; 获取简略名称
-$sShortMonthName = _DateToMonth(@MON, 1)
+; 获取简称
+Local $sShortMonthName = _DateToMonth(@MON, 1)
 
-msgbox(4096, "Month of Year", "The month is:" & $sLongMonthName & " (" & $sShortMonthName & ")")
-
+MsgBox(4096, "Month of Year", "The month is: " & $sLongMonthName & " (" & $sShortMonthName & ")")

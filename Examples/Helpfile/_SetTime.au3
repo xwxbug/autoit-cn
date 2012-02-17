@@ -1,6 +1,6 @@
+#include <Date.au3>
 
-#include  <Date.au3>
+_SetTime(20, 15) ; 设置时间为 20:15
+_SetTime(20, 15, 30) ; 设置时间为 20:15:30
 
-_SetTime(20, 15) ; 将时间设置到20:15
-_SetTime(20, 15, 30) ; 将时间设置到20:15:30
 

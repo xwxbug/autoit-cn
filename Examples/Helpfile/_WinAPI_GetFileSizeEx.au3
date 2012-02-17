@@ -1,18 +1,44 @@
-17
- _WinAPI_GetFileSizeEx     _WinAPI_GetFileSizeEx   
-获取指定文件大小  
-#Include 
-<WinAPI.au3> 
-_WinAPI_GetFileSizeEx($hFile) 
- 
-   
-参数    
- $hFile  要返回大小的文件的句柄  
-   
-返回值 成功: 文件大小 
- 
-   
-相关 _WinAPI_CloseHandle , _WinAPI_CreateFile , _WinAPI_FlushFileBuffers , _WinAPI_ReadFile , _WinAPI_SetEndOfFile , _WinAPI_SetFilePointer , _WinAPI_WriteFile  
-   
-参考 搜索MSDN知识库中GetFileSizeEx的相关信息  
-   
+#include <WinAPI.au3>
+
+Global $sFile, $hFile, $sText, $nBytes, $tBuffer, $size
+
+; 1) create file and write data to it
+$sFile = @ScriptDir & '\test.txt'
+$sText = 'abcdefghijklmnopqrstuvwxyz'
+$tBuffer = DllStructCreate("byte[" & StringLen($sText) & "]")
+DllStructSetData($tBuffer, 1, $sText)
+$hFile = _WinAPI_CreateFile($sFile, 1)
+$size = _WinAPI_GetFileSizeEx($hFile)
+_WinAPI_WriteFile($hFile, DllStructGetPtr($tBuffer), StringLen($sText), $nBytes)
+_WinAPI_CloseHandle($hFile)
+ConsoleWrite('1):' & $size & ' ' & FileRead($sFile) & @CRLF)
+
+; 2) read 6 bytes from position 3
+$tBuffer = DllStructCreate("byte[6]")
+$hFile = _WinAPI_CreateFile($sFile, 2, 2)
+$size = _WinAPI_GetFileSizeEx($hFile)
+_WinAPI_SetFilePointer($hFile, 3)
+_WinAPI_ReadFile($hFile, DllStructGetPtr($tBuffer), 6, $nBytes)
+_WinAPI_CloseHandle($hFile)
+$sText = BinaryToString(DllStructGetData($tBuffer, 1))
+ConsoleWrite('2):' & $size & ' ' & $sText & @CRLF)
+
+; 3) write previously read 6 bytes from position 3 to the same position but in UpperCase
+DllStructSetData($tBuffer, 1, StringUpper($sText))
+$hFile = _WinAPI_CreateFile($sFile, 2, 4)
+$size = _WinAPI_GetFileSizeEx($hFile)
+_WinAPI_SetFilePointer($hFile, 3)
+_WinAPI_WriteFile($hFile, DllStructGetPtr($tBuffer), 6, $nBytes)
+_WinAPI_CloseHandle($hFile)
+$tBuffer = 0
+ConsoleWrite('3):' & $size & ' ' & FileRead($sFile) & @CRLF)
+
+; 4) truncate file size to 12 bytes
+$hFile = _WinAPI_CreateFile($sFile, 2, 4)
+_WinAPI_SetFilePointer($hFile, 12)
+_WinAPI_SetEndOfFile($hFile)
+$size = _WinAPI_GetFileSizeEx($hFile)
+_WinAPI_CloseHandle($hFile)
+ConsoleWrite('4):' & $size & ' ' & FileRead($sFile) & @CRLF)
+
+FileDelete($sFile)

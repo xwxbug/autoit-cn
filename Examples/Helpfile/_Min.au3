@@ -1,7 +1,3 @@
-#Include <Math.au3>
+#include <Math.au3>
 
-; 返回1, 4中较小的值
-$Min = _Min(1, 4)
-
-msgbox(0, "_Min ", "The smallest of 1 and 4 is...:" & $Min)
-
+Local $x = _Min(25, 10) ; 返回 10

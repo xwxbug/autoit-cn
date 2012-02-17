@@ -1,5 +1,4 @@
 #include <Debug.au3>
 
-$sABC = ""
+Local $sABC = ""
 _Assert('$sABC > ""')
-

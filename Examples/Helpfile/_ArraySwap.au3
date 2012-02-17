@@ -2,10 +2,9 @@
 
 Local $avArray[2]
 
-$avArray[0] = " World! "
-$avArray[1] = " Hello "
+$avArray[0] = "World!"
+$avArray[1] = "Hello"
 
-_arraydisplay($avArray, "$avArray BEFORE _ArraySwap() ")
+_ArrayDisplay($avArray, "默认值")
 _ArraySwap($avArray[0], $avArray[1])
-_arraydisplay($avArray, "$avArray AFTER _ArraySwap() ")
-
+_ArrayDisplay($avArray, "互换两个项目")

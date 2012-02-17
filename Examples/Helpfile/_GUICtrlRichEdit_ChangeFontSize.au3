@@ -1,10 +1,6 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GuiRichEdit.au3>
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GuiRichEdit.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
 
 Global $lblMsg, $hRichEdit
 
@@ -25,25 +21,25 @@ Func Main()
 		$iMsg = GUIGetMsg()
 		Select
 			Case $iMsg = $GUI_EVENT_CLOSE
-				GUIDelete()
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
+;~ 				GUIDelete() 	; is OK too
 				Exit
 			Case $iMsg = $btnDoIt
 				ChangeFontSize()
 		EndSelect
 	WEnd
-endfunc   ;==>Main
+EndFunc   ;==>Main
 
 Func ChangeFontSize()
 	Local $av, $iOld, $iNew
-	$av = _GuiCtrlRichEdit_GetFont($hRichEdit)
+	$av = _GUICtrlRichEdit_GetFont($hRichEdit)
 	$iOld = $av[0]
-	_GuiCtrlRichEdit_ChangeFontSize($hRichEdit, 2)
-	$av = _GuiCtrlRichEdit_GetFont($hRichEdit)
+	_GUICtrlRichEdit_ChangeFontSize($hRichEdit, 2)
+	$av = _GUICtrlRichEdit_GetFont($hRichEdit)
 	$iNew = $av[0]
-	Report("Was" & $iOld & " points; is now" & $iNew & " points")
-endfunc   ;==>ChangeFontSize
+	Report("Was " & $iOld & " points; is now " & $iNew & " points")
+EndFunc   ;==>ChangeFontSize
 
 Func Report($sMsg)
 	GUICtrlSetData($lblMsg, $sMsg)
-endfunc   ;==>Report
-
+EndFunc   ;==>Report

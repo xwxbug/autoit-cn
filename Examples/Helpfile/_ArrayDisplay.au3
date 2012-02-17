@@ -1,40 +1,39 @@
 #include <Array.au3>
 
 ;===============================================================================
-; 例1
+; 例子 1
 ;===============================================================================
-$asControls = StringSplit( WinGetClassList(" [active] ", ""), @LF)
-_arraydisplay($asControls, "Class List of Active Window ")
+Local $asControls = StringSplit(WinGetClassList("[active]", ""), @LF)
+_ArrayDisplay($asControls, "活动窗口包含的'类'列表")
 
 ;===============================================================================
-; 例2 (使用一个手工定义的数组)
+; 例子 2 (使用一个手动定义的数组)
 ;===============================================================================
 Local $avArray[10]
 
-$avArray[0] = " JPM "
-$avArray[1] = " Holger "
-$avArray[2] = " Jon "
-$avArray[3] = " Larry "
-$avArray[4] = " Jeremy "
-$avArray[5] = " Valik "
-$avArray[6] = " Cyberslug "
-$avArray[7] = " Nutster "
-$avArray[8] = " JdeB "
-$avArray[9] = " Tylo "
+$avArray[0] = "JPM"
+$avArray[1] = "Holger"
+$avArray[2] = "Jon"
+$avArray[3] = "Larry"
+$avArray[4] = "Jeremy"
+$avArray[5] = "Valik"
+$avArray[6] = "Cyberslug"
+$avArray[7] = "Nutster"
+$avArray[8] = "JdeB"
+$avArray[9] = "Tylo"
 
-_arraydisplay($avArray, "$avArray set manually 1D ")
-_arraydisplay($avArray, "$avArray set manually 1D transposed ", -1, 1)
-
-;===============================================================================
-; 例3 (使用由StringSplit()返回的数组)
-;===============================================================================
-$avArray = StringSplit( WinGetClassList(" ", ""), @LF)
-_arraydisplay($avArray, "$avArray as a list classes in window ")
+_ArrayDisplay($avArray, "$avArray 为一维数组")
+_ArrayDisplay($avArray, "$avArray 为颠倒的一维数组", -1, 1)
 
 ;===============================================================================
-; 例4 (二维数组)
+; 例子 3 (使用一个 StringSplit() 函数返回的数组)
 ;===============================================================================
-Local $avArray[2][5] = [[" JPM ", "Holger ", "Jon ", "Larry ", "Jeremy "],[" Valik ", "Cyberslug ", "Nutster ", "JdeB ", "Tylo "]]
-_arraydisplay($avArray, "$avArray as a 2D array ")
-_arraydisplay($avArray, "$avArray as a 2D array , transposed ", -1, 1)
+$avArray = StringSplit(WinGetClassList("", ""), @LF)
+_ArrayDisplay($avArray, "$avArray 为一个活动窗口包含的'类'列表")
 
+;===============================================================================
+; 示例 4 (一个二维数组)
+;===============================================================================
+Local $avArray[2][5] = [["JPM", "Holger", "Jon", "Larry", "Jeremy"],["Valik", "Cyberslug", "Nutster", "JdeB", "Tylo"]]
+_ArrayDisplay($avArray, "$avArray 为二维数组")
+_ArrayDisplay($avArray, "$avArray 为二维数组, 颠倒的", -1, 1)

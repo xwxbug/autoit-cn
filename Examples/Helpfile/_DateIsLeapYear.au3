@@ -1,9 +1,7 @@
-
-#include  <Date.au3>
+#include <Date.au3>
 
 If _DateIsLeapYear(@YEAR) Then
-	msgbox(4096, "Leap Year", "This year is a leap year.")
+	MsgBox( 4096, "闰年", "今年是闰年,有366天(有闰月除外)." )
 Else
-	msgbox(4096, "Leap Year", "This year is not a leap year.")
+	MsgBox( 4096, "闰年", "今年不是闰年." )
 EndIf
-

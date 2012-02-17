@@ -1,21 +1,7 @@
-20
- _ColorSetRGB     _ColorSetRGB   
-由COLORREF返回RGB颜色 
- 
-#Include <Color.au3> 
-_ColorSetRGB($aColor) 
- 
-   
-参数    
- $aColor  0-255的值的数组. 
-[0] 红色组分 
-[1] 绿色组分 
-[2] 蓝色组分  
-   
-返回值 成功: 返回16进制的RGB颜色代码 
-失败: 设置@error为: 
-   1 - 无效数组 
-   2 - 无效颜色值 
-   
-相关  _ColorSetRGB ,  _ColorGetRed ,  _ColorGetBlue ,  _ColorGetGreen  
-    
+#include <Color.au3>
+
+Local $aColor[3] = [0x80, 0x90, 0xff]
+
+Local $nColor = _ColorSetRGB($aColor)
+MsgBox( 4096, "AutoIt", " 红=" & Hex($aColor[0],2) & " 绿=" & Hex($aColor[1],2) & " 蓝=" & Hex($aColor[2],2) & @CRLF & _
+		"颜色=" & Hex($nColor))

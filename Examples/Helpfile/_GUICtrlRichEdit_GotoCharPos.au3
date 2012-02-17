@@ -1,8 +1,6 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GuiRichEdit.au3>
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
+#include <GuiRichEdit.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
 
 Main()
 
@@ -13,16 +11,16 @@ Func Main()
 			BitOR($ES_MULTILINE, $WS_VSCROLL, $ES_AUTOVSCROLL))
 	GUISetState()
 
-	_GuiCtrlRichEdit_SetText($hRichEdit, "This is a test.")
-	_GuiCtrlRichEdit_GotoCharPos($hRichEdit, 8)
+	_GUICtrlRichEdit_SetText($hRichEdit, "This is a test.")
+	_GUICtrlRichEdit_GotoCharPos($hRichEdit, 8)
 
 	While True
 		$iMsg = GUIGetMsg()
 		Select
 			Case $iMsg = $GUI_EVENT_CLOSE
-				GUIDelete()
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
+;~ 				GUIDelete() 	; is OK too
 				Exit
 		EndSelect
 	WEnd
-endfunc   ;==>Main
-
+EndFunc   ;==>Main

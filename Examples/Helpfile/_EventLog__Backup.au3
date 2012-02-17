@@ -1,12 +1,11 @@
-#include  <EventLog.au3>
+#include <EventLog.au3>
 
 _Main()
 
 Func _Main()
 	Local $hEventLog
 
-	$hEventLog = _EventLog__Open("", "Application ")
-	_EventLog__Backup($hEventLog, "C:\EventLog.bak ")
+	$hEventLog = _EventLog__Open("", "Application")
+	_EventLog__Backup($hEventLog, "C:\EventLog.bak")
 	_EventLog__Close($hEventLog)
-endfunc   ;==>_Main
-
+EndFunc   ;==>_Main

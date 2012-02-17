@@ -1,21 +1,18 @@
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <Misc.au3>
 
-Opt('MustDeclareVars ', 1)
+_Color_Example()
 
-_Color_Examlpe()
-
-Func _Color_Examlpe()
+Func _Color_Example()
 	Local $GUI, $Btn_COLORREF, $Btn_BGR, $Btn_RGB, $iMemo
 
-	$GUI = GUICreate("_ChooseColor Examlpe ", 400, 300)
-	$iMemo = GUICtrlCreateEdit("", 2, 55, 396, 243, BitOR($ES_AUTOVSCROLL, $ES_READONLY))
-	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New ")
-	$Btn_COLORREF = GUICtrlCreateButton("COLORREF ", 70, 10, 80, 40)
-	$Btn_BGR = GUICtrlCreateButton("BGR ", 160, 10, 80, 40)
-	$Btn_RGB = GUICtrlCreateButton("RGB ", 250, 10, 80, 40)
+	$GUI = GUICreate("_ChooseColor() Example", 400, 300)
+	$iMemo = GUICtrlCreateEdit("", 2, 55, 396, 200, BitOR($WS_VSCROLL, $WS_HSCROLL))
+	GUICtrlSetFont($iMemo, 10, 400, 0, "Courier New")
+	$Btn_COLORREF = GUICtrlCreateButton("COLORREF", 70, 10, 80, 40)
+	$Btn_BGR = GUICtrlCreateButton("BGR", 160, 10, 80, 40)
+	$Btn_RGB = GUICtrlCreateButton("RGB", 250, 10, 80, 40)
 	GUISetState()
 
 	While 1
@@ -30,13 +27,13 @@ Func _Color_Examlpe()
 				_ShowChoice($GUI, $iMemo, 2, _ChooseColor(2, 0x0080C0, 2, $GUI), "RGB Hex color of your choice: ")
 		EndSwitch
 	WEnd
-endfunc   ;==>_Color_Examlpe
+EndFunc   ;==>_Color_Example
 
 Func _ShowChoice($GUI, $iMemo, $Type, $Choose, $sMessage)
 	Local $cr
 	If $Choose <> -1 Then
 
-		If $Type = 0 Then ; 将COLORREF转化为RGB
+		If $Type = 0 Then ; 为此例把 COLORREF 转换成 RGB
 			$cr = Hex($Choose, 6)
 			GUISetBkColor('0x' & StringMid($cr, 5, 2) & StringMid($cr, 3, 2) & StringMid($cr, 1, 2), $GUI)
 		Else
@@ -48,5 +45,4 @@ Func _ShowChoice($GUI, $iMemo, $Type, $Choose, $sMessage)
 	Else
 		GUICtrlSetData($iMemo, "User Canceled Selction" & @CRLF, 1)
 	EndIf
-endfunc   ;==>_ShowChoice
-
+EndFunc   ;==>_ShowChoice
