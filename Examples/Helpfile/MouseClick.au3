@@ -1,9 +1,9 @@
-; Double click at the current mouse position.
+; 鼠标左键双击
 MouseClick("left")
 MouseClick("left")
 
-; Double click at the x, y position of 0, 500.
+; 鼠标光标移动到的目标坐标值 X=0/Y=500 位置，然后执行左键双击操作.
 MouseClick("left", 0, 500, 2)
 
-; Double click at the x, y position of 0, 500. This is a better approach as it takes into account left/right handed users.
+; 鼠标光标移动到的目标坐标值 X=0/Y=500 位置，然后执行主键双击操作.
 MouseClick("primary", 0, 500, 2)
