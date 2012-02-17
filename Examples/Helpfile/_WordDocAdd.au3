@@ -1,7 +1,8 @@
 ; *******************************************************
 ; 示例 - 创建一个空白word窗口并添加一个空白文件
 ; *******************************************************
+;
 #include <Word.au3>
-$oWordApp = _WordCreate("")
-$oDoc = _WordDocAdd($oWordApp)
 
+Local $oWordApp = _WordCreate("")
+Local $oDoc = _WordDocAdd($oWordApp)

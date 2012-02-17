@@ -1,11 +1,8 @@
-
 ; *** 显示计时器窗体示例
-#include  <GUIConstantsEx.au3>
-#include  <Date.au3>
+#include <GUIConstantsEx.au3>
+#include <Date.au3>
 
 Opt("TrayIconDebug", 1)
-
-Opt("MustDeclareVars", 1)
 
 Global $timer, $Secs, $Mins, $Hour, $Time
 
@@ -18,7 +15,7 @@ Func _Main()
 	GUISetState()
 	;启动计时器
 	$timer = TimerInit()
-	AdlibEnable("Timer", 50)
+	AdlibRegister("Timer", 50)
 	;
 	While 1
 		;FileWriteLine("debug.log",@min & ":" & @sec & " ==> before")
@@ -28,12 +25,11 @@ Func _Main()
 		EndSwitch
 		;FileWriteLine("debug.log",@min & ":" & @sec & " ==> after")
 	WEnd
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 ;
 Func Timer()
-	_TicksToTime( Int( TimerDiff($timer)), $Hour, $Mins, $Secs)
+	_TicksToTime(Int(TimerDiff($timer)), $Hour, $Mins, $Secs)
 	Local $sTime = $Time ; 保存当前计时器以便测试及避免碎片..
 	$Time = StringFormat("%02i:%02i:%02i", $Hour, $Mins, $Secs)
 	If $sTime <> $Time Then ControlSetText("Timer", "", "Static1", $Time)
-endfunc   ;==>Timer
-
+EndFunc   ;==>Timer

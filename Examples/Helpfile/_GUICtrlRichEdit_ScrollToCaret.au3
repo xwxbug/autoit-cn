@@ -1,8 +1,6 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GuiRichEdit.au3>
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
+#include <GuiRichEdit.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
 
 Global $lblMsg, $hRichEdit
 
@@ -18,7 +16,7 @@ Func Main()
 	GUISetState()
 
 	For $i = 1 To 20
-		_GUICtrlRichEdit_AppendText($hRichEdit, "Line" & $i & @CR)
+		_GUICtrlRichEdit_AppendText($hRichEdit, "Line " & $i & @CR)
 	Next
 	_GUICtrlRichEdit_AppendText($hRichEdit, "Line 21")
 
@@ -26,7 +24,8 @@ Func Main()
 		$iMsg = GUIGetMsg()
 		Select
 			Case $iMsg = $GUI_EVENT_CLOSE
-				GUIDelete()
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
+;~ 				GUIDelete() 	; is OK too
 				Exit
 			Case $iMsg = $btnNext
 				$iStep += 1
@@ -35,16 +34,16 @@ Func Main()
 						_GUICtrlRichEdit_ScrollLineOrPage($hRichEdit, "pu")
 						Report("Scrolled up a page")
 					Case 2
-						_GuiCtrlRichEdit_ScrollToCaret($hRichEdit)
+						_GUICtrlRichEdit_ScrollToCaret($hRichEdit)
 						Report("Scrolled caret into view")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch
 		EndSelect
 	WEnd
-endfunc   ;==>Main
+EndFunc   ;==>Main
 
 Func Report($sMsg)
 	GUICtrlSetData($lblMsg, $sMsg)
 	ControlFocus($hRichEdit, "", "")
-endfunc   ;==>Report
+EndFunc   ;==>Report
 

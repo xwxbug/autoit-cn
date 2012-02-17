@@ -1,9 +1,6 @@
-#AutoIt3Wrapper_au3check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GUIConstantsEx.au3>
-#include  <GuiButton.au3>
-#include  <WindowsConstants.au3>
-
-Opt(" MustDeclareVars ", 1)
+#include <GUIConstantsEx.au3>
+#include <GuiButton.au3>
+#include <WindowsConstants.au3>
 
 Global $iMemo
 
@@ -12,45 +9,45 @@ _Main()
 Func _Main()
 	Local $rdo, $rdo2, $chk, $chk2, $chk3, $btn, $btn2
 
-	GUICreate(" Buttons ", 400, 400)
+	GUICreate("Buttons", 400, 400)
 	$iMemo = GUICtrlCreateEdit("", 119, 10, 276, 374, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 
-	$btn = GUICtrlCreateButton(" Button1 ", 10, 10, 90, 25)
+	$btn = GUICtrlCreateButton("Button1", 10, 10, 90, 25)
 	_GUICtrlButton_SetState($btn)
 
-	$btn2 = GUICtrlCreateButton(" Button2 ", 10, 60, 90, 25)
+	$btn2 = GUICtrlCreateButton("Button2", 10, 60, 90, 25)
 
-	$rdo = GUICtrlCreateRadio(" Radio1 ", 10, 110, 90, 25)
+	$rdo = GUICtrlCreateRadio("Radio1", 10, 110, 90, 25)
 	_GUICtrlButton_SetFocus($rdo)
 
-	$rdo2 = GUICtrlCreateRadio(" Radio2 ", 10, 170, 90, 25)
+	$rdo2 = GUICtrlCreateRadio("Radio2", 10, 170, 90, 25)
 	_GUICtrlButton_SetCheck($rdo2)
 
-	$chk = GUICtrlCreateCheckbox(" Check1 ", 10, 230, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
+	$chk = GUICtrlCreateCheckbox("Check1", 10, 230, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 	_GUICtrlButton_SetCheck($chk, $BST_INDETERMINATE)
 
-	$chk2 = GUICtrlCreateCheckbox(" Check2 ", 10, 290, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
+	$chk2 = GUICtrlCreateCheckbox("Check2", 10, 290, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 
-	$chk3 = GUICtrlCreateCheckbox(" Check3 ", 10, 350, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
+	$chk3 = GUICtrlCreateCheckbox("Check3", 10, 350, 90, 25, BitOR($BS_AUTO3STATE, $BS_NOTIFY))
 	_GUICtrlButton_SetCheck($chk3, $BST_CHECKED)
 
 	GUISetState()
 
-	MemoWrite(" Button1 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($btn), True))
-	MemoWrite(" Button2 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($btn2), True))
-	MemoWrite(" Radio1 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($rdo)))
-	MemoWrite(" Radio2 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($rdo2)))
-	MemoWrite(" Check1 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($chk)))
-	MemoWrite(" Check2 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($chk2)))
-	MemoWrite(" Check3 status:" & @CRLF & " --------------------------------" & _
-			_ExplainState( _GUICtrlButton_GetState($chk3)))
+	MemoWrite("Button1 status:" & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($btn), True))
+	MemoWrite("Button2 status:" & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($btn2), True))
+	MemoWrite("Radio1 status: " & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($rdo)))
+	MemoWrite("Radio2 status: " & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($rdo2)))
+	MemoWrite("Check1 status: " & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($chk)))
+	MemoWrite("Check2 status: " & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($chk2)))
+	MemoWrite("Check3 status: " & @CRLF & "--------------------------------" & _
+			_ExplainState(_GUICtrlButton_GetState($chk3)))
 
 	While 1
 		Switch GUIGetMsg()
@@ -60,12 +57,12 @@ Func _Main()
 	WEnd
 
 	Exit
-endfunc   ;==>_Main
+EndFunc   ;==>_Main
 
 ; Ð´ÈëMemo¿Ø¼þ
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
-endfunc   ;==>MemoWrite
+EndFunc   ;==>MemoWrite
 
 Func _ExplainState($iState, $fPushButton = False)
 	Local $sText = ""
@@ -85,5 +82,4 @@ Func _ExplainState($iState, $fPushButton = False)
 		EndIf
 	EndIf
 	Return $sText
-endfunc   ;==>_ExplainState
-
+EndFunc   ;==>_ExplainState

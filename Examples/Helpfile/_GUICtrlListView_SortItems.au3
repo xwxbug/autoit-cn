@@ -1,18 +1,14 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters=-d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GUIConstantsEx.au3>
-#include  <GuiListView.au3>
-#include  <GuiImageList.au3>
-#include  <WindowsConstants.au3>
-
-Opt('MustDeclareVars', 1)
+#include <GUIConstantsEx.au3>
+#include <GuiListView.au3>
+#include <GuiImageList.au3>
+#include <WindowsConstants.au3>
 
 Global $hListView, $hListView2
 
-_示例1()
-_示例2()
+_Example1()
+_Example2()
 
-Func _示例1()
+Func _Example1()
 	Local $hImage, $aIcons[3] = [0, 3, 6]
 	Local $iExWindowStyle = BitOR($WS_EX_DLGMODALFRAME, $WS_EX_CLIENTEDGE)
 	Local $iExListViewStyle = BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_SUBITEMIMAGES, $LVS_EX_GRIDLINES, $LVS_EX_CHECKBOXES, $LVS_EX_DOUBLEBUFFER)
@@ -55,9 +51,9 @@ Func _示例1()
 
 	_GUICtrlListView_UnRegisterSortCallBack($hListView)
 	GUIDelete()
-endfunc   ;==>_示例1
+EndFunc   ;==>_Example1
 
-Func _示例2()
+Func _Example2()
 	Local $hImage, $aIcons[3] = [0, 3, 6]
 	Local $iExWindowStyle = BitOR($WS_EX_DLGMODALFRAME, $WS_EX_CLIENTEDGE)
 	Local $iExListViewStyle = BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_SUBITEMIMAGES, $LVS_EX_GRIDLINES, $LVS_EX_CHECKBOXES, $LVS_EX_DOUBLEBUFFER)
@@ -112,7 +108,7 @@ Func _示例2()
 	_GUICtrlListView_UnRegisterSortCallBack($hListView)
 	_GUICtrlListView_UnRegisterSortCallBack($hListView2)
 	GUIRegisterMsg($WM_NOTIFY, "")
-endfunc   ;==>_示例2
+EndFunc   ;==>_Example2
 
 Func _AddRow($hWnd, $sItem, $aIcons, $iPlus = 0)
 	Local $aItem = StringSplit($sItem, "|")
@@ -123,7 +119,7 @@ Func _AddRow($hWnd, $sItem, $aIcons, $iPlus = 0)
 		_GUICtrlListView_AddSubItem($hWnd, $iIndex, $aItem[$x], $x - 1, $aIcons[$x - 1] + $iPlus)
 		_GUICtrlListView_SetColumnWidth($hWnd, $x - 1, $LVSCW_AUTOSIZE)
 	Next
-endfunc   ;==>_AddRow
+EndFunc   ;==>_AddRow
 
 Func _WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam
@@ -135,7 +131,7 @@ Func _WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	If Not IsHWnd($hListView2) Then $hWndListView2 = GUICtrlGetHandle($hListView2)
 
 	$tNMHDR = DllStructCreate($tagNMHDR, $ilParam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iCode = DllStructGetData($tNMHDR, "Code")
 
 	Switch $hWndFrom
@@ -150,5 +146,4 @@ Func _WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 			EndSwitch
 	EndSwitch
 	Return $__LISTVIEWCONSTANT_GUI_RUNDEFMSG
-endfunc   ;==>_WM_NOTIFY
-
+EndFunc   ;==>_WM_NOTIFY

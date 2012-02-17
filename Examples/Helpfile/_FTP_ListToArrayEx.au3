@@ -9,6 +9,6 @@ Local $Open = _FTP_Open('MyFTP Control')
 Local $Conn = _FTP_Connect($Open, $server, $username, $pass)
 
 Local $aFile = _FTP_ListToArrayEx($Conn, 0)
-_arraydisplay($aFile)
+_ArrayDisplay($aFile)
 
 Local $Ftpc = _FTP_Close($Open)

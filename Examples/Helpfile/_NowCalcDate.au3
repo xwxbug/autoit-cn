@@ -1,5 +1,4 @@
+#include <Date.au3>
 
-#include  <Date.au3>
-$Msg = "Test record"
+Local $Msg = "Test record"
 FileWriteLine("Pgm.log", _NowCalcDate() & " :" & $Msg)
-

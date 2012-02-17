@@ -1,8 +1,7 @@
-
 #include <WindowsConstants.au3>
 #include <WinAPI.au3>
 
-ShowCros(@DesktopWidth / 2, @DesktopHeight / 2, 20, 2, 0xFF, 3000)
+ShowCross(@DesktopWidth / 2, @DesktopHeight / 2, 20, 2, 0xFF, 3000)
 
 Func ShowCross($start_x, $start_y, $length, $width, $color, $time)
 	Local $hDC, $hPen, $obj_orig
@@ -21,11 +20,10 @@ Func ShowCross($start_x, $start_y, $length, $width, $color, $time)
 	Sleep($time) ; 穿过屏幕几秒
 
 	; 刷新桌面(清扫穿过)
-	_WinAPI_RedrawWindow( _WinAPI_GetDesktopWindow(), 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN)
+	_WinAPI_RedrawWindow(_WinAPI_GetDesktopWindow(), 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN)
 
 	; 清除资源
 	_WinAPI_SelectObject($hDC, $obj_orig)
 	_WinAPI_DeleteObject($hPen)
 	_WinAPI_ReleaseDC(0, $hDC)
-endfunc   ;==>ShowCross
-
+EndFunc   ;==>ShowCross

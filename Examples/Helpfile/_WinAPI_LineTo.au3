@@ -26,5 +26,4 @@ Func ShowCross($start_x, $start_y, $length, $width, $color, $time)
 	_WinAPI_SelectObject($hDC, $obj_orig)
 	_WinAPI_DeleteObject($hPen)
 	_WinAPI_ReleaseDC(0, $hDC)
-endfunc   ;==>ShowCross
-
+EndFunc   ;==>ShowCross

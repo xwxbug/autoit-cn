@@ -1,24 +1,23 @@
+#include <GDIPlus.au3>
+#include <GUIConstantsEx.au3>
 
-#include  <GDIPlus.au3>
-#include  <GUIConstantsEx.au3>
-
-$hWnd = GUICreate("GDI+ Ê¾Àý", 400, 300)
+Local $hWnd = GUICreate("GDI+ Example", 400, 300)
 GUISetState()
 
 _GDIPlus_Startup()
-$hGraphics = _GDIPlus_GraphicsCreateFromHWND($hWnd)
+Local $hGraphics = _GDIPlus_GraphicsCreateFromHWND($hWnd)
 _GDIPlus_GraphicsClear($hGraphics)
 
-$hBrush = _GDIPlus_BrushCreateSolid(0xFF009900)
-$hFamily = _GDIPlus_FontFamilyCreate("Arial")
-$hFont = _GDIPlus_FontCreate($hFamily, 36)
-$hLayout = _GDIPlus_RectFCreate(0, 0, 400, 300)
-$hStringFormat = _GDIPlus_StringFormatCreate()
+Local $hBrush = _GDIPlus_BrushCreateSolid(0xFF009900)
+Local $hFamily = _GDIPlus_FontFamilyCreate("Arial")
+Local $hFont = _GDIPlus_FontCreate($hFamily, 36)
+Local $hLayout = _GDIPlus_RectFCreate(0, 0, 400, 300)
+Local $hStringFormat = _GDIPlus_StringFormatCreate()
 _GDIPlus_StringFormatSetAlign($hStringFormat, 1)
 _GDIPlus_GraphicsDrawStringEx($hGraphics, "AutoIt Rocks", $hFont, $hLayout, $hStringFormat, $hBrush)
 
 Do
-	$msg = GUIGetMsg()
+	Local $msg = GUIGetMsg()
 Until $msg = $GUI_EVENT_CLOSE
 
 
@@ -28,4 +27,3 @@ _GDIPlus_FontDispose($hFont)
 _GDIPlus_StringFormatDispose($hStringFormat)
 _GDIPlus_GraphicsDispose($hGraphics)
 _GDIPlus_Shutdown()
-

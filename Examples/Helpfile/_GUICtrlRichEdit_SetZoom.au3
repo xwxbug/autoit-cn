@@ -1,8 +1,6 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GuiRichEdit.au3>
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
+#include <GuiRichEdit.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
 
 Global $lblMsg, $hRichEdit
 
@@ -17,29 +15,27 @@ Func Main()
 	$btnNext = GUICtrlCreateButton("Next", 270, 310, 40, 30)
 	GUISetState()
 
-	_GuiCtrlRichEdit_AppendText($hRichEdit, @CR & "This is appended text.")
-
 	While True
 		$iMsg = GUIGetMsg()
 		Select
 			Case $iMsg = $GUI_EVENT_CLOSE
-				GUIDelete()
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
+;~ 				GUIDelete() 	; is OK too
 				Exit
 			Case $iMsg = $btnNext
 				$iStep += 1
 				Switch $iStep
 					Case 1
-						Report("1.Now zoomed to" & _GUICtrlRichEdit_GetZoom($hRichEdit) & "%")
+						Report("1.Now zoomed to " & _GUICtrlRichEdit_GetZoom($hRichEdit) & "%")
 					Case 2
 						_GUICtrlRichEdit_SetZoom($hRichEdit, 250)
-						Report("2.Now zoomed to" & _GUICtrlRichEdit_GetZoom($hRichEdit) & "%")
+						Report("2.Now zoomed to " & _GUICtrlRichEdit_GetZoom($hRichEdit) & "%")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)
 				EndSwitch
 		EndSelect
 	WEnd
-endfunc   ;==>Main
+EndFunc   ;==>Main
 
 Func Report($sMsg)
 	GUICtrlSetData($lblMsg, $sMsg)
-endfunc   ;==>Report
-
+EndFunc   ;==>Report

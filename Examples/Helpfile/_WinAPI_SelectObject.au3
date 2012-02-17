@@ -20,11 +20,10 @@ Func ShowCross($start_x, $start_y, $length, $width, $color, $time)
 	Sleep($time) ; 越屏显示定义的秒数
 
 	; 刷新桌面 (清除穿越)
-	_WinAPI_RedrawWindow( _WinAPI_GetDesktopWindow(), 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN)
+	_WinAPI_RedrawWindow(_WinAPI_GetDesktopWindow(), 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN)
 
 	; 清理资源
 	_WinAPI_SelectObject($hDC, $obj_orig)
 	_WinAPI_DeleteObject($hPen)
 	_WinAPI_ReleaseDC(0, $hDC)
-endfunc   ;==>ShowCross
-
+EndFunc   ;==>ShowCross

@@ -1,9 +1,7 @@
-
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-#include  <GuiRichEdit.au3>
-#include  <GUIConstantsEx.au3>
-#include  <WindowsConstants.au3>
-#include  <GuiMenu.au3>
+#include <GuiRichEdit.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#include <GuiMenu.au3>
 
 Global $hRichEdit, $mnu, $mnuUndo, $mnuRedo, $mnuEmpty
 
@@ -18,40 +16,41 @@ Func Main()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	$mnu = GUICtrlCreateContextMenu( GUICtrlCreateDummy())
+	$mnu = GUICtrlCreateContextMenu(GUICtrlCreateDummy())
 	$mnuUndo = GUICtrlCreateMenuItem("Undo", $mnu)
 	$mnuRedo = GUICtrlCreateMenuItem("Redo", $mnu)
 	GUICtrlCreateMenuItem("", $mnu)
 	$mnuEmpty = GUICtrlCreateMenuItem("Empty Undo buffer", $mnu)
 
-	_GuiCtrlRichEdit_SetEventMask($hRichEdit, $ENM_MOUSEEVENTS)
+	_GUICtrlRichEdit_SetEventMask($hRichEdit, $ENM_MOUSEEVENTS)
 
 	While True
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
-				GUIDelete()
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
+;~ 				GUIDelete() 	; is OK too
 				Exit
 			Case $mnuUndo
-				_GuiCtrlRichEdit_Undo($hRichEdit)
+				_GUICtrlRichEdit_Undo($hRichEdit)
 			Case $mnuRedo
-				_GuiCtrlRichEdit_Redo($hRichEdit)
+				_GUICtrlRichEdit_Redo($hRichEdit)
 			Case $mnuEmpty
-				_GuiCtrlRichEdit_EmptyUndoBuffer($hRichEdit)
+				_GUICtrlRichEdit_EmptyUndoBuffer($hRichEdit)
 		EndSwitch
 	WEnd
-endfunc   ;==>Main
+EndFunc   ;==>Main
 
 Func WM_NOTIFY($hWnd, $iMsg, $iWparam, $iLparam)
 	#forceref $iMsg, $iWparam
 	Local $hWndFrom, $iCode, $tNMHDR, $tMsgFilter, $hMenu
 	$tNMHDR = DllStructCreate($tagNMHDR, $iLparam)
-	$hWndFrom = HWnd( DllStructGetData($tNMHDR, "hWndFrom"))
+	$hWndFrom = HWnd(DllStructGetData($tNMHDR, "hWndFrom"))
 	$iCode = DllStructGetData($tNMHDR, "Code")
 	Switch $hWndFrom
 		Case $hRichEdit
 			Select
 				Case $iCode = $EN_MSGFILTER
-					$tMsgFilter = DllStructCreate($tagEN_MSGFILTER, $iLparam)
+					$tMsgFilter = DllStructCreate($tagMSGFILTER, $iLparam)
 					If DllStructGetData($tMsgFilter, "msg") = $WM_RBUTTONUP Then
 						$hMenu = GUICtrlGetHandle($mnu)
 						SetMenuTexts($hWndFrom, $hMenu)
@@ -60,12 +59,12 @@ Func WM_NOTIFY($hWnd, $iMsg, $iWparam, $iLparam)
 			EndSelect
 	EndSwitch
 	Return $GUI_RUNDEFMSG
-endfunc   ;==>WM_NOTIFY
+EndFunc   ;==>WM_NOTIFY
 
 Func SetMenuTexts($hWnd, $hMenu)
 	If _GUICtrlRichEdit_CanUndo($hWnd) Then
 		_GUICtrlMenu_SetItemEnabled($hMenu, $mnuUndo, True, False)
-		_GUICtrlMenu_SetItemText($hMenu, $mnuUndo, "Undo:" & _GUICtrlRichEdit_GetNextUndo($hWnd), False)
+		_GUICtrlMenu_SetItemText($hMenu, $mnuUndo, "Undo: " & _GUICtrlRichEdit_GetNextUndo($hWnd), False)
 		_GUICtrlMenu_SetItemEnabled($hMenu, $mnuEmpty, True, False)
 	Else
 		_GUICtrlMenu_SetItemText($hMenu, $mnuUndo, "Undo", False)
@@ -74,10 +73,9 @@ Func SetMenuTexts($hWnd, $hMenu)
 	EndIf
 	If _GUICtrlRichEdit_CanRedo($hWnd) Then
 		_GUICtrlMenu_SetItemEnabled($hMenu, $mnuRedo, True, False)
-		_GUICtrlMenu_SetItemText($hMenu, $mnuRedo, "Redo:" & _GUICtrlRichEdit_GetNextRedo($hWnd), False)
+		_GUICtrlMenu_SetItemText($hMenu, $mnuRedo, "Redo: " & _GUICtrlRichEdit_GetNextRedo($hWnd), False)
 	Else
 		_GUICtrlMenu_SetItemText($hMenu, $mnuRedo, "Redo", False)
 		_GUICtrlMenu_SetItemEnabled($hMenu, $mnuRedo, False, False)
 	EndIf
-endfunc   ;==>SetMenuTexts
-
+EndFunc   ;==>SetMenuTexts

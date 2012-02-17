@@ -20,8 +20,8 @@ Func FTPStatusCallbackHandler($hInternet, $dwContent, $dwInternetStatus, $lpvSta
 		Local $Size, $iBytesRead
 		$Size = DllStructCreate('dword')
 		_WinAPI_ReadProcessMemory(_WinAPI_GetCurrentProcess(), $lpvStatusInformation, DllStructGetPtr($Size), $dwStatusInformationLength, $iBytesRead)
-		_DebugOut(_FTP_DecodeInternetStatus($dwInternetStatus) & ' | Size =' & DllStructGetData($Size, 1) & ' Bytes    Bytes read =' & $iBytesRead)
+		_DebugOut(_FTP_DecodeInternetStatus($dwInternetStatus) & ' | Size = ' & DllStructGetData($Size, 1) & ' Bytes    Bytes read = ' & $iBytesRead)
 	Else
 		_DebugOut(_FTP_DecodeInternetStatus($dwInternetStatus))
 	EndIf
-endfunc   ;==>FTPStatusCallbackHandler
+EndFunc   ;==>FTPStatusCallbackHandler
