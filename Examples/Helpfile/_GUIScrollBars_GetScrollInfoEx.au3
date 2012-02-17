@@ -1,7 +1,7 @@
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StructureConstants.au3>
-#include <GuiScrollBars.au3>
+#include <GUIScrollBars.au3>
 #include <ScrollBarConstants.au3>
 
 Global $iMemo
@@ -46,7 +46,7 @@ Func _Main()
 	Exit
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

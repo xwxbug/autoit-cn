@@ -14,7 +14,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 110)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 131)
@@ -24,12 +24,12 @@ Func _Main()
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 146)
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Column 1", 120)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 3", 2, 2)
@@ -48,7 +48,7 @@ Func _Main()
 
 	_GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($listview))
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 3", 2, 2)
@@ -62,7 +62,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 2", 1, 4)
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 3", 2, 3)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

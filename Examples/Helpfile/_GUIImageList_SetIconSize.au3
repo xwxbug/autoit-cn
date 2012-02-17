@@ -21,19 +21,19 @@ Func _Main()
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 165, True)
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Column 1", 120)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 3", 2, 2)
 	_GUICtrlListView_AddItem($listview, "Row 2: Col 1", 1)
 	_GUICtrlListView_AddSubItem($listview, 1, "Row 2: Col 2", 1, 2)
 
-	; Show image list icon size
+	; 显示图像列表的图标尺寸
 	$aSize = _GUIImageList_GetIconSize($hImage)
 	MemoWrite("Image width : " & $aSize[0])
 	MemoWrite("Image height: " & $aSize[1])
@@ -50,13 +50,13 @@ Func _Main()
 	MemoWrite("Image width : " & $aSize[0])
 	MemoWrite("Image height: " & $aSize[1])
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
