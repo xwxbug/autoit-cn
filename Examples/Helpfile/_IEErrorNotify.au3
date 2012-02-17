@@ -1,13 +1,13 @@
 ; *******************************************************
-; 检查_IEErrorNotify的当前状态, 如果为打开时关闭, 关闭则打开
+; 示例 1 - 检查 _IEErrorNotify 的当前状态, 如果打开则关闭它, 反之打开它
 ; *******************************************************
-;
+
 #include <IE.au3>
+
 If _IEErrorNotify() Then
-	msgbox(0, "_IEErrorNotify Status ", "span class=S7>Notification is ON, turning it OFF ")
+	MsgBox(4096, "_IEErrorNotify Status", "Notification is ON, turning it OFF")
 	_IEErrorNotify(False)
 Else
-	msgbox(0, "_IEErrorNotify Status ", "span class=S7>Notification is OFF, turning it ON ")
+	MsgBox(4096, "_IEErrorNotify Status", "Notification is OFF, turning it ON")
 	_IEErrorNotify(True)
 EndIf
-

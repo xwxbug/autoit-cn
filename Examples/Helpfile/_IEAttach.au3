@@ -1,42 +1,52 @@
 ; *******************************************************
-; 示例1 - 打开标题为"AutoIt"的浏览器并显示网址
+; 示例 1 - 附加到标题中含 "AutoIt" 的浏览器, 显示其 URL
 ; *******************************************************
-#include  <IE.au3>
-$oIE = _IEAttach(" AutoIt ")
-msgbox(0, "The URL ", _IEPropertyGet($oIE, "locationurl "))
+
+#include <IE.au3>
+
+Local $oIE = _IEAttach("AutoIt")
+MsgBox(4096, "The URL", _IEPropertyGet($oIE, "locationurl"))
 
 ; *******************************************************
-; 示例2 - 打开顶层文档中包含"The quick brown fox"文本的浏览器
+; 示例 2 - 附加到顶级文档的文本中含 "The quick brown fox"
+;				的浏览器
 ; *******************************************************
-#include  <IE.au3>
-$oIE = _IEAttach(" The quick brown fox ", "text ")
+
+#include <IE.au3>
+
+$oIE = _IEAttach("The quick brown fox", "text")
 
 ; *******************************************************
-; 示例3 - 打开内嵌在另一窗口中的浏览器控件
+; 示例 3 - 附加到嵌入另一窗口的浏览器控件
 ; *******************************************************
-;
-#include  <IE.au3>
-$oIE = _IEAttach(" A Window Title ", "embedded ")
+
+#include <IE.au3>
+
+$oIE = _IEAttach("A Window Title", "embedded")
 
 ; *******************************************************
-; 示例4 - 打开第三个内嵌在另一窗口中的浏览器控件
-;        使用高级窗口标题语法来使用第二个标题中带有'ICQ'字符串的窗口
+; 示例 4 - 附加到嵌入另一窗口的第三个浏览器控件
+;				使用高级窗口标题语法以便使用标题中
+;				含有字符串 'ICQ' 的第二个窗口
 ; *******************************************************
-#include  <IE.au3>
-$oIE = _IEAttach(" [REGEXPTITLE:ICQ; INSTANCE:2] ", "embedded ", 3)
+
+#include <IE.au3>
+
+$oIE = _IEAttach("[REGEXPTITLE:ICQ; INSTANCE:2]", "embedded", 3)
 
 ; *******************************************************
-; 示例5 - 创建当前浏览器所有引用的实例对象的数组. 数组首个元素为实例数量
+; 示例 5 - 创建到所有当前浏览器实例的对象引用的数组
+;				首个数组元素将包含找到的实例数
 ; *******************************************************
-;
-#include  <IE.au3>
 
-Dim $aIE[1]
+#include <IE.au3>
+
+Local $aIE[1]
 $aIE[0] = 0
 
-$i = 1
+Local $i = 1
 While 1
-	$oIE = _IEAttach(" ", "instance ", $i)
+	$oIE = _IEAttach("", "instance", $i)
 	If @error = $_IEStatus_NoMatch Then ExitLoop
 	ReDim $aIE[$i + 1]
 	$aIE[$i] = $oIE
@@ -44,5 +54,4 @@ While 1
 	$i += 1
 WEnd
 
-msgbox(0, "Browsers Found ", "Number of browser instances in the array:" & $aIE[0])
-
+MsgBox(4096, "Browsers Found", "Number of browser instances in the array: " & $aIE[0])

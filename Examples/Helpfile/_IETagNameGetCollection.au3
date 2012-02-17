@@ -8,5 +8,5 @@
 Local $oIE = _IE_Example("form")
 Local $oInputs = _IETagNameGetCollection($oIE, "input")
 For $oInput In $oInputs
-	MsgBox(0, "Form Input Type", "Form: " & $oInput.form.name & " Type: " & $oInput.type)
+	MsgBox(4096, "Form Input Type", "Form: " & $oInput.form.name & " Type: " & $oInput.type)
 Next

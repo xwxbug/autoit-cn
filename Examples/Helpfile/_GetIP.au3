@@ -1,4 +1,4 @@
 #include <Inet.au3>
-$PublicIP = _GetIP()
-msgbox(0, "IP Address ", "Your IP Address is:" & $PublicIP)
 
+Local $PublicIP = _GetIP()
+MsgBox(4096, "IP 地址", "您的 IP 地址为: " & $PublicIP)

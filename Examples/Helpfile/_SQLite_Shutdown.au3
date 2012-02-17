@@ -2,10 +2,9 @@
 #include <SQLite.dll.au3>
 
 _SQLite_Startup()
-msgbox(4096, "_SQLite_LibVersion", & _SQLite_LibVersion() & @CR)
 If @error Then
-	msgbox(16, "SQLite Error", "SQLite.dll Can't be Loaded!")
+	MsgBox(16, "SQLite Error", "SQLite3.dll Can't be Loaded!")
 	Exit -1
 EndIf
+ConsoleWrite("_SQLite_LibVersion=" & _SQLite_LibVersion() & @CRLF)
 _SQLite_Shutdown()
-

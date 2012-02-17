@@ -18,12 +18,12 @@ Func TogglePause()
 		ToolTip('脚本已经"暂停"了',0,0)
 	WEnd
 	ToolTip("")
-EndFunc
+EndFunc   ;==>TogglePause
 
 Func Terminate()
 	Exit 0
-EndFunc
+EndFunc   ;==>Terminate
 
 Func ShowMessage()
 	MsgBox(4096,"标题","这是一个消息.")
-EndFunc
+EndFunc   ;==>ShowMessage

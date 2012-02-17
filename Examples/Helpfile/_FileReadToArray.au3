@@ -6,5 +6,5 @@ If Not _FileReadToArray("error.log", $aRecords) Then
 	Exit
 EndIf
 For $x = 1 To $aRecords[0]
-	MsgBox(0, 'Record:' & $x, $aRecords[$x])
+	MsgBox(4096, 'Record:' & $x, $aRecords[$x])
 Next

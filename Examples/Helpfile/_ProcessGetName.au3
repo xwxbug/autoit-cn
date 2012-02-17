@@ -1,9 +1,8 @@
-#include  <Process.au3>
+#include <Process.au3>
 
-Run(" notepad.exe ")
-WinWaitActive(" [CLASS:Notepad] ", "")
-$pid = WinGetProcess(" [CLASS:Notepad] ", "")
-$name = _ProcessGetName($pid)
+Run("notepad.exe")
+WinWaitActive("[CLASS:Notepad]", "")
+Local $pid = WinGetProcess("[CLASS:Notepad]", "")
+Local $name = _ProcessGetName($pid)
 
-msgbox(0, "Notepad -" & $pid, $name)
-
+MsgBox(4096, "Notepad - " & $pid, $name)

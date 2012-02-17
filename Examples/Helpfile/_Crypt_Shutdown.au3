@@ -11,7 +11,7 @@ Local $sOutput = "The following results show the supported algorithms for retrie
 		"MD5: " & _Crypt_HashData($sData, $CALG_MD5) & @CRLF & _
 		"SHA1: " & _Crypt_HashData($sData, $CALG_SHA1)
 
-MsgBox(0, "Supported algorithms", $sOutput)
+MsgBox(4096, "Supported algorithms", $sOutput)
 
 _Crypt_Shutdown() ; Shutdown the crypt library.
 

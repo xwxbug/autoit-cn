@@ -11,7 +11,7 @@ $as_Body[1] = "Second Line"
 Local $Response = _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_Subject, $as_Body)
 Local $err = @error
 If $Response = 1 Then
-	MsgBox(0, "Success!", "Mail sent")
+	MsgBox(4096, "Success!", "Mail sent")
 Else
-	MsgBox(0, "Error!", "Mail failed with error code " & $err)
+	MsgBox(4096, "Error!", "Mail failed with error code " & $err)
 EndIf

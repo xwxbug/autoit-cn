@@ -1,12 +1,10 @@
-
 ; ***************************************************************
-; 示例 - 打开新工作簿并返回对象标识. 无提示情况下保存文件
+; 示例1 打开一个新的工作表并返回其对象标识符, 然后在没有任何提示的情况下保存该文件.
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-$oExcel = _ExcelBookNew()
+Local $oExcel = _ExcelBookNew()
 
-_ExcelBookSave($oExcel) ;Save File With No Alerts
-If Not @error Then msgbox(0, "Success", "File was Saved!", 3)
-
+_ExcelBookSave($oExcel) ;没有任何提示的情况下保存
+If Not @error Then MsgBox(4096, "成功", "文件已保存!", 3)

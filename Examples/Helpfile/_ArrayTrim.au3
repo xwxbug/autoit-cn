@@ -1,13 +1,12 @@
 #include <Array.au3>
 
 Local $avArray[5]
-$avArray[0] = " ab "
-$avArray[1] = " bc "
-$avArray[2] = " cd "
-$avArray[3] = " de "
-$avArray[4] = " ef "
+$avArray[0] = "ab"
+$avArray[1] = "bc"
+$avArray[2] = "cd"
+$avArray[3] = "de"
+$avArray[4] = "ef"
 
-_arraydisplay($avArray, "$avArray BEFORE _ArrayTrim() ")
+_ArrayDisplay($avArray, "$avArray BEFORE _ArrayTrim()")
 _ArrayTrim($avArray, 1, 1, 0, 4)
-_arraydisplay($avArray, "$avArray AFTER _ArrayTrim() right 1 character from items 1 to 3 ")
-
+_ArrayDisplay($avArray, "$avArray AFTER _ArrayTrim() right 1 character from items 1 to 3")

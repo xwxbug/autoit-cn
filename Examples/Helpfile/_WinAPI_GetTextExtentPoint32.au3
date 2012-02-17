@@ -10,7 +10,7 @@ Func Example()
 
 	Local $sText = "This is  some text" ; The text we want to find the height & width of.
 	Local $aStringDimension = GetStringDimensions($hGUI, $sText) ; Retrieve a 1 dimensional array with $aArray[0] = width & $aArray[1] = height.
-	MsgBox(0, "String Height and Width", 'The height and width of the string "' & $sText & '" is:' & @CRLF & _
+	MsgBox(4096, "String Height and Width", 'The height and width of the string "' & $sText & '" is:' & @CRLF & _
 			"Width: " & $aStringDimension[0] & @CRLF & _
 			"Height: " & $aStringDimension[1] & @CRLF)
 	Do

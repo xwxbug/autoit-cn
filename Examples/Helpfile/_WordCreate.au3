@@ -1,35 +1,39 @@
 ; *******************************************************
-; 示例 1 - 创建一个Microsoft Word window 并打开一个文档
+; 示例 1 - 创建一个新的Microsoft Word文件并打开(创建成功则自动保存到相应路径)
 ; *******************************************************
+;
 #include <Word.au3>
-$oWordApp = _WordCreate(@ScriptDir & " \Test.doc ")
+
+Local $oWordApp = _WordCreate(@ScriptDir & "\Test.doc")
 
 ; *******************************************************
-; 示例 2 - 尝试将一个存在的word窗口连接到一个打开的指定文件.
-;         如果不存在则创建新窗口打开文件.
+; 示例 2 - 尝试附加到一个已存在的word窗口
+;               如果文件不存在,创建一个新的Microsoft Word文件并打开.
 ; *******************************************************
+;尝试附加到一个已存在的word窗口
 #include <Word.au3>
-$oWordApp = _WordCreate(@ScriptDir & " \Test.doc ", 1)
-; 检查@extended返回值以查看连接是否成功
+$oWordApp = _WordCreate(@ScriptDir & "\Test.doc", 1)
+; 检查返回值 @extended 判断连接是否成功
 If @extended Then
-	msgbox(0, "", "Attached to Existing Window ")
+	MsgBox(4096, "附加成功", "附加到现有的窗口")
 Else
-	msgbox(0, "", "Created New Window ")
+	MsgBox(4096, "附加失败", "创建新窗口")
 EndIf
 
 ; *******************************************************
-; 示例 3 - 创建一个带空白文档的word窗体
+; 示例 3 - 创建一个新Microsoft Word文件并打开
 ; *******************************************************
+;
 #include <Word.au3>
 $oWordApp = _WordCreate()
 
 ; *******************************************************
-; 示例 4 - 创建一个隐藏的word窗体并打开一个文件,
-;         添加一些文本后保存退出.
+; 示例 4 -创建一个新的Microsoft Word文件并打开(指定窗口为隐藏状态)，
+;            追加一些文本，然后保存更改退出.
 ; *******************************************************
+;
 #include <Word.au3>
-$oWordApp = _WordCreate(@ScriptDir & " \Test.doc ", 0, 0)
-$oDoc = _WordDocGetCollection($oWordApp, 0)
-$oDoc.Range.insertAfter(" This is some text to insert. ")
-_WordQuit($oWordApp, -1)
-
+$oWordApp = _WordCreate(@ScriptDir & "\Test.doc", 0, 0)
+Local $oDoc = _WordDocGetCollection($oWordApp, 0)
+$oDoc.Range.insertAfter ("这是追加的文本内容.")
+_WordQuit ($oWordApp, -1)

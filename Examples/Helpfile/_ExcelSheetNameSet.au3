@@ -1,31 +1,31 @@
-
-; ***********************************************************
-; 例1 - 打开工作簿并返回其对象标识后, 设置活动表名称
+; ***************************************************************
+; 示例 1 - 打开工作簿并返回其对象标识符后, 设置活动工作表的名称
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+#include <Excel.au3>
 
-_ExcelSheetNameSet($oExcel, "示例") ;重命名活动表
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
+_ExcelSheetNameSet($oExcel, "Example") ;重命名活动工作表
 
-; ***********************************************************************
-; 例2 - 打开工作簿并返回其对象标识后, 显示活动表名称, 更改并显示新名称
-; ***********************************************************************
-#include  <Excel.au3>
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+; ***************************************************************
+; 示例 2 - 打开工作簿并返回其对象标识符后, 显示活动工作表的名称, 改变其名称并显示新的名称
+; *****************************************************************
 
-msgbox(0, "Sheet Name", "The Current Active Sheet Name Is:" & @CRLF & _ExcelSheetNameGet($oExcel))
+#include <Excel.au3>
 
-_ExcelSheetNameSet($oExcel, "示例") ;重命名活动表
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-msgbox(0, "Sheet Name", "Now The Current Active Sheet Name Is:" & @CRLF & _ExcelSheetNameGet($oExcel))
+MsgBox(4096, "Sheet Name", "The Current Active Sheet Name Is:" & @CRLF & _ExcelSheetNameGet($oExcel))
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
+_ExcelSheetNameSet($oExcel, "Example") ;重命名活动工作表
 
+MsgBox(4096, "Sheet Name", "Now The Current Active Sheet Name Is:" & @CRLF & _ExcelSheetNameGet($oExcel))
+
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

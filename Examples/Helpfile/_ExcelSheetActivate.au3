@@ -1,43 +1,44 @@
-
 ; ***************************************************************
-; 例1 - 打开并返回工作簿对象标识后, 通过表名的字符串值激活一张表
+; 示例 1 - 打开工作簿并返回其对象标识符后, 使用表示工作表名称的字符串值激活相应的工作表
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
+#include <Excel.au3>
+
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
 _ExcelSheetActivate($oExcel, "Sheet2")
 
-msgbox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例2 - 打开并返回工作簿对象标识后, 通过使用表的索引值激活一张表
+; 示例 2 - 打开工作簿并返回其对象标识符后, 使用工作表索引值激活相应的工作表
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
+#include <Excel.au3>
+
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
 _ExcelSheetActivate($oExcel, 2)
 
-msgbox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例3 - 打开并返回工作簿对象标识后, 通过使用表的索引值激活一张表
+; 示例 2 - 打开工作簿并返回其对象标识符后, 使用工作表索引值激活相应的工作表
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
+#include <Excel.au3>
 
-$iNumberOfWorksheets = $oExcel . Worksheets . Count
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-msgbox(0, "", $oExcel . Worksheets . Count)
+Local $iNumberOfWorksheets = $oExcel.Worksheets.Count
+
+MsgBox(4096, "", $oExcel.Worksheets.Count)
 _ExcelSheetActivate($oExcel, 2)
 
-msgbox(0, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
-
+MsgBox(4096, "Exiting", "Notice How Sheet2 is Active and not Sheet1" & @CRLF & @CRLF & "Now Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

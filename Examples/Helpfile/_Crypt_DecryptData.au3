@@ -6,7 +6,7 @@ Local $sData = "..upon a time there was a language without any standardized cryp
 Local $bEncrypted = _Crypt_EncryptData($sData, $sUserKey, $CALG_RC4) ; Encrypt the data using the generic password string.
 
 $bEncrypted = _Crypt_DecryptData($bEncrypted, $sUserKey, $CALG_RC4) ; Decrypt the data using the generic password string. The return value is a binary string.
-MsgBox(0, "Decrypted data", BinaryToString($bEncrypted)) ; Convert the binary string using BinaryToString to display the initial data we encrypted.
+MsgBox(4096, "Decrypted data", BinaryToString($bEncrypted)) ; Convert the binary string using BinaryToString to display the initial data we encrypted.
 
 
 

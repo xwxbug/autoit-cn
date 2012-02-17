@@ -14,7 +14,7 @@ Func Main()
 	GUISetState()
 
 	_GUICtrlRichEdit_SetText($hRichEdit, "This is a test.")
-	MsgBox(0, "", _GUICtrlRichEdit_GetVersion())
+	MsgBox(4096, "", _GUICtrlRichEdit_GetVersion())
 
 	While True
 		$iMsg = GUIGetMsg()

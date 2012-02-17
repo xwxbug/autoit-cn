@@ -1,12 +1,8 @@
+#include <Timers.au3>
 
-#AutoIt3Wrapper_Au3Check_Parameters= -d -w 1 -w 2 -w 3 -w 4 -w 5 -w 6
-
-#include  <Timers.au3>
-
-; 鼠标/键盘动作将在10秒延迟期间报告空置时间
-Sleep(10 * 1000) ; 10秒
+; 在这 10 秒里鼠标/键盘的操作将改变报告的空闲时间
+Sleep(10 * 1000); 10秒
 
 Global $iIdleTime = _Timer_GetIdleTime()
 
-msgbox(64, "_Timer_GetIdleTime", "Idle time =" & $iIdleTime & "ms")
-
+MsgBox(4160, "_Timer_GetIdleTime", "Idle time = " & $iIdleTime & "ms")

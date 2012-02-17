@@ -1,4 +1,3 @@
-#include  <String.au3>
-msgbox(0, '', _StringReverse(" esreveR "))
+#include <String.au3>
+MsgBox(4096, '', _StringReverse("esreveR"))
 Exit
-

@@ -27,7 +27,7 @@ If @error = 0 Then
 	$sMsg &= @TAB & "top = " & DllStructGetData($stRET, "rcNormalPosition", 2) & @CRLF
 	$sMsg &= @TAB & "right = " & DllStructGetData($stRET, "rcNormalPosition", 3) & @CRLF
 	$sMsg &= @TAB & "bottom = " & DllStructGetData($stRET, "rcNormalPosition", 4)
-	MsgBox(64, "Success", $sMsg)
+	MsgBox(4160, "Success", $sMsg)
 
 	; 用 _WinAPI_SetWindowPlacement() 改变常态时的矩形然后恢复
 	DllStructSetData($stRET, "rcNormalPosition", 128, 1); 左

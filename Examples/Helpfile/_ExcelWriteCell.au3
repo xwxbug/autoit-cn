@@ -1,51 +1,49 @@
-
 ; ***************************************************************
-; 例1 - 打开并返回工作簿对象标识后写入一个单元格, 保存并关闭文件.
+; 示例 1 - 打开一个工作簿并返回其对象标识符后, 写入内容到单元格.  然后保存并关闭文件
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-_ExcelWriteCell($oExcel, "I Wrote to This Cell", 1, 1) ;写入单元格
+_ExcelWriteCell($oExcel, "I Wrote to This Cell", 1, 1) ;写入内容到单元格
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例2 - 打开并返回工作簿对象标识后使用循环写入一个单元格, 保存并关闭文件.
+; 示例 2 - 打开一个工作簿并返回其对象标识符后, 在循环中写入内容到单元格.  Then Save and Close file.
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
 For $i = 1 To 20 ;循环
-	_ExcelWriteCell($oExcel, "I Wrote to This Cell", $i, 1) ;写入单元格
+	_ExcelWriteCell($oExcel, "I Wrote to This Cell", $i, 1) ;写入内容到单元格
 Next
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 
 ; ***************************************************************
-; 例3 - 打开并返回工作簿对象标识后使用循环写入一个单元格, 然后使用_ExcelWriteCell输入公式.
+; 示例 3 - 打开一个工作簿并返回其对象标识符后, 在循环中写入内容到单元格.  然后使用 _ExcelWriteCell 写入公式
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
 For $i = 1 To 20 ;循环
-	_ExcelWriteCell($oExcel, $i, $i, 1) ;写入单元格
+	_ExcelWriteCell($oExcel, $i, $i, 1) ;写入内容到单元格
 Next
 
-_ExcelWriteCell($oExcel, "=Average(A:A)", 1, 2) ;使用A1样式, 并非R1C1
-_ExcelWriteCell($oExcel, "=Average(A1:A20)", 1, 3) ;另一种使用A1方式而非R1C1方式写入公式的方法
+_ExcelWriteCell($oExcel, "=Average(A:A)", 1, 2) ;使用 A1 引用样式, 而不是 R1C1
+_ExcelWriteCell($oExcel, "=Average(A1:A20)", 1, 3) ;写入公式的另一种方法 - 使用 A1 引用样式, 而不是 R1C1
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
-
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

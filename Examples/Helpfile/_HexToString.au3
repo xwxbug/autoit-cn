@@ -1,9 +1,9 @@
-#include  <string.au3>
-$String = " I like AutoIt3 "
-$Hex = _StringToHex($String)
-msgbox(0, "Hex ", "Original String:" & $String & @LF & " Hex:" & $Hex)
+#include <String.au3>
 
-$Hex = " 49206C696B65204175746F497433 "
+Local $String = "I like AutoIt3"
+Local $Hex = _StringToHex($String)
+MsgBox(4096, "Hex", "Original String: " & $String & @LF & " Hex: " & $Hex)
+
+$Hex = "49206C696B65204175746F497433"
 $String = _HexToString($Hex)
-msgbox(0, "Hex ", "Original Hex:" & $Hex & @LF & " String:" & $String)
-
+MsgBox(4096, "Hex", "Original Hex: " & $Hex & @LF & " String: " & $String)

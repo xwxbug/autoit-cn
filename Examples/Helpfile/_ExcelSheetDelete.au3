@@ -1,27 +1,27 @@
+; ***************************************************************
+; 示例 1 - 打开工作簿并返回其对象标识符后, 根据字符串名删除一个工作表
+; *****************************************************************
+
+#include <Excel.au3>
+
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
+
+_ExcelSheetDelete($oExcel, "Sheet1") ;根据表示工作表名称的字符串删除相应的工作表
+
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例1 - 打开并返回工作簿对象标识后, 按表名删除工作表
+; 示例 2 - 打开工作簿并返回其对象标识符后, 根据索引值删除相应的工作表
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
+#include <Excel.au3>
 
-_ExcelSheetDelete($oExcel, "Sheet1") ;通过表的名称字符串删除表
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
+_ExcelSheetDelete($oExcel, 1) ;根据工作表名称的索引值删除相应的工作表
 
-; ***************************************************************
-; 例2 - 打开并返回工作簿对象标识后, 按索引删除工作表
-; *****************************************************************
-#include  <Excel.au3>
-
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
-
-_ExcelSheetDelete($oExcel, 1) ;通过表名的索引删除表
-
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
-
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

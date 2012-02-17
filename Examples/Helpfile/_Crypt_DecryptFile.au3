@@ -83,7 +83,7 @@ While 1
 			If StringStripWS($sSourceRead, 8) <> "" And StringStripWS($sDestinationRead, 8) <> "" And StringStripWS($sPasswordRead, 8) <> "" And FileExists($sSourceRead) Then ; Check there is a file available to decrypt and a password has been set.
 				Local $iSuccess = _Crypt_DecryptFile($sSourceRead, $sDestinationRead, $sPasswordRead, $bAlgorithm) ; Decrypt the file.
 				If $iSuccess Then
-					MsgBox(0, "Success", "Operation succeeded.")
+					MsgBox(4096, "Success", "Operation succeeded.")
 				Else
 					Switch @error
 						Case 1

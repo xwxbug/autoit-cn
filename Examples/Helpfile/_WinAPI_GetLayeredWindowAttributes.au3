@@ -49,13 +49,13 @@ While 1
 				Case $msg = $layButt
 					Local $transcolor, $alpha
 					Local $info = _WinAPI_GetLayeredWindowAttributes($gui, $transcolor, $alpha)
-					MsgBox(0, 'Layered GUI', "Button on layered Window Clicked" & @CRLF & "Information about this window: " & @CRLF & _
+					MsgBox(4096, 'Layered GUI', "Button on layered Window Clicked" & @CRLF & "Information about this window: " & @CRLF & _
 							"Transparent Color: " & $transcolor & @CRLF & _
 							"Alpha Value: " & $alpha & @CRLF & _
 							"LWA_COLORKEY: " & (BitAND($info, $LWA_COLORKEY) = $LWA_COLORKEY) & @CRLF & _
 							"LWA_ALPHA: " & (BitAND($info, $LWA_ALPHA) = $LWA_ALPHA))
 				Case $msg = $GUI_EVENT_CLOSE
-					Exit MsgBox(0, '', "Close from Layered GUI")
+					Exit MsgBox(4096, '', "Close from Layered GUI")
 			EndSelect
 	EndSwitch
 WEnd

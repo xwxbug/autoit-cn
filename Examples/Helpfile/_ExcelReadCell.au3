@@ -1,38 +1,36 @@
-
 ; ***************************************************************
-; 例1 - 打开并返回工作簿对象标识后写入单元格, 读取单元格, 保存后关闭文件.
+; 示例 1 - 打开一个工作簿并返回其对象标识符后, 写入内容到单元格.  读取单元格内容, 然后保存并关闭文件.
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
-_ExcelWriteCell($oExcel, "I Wrote to This Cell", 1, 1) ;写入单元格
-$sCellValue = _ExcelReadCell($oExcel, 1, 1)
-msgbox(0, "", "The Cell Value is:" & @CRLF & $sCellValue, 2)
+_ExcelWriteCell($oExcel, "I Wrote to This Cell", 1, 1) ;写入内容到单元格
+Local $sCellValue = _ExcelReadCell($oExcel, 1, 1)
+MsgBox(4096, "", "The Cell Value is: " & @CRLF & $sCellValue, 2)
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例2 - 打开并返回工作簿对象标识后使用循环写入单元格, 读取单元格, 保存后关闭文件.
+; 示例 2 - 打开一个工作簿并返回其对象标识符后, 在循环中写入内容到单元格.  读取单元格内容, 然后保存并关闭文件.
 ; *****************************************************************
 
-#include  <Excel.au3>
+#include <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿, 并使之可见
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
 
 For $i = 1 To 5 ;循环
-	_ExcelWriteCell($oExcel, $i, $i, 1) ;写入单元格
+	_ExcelWriteCell($oExcel, $i, $i, 1) ;写入内容到单元格
 Next
 
 For $i = 1 To 5 ;循环
 	$sCellValue = _ExcelReadCell($oExcel, $i, 1)
-	msgbox(0, "", "The Cell Value is:" & @CRLF & $sCellValue, 2)
+	MsgBox(4096, "", "The Cell Value is: " & @CRLF & $sCellValue, 2)
 Next
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存至临时目录; 必要时覆盖已存在的文件
-_ExcelBookClose($oExcel) ; 关闭退出
-
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

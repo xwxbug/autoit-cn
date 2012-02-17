@@ -1,57 +1,57 @@
-
 ; ***************************************************************
-; 例1 - 打开工作簿并返回其对象标识后使用循环写入单元格. 格式化数字后保存并关闭文件.
+; 示例 1 - 打开一个工作簿并返回其对象标识符后, 在循环中写入内容到单元格.  对数字进行格式化设置, 然后保存并关闭文件.
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
+#include <Excel.au3>
 
-; 可以使用一个简单循环和随机数字填充单元格
+Local $oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
+
+; 我们在单个循环中使用随机数填充一些单元格
 For $y = 1 To 10
 	For $x = 1 To 10
-		_ExcelWriteCell($oExcel, Random(1000, 10000), $x, $y) ;插入一些随机数字
+		_ExcelWriteCell($oExcel, Random(1000, 10000), $x, $y) ;写入到文件的一些随机数
 	Next
 Next
 
-$sFormat = "$#,##0.00" ;_ExcelNumberFormat格式化字符串单元格使其带有$现金符号
-_ExcelNumberFormat($oExcel, $sFormat, 1, 1, 5, 5) ;在行1, 列1开始, 在行5, 列5结束
+Local $sFormat = "$#,##0.00" ;格式字符串告知 _ExcelNumberFormat 把它格式化成美元 ($) 货币
+_ExcelNumberFormat($oExcel, $sFormat, 1, 1, 5, 5) ;从第 1 行, 第一列开始到第 5 行第 5 列结束
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出
 
 ; ***************************************************************
-; 例2 - 打开工作簿并返回其对象标识后使用循环写入单元格. 格式化数字后保存并关闭文件.
+; 示例 2 - 打开一个工作簿并返回其对象标识符后, 在循环中写入内容到单元格.  对数字进行格式化设置, 然后保存并关闭文件.
 ; *****************************************************************
-#include  <Excel.au3>
 
-Local $oExcel = _ExcelBookNew() ;新建工作簿并使之可见
-Local $aFormatExamples[5] = ["Format Examples", "General", "hh:mm:ss", "$#,##0.00", "[Red]($#,##0.00)"] ;用于创建表头的数组
+#include <Excel.au3>
 
-For $i = 0 To UBound($aFormat示例s) - 1 ;用于创建表头的数组
-	_ExcelWriteCell($oExcel, $aFormatExamples[$i], 1, $i + 1) ; +1到$i以便0基索引与行匹配
+$oExcel = _ExcelBookNew() ;创建新工作簿, 并使其可见
+Local $aFormatExamples[5] = ["Format Examples", "General", "hh:mm:ss", "$#,##0.00", "[Red]($#,##0.00)"] ;创建由标题组成的数组
+
+For $i = 0 To UBound($aFormatExamples) - 1 ;在循环中写入标题
+	_ExcelWriteCell($oExcel, $aFormatExamples[$i], 1, $i + 1) ; 给 $i 加 1 这样基于 0 的索引可以与行匹配
 Next
 
-; 可以使用一个简单循环和随机数字填充单元格
-For $y = 2 To 5 ;在列2处开始
+; 我们在单个循环中使用随机数填充一些单元格
+For $y = 2 To 5 ;从第 2 列开始
 	For $x = 2 To 10
-		_ExcelWriteCell($oExcel, Random(1000, 10000), $x, $y) ; 插入一些随机数字
+		_ExcelWriteCell($oExcel, Random(1000, 10000), $x, $y) ;写入到文件的一些随机数
 	Next
 Next
 
 ToolTip("Formatting Column(s) Soon...")
-Sleep(3500) ;暂停使用户观察操作
+Sleep(3500) ;暂停以便用户查看操作
 
-; 可以使用一个简单循环格式化
-; 每列将具有不同类型的格式
-For $i = 1 To UBound($aFormat示例s) - 1
+; 我们可以在一个简单的循环中进行格式化
+; 每列将使用不同的格式类型
+For $i = 1 To UBound($aFormatExamples) - 1
 	_ExcelNumberFormat($oExcel, $aFormatExamples[$i], 2, $i, 11, $i)
 Next
 
-$oExcel . Columns . AutoFit ;自动匹配列以便更好观察
-$oExcel . Rows . AutoFit ;自动匹配列以便更好观察
+$oExcel.Columns.AutoFit ;自动调整列以获得更佳视图
+$oExcel.Rows.AutoFit ;自动调整行以获得更佳视图
 
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 将其保存到临时文件夹; 如果有必要覆盖已存在文件
-_ExcelBookClose($oExcel) ; 关闭退出
-
+MsgBox(4096, "Exiting", "Press OK to Save File and Exit")
+_ExcelBookSaveAs($oExcel, @TempDir & "\Temp.xls", "xls", 0, 1) ; 现在我们把它保存到临时目录; 必要时覆盖文件
+_ExcelBookClose($oExcel) ; 最后我们关闭并退出

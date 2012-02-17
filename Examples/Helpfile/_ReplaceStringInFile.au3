@@ -1,28 +1,27 @@
-#include  <File.au3>
+#include <File.au3>
 
-$find = " BEFORE "
-$replace = " AFTER "
+Local $find = "BEFORE"
+Local $replace = "AFTER"
 
-$filename = " C:\_ReplaceStringInFile.test "
+Local $filename = "C:\_ReplaceStringInFile.test"
 
-$msg = " Hello Test" & $find & " Hello Test" & @CRLF
-$msg &= " Hello Test" & @CRLF
+Local $msg = "Hello Test " & $find & " Hello Test" & @CRLF
+$msg &= "Hello Test" & @CRLF
 $msg &= @CRLF
 $msg &= $find
 
 FileWrite($filename, $msg)
 
-msgbox(0, "BEFORE ", $msg)
+MsgBox(4096, "BEFORE", $msg)
 
-$retval = _ReplaceStringInFile($filename, $find, $replace)
-if $retval = -1 then
-	msgbox(0, "ERROR ", "The pattern could not be replaced in file:" & $filename & " Error:" & @error)
-	exit
-else
-	msgbox(0, "INFO ", "Found" & $retval & " occurances of the pattern:" & $find & " in the file:" & $filename)
-endif
+Local $retval = _ReplaceStringInFile($filename, $find, $replace)
+If $retval = -1 Then
+	MsgBox(4096, "ERROR", "The pattern could not be replaced in file: " & $filename & " Error: " & @error)
+	Exit
+Else
+	MsgBox(4096, "INFO", "Found " & $retval & " occurances of the pattern: " & $find & " in the file: " & $filename)
+EndIf
 
 $msg = FileRead($filename, 1000)
-msgbox(0, "AFTER ", $msg)
+MsgBox(4096, "AFTER", $msg)
 FileDelete($filename)
-

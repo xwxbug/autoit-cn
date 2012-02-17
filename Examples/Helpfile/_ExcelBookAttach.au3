@@ -1,52 +1,53 @@
+; **************************************************************************************************************
+; 示例 1 - 基于所选择的模式附加到第一个匹配字符串的Microsoft Excel的实例上.
+; **************************************************************************************************************
 
-; ***************************************************************************
-; 例1 - 连接到首个存在的使基于选择模式与搜索字符串相匹配的Microsoft Excel实例
-; ***************************************************************************
-#include  <Excel.au3>
-#include  <File.au3>
+#include <Excel.au3>
+#include <File.au3>
 
-$sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then ;创建要连接的.XLS文件
-	msgbox(4096, "Error", "Error Creating File -" & @error)
+Local $sFilePath = @TempDir & "\Temp.xls"
+If Not _FileCreate($sFilePath) Then ;创建一个.XLS文件
+	MsgBox(4096, "错误", " 创建文件时出错 - " & @error)
 EndIf
 
 _ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach($sFilePath) ;默认设置 ($s_mode = "FilePath" ==> 打开的工作簿的完整路径)
-_ExcelWriteCell($oExcel, "If you can read this, then Success!", 1, 1) ;写入单元格
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookClose($oExcel, 1, 0) ;该方法将保存然后不论是否改变无提示关闭文件
+Local $oExcel = _ExcelBookAttach($sFilePath) ;搜索模式: Excel工作表路径(默认模式)
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(4096, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件,然后关闭.
 
-; ****************************************************************************
-; 例2 - 连接到首个存在的使基于选择模式与搜索字符串相匹配的Microsoft Excel实例
-; ****************************************************************************
-#include  <Excel.au3>
-#include  <File.au3>
+; **************************************************************************************************************
+; 示例 2 - 基于所选择的模式附加到第一个匹配字符串的Microsoft Excel的实例上.
+; **************************************************************************************************************
+
+#include <Excel.au3>
+#include <File.au3>
 
 $sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then ;创建要连接的.XLS文件
-	msgbox(4096, "Error", "Error Creating File -" & @error)
+If Not _FileCreate($sFilePath) Then  ;创建一个.XLS文件
+	MsgBox(4096, "错误", " 创建文件时出错 - " & @error)
 EndIf
 
 _ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach("Temp.xls", "FileName") ;使用$s_mode = "FileName" ==> 打开的工作簿名称
-_ExcelWriteCell($oExcel, "If you can read this, then Success!", 1, 1) ;写入单元格
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookClose($oExcel, 1, 0) ;该方法将保存然后不论是否改变无提示关闭文件
+$oExcel = _ExcelBookAttach("Temp.xls", "FileName") ;搜索模式: Excel工作表的名称
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(4096, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0);在没有任何提示的情况下保存该文件,然后关闭.
 
-; ***************************************************************************
-; 例3 - 连接到首个存在的使基于选择模式与搜索字符串相匹配的Microsoft Excel实例
-; ***************************************************************************
-#include  <Excel.au3>
-#include  <File.au3>
+; **************************************************************************************************************
+; 示例 3 - 基于所选择的模式附加到第一个匹配字符串的Microsoft Excel的实例上.()
+; **************************************************************************************************************
+
+#include <Excel.au3>
+#include <File.au3>
 
 $sFilePath = @TempDir & "\Temp.xls"
-If Not _FileCreate($sFilePath) Then ;创建要连接的.XLS文件
-	msgbox(4096, "Error", "Error Creating File -" & @error)
+If Not _FileCreate($sFilePath) Then ;创建一个.XLS文件
+	MsgBox(4096, "错误", " 创建文件时出错 - " & @error)
 EndIf
 
 _ExcelBookOpen($sFilePath)
-$oExcel = _ExcelBookAttach("Microsoft Excel - Temp.xls", "Title") ;使用$s_mode="Title" ==> 窗口标题
-_ExcelWriteCell($oExcel, "If you can read this, then Success!", 1, 1) ;写入单元格
-msgbox(0, "Exiting", "Press OK to Save File and Exit")
-_ExcelBookClose($oExcel, 1, 0) ;该方法将保存然后不论是否改变无提示关闭文件
-
+$oExcel = _ExcelBookAttach("Microsoft Excel - Temp", "Title") ;搜索模式: Excel工作表的窗口标题
+_ExcelWriteCell($oExcel, "看到了吗?写入信息成功了!", 1, 1) ;对指定的Excel工作表单元格写入信息.
+MsgBox(4096, "退出", "按[确定]保存文件并退出")
+_ExcelBookClose($oExcel, 1, 0) ;在没有任何提示的情况下保存该文件,然后关闭.

@@ -32,10 +32,11 @@ Func _Main()
 				; 读取剪贴板文本
 				$hMemory = _ClipBoard_GetDataEx($CF_TEXT)
 				If $hMemory = 0 Then _WinAPI_ShowError("_ClipBoard_GetDataEx failed")
-				; 关闭剪贴板
-				_ClipBoard_Close()
 				$tData = DllStructCreate("char Text[8192]", $hMemory)
 				MemoWrite(DllStructGetData($tData, "Text"))
+
+				; 关闭剪贴板
+				_ClipBoard_Close()
 		EndSwitch
 	WEnd
 

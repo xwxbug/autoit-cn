@@ -1,8 +1,8 @@
 ; *******************************************************
-; 示例 - 获取并显示IE.au3版本信息
+; 例子 1 - 得到并显示 IE.au3 版本信息
 ; *******************************************************
-;
-#include <IE.au3>
-$aVersion = _IE_VersionInfo()
-msgbox(0, "IE.au3 Version ", $aVersion[5] & "  released" & $aVersion[4])
 
+#include <IE.au3>
+
+Local $aVersion = _IE_VersionInfo()
+MsgBox(4096, "IE.au3 版本", $aVersion[5] & " 发布于 " & $aVersion[4])

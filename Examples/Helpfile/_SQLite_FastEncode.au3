@@ -14,11 +14,11 @@ $sData = _SQLite_FastEncode($vData)
 _SQLite_Exec(-1, "INSERT INTO Test VALUES (" & $sData & ");")
 $vData = Binary(Chr(0)); = 00
 $sData = _SQLite_FastEncode($vData)
-_SQLite_Exec(-1, "INSERT INTO Test VALUES (" & $sData & " );")
+_SQLite_Exec(-1, "INSERT INTO Test VALUES ( " & $sData & " );")
 _SQLite_Query(-1, "SELECT * FROM Test;", $hQuery)
 While _SQLite_FetchData($hQuery, $aRow, 1) = $SQLITE_OK
 	$sMsg &= Hex($aRow[0]) & @CR
 WEnd
-msgbox(0, "Result", $sMsg)
+MsgBox(4096, "Result", $sMsg)
 _SQLite_Close()
 _SQLite_Shutdown()

@@ -1,9 +1,13 @@
-#Include  <File.au3>
-#Include  <Array.au3>
-$FileList = _FileListToArray(@DesktopDir)
-If @Error = 1 Then
-	msgbox(0, "", "No Files\Folders Found. ")
+#include <File.au3>
+#include <Array.au3>
+
+Local $FileList = _FileListToArray(@DesktopDir)
+If @error = 1 Then
+	MsgBox(4096, "", "No Folders Found.")
 	Exit
 EndIf
-_ArrayDisplay($FileList, "$FileList ")
-
+If @error = 4 Then
+	MsgBox(4096, "", "No Files Found.")
+	Exit
+EndIf
+_ArrayDisplay($FileList, "$FileList")

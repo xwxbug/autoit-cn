@@ -10,5 +10,5 @@ Local $oFrames = _IEFrameGetCollection($oIE)
 Local $iNumFrames = @extended
 For $i = 0 To ($iNumFrames - 1)
 	Local $oFrame = _IEFrameGetCollection($oIE, $i)
-	MsgBox(0, "Frame Info", _IEPropertyGet($oFrame, "locationurl"))
+	MsgBox(4096, "Frame Info", _IEPropertyGet($oFrame, "locationurl"))
 Next

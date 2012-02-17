@@ -1,4 +1,2 @@
-
-#include  <Date.au3>
-msgbox(0, '', "The Date is:" & _NowDate())
-
+#include <Date.au3>
+MsgBox(4096,'',"现在日期为:" & _NowDate())

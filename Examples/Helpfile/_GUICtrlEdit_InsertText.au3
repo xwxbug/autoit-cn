@@ -8,9 +8,9 @@ _Main()
 
 Func _Main()
 	Local $hEdit
-	Local $Wow64 = ""
-	If @AutoItX64 Then $Wow64 = "\Wow6432Node"
-	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $Wow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\changelog.txt"
+	Local $sWow64 = ""
+	If @AutoItX64 Then $sWow64 = "\Wow6432Node"
+	Local $sFile = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE" & $sWow64 & "\AutoIt v3\AutoIt", "InstallDir") & "\include\_ReadMe_.txt"
 
 	; ´´½¨ GUI
 	GUICreate("Edit Insert Text", 400, 300)

@@ -1,5 +1,3 @@
+#include <Date.au3>
 
-#include  <Date.au3>
-
-msgbox(0, "Todays weeknumber", "Todays weeknumber is" & _WeekNumberISO())
-
+MsgBox(4096, "Todays weeknumber", "Todays weeknumber is " & _WeekNumberISO())

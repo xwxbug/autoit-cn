@@ -11,7 +11,7 @@ While 1
 		WEnd
 		ConsoleWrite("_IsPressed - Shift Key was released." & @CRLF)
 	ElseIf _IsPressed("1B", $hDLL) Then
-		MsgBox(0, "_IsPressed", "The Esc Key was pressed, therefore we will close the application.")
+		MsgBox(4096, "_IsPressed", "The Esc Key was pressed, therefore we will close the application.")
 		ExitLoop
 	EndIf
 	Sleep(250)

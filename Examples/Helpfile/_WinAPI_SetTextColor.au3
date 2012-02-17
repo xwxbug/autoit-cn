@@ -4,13 +4,13 @@
 
 Global $tRECT, $hFont, $hOldFont, $hDC
 
-HotKeySet(" {ESC} ", "_Exit ")
+HotKeySet("{ESC}", "_Exit")
 
 $tRECT = DllStructCreate($tagRect)
-DllStructSetData($tRECT, "Left ", 5)
-DllStructSetData($tRECT, "Top ", 5)
-DllStructSetData($tRECT, "Right ", 250)
-DllStructSetData($tRECT, "Bottom ", 50)
+DllStructSetData($tRECT, "Left", 5)
+DllStructSetData($tRECT, "Top", 5)
+DllStructSetData($tRECT, "Right", 250)
+DllStructSetData($tRECT, "Bottom", 50)
 
 $hDC = _WinAPI_GetDC(0)
 $hFont = _WinAPI_CreateFont(50, 0, 0, 0, 400, False, False, False, $DEFAULT_CHARSET, _
@@ -19,11 +19,11 @@ $hOldFont = _WinAPI_SelectObject($hDC, $hFont)
 
 _WinAPI_SetTextColor($hDC, 0x0000FF)
 _WinAPI_SetBkColor($hDC, 0x000000)
-; 下一行使用黑色背景代替透明背景
+; 注释下一行可以获得黑色背景而不是透明背景
 _WinAPI_SetBkMode($hDC, $TRANSPARENT)
 
 While 1
-	_WinAPI_DrawText($hDC, "Hello world! ", $tRECT, $DT_CENTER)
+	_WinAPI_DrawText($hDC, "Hello world!", $tRECT, $DT_CENTER)
 	Sleep(100)
 WEnd
 
@@ -34,5 +34,4 @@ Func _Exit()
 	_WinAPI_InvalidateRect(0, 0)
 	$tRECT = 0
 	Exit
-endfunc   ;==>_Exit
-
+EndFunc   ;==>_Exit

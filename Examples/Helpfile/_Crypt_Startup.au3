@@ -15,6 +15,6 @@ Local $sOutput = "The following results show the supported algorithms for encryp
 		"RC2: " & _Crypt_EncryptData($sData, $sUserKey, $CALG_RC2) & @CRLF & @CRLF & _
 		"RC4: " & _Crypt_EncryptData($sData, $sUserKey, $CALG_RC4)
 
-MsgBox(0, "Supported algorithms", $sOutput)
+MsgBox(4096, "Supported algorithms", $sOutput)
 
 _Crypt_Shutdown() ; Shutdown the crypt library.

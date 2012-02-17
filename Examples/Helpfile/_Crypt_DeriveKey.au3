@@ -9,6 +9,6 @@ For $iWord In $aStringsToEncrypt
 	$sOutput &= $iWord & @TAB & " = " & _Crypt_EncryptData($iWord, $hKey, $CALG_USERKEY) & @CRLF ; Encrypt the text with the cryptographic key.
 Next
 
-MsgBox(0, "Encrypted data", $sOutput)
+MsgBox(4096, "Encrypted data", $sOutput)
 
 _Crypt_DestroyKey($hKey) ; Destroy the cryptographic key.

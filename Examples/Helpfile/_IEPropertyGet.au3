@@ -7,10 +7,10 @@
 
 Local $oIE = _IE_Example("basic")
 If _IEPropertyGet($oIE, "addressbar") Then
-	MsgBox(0, "AddressBar Status", "AddressBar Visible, turning it off")
+	MsgBox(4096, "AddressBar Status", "AddressBar Visible, turning it off")
 	_IEPropertySet($oIE, "addressbar", False)
 Else
-	MsgBox(0, "AddressBar Status", "AddressBar Invisible, turning it on")
+	MsgBox(4096, "AddressBar Status", "AddressBar Invisible, turning it on")
 	_IEPropertySet($oIE, "addressbar", True)
 EndIf
 
