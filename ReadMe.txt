@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.9.0 第一汉化版
+程序版本:3.3.9.0 第二汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -18,17 +18,15 @@ AutoIt工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 
-3.3.9.0 (4th February, 2012) (Beta) 第一汉化版
+3.3.9.0 (2012年3月XX日) (Beta) 第二汉化版
 AutoIt:
-[G][+]新增: Interpreter accepts 64bit hex numbers.
-[G][+]新增: Keyword Null.
+[G][+]新增: 解释器支持64位HEX数值.
+[G][+]新增: Null 关键字.
 [G][+]新增: #488: Third parameter for ObjGet() function to specify object instance.
-
 [G][!]更新: ReDim works on arrays declared as static.
 [G][!]更新: Run-time errors on objects no longer fatal (execution of the script is not halted).
-
-[G][*]修正: #2067: -2147483648 not stored as int32.
-[G][*]修正: #2003: ProcessWaitClose() using too much CPU.
+[G][*]修正: #2067: -2147483648 不能储存为 int32.
+[G][*]修正: #2003: ProcessWaitClose() 使用大量的 CPU 资源.
 [G][*]修正: #2076: COM VARIANT not correctly set for boolean True.
 [G][*]修正: #2015: DllCallbackRegister() mangles floating point numbers under x64.
 [G][*]修正:: x64 DllCall not setting double type parameters correctly.
@@ -41,6 +39,9 @@ AutoIt:
 [G][*]修正: #2068: Repeated calls to Acos() no longer produce strange results.  NOTE: This fix increases the size of AutoIt by approximately 60KB.
 [G][*]修正:: ObjGet() fails validating class identifier properly when first parameter for the function is specified.
 [G][*]修正: #2111: RunAs() could fail even if a user had the correct permissions to use it.
+
+SciTe:
+[H][!]更新: 更新SciTe到3.0.4版.
 
 UDFs:
 [G][+]新增: _WinAPI_GetProcAddress() function.
