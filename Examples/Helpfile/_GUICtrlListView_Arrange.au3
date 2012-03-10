@@ -12,7 +12,7 @@ Func _Main()
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_InsertColumn($hListView, 0, "Items", 100)
 
 	; Add items

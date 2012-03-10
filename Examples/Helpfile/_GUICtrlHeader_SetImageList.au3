@@ -19,7 +19,7 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Create an image list with images
+	; 创建一个含有图像的图像列表
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0xFF0000, 11, 11))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0x00FF00, 11, 11))
@@ -29,7 +29,7 @@ Func _Main()
 	MemoWrite("Previous Image list handle ....: " & "0x" & Hex($hPrevImageList))
 	MemoWrite("IsPtr = " & IsPtr($hPrevImageList) & " IsHwnd = " & IsHWnd($hPrevImageList))
 
-	; Add columns
+	; 添加列
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100, 0, 0)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100, 0, 1)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100, 0, 2)

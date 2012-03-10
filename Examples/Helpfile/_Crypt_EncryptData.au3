@@ -32,21 +32,21 @@ While 1
 
 				Case "AES (128bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.") ; Show an error if the system is Windows 2000.
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.") ; Show an error if the system is Windows 2000.
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_128
 
 				Case "AES (192bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.")
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_192
 
 				Case "AES (256bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.")
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_256

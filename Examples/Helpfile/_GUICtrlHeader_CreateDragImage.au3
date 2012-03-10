@@ -17,7 +17,7 @@ Func _Main()
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)

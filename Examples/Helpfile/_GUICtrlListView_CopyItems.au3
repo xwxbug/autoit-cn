@@ -93,12 +93,12 @@ Func _Main()
 	_GUICtrlListView_SetImageList($hListView, $hImage, 1)
 	_GUICtrlListView_SetImageList($hListView2, $hImage, 1)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($hListView, "Column 1", 120)
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($hListView2, "Column 1", 120)
 	_GUICtrlListView_AddColumn($hListView2, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView2, "Column 3", 100)

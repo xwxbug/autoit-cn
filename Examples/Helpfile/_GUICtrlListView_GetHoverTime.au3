@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlStatusBar_SetSimple($hStatus, True)
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($hListView, "Column 1", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)

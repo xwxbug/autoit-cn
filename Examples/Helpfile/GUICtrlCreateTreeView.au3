@@ -62,7 +62,7 @@ Func Example()
 				Else
 					$text = GUICtrlRead($item, 1) ; Get the text of the treeview item
 					If $text == "" Then
-						MsgBox(16, "Error", "Error while retrieving infos about item")
+						MsgBox(16, "´íÎó", "Error while retrieving infos about item")
 					Else
 						MsgBox(4160, "TreeView Demo", "Current item selected is: " & $text) ; $advmsg[0] contains the text and $advmsg[1] the state value of the treeview item
 					EndIf

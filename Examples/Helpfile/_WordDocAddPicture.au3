@@ -10,7 +10,7 @@ Local $search = FileFindFirstFile($sPath & "*.bmp")
 
 ; 检查搜索是否成功
 If $search = -1 Then
-	MsgBox(4096, "Error", "No images found")
+	MsgBox(4096, "错误", "No images found")
 	Exit
 EndIf
 

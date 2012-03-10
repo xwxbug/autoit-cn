@@ -26,14 +26,14 @@ While 1
 			Exit
 
 		Case $iSourceBrowse
-			$sFilePath = FileOpenDialog("Select a file to encrypt.", "", "All files (*.*)") ; Select a file to encrypt.
+			$sFilePath = FileOpenDialog("Select a file to encrypt.", "", "ËùÓÐÎÄ¼þ(*.*)") ; Select a file to encrypt.
 			If @error Then
 				ContinueLoop
 			EndIf
 			GUICtrlSetData($iSourceInput, $sFilePath) ; Set the inputbox with the filepath.
 
 		Case $iDestinationBrowse
-			$sFilePath = FileSaveDialog("Save the file as ...", "", "All files (*.*)") ; Select a file to save the encrypted data to.
+			$sFilePath = FileSaveDialog("Save the file as ...", "", "ËùÓÐÎÄ¼þ(*.*)") ; Select a file to save the encrypted data to.
 			If @error Then
 				ContinueLoop
 			EndIf
@@ -46,21 +46,21 @@ While 1
 
 				Case "AES (128bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.") ; Show an error if the system is Windows 2000.
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.") ; Show an error if the system is Windows 2000.
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_128
 
 				Case "AES (192bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.")
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_192
 
 				Case "AES (256bit)"
 					If @OSVersion = "WIN_2000" Then
-						MsgBox(16, "Error", "Sorry, this algorithm is not available on Windows 2000.")
+						MsgBox(16, "´íÎó", "Sorry, this algorithm is not available on Windows 2000.")
 						ContinueLoop
 					EndIf
 					$bAlgorithm = $CALG_AES_256
@@ -87,17 +87,17 @@ While 1
 				Else
 					Switch @error
 						Case 1
-							MsgBox(16, "Error", "Failed to create the key.")
+							MsgBox(16, "´íÎó", "Failed to create the key.")
 						Case 2
-							MsgBox(16, "Error", "Couldn't open the source file.")
+							MsgBox(16, "´íÎó", "Couldn't open the source file.")
 						Case 3
-							MsgBox(16, "Error", "Couldn't open the destination file.")
+							MsgBox(16, "´íÎó", "Couldn't open the destination file.")
 						Case 4 Or 5
-							MsgBox(16, "Error", "Encryption error.")
+							MsgBox(16, "´íÎó", "Encryption error.")
 					EndSwitch
 				EndIf
 			Else
-				MsgBox(16, "Error", "Please ensure the relevant information has been entered correctly.")
+				MsgBox(16, "´íÎó", "Please ensure the relevant information has been entered correctly.")
 			EndIf
 	EndSwitch
 WEnd

@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlListView_SetImageList($hListView, $hImage, 1)
 	_GUICtrlListView_SetImageList($hListView, $hImage, 2)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($hListView, "Column 1", 120)
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)

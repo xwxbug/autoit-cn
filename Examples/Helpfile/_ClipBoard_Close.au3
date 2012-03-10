@@ -17,7 +17,7 @@ Func _Main()
 	GUISetState()
 
 	; 打开剪贴板
-	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
+	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open 失败")
 
 	; 显示可用的剪贴板格式
 	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())

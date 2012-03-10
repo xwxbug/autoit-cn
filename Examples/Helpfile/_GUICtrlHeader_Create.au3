@@ -18,7 +18,7 @@ Func _Main()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)

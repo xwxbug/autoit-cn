@@ -23,7 +23,7 @@ Func _Main()
 
 	; 设置新的时区信息
 	If Not _Date_Time_SetTimeZoneInformation($aOld[1], "A3L CST", $aOld[3], $aOld[4], "A3L CDT", $aOld[6], $aOld[7]) Then
-		MsgBox(4096, "Error", "System time zone cannot be SET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
+		MsgBox(4096, "错误", "System time zone cannot be SET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 		Exit
 	EndIf
 

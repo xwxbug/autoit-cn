@@ -51,11 +51,11 @@ Func Example_External()
 	; 获取记事本窗口句柄
 	$whandle = WinGetHandle($Title)
 	If @error Then
-		MsgBox(4096, "Error", "Could not find the correct window")
+		MsgBox(4096, "错误", "Could not find the correct window")
 	Else
 		$handle = ControlGetHandle($whandle, "", "Edit1")
 		If @error Then
-			MsgBox(4096, "Error", "Could not find the correct control")
+			MsgBox(4096, "错误", "Could not find the correct control")
 		Else
 			; 直接发送一些文本到此窗口的编辑控件
 			ControlSend($whandle, "", "Edit1", $s_texttest)

@@ -22,7 +22,7 @@ Func _Main()
 	_GUIImageList_Add($hImage1, _WinAPI_CreateSolidBitmap(GUICtrlGetHandle($listview), 0x0000FF, 11, 11))
 	_GUICtrlListView_SetImageList($listview, $hImage1, 1)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($listview, "Items", 120)
 
 	; Add items

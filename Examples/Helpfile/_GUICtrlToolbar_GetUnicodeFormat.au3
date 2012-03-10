@@ -34,7 +34,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButtonSep($hToolbar)
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
-	; Show Unicode format
+	; œ‘ æ Unicode ∏Ò Ω
 	$fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hToolbar)
 	MemoWrite("Unicode format .:" & $fUnicode)
 

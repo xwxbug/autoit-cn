@@ -21,7 +21,7 @@ While 1
 			Exit
 
 		Case $iBrowse
-			Local $sFilePath = FileOpenDialog("Open a file", "", "All files (*.*)") ; Select a file to find the hash.
+			Local $sFilePath = FileOpenDialog("打开一个文件", "", "所有文件(*.*)") ; Select a file to find the hash.
 			If @error Then
 				ContinueLoop
 			EndIf

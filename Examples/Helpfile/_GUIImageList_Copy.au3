@@ -16,7 +16,7 @@ Func _Main()
 	$listview = GUICtrlCreateListView("", 2, 2, 404, 268, BitOR($LVS_SHOWSELALWAYS, $LVS_NOSORTHEADER, $LVS_REPORT))
 	GUISetState()
 
-	; Create an image list with images
+	; 创建一个含有图像的图像列表
 	$hImage = _GUIImageList_Create(11, 11)
 	ConsoleWrite(_GUIImageList_AddIcon($hImage, $AutoItDir & "\Icons\filetype1.ico") & @LF)
 	ConsoleWrite(_GUIImageList_AddIcon($hImage, $AutoItDir & "\Icons\filetype2.ico") & @LF)
@@ -25,7 +25,7 @@ Func _Main()
 	_GUIImageList_Copy($hImage, 0, 3)
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Column 1", 100, 1, 0, True)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100, 0, 1, True)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100, 2, 2, True)

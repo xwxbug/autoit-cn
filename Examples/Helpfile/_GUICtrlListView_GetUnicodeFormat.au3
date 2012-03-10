@@ -12,7 +12,7 @@ Func _Main()
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUISetState()
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
 	; 设置 Unicode 格式

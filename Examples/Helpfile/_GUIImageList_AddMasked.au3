@@ -20,7 +20,7 @@ Func _Main()
 	_GUIImageList_AddMasked($hImage, _GUICtrlListView_CreateSolidBitMap($listview, 0x0000FF, 11, 11))
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($listview, "Items", 120)
 
 	; Add items

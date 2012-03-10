@@ -17,7 +17,7 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)

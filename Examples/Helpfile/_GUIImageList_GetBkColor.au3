@@ -28,7 +28,7 @@ Func _Main()
 	_GUIImageList_SetBkColor($hImage, 0x0000FF)
 	MsgBox(4160, "Information", "BackColor: " & _GUIImageList_GetBkColor($hImage))
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($listview, "Column 1", 120)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100)

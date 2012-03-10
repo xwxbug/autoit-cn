@@ -18,7 +18,7 @@ Func _Main()
 	_GUICtrlListView_SetTextColor($hListView, $CLR_BLACK)
 	_GUICtrlListView_SetTextBkColor($hListView, $CLR_MONEYGREEN)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
 	; Add items

@@ -38,7 +38,7 @@ Func _Main()
 				; ¹Ø±Õ¼ôÌù°å
 					_ClipBoard_Close()
 				Else
-					_WinAPI_ShowError("_ClipBoard_Open failed")
+					_WinAPI_ShowError("_ClipBoard_Open Ê§°Ü")
 				EndIf
 		EndSwitch
 	WEnd

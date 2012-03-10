@@ -13,7 +13,7 @@ Func _Main()
 	$hHeader = _GUICtrlHeader_Create($hGUI)
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)

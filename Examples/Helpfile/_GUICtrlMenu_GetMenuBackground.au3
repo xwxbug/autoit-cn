@@ -14,7 +14,7 @@ Func _Main()
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
 	$hFile = _GUICtrlMenu_GetItemSubMenu($hMain, 0)
 
-	; File menu background
+	; ÎÄ¼þ²Ëµ¥±³¾°
 	Writeln("File menu background: 0x" & Hex(_GUICtrlMenu_GetMenuBackground($hFile)))
 	$hBrush = _WinAPI_GetSysColorBrush($COLOR_INFOBK)
 	_GUICtrlMenu_SetMenuBackground($hFile, $hBrush)

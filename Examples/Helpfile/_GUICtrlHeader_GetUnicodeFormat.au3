@@ -17,19 +17,19 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Add columns
+	; 添加列
 	_GUICtrlHeader_AddItem($hHeader, "Column 1", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 2", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 3", 100)
 	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
 
-	; Show Unicode format
+	; 显示 Unicode 格式
 	MemoWrite("Using Unicode characters: " & _GUICtrlHeader_GetUnicodeFormat($hHeader))
 
 	; 设置 Unicode 格式
 	_GUICtrlHeader_SetUnicodeFormat($hHeader, True)
 
-	; Show Unicode format
+	; 显示 Unicode 格式
 	MemoWrite("Using Unicode characters: " & _GUICtrlHeader_GetUnicodeFormat($hHeader))
 
 	; 循环直到用户退出

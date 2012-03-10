@@ -16,7 +16,7 @@ Func _Main()
 	$hListView = _GUICtrlListView_Create($GUI, "", 2, 2, 394, 268)
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
 	; Add items

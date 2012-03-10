@@ -15,7 +15,7 @@ Func _Main()
 	$HandleBefore = $hListView
 	GUISetState()
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_InsertColumn($hListView, 0, "Column 1", 100)
 	_GUICtrlListView_InsertColumn($hListView, 1, "Column 2", 100)
 	_GUICtrlListView_InsertColumn($hListView, 2, "Column 3", 100)

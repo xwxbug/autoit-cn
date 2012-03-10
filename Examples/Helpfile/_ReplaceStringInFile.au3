@@ -16,7 +16,7 @@ MsgBox(4096, "BEFORE", $msg)
 
 Local $retval = _ReplaceStringInFile($filename, $find, $replace)
 If $retval = -1 Then
-	MsgBox(4096, "ERROR", "The pattern could not be replaced in file: " & $filename & " Error: " & @error)
+	MsgBox(4096, "´íÎó", "The pattern could not be replaced in file: " & $filename & " Error: " & @error)
 	Exit
 Else
 	MsgBox(4096, "INFO", "Found " & $retval & " occurances of the pattern: " & $find & " in the file: " & $filename)

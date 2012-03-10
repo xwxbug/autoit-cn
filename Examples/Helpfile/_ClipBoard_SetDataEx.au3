@@ -55,7 +55,7 @@ Func _Main()
 						_WinAPI_ShowError("_ClipBoard_Empty failed")
 					EndIf
 				Else
-					 _WinAPI_ShowError("_ClipBoard_Open failed")
+					 _WinAPI_ShowError("_ClipBoard_Open Ê§°Ü")
 				EndIf
 
 			Case $btn_GetData

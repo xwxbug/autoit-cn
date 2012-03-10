@@ -26,7 +26,7 @@ Func _Main()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap(GUICtrlGetHandle($hListView), 0x0000FF, 16, 16))
 	_GUICtrlListView_SetImageList($hListView, $hImage, 1)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_InsertColumn($hListView, 0, "Column 1", 100)
 	_GUICtrlListView_InsertColumn($hListView, 1, "Column 2", 100)
 	_GUICtrlListView_InsertColumn($hListView, 2, "Column 3", 100)

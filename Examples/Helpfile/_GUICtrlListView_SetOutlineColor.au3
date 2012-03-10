@@ -23,7 +23,7 @@ Func _Main()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x0000FF, 16, 16))
 	_GUICtrlListView_SetImageList($hListView, $hImage, 0)
 
-	; Add columns
+	; ÃÌº”¡–
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
 	; Add items

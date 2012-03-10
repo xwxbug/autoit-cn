@@ -25,7 +25,7 @@ Func _Main()
 	$tNew = _Date_Time_EncodeSystemTime(8, 19, @YEAR, 3, 10, 45)
 
 	If Not _Date_Time_SetSystemTime(DllStructGetPtr($tNew)) Then
-		MsgBox(4096, "Error", "System clock cannot be SET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
+		MsgBox(4096, "´íÎó", "System clock cannot be SET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 		Exit
 	EndIf
 

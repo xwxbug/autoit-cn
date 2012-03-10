@@ -320,5 +320,5 @@ Func doDisplayHelp()
 			EndIf
 		EndIf
 	EndIf
-	If $iErr = 1 Then MsgBox(4096, "error", "Cannot find help file - sorry")
+	If $iErr = 1 Then MsgBox(4096, "´íÎó", "Cannot find help file - sorry")
 EndFunc   ;==>doDisplayHelp

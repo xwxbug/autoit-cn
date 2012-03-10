@@ -40,13 +40,13 @@ If @error = 0 Then
 		WinSetState($hWnd, "", @SW_RESTORE)
 		ControlSetText($hWnd, "", "Edit1", "_WinAPI_SetWindowPlacement() succeeded!")
 	Else
-		MsgBox(16, "Error", "_WinAPI_SetWindowPlacement() failed!" & @CRLF & _
+		MsgBox(16, "´íÎó", "_WinAPI_SetWindowPlacement() failed!" & @CRLF & _
 				"$iRET = " & $iRET & @CRLF & _
 				"@error = " & @error & @CRLF & _
 				"@extended = " & @extended)
 	EndIf
 Else
-	MsgBox(16, "Error", "_WinAPI_GetWindowPlacement() failed!" & @CRLF & _
+	MsgBox(16, "´íÎó", "_WinAPI_GetWindowPlacement() failed!" & @CRLF & _
 			"$stRET = " & $stRET & @CRLF & _
 			"@error = " & @error & @CRLF & _
 			"@extended = " & @extended)
