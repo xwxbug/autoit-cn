@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $HandleBefore, $hMonthCal
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Month Calendar Destroy", 400, 300)
 	$hMonthCal = _GUICtrlMonthCal_Create($hGUI, 4, 4, $WS_BORDER)
 	GUISetState()
@@ -20,7 +20,7 @@ Func _Main()
 			"Handel Before Destroy: " & $HandleBefore & @LF & _
 			"Handle After Destroy: " & $hMonthCal)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

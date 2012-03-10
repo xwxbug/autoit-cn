@@ -28,7 +28,7 @@ Func _Main()
 	; create a toolbar to put in the rebar
 	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
 
-	; Add standard system bitmaps
+	; 添加标准系统位图
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_SMALL_COLOR)
@@ -36,7 +36,7 @@ Func _Main()
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 	EndSwitch
 
-	; Add buttons
+	; 添加按钮
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)

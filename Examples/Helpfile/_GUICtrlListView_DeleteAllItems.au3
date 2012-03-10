@@ -24,7 +24,7 @@ Func Example1()
 	; Items created using built-in function, pass the control ID
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -51,7 +51,7 @@ Func Example2()
 	; Items created using UDF function(s), pass the handle to the control
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($hListView)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -78,7 +78,7 @@ Func Example_UDF_Created()
 	; This is already a handle
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

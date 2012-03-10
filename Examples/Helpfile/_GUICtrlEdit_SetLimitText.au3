@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hEdit
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Edit Set Limit Text", 400, 300)
 	$hEdit = GUICtrlCreateEdit("This is a test" & @CRLF & "Another Line", 2, 2, 394, 268)
 	GUISetState()
@@ -20,7 +20,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Text Limit: " & _GUICtrlEdit_GetLimitText($hEdit))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

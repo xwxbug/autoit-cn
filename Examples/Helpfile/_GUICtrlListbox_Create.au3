@@ -12,7 +12,7 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(UDF Created) List Box Create", 400, 296)
 	$hListBox = _GUICtrlListBox_Create($hGUI, "String upon creation", 2, 2, 396, 296)
 	GUISetState()
@@ -21,7 +21,7 @@ Func _Main()
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-	; Add files
+	; 添加文件
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	_GUICtrlListBox_ResetContent($hListBox)
 	_GUICtrlListBox_InitStorage($hListBox, 100, 4096)
@@ -31,7 +31,7 @@ Func _Main()
 	_GUICtrlListBox_Dir($hListBox, "", $DDL_DRIVES, False)
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
@@ -51,32 +51,32 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$LBN_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $LBN_ERRSPACE ; Sent when a list box cannot allocate enough memory to meet a specific request
 					_DebugPrint("$LBN_ERRSPACE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $LBN_KILLFOCUS ; Sent when a list box loses the keyboard focus
 					_DebugPrint("$LBN_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $LBN_SELCANCEL ; Sent when the user cancels the selection in a list box
 					_DebugPrint("$LBN_SELCANCEL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $LBN_SELCHANGE ; Sent when the selection in a list box has changed
 					_DebugPrint("$LBN_SELCHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $LBN_SETFOCUS ; Sent when a list box receives the keyboard focus
 					_DebugPrint("$LBN_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	; Proceed the default AutoIt3 internal message commands.

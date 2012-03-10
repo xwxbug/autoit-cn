@@ -4,7 +4,7 @@
 #include <EditConstants.au3>
 #include <WindowsConstants.au3>
 
-$Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_SB = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo, $MainGUI, $hStatus
 
@@ -20,7 +20,7 @@ Func Example1()
 	Local $hGUI
 	Local $aParts[3] = [75, 150, -1]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 1) StatusBar Create", 400, 300)
 
 	;===============================================================================
@@ -29,7 +29,7 @@ Func Example1()
 	;===============================================================================
 	_GUICtrlStatusBar_SetParts($hStatus, $aParts)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -45,7 +45,7 @@ Func Example1()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
@@ -57,7 +57,7 @@ Func Example2()
 	Local $hGUI
 	Local $aParts[3] = [75, 150, -1]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 2) StatusBar Create", 400, 300)
 
 	;===============================================================================
@@ -65,7 +65,7 @@ Func Example2()
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, $aParts)
 	;===============================================================================
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -82,7 +82,7 @@ Func Example2()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
@@ -95,7 +95,7 @@ Func Example3()
 	Local $aText[3] = ["Left Justified", @TAB & "Centered", @TAB & @TAB & "Right Justified"]
 	Local $aParts[3] = [100, 175, -1]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 3) StatusBar Create", 400, 300)
 
 	;===============================================================================
@@ -103,7 +103,7 @@ Func Example3()
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, $aParts, $aText)
 	;===============================================================================
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -121,7 +121,7 @@ Func Example3()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
@@ -133,7 +133,7 @@ Func Example4()
 	Local $hGUI
 	Local $aText[3] = ["Left Justified", @TAB & "Centered", @TAB & @TAB & "Right Justified"]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 4) StatusBar Create", 400, 300)
 
 	;===============================================================================
@@ -141,7 +141,7 @@ Func Example4()
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, 100, $aText)
 	;===============================================================================
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -159,7 +159,7 @@ Func Example4()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
@@ -172,7 +172,7 @@ Func Example5()
 	Local $aText[3] = ["Left Justified", @TAB & "Centered", @TAB & @TAB & "Right Justified"]
 	Local $aParts[2] = [100, 175]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 5) StatusBar Create", 400, 300)
 
 
@@ -181,7 +181,7 @@ Func Example5()
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, $aParts, $aText)
 	;===============================================================================
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -199,7 +199,7 @@ Func Example5()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
@@ -212,7 +212,7 @@ Func Example6()
 	Local $aText[2] = ["Left Justified", @TAB & "Centered"]
 	Local $aParts[3] = [100, 175, -1]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 6) StatusBar Create", 400, 300)
 
 	;===============================================================================
@@ -220,7 +220,7 @@ Func Example6()
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, $aParts, $aText)
 	;===============================================================================
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUICtrlSendMsg($iMemo, $EM_SETREADONLY, True, 0)
@@ -238,14 +238,14 @@ Func Example6()
 	MemoWrite("Vertical border width ...: " & _GUICtrlStatusBar_GetBordersVert($hStatus))
 	MemoWrite("Width between rectangles : " & _GUICtrlStatusBar_GetBordersRect($hStatus))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUISetState(@SW_ENABLE, $MainGUI)
 	GUIDelete($hGUI)
 EndFunc   ;==>Example6
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite
@@ -326,7 +326,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$SBN_SIMPLEMODECHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

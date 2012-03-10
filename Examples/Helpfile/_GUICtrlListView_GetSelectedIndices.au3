@@ -25,7 +25,7 @@ Func _Main()
 	_GUICtrlListView_SetItemSelected($hListView, 2)
 	MsgBox(4160, "Information", "Selected Indices: " & _GUICtrlListView_GetSelectedIndices($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

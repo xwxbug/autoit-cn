@@ -11,7 +11,7 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Create", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "This is a test|Line 2", 2, 2, 394, 268)
 	GUISetState()
@@ -21,7 +21,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_AddString($hCombo, "Some More Text")
 	_GUICtrlComboBoxEx_InsertString($hCombo, "Inserted Text", 1)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

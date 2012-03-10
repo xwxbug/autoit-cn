@@ -32,7 +32,7 @@ Func _Main()
 	_GUICtrlListView_GetItemEx($hListView, $tItem)
 	MsgBox(4160, "Information", "Item 2 State: " & DllStructGetData($tItem, "State"))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

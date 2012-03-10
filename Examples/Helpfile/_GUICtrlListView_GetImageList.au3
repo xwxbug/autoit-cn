@@ -34,7 +34,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Image List Handle: 0x" & Hex(_GUICtrlListView_GetImageList($hListView, 1)) & @CRLF & _
 			"IsPtr = " & IsPtr(_GUICtrlListView_GetImageList($hListView, 1)) & " IsHWnd = " & IsHWnd(_GUICtrlListView_GetImageList($hListView, 1)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

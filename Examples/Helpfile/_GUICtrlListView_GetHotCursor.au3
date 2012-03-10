@@ -21,7 +21,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Hot Cursor Handle: 0x" & Hex(_GUICtrlListView_GetHotCursor($hListView)) & @CRLF & _
 			"IsPtr = " & IsPtr(_GUICtrlListView_GetHotCursor($hListView)) & " IsHwnd = " & IsHWnd(_GUICtrlListView_GetHotCursor($hListView)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

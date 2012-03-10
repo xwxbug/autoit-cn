@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $HandleBefore, $hDTP
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(UDF Created) DateTimePick Destroy", 400, 300)
 	$hDTP = _GUICtrlDTP_Create($hGUI, 2, 6, 190)
 	GUISetState()
@@ -19,7 +19,7 @@ Func _Main()
 			"Handel Before Destroy: " & $HandleBefore & @LF & _
 			"Handle After Destroy: " & $hDTP)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

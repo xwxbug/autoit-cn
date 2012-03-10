@@ -8,12 +8,12 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Get Locale", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
@@ -26,7 +26,7 @@ Func _Main()
 			"Primary Language id : " & _GUICtrlComboBox_GetLocalePrimLang($hCombo) & @LF & _
 			"Sub-Language id ....: " & _GUICtrlComboBox_GetLocaleSubLang($hCombo))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

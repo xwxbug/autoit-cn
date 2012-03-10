@@ -16,7 +16,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write a line of text to Notepad
+; 写入一行文本到记事本
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
 EndFunc   ;==>Writeln

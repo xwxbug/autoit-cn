@@ -44,7 +44,7 @@ Func _Main()
 	; Display Item 3 group ID
 	MsgBox(4160, "Information", "Item 3 Group ID: " & _GUICtrlListView_GetItemGroupID($hListView, 2))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

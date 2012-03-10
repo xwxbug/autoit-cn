@@ -13,14 +13,14 @@ Func _Main()
 
 	Opt("GUIDataSeparatorChar", $Delimiter)
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Get List", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBoxEx_AddDir($hCombo, "", $DDL_DRIVES, False)
 
 	; Get List
@@ -35,7 +35,7 @@ Func _Main()
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

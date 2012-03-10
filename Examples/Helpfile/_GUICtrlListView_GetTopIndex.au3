@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlListView_EnsureVisible($hListView, 49)
 	MsgBox(4160, "Information", "Top Index: " & _GUICtrlListView_GetTopIndex($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

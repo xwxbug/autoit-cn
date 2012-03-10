@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hEdit
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Edit Get First Visible Line", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268)
 	GUISetState()
@@ -19,7 +19,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "First Visible Line: " & _GUICtrlEdit_GetFirstVisibleLine($hEdit))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

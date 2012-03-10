@@ -9,12 +9,12 @@ _Main()
 Func _Main()
 	Local $hGUI, $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(UDF Created) List Box Destroy", 400, 296)
 	$hListBox = _GUICtrlListBox_Create($hGUI, "", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	_GUICtrlListBox_ResetContent($hListBox)
 	_GUICtrlListBox_InitStorage($hListBox, 100, 4096)
@@ -27,7 +27,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Destroying ListBox")
 	_GUICtrlListBox_Destroy($hListBox)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

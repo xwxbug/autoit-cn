@@ -26,12 +26,12 @@ Func _Main()
 	; See if IP Address is blank
 	MemoWrite("Blank: " & _GUICtrlIpAddress_IsBlank($hIPAddress))
 
-	; Wait for user to close GUI
+	; 等待用户关闭 GUI
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

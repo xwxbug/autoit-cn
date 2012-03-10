@@ -2,7 +2,7 @@
 #include <GuiSlider.au3>
 #include <WindowsConstants.au3>
 
-$Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_S = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $hSlider
 
@@ -11,14 +11,14 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(UDF Created) Slider Create", 400, 296)
 	$hSlider = _GUICtrlSlider_Create($hGUI, 2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -41,7 +41,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$NM_RELEASEDCAPTURE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

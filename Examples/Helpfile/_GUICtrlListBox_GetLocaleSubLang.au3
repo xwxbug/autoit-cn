@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Get Locale Sub-Language id", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 	GUISetState()
@@ -21,7 +21,7 @@ Func _Main()
 			"Primary Language id : " & _GUICtrlListBox_GetLocalePrimLang($hListBox) & @LF & _
 			"Sub-Language id ....: " & _GUICtrlListBox_GetLocaleSubLang($hListBox))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

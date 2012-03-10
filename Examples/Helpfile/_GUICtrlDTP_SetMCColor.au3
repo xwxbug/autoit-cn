@@ -11,7 +11,7 @@ _Main()
 Func _Main()
 	Local $hDTP
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("DateTimePick Set Month Calendar Color", 400, 300)
 	$hDTP = GUICtrlGetHandle(GUICtrlCreateDate("", 2, 6, 190))
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
@@ -32,13 +32,13 @@ Func _Main()
 	MemoWrite("Background within months : " & "0x" & Hex(_GUICtrlDTP_GetMCColor($hDTP, 4), 6))
 	MemoWrite("Header trailing .........: " & "0x" & Hex(_GUICtrlDTP_GetMCColor($hDTP, 5), 6))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

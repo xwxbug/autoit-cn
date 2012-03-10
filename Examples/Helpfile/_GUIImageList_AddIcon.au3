@@ -43,7 +43,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 2", 1, 4)
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 3", 2, 3)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

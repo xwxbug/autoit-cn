@@ -11,7 +11,7 @@ Func _Main()
 	Local $StatusBar, $hEdit, $hGUI
 	Local $aPartRightSide[3] = [190, 378, -1], $aTabStops[3] = [10, 30, 50]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Edit Set Tab Stops", 400, 300)
 	$hEdit = GUICtrlCreateEdit("", 2, 2, 394, 268, BitOR($ES_WANTRETURN, $WS_VSCROLL))
 	$StatusBar = _GUICtrlStatusBar_Create($hGUI, $aPartRightSide)
@@ -28,7 +28,7 @@ Func _Main()
 	; Set Tab Stops
 	_GUICtrlEdit_SetTabStops($hEdit, $aTabStops)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hCombo
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Get/Set Unicode", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100, $CBS_SIMPLE)
 	GUISetState()

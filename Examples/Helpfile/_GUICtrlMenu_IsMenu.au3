@@ -5,7 +5,7 @@ _Main()
 Func _Main()
 	Local $hWnd, $hMain
 
-	; Open Notepad
+	; 打开记事本
 	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
@@ -17,7 +17,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write a line of text to Notepad
+; 写入一行文本到记事本
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
 EndFunc   ;==>Writeln

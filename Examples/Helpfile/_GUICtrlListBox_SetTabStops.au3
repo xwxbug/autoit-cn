@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $aTabs[4] = [3, 100, 200, 300], $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Set Tab Stops", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296, BitOR($LBS_STANDARD, $LBS_USETABSTOPS))
 	GUISetState()
@@ -19,7 +19,7 @@ Func _Main()
 	; Add tabbed string
 	_GUICtrlListBox_AddString($hListBox, "Column 1" & @TAB & "Column 2" & @TAB & "Column 3")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Global $hImage, $iIndex, $hListView
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ListView Find Nearest", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUICtrlSetStyle($hListView, $LVS_ICON)
@@ -34,7 +34,7 @@ Func _Main()
 	$iIndex = _GUICtrlListView_FindNearest($hListView, 200, 10)
 	MsgBox(4160, "Information", "Item nearest [200, 10]: " & $iIndex)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

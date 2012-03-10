@@ -9,10 +9,10 @@ _Main()
 Func _Main()
 	Local $sServer, $sShare, $aInfo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("NetShare", 400, 300)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 296, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -38,12 +38,12 @@ Func _Main()
 		MemoWrite()
 	Next
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

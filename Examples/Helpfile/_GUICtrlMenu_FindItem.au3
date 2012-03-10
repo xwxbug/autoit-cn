@@ -7,7 +7,7 @@ Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain, $iIndex
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste, $idAbout
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 	GUISetState()
 
@@ -42,7 +42,7 @@ Func _Main()
 	$iIndex = _GUICtrlMenu_FindItem($hMain, "Help")
 	MsgBox(4096, "Information", "Index for Help Menu: " & $iIndex)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

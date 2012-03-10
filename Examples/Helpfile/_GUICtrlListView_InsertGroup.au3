@@ -43,7 +43,7 @@ Func _Main()
 	_GUICtrlListView_SetItemGroupID($hListView, 1, 2)
 	_GUICtrlListView_SetItemGroupID($hListView, 2, 2)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

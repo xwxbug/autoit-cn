@@ -13,7 +13,7 @@ _Example2()
 Func _Example1()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Edit Create", 400, 300)
 	$hEdit = _GUICtrlEdit_Create($hGUI, "This is a test" & @CRLF & "Another Line", 2, 2, 394, 268)
 	GUISetState()
@@ -22,7 +22,7 @@ Func _Example1()
 
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -31,7 +31,7 @@ EndFunc   ;==>_Example1
 Func _Example2()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Edit Create", 400, 300)
 	$hEdit = _GUICtrlEdit_Create($hGUI, "", 2, 2, 394, 268)
 	GUISetState()
@@ -40,7 +40,7 @@ Func _Example2()
 
 	_GUICtrlEdit_SetText($hEdit, "This is a test" & @CRLF & "Another Line")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -60,32 +60,32 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$EN_ALIGN_LTR_EC" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_ALIGN_RTL_EC ; Sent when the user has changed the edit control direction to right-to-left
 					_DebugPrint("$EN_ALIGN_RTL_EC" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_CHANGE ; Sent when the user has taken an action that may have altered text in an edit control
 					_DebugPrint("$EN_CHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_ERRSPACE ; Sent when an edit control cannot allocate enough memory to meet a specific request
 					_DebugPrint("$EN_ERRSPACE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_HSCROLL ; Sent when the user clicks an edit control's horizontal scroll bar
 					_DebugPrint("$EN_HSCROLL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_KILLFOCUS ; Sent when an edit control loses the keyboard focus
 					_DebugPrint("$EN_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_MAXTEXT ; Sent when the current text insertion has exceeded the specified number of characters for the edit control
 					_DebugPrint("$EN_MAXTEXT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
@@ -95,22 +95,22 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 					; This message is also sent when an edit control does not have the $ES_AUTOVSCROLL style and the total number of lines resulting
 					; from a text insertion would exceed the height of the edit control
 
-					; no return value
+					; 没有返回值
 				Case $EN_SETFOCUS ; Sent when an edit control receives the keyboard focus
 					_DebugPrint("$EN_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_UPDATE ; Sent when an edit control is about to redraw itself
 					_DebugPrint("$EN_UPDATE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 				Case $EN_VSCROLL ; Sent when the user clicks an edit control's vertical scroll bar or when the user scrolls the mouse wheel over the edit control
 					_DebugPrint("$EN_VSCROLL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; no return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

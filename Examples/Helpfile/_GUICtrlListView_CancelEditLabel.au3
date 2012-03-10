@@ -42,7 +42,7 @@ Func _Main()
 	_GUICtrlListView_EditLabel($hListView, 0)
 	$iTime = TimerInit()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 		If _GUICtrlListView_GetEditControl($hListView) <> 0 Then
 			If TimerDiff($iTime) > 3000 Then _GUICtrlListView_CancelEditLabel($hListView)
@@ -77,7 +77,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-					; No return value
+					; 没有返回值
 				Case $LVN_ITEMCHANGING ; An item is changing
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 					_DebugPrint("$LVN_ITEMCHANGING" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -100,7 +100,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->Code:" & @TAB & $iCode & @LF & _
 							"-->VKey:" & @TAB & DllStructGetData($tInfo, "VKey") & @LF & _
 							"-->Flags:" & @TAB & DllStructGetData($tInfo, "Flags"))
-					; No return value
+					; 没有返回值
 				Case $NM_CLICK ; Sent by a list-view control when the user clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -115,7 +115,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_DBLCLK ; Sent by a list-view control when the user double-clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -130,12 +130,12 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_KILLFOCUS ; The control has lost the input focus
 					_DebugPrint("$NM_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_RCLICK ; Sent by a list-view control when the user clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -166,17 +166,17 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_RETURN ; The control has the input focus and that the user has pressed the ENTER key
 					_DebugPrint("$NM_RETURN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_SETFOCUS ; The control has received the input focus
 					_DebugPrint("$NM_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $iLocale, $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Set Locale", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 	GUISetState()
@@ -23,7 +23,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Previous Locale: " & _GUICtrlListBox_SetLocale($hListBox, $iLocale))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

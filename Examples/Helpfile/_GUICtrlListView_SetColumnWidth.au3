@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlListView_SetColumnWidth($hListView, 0, 150)
 	MsgBox(4160, "Information", "Column 1 Width: " & _GUICtrlListView_GetColumnWidth($hListView, 0))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

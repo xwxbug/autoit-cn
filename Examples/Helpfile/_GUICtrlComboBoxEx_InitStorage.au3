@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hCombo
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Init Storage", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 396, 296, $CBS_SIMPLE)
 	GUISetState()

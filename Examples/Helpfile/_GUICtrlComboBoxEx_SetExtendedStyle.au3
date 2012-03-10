@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Set Extended Style", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	;Set Extended Style

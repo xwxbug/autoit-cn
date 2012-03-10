@@ -36,7 +36,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Extended List View Style(s): 0x" & _GUICtrlListView_GetExtendedListViewStyle($hListView) & @LF & _
 			_DisplayExtendStringList($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

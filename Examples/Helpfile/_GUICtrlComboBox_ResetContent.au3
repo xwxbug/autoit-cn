@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Reset Content", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296, BitOR($CBS_SIMPLE, $CBS_DISABLENOSCROLL, $WS_VSCROLL))
 	GUISetState()
@@ -17,7 +17,7 @@ Func _Main()
 	; Set Edit Text
 	_GUICtrlComboBox_SetEditText($hCombo, "Edit Text")
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
@@ -27,7 +27,7 @@ Func _Main()
 	; Reset content
 	_GUICtrlComboBox_ResetContent($hCombo)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

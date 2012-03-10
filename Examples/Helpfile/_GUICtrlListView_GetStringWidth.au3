@@ -23,7 +23,7 @@ Func _Main()
 	; Get width of string
 	MsgBox(4160, "Information", 'Width of "Test": ' & _GUICtrlListView_GetStringWidth($hListView, "Test"))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

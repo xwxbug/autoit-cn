@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hEdit
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("(Internal) Edit Get Password Char", 400, 300)
 	$hEdit = GUICtrlCreateInput("Test of build-in control", 2, 2, 394, 25, $ES_PASSWORD)
 	GUISetState()
@@ -23,7 +23,7 @@ Func _Main()
 
 	MsgBox(4096, "Information", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

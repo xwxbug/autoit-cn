@@ -11,7 +11,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
 	; Create File menu
@@ -41,15 +41,15 @@ Func _Main()
 	; Set window menu
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 276, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
@@ -78,7 +78,7 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_COMMAND
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

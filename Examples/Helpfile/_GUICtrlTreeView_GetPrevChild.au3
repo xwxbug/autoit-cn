@@ -2,7 +2,7 @@
 #include <GuiTreeView.au3>
 #include <WindowsConstants.au3>
 
-$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 _Main()
 
@@ -37,7 +37,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Index 2, Prev Child: " & _GUICtrlTreeView_GetPrevChild($hTreeView, $hLastChild))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetPrevChild($hTreeView, $hLastChild))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

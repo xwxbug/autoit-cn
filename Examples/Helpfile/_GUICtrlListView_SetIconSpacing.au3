@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hImage, $hListView
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ListView Set Icon Spacing", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUICtrlSetStyle($hListView, $LVS_ICON)
@@ -31,7 +31,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Changing icon spacing")
 	_GUICtrlListView_SetIconSpacing($hListView, 32, 32)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

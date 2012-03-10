@@ -9,12 +9,12 @@ _Main()
 Func _Main()
 	Local $hGUI, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(UDF Created) ComboBox Destroy", 400, 296)
 	$hCombo = _GUICtrlComboBox_Create($hGUI, "", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
 	_GUICtrlComboBox_EndUpdate($hCombo)
@@ -23,7 +23,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Destroy ComboBox")
 	MsgBox(4160, "Information", "Destroyed: " & _GUICtrlComboBox_Destroy($hCombo))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

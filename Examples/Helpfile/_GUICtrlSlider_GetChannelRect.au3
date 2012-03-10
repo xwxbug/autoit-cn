@@ -1,14 +1,14 @@
 #include <GUIConstantsEx.au3>
 #include <GuiSlider.au3>
 
-$Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_S = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
 Func _Main()
 	Local $aRect, $hSlider
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Slider Get Channel Rect", 400, 296)
 	$hSlider = GUICtrlCreateSlider(2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS, $TBS_ENABLESELRANGE))
 	GUISetState()
@@ -18,7 +18,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", StringFormat("[%d][%d][%d][%d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

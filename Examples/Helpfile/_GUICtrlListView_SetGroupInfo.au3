@@ -47,7 +47,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Group 1 Text: " & $aInfo[0])
 	_GUICtrlListView_SetGroupInfo($hListView, 1, "New Group 1")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

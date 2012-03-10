@@ -9,12 +9,12 @@ _Main()
 Func _Main()
 	Local $sText, $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Swap String", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296, BitOR($WS_BORDER, $WS_VSCROLL, $LBS_NOTIFY, $LBS_MULTIPLESEL))
 	GUISetState()
 
-	; Add strings
+	; 添加字符串
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	For $iI = 1 To 9
 		$sText = StringFormat("%03d : Random string ", Random(1, 100, 1))
@@ -29,7 +29,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Swapping Strings (3:5)")
 	_GUICtrlListBox_SwapString($hListBox, 3, 5)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

@@ -9,12 +9,12 @@ _Main()
 Func _Main()
 	Local $hGUI, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Limit Text", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBoxEx_BeginUpdate($hCombo)
 	_GUICtrlComboBoxEx_AddDir($hCombo, "", $DDL_DRIVES, False)
 	_GUICtrlComboBoxEx_AddDir($hCombo, "", $DDL_DRIVES)

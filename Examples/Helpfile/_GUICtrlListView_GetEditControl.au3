@@ -45,7 +45,7 @@ Func _Main()
 	MemoWrite("Edit Handle: 0x" & Hex(_GUICtrlListView_GetEditControl($hListView)) & _
 			" IsPtr = " & IsPtr(_GUICtrlListView_GetEditControl($hListView)) & " IsHwnd = " & IsHWnd(_GUICtrlListView_GetEditControl($hListView)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -94,7 +94,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-					; No return value
+					; 没有返回值
 				Case $LVN_ENDLABELEDITA, $LVN_ENDLABELEDITW ; The end of label editing for an item
 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 					If (DllStructGetData($tInfo, "Text") <> 0) Then
@@ -133,7 +133,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_DBLCLK ; Sent by a list-view control when the user double-clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -148,12 +148,12 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_KILLFOCUS ; The control has lost the input focus
 					_DebugPrint("$NM_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_RCLICK ; Sent by a list-view control when the user clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -184,17 +184,17 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_RETURN ; The control has the input focus and that the user has pressed the ENTER key
 					_DebugPrint("$NM_RETURN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_SETFOCUS ; The control has received the input focus
 					_DebugPrint("$NM_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
@@ -208,7 +208,7 @@ Func _DebugPrint($s_text, $line = @ScriptLineNumber)
 			"+======================================================" & @LF)
 EndFunc   ;==>_DebugPrint
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

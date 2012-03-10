@@ -32,7 +32,7 @@ Func _Main()
 	_GUICtrlListView_SetHotItem($hListView, 1)
 	MsgBox(4160, "Information", "Hot Item: " & _GUICtrlListView_GetHotItem($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

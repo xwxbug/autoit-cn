@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Reset Content", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100, BitOR($CBS_SIMPLE, $WS_VSCROLL, $WS_BORDER))
 	GUISetState()

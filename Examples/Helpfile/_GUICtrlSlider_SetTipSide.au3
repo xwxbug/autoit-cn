@@ -1,14 +1,14 @@
 #include <GUIConstantsEx.au3>
 #include <GuiSlider.au3>
 
-$Debug_S = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_S = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
 Func _Main()
 	Local $rdoBottom, $rdoLeft, $rdoRight, $rdoTop, $hSlider, $hSlider2
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Slider Set Tip Side", 400, 296)
 	$hSlider = GUICtrlCreateSlider(2, 2, 375, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
 	$hSlider2 = GUICtrlCreateSlider(380, 2, 20, 292, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS, $TBS_VERT))
@@ -26,7 +26,7 @@ Func _Main()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	GUICtrlSetState($rdoLeft, $GUI_CHECKED)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE

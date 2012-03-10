@@ -25,7 +25,7 @@ Func _Main()
 	$aPos = _GUICtrlListView_GetItemPosition($hListView, 1)
 	MsgBox(4160, "Information", StringFormat("Item 2 Position : [%d, %d]", $aPos[0], $aPos[1]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

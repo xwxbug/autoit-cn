@@ -44,7 +44,7 @@ Func _Main()
 	; Free first image list
 	_GUIImageList_Destroy($hImage1)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

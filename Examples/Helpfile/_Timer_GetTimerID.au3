@@ -37,7 +37,7 @@ Func _Example_Events()
 				ExitLoop
 			Case $btn_state
 				If GUICtrlRead($btn_state) = "Start Progress Bar" Then
-					$iTimer2 = _Timer_SetTimer($hGUI, $iWait) ; create timer
+					$iTimer2 = _Timer_SetTimer($hGUI, $iWait) ; 创建计时器
 					If @error Or $iTimer2 = 0 Then ContinueLoop
 					GUICtrlSetData($btn_state, "Stop Progress Bar")
 					GUICtrlSetState($btn_change, $GUI_ENABLE)
@@ -54,7 +54,7 @@ Func _Example_Events()
 					$iWait = 10
 				EndIf
 				MemoWrite("Timer for _UpdateProgressBar set at: " & $iWait & " milliseconds")
-				$iTimer2 = _Timer_SetTimer($hGUI, $iWait, "", $iTimer2) ; reuse timer with different interval
+				$iTimer2 = _Timer_SetTimer($hGUI, $iWait, "", $iTimer2) ; 用不同的间隔重用计时器
 		EndSwitch
 	WEnd
 
@@ -62,7 +62,7 @@ Func _Example_Events()
 	GUIDelete()
 EndFunc   ;==>_Example_Events
 
-; Timer Events
+; 计时器事件
 Func WM_TIMER($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $ilParam
 
@@ -90,7 +90,7 @@ Func _UpdateProgressBar()
 	EndIf
 EndFunc   ;==>_UpdateProgressBar
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

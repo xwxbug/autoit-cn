@@ -7,7 +7,7 @@ Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
 	; Create File menu
@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 	GUISetState()
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

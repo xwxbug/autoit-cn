@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Init Storage", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	GUISetState()
@@ -16,12 +16,12 @@ Func _Main()
 	; Init Storaged
 	MsgBox(4160, "Information", "Pre-Allocated Memory For: " & _GUICtrlComboBox_InitStorage($hCombo, 50, 500) & " items")
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

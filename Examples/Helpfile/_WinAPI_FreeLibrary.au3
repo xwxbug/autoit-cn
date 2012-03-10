@@ -10,7 +10,7 @@ _Main()
 
 Func _Main()
 	Local $hGUI, $hInput, $btn_get, $hReBar, $hInstance, $sText
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("WinAPI", 400, 396)
 
 	$hInput = GUICtrlCreateInput("4209", 0, 0, 100, 20)
@@ -53,7 +53,7 @@ Func _Main()
 	WEnd
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

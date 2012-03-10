@@ -3,7 +3,7 @@
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
 
-$Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_SB = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo
 
@@ -14,11 +14,11 @@ Func _Main()
 	Global $hGUI, $iI, $hStatus
 	Global $aParts[3] = [75, 150, -1]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("StatusBar Get Text LengthEx", 400, 300)
 	$hStatus = _GUICtrlStatusBar_Create($hGUI, $SBT_NOBORDERS)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -38,13 +38,13 @@ Func _Main()
 		MemoWrite()
 	Next
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

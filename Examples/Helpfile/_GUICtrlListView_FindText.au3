@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Global $iI, $hListView
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ListView Find Text", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUISetState()
@@ -32,7 +32,7 @@ Func _Main()
 	MsgBox(4160, "Information", "Target Item Index: " & $iI)
 	_GUICtrlListView_EnsureVisible($hListView, $iI)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

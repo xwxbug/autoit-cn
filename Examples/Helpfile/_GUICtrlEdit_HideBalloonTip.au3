@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hGui, $hEdit, $sTitle = "ShowBalloonTip", $sText = "Displays a balloon tip associated with an edit control"
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("Edit ShowBalloonTip", 400, 300)
 	$hEdit = _GUICtrlEdit_Create($hGui, "", 2, 2, 394, 268)
 	GUISetState()
@@ -21,7 +21,7 @@ Func _Main()
 	Local $bool = _GUICtrlEdit_HideBalloonTip($hEdit)
 	_GUICtrlEdit_AppendText($hEdit, "HideBalloonTip = " & $bool & @CRLF)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

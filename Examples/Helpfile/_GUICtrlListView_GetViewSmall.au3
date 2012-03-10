@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlListView_SetView($hListView, 3)
 	MsgBox(4160, "Information", "View Small: " & _GUICtrlListView_GetViewSmall($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

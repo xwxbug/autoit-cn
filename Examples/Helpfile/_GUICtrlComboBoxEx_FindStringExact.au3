@@ -11,7 +11,7 @@ Func _Main()
 
 	Opt("GUIDataSeparatorChar", $Delimiter)
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Find String Exact", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "This is;mY tExT", 2, 2, 394, 100, $CBS_SIMPLE)
 	GUISetState()

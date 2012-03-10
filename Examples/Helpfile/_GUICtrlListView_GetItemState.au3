@@ -38,7 +38,7 @@ Func _Main()
 	_GUICtrlListView_SetItemState($hListView, 0, $LVIS_FOCUSED, $LVIS_FOCUSED)
 	MsgBox(4160, "Information", "Item 1 State: " & _GUICtrlListView_GetItemState($hListView, 0, $LVIS_FOCUSED))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

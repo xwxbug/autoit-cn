@@ -40,7 +40,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($hListView, 1, "Row 2: Col 2", 1)
 	_GUICtrlListView_AddItem($hListView, "Row 3: Col 1", 2)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -73,7 +73,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 ;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 ;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_BEGINLABELEDIT ; Start of label editing for an item
 ;~ 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 ;~ 					_DebugPrint("$LVN_BEGINLABELEDIT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -105,7 +105,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 ;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 ;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_BEGINSCROLL ; A scrolling operation starts, Minium OS WinXP
 ;~ 					$tInfo = DllStructCreate($tagNMLVSCROLL, $ilParam)
 ;~ 					_DebugPrint("$LVN_BEGINSCROLL" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -113,7 +113,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->Code:" & @TAB & $iCode & @LF & _
 ;~ 							"-->DX:" & @TAB & DllStructGetData($tInfo, "DX") & @LF & _
 ;~ 							"-->DY:" & @TAB & DllStructGetData($tInfo, "DY"))
-;~ 					; No return value
+;~ 					; 没有返回值
 				Case $LVN_COLUMNCLICK ; A column was clicked
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 					_DebugPrint("$LVN_COLUMNCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -127,7 +127,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-					; No return value
+					; 没有返回值
 ;~ 				Case $LVN_DELETEALLITEMS ; All items in the control are about to be deleted
 ;~ 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 ;~ 					_DebugPrint("$LVN_DELETEALLITEMS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -156,7 +156,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 ;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 ;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_ENDLABELEDIT ; The end of label editing for an item
 ;~ 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 ;~ 					$tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))
@@ -186,7 +186,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->Code:" & @TAB & $iCode & @LF & _
 ;~ 							"-->DX:" & @TAB & DllStructGetData($tInfo, "DX") & @LF & _
 ;~ 							"-->DY:" & @TAB & DllStructGetData($tInfo, "DY"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_GETDISPINFO ; Provide information needed to display or sort a list-view item
 ;~ 					$tInfo = DllStructCreate($tagNMLVDISPINFO, $ilParam)
 ;~ 					$tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))
@@ -206,7 +206,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->GroupID:" & @TAB & DllStructGetData($tInfo, "GroupID") & @LF & _
 ;~ 							"-->Columns:" & @TAB & DllStructGetData($tInfo, "Columns") & @LF & _
 ;~ 							"-->pColumns:" & @TAB & DllStructGetData($tInfo, "pColumns"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_GETINFOTIP ; Sent by a large icon view list-view control that has the $LVS_EX_INFOTIP extended style
 ;~ 					$tInfo = DllStructCreate($tagNMLVGETINFOTIP, $ilParam)
 ;~ 					$tBuffer = DllStructCreate("char Text[" & DllStructGetData($tInfo, "TextMax") & "]", DllStructGetData($tInfo, "Text"))
@@ -219,7 +219,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->Item:" & @TAB & DllStructGetData($tInfo, "Item") & @LF & _
 ;~ 							"-->SubItem:" & @TAB & DllStructGetData($tInfo, "SubItem") & @LF & _
 ;~ 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_HOTTRACK ; Sent by a list-view control when the user moves the mouse over an item
 ;~ 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 ;~ 					_DebugPrint("$LVN_HOTTRACK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -248,7 +248,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 ;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 ;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_ITEMACTIVATE ; Sent by a list-view control when the user activates an item
 ;~ 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 ;~ 					_DebugPrint("$LVN_ITEMACTIVATE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -277,7 +277,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->ActionX:" & @TAB & DllStructGetData($tInfo, "ActionX") & @LF & _
 ;~ 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 ;~ 							"-->Param:" & @TAB & DllStructGetData($tInfo, "Param"))
-;~ 					; No return value
+;~ 					; 没有返回值
 ;~ 				Case $LVN_ITEMCHANGING ; An item is changing
 ;~ 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 ;~ 					_DebugPrint("$LVN_ITEMCHANGING" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -300,7 +300,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->Code:" & @TAB & $iCode & @LF & _
 							"-->VKey:" & @TAB & DllStructGetData($tInfo, "VKey") & @LF & _
 							"-->Flags:" & @TAB & DllStructGetData($tInfo, "Flags"))
-					; No return value
+					; 没有返回值
 ;~ 				Case $LVN_MARQUEEBEGIN ; A bounding box (marquee) selection has begun
 ;~ 					_DebugPrint("$LVN_MARQUEEBEGIN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 ;~ 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
@@ -326,7 +326,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 ;~ 							"-->GroupID:" & @TAB & DllStructGetData($tInfo, "GroupID") & @LF & _
 ;~ 							"-->Columns:" & @TAB & DllStructGetData($tInfo, "Columns") & @LF & _
 ;~ 							"-->pColumns:" & @TAB & DllStructGetData($tInfo, "pColumns"))
-;~ 					; No return value
+;~ 					; 没有返回值
 				Case $NM_CLICK ; Sent by a list-view control when the user clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_CLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -341,7 +341,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_DBLCLK ; Sent by a list-view control when the user double-clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -356,7 +356,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 ;~ 				Case $NM_HOVER ; Sent by a list-view control when the mouse hovers over an item
 ;~ 					_DebugPrint("$NM_HOVER" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 ;~ 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
@@ -367,7 +367,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$NM_KILLFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_RCLICK ; Sent by a list-view control when the user clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -398,17 +398,17 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_RETURN ; The control has the input focus and that the user has pressed the ENTER key
 					_DebugPrint("$NM_RETURN" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 				Case $NM_SETFOCUS ; The control has received the input focus
 					_DebugPrint("$NM_SETFOCUS" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
 							"-->IDFrom:" & @TAB & $iIDFrom & @LF & _
 							"-->Code:" & @TAB & $iCode)
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

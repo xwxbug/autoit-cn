@@ -12,7 +12,7 @@ _Main()
 Func _Main()
 	Local $hImage
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ListView Click Item", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	GUISetState()
@@ -38,7 +38,7 @@ Func _Main()
 
 	_GUICtrlListView_ClickItem($hListView, 1, "left", False, 2)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -71,7 +71,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_DBLCLK ; Sent by a list-view control when the user double-clicks an item with the left mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_DBLCLK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -86,7 +86,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 				Case $NM_RCLICK ; Sent by a list-view control when the user clicks an item with the right mouse button
 					$tInfo = DllStructCreate($tagNMITEMACTIVATE, $ilParam)
 					_DebugPrint("$NM_RCLICK" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -117,7 +117,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->ActionY:" & @TAB & DllStructGetData($tInfo, "ActionY") & @LF & _
 							"-->lParam:" & @TAB & DllStructGetData($tInfo, "lParam") & @LF & _
 							"-->KeyFlags:" & @TAB & DllStructGetData($tInfo, "KeyFlags"))
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

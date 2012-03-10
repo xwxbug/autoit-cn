@@ -48,7 +48,7 @@ Func _Main()
 	_GUIImageList_Swap($hImage, 0, 5)
 	GUISetState(@SW_UNLOCK)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

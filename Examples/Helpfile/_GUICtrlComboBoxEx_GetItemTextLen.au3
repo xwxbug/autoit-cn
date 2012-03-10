@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $image, $hCombo
 
-	; Create GUI
+	; ´´½¨ GUI
 	$hGUI = GUICreate("ComboBoxEx Get Item Text Len", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	GUISetState()

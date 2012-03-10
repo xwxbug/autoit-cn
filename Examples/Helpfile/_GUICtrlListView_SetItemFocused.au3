@@ -29,7 +29,7 @@ Func _Main()
 	_GUICtrlListView_SetItemFocused($hListView, 1)
 	MsgBox(4160, "Information", "Item 2 Focused: " & _GUICtrlListView_GetItemFocused($hListView, 1))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

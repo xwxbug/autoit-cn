@@ -8,12 +8,12 @@ _Main()
 Func _Main()
 	Local $aRect, $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Get Item Rect", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add strings
+	; 添加字符串
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	For $iI = 1 To 9
 		_GUICtrlListBox_AddString($hListBox, StringFormat("%03d : Random string", Random(1, 100, 1)))
@@ -24,7 +24,7 @@ Func _Main()
 	$aRect = _GUICtrlListBox_GetItemRect($hListBox, 4)
 	MsgBox(4160, "Information", "Item 5 Rectangle: " & $aRect[0] & ", " & $aRect[1] & ", " & $aRect[2] & ", " & $aRect[3])
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

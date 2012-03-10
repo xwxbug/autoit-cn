@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $hGui, $tLOGFONT, $hFont, $hDTP
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("DateTimePick Set Month Calendar Font", 400, 300)
 	$hDTP = _GUICtrlDTP_Create($hGui, 2, 6, 190)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
@@ -32,13 +32,13 @@ Func _Main()
 	MemoWrite("Font Handle: " & "0x" & Hex(_GUICtrlDTP_GetMCFont($hDTP), 6))
 	MemoWrite("IsPtr  = " & IsPtr(_GUICtrlDTP_GetMCFont($hDTP)) & " IsHWnd  = " & IsHWnd(_GUICtrlDTP_GetMCFont($hDTP)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

@@ -12,7 +12,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $aSel, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Get Edit Sel", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 70, BitOR($CBS_SIMPLE, $WS_VSCROLL, $WS_BORDER))
 	$iMemo = GUICtrlCreateEdit("", 2, 72, 396, 226, 0)
@@ -31,7 +31,7 @@ Func _Main()
 	_GUIImageList_Add($hImage, _GUICtrlComboBoxEx_CreateSolidBitMap($hCombo, 0x0000FF, 16, 16))
 	_GUICtrlComboBoxEx_SetImageList($hCombo, $hImage)
 
-	; Add strings
+	; 添加字符串
 	For $x = 0 To 8
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x, $x)
 	Next
@@ -50,7 +50,7 @@ Func _Main()
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

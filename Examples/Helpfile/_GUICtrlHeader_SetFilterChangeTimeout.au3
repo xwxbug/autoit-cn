@@ -1,14 +1,14 @@
 #include <GUIConstantsEx.au3>
 #include <GuiHeader.au3>
 
-$Debug_HDR = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_HDR = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
 Func _Main()
 	Local $hGUI, $hHeader
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Header", 400, 300)
 	$hHeader = _GUICtrlHeader_Create($hGUI)
 	GUISetState()
@@ -32,7 +32,7 @@ Func _Main()
 	Sleep(1000)
 	Send("{ENTER}")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

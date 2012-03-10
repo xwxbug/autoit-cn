@@ -29,7 +29,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100, 2, 2)
 	_GUICtrlListView_AddColumn($listview, "Column 4", 100)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

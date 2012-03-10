@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hImage, $hListView
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ListView Set Extended Style", 400, 300)
 	$hListView = GUICtrlCreateListView("", 2, 2, 394, 268)
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_SUBITEMIMAGES))
@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($hListView, 1, "Row 2: Col 2", 1, 2)
 	_GUICtrlListView_AddItem($hListView, "Row 3: Col 1", 2)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

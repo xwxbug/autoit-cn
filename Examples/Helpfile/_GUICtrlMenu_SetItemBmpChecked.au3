@@ -10,7 +10,7 @@ Func _Main()
 	Local $hGUI, $hFile, $hEdit, $hHelp, $hMain, $hBmp1, $hBmp2
 	Local Enum $idNew = 1000, $idOpen, $idSave, $idExit, $idCut, $idCopy, $idPaste, $idAbout
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Menu", 400, 300)
 
 	; Create File menu
@@ -40,7 +40,7 @@ Func _Main()
 	; Set window menu
 	_GUICtrlMenu_SetMenu($hGUI, $hMain)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 276, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -64,12 +64,12 @@ Func _Main()
 	MemoWrite("Open checked handle .: 0x" & Hex(_GUICtrlMenu_GetItemBmpChecked($hFile, 0)))
 	MemoWrite("Open unchecked handle: 0x" & Hex(_GUICtrlMenu_GetItemBmpUnchecked($hFile, 0)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

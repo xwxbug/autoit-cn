@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Get Combo Control", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 268)
 	GUISetState()
@@ -31,7 +31,7 @@ Func _Main()
 			"Combo Control Handle: " & _GUICtrlComboBoxEx_GetComboControl($hCombo) & @LF & _
 			"Edit Control Handle: " & _GUICtrlComboBoxEx_GetEditControl($hCombo))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

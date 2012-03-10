@@ -26,7 +26,7 @@ Func _Main()
 	$iY = _GUICtrlListView_ApproximateViewHeight($hListView)
 	_WinAPI_SetWindowPos(GUICtrlGetHandle($hListView), 0, 2, 2, 394, $iY, $SWP_NOZORDER)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

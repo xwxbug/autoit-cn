@@ -9,18 +9,18 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Add String", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
 
 	; Add string
 	_GUICtrlComboBox_AddString($hCombo, "This string has been added")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

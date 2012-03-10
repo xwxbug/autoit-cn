@@ -15,12 +15,12 @@ Func _Main()
 	; Add columns
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
-	; Set Unicode format
+	; 设置 Unicode 格式
 	MsgBox(4160, "Information", "Unicode: " & _GUICtrlListView_GetUnicodeFormat($hListView))
 	_GUICtrlListView_SetUnicodeFormat($hListView, True)
 	MsgBox(4160, "Information", "Unicode: " & _GUICtrlListView_GetUnicodeFormat($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

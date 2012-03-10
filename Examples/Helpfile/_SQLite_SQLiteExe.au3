@@ -2,34 +2,34 @@
 #include <SQLite.dll.au3>
 #include <File.au3>
 
-;Filenames
+;文件名
 Local $sTsvFile = FileGetShortName(_TempFile(@ScriptDir, "~", ".tsv"))
 Local $sDbFile = FileGetShortName(_TempFile(@ScriptDir, "~", ".db"))
 
-;Create Tsv File
+;创建 Tsv 文件
 FileWriteLine($sTsvFile, "a" & @TAB & "b" & @TAB & "c")
 FileWriteLine($sTsvFile, "a1" & @TAB & "b1" & @TAB & "c1")
 FileWriteLine($sTsvFile, "a2" & @TAB & "b2" & @TAB & "c2")
 
-;import (using SQLite3.exe)
+;导入(使用 SQLite3.exe)
 Local $sIn, $sOut, $i, $sCreate = "CREATE TABLE TblImport (";
 For $i = 1 To _StringCountOccurance(FileReadLine($sTsvFile, 1), @TAB) + 1
 	$sCreate &= "Column_" & $i & ","
 Next
 $sCreate = StringTrimRight($sCreate, 1) & ");"
-$sIn = $sCreate & @CRLF ; Create Table
-$sIn &= ".separator \t" & @CRLF ; Select @TAB as Separator
+$sIn = $sCreate & @CRLF ; 创建表
+$sIn &= ".separator \t" & @CRLF ; 把 @TAB 作为分隔符
 $sIn &= ".import '" & $sTsvFile & "' TblImport" & @CRLF
 _SQLite_SQLiteExe($sDbFile, $sIn, $sOut, -1, True)
 
 If @error = 0 Then
-	;Show Table (using SQLite3.dll)
+	;显示表 (使用 SQLite3.dll)
 	Local $iRows, $iColumns, $aRes
 	_SQLite_Startup()
 	ConsoleWrite("_SQLite_LibVersion=" & _SQLite_LibVersion() & @CRLF)
 	_SQLite_Open($sDbFile)
 	_SQLite_GetTable2d(-1, "SELECT ROWID,* FROM TblImport;", $aRes, $iRows, $iColumns)
-	_SQLite_Display2DResult($aRes) ; Output to Console
+	_SQLite_Display2DResult($aRes) ; 输出到控制台
 	_SQLite_Close()
 	_SQLite_Shutdown()
 Else
@@ -40,7 +40,7 @@ Else
 	EndIf
 EndIf
 
-;Remove Temp Files
+;移除临时文件
 FileDelete($sTsvFile)
 FileDelete($sDbFile)
 
@@ -52,7 +52,7 @@ FileDelete($sDbFile)
 
 
 
-Func _StringCountOccurance($sSearchString, $sSubString, $fCaseSense = 0) ; Returns Number of $sSubString in $sSearchString
+Func _StringCountOccurance($sSearchString, $sSubString, $fCaseSense = 0) ; 返回在 $sSearchString 中 $sSubString 的数目
 	Local $iOccCnt = 1
 	Do
 		If StringInStr($sSearchString, $sSubString, $fCaseSense, $iOccCnt) > 0 Then

@@ -29,7 +29,7 @@ Func _Main()
 	$aRect = _GUICtrlListView_GetViewRect($hListView)
 	MsgBox(4160, "Information", StringFormat("View Tile: [%d, %d, %d, %d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

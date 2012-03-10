@@ -5,13 +5,13 @@ _Main()
 Func _Main()
 	Local $hWnd, $hMain, $aRect
 
-	; Open Notepad
+	; 打开记事本
 	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")
 	$hMain = _GUICtrlMenu_GetMenu($hWnd)
 
-	; Get File menu rectangle
+	; 获取文件菜单矩形
 	$aRect = _GUICtrlMenu_GetItemRect($hWnd, $hMain, 0)
 
 	Writeln("File X1: " & $aRect[0])
@@ -21,7 +21,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Write a line of text to Notepad
+; 写入一行文本到记事本
 Func Writeln($sText)
 	ControlSend("[CLASS:Notepad]", "", "Edit1", $sText & @CR)
 EndFunc   ;==>Writeln

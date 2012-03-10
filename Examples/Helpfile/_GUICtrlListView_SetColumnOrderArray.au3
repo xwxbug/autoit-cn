@@ -20,7 +20,7 @@ Func _Main()
 	$a_order = _GUICtrlListView_GetColumnOrderArray($hListView)
 	MsgBox(4160, "Information", StringFormat("Column order: [%d, %d, %d, %d]", $a_order[1], $a_order[2], $a_order[3], $a_order[4]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

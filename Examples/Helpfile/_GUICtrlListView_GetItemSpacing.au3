@@ -24,7 +24,7 @@ Func _Main()
 	$aSpace = _GUICtrlListView_GetItemSpacing($hListView)
 	MsgBox(4160, "Information", StringFormat("Item Spacing: X=%d, Y=%d", $aSpace[0], $aSpace[1]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

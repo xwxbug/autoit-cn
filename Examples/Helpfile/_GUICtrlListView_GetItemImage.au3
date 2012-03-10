@@ -38,7 +38,7 @@ Func _Main()
 	_GUICtrlListView_SetItemImage($hListView, 1, 1, 1)
 	MsgBox(4160, "Information", "Item 1, SubItem 1 Image: " & _GUICtrlListView_GetItemImage($hListView, 1, 1))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

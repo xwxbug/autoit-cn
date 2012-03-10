@@ -16,7 +16,7 @@ Func _Main()
 	; Show item count per page
 	MsgBox(4160, "Information", "Items per page: " & _GUICtrlListView_GetCounterPage($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

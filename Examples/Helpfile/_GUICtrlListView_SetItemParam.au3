@@ -24,7 +24,7 @@ Func _Main()
 	_GUICtrlListView_SetItemParam($hListView, 1, 1234)
 	MsgBox(4160, "Information", "Item 2 Parameter: " & _GUICtrlListView_GetItemParam($hListView, 1))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

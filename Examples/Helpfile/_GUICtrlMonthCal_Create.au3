@@ -11,14 +11,14 @@ _Main()
 Func _Main()
 	Local $hGUI
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("Month Calendar Create", 400, 300)
 	$hMonthCal = _GUICtrlMonthCal_Create($hGUI, 4, 4, $WS_BORDER)
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -53,7 +53,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					; Address of an array of MONTHDAYSTATE (DWORD bit field that holds the state of each day in a month)
 					; Each bit (1 through 31) represents the state of a day in a month. If a bit is on, the corresponding day will
 					; be displayed in bold; otherwise it will be displayed with no emphasis.
-					; No return value
+					; 没有返回值
 				Case $MCN_SELCHANGE ; Sent by a month calendar control when the currently selected date or range of dates changes
 					$tInfo = DllStructCreate($tagNMSELCHANGE, $ilParam)
 					_DebugPrint("$MCN_SELCHANGE" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -75,7 +75,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->EndMinute:" & @TAB & DllStructGetData($tInfo, "EndMinute") & @LF & _
 							"-->EndSecond:" & @TAB & DllStructGetData($tInfo, "EndSecond") & @LF & _
 							"-->EndMSeconds:" & @TAB & DllStructGetData($tInfo, "EndMSeconds"))
-					; No return value
+					; 没有返回值
 				Case $MCN_SELECT ; Sent by a month calendar control when the user makes an explicit date selection within a month calendar control
 					$tInfo = DllStructCreate($tagNMSELCHANGE, $ilParam)
 					_DebugPrint("$MCN_SELECT" & @LF & "--> hWndFrom:" & @TAB & $hWndFrom & @LF & _
@@ -97,7 +97,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 							"-->EndMinute:" & @TAB & DllStructGetData($tInfo, "EndMinute") & @LF & _
 							"-->EndSecond:" & @TAB & DllStructGetData($tInfo, "EndSecond") & @LF & _
 							"-->EndMSeconds:" & @TAB & DllStructGetData($tInfo, "EndMSeconds"))
-					; No return value
+					; 没有返回值
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG

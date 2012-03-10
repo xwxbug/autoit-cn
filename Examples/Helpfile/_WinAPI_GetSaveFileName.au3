@@ -13,7 +13,7 @@ _Example_ExplorerStyle_NoPlaceBar()
 Func _Example_Defaults()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("GetSaveFileName use defaults", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -42,7 +42,7 @@ EndFunc   ;==>_Example_Defaults
 Func _Example_ExplorerStyle()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("GetSaveFileName use Explorer Style", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -73,7 +73,7 @@ EndFunc   ;==>_Example_ExplorerStyle
 Func _Example_OldStyle()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("GetSaveFileName use Old Style", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -104,7 +104,7 @@ EndFunc   ;==>_Example_OldStyle
 Func _Example_ExplorerStyle_NoPlaceBar()
 	Local $hGui, $btn_dialog, $aFile, $sError
 
-	; Create GUI
+	; 创建 GUI
 	$hGui = GUICreate("GetSaveFileName use Explorer Style No Place Bar", 400, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 226, $WS_HSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
@@ -132,7 +132,7 @@ Func _Example_ExplorerStyle_NoPlaceBar()
 	GUIDelete($hGui)
 EndFunc   ;==>_Example_ExplorerStyle_NoPlaceBar
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

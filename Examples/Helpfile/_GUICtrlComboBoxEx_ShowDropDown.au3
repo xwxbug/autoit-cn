@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hGUI, $hImage, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Show Drop Down", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
 	GUISetState()
@@ -39,7 +39,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo)
 
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

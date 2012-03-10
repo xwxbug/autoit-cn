@@ -4,7 +4,7 @@
 #include <WindowsConstants.au3>
 #include <Constants.au3>
 
-$Debug_TV = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_TV = False ; 检查传递给函数的类名, 设置为真并使用另一控件的句柄可以看出它是否有效
 
 Global Const $Turquoise = 0x40e0d0
 Global Const $Crimson = 0xDC143C
@@ -42,7 +42,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Normal ImageList Handle: " & _GUICtrlTreeView_GetNormalImageList($hTreeView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

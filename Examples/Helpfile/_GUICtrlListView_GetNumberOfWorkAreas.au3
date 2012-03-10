@@ -33,7 +33,7 @@ Func _Main()
 	_GUICtrlListView_SetWorkAreas($hListView, 0, 0, 100, 100)
 	MsgBox(4160, "Information", "Work Areas: " & _GUICtrlListView_GetNumberOfWorkAreas($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

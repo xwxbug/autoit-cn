@@ -20,7 +20,7 @@ Func _Main()
 	_GUICtrlListView_InsertItem($hListView, "Item 2", 1)
 	_GUICtrlListView_InsertItem($hListView, "Item 3", 1)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

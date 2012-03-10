@@ -9,7 +9,7 @@ _Main()
 Func _Main()
 	Local $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Update HScroll", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296, BitOR($LBS_NOTIFY, $LBS_SORT, $WS_HSCROLL, $WS_VSCROLL))
 	GUISetState()
@@ -26,7 +26,7 @@ Func _Main()
 	; Show current horizontal extent
 	MsgBox(4160, "Information", "Horizontal Extent: " & _GUICtrlListBox_GetHorizontalExtent($hListBox))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

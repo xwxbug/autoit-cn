@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Get Count", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	_GUICtrlComboBox_SetCueBanner($hCombo, "Select an Item")
@@ -18,20 +18,20 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	MemoWrite("Cue Banner: " & _GUICtrlComboBox_GetCueBanner($hCombo))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

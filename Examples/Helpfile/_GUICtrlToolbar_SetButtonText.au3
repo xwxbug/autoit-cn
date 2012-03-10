@@ -27,7 +27,7 @@ Func _Main()
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 	EndSwitch
 
-	; Add strings
+	; Ìí¼Ó×Ö·û´®
 	$aStrings[0] = _GUICtrlToolbar_AddString($hToolbar, "&New")
 	$aStrings[1] = _GUICtrlToolbar_AddString($hToolbar, "&Open")
 	$aStrings[2] = _GUICtrlToolbar_AddString($hToolbar, "&Save")

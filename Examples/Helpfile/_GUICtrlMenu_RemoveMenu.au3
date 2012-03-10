@@ -5,7 +5,7 @@ _Main()
 Func _Main()
 	Local $hWnd, $hMain
 
-	; Open Notepad
+	; 打开记事本
 	Run("notepad.exe")
 	WinWaitActive("[CLASS:Notepad]")
 	$hWnd = WinGetHandle("[CLASS:Notepad]")

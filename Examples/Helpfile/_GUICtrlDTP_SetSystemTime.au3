@@ -10,7 +10,7 @@ _Main()
 Func _Main()
 	Local $hDTP, $a_Date[7] = [False, @YEAR, 8, 19, 21, 57, 34]
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("DateTimePick Set System Time", 400, 300)
 	$hDTP = GUICtrlGetHandle(GUICtrlCreateDate("", 2, 6, 190))
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
@@ -28,7 +28,7 @@ Func _Main()
 	MemoWrite("Current date: " & GetDateStr())
 	MemoWrite("Current time: " & GetTimeStr())
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
@@ -44,7 +44,7 @@ Func GetTimeStr()
 	Return StringFormat("%02d:%02d:%02d", $aDate[3], $aDate[4], $aDate[5])
 EndFunc   ;==>GetTimeStr
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

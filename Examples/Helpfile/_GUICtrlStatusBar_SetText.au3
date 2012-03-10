@@ -3,7 +3,7 @@
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
 
-$Debug_SB = False ; Check ClassName being passed to functions, set to True and use a handle to another control to see it work
+$Debug_SB = False ; 检查传递给函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo
 
@@ -15,11 +15,11 @@ Func Example1()
 	Local $hGUI, $hIcons[2], $hStatus
 	Local $aParts[4] = [75, 150, 300, 400]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 1) StatusBar Set Text", 400, 300)
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -43,7 +43,7 @@ Func Example1()
 	MemoWrite("Part 1 icon handle .: 0x" & Hex(_GUICtrlStatusBar_GetIcon($hStatus, 0)))
 	MemoWrite("Part 2 icon handle .: 0x" & Hex(_GUICtrlStatusBar_GetIcon($hStatus, 1)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	; Free icons
@@ -57,11 +57,11 @@ Func Example2()
 	Local $hGUI, $hStatus
 	Local $aParts[4] = [75, 150, 300, 400]
 
-	; Create GUI
+	; 创建 GUI
 	$hGUI = GUICreate("(Example 2) StatusBar Set Text", 400, 300)
 	$hStatus = _GUICtrlStatusBar_Create($hGUI)
 
-	; Create memo control
+	; 创建 memo 控件
 	$iMemo = GUICtrlCreateEdit("", 2, 2, 396, 274, $WS_VSCROLL)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
@@ -83,13 +83,13 @@ Func Example2()
 	MemoWrite("Part 1 icon handle .: 0x" & Hex(_GUICtrlStatusBar_GetIcon($hStatus, 0)))
 	MemoWrite("Part 2 icon handle .: 0x" & Hex(_GUICtrlStatusBar_GetIcon($hStatus, 1)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>Example2
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

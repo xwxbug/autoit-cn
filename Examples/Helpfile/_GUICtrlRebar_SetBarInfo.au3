@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlRebar_SetBarInfo($hReBar, $hImage)
 
 
-	; Add standard system bitmaps
+	; 添加标准系统位图
 	Switch _GUICtrlToolbar_GetBitmapFlags($hToolbar)
 		Case 0
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_SMALL_COLOR)
@@ -43,7 +43,7 @@ Func _Main()
 			_GUICtrlToolbar_AddBitmap($hToolbar, 1, -1, $IDB_STD_LARGE_COLOR)
 	EndSwitch
 
-	; Add buttons
+	; 添加按钮
 	_GUICtrlToolbar_AddButton($hToolbar, $idNew, $STD_FILENEW)
 	_GUICtrlToolbar_AddButton($hToolbar, $idOpen, $STD_FILEOPEN)
 	_GUICtrlToolbar_AddButton($hToolbar, $idSave, $STD_FILESAVE)
@@ -78,7 +78,7 @@ Func _Main()
 	WEnd
 EndFunc   ;==>_Main
 
-; Write message to memo
+; 写入消息到 memo
 Func MemoWrite($sMessage = "")
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

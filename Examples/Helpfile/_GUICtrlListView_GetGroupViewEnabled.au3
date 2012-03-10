@@ -45,7 +45,7 @@ Func _Main()
 	; Is group view enabled
 	MsgBox(4160, "Information", "Group View Enabled: " & _GUICtrlListView_GetGroupViewEnabled($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

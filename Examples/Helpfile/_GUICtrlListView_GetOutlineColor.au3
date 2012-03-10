@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlListView_SetOutlineColor($hListView, 0x0000FF)
 	MsgBox(4160, "Information", "Outline Color: " & Hex(_GUICtrlListView_GetOutlineColor($hListView)))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

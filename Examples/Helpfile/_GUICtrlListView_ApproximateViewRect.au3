@@ -25,7 +25,7 @@ Func _Main()
 	; Resize view
 	$aXY = _GUICtrlListView_ApproximateViewRect($hListView)
 	_WinAPI_SetWindowPos(GUICtrlGetHandle($hListView), 0, 2, 2, $aXY[0], $aXY[1], $SWP_NOZORDER)
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

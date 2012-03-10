@@ -8,7 +8,7 @@ _Main()
 Func _Main()
 	Local $hDTP
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("DateTimePick Set Format", 400, 300)
 	$hDTP = GUICtrlGetHandle(GUICtrlCreateDate("", 2, 6, 190))
 
@@ -17,7 +17,7 @@ Func _Main()
 	; Set the display format
 	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

@@ -21,7 +21,7 @@ Func _Main()
 	$aItem = _GUICtrlListView_GetItem($hListView, 1)
 	MsgBox(4160, "Information", "Item 2 Text: " & $aItem[3])
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

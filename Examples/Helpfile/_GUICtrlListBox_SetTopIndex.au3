@@ -8,12 +8,12 @@ _Main()
 Func _Main()
 	Local $sText, $hListBox
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("List Box Set Top Index", 400, 296)
 	$hListBox = GUICtrlCreateList("", 2, 2, 396, 296)
 	GUISetState()
 
-	; Add strings
+	; 添加字符串
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	For $iI = 1 To 100
 		$sText = StringFormat("%03d : Random string ", $iI)
@@ -33,7 +33,7 @@ Func _Main()
 	; Show top index
 	MsgBox(4160, "Information", "Top Index: " & _GUICtrlListBox_GetTopIndex($hListBox))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

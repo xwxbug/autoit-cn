@@ -8,7 +8,7 @@ Global Enum $idOpen = 1000, $idSave, $idInfo
 _Main()
 
 Func _Main()
-	; Create GUI
+	; 创建 GUI
 	GUICreate("Menu", 400, 300)
 	GUISetState()
 
@@ -16,7 +16,7 @@ Func _Main()
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 	GUIRegisterMsg($WM_CONTEXTMENU, "WM_CONTEXTMENU")
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 EndFunc   ;==>_Main

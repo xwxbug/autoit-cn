@@ -31,7 +31,7 @@ Func _Main()
 	; Get incremental search string
 	MsgBox(4160, "Information", "Incremental Search String: " & _GUICtrlListView_GetISearchString($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

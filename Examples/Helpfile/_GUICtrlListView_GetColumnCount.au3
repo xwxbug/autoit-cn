@@ -14,7 +14,7 @@ Func _Main()
 
 	MsgBox(4160, "Information", "Column Count: " & _GUICtrlListView_GetColumnCount($hListView))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 

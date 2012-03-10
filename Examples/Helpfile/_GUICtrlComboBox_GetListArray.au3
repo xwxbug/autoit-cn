@@ -11,14 +11,14 @@ _Main()
 Func _Main()
 	Local $aList, $hCombo
 
-	; Create GUI
+	; 创建 GUI
 	GUICreate("ComboBox Get List Array", 400, 296)
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	$iMemo = GUICtrlCreateEdit("", 2, 32, 396, 266, 0)
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Add files
+	; 添加文件
 	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
 
 	; Get List
@@ -27,13 +27,13 @@ Func _Main()
 		MemoWrite($aList[$x])
 	Next
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Write a line to the memo control
+; 写入一行到 memo 控件
 Func MemoWrite($sMessage)
 	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>MemoWrite

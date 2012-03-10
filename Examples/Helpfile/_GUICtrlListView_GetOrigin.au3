@@ -33,7 +33,7 @@ Func _Main()
 	$aOrigin = _GUICtrlListView_GetOrigin($hListView)
 	MsgBox(4160, "Information", StringFormat("Success: %s Origin: X=%d, Y=%d", @extended = 1, $aOrigin[0], $aOrigin[1]))
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()
