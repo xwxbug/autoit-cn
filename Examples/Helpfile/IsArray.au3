@@ -16,4 +16,7 @@ Func Example()
 	Else
 		MsgBox(4096, "", "An error occurred.")
 	EndIf
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
 EndFunc   ;==>Example

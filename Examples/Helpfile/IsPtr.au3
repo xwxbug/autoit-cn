@@ -13,4 +13,7 @@ Func Example()
 	Else
 		MsgBox(4096, "", "It's not a valid Ptr")
 	EndIf
+
+	; Close the Notepad window using the handle returned by WinWait.
+	WinClose($hWnd)
 EndFunc   ;==>Example

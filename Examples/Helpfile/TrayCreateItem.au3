@@ -35,8 +35,8 @@ Exit
 ; * 第二个例子	 *
 ; *****************
 
-#include <Constants.au3>
 #NoTrayIcon
+#include <Constants.au3> ; Required for the $TRAY_CHECKED constant.
 
 Opt("TrayMenuMode",1)	; 默认托盘菜单项目(脚本已暂停/退出脚本) (Script Paused/Exit) 将不显示.
 

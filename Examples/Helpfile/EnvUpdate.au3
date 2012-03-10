@@ -1,15 +1,19 @@
 Example()
 
 Func Example()
-	; Create an environment variable called %MYVAR% and assign it a value. When you assign an envorinment variable you do so minus the percentage signs (%).
-	EnvSet("MYVAR", "This is some text!")
+	; Retrieve the system environment variable called %PATH%.
+	Local $sEnvVar = EnvGet("PATH")
 
-	; Refresh the OS environment.
+	; Assign the system environment variable called %PATH% with its current value as well as the script directory.
+	; When you assign an envorinment variable you do so minus the percentage signs (%).
+	EnvSet("PATH", $sEnvVar & ";" & @ScriptDir)
+
+	; Refresh the OS environment for changes to take affect.
 	EnvUpdate()
 
-	; Retrieve the environment variable that was just assigned a value previously.
-	Local $sEnvVar = EnvGet("MYVAR")
+	; Retrieve the system environment variable that was just assigned a value previously.
+	$sEnvVar = EnvGet("PATH")
 
-	; Display the value of the environment variable $MYVAR%.
-	MsgBox(4096, "", "The environment variable %MYVAR% has the value of: " & $sEnvVar)
+	; Display the value of the environment variable $PATH%.
+	MsgBox(4096, "", "The environment variable %PATH% has the value of: " & $sEnvVar)
 EndFunc   ;==>Example

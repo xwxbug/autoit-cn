@@ -24,6 +24,7 @@ Func Example()
 		/S - Search within subfolders.
 	#ce
 	Local $iPID = Run(@ComSpec & ' /C DIR "' & $sFilePath & $sFilter & '" /B /A-D /S', $sFilePath, @SW_HIDE, $STDOUT_CHILD)
+	; If you want to search with files that contains unicode characters, then use the /U commandline parameter.
 
 	While 1
 		$sOutput &= StdoutRead($iPID) ; Read the Stdout stream of the PID returned by Run.
