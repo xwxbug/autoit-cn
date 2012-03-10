@@ -6,7 +6,7 @@
     Filename:       APIErrors.au3
     Description:    System error codes to be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.6 / 3.3.8.0
+    Version:        3.7 / 3.3.8.0
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           None
     Note:           -

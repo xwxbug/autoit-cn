@@ -6,7 +6,7 @@
     Filename:       APIConstants.au3
     Description:    Constants that can be used with WinAPIEx UDF library
     Author:         Yashied
-    Version:        3.6 / 3.3.8.0
+    Version:        3.7 / 3.3.8.0
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           BorderConstants.au3, Constants.au3, FileConstants.au3, FontConstants.au3, FrameConstants.au3, MemoryConstants.au3, MenuConstants.au3, ProcessConstants.au3, SecurityConstants.au3, WindowsConstants.au3
     Note:           -
@@ -36,9 +36,10 @@
 
 ;Global Const $DELETE = 0x00010000
 ;Global Const $READ_CONTROL = 0x00020000
-;Global Const $SYNCHRONIZE = 0x00100000
 ;Global Const $WRITE_DAC = 0x00040000
 ;Global Const $WRITE_OWNER = 0x00080000
+;Global Const $SYNCHRONIZE = 0x00100000
+Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 
 ;Global Const $STANDARD_RIGHTS_ALL = BitOR($DELETE, $READ_CONTROL, $SYNCHRONIZE, $WRITE_DAC, $WRITE_OWNER)
 ;Global Const $STANDARD_RIGHTS_EXECUTE = $READ_CONTROL
@@ -850,6 +851,21 @@ Global Const $ASSOCF_IGNOREBASECLASS = 0x00000200
 Global Const $ASSOCF_INIT_IGNOREUNKNOWN = 0x00000400
 
 ; ===============================================================================================================================
+; _WinAPI_BackupRead(), _WinAPI_BackupWrite()
+; ===============================================================================================================================
+
+Global Const $BACKUP_ALTERNATE_DATA = 0x00000004
+Global Const $BACKUP_DATA = 0x00000001
+Global Const $BACKUP_EA_DATA = 0x00000002
+Global Const $BACKUP_LINK = 0x00000005
+Global Const $BACKUP_OBJECT_ID = 0x00000007
+Global Const $BACKUP_PROPERTY_DATA = 0x00000006
+Global Const $BACKUP_REPARSE_DATA = 0x00000008
+Global Const $BACKUP_SECURITY_DATA = 0x00000003
+Global Const $BACKUP_SPARSE_BLOCK = 0x00000009
+Global Const $BACKUP_TXFS_DATA = 0x0000000A
+
+; ===============================================================================================================================
 ; _WinAPI_BeginBufferedPaint()
 ; ===============================================================================================================================
 
@@ -1016,11 +1032,46 @@ Global Const $FNERR_SUBCLASSFAILURE = 0x3001
 Global Const $FRERR_BUFFERLENGTHZERO = 0x4001
 
 ; ===============================================================================================================================
+; _WinAPI_CompareString()
+; ===============================================================================================================================
+
+Global Const $LINGUISTIC_IGNORECASE = 0x00000010
+Global Const $LINGUISTIC_IGNOREDIACRITIC = 0x00000020
+
+Global Const $NORM_IGNORECASE = 0x00000001
+Global Const $NORM_IGNOREKANATYPE = 0x00010000
+Global Const $NORM_IGNORENONSPACE = 0x00000002
+Global Const $NORM_IGNORESYMBOLS = 0x00000004
+Global Const $NORM_IGNOREWIDTH = 0x00020000
+Global Const $NORM_LINGUISTIC_CASING = 0x08000000
+
+Global Const $SORT_DIGITSASNUMBERS = 0x00000008
+Global Const $SORT_STRINGSORT = 0x00001000
+
+Global Const $CSTR_LESS_THAN = 1
+Global Const $CSTR_EQUAL = 2
+Global Const $CSTR_GREATER_THAN = 3
+
+; ===============================================================================================================================
 ; _WinAPI_CompressBitmapBits()
 ; ===============================================================================================================================
 
 Global Const $COMPRESSION_BITMAP_PNG = 0
 Global Const $COMPRESSION_BITMAP_JPEG = 1
+
+; ===============================================================================================================================
+; _WinAPI_CompressBuffer(), _WinAPI_DecompressBuffer(), _WinAPI_GetCompression(), _WinAPI_SetCompression()
+; ===============================================================================================================================
+
+Global Const $COMPRESSION_FORMAT_NONE = 0x0000
+Global Const $COMPRESSION_FORMAT_DEFAULT = 0x0001
+Global Const $COMPRESSION_FORMAT_LZNT1 = 0x0002
+Global Const $COMPRESSION_FORMAT_XPRESS = 0x0003
+Global Const $COMPRESSION_FORMAT_XPRESS_HUFF = 0x0004
+
+Global Const $COMPRESSION_ENGINE_STANDARD = 0x0000
+Global Const $COMPRESSION_ENGINE_MAXIMUM = 0x0100
+Global Const $COMPRESSION_ENGINE_HIBER = 0x0200
 
 ; ===============================================================================================================================
 ; _WinAPI_CopyFileEx(), _WinAPI_MoveFileEx()
@@ -1088,6 +1139,27 @@ Global Const $DIB_PAL_COLORS = 1
 Global Const $DIB_RGB_COLORS = 0
 
 ; ===============================================================================================================================
+; _WinAPI_CreateColorAdjustment()
+; ===============================================================================================================================
+
+Global Const $CA_NEGATIVE = 0x01
+Global Const $CA_LOG_FILTER = 0x02
+
+Global Const $ILLUMINANT_DEVICE_DEFAULT = 0
+Global Const $ILLUMINANT_A = 1
+Global Const $ILLUMINANT_B = 2
+Global Const $ILLUMINANT_C = 3
+Global Const $ILLUMINANT_D50 = 4
+Global Const $ILLUMINANT_D55 = 5
+Global Const $ILLUMINANT_D65 = 6
+Global Const $ILLUMINANT_D75 = 7
+Global Const $ILLUMINANT_F2 = 8
+Global Const $ILLUMINANT_TUNGSTEN = $ILLUMINANT_A
+Global Const $ILLUMINANT_DAYLIGHT = $ILLUMINANT_C
+Global Const $ILLUMINANT_FLUORESCENT = $ILLUMINANT_F2
+Global Const $ILLUMINANT_NTSC = $ILLUMINANT_C
+
+; ===============================================================================================================================
 ; _WinAPI_CreateDesktop(), _WinAPI_OpenDesktop(), _WinAPI_OpenInputDesktop()
 ; ===============================================================================================================================
 
@@ -1142,7 +1214,7 @@ Global Const $FILE_ADD_SUBDIRECTORY = $FILE_APPEND_DATA
 Global Const $FILE_CREATE_PIPE_INSTANCE = $FILE_APPEND_DATA
 Global Const $FILE_LIST_DIRECTORY = $FILE_READ_DATA
 Global Const $FILE_TRAVERSE = $FILE_EXECUTE
-Global Const $FILE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $FILE_APPEND_DATA, $FILE_DELETE_CHILD, $FILE_EXECUTE, $FILE_READ_ATTRIBUTES, $FILE_READ_DATA, $FILE_READ_EA, $FILE_WRITE_ATTRIBUTES, $FILE_WRITE_DATA, $FILE_WRITE_EA)
+Global Const $FILE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_ALL, $FILE_APPEND_DATA, $FILE_DELETE_CHILD, $FILE_EXECUTE, $FILE_READ_ATTRIBUTES, $FILE_READ_DATA, $FILE_READ_EA, $FILE_WRITE_ATTRIBUTES, $FILE_WRITE_DATA, $FILE_WRITE_EA)
 
 ;Global Const $FILE_SHARE_READ = 0x01
 ;Global Const $FILE_SHARE_WRITE = 0x02
@@ -1250,7 +1322,7 @@ Global Const $ALTERNATE = 1
 Global Const $WINDING = 2
 
 ; ===============================================================================================================================
-; _WinAPI_CreateProcess()
+; _WinAPI_CreateProcess(), _WinAPI_CreateProcessWithToken()
 ; ===============================================================================================================================
 
 Global Const $CREATE_BREAKAWAY_FROM_JOB = 0x01000000
@@ -1264,6 +1336,9 @@ Global Const $CREATE_SEPARATE_WOW_VDM = 0x00000800
 Global Const $CREATE_SHARED_WOW_VDM = 0x00001000
 Global Const $CREATE_SUSPENDED = 0x00000004
 Global Const $CREATE_UNICODE_ENVIRONMENT = 0x00000400
+
+;Global Const $LOGON_WITH_PROFILE = 0x01
+;Global Const $LOGON_NETCREDENTIALS_ONLY = 0x02
 
 ; ===============================================================================================================================
 ; _WinAPI_CreateWindowStation(), _WinAPI_OpenWindowStation()
@@ -1658,6 +1733,18 @@ Global Const $TST_CONTINUOUS = 2
 ;~Global Const $DUPLICATE_SAME_ACCESS = 0x02
 
 ; ===============================================================================================================================
+; _WinAPI_DuplicateTokenEx()
+; ===============================================================================================================================
+
+;Global Const $SecurityAnonymous = 0
+;Global Const $SecurityIdentification = 1
+;Global Const $SecurityImpersonation = 2
+;Global Const $SecurityDelegation = 3
+
+;Global Const $TokenPrimary = 1
+;Global Const $TokenImpersonation = 2
+
+; ===============================================================================================================================
 ; _WinAPI_DwmGetWindowAttribute(), _WinAPI_DwmSetWindowAttribute()
 ; ===============================================================================================================================
 
@@ -1752,6 +1839,20 @@ Global Const $FLOODFILLSURFACE = 1
 ;Global Const $RGN_XOR = 3
 ;Global Const $RGN_DIFF = 4
 ;Global Const $RGN_COPY = 5
+
+; ===============================================================================================================================
+; _WinAPI_FileEncryptionStatus()
+; ===============================================================================================================================
+
+Global Const $FILE_ENCRYPTABLE = 0
+Global Const $FILE_IS_ENCRYPTED = 1
+Global Const $FILE_READ_ONLY = 8
+Global Const $FILE_ROOT_DIR = 3
+Global Const $FILE_SYSTEM_ATTR = 2
+Global Const $FILE_SYSTEM_DIR = 4
+Global Const $FILE_SYSTEM_NOT_SUPPORT = 6
+Global Const $FILE_UNKNOWN = 5
+Global Const $FILE_USER_DISALLOWED = 7
 
 ; ===============================================================================================================================
 ; _WinAPI_FindResource(), _WinAPI_FindResourceEx(), _WinAPI_UpdateResource()
@@ -1858,14 +1959,6 @@ Global Const $GCL_HMODULE = -16
 Global Const $GCL_MENUNAME = -8
 Global Const $GCL_STYLE = -26
 Global Const $GCL_WNDPROC = -24
-
-; ===============================================================================================================================
-; _WinAPI_GetCompression(), _WinAPI_SetCompression()
-; ===============================================================================================================================
-
-Global Const $COMPRESSION_FORMAT_NONE = 0
-Global Const $COMPRESSION_FORMAT_DEFAULT = 1
-Global Const $COMPRESSION_FORMAT_LZNT1 = 2
 
 ; ===============================================================================================================================
 ; _WinAPI_GetCurrentHwProfile()
@@ -1975,6 +2068,14 @@ Global Const $FILE_TYPE_REMOTE = 0x8000
 Global Const $FILE_TYPE_UNKNOWN = 0x0000
 
 ; ===============================================================================================================================
+; _WinAPI_GetFileVersionInfo()
+; ===============================================================================================================================
+
+Global Const $FILE_VER_GET_LOCALISED = 0x01
+Global Const $FILE_VER_GET_NEUTRAL = 0x02
+Global Const $FILE_VER_GET_PREFETCHED = 0x04
+
+; ===============================================================================================================================
 ; _WinAPI_GetFinalPathNameByHandle()
 ; ===============================================================================================================================
 
@@ -1985,6 +2086,38 @@ Global Const $VOLUME_NAME_DOS = 0x0
 Global Const $VOLUME_NAME_GUID = 0x1
 Global Const $VOLUME_NAME_NONE = 0x4
 Global Const $VOLUME_NAME_NT = 0x2
+
+; ===============================================================================================================================
+; _WinAPI_GetGeoInfo()
+; ===============================================================================================================================
+
+Global Const $GEO_NATION = 1
+Global Const $GEO_LATITUDE = 2
+Global Const $GEO_LONGITUDE = 3
+Global Const $GEO_ISO2 = 4
+Global Const $GEO_ISO3 = 5
+Global Const $GEO_RFC1766 = 6
+Global Const $GEO_LCID = 7
+Global Const $GEO_FRIENDLYNAME = 8
+Global Const $GEO_OFFICIALNAME = 9
+Global Const $GEO_TIMEZONES = 10
+Global Const $GEO_OFFICIALLANGUAGES = 11
+Global Const $GEO_ISO_UN_NUMBER = 12
+Global Const $GEO_PARENT = 13
+
+; ===============================================================================================================================
+; _WinAPI_GetGlyphOutline()
+; ===============================================================================================================================
+
+Global Const $GGO_BEZIER = 3
+Global Const $GGO_BITMAP = 1
+Global Const $GGO_GLYPH_INDEX = 0x0080
+Global Const $GGO_GRAY2_BITMAP = 4
+Global Const $GGO_GRAY4_BITMAP = 5
+Global Const $GGO_GRAY8_BITMAP = 6
+Global Const $GGO_METRICS = 0
+Global Const $GGO_NATIVE = 2
+Global Const $GGO_UNHINTED = 0x0100
 
 ; ===============================================================================================================================
 ; _WinAPI_GetGraphicsMode(), _WinAPI_SetGraphicsMode()
@@ -2168,10 +2301,10 @@ Global Const $MM_TWIPS = 6
 ; _WinAPI_GetModuleHandleEx()
 ; ===============================================================================================================================
 
-Global Const $GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS = 0x00000004
-Global Const $GET_MODULE_HANDLE_EX_FLAG_PIN = 0x00000001
-Global Const $GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT = 0x00000002
-Global Const $GET_MODULE_HANDLE_EX_FLAG_DEFAULT = 0x00000000
+Global Const $GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS = 0x0004
+Global Const $GET_MODULE_HANDLE_EX_FLAG_PIN = 0x0001
+Global Const $GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT = 0x0002
+Global Const $GET_MODULE_HANDLE_EX_FLAG_DEFAULT = 0x0000
 
 ; ===============================================================================================================================
 ; _WinAPI_GetPriorityClass(), _WinAPI_SetPriorityClass()
@@ -2226,6 +2359,19 @@ Global Const $STARTF_TITLEISLINKNAME = 0x00000800
 ;Global Const $STARTF_USESHOWWINDOW = 0x00000001
 ;Global Const $STARTF_USESIZE = 0x00000002
 ;Global Const $STARTF_USESTDHANDLES = 0x00000100
+
+; ===============================================================================================================================
+; _WinAPI_GetStretchBltMode(), _WinAPI_SetStretchBltMode()
+; ===============================================================================================================================
+
+Global Const $BLACKONWHITE = 1
+Global Const $COLORONCOLOR = 3
+Global Const $HALFTONE = 4
+Global Const $WHITEONBLACK = 2
+Global Const $STRETCH_ANDSCANS = $BLACKONWHITE
+Global Const $STRETCH_DELETESCANS = $COLORONCOLOR
+Global Const $STRETCH_HALFTONE = $HALFTONE
+Global Const $STRETCH_ORSCANS = $WHITEONBLACK
 
 ; ===============================================================================================================================
 ; _WinAPI_GetSysColor(), _WinAPI_SetSysColor()
@@ -2371,14 +2517,6 @@ Global Const $UDF_BGR = 1
 Global Const $UDF_RGB = 0
 
 ; ===============================================================================================================================
-; _WinAPI_GetUpdateRgn(), _WinAPI_GetWindowRgn(), etc.
-; ===============================================================================================================================
-
-;Global Const $COMPLEXREGION = 3
-;Global Const $NULLREGION = 1
-;Global Const $SIMPLEREGION = 2
-
-; ===============================================================================================================================
 ; _WinAPI_GetUserObjectInformation(), _WinAPI_SetUserObjectInformation()
 ; ===============================================================================================================================
 
@@ -2413,6 +2551,30 @@ Global Const $VER_SUITE_WH_SERVER = 0x00008000
 Global Const $VER_NT_DOMAIN_CONTROLLER = 0x0000002
 Global Const $VER_NT_SERVER = 0x0000003
 Global Const $VER_NT_WORKSTATION = 0x0000001
+
+; ===============================================================================================================================
+; _WinAPI_GetVolumeInformation(), _WinAPI_GetVolumeInformationByHandle()
+; ===============================================================================================================================
+
+Global Const $FILE_CASE_PRESERVED_NAMES = 0x00000002
+Global Const $FILE_CASE_SENSITIVE_SEARCH = 0x00000001
+Global Const $FILE_FILE_COMPRESSION = 0x00000010
+Global Const $FILE_NAMED_STREAMS = 0x00040000
+Global Const $FILE_PERSISTENT_ACLS = 0x00000008
+Global Const $FILE_READ_ONLY_VOLUME = 0x00080000
+Global Const $FILE_SEQUENTIAL_WRITE_ONCE = 0x00100000
+Global Const $FILE_SUPPORTS_ENCRYPTION = 0x00020000
+Global Const $FILE_SUPPORTS_EXTENDED_ATTRIBUTES = 0x00800000
+Global Const $FILE_SUPPORTS_HARD_LINKS = 0x00400000
+Global Const $FILE_SUPPORTS_OBJECT_IDS = 0x00010000
+Global Const $FILE_SUPPORTS_OPEN_BY_FILE_ID = 0x01000000
+Global Const $FILE_SUPPORTS_REPARSE_POINTS = 0x00000080
+Global Const $FILE_SUPPORTS_SPARSE_FILES = 0x00000040
+Global Const $FILE_SUPPORTS_TRANSACTIONS = 0x00200000
+Global Const $FILE_SUPPORTS_USN_JOURNAL = 0x02000000
+Global Const $FILE_UNICODE_ON_DISK = 0x00000004
+Global Const $FILE_VOLUME_IS_COMPRESSED = 0x00008000
+Global Const $FILE_VOLUME_QUOTAS = 0x00000020
 
 ; ===============================================================================================================================
 ; _WinAPI_GetWindowDisplayAffinity(), _WinAPI_SetWindowDisplayAffinity()
@@ -2830,11 +2992,19 @@ Global Const $MB_SERVICE_NOTIFICATION = 0x00200000
 ;Global Const $IDYES = 6
 
 ; ===============================================================================================================================
+; _WinAPI_MonitorFrom*()
+; ===============================================================================================================================
+
+Global Const $MONITOR_DEFAULTTONEAREST = 0
+Global Const $MONITOR_DEFAULTTONULL = 1
+Global Const $MONITOR_DEFAULTTOPRIMARY = 2
+
+; ===============================================================================================================================
 ; _WinAPI_OpenMutex()
 ; ===============================================================================================================================
 
 Global Const $MUTEX_MODIFY_STATE = 0x0001
-Global Const $MUTEX_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $MUTEX_MODIFY_STATE)
+Global Const $MUTEX_ALL_ACCESS = BitOR($STANDARD_RIGHTS_ALL, $MUTEX_MODIFY_STATE)
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenJobObject(), _WinAPI_QueryInformationJobObject(), _WinAPI_SetInformationJobObject()
@@ -2845,7 +3015,7 @@ Global Const $JOB_OBJECT_QUERY = 0x0004
 Global Const $JOB_OBJECT_SET_ATTRIBUTES = 0x0002
 Global Const $JOB_OBJECT_SET_SECURITY_ATTRIBUTES = 0x0010
 Global Const $JOB_OBJECT_TERMINATE = 0x0008
-Global Const $JOB_OBJECT_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $JOB_OBJECT_ASSIGN_PROCESS, $JOB_OBJECT_QUERY, $JOB_OBJECT_SET_ATTRIBUTES, $JOB_OBJECT_SET_SECURITY_ATTRIBUTES, $JOB_OBJECT_TERMINATE)
+Global Const $JOB_OBJECT_ALL_ACCESS = BitOR($STANDARD_RIGHTS_ALL, $JOB_OBJECT_ASSIGN_PROCESS, $JOB_OBJECT_QUERY, $JOB_OBJECT_SET_ATTRIBUTES, $JOB_OBJECT_SET_SECURITY_ATTRIBUTES, $JOB_OBJECT_TERMINATE)
 
 Global Const $JOB_OBJECT_LIMIT_ACTIVE_PROCESS = 0x00000008
 Global Const $JOB_OBJECT_LIMIT_AFFINITY = 0x00000010
@@ -2896,7 +3066,7 @@ Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 ;Global Const $PROCESS_VM_OPERATION = 0x0008
 ;Global Const $PROCESS_VM_READ = 0x0010
 ;Global Const $PROCESS_VM_WRITE = 0x0020
-;Global Const $PROCESS_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $PROCESS_CREATE_PROCESS, $PROCESS_CREATE_THREAD, $PROCESS_DUP_HANDLE, $PROCESS_QUERY_INFORMATION, $PROCESS_SET_INFORMATION, $PROCESS_SET_QUOTA, $PROCESS_SET_SESSIONID, $PROCESS_SUSPEND_RESUME, $PROCESS_TERMINATE, $PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
+;Global Const $PROCESS_ALL_ACCESS = BitOR($STANDARD_RIGHTS_ALL, $PROCESS_CREATE_PROCESS, $PROCESS_CREATE_THREAD, $PROCESS_DUP_HANDLE, $PROCESS_QUERY_INFORMATION, $PROCESS_SET_INFORMATION, $PROCESS_SET_QUOTA, $PROCESS_SET_SESSIONID, $PROCESS_SUSPEND_RESUME, $PROCESS_TERMINATE, $PROCESS_VM_OPERATION, $PROCESS_VM_READ, $PROCESS_VM_WRITE)
 
 ; ===============================================================================================================================
 ; _WinAPI_OpenProcessToken()
@@ -2922,7 +3092,7 @@ Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 
 Global Const $SEMAPHORE_MODIFY_STATE = 0x0002
 Global Const $SEMAPHORE_QUERY_STATE = 0x0001
-Global Const $SEMAPHORE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, $SYNCHRONIZE, $SEMAPHORE_MODIFY_STATE, $SEMAPHORE_QUERY_STATE)
+Global Const $SEMAPHORE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_ALL, $SEMAPHORE_MODIFY_STATE, $SEMAPHORE_QUERY_STATE)
 
 ; ===============================================================================================================================
 ; _WinAPI_PageSetupDlg()
@@ -2954,6 +3124,39 @@ Global Const $WM_PSD_MARGINRECT = $WM_USER + 3
 Global Const $WM_PSD_GREEKTEXTRECT = $WM_USER + 4
 Global Const $WM_PSD_ENVSTAMPRECT = $WM_USER + 5
 Global Const $WM_PSD_YAFULLPAGERECT = $WM_USER + 6
+
+; ===============================================================================================================================
+; _WinAPI_ParseURL()
+; ===============================================================================================================================
+
+Global Const $URL_SCHEME_INVALID = -1
+Global Const $URL_SCHEME_UNKNOWN = 0
+Global Const $URL_SCHEME_FTP = 1
+Global Const $URL_SCHEME_HTTP = 2
+Global Const $URL_SCHEME_GOPHER = 3
+Global Const $URL_SCHEME_MAILTO = 4
+Global Const $URL_SCHEME_NEWS = 5
+Global Const $URL_SCHEME_NNTP = 6
+Global Const $URL_SCHEME_TELNET = 7
+Global Const $URL_SCHEME_WAIS = 8
+Global Const $URL_SCHEME_FILE = 9
+Global Const $URL_SCHEME_MK = 10
+Global Const $URL_SCHEME_HTTPS = 11
+Global Const $URL_SCHEME_SHELL = 12
+Global Const $URL_SCHEME_SNEWS = 13
+Global Const $URL_SCHEME_LOCAL = 14
+Global Const $URL_SCHEME_JAVASCRIPT = 15
+Global Const $URL_SCHEME_VBSCRIPT = 16
+Global Const $URL_SCHEME_ABOUT = 17
+Global Const $URL_SCHEME_RES = 18
+Global Const $URL_SCHEME_MSSHELLROOTED = 19
+Global Const $URL_SCHEME_MSSHELLIDLIST = 20
+Global Const $URL_SCHEME_MSHELP = 21
+Global Const $URL_SCHEME_MSSHELLDEVICE = 22
+Global Const $URL_SCHEME_WILDCARD = 23
+Global Const $URL_SCHEME_SEARCH_MS = 24
+Global Const $URL_SCHEME_SEARCH = 25
+Global Const $URL_SCHEME_KNOWNFOLDER = 26
 
 ; ===============================================================================================================================
 ; _WinAPI_PatBlt(), _WinAPI_StretchBlt()
@@ -3061,6 +3264,25 @@ Global Const $PD_USELARGETEMPLATE = 0x10000000
 Global Const $PD_RESULT_APPLY = 2
 Global Const $PD_RESULT_CANCEL = 0
 Global Const $PD_RESULT_PRINT = 1
+
+; ===============================================================================================================================
+; _WinAPI_ReadDirectoryChanges()
+; ===============================================================================================================================
+
+Global Const $FILE_NOTIFY_CHANGE_FILE_NAME = 0x0001
+Global Const $FILE_NOTIFY_CHANGE_DIR_NAME = 0x0002
+Global Const $FILE_NOTIFY_CHANGE_ATTRIBUTES = 0x0004
+Global Const $FILE_NOTIFY_CHANGE_SIZE = 0x0008
+Global Const $FILE_NOTIFY_CHANGE_LAST_WRITE = 0x0010
+Global Const $FILE_NOTIFY_CHANGE_LAST_ACCESS = 0x0020
+Global Const $FILE_NOTIFY_CHANGE_CREATION = 0x0040
+Global Const $FILE_NOTIFY_CHANGE_SECURITY = 0x0100
+
+Global Const $FILE_ACTION_ADDED = 0x0001
+Global Const $FILE_ACTION_REMOVED = 0x0002
+Global Const $FILE_ACTION_MODIFIED = 0x0003
+Global Const $FILE_ACTION_RENAMED_OLD_NAME = 0x0004
+Global Const $FILE_ACTION_RENAMED_NEW_NAME = 0x0005
 
 ; ===============================================================================================================================
 ; _WinAPI_RegisterApplicationRestart()
@@ -3172,19 +3394,6 @@ Global Const $REG_QWORD_LITTLE_ENDIAN = 11
 Global Const $REPLACEFILE_WRITE_THROUGH = 0x01
 Global Const $REPLACEFILE_IGNORE_MERGE_ERRORS = 0x02
 Global Const $REPLACEFILE_IGNORE_ACL_ERRORS = 0x04
-
-; ===============================================================================================================================
-; _WinAPI_ResizeBitmap(), _WinAPI_SetStretchBltMode()
-; ===============================================================================================================================
-
-Global Const $BLACKONWHITE = 1
-Global Const $COLORONCOLOR = 3
-Global Const $HALFTONE = 4
-Global Const $WHITEONBLACK = 2
-Global Const $STRETCH_ANDSCANS = $BLACKONWHITE
-Global Const $STRETCH_DELETESCANS = $COLORONCOLOR
-Global Const $STRETCH_HALFTONE = $HALFTONE
-Global Const $STRETCH_ORSCANS = $WHITEONBLACK
 
 ; ===============================================================================================================================
 ; _WinAPI_RestartDlg()
@@ -4034,6 +4243,46 @@ Global Const $REST_USEDESKTOPINICACHE = 171
 ;Global Const $RESOURCETYPE_PRINT = 0x02
 
 ; ===============================================================================================================================
+; _WinAPI_ShellUserAuthenticationDlg()
+; ===============================================================================================================================
+
+Global Const $CREDUI_FLAGS_ALWAYS_SHOW_UI = 0x00000080
+Global Const $CREDUI_FLAGS_COMPLETE_USERNAME = 0x00000800
+Global Const $CREDUI_FLAGS_DO_NOT_PERSIST = 0x00000002
+Global Const $CREDUI_FLAGS_EXCLUDE_CERTIFICATES = 0x00000008
+Global Const $CREDUI_FLAGS_EXPECT_CONFIRMATION = 0x00020000
+Global Const $CREDUI_FLAGS_GENERIC_CREDENTIALS = 0x00040000
+Global Const $CREDUI_FLAGS_INCORRECT_PASSWORD = 0x00000001
+Global Const $CREDUI_FLAGS_KEEP_USERNAME = 0x00100000
+Global Const $CREDUI_FLAGS_PASSWORD_ONLY_OK = 0x00000200
+Global Const $CREDUI_FLAGS_PERSIST = 0x00001000
+Global Const $CREDUI_FLAGS_REQUEST_ADMINISTRATOR = 0x00000004
+Global Const $CREDUI_FLAGS_REQUIRE_CERTIFICATE = 0x00000010
+Global Const $CREDUI_FLAGS_REQUIRE_SMARTCARD = 0x00000100
+Global Const $CREDUI_FLAGS_SERVER_CREDENTIAL = 0x00004000
+Global Const $CREDUI_FLAGS_SHOW_SAVE_CHECK_BOX = 0x00000040
+Global Const $CREDUI_FLAGS_USERNAME_TARGET_CREDENTIALS = 0x00080000
+Global Const $CREDUI_FLAGS_VALIDATE_USERNAME = 0x00000400
+
+; ===============================================================================================================================
+; _WinAPI_ShellUserAuthenticationDlgEx()
+; ===============================================================================================================================
+
+Global Const $CREDUIWIN_AUTHPACKAGE_ONLY = 0x00000010
+Global Const $CREDUIWIN_CHECKBOX = 0x00000002
+Global Const $CREDUIWIN_ENUMERATE_ADMINS = 0x00000100
+Global Const $CREDUIWIN_ENUMERATE_CURRENT_USER = 0x00000200
+Global Const $CREDUIWIN_GENERIC = 0x00000001
+Global Const $CREDUIWIN_IN_CRED_ONLY = 0x00000020
+Global Const $CREDUIWIN_SECURE_PROMPT = 0x00001000
+Global Const $CREDUIWIN_PACK_32_WOW = 0x10000000
+Global Const $CREDUIWIN_PREPROMPTING = 0x00002000
+
+;Global Const $CRED_PACK_GENERIC_CREDENTIALS = 0x04
+;Global Const $CRED_PACK_PROTECTED_CREDENTIALS = 0x01
+;Global Const $CRED_PACK_WOW_BUFFER = 0x02
+
+; ===============================================================================================================================
 ; _WinAPI_SystemParametersInfo()
 ; ===============================================================================================================================
 
@@ -4241,14 +4490,26 @@ Global Const $UHID_HDD = 0x0004
 Global Const $UHID_All = BitOR($UHID_MB, $UHID_BIOS, $UHID_CPU, $UHID_HDD)
 
 ; ===============================================================================================================================
-; _WinAPI_UrlEscape()
+; _WinAPI_UrlApplyScheme()
 ; ===============================================================================================================================
 
-Global Const $URL_DONT_ESCAPE_EXTRA_INFO = 0x02000000
+Global Const $URL_APPLY_DEFAULT = 0x01
+Global Const $URL_APPLY_GUESSSCHEME = 0x02
+Global Const $URL_APPLY_GUESSFILE = 0x04
+Global Const $URL_APPLY_FORCEAPPLY = 0x08
+
+; ===============================================================================================================================
+; _WinAPI_UrlCanonicalize(), _WinAPI_UrlCombine()
+; ===============================================================================================================================
+
+Global Const $URL_DONT_SIMPLIFY = 0x08000000
 Global Const $URL_ESCAPE_AS_UTF8 = 0x00040000
 Global Const $URL_ESCAPE_PERCENT = 0x00001000
-Global Const $URL_ESCAPE_SEGMENT_ONLY = 0x00002000
 Global Const $URL_ESCAPE_SPACES_ONLY = 0x04000000
+Global Const $URL_ESCAPE_UNSAFE = 0x20000000
+Global Const $URL_NO_META = 0x08000000
+Global Const $URL_PLUGGABLE_PROTOCOL = 0x40000000
+Global Const $URL_UNESCAPE = 0x10000000
 
 ; ===============================================================================================================================
 ; _WinAPI_UrlGetPart()
@@ -4272,12 +4533,6 @@ Global Const $URLIS_HASQUERY = 6
 Global Const $URLIS_NOHISTORY = 2
 Global Const $URLIS_OPAQUE = 1
 Global Const $URLIS_URL = 0
-
-; ===============================================================================================================================
-; _WinAPI_UrlUnescape()
-; ===============================================================================================================================
-
-Global Const $URL_DONT_UNESCAPE_EXTRA_INFO = 0x02000000
 
 ; ===============================================================================================================================
 ; _WinAPI_VerQueryRoot()
@@ -4331,6 +4586,14 @@ Global Const $VFT2_FONT_RASTER = 0x00000001
 Global Const $VFT2_FONT_TRUETYPE = 0x00000003
 Global Const $VFT2_FONT_VECTOR = 0x00000002
 ;Global Const $VFT2_UNKNOWN = 0x00000000
+
+; ===============================================================================================================================
+; _WinAPI_*Rgn*()
+; ===============================================================================================================================
+
+;Global Const $COMPLEXREGION = 3
+;Global Const $NULLREGION = 1
+;Global Const $SIMPLEREGION = 2
 
 ; ===============================================================================================================================
 ; _WinAPI_*Theme*()
