@@ -17,22 +17,25 @@ Func _Main()
 	GUISetState()
 
 	; 打开剪贴板
-	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
+	If _ClipBoard_Open($hGUI) Then
 
 	; 显示可用的剪贴板格式
-	MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())
+		MemoWrite("Clipboard formats ..: " & _ClipBoard_CountFormats())
 
 	; 枚举剪贴板格式
-	Do
-		$iFormat = _ClipBoard_EnumFormats($iFormat)
-		If $iFormat <> 0 Then
-			$iCount += 1
-			MemoWrite("Clipboard format " & $iCount & " .: " & _ClipBoard_FormatStr($iFormat))
-		EndIf
-	Until $iFormat = 0
+		Do
+			$iFormat = _ClipBoard_EnumFormats($iFormat)
+			If $iFormat <> 0 Then
+				$iCount += 1
+				MemoWrite("Clipboard format " & $iCount & " .: " & _ClipBoard_FormatStr($iFormat))
+			EndIf
+		Until $iFormat = 0
 
 	; 关闭剪贴板
-	_ClipBoard_Close()
+		_ClipBoard_Close()
+	Else
+		 _WinAPI_ShowError("_ClipBoard_Open failed")
+	EndIf
 
 	; 循环直到用户退出
 	Do

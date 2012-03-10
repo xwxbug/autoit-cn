@@ -18,10 +18,13 @@ Func _Main()
 
 	; 注册一个新的剪贴板格式
 	$iFormat = _ClipBoard_RegisterFormat("AutoIt Library Text")
-	If $iFormat = 0 Then _WinAPI_ShowError("_ClipBoard_RegisterFormat failed")
+	If $iFormat <> 0 Then
 
 	; 显示新格式
-	MemoWrite(_ClipBoard_GetFormatName($iFormat))
+		MemoWrite(_ClipBoard_GetFormatName($iFormat))
+	Else
+		_WinAPI_ShowError("_ClipBoard_RegisterFormat failed")
+	EndIf
 
 	; 循环直到用户退出
 	Do

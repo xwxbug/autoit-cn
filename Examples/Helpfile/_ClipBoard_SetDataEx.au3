@@ -25,27 +25,39 @@ Func _Main()
 				ExitLoop
 			Case $btn_SetData
 				; 打开剪贴板
-				If Not _ClipBoard_Open(0) Then _WinAPI_ShowError("_ClipBoard_Open failed")
+				If _ClipBoard_Open(0) Then
 
-				; 清空剪贴板
-				If Not _ClipBoard_Empty() Then _WinAPI_ShowError("_ClipBoard_Empty failed")
+					; 清空剪贴板
+					If _ClipBoard_Empty() Then
 
-				; 创建全局的内存缓冲区 (显示为什么使用 _ClipBoard_SetData 会更容易!)
-				$sData = "Hello from AutoIt"
-				$iSize = StringLen($sData) + 1
-				$hMemory = _MemGlobalAlloc($iSize, $GHND)
-				If $hMemory = 0 Then _WinAPI_ShowError("_Mem_GlobalAlloc failed")
-				$hLock = _MemGlobalLock($hMemory)
-				If $hLock = 0 Then _WinAPI_ShowError("_Mem_GlobalLock failed")
-				$tData = DllStructCreate("char Text[" & $iSize & "]", $hLock)
-				DllStructSetData($tData, "Text", $sData)
-				_MemGlobalUnlock($hMemory)
+						; 创建全局的内存缓冲区 (显示为什么使用 _ClipBoard_SetData 会更容易!)
+						$sData = "Hello from AutoIt"
+						$iSize = StringLen($sData) + 1
+						$hMemory = _MemGlobalAlloc($iSize, $GHND)
+						If $hMemory <> 0 Then
+							$hLock = _MemGlobalLock($hMemory)
+							If $hLock = 0 Then _WinAPI_ShowError("_Mem_GlobalLock failed")
+							$tData = DllStructCreate("char Text[" & $iSize & "]", $hLock)
+							DllStructSetData($tData, "Text", $sData)
+							_MemGlobalUnlock($hMemory)
 
-				; 写入文本到剪贴板
-				If Not _ClipBoard_SetDataEx($hMemory, $CF_TEXT) Then _WinAPI_ShowError("_ClipBoard_SetDataEx failed")
+							; 写入文本到剪贴板
+							If Not _ClipBoard_SetDataEx($hMemory, $CF_TEXT) Then _WinAPI_ShowError("_ClipBoard_SetDataEx failed")
+						Else
+							_WinAPI_ShowError("_Mem_GlobalAlloc failed")
+						EndIf
 
-				; 关闭剪贴板
-				_ClipBoard_Close()
+						; 关闭剪贴板
+						_ClipBoard_Close()
+					Else
+						; 关闭剪贴板
+						_ClipBoard_Close()
+						_WinAPI_ShowError("_ClipBoard_Empty failed")
+					EndIf
+				Else
+					 _WinAPI_ShowError("_ClipBoard_Open failed")
+				EndIf
+
 			Case $btn_GetData
 				MemoWrite(_ClipBoard_GetData())
 		EndSwitch

@@ -17,12 +17,15 @@ Func _Main()
 	GUISetState()
 
 	; 打开剪贴板
-	If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
+	If _ClipBoard_Open($hGUI) Then
 
-	ShowData($hGUI)
+		ShowData($hGUI)
 
-	; 关闭剪贴板
-	_ClipBoard_Close()
+		; 关闭剪贴板
+		_ClipBoard_Close()
+	Else
+		_WinAPI_ShowError("_ClipBoard_Open failed")
+	EndIf
 
 	; 循环直到用户退出
 	Do

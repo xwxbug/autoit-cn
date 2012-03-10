@@ -6,7 +6,7 @@
 
 #region Globals *************************************************************************
 Global $hDragImageList, $hListView, $bDragging = False, $LV_Height
-Global $a_index[2] ; from and to
+Global $a_index[2] ; 从和到
 
 Global Const $DebugIt = 1
 
@@ -29,12 +29,12 @@ Func _Main()
 	_GUICtrlListView_SetColumnWidth($hListView, 1, 100)
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT, $LVS_EX_CHECKBOXES))
 	;------------------------------------------------------
-	; Using subitem images
+	; 使用子项目图像
 	;------------------------------------------------------
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVM_SETEXTENDEDLISTVIEWSTYLE, $LVS_EX_SUBITEMIMAGES))
 
 	;------------------------------------------------------
-	; create the image list
+	; 创建图像列表
 	;------------------------------------------------------
 	$himages = _GUIImageList_Create($image_width, $image_height, 5, 1)
 	For $x = 1 To 21
@@ -44,19 +44,19 @@ Func _Main()
 	_GUICtrlListView_SetImageList($hListView, $himages, $LVSIL_SMALL)
 
 	;------------------------------------------------------
-	;Register event functions
+	;注册事件函数
 	;------------------------------------------------------
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 	GUIRegisterMsg($WM_LBUTTONUP, "WM_LBUTTONUP")
 	GUIRegisterMsg($WM_MOUSEMOVE, "WM_MOUSEMOVE")
 
 	;------------------------------------------------------
-	; add listview items with images
+	; 添加含图像的列表视图项
 	;------------------------------------------------------
 	Local $y = 1
 	For $x = 0 To 9
-		$iIndex = _GUICtrlListView_AddItem($hListView, "Name " & $x + 1, $y) ; handle, string, image index
-		_GUICtrlListView_AddSubItem($hListView, $iIndex, "Category " & $x + 1, 1, $y + 1) ; handle, index, string, subitem, image index
+		$iIndex = _GUICtrlListView_AddItem($hListView, "Name " & $x + 1, $y) ; 句柄, 字符串, 图像索引
+		_GUICtrlListView_AddSubItem($hListView, $iIndex, "Category " & $x + 1, 1, $y + 1) ; 句柄, 索引, 字符串, 子项, 图像索引
 		$y += 2
 	Next
 
@@ -67,11 +67,11 @@ Func _Main()
 		Switch GUIGetMsg()
 
 			;-----------------------------------------------------------------------------------------
-			;This case statement exits and updates code if needed
+			;这种情况语句退出并在需要时更新代码
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
 				;-----------------------------------------------------------------------------------------
-				;put all the misc. stuff here
+				;把所有的各种情况填到这里
 			Case Else
 				;;;
 		EndSwitch
@@ -96,7 +96,7 @@ Func _LVInsertItem($i_FromItem, $i_ToItem)
 	Local $struct_String = DllStructCreate("char Buffer[4096]")
 	Local $sBuffer_pointer = DllStructGetPtr($struct_String)
 
-	; Insert item into new position
+	; 插入项目到新位置
 	DllStructSetData($struct_LVITEM, "Mask", BitOR($LVIF_STATE, $LVIF_IMAGE, $LVIF_INDENT, $LVIF_PARAM, $LVIF_TEXT))
 	DllStructSetData($struct_LVITEM, "StateMask", $LVIS_STATEIMAGEMASK)
 	DllStructSetData($struct_LVITEM, "Item", $i_FromItem)
@@ -110,7 +110,7 @@ Func _LVInsertItem($i_FromItem, $i_ToItem)
 	$i_newIndex = _GUICtrlListView_InsertItem($hListView, DllStructGetData($struct_String, "Buffer"), $i_ToItem, DllStructGetData($struct_LVITEM, "Image"))
 	If @error Then Return SetError(-1, -1, -1)
 
-	; restore previous state
+	; 还原之前的状态
 	If $DebugIt Then _DebugPrint("$i_newIndex = " & $i_newIndex)
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_STATE)
 	DllStructSetData($struct_LVITEM, "Item", $i_newIndex)
@@ -128,7 +128,7 @@ Func _LVCopyItem($i_FromItem, $i_ToItem, $i_SubItem = 0)
 	Local $struct_String = DllStructCreate("char Buffer[4096]")
 	Local $sBuffer_pointer = DllStructGetPtr($struct_String)
 
-	; get from item info
+	; 获取项目信息
 	DllStructSetData($struct_LVITEM, "Mask", BitOR($LVIF_STATE, $LVIF_IMAGE, $LVIF_INDENT, $LVIF_PARAM, $LVIF_TEXT))
 	DllStructSetData($struct_LVITEM, "StateMask", $LVIS_STATEIMAGEMASK)
 	DllStructSetData($struct_LVITEM, "Item", $i_FromItem)
@@ -137,30 +137,30 @@ Func _LVCopyItem($i_FromItem, $i_ToItem, $i_SubItem = 0)
 	DllStructSetData($struct_LVITEM, "Text", $sBuffer_pointer)
 	_GUICtrlListView_GetItemEx($hListView, $struct_LVITEM)
 
-	; set to
+	; 设置到
 	DllStructSetData($struct_LVITEM, "Item", $i_ToItem)
-	; set text
+	; 设置文本
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_TEXT)
 	DllStructSetData($struct_LVITEM, "Text", $sBuffer_pointer)
 	DllStructSetData($struct_LVITEM, "TextMax", 4096)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
 	If @error Then Return SetError(@error, @error, @error)
-	; set status
+	; 设置状态
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_STATE)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
-	; set image
+	; 设置图像
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_IMAGE)
 	DllStructSetData($struct_LVITEM, "State", $LVIF_IMAGE)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
-	; set state
+	; 设置状态
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_STATE)
 	DllStructSetData($struct_LVITEM, "State", $LVIF_STATE)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
-	; set indent
+	; 设置缩进
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_INDENT)
 	DllStructSetData($struct_LVITEM, "State", $LVIF_INDENT)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
-	; set Param
+	; 设置参数
 	DllStructSetData($struct_LVITEM, "Mask", $LVIF_PARAM)
 	DllStructSetData($struct_LVITEM, "State", $LVIF_PARAM)
 	_GUICtrlListView_SetItemEx($hListView, $struct_LVITEM)
@@ -171,19 +171,19 @@ EndFunc   ;==>_LVCopyItem
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------
-; WM_MOUSEMOVE event handler
+; WM_MOUSEMOVE 事件处理程序
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------
 Func WM_MOUSEMOVE($hWndGUI, $MsgID, $wParam, $lParam)
 	#forceref $MsgID, $wParam
 	;------------------------------------------------------
-	; not dragging item we are done here
+	; 像这里一样不去拖动项目
 	;------------------------------------------------------
 	If $bDragging = False Then Return $GUI_RUNDEFMSG
 
 	;------------------------------------------------------
-	; update the image move
+	; 更新图像移动
 	;------------------------------------------------------
 	Local $lpos = ControlGetPos($hWndGUI, "", $hListView)
 	Local $x = BitAND($lParam, 0xFFFF) - $lpos[0]
@@ -199,7 +199,7 @@ EndFunc   ;==>WM_MOUSEMOVE
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------
-; WM_LBUTTONUP event handler
+; WM_LBUTTONUP 事件处理程序
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------
@@ -212,7 +212,7 @@ Func WM_LBUTTONUP($hWndGUI, $MsgID, $wParam, $lParam)
 	If $DebugIt Then _DebugPrint("$x = " & $x)
 	If $DebugIt Then _DebugPrint("$y = " & $y)
 	;------------------------------------------------------
-	; done dragging
+	; 完成拖动
 	;------------------------------------------------------
 	_GUIImageList_DragLeave($hListView)
 	;------------------------------------------------------
@@ -225,7 +225,7 @@ Func WM_LBUTTONUP($hWndGUI, $MsgID, $wParam, $lParam)
 	_GUIImageList_Destroy($hDragImageList[0])
 	_WinAPI_ReleaseCapture()
 	;------------------------------------------------------
-	; do hit test see if drag ended in the listview
+	; 在列表视图中进行点击测试以判断拖动是否结束
 	;------------------------------------------------------
 	Local $struct_LVHITTESTINFO = DllStructCreate($tagLVHITTESTINFO)
 
@@ -243,7 +243,7 @@ Func WM_LBUTTONUP($hWndGUI, $MsgID, $wParam, $lParam)
 	;------------------------------------------------------
 	If BitAND($flags, $LVHT_ONITEMLABEL) == 0 And BitAND($flags, $LVHT_ONITEMSTATEICON) == 0 And BitAND($flags, $LVHT_ONITEMICON) = 0 Then Return $GUI_RUNDEFMSG
 	;------------------------------------------------------
-	; make sure insert is at least 2 items above or below, don't want to create a duplicate
+	; 确保在上面或下面至少插入两项, 不要创建副本
 	;------------------------------------------------------
 	If $a_index[0] < $a_index[1] - 1 Or $a_index[0] > $a_index[1] + 1 Then
 		If $DebugIt Then _DebugPrint("To = " & $a_index[1])
@@ -252,14 +252,14 @@ Func WM_LBUTTONUP($hWndGUI, $MsgID, $wParam, $lParam)
 		Local $From_index = $a_index[0]
 		If $a_index[0] > $a_index[1] Then $From_index = $a_index[0] + 1
 		;------------------------------------------------------
-		; copy item and subitem(s) images, text, and state
+		; 复制项目和子项目的图像, 文本以及状态
 		;------------------------------------------------------
 		For $x = 1 To _GUICtrlListView_GetColumnCount($hListView) - 1
 			_LVCopyItem($From_index, $i_newIndex, $x)
 			If @error Then Return SetError(-1, -1, $GUI_RUNDEFMSG)
 		Next
 		;------------------------------------------------------
-		; delete from
+		; 删除自
 		;------------------------------------------------------
 		_GUICtrlListView_DeleteItem($hListView, $From_index)
 	EndIf
@@ -268,7 +268,7 @@ EndFunc   ;==>WM_LBUTTONUP
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------
-; WM_NOTIFY event handler
+; WM_NOTIFY 事件处理程序
 ;------------------------------------------------------
 ;------------------------------------------------------
 ;------------------------------------------------------

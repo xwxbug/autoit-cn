@@ -15,22 +15,22 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap(GUICtrlGetHandle($listview), 0xFF0000, 11, 11))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap(GUICtrlGetHandle($listview), 0x00FF00, 11, 11))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap(GUICtrlGetHandle($listview), 0x0000FF, 11, 11))
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	; Add columns
+	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Items", 120)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Item 1", 0)
 	_GUICtrlListView_AddItem($listview, "Item 2", 1)
 	_GUICtrlListView_AddItem($listview, "Item 3", 2)
 
-	; Loop until user exits
+	; 循环直到用户退出
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	GUIDelete()

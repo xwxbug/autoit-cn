@@ -27,16 +27,19 @@ Func _Main()
 				_ClipBoard_SetData("ClipBoard Library")
 			Case $btn_GetData
 				; 打开剪贴板
-				If Not _ClipBoard_Open($hGUI) Then _WinAPI_ShowError("_ClipBoard_Open failed")
+				If _ClipBoard_Open($hGUI) Then
 
 				; 读取剪贴板文本
-				$hMemory = _ClipBoard_GetDataEx($CF_TEXT)
-				If $hMemory = 0 Then _WinAPI_ShowError("_ClipBoard_GetDataEx failed")
-				$tData = DllStructCreate("char Text[8192]", $hMemory)
-				MemoWrite(DllStructGetData($tData, "Text"))
+					$hMemory = _ClipBoard_GetDataEx($CF_TEXT)
+					If $hMemory = 0 Then _WinAPI_ShowError("_ClipBoard_GetDataEx failed")
+					$tData = DllStructCreate("char Text[8192]", $hMemory)
+					MemoWrite(DllStructGetData($tData, "Text"))
 
 				; 关闭剪贴板
-				_ClipBoard_Close()
+					_ClipBoard_Close()
+				Else
+					_WinAPI_ShowError("_ClipBoard_Open failed")
+				EndIf
 		EndSwitch
 	WEnd
 
