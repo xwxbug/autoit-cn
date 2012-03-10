@@ -465,7 +465,7 @@ ObjCreateInterface ( "CLSID" , "IID" [,"interface_description", ["flag"]] ) Crea
 ObjEvent ( $ObjectVar, "functionprefix" [, "interface name"] ) Handles incoming events from the given Object.
 ObjEvent ( "AutoIt.Error" [, "function name"] ) Handles incoming events from the given Object.
 ObjGet ( "filename" [, "classname" [, instance]]) Retrieves a reference to a COM object from an existing process or filename.
-ObjName ( $Objectvariable [,Flag] ) Returns the name or interface description of an Object
+ObjName ( $Objectvariable [, Flag] ) Returns the name or interface description of an Object
 OnAutoItExitRegister ( "function" ) Registers a function to be called when AutoIt exits.
 OnAutoItExitUnRegister ( "function" ) UnRegisters a function that was called when AutoIt exits.
 Opt ( "CaretCoordMode" [, param ] ) Sets the way coords are used in the caret functions, either absolute coords or coords relative to the current active window: 0 = relative coords to the active window 1 = absolute screen coordinates (default) 2 = relative coords to the client area of the active window 
@@ -814,7 +814,7 @@ _FileCreate ($sFilePath) Creates or zero's out the length of the file specified.
 _FileListToArray ($sPath [, $sFilter = "*" [, $iFlag = 0]]) Lists files and\or folders in a specified path (Similar to using Dir with the /B Switch) (Requires: #include <File.au3>)
 _FilePrint ($s_File [, $i_Show = @SW_HIDE]) Prints a plain text file. (Requires: #include <File.au3>)
 _FileReadToArray ($sFilePath, ByRef $aArray) Reads the specified file into an array. (Requires: #include <File.au3>)
-_FileWriteFromArray ($File, $a_Array [, $i_Base = 0 [, $i_UBound = 0 [, $s_Delim= "|"]]]) Writes Array records to the specified file. (Requires: #include <File.au3>)
+_FileWriteFromArray ($sFilePath, $aArray[, $iBase = 0[, $iUBound = 0[, $sDelimeter = "|"]]]) Writes an array to a specified file. (Requires: #include <File.au3>)
 _FileWriteLog ($sLogPath, $sLogMsg [, $iFlag = -1]) Writes current date, time and the specified text to a log file. (Requires: #include <File.au3>)
 _FileWriteToLine ($sFile, $iLine, $sText [, $fOverWrite = 0]) Writes text to a specific line in a file. (Requires: #include <File.au3>)
 _FTP_Close ($l_InternetSession) Closes the _FTP_Open session. (Requires: #include <FTPEx.au3>)

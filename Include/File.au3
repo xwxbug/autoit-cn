@@ -210,14 +210,14 @@ Func _FileReadToArray($sFilePath, ByRef $aArray)
 EndFunc   ;==>_FileReadToArray
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _FileWriteFromArray
-; Description ...: Writes Array records to the specified file.
-; Syntax.........: _FileWriteFromArray($File, $a_Array[, $i_Base = 0[, $i_UBound = 0 [, $s_Delim= "|"]])
-; Parameters ....: $File     - String path of the file to write to, or a file handle returned from FileOpen().
-;                  $a_Array  - The array to be written to the file.
-;                  $i_Base   - Optional: Start Array index to read, normally set to 0 or 1. Default=0
-;                  $i_Ubound - Optional: Set to the last record you want to write to the File. default=0 - whole array.
-;                  $s_Delim  - Optional: Delimiter character(s) for 2-dimension arrays. default="|"
+; Name ..........: _FileWriteFromArray
+; Description ...: Writes an array to a specified file.
+; Syntax ........: _FileWriteFromArray($sFilePath, $aArray[, $iBase = 0[, $iUBound = 0[, $sDelimeter = "|"]]])
+; Parameters ....: $sFilePath - Path of the file to write to, or a file handle returned by FileOpen().
+;                  $aArray - The array to be written to the file.
+;                  $iBase - [optional] Start array index to read, normally set to 0 or 1. Default is 0.
+;                  $iUBound - [optional] Set to the last record you want to write to the File. Default is 0 (whole array.)
+;                  $sDelimeter - [optional] Delimiter character(s) for 2-dimension arrays. Default is "|".
 ; Return values .: Success - Returns a 1
 ;                  Failure - Returns a 0
 ;                  @Error  - 0 = No error.
@@ -226,7 +226,7 @@ EndFunc   ;==>_FileReadToArray
 ;                  |3 = Error writing to file
 ;                  |4 = Array dimensions > 2
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
-; Modified.......: Updated for file handles by PsaltyDS, @error = 4 msg and 2-dimension capability added by SPiff59
+; Modified.......: Updated for file handles by PsaltyDS, @error = 4 msg and 2-dimension capability added by Spiff59 and fixed by guinness.
 ; Remarks .......: If a string path is provided, the file is overwritten and closed.
 ;                  To use other write modes, like append or Unicode formats, open the file with FileOpen() first and pass the file handle instead.
 ;                  If a file handle is passed, the file will still be open after writing.
@@ -234,55 +234,58 @@ EndFunc   ;==>_FileReadToArray
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _FileWriteFromArray($File, $a_Array, $i_Base = 0, $i_UBound = 0, $s_Delim = "|")
+Func _FileWriteFromArray($sFilePath, $aArray, $iBase = 0, $iUBound = 0, $sDelimeter = "|")
 	; Check if we have a valid array as input
-	If Not IsArray($a_Array) Then Return SetError(2, 0, 0)
-	Local $iDims = UBound($a_Array, 0)
+	If Not IsArray($aArray) Then Return SetError(2, 0, 0)
+
+	; Check the number of dimensions
+	Local $iDims = UBound($aArray, 0)
 	If $iDims > 2 Then Return SetError(4, 0, 0)
 
-	; determine last entry
-	Local $last = UBound($a_Array) - 1
-	If $i_UBound < 1 Or $i_UBound > $last Then $i_UBound = $last
-	If $i_Base < 0 Or $i_Base > $last Then $i_Base = 0
+	; Determine last entry of the array
+	Local $iLast = UBound($aArray) - 1
+	If $iUBound < 1 Or $iUBound > $iLast Then $iUBound = $iLast
+	If $iBase < 0 Or $iBase > $iLast Then $iBase = 0
 
 	; Open output file for overwrite by default, or use input file handle if passed
-	Local $hFile
-	If IsString($File) Then
-		$hFile = FileOpen($File, $FO_OVERWRITE)
+	Local $hFileOpen
+	If IsString($sFilePath) Then
+		$hFileOpen = FileOpen($sFilePath, $FO_OVERWRITE)
 	Else
-		$hFile = $File
+		$hFileOpen = $sFilePath
 	EndIf
-	If $hFile = -1 Then Return SetError(1, 0, 0)
+	If $hFileOpen = -1 Then Return SetError(1, 0, 0)
 
 	; Write array data to file
-	Local $ErrorSav = 0
+	Local $iError = 0
 	Switch $iDims
 		Case 1
-			For $x = $i_Base To $i_UBound
-				If FileWrite($hFile, $a_Array[$x] & @CRLF) = 0 Then
-					$ErrorSav = 3
+			For $i = $iBase To $iUBound
+				If FileWrite($hFileOpen, $aArray[$i] & @CRLF) = 0 Then
+					$iError = 3
 					ExitLoop
 				EndIf
 			Next
 		Case 2
-			Local $s_Temp
-			For $x = $i_Base To $i_UBound
-				$s_Temp = $a_Array[$x][0]
-				For $y = 1 To $iDims
-					$s_Temp &= $s_Delim & $a_Array[$x][$y]
+			Local $sTemp
+			Local $iCols = UBound($aArray, 2)
+			For $i = $iBase To $iUBound
+				$sTemp = $aArray[$i][0]
+				For $j = 1 To $iCols - 1
+					$sTemp &= $sDelimeter & $aArray[$i][$j]
 				Next
-				If FileWrite($hFile, $s_Temp & @CRLF) = 0 Then
-					$ErrorSav = 3
+				If FileWrite($hFileOpen, $sTemp & @CRLF) = 0 Then
+					$iError = 3
 					ExitLoop
 				EndIf
 			Next
 	EndSwitch
 
 	; Close file only if specified by a string path
-	If IsString($File) Then FileClose($hFile)
+	If IsString($sFilePath) Then FileClose($hFileOpen)
 
 	; Return results
-	If $ErrorSav Then Return SetError($ErrorSav, 0, 0)
+	If $iError Then Return SetError($iError, 0, 0)
 	Return 1
 EndFunc   ;==>_FileWriteFromArray
 
@@ -775,9 +778,9 @@ EndFunc   ;==>_ReplaceStringInFile
 ; ===============================================================================================================================
 Func _TempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExtension = ".tmp", $i_RandomLength = 7)
 	; Check parameters
-	If IsKeyword($s_FilePrefix) Then $s_FilePrefix = "~"
-	If IsKeyword($s_FileExtension) Then $s_FileExtension = ".tmp"
-	If IsKeyword($i_RandomLength) Then $i_RandomLength = 7
+	If $s_FilePrefix = Default Then $s_FilePrefix = "~"
+	If $s_FileExtension = Default Then $s_FileExtension = ".tmp"
+	If $i_RandomLength = Default Then $i_RandomLength = 7
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @TempDir ; First reset to default temp dir
 	If Not FileExists($s_DirectoryName) Then $s_DirectoryName = @ScriptDir ; Still wrong then set to Scriptdir
 	; add trailing \ for directory name

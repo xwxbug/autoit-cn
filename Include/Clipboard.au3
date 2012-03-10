@@ -647,7 +647,10 @@ Func _ClipBoard_SetData($vData, $iFormat = 1)
 	EndIf
 
 	If Not _ClipBoard_Open(0) Then Return SetError(-5, 0, 0)
-	If Not _ClipBoard_Empty() Then Return SetError(-6, 0, 0)
+	If Not _ClipBoard_Empty() Then
+		_ClipBoard_Close()
+		Return SetError(-6, 0, 0)
+	EndIf
 	If Not _ClipBoard_SetDataEx($hMemory, $iFormat) Then
 		_ClipBoard_Close()
 		Return SetError(-7, 0, 0)

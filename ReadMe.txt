@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.9.0 第二汉化版
+程序版本:3.3.9.1 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -18,7 +18,32 @@ AutoIt工具箱提供了安装卸载功能.
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
 
-3.3.9.0 (2012年3月XX日) (Beta) 第二汉化版
+3.3.9.1 (2012年3月XX日) (Beta) 第一汉化版
+AutoIt:
+[G][*]修正: ObjGet() forgets non-file monikers since last beta.
+[G][*]修正: #1395: DLLCallbacks on Exit.
+[G][*]修正: Ptr() returns null pointer for objects.
+[G][*]修正: #1319: Hang at exit for RichEdit user controls.
+[G][*]修正: #2138: Fixed GUICtrlRead() on dummy controls was corrupting strings and possibly crashing AutoIt.
+[G][*]修正: #1760: #OnAutoItStartRegister ignores single quoted function names.
+
+[G][!]更新: x86 callback function touches FPU stack only when necessary.
+
+[G][+]新增: Compound assignment operators for object properties.
+
+UDFs:
+[G][+]新增: #2126: Documentation remark about _ArrayDisplay being able to display a maximum of 65530 items.
+
+[G][*]修正: #2084: Clipboard not being closed if an error occurred with _ClipBoard_SetDataEx.
+[G][*]修正: #2125: Writing a 2-dimensional array would only write the first two columns of the array.
+[G][*]修正: #2070: Unexpected crash on certain systems when using _GUICtrlStatusBar_GetText.
+[G][*]修正: #2132: Documentation of _WinAPI_GetModuleHandle and the parameter to return the handle of the calling process. (Use the Null keyword, not 0.)
+
+Au3Check:
+[G][!]更新: Au3Check version numbers now match AutoIt's.
+
+
+3.3.9.0 (Beta) 第二汉化版
 AutoIt:
 [G][+]新增: 解释器支持64位HEX数值.
 [G][+]新增: Null 关键字.

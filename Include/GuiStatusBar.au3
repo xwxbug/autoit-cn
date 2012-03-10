@@ -559,8 +559,8 @@ Func _GUICtrlStatusBar_GetText($hWnd, $iPart)
 
 	Local $fUnicode = _GUICtrlStatusBar_GetUnicodeFormat($hWnd)
 
-	Local $iBuffer = _GUICtrlStatusBar_GetTextLength($hWnd, $iPart)
-	If $iBuffer = 0 Then Return SetError(1, 0, "")
+	Local $iBuffer = _GUICtrlStatusBar_GetTextLength($hWnd, $iPart) + 1
+	If $iBuffer = 1 Then Return SetError(1, 0, "")
 
 	Local $tBuffer
 	If $fUnicode Then
