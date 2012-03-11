@@ -2,7 +2,7 @@
 #include <GuiImageList.au3>
 #include <GUIConstantsEx.au3>
 
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
+$Debug_CB = False ;检查传递给 ComboBox/ComboBoxEx 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -12,7 +12,7 @@ Func _Main()
 	; 创建 GUI
 	$hGUI = GUICreate("ComboBoxEx Get Extended Style", 400, 300)
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 394, 100)
-	;Set Extended Style
+	;设置扩展样式
 	_GUICtrlComboBoxEx_SetExtendedStyle($hCombo, $CBES_EX_CASESENSITIVE)
 	GUISetState()
 
@@ -32,7 +32,7 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x, $x)
 	Next
 
-	;Get Extended Style
+	;获取扩展样式
 	MsgBox(4160, "信息", "Extend Styles found: " & _DisplayExtendStringList($hCombo))
 
 	Do

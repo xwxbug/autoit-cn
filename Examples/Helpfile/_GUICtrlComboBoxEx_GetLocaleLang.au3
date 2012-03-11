@@ -2,7 +2,7 @@
 #include <GUIConstantsEx.au3>
 #include <Constants.au3>
 
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
+$Debug_CB = False ;检查传递给 ComboBox/ComboBoxEx 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -17,7 +17,7 @@ Func _Main()
 	; 添加文件
 	_GUICtrlComboBoxEx_AddDir($hCombo, "", $DDL_DRIVES, False)
 
-	; Show locale, country code, language identifier, primary language id, sub-language id
+	; 显示区域, 国家代码, 语言标识符, 主要语言标识符和子语言标识符
 	MsgBox(4160, "信息", _
 			"Locale .................: " & _GUICtrlComboBoxEx_GetLocale($hCombo) & @LF & _
 			"Country code ........: " & _GUICtrlComboBoxEx_GetLocaleCountry($hCombo) & @LF & _

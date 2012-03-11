@@ -2,7 +2,7 @@
 #include <GuiImageList.au3>
 #include <GUIConstantsEx.au3>
 
-$Debug_CB = False ; Check ClassName being passed to ComboBox/ComboBoxEx functions, set to True and use a handle to another control to see it work
+$Debug_CB = False ;检查传递给 ComboBox/ComboBoxEx 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -30,12 +30,12 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x, $x)
 	Next
 
-	; show drop down
+	; 显示下拉框
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo, True)
 
 	Sleep(500)
 
-	; hide drop down
+	; 隐藏下拉框
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo)
 
 

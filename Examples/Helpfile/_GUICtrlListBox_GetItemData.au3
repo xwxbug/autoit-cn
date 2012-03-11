@@ -1,7 +1,7 @@
 #include <GuiListBox.au3>
 #include <GUIConstantsEx.au3>
 
-$Debug_LB = False ; Check ClassName being passed to ListBox functions, set to True and use a handle to another control to see it work
+$Debug_LB = False ;检查传递给 ListBox 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 ; Warning this should not be used on items created using built-in functions
 ; Item data is the ControlID for each string
@@ -23,10 +23,10 @@ Func _Main()
 	Next
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-	; Set item data
+	; 设置项目数据
 	_GUICtrlListBox_SetItemData($hListBox, 4, 1234)
 
-	; Get item data
+	; 获取项目数据
 	MsgBox(4160, "信息", "Item 5 Data: " & _GUICtrlListBox_GetItemData($hListBox, 4))
 
 	; 循环直到用户退出
