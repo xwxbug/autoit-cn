@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
 	; Show button count
-	MsgBox(4096, "Information", "There are " & _GUICtrlToolbar_ButtonCount($hToolbar) & " buttons")
+	MsgBox(4096, "信息", "There are " & _GUICtrlToolbar_ButtonCount($hToolbar) & " buttons")
 
 	; 循环直到用户退出
 	Do

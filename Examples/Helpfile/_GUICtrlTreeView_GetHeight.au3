@@ -23,7 +23,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", StringFormat("Item Height? %s", _GUICtrlTreeView_GetHeight($hTreeView)))
+	MsgBox(4160, "信息", StringFormat("Item Height? %s", _GUICtrlTreeView_GetHeight($hTreeView)))
 
 	; 循环直到用户退出
 	Do

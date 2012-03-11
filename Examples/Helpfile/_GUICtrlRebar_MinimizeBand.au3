@@ -68,11 +68,11 @@ Func _Main()
 
 	GUISetState(@SW_SHOW)
 
-	MsgBox(4096, "Information", "Minimize Band")
+	MsgBox(4096, "信息", "Minimize Band")
 	_GUICtrlRebar_MinimizeBand($hReBar, 1)
-	MsgBox(4096, "Information", "Maximize Band 1 to largest Size")
+	MsgBox(4096, "信息", "Maximize Band 1 to largest Size")
 	_GUICtrlRebar_MaximizeBand($hReBar, 1, False)
-	MsgBox(4096, "Information", "Maximize Band 0 to Ideal Size")
+	MsgBox(4096, "信息", "Maximize Band 0 to Ideal Size")
 	_GUICtrlRebar_MaximizeBand($hReBar, 0)
 
 	While 1

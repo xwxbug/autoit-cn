@@ -23,7 +23,7 @@ Func _Main()
 
 	; Get/Set tab 1 parameter
 	_GUICtrlTab_SetItemParam($hTab, 0, 1234)
-	MsgBox(4160, "Information", "Tab 1 parameter: " & _GUICtrlTab_GetItemParam($hTab, 0))
+	MsgBox(4160, "信息", "Tab 1 parameter: " & _GUICtrlTab_GetItemParam($hTab, 0))
 
 	; 循环直到用户退出
 	Do

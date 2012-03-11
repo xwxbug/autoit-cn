@@ -30,7 +30,7 @@ Func _Main()
 		$hItem[$x] = _GUICtrlTreeView_Add($hTreeView, 0, StringFormat("[%02d] New Item", $x + 1), $x, $x)
 	Next
 	$aRect = _GUICtrlTreeView_DisplayRect($hTreeView, $hItem[2])
-	MsgBox(4160, "Information", StringFormat("Item 2 Rectangle : [%d, %d, %d, %d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
+	MsgBox(4160, "信息", StringFormat("Item 2 Rectangle : [%d, %d, %d, %d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
 
 	; 循环直到用户退出
 	Do

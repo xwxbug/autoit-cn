@@ -25,14 +25,14 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Expand item 0")
+	MsgBox(4160, "信息", "Expand item 0")
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[0])
 
-	MsgBox(4160, "Information", "Collapse item 0")
+	MsgBox(4160, "信息", "Collapse item 0")
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[0], False)
 
-	MsgBox(4160, "Information", "Item 0 expanded at least once? " & _GUICtrlTreeView_ExpandedOnce($hTreeView, $hItem[0]))
-	MsgBox(4160, "Information", "Item 1 expanded at least once? " & _GUICtrlTreeView_ExpandedOnce($hTreeView, $hItem[1]))
+	MsgBox(4160, "信息", "Item 0 expanded at least once? " & _GUICtrlTreeView_ExpandedOnce($hTreeView, $hItem[0]))
+	MsgBox(4160, "信息", "Item 1 expanded at least once? " & _GUICtrlTreeView_ExpandedOnce($hTreeView, $hItem[1]))
 
 	; 循环直到用户退出
 	Do

@@ -23,7 +23,7 @@ Func _Main()
 	_GUICtrlComboBox_SetTopIndex($hCombo, 10)
 
 	; Get Top Index
-	MsgBox(4160, "Information", "Top Index:" & @TAB & _GUICtrlComboBox_GetTopIndex($hCombo))
+	MsgBox(4160, "信息", "Top Index:" & @TAB & _GUICtrlComboBox_GetTopIndex($hCombo))
 
 	; 循环直到用户退出
 	Do

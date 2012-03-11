@@ -20,7 +20,7 @@ Func _Main()
 
 	; Get/Set current selection
 	_GUICtrlTab_SetCurSel($hTab, 1)
-	MsgBox(4160, "Information", "Current Selection: " & _GUICtrlTab_GetCurSel($hTab))
+	MsgBox(4160, "信息", "Current Selection: " & _GUICtrlTab_GetCurSel($hTab))
 
 	; 循环直到用户退出
 	Do

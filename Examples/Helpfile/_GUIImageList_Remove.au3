@@ -43,7 +43,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 2", 1, 4)
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 3", 2, 3)
 
-	MsgBox(4096, "Information", "Removing Image Index 0")
+	MsgBox(4096, "пео╒", "Removing Image Index 0")
 	_GUIImageList_Remove($hImage, 0)
 
 	_GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($listview))

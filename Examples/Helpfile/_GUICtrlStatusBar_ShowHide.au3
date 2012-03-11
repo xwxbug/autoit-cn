@@ -21,9 +21,9 @@ Func _Main()
 
 	GUISetState()
 
-	MsgBox(4160, "Information", "Hide StatusBar")
+	MsgBox(4160, "信息", "Hide StatusBar")
 	_GUICtrlStatusBar_ShowHide($hStatus, @SW_HIDE)
-	MsgBox(4160, "Information", "Show StatusBar")
+	MsgBox(4160, "信息", "Show StatusBar")
 	_GUICtrlStatusBar_ShowHide($hStatus, @SW_SHOW)
 
 	; 循环直到用户退出

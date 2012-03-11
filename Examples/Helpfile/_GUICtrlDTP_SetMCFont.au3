@@ -1,7 +1,7 @@
 #include <GUIConstantsEx.au3>
 #include <GuiDateTimePicker.au3>
 
-$Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
+$Debug_DTP = False 检查传递给 DTP 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo
 
@@ -17,10 +17,10 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Set the display format
+	; 设置显示的格式
 	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
 
-	; Create a new font for the month control
+	; 创建用于月历控件的新字体
 	$tLOGFONT = DllStructCreate($tagLOGFONT)
 	DllStructSetData($tLOGFONT, "Height", 13)
 	DllStructSetData($tLOGFONT, "Weight", 400)
@@ -28,7 +28,7 @@ Func _Main()
 	$hFont = _WinAPI_CreateFontIndirect($tLOGFONT)
 	_GUICtrlDTP_SetMCFont($hDTP, $hFont)
 
-	; Get month control font handle
+	; 获取月历控件的字体句柄
 	MemoWrite("Font Handle: " & "0x" & Hex(_GUICtrlDTP_GetMCFont($hDTP), 6))
 	MemoWrite("IsPtr  = " & IsPtr(_GUICtrlDTP_GetMCFont($hDTP)) & " IsHWnd  = " & IsHWnd(_GUICtrlDTP_GetMCFont($hDTP)))
 

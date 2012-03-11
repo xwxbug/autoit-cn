@@ -13,7 +13,7 @@ Func _Main()
 	$hCombo = _GUICtrlComboBoxEx_Create($hGUI, "", 2, 2, 396, 296, $CBS_SIMPLE)
 	GUISetState()
 
-	MsgBox(4160, "Information", "Innit Storage Pre-Allocated Memory For: " & _GUICtrlComboBoxEx_InitStorage($hCombo, 150, 300) & " Items")
+	MsgBox(4160, "пео╒", "Innit Storage Pre-Allocated Memory For: " & _GUICtrlComboBoxEx_InitStorage($hCombo, 150, 300) & " Items")
 	_GUICtrlComboBoxEx_BeginUpdate($hCombo)
 
 	For $x = 0 To 149

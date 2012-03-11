@@ -29,10 +29,10 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9)
-	MsgBox(4160, "Information", StringFormat("Sibling Count for item index %d: %d", $iRand, _GUICtrlTreeView_GetSiblingCount($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Sibling Count for item index %d: %d", $iRand, _GUICtrlTreeView_GetSiblingCount($hTreeView, $hItem[$iRand])))
 
 	$iRand = Random(0, 99)
-	MsgBox(4160, "Information", StringFormat("Sibling Count for Child item index %d: %d", $iRand, _GUICtrlTreeView_GetSiblingCount($hTreeView, $hChildItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Sibling Count for Child item index %d: %d", $iRand, _GUICtrlTreeView_GetSiblingCount($hTreeView, $hChildItem[$iRand])))
 	_GUICtrlTreeView_Expand($hTreeView, _GUICtrlTreeView_GetParentHandle($hTreeView, $hChildItem[$iRand]))
 
 	; 循环直到用户退出

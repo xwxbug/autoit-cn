@@ -40,7 +40,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Normal ImageList Handle: " & _GUICtrlTreeView_GetNormalImageList($hTreeView))
+	MsgBox(4160, "信息", "Normal ImageList Handle: " & _GUICtrlTreeView_GetNormalImageList($hTreeView))
 
 	; 循环直到用户退出
 	Do

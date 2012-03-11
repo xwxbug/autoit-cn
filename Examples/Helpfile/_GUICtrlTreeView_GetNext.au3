@@ -32,10 +32,10 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Index 2, Next: " & _GUICtrlTreeView_GetNext($hTreeView, $hItem[2]))
+	MsgBox(4160, "信息", "Index 2, Next: " & _GUICtrlTreeView_GetNext($hTreeView, $hItem[2]))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetNext($hTreeView, $hItem[2]))
 
-	MsgBox(4160, "Information", "Index 4, Next: " & _GUICtrlTreeView_GetNext($hTreeView, $hItem[4]))
+	MsgBox(4160, "信息", "Index 4, Next: " & _GUICtrlTreeView_GetNext($hTreeView, $hItem[4]))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetNext($hTreeView, $hItem[4]))
 
 	; 循环直到用户退出

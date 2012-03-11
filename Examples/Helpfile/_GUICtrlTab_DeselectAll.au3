@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlTab_SetCurSel($hTab, 1)
 
 	; Reset tab selection
-	MsgBox(4160, "Information", "Resetting tab selection")
+	MsgBox(4160, "信息", "Resetting tab selection")
 	_GUICtrlTab_DeselectAll($hTab, False)
 
 	; 循环直到用户退出

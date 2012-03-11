@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
 
 	; 删除最后一个标签
-	MsgBox(4160, "Information", "Deleting last tab")
+	MsgBox(4160, "信息", "Deleting last tab")
 	_GUICtrlTab_DeleteItem($hTab, 2)
 
 	; 循环直到用户退出

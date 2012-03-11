@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Find string
-	MsgBox(4160, "Information", "Find String: " & _GUICtrlComboBox_FindString($hCombo, "this"))
+	MsgBox(4160, "信息", "Find String: " & _GUICtrlComboBox_FindString($hCombo, "this"))
 
 	; 循环直到用户退出
 	Do

@@ -38,9 +38,9 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Show Save button bitmap index
-	MsgBox(4096, "Information", "Changing Save bitmap to Print bitmap")
+	MsgBox(4096, "信息", "Changing Save bitmap to Print bitmap")
 	_GUICtrlToolbar_SetButtonBitMap($hToolbar, $idSave, $STD_PRINT)
-	MsgBox(4096, "Information", "Save button bitmap index: " & _GUICtrlToolbar_GetButtonBitmap($hToolbar, $idSave))
+	MsgBox(4096, "信息", "Save button bitmap index: " & _GUICtrlToolbar_GetButtonBitmap($hToolbar, $idSave))
 
 	; 循环直到用户退出
 	Do

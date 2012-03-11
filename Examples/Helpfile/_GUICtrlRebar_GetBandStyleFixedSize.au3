@@ -56,7 +56,7 @@ Func _Main()
 
 	GUISetState(@SW_SHOW)
 
-	MsgBox(4096, "Information", "Setting Fixed Size Style")
+	MsgBox(4096, "信息", "Setting Fixed Size Style")
 	_GUICtrlRebar_SetBandStyleFixedSize($hReBar, 1)
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1
@@ -64,7 +64,7 @@ Func _Main()
 		MemoWrite("============================================")
 	Next
 
-	MsgBox(4096, "Information", "Setting Fixed Size Style")
+	MsgBox(4096, "信息", "Setting Fixed Size Style")
 	_GUICtrlRebar_SetBandStyleFixedSize($hReBar, 1, False)
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1

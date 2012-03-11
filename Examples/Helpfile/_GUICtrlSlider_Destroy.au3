@@ -13,7 +13,7 @@ Func _Main()
 	$hSlider = _GUICtrlSlider_Create($hGUI, 2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
 	GUISetState()
 
-	MsgBox(4160, "Information", "Destroy Slider")
+	MsgBox(4160, "信息", "Destroy Slider")
 	_GUICtrlSlider_Destroy($hSlider)
 
 	; 循环直到用户退出

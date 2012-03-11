@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlSlider_SetSelStart($hSlider, 10)
 
 	; Get Sel Start
-	MsgBox(4160, "Information", "Sel Start: " & _GUICtrlSlider_GetSelStart($hSlider))
+	MsgBox(4160, "信息", "Sel Start: " & _GUICtrlSlider_GetSelStart($hSlider))
 
 	; 循环直到用户退出
 	Do

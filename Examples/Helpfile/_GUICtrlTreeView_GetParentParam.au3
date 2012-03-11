@@ -27,7 +27,7 @@ Func Example_Internal()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChild)
-	MsgBox(4160, "Information", "Parent Param/ID: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild)) ; same as controlId
+	MsgBox(4160, "信息", "Parent Param/ID: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild)) ; same as controlId
 
 	; 循环直到用户退出
 	Do
@@ -59,7 +59,7 @@ Func Example_External()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChild)
-	MsgBox(4160, "Information", "Parent Param: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild))
+	MsgBox(4160, "信息", "Parent Param: " & _GUICtrlTreeView_GetParentParam($hTreeView, $hChild))
 
 	; 循环直到用户退出
 	Do

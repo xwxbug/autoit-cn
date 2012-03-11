@@ -26,9 +26,9 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Index %d Selected? %s", $iRand, _GUICtrlTreeView_GetSelected($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Index %d Selected? %s", $iRand, _GUICtrlTreeView_GetSelected($hTreeView, $hItem[$iRand])))
 	_GUICtrlTreeView_SetSelected($hTreeView, $hItem[$iRand])
-	MsgBox(4160, "Information", StringFormat("Index %d Selected? %s", $iRand, _GUICtrlTreeView_GetSelected($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Index %d Selected? %s", $iRand, _GUICtrlTreeView_GetSelected($hTreeView, $hItem[$iRand])))
 
 	; 循环直到用户退出
 	Do

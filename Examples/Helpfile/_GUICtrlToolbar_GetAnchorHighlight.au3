@@ -13,8 +13,8 @@ Func _Main()
 	Sleep(1000)
 	$hToolbar = _GUICtrlToolbar_FindToolbar("[CLASS:CabinetWClass]", "&File")
 	$fEnabled = _GUICtrlToolbar_GetAnchorHighlight($hToolbar)
-	MsgBox(4096, "Information", "Anchor highlight enabled: " & $fEnabled)
+	MsgBox(4096, "信息", "Anchor highlight enabled: " & $fEnabled)
 	_GUICtrlToolbar_SetAnchorHighlight($hToolbar, Not $fEnabled)
-	MsgBox(4096, "Information", "Anchor highlight enabled: " & _GUICtrlToolbar_GetAnchorHighlight($hToolbar))
+	MsgBox(4096, "信息", "Anchor highlight enabled: " & _GUICtrlToolbar_GetAnchorHighlight($hToolbar))
 
 EndFunc   ;==>_Main

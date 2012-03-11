@@ -72,7 +72,7 @@ Func _Main()
 
 	MemoWrite("============================================")
 
-	MsgBox(4096, "Information", "Setting Band Width")
+	MsgBox(4096, "пео╒", "Setting Band Width")
 
 	_GUICtrlRebar_SetBandLength($hReBar, 0, 200)
 

@@ -16,7 +16,7 @@ Func _Main()
 	; 添加文件
 	_GUICtrlListBox_BeginUpdate($hListBox)
 	_GUICtrlListBox_ResetContent($hListBox)
-	MsgBox(4160, "Information", "Storage Allocated: " & _GUICtrlListBox_InitStorage($hListBox, 100, 4096))
+	MsgBox(4160, "信息", "Storage Allocated: " & _GUICtrlListBox_InitStorage($hListBox, 100, 4096))
 	_GUICtrlListBox_Dir($hListBox, @WindowsDir & "\win*.exe")
 	_GUICtrlListBox_AddFile($hListBox, @WindowsDir & "\notepad.exe")
 	_GUICtrlListBox_EndUpdate($hListBox)

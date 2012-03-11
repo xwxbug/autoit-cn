@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
 
 	; Delete all tabs
-	MsgBox(4160, "Information", "Deleting all tabs")
+	MsgBox(4160, "信息", "Deleting all tabs")
 	_GUICtrlTab_DeleteAllItems($hTab)
 
 	; 循环直到用户退出

@@ -60,7 +60,7 @@ Func _Main()
 
 	MemoWrite("Unicode: " & _GUICtrlRebar_GetUnicodeFormat($hReBar))
 
-	MsgBox(4096, "Information", "Setting Unicode")
+	MsgBox(4096, "пео╒", "Setting Unicode")
 	_GUICtrlRebar_SetUnicodeFormat($hReBar)
 
 	MemoWrite("Unicode: " & _GUICtrlRebar_GetUnicodeFormat($hReBar))

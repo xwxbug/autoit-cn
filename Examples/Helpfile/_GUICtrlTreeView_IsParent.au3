@@ -39,9 +39,9 @@ Func _Main()
 
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[0])
 
-	MsgBox(4160, "Information", "Is Index 2 Parent of Child Index 2: " & _GUICtrlTreeView_IsParent($hTreeView, $hItem[2], $hChildItem[2]))
+	MsgBox(4160, "信息", "Is Index 2 Parent of Child Index 2: " & _GUICtrlTreeView_IsParent($hTreeView, $hItem[2], $hChildItem[2]))
 
-	MsgBox(4160, "Information", "Is Index 0 Parent of Child Index 2: " & _GUICtrlTreeView_IsParent($hTreeView, $hItem[0], $hChildItem[2]))
+	MsgBox(4160, "信息", "Is Index 0 Parent of Child Index 2: " & _GUICtrlTreeView_IsParent($hTreeView, $hItem[0], $hChildItem[2]))
 
 	; 循环直到用户退出
 	Do

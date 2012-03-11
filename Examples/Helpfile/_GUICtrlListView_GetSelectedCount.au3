@@ -23,7 +23,7 @@ Func _Main()
 	; 选择多项
 	_GUICtrlListView_SetItemSelected($hListView, 1)
 	_GUICtrlListView_SetItemSelected($hListView, 2)
-	MsgBox(4160, "Information", "Selected Count: " & _GUICtrlListView_GetSelectedCount($hListView))
+	MsgBox(4160, "信息", "Selected Count: " & _GUICtrlListView_GetSelectedCount($hListView))
 
 	; 循环直到用户退出
 	Do

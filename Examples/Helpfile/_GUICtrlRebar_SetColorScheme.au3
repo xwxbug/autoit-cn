@@ -63,7 +63,7 @@ Func _Main()
 	MemoWrite("BtnHighlight.......: " & $aColors[0])
 	MemoWrite("BtnShadow..........: " & $aColors[1])
 
-	MsgBox(4096, "Information", "Setting Color Scheme")
+	MsgBox(4096, "пео╒", "Setting Color Scheme")
 	_GUICtrlRebar_SetColorScheme($hReBar, Int(0x00008B), Int(0xFFFFFF))
 
 	MemoWrite(@CRLF & "========== Color Scheme ==========")

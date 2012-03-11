@@ -20,8 +20,8 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Destroy ComboBox
-	MsgBox(4160, "Information", "Destroy ComboBox")
-	MsgBox(4160, "Information", "Destroyed: " & _GUICtrlComboBox_Destroy($hCombo))
+	MsgBox(4160, "信息", "Destroy ComboBox")
+	MsgBox(4160, "信息", "Destroyed: " & _GUICtrlComboBox_Destroy($hCombo))
 
 	; 循环直到用户退出
 	Do

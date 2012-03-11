@@ -38,7 +38,7 @@ Func _Main()
 	MemoWrite("Image width : " & $aSize[0])
 	MemoWrite("Image height: " & $aSize[1])
 
-	MsgBox(4096, "Information", "Changing Icon Size")
+	MsgBox(4096, "пео╒", "Changing Icon Size")
 
 	_GUIImageList_SetIconSize($hImage, 16, 16)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 110)

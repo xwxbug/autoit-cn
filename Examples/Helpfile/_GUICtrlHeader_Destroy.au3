@@ -27,7 +27,7 @@ Func _Main()
 	; Clear all filters
 	_GUICtrlHeader_ClearFilterAll($hHeader)
 
-	MsgBox(4096, "Information", "About to Destroy Header")
+	MsgBox(4096, "пео╒", "About to Destroy Header")
 
 	_GUICtrlHeader_Destroy($hHeader)
 

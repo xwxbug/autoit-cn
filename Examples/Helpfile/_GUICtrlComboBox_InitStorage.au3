@@ -14,7 +14,7 @@ Func _Main()
 	GUISetState()
 
 	; Init Storaged
-	MsgBox(4160, "Information", "Pre-Allocated Memory For: " & _GUICtrlComboBox_InitStorage($hCombo, 50, 500) & " items")
+	MsgBox(4160, "信息", "Pre-Allocated Memory For: " & _GUICtrlComboBox_InitStorage($hCombo, 50, 500) & " items")
 
 	; 添加文件
 	_GUICtrlComboBox_BeginUpdate($hCombo)

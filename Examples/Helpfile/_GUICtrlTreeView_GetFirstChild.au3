@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$hRandomItem = Random(0, UBound($hItem) - 1, 1)
-	MsgBox(4160, "Information", StringFormat("Item %d First Shild? %s", $hRandomItem, _GUICtrlTreeView_GetFirstChild($hTreeView, $hItem[$hRandomItem])))
+	MsgBox(4160, "信息", StringFormat("Item %d First Shild? %s", $hRandomItem, _GUICtrlTreeView_GetFirstChild($hTreeView, $hItem[$hRandomItem])))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetFirstChild($hTreeView, $hItem[$hRandomItem]))
 
 	; 循环直到用户退出

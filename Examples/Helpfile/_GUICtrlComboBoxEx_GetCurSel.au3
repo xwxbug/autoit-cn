@@ -39,7 +39,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetCurSel($hCombo, Random(0, 99, 1))
 
 	; Get Cur Sel
-	MsgBox(4160, "Information", "Current Sel: " & _GUICtrlComboBoxEx_GetCurSel($hCombo))
+	MsgBox(4160, "пео╒", "Current Sel: " & _GUICtrlComboBoxEx_GetCurSel($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

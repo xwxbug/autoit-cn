@@ -38,7 +38,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Move Save button state
-	MsgBox(4096, "Information", "Moving Save button")
+	MsgBox(4096, "信息", "Moving Save button")
 	_GUICtrlToolbar_MoveButton($hToolbar, 2, 1)
 
 	; 循环直到用户退出

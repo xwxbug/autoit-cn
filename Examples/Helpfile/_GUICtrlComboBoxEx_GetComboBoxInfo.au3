@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	If _GUICtrlComboBoxEx_GetComboBoxInfo($hCombo, $tInfo) Then _
-			MsgBox(4160, "Information", StringFormat("Edit Rect [%d][%d][%d][%d]", _
+			MsgBox(4160, "пео╒", StringFormat("Edit Rect [%d][%d][%d][%d]", _
 			DllStructGetData($tInfo, "EditLeft"), DllStructGetData($tInfo, "EditTop"), _
 			DllStructGetData($tInfo, "EditRight"), DllStructGetData($tInfo, "EditBottom")))
 

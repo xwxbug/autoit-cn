@@ -42,7 +42,7 @@ Func _Main()
 
 	$iYRand = Random(0, 268, 1)
 	$iXRand = Random(0, 396, 1)
-	MsgBox(4160, "Information", StringFormat("Hit TestEx (%d, %d): %s", $iXRand, $iYRand, _GetHitString(_GUICtrlTreeView_HitTestEx($hTreeView, $iXRand, $iYRand))))
+	MsgBox(4160, "信息", StringFormat("Hit TestEx (%d, %d): %s", $iXRand, $iYRand, _GetHitString(_GUICtrlTreeView_HitTestEx($hTreeView, $iXRand, $iYRand))))
 
 	; 循环直到用户退出
 	Do

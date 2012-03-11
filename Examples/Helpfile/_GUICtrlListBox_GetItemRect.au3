@@ -22,7 +22,7 @@ Func _Main()
 
 	; Show item rectangle
 	$aRect = _GUICtrlListBox_GetItemRect($hListBox, 4)
-	MsgBox(4160, "Information", "Item 5 Rectangle: " & $aRect[0] & ", " & $aRect[1] & ", " & $aRect[2] & ", " & $aRect[3])
+	MsgBox(4160, "信息", "Item 5 Rectangle: " & $aRect[0] & ", " & $aRect[1] & ", " & $aRect[2] & ", " & $aRect[3])
 
 	; 循环直到用户退出
 	Do

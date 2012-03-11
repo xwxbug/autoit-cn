@@ -22,7 +22,7 @@ Func _Main()
 	; 获取/设置工具提示
 	$hTool = _GUIToolTip_Create(GUICtrlGetHandle($hTab))
 	_GUICtrlTab_SetToolTips($hTab, $hTool)
-	MsgBox(4160, "Information", "ToolTip handle: 0x" & _GUICtrlTab_GetToolTips($hTab))
+	MsgBox(4160, "信息", "ToolTip handle: 0x" & _GUICtrlTab_GetToolTips($hTab))
 
 	; 循环直到用户退出
 	Do

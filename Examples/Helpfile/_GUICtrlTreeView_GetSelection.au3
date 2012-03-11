@@ -27,7 +27,7 @@ Func _Main()
 
 	$iRand = Random(0, 9, 1)
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[$iRand])
-	MsgBox(4160, "Information", "Selection? " & _GUICtrlTreeView_GetSelection($hTreeView))
+	MsgBox(4160, "信息", "Selection? " & _GUICtrlTreeView_GetSelection($hTreeView))
 
 	; 循环直到用户退出
 	Do

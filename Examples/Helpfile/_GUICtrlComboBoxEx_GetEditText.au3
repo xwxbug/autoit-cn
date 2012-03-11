@@ -34,7 +34,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetEditText($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)))
 
 	;Get Edit Text
-	MsgBox(4160, "Information", "Edit Text: " & _GUICtrlComboBoxEx_GetEditText($hCombo))
+	MsgBox(4160, "пео╒", "Edit Text: " & _GUICtrlComboBoxEx_GetEditText($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

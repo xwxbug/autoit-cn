@@ -41,7 +41,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 99, 1)
-	MsgBox(4160, "Information", StringFormat("Index %d Levl: %d", $iRand, _GUICtrlTreeView_Level($hTreeView, $hChildItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Index %d Levl: %d", $iRand, _GUICtrlTreeView_Level($hTreeView, $hChildItem[$iRand])))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChildItem[$iRand])
 
 	; 循环直到用户退出

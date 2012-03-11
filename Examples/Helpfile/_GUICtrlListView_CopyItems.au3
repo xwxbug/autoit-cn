@@ -82,7 +82,7 @@ Func _Main()
 	GUISetState(@SW_SHOW, $GUI2)
 	GUISetState(@SW_SHOW, $GUI1)
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 13)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 14)
@@ -103,7 +103,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($hListView2, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView2, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($hListView, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 3", 2, 2)

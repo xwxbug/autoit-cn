@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlListBox_SetSel($hListBox, 5)
 
 	; Show the item selection state
-	MsgBox(4160, "Information", "Items Selected: " & _GUICtrlListBox_GetSelCount($hListBox))
+	MsgBox(4160, "信息", "Items Selected: " & _GUICtrlListBox_GetSelCount($hListBox))
 
 	; 循环直到用户退出
 	Do

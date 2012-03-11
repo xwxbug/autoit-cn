@@ -18,7 +18,7 @@ Func _Main()
 
 	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
 
-	MsgBox(4160, "Information", _GUICtrlEdit_GetLine($hEdit, 2))
+	MsgBox(4160, "信息", _GUICtrlEdit_GetLine($hEdit, 2))
 
 	; 循环直到用户退出
 	Do

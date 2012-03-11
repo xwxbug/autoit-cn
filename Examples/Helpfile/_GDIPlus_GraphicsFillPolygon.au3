@@ -22,7 +22,7 @@ Func _Main()
 	$aPoints[3][0] = 250
 	$aPoints[3][1] = 150
 
-	MsgBox(4096, "Information", "Fill Polygon")
+	MsgBox(4096, "пео╒", "Fill Polygon")
 
 	_GDIPlus_GraphicsFillPolygon($hGraphic, $aPoints)
 

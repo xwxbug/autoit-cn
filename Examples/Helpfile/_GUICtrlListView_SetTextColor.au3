@@ -29,7 +29,7 @@ Func _Main()
 	_GUICtrlListView_EndUpdate($hListView)
 
 	; 显示颜色
-	MsgBox(4160, "Information", "Back Color ....: " & _GUICtrlListView_GetBkColor($hListView) & @CRLF & _
+	MsgBox(4160, "信息", "Back Color ....: " & _GUICtrlListView_GetBkColor($hListView) & @CRLF & _
 			"Text Color ....: " & _GUICtrlListView_GetTextColor($hListView) & @CRLF & _
 			"Text Back Color: " & _GUICtrlListView_GetTextBkColor($hListView))
 

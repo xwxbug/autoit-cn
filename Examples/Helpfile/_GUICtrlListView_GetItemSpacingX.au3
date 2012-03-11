@@ -23,7 +23,7 @@ Func _Main()
 	; 显示项间距
 	$iX = _GUICtrlListView_GetItemSpacingX($hListView)
 	$iY = _GUICtrlListView_GetItemSpacingY($hListView)
-	MsgBox(4160, "Information", StringFormat("Item Spacing: X=%d, Y=%d", $iX, $iY))
+	MsgBox(4160, "信息", StringFormat("Item Spacing: X=%d, Y=%d", $iX, $iY))
 
 	; 循环直到用户退出
 	Do

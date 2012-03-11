@@ -24,7 +24,7 @@ Func _Main()
 	_GUICtrlListBox_SetCurSel($hListBox, 4)
 
 	; Get currently selected item
-	MsgBox(4160, "Information", "Current selction: " & _GUICtrlListBox_GetCurSel($hListBox))
+	MsgBox(4160, "信息", "Current selction: " & _GUICtrlListBox_GetCurSel($hListBox))
 
 	; 循环直到用户退出
 	Do

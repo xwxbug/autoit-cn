@@ -29,14 +29,14 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Inserted after index %d: %s", $iRand, _GUICtrlTreeView_InsertItem($hTreeView, "Inserted Item", 0, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Inserted after index %d: %s", $iRand, _GUICtrlTreeView_InsertItem($hTreeView, "Inserted Item", 0, $hItem[$iRand])))
 
 	$iRand = Random(0, 29, 1)
 	$hInsert = _GUICtrlTreeView_InsertItem($hTreeView, "Inserted Item", _GUICtrlTreeView_GetParentHandle($hTreeView, $hChildItem[$iRand]), $hChildItem[$iRand])
-	MsgBox(4160, "Information", StringFormat("Inserted after child index %d: %s", $iRand, $hInsert))
+	MsgBox(4160, "信息", StringFormat("Inserted after child index %d: %s", $iRand, $hInsert))
 
 	$hInsert = _GUICtrlTreeView_InsertItem($hTreeView, "Inserted first child Item", _GUICtrlTreeView_GetParentHandle($hTreeView, $hChildItem[$iRand]), $TVI_FIRST)
-	MsgBox(4160, "Information", StringFormat("Inserted child index %d firsts: %s", $iRand, $hInsert))
+	MsgBox(4160, "信息", StringFormat("Inserted child index %d firsts: %s", $iRand, $hInsert))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hInsert)
 
 	; 循环直到用户退出

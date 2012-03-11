@@ -3,7 +3,7 @@
 #include <GuiStatusBar.au3>
 #include <WindowsConstants.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $hListView, $Status
 
@@ -35,12 +35,12 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($hListView, 1, "Row 2: Col 2", 1)
 	_GUICtrlListView_InsertItem($hListView, "Row 3: Col 1")
 
-	; Get hover time
-	MsgBox(4160, "Information", "Previous Hover Time (milliseconds): " & _GUICtrlListView_GetHoverTime($hListView))
+	; 获取悬停时间
+	MsgBox(4160, "信息", "Previous Hover Time (milliseconds): " & _GUICtrlListView_GetHoverTime($hListView))
 
-	; Set hover time
+	; 设置悬停时间
 	_GUICtrlListView_SetHoverTime($hListView, 500)
-	MsgBox(4160, "Information", "Hover Time (milliseconds): " & _GUICtrlListView_GetHoverTime($hListView))
+	MsgBox(4160, "信息", "Hover Time (milliseconds): " & _GUICtrlListView_GetHoverTime($hListView))
 
 	While 1
 		Switch GUIGetMsg()

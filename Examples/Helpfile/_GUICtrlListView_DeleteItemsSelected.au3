@@ -22,7 +22,7 @@ Func Example1()
 
 	_GUICtrlListView_SetItemSelected($hListView, Random(0, UBound($aItems) - 1, 1))
 
-	MsgBox(4160, "Information", "Delete Item Selected")
+	MsgBox(4160, "信息", "Delete Item Selected")
 	; 使用 UDF 创建的项目, 传递句柄给控件
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteItemsSelected(GUICtrlGetHandle($hListView)))
 
@@ -51,7 +51,7 @@ Func Example2()
 
 	_GUICtrlListView_SetItemSelected($hListView, Random(0, UBound($aItems) - 1, 1))
 
-	MsgBox(4160, "Information", "Delete Item Selected")
+	MsgBox(4160, "信息", "Delete Item Selected")
 	; 使用 UDF 创建的项目, 传递句柄给控件
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteItemsSelected(GUICtrlGetHandle($hListView)))
 
@@ -80,7 +80,7 @@ Func Example_UDF_Created()
 
 	_GUICtrlListView_SetItemSelected($hListView, Random(0, UBound($aItems) - 1, 1))
 
-	MsgBox(4160, "Information", "Delete Item Selected")
+	MsgBox(4160, "信息", "Delete Item Selected")
 	; 这已经是个句柄
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteItemsSelected($hListView))
 

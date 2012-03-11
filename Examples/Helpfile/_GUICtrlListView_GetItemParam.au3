@@ -25,7 +25,7 @@ Func Example_UDF_Created()
 
 	; 设置第二项的参数
 	_GUICtrlListView_SetItemParam($hListView, 1, 1234)
-	MsgBox(4160, "Information", "Item 2 Parameter: " & _GUICtrlListView_GetItemParam($hListView, 1))
+	MsgBox(4160, "信息", "Item 2 Parameter: " & _GUICtrlListView_GetItemParam($hListView, 1))
 
 	; 循环直到用户退出
 	Do

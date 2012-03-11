@@ -36,7 +36,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	; Reset Content
-	MsgBox(4160, "Information", "Reset Content")
+	MsgBox(4160, "пео╒", "Reset Content")
 	_GUICtrlComboBoxEx_ResetContent($hCombo)
 
 	Do

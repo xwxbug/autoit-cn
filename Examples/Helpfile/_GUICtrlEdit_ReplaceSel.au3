@@ -30,7 +30,7 @@ Func _Main()
 	; 设置选择项
 	_GUICtrlEdit_SetSel($hEdit, 0, 8)
 
-	MsgBox(4160, "Information", "Replace Sel")
+	MsgBox(4160, "信息", "Replace Sel")
 	_GUICtrlEdit_ReplaceSel($hEdit, StringFormat("%d/%2d/%4d", @MON, @MDAY, @YEAR))
 
 	; 循环直到用户退出

@@ -34,11 +34,11 @@ Func _Main()
 
 	; 修改控件样式
 	$fStyle = _GUICtrlToolbar_GetStyleTransparent($hToolbar)
-	MsgBox(4096, "Information", "Toolbar has transparent style .: " & $fStyle)
+	MsgBox(4096, "信息", "Toolbar has transparent style .: " & $fStyle)
 	GUISetState(@SW_LOCK)
 	_GUICtrlToolbar_SetStyleTransparent($hToolbar, Not $fStyle)
 	GUISetState(@SW_UNLOCK)
-	MsgBox(4096, "Information", "Toolbar has transparent style .: " & _GUICtrlToolbar_GetStyleTransparent($hToolbar))
+	MsgBox(4096, "信息", "Toolbar has transparent style .: " & _GUICtrlToolbar_GetStyleTransparent($hToolbar))
 
 	; 循环直到用户退出
 	Do

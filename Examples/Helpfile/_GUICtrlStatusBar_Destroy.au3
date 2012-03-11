@@ -22,8 +22,8 @@ Func _Main()
 	GUISetState()
 
 	$HandleBefore = $hStatus
-	MsgBox(4160, "Information", "Destroying the Control for Handle: " & $hStatus)
-	MsgBox(4160, "Information", "Control Destroyed: " & _GUICtrlStatusBar_Destroy($hStatus) & @LF & _
+	MsgBox(4160, "信息", "Destroying the Control for Handle: " & $hStatus)
+	MsgBox(4160, "信息", "Control Destroyed: " & _GUICtrlStatusBar_Destroy($hStatus) & @LF & _
 			"Handel Before Destroy: " & $HandleBefore & @LF & _
 			"Handle After Destroy: " & $hStatus)
 

@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	; Change item 2
-	MsgBox(4160, "Information", "Changing item 2")
+	MsgBox(4160, "пео╒", "Changing item 2")
 	$tItem = DllStructCreate($tagCOMBOBOXEXITEM)
 	DllStructSetData($tItem, "Mask", $CBEIF_INDENT)
 	DllStructSetData($tItem, "Item", 1)

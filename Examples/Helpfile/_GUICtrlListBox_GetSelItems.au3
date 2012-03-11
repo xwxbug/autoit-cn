@@ -31,7 +31,7 @@ Func _Main()
 		If $iI > 1 Then $sItems &= ", "
 		$sItems &= $aItems[$iI]
 	Next
-	MsgBox(4160, "Information", "Items Selected: " & $sItems)
+	MsgBox(4160, "信息", "Items Selected: " & $sItems)
 
 	; 循环直到用户退出
 	Do

@@ -35,9 +35,9 @@ Func _Main()
 	Next
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
-	MsgBox(4160, "Information", "Min Vis.: " & _GUICtrlComboBoxEx_GetMinVisible($hCombo))
-	MsgBox(4160, "Information", "Set Min Vis: " & _GUICtrlComboBoxEx_SetMinVisible($hCombo, 50))
-	MsgBox(4160, "Information", "Min Vis.: " & _GUICtrlComboBoxEx_GetMinVisible($hCombo))
+	MsgBox(4160, "信息", "Min Vis.: " & _GUICtrlComboBoxEx_GetMinVisible($hCombo))
+	MsgBox(4160, "信息", "Set Min Vis: " & _GUICtrlComboBoxEx_SetMinVisible($hCombo, 50))
+	MsgBox(4160, "信息", "Min Vis.: " & _GUICtrlComboBoxEx_GetMinVisible($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

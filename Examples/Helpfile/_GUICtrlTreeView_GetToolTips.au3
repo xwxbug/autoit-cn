@@ -40,7 +40,7 @@ Func _Main()
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[0])
 	_GUICtrlTreeView_SetStateImageIndex($hTreeView, $hItem[0], 2)
 
-	MsgBox(4160, "Information", "ToolTips Handle: " & _GUICtrlTreeView_GetToolTips($hTreeView))
+	MsgBox(4160, "пео╒", "ToolTips Handle: " & _GUICtrlTreeView_GetToolTips($hTreeView))
 
 	_GUICtrlTreeView_SetToolTips($hTreeView, _GUICtrlTreeView_GetToolTips($hTreeView))
 

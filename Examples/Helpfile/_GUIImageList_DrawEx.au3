@@ -10,13 +10,13 @@ Func _Main()
 	$hGUI = GUICreate("ImageList DrawEx", 400, 300)
 	GUISetState()
 
-	; Load images
+	; º”‘ÿÕºœÒ
 	$hImage = _GUIImageList_Create(32, 24)
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0xFF0000, 32, 24))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0x00FF00, 32, 24))
 	_GUIImageList_Add($hImage, _WinAPI_CreateSolidBitmap($hGUI, 0x0000FF, 32, 24))
 
-	; Draw images
+	; √ËªÊÕºœÒ
 	$hDC = _WinAPI_GetDC($hGUI)
 	_GUIImageList_DrawEx($hImage, 0, $hDC, 4, 4)
 	_GUIImageList_DrawEx($hImage, 1, $hDC, 40, 4)

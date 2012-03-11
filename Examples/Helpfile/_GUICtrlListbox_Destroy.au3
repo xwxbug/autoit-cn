@@ -24,7 +24,7 @@ Func _Main()
 	_GUICtrlListBox_Dir($hListBox, "", $DDL_DRIVES, False)
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-	MsgBox(4160, "Information", "Destroying ListBox")
+	MsgBox(4160, "信息", "Destroying ListBox")
 	_GUICtrlListBox_Destroy($hListBox)
 
 	; 循环直到用户退出

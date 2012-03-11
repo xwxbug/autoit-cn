@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 1, 1)
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 2, 1)
 	_GUICtrlComboBoxEx_SetItemParam($hCombo, 2, 54321)
-	MsgBox(4160, "Information", "Item Param: " & _GUICtrlComboBoxEx_GetItemParam($hCombo, 2))
+	MsgBox(4160, "пео╒", "Item Param: " & _GUICtrlComboBoxEx_GetItemParam($hCombo, 2))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

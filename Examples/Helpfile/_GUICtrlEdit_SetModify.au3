@@ -30,7 +30,7 @@ Func _Main()
 	; 获取修改标志
 	_GUICtrlStatusBar_SetText($hStatusBar, "Modified: " & _GUICtrlEdit_GetModify($hEdit), 2)
 
-	MsgBox(4160, "Information", "Set Modify Flag")
+	MsgBox(4160, "信息", "Set Modify Flag")
 	; 设置修改标志
 	_GUICtrlEdit_SetModify($hEdit, True)
 

@@ -27,7 +27,7 @@ Func _Main()
 
 	; 剪切第二项
 	_GUICtrlListView_SetItemCut($hListView, 1)
-	MsgBox(4160, "Information", "Item 2 Cut: " & _GUICtrlListView_GetItemCut($hListView, 1))
+	MsgBox(4160, "信息", "Item 2 Cut: " & _GUICtrlListView_GetItemCut($hListView, 1))
 
 	; 循环直到用户退出
 	Do

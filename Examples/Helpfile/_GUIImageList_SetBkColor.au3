@@ -14,7 +14,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 110)
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 131)
@@ -24,16 +24,16 @@ Func _Main()
 	_GUIImageList_AddIcon($hImage, @SystemDir & "\shell32.dll", 146)
 	_GUICtrlListView_SetImageList($listview, $hImage, 1)
 
-	MsgBox(4160, "Information", "BackColor: " & _GUIImageList_GetBkColor($hImage))
+	MsgBox(4160, "信息", "BackColor: " & _GUIImageList_GetBkColor($hImage))
 	_GUIImageList_SetBkColor($hImage, 0x0000FF)
-	MsgBox(4160, "Information", "BackColor: " & _GUIImageList_GetBkColor($hImage))
+	MsgBox(4160, "信息", "BackColor: " & _GUIImageList_GetBkColor($hImage))
 
 	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Column 1", 120)
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 3", 2, 2)

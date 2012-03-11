@@ -58,7 +58,7 @@ Func _Main()
 
 	_GUICtrlRebar_SetBandStyleBreak($hReBar, 1)
 
-	MsgBox(4096, "Information", "Setting Fixed BMP Style")
+	MsgBox(4096, "信息", "Setting Fixed BMP Style")
 	_GUICtrlRebar_SetBandStyleFixedBMP($hReBar, 1)
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1
@@ -66,7 +66,7 @@ Func _Main()
 		MemoWrite("============================================")
 	Next
 
-	MsgBox(4096, "Information", "Setting Fixed BMP Style")
+	MsgBox(4096, "信息", "Setting Fixed BMP Style")
 	_GUICtrlRebar_SetBandStyleFixedBMP($hReBar, 1, False)
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1

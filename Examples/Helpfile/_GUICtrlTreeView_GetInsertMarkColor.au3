@@ -33,14 +33,14 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Insert Mark Color: " & _GUICtrlTreeView_GetInsertMarkColor($hTreeView))
+	MsgBox(4160, "信息", "Insert Mark Color: " & _GUICtrlTreeView_GetInsertMarkColor($hTreeView))
 
 	_GUICtrlTreeView_SetInsertMarkColor($hTreeView, $COLOR_MONEYGREEN)
 
 	$iRand = Random(0, 5, 1)
 	_GUICtrlTreeView_SetInsertMark($hTreeView, $hItem[$iRand])
 
-	MsgBox(4160, "Information", "Insert Mark Color: " & _GUICtrlTreeView_GetInsertMarkColor($hTreeView))
+	MsgBox(4160, "信息", "Insert Mark Color: " & _GUICtrlTreeView_GetInsertMarkColor($hTreeView))
 
 	; 循环直到用户退出
 	Do

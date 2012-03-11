@@ -33,9 +33,9 @@ Func _Main()
 
 	; 修改控件样式
 	$fStyle = _GUICtrlToolbar_GetStyleRegisterDrop($hToolbar)
-	MsgBox(4096, "Information", "Toolbar has register drop style .: " & $fStyle)
+	MsgBox(4096, "信息", "Toolbar has register drop style .: " & $fStyle)
 	_GUICtrlToolbar_SetStyleRegisterDrop($hToolbar, Not $fStyle)
-	MsgBox(4096, "Information", "Toolbar has register drop style .: " & _GUICtrlToolbar_GetStyleRegisterDrop($hToolbar))
+	MsgBox(4096, "信息", "Toolbar has register drop style .: " & _GUICtrlToolbar_GetStyleRegisterDrop($hToolbar))
 
 	; 循环直到用户退出
 	Do

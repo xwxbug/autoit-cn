@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Get LB Text Len
-	MsgBox(4160, "Information", "LB Text Len: " & _GUICtrlComboBox_GetLBTextLen($hCombo, 2))
+	MsgBox(4160, "信息", "LB Text Len: " & _GUICtrlComboBox_GetLBTextLen($hCombo, 2))
 
 	; 循环直到用户退出
 	Do

@@ -25,7 +25,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Destroy TreeView Control")
+	MsgBox(4160, "信息", "Destroy TreeView Control")
 	_GUICtrlTreeView_Destroy($hTreeView)
 
 	; 循环直到用户退出

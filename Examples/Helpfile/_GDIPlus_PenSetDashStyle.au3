@@ -17,7 +17,7 @@ Func _Main()
 	_GDIPlus_PenSetDashStyle($hPen, $GDIP_DASHSTYLEDASHDOT)
 
 	; 显示笔短划线样式
-	MsgBox(4096, "Information", "Pen dash style: " & _GDIPlus_PenGetDashStyle($hPen))
+	MsgBox(4096, "信息", "Pen dash style: " & _GDIPlus_PenGetDashStyle($hPen))
 
 	; 描绘线条
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 150, 390, 150, $hPen)

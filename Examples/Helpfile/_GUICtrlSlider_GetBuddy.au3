@@ -21,7 +21,7 @@ Func _Main()
 	_GUICtrlSlider_SetBuddy($hSlider, False, $hInput2)
 
 	; Get Buddy from the left
-	MsgBox(4160, "Information", "Buddy Handle: " & _GUICtrlSlider_GetBuddy($hSlider, True))
+	MsgBox(4160, "信息", "Buddy Handle: " & _GUICtrlSlider_GetBuddy($hSlider, True))
 
 	; 循环直到用户退出
 	Do

@@ -18,7 +18,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 1, "Tab 2")
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
 
-	MsgBox(4160, "Information", "Destroy Tab Control")
+	MsgBox(4160, "信息", "Destroy Tab Control")
 	_GUICtrlTab_Destroy($hTab)
 
 	; 循环直到用户退出

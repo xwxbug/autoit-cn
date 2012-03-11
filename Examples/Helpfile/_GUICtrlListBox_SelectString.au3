@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Select string
-	MsgBox(4160, "Information", "Target String Index: " & _GUICtrlListBox_SelectString($hListBox, "020 : T"));
+	MsgBox(4160, "信息", "Target String Index: " & _GUICtrlListBox_SelectString($hListBox, "020 : T"));
 
 	; 循环直到用户退出
 	Do

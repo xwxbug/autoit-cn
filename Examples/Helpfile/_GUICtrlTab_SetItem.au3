@@ -21,7 +21,7 @@ Func _Main()
 	; 获取/设置首个标签的参数
 	_GUICtrlTab_SetItem($hTab, 0, -1, -1, -1, 1234)
 	$aItem = _GUICtrlTab_GetItem($hTab, 0)
-	MsgBox(4160, "Information", "Tab 1 parameter: " & $aItem[3])
+	MsgBox(4160, "信息", "Tab 1 parameter: " & $aItem[3])
 
 	; 循环直到用户退出
 	Do

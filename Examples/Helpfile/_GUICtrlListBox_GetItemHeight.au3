@@ -21,13 +21,13 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Show item height
-	MsgBox(4160, "Information", "Item height: " & _GUICtrlListBox_GetItemHeight($hListBox))
+	MsgBox(4160, "信息", "Item height: " & _GUICtrlListBox_GetItemHeight($hListBox))
 
 	; Set item height
 	_GUICtrlListBox_SetItemHeight($hListBox, 26)
 
 	; Show item height
-	MsgBox(4160, "Information", "Item height: " & _GUICtrlListBox_GetItemHeight($hListBox))
+	MsgBox(4160, "信息", "Item height: " & _GUICtrlListBox_GetItemHeight($hListBox))
 
 	; 循环直到用户退出
 	Do

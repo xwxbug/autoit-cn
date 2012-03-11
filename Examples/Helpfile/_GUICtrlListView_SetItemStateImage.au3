@@ -2,7 +2,7 @@
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -14,7 +14,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_SUBITEMIMAGES))
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0xFF0000, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x00FF00, 16, 16))
@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($hListView, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 2", 1)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 3", 2)
@@ -37,7 +37,7 @@ Func _Main()
 
 	; Set item 2 state image
 	_GUICtrlListView_SetItemStateImage($hListView, 1, 1)
-	MsgBox(4160, "Information", "Item 2 State Image: " & _GUICtrlListView_GetItemStateImage($hListView, 1))
+	MsgBox(4160, "信息", "Item 2 State Image: " & _GUICtrlListView_GetItemStateImage($hListView, 1))
 
 	; 循环直到用户退出
 	Do

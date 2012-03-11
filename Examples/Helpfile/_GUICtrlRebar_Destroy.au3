@@ -48,7 +48,7 @@ Func _Main()
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUISetState(@SW_SHOW)
 
-	MsgBox(4096, "Information", "About to Destroy the Rebar")
+	MsgBox(4096, "пео╒", "About to Destroy the Rebar")
 	_GUICtrlRebar_Destroy($hReBar)
 
 	While 1

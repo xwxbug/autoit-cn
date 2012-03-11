@@ -31,10 +31,10 @@ Func Example_Internal()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param/ID for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand]), _
+	MsgBox(4160, "信息", StringFormat("Item Param/ID for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand]), _
 			IsPtr(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand])), IsHWnd(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand]))))
 	$iRand = Random(0, 29, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param/ID for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Item Param/ID for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
 
 	; 循环直到用户退出
 	Do
@@ -67,10 +67,10 @@ Func Example_External()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param/ID for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand]), _
+	MsgBox(4160, "信息", StringFormat("Item Param/ID for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand]), _
 			IsPtr(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand])), IsHWnd(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand]))))
 	$iRand = Random(0, 29, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Item Param for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
 
 	; 循环直到用户退出
 	Do

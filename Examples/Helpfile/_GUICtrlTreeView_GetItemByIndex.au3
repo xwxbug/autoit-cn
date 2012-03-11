@@ -35,7 +35,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Item 3, Child Index 1 Handle: " & _GUICtrlTreeView_GetItemByIndex($hTreeView, $hItem[3], 1))
+	MsgBox(4160, "信息", "Item 3, Child Index 1 Handle: " & _GUICtrlTreeView_GetItemByIndex($hTreeView, $hItem[3], 1))
 
 	; 循环直到用户退出
 	Do

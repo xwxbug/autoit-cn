@@ -28,7 +28,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3", 2)
 
 	; Remove second image
-	MsgBox(4160, "Information", "Removing second image in list")
+	MsgBox(4160, "信息", "Removing second image in list")
 	_GUICtrlTab_RemoveImage($hTab, 1)
 
 	; 循环直到用户退出

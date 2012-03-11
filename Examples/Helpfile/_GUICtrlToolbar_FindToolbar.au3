@@ -12,6 +12,6 @@ Func _Main()
 	WinWaitActive("[CLASS:CabinetWClass]")
 	Sleep(1000)
 	$hToolbar = _GUICtrlToolbar_FindToolbar("[CLASS:CabinetWClass]", "&File")
-	MsgBox(4096, "Information", "File Toolbar handle: 0x" & Hex($hToolbar))
+	MsgBox(4096, "ĞÅÏ¢", "File Toolbar handle: 0x" & Hex($hToolbar))
 
 EndFunc   ;==>_Main

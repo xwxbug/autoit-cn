@@ -34,9 +34,9 @@ Func _Main()
 
 	$hItemFound = _GUICtrlTreeView_FindItem($hTreeView, "Looking for me?")
 	If $hItemFound Then
-		MsgBox(4160, "Information", "Item Found:" & @LF & "Handle: " & $hItemFound & @LF & "Text: " & _GUICtrlTreeView_GetText($hTreeView, $hItemFound))
+		MsgBox(4160, "信息", "Item Found:" & @LF & "Handle: " & $hItemFound & @LF & "Text: " & _GUICtrlTreeView_GetText($hTreeView, $hItemFound))
 	Else
-		MsgBox(4160, "Information", "Not Found")
+		MsgBox(4160, "信息", "Not Found")
 	EndIf
 
 	; 循环直到用户退出

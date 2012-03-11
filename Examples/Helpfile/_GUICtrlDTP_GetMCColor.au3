@@ -2,11 +2,11 @@
 #include <GuiDateTimePicker.au3>
 #include <Constants.au3>
 
-$Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
+$Debug_DTP = False 检查传递给 DTP 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo
 
-_Main() ;use autoit built-in control
+_Main() ;使用 autoit 内置控件
 
 Func _Main()
 	Local $hDTP
@@ -18,13 +18,13 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Set the display format
+	; 设置显示的格式
 	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
 
-	; Set month calendar background color
+	; 设置月历背景颜色
 	_GUICtrlDTP_SetMCColor($hDTP, 2, $CLR_MONEYGREEN)
 
-	; Get DTP colors
+	; 获取 DTP 颜色
 	MemoWrite("Background between months: " & "0x" & Hex(_GUICtrlDTP_GetMCColor($hDTP, 0), 6))
 	MemoWrite("Text within months ......: " & "0x" & Hex(_GUICtrlDTP_GetMCColor($hDTP, 1), 6))
 	MemoWrite("Title background ........: " & "0x" & Hex(_GUICtrlDTP_GetMCColor($hDTP, 2), 6))

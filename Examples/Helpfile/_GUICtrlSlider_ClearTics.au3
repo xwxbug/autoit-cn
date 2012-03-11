@@ -13,7 +13,7 @@ Func _Main()
 	$hSlider = GUICtrlCreateSlider(2, 2, 396, 20, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS, $TBS_ENABLESELRANGE))
 	GUISetState()
 
-	MsgBox(4160, "Information", "Clear Tics")
+	MsgBox(4160, "пео╒", "Clear Tics")
 	; Clear Tics
 	_GUICtrlSlider_ClearTics($hSlider)
 

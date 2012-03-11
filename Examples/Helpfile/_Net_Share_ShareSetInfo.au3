@@ -22,7 +22,7 @@ Func _Main()
 	If _Net_Share_ShareCheck(@ComputerName, $sShareName) = -1 Then
 		; Create a share on the local computer
 		_Net_Share_ShareAdd(@ComputerName, $sShareName, 0, "C:\", "AutoIt Share Comment")
-		If @error Then MsgBox(4096, "Information", "Share add error : " & @error)
+		If @error Then MsgBox(4096, "信息", "Share add error : " & @error)
 		MemoWrite("Share added")
 	Else
 		MemoWrite("Share exists")
@@ -44,7 +44,7 @@ Func _Main()
 
 	; Delete the share
 	_Net_Share_ShareDel(@ComputerName, $sShareName)
-	If @error Then MsgBox(4096, "Information", "Share delete error : " & @error)
+	If @error Then MsgBox(4096, "信息", "Share delete error : " & @error)
 	MemoWrite("Share deleted")
 
 	; 循环直到用户退出

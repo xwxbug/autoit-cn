@@ -64,7 +64,7 @@ Func _Main()
 		MemoWrite("Band Index " & $x & @TAB & "Header Size: " & _GUICtrlRebar_GetBandHeaderSize($hReBar, $x))
 	Next
 
-	MsgBox(4096, "Information", "Setting Band Header Size")
+	MsgBox(4096, "пео╒", "Setting Band Header Size")
 	_GUICtrlRebar_SetBandHeaderSize($hReBar, 1, 50)
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1

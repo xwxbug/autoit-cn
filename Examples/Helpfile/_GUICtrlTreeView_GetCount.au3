@@ -25,7 +25,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Count: " & _GUICtrlTreeView_GetCount($hTreeView))
+	MsgBox(4160, "信息", "Count: " & _GUICtrlTreeView_GetCount($hTreeView))
 
 	; 循环直到用户退出
 	Do

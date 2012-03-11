@@ -21,7 +21,7 @@ Func _Main()
 	Next
 
 	$iRand = Random(0, 5, 1)
-	MsgBox(4096, "Information", "Setting Button" & $iRand + 1 & " Text")
+	MsgBox(4096, "пео╒", "Setting Button" & $iRand + 1 & " Text")
 	_GUICtrlButton_SetText($btn[$iRand], "New Text" & $iRand + 1)
 
 	For $x = 0 To 5

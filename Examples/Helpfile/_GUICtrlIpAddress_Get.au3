@@ -14,7 +14,7 @@ Func _Main()
 
 	_GUICtrlIpAddress_Set($hIPAddress, "24.168.2.128")
 
-	MsgBox(4160, "Information", "IP Address: " & _GUICtrlIpAddress_Get($hIPAddress))
+	MsgBox(4160, "信息", "IP Address: " & _GUICtrlIpAddress_Get($hIPAddress))
 
 	; 等待用户关闭 GUI
 	Do

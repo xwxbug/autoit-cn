@@ -33,7 +33,7 @@ Func _Main()
 	Next
 
 	;Get Extended Style
-	MsgBox(4160, "Information", "Extend Styles found: " & _DisplayExtendStringList($hCombo))
+	MsgBox(4160, "пео╒", "Extend Styles found: " & _DisplayExtendStringList($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

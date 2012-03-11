@@ -20,7 +20,7 @@ Func _Main()
 		MsgBox(4096, "错误", "System clock cannot be DOWN" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 		Exit
 	EndIf
-	MsgBox(4096, "Information", "Slowing down system clock", 2)
+	MsgBox(4096, "信息", "Slowing down system clock", 2)
 
 	Sleep(5000)
 
@@ -28,7 +28,7 @@ Func _Main()
 	If Not _Date_Time_SetSystemTimeAdjustment($aInfo[1] * 10, False) Then
 		MsgBox(4096, "错误", "System clock cannot be UP" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 	EndIf
-	MsgBox(4096, "Information", "Speeding up system clock", 2)
+	MsgBox(4096, "信息", "Speeding up system clock", 2)
 
 	Sleep(5000)
 
@@ -36,7 +36,7 @@ Func _Main()
 	If Not _Date_Time_SetSystemTimeAdjustment($aInfo[1], True) Then
 		MsgBox(4096, "错误", "System clock cannot be RESET" & @CRLF & @CRLF & _WinAPI_GetLastErrorMessage())
 	Else
-		MsgBox(4096, "Information", "System clock restored")
+		MsgBox(4096, "信息", "System clock restored")
 	EndIf
 
 EndFunc   ;==>_Main

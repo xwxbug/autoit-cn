@@ -22,8 +22,8 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	;Set/Get Unicode
-	MsgBox(4160, "Information", "Set Unicode: " & _GUICtrlComboBoxEx_SetUnicode($hCombo, False))
-	MsgBox(4160, "Information", "Get Unicode: " & _GUICtrlComboBoxEx_GetUnicode($hCombo))
+	MsgBox(4160, "信息", "Set Unicode: " & _GUICtrlComboBoxEx_SetUnicode($hCombo, False))
+	MsgBox(4160, "信息", "Get Unicode: " & _GUICtrlComboBoxEx_GetUnicode($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

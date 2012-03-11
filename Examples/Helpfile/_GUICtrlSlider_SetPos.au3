@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlSlider_SetPos($hSlider, Random(0, 100, 1))
 
 	; Get Pos
-	MsgBox(4160, "Information", "Pos: " & _GUICtrlSlider_GetPos($hSlider))
+	MsgBox(4160, "信息", "Pos: " & _GUICtrlSlider_GetPos($hSlider))
 
 	; 循环直到用户退出
 	Do

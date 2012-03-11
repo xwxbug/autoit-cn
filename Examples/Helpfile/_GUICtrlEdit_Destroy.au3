@@ -15,7 +15,7 @@ Func _Main()
 
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
-	MsgBox(4160, "Information", "Destroy Edit Control")
+	MsgBox(4160, "信息", "Destroy Edit Control")
 	_GUICtrlEdit_Destroy($hEdit)
 
 	; 循环直到用户退出

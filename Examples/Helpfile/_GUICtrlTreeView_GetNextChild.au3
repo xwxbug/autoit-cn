@@ -34,7 +34,7 @@ Func _Main()
 
 	$hFirstChild = _GUICtrlTreeView_GetFirstChild($hTreeView, $hItem[2])
 	_GUICtrlTreeView_SelectItem($hTreeView, $hFirstChild)
-	MsgBox(4160, "Information", "Index 2, Next Child: " & _GUICtrlTreeView_GetNextChild($hTreeView, $hFirstChild))
+	MsgBox(4160, "信息", "Index 2, Next Child: " & _GUICtrlTreeView_GetNextChild($hTreeView, $hFirstChild))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetNextChild($hTreeView, $hFirstChild))
 
 	; 循环直到用户退出

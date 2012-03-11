@@ -16,7 +16,7 @@ Func _Main()
 	; Get Channel Rect
 	$aRect = _GUICtrlSlider_GetChannelRect($hSlider)
 
-	MsgBox(4160, "Information", StringFormat("[%d][%d][%d][%d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
+	MsgBox(4160, "信息", StringFormat("[%d][%d][%d][%d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
 
 	; 循环直到用户退出
 	Do

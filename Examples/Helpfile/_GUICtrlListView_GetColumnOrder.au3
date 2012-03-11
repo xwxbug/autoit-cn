@@ -20,7 +20,7 @@ Func _Main()
 	_GUICtrlListView_SetColumnOrder($hListView, "3|2|0|1")
 
 	$a_order = StringSplit(_GUICtrlListView_GetColumnOrder($hListView), "|")
-	MsgBox(4160, "Information", StringFormat("Column order: [%d, %d, %d, %d]", $a_order[1], $a_order[2], $a_order[3], $a_order[4]))
+	MsgBox(4160, "信息", StringFormat("Column order: [%d, %d, %d, %d]", $a_order[1], $a_order[2], $a_order[3], $a_order[4]))
 
 	; 循环直到用户退出
 	Do

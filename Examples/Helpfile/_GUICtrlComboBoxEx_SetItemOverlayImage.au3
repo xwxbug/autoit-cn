@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 1, 1)
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 2, 1)
 	_GUICtrlComboBoxEx_SetItemOverlayImage($hCombo, 2, 6)
-	MsgBox(4160, "Information", "Item Overlay Image: " & _GUICtrlComboBoxEx_GetItemOverlayImage($hCombo, 2))
+	MsgBox(4160, "пео╒", "Item Overlay Image: " & _GUICtrlComboBoxEx_GetItemOverlayImage($hCombo, 2))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

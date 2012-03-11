@@ -24,7 +24,7 @@ Func _Main()
 	_GUICtrlListView_SetItemSelected($hListView, 1)
 
 	; 查找已选择的项
-	MsgBox(4160, "Information", "Selected Item: " & _GUICtrlListView_GetNextItem($hListView))
+	MsgBox(4160, "信息", "Selected Item: " & _GUICtrlListView_GetNextItem($hListView))
 
 	; 循环直到用户退出
 	Do

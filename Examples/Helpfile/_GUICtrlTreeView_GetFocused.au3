@@ -23,9 +23,9 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$hRandomItem = Random(0, UBound($hItem) - 1, 1)
-	MsgBox(4160, "Information", StringFormat("Item %d Focused? %s", $hRandomItem, _GUICtrlTreeView_GetFocused($hTreeView, $hItem[$hRandomItem])))
+	MsgBox(4160, "信息", StringFormat("Item %d Focused? %s", $hRandomItem, _GUICtrlTreeView_GetFocused($hTreeView, $hItem[$hRandomItem])))
 	_GUICtrlTreeView_SetFocused($hTreeView, $hItem[$hRandomItem])
-	MsgBox(4160, "Information", StringFormat("Item %d Focused? %s", $hRandomItem, _GUICtrlTreeView_GetFocused($hTreeView, $hItem[$hRandomItem])))
+	MsgBox(4160, "信息", StringFormat("Item %d Focused? %s", $hRandomItem, _GUICtrlTreeView_GetFocused($hTreeView, $hItem[$hRandomItem])))
 
 	; 循环直到用户退出
 	Do

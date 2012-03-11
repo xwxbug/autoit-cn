@@ -33,11 +33,11 @@ Func _Main()
 
 	; 修改控件样式
 	$fStyle = _GUICtrlToolbar_GetStyleFlat($hToolbar)
-	MsgBox(4096, "Information", "Toolbar has flat style .: " & $fStyle)
+	MsgBox(4096, "信息", "Toolbar has flat style .: " & $fStyle)
 	GUISetState(@SW_LOCK)
 	_GUICtrlToolbar_SetStyleFlat($hToolbar, Not $fStyle)
 	GUISetState(@SW_UNLOCK)
-	MsgBox(4096, "Information", "Toolbar has flat style .: " & _GUICtrlToolbar_GetStyleFlat($hToolbar))
+	MsgBox(4096, "信息", "Toolbar has flat style .: " & _GUICtrlToolbar_GetStyleFlat($hToolbar))
 
 	; 循环直到用户退出
 	Do

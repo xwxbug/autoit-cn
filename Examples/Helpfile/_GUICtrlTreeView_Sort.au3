@@ -30,7 +30,7 @@ Func _Main()
 	_GUICtrlTreeView_Expand($hTreeView)
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Sort")
+	MsgBox(4160, "пео╒", "Sort")
 	_GUICtrlTreeView_Sort($hTreeView)
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[9])
 

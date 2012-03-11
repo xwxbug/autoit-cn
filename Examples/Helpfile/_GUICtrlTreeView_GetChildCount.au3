@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9)
-	MsgBox(4160, "Information", StringFormat("Child Count for item index %d: %d", $iRand, _GUICtrlTreeView_GetChildCount($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Child Count for item index %d: %d", $iRand, _GUICtrlTreeView_GetChildCount($hTreeView, $hItem[$iRand])))
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[$iRand])
 
 	; 循环直到用户退出

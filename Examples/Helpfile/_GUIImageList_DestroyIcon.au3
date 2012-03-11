@@ -51,8 +51,8 @@ Func _Main()
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE
 	; 释放图标
-	MsgBox(4096, "Information", "Icon 1 Destroyed? " & _GUIImageList_DestroyIcon($hIcons[0]))
-	MsgBox(4096, "Information", "Icon 2 Destroyed? " & _GUIImageList_DestroyIcon($hIcons[1]))
+	MsgBox(4096, "信息", "Icon 1 Destroyed? " & _GUIImageList_DestroyIcon($hIcons[0]))
+	MsgBox(4096, "信息", "Icon 2 Destroyed? " & _GUIImageList_DestroyIcon($hIcons[1]))
 	GUIDelete()
 EndFunc   ;==>_Main
 

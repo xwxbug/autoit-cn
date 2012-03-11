@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Prev from Index %d: %s", $iRand, _GUICtrlTreeView_GetPrev($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Prev from Index %d: %s", $iRand, _GUICtrlTreeView_GetPrev($hTreeView, $hItem[$iRand])))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetPrev($hTreeView, $hItem[$iRand]))
 
 	; 循环直到用户退出

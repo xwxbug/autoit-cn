@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; swap the strings
-	MsgBox(4160, "Information", "Swapping Strings (3:5)")
+	MsgBox(4160, "信息", "Swapping Strings (3:5)")
 	_GUICtrlListBox_SwapString($hListBox, 3, 5)
 
 	; 循环直到用户退出

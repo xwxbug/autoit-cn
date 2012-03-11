@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
 
 	; Show number of tabs
-	MsgBox(4160, "Information", "Number of tabs: " & _GUICtrlTab_GetItemCount($hTab))
+	MsgBox(4160, "信息", "Number of tabs: " & _GUICtrlTab_GetItemCount($hTab))
 
 	; 循环直到用户退出
 	Do

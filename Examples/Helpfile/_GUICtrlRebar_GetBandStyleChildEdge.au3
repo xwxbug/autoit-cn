@@ -58,7 +58,7 @@ Func _Main()
 
 	_GUICtrlRebar_SetBandStyleBreak($hReBar, 1)
 
-	MsgBox(4096, "Information", "Setting Child Edge Style")
+	MsgBox(4096, "信息", "Setting Child Edge Style")
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1
 		_GUICtrlRebar_SetBandStyleChildEdge($hReBar, $x, False)
@@ -66,7 +66,7 @@ Func _Main()
 		MemoWrite("============================================")
 	Next
 
-	MsgBox(4096, "Information", "Setting Child Edge Style")
+	MsgBox(4096, "信息", "Setting Child Edge Style")
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1
 		_GUICtrlRebar_SetBandStyleChildEdge($hReBar, $x)

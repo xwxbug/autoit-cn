@@ -20,9 +20,9 @@ Func _Main()
 
 	; 获取/设置 Unicode 格式
 	$bFormat = _GUICtrlTab_GetUnicodeFormat($hTab)
-	MsgBox(4160, "Information", "Unicode format: " & $bFormat)
+	MsgBox(4160, "信息", "Unicode format: " & $bFormat)
 	_GUICtrlTab_SetUnicodeFormat($hTab, Not $bFormat)
-	MsgBox(4160, "Information", "Unicode format: " & _GUICtrlTab_GetUnicodeFormat($hTab))
+	MsgBox(4160, "信息", "Unicode format: " & _GUICtrlTab_GetUnicodeFormat($hTab))
 
 	; 循环直到用户退出
 	Do

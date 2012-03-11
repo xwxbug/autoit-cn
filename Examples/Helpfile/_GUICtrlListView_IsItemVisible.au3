@@ -17,7 +17,7 @@ Func Example()
 	GUISetState()
 
 	$iIndex = Random(0, 29, 1)
-	MsgBox(4160, "Information", $iIndex & " is Visible: " & _GUICtrlListView_IsItemVisible($listview, $iIndex))
+	MsgBox(4160, "пео╒", $iIndex & " is Visible: " & _GUICtrlListView_IsItemVisible($listview, $iIndex))
 
 	Do
 		$msg = GUIGetMsg()

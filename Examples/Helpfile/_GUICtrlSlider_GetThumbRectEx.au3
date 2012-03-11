@@ -16,7 +16,7 @@ Func _Main()
 	; Get Thumb Rect
 	$tRect = _GUICtrlSlider_GetThumbRectEx($hSlider)
 
-	MsgBox(4160, "Information", StringFormat("[%d][%d][%d][%d]", _
+	MsgBox(4160, "пео╒", StringFormat("[%d][%d][%d][%d]", _
 			DllStructGetData($tRect, "Left"), DllStructGetData($tRect, "Top"), _
 			DllStructGetData($tRect, "Right"), DllStructGetData($tRect, "Bottom")))
 

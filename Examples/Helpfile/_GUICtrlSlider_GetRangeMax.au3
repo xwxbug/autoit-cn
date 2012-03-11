@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; 获取范围的最大位置
-	MsgBox(4160, "Information", "Range Max: " & _GUICtrlSlider_GetRangeMax($hSlider))
+	MsgBox(4160, "信息", "Range Max: " & _GUICtrlSlider_GetRangeMax($hSlider))
 
 	; 设置范围的最大位置
 	_GUICtrlSlider_SetRangeMax($hSlider, 50)
 
 	; 获取范围的最大位置
-	MsgBox(4160, "Information", "Range Max: " & _GUICtrlSlider_GetRangeMax($hSlider))
+	MsgBox(4160, "信息", "Range Max: " & _GUICtrlSlider_GetRangeMax($hSlider))
 
 	; 循环直到用户退出
 	Do

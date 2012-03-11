@@ -38,7 +38,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Show number of text rows
-	MsgBox(4096, "Information", "Number of text rows:" & _GUICtrlToolbar_GetTextRows($hToolbar))
+	MsgBox(4096, "信息", "Number of text rows:" & _GUICtrlToolbar_GetTextRows($hToolbar))
 
 	; 循环直到用户退出
 	Do

@@ -36,7 +36,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$hRandItem = Random(1, 19, 1)
-	MsgBox(4160, "Information", StringFormat("Index %d, Prev Visible: %s", $hRandItem, _GUICtrlTreeView_GetPrevVisible($hTreeView, $hItem[$hRandItem])))
+	MsgBox(4160, "信息", StringFormat("Index %d, Prev Visible: %s", $hRandItem, _GUICtrlTreeView_GetPrevVisible($hTreeView, $hItem[$hRandItem])))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetPrevVisible($hTreeView, $hItem[$hRandItem]))
 
 	; 循环直到用户退出

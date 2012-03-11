@@ -21,7 +21,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Show items per column
-	MsgBox(4160, "Information", "Items per column: " & _GUICtrlListBox_GetListBoxInfo($hListBox))
+	MsgBox(4160, "信息", "Items per column: " & _GUICtrlListBox_GetListBoxInfo($hListBox))
 
 	; 循环直到用户退出
 	Do

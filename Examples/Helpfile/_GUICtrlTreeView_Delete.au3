@@ -37,7 +37,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Delete Item")
+	MsgBox(4160, "信息", "Delete Item")
 	_GUICtrlTreeView_Delete($hTreeView, $hItem)
 
 	; 循环直到用户退出

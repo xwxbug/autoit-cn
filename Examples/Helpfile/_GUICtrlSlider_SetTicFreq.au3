@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; 获取刻度数
-	MsgBox(4160, "Information", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
+	MsgBox(4160, "信息", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
 
 	; 设置刻度频率
 	_GUICtrlSlider_SetTicFreq($hSlider, 1)
 
 	; 获取刻度数
-	MsgBox(4160, "Information", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
+	MsgBox(4160, "信息", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
 
 	; 循环直到用户退出
 	Do

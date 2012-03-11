@@ -18,7 +18,7 @@ Func _Main()
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 10, 390, 10, $hPen)
 
 	; 显示画笔宽度
-	MsgBox(4096, "Information", "Pen Width: " & _GDIPlus_PenGetWidth($hPen))
+	MsgBox(4096, "信息", "Pen Width: " & _GDIPlus_PenGetWidth($hPen))
 
 	; 循环直到用户退出
 	Do

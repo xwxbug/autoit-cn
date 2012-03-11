@@ -18,7 +18,7 @@ Func Example1()
 		GUICtrlCreateListViewItem("Item " & $iI & "|Item " & $iI & "-1|Item " & $iI & "-2", $hListView)
 	Next
 
-	MsgBox(4160, "Information", "Delete Item")
+	MsgBox(4160, "信息", "Delete Item")
 	; 用内置函数创建项目, 传递控件 ID
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteItem(GUICtrlGetHandle($hListView), 1))
 
@@ -44,7 +44,7 @@ Func Example_UDF_Created()
 
 	_GUICtrlListView_AddArray($hListView, $aItems)
 
-	MsgBox(4160, "Information", "Delete Item")
+	MsgBox(4160, "信息", "Delete Item")
 	; 这已经是个句柄
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteItem($hListView, 1))
 

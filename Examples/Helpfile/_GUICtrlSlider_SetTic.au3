@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlSlider_SetTic($hSlider, $iTic)
 
 	; Get Tic
-	MsgBox(4160, "Information", "Tic: " & _GUICtrlSlider_GetTic($hSlider, $iTic))
+	MsgBox(4160, "信息", "Tic: " & _GUICtrlSlider_GetTic($hSlider, $iTic))
 
 	; 循环直到用户退出
 	Do

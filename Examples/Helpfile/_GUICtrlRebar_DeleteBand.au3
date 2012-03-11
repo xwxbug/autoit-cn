@@ -48,7 +48,7 @@ Func _Main()
 	$btnExit = GUICtrlCreateButton("Exit", 150, 360, 100, 25)
 	GUISetState(@SW_SHOW)
 
-	MsgBox(4096, "Information", "About to Delete Band Index 1")
+	MsgBox(4096, "пео╒", "About to Delete Band Index 1")
 	_GUICtrlRebar_DeleteBand($hReBar, 1)
 
 	While 1

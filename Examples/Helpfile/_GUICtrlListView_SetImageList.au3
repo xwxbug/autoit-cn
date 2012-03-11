@@ -20,7 +20,7 @@ Func _Main()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x0000FF, 16, 16))
 	Local $hPrevImageList = _GUICtrlListView_SetImageList($hListView, $hImage, 1)
 
-	MsgBox(4160, "Information", "Previous Image List Handle: 0x" & Hex($hPrevImageList) & @CRLF & _
+	MsgBox(4160, "信息", "Previous Image List Handle: 0x" & Hex($hPrevImageList) & @CRLF & _
 			"IsPtr = " & IsPtr($hPrevImageList) & " IsHWnd = " & IsHWnd($hPrevImageList))
 
 	; 添加列
@@ -34,7 +34,7 @@ Func _Main()
 	_GUICtrlListView_AddItem($hListView, "Item 3", 2)
 
 	; 获取图像列表句柄
-	MsgBox(4160, "Information", "Image List Handle: 0x" & Hex(_GUICtrlListView_GetImageList($hListView, 1)))
+	MsgBox(4160, "信息", "Image List Handle: 0x" & Hex(_GUICtrlListView_GetImageList($hListView, 1)))
 
 	; 循环直到用户退出
 	Do

@@ -17,7 +17,7 @@ Func _Main()
 	_GDIPlus_PenSetEndCap($hPen, $GDIP_LINECAPARROWANCHOR)
 
 	; 显示笔端盖
-	MsgBox(4096, "Information", "Pen end cap type: " & _GDIPlus_PenGetEndCap($hPen))
+	MsgBox(4096, "信息", "Pen end cap type: " & _GDIPlus_PenGetEndCap($hPen))
 
 	; 描绘箭头
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 130, 390, 130, $hPen)

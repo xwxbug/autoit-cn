@@ -39,7 +39,7 @@ Func _Main()
 
 	; Get Item Text
 	_GUICtrlComboBoxEx_GetItemText($hCombo, 0, $sText)
-	MsgBox(4160, "Information", "Item Text: " & $sText)
+	MsgBox(4160, "пео╒", "Item Text: " & $sText)
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

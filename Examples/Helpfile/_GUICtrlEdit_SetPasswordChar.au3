@@ -13,15 +13,15 @@ Func _Main()
 	$hEdit = GUICtrlCreateInput("Test of build-in control", 2, 2, 394, 25, $ES_PASSWORD)
 	GUISetState()
 
-	MsgBox(4096, "Information", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
+	MsgBox(4096, "信息", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
 
 	_GUICtrlEdit_SetPasswordChar($hEdit, "$") ; change password char to $
 
-	MsgBox(4096, "Information", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
+	MsgBox(4096, "信息", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
 
 	_GUICtrlEdit_SetPasswordChar($hEdit) ; display characters typed by the user.
 
-	MsgBox(4096, "Information", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
+	MsgBox(4096, "信息", "Password Char: " & _GUICtrlEdit_GetPasswordChar($hEdit))
 
 	; 循环直到用户退出
 	Do

@@ -27,7 +27,7 @@ Func _Main()
 	; create a toolbar to put in the rebar
 	$hToolbar = _GUICtrlToolbar_Create($hgui, BitOR($TBSTYLE_FLAT, $CCS_NORESIZE, $CCS_NOPARENTALIGN))
 
-	; Load images
+	; º”‘ÿÕºœÒ
 	$hImage = _GUIImageList_Create(16, 16, 5, 3, 6)
 	For $x = 6 To 11
 		_GUIImageList_AddIcon($hImage, "shell32.dll", $x)

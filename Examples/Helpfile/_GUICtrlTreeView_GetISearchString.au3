@@ -34,7 +34,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	Send($sText[Random(0, 5, 1)])
-	MsgBox(4160, "Information", "ISearch String: " & _GUICtrlTreeView_GetISearchString($hTreeView))
+	MsgBox(4160, "信息", "ISearch String: " & _GUICtrlTreeView_GetISearchString($hTreeView))
 
 	; 循环直到用户退出
 	Do

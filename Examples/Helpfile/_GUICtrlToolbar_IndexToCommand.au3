@@ -28,8 +28,8 @@ Func _Main()
 
 	; Show Save button index
 	$iIndex = _GUICtrlToolbar_CommandToIndex($hToolbar, $idSave)
-	MsgBox(4096, "Information", "Save button index .: " & $iIndex)
-	MsgBox(4096, "Information", "Save button command .: " & _GUICtrlToolbar_IndexToCommand($hToolbar, $iIndex))
+	MsgBox(4096, "信息", "Save button index .: " & $iIndex)
+	MsgBox(4096, "信息", "Save button command .: " & _GUICtrlToolbar_IndexToCommand($hToolbar, $iIndex))
 
 	; 循环直到用户退出
 	Do

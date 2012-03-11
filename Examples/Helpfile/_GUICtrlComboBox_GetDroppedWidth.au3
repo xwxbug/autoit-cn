@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Get Dropped Width
-	MsgBox(4160, "Information", "Dropped Width: " & _GUICtrlComboBox_GetDroppedWidth($hCombo))
+	MsgBox(4160, "信息", "Dropped Width: " & _GUICtrlComboBox_GetDroppedWidth($hCombo))
 
 	; 循环直到用户退出
 	Do

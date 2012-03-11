@@ -2,7 +2,7 @@
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -14,7 +14,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, BitOR($LVS_EX_FULLROWSELECT, $LVS_EX_GRIDLINES, $LVS_EX_SUBITEMIMAGES))
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap(GUICtrlGetHandle($hListView), 0xFF0000, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap(GUICtrlGetHandle($hListView), 0x00FF00, 16, 16))
@@ -33,7 +33,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($hListView, 1, "Row 2: Col 2", 1, 2)
 	_GUICtrlListView_InsertItem($hListView, "Row 3: Col 1", -1, 2)
 
-	MsgBox(4160, "Information", "Extended List View Style(s): 0x" & _GUICtrlListView_GetExtendedListViewStyle($hListView) & @LF & _
+	MsgBox(4160, "信息", "Extended List View Style(s): 0x" & _GUICtrlListView_GetExtendedListViewStyle($hListView) & @LF & _
 			_DisplayExtendStringList($hListView))
 
 	; 循环直到用户退出

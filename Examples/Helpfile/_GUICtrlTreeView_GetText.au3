@@ -41,7 +41,7 @@ Func _Main()
 	_GUICtrlTreeView_SetStateImageIndex($hTreeView, $hItem[0], 2)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Text for Item %d: %s", $iRand, _GUICtrlTreeView_GetText($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Text for Item %d: %s", $iRand, _GUICtrlTreeView_GetText($hTreeView, $hItem[$iRand])))
 
 	; 循环直到用户退出
 	Do

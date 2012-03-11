@@ -20,12 +20,12 @@ $hOldFont = _WinAPI_SelectObject($hDC, $hFont)
 _WinAPI_SetTextColor($hDC, 0x0000FF)
 _WinAPI_SetBkColor($hDC, 0x000000)
 
-MsgBox(4096, "Information", "GetBkMode: " & _WinAPI_GetBkMode($hDC))
+MsgBox(4096, "信息", "GetBkMode: " & _WinAPI_GetBkMode($hDC))
 
 ; 注释下一行可以获得黑色背景而不是透明背景
 _WinAPI_SetBkMode($hDC, $TRANSPARENT)
 
-MsgBox(4096, "Information", "GetBkMode: " & _WinAPI_GetBkMode($hDC))
+MsgBox(4096, "信息", "GetBkMode: " & _WinAPI_GetBkMode($hDC))
 
 While 1
 	_WinAPI_DrawText($hDC, "Hello world!", $tRECT, $DT_CENTER)

@@ -28,7 +28,7 @@ Func _Main()
 	Next
 	$iTimer = TimerInit()
 	_GUICtrlListView_AddArray($hListView, $aItems)
-	MsgBox(4160, "Information", "Load time: " & TimerDiff($iTimer) / 1000 & " seconds")
+	MsgBox(4160, "信息", "Load time: " & TimerDiff($iTimer) / 1000 & " seconds")
 
 	_GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($hListView)) ; 通过 UDF 函数添加的项目也能用 UDF 函数删除
 
@@ -42,7 +42,7 @@ Func _Main()
 	Next
 	$iTimer = TimerInit()
 	_GUICtrlListView_AddArray($hListView, $aItems)
-	MsgBox(4160, "Information", "Load time: " & TimerDiff($iTimer) / 1000 & " seconds")
+	MsgBox(4160, "信息", "Load time: " & TimerDiff($iTimer) / 1000 & " seconds")
 
 	; 循环直到用户退出
 	Do

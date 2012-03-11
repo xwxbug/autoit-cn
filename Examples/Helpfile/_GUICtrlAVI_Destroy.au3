@@ -31,7 +31,7 @@ Func _Main()
 	; 关闭 AVI 剪辑
 	_GUICtrlAVI_Close($hAVI)
 
-	MsgBox(4160, "Information", "Destroy AVI Control")
+	MsgBox(4160, "信息", "Destroy AVI Control")
 	_GUICtrlAVI_Destroy($hAVI)
 
 	; 循环直到用户退出

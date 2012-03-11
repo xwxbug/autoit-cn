@@ -14,7 +14,7 @@ Func _Main()
 	GUISetState()
 
 	; Get Tic Pos
-	MsgBox(4160, "Information", StringFormat("Tic %d: X Pos: %d", $iTic, _GUICtrlSlider_GetTicPos($hSlider, $iTic)))
+	MsgBox(4160, "信息", StringFormat("Tic %d: X Pos: %d", $iTic, _GUICtrlSlider_GetTicPos($hSlider, $iTic)))
 
 	; 循环直到用户退出
 	Do

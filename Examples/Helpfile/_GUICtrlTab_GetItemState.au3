@@ -20,7 +20,7 @@ Func _Main()
 
 	; 获取/设置第二个标签的状态
 	_GUICtrlTab_SetItemState($hTab, 1, $TCIS_BUTTONPRESSED)
-	MsgBox(4160, "Information", "Tab 2 state: " & _ExplainItemState(_GUICtrlTab_GetItemState($hTab, 1)))
+	MsgBox(4160, "信息", "Tab 2 state: " & _ExplainItemState(_GUICtrlTab_GetItemState($hTab, 1)))
 
 	; 循环直到用户退出
 	Do

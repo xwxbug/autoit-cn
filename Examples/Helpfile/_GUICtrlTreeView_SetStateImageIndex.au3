@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[0])
 	_GUICtrlTreeView_SetStateImageIndex($hTreeView, $hItem[0], 2)
 
-	MsgBox(4160, "Information", "State Image Index for Item 0: " & _GUICtrlTreeView_GetStateImageIndex($hTreeView, $hItem[0]))
+	MsgBox(4160, "信息", "State Image Index for Item 0: " & _GUICtrlTreeView_GetStateImageIndex($hTreeView, $hItem[0]))
 
 	; 循环直到用户退出
 	Do

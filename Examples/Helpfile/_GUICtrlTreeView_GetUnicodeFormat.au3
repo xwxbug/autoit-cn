@@ -37,9 +37,9 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Unicode Format: " & _GUICtrlTreeView_GetUnicodeFormat($hTreeView))
+	MsgBox(4160, "信息", "Unicode Format: " & _GUICtrlTreeView_GetUnicodeFormat($hTreeView))
 	_GUICtrlTreeView_SetUnicodeFormat($hTreeView)
-	MsgBox(4160, "Information", "Unicode Format: " & _GUICtrlTreeView_GetUnicodeFormat($hTreeView))
+	MsgBox(4160, "信息", "Unicode Format: " & _GUICtrlTreeView_GetUnicodeFormat($hTreeView))
 
 	; 循环直到用户退出
 	Do

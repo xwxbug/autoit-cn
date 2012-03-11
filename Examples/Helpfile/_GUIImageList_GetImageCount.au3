@@ -14,7 +14,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	$iRandom = Random(6, 20, 1)
 	For $x = 1 To $iRandom
@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($listview, "Column 2", 100)
 	_GUICtrlListView_AddColumn($listview, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($listview, 0, "Row 1: Col 3", 2, 2)
@@ -41,7 +41,7 @@ Func _Main()
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 2", 1, 4)
 	_GUICtrlListView_AddSubItem($listview, 5, "Row 6: Col 3", 2, 3)
 
-	MsgBox(4096, "Information", "Image Count: " & _GUIImageList_GetImageCount($hImage))
+	MsgBox(4096, "信息", "Image Count: " & _GUIImageList_GetImageCount($hImage))
 
 	; 循环直到用户退出
 	Do

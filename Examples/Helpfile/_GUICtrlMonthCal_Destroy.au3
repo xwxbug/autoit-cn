@@ -15,8 +15,8 @@ Func _Main()
 	GUISetState()
 
 	$HandleBefore = $hMonthCal
-	MsgBox(4160, "Information", "Destroying the Control for Handle: " & $hMonthCal)
-	MsgBox(4160, "Information", "Control Destroyed: " & _GUICtrlMonthCal_Destroy($hMonthCal) & @LF & _
+	MsgBox(4160, "信息", "Destroying the Control for Handle: " & $hMonthCal)
+	MsgBox(4160, "信息", "Control Destroyed: " & _GUICtrlMonthCal_Destroy($hMonthCal) & @LF & _
 			"Handel Before Destroy: " & $HandleBefore & @LF & _
 			"Handle After Destroy: " & $hMonthCal)
 

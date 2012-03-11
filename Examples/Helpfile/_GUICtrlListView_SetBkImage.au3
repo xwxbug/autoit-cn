@@ -2,7 +2,7 @@
 #include <GuiListView.au3>
 #include <GuiImageList.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Example_UDF_Created() ;use UDF built listview
 
@@ -16,7 +16,7 @@ Func Example_UDF_Created()
 	$hListView = _GUICtrlListView_Create($GUI, "", 2, 2, 596, 500, -1, -1, True) ; Last option Calls CoInitializeEx
 	;=========================================================================================================
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, $exStyles)
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0xFF0000, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x00FF00, 16, 16))
@@ -28,7 +28,7 @@ Func Example_UDF_Created()
 	_GUICtrlListView_InsertColumn($hListView, 1, "Column 2", 100)
 	_GUICtrlListView_InsertColumn($hListView, 2, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($hListView, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 2", 1)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 3", 2)
@@ -59,7 +59,7 @@ Func Example_UDF_Created()
 
 	GUISetState()
 
-	MsgBox(4160, "Information", "Background Image: " & $aImage[1])
+	MsgBox(4160, "信息", "Background Image: " & $aImage[1])
 
 	; 循环直到用户退出
 	Do

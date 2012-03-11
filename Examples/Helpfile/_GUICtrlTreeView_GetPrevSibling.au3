@@ -33,7 +33,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$hRandItem = Random(0, 8, 1)
-	MsgBox(4160, "Information", StringFormat("Index %d, Prev: %s", $hRandItem, _GUICtrlTreeView_GetPrevSibling($hTreeView, $hItem[$hRandItem])))
+	MsgBox(4160, "信息", StringFormat("Index %d, Prev: %s", $hRandItem, _GUICtrlTreeView_GetPrevSibling($hTreeView, $hItem[$hRandItem])))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetPrevSibling($hTreeView, $hItem[$hRandItem]))
 
 	; 循环直到用户退出

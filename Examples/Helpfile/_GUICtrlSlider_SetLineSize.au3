@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; Get Line Size
-	MsgBox(4160, "Information", "Line Size: " & _GUICtrlSlider_GetLineSize($hSlider))
+	MsgBox(4160, "信息", "Line Size: " & _GUICtrlSlider_GetLineSize($hSlider))
 
 	; Set Line Size
 	_GUICtrlSlider_SetLineSize($hSlider, 4)
 
 	; Get Line Size
-	MsgBox(4160, "Information", "Line Size: " & _GUICtrlSlider_GetLineSize($hSlider))
+	MsgBox(4160, "信息", "Line Size: " & _GUICtrlSlider_GetLineSize($hSlider))
 
 	; 循环直到用户退出
 	Do

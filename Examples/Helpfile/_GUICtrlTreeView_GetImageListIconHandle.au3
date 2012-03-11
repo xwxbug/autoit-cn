@@ -33,7 +33,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$hRandomImage = Random(0, _GUIImageList_GetImageCount($hImage) - 1, 1)
-	MsgBox(4160, "Information", StringFormat("ImageList Icon Handle for Image %d? %s", $hRandomImage, _GUICtrlTreeView_GetImageListIconHandle($hTreeView, $hRandomImage)))
+	MsgBox(4160, "信息", StringFormat("ImageList Icon Handle for Image %d? %s", $hRandomImage, _GUICtrlTreeView_GetImageListIconHandle($hTreeView, $hRandomImage)))
 
 	; 循环直到用户退出
 	Do

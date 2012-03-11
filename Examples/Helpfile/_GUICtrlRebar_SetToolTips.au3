@@ -63,7 +63,7 @@ Func _Main()
 
 	MemoWrite("ToolTips Handle: " & _GUICtrlRebar_GetToolTips($hReBar))
 
-	MsgBox(4096, "Information", "Setting ToolTips Handle")
+	MsgBox(4096, "пео╒", "Setting ToolTips Handle")
 	_GUICtrlRebar_SetToolTips($hReBar, $hToolTip)
 
 	MemoWrite("ToolTips Handle: " & _GUICtrlRebar_GetToolTips($hReBar))

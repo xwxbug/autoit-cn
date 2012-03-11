@@ -21,7 +21,7 @@ Func _Main()
 	; Get tab 0 rectangle
 	$aRect = _GUICtrlTab_GetItemRect($hTab, 0)
 	$sRect = StringFormat("[%d, %d, %d, %d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3])
-	MsgBox(4160, "Information", "Tab 0 rectangle: " & $sRect)
+	MsgBox(4160, "信息", "Tab 0 rectangle: " & $sRect)
 
 	; 循环直到用户退出
 	Do

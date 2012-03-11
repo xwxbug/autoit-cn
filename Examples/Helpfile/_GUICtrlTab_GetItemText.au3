@@ -20,7 +20,7 @@ Func _Main()
 
 	; Get/Set tab 1 text
 	_GUICtrlTab_SetItemText($hTab, 0, "New Text")
-	MsgBox(4160, "Information", "Tab 1 text: " & _GUICtrlTab_GetItemText($hTab, 0))
+	MsgBox(4160, "信息", "Tab 1 text: " & _GUICtrlTab_GetItemText($hTab, 0))
 
 	; 循环直到用户退出
 	Do

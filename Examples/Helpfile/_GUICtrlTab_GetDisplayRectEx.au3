@@ -24,7 +24,7 @@ Func _Main()
 			DllStructGetData($tRect, "Top"), _
 			DllStructGetData($tRect, "Right"), _
 			DllStructGetData($tRect, "Bottom"))
-	MsgBox(4160, "Information", "Display rectangle: " & $sRect)
+	MsgBox(4160, "信息", "Display rectangle: " & $sRect)
 
 	; 循环直到用户退出
 	Do

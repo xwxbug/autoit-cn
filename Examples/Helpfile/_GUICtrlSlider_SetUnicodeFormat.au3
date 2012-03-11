@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; 获取 Unicode 格式
-	MsgBox(4160, "Information", "Unicode Format: " & _GUICtrlSlider_GetUnicodeFormat($hSlider))
+	MsgBox(4160, "信息", "Unicode Format: " & _GUICtrlSlider_GetUnicodeFormat($hSlider))
 
 	; 设置 Unicode 格式
-	MsgBox(4160, "Information", "Previous Unicode Format: " & _GUICtrlSlider_SetUnicodeFormat($hSlider, False))
+	MsgBox(4160, "信息", "Previous Unicode Format: " & _GUICtrlSlider_SetUnicodeFormat($hSlider, False))
 
 	; 获取 Unicode 格式
-	MsgBox(4160, "Information", "Unicode Format: " & _GUICtrlSlider_GetUnicodeFormat($hSlider))
+	MsgBox(4160, "信息", "Unicode Format: " & _GUICtrlSlider_GetUnicodeFormat($hSlider))
 
 	; 循环直到用户退出
 	Do

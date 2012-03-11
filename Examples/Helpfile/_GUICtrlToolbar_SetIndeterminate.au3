@@ -32,9 +32,9 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; 设置保存按钮状态
-	MsgBox(4096, "Information", "Save button indeterminate: " & _GUICtrlToolbar_IsButtonIndeterminate($hToolbar, $idSave))
+	MsgBox(4096, "信息", "Save button indeterminate: " & _GUICtrlToolbar_IsButtonIndeterminate($hToolbar, $idSave))
 	_GUICtrlToolbar_SetIndeterminate($hToolbar, $idSave)
-	MsgBox(4096, "Information", "Save button indeterminate: " & _GUICtrlToolbar_IsButtonIndeterminate($hToolbar, $idSave))
+	MsgBox(4096, "信息", "Save button indeterminate: " & _GUICtrlToolbar_IsButtonIndeterminate($hToolbar, $idSave))
 
 	; 循环直到用户退出
 	Do

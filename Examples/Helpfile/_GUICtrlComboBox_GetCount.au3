@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Get Count
-	MsgBox(4160, "Information", "Count: " & _GUICtrlComboBox_GetCount($hCombo))
+	MsgBox(4160, "信息", "Count: " & _GUICtrlComboBox_GetCount($hCombo))
 
 	; 循环直到用户退出
 	Do

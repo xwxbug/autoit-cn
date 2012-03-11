@@ -20,7 +20,7 @@ Func _Main()
 
 	; 进行点击测试
 	$aHit = _GUICtrlTab_HitTest($hTab, 80, 10)
-	MsgBox(4160, "Information", "Point [80,10] is over tab " & $aHit[0])
+	MsgBox(4160, "信息", "Point [80,10] is over tab " & $aHit[0])
 
 	; 循环直到用户退出
 	Do

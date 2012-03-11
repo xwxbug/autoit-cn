@@ -24,7 +24,7 @@ Func _Main()
 
 	; 设置视图
 	_GUICtrlListView_SetView($hListView, 1)
-	MsgBox(4160, "Information", "View Large: " & _GUICtrlListView_GetViewLarge($hListView))
+	MsgBox(4160, "信息", "View Large: " & _GUICtrlListView_GetViewLarge($hListView))
 
 	; 循环直到用户退出
 	Do

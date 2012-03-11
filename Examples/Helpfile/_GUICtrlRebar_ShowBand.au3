@@ -56,11 +56,11 @@ Func _Main()
 
 	GUISetState(@SW_SHOW)
 
-	MsgBox(4096, "Information", "Hide Band using _GUICtrlRebar_ShowBand")
+	MsgBox(4096, "信息", "Hide Band using _GUICtrlRebar_ShowBand")
 	_GUICtrlRebar_ShowBand($hReBar, 0, False)
 
 
-	MsgBox(4096, "Information", "Show Band using _GUICtrlRebar_ShowBand")
+	MsgBox(4096, "信息", "Show Band using _GUICtrlRebar_ShowBand")
 	_GUICtrlRebar_ShowBand($hReBar, 0)
 
 	While 1

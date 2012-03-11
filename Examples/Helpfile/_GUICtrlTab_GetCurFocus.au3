@@ -20,7 +20,7 @@ Func _Main()
 
 	; Get/Set current focus
 	_GUICtrlTab_SetCurFocus($hTab, 1)
-	MsgBox(4160, "Information", "Current Focus: " & _GUICtrlTab_GetCurFocus($hTab))
+	MsgBox(4160, "信息", "Current Focus: " & _GUICtrlTab_GetCurFocus($hTab))
 
 	; 循环直到用户退出
 	Do

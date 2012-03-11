@@ -23,7 +23,7 @@ Func _Main()
 	$hTool = _GUIToolTip_Create($hTab)
 	_GUICtrlTab_SetToolTips($hTab, $hTool)
 
-	MsgBox(4160, "Information", "ToolTip handle: 0x" & _GUICtrlTab_GetToolTips($hTab) & @CRLF & _
+	MsgBox(4160, "信息", "ToolTip handle: 0x" & _GUICtrlTab_GetToolTips($hTab) & @CRLF & _
 			"IsPtr = " & IsPtr(_GUICtrlTab_GetToolTips($hTab)) & " IsHwnd = " & IsHWnd(_GUICtrlTab_GetToolTips($hTab)))
 
 	; 循环直到用户退出

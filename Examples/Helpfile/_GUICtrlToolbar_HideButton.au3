@@ -38,9 +38,9 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Hide Save button
-	MsgBox(4096, "Information", "Hiding Save button")
+	MsgBox(4096, "信息", "Hiding Save button")
 	_GUICtrlToolbar_HideButton($hToolbar, $idSave, True)
-	MsgBox(4096, "Information", "Restoring Save button")
+	MsgBox(4096, "信息", "Restoring Save button")
 	_GUICtrlToolbar_HideButton($hToolbar, $idSave, False)
 
 	; 循环直到用户退出

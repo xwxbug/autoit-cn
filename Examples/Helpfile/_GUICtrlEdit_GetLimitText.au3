@@ -13,12 +13,12 @@ Func _Main()
 	$hEdit = GUICtrlCreateEdit("This is a test" & @CRLF & "Another Line", 2, 2, 394, 268)
 	GUISetState()
 
-	MsgBox(4160, "Information", "Text Limit: " & _GUICtrlEdit_GetLimitText($hEdit))
+	MsgBox(4160, "信息", "Text Limit: " & _GUICtrlEdit_GetLimitText($hEdit))
 
-	MsgBox(4160, "Information", "Setting Text Limit")
+	MsgBox(4160, "信息", "Setting Text Limit")
 	_GUICtrlEdit_SetLimitText($hEdit, 64000)
 
-	MsgBox(4160, "Information", "Text Limit: " & _GUICtrlEdit_GetLimitText($hEdit))
+	MsgBox(4160, "信息", "Text Limit: " & _GUICtrlEdit_GetLimitText($hEdit))
 
 	; 循环直到用户退出
 	Do

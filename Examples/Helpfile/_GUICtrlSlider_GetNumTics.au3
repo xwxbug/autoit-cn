@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; Get Num Tics
-	MsgBox(4160, "Information", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
+	MsgBox(4160, "信息", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
 
 	; Set Tic Freq
 	_GUICtrlSlider_SetTicFreq($hSlider, 1)
 
 	; Get Num Tics
-	MsgBox(4160, "Information", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
+	MsgBox(4160, "信息", "Num Tics: " & _GUICtrlSlider_GetNumTics($hSlider))
 
 	; 循环直到用户退出
 	Do

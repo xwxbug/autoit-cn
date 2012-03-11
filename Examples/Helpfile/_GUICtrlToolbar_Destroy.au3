@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
 	; Delete ToolBar
-	MsgBox(4096, "Information", "Destroying ToolBar")
+	MsgBox(4096, "信息", "Destroying ToolBar")
 	_GUICtrlToolbar_Destroy($hToolbar)
 
 	; 循环直到用户退出

@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP)
 
 	; 显示工具提示句柄
-	MsgBox(4096, "Information", "ToolTip handle .: 0x" & Hex(_GUICtrlToolbar_GetToolTips($hToolbar)))
+	MsgBox(4096, "信息", "ToolTip handle .: 0x" & Hex(_GUICtrlToolbar_GetToolTips($hToolbar)))
 
 	; 循环直到用户退出
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")

@@ -25,7 +25,7 @@ Func _Main()
 
 	; Get Dropped Control Rect
 	$tRect = _GUICtrlComboBoxEx_GetDroppedControlRectEx($hCombo)
-	MsgBox(4160, "Information", "Dropped Control Rect: " & _
+	MsgBox(4160, "пео╒", "Dropped Control Rect: " & _
 			StringFormat("[%d][%d][%d][%d]", DllStructGetData($tRect, "Left"), DllStructGetData($tRect, "Top"), _
 			DllStructGetData($tRect, "Right"), DllStructGetData($tRect, "Bottom")))
 

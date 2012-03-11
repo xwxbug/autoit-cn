@@ -24,7 +24,7 @@ Func _Main()
 	; Set Text
 	_GUICtrlEdit_SetText($hEdit, @TAB & "1st" & @TAB & "2nd" & @TAB & "3rd")
 
-	MsgBox(4160, "Information", "Set Tab Stops")
+	MsgBox(4160, "пео╒", "Set Tab Stops")
 	; Set Tab Stops
 	_GUICtrlEdit_SetTabStops($hEdit, $aTabStops)
 

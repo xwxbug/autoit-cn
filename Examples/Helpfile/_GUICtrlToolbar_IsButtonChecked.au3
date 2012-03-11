@@ -38,9 +38,9 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Check Save button
-	MsgBox(4096, "Information", "Save button is checked: " & _GUICtrlToolbar_IsButtonChecked($hToolbar, $idSave))
+	MsgBox(4096, "信息", "Save button is checked: " & _GUICtrlToolbar_IsButtonChecked($hToolbar, $idSave))
 	_GUICtrlToolbar_CheckButton($hToolbar, $idSave)
-	MsgBox(4096, "Information", "Save button is checked: " & _GUICtrlToolbar_IsButtonChecked($hToolbar, $idSave))
+	MsgBox(4096, "信息", "Save button is checked: " & _GUICtrlToolbar_IsButtonChecked($hToolbar, $idSave))
 
 	; 循环直到用户退出
 	Do

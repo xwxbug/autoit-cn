@@ -14,7 +14,7 @@ Func _Main()
 
 	$btn2 = GUICtrlCreateButton("Button2", 10, 70, 90, 50)
 
-	MsgBox(4096, "Information", "Setting Button Style")
+	MsgBox(4096, "пео╒", "Setting Button Style")
 	_GUICtrlButton_SetStyle($btn, $BS_AUTORADIOBUTTON)
 	_GUICtrlButton_SetStyle($btn2, $BS_AUTOCHECKBOX)
 

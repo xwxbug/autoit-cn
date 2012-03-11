@@ -32,11 +32,11 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Indent: " & _GUICtrlTreeView_GetIndent($hTreeView))
+	MsgBox(4160, "信息", "Indent: " & _GUICtrlTreeView_GetIndent($hTreeView))
 
 	_GUICtrlTreeView_SetIndent($hTreeView, 25)
 
-	MsgBox(4160, "Information", "Indent: " & _GUICtrlTreeView_GetIndent($hTreeView))
+	MsgBox(4160, "信息", "Indent: " & _GUICtrlTreeView_GetIndent($hTreeView))
 
 	; 循环直到用户退出
 	Do

@@ -27,10 +27,10 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Item handle for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand]), _
+	MsgBox(4160, "信息", StringFormat("Item handle for index %d: %s\r\nIsPtr = %d IsHWnd = %d", $iRand, _GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand]), _
 			IsPtr(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand])), IsHWnd(_GUICtrlTreeView_GetItemHandle($hTreeView, $hItem[$iRand]))))
 	$iRand = Random(0, 29, 1)
-	MsgBox(4160, "Information", StringFormat("Item handle for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemHandle($hTreeView, $hItemChild[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Item handle for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemHandle($hTreeView, $hItemChild[$iRand])))
 
 	; 循环直到用户退出
 	Do

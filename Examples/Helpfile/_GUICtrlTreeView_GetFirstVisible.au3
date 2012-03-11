@@ -27,7 +27,7 @@ Func _Main()
 
 	_GUICtrlTreeView_EnsureVisible($hTreeView, $hItem)
 	$hFirst = _GUICtrlTreeView_GetFirstVisible($hTreeView)
-	MsgBox(4160, "Information", "First Visible: " & $hFirst)
+	MsgBox(4160, "信息", "First Visible: " & $hFirst)
 	_GUICtrlTreeView_SelectItem($hTreeView, $hFirst)
 
 	; 循环直到用户退出

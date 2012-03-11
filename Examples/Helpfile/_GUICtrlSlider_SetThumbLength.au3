@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; Get Thumb Length
-	MsgBox(4160, "Information", "Thumb Length: " & _GUICtrlSlider_GetThumbLength($hSlider))
+	MsgBox(4160, "信息", "Thumb Length: " & _GUICtrlSlider_GetThumbLength($hSlider))
 
 	; Set Thumb Length
 	_GUICtrlSlider_SetThumbLength($hSlider, 10)
 
 	; Get Thumb Length
-	MsgBox(4160, "Information", "Thumb Length: " & _GUICtrlSlider_GetThumbLength($hSlider))
+	MsgBox(4160, "信息", "Thumb Length: " & _GUICtrlSlider_GetThumbLength($hSlider))
 
 	; 循环直到用户退出
 	Do

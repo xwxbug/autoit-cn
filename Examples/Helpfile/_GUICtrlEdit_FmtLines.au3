@@ -30,7 +30,7 @@ Func _Main()
 	; 带有软断行符的文本
 	$sAfter = _GUICtrlEdit_GetText($hEdit)
 
-	MsgBox(4096, "Information", "Before:" & @LF & @LF & $sBefore & @LF & _
+	MsgBox(4096, "信息", "Before:" & @LF & @LF & $sBefore & @LF & _
 			'--------------------------------------------------------------' & @LF & _
 			"After:" & @LF & @LF & $sAfter)
 

@@ -21,7 +21,7 @@ Func _Main()
 	Next
 	_GUICtrlListBox_EndUpdate($hListBox)
 
-	MsgBox(4160, "Information", "Resetting Content")
+	MsgBox(4160, "信息", "Resetting Content")
 	_GUICtrlListBox_ResetContent($hListBox)
 
 	; 循环直到用户退出

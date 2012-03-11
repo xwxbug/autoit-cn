@@ -18,7 +18,7 @@ Func _Main()
 	_GUICtrlComboBox_AddDir($hCombo, "", $DDL_DRIVES, False)
 
 	;Delete string
-	MsgBox(4160, "Information", "Deleting string at index 1")
+	MsgBox(4160, "信息", "Deleting string at index 1")
 	_GUICtrlComboBox_DeleteString($hCombo, 1)
 
 	; 循环直到用户退出

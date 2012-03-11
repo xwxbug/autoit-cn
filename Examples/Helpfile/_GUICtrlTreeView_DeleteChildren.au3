@@ -39,7 +39,7 @@ Func _Main()
 
 	_GUICtrlTreeView_Expand($hTreeView)
 
-	MsgBox(4160, "Information", "Delete Children")
+	MsgBox(4160, "信息", "Delete Children")
 	_GUICtrlTreeView_DeleteChildren($hTreeView, $hItem)
 
 	; 循环直到用户退出

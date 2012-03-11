@@ -1,7 +1,7 @@
 #include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Example1()
 Example2()
@@ -20,7 +20,7 @@ Func Example1()
 		GUICtrlCreateListViewItem("Item " & $iI & "|Item " & $iI & "-1|Item " & $iI & "-2", $hListView)
 	Next
 
-	MsgBox(4160, "Information", "Delete All Items")
+	MsgBox(4160, "信息", "Delete All Items")
 	; Items created using built-in function, pass the control ID
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems($hListView))
 
@@ -47,7 +47,7 @@ Func Example2()
 
 	_GUICtrlListView_AddArray($hListView, $aItems)
 
-	MsgBox(4160, "Information", "Delete All Items")
+	MsgBox(4160, "信息", "Delete All Items")
 	; Items created using UDF function(s), pass the handle to the control
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems(GUICtrlGetHandle($hListView)))
 
@@ -74,7 +74,7 @@ Func Example_UDF_Created()
 
 	_GUICtrlListView_AddArray($hListView, $aItems)
 
-	MsgBox(4160, "Information", "Delete All Items")
+	MsgBox(4160, "信息", "Delete All Items")
 	; This is already a handle
 	MsgBox(4160, "Deleted?", _GUICtrlListView_DeleteAllItems($hListView))
 

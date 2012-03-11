@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlListBox_SetItemData($hListBox, 4, 1234)
 
 	; Get item data
-	MsgBox(4160, "Information", "Item 5 Data: " & _GUICtrlListBox_GetItemData($hListBox, 4))
+	MsgBox(4160, "信息", "Item 5 Data: " & _GUICtrlListBox_GetItemData($hListBox, 4))
 
 	; 循环直到用户退出
 	Do

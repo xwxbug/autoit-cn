@@ -20,7 +20,7 @@ Func _Main()
 
 	; Get/Set extended styles
 	_GUICtrlTab_SetExtendedStyle($hTab, $TCS_EX_FLATSEPARATORS)
-	MsgBox(4160, "Information", "Extended styles: 0x" & Hex(_GUICtrlTab_GetExtendedStyle($hTab)))
+	MsgBox(4160, "信息", "Extended styles: 0x" & Hex(_GUICtrlTab_GetExtendedStyle($hTab)))
 
 	; 循环直到用户退出
 	Do

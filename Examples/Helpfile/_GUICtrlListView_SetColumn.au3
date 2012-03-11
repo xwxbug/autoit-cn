@@ -19,10 +19,10 @@ Func _Main()
 
 	; 改变列
 	$aInfo = _GUICtrlListView_GetColumn($hListView, 0)
-	MsgBox(4160, "Information", "Column 1 Width: " & $aInfo[4])
+	MsgBox(4160, "信息", "Column 1 Width: " & $aInfo[4])
 	_GUICtrlListView_SetColumn($hListView, 0, "New Column 1", 150, 1)
 	$aInfo = _GUICtrlListView_GetColumn($hListView, 0)
-	MsgBox(4160, "Information", "Column 1 Width: " & $aInfo[4])
+	MsgBox(4160, "信息", "Column 1 Width: " & $aInfo[4])
 
 	; 循环直到用户退出
 	Do

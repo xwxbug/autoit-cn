@@ -18,7 +18,7 @@ Func _Main()
 	_GDIPlus_PenSetAlignment($hPen, 1)
 
 	; 显示画笔对齐方式
-	MsgBox(4096, "Information", "Pen alignment: " & _GDIPlus_PenGetAlignment($hPen))
+	MsgBox(4096, "信息", "Pen alignment: " & _GDIPlus_PenGetAlignment($hPen))
 
 	; 描绘箭头
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 130, 390, 130, $hPen)

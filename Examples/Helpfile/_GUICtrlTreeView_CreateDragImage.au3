@@ -18,7 +18,7 @@ Func _Main()
 
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(16, 16, 5, 3)
 	_GUIImageList_AddIcon($hImage, "shell32.dll", 110)
 	_GUIImageList_AddIcon($hImage, "shell32.dll", 131)
@@ -53,7 +53,7 @@ Func _Main()
 				Local $hSelected = _GUICtrlTreeView_GetSelection($hTreeView)
 				If $hSelected Then
 					$fDragging = True
-					; Create drag image
+					; 创建拖动时的图像
 					$aDrag = _GUICtrlTreeView_CreateDragImage($hTreeView, $hSelected)
 					DrawDragImage($hTreeView, $aDrag)
 				EndIf
@@ -61,7 +61,7 @@ Func _Main()
 			Case $GUI_EVENT_PRIMARYUP
 				If $fDragging Then
 					$fDragging = False
-					; delete image list
+					; 删除图像列表
 					_GUIImageList_Destroy($aDrag)
 					_WinAPI_InvalidateRect($hTreeView)
 					_WinAPI_InvalidateRect(HWnd($GUI))
@@ -73,7 +73,7 @@ Func _Main()
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Draw drag image
+; 描绘拖动的图像
 Func DrawDragImage(ByRef $hControl, ByRef $aDrag)
 	Local $tPoint, $hDC
 	$hDC = _WinAPI_GetWindowDC($hControl)

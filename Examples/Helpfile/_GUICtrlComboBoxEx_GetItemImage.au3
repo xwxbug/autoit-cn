@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetItemImage($hCombo, 0, 1)
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 1, 1)
 	_GUICtrlComboBoxEx_SetItemIndent($hCombo, 2, 2)
-	MsgBox(4160, "Information", "Item Image: " & _GUICtrlComboBoxEx_GetItemImage($hCombo, 0))
+	MsgBox(4160, "пео╒", "Item Image: " & _GUICtrlComboBoxEx_GetItemImage($hCombo, 0))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

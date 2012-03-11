@@ -117,7 +117,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					_DebugPrint("$TVN_BEGINDRAG")
 				Case $TVN_BEGINLABELEDITA, $TVN_BEGINLABELEDITW
 					_DebugPrint("$TVN_BEGINLABELEDIT")
-					MsgBox(4160, "Information", "Edit Control Handle: 0x" & Hex(_GUICtrlTreeView_GetEditControl($hTreeView)) & @CRLF & _
+					MsgBox(4160, "пео╒", "Edit Control Handle: 0x" & Hex(_GUICtrlTreeView_GetEditControl($hTreeView)) & @CRLF & _
 							"IsPtr = " & IsPtr(_GUICtrlTreeView_GetEditControl($hTreeView)) & " IsHWnd = " & IsHWnd(_GUICtrlTreeView_GetEditControl($hTreeView)))
 				Case $TVN_BEGINRDRAGA, $TVN_BEGINRDRAGW
 					_DebugPrint("$TVN_BEGINRDRAG")

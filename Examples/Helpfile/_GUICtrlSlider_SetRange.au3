@@ -15,14 +15,14 @@ Func _Main()
 
 	; Get Range
 	$aRange = _GUICtrlSlider_GetRange($hSlider)
-	MsgBox(4160, "Information", StringFormat("Range: %d - %d", $aRange[0], $aRange[1]))
+	MsgBox(4160, "信息", StringFormat("Range: %d - %d", $aRange[0], $aRange[1]))
 
 	; Set Range
 	_GUICtrlSlider_SetRange($hSlider, 20, 50)
 
 	; Get Range
 	$aRange = _GUICtrlSlider_GetRange($hSlider)
-	MsgBox(4160, "Information", StringFormat("Range: %d - %d", $aRange[0], $aRange[1]))
+	MsgBox(4160, "信息", StringFormat("Range: %d - %d", $aRange[0], $aRange[1]))
 
 	; 循环直到用户退出
 	Do

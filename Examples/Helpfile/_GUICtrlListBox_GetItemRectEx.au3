@@ -22,7 +22,7 @@ Func _Main()
 
 	; Show item rectangle
 	$tRect = _GUICtrlListBox_GetItemRectEx($hListBox, 4)
-	MsgBox(4160, "Information", "Item 5 Rectangle: " & _
+	MsgBox(4160, "пео╒", "Item 5 Rectangle: " & _
 			DllStructGetData($tRect, "Left") & ", " & _
 			DllStructGetData($tRect, "Top") & ", " & _
 			DllStructGetData($tRect, "Right") & ", " & _

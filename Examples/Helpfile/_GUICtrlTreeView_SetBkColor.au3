@@ -40,7 +40,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Back Color: " & _GUICtrlTreeView_GetBkColor($hTreeView) & @LF & _
+	MsgBox(4160, "пео╒", "Back Color: " & _GUICtrlTreeView_GetBkColor($hTreeView) & @LF & _
 			"Text Color: " & _GUICtrlTreeView_GetTextColor($hTreeView) & @LF & _
 			"Line Color: " & _GUICtrlTreeView_GetLineColor($hTreeView))
 

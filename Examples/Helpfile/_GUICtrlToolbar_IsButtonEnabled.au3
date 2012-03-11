@@ -38,9 +38,9 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; 禁用帮助按钮
-	MsgBox(4096, "Information", "Help button enabled: " & _GUICtrlToolbar_IsButtonEnabled($hToolbar, $idHelp))
+	MsgBox(4096, "信息", "Help button enabled: " & _GUICtrlToolbar_IsButtonEnabled($hToolbar, $idHelp))
 	_GUICtrlToolbar_EnableButton($hToolbar, $idHelp, False)
-	MsgBox(4096, "Information", "Help button enabled: " & _GUICtrlToolbar_IsButtonEnabled($hToolbar, $idHelp))
+	MsgBox(4096, "信息", "Help button enabled: " & _GUICtrlToolbar_IsButtonEnabled($hToolbar, $idHelp))
 
 	; 循环直到用户退出
 	Do

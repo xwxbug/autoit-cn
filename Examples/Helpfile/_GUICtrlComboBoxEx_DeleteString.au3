@@ -25,7 +25,7 @@ Func _Main()
 	Next
 
 	; É¾³ý×Ö·û´®
-	MsgBox(4160, "Information", "Delete String")
+	MsgBox(4160, "ÐÅÏ¢", "Delete String")
 	_GUICtrlComboBoxEx_DeleteString($hCombo, 1)
 
 	Do

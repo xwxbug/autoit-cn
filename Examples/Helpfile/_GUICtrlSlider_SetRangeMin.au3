@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; Get Range Min
-	MsgBox(4160, "Information", "Range Min: " & _GUICtrlSlider_GetRangeMin($hSlider))
+	MsgBox(4160, "信息", "Range Min: " & _GUICtrlSlider_GetRangeMin($hSlider))
 
 	; Set Range Min
 	_GUICtrlSlider_SetRangeMin($hSlider, 20)
 
 	; Get Range Min
-	MsgBox(4160, "Information", "Range Min: " & _GUICtrlSlider_GetRangeMin($hSlider))
+	MsgBox(4160, "信息", "Range Min: " & _GUICtrlSlider_GetRangeMin($hSlider))
 
 	; 循环直到用户退出
 	Do

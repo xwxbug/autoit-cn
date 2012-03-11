@@ -15,9 +15,9 @@ Func _Main()
 	_GUICtrlListView_SetColumnWidth($hListView, 0, 100)
 
 	; 改变首列宽度
-	MsgBox(4160, "Information", "Column 1 Width: " & _GUICtrlListView_GetColumnWidth($hListView, 0))
+	MsgBox(4160, "信息", "Column 1 Width: " & _GUICtrlListView_GetColumnWidth($hListView, 0))
 	_GUICtrlListView_SetColumnWidth($hListView, 0, 150)
-	MsgBox(4160, "Information", "Column 1 Width: " & _GUICtrlListView_GetColumnWidth($hListView, 0))
+	MsgBox(4160, "信息", "Column 1 Width: " & _GUICtrlListView_GetColumnWidth($hListView, 0))
 
 	; 循环直到用户退出
 	Do

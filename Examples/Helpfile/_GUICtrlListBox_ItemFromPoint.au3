@@ -21,7 +21,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Item closest to point
-	MsgBox(4160, "Information", "Item Closest to 30, 30: " & _GUICtrlListBox_ItemFromPoint($hListBox, 30, 30))
+	MsgBox(4160, "信息", "Item Closest to 30, 30: " & _GUICtrlListBox_ItemFromPoint($hListBox, 30, 30))
 
 	; 循环直到用户退出
 	Do

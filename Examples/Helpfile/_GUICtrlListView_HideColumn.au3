@@ -17,8 +17,8 @@ Func _Main()
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
 
-	MsgBox(4160, "Information", "Hiding Column 2")
-	MsgBox(4160, "Information", "Column 2 Hid: " & _GUICtrlListView_HideColumn($hListView, 1))
+	MsgBox(4160, "信息", "Hiding Column 2")
+	MsgBox(4160, "信息", "Column 2 Hid: " & _GUICtrlListView_HideColumn($hListView, 1))
 
 	; 循环直到用户退出
 	Do

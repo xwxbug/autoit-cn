@@ -14,7 +14,7 @@ Func _Main()
 	GUISetState()
 
 	; Show locale, country code, language identifier, primary language id, sub-language id
-	MsgBox(4160, "Information", _
+	MsgBox(4160, "пео╒", _
 			"Locale .................: " & _GUICtrlListBox_GetLocale($hListBox) & @LF & _
 			"Country code ........: " & _GUICtrlListBox_GetLocaleCountry($hListBox) & @LF & _
 			"Language identifier..: " & _GUICtrlListBox_GetLocaleLang($hListBox) & @LF & _

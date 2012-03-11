@@ -22,8 +22,8 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	;Set Top Index
-	MsgBox(4160, "Information", "Set Top Index: " & _GUICtrlComboBoxEx_SetTopIndex($hCombo, Random(50, 149, 1)))
-	MsgBox(4160, "Information", "Top Index: " & _GUICtrlComboBoxEx_GetTopIndex($hCombo))
+	MsgBox(4160, "信息", "Set Top Index: " & _GUICtrlComboBoxEx_SetTopIndex($hCombo, Random(50, 149, 1)))
+	MsgBox(4160, "信息", "Top Index: " & _GUICtrlComboBoxEx_GetTopIndex($hCombo))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

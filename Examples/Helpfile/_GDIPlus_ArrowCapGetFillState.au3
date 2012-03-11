@@ -17,7 +17,7 @@ Func _Main()
 	$hEndCap = _GDIPlus_ArrowCapCreate(4, 6)
 
 	; 显示填充状态
-	MsgBox(4096, "Information", "Fill state: " & _GDIPlus_ArrowCapGetFillState($hEndCap))
+	MsgBox(4096, "信息", "Fill state: " & _GDIPlus_ArrowCapGetFillState($hEndCap))
 
 	; 描绘箭头 1
 	_GDIPlus_PenSetCustomEndCap($hPen, $hEndCap)

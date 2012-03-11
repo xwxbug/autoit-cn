@@ -27,7 +27,7 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x)
 	Next
 
-	MsgBox(4160, "Information", _
+	MsgBox(4160, "пео╒", _
 			"Combo Control Handle: " & _GUICtrlComboBoxEx_GetComboControl($hCombo) & @LF & _
 			"Edit Control Handle: " & _GUICtrlComboBoxEx_GetEditControl($hCombo))
 

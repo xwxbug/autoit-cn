@@ -18,7 +18,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_AddDir($hCombo, "", $DDL_DRIVES, False)
 
 	; Show locale, country code, language identifier, primary language id, sub-language id
-	MsgBox(4160, "Information", _
+	MsgBox(4160, "пео╒", _
 			"Locale .................: " & _GUICtrlComboBoxEx_GetLocale($hCombo) & @LF & _
 			"Country code ........: " & _GUICtrlComboBoxEx_GetLocaleCountry($hCombo) & @LF & _
 			"Language identifier..: " & _GUICtrlComboBoxEx_GetLocaleLang($hCombo) & @LF & _

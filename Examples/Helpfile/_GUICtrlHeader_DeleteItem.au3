@@ -20,7 +20,7 @@ Func _Main()
 	_GUICtrlHeader_AddItem($hHeader, "Column 4", 100)
 
 	; Delete column 3
-	MsgBox(4096, "Information", "Deleting Column 3")
+	MsgBox(4096, "信息", "Deleting Column 3")
 	_GUICtrlHeader_DeleteItem($hHeader, 2)
 
 	; 循环直到用户退出

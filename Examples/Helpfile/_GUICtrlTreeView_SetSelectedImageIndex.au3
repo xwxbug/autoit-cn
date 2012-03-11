@@ -38,9 +38,9 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[2])
-	MsgBox(4160, "Information", StringFormat("Selected Image Index for Item Index 2? %d", _GUICtrlTreeView_GetSelectedImageIndex($hTreeView, $hItem[2])))
+	MsgBox(4160, "信息", StringFormat("Selected Image Index for Item Index 2? %d", _GUICtrlTreeView_GetSelectedImageIndex($hTreeView, $hItem[2])))
 	_GUICtrlTreeView_SetSelectedImageIndex($hTreeView, $hItem[2], 1)
-	MsgBox(4160, "Information", StringFormat("Selected Image Index for Item Index 2? %d", _GUICtrlTreeView_GetSelectedImageIndex($hTreeView, $hItem[2])))
+	MsgBox(4160, "信息", StringFormat("Selected Image Index for Item Index 2? %d", _GUICtrlTreeView_GetSelectedImageIndex($hTreeView, $hItem[2])))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[2])
 
 	; 循环直到用户退出

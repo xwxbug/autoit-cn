@@ -64,7 +64,7 @@ Func _Main()
 		MemoWrite("============================================")
 	Next
 
-	MsgBox(4096, "Information", "Setting Band Text")
+	MsgBox(4096, "пео╒", "Setting Band Text")
 	_GUICtrlRebar_SetBandText($hReBar, 1, "Your Name:")
 
 	For $x = 0 To _GUICtrlRebar_GetBandCount($hReBar) - 1

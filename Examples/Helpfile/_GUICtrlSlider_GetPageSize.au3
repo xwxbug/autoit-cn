@@ -14,13 +14,13 @@ Func _Main()
 	GUISetState()
 
 	; Get Page Size
-	MsgBox(4160, "Information", "Page Size: " & _GUICtrlSlider_GetPageSize($hSlider))
+	MsgBox(4160, "信息", "Page Size: " & _GUICtrlSlider_GetPageSize($hSlider))
 
 	; Set Page Size
 	_GUICtrlSlider_SetPageSize($hSlider, 4)
 
 	; Get Page Size
-	MsgBox(4160, "Information", "Page Size: " & _GUICtrlSlider_GetPageSize($hSlider))
+	MsgBox(4160, "信息", "Page Size: " & _GUICtrlSlider_GetPageSize($hSlider))
 
 	; 循环直到用户退出
 	Do

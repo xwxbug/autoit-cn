@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlEdit_SetText($hEdit, "This is a test" & @CRLF & "Another Line" & @CRLF & "Append to the end?")
 
 	; Get Text
-	MsgBox(4160, "Information", _GUICtrlEdit_GetText($hEdit))
+	MsgBox(4160, "信息", _GUICtrlEdit_GetText($hEdit))
 
 	; 循环直到用户退出
 	Do

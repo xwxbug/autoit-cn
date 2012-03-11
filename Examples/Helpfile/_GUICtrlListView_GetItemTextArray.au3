@@ -25,7 +25,7 @@ Func _Main()
 		$sText &= StringFormat("Column[%2d] %s", $i, $aItem[$i]) & @LF
 	Next
 
-	MsgBox(4160, "Information", "Item 2 (All Columns) Text: " & @LF & @LF & $sText)
+	MsgBox(4160, "信息", "Item 2 (All Columns) Text: " & @LF & @LF & $sText)
 
 	; 循环直到用户退出
 	Do

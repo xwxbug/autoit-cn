@@ -28,22 +28,22 @@ Func _Main()
 	; 设置文本
 	_GUICtrlEdit_SetText($hEdit, FileRead($sFile))
 
-	MsgBox(4160, "Information", "Scroll Line Down")
+	MsgBox(4160, "信息", "Scroll Line Down")
 	_GUICtrlEdit_Scroll($hEdit, $SB_LINEDOWN)
 
-	MsgBox(4160, "Information", "Scroll Line Up")
+	MsgBox(4160, "信息", "Scroll Line Up")
 	_GUICtrlEdit_Scroll($hEdit, $SB_LINEUP)
 
-	MsgBox(4160, "Information", "Scroll Page Down")
+	MsgBox(4160, "信息", "Scroll Page Down")
 	_GUICtrlEdit_Scroll($hEdit, $SB_PAGEDOWN)
 
-	MsgBox(4160, "Information", "Scroll Page Up")
+	MsgBox(4160, "信息", "Scroll Page Up")
 	_GUICtrlEdit_Scroll($hEdit, $SB_PAGEUP)
 
 	$iLen = _GUICtrlEdit_GetTextLen($hEdit)
 	_GUICtrlEdit_SetSel($hEdit, $iLen, $iLen)
 
-	MsgBox(4160, "Information", "Scroll Caret")
+	MsgBox(4160, "信息", "Scroll Caret")
 	_GUICtrlEdit_Scroll($hEdit, $SB_SCROLLCARET)
 
 	; 循环直到用户退出

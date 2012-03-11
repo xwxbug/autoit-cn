@@ -27,7 +27,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Sort'em
-	MsgBox(4160, "Information", "Sort Data")
+	MsgBox(4160, "信息", "Sort Data")
 	_GUICtrlListBox_Sort($hListBox)
 
 	; 循环直到用户退出

@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3")
 
 	; 搜索 "Tab 2"
-	MsgBox(4160, "Information", '"Tab 2" at index ' & _GUICtrlTab_FindTab($hTab, "Tab 2"))
+	MsgBox(4160, "信息", '"Tab 2" at index ' & _GUICtrlTab_FindTab($hTab, "Tab 2"))
 
 	; 循环直到用户退出
 	Do

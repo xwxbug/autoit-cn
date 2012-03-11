@@ -28,7 +28,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3", 2)
 
 	; Show image list handle
-	MsgBox(4160, "Information", "Image list handle: 0x" & Hex(_GUICtrlTab_GetImageList($hTab)) & @CRLF & _
+	MsgBox(4160, "信息", "Image list handle: 0x" & Hex(_GUICtrlTab_GetImageList($hTab)) & @CRLF & _
 			"IsPtr = " & IsPtr(_GUICtrlTab_GetImageList($hTab)) & " IsHwnd = " & IsHWnd(_GUICtrlTab_GetImageList($hTab)))
 
 	; 循环直到用户退出

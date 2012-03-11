@@ -1,7 +1,7 @@
 #include <GUIConstantsEx.au3>
 #include <GuiDateTimePicker.au3>
 
-$Debug_DTP = False ; Check ClassName being passed to DTP functions, set to True and use a handle to another control to see it work
+$Debug_DTP = False 检查传递给 DTP 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $iMemo, $tRange, $aDate
 
@@ -17,13 +17,13 @@ Func _Main()
 	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 
-	; Set the display format
+	; 设置显示的格式
 	_GUICtrlDTP_SetFormat($hDTP, "ddd MMM dd, yyyy hh:mm ttt")
 
-	; Set system time
+	; 设置系统时间
 	_GUICtrlDTP_SetSystemTime($hDTP, $a_Date)
 
-	; Display system time
+	; 显示系统时间
 	$aDate = _GUICtrlDTP_GetSystemTime($hDTP)
 	MemoWrite("Current date: " & GetDateStr())
 	MemoWrite("Current time: " & GetTimeStr())
@@ -34,12 +34,12 @@ Func _Main()
 	GUIDelete()
 EndFunc   ;==>_Main
 
-; Returns the date portion
+; 返回日期部分
 Func GetDateStr()
 	Return StringFormat("%02d/%02d/%04d", $aDate[1], $aDate[2], $aDate[0])
 EndFunc   ;==>GetDateStr
 
-; Returns the time portion
+; 返回时间部分
 Func GetTimeStr()
 	Return StringFormat("%02d:%02d:%02d", $aDate[3], $aDate[4], $aDate[5])
 EndFunc   ;==>GetTimeStr

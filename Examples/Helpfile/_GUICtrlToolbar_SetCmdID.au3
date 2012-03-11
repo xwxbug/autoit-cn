@@ -32,7 +32,7 @@ Func _Main()
 	_GUICtrlToolbar_AddButton($hToolbar, $idHelp, $STD_HELP, $aStrings[3])
 
 	; Change Save button to Print button
-	MsgBox(4096, "Information", "Changing Save button to Print button")
+	MsgBox(4096, "пео╒", "Changing Save button to Print button")
 	_GUICtrlToolbar_SetCmdID($hToolbar, 2, $idPrint)
 	_GUICtrlToolbar_SetButtonBitMap($hToolbar, $idPrint, $STD_PRINT)
 

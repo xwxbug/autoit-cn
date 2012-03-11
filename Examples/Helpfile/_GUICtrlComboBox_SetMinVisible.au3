@@ -19,7 +19,7 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Get Min Visible
-	MsgBox(4160, "Information", "Min Visible:" & @TAB & _GUICtrlComboBox_GetMinVisible($hCombo), 3)
+	MsgBox(4160, "信息", "Min Visible:" & @TAB & _GUICtrlComboBox_GetMinVisible($hCombo), 3)
 
 	; show drop down
 	_GUICtrlComboBox_ShowDropDown($hCombo, True)
@@ -39,7 +39,7 @@ Func _Main()
 	Sleep(500)
 
 	; Get Min Visible
-	MsgBox(4160, "Information", "Min Visible:" & @TAB & _GUICtrlComboBox_GetMinVisible($hCombo), 3)
+	MsgBox(4160, "信息", "Min Visible:" & @TAB & _GUICtrlComboBox_GetMinVisible($hCombo), 3)
 
 	; 循环直到用户退出
 	Do

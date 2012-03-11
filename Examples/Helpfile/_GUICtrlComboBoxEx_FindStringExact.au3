@@ -35,7 +35,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_EndUpdate($hCombo)
 
 	; Find exact string
-	MsgBox(4160, "Information", "Found at: " & _GUICtrlComboBoxEx_FindStringExact($hCombo, "mY tExT"))
+	MsgBox(4160, "пео╒", "Found at: " & _GUICtrlComboBoxEx_FindStringExact($hCombo, "mY tExT"))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

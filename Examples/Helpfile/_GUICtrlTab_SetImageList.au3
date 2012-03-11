@@ -28,7 +28,7 @@ Func _Main()
 	_GUICtrlTab_InsertItem($hTab, 2, "Tab 3", 2)
 
 	; 显示图像列表句柄
-	MsgBox(4160, "Information", "Previous Image list handle: 0x" & Hex($hImage) & @CRLF & _
+	MsgBox(4160, "信息", "Previous Image list handle: 0x" & Hex($hImage) & @CRLF & _
 			"IsPtr = " & IsPtr($hImage) & " IsHwnd = " & IsHWnd($hImage))
 
 	; 循环直到用户退出

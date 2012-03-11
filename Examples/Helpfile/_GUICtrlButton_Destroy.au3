@@ -25,7 +25,7 @@ Func _Main()
 	MemoWrite("$rdo handle: " & $rdo)
 	MemoWrite("$chk handle: " & $chk & @CRLF)
 
-	MsgBox(4096, "Information", "About to Destroy Buttons")
+	MsgBox(4096, "пео╒", "About to Destroy Buttons")
 
 	Send("^{END}")
 

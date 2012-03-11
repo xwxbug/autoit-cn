@@ -25,9 +25,9 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Scroll Time: " & _GUICtrlTreeView_GetScrollTime($hTreeView) & " milliseconds")
+	MsgBox(4160, "信息", "Scroll Time: " & _GUICtrlTreeView_GetScrollTime($hTreeView) & " milliseconds")
 	_GUICtrlTreeView_SetScrollTime($hTreeView, 2)
-	MsgBox(4160, "Information", "Scroll Time: " & _GUICtrlTreeView_GetScrollTime($hTreeView) & " milliseconds")
+	MsgBox(4160, "信息", "Scroll Time: " & _GUICtrlTreeView_GetScrollTime($hTreeView) & " milliseconds")
 
 	; 循环直到用户退出
 	Do

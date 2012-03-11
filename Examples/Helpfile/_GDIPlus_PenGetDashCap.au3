@@ -18,7 +18,7 @@ Func _Main()
 	_GDIPlus_PenSetDashCap($hPen, $GDIP_DASHCAPTRIANGLE)
 
 	; 显示笔短划线帽
-	MsgBox(4096, "Information", "Pen dash cap: " & _GDIPlus_PenGetDashCap($hPen))
+	MsgBox(4096, "信息", "Pen dash cap: " & _GDIPlus_PenGetDashCap($hPen))
 
 	; 描绘线条
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 150, 390, 150, $hPen)

@@ -17,7 +17,7 @@ Func _Main()
 		_GUICtrlEdit_AppendText($hEdit, StringFormat("[%02d] Append to the end?", $x) & @CRLF)
 	Next
 
-	MsgBox(4160, "Information", "First Visible Line: " & _GUICtrlEdit_GetFirstVisibleLine($hEdit))
+	MsgBox(4160, "信息", "First Visible Line: " & _GUICtrlEdit_GetFirstVisibleLine($hEdit))
 
 	; 循环直到用户退出
 	Do

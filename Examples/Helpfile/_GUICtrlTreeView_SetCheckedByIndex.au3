@@ -27,7 +27,7 @@ Func _Main()
 
 	$hRandomItem = Random(0, UBound($hItem) - 1, 1)
 	$iRandIndex = Random(0, 5, 1)
-	MsgBox(4160, "Information", _
+	MsgBox(4160, "пео╒", _
 			StringFormat("Set Child Item index[%d] of Item Index[%d]: %s", $iRandIndex, $hRandomItem, _
 			_GUICtrlTreeView_SetCheckedByIndex($hTreeView, $hItem[$hRandomItem], $iRandIndex)))
 	_GUICtrlTreeView_Expand($hTreeView)

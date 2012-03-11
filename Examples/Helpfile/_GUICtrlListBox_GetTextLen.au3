@@ -25,7 +25,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Show item text length
-	MsgBox(4160, "Information", "Item 5 Text Length: " & _GUICtrlListBox_GetTextLen($hListBox, 4))
+	MsgBox(4160, "信息", "Item 5 Text Length: " & _GUICtrlListBox_GetTextLen($hListBox, 4))
 
 	; 循环直到用户退出
 	Do

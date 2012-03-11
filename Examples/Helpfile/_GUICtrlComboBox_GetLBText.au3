@@ -20,7 +20,7 @@ Func _Main()
 
 	; Get LB Text
 	_GUICtrlComboBox_GetLBText($hCombo, 2, $sText)
-	MsgBox(4160, "Information", "LB Text: " & $sText)
+	MsgBox(4160, "信息", "LB Text: " & $sText)
 
 	; 循环直到用户退出
 	Do

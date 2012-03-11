@@ -42,7 +42,7 @@ Func _Main()
 
 	$iRand = Random(0, 9, 1)
 	_GUICtrlTreeView_SetText($hTreeView, $hItem[$iRand], "This text has been Set")
-	MsgBox(4160, "Information", StringFormat("Text for Item %d: %s", $iRand, _GUICtrlTreeView_GetText($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Text for Item %d: %s", $iRand, _GUICtrlTreeView_GetText($hTreeView, $hItem[$iRand])))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[$iRand])
 
 	; 循环直到用户退出

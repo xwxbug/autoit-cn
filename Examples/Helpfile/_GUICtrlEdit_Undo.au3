@@ -16,7 +16,7 @@ Func _Main()
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
 	; Undo
-	MsgBox(4160, "Information", "Undo")
+	MsgBox(4160, "信息", "Undo")
 	_GUICtrlEdit_Undo($hEdit)
 
 	; 循环直到用户退出

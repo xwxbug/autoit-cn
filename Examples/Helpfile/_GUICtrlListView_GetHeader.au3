@@ -12,7 +12,7 @@ Func _Main()
 	$hListView = GUICtrlCreateListView("col1|col2|col3", 2, 2, 394, 268)
 	GUISetState()
 
-	MsgBox(4160, "Information", "ListView Header Handle: 0x" & Hex(_GUICtrlListView_GetHeader($hListView)) & @CRLF & _
+	MsgBox(4160, "信息", "ListView Header Handle: 0x" & Hex(_GUICtrlListView_GetHeader($hListView)) & @CRLF & _
 			"IsPtr = " & IsPtr(_GUICtrlListView_GetHeader($hListView)) & " IsHwnd = " & IsHWnd(_GUICtrlListView_GetHeader($hListView)))
 
 	; 循环直到用户退出

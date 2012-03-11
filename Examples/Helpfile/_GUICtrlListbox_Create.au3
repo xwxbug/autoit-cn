@@ -17,7 +17,7 @@ Func _Main()
 	$hListBox = _GUICtrlListBox_Create($hGUI, "String upon creation", 2, 2, 396, 296)
 	GUISetState()
 
-	MsgBox(4160, "Information", "Adding Items")
+	MsgBox(4160, "пео╒", "Adding Items")
 
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 

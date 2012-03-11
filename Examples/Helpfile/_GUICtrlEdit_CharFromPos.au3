@@ -16,7 +16,7 @@ Func _Main()
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
 	$aCharPos = _GUICtrlEdit_CharFromPos($hEdit, 100, 20)
-	MsgBox(4160, "Information", StringFormat("Char Nearsest Point: [%2d]", $aCharPos[0]) & @LF & _
+	MsgBox(4160, "信息", StringFormat("Char Nearsest Point: [%2d]", $aCharPos[0]) & @LF & _
 			StringFormat("Line Nearest Point: [%2d]", $aCharPos[1]))
 
 	; 循环直到用户退出

@@ -16,7 +16,7 @@ Func _Main()
 	; Set Sel
 	_GUICtrlSlider_SetSel($hSlider, 10, 50)
 
-	MsgBox(4160, "Information", "Clear Sel")
+	MsgBox(4160, "пео╒", "Clear Sel")
 	; Clear Sel
 	_GUICtrlSlider_ClearSel($hSlider)
 

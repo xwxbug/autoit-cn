@@ -33,10 +33,10 @@ Func _Main()
 	$hItem[10] = GUICtrlCreateTreeViewItem(StringFormat("[%02d] New Item", 10), $hTreeView)
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Item 0 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[0]))
-	MsgBox(4160, "Information", "Item 10 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[10]))
+	MsgBox(4160, "信息", "Item 0 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[0]))
+	MsgBox(4160, "信息", "Item 10 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[10]))
 	_GUICtrlTreeView_SetChildren($hTreeView, $hItem[10])
-	MsgBox(4160, "Information", "Item 10 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[10]))
+	MsgBox(4160, "信息", "Item 10 has Children? " & _GUICtrlTreeView_GetChildren($hTreeView, $hItem[10]))
 
 	; 循环直到用户退出
 	Do

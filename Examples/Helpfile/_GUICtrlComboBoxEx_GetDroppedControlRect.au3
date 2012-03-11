@@ -25,7 +25,7 @@ Func _Main()
 
 	; 获取控件下拉时的矩形坐标
 	$aRect = _GUICtrlComboBoxEx_GetDroppedControlRect($hCombo)
-	MsgBox(4160, "Information", "Dropped Control Rect: " & StringFormat("[%d][%d][%d][%d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
+	MsgBox(4160, "信息", "Dropped Control Rect: " & StringFormat("[%d][%d][%d][%d]", $aRect[0], $aRect[1], $aRect[2], $aRect[3]))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

@@ -25,7 +25,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", StringFormat("First Item? %s", _GUICtrlTreeView_GetFirstItem($hTreeView)))
+	MsgBox(4160, "信息", StringFormat("First Item? %s", _GUICtrlTreeView_GetFirstItem($hTreeView)))
 
 	; 循环直到用户退出
 	Do

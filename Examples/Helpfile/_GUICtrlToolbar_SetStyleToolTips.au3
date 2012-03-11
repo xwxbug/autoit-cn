@@ -33,9 +33,9 @@ Func _Main()
 
 	; 修改控件样式
 	$fStyle = _GUICtrlToolbar_GetStyleToolTips($hToolbar)
-	MsgBox(4096, "Information", "Toolbar has tooltips style .: " & $fStyle)
+	MsgBox(4096, "信息", "Toolbar has tooltips style .: " & $fStyle)
 	_GUICtrlToolbar_SetStyleToolTips($hToolbar, Not $fStyle)
-	MsgBox(4096, "Information", "Toolbar has tooltips style .: " & _GUICtrlToolbar_GetStyleToolTips($hToolbar))
+	MsgBox(4096, "信息", "Toolbar has tooltips style .: " & _GUICtrlToolbar_GetStyleToolTips($hToolbar))
 
 	; 循环直到用户退出
 	Do

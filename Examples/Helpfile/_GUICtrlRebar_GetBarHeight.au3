@@ -61,7 +61,7 @@ Func _Main()
 
 	MemoWrite("Bar Height: " & _GUICtrlRebar_GetBarHeight($hReBar))
 
-	MsgBox(4096, "Information", "Force height to change")
+	MsgBox(4096, "пео╒", "Force height to change")
 	_GUICtrlRebar_SetBandStyleBreak($hReBar, 1)
 
 	MemoWrite("Bar Height: " & _GUICtrlRebar_GetBarHeight($hReBar))

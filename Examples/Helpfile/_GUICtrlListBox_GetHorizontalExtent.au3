@@ -18,12 +18,12 @@ Func _Main()
 	_GUICtrlListBox_AddString($hListBox, "AutoIt v3 is a freeware BASIC-like scripting language designed for automating the Windows GUI.")
 
 	; Show current horizontal extent
-	MsgBox(4160, "Information", "Horizontal Extent: " & _GUICtrlListBox_GetHorizontalExtent($hListBox))
+	MsgBox(4160, "信息", "Horizontal Extent: " & _GUICtrlListBox_GetHorizontalExtent($hListBox))
 
 	_GUICtrlListBox_SetHorizontalExtent($hListBox, 500)
 
 	; Show current horizontal extent
-	MsgBox(4160, "Information", "Horizontal Extent: " & _GUICtrlListBox_GetHorizontalExtent($hListBox))
+	MsgBox(4160, "信息", "Horizontal Extent: " & _GUICtrlListBox_GetHorizontalExtent($hListBox))
 
 	; 循环直到用户退出
 	Do

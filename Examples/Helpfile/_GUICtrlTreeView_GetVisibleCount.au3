@@ -22,7 +22,7 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Visible: " & _GUICtrlTreeView_GetVisibleCount($hTreeView))
+	MsgBox(4160, "信息", "Visible: " & _GUICtrlTreeView_GetVisibleCount($hTreeView))
 
 	; 循环直到用户退出
 	Do

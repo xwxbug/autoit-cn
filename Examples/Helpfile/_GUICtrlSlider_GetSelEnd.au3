@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlSlider_SetSelEnd($hSlider, 50)
 
 	; 获取选区范围终点
-	MsgBox(4160, "Information", "Sel End: " & _GUICtrlSlider_GetSelEnd($hSlider))
+	MsgBox(4160, "信息", "Sel End: " & _GUICtrlSlider_GetSelEnd($hSlider))
 
 	; 循环直到用户退出
 	Do

@@ -25,13 +25,13 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Show top index
-	MsgBox(4160, "Information", "Top Index: " & _GUICtrlListBox_GetTopIndex($hListBox))
+	MsgBox(4160, "信息", "Top Index: " & _GUICtrlListBox_GetTopIndex($hListBox))
 
 	; Set top index
 	_GUICtrlListBox_SetTopIndex($hListBox, 50)
 
 	; Show top index
-	MsgBox(4160, "Information", "Top Index: " & _GUICtrlListBox_GetTopIndex($hListBox))
+	MsgBox(4160, "信息", "Top Index: " & _GUICtrlListBox_GetTopIndex($hListBox))
 
 	; 循环直到用户退出
 	Do

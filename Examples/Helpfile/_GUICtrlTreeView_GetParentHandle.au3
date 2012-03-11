@@ -26,7 +26,7 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChild)
-	MsgBox(4160, "Information", "Parent Handle: " & _GUICtrlTreeView_GetParentHandle($hTreeView, $hChild))
+	MsgBox(4160, "信息", "Parent Handle: " & _GUICtrlTreeView_GetParentHandle($hTreeView, $hChild))
 	_GUICtrlTreeView_SelectItem($hTreeView, _GUICtrlTreeView_GetParentHandle($hTreeView, $hChild))
 
 	; 循环直到用户退出

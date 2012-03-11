@@ -25,16 +25,16 @@ Func _Main()
 	Next
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
-	MsgBox(4160, "Information", "Expand All")
+	MsgBox(4160, "信息", "Expand All")
 	_GUICtrlTreeView_Expand($hTreeView)
 
-	MsgBox(4160, "Information", "Collapse All")
+	MsgBox(4160, "信息", "Collapse All")
 	_GUICtrlTreeView_Expand($hTreeView, 0, False)
 
-	MsgBox(4160, "Information", "Expand item 0")
+	MsgBox(4160, "信息", "Expand item 0")
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[0])
 
-	MsgBox(4160, "Information", "Collapse item 0")
+	MsgBox(4160, "信息", "Collapse item 0")
 	_GUICtrlTreeView_Expand($hTreeView, $hItem[0], False)
 
 	; 循环直到用户退出

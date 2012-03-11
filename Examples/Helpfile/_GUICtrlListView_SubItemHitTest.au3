@@ -4,7 +4,7 @@
 #include <GuiImageList.au3>
 #include <WindowsConstants.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 Global $hListView, $StatusBar, $iIndex = -1, $iSubIndex = -1
 
@@ -19,13 +19,13 @@ Func _Main()
 	$hListView = GUICtrlGetHandle($hListView) ; get the handle for use in the notify events
 	$StatusBar = _GUICtrlStatusBar_Create($GUI, -1, "")
 
-	; Enable extended control styles
+	; 启用扩展控件样式
 	_GUICtrlListView_SetExtendedListViewStyle($hListView, $LVS_EX_SUBITEMIMAGES)
 	GUISetState()
 
 	GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create()
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0xFF0000, 16, 16))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($hListView, 0x00FF00, 16, 16))
@@ -37,7 +37,7 @@ Func _Main()
 	_GUICtrlListView_AddColumn($hListView, "Column 2", 100)
 	_GUICtrlListView_AddColumn($hListView, "Column 3", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($hListView, "Row 1: Col 1", 0)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 2", 1, 1)
 	_GUICtrlListView_AddSubItem($hListView, 0, "Row 1: Col 3", 2, 2)

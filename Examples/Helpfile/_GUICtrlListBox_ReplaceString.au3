@@ -25,7 +25,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Replace string
-	MsgBox(4160, "Information", "Replacing String at Index 3")
+	MsgBox(4160, "信息", "Replacing String at Index 3")
 	_GUICtrlListBox_ReplaceString($hListBox, 3, "gone")
 
 	; 循环直到用户退出

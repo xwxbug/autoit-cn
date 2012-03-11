@@ -42,12 +42,12 @@ Func _Main()
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[0])
 	_GUICtrlTreeView_SetStateImageIndex($hTreeView, $hItem[0], 2)
 
-	MsgBox(4160, "Information", "Tree for Child Index 2: " & _GUICtrlTreeView_GetTree($hTreeView, $hChildItem[2]))
+	MsgBox(4160, "信息", "Tree for Child Index 2: " & _GUICtrlTreeView_GetTree($hTreeView, $hChildItem[2]))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChildItem[2])
 
 	$iRand = Random(0, 29, 1)
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChildItem[$iRand])
-	MsgBox(4160, "Information", StringFormat("Tree for Child Selected Index %d: %s", $iRand, _GUICtrlTreeView_GetTree($hTreeView)))
+	MsgBox(4160, "信息", StringFormat("Tree for Child Selected Index %d: %s", $iRand, _GUICtrlTreeView_GetTree($hTreeView)))
 
 	; 循环直到用户退出
 	Do

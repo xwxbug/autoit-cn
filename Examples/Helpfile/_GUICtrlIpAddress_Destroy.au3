@@ -14,7 +14,7 @@ Func _Main()
 	GUISetState(@SW_SHOW)
 
 	; Clear the IP Address
-	MsgBox(4160, "Information", "Destroy IP Address Control")
+	MsgBox(4160, "пео╒", "Destroy IP Address Control")
 	_GUICtrlIpAddress_Destroy($hIPAddress)
 
 	; Wait for user to close GUI

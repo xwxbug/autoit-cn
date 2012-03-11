@@ -20,13 +20,13 @@ Func _Main()
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
 	; Get Horizontal Extent
-	MsgBox(4160, "Information", "Horizontal Extent: " & _GUICtrlComboBox_GetHorizontalExtent($hCombo))
+	MsgBox(4160, "信息", "Horizontal Extent: " & _GUICtrlComboBox_GetHorizontalExtent($hCombo))
 
 	; Set Horizontal Extent
 	_GUICtrlComboBox_SetHorizontalExtent($hCombo, 500)
 
 	; Get Horizontal Extent
-	MsgBox(4160, "Information", "Horizontal Extent: " & _GUICtrlComboBox_GetHorizontalExtent($hCombo))
+	MsgBox(4160, "信息", "Horizontal Extent: " & _GUICtrlComboBox_GetHorizontalExtent($hCombo))
 
 	; 循环直到用户退出
 	Do

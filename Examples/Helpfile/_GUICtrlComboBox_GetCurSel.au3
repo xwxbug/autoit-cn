@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlComboBox_SetCurSel($hCombo, 2)
 
 	; Get Cur Sel
-	MsgBox(4160, "Information", "Cur Sel: " & _GUICtrlComboBox_GetCurSel($hCombo))
+	MsgBox(4160, "信息", "Cur Sel: " & _GUICtrlComboBox_GetCurSel($hCombo))
 
 	; 循环直到用户退出
 	Do

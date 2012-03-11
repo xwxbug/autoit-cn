@@ -15,7 +15,7 @@ Func _Main()
 	_GUICtrlListView_SetExtendedListViewStyle($listview, $exStyles)
 	GUISetState()
 
-	; Load images
+	; 加载图像
 	$hImage = _GUIImageList_Create(11, 11)
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($listview, 0xFF0000, 11, 11))
 	_GUIImageList_Add($hImage, _GUICtrlListView_CreateSolidBitMap($listview, 0x00FF00, 11, 11))
@@ -25,7 +25,7 @@ Func _Main()
 	; 添加列
 	_GUICtrlListView_AddColumn($listview, "Items", 120)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_AddItem($listview, "Item 1", 0)
 	_GUICtrlListView_AddItem($listview, "Item 2", 1)
 	_GUICtrlListView_AddItem($listview, "Item 3", 2)

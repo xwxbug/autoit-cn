@@ -38,11 +38,11 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 29, 1)
-	MsgBox(4160, "Information", StringFormat("Index for Child Item %d: %d", $iRand, _GUICtrlTreeView_Index($hTreeView, $hChildItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Index for Child Item %d: %d", $iRand, _GUICtrlTreeView_Index($hTreeView, $hChildItem[$iRand])))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hChildItem[$iRand])
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Index for Item %d: %d", $iRand, _GUICtrlTreeView_Index($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Index for Item %d: %d", $iRand, _GUICtrlTreeView_Index($hTreeView, $hItem[$iRand])))
 	_GUICtrlTreeView_SelectItem($hTreeView, $hItem[$iRand])
 
 	; 循环直到用户退出

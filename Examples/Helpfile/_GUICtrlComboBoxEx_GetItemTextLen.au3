@@ -38,7 +38,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_SetItemSelectedImage($hCombo, 0, 3)
 
 	; Get Item Text Len
-	MsgBox(4160, "Information", "Item Text Len: " & _GUICtrlComboBoxEx_GetItemTextLen($hCombo, 0))
+	MsgBox(4160, "пео╒", "Item Text Len: " & _GUICtrlComboBoxEx_GetItemTextLen($hCombo, 0))
 
 	Do
 	Until GUIGetMsg() = $GUI_EVENT_CLOSE

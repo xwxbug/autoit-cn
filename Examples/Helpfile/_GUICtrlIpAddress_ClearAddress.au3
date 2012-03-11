@@ -15,7 +15,7 @@ Func _Main()
 	_GUICtrlIpAddress_Set($hIPAddress, "24.168.2.128")
 
 	; Clear the IP Address
-	MsgBox(4160, "Information", "Clear IP Address")
+	MsgBox(4160, "пео╒", "Clear IP Address")
 	_GUICtrlIpAddress_ClearAddress($hIPAddress)
 
 	; Wait for user to close GUI

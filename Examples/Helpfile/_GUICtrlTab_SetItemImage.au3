@@ -29,7 +29,7 @@ Func _Main()
 
 	; 获取/设置第二个标签的图像
 	_GUICtrlTab_SetItemImage($hTab, 1, 1)
-	MsgBox(4160, "Information", "Tab 2 image index: " & _GUICtrlTab_GetItemImage($hTab, 1))
+	MsgBox(4160, "信息", "Tab 2 image index: " & _GUICtrlTab_GetItemImage($hTab, 1))
 
 	; 循环直到用户退出
 	Do

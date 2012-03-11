@@ -15,11 +15,11 @@ Func _Main()
 
 	_GUICtrlEdit_AppendText($hEdit, @CRLF & "Append to the end?")
 
-	MsgBox(4160, "Information", "Can Undo: " & _GUICtrlEdit_CanUndo($hEdit))
+	MsgBox(4160, "信息", "Can Undo: " & _GUICtrlEdit_CanUndo($hEdit))
 
 	_GUICtrlEdit_EmptyUndoBuffer($hEdit)
 
-	MsgBox(4160, "Information", "Can Undo: " & _GUICtrlEdit_CanUndo($hEdit))
+	MsgBox(4160, "信息", "Can Undo: " & _GUICtrlEdit_CanUndo($hEdit))
 
 	; 循环直到用户退出
 	Do

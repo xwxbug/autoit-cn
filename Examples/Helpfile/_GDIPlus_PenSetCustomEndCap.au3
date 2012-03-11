@@ -18,7 +18,7 @@ Func _Main()
 	_GDIPlus_PenSetCustomEndCap($hPen, $hEndCap)
 
 	; 显示笔端盖
-	MsgBox(4096, "Information", "Pen end cap: " & _GDIPlus_PenGetCustomEndCap($hPen))
+	MsgBox(4096, "信息", "Pen end cap: " & _GDIPlus_PenGetCustomEndCap($hPen))
 
 	; 描绘箭头
 	_GDIPlus_GraphicsDrawLine($hGraphic, 10, 120, 390, 120, $hPen)

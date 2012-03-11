@@ -17,7 +17,7 @@ Func _Main()
 	_GUICtrlComboBoxEx_InsertString($hCombo, "Inserted Text", 1)
 
 	;Destroy control
-	MsgBox(266256, "Information", "Destroy the control")
+	MsgBox(266256, "пео╒", "Destroy the control")
 	_GUICtrlComboBoxEx_Destroy($hCombo)
 
 

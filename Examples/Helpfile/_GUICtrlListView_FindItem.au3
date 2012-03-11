@@ -1,7 +1,7 @@
 #include <GUIConstantsEx.au3>
 #include <GuiListView.au3>
 
-$Debug_LV = False ; Check ClassName being passed to ListView functions, set to True and use a handle to another control to see it work
+$Debug_LV = False ; 检查传递给 ListView 函数的类名, 设置为True并输出到一个控件的句柄,用于检查它是否工作
 
 _Main()
 
@@ -15,7 +15,7 @@ Func _Main()
 	; 添加列
 	_GUICtrlListView_AddColumn($hListView, "Items", 100)
 
-	; Add items
+	; 添加项目
 	_GUICtrlListView_BeginUpdate($hListView)
 	For $iI = 1 To 100
 		_GUICtrlListView_AddItem($hListView, "Item " & $iI)
@@ -30,7 +30,7 @@ Func _Main()
 	DllStructSetData($tInfo, "Flags", $LVFI_PARAM)
 	DllStructSetData($tInfo, "Param", 1234)
 	$iI = _GUICtrlListView_FindItem($hListView, -1, $tInfo)
-	MsgBox(4160, "Information", "Target Item Index: " & $iI)
+	MsgBox(4160, "信息", "Target Item Index: " & $iI)
 	_GUICtrlListView_EnsureVisible($hListView, $iI)
 
 	; 循环直到用户退出

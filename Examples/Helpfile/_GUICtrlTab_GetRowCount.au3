@@ -19,7 +19,7 @@ Func _Main()
 	Next
 
 	; Get row count
-	MsgBox(4160, "Information", "Row count: " & _GUICtrlTab_GetRowCount($hTab))
+	MsgBox(4160, "信息", "Row count: " & _GUICtrlTab_GetRowCount($hTab))
 
 	; 循环直到用户退出
 	Do

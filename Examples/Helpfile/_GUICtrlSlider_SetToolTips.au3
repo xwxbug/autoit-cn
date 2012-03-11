@@ -15,7 +15,7 @@ Func _Main()
 
 	; 获取工具提示
 	$hWndTT = _GUICtrlSlider_GetToolTips($hSlider)
-	MsgBox(4160, "Information", "Tool Tip Handle: " & $hWndTT)
+	MsgBox(4160, "信息", "Tool Tip Handle: " & $hWndTT)
 
 	; 设置工具提示
 	_GUICtrlSlider_SetToolTips($hSlider, $hWndTT)

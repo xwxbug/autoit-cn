@@ -40,7 +40,7 @@ Func _Main()
 
 	; Click Help menu item
 	$iIndex = _GUICtrlMenu_FindItem($hMain, "Help")
-	MsgBox(4096, "Information", "Index for Help Menu: " & $iIndex)
+	MsgBox(4096, "信息", "Index for Help Menu: " & $iIndex)
 
 	; 循环直到用户退出
 	Do

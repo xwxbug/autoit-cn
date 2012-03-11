@@ -22,7 +22,7 @@ Func _Main()
 	_GUICtrlListBox_EndUpdate($hListBox)
 
 	; Get item count
-	MsgBox(4160, "Information", "Item count: " & _GUICtrlListBox_GetCount($hListBox))
+	MsgBox(4160, "信息", "Item count: " & _GUICtrlListBox_GetCount($hListBox))
 
 	; 循环直到用户退出
 	Do

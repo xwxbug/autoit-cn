@@ -27,7 +27,7 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x)
 	Next
 
-	MsgBox(4160, "Information", "Count: " & _GUICtrlComboBoxEx_GetCount($hCombo))
+	MsgBox(4160, "信息", "Count: " & _GUICtrlComboBoxEx_GetCount($hCombo))
 
 	; 循环直到用户退出
 	Do

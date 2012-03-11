@@ -34,9 +34,9 @@ Func _Main()
 	_GUICtrlTreeView_EndUpdate($hTreeView)
 
 	$iRand = Random(0, 9, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param for index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Item Param for index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItem[$iRand])))
 	$iRand = Random(0, 29, 1)
-	MsgBox(4160, "Information", StringFormat("Item Param for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
+	MsgBox(4160, "信息", StringFormat("Item Param for child index %d: %s", $iRand, _GUICtrlTreeView_GetItemParam($hTreeView, $hItemChild[$iRand])))
 
 	; 循环直到用户退出
 	Do

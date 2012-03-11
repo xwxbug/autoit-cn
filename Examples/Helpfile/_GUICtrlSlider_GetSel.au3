@@ -18,7 +18,7 @@ Func _Main()
 
 	; Get Sel
 	$aSel = _GUICtrlSlider_GetSel($hSlider)
-	MsgBox(4160, "Information", StringFormat("Sel: %d - %d", $aSel[0], $aSel[1]))
+	MsgBox(4160, "信息", StringFormat("Sel: %d - %d", $aSel[0], $aSel[1]))
 
 	; 循环直到用户退出
 	Do
