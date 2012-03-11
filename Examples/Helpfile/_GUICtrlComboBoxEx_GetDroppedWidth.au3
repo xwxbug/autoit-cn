@@ -34,7 +34,7 @@ Func _Main()
 		_GUICtrlComboBoxEx_AddString($hCombo, StringFormat("%03d : Random string", Random(1, 100, 1)), $x, $x)
 	Next
 
-	; get dropped width
+	; 获取下拉框宽度
 	MemoWrite("Dropped Width......: " & _GUICtrlComboBoxEx_GetDroppedWidth($hCombo))
 
 	Sleep(500)
@@ -47,12 +47,12 @@ Func _Main()
 	; 隐藏下拉框
 	_GUICtrlComboBoxEx_ShowDropDown($hCombo)
 
-	; set Dropped Width
+	; 设置下拉框宽度
 	_GUICtrlComboBoxEx_SetDroppedWidth($hCombo, 500)
 
 	Sleep(500)
 
-	; get dropped width
+	; 获取下拉框宽度
 	MemoWrite("Dropped Width......: " & _GUICtrlComboBoxEx_GetDroppedWidth($hCombo))
 
 	Sleep(500)

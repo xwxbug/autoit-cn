@@ -14,7 +14,7 @@ Func _Main()
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296, BitOR($CBS_SIMPLE, $CBS_DISABLENOSCROLL, $WS_VSCROLL))
 	GUISetState()
 
-	; Set Edit Text
+	; 设置编辑框控件显示的文本
 	_GUICtrlComboBox_SetEditText($hCombo, "Edit Text")
 
 	; 添加文件
@@ -24,7 +24,7 @@ Func _Main()
 
 	Sleep(500)
 
-	; Reset content
+	; 清空内容
 	_GUICtrlComboBox_ResetContent($hCombo)
 
 	; 循环直到用户退出

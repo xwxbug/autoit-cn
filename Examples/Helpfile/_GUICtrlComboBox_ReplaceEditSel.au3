@@ -13,7 +13,7 @@ Func _Main()
 	$hCombo = GUICtrlCreateCombo("", 2, 2, 396, 296)
 	GUISetState()
 
-	; Set Edit Text
+	; 设置编辑框控件显示的文本
 	_GUICtrlComboBox_SetEditText($hCombo, "Old Edit Text")
 
 	; 添加文件

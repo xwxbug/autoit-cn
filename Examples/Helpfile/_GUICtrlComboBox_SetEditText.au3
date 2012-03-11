@@ -22,10 +22,10 @@ Func _Main()
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	; Set Edit Text
+	; 设置编辑框控件显示的文本
 	_GUICtrlComboBox_SetEditText($hCombo, StringFormat("%d - Some New Text", Random(1, 20, 1)))
 
-	; Get Edit Text
+	; 得到编辑框控件显示的文本
 	MemoWrite("Edit Text: " & _GUICtrlComboBox_GetEditText($hCombo))
 
 	; 循环直到用户退出

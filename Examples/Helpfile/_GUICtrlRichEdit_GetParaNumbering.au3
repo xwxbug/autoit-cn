@@ -23,8 +23,8 @@ Func Main()
 		$iMsg = GUIGetMsg()
 		Select
 			Case $iMsg = $GUI_EVENT_CLOSE
-				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
-;~ 				GUIDelete() 	; is OK too
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; 除非脚本崩溃才需要
+;~ 				GUIDelete() 	; 同样行
 				Exit
 			Case $iMsg = $btnNext
 				$iStep += 1
@@ -45,7 +45,7 @@ Func Main()
 						_GUICtrlRichEdit_SetParaNumbering($hRichEdit, "2.  ", Default, True)
 						Report("Changed settings for both paragraphs")
 					Case 5
-						; Stream all text to the Desktop so you can look at settings in Word
+						; 把所有的文本流保存到桌面,这样您可以在 Word 中查看设置.
 						_GUICtrlRichEdit_Deselect($hRichEdit)
 						_GUICtrlRichEdit_StreamToFile($hRichEdit, @DesktopDir & "\gcre.rtf")
 						GUICtrlSetState($btnNext, $GUI_DISABLE)

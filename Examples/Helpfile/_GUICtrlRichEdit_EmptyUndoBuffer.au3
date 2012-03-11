@@ -27,8 +27,8 @@ Func Main()
 	While True
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
-				_GUICtrlRichEdit_Destroy($hRichEdit) ; needed unless script crashes
-;~ 				GUIDelete() 	; is OK too
+				_GUICtrlRichEdit_Destroy($hRichEdit) ; 除非脚本崩溃才需要
+;~ 				GUIDelete() 	; 同样行
 				Exit
 			Case $mnuUndo
 				_GUICtrlRichEdit_Undo($hRichEdit)

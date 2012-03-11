@@ -12,7 +12,7 @@ Func _Main()
 	GUICreate("Menu", 400, 300)
 	GUISetState()
 
-	; Register message handlers
+	; 注册消息处理程序
 	GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 	GUIRegisterMsg($WM_CONTEXTMENU, "WM_CONTEXTMENU")
 
@@ -22,7 +22,7 @@ Func _Main()
 
 EndFunc   ;==>_Main
 
-; Handle WM_COMMAND messages
+; 处理 WM_COMMAND 消息
 Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $ilParam
 	Switch $iwParam
@@ -35,7 +35,7 @@ Func WM_COMMAND($hWnd, $iMsg, $iwParam, $ilParam)
 	EndSwitch
 EndFunc   ;==>WM_COMMAND
 
-; Handle WM_CONTEXTMENU messages
+; 处理 WM_CONTEXTMENU 消息
 Func WM_CONTEXTMENU($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $ilParam
 	Local $hMenu

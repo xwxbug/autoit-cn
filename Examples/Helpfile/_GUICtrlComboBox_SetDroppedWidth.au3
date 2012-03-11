@@ -18,10 +18,10 @@ Func _Main()
 	_GUICtrlComboBox_AddDir($hCombo, @WindowsDir & "\*.exe")
 	_GUICtrlComboBox_EndUpdate($hCombo)
 
-	; Set Dropped Width
+	; 设置下拉框宽度
 	_GUICtrlComboBox_SetDroppedWidth($hCombo, 500)
 
-	; Get Dropped Width
+	; 获取下拉框宽度
 	MsgBox(4160, "信息", "Dropped Width: " & _GUICtrlComboBox_GetDroppedWidth($hCombo))
 
 	; 循环直到用户退出
