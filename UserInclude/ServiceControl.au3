@@ -1,3 +1,4 @@
+#include-once
 ;-------------------------------------------------------------
 ;API控制服务
 
@@ -21,7 +22,6 @@
 ;_SerSetState()			设置服务状态
 
 ;========================================================================================
-Global $STANDARD_RIGHTS_REQUIRED = 0x000F0000
 
 ; Service Control Manager access types
 Global $SC_MANAGER_CONNECT = 0x0001
@@ -31,7 +31,7 @@ Global $SC_MANAGER_LOCK = 0x0008
 Global $SC_MANAGER_QUERY_LOCK_STATUS = 0x0010
 Global $SC_MANAGER_MODIFY_BOOT_CONFIG = 0x0020
 
-Global $SC_MANAGER_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, _
+Global $SC_MANAGER_ALL_ACCESS = BitOR(0x000F0000, _
 		$SC_MANAGER_CONNECT, _
 		$SC_MANAGER_CREATE_SERVICE, _
 		$SC_MANAGER_ENUMERATE_SERVICE, _
@@ -50,7 +50,7 @@ Global $SERVICE_PAUSE_CONTINUE = 0x0040
 Global $SERVICE_INTERROGATE = 0x0080
 Global $SERVICE_USER_DEFINED_CONTROL = 0x0100
 
-Global $SERVICE_ALL_ACCESS = BitOR($STANDARD_RIGHTS_REQUIRED, _
+Global $SERVICE_ALL_ACCESS = BitOR(0x000F0000, _
 		$SERVICE_QUERY_CONFIG, _
 		$SERVICE_CHANGE_CONFIG, _
 		$SERVICE_QUERY_STATUS, _
