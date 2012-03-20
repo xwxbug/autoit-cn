@@ -1,18 +1,18 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
-	; Retrieve the control that has keyboard focus in Notepad. The handle returned by WinWait is used for the "title" parameter of ControlGetFocus.
+	; 获取记事本窗口编辑框控件上的键盘焦点所在的类别名.
 	Local $sControl = ControlGetFocus($hWnd)
 
-	; Display the control that has keyboard focus.
-	MsgBox(4096, "", "The control that has keyboard focus in Notepad is: " & $sControl)
+	; 显示键盘焦点所在的类别名.
+	MsgBox(4096, "提示", "键盘焦点所在的类别名: " & $sControl)
 
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 EndFunc   ;==>Example

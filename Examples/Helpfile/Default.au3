@@ -1,13 +1,13 @@
-WinMove("[active]","",Default, Default, 200,300)	; Ö»µ÷Õû»î¶¯´°¿Ú´óÐ¡(²»ÒÆ¶¯)
+ï»¿WinMove("[active]","",Default, Default, 200,300)	; åªè°ƒæ•´æ´»åŠ¨çª—å£å¤§å°(ä¸ç§»åŠ¨)
 
 Example(Default, Default)
 
-Func Example($vParam1 = Default, $vParam2 = "µÚ¶þ¸ö²ÎÊý", $vParam3 = Default)
-	If $vParam1 = Default Then $vParam1 = "µÚÒ»¸ö²ÎÊý"
-	If $vParam3 = Default Then $vParam3 = "µÚÈý¸ö²ÎÊý"
+Func Example($vParam1 = Default, $vParam2 = "ç¬¬äºŒä¸ªå‚æ•°", $vParam3 = Default)
+	If $vParam1 = Default Then $vParam1 = "ç¬¬ä¸€ä¸ªå‚æ•°"
+	If $vParam3 = Default Then $vParam3 = "ç¬¬ä¸‰ä¸ªå‚æ•°"
 
-	; Display the following parameters passed to the function.
-	MsgBox(4096, "²ÎÊý", "1 = " & $vParam1 & @CRLF & _
+	; æ˜¾ç¤ºç»“æžœ.
+	MsgBox(4096, "å‚æ•°", "1 = " & $vParam1 & @CRLF & _
 			"2 = " & $vParam2 & @CRLF & _
 			"3 = " & $vParam3)
 EndFunc   ;==>Example

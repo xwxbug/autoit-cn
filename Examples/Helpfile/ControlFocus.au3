@@ -1,18 +1,18 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
-	; Set input focus to the edit control of Notepad using the handle returned by WinWait.
+	; 设置输入焦点到记事本编辑框控件上.
 	ControlFocus($hWnd, "", "Edit1")
 
-	; Wait for 2 seconds.
+	; 设置2秒等待时间
 	Sleep(2000)
 
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 EndFunc   ;==>Example

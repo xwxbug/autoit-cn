@@ -1,26 +1,25 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
-	; Wait for 2 seconds.
+	; 设置2秒等待时间
 	Sleep(2000)
 
-	; Send a string of text to the edit control of Notepad. The handle returned by WinWait is used for the "title" parameter of ControlSend.
+    ; 向记事本编辑框控件发送字符串.
 	ControlSend($hWnd, "", "Edit1", "This is some text")
 
-	; Wait for 2 seconds.
+	; 设置2秒等待时间
 	Sleep(2000)
 
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 
-	; Now a screen will pop up and ask to save the changes, the classname of the window is called
-	; "#32770" and simulating the "TAB" key to move to the second button in which the "ENTER" is simulated to not "save the file"
+    ; 暂停脚本的执行,直至弹出询问保存窗口存在(出现)为止.
 	WinWaitActive("[CLASS:#32770]")
 	Sleep(500)
 	Send("{TAB}{ENTER}")

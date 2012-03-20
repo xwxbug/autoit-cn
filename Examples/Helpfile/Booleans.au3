@@ -1,2 +1,4 @@
-Local $fBoolean = False
-If Not $fBoolean = True Then MsgBox(4096, "²¼¶ûÖµ±È½Ï", "OK") ; Èç¹û $fBoolean ²»µÈÓÚ True ½«ÏÔÊ¾Ò»¸öÏûÏ¢¿ò.
+ï»¿Local $fBoolean = False
+
+; å¦‚æœ $fBoolean ä¸ç­‰äº True å°†æ˜¾ç¤ºä¸€ä¸ªæ¶ˆæ¯æ¡†.
+If Not $fBoolean = True Then MsgBox(4096, "å¸ƒå°”å€¼æ¯”è¾ƒ", "OK") 

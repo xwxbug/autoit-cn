@@ -1,21 +1,21 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
-
-	; Set the edit control in Notepad with some text. The handle returned by WinWait is used for the "title" parameter of ControlSetText.
+    
+	; 修改记事本窗口编辑框控件的文本内容.
 	ControlSetText($hWnd, "", "Edit1", "This is some text")
 
-	; Retrieve the text of the edit control in Notepad. The handle returned by WinWait is used for the "title" parameter of ControlGetText.
+	; 获取记事本窗口编辑框控件的文本内容.
 	Local $sText = ControlGetText($hWnd, "", "Edit1")
 
-	; Display the text of the edit control.
-	MsgBox(4096, "", "The text in Edit1 is: " & $sText)
+	; 显示记事本窗口编辑框控件的文本内容.
+	MsgBox(4096, "", "文本内容是: " & $sText)
 
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 EndFunc   ;==>Example

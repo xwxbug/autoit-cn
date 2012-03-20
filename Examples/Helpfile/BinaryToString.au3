@@ -1,60 +1,49 @@
 ﻿Example()
 
 Func Example()
-	; Define the string that will be converted later.
-	; NOTE: This string may show up as ?? in the help file and even in some editors.
-	; This example is saved as UTF-8 with BOM.  It should display correctly in editors
-	; which support changing code pages based on BOMs.
+	; 定义一个字符串
 	Local Const $sString = "Hello - 你好"
 
-	; Temporary variables used to store conversion results.  $sBinary will hold
-	; the original string in binary form and $sConverted will hold the result
-	; afte it's been transformed back to the original format.
+	; 建立临时变量，以便存储转换结果.
 	Local $sBinary, $sConverted
-
-	; Convert the original UTF-8 string to an ANSI compatible binary string.
+;----------------------------------------------------------------------
+	; 将 UTF-8 格式的字符串转换为 ANSI 格式的二进制数据.	
 	$sBinary = StringToBinary($sString)
 
-	; Convert the ANSI compatible binary string back into a string.
+	; 将 ANSI 格式的二进制数据转换为字符串.
 	$sConverted = BinaryToString($sBinary)
 
-	; Display the resulsts.  Note that the last two characters will appear
-	; as ?? since they cannot be represented in ANSI.
+	; 显示转换结果.
 	DisplayResults($sString, $sBinary, $sConverted, "ANSI")
-
-	; Convert the original UTF-8 string to an UTF16-LE binary string.
+;----------------------------------------------------------------------
+	; 将 UTF-8 格式的字符串转换为 UTF16-LE 格式的二进制数据.	
 	$sBinary = StringToBinary($sString, 2)
 
-	; Convert the UTF16-LE binary string back into a string.
+	; 将 UTF16-LE 格式的二进制数据转换为字符串.
 	$sConverted = BinaryToString($sBinary, 2)
 
-	; Display the resulsts.
+	; 显示转换结果.
 	DisplayResults($sString, $sBinary, $sConverted, "UTF16-LE")
-
-	; Convert the original UTF-8 string to an UTF16-BE binary string.
+;----------------------------------------------------------------------
+	; 将 UTF-8 格式的字符串转换为 UTF16-BE 格式的二进制数据.	
 	$sBinary = StringToBinary($sString, 3)
 
-	; Convert the UTF16-BE binary string back into a string.
+	; 将 UTF16-BE 格式的二进制数据转换为字符串.
 	$sConverted = BinaryToString($sBinary, 3)
 
-	; Display the resulsts.
+	; 显示转换结果.
 	DisplayResults($sString, $sBinary, $sConverted, "UTF16-BE")
-
-	; Convert the original UTF-8 string to an UTF-8 binary string.
+;----------------------------------------------------------------------
+	; 将 UTF-8 格式的字符串转换为 UTF-8 格式的二进制数据.
 	$sBinary = StringToBinary($sString, 4)
 
-	; Convert the UTF8 binary string back into a string.
+	; 将 UTF-8 格式的二进制数据转换为字符串.
 	$sConverted = BinaryToString($sBinary, 4)
 
-	; Display the resulsts.
+	; 显示转换结果.
 	DisplayResults($sString, $sBinary, $sConverted, "UTF8")
 EndFunc   ;==>Example
 
-; Helper function which formats the message for display.  It takes the following parameters:
-; $sOriginal - The original string before conversions.
-; $sBinary - The original string after it has been converted to binary.
-; $sConverted- The string after it has been converted to binary and then back to a string.
-; $sConversionType - A human friendly name for the encoding type used for the conversion.
 Func DisplayResults($sOriginal, $sBinary, $sConverted, $sConversionType)
-	MsgBox(4096, "", "Original:" & @CRLF & $sOriginal & @CRLF & @CRLF & "Binary:" & @CRLF & $sBinary & @CRLF & @CRLF & $sConversionType & ":" & @CRLF & $sConverted)
+	MsgBox(4096, "", "字符串：" & $sOriginal & @CRLF & @CRLF & "字符串转换为二进制:" & @CRLF & $sBinary & @CRLF & @CRLF & "二进制转换为" & $sConversionType & ":" & @CRLF & $sConverted)
 EndFunc   ;==>DisplayResults

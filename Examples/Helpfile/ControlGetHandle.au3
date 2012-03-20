@@ -1,18 +1,18 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
 
-	; Retrieve the handle of the edit control in Notepad. The handle returned by WinWait is used for the "title" parameter of ControlGetHandle.
+	; 获取记事本窗口编辑框控件的内部句柄.
 	Local $hControl = ControlGetHandle($hWnd, "", "Edit1")
 
-	; Display the handle of the edit control.
-	MsgBox(4096, "", "The handle of Edit1 is: " & $hControl)
+	; 显示记事本编辑框控件的内部句柄.
+	MsgBox(4096, "", "记事本编辑框控件的内部句柄是: " & $hControl)
 
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 EndFunc   ;==>Example

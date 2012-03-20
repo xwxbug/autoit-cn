@@ -1,11 +1,11 @@
+ï»¿; æ³¨å†Œä¸€ä¸ªåç§°ä¸º MyAdlib çš„ Adlib å‡½æ•°
 AdlibRegister("MyAdlib")
-;...
+
 Exit
 
 Func MyAdlib()
-	;... ÔËÐÐÖÐ¾¡Á¿±ÜÃâÊ¹ÓÃµÈ´ýÐ§¹ûµÄº¯Êý, ÀýÈç Wait(), MsgBox(), InputBox()µÈ...
-	;... ÄÇÑù»áµ¼ÖÂÕû¸ö³ÌÐòÖÐ¶Ï...
-	If WinActive("´íÎó") Then
-		;...
+	; å°½é‡é¿å…ä½¿ç”¨ç­‰å¾…æ•ˆæžœçš„å‡½æ•°, ä¾‹å¦‚ Wait(), MsgBox(), InputBox()ç­‰ï¼Œé‚£æ ·ä¼šå¯¼è‡´æ•´ä¸ªç¨‹åºä¸­æ–­.
+	If WinActive("Error") Then
+		; ...
 	EndIf
 EndFunc   ;==>MyAdlib

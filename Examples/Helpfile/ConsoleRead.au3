@@ -1,19 +1,14 @@
-#cs
-	1,±àÒë´Ë½Å±¾Îª "ConsoleRead.exe".
-	2,ÒÔÃüÁîÌáÊ¾·ûµÄ·½Ê½´ò¿ª³ÌÐòConsoleRead.exeËùÔÚÄ¿Â¼ÔÚ.
-	3,¼üÈëÒÔÏÂÃüÁîÐÐ:
-	echo Hello! | ConsoleRead.exe
-
-	When invoked in a console window, the above command echos the text "Hello!"
-	but instead of displaying it, the | tells the console to pipe it to the STDIN stream
-	of the ConsoleRead.exe process.
+ï»¿#cs
+	1ã€ç¼–è¯‘æ­¤è„šæœ¬ä¸º "ConsoleRead.exe".
+	2ã€ä»¥å‘½ä»¤æç¤ºç¬¦çš„æ–¹å¼æ‰“å¼€ç¨‹åº ConsoleRead.exe æ‰€åœ¨ç›®å½•åœ¨.
+	3ã€é”®å…¥ä»¥ä¸‹å‘½ä»¤è¡Œ: echo Hello! | ConsoleRead.exe
 #ce
 
 Example()
 
 Func Example()
 	If Not @Compiled Then
-		MsgBox(4096, "ÌáÊ¾", "´Ë½Å±¾±ØÐë±àÒëºó²ÅÄÜÕýÈ·ÏÔÊ¾.")
+		MsgBox(4096, "æç¤º", "æ­¤è„šæœ¬å¿…é¡»ç¼–è¯‘åŽæ‰èƒ½æ­£ç¡®æ˜¾ç¤º.")
 		Exit
 	EndIf
 
@@ -23,5 +18,5 @@ Func Example()
 		If @error Then ExitLoop
 		Sleep(25)
 	WEnd
-	MsgBox(4096, "", "·µ»Ø: " & @CRLF & @CRLF & $sOutput)
+	MsgBox(4096, "æç¤º", "è¿”å›ž: " & @CRLF & @CRLF & $sOutput)
 EndFunc   ;==>Example

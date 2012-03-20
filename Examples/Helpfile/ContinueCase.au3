@@ -1,24 +1,24 @@
-Local $msg = ""
-Local $szName = InputBox(Default, "ÇëÊäÈëÒ»¸öµ¥´Ê", "", " M", Default, Default, Default, Default, 10)
+ï»¿Local $msg = ""
+Local $szName = InputBox(Default, "è¯·è¾“å…¥ä¸€ä¸ªå•è¯", "", " M", Default, Default, Default, Default, 10)
 Switch @error
 	Case 2
-		$msg = "³¬Ê±"
+		$msg = "è¶…æ—¶"
 		ContinueCase
-	Case 1; ¼ÌĞøÉÏÒ»CaseÊÂ¼ş
-		$msg &= "È¡Ïû"
+	Case 1; ç»§ç»­ä¸Šä¸€Caseäº‹ä»¶
+		$msg &= "å–æ¶ˆ"
 	Case 0
 		Switch $szName
 			Case "a", "e", "i", "o", "u"
-				$msg = "ÕâÊÇÔªÒô×ÖÄ¸"
+				$msg = "è¿™æ˜¯å…ƒéŸ³å­—æ¯"
 			Case "QP"
-				$msg = "ÊıÑ§"
+				$msg = "æ•°å­¦"
 			Case "Q" To "QZ"
-				$msg = "×ÔÈ»¿ÆÑ§"
+				$msg = "è‡ªç„¶ç§‘å­¦"
 			Case Else
-				$msg = "ÆäËü"
+				$msg = "å…¶å®ƒ"
 		EndSwitch
 	Case Else
-	$msg = "³öÏÖÁË·Ç³£¿ÉÅÂµÄ´íÎó."
+	$msg = "å‡ºç°äº†éå¸¸å¯æ€•çš„é”™è¯¯."
 EndSwitch
 
 MsgBox(4096, Default, $msg)

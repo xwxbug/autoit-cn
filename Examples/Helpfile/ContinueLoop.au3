@@ -1,11 +1,20 @@
-;Ê¾Àý 1 ÏÔÊ¾´Ó 1 µ½ 10 ÖÐ³ýÁË 7 ÒÔÍâµÄËùÓÐÊý×Ö
-For $i = 1 To 10
-	If $i = 7 Then ContinueLoop
-	MsgBox(0, "$i µÄµ±Ç°ÖµÎª:", $i, 1)
-Next
+ï»¿Example_1(); ç¤ºä¾‹ 1 æ˜¾ç¤ºä»Ž 1 åˆ° 10 ä¸­é™¤äº† 7 ä»¥å¤–çš„æ‰€æœ‰æ•°å­—
+Example_2(); ç¤ºä¾‹ 2 æ˜¾ç¤ºä»Ž 1 åˆ° 10 ä¸­é™¤äº† 3 å’Œ 7 ä»¥å¤–çš„æ‰€æœ‰æ•°å­—
 
-;Ê¾Àý 2 ÏÔÊ¾´Ó 1 µ½ 10 ÖÐ³ýÁË 3 ºÍ 7 ÒÔÍâµÄËùÓÐÊý×Ö
-For $i = 1 to 10
-	If $i = 3 Or $i = 7 Then ContinueLoop
-	MsgBox(0, "$i µÄµ±Ç°ÖµÎª:", $i, 1)
-Next
+Func Example_1()
+	Local $Number = ''
+	For $i = 1 To 10
+		If $i = 7 Then ContinueLoop
+		$Number = $Number & "[" & $i & "]"
+	Next
+	MsgBox(4096, "æç¤º", "æ˜¾ç¤ºä»Ž 1 åˆ° 10 ä¸­é™¤äº† 7 ä»¥å¤–çš„æ‰€æœ‰æ•°å­—ï¼š" & @CRLF & $Number)
+EndFunc   ;==>Example_1
+
+Func Example_2()
+	Local $Number = ''
+	For $i = 1 To 10
+		If $i = 3 Or $i = 7 Then ContinueLoop
+		$Number = $Number & "[" & $i & "]"
+	Next
+	MsgBox(4096, "æç¤º", "æ˜¾ç¤ºä»Ž 1 åˆ° 10 ä¸­é™¤äº† 3 å’Œ 7 ä»¥å¤–çš„æ‰€æœ‰æ•°å­—ï¼š" & @CRLF & $Number)
+EndFunc   ;==>Example_2

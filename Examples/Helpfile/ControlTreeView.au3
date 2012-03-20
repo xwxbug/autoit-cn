@@ -1,31 +1,31 @@
-#include <GUIConstantsEx.au3>
+ï»¿#include <GUIConstantsEx.au3>
 #include <TreeViewConstants.au3>
 #include <WindowsConstants.au3>
 
 Example()
 
 Func Example()
-Local $hGUI = GUICreate("ControlTreeView ²âÊÔ", 212, 212)
+Local $hGUI = GUICreate("ControlTreeView æµ‹è¯•", 212, 212)
 	Local $iTreeView_1 = GUICtrlCreateTreeView(6, 6, 200, 160, BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_CHECKBOXES), $WS_EX_CLIENTEDGE)
 	Local $hTreeView_1 = ControlGetHandle($hGUI, "", $iTreeView_1)
 
-	Local $iRoot = GUICtrlCreateTreeViewItem("¸ù", $iTreeView_1)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 1", $iRoot)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 2", $iRoot)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 3", $iRoot)
-	Local $iItem_4 = GUICtrlCreateTreeViewItem("ÏîÄ¿ 4", $iRoot)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 4.1", $iItem_4)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 4.2", $iItem_4)
-	GUICtrlCreateTreeViewItem("ÏîÄ¿ 5", $iRoot)
+	Local $iRoot = GUICtrlCreateTreeViewItem("æ ¹", $iTreeView_1)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 1", $iRoot)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 2", $iRoot)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 3", $iRoot)
+	Local $iItem_4 = GUICtrlCreateTreeViewItem("é¡¹ç›® 4", $iRoot)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 4.1", $iItem_4)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 4.2", $iItem_4)
+	GUICtrlCreateTreeViewItem("é¡¹ç›® 5", $iRoot)
 
 	GUISetState(@SW_SHOW, $hGUI)
 
-	ControlTreeView ($hGUI, "", $hTreeView_1, "Expand", "¸ù")
+	ControlTreeView ($hGUI, "", $hTreeView_1, "Expand", "æ ¹")
 
-	ControlTreeView ($hGUI, "", $hTreeView_1, "Exists", "¸ù|ÏîÄ¿ 4")
-	ControlTreeView ($hGUI, "", $hTreeView_1, "Check", "¸ù|ÏîÄ¿ 4")
-	ControlTreeView ($hGUI, "", $hTreeView_1, "Select", "¸ù|ÏîÄ¿ 4")
-	ControlTreeView ($hGUI, "", $hTreeView_1, "Expand", "¸ù|ÏîÄ¿ 4")
+	ControlTreeView ($hGUI, "", $hTreeView_1, "Exists", "æ ¹|é¡¹ç›® 4")
+	ControlTreeView ($hGUI, "", $hTreeView_1, "Check", "æ ¹|é¡¹ç›® 4")
+	ControlTreeView ($hGUI, "", $hTreeView_1, "Select", "æ ¹|é¡¹ç›® 4")
+	ControlTreeView ($hGUI, "", $hTreeView_1, "Expand", "æ ¹|é¡¹ç›® 4")
 
 	While 1
 		Switch GUIGetMsg()

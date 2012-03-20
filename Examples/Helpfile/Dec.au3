@@ -1,2 +1,2 @@
-Local $bDec = Dec("FFF")
-MsgBox(4096, "", $bDec) ; ��ʾ���� 65535.
+﻿Local $bDec = Dec("FF")
+MsgBox(4096, "Dec函数", "十进制值为：" & $bDec)

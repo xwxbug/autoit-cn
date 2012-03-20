@@ -1,2 +1,4 @@
-Local $sString = "An error occurred."
-ConsoleWriteError($sString & @CRLF) ; ÔÚÎÄ±¾±à¼­Æ÷ÖĞÔËĞĞ,¿ÉÒÔ²¶»ñ¿ØÖÆÌ¨Êä³öµÄÊı¾İ,ÀıÈçSciTE½«ÏÔÊ¾$sStringµÄÖµ.
+ï»¿Local $sString = "An error occurred."
+
+; åœ¨æ–‡æœ¬ç¼–è¾‘å™¨ä¸­è¿è¡Œ,å¯ä»¥æ•è·æ§åˆ¶å°è¾“å‡ºçš„æ•°æ®,ä¾‹å¦‚ SciTE å°†æ˜¾ç¤º $sString çš„å€¼.
+ConsoleWriteError($sString & @CRLF) 

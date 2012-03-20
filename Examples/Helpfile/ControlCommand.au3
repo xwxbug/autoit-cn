@@ -1,18 +1,18 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Run Notepad
+	; 运行记事本程序
 	Run("notepad.exe")
 
-	; Wait 10 seconds for the Notepad window to appear.
+	; 10秒内暂停脚本的执行,直至记事本窗口存在(出现)为止.
 	Local $hWnd = WinWait("[CLASS:Notepad]", "", 10)
+	
+	; 向记事本编辑框控件发送读取编辑框总行数的命令.
+	Local $iCount = ControlCommand($hWnd, "", "Edit1", "GetLineCount", "");GetLineCount = 返回目标编辑框中的总行数
 
-	; Send a command to the edit control of Notepad to find the number of lines. The handle returned by WinWait is used for the "title" parameter of ControlCommand.
-	Local $iCount = ControlCommand($hWnd, "", "Edit1", "GetLineCount", "")
+	; 显示总行数.
+	MsgBox(4096, "提示", "记事本编辑框总行数: " & $iCount)
 
-	; Display the number of lines.
-	MsgBox(4096, "", "The number of lines in Notepad are: " & $iCount)
-
-	; Close the Notepad window using the handle returned by WinWait.
+	; 通过 WinWait 的返回句柄来关闭记事本窗口.
 	WinClose($hWnd)
 EndFunc   ;==>Example

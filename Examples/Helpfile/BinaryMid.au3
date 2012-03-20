@@ -1,3 +1,7 @@
-Local $bBinary = Binary("0x10203040") ; ´´½¨¶ş½øÖÆ(binary)Êı¾İ 0x10203040
+ï»¿; é€šè¿‡ä½¿ç”¨ Binary è¿”å›ä¸€ä¸ªè¡¨è¾¾å¼çš„äºŒè¿›åˆ¶å€¼.
+Local $bBinary = Binary("0x10203040")
+
+; é€šè¿‡ä½¿ç”¨ BinaryMid å–å‡ºçš„äºŒè¿›åˆ¶æ•°æ®. 
 Local $bExtract = BinaryMid($bBinary, 2, 2)
-MsgBox(4096, "", "µÚ¶ş¸ö×Ö½ÚºÍµÚÈı¸ö×Ö½ÚÎª:" & $bExtract)
+
+MsgBox(4096, "BinaryMid", "ç¬¬äºŒä¸ªå­—èŠ‚å’Œç¬¬ä¸‰ä¸ªå­—èŠ‚ä¸ºï¼š" & $bExtract)

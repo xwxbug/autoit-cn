@@ -1,7 +1,7 @@
-Local $x = ASin(0.5)
-MsgBox(32,"ASin函数",$X)
+锘縇ocal $x = ASin(0.5)
+MsgBox(4096, "ASin 鍑芥暟", "鍙嶆寮﹀�硷細" & $x)
 
-Local $pi = 3.14159265358979
+Local $pi = 4 * ATan(1) ; 绛変簬 3.14159265358979
 Local $radToDeg = 180 / $pi
-Local $y = ASin(1) * $radToDeg  ;1 的反正弦值是 90° 
-MsgBox(32,"ASin函数",$y & "°")
+Local $y = ASin(1) * $radToDeg; 1鐨勫弽姝ｅ鸡鍊兼槸 90掳
+MsgBox(4096, "ASin 鍑芥暟", "鍙嶆寮﹀�硷細" & $y & "掳")

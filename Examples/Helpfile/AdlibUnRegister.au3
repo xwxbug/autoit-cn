@@ -1,8 +1,9 @@
+ï»¿; æ³¨å†Œä¸€ä¸ªåç§°ä¸º MyAdlib çš„ Adlib å‡½æ•°
 AdlibRegister("MyAdlib")
-;...
+
+; å–æ¶ˆæ³¨å†Œä¸€ä¸ªåç§°ä¸º MyAdlib çš„ Adlib å‡½æ•°
 AdlibUnRegister("MyAdlib")
 
 Func MyAdlib()
-	;... ÔËÐÐÖÐ¾¡Á¿±ÜÃâÊ¹ÓÃ´øÓÐµÈ´ýÐ§¹ûµÄº¯Êý, ÀýÈç Wait(), MsgBox(), InputBox()µÈ...
-	;... ÄÇÑù»áµ¼ÖÂÕû¸ö³ÌÐòÖÐ¶Ï.
+	; å°½é‡é¿å…ä½¿ç”¨ç­‰å¾…æ•ˆæžœçš„å‡½æ•°, ä¾‹å¦‚ Wait(), MsgBox(), InputBox()ç­‰ï¼Œé‚£æ ·ä¼šå¯¼è‡´æ•´ä¸ªç¨‹åºä¸­æ–­.
 EndFunc   ;==>MyAdlib

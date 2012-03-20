@@ -1,3 +1,7 @@
-Local $x = BitXOR(10, 6)  ;x == 12 ÒòÎª 1010b XOR 0110b == 1100
+ï»¿$x = BitXOR(10, 6) 
+; x == 12 å› ä¸º 1010b XOR 0110b == 1100
 
-$x = BitXOR(2, 3, 6) ;x == 7 ÒòÎª 0010 XOR 0011 XOR 0110 = 0111
+$y = BitXOR(2, 3, 6) 
+; y == 7 å› ä¸º 0010 XOR 0011 XOR 0110 = 0111
+
+MsgBox(4096, "BitXOR", "X=" & $x & @CRLF & @CRLF & "Y=" & $y)

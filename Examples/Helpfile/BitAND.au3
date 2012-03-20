@@ -1,4 +1,7 @@
-Local $x = BitAND(13, 7) ;x == 5 ,ÒòÎª 1101 AND 0111 = 0101
+ï»¿$x = BitAND(13, 7) 
+; x == 5 ,å› ä¸º 1101 AND 0111 = 0101
 
-$x = BitAND(2, 3, 6) ;x == 2 ,ÒòÎª 0010 AND 0011 AND 0110 = 0010
+$y = BitAND(2, 3, 6) 
+;y == 2 ,å› ä¸º 0010 AND 0011 AND 0110 = 0010
 
+MsgBox(4096, "BitAND", "X=" & $x & @CRLF & @CRLF & "Y=" & $y)

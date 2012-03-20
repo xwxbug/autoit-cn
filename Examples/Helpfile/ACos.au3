@@ -1,8 +1,8 @@
-;ÇóÄ³¸öÊýµÄ·´ÓàÏÒÖµ(arcCosine)¡£
+ï»¿; æ±‚æŸä¸ªæ•°çš„åä½™å¼¦å€¼(arcCosine).
 Local $x = ACos(0.5)
-MsgBox(32,"ACosº¯Êý",$x)
+MsgBox(4096, "ACoså‡½æ•°", "å€¼ä¸ºï¼š" & $x)
 
 Local $pi = 3.14159265358979
 Local $radToDeg = 180 / $pi
-Local $y = ACos(-1) * $radToDeg  ;-1µÄ·´ÓàÏÒÖµÊÇ 180¡ã
-MsgBox(32,"ACosº¯Êý",$y & "¡ã")
+Local $y = ACos(-1) * $radToDeg ; -1çš„åä½™å¼¦å€¼æ˜¯ 180Â°
+MsgBox(4096, "ACoså‡½æ•°", "å€¼ä¸ºï¼š" & $y & "Â°")

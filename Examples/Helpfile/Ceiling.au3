@@ -1,4 +1,4 @@
-Local $msg
+ï»¿Local $msg
 
 $msg = ""
 $msg = $msg & "Ceiling(4.8) = " & Ceiling(4.8) & @CR
@@ -10,4 +10,4 @@ $msg = $msg & "Ceiling(-4.5) = " & Ceiling(-4.5) & @CR
 $msg = $msg & "Ceiling(-4.8) = " & Ceiling(-4.8) & @CR
 $msg = $msg & "Ceiling(-4) = " & Ceiling(-4) & @CR
 
-MsgBox(4096, "²âÊÔ½á¹û:", $msg)
+MsgBox(4096, "æµ‹è¯•ç»“æžœï¼š", $msg)

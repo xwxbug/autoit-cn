@@ -1,32 +1,35 @@
-MsgBox(4096,0,'Çë×¢Òâ¿´×ÀÃæÍ¼±ê')
-;·µ»ØÁĞ±íÏîÄ¿×ÜÊı
+ï»¿MsgBox(4096,0,'è¯·æ³¨æ„çœ‹æ¡Œé¢å›¾æ ‡')
+
+; è¿”å›åˆ—è¡¨é¡¹ç›®æ€»æ•°
 $GetItemCount=ControlListView('Program Manager','','SysListView321','GetItemCount')
-MsgBox(4096,'·µ»ØÁĞ±íÖĞÏîÄ¿µÄÊıÁ¿',$GetItemCount)
+MsgBox(4096,'è¿”å›åˆ—è¡¨ä¸­é¡¹ç›®çš„æ•°é‡',$GetItemCount)
 
-;ËÑË÷Ö¸¶¨×Ö·û´®
+; æœç´¢æŒ‡å®šå­—ç¬¦ä¸²
 $FindItem=ControlListView('Program Manager','','SysListView321','FindItem','Internet Explorer')
-MsgBox(4096,'ËÑË÷×Ö·û´®','Internet Explorer  Î»ÖÃ:'&$FindItem)
+MsgBox(4096,'æœç´¢å­—ç¬¦ä¸²','Internet Explorer  ä½ç½®:'&$FindItem)
 
 
-;ÇĞ»»µ±Ç°µÄÊÓÍ¼
+; åˆ‡æ¢å½“å‰çš„è§†å›¾
 ControlListView('Program Manager','','SysListView321','ViewChange','details')
 Sleep(1000)
 ControlListView('Program Manager','','SysListView321','ViewChange','smallicons')
-;Ñ¡ÔñÆäÖĞ¼¸¸öÏîÄ¿
-$Select=ControlListView('Program Manager','','SysListView321','Select',1,3)
-WinActivate('Program Manager') ;¼¤»î´°¿ÚÀ´Ô¤ÀÀĞ§¹û
-Sleep(1000)
-;·µ»ØÑ¡ÖĞÏîÄ¿µÄÎ»ÖÃ
-$GetSelected=ControlListView('Program Manager','','SysListView321','GetSelected',1)
-If $GetSelected<>'' Then MsgBox(4096,'µ±Ç°Ñ¡ÖĞÏîÄ¿µÄÎ»ÖÃ',$GetSelected)
-;·µ»Ø×ÓÏîÄ¿µÄÊıÁ¿
-$GetSubItemCount=ControlListView('Program Manager','','SysListView321','GetSubItemCount')
-MsgBox(4096,'·µ»Ø×ÓÏîÄ¿µÄÊıÁ¿',$GetSubItemCount)
-;·µ»ØÖ¸¶¨ÏîÄ¿/×ÓÏîÄ¿µÄÎÄ±¾
-$GetText=ControlListView('Program Manager','','SysListView321','GetText',0)
-MsgBox(4096,'·µ»ØÖ¸¶¨ÏîÄ¿/×ÓÏîÄ¿µÄÎÄ±¾',$GetText)
 
-WinActivate('Program Manager') ;¼¤»î´°¿ÚÀ´Ô¤ÀÀĞ§¹û
+; é€‰æ‹©å…¶ä¸­å‡ ä¸ªé¡¹ç›®
+$Select=ControlListView('Program Manager','','SysListView321','Select',1,3)
+WinActivate('Program Manager') ; æ¿€æ´»çª—å£æ¥é¢„è§ˆæ•ˆæœ
+Sleep(1000)
+
+; è¿”å›é€‰ä¸­é¡¹ç›®çš„ä½ç½®
+$GetSelected=ControlListView('Program Manager','','SysListView321','GetSelected',1)
+If $GetSelected<>'' Then MsgBox(4096,'å½“å‰é€‰ä¸­é¡¹ç›®çš„ä½ç½®',$GetSelected)
+; è¿”å›å­é¡¹ç›®çš„æ•°é‡
+$GetSubItemCount=ControlListView('Program Manager','','SysListView321','GetSubItemCount')
+MsgBox(4096,'è¿”å›å­é¡¹ç›®çš„æ•°é‡',$GetSubItemCount)
+; è¿”å›æŒ‡å®šé¡¹ç›®/å­é¡¹ç›®çš„æ–‡æœ¬
+$GetText=ControlListView('Program Manager','','SysListView321','GetText',0)
+MsgBox(4096,'è¿”å›æŒ‡å®šé¡¹ç›®/å­é¡¹ç›®çš„æ–‡æœ¬',$GetText)
+
+WinActivate('Program Manager') ; æ¿€æ´»çª—å£æ¥é¢„è§ˆæ•ˆæœ
 ControlListView('Program Manager','','SysListView321','SelectAll')
 Sleep(1000)
 ControlListView('Program Manager','','SysListView321','DeSelect',1,3)
@@ -35,4 +38,4 @@ ControlListView('Program Manager','','SysListView321','SelectInvert')
 Sleep(1000)
 ControlListView('Program Manager','','SysListView321','SelectClear')
 Sleep(1000)
-MsgBox(4096,0,'Ã»ÁË!Ë¯¾õ°É!')
+MsgBox(4096,0,'æ²¡äº†!ç¡è§‰å§!')

@@ -1,2 +1,5 @@
-MouseMove(10, 100) ; Move the mouse cursor to the x, y position of 10, 100.
-MouseMove(700, 700, 0) ; Move the mouse cursor to the x, y position of 700, 700 and move instantly.
+﻿; 将鼠标光标移动到 X=10,Y=100位置.
+MouseMove(10, 100) 
+
+; 瞬间将鼠标光标移动到 X=700,Y=700位置(0=鼠标光标移动速度).
+MouseMove(700, 700, 0) 

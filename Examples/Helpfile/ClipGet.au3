@@ -1,18 +1,19 @@
-Example()
+﻿Example()
 
 Func Example()
-	; Retrieve the data stored in the clipboard.
+	; 获取剪切板存放的文本内容.
 	Local $sData = ClipGet()
 
-	; Display the data returned by ClipGet.
-	MsgBox(4096, "", "The following data is stored in the clipboard: " & @CRLF & $sData)
+	; 显示剪切板存放的文本内容.
+	MsgBox(4096, "提示", "剪切板存放的文本内容: " & @CRLF & $sData)
 
-	; Add new data to the clipboard.
-	ClipPut("A new string added to the clipboard.")
+	;---------------------------------------------------------------------------
+	; 在剪切板中写入文本,剪切板内现有的内容将被覆盖.
+	ClipPut("这里是剪切板中存放的内容！")
 
-	; Retrieve the data stored in the clipboard.
+	; 获取剪切板存放的文本内容.
 	$sData = ClipGet()
 
-	; Display the data returned by ClipGet.
-	MsgBox(4096, "", "The following data is now stored in the clipboard: " & @CRLF & $sData)
+	; 显示剪切板存放的文本内容.
+	MsgBox(4096, "提示", "剪切板存放的文本内容: " & @CRLF & $sData)
 EndFunc   ;==>Example

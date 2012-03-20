@@ -1,14 +1,13 @@
-#NoTrayIcon
+﻿#NoTrayIcon
 
 Example()
 
 Func Example()
-	; Display a message box about the tray icon appearing once the OK button is selected.
-	MsgBox(4096, "", "The tray icon will display once OK is selected.")
+	MsgBox(4096, "", "点击确定后，将会显示托盘图标.")
 
-	; Display the tray icon.
+	; 显示托盘图标
 	Opt("TrayIconHide", 0)
 
-	; Wait 5 seconds before closing the script.
+	; 5秒后将自动关闭脚本
 	Sleep(5000)
 EndFunc   ;==>Example

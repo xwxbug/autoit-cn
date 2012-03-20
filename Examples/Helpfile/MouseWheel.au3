@@ -1,1 +1,2 @@
-MouseWheel("up", 10) ; Êó±êÂÖÖáÏòÉÏ¹ö¶¯ 10 ´Î
+ï»¿; é¼ æ ‡è½®è½´å‘ä¸Šæ»šåŠ¨ 10 æ¬¡
+MouseWheel("up", 10) 
