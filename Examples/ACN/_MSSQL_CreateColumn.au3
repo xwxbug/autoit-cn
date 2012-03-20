@@ -1,30 +1,30 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example_1(); Ê¾Àý 1
+Example_1(); ç¤ºä¾‹ 1
 
-Example_2(); Ê¾Àý 2
+Example_2(); ç¤ºä¾‹ 2
 
-Example_3(); Ê¾Àý 3
+Example_3(); ç¤ºä¾‹ 3
 
 Func Example_1()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable1"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_1)
 	
-	;´´½¨Ò»¸ö»ò¶à¸öÐÂµÄÁÐ
+	;åˆ›å»ºä¸€ä¸ªæˆ–å¤šä¸ªæ–°çš„åˆ—
 	_MSSQL_CreateColumn($sqlCon, $TableName_1, "Name varchar(255),Pass varchar(255)")
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example1
 
@@ -40,19 +40,19 @@ Func Example_2()
 	$Testarray1D[8] = "Column8"
 	$Testarray1D[9] = "Column9"
 	
-	; ±íÃû
+	; è¡¨å
 	$TableName_2 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_2)
 	
-	; ´´½¨Ò»¸ö»ò¶à¸öÐÂµÄÁÐ
+	; åˆ›å»ºä¸€ä¸ªæˆ–å¤šä¸ªæ–°çš„åˆ—
 	_MSSQL_CreateColumn($sqlCon, $TableName_2, $Testarray1D)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example2
 
@@ -77,18 +77,18 @@ Func Example_3()
 	$Testarray2D[8][1] = "VARCHAR(100)"
 	$Testarray2D[9][1] = "INT"
 	
-	; ±íÃû
+	; è¡¨å
 	$TableName_3 = "TestTable3"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_3)
 	
-	; ´´½¨Ò»¸ö»ò¶à¸öÐÂµÄÁÐ
+	; åˆ›å»ºä¸€ä¸ªæˆ–å¤šä¸ªæ–°çš„åˆ—
 	_MSSQL_CreateColumn($sqlCon, $TableName_3, $Testarray2D)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example3

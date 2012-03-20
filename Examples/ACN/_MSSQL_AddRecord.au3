@@ -1,31 +1,31 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example_1(); Ê¾Àý 1 ÔÚÊý¾Ý¿â±íÖÐ²åÈëÒ»¸öÊýÖµ
+Example_1(); ç¤ºä¾‹ 1 åœ¨æ•°æ®åº“è¡¨ä¸­æ’å…¥ä¸€ä¸ªæ•°å€¼
 
-Example_2(); Ê¾Àý 1 ÔÚÊý¾Ý¿â±íÖÐ²åÈëÒ»×éÊýÖµ
+Example_2(); ç¤ºä¾‹ 1 åœ¨æ•°æ®åº“è¡¨ä¸­æ’å…¥ä¸€ç»„æ•°å€¼
 
 Func Example_1()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable1"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_1)
 	
-	; ´´½¨Ò»¸ö»ò¶à¸öÐÂµÄÁÐ
+	; åˆ›å»ºä¸€ä¸ªæˆ–å¤šä¸ªæ–°çš„åˆ—
 	_MSSQL_CreateColumn($sqlCon, $TableName_1, "TestColumn VARCHAR(150)")
 	
-	; ÔÚÊý¾Ý¿â±íÖÐ²åÈëÒ»¸öÊýÖµ,Ê¹ÓÃÌõ¼þ·½Ê½,±ÜÃâ²åÈëÖØ¸´Êý¾Ý
+	; åœ¨æ•°æ®åº“è¡¨ä¸­æ’å…¥ä¸€ä¸ªæ•°å€¼,ä½¿ç”¨æ¡ä»¶æ–¹å¼,é¿å…æ’å…¥é‡å¤æ•°æ®
 	_MSSQL_AddRecord($sqlCon, $TableName_1, "'Value9'", True, "WHERE TestColumn = 'Value9'")
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_1
 
@@ -41,23 +41,23 @@ Func Example_2()
 	$TestArray1[8] = "Value8"
 	$TestArray1[9] = "123456789"
 	
-	; ±íÃû
+	; è¡¨å
 	$TableName_2 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_2)
 	
-	; ´´½¨Ò»¸ö»ò¶à¸öÐÂµÄÁÐ
+	; åˆ›å»ºä¸€ä¸ªæˆ–å¤šä¸ªæ–°çš„åˆ—
 	_MSSQL_CreateColumn($sqlCon, $TableName_2, "TestColumn VARCHAR(150)")
 	
-	; ÔÚÊý¾Ý¿â±íÖÐ²åÈëÒ»×éÊýÖµ,ÓÉÓÚÃ»ÓÐÊ¹ÓÃÌõ¼þ·½Ê½,»á³öÏÖÖØ¸´Êý¾Ý
+	; åœ¨æ•°æ®åº“è¡¨ä¸­æ’å…¥ä¸€ç»„æ•°å€¼,ç”±äºŽæ²¡æœ‰ä½¿ç”¨æ¡ä»¶æ–¹å¼,ä¼šå‡ºçŽ°é‡å¤æ•°æ®
 	For $i = 1 To UBound($TestArray1) - 1
 		_MSSQL_AddRecord($sqlCon, $TableName_2, "'" & $TestArray1[$i] & "'")
 	Next
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_2

@@ -1,39 +1,39 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 #include <Array.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example_1(); Ê¾Àý
+Example_1(); ç¤ºä¾‹
 
-Example_2(); Ê¾Àý
+Example_2(); ç¤ºä¾‹
 
 Func Example_1()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿â±íÖÐÉ¾³ýÊý¾Ý(É¾³ýËùÓÐÊý¾Ý)
+	; åœ¨æ•°æ®åº“è¡¨ä¸­åˆ é™¤æ•°æ®(åˆ é™¤æ‰€æœ‰æ•°æ®)
 	_MSSQL_DeleteRecord($sqlCon, $TableName_1)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_1
 
 Func Example_2()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿â±íÖÐÉ¾³ýÊý¾Ý(°´Ìõ¼þÉ¾³ýÖ¸¶¨Êý¾Ý)
+	; åœ¨æ•°æ®åº“è¡¨ä¸­åˆ é™¤æ•°æ®(æŒ‰æ¡ä»¶åˆ é™¤æŒ‡å®šæ•°æ®)
 	_MSSQL_DeleteRecord($sqlCon, $TableName_1, "WHere TestColumn = '123456789'")
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_2

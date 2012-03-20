@@ -1,55 +1,55 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 #include <Array.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example_1(); Ê¾Àý 1
+Example_1(); ç¤ºä¾‹ 1
 
-Example_2(); Ê¾Àý 2
+Example_2(); ç¤ºä¾‹ 2
 
 Func Example_1()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÐÞ¸ÄÇ°
+	; ä¿®æ”¹å‰
 	$getrecord = _MSSQL_GetRecord($sqlCon, $TableName_1)
 	_ArrayDisplay($getrecord)
 	
-	; ÔÚÊý¾Ý¿â±íÖÐÐÞ¸ÄÖ¸¶¨ÁÐµÄÊý¾Ý(ÕûÁÐÐÞ¸Ä)
+	; åœ¨æ•°æ®åº“è¡¨ä¸­ä¿®æ”¹æŒ‡å®šåˆ—çš„æ•°æ®(æ•´åˆ—ä¿®æ”¹)
 	_MSSQL_UpdateRecord($sqlCon, $TableName_1, "TestColumn", "Value0")
 	
-	; ÐÞ¸Äºó
+	; ä¿®æ”¹åŽ
 	$getrecord = _MSSQL_GetRecord($sqlCon, $TableName_1)
 	_ArrayDisplay($getrecord)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_1
 
 Func Example_2()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÐÞ¸ÄÇ°
+	; ä¿®æ”¹å‰
 	$getrecord = _MSSQL_GetRecord($sqlCon, $TableName_1)
 	_ArrayDisplay($getrecord)
 	
-	; ÔÚÊý¾Ý¿â±íÖÐÐÞ¸ÄÖ¸¶¨ÁÐµÄÊý¾Ý(°´²éÑ¯Ìõ¼þÐÞ¸ÄÖ¸¶¨Êý¾Ý)
+	; åœ¨æ•°æ®åº“è¡¨ä¸­ä¿®æ”¹æŒ‡å®šåˆ—çš„æ•°æ®(æŒ‰æŸ¥è¯¢æ¡ä»¶ä¿®æ”¹æŒ‡å®šæ•°æ®)
 	_MSSQL_UpdateRecord($sqlCon, $TableName_1, "TestColumn", "123456789", "WHere TestColumn = 'Value1'")
 	
-	; ÐÞ¸Äºó
+	; ä¿®æ”¹åŽ
 	$getrecord = _MSSQL_GetRecord($sqlCon, $TableName_1)
 	_ArrayDisplay($getrecord)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_2

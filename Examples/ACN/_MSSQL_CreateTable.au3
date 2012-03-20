@@ -1,38 +1,38 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example_1(); Ê¾Àý 1
+Example_1(); ç¤ºä¾‹ 1
 
-Example_2(); Ê¾Àý 2
+Example_2(); ç¤ºä¾‹ 2
 
 Func Example_1()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable1"
 	
-	; Á¬½ÓÊý¾Ý¿â.
+	; è¿žæŽ¥æ•°æ®åº“.
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±í,Ä¬ÈÏ×Ô¶¯Éú³É ID ÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨,é»˜è®¤è‡ªåŠ¨ç”Ÿæˆ ID åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_1)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_1
 
 Func Example_2()
-	; ±íÃû
+	; è¡¨å
 	$TableName_2 = "TestTable2"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ´´½¨±íµÄÍ¬Ê±´´½¨ÏàÓ¦µÄÁÐ
+	; åœ¨æ•°æ®åº“ä¸­åˆ›å»ºè¡¨çš„åŒæ—¶åˆ›å»ºç›¸åº”çš„åˆ—
 	_MSSQL_CreateTable($sqlCon, $TableName_2, True, "ID INT,Name varchar(255),Pass varchar(255)")
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example_2

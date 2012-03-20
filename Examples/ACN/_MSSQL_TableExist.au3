@@ -1,28 +1,28 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example(); Ê¾Àý
+Example(); ç¤ºä¾‹
 
 Func Example()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable1"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿âÖÐ¼ì²é±íÊÇ·ñ´æÔÚ
+	; åœ¨æ•°æ®åº“ä¸­æ£€æŸ¥è¡¨æ˜¯å¦å­˜åœ¨
 	$TableExist = _MSSQL_TableExist($sqlCon, $TableName_1)
 	If $TableExist = 1 Then
-		MsgBox(4096, "±í´æÔÚ", "·µ»ØÖµ= " & $TableExist)
+		MsgBox(4096, "è¡¨å­˜åœ¨", "è¿”å›žå€¼= " & $TableExist)
 	Else
-		MsgBox(4096, "±í²»´æÔÚ", "·µ»ØÖµ= " & $TableExist)
+		MsgBox(4096, "è¡¨ä¸å­˜åœ¨", "è¿”å›žå€¼= " & $TableExist)
 	EndIf
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example
 

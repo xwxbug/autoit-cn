@@ -1,25 +1,25 @@
-#include <MSSQL.au3>
+ï»¿#include <MSSQL.au3>
 #include <Array.au3>
 
-$IP = "192.168.1.100"; IPµØÖ·
-$USER = "sa"; Á¬½ÓÕÊºÅ
-$PASS = ""; Á¬½ÓÃÜÂë
-$DATABASE = "TESTDATA"; Êý¾Ý¿âÃû
+$IP = "192.168.1.100"; IPåœ°å€
+$USER = "sa"; è¿žæŽ¥å¸å·
+$PASS = ""; è¿žæŽ¥å¯†ç 
+$DATABASE = "TESTDATA"; æ•°æ®åº“å
 
-Example(); Ê¾Àý
+Example(); ç¤ºä¾‹
 
 Func Example()
-	; ±íÃû
+	; è¡¨å
 	$TableName_1 = "TestTable1"
 	
-	; Á¬½ÓÊý¾Ý¿â
+	; è¿žæŽ¥æ•°æ®åº“
 	$sqlCon = _MSSQL_Con($IP, $USER, $PASS, $DATABASE)
 	
-	; ÔÚÊý¾Ý¿â±íÖÐ»ñÈ¡ËùÓÐÁÐÃû
+	; åœ¨æ•°æ®åº“è¡¨ä¸­èŽ·å–æ‰€æœ‰åˆ—å
 	$getrecord = _MSSQL_ListAllColumns($sqlCon, $TableName_1)
 	_ArrayDisplay($getrecord)
 	
-	; ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+	; å…³é—­æ•°æ®åº“è¿žæŽ¥
 	_MSSQL_End($sqlCon)
 EndFunc   ;==>Example
 
