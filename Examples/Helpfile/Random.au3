@@ -1,6 +1,7 @@
 Example1() ; Flip a coin.
 Example2() ; Roll a die.
 Example3() ; Create a random string of text.
+Example4() ; Result of when Min and Max are the same value.
 
 Func Example1()
 	If Random(0, 1, 1) Then ; Return an integer between 0 and 1.
@@ -21,3 +22,10 @@ Func Example3()
 	Next
 	MsgBox(4096, "", "The random string of text was: " & $sText) ; Display the string of text.
 EndFunc   ;==>Example3
+
+Func Example4()
+	Local $iRandom = Random(10, 10)
+	If @error Then
+		MsgBox(4096, "", "An error occurred, due to the fact both values are exactly the same: " & $iRandom)
+	EndIf
+EndFunc   ;==>Example4

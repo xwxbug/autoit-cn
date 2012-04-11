@@ -1,7 +1,8 @@
 #include <Misc.au3>
-Local $fTest
-$fTest = _ClipPutFile(@ScriptFullPath & "|" & @ScriptDir & "|" & @SystemDir)
-If Not $fTest Then
+
+;~ 添加下列内容到剪切板.
+Local $fReturn = _ClipPutFile(@ScriptFullPath & "|" & @ScriptDir & "|" & @SystemDir)
+If Not $fReturn Then
 	MsgBox(4096,"_ClipPutFile() 调用失败","错误代码存放于 @error = " & @error)
 Else
 	MsgBox(4096,"_ClipPutFile()","内容已经放到剪切板了:" & @CRLF & ClipGet())
