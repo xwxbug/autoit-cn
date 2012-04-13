@@ -320,7 +320,7 @@ EndFunc   ;==>_ArrayDelete
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sSeparator = Default, $sReplace = Default, $sHeader = Default)
-	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
+	If (Not IsArray($avArray)) Or (Not UBound($avArray, 1)) Then Return SetError(1, 0, 0)
 
 	; Default values
 	If $sTitle = Default Then $sTitle = "列表视图(ListView)显示数组"

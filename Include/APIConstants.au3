@@ -4596,6 +4596,60 @@ Global Const $VFT2_FONT_VECTOR = 0x00000002
 ;Global Const $SIMPLEREGION = 2
 
 ; ===============================================================================================================================
+; _WinAPI_*RowInput*()
+; ===============================================================================================================================
+
+Global Const $RIDEV_APPKEYS = 0x00000400
+Global Const $RIDEV_CAPTUREMOUSE = 0x00000200
+Global Const $RIDEV_DEVNOTIFY = 0x00002000
+Global Const $RIDEV_EXCLUDE = 0x00000010
+Global Const $RIDEV_EXINPUTSINK = 0x00001000
+Global Const $RIDEV_INPUTSINK = 0x00000100
+Global Const $RIDEV_NOHOTKEYS = 0x00000200
+Global Const $RIDEV_NOLEGACY = 0x00000030
+Global Const $RIDEV_PAGEONLY = 0x00000020
+Global Const $RIDEV_REMOVE = 0x00000001
+
+Global Const $RID_HEADER = 0x10000005
+Global Const $RID_INPUT = 0x10000003
+
+Global Const $RIM_TYPEHID = 2
+Global Const $RIM_TYPEKEYBOARD = 1
+Global Const $RIM_TYPEMOUSE = 0
+
+Global Const $RIDI_DEVICENAME = 0x20000007
+Global Const $RIDI_DEVICEINFO = 0x2000000B
+Global Const $RIDI_PREPARSEDDATA = 0x20000005
+
+Global Const $MOUSE_ATTRIBUTES_CHANGED = 0x04
+Global Const $MOUSE_MOVE_ABSOLUTE = 0x01
+Global Const $MOUSE_MOVE_RELATIVE = 0x00
+Global Const $MOUSE_VIRTUAL_DESKTOP = 0x02
+
+Global Const $RI_MOUSE_LEFT_BUTTON_DOWN = 0x0001
+Global Const $RI_MOUSE_LEFT_BUTTON_UP = 0x0002
+Global Const $RI_MOUSE_MIDDLE_BUTTON_DOWN = 0x0010
+Global Const $RI_MOUSE_MIDDLE_BUTTON_UP = 0x0020
+Global Const $RI_MOUSE_RIGHT_BUTTON_DOWN = 0x0004
+Global Const $RI_MOUSE_RIGHT_BUTTON_UP = 0x0008
+Global Const $RI_MOUSE_BUTTON_1_DOWN = $RI_MOUSE_LEFT_BUTTON_DOWN
+Global Const $RI_MOUSE_BUTTON_1_UP = $RI_MOUSE_LEFT_BUTTON_UP
+Global Const $RI_MOUSE_BUTTON_2_DOWN = $RI_MOUSE_RIGHT_BUTTON_DOWN
+Global Const $RI_MOUSE_BUTTON_2_UP = $RI_MOUSE_RIGHT_BUTTON_UP
+Global Const $RI_MOUSE_BUTTON_3_DOWN = $RI_MOUSE_MIDDLE_BUTTON_DOWN
+Global Const $RI_MOUSE_BUTTON_3_UP = $RI_MOUSE_MIDDLE_BUTTON_UP
+Global Const $RI_MOUSE_BUTTON_4_DOWN = 0x0040
+Global Const $RI_MOUSE_BUTTON_4_UP = 0x0080
+Global Const $RI_MOUSE_BUTTON_5_DOWN = 0x0100
+Global Const $RI_MOUSE_BUTTON_5_UP = 0x0200
+Global Const $RI_MOUSE_WHEEL = 0x0400
+
+Global Const $RI_KEY_BREAK = 1
+Global Const $RI_KEY_E0 = 2
+Global Const $RI_KEY_E1 = 4
+Global Const $RI_KEY_MAKE = 0
+
+; ===============================================================================================================================
 ; _WinAPI_*Theme*()
 ; ===============================================================================================================================
 

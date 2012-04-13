@@ -657,9 +657,8 @@ EndFunc   ;==>_GDIPlus_BrushDispose
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _GDIPlus_BrushGetSolidColor
 ; Description ...: Get the color of a Solid Brush object
-; Syntax.........: _GDIPlus_BrushGetSolidColor($hBrush, [$iARGB = 0xFF000000])
+; Syntax.........: _GDIPlus_BrushGetSolidColor($hBrush)
 ; Parameters ....: $hBrush      - Handle to a Brush object
-;				   $iARGB		- The color of the brush.
 ; Return values .: Success      - Brush color
 ;                  Failure      - -1 and @error is set
 ; Author ........:
@@ -2456,8 +2455,8 @@ EndFunc   ;==>_GDIPlus_MatrixRotate
 ; Description ...: Updates a matrix with the product of itself and a scaling matrix
 ; Syntax.........: _GDIPlus_MatrixScale($hMatrix, $fScaleX, $fScaleY[, $bOrder = False])
 ; Parameters ....: $hMatrix     - Handle to a Matrix object
-;                  $fScaleX     - Multiplyier to scale the x-axis
-;                  $fScaleY     - Multiplyier to scale the y-axis
+;                  $fScaleX     - Multiplier to scale the x-axis
+;                  $fScaleY     - Multiplier to scale the y-axis
 ;                  $bOrder      - Specifies the order of the multiplication:
 ;                  |True  - Specifies that the scaling matrix is on the left
 ;                  |False - Specifies that the scaling matrix is on the right

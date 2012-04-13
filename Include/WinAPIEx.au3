@@ -6,7 +6,7 @@
     Filename:       WinAPIEx.au3
     Description:    Additional variables, constants and functions for the WinAPI.au3
     Author:         Yashied
-    Version:        3.7 / 3.3.8.0
+    Version:        3.7 / 3.3.6.1
     Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
     Uses:           StructureConstants.au3, WinAPI.au3
     Note:           The library uses the following system DLLs:
@@ -163,6 +163,7 @@
     _WinAPI_DecryptFile
     _WinAPI_DeferWindowPos
     _WinAPI_DefineDosDevice
+    _WinAPI_DefRawInputProc
     _WinAPI_DefSubclassProc
     _WinAPI_DefWindowProcW
     _WinAPI_DeleteEnhMetaFile
@@ -238,6 +239,7 @@
     _WinAPI_EnumProcessModules
     _WinAPI_EnumProcessThreads
     _WinAPI_EnumProcessWindows
+    _WinAPI_EnumRawInputDevices
     _WinAPI_EnumResourceLanguages
     _WinAPI_EnumResourceNames
     _WinAPI_EnumResourceTypes
@@ -349,6 +351,7 @@
     _WinAPI_GetFileAttributes
     _WinAPI_GetFileID
     _WinAPI_GetFileInformationByHandle
+    _WinAPI_GetFileInformationByHandleEx
     _WinAPI_GetFilePointerEx
     _WinAPI_GetFileSizeOnDisk
     _WinAPI_GetFileTitle
@@ -400,7 +403,7 @@
     _WinAPI_GetPolyFillMode
     _WinAPI_GetPosFromRect
     _WinAPI_GetPriorityClass
-   *_WinAPI_GetProcAddress
+    _WinAPI_GetProcAddress
     _WinAPI_GetProcessCommandLine
     _WinAPI_GetProcessFileName
     _WinAPI_GetProcessHandleCount
@@ -415,7 +418,12 @@
     _WinAPI_GetProcessWorkingDirectory
     _WinAPI_GetProfilesDirectory
     _WinAPI_GetPwrCapabilities
+    _WinAPI_GetRawInputBuffer
+    _WinAPI_GetRawInputBufferLength
+    _WinAPI_GetRawInputData
+    _WinAPI_GetRawInputDeviceInfo
     _WinAPI_GetRegionData
+    _WinAPI_GetRegisteredRawInputDevices
     _WinAPI_GetRegKeyNameByHandle
     _WinAPI_GetRgnBox
     _WinAPI_GetROP2
@@ -694,6 +702,7 @@
     _WinAPI_RegisterClassEx
     _WinAPI_RegisterHotKey
     _WinAPI_RegisterPowerSettingNotification
+    _WinAPI_RegisterRawInputDevices
     _WinAPI_RegisterShellHookWindow
     _WinAPI_RegLoadMUIString
     _WinAPI_RegNotifyChangeKeyValue
@@ -752,6 +761,7 @@
     _WinAPI_SetEnhMetaFileBits
     _WinAPI_SetErrorMode
     _WinAPI_SetFileAttributes
+    _WinAPI_SetFileInformationByHandleEx
     _WinAPI_SetFilePointerEx
     _WinAPI_SetFileShortName
     _WinAPI_SetForegroundWindow
@@ -832,6 +842,7 @@
     _WinAPI_ShellStartNetConnectionDlg
     _WinAPI_ShellUserAuthenticationDlg
     _WinAPI_ShellUserAuthenticationDlgEx
+    _WinAPI_ShortToWord
     _WinAPI_ShowCaret
     _WinAPI_ShowLastError
     _WinAPI_ShowOwnedPopups
@@ -889,6 +900,7 @@
     _WinAPI_VerQueryValueEx
     _WinAPI_WidenPath
     _WinAPI_WindowFromDC
+    _WinAPI_WordToShort
     _WinAPI_Wow64EnableWow64FsRedirection
     _WinAPI_ZeroMemory
 
@@ -926,6 +938,7 @@ Global Const $tagDTTOPTS = 'dword Size;dword Flags;dword clrText;dword clrBorder
 Global Const $tagENHMETAHEADER = 'dword Type;dword Size;long rcBounds[4];long rcFrame[4];dword Signature;dword Version;dword Bytes;dword Records;ushort Handles;ushort Reserved;dword Description;dword OffDescription;dword PalEntries;long Device[2];long Millimeters[2];dword PixelFormat;dword OffPixelFormat;dword OpenGL;long Micrometers[2];'
 Global Const $tagEXTLOGPEN = 'dword PenStyle;dword Width;uint BrushStyle;dword Color;ulong_ptr Hatch;dword NumEntries;' ; & 'dword StyleEntry[n];'
 Global Const $tagFILE_ID_DESCRIPTOR = 'dword Size;uint Type;' & $tagGUID & ';'
+Global Const $tagFILEINFO = 'uint64 CreationTime;uint64 LastAccessTime;uint64 LastWriteTime;uint64 ChangeTime;dword Attributes;'
 Global Const $tagFINDREPLACE = 'dword Size;hwnd hOwner;ptr hInstance;dword Flags;ptr FindWhat;ptr ReplaceWith;ushort FindWhatLen;ushort ReplaceWithLen;lparam lParam;ptr Hook;ptr TemplateName;'
 Global Const $tagGLYPHMETRICS = 'uint BlackBoxX;uint BlackBoxY;' & $tagPOINT & ';short CellIncX;short CellIncY;'
 ;Global Const $tagGUITHREADINFO = 'dword Size;dword Flags;hwnd hWndActive;hwnd hWndFocus;hwnd hWndCapture;hwnd hWndMenuOwner;hwnd hWndMoveSize;hwnd hWndCaret;long rcCaret[4];'
@@ -958,8 +971,22 @@ Global Const $tagPANOSE = 'byte bFamilyType;byte bSerifStyle;byte bWeight;byte b
 Global Const $tagPRINTDLG = 'align 2;dword_ptr Size;hwnd hOwner;ptr hDevMode;ptr hDevNames;hwnd hDC;dword Flags;ushort FromPage;ushort ToPage;ushort MinPage;ushort MaxPage;' & __Iif(@AutoItX64, 'uint', 'ushort') & ' Copies;ptr hInstance;lparam lParam;ptr PrintHook;ptr SetupHook;ptr PrintTemplateName;ptr SetupTemplateName;ptr hPrintTemplate;ptr hSetupTemplate;'
 Global Const $tagPRINTDLGEX = 'dword Size;hwnd hOwner;ptr hDevMode;ptr hDevNames;hwnd hDC;dword Flags;dword Flags2;dword ExclusionFlags;dword NumPageRanges;dword MaxPageRanges;ptr PageRanges;dword MinPage;dword MaxPage;dword Copies;ptr hInstance;ptr PrintTemplateName;lparam lParam;dword NumPropertyPages;ptr hPropertyPages;dword StartPage;dword ResultAction;'
 Global Const $tagPRINTPAGERANGE = 'dword FromPage;dword ToPage;'
+Global Const $tagRAWINPUTDEVICE = 'ushort UsagePage;ushort Usage;dword Flags;hwnd hTarget;'
+Global Const $tagRAWINPUTHEADER = 'dword Type;dword Size;ptr hDevice;wparam wParam;'
+Global Const $tagRAWMOUSE = 'ushort Flags;ushort Alignment;ushort ButtonFlags;ushort ButtonData;ulong RawButtons;long LastX;long LastY;ulong ExtraInformation;'
+Global Const $tagRAWKEYBOARD = 'ushort MakeCode;ushort Flags;ushort Reserved;ushort VKey;ushort;uint Message;ulong ExtraInformation;'
+Global Const $tagRAWHID = 'dword SizeHid;dword Count;' ; & 'byte RawData[n];'
+Global Const $tagRAWINPUTMOUSE = $tagRAWINPUTHEADER & $tagRAWMOUSE
+Global Const $tagRAWINPUTKEYBOARD = $tagRAWINPUTHEADER & $tagRAWKEYBOARD
+Global Const $tagRAWINPUTHID = $tagRAWINPUTHEADER & $tagRAWHID
 Global Const $tagRGNDATAHEADER = 'dword Size;dword Type;dword Count;dword RgnSize;' & $tagRECT & ';'
 ;Global Const $tagRGNDATA = $tagRGNDATAHEADER ; & $tagRECT[n] & ';'
+Global Const $tagRID_DEVICE_INFO_MOUSE = 'dword Id;dword NumberOfButtons;dword SampleRate;int HasHorizontalWheel;'
+Global Const $tagRID_DEVICE_INFO_KEYBOARD = 'dword KbType;dword KbSubType;dword KeyboardMode;dword NumberOfFunctionKeys;dword NumberOfIndicators;dword NumberOfKeysTotal;'
+Global Const $tagRID_DEVICE_INFO_HID = 'dword VendorId;dword ProductId;dword VersionNumber;ushort UsagePage;ushort Usage;'
+Global Const $tagRID_INFO_MOUSE = 'dword Size;dword Type;' & $tagRID_DEVICE_INFO_MOUSE & 'dword Unused[2];'
+Global Const $tagRID_INFO_KEYBOARD = 'dword Size;dword Type;' & $tagRID_DEVICE_INFO_KEYBOARD
+Global Const $tagRID_INFO_HID = 'dword Size;dword Type;' & $tagRID_DEVICE_INFO_HID & 'dword Unused[2];'
 Global Const $tagSHELLHOOKINFO = 'hwnd hWnd;' & $tagRECT & ';'
 Global Const $tagSHFILEINFO = 'ptr hIcon;int iIcon;dword Attributes;wchar DisplayName[260];wchar TypeName[80];'
 Global Const $tagSHFILEOPSTRUCT = 'hwnd hWnd;uint Func;ptr From;ptr To;dword Flags;int fAnyOperationsAborted;ptr hNameMappings;ptr ProgressTitle;'
@@ -6300,7 +6327,6 @@ Func _WinAPI_DecompressBuffer($pUncompressedBuffer, $iUncompressedSize, $pCompre
 		Return SetError(1, 0, 0)
 	Else
 		If $Ret[0] Then
-		ConsoleWrite(Hex($Ret[0]) & @CR)
 			Return SetError(1, $Ret[0], 0)
 		EndIf
 	EndIf
@@ -6434,6 +6460,36 @@ Func _WinAPI_DefineDosDevice($sDevice, $iFlags, $sPath = '')
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_DefineDosDevice
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_DefRawInputProc
+; Description....: Calls the default raw input procedure to process the raw input messages that an application does not process.
+; Syntax.........: _WinAPI_DefRawInputProc ( $pRawInput, $iInput )
+; Parameters.....: $pRawInput - A pointer to an array of $tagRAWINPUT structures that is returned by _WinAPI_GetRawInputBuffer().
+;                  $iInput    - The number of structures in array.
+; Return values..: Success    - 1.
+;                  Failure    - 0 and sets the @error flag to non-zero, @extended flag may contain the system error code.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ DefRawInputProc
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_DefRawInputProc($pRawInput, $iInput)
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'DefRawInputProc', 'ptr', $pRawInput, 'int', $iInput, 'uint', __Iif(@AutoItX64, 24, 16))
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_DefRawInputProc
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_DefSubclassProc
@@ -6853,7 +6909,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 		$iStyle = BitOR($iStyle, 0x00000008)
 	EndIf
 	$__Dlg = GUICreate($sTitle, 570, 620, -1, -1, 0x80C70000, $iStyle, $hParent)
-	$LV = GUICtrlCreateListView('#|Member|Offset|Type|Size|Value', 0, 0, 570, 620, 0x0000000D, __Iif($__WINVER < 0x0600, 0x00010031, 0x00010030))
+	$LV = GUICtrlCreateListView('#|Member|Offset|Type|Size|Value', 0, 0, 570, 620, 0x0000800D, __Iif($__WINVER < 0x0600, 0x00010031, 0x00010030))
 	$hLV = GUICtrlGetHandle($LV)
 	If $__WINVER >= 0x0600 Then
 		_WinAPI_SetWindowTheme($hLV, 'Explorer')
@@ -9801,6 +9857,54 @@ Func _WinAPI_EnumProcessWindows($PID = 0, $fVisible = 1)
 	__Inc($__Data, -1)
 	Return $__Data
 EndFunc   ;==>_WinAPI_EnumProcessWindows
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_EnumRawInputDevices
+; Description....: Enumerates the raw input devices attached to the system.
+; Syntax.........: _WinAPI_EnumRawInputDevices ( )
+; Parameters.....: None
+; Return values..: Success - The 2D array of the device handles and types.
+;
+;                            [0][0] - Number of rows in array (n)
+;                            [0][1] - Unused
+;                            [n][0] - A handle to the raw input device.
+;                            [n][1] - A type of device ($RIM_*).
+;
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetRawInputDeviceList
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_EnumRawInputDevices()
+
+	Local $tRIDL, $tData, $pData, $Ret, $Result, $Length = __Iif(@AutoItX64, 16, 8)
+
+	$Ret = DllCall('user32.dll', 'uint', 'GetRawInputDeviceList', 'ptr', 0, 'uint*', 0, 'uint', $Length)
+	If (@error) Or ($Ret[0] = 4294967295) Or (Not $Ret[2]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$tData = DllStructCreate('byte[' & ($Ret[2] * $Length) & ']')
+	$pData = DllStructGetPtr($tData)
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	$Ret = DllCall('user32.dll', 'uint', 'GetRawInputDeviceList', 'ptr', $pData, 'uint*', $Ret[2], 'uint', $Length)
+	If (@error) Or ($Ret[0] = 4294967295) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Dim $Result[$Ret[2] + 1][2] = [[$Ret[2]]]
+	For $i = 1 To $Ret[2]
+		$tRIDL = DllStructCreate('ptr;dword', $pData + $Length * ($i - 1))
+		For $j = 0 to 1
+			$Result[$i][$j] = DllStructGetData($tRIDL, $j + 1)
+		Next
+	Next
+	Return $Result
+EndFunc   ;==>_WinAPI_EnumRawInputDevices
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_EnumResourceLanguages
@@ -13652,10 +13756,10 @@ Func _WinAPI_GetFileID($hFile)
 	Local $Ret = DllCall('ntdll.dll', 'uint', 'ZwQueryInformationFile', 'ptr', $hFile, 'ptr', DllStructGetPtr($tIOSB), 'int64*', 0, 'ulong', 8, 'uint', 6)
 
 	If @error Then
-		Return SetError(1, 0, '')
+		Return SetError(1, 0, 0)
 	Else
 		If $Ret[0] Then
-			Return SetError(1, $Ret[0], '')
+			Return SetError(1, $Ret[0], 0)
 		EndIf
 	EndIf
 	Return $Ret[3]
@@ -13714,6 +13818,37 @@ Func _WinAPI_GetFileInformationByHandle($hFile)
 	$Result[7] = _WinAPI_MakeQWord(DllStructGetData($tBHFI, 9), DllStructGetData($tBHFI, 10))
 	Return $Result
 EndFunc   ;==>_WinAPI_GetFileInformationByHandle
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetFileInformationByHandleEx
+; Description....: Retrieves file information for the specified file.
+; Syntax.........: _WinAPI_GetFileInformationByHandleEx ( $hFile )
+; Parameters.....: $hFile  - Handle to the file that contains the information to be retrieved.
+; Return values..: Success - $tagFILEINFO structure containing information for a file.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ ZwQueryInformationFile
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetFileInformationByHandleEx($hFile)
+
+	Local $tFI = DllStructCreate($tagFILEINFO)
+	Local $tIOSB = DllStructCreate('ptr;ulong_ptr')
+	Local $Ret = DllCall('ntdll.dll', 'uint', 'ZwQueryInformationFile', 'ptr', $hFile, 'ptr', DllStructGetPtr($tIOSB), 'ptr', DllStructGetPtr($tFI), 'ulong', DllStructGetSize($tFI), 'uint', 4)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return $tFI
+EndFunc   ;==>_WinAPI_GetFileInformationByHandleEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetFilePointerEx
@@ -13798,7 +13933,7 @@ EndFunc   ;==>_WinAPI_GetFileSizeOnDisk
 
 Func _WinAPI_GetFileTitle($sFile)
 
-	Local $Ret = DllCall('comdlg32.dll', 'short', 'GetFileTitleW', 'wstr', $sFile, 'wstr', '', 'word', 4096)
+	Local $Ret = DllCall('comdlg32.dll', 'short', 'GetFileTitleW', 'wstr', $sFile, 'wstr', '', 'ushort', 4096)
 
 	If (@error) Or ($Ret[0]) Then
 		Return SetError(1, 0, '')
@@ -16213,6 +16348,131 @@ Func _WinAPI_GetPwrCapabilities()
 EndFunc   ;==>_WinAPI_GetPwrCapabilities
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetRawInputBuffer
+; Description....: Performs a buffered read of the raw input data.
+; Syntax.........: _WinAPI_GetRawInputBuffer ( $pBuffer, $iLength )
+; Parameters.....: $pBuffer - A pointer to the buffer to receive an array of $tagRAWINPUT structures containing the raw input data.
+;                  $iLength - The size of the buffer, in bytes.
+; Return values..: Success  - The number of $tagRAWINPUT structures written to the buffer.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: To obtain the minimum required buffer size to call this function, use _WinAPI_GetRawInputBufferLength().
+;
+;                  To ensure the _WinAPI_GetRawInputBuffer() function behaves properly on WOW64, you must align the
+;                  $tagRAWINPUT structure by 8 bytes.
+; Related........:
+; Link...........: @@MsdnLink@@ GetRawInputBuffer
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetRawInputBuffer($pBuffer, $iLength)
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetRawInputBuffer', 'ptr', $pBuffer, 'uint*', $iLength, 'uint', __Iif(@AutoItX64, 24, 16))
+
+	If (@error) Or ($Ret[0] = 4294967295) Or (Not $Ret[1]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetRawInputBuffer
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetRawInputBufferLength
+; Description....: Retrieves the required buffer size to call the _WinAPI_GetRawInputBuffer() function.
+; Syntax.........: _WinAPI_GetRawInputBufferLength ( )
+; Parameters.....: None
+; Return values..: Success - The minimum required buffer size, in bytes.
+;                  Failure - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetRawInputBuffer
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetRawInputBufferLength()
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetRawInputBuffer', 'ptr', 0, 'uint*', 0, 'uint', __Iif(@AutoItX64, 24, 16))
+
+	If (@error) Or ($Ret[0] = 4294967295) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[2] * 8
+EndFunc   ;==>_WinAPI_GetRawInputBufferLength
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetRawInputData
+; Description....: Retrieves the raw input from the specified device.
+; Syntax.........: _WinAPI_GetRawInputData ( $hRawInput, $pBuffer, $iLength, $iFlag )
+; Parameters.....: $hRawInput - A handle to the $tagRAWINPUT structure (not a pointer). This comes from the "lParam" in WM_INPUT.
+;                  $pBuffer   - A pointer to the buffer to receive a data that comes from the $tagRAWINPUT structure. This depends
+;                               on the value of a command flag (see below). If this parameter is 0, the function returns the
+;                               required size of the buffer, in bytes.
+;                  $iLength   - The size of the buffer, in bytes.
+;                  $iFlag     - The command flag. This parameter can be one of the following values.
+;
+;                               $RID_HEADER
+;                               $RID_INPUT
+;
+; Return values..: Success    - The number of bytes required or copied into the buffer.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetRawInputData
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetRawInputData($hRawInput, $pBuffer, $iLength, $iFlag)
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetRawInputData', 'ptr', $hRawInput, 'uint', $iFlag, 'ptr', $pBuffer, 'uint*', $iLength, 'uint', __Iif(@AutoItX64, 24, 16))
+
+	If (@error) Or ($Ret[0] = 4294967295) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return __Iif($Ret[3], $Ret[0], $Ret[4])
+EndFunc   ;==>_WinAPI_GetRawInputData
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetRawInputDeviceInfo
+; Description....: Retrieves information about the raw input device.
+; Syntax.........: _WinAPI_GetRawInputDeviceInfo ( $hDevice, $pBuffer, $iLength, $iFlag )
+; Parameters.....: $hDevice - A handle to the raw input device. This comes from the "lParam" of the WM_INPUT message, from the
+;                             "hDevice" member of the $tagRAWINPUTHEADER structure, or from the _WinAPI_EnumRawInputDevices() function.
+;                  $pBuffer - A pointer to the buffer that receives an information specified by a command flag (see below).
+;                             If this parameter is 0, the function returns the required size of the buffer, in bytes or characters.
+;                  $iLength - The size of the buffer, in bytes. For $RIDI_DEVICENAME only, this value is the character count,
+;                             including null-terminating character (not the byte count).
+;                  $iFlag   - The command flag that specifies what information will be returned. This parameter can be one
+;                             of the following values.
+;
+;                             $RIDI_DEVICENAME
+;                             $RIDI_DEVICEINFO
+;                             $RIDI_PREPARSEDDATA
+;
+; Return values..: Success  - The number of bytes or characters required or copied into the buffer.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetRawInputDeviceInfo
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetRawInputDeviceInfo($hDevice, $pBuffer, $iLength, $iFlag)
+
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetRawInputDeviceInfoW', 'ptr', $hDevice, 'uint', $iFlag, 'ptr', $pBuffer, 'uint*', $iLength)
+
+	If (@error) Or ($Ret[0] = 4294967295) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return __Iif($Ret[3], $Ret[0], $Ret[4])
+EndFunc   ;==>_WinAPI_GetRawInputDeviceInfo
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetRegionData
 ; Description....: Fills the specified buffer with data describing a region.
 ; Syntax.........: _WinAPI_GetRegionData ( $hRgn, ByRef $tRGNDATA )
@@ -16249,6 +16509,43 @@ Func _WinAPI_GetRegionData($hRgn, ByRef $tRGNDATA)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_GetRegionData
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_GetRegisteredRawInputDevices
+; Description....: Retrieves the information about the raw input devices for the current application.
+; Syntax.........: _WinAPI_GetRegisteredRawInputDevices ( $pBuffer, $iLength )
+; Parameters.....: $pBuffer - A pointer to the buffer to receive an array of $tagRAWINPUTDEVICE structures for the application.
+;                             If this parameter is 0, the function returns the required buffer size, in bytes.
+;                  $iLength - The size of the buffer, in bytes.
+; Return values..: Success  - The number of $tagRAWINPUTDEVICE structures written to the buffer.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ GetRegisteredRawInputDevices
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_GetRegisteredRawInputDevices($pBuffer, $iLength)
+
+	Local $Length = __Iif(@AutoItX64, 16, 12)
+	Local $Ret = DllCall('user32.dll', 'uint', 'GetRegisteredRawInputDevices', 'ptr', $pBuffer, 'uint*', Floor($iLength / $Length), 'uint', $Length)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] = 4294967295 Then
+			Switch _WinAPI_GetLastError()
+				Case 122 ; ERROR_INSUFFICIENT_BUFFER
+					Return SetError(0, 0, $Ret[2] * $Length)
+				Case Else
+					Return SetError(1, 0, 0)
+			EndSwitch
+		EndIf
+	EndIf
+	Return $Ret[0]
+EndFunc   ;==>_WinAPI_GetRegisteredRawInputDevices
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetRegKeyNameByHandle
@@ -21352,7 +21649,7 @@ EndFunc   ;==>_WinAPI_MapViewOfFile
 ;                  right instances of the SHIFT, CTRL, or ALT keys.
 ;
 ;                  An application can get the scan code corresponding to the left or right instance of one of these keys by calling
-;                  _WinAPI_MapVirtualKey() with uCode set to one of the following virtual-key code constants.
+;                  _WinAPI_MapVirtualKey() with $iCode set to one of the following virtual-key code constants.
 ;
 ;                  $VK_LSHIFT
 ;                  $VK_RSHIFT
@@ -25955,6 +26252,36 @@ Func _WinAPI_RegisterPowerSettingNotification($hWnd, $GUID)
 EndFunc   ;==>_WinAPI_RegisterPowerSettingNotification
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_RegisterRawInputDevices
+; Description....: Registers the devices that supply the raw input data.
+; Syntax.........: _WinAPI_RegisterRawInputDevices ( $pDevice [, $iCount] )
+; Parameters.....: $pDevice - A pointer to an array of $tagRAWINPUTDEVICE structures that represent the devices that supply the raw input.
+;                  $iCount  - The number of entries in the array.
+; Return values..: Success  - 1.
+;                  Failure  - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: To receive WM_INPUT messages, an application must first register the raw input devices using the
+;                  _WinAPI_RegisterRawInputDevices() function.
+;
+;                  To receive WM_INPUT_DEVICE_CHANGE messages, an application must specify the $RIDEV_DEVNOTIFY flag for each device
+;                  class that is specified by the "UsagePage" and "Usage" fields of the $tagRAWINPUTDEVICE structure.
+; Related........:
+; Link...........: @@MsdnLink@@ RegisterRawInputDevices
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_RegisterRawInputDevices($pDevice, $iCount = 1)
+
+	Local $Ret = DllCall('user32.dll', 'int', 'RegisterRawInputDevices', 'ptr', $pDevice, 'uint', $iCount, 'uint', __Iif(@AutoItX64, 16, 12) * $iCount)
+
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_RegisterRawInputDevices
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_RegisterShellHookWindow
 ; Description....: Registers a specified Shell window to receive certain messages for events or notifications.
 ; Syntax.........: _WinAPI_RegisterShellHookWindow ( $hWnd )
@@ -27518,11 +27845,11 @@ Func _WinAPI_SaveHICONToFile($sFile, Const ByRef $aIcon, $fCompress = 0, $iStart
 			If $Error Then
 				; Nothing
 			Else
-				$tData = DllStructCreate('byte Width;byte Height;byte Colors;byte Reserved;word Planes;word BPP;long Size;long Offset', $pIco + 6 + 16 * $Index)
-				DllStructSetData($tData, 'Colors', 0)
+				$tData = DllStructCreate('byte Width;byte Height;byte ColorCount;byte Reserved;ushort Planes;ushort BitCount;long Size;long Offset', $pIco + 6 + 16 * $Index)
+				DllStructSetData($tData, 'ColorCount', 0)
 				DllStructSetData($tData, 'Reserved', 0)
 				DllStructSetData($tData, 'Planes', 1)
-				DllStructSetData($tData, 'BPP', $Info[7])
+				DllStructSetData($tData, 'BitCount', $Info[7])
 				DllStructSetData($tData, 'Size', $Info[0] + $Info[1] + $Info[6])
 				DllStructSetData($tData, 'Offset', $Offset)
 				For $i = 0 To 1
@@ -28467,6 +28794,37 @@ Func _WinAPI_SetFileAttributes($sFile, $iAttributes)
 	EndIf
 	Return 1
 EndFunc   ;==>_WinAPI_SetFileAttributes
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_SetFileInformationByHandleEx
+; Description....: Sets the file information for the specified file.
+; Syntax.........: _WinAPI_SetFileInformationByHandleEx ( $hFile, $tFILEINFO )
+; Parameters.....: $hFile     - Handle to the file for which to change information. This handle must have an appropriate
+;                               permissions for the requested change.
+;                  $tFILEINFO - $tagFILEINFO structure that contains the information to change.
+; Return values..: Success    - 1.
+;                  Failure    - 0 and sets the @error flag to non-zero.
+; Author.........: Yashied
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: @@MsdnLink@@ ZwSetInformationFile
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_SetFileInformationByHandleEx($hFile, $tFILEINFO)
+
+	Local $Ret = DllCall('ntdll.dll', 'uint', 'ZwSetInformationFile', 'ptr', $hFile, 'ptr', DllStructGetPtr($tFILEINFO), 'ptr', DllStructGetPtr($tFILEINFO), 'ulong', DllStructGetSize($tFILEINFO), 'uint', 4)
+
+	If @error Then
+		Return SetError(1, 0, 0)
+	Else
+		If $Ret[0] Then
+			Return SetError(1, $Ret[0], 0)
+		EndIf
+	EndIf
+	Return 1
+EndFunc   ;==>_WinAPI_SetFileInformationByHandleEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetFilePointerEx
@@ -31971,6 +32329,24 @@ Func _WinAPI_ShellUserAuthenticationDlgEx($sCaption, $sMessage, $sUser, $sPasswo
 EndFunc   ;==>_WinAPI_ShellUserAuthenticationDlgEx
 
 ; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_ShortToWord
+; Description....: Converts a value of type SHORT to a value of type WORD.
+; Syntax.........: _WinAPI_ShortToWord ( $iValue )
+; Parameters.....: $iValue - The value to be converted.
+; Return values..: The converted (WORD) value.
+; Author.........: Progandy
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_ShortToWord($iValue)
+	Return BitAND($iValue, 0x0000FFFF)
+EndFunc   ;==>_WinAPI_ShortToWord
+
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_ShowCaret
 ; Description....: Makes the caret visible on the screen at the caret's current position.
 ; Syntax.........: _WinAPI_ShowCaret ( $hWnd )
@@ -34150,6 +34526,27 @@ Func _WinAPI_WindowFromDC($hDC)
 	EndIf
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_WindowFromDC
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _WinAPI_WordToShort
+; Description....: Converts a value of type WORD to a value of type SHORT.
+; Syntax.........: _WinAPI_WordToShort ( $iValue )
+; Parameters.....: $iValue - The value to be converted.
+; Return values..: The converted (SHORT) value.
+; Author.........: Progandy
+; Modified.......:
+; Remarks........: None
+; Related........:
+; Link...........: None
+; Example........: Yes
+; ===============================================================================================================================
+
+Func _WinAPI_WordToShort($iValue)
+	If BitAND($iValue, 0x00008000) Then
+		Return BitOR($iValue, 0xFFFF8000)
+	EndIf
+	Return BitAND($iValue, 0x00007FFF)
+EndFunc   ;==>_WinAPI_WordToShort
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_Wow64EnableWow64FsRedirection

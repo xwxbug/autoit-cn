@@ -1,6 +1,6 @@
 ﻿=========================================================
 程序名称:AutoIt
-程序版本:3.3.9.1 第一汉化版
+程序版本:3.3.9.4 第一汉化版
 汉化作者:
 ALL:thesnoW
 ADF:Sxd,rikthhpgf2005
@@ -17,8 +17,44 @@ AutoIt工具箱提供了安装卸载功能.
 =========================================================
 	[H]汉化 [G]官方 [!]更新 [*]修正 [+]新增 [-]移除
 =========================================================
+3.3.9.4 (2012年5月0X日) (Beta) 第一汉化版
+AutoIt:
+[G][*]修正: Aut2Exe and UPX will now correctly work on compiled scripts with custom icons.  This references ticket #2180 but does not close it as more work is needed.
 
-3.3.9.1 (2012年3月XX日) (Beta) 第一汉化版
+3.3.9.3 (Beta)
+AutoIt:
+[G][+]新增: #1191: Explicit size of arrays optional for explicit initialization.
+[G][+]新增: Array access on expression: StringSplit("a,b", ",")[1]
+[G][+]新增: Dot access on expression: ObjCreate("Shell.Application").GetSystemInformation("DirectoryServiceAvailable")
+
+[G][*]修正: #1566: Array as its own element issue.
+[G][*]修正: #1551: Crash the script when changing array.
+[G][*]修正: #2176: DllCallbackRegister crash on x64.
+
+UDFs:
+[G][+]新增: #1158: WinAPIEx integrated (Files-only, no documentation currently).
+
+[G][*]修正: #2162: Documentation link in the IE Management section was broken for _IEFormElementCheckBoxSelect.
+[G][*]修正: #2170: _ArrayDisplay fails handling arrays with no elements.
+[G][*]修正: _PathMake not appending backslash to the root path.
+
+Au3Check:
+[G][+]新增: Compound assignment operators for object properties.
+[G][+]新增: Array access on expression
+[G][+]新增: Dot access on expression
+
+[G][!]更新: Explicit size of arrays optional for explicit initialization.
+
+3.3.9.2 (Beta)
+AutoIt:
+[G][*]修正: ObjCreate() may not set @error in case of failure.
+[G][*]修正: #2146: Crash when closing AutoIt when started from a console window.
+[G][*]修正: DLLStruct type forgotten in comparison operations.
+[G][*]修正: "struct" type parameter in DllCall overwrites possibly following parameters.
+
+[G][!]更新: @error is set to 0 for successful object invocation.
+
+3.3.9.1 (Beta)
 AutoIt:
 [G][*]修正: ObjGet() forgets non-file monikers since last beta.
 [G][*]修正: #1395: DLLCallbacks on Exit.

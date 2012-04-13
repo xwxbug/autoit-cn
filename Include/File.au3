@@ -559,15 +559,15 @@ EndFunc   ;==>_PathGetRelative
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _PathMake
-; Description ...: Creates a path from drive, directory, file name and file extension parts. Not all parts must be passed.
+; Description ...: Creates a path from drive, directory, file name and file extension parts.
 ; Syntax.........: _PathMake($szDrive, $szDir, $szFName, $szExt)
 ; Parameters ....: $szDrive - Drive (Can be UNC). If it's a drive letter, a : is automatically appended
-;                  $szDir   - Directory. A trailing slash is added if not found (No preceeding slash is added)
+;                  $szDir   - Directory. A trailing and preceding slash are added if not found.
 ;                  $szFName - The name of the file
 ;                  $szExt   - The file extension. A period is supplied if not found in the extension
 ; Return values .: Success - Returns the string containing the full path
 ; Author ........: Valik
-; Modified.......:
+; Modified.......: guinness
 ; Remarks .......: The path will still be built with what is passed. This doesn't check the validity of the path created, it could contain characters which are invalid on your filesystem.
 ; Related .......: _PathFull, _PathSplit, .DirCreate, .FileChangeDir
 ; Link ..........:
@@ -575,7 +575,6 @@ EndFunc   ;==>_PathGetRelative
 ; ===============================================================================================================================
 Func _PathMake($szDrive, $szDir, $szFName, $szExt)
 	; Format $szDrive, if it's not a UNC server name, then just get the drive letter and add a colon
-	;
 	If StringLen($szDrive) Then
 		If Not (StringLeft($szDrive, 2) = "\\") Then $szDrive = StringLeft($szDrive, 1) & ":"
 	EndIf
@@ -584,6 +583,9 @@ Func _PathMake($szDrive, $szDir, $szFName, $szExt)
 	If StringLen($szDir) Then
 		If Not (StringRight($szDir, 1) = "\") And Not (StringRight($szDir, 1) = "/") Then $szDir = $szDir & "\"
 	EndIf
+
+	; Append a backslash to the start of the directory if required
+	If Not (StringLeft($szDir, 1) = "\") And Not (StringLeft($szDir, 1) = "/") Then $szDir = "\" & $szDir
 
 	; Nothing to be done for the filename
 
