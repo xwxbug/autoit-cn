@@ -20,6 +20,9 @@ AutoIt工具箱提供了安装卸载功能.
 3.3.9.4 (2012年5月0X日) (Beta) 第一汉化版
 AutoIt:
 [G][*]修正: Aut2Exe and UPX will now correctly work on compiled scripts with custom icons.  This references ticket #2180 but does not close it as more work is needed.
+SciTe:
+[H][!]更新: 兼容性更新 ACNWrapper
+[G][!]更新: 更新代码迷惑为1.0.29.11
 
 3.3.9.3 (Beta)
 AutoIt:
