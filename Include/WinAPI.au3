@@ -3873,7 +3873,7 @@ Func _WinAPI_GlobalMemoryStatus()
 	Local $tMem = DllStructCreate($tagMEMORYSTATUSEX)
 	Local $iMem = DllStructGetSize($tMem)
 	DllStructSetData($tMem, 1, $iMem)
-	DllCall("kernel32.dll", "none", "GlobalMemoryStatusEx", "ptr", $tMem)
+	DllCall("kernel32.dll", "none", "GlobalMemoryStatusEx", "ptr", DllStructGetPtr($tMem))
 	If @error Then Return SetError(@error, @extended, 0)
 	Local $aMem[7]
 	$aMem[0] = DllStructGetData($tMem, 2)
