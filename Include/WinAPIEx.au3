@@ -1,928 +1,928 @@
-#Region Header
+#region Header
 
 #cs
-
-    Title:          WinAPI Extended UDF Library for AutoIt3
-    Filename:       WinAPIEx.au3
-    Description:    Additional variables, constants and functions for the WinAPI.au3
-    Author:         Yashied
-    Version:        3.7 / 3.3.6.1
-    Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
-    Uses:           StructureConstants.au3, WinAPI.au3
-    Note:           The library uses the following system DLLs:
-
-                    Advapi32.dll
-                    Comctl32.dll
-                    Comdlg32.dll
-                    Connect.dll
-                    Credui.dll
-                    Dbghelp.dll
-                    Dwmapi.dll
-                    Gdi32.dll
-                    Gdiplus.dll
-                    Kernel32.dll
-                    Ntdll.dll
-                    Ole32.dll
-                    Oleaut32.dll
-                    Powrprof.dll
-                    Psapi.dll
-                    Sensapi.dll
-                    Sfc.dll
-                    Shell32.dll
-                    Shlwapi.dll
-                    User32.dll
-                    Userenv.dll
-                    Uxtheme.dll
-                    Version.dll
-                    Winmm.dll
-                    Winspool.drv
-
-    Available functions:
-
-    _WinAPI_AbortPath
-    _WinAPI_AboutDlg
-    _WinAPI_ActivateKeyboardLayout
-    _WinAPI_AddClipboardFormatListener
-    _WinAPI_AddFontMemResourceEx
-    _WinAPI_AddFontResourceEx
-    _WinAPI_AddIconOverlay
-    _WinAPI_AddIconTransparency
-    _WinAPI_AddMRUString
-    _WinAPI_AdjustBitmap
-    _WinAPI_AdjustTokenPrivileges
-    _WinAPI_AdjustWindowRectEx
-    _WinAPI_AlphaBlend
-    _WinAPI_AngleArc
-    _WinAPI_AnimateWindow
-    _WinAPI_Arc
-    _WinAPI_ArcTo
-    _WinAPI_ArrayToStruct
-    _WinAPI_AssignProcessToJobObject
-    _WinAPI_AssocGetPerceivedType
-    _WinAPI_AssocQueryString
-    _WinAPI_BackupRead
-    _WinAPI_BackupReadAbort
-    _WinAPI_BackupSeek
-    _WinAPI_BackupWrite
-    _WinAPI_BackupWriteAbort
-    _WinAPI_BeginBufferedPaint
-    _WinAPI_BeginDeferWindowPos
-    _WinAPI_BeginPaint
-    _WinAPI_BeginPath
-    _WinAPI_BeginUpdateResource
-    _WinAPI_BringWindowToTop
-    _WinAPI_BroadcastSystemMessage
-    _WinAPI_BrowseForFolderDlg
-    _WinAPI_BufferedPaintClear
-    _WinAPI_BufferedPaintInit
-    _WinAPI_BufferedPaintSetAlpha
-    _WinAPI_BufferedPaintUnInit
-    _WinAPI_CalculatePopupWindowPosition
-    _WinAPI_CallWindowProcW
-    _WinAPI_CascadeWindows
-    _WinAPI_ChangeWindowMessageFilterEx
-    _WinAPI_CharToOem
-    _WinAPI_ChildWindowFromPointEx
-    _WinAPI_ClipCursor
-    _WinAPI_CloseDesktop
-    _WinAPI_CloseEnhMetaFile
-    _WinAPI_CloseFigure
-    _WinAPI_CloseThemeData
-    _WinAPI_CloseWindow
-    _WinAPI_CloseWindowStation
-    _WinAPI_CoInitialize
-    _WinAPI_ColorAdjustLuma
-    _WinAPI_ColorHLSToRGB
-    _WinAPI_ColorRGBToHLS
-    _WinAPI_CombineTransform
-    _WinAPI_CommandLineToArgv
-    _WinAPI_CommDlgExtendedErrorEx
-    _WinAPI_CompareString
-    _WinAPI_CompressBitmapBits
-    _WinAPI_CompressBuffer
-    _WinAPI_ComputeCrc32
-    _WinAPI_ConfirmCredentials
-    _WinAPI_CopyBitmap
-    _WinAPI_CopyCursor
-    _WinAPI_CopyEnhMetaFile
-    _WinAPI_CopyFileEx
-    _WinAPI_CopyImage
-    _WinAPI_CopyRect
-    _WinAPI_CopyStruct
-    _WinAPI_CoTaskMemAlloc
-    _WinAPI_CoTaskMemFree
-    _WinAPI_CoTaskMemRealloc
-    _WinAPI_CoUninitialize
-    _WinAPI_Create32BitHBITMAP
-    _WinAPI_Create32BitHICON
-    _WinAPI_CreateANDBitmap
-    _WinAPI_CreateBitmapIndirect
-    _WinAPI_CreateBrushIndirect
-    _WinAPI_CreateBuffer
-    _WinAPI_CreateCaret
-    _WinAPI_CreateColorAdjustment
-    _WinAPI_CreateCompatibleBitmapEx
-    _WinAPI_CreateDesktop
-    _WinAPI_CreateDIB
-    _WinAPI_CreateDIBColorTable
-    _WinAPI_CreateDIBitmap
-    _WinAPI_CreateDIBSection
-    _WinAPI_CreateDirectory
-    _WinAPI_CreateDirectoryEx
-    _WinAPI_CreateEllipticRgn
-    _WinAPI_CreateEmptyIcon
-    _WinAPI_CreateEnhMetaFile
-    _WinAPI_CreateFileEx
-    _WinAPI_CreateFileMapping
-    _WinAPI_CreateGUID
-    _WinAPI_CreateHardLink
-    _WinAPI_CreateIcon
-    _WinAPI_CreateIconFromResourceEx
-    _WinAPI_CreateIconIndirect
-    _WinAPI_CreateJobObject
-    _WinAPI_CreateMargins
-    _WinAPI_CreateMRUList
-    _WinAPI_CreateMutex
-    _WinAPI_CreateNullRgn
-    _WinAPI_CreateNumberFormatInfo
-    _WinAPI_CreateObjectID
-    _WinAPI_CreatePoint
-    _WinAPI_CreatePolygonRgn
-    _WinAPI_CreateProcessWithToken
-    _WinAPI_CreateRect
-    _WinAPI_CreateRectEx
-    _WinAPI_CreateRectRgnIndirect
-    _WinAPI_CreateSemaphore
-    _WinAPI_CreateSize
-    _WinAPI_CreateStreamOnHGlobal
-    _WinAPI_CreateString
-    _WinAPI_CreateSymbolicLink
-    _WinAPI_CreateTransform
-    _WinAPI_CreateWindowStation
-    _WinAPI_DecompressBuffer
-    _WinAPI_DecryptFile
-    _WinAPI_DeferWindowPos
-    _WinAPI_DefineDosDevice
-    _WinAPI_DefRawInputProc
-    _WinAPI_DefSubclassProc
-    _WinAPI_DefWindowProcW
-    _WinAPI_DeleteEnhMetaFile
-    _WinAPI_DeleteFile
-    _WinAPI_DeleteObjectID
-    _WinAPI_DeleteVolumeMountPoint
-    _WinAPI_DeregisterShellHookWindow
-    _WinAPI_DestroyCaret
-    _WinAPI_DestroyCursor
-    _WinAPI_DeviceIoControl
-    _WinAPI_DisplayStruct
-    _WinAPI_DllGetVersion
-    _WinAPI_DllInstall
-    _WinAPI_DllUninstall
-    _WinAPI_DPtoLP
-    _WinAPI_DragAcceptFiles
-    _WinAPI_DragFinish
-    _WinAPI_DragQueryFileEx
-    _WinAPI_DragQueryPoint
-    _WinAPI_DrawAnimatedRects
-    _WinAPI_DrawBitmap
-    _WinAPI_DrawFocusRect
-    _WinAPI_DrawShadowText
-    _WinAPI_DrawThemeBackground
-    _WinAPI_DrawThemeEdge
-    _WinAPI_DrawThemeIcon
-    _WinAPI_DrawThemeParentBackground
-    _WinAPI_DrawThemeText
-    _WinAPI_DrawThemeTextEx
-    _WinAPI_DuplicateEncryptionInfoFile
-   *_WinAPI_DuplicateHandle
-    _WinAPI_DuplicateTokenEx
-    _WinAPI_DwmEnableBlurBehindWindow
-    _WinAPI_DwmEnableComposition
-    _WinAPI_DwmGetColorizationColor
-    _WinAPI_DwmGetWindowAttribute
-    _WinAPI_DwmExtendFrameIntoClientArea
-    _WinAPI_DwmInvalidateIconicBitmaps
-    _WinAPI_DwmIsCompositionEnabled
-    _WinAPI_DwmQueryThumbnailSourceSize
-    _WinAPI_DwmRegisterThumbnail
-    _WinAPI_DwmSetIconicLivePreviewBitmap
-    _WinAPI_DwmSetIconicThumbnail
-    _WinAPI_DwmSetWindowAttribute
-    _WinAPI_DwmUnregisterThumbnail
-    _WinAPI_DwmUpdateThumbnailProperties
-    _WinAPI_DWordToFloat
-    _WinAPI_DWordToInt
-    _WinAPI_EjectMedia
-    _WinAPI_Ellipse
-    _WinAPI_EmptyWorkingSet
-    _WinAPI_EncryptFile
-    _WinAPI_EncryptionDisable
-    _WinAPI_EndBufferedPaint
-    _WinAPI_EndDeferWindowPos
-    _WinAPI_EndPaint
-    _WinAPI_EndPath
-    _WinAPI_EndUpdateResource
-    _WinAPI_EnumChildProcess
-    _WinAPI_EnumChildWindows
-    _WinAPI_EnumDesktops
-    _WinAPI_EnumDesktopWindows
-    _WinAPI_EnumDeviceDrivers
-    _WinAPI_EnumDisplayMonitors
-    _WinAPI_EnumDisplaySettings
-    _WinAPI_EnumDllProc
-    _WinAPI_EnumFiles
-    _WinAPI_EnumFileStreams
-    _WinAPI_EnumHardLinks
-    _WinAPI_EnumMRUList
-    _WinAPI_EnumPageFiles
-    _WinAPI_EnumProcessHandles
-    _WinAPI_EnumProcessModules
-    _WinAPI_EnumProcessThreads
-    _WinAPI_EnumProcessWindows
-    _WinAPI_EnumRawInputDevices
-    _WinAPI_EnumResourceLanguages
-    _WinAPI_EnumResourceNames
-    _WinAPI_EnumResourceTypes
-    _WinAPI_EnumSystemGeoID
-    _WinAPI_EnumSystemLocales
-    _WinAPI_EnumUILanguages
-    _WinAPI_EnumWindowStations
-    _WinAPI_EqualMemory
-    _WinAPI_EqualRect
-    _WinAPI_EqualRgn
-    _WinAPI_ExcludeClipRect
-    _WinAPI_ExtCreatePen
-    _WinAPI_ExtCreateRegion
-    _WinAPI_ExtFloodFill
-    _WinAPI_ExtractIcon
-    _WinAPI_ExtSelectClipRgn
-    _WinAPI_FatalExit
-    _WinAPI_FileEncryptionStatus
-    _WinAPI_FileExists
-    _WinAPI_FileInUse
-    _WinAPI_FillMemory
-    _WinAPI_FillPath
-   *_WinAPI_FillRect
-    _WinAPI_FillRgn
-    _WinAPI_FindClose
-    _WinAPI_FindCloseChangeNotification
-    _WinAPI_FindFirstChangeNotification
-    _WinAPI_FindFirstFile
-    _WinAPI_FindFirstFileName
-    _WinAPI_FindFirstStream
-    _WinAPI_FindNextChangeNotification
-    _WinAPI_FindNextFile
-    _WinAPI_FindNextFileName
-    _WinAPI_FindNextStream
-    _WinAPI_FindResource
-    _WinAPI_FindResourceEx
-    _WinAPI_FindTextDlg
-    _WinAPI_FlattenPath
-    _WinAPI_FloatToDWord
-    _WinAPI_FlushFRBuffer
-    _WinAPI_FlushViewOfFile
-    _WinAPI_FormatDriveDlg
-   *_WinAPI_FrameRect
-    _WinAPI_FrameRgn
-    _WinAPI_FreeMemory
-    _WinAPI_FreeMRUList
-    _WinAPI_FreeResource
-    _WinAPI_GdiComment
-    _WinAPI_GetActiveWindow
-    _WinAPI_GetAllUsersProfileDirectory
-    _WinAPI_GetApplicationRestartSettings
-    _WinAPI_GetArcDirection
-   *_WinAPI_GetAsyncKeyState
-    _WinAPI_GetBinaryType
-    _WinAPI_GetBitmapBits
-    _WinAPI_GetBitmapDimension
-    _WinAPI_GetBitmapDimensionEx
-    _WinAPI_GetBkColor
-    _WinAPI_GetBoundsRect
-    _WinAPI_GetBufferedPaintBits
-    _WinAPI_GetBufferedPaintDC
-    _WinAPI_GetBufferedPaintTargetDC
-    _WinAPI_GetBufferedPaintTargetRect
-    _WinAPI_GetBValue
-    _WinAPI_GetCaretBlinkTime
-    _WinAPI_GetCaretPos
-    _WinAPI_GetCDType
-    _WinAPI_GetClassInfoEx
-    _WinAPI_GetClassLongEx
-    _WinAPI_GetClipboardSequenceNumber
-    _WinAPI_GetClipBox
-    _WinAPI_GetClipCursor
-    _WinAPI_GetClipRgn
-    _WinAPI_GetColorAdjustment
-    _WinAPI_GetCompressedFileSize
-    _WinAPI_GetCompression
-    _WinAPI_GetConnectedDlg
-    _WinAPI_GetCurrentDirectory
-    _WinAPI_GetCurrentHwProfile
-    _WinAPI_GetCurrentObject
-    _WinAPI_GetCurrentPosition
-    _WinAPI_GetCurrentProcessExplicitAppUserModelID
-    _WinAPI_GetCurrentThemeName
-    _WinAPI_GetCursor
-    _WinAPI_GetDateFormat
-    _WinAPI_GetDCEx
-    _WinAPI_GetDefaultPrinter
-    _WinAPI_GetDefaultUserProfileDirectory
-    _WinAPI_GetDeviceDriverBaseName
-    _WinAPI_GetDeviceDriverFileName
-    _WinAPI_GetDeviceGammaRamp
-    _WinAPI_GetDIBColorTable
-    _WinAPI_GetDiskFreeSpaceEx
-    _WinAPI_GetDllDirectory
-    _WinAPI_GetDriveBusType
-    _WinAPI_GetDriveGeometryEx
-    _WinAPI_GetDriveNumber
-    _WinAPI_GetDriveType
-    _WinAPI_GetDurationFormat
-    _WinAPI_GetEnhMetaFile
-    _WinAPI_GetEnhMetaFileBits
-    _WinAPI_GetEnhMetaFileDescription
-    _WinAPI_GetEnhMetaFileDimension
-    _WinAPI_GetEnhMetaFileHeader
-    _WinAPI_GetErrorMessage
-    _WinAPI_GetErrorMode
-    _WinAPI_GetExitCodeProcess
-    _WinAPI_GetExtended
-    _WinAPI_GetFileAttributes
-    _WinAPI_GetFileID
-    _WinAPI_GetFileInformationByHandle
-    _WinAPI_GetFileInformationByHandleEx
-    _WinAPI_GetFilePointerEx
-    _WinAPI_GetFileSizeOnDisk
-    _WinAPI_GetFileTitle
-    _WinAPI_GetFileType
-    _WinAPI_GetFileVersionInfo
-    _WinAPI_GetFinalPathNameByHandle
-    _WinAPI_GetFinalPathNameByHandleEx
-    _WinAPI_GetFontResourceInfo
-   *_WinAPI_GetForegroundWindow
-    _WinAPI_GetFRBuffer
-    _WinAPI_GetFullPathName
-    _WinAPI_GetGeoInfo
-    _WinAPI_GetGlyphOutline
-    _WinAPI_GetGraphicsMode
-    _WinAPI_GetGUIThreadInfo
-    _WinAPI_GetGValue
-    _WinAPI_GetHandleInformation
-    _WinAPI_GetHGlobalFromStream
-    _WinAPI_GetIconDimension
-    _WinAPI_GetIconInfoEx
-    _WinAPI_GetIdleTime
-    _WinAPI_GetKeyboardLayout
-    _WinAPI_GetKeyboardLayoutList
-    _WinAPI_GetKeyboardState
-    _WinAPI_GetKeyboardType
-    _WinAPI_GetKeyNameText
-    _WinAPI_GetKeyState
-    _WinAPI_GetLastActivePopup
-   *_WinAPI_GetLayeredWindowAttributes
-    _WinAPI_GetLocaleInfo
-    _WinAPI_GetLogicalDrives
-    _WinAPI_GetMapMode
-    _WinAPI_GetMemorySize
-    _WinAPI_GetMessageExtraInfo
-    _WinAPI_GetModuleFileNameEx
-    _WinAPI_GetModuleHandleEx
-    _WinAPI_GetModuleInformation
-    _WinAPI_GetMonitorInfo
-    _WinAPI_GetNumberFormat
-    _WinAPI_GetObjectID
-    _WinAPI_GetObjectInfoByHandle
-    _WinAPI_GetObjectNameByHandle
-    _WinAPI_GetObjectType
-    _WinAPI_GetOutlineTextMetrics
-    _WinAPI_GetParentProcess
-    _WinAPI_GetPerformanceInfo
-    _WinAPI_GetPhysicallyInstalledSystemMemory
-    _WinAPI_GetPixel
-    _WinAPI_GetPolyFillMode
-    _WinAPI_GetPosFromRect
-    _WinAPI_GetPriorityClass
-    _WinAPI_GetProcAddress
-    _WinAPI_GetProcessCommandLine
-    _WinAPI_GetProcessFileName
-    _WinAPI_GetProcessHandleCount
-    _WinAPI_GetProcessID
-    _WinAPI_GetProcessIoCounters
-    _WinAPI_GetProcessMemoryInfo
-    _WinAPI_GetProcessName
-    _WinAPI_GetProcessShutdownParameters
-    _WinAPI_GetProcessTimes
-    _WinAPI_GetProcessUser
-    _WinAPI_GetProcessWindowStation
-    _WinAPI_GetProcessWorkingDirectory
-    _WinAPI_GetProfilesDirectory
-    _WinAPI_GetPwrCapabilities
-    _WinAPI_GetRawInputBuffer
-    _WinAPI_GetRawInputBufferLength
-    _WinAPI_GetRawInputData
-    _WinAPI_GetRawInputDeviceInfo
-    _WinAPI_GetRegionData
-    _WinAPI_GetRegisteredRawInputDevices
-    _WinAPI_GetRegKeyNameByHandle
-    _WinAPI_GetRgnBox
-    _WinAPI_GetROP2
-    _WinAPI_GetRValue
-    _WinAPI_GetShellWindow
-    _WinAPI_GetStartupInfo
-    _WinAPI_GetStretchBltMode
-    _WinAPI_GetString
-    _WinAPI_GetSystemDefaultLangID
-    _WinAPI_GetSystemDefaultLCID
-    _WinAPI_GetSystemDefaultUILanguage
-    _WinAPI_GetSystemDEPPolicy
-    _WinAPI_GetSystemInfo
-    _WinAPI_GetSystemPowerStatus
-    _WinAPI_GetSystemTimes
-    _WinAPI_GetSystemWow64Directory
-    _WinAPI_GetTempFileName
-    _WinAPI_GetTextAlign
-    _WinAPI_GetTextCharacterExtra
-    _WinAPI_GetTextColor
-    _WinAPI_GetTextFace
-   *_WinAPI_GetTextMetrics
-    _WinAPI_GetThemeAppProperties
-    _WinAPI_GetThemeBackgroundContentRect
-    _WinAPI_GetThemeBackgroundExtent
-    _WinAPI_GetThemeBackgroundRegion
-    _WinAPI_GetThemeBitmap
-    _WinAPI_GetThemeBool
-    _WinAPI_GetThemeColor
-    _WinAPI_GetThemeDocumentationProperty
-    _WinAPI_GetThemeEnumValue
-    _WinAPI_GetThemeFilename
-    _WinAPI_GetThemeFont
-    _WinAPI_GetThemeInt
-    _WinAPI_GetThemeMargins
-    _WinAPI_GetThemeMetric
-    _WinAPI_GetThemePartSize
-    _WinAPI_GetThemePosition
-    _WinAPI_GetThemePropertyOrigin
-    _WinAPI_GetThemeRect
-    _WinAPI_GetThemeString
-    _WinAPI_GetThemeSysBool
-    _WinAPI_GetThemeSysColor
-    _WinAPI_GetThemeSysColorBrush
-    _WinAPI_GetThemeSysFont
-    _WinAPI_GetThemeSysInt
-    _WinAPI_GetThemeSysSize
-    _WinAPI_GetThemeSysString
-    _WinAPI_GetThemeTextExtent
-    _WinAPI_GetThemeTextMetrics
-    _WinAPI_GetThemeTransitionDuration
-    _WinAPI_GetThreadDesktop
-    _WinAPI_GetThreadErrorMode
-    _WinAPI_GetThreadLocale
-    _WinAPI_GetThreadUILanguage
-    _WinAPI_GetTickCount
-    _WinAPI_GetTickCount64
-    _WinAPI_GetTimeFormat
-    _WinAPI_GetTopWindow
-    _WinAPI_GetUDFColorMode
-    _WinAPI_GetUDFVersion
-    _WinAPI_GetUpdateRect
-    _WinAPI_GetUpdateRgn
-    _WinAPI_GetUserDefaultLangID
-    _WinAPI_GetUserDefaultLCID
-    _WinAPI_GetUserDefaultUILanguage
-    _WinAPI_GetUserGeoID
-    _WinAPI_GetUserObjectInformation
-    _WinAPI_GetVersion
-    _WinAPI_GetVersionEx
-    _WinAPI_GetVolumeInformation
-    _WinAPI_GetVolumeInformationByHandle
-    _WinAPI_GetVolumeNameForVolumeMountPoint
-    _WinAPI_GetWindowDisplayAffinity
-    _WinAPI_GetWindowExt
-    _WinAPI_GetWindowFileName
-    _WinAPI_GetWindowInfo
-    _WinAPI_GetWindowLongEx
-    _WinAPI_GetWindowOrg
-    _WinAPI_GetWindowRgnBox
-    _WinAPI_GetWindowSubclass
-    _WinAPI_GetWindowTheme
-    _WinAPI_GetWorkArea
-    _WinAPI_GetWorldTransform
-    _WinAPI_GradientFill
-    _WinAPI_HashData
-    _WinAPI_HashString
-    _WinAPI_Hex64
-    _WinAPI_HiByte
-    _WinAPI_HideCaret
-    _WinAPI_HiDWord
-    _WinAPI_InflateRect
-    _WinAPI_IntersectClipRect
-    _WinAPI_IntersectRect
-    _WinAPI_IntToDWord
-   *_WinAPI_InvalidateRect
-    _WinAPI_InvalidateRgn
-    _WinAPI_InvertANDBitmap
-    _WinAPI_InvertColor
-    _WinAPI_InvertRect
-    _WinAPI_InvertRgn
-    _WinAPI_IOCTL
-    _WinAPI_IsAlphaBitmap
-    _WinAPI_IsBadCodePtr
-    _WinAPI_IsBadReadPtr
-    _WinAPI_IsBadStringPtr
-    _WinAPI_IsBadWritePtr
-    _WinAPI_IsChild
-    _WinAPI_IsDoorOpen
-    _WinAPI_IsElevated
-    _WinAPI_IsHungAppWindow
-    _WinAPI_IsIconic
-    _WinAPI_IsInternetConnected
-    _WinAPI_IsLoadKBLayout
-    _WinAPI_IsMemory
-    _WinAPI_IsNetworkAlive
-    _WinAPI_IsProcessInJob
-    _WinAPI_IsProcessorFeaturePresent
-    _WinAPI_IsRectEmpty
-    _WinAPI_IsThemeActive
-    _WinAPI_IsThemeBackgroundPartiallyTransparent
-    _WinAPI_IsThemePartDefined
-    _WinAPI_IsValidLocale
-    _WinAPI_IsWindowEnabled
-    _WinAPI_IsWindowUnicode
-    _WinAPI_IsWow64Process
-    _WinAPI_IsWritable
-    _WinAPI_IsZoomed
-    _WinAPI_Keybd_Event
-    _WinAPI_KillTimer
-    _WinAPI_LineDDA
-    _WinAPI_LoadCursor
-    _WinAPI_LoadCursorFromFile
-    _WinAPI_LoadIconWithScaleDown
-    _WinAPI_LoadIndirectString
-    _WinAPI_LoadKeyboardLayout
-    _WinAPI_LoadMedia
-    _WinAPI_LoadResource
-    _WinAPI_LoadStringEx
-    _WinAPI_LoByte
-    _WinAPI_LockDevice
-    _WinAPI_LockFile
-    _WinAPI_LockResource
-    _WinAPI_LockWindowUpdate
-    _WinAPI_LockWorkStation
-    _WinAPI_LoDWord
-    _WinAPI_LongMid
-    _WinAPI_LookupIconIdFromDirectoryEx
-    _WinAPI_LPtoDP
-    _WinAPI_MakeWord
-    _WinAPI_MapViewOfFile
-    _WinAPI_MapVirtualKey
-    _WinAPI_MaskBlt
-    _WinAPI_MessageBoxCheck
-    _WinAPI_MessageBoxIndirect
-    _WinAPI_ModifyWorldTransform
-    _WinAPI_MonitorFromPoint
-    _WinAPI_MonitorFromRect
-    _WinAPI_MonitorFromWindow
-    _WinAPI_MoveFileEx
-    _WinAPI_MoveMemory
-    _WinAPI_MoveToEx
-    _WinAPI_NtStatusToDosError
-    _WinAPI_OemToChar
-    _WinAPI_OffsetClipRgn
-    _WinAPI_OffsetPoints
-    _WinAPI_OffsetRect
-    _WinAPI_OffsetRgn
-    _WinAPI_OffsetWindowOrg
-    _WinAPI_OpenDesktop
-    _WinAPI_OpenFileById
-    _WinAPI_OpenFileMapping
-    _WinAPI_OpenIcon
-    _WinAPI_OpenInputDesktop
-    _WinAPI_OpenJobObject
-    _WinAPI_OpenMutex
-    _WinAPI_OpenProcessToken
-    _WinAPI_OpenSemaphore
-    _WinAPI_OpenThemeData
-    _WinAPI_OpenWindowStation
-    _WinAPI_PageSetupDlg
-    _WinAPI_PaintDesktop
-    _WinAPI_PaintRgn
-    _WinAPI_ParseURL
-    _WinAPI_ParseUserName
-    _WinAPI_PatBlt
-    _WinAPI_PathAddBackslash
-    _WinAPI_PathAddExtension
-    _WinAPI_PathAppend
-    _WinAPI_PathBuildRoot
-    _WinAPI_PathCanonicalize
-    _WinAPI_PathCommonPrefix
-    _WinAPI_PathCompactPath
-    _WinAPI_PathCompactPathEx
-    _WinAPI_PathCreateFromUrl
-    _WinAPI_PathFindExtension
-    _WinAPI_PathFindFileName
-    _WinAPI_PathFindNextComponent
-   *_WinAPI_PathFindOnPath
-    _WinAPI_PathGetArgs
-    _WinAPI_PathGetCharType
-    _WinAPI_PathGetDriveNumber
-    _WinAPI_PathIsContentType
-    _WinAPI_PathIsDirectory
-    _WinAPI_PathIsDirectoryEmpty
-    _WinAPI_PathIsExe
-    _WinAPI_PathIsFileSpec
-    _WinAPI_PathIsLFNFileSpec
-    _WinAPI_PathIsRelative
-    _WinAPI_PathIsRoot
-    _WinAPI_PathIsSameRoot
-    _WinAPI_PathIsSystemFolder
-    _WinAPI_PathIsUNC
-    _WinAPI_PathIsUNCServer
-    _WinAPI_PathIsUNCServerShare
-    _WinAPI_PathMakeSystemFolder
-    _WinAPI_PathMatchSpec
-    _WinAPI_PathParseIconLocation
-    _WinAPI_PathRelativePathTo
-    _WinAPI_PathRemoveArgs
-    _WinAPI_PathRemoveBackslash
-    _WinAPI_PathRemoveExtension
-    _WinAPI_PathRemoveFileSpec
-    _WinAPI_PathRenameExtension
-    _WinAPI_PathSearchAndQualify
-    _WinAPI_PathSkipRoot
-    _WinAPI_PathStripPath
-    _WinAPI_PathStripToRoot
-    _WinAPI_PathToRegion
-    _WinAPI_PathUndecorate
-    _WinAPI_PathUnExpandEnvStrings
-    _WinAPI_PathUnmakeSystemFolder
-    _WinAPI_PathUnquoteSpaces
-    _WinAPI_PathYetAnotherMakeUniqueName
-    _WinAPI_PickIconDlg
-    _WinAPI_PlayEnhMetaFile
-    _WinAPI_PlaySound
-    _WinAPI_PlgBlt
-    _WinAPI_PolyBezier
-    _WinAPI_PolyBezierTo
-    _WinAPI_PolyDraw
-    _WinAPI_Polygon
-    _WinAPI_PrintDlg
-    _WinAPI_PrintDlgEx
-    _WinAPI_PrintWindow
-    _WinAPI_PtInRectEx
-    _WinAPI_PtInRegion
-    _WinAPI_PtVisible
-    _WinAPI_QueryDosDevice
-    _WinAPI_QueryInformationJobObject
-    _WinAPI_QueryPerformanceCounter
-    _WinAPI_QueryPerformanceFrequency
-    _WinAPI_RadialGradientFill
-    _WinAPI_ReadDirectoryChanges
-    _WinAPI_Rectangle
-    _WinAPI_RectInRegion
-    _WinAPI_RectVisible
-    _WinAPI_RegCloseKey
-    _WinAPI_RegConnectRegistry
-    _WinAPI_RegCopyTree
-    _WinAPI_RegCopyTreeEx
-    _WinAPI_RegCreateKey
-    _WinAPI_RegDeleteEmptyKey
-    _WinAPI_RegDeleteKey
-    _WinAPI_RegDeleteKeyValue
-    _WinAPI_RegDeleteTree
-    _WinAPI_RegDeleteTreeEx
-    _WinAPI_RegDeleteValue
-    _WinAPI_RegDisableReflectionKey
-    _WinAPI_RegDuplicateHKey
-    _WinAPI_RegEnableReflectionKey
-    _WinAPI_RegEnumKey
-    _WinAPI_RegEnumValue
-    _WinAPI_RegFlushKey
-    _WinAPI_RegisterApplicationRestart
-    _WinAPI_RegisterClassEx
-    _WinAPI_RegisterHotKey
-    _WinAPI_RegisterPowerSettingNotification
-    _WinAPI_RegisterRawInputDevices
-    _WinAPI_RegisterShellHookWindow
-    _WinAPI_RegLoadMUIString
-    _WinAPI_RegNotifyChangeKeyValue
-    _WinAPI_RegOpenKey
-    _WinAPI_RegQueryInfoKey
-    _WinAPI_RegQueryLastWriteTime
-    _WinAPI_RegQueryMultipleValues
-    _WinAPI_RegQueryReflectionKey
-    _WinAPI_RegQueryValue
-    _WinAPI_RegRestoreKey
-    _WinAPI_RegSaveKey
-    _WinAPI_RegSetValue
-    _WinAPI_ReleaseMutex
-    _WinAPI_ReleaseSemaphore
-    _WinAPI_ReleaseStream
-    _WinAPI_RemoveClipboardFormatListener
-    _WinAPI_RemoveDirectory
-    _WinAPI_RemoveFontMemResourceEx
-    _WinAPI_RemoveFontResourceEx
-    _WinAPI_RemoveWindowSubclass
-    _WinAPI_ReOpenFile
-    _WinAPI_ReplaceFile
-    _WinAPI_ReplaceTextDlg
-    _WinAPI_ResetEvent
-    _WinAPI_RestartDlg
-    _WinAPI_RestoreDC
-    _WinAPI_RGB
-    _WinAPI_RotatePoints
-    _WinAPI_RoundRect
-    _WinAPI_SaveDC
-    _WinAPI_SaveHBITMAPToFile
-    _WinAPI_SaveHICONToFile
-    _WinAPI_ScaleWindowExt
-    _WinAPI_SelectClipPath
-    _WinAPI_SelectClipRgn
-    _WinAPI_SendMessageTimeout
-    _WinAPI_SetActiveWindow
-    _WinAPI_SetArcDirection
-    _WinAPI_SetBitmapBits
-    _WinAPI_SetBitmapDimensionEx
-    _WinAPI_SetBoundsRect
-    _WinAPI_SetClassLongEx
-    _WinAPI_SetColorAdjustment
-    _WinAPI_SetCompression
-    _WinAPI_SetCaretBlinkTime
-    _WinAPI_SetCaretPos
-    _WinAPI_SetCurrentDirectory
-    _WinAPI_SetCurrentProcessExplicitAppUserModelID
-    _WinAPI_SetDCBrushColor
-    _WinAPI_SetDCPenColor
-   *_WinAPI_SetDefaultPrinter
-    _WinAPI_SetDeviceGammaRamp
-    _WinAPI_SetDIBColorTable
-    _WinAPI_SetDIBitsToDevice
-    _WinAPI_SetDllDirectory
-    _WinAPI_SetEnhMetaFileBits
-    _WinAPI_SetErrorMode
-    _WinAPI_SetFileAttributes
-    _WinAPI_SetFileInformationByHandleEx
-    _WinAPI_SetFilePointerEx
-    _WinAPI_SetFileShortName
-    _WinAPI_SetForegroundWindow
-    _WinAPI_SetFRBuffer
-    _WinAPI_SetGraphicsMode
-   *_WinAPI_SetHandleInformation
-    _WinAPI_SetInformationJobObject
-    _WinAPI_SetKeyboardLayout
-    _WinAPI_SetKeyboardState
-   *_WinAPI_SetLayeredWindowAttributes
-    _WinAPI_SetLocaleInfo
-    _WinAPI_SetMapMode
-    _WinAPI_SetMessageExtraInfo
-   *_WinAPI_SetParent
-    _WinAPI_SetPixel
-    _WinAPI_SetPolyFillMode
-    _WinAPI_SetPriorityClass
-    _WinAPI_SetProcessShutdownParameters
-    _WinAPI_SetProcessWindowStation
-    _WinAPI_SetRectRgn
-    _WinAPI_SetROP2
-    _WinAPI_SetStretchBltMode
-    _WinAPI_SetSystemCursor
-    _WinAPI_SetTextAlign
-    _WinAPI_SetTextCharacterExtra
-    _WinAPI_SetTextJustification
-    _WinAPI_SetThemeAppProperties
-    _WinAPI_SetThreadDesktop
-    _WinAPI_SetThreadErrorMode
-    _WinAPI_SetThreadExecutionState
-    _WinAPI_SetThreadLocale
-    _WinAPI_SetThreadUILanguage
-    _WinAPI_SetTimer
-    _WinAPI_SetUDFColorMode
-    _WinAPI_SetUserGeoID
-    _WinAPI_SetUserObjectInformation
-    _WinAPI_SetVolumeMountPoint
-    _WinAPI_SetWindowDisplayAffinity
-    _WinAPI_SetWindowExt
-    _WinAPI_SetWindowLongEx
-    _WinAPI_SetWindowOrg
-    _WinAPI_SetWindowSubclass
-    _WinAPI_SetWindowTheme
-    _WinAPI_SetWinEventHook
-    _WinAPI_SetWorldTransform
-    _WinAPI_SfcIsFileProtected
-    _WinAPI_SfcIsKeyProtected
-    _WinAPI_ShellAddToRecentDocs
-    _WinAPI_ShellChangeNotify
-    _WinAPI_ShellChangeNotifyDeregister
-    _WinAPI_ShellChangeNotifyRegister
-    _WinAPI_ShellEmptyRecycleBin
-    _WinAPI_ShellExecute
-    _WinAPI_ShellExtractAssociatedIcon
-    _WinAPI_ShellExtractIcon
-    _WinAPI_ShellFileOperation
-    _WinAPI_ShellGetFileInfo
-    _WinAPI_ShellGetKnownFolderPath
-    _WinAPI_ShellGetLocalizedName
-    _WinAPI_ShellGetPathFromIDList
-    _WinAPI_ShellGetSetFolderCustomSettings
-    _WinAPI_ShellGetSettings
-    _WinAPI_ShellGetSpecialFolderLocation
-    _WinAPI_ShellGetSpecialFolderPath
-    _WinAPI_ShellGetStockIconInfo
-    _WinAPI_ShellILCreateFromPath
-    _WinAPI_ShellNotifyIcon
-    _WinAPI_ShellNotifyIconGetRect
-    _WinAPI_ShellObjectProperties
-    _WinAPI_ShellOpenFolderAndSelectItems
-    _WinAPI_ShellOpenWithDlg
-    _WinAPI_ShellQueryRecycleBin
-    _WinAPI_ShellQueryUserNotificationState
-    _WinAPI_ShellRemoveLocalizedName
-    _WinAPI_ShellRestricted
-    _WinAPI_ShellSetLocalizedName
-    _WinAPI_ShellSetSettings
-    _WinAPI_ShellStartNetConnectionDlg
-    _WinAPI_ShellUserAuthenticationDlg
-    _WinAPI_ShellUserAuthenticationDlgEx
-    _WinAPI_ShortToWord
-    _WinAPI_ShowCaret
-    _WinAPI_ShowLastError
-    _WinAPI_ShowOwnedPopups
-    _WinAPI_ShutdownBlockReasonCreate
-    _WinAPI_ShutdownBlockReasonDestroy
-    _WinAPI_ShutdownBlockReasonQuery
-    _WinAPI_SizeOfResource
-    _WinAPI_StretchBlt
-    _WinAPI_StretchDIBits
-    _WinAPI_StrFormatByteSize
-    _WinAPI_StrFormatByteSizeEx
-    _WinAPI_StrFormatKBSize
-    _WinAPI_StrFromTimeInterval
-    _WinAPI_StrLen
-    _WinAPI_StrokeAndFillPath
-    _WinAPI_StrokePath
-    _WinAPI_StructToArray
-    _WinAPI_SubtractRect
-    _WinAPI_SwitchColor
-    _WinAPI_SwitchDesktop
-    _WinAPI_SwitchToThisWindow
-    _WinAPI_SwapDWord
-    _WinAPI_SwapQWord
-    _WinAPI_SwapWord
-    _WinAPI_TextOut
-    _WinAPI_TileWindows
-    _WinAPI_TransparentBlt
-    _WinAPI_TrackMouseEvent
-    _WinAPI_UnhookWinEvent
-    _WinAPI_UnionRect
-    _WinAPI_UnionStruct
-    _WinAPI_UniqueHardwareID
-    _WinAPI_UnloadKeyboardLayout
-    _WinAPI_UnlockFile
-    _WinAPI_UnmapViewOfFile
-    _WinAPI_UnregisterApplicationRestart
-    _WinAPI_UnregisterClass
-    _WinAPI_UnregisterHotKey
-    _WinAPI_UnregisterPowerSettingNotification
-    _WinAPI_UpdateLayeredWindowEx
-    _WinAPI_UpdateResource
-    _WinAPI_UrlApplyScheme
-    _WinAPI_UrlCanonicalize
-    _WinAPI_UrlCombine
-    _WinAPI_UrlCompare
-    _WinAPI_UrlCreateFromPath
-    _WinAPI_UrlFixup
-    _WinAPI_UrlGetPart
-    _WinAPI_UrlHash
-    _WinAPI_UrlIs
-    _WinAPI_ValidateRect
-    _WinAPI_ValidateRgn
-    _WinAPI_VerQueryRoot
-    _WinAPI_VerQueryValue
-    _WinAPI_VerQueryValueEx
-    _WinAPI_WidenPath
-    _WinAPI_WindowFromDC
-    _WinAPI_WordToShort
-    _WinAPI_Wow64EnableWow64FsRedirection
-    _WinAPI_ZeroMemory
-
-   * Included in WinAPI.au3
-
+	
+	Title:          WinAPI Extended UDF Library for AutoIt3
+	Filename:       WinAPIEx.au3
+	Description:    Additional variables, constants and functions for the WinAPI.au3
+	Author:         Yashied
+	Version:        3.7 / 3.3.6.1
+	Requirements:   AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
+	Uses:           StructureConstants.au3, WinAPI.au3
+	Note:           The library uses the following system DLLs:
+	
+	Advapi32.dll
+	Comctl32.dll
+	Comdlg32.dll
+	Connect.dll
+	Credui.dll
+	Dbghelp.dll
+	Dwmapi.dll
+	Gdi32.dll
+	Gdiplus.dll
+	Kernel32.dll
+	Ntdll.dll
+	Ole32.dll
+	Oleaut32.dll
+	Powrprof.dll
+	Psapi.dll
+	Sensapi.dll
+	Sfc.dll
+	Shell32.dll
+	Shlwapi.dll
+	User32.dll
+	Userenv.dll
+	Uxtheme.dll
+	Version.dll
+	Winmm.dll
+	Winspool.drv
+	
+	Available functions:
+	
+	_WinAPI_AbortPath
+	_WinAPI_AboutDlg
+	_WinAPI_ActivateKeyboardLayout
+	_WinAPI_AddClipboardFormatListener
+	_WinAPI_AddFontMemResourceEx
+	_WinAPI_AddFontResourceEx
+	_WinAPI_AddIconOverlay
+	_WinAPI_AddIconTransparency
+	_WinAPI_AddMRUString
+	_WinAPI_AdjustBitmap
+	_WinAPI_AdjustTokenPrivileges
+	_WinAPI_AdjustWindowRectEx
+	_WinAPI_AlphaBlend
+	_WinAPI_AngleArc
+	_WinAPI_AnimateWindow
+	_WinAPI_Arc
+	_WinAPI_ArcTo
+	_WinAPI_ArrayToStruct
+	_WinAPI_AssignProcessToJobObject
+	_WinAPI_AssocGetPerceivedType
+	_WinAPI_AssocQueryString
+	_WinAPI_BackupRead
+	_WinAPI_BackupReadAbort
+	_WinAPI_BackupSeek
+	_WinAPI_BackupWrite
+	_WinAPI_BackupWriteAbort
+	_WinAPI_BeginBufferedPaint
+	_WinAPI_BeginDeferWindowPos
+	_WinAPI_BeginPaint
+	_WinAPI_BeginPath
+	_WinAPI_BeginUpdateResource
+	_WinAPI_BringWindowToTop
+	_WinAPI_BroadcastSystemMessage
+	_WinAPI_BrowseForFolderDlg
+	_WinAPI_BufferedPaintClear
+	_WinAPI_BufferedPaintInit
+	_WinAPI_BufferedPaintSetAlpha
+	_WinAPI_BufferedPaintUnInit
+	_WinAPI_CalculatePopupWindowPosition
+	_WinAPI_CallWindowProcW
+	_WinAPI_CascadeWindows
+	_WinAPI_ChangeWindowMessageFilterEx
+	_WinAPI_CharToOem
+	_WinAPI_ChildWindowFromPointEx
+	_WinAPI_ClipCursor
+	_WinAPI_CloseDesktop
+	_WinAPI_CloseEnhMetaFile
+	_WinAPI_CloseFigure
+	_WinAPI_CloseThemeData
+	_WinAPI_CloseWindow
+	_WinAPI_CloseWindowStation
+	_WinAPI_CoInitialize
+	_WinAPI_ColorAdjustLuma
+	_WinAPI_ColorHLSToRGB
+	_WinAPI_ColorRGBToHLS
+	_WinAPI_CombineTransform
+	_WinAPI_CommandLineToArgv
+	_WinAPI_CommDlgExtendedErrorEx
+	_WinAPI_CompareString
+	_WinAPI_CompressBitmapBits
+	_WinAPI_CompressBuffer
+	_WinAPI_ComputeCrc32
+	_WinAPI_ConfirmCredentials
+	_WinAPI_CopyBitmap
+	_WinAPI_CopyCursor
+	_WinAPI_CopyEnhMetaFile
+	_WinAPI_CopyFileEx
+	_WinAPI_CopyImage
+	_WinAPI_CopyRect
+	_WinAPI_CopyStruct
+	_WinAPI_CoTaskMemAlloc
+	_WinAPI_CoTaskMemFree
+	_WinAPI_CoTaskMemRealloc
+	_WinAPI_CoUninitialize
+	_WinAPI_Create32BitHBITMAP
+	_WinAPI_Create32BitHICON
+	_WinAPI_CreateANDBitmap
+	_WinAPI_CreateBitmapIndirect
+	_WinAPI_CreateBrushIndirect
+	_WinAPI_CreateBuffer
+	_WinAPI_CreateCaret
+	_WinAPI_CreateColorAdjustment
+	_WinAPI_CreateCompatibleBitmapEx
+	_WinAPI_CreateDesktop
+	_WinAPI_CreateDIB
+	_WinAPI_CreateDIBColorTable
+	_WinAPI_CreateDIBitmap
+	_WinAPI_CreateDIBSection
+	_WinAPI_CreateDirectory
+	_WinAPI_CreateDirectoryEx
+	_WinAPI_CreateEllipticRgn
+	_WinAPI_CreateEmptyIcon
+	_WinAPI_CreateEnhMetaFile
+	_WinAPI_CreateFileEx
+	_WinAPI_CreateFileMapping
+	_WinAPI_CreateGUID
+	_WinAPI_CreateHardLink
+	_WinAPI_CreateIcon
+	_WinAPI_CreateIconFromResourceEx
+	_WinAPI_CreateIconIndirect
+	_WinAPI_CreateJobObject
+	_WinAPI_CreateMargins
+	_WinAPI_CreateMRUList
+	_WinAPI_CreateMutex
+	_WinAPI_CreateNullRgn
+	_WinAPI_CreateNumberFormatInfo
+	_WinAPI_CreateObjectID
+	_WinAPI_CreatePoint
+	_WinAPI_CreatePolygonRgn
+	_WinAPI_CreateProcessWithToken
+	_WinAPI_CreateRect
+	_WinAPI_CreateRectEx
+	_WinAPI_CreateRectRgnIndirect
+	_WinAPI_CreateSemaphore
+	_WinAPI_CreateSize
+	_WinAPI_CreateStreamOnHGlobal
+	_WinAPI_CreateString
+	_WinAPI_CreateSymbolicLink
+	_WinAPI_CreateTransform
+	_WinAPI_CreateWindowStation
+	_WinAPI_DecompressBuffer
+	_WinAPI_DecryptFile
+	_WinAPI_DeferWindowPos
+	_WinAPI_DefineDosDevice
+	_WinAPI_DefRawInputProc
+	_WinAPI_DefSubclassProc
+	_WinAPI_DefWindowProcW
+	_WinAPI_DeleteEnhMetaFile
+	_WinAPI_DeleteFile
+	_WinAPI_DeleteObjectID
+	_WinAPI_DeleteVolumeMountPoint
+	_WinAPI_DeregisterShellHookWindow
+	_WinAPI_DestroyCaret
+	_WinAPI_DestroyCursor
+	_WinAPI_DeviceIoControl
+	_WinAPI_DisplayStruct
+	_WinAPI_DllGetVersion
+	_WinAPI_DllInstall
+	_WinAPI_DllUninstall
+	_WinAPI_DPtoLP
+	_WinAPI_DragAcceptFiles
+	_WinAPI_DragFinish
+	_WinAPI_DragQueryFileEx
+	_WinAPI_DragQueryPoint
+	_WinAPI_DrawAnimatedRects
+	_WinAPI_DrawBitmap
+	_WinAPI_DrawFocusRect
+	_WinAPI_DrawShadowText
+	_WinAPI_DrawThemeBackground
+	_WinAPI_DrawThemeEdge
+	_WinAPI_DrawThemeIcon
+	_WinAPI_DrawThemeParentBackground
+	_WinAPI_DrawThemeText
+	_WinAPI_DrawThemeTextEx
+	_WinAPI_DuplicateEncryptionInfoFile
+	*_WinAPI_DuplicateHandle
+	_WinAPI_DuplicateTokenEx
+	_WinAPI_DwmEnableBlurBehindWindow
+	_WinAPI_DwmEnableComposition
+	_WinAPI_DwmGetColorizationColor
+	_WinAPI_DwmGetWindowAttribute
+	_WinAPI_DwmExtendFrameIntoClientArea
+	_WinAPI_DwmInvalidateIconicBitmaps
+	_WinAPI_DwmIsCompositionEnabled
+	_WinAPI_DwmQueryThumbnailSourceSize
+	_WinAPI_DwmRegisterThumbnail
+	_WinAPI_DwmSetIconicLivePreviewBitmap
+	_WinAPI_DwmSetIconicThumbnail
+	_WinAPI_DwmSetWindowAttribute
+	_WinAPI_DwmUnregisterThumbnail
+	_WinAPI_DwmUpdateThumbnailProperties
+	_WinAPI_DWordToFloat
+	_WinAPI_DWordToInt
+	_WinAPI_EjectMedia
+	_WinAPI_Ellipse
+	_WinAPI_EmptyWorkingSet
+	_WinAPI_EncryptFile
+	_WinAPI_EncryptionDisable
+	_WinAPI_EndBufferedPaint
+	_WinAPI_EndDeferWindowPos
+	_WinAPI_EndPaint
+	_WinAPI_EndPath
+	_WinAPI_EndUpdateResource
+	_WinAPI_EnumChildProcess
+	_WinAPI_EnumChildWindows
+	_WinAPI_EnumDesktops
+	_WinAPI_EnumDesktopWindows
+	_WinAPI_EnumDeviceDrivers
+	_WinAPI_EnumDisplayMonitors
+	_WinAPI_EnumDisplaySettings
+	_WinAPI_EnumDllProc
+	_WinAPI_EnumFiles
+	_WinAPI_EnumFileStreams
+	_WinAPI_EnumHardLinks
+	_WinAPI_EnumMRUList
+	_WinAPI_EnumPageFiles
+	_WinAPI_EnumProcessHandles
+	_WinAPI_EnumProcessModules
+	_WinAPI_EnumProcessThreads
+	_WinAPI_EnumProcessWindows
+	_WinAPI_EnumRawInputDevices
+	_WinAPI_EnumResourceLanguages
+	_WinAPI_EnumResourceNames
+	_WinAPI_EnumResourceTypes
+	_WinAPI_EnumSystemGeoID
+	_WinAPI_EnumSystemLocales
+	_WinAPI_EnumUILanguages
+	_WinAPI_EnumWindowStations
+	_WinAPI_EqualMemory
+	_WinAPI_EqualRect
+	_WinAPI_EqualRgn
+	_WinAPI_ExcludeClipRect
+	_WinAPI_ExtCreatePen
+	_WinAPI_ExtCreateRegion
+	_WinAPI_ExtFloodFill
+	_WinAPI_ExtractIcon
+	_WinAPI_ExtSelectClipRgn
+	_WinAPI_FatalExit
+	_WinAPI_FileEncryptionStatus
+	_WinAPI_FileExists
+	_WinAPI_FileInUse
+	_WinAPI_FillMemory
+	_WinAPI_FillPath
+	*_WinAPI_FillRect
+	_WinAPI_FillRgn
+	_WinAPI_FindClose
+	_WinAPI_FindCloseChangeNotification
+	_WinAPI_FindFirstChangeNotification
+	_WinAPI_FindFirstFile
+	_WinAPI_FindFirstFileName
+	_WinAPI_FindFirstStream
+	_WinAPI_FindNextChangeNotification
+	_WinAPI_FindNextFile
+	_WinAPI_FindNextFileName
+	_WinAPI_FindNextStream
+	_WinAPI_FindResource
+	_WinAPI_FindResourceEx
+	_WinAPI_FindTextDlg
+	_WinAPI_FlattenPath
+	_WinAPI_FloatToDWord
+	_WinAPI_FlushFRBuffer
+	_WinAPI_FlushViewOfFile
+	_WinAPI_FormatDriveDlg
+	*_WinAPI_FrameRect
+	_WinAPI_FrameRgn
+	_WinAPI_FreeMemory
+	_WinAPI_FreeMRUList
+	_WinAPI_FreeResource
+	_WinAPI_GdiComment
+	_WinAPI_GetActiveWindow
+	_WinAPI_GetAllUsersProfileDirectory
+	_WinAPI_GetApplicationRestartSettings
+	_WinAPI_GetArcDirection
+	*_WinAPI_GetAsyncKeyState
+	_WinAPI_GetBinaryType
+	_WinAPI_GetBitmapBits
+	_WinAPI_GetBitmapDimension
+	_WinAPI_GetBitmapDimensionEx
+	_WinAPI_GetBkColor
+	_WinAPI_GetBoundsRect
+	_WinAPI_GetBufferedPaintBits
+	_WinAPI_GetBufferedPaintDC
+	_WinAPI_GetBufferedPaintTargetDC
+	_WinAPI_GetBufferedPaintTargetRect
+	_WinAPI_GetBValue
+	_WinAPI_GetCaretBlinkTime
+	_WinAPI_GetCaretPos
+	_WinAPI_GetCDType
+	_WinAPI_GetClassInfoEx
+	_WinAPI_GetClassLongEx
+	_WinAPI_GetClipboardSequenceNumber
+	_WinAPI_GetClipBox
+	_WinAPI_GetClipCursor
+	_WinAPI_GetClipRgn
+	_WinAPI_GetColorAdjustment
+	_WinAPI_GetCompressedFileSize
+	_WinAPI_GetCompression
+	_WinAPI_GetConnectedDlg
+	_WinAPI_GetCurrentDirectory
+	_WinAPI_GetCurrentHwProfile
+	_WinAPI_GetCurrentObject
+	_WinAPI_GetCurrentPosition
+	_WinAPI_GetCurrentProcessExplicitAppUserModelID
+	_WinAPI_GetCurrentThemeName
+	_WinAPI_GetCursor
+	_WinAPI_GetDateFormat
+	_WinAPI_GetDCEx
+	_WinAPI_GetDefaultPrinter
+	_WinAPI_GetDefaultUserProfileDirectory
+	_WinAPI_GetDeviceDriverBaseName
+	_WinAPI_GetDeviceDriverFileName
+	_WinAPI_GetDeviceGammaRamp
+	_WinAPI_GetDIBColorTable
+	_WinAPI_GetDiskFreeSpaceEx
+	_WinAPI_GetDllDirectory
+	_WinAPI_GetDriveBusType
+	_WinAPI_GetDriveGeometryEx
+	_WinAPI_GetDriveNumber
+	_WinAPI_GetDriveType
+	_WinAPI_GetDurationFormat
+	_WinAPI_GetEnhMetaFile
+	_WinAPI_GetEnhMetaFileBits
+	_WinAPI_GetEnhMetaFileDescription
+	_WinAPI_GetEnhMetaFileDimension
+	_WinAPI_GetEnhMetaFileHeader
+	_WinAPI_GetErrorMessage
+	_WinAPI_GetErrorMode
+	_WinAPI_GetExitCodeProcess
+	_WinAPI_GetExtended
+	_WinAPI_GetFileAttributes
+	_WinAPI_GetFileID
+	_WinAPI_GetFileInformationByHandle
+	_WinAPI_GetFileInformationByHandleEx
+	_WinAPI_GetFilePointerEx
+	_WinAPI_GetFileSizeOnDisk
+	_WinAPI_GetFileTitle
+	_WinAPI_GetFileType
+	_WinAPI_GetFileVersionInfo
+	_WinAPI_GetFinalPathNameByHandle
+	_WinAPI_GetFinalPathNameByHandleEx
+	_WinAPI_GetFontResourceInfo
+	*_WinAPI_GetForegroundWindow
+	_WinAPI_GetFRBuffer
+	_WinAPI_GetFullPathName
+	_WinAPI_GetGeoInfo
+	_WinAPI_GetGlyphOutline
+	_WinAPI_GetGraphicsMode
+	_WinAPI_GetGUIThreadInfo
+	_WinAPI_GetGValue
+	_WinAPI_GetHandleInformation
+	_WinAPI_GetHGlobalFromStream
+	_WinAPI_GetIconDimension
+	_WinAPI_GetIconInfoEx
+	_WinAPI_GetIdleTime
+	_WinAPI_GetKeyboardLayout
+	_WinAPI_GetKeyboardLayoutList
+	_WinAPI_GetKeyboardState
+	_WinAPI_GetKeyboardType
+	_WinAPI_GetKeyNameText
+	_WinAPI_GetKeyState
+	_WinAPI_GetLastActivePopup
+	*_WinAPI_GetLayeredWindowAttributes
+	_WinAPI_GetLocaleInfo
+	_WinAPI_GetLogicalDrives
+	_WinAPI_GetMapMode
+	_WinAPI_GetMemorySize
+	_WinAPI_GetMessageExtraInfo
+	_WinAPI_GetModuleFileNameEx
+	_WinAPI_GetModuleHandleEx
+	_WinAPI_GetModuleInformation
+	_WinAPI_GetMonitorInfo
+	_WinAPI_GetNumberFormat
+	_WinAPI_GetObjectID
+	_WinAPI_GetObjectInfoByHandle
+	_WinAPI_GetObjectNameByHandle
+	_WinAPI_GetObjectType
+	_WinAPI_GetOutlineTextMetrics
+	_WinAPI_GetParentProcess
+	_WinAPI_GetPerformanceInfo
+	_WinAPI_GetPhysicallyInstalledSystemMemory
+	_WinAPI_GetPixel
+	_WinAPI_GetPolyFillMode
+	_WinAPI_GetPosFromRect
+	_WinAPI_GetPriorityClass
+	_WinAPI_GetProcAddress
+	_WinAPI_GetProcessCommandLine
+	_WinAPI_GetProcessFileName
+	_WinAPI_GetProcessHandleCount
+	_WinAPI_GetProcessID
+	_WinAPI_GetProcessIoCounters
+	_WinAPI_GetProcessMemoryInfo
+	_WinAPI_GetProcessName
+	_WinAPI_GetProcessShutdownParameters
+	_WinAPI_GetProcessTimes
+	_WinAPI_GetProcessUser
+	_WinAPI_GetProcessWindowStation
+	_WinAPI_GetProcessWorkingDirectory
+	_WinAPI_GetProfilesDirectory
+	_WinAPI_GetPwrCapabilities
+	_WinAPI_GetRawInputBuffer
+	_WinAPI_GetRawInputBufferLength
+	_WinAPI_GetRawInputData
+	_WinAPI_GetRawInputDeviceInfo
+	_WinAPI_GetRegionData
+	_WinAPI_GetRegisteredRawInputDevices
+	_WinAPI_GetRegKeyNameByHandle
+	_WinAPI_GetRgnBox
+	_WinAPI_GetROP2
+	_WinAPI_GetRValue
+	_WinAPI_GetShellWindow
+	_WinAPI_GetStartupInfo
+	_WinAPI_GetStretchBltMode
+	_WinAPI_GetString
+	_WinAPI_GetSystemDefaultLangID
+	_WinAPI_GetSystemDefaultLCID
+	_WinAPI_GetSystemDefaultUILanguage
+	_WinAPI_GetSystemDEPPolicy
+	_WinAPI_GetSystemInfo
+	_WinAPI_GetSystemPowerStatus
+	_WinAPI_GetSystemTimes
+	_WinAPI_GetSystemWow64Directory
+	_WinAPI_GetTempFileName
+	_WinAPI_GetTextAlign
+	_WinAPI_GetTextCharacterExtra
+	_WinAPI_GetTextColor
+	_WinAPI_GetTextFace
+	*_WinAPI_GetTextMetrics
+	_WinAPI_GetThemeAppProperties
+	_WinAPI_GetThemeBackgroundContentRect
+	_WinAPI_GetThemeBackgroundExtent
+	_WinAPI_GetThemeBackgroundRegion
+	_WinAPI_GetThemeBitmap
+	_WinAPI_GetThemeBool
+	_WinAPI_GetThemeColor
+	_WinAPI_GetThemeDocumentationProperty
+	_WinAPI_GetThemeEnumValue
+	_WinAPI_GetThemeFilename
+	_WinAPI_GetThemeFont
+	_WinAPI_GetThemeInt
+	_WinAPI_GetThemeMargins
+	_WinAPI_GetThemeMetric
+	_WinAPI_GetThemePartSize
+	_WinAPI_GetThemePosition
+	_WinAPI_GetThemePropertyOrigin
+	_WinAPI_GetThemeRect
+	_WinAPI_GetThemeString
+	_WinAPI_GetThemeSysBool
+	_WinAPI_GetThemeSysColor
+	_WinAPI_GetThemeSysColorBrush
+	_WinAPI_GetThemeSysFont
+	_WinAPI_GetThemeSysInt
+	_WinAPI_GetThemeSysSize
+	_WinAPI_GetThemeSysString
+	_WinAPI_GetThemeTextExtent
+	_WinAPI_GetThemeTextMetrics
+	_WinAPI_GetThemeTransitionDuration
+	_WinAPI_GetThreadDesktop
+	_WinAPI_GetThreadErrorMode
+	_WinAPI_GetThreadLocale
+	_WinAPI_GetThreadUILanguage
+	_WinAPI_GetTickCount
+	_WinAPI_GetTickCount64
+	_WinAPI_GetTimeFormat
+	_WinAPI_GetTopWindow
+	_WinAPI_GetUDFColorMode
+	_WinAPI_GetUDFVersion
+	_WinAPI_GetUpdateRect
+	_WinAPI_GetUpdateRgn
+	_WinAPI_GetUserDefaultLangID
+	_WinAPI_GetUserDefaultLCID
+	_WinAPI_GetUserDefaultUILanguage
+	_WinAPI_GetUserGeoID
+	_WinAPI_GetUserObjectInformation
+	_WinAPI_GetVersion
+	_WinAPI_GetVersionEx
+	_WinAPI_GetVolumeInformation
+	_WinAPI_GetVolumeInformationByHandle
+	_WinAPI_GetVolumeNameForVolumeMountPoint
+	_WinAPI_GetWindowDisplayAffinity
+	_WinAPI_GetWindowExt
+	_WinAPI_GetWindowFileName
+	_WinAPI_GetWindowInfo
+	_WinAPI_GetWindowLongEx
+	_WinAPI_GetWindowOrg
+	_WinAPI_GetWindowRgnBox
+	_WinAPI_GetWindowSubclass
+	_WinAPI_GetWindowTheme
+	_WinAPI_GetWorkArea
+	_WinAPI_GetWorldTransform
+	_WinAPI_GradientFill
+	_WinAPI_HashData
+	_WinAPI_HashString
+	_WinAPI_Hex64
+	_WinAPI_HiByte
+	_WinAPI_HideCaret
+	_WinAPI_HiDWord
+	_WinAPI_InflateRect
+	_WinAPI_IntersectClipRect
+	_WinAPI_IntersectRect
+	_WinAPI_IntToDWord
+	*_WinAPI_InvalidateRect
+	_WinAPI_InvalidateRgn
+	_WinAPI_InvertANDBitmap
+	_WinAPI_InvertColor
+	_WinAPI_InvertRect
+	_WinAPI_InvertRgn
+	_WinAPI_IOCTL
+	_WinAPI_IsAlphaBitmap
+	_WinAPI_IsBadCodePtr
+	_WinAPI_IsBadReadPtr
+	_WinAPI_IsBadStringPtr
+	_WinAPI_IsBadWritePtr
+	_WinAPI_IsChild
+	_WinAPI_IsDoorOpen
+	_WinAPI_IsElevated
+	_WinAPI_IsHungAppWindow
+	_WinAPI_IsIconic
+	_WinAPI_IsInternetConnected
+	_WinAPI_IsLoadKBLayout
+	_WinAPI_IsMemory
+	_WinAPI_IsNetworkAlive
+	_WinAPI_IsProcessInJob
+	_WinAPI_IsProcessorFeaturePresent
+	_WinAPI_IsRectEmpty
+	_WinAPI_IsThemeActive
+	_WinAPI_IsThemeBackgroundPartiallyTransparent
+	_WinAPI_IsThemePartDefined
+	_WinAPI_IsValidLocale
+	_WinAPI_IsWindowEnabled
+	_WinAPI_IsWindowUnicode
+	_WinAPI_IsWow64Process
+	_WinAPI_IsWritable
+	_WinAPI_IsZoomed
+	_WinAPI_Keybd_Event
+	_WinAPI_KillTimer
+	_WinAPI_LineDDA
+	_WinAPI_LoadCursor
+	_WinAPI_LoadCursorFromFile
+	_WinAPI_LoadIconWithScaleDown
+	_WinAPI_LoadIndirectString
+	_WinAPI_LoadKeyboardLayout
+	_WinAPI_LoadMedia
+	_WinAPI_LoadResource
+	_WinAPI_LoadStringEx
+	_WinAPI_LoByte
+	_WinAPI_LockDevice
+	_WinAPI_LockFile
+	_WinAPI_LockResource
+	_WinAPI_LockWindowUpdate
+	_WinAPI_LockWorkStation
+	_WinAPI_LoDWord
+	_WinAPI_LongMid
+	_WinAPI_LookupIconIdFromDirectoryEx
+	_WinAPI_LPtoDP
+	_WinAPI_MakeWord
+	_WinAPI_MapViewOfFile
+	_WinAPI_MapVirtualKey
+	_WinAPI_MaskBlt
+	_WinAPI_MessageBoxCheck
+	_WinAPI_MessageBoxIndirect
+	_WinAPI_ModifyWorldTransform
+	_WinAPI_MonitorFromPoint
+	_WinAPI_MonitorFromRect
+	_WinAPI_MonitorFromWindow
+	_WinAPI_MoveFileEx
+	_WinAPI_MoveMemory
+	_WinAPI_MoveToEx
+	_WinAPI_NtStatusToDosError
+	_WinAPI_OemToChar
+	_WinAPI_OffsetClipRgn
+	_WinAPI_OffsetPoints
+	_WinAPI_OffsetRect
+	_WinAPI_OffsetRgn
+	_WinAPI_OffsetWindowOrg
+	_WinAPI_OpenDesktop
+	_WinAPI_OpenFileById
+	_WinAPI_OpenFileMapping
+	_WinAPI_OpenIcon
+	_WinAPI_OpenInputDesktop
+	_WinAPI_OpenJobObject
+	_WinAPI_OpenMutex
+	_WinAPI_OpenProcessToken
+	_WinAPI_OpenSemaphore
+	_WinAPI_OpenThemeData
+	_WinAPI_OpenWindowStation
+	_WinAPI_PageSetupDlg
+	_WinAPI_PaintDesktop
+	_WinAPI_PaintRgn
+	_WinAPI_ParseURL
+	_WinAPI_ParseUserName
+	_WinAPI_PatBlt
+	_WinAPI_PathAddBackslash
+	_WinAPI_PathAddExtension
+	_WinAPI_PathAppend
+	_WinAPI_PathBuildRoot
+	_WinAPI_PathCanonicalize
+	_WinAPI_PathCommonPrefix
+	_WinAPI_PathCompactPath
+	_WinAPI_PathCompactPathEx
+	_WinAPI_PathCreateFromUrl
+	_WinAPI_PathFindExtension
+	_WinAPI_PathFindFileName
+	_WinAPI_PathFindNextComponent
+	*_WinAPI_PathFindOnPath
+	_WinAPI_PathGetArgs
+	_WinAPI_PathGetCharType
+	_WinAPI_PathGetDriveNumber
+	_WinAPI_PathIsContentType
+	_WinAPI_PathIsDirectory
+	_WinAPI_PathIsDirectoryEmpty
+	_WinAPI_PathIsExe
+	_WinAPI_PathIsFileSpec
+	_WinAPI_PathIsLFNFileSpec
+	_WinAPI_PathIsRelative
+	_WinAPI_PathIsRoot
+	_WinAPI_PathIsSameRoot
+	_WinAPI_PathIsSystemFolder
+	_WinAPI_PathIsUNC
+	_WinAPI_PathIsUNCServer
+	_WinAPI_PathIsUNCServerShare
+	_WinAPI_PathMakeSystemFolder
+	_WinAPI_PathMatchSpec
+	_WinAPI_PathParseIconLocation
+	_WinAPI_PathRelativePathTo
+	_WinAPI_PathRemoveArgs
+	_WinAPI_PathRemoveBackslash
+	_WinAPI_PathRemoveExtension
+	_WinAPI_PathRemoveFileSpec
+	_WinAPI_PathRenameExtension
+	_WinAPI_PathSearchAndQualify
+	_WinAPI_PathSkipRoot
+	_WinAPI_PathStripPath
+	_WinAPI_PathStripToRoot
+	_WinAPI_PathToRegion
+	_WinAPI_PathUndecorate
+	_WinAPI_PathUnExpandEnvStrings
+	_WinAPI_PathUnmakeSystemFolder
+	_WinAPI_PathUnquoteSpaces
+	_WinAPI_PathYetAnotherMakeUniqueName
+	_WinAPI_PickIconDlg
+	_WinAPI_PlayEnhMetaFile
+	_WinAPI_PlaySound
+	_WinAPI_PlgBlt
+	_WinAPI_PolyBezier
+	_WinAPI_PolyBezierTo
+	_WinAPI_PolyDraw
+	_WinAPI_Polygon
+	_WinAPI_PrintDlg
+	_WinAPI_PrintDlgEx
+	_WinAPI_PrintWindow
+	_WinAPI_PtInRectEx
+	_WinAPI_PtInRegion
+	_WinAPI_PtVisible
+	_WinAPI_QueryDosDevice
+	_WinAPI_QueryInformationJobObject
+	_WinAPI_QueryPerformanceCounter
+	_WinAPI_QueryPerformanceFrequency
+	_WinAPI_RadialGradientFill
+	_WinAPI_ReadDirectoryChanges
+	_WinAPI_Rectangle
+	_WinAPI_RectInRegion
+	_WinAPI_RectVisible
+	_WinAPI_RegCloseKey
+	_WinAPI_RegConnectRegistry
+	_WinAPI_RegCopyTree
+	_WinAPI_RegCopyTreeEx
+	_WinAPI_RegCreateKey
+	_WinAPI_RegDeleteEmptyKey
+	_WinAPI_RegDeleteKey
+	_WinAPI_RegDeleteKeyValue
+	_WinAPI_RegDeleteTree
+	_WinAPI_RegDeleteTreeEx
+	_WinAPI_RegDeleteValue
+	_WinAPI_RegDisableReflectionKey
+	_WinAPI_RegDuplicateHKey
+	_WinAPI_RegEnableReflectionKey
+	_WinAPI_RegEnumKey
+	_WinAPI_RegEnumValue
+	_WinAPI_RegFlushKey
+	_WinAPI_RegisterApplicationRestart
+	_WinAPI_RegisterClassEx
+	_WinAPI_RegisterHotKey
+	_WinAPI_RegisterPowerSettingNotification
+	_WinAPI_RegisterRawInputDevices
+	_WinAPI_RegisterShellHookWindow
+	_WinAPI_RegLoadMUIString
+	_WinAPI_RegNotifyChangeKeyValue
+	_WinAPI_RegOpenKey
+	_WinAPI_RegQueryInfoKey
+	_WinAPI_RegQueryLastWriteTime
+	_WinAPI_RegQueryMultipleValues
+	_WinAPI_RegQueryReflectionKey
+	_WinAPI_RegQueryValue
+	_WinAPI_RegRestoreKey
+	_WinAPI_RegSaveKey
+	_WinAPI_RegSetValue
+	_WinAPI_ReleaseMutex
+	_WinAPI_ReleaseSemaphore
+	_WinAPI_ReleaseStream
+	_WinAPI_RemoveClipboardFormatListener
+	_WinAPI_RemoveDirectory
+	_WinAPI_RemoveFontMemResourceEx
+	_WinAPI_RemoveFontResourceEx
+	_WinAPI_RemoveWindowSubclass
+	_WinAPI_ReOpenFile
+	_WinAPI_ReplaceFile
+	_WinAPI_ReplaceTextDlg
+	_WinAPI_ResetEvent
+	_WinAPI_RestartDlg
+	_WinAPI_RestoreDC
+	_WinAPI_RGB
+	_WinAPI_RotatePoints
+	_WinAPI_RoundRect
+	_WinAPI_SaveDC
+	_WinAPI_SaveHBITMAPToFile
+	_WinAPI_SaveHICONToFile
+	_WinAPI_ScaleWindowExt
+	_WinAPI_SelectClipPath
+	_WinAPI_SelectClipRgn
+	_WinAPI_SendMessageTimeout
+	_WinAPI_SetActiveWindow
+	_WinAPI_SetArcDirection
+	_WinAPI_SetBitmapBits
+	_WinAPI_SetBitmapDimensionEx
+	_WinAPI_SetBoundsRect
+	_WinAPI_SetClassLongEx
+	_WinAPI_SetColorAdjustment
+	_WinAPI_SetCompression
+	_WinAPI_SetCaretBlinkTime
+	_WinAPI_SetCaretPos
+	_WinAPI_SetCurrentDirectory
+	_WinAPI_SetCurrentProcessExplicitAppUserModelID
+	_WinAPI_SetDCBrushColor
+	_WinAPI_SetDCPenColor
+	*_WinAPI_SetDefaultPrinter
+	_WinAPI_SetDeviceGammaRamp
+	_WinAPI_SetDIBColorTable
+	_WinAPI_SetDIBitsToDevice
+	_WinAPI_SetDllDirectory
+	_WinAPI_SetEnhMetaFileBits
+	_WinAPI_SetErrorMode
+	_WinAPI_SetFileAttributes
+	_WinAPI_SetFileInformationByHandleEx
+	_WinAPI_SetFilePointerEx
+	_WinAPI_SetFileShortName
+	_WinAPI_SetForegroundWindow
+	_WinAPI_SetFRBuffer
+	_WinAPI_SetGraphicsMode
+	*_WinAPI_SetHandleInformation
+	_WinAPI_SetInformationJobObject
+	_WinAPI_SetKeyboardLayout
+	_WinAPI_SetKeyboardState
+	*_WinAPI_SetLayeredWindowAttributes
+	_WinAPI_SetLocaleInfo
+	_WinAPI_SetMapMode
+	_WinAPI_SetMessageExtraInfo
+	*_WinAPI_SetParent
+	_WinAPI_SetPixel
+	_WinAPI_SetPolyFillMode
+	_WinAPI_SetPriorityClass
+	_WinAPI_SetProcessShutdownParameters
+	_WinAPI_SetProcessWindowStation
+	_WinAPI_SetRectRgn
+	_WinAPI_SetROP2
+	_WinAPI_SetStretchBltMode
+	_WinAPI_SetSystemCursor
+	_WinAPI_SetTextAlign
+	_WinAPI_SetTextCharacterExtra
+	_WinAPI_SetTextJustification
+	_WinAPI_SetThemeAppProperties
+	_WinAPI_SetThreadDesktop
+	_WinAPI_SetThreadErrorMode
+	_WinAPI_SetThreadExecutionState
+	_WinAPI_SetThreadLocale
+	_WinAPI_SetThreadUILanguage
+	_WinAPI_SetTimer
+	_WinAPI_SetUDFColorMode
+	_WinAPI_SetUserGeoID
+	_WinAPI_SetUserObjectInformation
+	_WinAPI_SetVolumeMountPoint
+	_WinAPI_SetWindowDisplayAffinity
+	_WinAPI_SetWindowExt
+	_WinAPI_SetWindowLongEx
+	_WinAPI_SetWindowOrg
+	_WinAPI_SetWindowSubclass
+	_WinAPI_SetWindowTheme
+	_WinAPI_SetWinEventHook
+	_WinAPI_SetWorldTransform
+	_WinAPI_SfcIsFileProtected
+	_WinAPI_SfcIsKeyProtected
+	_WinAPI_ShellAddToRecentDocs
+	_WinAPI_ShellChangeNotify
+	_WinAPI_ShellChangeNotifyDeregister
+	_WinAPI_ShellChangeNotifyRegister
+	_WinAPI_ShellEmptyRecycleBin
+	_WinAPI_ShellExecute
+	_WinAPI_ShellExtractAssociatedIcon
+	_WinAPI_ShellExtractIcon
+	_WinAPI_ShellFileOperation
+	_WinAPI_ShellGetFileInfo
+	_WinAPI_ShellGetKnownFolderPath
+	_WinAPI_ShellGetLocalizedName
+	_WinAPI_ShellGetPathFromIDList
+	_WinAPI_ShellGetSetFolderCustomSettings
+	_WinAPI_ShellGetSettings
+	_WinAPI_ShellGetSpecialFolderLocation
+	_WinAPI_ShellGetSpecialFolderPath
+	_WinAPI_ShellGetStockIconInfo
+	_WinAPI_ShellILCreateFromPath
+	_WinAPI_ShellNotifyIcon
+	_WinAPI_ShellNotifyIconGetRect
+	_WinAPI_ShellObjectProperties
+	_WinAPI_ShellOpenFolderAndSelectItems
+	_WinAPI_ShellOpenWithDlg
+	_WinAPI_ShellQueryRecycleBin
+	_WinAPI_ShellQueryUserNotificationState
+	_WinAPI_ShellRemoveLocalizedName
+	_WinAPI_ShellRestricted
+	_WinAPI_ShellSetLocalizedName
+	_WinAPI_ShellSetSettings
+	_WinAPI_ShellStartNetConnectionDlg
+	_WinAPI_ShellUserAuthenticationDlg
+	_WinAPI_ShellUserAuthenticationDlgEx
+	_WinAPI_ShortToWord
+	_WinAPI_ShowCaret
+	_WinAPI_ShowLastError
+	_WinAPI_ShowOwnedPopups
+	_WinAPI_ShutdownBlockReasonCreate
+	_WinAPI_ShutdownBlockReasonDestroy
+	_WinAPI_ShutdownBlockReasonQuery
+	_WinAPI_SizeOfResource
+	_WinAPI_StretchBlt
+	_WinAPI_StretchDIBits
+	_WinAPI_StrFormatByteSize
+	_WinAPI_StrFormatByteSizeEx
+	_WinAPI_StrFormatKBSize
+	_WinAPI_StrFromTimeInterval
+	_WinAPI_StrLen
+	_WinAPI_StrokeAndFillPath
+	_WinAPI_StrokePath
+	_WinAPI_StructToArray
+	_WinAPI_SubtractRect
+	_WinAPI_SwitchColor
+	_WinAPI_SwitchDesktop
+	_WinAPI_SwitchToThisWindow
+	_WinAPI_SwapDWord
+	_WinAPI_SwapQWord
+	_WinAPI_SwapWord
+	_WinAPI_TextOut
+	_WinAPI_TileWindows
+	_WinAPI_TransparentBlt
+	_WinAPI_TrackMouseEvent
+	_WinAPI_UnhookWinEvent
+	_WinAPI_UnionRect
+	_WinAPI_UnionStruct
+	_WinAPI_UniqueHardwareID
+	_WinAPI_UnloadKeyboardLayout
+	_WinAPI_UnlockFile
+	_WinAPI_UnmapViewOfFile
+	_WinAPI_UnregisterApplicationRestart
+	_WinAPI_UnregisterClass
+	_WinAPI_UnregisterHotKey
+	_WinAPI_UnregisterPowerSettingNotification
+	_WinAPI_UpdateLayeredWindowEx
+	_WinAPI_UpdateResource
+	_WinAPI_UrlApplyScheme
+	_WinAPI_UrlCanonicalize
+	_WinAPI_UrlCombine
+	_WinAPI_UrlCompare
+	_WinAPI_UrlCreateFromPath
+	_WinAPI_UrlFixup
+	_WinAPI_UrlGetPart
+	_WinAPI_UrlHash
+	_WinAPI_UrlIs
+	_WinAPI_ValidateRect
+	_WinAPI_ValidateRgn
+	_WinAPI_VerQueryRoot
+	_WinAPI_VerQueryValue
+	_WinAPI_VerQueryValueEx
+	_WinAPI_WidenPath
+	_WinAPI_WindowFromDC
+	_WinAPI_WordToShort
+	_WinAPI_Wow64EnableWow64FsRedirection
+	_WinAPI_ZeroMemory
+	
+	* Included in WinAPI.au3
+	
 #ce
 
-#Include-once
+#include-once
 
-#Include <StructureConstants.au3>
-#Include <WinAPI.au3>
+#include <StructureConstants.au3>
+#include <WinAPI.au3>
 
-#EndRegion Header
+#endregion Header
 
-#Region Initialization
+#region Initialization
 
 Global Const $__WINVER = __Ver()
 Global Const $__UDFVER = '3.7'
 
-#EndRegion Initialization
+#endregion Initialization
 
-#Region Global Variables and Constants
+#region Global Variables and Constants
 
 Global Const $tagBITMAP = 'long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits;'
 Global Const $tagBITMAPINFOHEADER = 'dword biSize;long biWidth;long biHeight;ushort biPlanes;ushort biBitCount;dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant;'
@@ -1005,15 +1005,15 @@ Global Const $tagWINDOWINFO = 'dword Size;dword rWindow[4];dword rClient[4];dwor
 Global Const $tagWNDCLASSEX = 'uint Size;uint Style;ptr hWndProc;int ClsExtra;int WndExtra;ptr hInstance;ptr hIcon;ptr hCursor;ptr hBackground;ptr MenuName;ptr ClassName;ptr hIconSm;'
 Global Const $tagXFORM = 'float eM11;float eM12;float eM21;float eM22;float eDx;float eDy;'
 
-#EndRegion Global Variables and Constants
+#endregion Global Variables and Constants
 
-#Region Local Variables and Constants
+#region Local Variables and Constants
 
 Global $__Data, $__Dlg, $__Dll = 0, $__Ext = 0, $__Val, $__Heap = 0, $__Text = 0, $__FR, $__Buff = 16385, $__Enum = 8388608, $__RGB = 1
 
-#EndRegion Local Variables and Constants
+#endregion Local Variables and Constants
 
-#Region Public Functions
+#region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_AbortPath
@@ -1424,7 +1424,7 @@ Func _WinAPI_AdjustBitmap($hBitmap, $iWidth, $iHeight, $iMode = 3, $tAdjustment 
 
 	Local $Ret, $tObj, $hBmp, $hDC, $hDestDC, $hDestSv, $hSrcDC, $hSrcSv
 
-    $tObj = DllStructCreate($tagBITMAP)
+	$tObj = DllStructCreate($tagBITMAP)
 	$Ret = DllCall('gdi32.dll', 'int', 'GetObject', 'int', $hBitmap, 'int', DllStructGetSize($tObj), 'ptr', DllStructGetPtr($tObj))
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -1684,7 +1684,7 @@ EndFunc   ;==>_WinAPI_AdjustWindowRectEx
 Func _WinAPI_AlphaBlend($hDestDC, $iXDest, $iYDest, $iWidthDest, $iHeightDest, $hSrcDC, $iXSrc, $iYSrc, $iWidthSrc, $iHeightSrc, $iAlpha, $fAlpha = 0)
 
 	Local $iBlend = BitOR(BitShift(Not ($fAlpha = 0), -24), BitShift(BitAND($iAlpha, 0xFF), -16))
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'GdiAlphaBlend', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', $iBlend)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'GdiAlphaBlend', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', $iBlend)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -2736,9 +2736,9 @@ EndFunc   ;==>_WinAPI_BufferedPaintUnInit
 Func _WinAPI_CalculatePopupWindowPosition($iX, $iY, $iWidth, $iHeight, $iFlags = 0, $tExclude = 0)
 
 	Local $tAnchor = _WinAPI_CreatePoint($iX, $iY)
-	Local $tSize = _WinAPI_CreateSize($iWidth, $iHeight)
-	Local $tPos =  DllStructCreate($tagRECT)
-	Local $Ret = DllCall('user32.dll', 'int', 'CalculatePopupWindowPosition', 'ptr', DllStructGetPtr($tAnchor), 'ptr', DllStructGetPtr($tSize), 'uint', $iFlags, 'ptr', DllStructGetPtr($tExclude), 'ptr', DllStructGetPtr($tPos))
+	Local $tSIZE = _WinAPI_CreateSize($iWidth, $iHeight)
+	Local $tPos = DllStructCreate($tagRECT)
+	Local $Ret = DllCall('user32.dll', 'int', 'CalculatePopupWindowPosition', 'ptr', DllStructGetPtr($tAnchor), 'ptr', DllStructGetPtr($tSIZE), 'uint', $iFlags, 'ptr', DllStructGetPtr($tExclude), 'ptr', DllStructGetPtr($tPos))
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -4201,7 +4201,7 @@ EndFunc   ;==>_WinAPI_Create32BitHBITMAP
 Func _WinAPI_Create32BitHICON($hIcon, $fDelete = 0)
 
 	Local $tICONINFO, $tSIZE, $hBitmap[2], $Size[2], $Ret, $hSrcDC, $hSrcSv, $hDstDC, $hDstSv, $hResult = 0
-	Local $DIB[2][2] = [[0, 0], [0, 0]]
+	Local $DIB[2][2] = [[0, 0],[0, 0]]
 
 	$tICONINFO = DllStructCreate($tagICONINFO)
 	$Ret = DllCall('user32.dll', 'int', 'GetIconInfo', 'ptr', $hIcon, 'ptr', DllStructGetPtr($tICONINFO))
@@ -4546,7 +4546,7 @@ Func _WinAPI_CreateColorAdjustment($iFlags = 0, $iIlluminant = 0, $iGammaR = 100
 	DllStructSetData($tCA, 12, $iTint)
 
 	Return $tCA
-EndFunc   ;==>_WinAPI_GetColorAdjustment
+EndFunc   ;==>_WinAPI_CreateColorAdjustment
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_CreateCompatibleBitmapEx
@@ -5084,10 +5084,10 @@ Func _WinAPI_CreateEnhMetaFile($hDC = 0, $tRECT = 0, $fPixels = 0, $sFile = '', 
 		If Not $hDC Then
 			$hRef = _WinAPI_GetDC(0)
 		EndIf
-		$Xp = _WinAPI_GetDeviceCaps($hRef, 8 )
+		$Xp = _WinAPI_GetDeviceCaps($hRef, 8)
 		$Yp = _WinAPI_GetDeviceCaps($hRef, 10)
-		$Xm = _WinAPI_GetDeviceCaps($hRef, 4 )
-		$Ym = _WinAPI_GetDeviceCaps($hRef, 6 )
+		$Xm = _WinAPI_GetDeviceCaps($hRef, 4)
+		$Ym = _WinAPI_GetDeviceCaps($hRef, 6)
 		If $hRef Then
 			_WinAPI_ReleaseDC(0, $hRef)
 		EndIf
@@ -5793,7 +5793,7 @@ EndFunc   ;==>_WinAPI_CreatePoint
 
 Func _WinAPI_CreatePolygonRgn(Const ByRef $aPoint, $iStart = 0, $iEnd = -1, $iMode = 1)
 
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
@@ -5833,7 +5833,7 @@ EndFunc   ;==>_WinAPI_CreatePolygonRgn
 ; Description....: Creates a new process and its primary thread in the security context of the specified token.
 ; Syntax.........: _WinAPI_CreateProcessWithToken ( $sApp, $sCmd, $iFlags, $pStartupInfo, $pProcessInfo, $hToken [, $iLogon [, $pEnvironment [, $sDir]]] )
 ; Parameters.....: $sApp         - The name of the module to be executed. If this parameter is an empty string, the module name must
-;                                  be the first white space¨Cdelimited token in the command line string.
+;                                  be the first white space–delimited token in the command line string.
 ;                  $sCmd         - The command line to be executed. If this parameter is an empty string, the function uses the
 ;                                  module name as the command line.
 ;                  $iFlags       - The flags that control how the process is created. The $CREATE_DEFAULT_ERROR_MODE, $CREATE_NEW_CONSOLE,
@@ -6236,8 +6236,8 @@ Func _WinAPI_CreateTransform($nM11 = 1, $nM12 = 0, $nM21 = 0, $nM22 = 1, $nDx = 
 	DllStructSetData($tXFORM, 2, $nM12)
 	DllStructSetData($tXFORM, 3, $nM21)
 	DllStructSetData($tXFORM, 4, $nM22)
-	DllStructSetData($tXFORM, 5, $nDX)
-	DllStructSetData($tXFORM, 6, $nDY)
+	DllStructSetData($tXFORM, 5, $nDx)
+	DllStructSetData($tXFORM, 6, $nDy)
 
 	Return $tXFORM
 EndFunc   ;==>_WinAPI_CreateTransform
@@ -6413,7 +6413,7 @@ EndFunc   ;==>_WinAPI_DecryptFile
 
 Func _WinAPI_DeferWindowPos($hInfo, $hWnd, $hAfter, $iX, $iY, $iWidth, $iHeight, $iFlags)
 
-    Local $Ret = DllCall('user32.dll', 'ptr', 'DeferWindowPos', 'ptr', $hInfo, 'hwnd', $hWnd, 'hwnd', $hAfter, 'int', $iX, 'int', $iY, 'int', $iWidth, 'int', $iHeight, 'uint', $iFlags)
+	Local $Ret = DllCall('user32.dll', 'ptr', 'DeferWindowPos', 'ptr', $hInfo, 'hwnd', $hWnd, 'hwnd', $hAfter, 'int', $iX, 'int', $iY, 'int', $iWidth, 'int', $iHeight, 'uint', $iFlags)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -6872,35 +6872,35 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 	Local $Sel[2] = [0, 0]
 	Local $Val[101] = [0]
 	Local $Type[29][2] = _
-		   [['BYTE',      1], _
-			['UBYTE',     1], _
-			['BOOLEAN',   1], _
-			['CHAR',      1], _
-			['WCHAR',     2], _
-			['short',     2], _
-			['USHORT',    2], _
-			['WORD',      2], _
-			['int',       4], _
-			['long',      4], _
-			['BOOL',      4], _
-			['UINT',      4], _
-			['ULONG',     4], _
-			['DWORD',     4], _
-			['INT64',     8], _
-			['UINT64',    8], _
-			['ptr',       __Iif(@AutoItX64, 8, 4)], _
-			['HWND',      __Iif(@AutoItX64, 8, 4)], _
-			['HANDLE',    __Iif(@AutoItX64, 8, 4)], _
-			['float',     4], _
-			['double',    8], _
-			['INT_PTR',   __Iif(@AutoItX64, 8, 4)], _
-			['LONG_PTR',  __Iif(@AutoItX64, 8, 4)], _
-			['LRESULT',   __Iif(@AutoItX64, 8, 4)], _
-			['LPARAM',    __Iif(@AutoItX64, 8, 4)], _
-			['UINT_PTR',  __Iif(@AutoItX64, 8, 4)], _
+			[['BYTE', 1], _
+			['UBYTE', 1], _
+			['BOOLEAN', 1], _
+			['CHAR', 1], _
+			['WCHAR', 2], _
+			['short', 2], _
+			['USHORT', 2], _
+			['WORD', 2], _
+			['int', 4], _
+			['long', 4], _
+			['BOOL', 4], _
+			['UINT', 4], _
+			['ULONG', 4], _
+			['DWORD', 4], _
+			['INT64', 8], _
+			['UINT64', 8], _
+			['ptr', __Iif(@AutoItX64, 8, 4)], _
+			['HWND', __Iif(@AutoItX64, 8, 4)], _
+			['HANDLE', __Iif(@AutoItX64, 8, 4)], _
+			['float', 4], _
+			['double', 8], _
+			['INT_PTR', __Iif(@AutoItX64, 8, 4)], _
+			['LONG_PTR', __Iif(@AutoItX64, 8, 4)], _
+			['LRESULT', __Iif(@AutoItX64, 8, 4)], _
+			['LPARAM', __Iif(@AutoItX64, 8, 4)], _
+			['UINT_PTR', __Iif(@AutoItX64, 8, 4)], _
 			['ULONG_PTR', __Iif(@AutoItX64, 8, 4)], _
 			['DWORD_PTR', __Iif(@AutoItX64, 8, 4)], _
-			['WPARAM',    __Iif(@AutoItX64, 8, 4)]]
+			['WPARAM', __Iif(@AutoItX64, 8, 4)]]
 
 	If $hParent Then
 		GUISetState(@SW_DISABLE, $hParent)
@@ -6932,7 +6932,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 			Case Else
 
 		EndSwitch
-		$Count+= 1
+		$Count += 1
 		$iMode = 1
 		$sItem = $Count & '|'
 		If $aItem[0] > 1 Then
@@ -7116,7 +7116,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 	GUISetState()
 	While 1
 		Switch GUIGetMsg()
-			Case  0
+			Case 0
 				ContinueLoop
 			Case -3
 				ExitLoop
@@ -7128,7 +7128,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 		EndSwitch
 	WEnd
 	If $__Dll Then
-		OnAutoItExitUnregister('__Quit')
+		OnAutoItExitUnRegister('__Quit')
 	EndIf
 	__Quit()
 	If $hParent Then
@@ -7205,12 +7205,12 @@ EndFunc   ;==>_WinAPI_DllGetVersion
 
 Func _WinAPI_DllInstall($sPath)
 
-    Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s ' & $sPath)
+	Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s ' & $sPath)
 
-    If (@error) Or ($Ret) Then
+	If (@error) Or ($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return 1
+	Return 1
 EndFunc   ;==>_WinAPI_DllInstall
 
 ; #FUNCTION# ====================================================================================================================
@@ -7230,12 +7230,12 @@ EndFunc   ;==>_WinAPI_DllInstall
 
 Func _WinAPI_DllUninstall($sPath)
 
-    Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s /u ' & $sPath)
+	Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s /u ' & $sPath)
 
-    If (@error) Or ($Ret) Then
+	If (@error) Or ($Ret) Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return 1
+	Return 1
 EndFunc   ;==>_WinAPI_DllUninstall
 
 ; #FUNCTION# ====================================================================================================================
@@ -7448,7 +7448,7 @@ Func _WinAPI_DrawBitmap($hDC, $iX, $iY, $hBitmap, $iRop = 0x00CC0020)
 
 	Local $Ret, $tObj, $_hDC, $hSrcDC, $hSrcSv
 
-    $tObj = DllStructCreate($tagBITMAP)
+	$tObj = DllStructCreate($tagBITMAP)
 	$Ret = DllCall('gdi32.dll', 'int', 'GetObject', 'int', $hBitmap, 'int', DllStructGetSize($tObj), 'ptr', DllStructGetPtr($tObj))
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -7833,17 +7833,17 @@ EndFunc   ;==>_WinAPI_DuplicateEncryptionInfoFile
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_DuplicateHandle($hProcess, $hSource, $hTarget, $iAccess = 0, $iOptions = 2, $fInherit = 0)
-
+	
+	Func _WinAPI_DuplicateHandle($hProcess, $hSource, $hTarget, $iAccess = 0, $iOptions = 2, $fInherit = 0)
+	
 	Local $Ret = DllCall('kernel32.dll', 'int', 'DuplicateHandle', 'ptr', $hProcess, 'ptr', $hSource, 'ptr', $hTarget, 'ptr*', 0, 'dword', $iAccess, 'int', $fInherit, 'dword', $iOptions)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[4]
-EndFunc   ;==>_WinAPI_DuplicateHandle
-
+	EndFunc   ;==>_WinAPI_DuplicateHandle
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -9845,7 +9845,7 @@ Func _WinAPI_EnumProcessWindows($PID = 0, $fVisible = 1)
 
 	Dim $__Data[101][2] = [[0]]
 	For $i = 1 To $Threads[0]
-		DllCall('user32.dll', 'int', 'EnumThreadWindows', 'dword', $Threads[$i], 'ptr',  DllCallbackGetPtr($hEnumProc), 'lparam', $fVisible)
+		DllCall('user32.dll', 'int', 'EnumThreadWindows', 'dword', $Threads[$i], 'ptr', DllCallbackGetPtr($hEnumProc), 'lparam', $fVisible)
 		If @error Then
 			ExitLoop
 		EndIf
@@ -9899,7 +9899,7 @@ Func _WinAPI_EnumRawInputDevices()
 	Dim $Result[$Ret[2] + 1][2] = [[$Ret[2]]]
 	For $i = 1 To $Ret[2]
 		$tRIDL = DllStructCreate('ptr;dword', $pData + $Length * ($i - 1))
-		For $j = 0 to 1
+		For $j = 0 To 1
 			$Result[$i][$j] = DllStructGetData($tRIDL, $j + 1)
 		Next
 	Next
@@ -10411,13 +10411,13 @@ Func _WinAPI_ExtCreatePen($iPenStyle, $iWidth, $iBrushStyle, $iRGB, $iHatch = 0,
 		Next
 	EndIf
 
-    Local $tLOGBRUSH = DllStructCreate($tagLOGBRUSH)
+	Local $tLOGBRUSH = DllStructCreate($tagLOGBRUSH)
 
 	DllStructSetData($tLOGBRUSH, 1, $iBrushStyle)
 	DllStructSetData($tLOGBRUSH, 2, __RGB($iRGB))
 	DllStructSetData($tLOGBRUSH, 3, $iHatch)
 
-    Local $Ret = DllCall('gdi32.dll', 'ptr', 'ExtCreatePen', 'dword', $iPenStyle, 'dword', $iWidth, 'ptr', DllStructGetPtr($tLOGBRUSH), 'dword', $Count, 'ptr', DllStructGetPtr($tStyle))
+	Local $Ret = DllCall('gdi32.dll', 'ptr', 'ExtCreatePen', 'dword', $iPenStyle, 'dword', $iWidth, 'ptr', DllStructGetPtr($tLOGBRUSH), 'dword', $Count, 'ptr', DllStructGetPtr($tStyle))
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -10739,17 +10739,17 @@ EndFunc   ;==>_WinAPI_FillPath
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_FillRect($hDC, $tRECT, $hBrush)
-
+	
+	Func _WinAPI_FillRect($hDC, $tRECT, $hBrush)
+	
 	Local $Ret = DllCall('user32.dll', 'int', 'FillRect', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tRECT), 'ptr', $hBrush)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_FillRect
-
+	EndFunc   ;==>_WinAPI_FillRect
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -11431,7 +11431,7 @@ EndFunc   ;==>_WinAPI_FlushViewOfFile
 ; Author.........: Yashied
 ; Modified.......:
 ; Remarks........: The format is controlled by the dialog interface. That is, the user must click the OK button to actually begin the
-;                  format¡ªthe format cannot be started programmatically.
+;                  format—the format cannot be started programmatically.
 ; Related........:
 ; Link...........: @@MsdnLink@@ SHFormatDrive
 ; Example........: Yes
@@ -11482,17 +11482,17 @@ EndFunc   ;==>_WinAPI_FormatDriveDlg
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_FrameRect($hDC, $tRECT, $hBrush)
-
+	
+	Func _WinAPI_FrameRect($hDC, $tRECT, $hBrush)
+	
 	Local $Ret = DllCall('user32.dll', 'int', 'FrameRect', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tRECT), 'ptr', $hBrush)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_FrameRect
-
+	EndFunc   ;==>_WinAPI_FrameRect
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -11787,17 +11787,17 @@ EndFunc   ;==>_WinAPI_GetArcDirection
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_GetAsyncKeyState($vKey)
-
+	
+	Func _WinAPI_GetAsyncKeyState($vKey)
+	
 	Local $Ret = DllCall('user32.dll', 'short', 'GetAsyncKeyState', 'int', $vKey)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return BitAND($Ret[0], 0x8001)
-EndFunc   ;==>_WinAPI_GetAsyncKeyState
-
+	EndFunc   ;==>_WinAPI_GetAsyncKeyState
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -11874,7 +11874,7 @@ EndFunc   ;==>_WinAPI_GetBitmapBits
 
 Func _WinAPI_GetBitmapDimension($hBitmap)
 
-    Local $tObj = DllStructCreate($tagBITMAP)
+	Local $tObj = DllStructCreate($tagBITMAP)
 	Local $Ret = DllCall('gdi32.dll', 'int', 'GetObject', 'int', $hBitmap, 'int', DllStructGetSize($tObj), 'ptr', DllStructGetPtr($tObj))
 
 	If (@error) Or (Not $Ret[0]) Then
@@ -12698,7 +12698,7 @@ EndFunc   ;==>_WinAPI_GetCurrentHwProfile
 
 Func _WinAPI_GetCurrentObject($hDC, $iType)
 
-	Local $Ret  = DllCall('gdi32.dll', 'ptr', 'GetCurrentObject', 'hwnd', $hDC, 'uint', $iType)
+	Local $Ret = DllCall('gdi32.dll', 'ptr', 'GetCurrentObject', 'hwnd', $hDC, 'uint', $iType)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -12895,10 +12895,10 @@ Func _WinAPI_GetDateFormat($LCID = 0, $tSYSTEMTIME = 0, $iFlags = 0, $sFormat = 
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetDateFormatW', 'ulong', $LCID, 'dword', $iFlags, 'ptr', DllStructGetPtr($tSYSTEMTIME), $TypeOfFormat, $sFormat, 'wstr', '', 'int', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[5]
+	Return $Ret[5]
 EndFunc   ;==>_WinAPI_GetDateFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -12967,10 +12967,10 @@ Func _WinAPI_GetDefaultPrinter()
 
 	Local $Ret = DllCall('winspool.drv', 'int', 'GetDefaultPrinterW', 'wstr', '', 'dword*', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1 + (_WinAPI_GetLastError() = 2), 0, '')
 	EndIf
-    Return $Ret[1]
+	Return $Ret[1]
 EndFunc   ;==>_WinAPI_GetDefaultPrinter
 
 ; #FUNCTION# ====================================================================================================================
@@ -13085,7 +13085,7 @@ Func _WinAPI_GetDeviceGammaRamp($hDC, ByRef $aRamp)
 
 	Dim $aRamp[256][3]
 
-	For $i = 0 to 2
+	For $i = 0 To 2
 		For $j = 0 To 255
 			$aRamp[$j][$i] = DllStructGetData($tData, $i + 1, $j + 1)
 		Next
@@ -13423,10 +13423,10 @@ Func _WinAPI_GetDurationFormat($LCID, $iDuration, $sFormat = '')
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetDurationFormat', 'ulong', $LCID, 'dword', 0, 'ptr', $pST, 'uint64', $Val, $TypeOfFormat, $sFormat, 'wstr', '', 'int', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[6]
+	Return $Ret[6]
 EndFunc   ;==>_WinAPI_GetDurationFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -13904,12 +13904,12 @@ Func _WinAPI_GetFileSizeOnDisk($sFile)
 		Return SetError(1, 0, 0)
 	EndIf
 
-    Local $Ret = DllCall('kernel32.dll', 'int', 'GetDiskFreeSpaceW', 'wstr', _WinAPI_PathStripToRoot(_WinAPI_GetFullPathName($sFile)), 'dword*', 0, 'dword*', 0, 'dword*', 0, 'dword*', 0)
+	Local $Ret = DllCall('kernel32.dll', 'int', 'GetDiskFreeSpaceW', 'wstr', _WinAPI_PathStripToRoot(_WinAPI_GetFullPathName($sFile)), 'dword*', 0, 'dword*', 0, 'dword*', 0, 'dword*', 0)
 
-    If (@error) Or (Not $Ret[0]) Then
-        Return SetError(1, 0, 0)
-    EndIf
-    Return Ceiling($Size / ($Ret[2] * $Ret[3])) * ($Ret[2] * $Ret[3])
+	If (@error) Or (Not $Ret[0]) Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return Ceiling($Size / ($Ret[2] * $Ret[3])) * ($Ret[2] * $Ret[3])
 EndFunc   ;==>_WinAPI_GetFileSizeOnDisk
 
 ; #FUNCTION# ====================================================================================================================
@@ -14157,17 +14157,17 @@ EndFunc   ;==>_WinAPI_GetFontResourceInfo
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_GetForegroundWindow()
-
+	
+	Func _WinAPI_GetForegroundWindow()
+	
 	Local $Ret = DllCall('user32.dll', 'hwnd', 'GetForegroundWindow')
-
+	
 	If @error Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>_WinAPI_GetForegroundWindow
-
+	EndFunc   ;==>_WinAPI_GetForegroundWindow
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -14255,12 +14255,12 @@ EndFunc   ;==>_WinAPI_GetFullPathName
 
 Func _WinAPI_GetGeoInfo($GEOID, $iType, $iLanguage = 0)
 
-    Local $Ret = DllCall('kernel32.dll', 'int', 'GetGeoInfoW', 'long', $GEOID, 'uint', $iType, 'wstr', '', 'int', 4096, 'ushort', $iLanguage)
+	Local $Ret = DllCall('kernel32.dll', 'int', 'GetGeoInfoW', 'long', $GEOID, 'uint', $iType, 'wstr', '', 'int', 4096, 'ushort', $iLanguage)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[3]
+	Return $Ret[3]
 EndFunc   ;==>_WinAPI_GetGeoInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -14328,7 +14328,7 @@ Func _WinAPI_GetGlyphOutline($hDC, $sChar, $iFormat, ByRef $pBuffer, $tMAT2 = 0)
 				Return SetError(1, 0, 0)
 			EndIf
 			$Length = $Ret[0]
-			$pBuffer = __HeapReAlloc($pBuffer,  $Length, 1)
+			$pBuffer = __HeapReAlloc($pBuffer, $Length, 1)
 			If @error Then
 				Return SetError(9, 0, 0)
 			EndIf
@@ -14854,24 +14854,24 @@ EndFunc   ;==>_WinAPI_GetLastActivePopup
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_GetLayeredWindowAttributes($hWnd)
-
+	
+	Func _WinAPI_GetLayeredWindowAttributes($hWnd)
+	
 	Local $Ret = DllCall('user32.dll', 'int', 'GetLayeredWindowAttributes', 'hwnd', $hWnd, 'long*', 0, 'byte*', 0, 'long*', 0)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
-
+	
 	Local $Result[3]
-
+	
 	$Result[0] = __RGB($Ret[2])
 	$Result[1] = $Ret[3]
 	$Result[2] = $Ret[4]
-
+	
 	Return $Result
-EndFunc   ;==>_WinAPI_GetLayeredWindowAttributes
-
+	EndFunc   ;==>_WinAPI_GetLayeredWindowAttributes
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -14905,10 +14905,10 @@ Func _WinAPI_GetLocaleInfo($LCID, $iType)
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetLocaleInfoW', 'ulong', $LCID, 'dword', $iType, 'wstr', '', 'int', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[3]
+	Return $Ret[3]
 EndFunc   ;==>_WinAPI_GetLocaleInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -15210,10 +15210,10 @@ Func _WinAPI_GetNumberFormat($LCID, $sNumber, $tNUMBERFMT = 0)
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetNumberFormatW', 'ulong', $LCID, 'dword', 0, 'wstr', $sNumber, 'ptr', DllStructGetPtr($tNUMBERFMT), 'wstr', '', 'int', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[5]
+	Return $Ret[5]
 EndFunc   ;==>_WinAPI_GetNumberFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -15355,7 +15355,7 @@ EndFunc   ;==>_WinAPI_GetObjectNameByHandle
 
 Func _WinAPI_GetObjectType($hObject)
 
-	Local $Ret  = DllCall('gdi32.dll', 'dword', 'GetObjectType', 'ptr', $hObject)
+	Local $Ret = DllCall('gdi32.dll', 'dword', 'GetObjectType', 'ptr', $hObject)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -15386,9 +15386,9 @@ Func _WinAPI_GetOutlineTextMetrics($hDC)
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
-;	$tOLTM = DllStructCreate($tagOUTLINETEXTMETRIC)
+	;	$tOLTM = DllStructCreate($tagOUTLINETEXTMETRIC)
 	$tOLTM = DllStructCreate('uint otmSize;long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet;byte otmFiller[4];' & $tagPANOSE & 'uint otmSelection;uint otmType;int otmCharSlopeRise;int otmCharSlopeRun;int otmItalicAngle;uint otmEMSquare;int otmAscent;int otmDescent;uint otmLineGap;uint otmCapEmHeight;uint otmXHeight;long otmFontBox[4];int otmMacAscent;int otmMacDescent;uint otmMacLineGap;uint otmMinimumPPEM;long otmSubscriptSize[2];long otmSubscriptOffset[2];long otmSuperscriptSize[2];long otmSuperscriptOffset[2];uint otmStrikeoutSize;int otmStrikeoutPosition;int otmUnderscoreSize;int otmUnderscorePosition;uint_ptr otmFamilyName;uint_ptr otmFaceName;uint_ptr otmStyleName;uint_ptr otmFullName')
-;	$tOLTM = DllStructCreate($tagOUTLINETEXTMETRIC & 'byte[' & ($Ret[0] - DllStructGetSize($tOLTM)) & ']')
+	;	$tOLTM = DllStructCreate($tagOUTLINETEXTMETRIC & 'byte[' & ($Ret[0] - DllStructGetSize($tOLTM)) & ']')
 	$tOLTM = DllStructCreate('uint otmSize;long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet;byte otmFiller[4];' & $tagPANOSE & 'uint otmSelection;uint otmType;int otmCharSlopeRise;int otmCharSlopeRun;int otmItalicAngle;uint otmEMSquare;int otmAscent;int otmDescent;uint otmLineGap;uint otmCapEmHeight;uint otmXHeight;long otmFontBox[4];int otmMacAscent;int otmMacDescent;uint otmMacLineGap;uint otmMinimumPPEM;long otmSubscriptSize[2];long otmSubscriptOffset[2];long otmSuperscriptSize[2];long otmSuperscriptOffset[2];uint otmStrikeoutSize;int otmStrikeoutPosition;int otmUnderscoreSize;int otmUnderscorePosition;uint_ptr otmFamilyName;uint_ptr otmFaceName;uint_ptr otmStyleName;uint_ptr otmFullName;byte[' & ($Ret[0] - DllStructGetSize($tOLTM)) & ']')
 	$Ret = DllCall('gdi32.dll', 'uint', 'GetOutlineTextMetricsW', 'hwnd', $hDC, 'uint', $Ret[0], 'ptr', DllStructGetPtr($tOLTM))
 	If (@error) Or (Not $Ret[0]) Then
@@ -15673,17 +15673,17 @@ EndFunc   ;==>_WinAPI_GetPriorityClass
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_GetProcAddress($hModule, $sProc)
-
+	
+	Func _WinAPI_GetProcAddress($hModule, $sProc)
+	
 	Local $Ret = DllCall('kernel32.dll', 'ptr', 'GetProcAddress', 'ptr', $hModule, 'str', $sProc)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>_WinAPI_GetProcAddress
-
+	EndFunc   ;==>_WinAPI_GetProcAddress
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -16334,14 +16334,14 @@ Func _WinAPI_GetPwrCapabilities()
 
 	Local $Result[25]
 
-	For $i =  0 to 17
+	For $i = 0 To 17
 		$Result[$i] = DllStructGetData($tSPC, 1, $i + 1)
 	Next
 	$Result[18] = DllStructGetData($tSPC, 3)
-	For $i = 19 to 20
+	For $i = 19 To 20
 		$Result[$i] = DllStructGetData($tSPC, 5, $i - 18)
 	Next
-	For $i = 21 to 24
+	For $i = 21 To 24
 		$Result[$i] = DllStructGetData($tSPC, 7, $i - 20)
 	Next
 	Return $Result
@@ -16727,7 +16727,7 @@ EndFunc   ;==>_WinAPI_GetStartupInfo
 
 Func _WinAPI_GetStretchBltMode($hDC)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'GetStretchBltMode', 'hwnd', $hDC)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'GetStretchBltMode', 'hwnd', $hDC)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -16789,12 +16789,12 @@ EndFunc   ;==>_WinAPI_GetString
 
 Func _WinAPI_GetSystemDefaultLangID()
 
-    Local $Ret = DllCall('kernel32.dll', 'ushort', 'GetSystemDefaultLangID')
+	Local $Ret = DllCall('kernel32.dll', 'ushort', 'GetSystemDefaultLangID')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetSystemDefaultLangID
 
 ; #FUNCTION# ====================================================================================================================
@@ -16814,12 +16814,12 @@ EndFunc   ;==>_WinAPI_GetSystemDefaultLangID
 
 Func _WinAPI_GetSystemDefaultLCID()
 
-    Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetSystemDefaultLCID')
+	Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetSystemDefaultLCID')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetSystemDefaultLCID
 
 ; #FUNCTION# ====================================================================================================================
@@ -16964,8 +16964,8 @@ EndFunc   ;==>_WinAPI_GetSystemInfo
 ;                                  128 - No system battery
 ;                                  255 - Unknown status - unable to read the battery flag information
 ;                            [2] - The percentage of full battery charge remaining. This member can be a value in the range 0 to 100, or 255 if status is unknown.
-;                            [3] - The number of seconds of battery life remaining, or (¨C1) if remaining seconds are unknown.
-;                            [4] - The number of seconds of battery life when at full charge, or (¨C1) if full battery lifetime is unknown.
+;                            [3] - The number of seconds of battery life remaining, or (–1) if remaining seconds are unknown.
+;                            [4] - The number of seconds of battery life when at full charge, or (–1) if full battery lifetime is unknown.
 ;
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
@@ -17206,19 +17206,19 @@ EndFunc   ;==>_WinAPI_GetTextFace
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_GetTextMetrics($hDC)
-
-;	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
+	
+	Func _WinAPI_GetTextMetrics($hDC)
+	
+	;	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
 	Local $tTEXTMETRIC = DllStructCreate('long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet')
 	Local $Ret = DllCall('gdi32.dll', 'int', 'GetTextMetricsW', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tTEXTMETRIC))
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return $tTEXTMETRIC
-EndFunc   ;==>_WinAPI_GetTextMetrics
-
+	EndFunc   ;==>_WinAPI_GetTextMetrics
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -17347,7 +17347,7 @@ Func _WinAPI_GetThemeBackgroundRegion($hTheme, $iPartId, $iStateId, $hDC, $tRECT
 		EndIf
 	EndIf
 	Return $Ret[6]
-EndFunc   ;==>_WinAPI_GetThemeBackgroundExtent
+EndFunc   ;==>_WinAPI_GetThemeBackgroundRegion
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetThemeBitmap
@@ -18235,7 +18235,7 @@ EndFunc   ;==>_WinAPI_GetThemeTextExtent
 
 Func _WinAPI_GetThemeTextMetrics($hTheme, $iPartId, $iStateId, $hDC = 0)
 
-;	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
+	;	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
 	Local $tTEXTMETRIC = DllStructCreate('long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;byte tmPitchAndFamily;byte tmCharSet')
 	Local $Ret = DllCall('uxtheme.dll', 'uint', 'GetThemeTextMetrics', 'ptr', $hTheme, 'hwnd', $hDC, 'int', $iPartId, 'int', $iStateId, 'ptr', DllStructGetPtr($tTEXTMETRIC))
 
@@ -18403,10 +18403,10 @@ Func _WinAPI_GetTickCount()
 
 	Local $Ret = DllCall('kernel32.dll', 'dword', 'GetTickCount')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetTickCount
 
 ; #FUNCTION# ====================================================================================================================
@@ -18428,10 +18428,10 @@ Func _WinAPI_GetTickCount64()
 
 	Local $Ret = DllCall('kernel32.dll', 'uint64', 'GetTickCount64')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetTickCount64
 
 ; #FUNCTION# ====================================================================================================================
@@ -18487,10 +18487,10 @@ Func _WinAPI_GetTimeFormat($LCID = 0, $tSYSTEMTIME = 0, $iFlags = 0, $sFormat = 
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'GetTimeFormatW', 'ulong', $LCID, 'dword', $iFlags, 'ptr', DllStructGetPtr($tSYSTEMTIME), $TypeOfFormat, $sFormat, 'wstr', '', 'int', 2048)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, '')
 	EndIf
-    Return $Ret[5]
+	Return $Ret[5]
 EndFunc   ;==>_WinAPI_GetTimeFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -18641,12 +18641,12 @@ EndFunc   ;==>_WinAPI_GetUpdateRgn
 
 Func _WinAPI_GetUserDefaultLangID()
 
-    Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetUserDefaultLangID')
+	Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetUserDefaultLangID')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetUserDefaultLangID
 
 ; #FUNCTION# ====================================================================================================================
@@ -18666,12 +18666,12 @@ EndFunc   ;==>_WinAPI_GetUserDefaultLangID
 
 Func _WinAPI_GetUserDefaultLCID()
 
-    Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetUserDefaultLCID')
+	Local $Ret = DllCall('kernel32.dll', 'ulong', 'GetUserDefaultLCID')
 
-    If @error Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetUserDefaultLCID
 
 ; #FUNCTION# ====================================================================================================================
@@ -18717,12 +18717,12 @@ EndFunc   ;==>_WinAPI_GetUserDefaultUILanguage
 
 Func _WinAPI_GetUserGeoID()
 
-    Local $Ret = DllCall('kernel32.dll', 'long', 'GetUserGeoID', 'uint', 16)
+	Local $Ret = DllCall('kernel32.dll', 'long', 'GetUserGeoID', 'uint', 16)
 
-    If (@error) Or ($Ret[0] = -1) Then
+	If (@error) Or ($Ret[0] = -1) Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_GetUserGeoID
 
 ; #FUNCTION# ====================================================================================================================
@@ -19339,7 +19339,7 @@ EndFunc   ;==>_WinAPI_GetWorldTransform
 
 Func _WinAPI_GradientFill($hDC, Const ByRef $aVertex, $iStart = 0, $iEnd = -1, $fRotate = 0)
 
-	If UBound($aVertex, 2) < 3  Then
+	If UBound($aVertex, 2) < 3 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
@@ -19423,7 +19423,7 @@ Func _WinAPI_HashData($pMemory, $iSize, $iLength = 32)
 		Return SetError(1, 0, 0)
 	EndIf
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'HashData', 'ptr', $pMemory, 'dword', $iSize, 'ptr', DllStructGetPtr($tData), 'dword', $iLength)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'HashData', 'ptr', $pMemory, 'dword', $iSize, 'ptr', DllStructGetPtr($tData), 'dword', $iLength)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -19432,7 +19432,7 @@ Func _WinAPI_HashData($pMemory, $iSize, $iLength = 32)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return DllStructGetData($tData, 1)
+	Return DllStructGetData($tData, 1)
 EndFunc   ;==>_WinAPI_HashData
 
 ; #FUNCTION# ====================================================================================================================
@@ -19473,7 +19473,7 @@ Func _WinAPI_HashString($sString, $fCaseSensitive = 1, $iLength = 32)
 	If @error Then
 		Return SetError(1, @extended, 0)
 	EndIf
-    Return $Hash
+	Return $Hash
 EndFunc   ;==>_WinAPI_HashString
 
 ; #FUNCTION# ====================================================================================================================
@@ -19714,17 +19714,17 @@ EndFunc   ;==>_WinAPI_IntToDWord
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_InvalidateRect($hWnd, $tRECT = 0, $fErase = 1)
-
+	
+	Func _WinAPI_InvalidateRect($hWnd, $tRECT = 0, $fErase = 1)
+	
 	Local $Ret = DllCall('user32.dll', 'int', 'InvalidateRect', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tRECT), 'int', $fErase)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_InvalidateRect
-
+	EndFunc   ;==>_WinAPI_InvalidateRect
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -19969,7 +19969,7 @@ Func _WinAPI_IsBadCodePtr($pAddress)
 		Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>IsBadCodePtr
+EndFunc   ;==>_WinAPI_IsBadCodePtr
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_IsBadReadPtr
@@ -21265,7 +21265,7 @@ Func _WinAPI_LoadStringEx($hModule, $ID, $iLanguage = 0x0400)
 		Next
 		$Result = DllStructGetData(DllStructCreate('ushort;wchar[' & DllStructGetData(DllStructCreate('ushort', $pData + $Offset), 1) & ']', $pData + $Offset), 2)
 		If @error Then
-			$Result  = ''
+			$Result = ''
 		EndIf
 	EndIf
 	If $Library Then
@@ -22159,7 +22159,7 @@ EndFunc   ;==>_WinAPI_OffsetClipRgn
 ; ===============================================================================================================================
 
 Func _WinAPI_OffsetPoints(ByRef $aPoint, $iXOffset, $iYOffset, $iStart = 0, $iEnd = -1)
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 	If $iStart < 0 Then
@@ -22858,7 +22858,7 @@ Func _WinAPI_ParseURL($sUrl)
 	DllStructSetData($tPURL, 1, DllStructGetPtr($tPURL, 7) - DllStructGetPtr($tPURL))
 	DllStructSetData($tPURL, 7, $sUrl)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'ParseURLW', 'ptr', DllStructGetPtr($tPURL, 7), 'ptr', DllStructGetPtr($tPURL))
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'ParseURLW', 'ptr', DllStructGetPtr($tPURL, 7), 'ptr', DllStructGetPtr($tPURL))
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -22874,7 +22874,7 @@ Func _WinAPI_ParseURL($sUrl)
 	$Result[1] = DllStructGetData(DllStructCreate('wchar[' & DllStructGetData($tPURL, 5) & ']', DllStructGetData($tPURL, 4)), 1)
 	$Result[2] = DllStructGetData($tPURL, 6)
 
-    Return $Result
+	Return $Result
 EndFunc   ;==>_WinAPI_ParseURL
 
 ; #FUNCTION# ====================================================================================================================
@@ -22959,7 +22959,7 @@ EndFunc   ;==>_WinAPI_ParseUserName
 
 Func _WinAPI_PatBlt($hDC, $iX, $iY, $iWidth, $iHeight, $iRop)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'PatBlt', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'int', $iWidth, 'int', $iHeight, 'dword', $iRop)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PatBlt', 'hwnd', $hDC, 'int', $iX, 'int', $iY, 'int', $iWidth, 'int', $iHeight, 'dword', $iRop)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -23130,12 +23130,12 @@ EndFunc   ;==>_WinAPI_PathCanonicalize
 
 Func _WinAPI_PathCommonPrefix($sPath1, $sPath2)
 
-    Local $Ret = DllCall('shlwapi.dll', 'int', 'PathCommonPrefixW', 'wstr', $sPath1, 'wstr', $sPath2, 'wstr', '')
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'PathCommonPrefixW', 'wstr', $sPath1, 'wstr', $sPath2, 'wstr', '')
 
-    If @error Then
-        Return SetError(1, 0, '')
-    EndIf
-    Return SetError(0, $Ret[0], $Ret[3])
+	If @error Then
+		Return SetError(1, 0, '')
+	EndIf
+	Return SetError(0, $Ret[0], $Ret[3])
 EndFunc   ;==>_WinAPI_PathCommonPrefix
 
 ; #FUNCTION# ====================================================================================================================
@@ -23226,7 +23226,7 @@ EndFunc   ;==>_WinAPI_PathCompactPathEx
 
 Func _WinAPI_PathCreateFromUrl($sUrl)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'PathCreateFromUrlW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', 0)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'PathCreateFromUrlW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', 0)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -23235,7 +23235,7 @@ Func _WinAPI_PathCreateFromUrl($sUrl)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_PathCreateFromUrl
 
 ; #FUNCTION# ====================================================================================================================
@@ -23345,42 +23345,42 @@ EndFunc   ;==>_WinAPI_PathFindNextComponent
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_PathFindOnPath($sFile, $aDirs = 0, $iStart = 0, $iEnd = -1)
-
+	
+	Func _WinAPI_PathFindOnPath($sFile, $aDirs = 0, $iStart = 0, $iEnd = -1)
+	
 	Local $Count, $tPtrs = 0, $tDirs, $sDirs = ''
-
+	
 	If IsArray($aDirs) Then
-		If $iStart < 0 Then
-			$iStart = 0
-		EndIf
-		If ($iEnd < 0) Or ($iEnd > UBound($aDirs) - 1) Then
-			$iEnd = UBound($aDirs) - 1
-		EndIf
-		For $i = $iStart To $iEnd
-			$sDirs &= 'wchar[' & (StringLen($aDirs[$i]) + 1) & '];'
-		Next
-		$tDirs = DllStructCreate($sDirs)
-		If Not @error Then
-			$tPtrs = DllStructCreate('ptr[' & ($iEnd - $iStart + 2) & ']')
-			$Count = 1
-			For $i = $iStart To $iEnd
-				DllStructSetData($tDirs, $Count, $aDirs[$i])
-				DllStructSetData($tPtrs, 1, DllStructGetPtr($tDirs, $Count), $Count)
-				$Count += 1
-			Next
-			DllStructSetData($tPtrs, 1, 0, $Count)
-		EndIf
+	If $iStart < 0 Then
+	$iStart = 0
 	EndIf
-
+	If ($iEnd < 0) Or ($iEnd > UBound($aDirs) - 1) Then
+	$iEnd = UBound($aDirs) - 1
+	EndIf
+	For $i = $iStart To $iEnd
+	$sDirs &= 'wchar[' & (StringLen($aDirs[$i]) + 1) & '];'
+	Next
+	$tDirs = DllStructCreate($sDirs)
+	If Not @error Then
+	$tPtrs = DllStructCreate('ptr[' & ($iEnd - $iStart + 2) & ']')
+	$Count = 1
+	For $i = $iStart To $iEnd
+	DllStructSetData($tDirs, $Count, $aDirs[$i])
+	DllStructSetData($tPtrs, 1, DllStructGetPtr($tDirs, $Count), $Count)
+	$Count += 1
+	Next
+	DllStructSetData($tPtrs, 1, 0, $Count)
+	EndIf
+	EndIf
+	
 	Local $Ret = DllCall('shlwapi.dll', 'int', 'PathFindOnPathW', 'wstr', $sFile, 'ptr', DllStructGetPtr($tPtrs))
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, $sFile)
+	Return SetError(1, 0, $sFile)
 	EndIf
 	Return $Ret[1]
-EndFunc   ;==>_WinAPI_PathFindOnPath
-
+	EndFunc   ;==>_WinAPI_PathFindOnPath
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -23493,12 +23493,12 @@ EndFunc   ;==>_WinAPI_PathGetDriveNumber
 
 Func _WinAPI_PathIsContentType($sPath, $sType)
 
-    Local $Ret = DllCall('shlwapi.dll', 'int', 'PathIsContentTypeW', 'wstr', $sPath, 'wstr', $sType)
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'PathIsContentTypeW', 'wstr', $sPath, 'wstr', $sType)
 
-    If @error Then
-        Return SetError(1, 0, 0)
-    EndIf
-    Return $Ret[0]
+	If @error Then
+		Return SetError(1, 0, 0)
+	EndIf
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_PathIsContentType
 
 ; #FUNCTION# ====================================================================================================================
@@ -24576,11 +24576,11 @@ EndFunc   ;==>_WinAPI_PlgBlt
 
 Func _WinAPI_PolyBezier($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
-	Local $Point, $tPoint, $Count = 0, $Struct = ''
+	Local $Point, $tPOINT, $Count = 0, $Struct = ''
 
 	If $iStart < 0 Then
 		$iStart = 0
@@ -24596,18 +24596,18 @@ Func _WinAPI_PolyBezier($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 	For $i = $iStart To $iEnd
 		$Struct &= 'long[2];'
 	Next
-	$tPoint = DllStructCreate($Struct)
+	$tPOINT = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
 	For $i = $iStart To $iEnd
 		$Count += 1
 		For $j = 0 To 1
-			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+			DllStructSetData($tPOINT, $Count, $aPoint[$i][$j], $j + 1)
 		Next
 	Next
 
-	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezier', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'dword', $Point)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezier', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPOINT), 'dword', $Point)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -24644,11 +24644,11 @@ EndFunc   ;==>_WinAPI_PolyBezier
 
 Func _WinAPI_PolyBezierTo($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
-	Local $Point, $tPoint, $Count = 0, $Struct = ''
+	Local $Point, $tPOINT, $Count = 0, $Struct = ''
 
 	If $iStart < 0 Then
 		$iStart = 0
@@ -24664,18 +24664,18 @@ Func _WinAPI_PolyBezierTo($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 	For $i = $iStart To $iEnd
 		$Struct &= 'long[2];'
 	Next
-	$tPoint = DllStructCreate($Struct)
+	$tPOINT = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
 	For $i = $iStart To $iEnd
 		$Count += 1
 		For $j = 0 To 1
-			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+			DllStructSetData($tPOINT, $Count, $aPoint[$i][$j], $j + 1)
 		Next
 	Next
 
-	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezierTo', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'dword', $Point)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyBezierTo', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPOINT), 'dword', $Point)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -24720,11 +24720,11 @@ EndFunc   ;==>_WinAPI_PolyBezierTo
 
 Func _WinAPI_PolyDraw($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 
-	If UBound($aPoint, 2) < 3  Then
+	If UBound($aPoint, 2) < 3 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
-	Local $Point, $tPoint, $tTypes, $Count = 0, $Struct = ''
+	Local $Point, $tPOINT, $tTypes, $Count = 0, $Struct = ''
 
 	If $iStart < 0 Then
 		$iStart = 0
@@ -24739,7 +24739,7 @@ Func _WinAPI_PolyDraw($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 	For $i = $iStart To $iEnd
 		$Struct &= 'long[2];'
 	Next
-	$tPoint = DllStructCreate($Struct)
+	$tPOINT = DllStructCreate($Struct)
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -24750,12 +24750,12 @@ Func _WinAPI_PolyDraw($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 	For $i = $iStart To $iEnd
 		$Count += 1
 		For $j = 0 To 1
-			DllStructSetData($tPoint, $Count, $aPoint[$i][$j], $j + 1)
+			DllStructSetData($tPOINT, $Count, $aPoint[$i][$j], $j + 1)
 		Next
 		DllStructSetData($tTypes, 1, $aPoint[$i][2], $Count)
 	Next
 
-	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyDraw', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPoint), 'ptr', DllStructGetPtr($tTypes), 'dword', $Point)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'PolyDraw', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tPOINT), 'ptr', DllStructGetPtr($tTypes), 'dword', $Point)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -24784,7 +24784,7 @@ EndFunc   ;==>_WinAPI_PolyDraw
 
 Func _WinAPI_Polygon($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
@@ -26244,7 +26244,7 @@ Func _WinAPI_RegisterPowerSettingNotification($hWnd, $GUID)
 	If (@error) Or ($Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
-	$Ret  = DllCall('user32.dll', 'ptr', 'RegisterPowerSettingNotification', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tGUID), 'dword', 0)
+	$Ret = DllCall('user32.dll', 'ptr', 'RegisterPowerSettingNotification', 'hwnd', $hWnd, 'ptr', DllStructGetPtr($tGUID), 'dword', 0)
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
@@ -26600,7 +26600,7 @@ Func _WinAPI_RegQueryMultipleValues($hKey, ByRef $aValent, ByRef $pBuffer, $iSta
 
 	$pBuffer = 0
 
-	If UBound($aValent, 2) < 4  Then
+	If UBound($aValent, 2) < 4 Then
 		Return SetError(2, 0, 0)
 	EndIf
 
@@ -27440,7 +27440,7 @@ EndFunc   ;==>_WinAPI_RestartDlg
 
 Func _WinAPI_RestoreDC($hDC, $ID)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'RestoreDC', 'hwnd', $hDC, 'int', $ID)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'RestoreDC', 'hwnd', $hDC, 'int', $ID)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -27490,7 +27490,7 @@ EndFunc   ;==>_WinAPI_RGB
 ; ===============================================================================================================================
 
 Func _WinAPI_RotatePoints(ByRef $aPoint, $iXC, $iYC, $iAngle, $iStart = 0, $iEnd = -1)
-	If UBound($aPoint, 2) < 2  Then
+	If UBound($aPoint, 2) < 2 Then
 		Return SetError(2, 0, 0)
 	EndIf
 	If $iStart < 0 Then
@@ -27561,7 +27561,7 @@ EndFunc   ;==>_WinAPI_RoundRect
 
 Func _WinAPI_SaveDC($hDC)
 
-	Local $Ret  = DllCall('gdi32.dll', 'ptr', 'SaveDC', 'hwnd', $hDC)
+	Local $Ret = DllCall('gdi32.dll', 'ptr', 'SaveDC', 'hwnd', $hDC)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -27669,7 +27669,7 @@ Func _WinAPI_SaveHBITMAPToFile($sFile, $hBitmap, $iXPelsPerMeter = Default, $iYP
 		$hDC = _WinAPI_GetDC(0)
 		If IsKeyword($iXPelsPerMeter) Then
 			If Not DllStructGetData($tDIB, 'biXPelsPerMeter') Then
-				DllStructSetData($tDIB, 'biXPelsPerMeter', _WinAPI_GetDeviceCaps($hDC,  8) / _WinAPI_GetDeviceCaps($hDC, 4) * 1000)
+				DllStructSetData($tDIB, 'biXPelsPerMeter', _WinAPI_GetDeviceCaps($hDC, 8) / _WinAPI_GetDeviceCaps($hDC, 4) * 1000)
 			EndIf
 		Else
 			DllStructSetData($tDIB, 'biXPelsPerMeter', $iXPelsPerMeter)
@@ -28515,17 +28515,17 @@ EndFunc   ;==>_WinAPI_SetDCPenColor
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_SetDefaultPrinter($sPrinter)
-
+	
+	Func _WinAPI_SetDefaultPrinter($sPrinter)
+	
 	Local $Ret = DllCall('winspool.drv', 'int', 'SetDefaultPrinterW', 'wstr', $sPrinter)
-
-    If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	
+	If (@error) Or (Not $Ret[0]) Then
+	Return SetError(1, 0, 0)
 	EndIf
-    Return 1
-EndFunc   ;==>_WinAPI_SetDefaultPrinter
-
+	Return 1
+	EndFunc   ;==>_WinAPI_SetDefaultPrinter
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -28560,7 +28560,7 @@ Func _WinAPI_SetDeviceGammaRamp($hDC, Const ByRef $aRamp)
 
 	Local $tData = DllStructCreate('ushort[256];ushort[256];ushort[256]')
 
-	For $i = 0 to 2
+	For $i = 0 To 2
 		For $j = 0 To 255
 			DllStructSetData($tData, $i + 1, $aRamp[$j][$i], $j + 1)
 		Next
@@ -28995,17 +28995,17 @@ EndFunc   ;==>_WinAPI_SetGraphicsMode
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_SetHandleInformation($hObject, $iMask, $iFlags)
-
+	
+	Func _WinAPI_SetHandleInformation($hObject, $iMask, $iFlags)
+	
 	Local $Ret = DllCall('kernel32.dll', 'int', 'SetHandleInformation', 'ptr', $hObject, 'dword', $iMask, 'dword', $iFlags)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_SetHandleInformation
-
+	EndFunc   ;==>_WinAPI_SetHandleInformation
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -29312,17 +29312,17 @@ EndFunc   ;==>_WinAPI_SetKeyboardState
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_SetLayeredWindowAttributes($hWnd, $iRGB, $iAlpha, $iFlags)
-
+	
+	Func _WinAPI_SetLayeredWindowAttributes($hWnd, $iRGB, $iAlpha, $iFlags)
+	
 	Local $Ret = DllCall('user32.dll', 'int', 'SetLayeredWindowAttributes', 'hwnd', $hWnd, 'dword', __RGB($iRGB), 'byte', $iAlpha, 'dword', $iFlags)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return 1
-EndFunc   ;==>_WinAPI_SetLayeredWindowAttributes
-
+	EndFunc   ;==>_WinAPI_SetLayeredWindowAttributes
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -29358,10 +29358,10 @@ Func _WinAPI_SetLocaleInfo($LCID, $iType, $sData)
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'SetLocaleInfoW', 'ulong', $LCID, 'dword', $iType, 'wstr', $sData)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return 1
+	Return 1
 EndFunc   ;==>_WinAPI_SetLocaleInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -29443,17 +29443,17 @@ EndFunc   ;==>_WinAPI_SetMessageExtraInfo
 ; ===============================================================================================================================
 
 #cs
-
-Func _WinAPI_SetParent($hWndChild, $hWndParent)
-
+	
+	Func _WinAPI_SetParent($hWndChild, $hWndParent)
+	
 	Local $Ret = DllCall('user32.dll', 'hwnd', 'SetParent', 'hwnd', $hWndChild, 'hwnd', $hWndParent)
-
+	
 	If (@error) Or (Not $Ret[0]) Then
-		Return SetError(1, 0, 0)
+	Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
-EndFunc   ;==>_WinAPI_SetParent
-
+	EndFunc   ;==>_WinAPI_SetParent
+	
 #ce
 
 ; #FUNCTION# ====================================================================================================================
@@ -29736,7 +29736,7 @@ EndFunc   ;==>_WinAPI_SetROP2
 
 Func _WinAPI_SetStretchBltMode($hDC, $iMode)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'SetStretchBltMode', 'hwnd', $hDC, 'int', $iMode)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'SetStretchBltMode', 'hwnd', $hDC, 'int', $iMode)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -30164,12 +30164,12 @@ EndFunc   ;==>_WinAPI_SetUDFColorMode
 
 Func _WinAPI_SetUserGeoID($GEOID)
 
-    Local $Ret = DllCall('kernel32.dll', 'int', 'SetUserGeoID', 'long', $GEOID)
+	Local $Ret = DllCall('kernel32.dll', 'int', 'SetUserGeoID', 'long', $GEOID)
 
-    If (@error) Or (Not $Ret[0]) Then
+	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return 1
+	Return 1
 EndFunc   ;==>_WinAPI_SetUserGeoID
 
 ; #FUNCTION# ====================================================================================================================
@@ -30537,7 +30537,7 @@ EndFunc   ;==>_WinAPI_SetWinEventHook
 ; Example........: Yes
 ; ===============================================================================================================================
 
-Func _WinAPI_SetWorldTransform($hDC, $tXFORM )
+Func _WinAPI_SetWorldTransform($hDC, $tXFORM)
 
 	Local $Ret = DllCall('gdi32.dll', 'int', 'SetWorldTransform', 'hwnd', $hDC, 'ptr', DllStructGetPtr($tXFORM))
 
@@ -31408,28 +31408,28 @@ Func _WinAPI_ShellGetSettings($iFlags)
 	Local $Val2 = DllStructGetData($tSHELLSTATE, 1, 8)
 	Local $Result = 0
 	Local $Opt[20][2] = _
-		[[0x00000001, 0x00000001], _
-		 [0x00000002, 0x00000002], _
-		 [0x00000004, 0x00008000], _
-		 [0x00000008, 0x00000020], _
-		 [0x00000010, 0x00000008], _
-		 [0x00000020, 0x00000080], _
-		 [0x00000040, 0x00000200], _
-		 [0x00000080, 0x00000400], _
-		 [0x00000100, 0x00000800], _
-		 [0x00000400, 0x00001000], _
-		 [0x00000800, 0x00002000], _
-		 [0x00001000, 0x00004000], _
-		 [0x00002000, 0x00020000], _
-		 [0x00008000, 0x00040000], _
-		 [0x00010000, 0x00100000], _
-		 [0x00000001, 0x00080000], _
-		 [0x00000002, 0x00200000], _
-		 [0x00000008, 0x00800000], _
-		 [0x00000010, 0x01000000], _
-		 [0x00000020, 0x02000000]]
+			[[0x00000001, 0x00000001], _
+			[0x00000002, 0x00000002], _
+			[0x00000004, 0x00008000], _
+			[0x00000008, 0x00000020], _
+			[0x00000010, 0x00000008], _
+			[0x00000020, 0x00000080], _
+			[0x00000040, 0x00000200], _
+			[0x00000080, 0x00000400], _
+			[0x00000100, 0x00000800], _
+			[0x00000400, 0x00001000], _
+			[0x00000800, 0x00002000], _
+			[0x00001000, 0x00004000], _
+			[0x00002000, 0x00020000], _
+			[0x00008000, 0x00040000], _
+			[0x00010000, 0x00100000], _
+			[0x00000001, 0x00080000], _
+			[0x00000002, 0x00200000], _
+			[0x00000008, 0x00800000], _
+			[0x00000010, 0x01000000], _
+			[0x00000020, 0x02000000]]
 
-	For $i = 0  To 14
+	For $i = 0 To 14
 		If BitAND($Val1, $Opt[$i][0]) Then
 			$Result += $Opt[$i][1]
 		EndIf
@@ -32044,29 +32044,29 @@ Func _WinAPI_ShellSetSettings($iFlags, $fSet)
 
 	Local $Val1 = 0, $Val2 = 0
 	Local $Opt[20][2] = _
-		[[0x00000001, 0x00000001], _
-		 [0x00000002, 0x00000002], _
-		 [0x00000004, 0x00008000], _
-		 [0x00000008, 0x00000020], _
-		 [0x00000010, 0x00000008], _
-		 [0x00000020, 0x00000080], _
-		 [0x00000040, 0x00000200], _
-		 [0x00000080, 0x00000400], _
-		 [0x00000100, 0x00000800], _
-		 [0x00000400, 0x00001000], _
-		 [0x00000800, 0x00002000], _
-		 [0x00001000, 0x00004000], _
-		 [0x00002000, 0x00020000], _
-		 [0x00008000, 0x00040000], _
-		 [0x00010000, 0x00100000], _
-		 [0x00000001, 0x00080000], _
-		 [0x00000002, 0x00200000], _
-		 [0x00000008, 0x00800000], _
-		 [0x00000010, 0x01000000], _
-		 [0x00000020, 0x02000000]]
+			[[0x00000001, 0x00000001], _
+			[0x00000002, 0x00000002], _
+			[0x00000004, 0x00008000], _
+			[0x00000008, 0x00000020], _
+			[0x00000010, 0x00000008], _
+			[0x00000020, 0x00000080], _
+			[0x00000040, 0x00000200], _
+			[0x00000080, 0x00000400], _
+			[0x00000100, 0x00000800], _
+			[0x00000400, 0x00001000], _
+			[0x00000800, 0x00002000], _
+			[0x00001000, 0x00004000], _
+			[0x00002000, 0x00020000], _
+			[0x00008000, 0x00040000], _
+			[0x00010000, 0x00100000], _
+			[0x00000001, 0x00080000], _
+			[0x00000002, 0x00200000], _
+			[0x00000008, 0x00800000], _
+			[0x00000010, 0x01000000], _
+			[0x00000020, 0x02000000]]
 
 	If $fSet Then
-		For $i = 0  To 14
+		For $i = 0 To 14
 			If BitAND($iFlags, $Opt[$i][1]) Then
 				$Val1 += $Opt[$i][0]
 			EndIf
@@ -32615,7 +32615,7 @@ EndFunc   ;==>_WinAPI_SizeOfResource
 
 Func _WinAPI_StretchBlt($hDestDC, $iXDest, $iYDest, $iWidthDest, $iHeightDest, $hSrcDC, $iXSrc, $iYSrc, $iWidthSrc, $iHeightSrc, $iRop)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'StretchBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', $iRop)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'StretchBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', $iRop)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -32681,7 +32681,7 @@ EndFunc   ;==>_WinAPI_StretchBlt
 
 Func _WinAPI_StretchDIBits($hDestDC, $iXDest, $iYDest, $iWidthDest, $iHeightDest, $iXSrc, $iYSrc, $iWidthSrc, $iHeightSrc, $tBITMAPINFO, $iUsage, $pBits, $iRop)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'StretchDIBits', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'ptr', $pBits, 'ptr', DllStructGetPtr($tBITMAPINFO), 'uint', $iUsage, 'dword', $iRop)
+	Local $Ret = DllCall('gdi32.dll', 'int', 'StretchDIBits', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'ptr', $pBits, 'ptr', DllStructGetPtr($tBITMAPINFO), 'uint', $iUsage, 'dword', $iRop)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -32824,7 +32824,7 @@ Func _WinAPI_StrLen($pString, $fUnicode = 1)
 
 	Local $Ret = DllCall('kernel32.dll', 'int', 'lstrlen' & $W, 'ptr', $pString)
 
-	If @error  Then
+	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
 	Return $Ret[0]
@@ -33251,7 +33251,7 @@ EndFunc   ;==>_WinAPI_TileWindows
 
 Func _WinAPI_TransparentBlt($hDestDC, $iXDest, $iYDest, $iWidthDest, $iHeightDest, $hSrcDC, $iXSrc, $iYSrc, $iWidthSrc, $iHeightSrc, $iRGB)
 
-	Local $Ret  = DllCall('gdi32.dll', 'int', 'GdiTransparentBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', __RGB($iRGB))
+	Local $Ret = DllCall('gdi32.dll', 'int', 'GdiTransparentBlt', 'hwnd', $hDestDC, 'int', $iXDest, 'int', $iYDest, 'int', $iWidthDest, 'int', $iHeightDest, 'hwnd', $hSrcDC, 'int', $iXSrc, 'int', $iYSrc, 'int', $iWidthSrc, 'int', $iHeightSrc, 'dword', __RGB($iRGB))
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -33474,7 +33474,7 @@ Func _WinAPI_UniqueHardwareID($iFlags = 0)
 			$Text &= $Property.SerialNumber
 			$Text &= $Property.SMBIOSMajorVersion
 			$Text &= $Property.SMBIOSMinorVersion
-;			$Text &= $Property.Version
+			;			$Text &= $Property.Version
 		Next
 		$Text = StringStripWS($Text, 8)
 		If $Text Then
@@ -33737,7 +33737,7 @@ EndFunc   ;==>_WinAPI_UnregisterHotKey
 
 Func _WinAPI_UnregisterPowerSettingNotification($hNotify)
 
-	Local $Ret  = DllCall('user32.dll', 'int', 'UnregisterPowerSettingNotification', 'ptr', $hNotify)
+	Local $Ret = DllCall('user32.dll', 'int', 'UnregisterPowerSettingNotification', 'ptr', $hNotify)
 
 	If (@error) Or (Not $Ret[0]) Then
 		Return SetError(1, 0, 0)
@@ -33887,7 +33887,7 @@ EndFunc   ;==>_WinAPI_UpdateResource
 
 Func _WinAPI_UrlApplyScheme($sUrl, $iFlags = 0)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlApplySchemeW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlApplySchemeW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -33896,7 +33896,7 @@ Func _WinAPI_UrlApplyScheme($sUrl, $iFlags = 0)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_UrlApplyScheme
 
 ; #FUNCTION# ====================================================================================================================
@@ -33933,7 +33933,7 @@ EndFunc   ;==>_WinAPI_UrlApplyScheme
 
 Func _WinAPI_UrlCanonicalize($sUrl, $iFlags)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCanonicalizeW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCanonicalizeW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -33942,7 +33942,7 @@ Func _WinAPI_UrlCanonicalize($sUrl, $iFlags)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_UrlCanonicalize
 
 ; #FUNCTION# ====================================================================================================================
@@ -33984,7 +33984,7 @@ EndFunc   ;==>_WinAPI_UrlCanonicalize
 
 Func _WinAPI_UrlCombine($sUrl, $sPart, $iFlags = 0)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCombineW', 'wstr', $sUrl, 'wstr', $sPart, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCombineW', 'wstr', $sUrl, 'wstr', $sPart, 'wstr', '', 'dword*', 4096, 'dword', $iFlags)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -33993,7 +33993,7 @@ Func _WinAPI_UrlCombine($sUrl, $sPart, $iFlags = 0)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[3]
+	Return $Ret[3]
 EndFunc   ;==>_WinAPI_UrlCombine
 
 ; #FUNCTION# ====================================================================================================================
@@ -34020,12 +34020,12 @@ EndFunc   ;==>_WinAPI_UrlCombine
 
 Func _WinAPI_UrlCompare($sUrl1, $sUrl2, $fIgnoreSlash = 0)
 
-    Local $Ret = DllCall('shlwapi.dll', 'int', 'UrlCompareW', 'wstr', $sUrl1, 'wstr', $sUrl2, 'int', $fIgnoreSlash)
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'UrlCompareW', 'wstr', $sUrl1, 'wstr', $sUrl2, 'int', $fIgnoreSlash)
 
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_UrlCompare
 
 ; #FUNCTION# ====================================================================================================================
@@ -34045,7 +34045,7 @@ EndFunc   ;==>_WinAPI_UrlCompare
 
 Func _WinAPI_UrlCreateFromPath($sPath)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCreateFromPathW', 'wstr', $sPath, 'wstr', '', 'dword*', 4096, 'dword', 0)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlCreateFromPathW', 'wstr', $sPath, 'wstr', '', 'dword*', 4096, 'dword', 0)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -34057,7 +34057,7 @@ Func _WinAPI_UrlCreateFromPath($sPath)
 				Return SetError(1, $Ret[0], '')
 		EndSwitch
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_UrlCreateFromPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -34077,7 +34077,7 @@ EndFunc   ;==>_WinAPI_UrlCreateFromPath
 
 Func _WinAPI_UrlFixup($sUrl)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlFixupW', 'wstr', $sUrl, 'wstr', '', 'dword', 4096)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlFixupW', 'wstr', $sUrl, 'wstr', '', 'dword', 4096)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -34086,7 +34086,7 @@ Func _WinAPI_UrlFixup($sUrl)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_UrlFixup
 
 ; #FUNCTION# ====================================================================================================================
@@ -34115,7 +34115,7 @@ EndFunc   ;==>_WinAPI_UrlFixup
 
 Func _WinAPI_UrlGetPart($sUrl, $iPart)
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlGetPartW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iPart, 'dword', 0)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlGetPartW', 'wstr', $sUrl, 'wstr', '', 'dword*', 4096, 'dword', $iPart, 'dword', 0)
 
 	If @error Then
 		Return SetError(1, 0, '')
@@ -34124,7 +34124,7 @@ Func _WinAPI_UrlGetPart($sUrl, $iPart)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return $Ret[2]
+	Return $Ret[2]
 EndFunc   ;==>_WinAPI_UrlGetPart
 
 ; #FUNCTION# ====================================================================================================================
@@ -34155,7 +34155,7 @@ Func _WinAPI_UrlHash($sUrl, $iLength = 32)
 		Return SetError(1, 0, 0)
 	EndIf
 
-    Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlHashW', 'wstr', $sUrl, 'ptr', DllStructGetPtr($tData), 'dword', $iLength)
+	Local $Ret = DllCall('shlwapi.dll', 'uint', 'UrlHashW', 'wstr', $sUrl, 'ptr', DllStructGetPtr($tData), 'dword', $iLength)
 
 	If @error Then
 		Return SetError(1, 0, 0)
@@ -34164,7 +34164,7 @@ Func _WinAPI_UrlHash($sUrl, $iLength = 32)
 			Return SetError(1, $Ret[0], '')
 		EndIf
 	EndIf
-    Return DllStructGetData($tData, 1)
+	Return DllStructGetData($tData, 1)
 EndFunc   ;==>_WinAPI_UrlHash
 
 ; #FUNCTION# ====================================================================================================================
@@ -34195,12 +34195,12 @@ EndFunc   ;==>_WinAPI_UrlHash
 
 Func _WinAPI_UrlIs($sUrl, $iType = 0)
 
-    Local $Ret = DllCall('shlwapi.dll', 'int', 'UrlIsW', 'wstr', $sUrl, 'uint', $iType)
+	Local $Ret = DllCall('shlwapi.dll', 'int', 'UrlIsW', 'wstr', $sUrl, 'uint', $iType)
 
 	If @error Then
 		Return SetError(1, 0, 0)
 	EndIf
-    Return $Ret[0]
+	Return $Ret[0]
 EndFunc   ;==>_WinAPI_UrlIs
 
 ; #FUNCTION# ====================================================================================================================
@@ -34600,9 +34600,9 @@ Func _WinAPI_ZeroMemory($pMemory, $iLength)
 	Return 1
 EndFunc   ;==>_WinAPI_ZeroMemory
 
-#EndRegion Public Functions
+#endregion Public Functions
 
-#Region Embedded DLL Functions
+#region Embedded DLL Functions
 
 Func __AlphaProc()
 
@@ -34611,21 +34611,21 @@ Func __AlphaProc()
 	If Not $pProc Then
 		If @AutoItX64 Then
 			$pProc = __Init(Binary( _
-					  '0x48894C240848895424104C894424184C894C24205541574831C050504883EC28' & _
-						'48837C24600074054831C0EB0748C7C0010000004821C0751F488B6C24604883' & _
-						'7D180074054831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB' & _
-						'034831C04821C0740C48C7C0FFFFFFFF4863C0EB6F48C744242800000000488B' & _
-						'6C24604C637D04488B6C2460486345084C0FAFF849C1E7024983C7FC4C3B7C24' & _
-						'287C36488B6C24604C8B7D184C037C24284983C7034C897C2430488B6C243080' & _
-						'7D0000740C48C7C0010000004863C0EB1348834424280471A54831C04863C0EB' & _
-						'034831C04883C438415F5DC3'))
+					'0x48894C240848895424104C894424184C894C24205541574831C050504883EC28' & _
+					'48837C24600074054831C0EB0748C7C0010000004821C0751F488B6C24604883' & _
+					'7D180074054831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB' & _
+					'034831C04821C0740C48C7C0FFFFFFFF4863C0EB6F48C744242800000000488B' & _
+					'6C24604C637D04488B6C2460486345084C0FAFF849C1E7024983C7FC4C3B7C24' & _
+					'287C36488B6C24604C8B7D184C037C24284983C7034C897C2430488B6C243080' & _
+					'7D0000740C48C7C0010000004863C0EB1348834424280471A54831C04863C0EB' & _
+					'034831C04883C438415F5DC3'))
 		Else
 			$pProc = __Init(Binary( _
-					  '0x555331C05050837C241C00740431C0EB05B80100000021C075198B6C241C837D' & _
-						'1400740431C0EB05B80100000021C07502EB07B801000000EB0231C021C07407' & _
-						'B8FFFFFFFFEB4FC70424000000008B6C241C8B5D048B6C241C0FAF5D08C1E302' & _
-						'83C3FC3B1C247C288B6C241C8B5D14031C2483C303895C24048B6C2404807D00' & _
-						'007407B801000000EB0C8304240471BE31C0EB0231C083C4085B5DC21000'))
+					'0x555331C05050837C241C00740431C0EB05B80100000021C075198B6C241C837D' & _
+					'1400740431C0EB05B80100000021C07502EB07B801000000EB0231C021C07407' & _
+					'B8FFFFFFFFEB4FC70424000000008B6C241C8B5D048B6C241C0FAF5D08C1E302' & _
+					'83C3FC3B1C247C288B6C241C8B5D14031C2483C303895C24048B6C2404807D00' & _
+					'007407B801000000EB0C8304240471BE31C0EB0231C083C4085B5DC21000'))
 		EndIf
 	EndIf
 	Return $pProc
@@ -34638,48 +34638,48 @@ Func __ANDProc()
 	If Not $pProc Then
 		If @AutoItX64 Then
 			$pProc = __Init(Binary( _
-					  '0x48894C240848895424104C894424184C894C2420554157415648C7C009000000' & _
-						'4883EC0848C704240000000048FFC875EF4883EC284883BC24A0000000007405' & _
-						'4831C0EB0748C7C0010000004821C00F85840000004883BC24A8000000007405' & _
-						'4831C0EB0748C7C0010000004821C07555488BAC24A000000048837D18007405' & _
-						'4831C0EB0748C7C0010000004821C07522488BAC24A800000048837D18007405' & _
-						'4831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB034831C048' & _
-						'21C07502EB0948C7C001000000EB034831C04821C07502EB0948C7C001000000' & _
-						'EB034831C04821C0740B4831C04863C0E9D701000048C74424280000000048C7' & _
-						'44243000000000488BAC24A00000004C637D0849FFCF4C3B7C24300F8C9C0100' & _
-						'0048C74424380000000048C74424400000000048C744244800000000488BAC24' & _
-						'A00000004C637D0449FFCF4C3B7C24480F8CDB000000488BAC24A00000004C8B' & _
-						'7D184C037C24284983C7034C897C2450488B6C2450807D000074264C8B7C2440' & _
-						'4C8B74243849F7DE4983C61F4C89F148C7C00100000048D3E04909C74C897C24' & _
-						'4048FF4424384C8B7C24384983FF1F7E6F4C8B7C244049F7D74C897C244048C7' & _
-						'442458180000004831C0483B4424587F3D488BAC24A80000004C8B7D184C037C' & _
-						'24604C897C24504C8B7C2440488B4C245849D3FF4C89F850488B6C2458588845' & _
-						'0048FF4424604883442458F871B948C74424380000000048C744244000000000' & _
-						'48834424280448FF4424480F810BFFFFFF48837C24380074794C8B7C244049F7' & _
-						'D74C8B74243849F7DE4983C6204C89F148C7C0FFFFFFFF48D3E04921C74C897C' & _
-						'244048C7442458180000004831C0483B4424587F3D488BAC24A80000004C8B7D' & _
-						'184C037C24604C897C24504C8B7C2440488B4C245849D3FF4C89F850488B6C24' & _
-						'585888450048FF4424604883442458F871B948FF4424300F814AFEFFFF48C7C0' & _
-						'010000004863C0EB034831C04883C470415E415F5DC3'))
+					'0x48894C240848895424104C894424184C894C2420554157415648C7C009000000' & _
+					'4883EC0848C704240000000048FFC875EF4883EC284883BC24A0000000007405' & _
+					'4831C0EB0748C7C0010000004821C00F85840000004883BC24A8000000007405' & _
+					'4831C0EB0748C7C0010000004821C07555488BAC24A000000048837D18007405' & _
+					'4831C0EB0748C7C0010000004821C07522488BAC24A800000048837D18007405' & _
+					'4831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB034831C048' & _
+					'21C07502EB0948C7C001000000EB034831C04821C07502EB0948C7C001000000' & _
+					'EB034831C04821C0740B4831C04863C0E9D701000048C74424280000000048C7' & _
+					'44243000000000488BAC24A00000004C637D0849FFCF4C3B7C24300F8C9C0100' & _
+					'0048C74424380000000048C74424400000000048C744244800000000488BAC24' & _
+					'A00000004C637D0449FFCF4C3B7C24480F8CDB000000488BAC24A00000004C8B' & _
+					'7D184C037C24284983C7034C897C2450488B6C2450807D000074264C8B7C2440' & _
+					'4C8B74243849F7DE4983C61F4C89F148C7C00100000048D3E04909C74C897C24' & _
+					'4048FF4424384C8B7C24384983FF1F7E6F4C8B7C244049F7D74C897C244048C7' & _
+					'442458180000004831C0483B4424587F3D488BAC24A80000004C8B7D184C037C' & _
+					'24604C897C24504C8B7C2440488B4C245849D3FF4C89F850488B6C2458588845' & _
+					'0048FF4424604883442458F871B948C74424380000000048C744244000000000' & _
+					'48834424280448FF4424480F810BFFFFFF48837C24380074794C8B7C244049F7' & _
+					'D74C8B74243849F7DE4983C6204C89F148C7C0FFFFFFFF48D3E04921C74C897C' & _
+					'244048C7442458180000004831C0483B4424587F3D488BAC24A80000004C8B7D' & _
+					'184C037C24604C897C24504C8B7C2440488B4C245849D3FF4C89F850488B6C24' & _
+					'585888450048FF4424604883442458F871B948FF4424300F814AFEFFFF48C7C0' & _
+					'010000004863C0EB034831C04883C470415E415F5DC3'))
 		Else
 			$pProc = __Init(Binary( _
-					  '0x555357BA0800000083EC04C70424000000004A75F3837C243800740431C0EB05' & _
-						'B80100000021C07562837C243C00740431C0EB05B80100000021C0753F8B6C24' & _
-						'38837D1400740431C0EB05B80100000021C075198B6C243C837D1400740431C0' & _
-						'EB05B80100000021C07502EB07B801000000EB0231C021C07502EB07B8010000' & _
-						'00EB0231C021C07502EB07B801000000EB0231C021C0740731C0E969010000C7' & _
-						'042400000000C7442404000000008B6C24388B5D084B3B5C24040F8C3F010000' & _
-						'C744240800000000C744240C00000000C7442410000000008B6C24388B5D044B' & _
-						'3B5C24100F8CA90000008B6C24388B5D14031C2483C303895C24148B6C241480' & _
-						'7D0000741C8B5C240C8B7C2408F7DF83C71F89F9B801000000D3E009C3895C24' & _
-						'0CFF4424088B5C240883FB1F7E578B5C240CF7D3895C240CC744241818000000' & _
-						'31C03B4424187F2D8B6C243C8B5D14035C241C895C24148B5C240C8B4C2418D3' & _
-						'FB538B6C241858884500FF44241C83442418F871CBC744240800000000C74424' & _
-						'0C0000000083042404FF4424100F8145FFFFFF837C240800745B8B5C240CF7D3' & _
-						'8B7C2408F7DF83C72089F9B8FFFFFFFFD3E021C3895C240CC744241818000000' & _
-						'31C03B4424187F2D8B6C243C8B5D14035C241C895C24148B5C240C8B4C2418D3' & _
-						'FB538B6C241858884500FF44241C83442418F871CBFF4424040F81AFFEFFFFB8' & _
-						'01000000EB0231C083C4205F5B5DC21000'))
+					'0x555357BA0800000083EC04C70424000000004A75F3837C243800740431C0EB05' & _
+					'B80100000021C07562837C243C00740431C0EB05B80100000021C0753F8B6C24' & _
+					'38837D1400740431C0EB05B80100000021C075198B6C243C837D1400740431C0' & _
+					'EB05B80100000021C07502EB07B801000000EB0231C021C07502EB07B8010000' & _
+					'00EB0231C021C07502EB07B801000000EB0231C021C0740731C0E969010000C7' & _
+					'042400000000C7442404000000008B6C24388B5D084B3B5C24040F8C3F010000' & _
+					'C744240800000000C744240C00000000C7442410000000008B6C24388B5D044B' & _
+					'3B5C24100F8CA90000008B6C24388B5D14031C2483C303895C24148B6C241480' & _
+					'7D0000741C8B5C240C8B7C2408F7DF83C71F89F9B801000000D3E009C3895C24' & _
+					'0CFF4424088B5C240883FB1F7E578B5C240CF7D3895C240CC744241818000000' & _
+					'31C03B4424187F2D8B6C243C8B5D14035C241C895C24148B5C240C8B4C2418D3' & _
+					'FB538B6C241858884500FF44241C83442418F871CBC744240800000000C74424' & _
+					'0C0000000083042404FF4424100F8145FFFFFF837C240800745B8B5C240CF7D3' & _
+					'8B7C2408F7DF83C72089F9B8FFFFFFFFD3E021C3895C240CC744241818000000' & _
+					'31C03B4424187F2D8B6C243C8B5D14035C241C895C24148B5C240C8B4C2418D3' & _
+					'FB538B6C241858884500FF44241C83442418F871CBFF4424040F81AFFEFFFFB8' & _
+					'01000000EB0231C083C4205F5B5DC21000'))
 		EndIf
 	EndIf
 	Return $pProc
@@ -34692,33 +34692,33 @@ Func __TransparencyProc()
 	If Not $pProc Then
 		If @AutoItX64 Then
 			$pProc = __Init(Binary( _
-					  '0x48894C240848895424104C894424184C894C24205541574831C0505050505050' & _
-						'4883EC284883BC24800000000074054831C0EB0748C7C0010000004821C07522' & _
-						'488BAC248000000048837D180074054831C0EB0748C7C0010000004821C07502' & _
-						'EB0948C7C001000000EB034831C04821C0740B4831C04863C0E93C0100004C63' & _
-						'7C24784983FF647E0F48C7C0010000004863C0E9220100004C637C24784D21FF' & _
-						'7D08C74424780000000048C74424280100000048C74424300000000048C74424' & _
-						'3800000000488BAC24800000004C637D04488BAC2480000000486345084C0FAF' & _
-						'F849C1E7024983C7FC4C3B7C24380F8C88000000488BAC24800000004C8B7D18' & _
-						'4C037C24384983C7034C897C2440488B6C2440480FB64500505888442448807C' & _
-						'244800744B4C0FB67C244848634424784C0FAFF84C89F848C7C1640000004899' & _
-						'48F7F94989C74C89F850488B6C244858884500488B6C2440807D0000740948C7' & _
-						'4424280000000048C7442430010000004883442438040F8149FFFFFF48837C24' & _
-						'3000741148837C242800740948C7C001000000EB034831C04821C0740E48C7C0' & _
-						'FFFFFFFF4863C0EB11EB0C48C7C0010000004863C0EB034831C04883C458415F' & _
-						'5DC3'))
+					'0x48894C240848895424104C894424184C894C24205541574831C0505050505050' & _
+					'4883EC284883BC24800000000074054831C0EB0748C7C0010000004821C07522' & _
+					'488BAC248000000048837D180074054831C0EB0748C7C0010000004821C07502' & _
+					'EB0948C7C001000000EB034831C04821C0740B4831C04863C0E93C0100004C63' & _
+					'7C24784983FF647E0F48C7C0010000004863C0E9220100004C637C24784D21FF' & _
+					'7D08C74424780000000048C74424280100000048C74424300000000048C74424' & _
+					'3800000000488BAC24800000004C637D04488BAC2480000000486345084C0FAF' & _
+					'F849C1E7024983C7FC4C3B7C24380F8C88000000488BAC24800000004C8B7D18' & _
+					'4C037C24384983C7034C897C2440488B6C2440480FB64500505888442448807C' & _
+					'244800744B4C0FB67C244848634424784C0FAFF84C89F848C7C1640000004899' & _
+					'48F7F94989C74C89F850488B6C244858884500488B6C2440807D0000740948C7' & _
+					'4424280000000048C7442430010000004883442438040F8149FFFFFF48837C24' & _
+					'3000741148837C242800740948C7C001000000EB034831C04821C0740E48C7C0' & _
+					'FFFFFFFF4863C0EB11EB0C48C7C0010000004863C0EB034831C04883C458415F' & _
+					'5DC3'))
 		Else
 			$pProc = __Init(Binary( _
-					  '0x555331C05050505050837C242800740431C0EB05B80100000021C075198B6C24' & _
-						'28837D1400740431C0EB05B80100000021C07502EB07B801000000EB0231C021' & _
-						'C0740731C0E9E50000008B5C242483FB647E0AB801000000E9D20000008B5C24' & _
-						'2421DB7D08C744242400000000C7042401000000C744240400000000C7442408' & _
-						'000000008B6C24288B5D048B6C24280FAF5D08C1E30283C3FC3B5C24087C648B' & _
-						'6C24288B5D14035C240883C303895C240C8B6C240C0FB6450088442410807C24' & _
-						'100074380FB65C24100FAF5C242489D8B96400000099F7F989C3538B6C241058' & _
-						'8845008B6C240C807D00007407C7042400000000C74424040100000083442408' & _
-						'047181837C240400740D833C24007407B801000000EB0231C021C07409B8FFFF' & _
-						'FFFFEB0BEB07B801000000EB0231C083C4145B5DC21000'))
+					'0x555331C05050505050837C242800740431C0EB05B80100000021C075198B6C24' & _
+					'28837D1400740431C0EB05B80100000021C07502EB07B801000000EB0231C021' & _
+					'C0740731C0E9E50000008B5C242483FB647E0AB801000000E9D20000008B5C24' & _
+					'2421DB7D08C744242400000000C7042401000000C744240400000000C7442408' & _
+					'000000008B6C24288B5D048B6C24280FAF5D08C1E30283C3FC3B5C24087C648B' & _
+					'6C24288B5D14035C240883C303895C240C8B6C240C0FB6450088442410807C24' & _
+					'100074380FB65C24100FAF5C242489D8B96400000099F7F989C3538B6C241058' & _
+					'8845008B6C240C807D00007407C7042400000000C74424040100000083442408' & _
+					'047181837C240400740D833C24007407B801000000EB0231C021C07409B8FFFF' & _
+					'FFFFEB0BEB07B801000000EB0231C083C4145B5DC21000'))
 		EndIf
 	EndIf
 	Return $pProc
@@ -34731,30 +34731,30 @@ Func __XORProc()
 	If Not $pProc Then
 		If @AutoItX64 Then
 			$pProc = __Init(Binary( _
-					  '0x48894C240848895424104C894424184C894C24205541574831C050504883EC28' & _
-						'48837C24600074054831C0EB0748C7C0010000004821C0751B48837C24680074' & _
-						'054831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB034831C0' & _
-						'4821C074084831C04863C0EB7748C7442428000000004C637C24584983C7FC4C' & _
-						'3B7C24287C4F4C8B7C24604C037C24284C897C2430488B6C2430807D00007405' & _
-						'4831C0EB0748C7C0010000004821C0741C4C8B7C24684C037C24284983C7034C' & _
-						'897C2430488B6C2430C64500FF48834424280471A148C7C0010000004863C0EB' & _
-						'034831C04883C438415F5DC3'))
+					'0x48894C240848895424104C894424184C894C24205541574831C050504883EC28' & _
+					'48837C24600074054831C0EB0748C7C0010000004821C0751B48837C24680074' & _
+					'054831C0EB0748C7C0010000004821C07502EB0948C7C001000000EB034831C0' & _
+					'4821C074084831C04863C0EB7748C7442428000000004C637C24584983C7FC4C' & _
+					'3B7C24287C4F4C8B7C24604C037C24284C897C2430488B6C2430807D00007405' & _
+					'4831C0EB0748C7C0010000004821C0741C4C8B7C24684C037C24284983C7034C' & _
+					'897C2430488B6C2430C64500FF48834424280471A148C7C0010000004863C0EB' & _
+					'034831C04883C438415F5DC3'))
 		Else
 			$pProc = __Init(Binary( _
-					  '0x555331C05050837C241C00740431C0EB05B80100000021C07516837C24200074' & _
-						'0431C0EB05B80100000021C07502EB07B801000000EB0231C021C0740431C0EB' & _
-						'5AC70424000000008B5C241883C3FC3B1C247C3E8B5C241C031C24895C24048B' & _
-						'6C2404807D0000740431C0EB05B80100000021C074168B5C2420031C2483C303' & _
-						'895C24048B6C2404C64500FF8304240471B6B801000000EB0231C083C4085B5D' & _
-						'C21000'))
+					'0x555331C05050837C241C00740431C0EB05B80100000021C07516837C24200074' & _
+					'0431C0EB05B80100000021C07502EB07B801000000EB0231C021C0740431C0EB' & _
+					'5AC70424000000008B5C241883C3FC3B1C247C3E8B5C241C031C24895C24048B' & _
+					'6C2404807D0000740431C0EB05B80100000021C074168B5C2420031C2483C303' & _
+					'895C24048B6C2404C64500FF8304240471B6B801000000EB0231C083C4085B5D' & _
+					'C21000'))
 		EndIf
 	EndIf
 	Return $pProc
 EndFunc   ;==>__XORProc
 
-#EndRegion Embedded DLL Functions
+#endregion Embedded DLL Functions
 
-#Region Internal Functions
+#region Internal Functions
 
 Func __Binary($sPath)
 
@@ -34905,7 +34905,7 @@ Func __EnumSymbolsProc($pSymInfo, $iSymSize, $lParam)
 
 	#forceref $iSymSize, $lParam
 
-;	Local $tSYMINFO = DllStructCreate('uint SizeOfStruct;uint TypeIndex;uint64 Reserved[2];uint Index;uint Size;uint64 ModBase;uint Flags;uint64 Value;uint64 Address;uint Register;uint Scope;uint Tag;uint NameLen;uint MaxNameLen;wchar Name[1]', $pSymInfo)
+	;	Local $tSYMINFO = DllStructCreate('uint SizeOfStruct;uint TypeIndex;uint64 Reserved[2];uint Index;uint Size;uint64 ModBase;uint Flags;uint64 Value;uint64 Address;uint Register;uint Scope;uint Tag;uint NameLen;uint MaxNameLen;wchar Name[1]', $pSymInfo)
 	Local $tSYMINFO = DllStructCreate('uint;uint;uint64[2];uint;uint;uint64;uint;uint64;uint64;uint;uint;uint;uint;uint;wchar[1]', $pSymInfo)
 	Local $Length = DllStructGetData($tSYMINFO, 13)
 
@@ -35250,4 +35250,4 @@ Func __Ver()
 	Return BitOR(BitShift(DllStructGetData($tOSVI, 2), -8), DllStructGetData($tOSVI, 3))
 EndFunc   ;==>__Ver
 
-#EndRegion Internal Functions
+#endregion Internal Functions

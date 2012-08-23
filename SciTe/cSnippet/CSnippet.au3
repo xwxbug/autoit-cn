@@ -2123,8 +2123,8 @@ Func _About($TITLE, $MAIN_WINDOW, $g_szVersion)
 	$ABOUT_WINDOW = GUICreate($TITLE, 250, 220, -1, -1, BitOR($WS_CAPTION, $DS_MODALFRAME), -1, $MAIN_WINDOW)
 	GUISetIcon(@SystemDir & "\shell32.dll", 23, $ABOUT_WINDOW)
 	#Region --- CodeWizard generated code Start ---
-	If Not IsDeclared('Cadet_Blue_3') Then Local $Cadet_Blue_3 = 0x7AC5CD
-	GUISetBkColor($Cadet_Blue_3)
+	;If Not IsDeclared('Cadet_Blue_3') Then Local $Cadet_Blue_3 = 0x7AC5CD
+	;GUISetBkColor($Cadet_Blue_3)
 	#EndRegion --- CodeWizard generated code End ---
 	$hl_hwnd[0] = _GuiCtrlHyperLinkCreate ($ABOUT_WINDOW, $ABOUT_TEXT, "mailto:" & $MAILTO, $ABOUT_AUTHOR, 25, 10, 200, 170, $WS_DLGFRAME, $WS_EX_CLIENTEDGE)
 	$CLOSE = GUICtrlCreateButton("Close", 35, 190, 100, 20)

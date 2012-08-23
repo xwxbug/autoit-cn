@@ -5705,12 +5705,11 @@ Func __RichCom_Object_GetNewStorage($pObject, $lplpstg)
 ;~         , ByVal 0& _
 ;~         , lplpstg _
 ;~         ) To sc
-	If $sc Then
-		Local $obj = DllStructCreate("ptr", $lpLockBytes)
-		Local $iUnknownFuncTable = DllStructCreate("ptr[3]", DllStructGetData($obj, 1))
-		Local $lpReleaseFunc = DllStructGetData($iUnknownFuncTable, 3)
-		Call("MemoryFuncCall" & "", "long", $lpReleaseFunc, "ptr", $lpLockBytes)
-		If @error = 1 Then ConsoleWrite("!> Needs MemoryDLL.au3 for correct release of ILockBytes" & @CRLF)
+	If $sc Then ; Call IUnknown->Release on $lpLockBytes
+		Local $obj = DllStructCreate("ptr", $lpLockBytes) ; prepare access to vTable
+		Local $iUnknownFuncTable = DllStructCreate("ptr[3]", DllStructGetData($obj, 1)) ; access IUnknown vTable
+		Local $lpReleaseFunc = DllStructGetData($iUnknownFuncTable, 3) ; get address of IUnknwon->Release
+		DllCallAddress("long", $lpReleaseFunc, "ptr", $lpLockBytes) ; call release
 	EndIf
 ;~ '   If sc Then Call Dword @@lpLockBytes[2] Using __RichCom_Object_Release( @lpLockBytes )
 	Return $sc

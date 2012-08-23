@@ -219,6 +219,8 @@ Global Const $IDRETRY = 4 ; Retry button was selected
 Global Const $IDIGNORE = 5 ; Ignore button was selected
 Global Const $IDYES = 6 ; Yes button was selected
 Global Const $IDNO = 7 ; No button was selected
+Global Const $IDCLOSE = 8 ; Close button was selected
+Global Const $IDHELP = 9 ; Help button was selected
 Global Const $IDTRYAGAIN = 10 ; Try Again button was selected
 Global Const $IDCONTINUE = 11 ; Continue button was selected
 

@@ -574,7 +574,7 @@ function AutoItTools:InsertFunctionHeader()
         from, to, name = line:find("[Gg][Ll][Oo][Bb][Aa][Ll]%s+[Cc][Oo][Nn][Ss][Tt]%s+($[%w_]+)")
         struct = true
         if to == nil then
-            print("Function or struct definition not found, unable to insert header.")
+            print("请将光标移动到函数或者数据结构定义上,然后再使用本功能.")
             return
         end
     end
