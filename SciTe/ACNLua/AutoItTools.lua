@@ -551,9 +551,9 @@ function AutoItTools:CreateStructureHeader(s, p)
     res = res .. "; Author ........: " .. outAuthor .. nl
     res = res .. "; Remarks .......: " .. outRemarks .. nl
     res = res .. "; Related .......: " .. outRelated .. nl
+    res = res .. "; Link ..........: " .. nl
     res = res .. "; " .. string.rep("=", defLineMax - 2) .. nl
-
-    return res
+	return res
 end -- CreateStructureHeader
 
 --------------------------------------------------------------------------------
