@@ -5,13 +5,13 @@ $CmdLineRaw
 @ComSpec @CPUArch @CR @CRLF @DesktopCommonDir @DesktopDepth @DesktopDir @DesktopHeight @DesktopRefresh @DesktopWidth 
 @DocumentsCommonDir @error @exitCode @exitMethod @extended @FavoritesCommonDir @FavoritesDir @GUI_CtrlHandle @GUI_CtrlId @GUI_DragFile 
 @GUI_DragId @GUI_DropId @GUI_WinHandle @HomeDrive @HomePath @HomeShare @HotKeyPressed @HOUR @IPAddress1 @IPAddress2 
-@IPAddress3 @IPAddress4 @KBLayout @LF @LogonDNSDomain @LogonDomain @LogonServer @MDAY @MIN @MON 
-@MSEC @MUILang @MyDocumentsDir @NumParams @OSArch @OSBuild @OSLang @OSServicePack @OSType @OSVersion 
-@ProgramFilesDir @ProgramsCommonDir @ProgramsDir @ScriptDir @ScriptFullPath @ScriptLineNumber @ScriptName @SEC @StartMenuCommonDir @StartMenuDir 
-@StartupCommonDir @StartupDir @SW_DISABLE @SW_ENABLE @SW_HIDE @SW_LOCK @SW_MAXIMIZE @SW_MINIMIZE @SW_RESTORE @SW_SHOW 
-@SW_SHOWDEFAULT @SW_SHOWMAXIMIZED @SW_SHOWMINIMIZED @SW_SHOWMINNOACTIVE @SW_SHOWNA @SW_SHOWNOACTIVATE @SW_SHOWNORMAL @SW_UNLOCK @SystemDir @TAB 
-@TempDir @TRAY_ID @TrayIconFlashing @TrayIconVisible @UserName @UserProfileDir @WDAY @WindowsDir @WorkingDir @YDAY 
-@YEAR 
+@IPAddress3 @IPAddress4 @KBLayout @LF @LocalAppDataDir @LogonDNSDomain @LogonDomain @LogonServer @MDAY @MIN 
+@MON @MSEC @MUILang @MyDocumentsDir @NumParams @OSArch @OSBuild @OSLang @OSServicePack @OSType 
+@OSVersion @ProgramFilesDir @ProgramsCommonDir @ProgramsDir @ScriptDir @ScriptFullPath @ScriptLineNumber @ScriptName @SEC @StartMenuCommonDir 
+@StartMenuDir @StartupCommonDir @StartupDir @SW_DISABLE @SW_ENABLE @SW_HIDE @SW_LOCK @SW_MAXIMIZE @SW_MINIMIZE @SW_RESTORE 
+@SW_SHOW @SW_SHOWDEFAULT @SW_SHOWMAXIMIZED @SW_SHOWMINIMIZED @SW_SHOWMINNOACTIVE @SW_SHOWNA @SW_SHOWNOACTIVATE @SW_SHOWNORMAL @SW_UNLOCK @SystemDir 
+@TAB @TempDir @TRAY_ID @TrayIconFlashing @TrayIconVisible @UserName @UserProfileDir @WDAY @WindowsDir @WorkingDir 
+@YDAY @YEAR 
 
 !Abs 1 1
 !ACos 1 1
@@ -137,6 +137,7 @@ $CmdLineRaw
 !FileWriteLine 2 2
 !Floor 1 1
 !FtpSetProxy 1 4
+!FuncName 1 1
 !GUICreate 1 8
 !GUICtrlCreateAvi 4 8
 !GUICtrlCreateButton 3 7
@@ -169,7 +170,7 @@ $CmdLineRaw
 !GUICtrlCreateUpdown 1 2
 !GUICtrlDelete 1 1
 !GUICtrlGetHandle 1 1
-!GUICtrlGetState 0 1
+!GUICtrlGetState 1 1
 !GUICtrlRead 1 2
 !GUICtrlRecvMsg 2 4
 !GUICtrlRegisterListViewSort 2 2
@@ -214,7 +215,7 @@ $CmdLineRaw
 !HttpSetUserAgent 1 1
 !HWnd 1 1
 !InetClose 1 1
-!InetGet 1 4
+!InetGet 2 4
 !InetGetInfo 0 2
 !InetGetSize 1 2
 !InetRead 1 2
@@ -234,6 +235,7 @@ $CmdLineRaw
 !IsDeclared 1 1
 !IsDllStruct 1 1
 !IsFloat 1 1
+!IsFunc 1 1
 !IsHWnd 1 1
 !IsInt 1 1
 !IsKeyword 1 1
@@ -296,7 +298,7 @@ $CmdLineRaw
 !SetExtended 1 2
 !ShellExecute 1 5
 !ShellExecuteWait 1 5
-!Shutdown 1 2
+!Shutdown 1 1
 !Sin 1 1
 !Sleep 1 1
 !SoundPlay 1 2
@@ -332,7 +334,7 @@ $CmdLineRaw
 !StringLower 1 1
 !StringMid 2 3
 !StringRegExp 2 4
-!StringRegExpReplace 2 4
+!StringRegExpReplace 3 4
 !StringReplace 3 5
 !StringRight 2 2
 !StringSplit 2 3
