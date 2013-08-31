@@ -20,6 +20,7 @@ AutoIt工具箱提供了安装卸载功能.
 3.3.9.13 (Beta)
 AutoIt:
 [H][!]更新: 更新UPX到3.09版,只是修复bug.
+[H][!]更新: ACNWrapper 兼容性更新.
 
 3.3.9.5 (Beta)
 AutoIt:
