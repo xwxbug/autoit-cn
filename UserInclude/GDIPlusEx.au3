@@ -120,7 +120,6 @@ Global Const $GDIP_ENHMETA_SIGNATURE = 0x464D4520
 
 ; Multi-frame dimensions (Globally Unique Identifier (GUID))
 Global Const $GDIP_FRAMEDIMENSION_TIME 		 = "{6AEDBD6D-3FB5-418A-83A6-7F45229DC872}"
-;Global Const $GDIP_FRAMEDIMENSION_TIME 		 = "{6AEFBD6D-3FB5-418A-83A6-7F45229DC872}"
 Global Const $GDIP_FRAMEDIMENSION_RESOLUTION = "{84236F7B-3BD3-428F-8DAB-4EA1439CA315}"
 Global Const $GDIP_FRAMEDIMENSION_PAGE 		 = "{7462DC86-6180-4C7E-8E3F-EE7333A7A483}"
 
@@ -10345,9 +10344,9 @@ EndFunc   ;==>_GDIPlus_ImageAttributesSetRemapTable
 ;                  |$GDIP_STATUS contains a non zero value specifying the error code
 ; Remarks .......: The threshold is a value from 0 through 1 that specifies a cutoff point for each color component. For example,
 ;                  +suppose the threshold is set to 0.7, and suppose you are rendering a color whose red, green, and blue
-;                  +components are 230, 50, and 220. The red component, 230, is greater than 0.7ª255, so the red component will
-;                  be changed to 255 (full intensity). The green component, 50, is less than 0.7ª255, so the green component will
-;                  +be changed to 0. The blue component, 220, is greater than 0.7ª255, so the blue component will be changed to
+;                  +components are 230, 50, and 220. The red component, 230, is greater than 0.7?255, so the red component will
+;                  be changed to 255 (full intensity). The green component, 50, is less than 0.7?255, so the green component will
+;                  +be changed to 0. The blue component, 220, is greater than 0.7?255, so the blue component will be changed to
 ;                  +255
 ; Related .......: None
 ; Link ..........; @@MsdnLink@@ GdipSetImageAttributesThreshold

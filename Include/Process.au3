@@ -11,57 +11,42 @@
 ; Dll ...........: kernel32.dll
 ; ===============================================================================================================================
 
-; #FUNCTION# ====================================================================================================================
-; Name...........: _ProcessGetName
-; Description ...: Returns a string containing the process name that belongs to a given PID.
-; Syntax.........: _ProcessGetName( $iPID )
-; Parameters ....: $iPID - The PID of a currently running process
-; Return values .: Success      - The name of the process
-;                  Failure      - Blank string and sets @error
-;                       1 - Process doesn't exist
-;                       2 - Error getting process list
-;                       3 - No processes found
-; Author ........: Erifash <erifash [at] gmail [dot] com>, Wouter van Kesteren.
-; Remarks .......: Supplementary to ProcessExists().
+; #CURRENT# =====================================================================================================================
+; _ProcessGetName
+; _ProcessGetPriority
+; _RunDOS
 ; ===============================================================================================================================
-Func _ProcessGetName($i_PID)
-	If Not ProcessExists($i_PID) Then Return SetError(1, 0, '')
-	If Not @error Then
-		Local $a_Processes = ProcessList()
-		For $i = 1 To $a_Processes[0][0]
-			If $a_Processes[$i][1] = $i_PID Then Return $a_Processes[$i][0]
-		Next
-	EndIf
-	Return SetError(1, 0, '')
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Erifash <erifash [at] gmail [dot] com>, Wouter van Kesteren. guinness - Removed ProcessExists for speed.
+; ===============================================================================================================================
+Func _ProcessGetName($iPID)
+	Local $aProcessList = ProcessList(), _
+			$iError = 1, _
+			$sProcessName = ""
+	For $i = 1 To $aProcessList[0][0]
+		If $aProcessList[$i][1] = $iPID Then
+			$iError = 0
+			$sProcessName = $aProcessList[$i][0]
+			ExitLoop
+		EndIf
+	Next
+	Return SetError($iError, 0, $sProcessName)
 EndFunc   ;==>_ProcessGetName
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ProcessGetPriority
-; Description ...: Get the  priority of an open process.
-; Syntax.........:  _ProcessGetPriority($vProcess)
-; Parameters ....: $vProcess      - PID or name of a process.
-; Return values .: Success      - Returns integer corressponding to
-;                   the processes's priority:
-;                     0 - Idle/Low
-;                     1 - Below Normal (Not supported on Windows 95/98/ME)
-;                     2 - Normal
-;                     3 - Above Normal (Not supported on Windows 95/98/ME)
-;                     4 - High
-;                     5 - Realtime
-;                  Failure      -1 and sets @Error to 1
 ; Author ........: Matthew Tucker
-; Modifier ......: Valik added Pid or Processname logic
 ; ===============================================================================================================================
 Func _ProcessGetPriority($vProcess)
-	Local $iError, $iExtended, $iReturn = -1
-	Local $i_PID = ProcessExists($vProcess)
-	If Not $i_PID Then Return SetError(1, 0, -1)
+	Local $iError = 0, $iExtended = 0, $iReturn = -1
+	Local $iPID = ProcessExists($vProcess)
+	If Not $iPID Then Return SetError(1, 0, -1)
 	Local $hDLL = DllOpen('kernel32.dll')
 
 	Do ; Pseudo loop
-		Local $aProcessHandle = DllCall($hDLL, 'handle', 'OpenProcess', 'dword', $PROCESS_QUERY_INFORMATION, 'bool', False, 'dword', $i_PID)
+		Local $aProcessHandle = DllCall($hDLL, 'handle', 'OpenProcess', 'dword', $PROCESS_QUERY_INFORMATION, 'bool', False, 'dword', $iPID)
 		If @error Then
-			$iError = @error
+			$iError = @error + 10
 			$iExtended = @extended
 			ExitLoop
 		EndIf
@@ -103,12 +88,6 @@ Func _ProcessGetPriority($vProcess)
 EndFunc   ;==>_ProcessGetPriority
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _RunDOS
-; Description ...: Executes a DOS command in a hidden command window.
-; Syntax.........: _RunDOS($sCommand)
-; Parameters ....: $sCommand - Command to execute
-; Return values .: Success      - the exit code of the command
-;                  Failure      - 0 and sets @Error to non-zero
 ; Author ........: Jeremy Landes <jlandes at landeserve dot com>
 ; ===============================================================================================================================
 Func _RunDos($sCommand)

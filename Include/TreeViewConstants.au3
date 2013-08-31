@@ -168,9 +168,8 @@ Global Const $TVM_GETISEARCHSTRINGW = $TV_FIRST + 64
 Global Const $TVM_EDITLABELW = $TV_FIRST + 65
 Global Const $TVM_GETUNICODEFORMAT = 0x2000 + 6
 Global Const $TVM_SETUNICODEFORMAT = 0x2000 + 5
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $TVN_FIRST = -400
 Global Const $TVN_SELCHANGINGA = $TVN_FIRST - 1
 Global Const $TVN_SELCHANGEDA = $TVN_FIRST - 2

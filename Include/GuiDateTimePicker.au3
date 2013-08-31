@@ -27,53 +27,27 @@ Global Const $__DTPCONSTANT_ClassName = "SysDateTimePick32"
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_GUICtrlDTP_Create
-;_GUICtrlDTP_Destroy
-;_GUICtrlDTP_GetMCColor
-;_GUICtrlDTP_GetMCFont
-;_GUICtrlDTP_GetMonthCal
-;_GUICtrlDTP_GetRange
-;_GUICtrlDTP_GetRangeEx
-;_GUICtrlDTP_GetSystemTime
-;_GUICtrlDTP_GetSystemTimeEx
-;_GUICtrlDTP_SetFormat
-;_GUICtrlDTP_SetMCColor
-;_GUICtrlDTP_SetMCFont
-;_GUICtrlDTP_SetRange
-;_GUICtrlDTP_SetRangeEx
-;_GUICtrlDTP_SetSystemTime
-;_GUICtrlDTP_SetSystemTimeEx
+; _GUICtrlDTP_Create
+; _GUICtrlDTP_Destroy
+; _GUICtrlDTP_GetMCColor
+; _GUICtrlDTP_GetMCFont
+; _GUICtrlDTP_GetMonthCal
+; _GUICtrlDTP_GetRange
+; _GUICtrlDTP_GetRangeEx
+; _GUICtrlDTP_GetSystemTime
+; _GUICtrlDTP_GetSystemTimeEx
+; _GUICtrlDTP_SetFormat
+; _GUICtrlDTP_SetMCColor
+; _GUICtrlDTP_SetMCFont
+; _GUICtrlDTP_SetRange
+; _GUICtrlDTP_SetRangeEx
+; _GUICtrlDTP_SetSystemTime
+; _GUICtrlDTP_SetSystemTimeEx
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_Create
-; Description ...: Create a DTP control
-; Syntax.........: _GUICtrlDTP_Create($hWnd, $iX, $iY[, $iWidth = 120[, $iHeight = 21[, $iStyle = 0x00000000[, $iExStyle = 0x00000000]]]])
-; Parameters ....: $hWnd        - Handle to parent or owner window
-;                  $iX          - Horizontal position of the control
-;                  $iY          - Vertical position of the control
-;                  $iWidth      - Control width
-;                  $iHeight     - Wontrol height
-;                  $iStyle      - Control styles:
-;                  |$DTS_APPCANPARSE            - Allows the owner to parse user input and take action
-;                  |$DTS_LONGDATEFORMAT         - Displays the date in long format
-;                  |$DTS_RIGHTALIGN             - The calendar will be right-aligned
-;                  |$DTS_SHOWNONE               - Displays a check box that can be checked once a date is entered
-;                  |$DTS_SHORTDATEFORMAT        - Displays the date in short format
-;                  |$DTS_SHORTDATECENTURYFORMAT - The year is a four-digit field
-;                  |$DTS_TIMEFORMAT             - Displays the time
-;                  |$DTS_UPDOWN                 - Places an up-down control to the right of the control
-;                  -
-;                  |Forced: $WS_CHILD, $WS_VISIBLE
-;                  $iExStyle    - Control external styles
-; Return values .: Success      - Handle to the DTP control
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
-; Remarks .......: This function is for Advanced users and for learning how the control works.
-; Related .......: _GUICtrlDTP_Destroy
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_Create($hWnd, $iX, $iY, $iWidth = 120, $iHeight = 21, $iStyle = 0x00000000, $iExStyle = 0x00000000)
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
@@ -84,18 +58,8 @@ Func _GUICtrlDTP_Create($hWnd, $iX, $iY, $iWidth = 120, $iHeight = 21, $iStyle =
 EndFunc   ;==>_GUICtrlDTP_Create
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_Destroy
-; Description ...: Delete the control
-; Syntax.........: _GUICtrlDTP_Destroy(ByRef $hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True, Handle is set to 0
-;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: Restricted to only be used on Date Time Picker create with _GUICtrlDTP_Create
-; Related .......: _GUICtrlDTP_Create
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_Destroy(ByRef $hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -123,25 +87,8 @@ Func _GUICtrlDTP_Destroy(ByRef $hWnd)
 EndFunc   ;==>_GUICtrlDTP_Destroy
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetMCColor
-; Description ...: Retrieves the specified color
-; Syntax.........: _GUICtrlDTP_GetMCColor($hWnd, $iIndex)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iIndex      - Indicates which month calendar color to retrieve:
-;                  |0 - Background color displayed between months
-;                  |1 - Color used to display text within a month
-;                  |2 - Background color displayed in the calendar title
-;                  |3 - Color used to display text within the calendar title
-;                  |4 - Background color displayed within the month
-;                  |5 - Color used to display header day and trailing day text
-; Return values .: Success      - The color setting for the specified portion of the control
-;                  Failure      - -1
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_SetMCColor
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCColor($hWnd, $iIndex)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -149,18 +96,8 @@ Func _GUICtrlDTP_GetMCColor($hWnd, $iIndex)
 EndFunc   ;==>_GUICtrlDTP_GetMCColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetMCFont
-; Description ...: Retrieves the month calendar font handle
-; Syntax.........: _GUICtrlDTP_GetMCFont($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - Font handle
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_SetMCFont
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCFont($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -168,21 +105,8 @@ Func _GUICtrlDTP_GetMCFont($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetMCFont
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetMonthCal
-; Description ...: Retrieves the handle to child month calendar control
-; Syntax.........: _GUICtrlDTP_GetMonthCal($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - Month calendar handle
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: DTP controls create a child month calendar control when the user clicks the drop down arrow ($DTN_DROPDOWN
-;                  notification). When the month calendar is no longer needed, it is destroyed (a $DTN_CLOSEUP notification is
-;                  sent on destruction). So your application must not rely on a static handle to the DTP control's child month
-;                  calendar.
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMonthCal($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -190,31 +114,8 @@ Func _GUICtrlDTP_GetMonthCal($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetMonthCal
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetRange
-; Description ...: Retrieves the current minimum and maximum allowable system times
-; Syntax.........: _GUICtrlDTP_GetRange($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - Returns an array with the following format:
-;                  |[ 0] - True if Min data is valid, otherwise False
-;                  |[ 1] - Min Year
-;                  |[ 2] - Min Month
-;                  |[ 3] - Min Day
-;                  |[ 4] - Min Hour
-;                  |[ 5] - Min Minute
-;                  |[ 6] - Min Second
-;                  |[ 7] - True if Max data is valid, otherwise False
-;                  |[ 8] - Max Year
-;                  |[ 9] - Max Month
-;                  |[10] - Max Day
-;                  |[11] - Max Hour
-;                  |[12] - Max Minute
-;                  |[13] - Max Second
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_SetRange
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetRange($hWnd)
 	Local $aRange[14]
@@ -238,18 +139,8 @@ Func _GUICtrlDTP_GetRange($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetRange
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetRangeEx
-; Description ...: Retrieves the current minimum and maximum allowable system times
-; Syntax.........: _GUICtrlDTP_GetRangeEx($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - $tagDTPRANGE structure
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_SetRangeEx, $tagDTPRANGE
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetRangeEx($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -272,24 +163,8 @@ Func _GUICtrlDTP_GetRangeEx($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetRangeEx
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetSystemTime
-; Description ...: Retrieves the currently selected date and time
-; Syntax.........: _GUICtrlDTP_GetSystemTime($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - Returns an array with the following format:
-;                  |[0] - Year
-;                  |[1] - Month
-;                  |[2] - Day
-;                  |[3] - Hour
-;                  |[4] - Minute
-;                  |[5] - Second
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: @Error is set to $GDT_VALID if the time information was successfully returned, $GDT_NONE if the control was
-;                  set to the $DTS_SHOWNONE style and the control check box was not selected or $GDT_ERROR if an error occured.
-; Related .......: _GUICtrlDTP_SetSystemTime, _GUICtrlDTP_GetSystemTimeEx
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetSystemTime($hWnd)
 	Local $aDate[6]
@@ -305,18 +180,8 @@ Func _GUICtrlDTP_GetSystemTime($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetSystemTime
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_GetSystemTimeEx
-; Description ...: Retrieves the currently selected date and time
-; Syntax.........: _GUICtrlDTP_GetSystemTimeEx($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - $tagSYSTEMTIME structure
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: @Error is set to $GDT_VALID if the time information was successfully returned, $GDT_NONE if the control was
-;                  set to the $DTS_SHOWNONE style and the control check box was not selected or $GDT_ERROR if an error occured.
-; Related .......: _GUICtrlDTP_GetSystemTime, _GUICtrlDTP_SetSystemTimeEx, $tagSYSTEMTIME
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetSystemTimeEx($hWnd)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -337,42 +202,8 @@ Func _GUICtrlDTP_GetSystemTimeEx($hWnd)
 EndFunc   ;==>_GUICtrlDTP_GetSystemTimeEx
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetFormat
-; Description ...: Sets the display based on a given format string
-; Syntax.........: _GUICtrlDTP_SetFormat($hWnd, $sFormat)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $sFormat     - String that defines the desired format.  Setting this to blank will reset the control to the
-;                  +default format string for the current style. You can use the following format strings:
-;                  |"d"    - The one or two digit day
-;                  |"dd"   - The two digit day. Single digit day values are preceded by a zero
-;                  |"ddd"  - The three character weekday abbreviation
-;                  |"dddd" - The full weekday name
-;                  |"h"    - The one or two digit hour in 12-hour format
-;                  |"hh"   - The two digit hour in 12-hour format
-;                  |"H"    - The one or twodigit hour in 24-hour format
-;                  |"HH"   - The two digit hour in 24 hour format
-;                  |"m"    - The one or two digit minute
-;                  |"mm"   - The two digit minute
-;                  |"M"    - The one or two digit month number
-;                  |"MM"   - The two digit month number
-;                  |"MMM"  - The three-character month abbreviation
-;                  |"MMMM" - The full month name
-;                  |"t"    - The one letter AM/PM abbreviation
-;                  |"tt"   - The two letter AM/PM abbreviation
-;                  |"yy"   - The last two digits of the year
-;                  |"yyyy" - The full year
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: It is acceptable to include extra characters within the format string to produce a more rich display. However,
-;                  any nonformat characters must be enclosed within single quotes.  For example, the  format  string  "'Today is:
-;                  'hh':'m':'s ddddMMMdd', 'yyy" would produce output like "Today is: 04:22:31 Tuesday Mar 23, 1996". Note: A DTP
-;                  control tracks locale changes when it is using the default format string.  If you set a custom format string,
-;                  it will not be updated in response to locale changes.
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetFormat($hWnd, $sFormat)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -392,26 +223,8 @@ Func _GUICtrlDTP_SetFormat($hWnd, $sFormat)
 EndFunc   ;==>_GUICtrlDTP_SetFormat
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetMCColor
-; Description ...: Sets the color for a given portion of the month calendar
-; Syntax.........: _GUICtrlDTP_SetMCColor($hWnd, $iIndex, $iColor)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iIndex      - Indicates which month calendar color to set:
-;                  |0 - Background color displayed between months
-;                  |1 - Color used to display text within a month
-;                  |2 - Background color displayed in the calendar title
-;                  |3 - Color used to display text within the calendar title
-;                  |4 - Background color displayed within the month
-;                  |5 - Color used to display header day and trailing day text
-;                  $iColor      - The color that will be set for the specified area
-; Return values .: Success      - The previous color for the given portion
-;                  Failure      - -1
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetMCColor
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCColor($hWnd, $iIndex, $iColor)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -419,19 +232,8 @@ Func _GUICtrlDTP_SetMCColor($hWnd, $iIndex, $iColor)
 EndFunc   ;==>_GUICtrlDTP_SetMCColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetMCFont
-; Description ...: Sets the month calendar font
-; Syntax.........: _GUICtrlDTP_SetMCFont($hWnd, $hFont[, $fRedraw = True])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $hFont       - Handle to the font that will be set
-;                  $fRedraw     - Specifies whether the control should be redrawn immediately
-; Return values .: None
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetMCFont
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCFont($hWnd, $hFont, $fRedraw = True)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -439,33 +241,8 @@ Func _GUICtrlDTP_SetMCFont($hWnd, $hFont, $fRedraw = True)
 EndFunc   ;==>_GUICtrlDTP_SetMCFont
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetRange
-; Description ...: Sets the current minimum and maximum allowable system times
-; Syntax.........: _GUICtrlDTP_SetRange($hWnd, ByRef $aRange)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $aRange      - Array formatted as follows:
-;                  |[ 0] - True if Min data is to be set, otherwise False
-;                  |[ 1] - Min Year
-;                  |[ 2] - Min Month
-;                  |[ 3] - Min Day
-;                  |[ 4] - Min Hour
-;                  |[ 5] - Min Minute
-;                  |[ 6] - Min Second
-;                  |[ 7] - True if Max data is to be set, otherwise False
-;                  |[ 8] - Max Year
-;                  |[ 9] - Max Month
-;                  |[10] - Max Day
-;                  |[11] - Max Hour
-;                  |[12] - Max Minute
-;                  |[13] - Max Second
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetRange
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRange($hWnd, ByRef $aRange)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -488,19 +265,8 @@ Func _GUICtrlDTP_SetRange($hWnd, ByRef $aRange)
 EndFunc   ;==>_GUICtrlDTP_SetRange
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetRangeEx
-; Description ...: Sets the current minimum and maximum allowable system times
-; Syntax.........: _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $tRange      - $tagDTPRANGE structure
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetRangeEx, $tagDTPRANGE
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -522,26 +288,8 @@ Func _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
 EndFunc   ;==>_GUICtrlDTP_SetRangeEx
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetSystemTime
-; Description ...: Sets the currently selected date and time
-; Syntax.........: _GUICtrlDTP_SetSystemTime($hWnd, ByRef $aDate)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $aDate       - Array formatted as follows:
-;                  |[0] - If True, the control will is set to "no date"
-;                  |[1] - Year
-;                  |[2] - Month
-;                  |[3] - Day
-;                  |[4] - Hour
-;                  |[5] - Minute
-;                  |[6] - Second
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetSystemTime
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTime($hWnd, ByRef $aDate)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
@@ -557,22 +305,8 @@ Func _GUICtrlDTP_SetSystemTime($hWnd, ByRef $aDate)
 EndFunc   ;==>_GUICtrlDTP_SetSystemTime
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlDTP_SetSystemTimeEx
-; Description ...: Sets the currently selected date and time
-; Syntax.........: _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate[, $fFlag = False])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $tDate       - $tagSYSTEMTIME structure
-;                  $fFlag       - No date setting:
-;                  | True - Control will be set to "no date"
-;                  |False - Control is set to date and time value
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlDTP_GetSystemTimeEx, $tagSYSTEMTIME
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate, $fFlag = False)
 	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)

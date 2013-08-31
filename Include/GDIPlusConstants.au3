@@ -5,7 +5,7 @@
 ; AutoIt Version : 3.2
 ; Language ......: English
 ; Description ...: Constants for GDI+
-; Author(s) .....: Valik, Gary Frost
+; Author(s) .....: Valik, Gary Frost, UEZ
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -161,4 +161,51 @@ Global Const $GDIP_IMAGEFLAGS_HASREALPIXELSIZE = 0x2000 ; pixel size is stored i
 Global Const $GDIP_IMAGEFLAGS_READONLY = 0x00010000 ; pixel data is read-only.
 Global Const $GDIP_IMAGEFLAGS_CACHING = 0x00020000 ; pixel data can be cached for faster access.
 
+; Graphic SmoothingMode constants
+Global Const $GDIP_SMOOTHINGMODE_INVALID = -1 ; Reserved.
+Global Const $GDIP_SMOOTHINGMODE_DEFAULT = 0 ; Specifies that smoothing is not applied.
+Global Const $GDIP_SMOOTHINGMODE_HIGHSPEED = 1 ; Specifies that smoothing is not applied.
+Global Const $GDIP_SMOOTHINGMODE_HIGHQUALITY = 2 ; Specifies that smoothing is applied using an 8 X 4 box filter.
+Global Const $GDIP_SMOOTHINGMODE_NONE = 3 ; Specifies that smoothing is not applied.
+Global Const $GDIP_SMOOTHINGMODE_ANTIALIAS8X4 = 4 ; Specifies that smoothing is applied using an 8 X 4 box filter.
+Global Const $GDIP_SMOOTHINGMODE_ANTIALIAS = $GDIP_SMOOTHINGMODE_ANTIALIAS8X4 ; Specifies that smoothing is applied using an 8 X 4 box filter.
+Global Const $GDIP_SMOOTHINGMODE_ANTIALIAS8X8 = 5 ; Specifies that smoothing is applied using an 8 X 8 box filter.
+
+; Colors luminance
+Global Const $GDIP_RLUM = 0.3086
+Global Const $GDIP_GLUM = 0.6094
+Global Const $GDIP_BLUM = 0.0820
+
+; Interpolation Mode constants
+Global Const $GDIP_INTERPOLATIONMODE_INVALID = -1 ; Reserved (used internally)
+Global Const $GDIP_INTERPOLATIONMODE_DEFAULT = 0 ; Specifies the default interpolation mode
+Global Const $GDIP_INTERPOLATIONMODE_LOWQUALITY = 1 ; Specifies a low-quality mode
+Global Const $GDIP_INTERPOLATIONMODE_HIGHQUALITY = 2 ; Specifies a high-quality mode
+Global Const $GDIP_INTERPOLATIONMODE_BILINEAR = 3 ; Specifies bilinear interpolation. No prefiltering is done. This mode is not suitable for shrinking an image below 50 percent of its original size.
+Global Const $GDIP_INTERPOLATIONMODE_BICUBIC = 4 ; Specifies bicubic interpolation. No prefiltering is done. This mode is not suitable for shrinking an image below 25 percent of its original size
+Global Const $GDIP_INTERPOLATIONMODE_NEARESTNEIGHBOR = 5 ; Specifies nearest-neighbor interpolation
+Global Const $GDIP_INTERPOLATIONMODE_HIGHQUALITYBILINEAR = 6 ; Specifies high-quality, bilinear interpolation. Prefiltering is performed to ensure high-quality shrinking.
+Global Const $GDIP_INTERPOLATIONMODE_HIGHQUALITYBICUBIC = 7 ; Specifies high-quality, bicubic interpolation. Prefiltering is performed to ensure high-quality shrinking. This mode produces the highest quality transformed images.
+
+; TextRenderingHint constants
+Global Const $GDIP_TEXTRENDERINGHINT_SYSTEMDEFAULT = 0 ; Specifies that a character is drawn using the currently selected system font smoothing mode (also called a rendering hint).
+Global Const $GDIP_TEXTRENDERINGHINT_SINGLEBITPERPIXELGRIDFIT = 1 ; Specifies that a character is drawn using its glyph bitmap and hinting to improve character appearance on stems and curvature.
+Global Const $GDIP_TEXTRENDERINGHINT_SINGLEBITPERPIXEL = 2 ; Specifies that a character is drawn using its glyph bitmap and no hinting. This results in better performance at the expense of quality.
+Global Const $GDIP_TEXTRENDERINGHINT_ANTIALIASGRIDFIT = 3 ; Specifies that a character is drawn using its antialiased glyph bitmap and hinting. This results in much better quality due to antialiasing at a higher performance cost.
+Global Const $GDIP_TEXTRENDERINGHINT_ANTIALIAS = 4 ; Specifies that a character is drawn using its antialiased glyph bitmap and no hinting. Stem width differences may be noticeable because hinting is turned off.
+Global Const $GDIP_TEXTRENDERINGHINT_CLEARTYPEGRIDFIT = 5 ; Specifies that a character is drawn using its glyph ClearType bitmap and hinting. This type of text rendering cannot be used along with CompositingModeSourceCopy.
+
+; PixelOffsetMode constants
+Global Const $GDIP_PIXELOFFSETMODE_INVALID = -1 ; Used internally.
+Global Const $GDIP_PIXELOFFSETMODE_DEFAULT = 0 ; Equivalent to $GDIP_PIXELOFFSETMODE_NONE
+Global Const $GDIP_PIXELOFFSETMODE_HIGHSPEED = 1 ; Equivalent to $GDIP_PIXELOFFSETMODE_NONE
+Global Const $GDIP_PIXELOFFSETMODE_HIGHQUALITY = 2 ; Equivalent to $GDIP_PIXELOFFSETMODE_HALF
+Global Const $GDIP_PIXELOFFSETMODE_NONE = 3 ; Indicates that pixel centers have integer coordinates.
+Global Const $GDIP_PIXELOFFSETMODE_HALF = 4 ; Indicates that pixel centers have coordinates that are half way between integer values.
+
+; LineJoin constants
+Global Const $GDIP_PENSETLINEJOIN_MITER = 0 ; Specifies a mitered join. This produces a sharp corner or a clipped corner, depending on whether the length of the miter exceeds the miter limit.
+Global Const $GDIP_PENSETLINEJOIN_BEVEL = 1 ; Specifies a beveled join. This produces a diagonal corner.
+Global Const $GDIP_PENSETLINEJOIN_ROUND = 2 ; Specifies a circular join. This produces a smooth, circular arc between the lines.
+Global Const $GDIP_PENSETLINEJOIN_MITERCLIPPED = 3 ; Specifies a mitered join. This produces a sharp corner or a beveled corner, depending on whether the length of the miter exceeds the miter limit.
 ; ===============================================================================================================================

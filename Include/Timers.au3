@@ -18,53 +18,31 @@ Global $_Timers_aTimerIDs[1][3]
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_Timer_Diff
-;_Timer_GetIdleTime
-;_Timer_GetTimerID
-;_Timer_Init
-;_Timer_KillAllTimers
-;_Timer_KillTimer
-;_Timer_SetTimer
+; _Timer_Diff
+; _Timer_GetIdleTime
+; _Timer_GetTimerID
+; _Timer_Init
+; _Timer_KillAllTimers
+; _Timer_KillTimer
+; _Timer_SetTimer
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__Timer_QueryPerformanceCounter
-;__Timer_QueryPerformanceFrequency
+; __Timer_QueryPerformanceCounter
+; __Timer_QueryPerformanceFrequency
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_Diff
-; Description ...: Returns the difference in time from a previous call to _Timer_Init
-; Syntax.........: _Timer_Diff($iTimeStamp)
-; Parameters ....: $iTimeStamp - Timestamp returned from a previous call to _Timer_Init().
-; Return values .: Success - Returns the time difference (in milliseconds) from a previous call to _Timer_Init().
 ; Author ........: Gary Frost, original by Toady
 ; Modified.......:
-; Remarks .......:
-; Related .......: _Timer_Init
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_Diff($iTimeStamp)
 	Return 1000 * (__Timer_QueryPerformanceCounter() - $iTimeStamp) / __Timer_QueryPerformanceFrequency()
 EndFunc   ;==>_Timer_Diff
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_GetIdleTime
-; Description ...: Returns the number of ticks since last user activity (i.e. KYBD/Mouse)
-; Syntax.........: _Timer_GetIdleTime()
-; Parameters ....: None
-; Return values .: Success - integer ticks since last (approx. milliseconds) since last activity
-;                  Failure - Sets @extended = 1 if rollover occurs (see remarks)
 ; Author ........: PsaltyDS at http://www.autoitscript.com/forum
 ; Modified.......:
-; Remarks .......: The current ticks since last system restart will roll over to 0 every 50 days or so,
-;                  which makes it possible for last user activity to be before the rollover, but run time
-;                  of this function to be after the rollover.  If this happens, @extended = 1 and the
-;                  returned value is ticks since rollover occured.
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_GetIdleTime()
 	; Get ticks at last activity
@@ -85,18 +63,8 @@ Func _Timer_GetIdleTime()
 EndFunc   ;==>_Timer_GetIdleTime
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_GetTimerID
-; Description ...: Returns the Timer ID from $iwParam
-; Syntax.........: _Timer_GetTimerID($iwParam)
-; Parameters ....: $iwParam - Specifies the timer identifier event.
-; Return values .: Success - The Timer ID
-;                  Failure - 0
 ; Author ........: Gary Frost
 ; Modified.......:
-; Remarks .......:
-; Related .......: _Timer_SetTimer
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_GetTimerID($iwParam)
 	Local $_iTimerID = Dec(Hex($iwParam, 8)), $iMax = UBound($_Timers_aTimerIDs) - 1
@@ -107,36 +75,16 @@ Func _Timer_GetTimerID($iwParam)
 EndFunc   ;==>_Timer_GetTimerID
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_Init
-; Description ...: Returns a timestamp (in milliseconds).
-; Syntax.........: _Timer_Init()
-; Parameters ....:
-; Return values .: Success - Returns a timestamp number (in milliseconds).
 ; Author ........: Gary Frost, original by Toady
 ; Modified.......:
-; Remarks .......:
-; Related .......: _Timer_Diff
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_Init()
 	Return __Timer_QueryPerformanceCounter()
 EndFunc   ;==>_Timer_Init
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_KillAllTimers
-; Description ...: Destroys all the timers
-; Syntax.........: _Timer_KillAllTimers($hWnd)
-; Parameters ....: $hWnd        - Handle to the window associated with the timers.
-;                  |This value must be the same as the hWnd value passed to the _Timer_SetTimer function that created the timer
-; Return values .: Success - True
-;                  Failure - False
 ; Author ........: Gary Frost
 ; Modified.......: Squirrely1
-; Remarks .......: The _Timer_KillAllTimers function does not remove WM_TIMER messages already posted to the message queue
-; Related .......: _Timer_KillTimer, _Timer_SetTimer
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillAllTimers($hWnd)
 	Local $iNumTimers = $_Timers_aTimerIDs[0][0]
@@ -158,20 +106,8 @@ Func _Timer_KillAllTimers($hWnd)
 EndFunc   ;==>_Timer_KillAllTimers
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_KillTimer
-; Description ...: Destroys the specified timer
-; Syntax.........: _Timer_KillTimer($hWnd, $iTimerID)
-; Parameters ....: $hWnd        - Handle to the window associated with the specified timer.
-;                  |This value must be the same as the hWnd value passed to the _Timer_SetTimer function that created the timer
-;                  $iTimerID      - Specifies the timer to be destroyed
-; Return values .: Success - True
-;                  Failure - False
 ; Author ........: Gary Frost
 ; Modified.......: Squirrely1
-; Remarks .......: The _Timer_KillTimer function does not remove WM_TIMER messages already posted to the message queue
-; Related .......: _Timer_KillAllTimers, _Timer_SetTimer
-; Link ..........: @@MsdnLink@@ KillTimer
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_KillTimer($hWnd, $iTimerID)
 	Local $aResult[1] = [0], $hCallBack = 0, $iUBound = UBound($_Timers_aTimerIDs) - 1
@@ -201,7 +137,7 @@ EndFunc   ;==>_Timer_KillTimer
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Timer_QueryPerformanceCounter
 ; Description ...: Retrieves the current value of the high-resolution performance counter
-; Syntax.........: __Timer_QueryPerformanceCounter()
+; Syntax.........: __Timer_QueryPerformanceCounter ( )
 ; Parameters ....:
 ; Return values .: Success - Current performance-counter value, in counts
 ;                  Failure - -1
@@ -221,7 +157,7 @@ EndFunc   ;==>__Timer_QueryPerformanceCounter
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Timer_QueryPerformanceFrequency
 ; Description ...: Retrieves the current value of the high-resolution performance counter
-; Syntax.........: __Timer_QueryPerformanceFrequency()
+; Syntax.........: __Timer_QueryPerformanceFrequency ( )
 ; Parameters ....:
 ; Return values .: Success - Current performance-counter frequency, in counts per second
 ;                  Failure - 0
@@ -239,25 +175,8 @@ Func __Timer_QueryPerformanceFrequency()
 EndFunc   ;==>__Timer_QueryPerformanceFrequency
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Timer_SetTimer
-; Description ...: Creates a timer with the specified time-out value
-; Syntax.........: _Timer_SetTimer($hWnd[, $iElapse = 250[, $sTimerFunc = ""[, $iTimerID = -1]]])
-; Parameters ....: $hWnd        - Handle to the window to be associated with the timer.
-;                  |This window must be owned by the calling thread
-;                  $iElapse     - Specifies the time-out value, in milliseconds
-;                  $sTimerFunc  - Function name to be notified when the time-out value elapses
-;                  $iTimerID    - Specifies a timer identifier.
-;                  |If $iTimerID = -1 then a new timer is created
-;                  |If $iTimerID matches an existing timer then the timer is replaced
-;                  |If $iTimerID = -1 and $sTimerFunc = "" then timer will use WM_TIMER events
-; Return values .: Success - Integer identifying the new timer
-;                  Failure - 0
 ; Author ........: Gary Frost
 ; Modified.......: Squirrely1
-; Remarks .......:
-; Related .......: _Timer_KillTimer, _Timer_KillAllTimers, _Timer_GetTimerID
-; Link ..........: @@MsdnLink@@ SetTimer
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Timer_SetTimer($hWnd, $iElapse = 250, $sTimerFunc = "", $iTimerID = -1)
 	Local $aResult[1] = [0], $pTimerFunc = 0, $hCallBack = 0, $iIndex = $_Timers_aTimerIDs[0][0] + 1

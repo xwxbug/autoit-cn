@@ -9,7 +9,7 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-;Styles
+; Styles
 Global Const $ES_LEFT = 0
 Global Const $ES_CENTER = 1
 Global Const $ES_RIGHT = 2
@@ -24,10 +24,10 @@ Global Const $ES_OEMCONVERT = 1024
 Global Const $ES_READONLY = 2048
 Global Const $ES_WANTRETURN = 4096
 Global Const $ES_NUMBER = 8192
-;~ Global Const $ES_DISABLENOSCROLL     = 8192
-;~ Global Const $ES_SUNKEN              = 16384
-;~ Global Const $ES_VERTICAL            = 4194304
-;~ Global Const $ES_SELECTIONBAR        = 16777216
+; Global Const $ES_DISABLENOSCROLL = 8192
+; Global Const $ES_SUNKEN = 16384
+; Global Const $ES_VERTICAL = 4194304
+; Global Const $ES_SELECTIONBAR = 16777216
 
 ; Error checking
 Global Const $EC_ERR = -1
@@ -113,8 +113,6 @@ Global Const $TTI_WARNING_LARGE = 5
 Global Const $TTI_ERROR_LARGE = 6
 
 ; Control default styles
-Global Const $__EDITCONSTANT_WS_VSCROLL = 0x00200000
-Global Const $__EDITCONSTANT_WS_HSCROLL = 0x00100000
-Global Const $GUI_SS_DEFAULT_EDIT = BitOR($ES_WANTRETURN, $__EDITCONSTANT_WS_VSCROLL, $__EDITCONSTANT_WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL)
-Global Const $GUI_SS_DEFAULT_INPUT = BitOR($ES_LEFT, $ES_AUTOHSCROLL)
+Global Const $GUI_SS_DEFAULT_EDIT = 0x003010c0 ; BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL)
+Global Const $GUI_SS_DEFAULT_INPUT = 0x00000080 ; BitOR($ES_LEFT, $ES_AUTOHSCROLL)
 ; ===============================================================================================================================

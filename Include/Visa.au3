@@ -1,3 +1,5 @@
+#include <MsgBoxConstants.au3>
+
 #include-once
 
 ; #INDEX# =======================================================================================================================
@@ -73,7 +75,7 @@
 ; v1.0.00    02/01/2005    Initial release
 ; v1.0.01    02/06/2005    Formatted according to Standard UDF rules
 ;                          Fixed _viGpibBusReset
-;                          Renamed _viFindGPIB to _viFindGpib
+;                          Renamed _viFindGpib to _viFindGpib
 ;                          Removed unnecessary MsgBox calls
 ;                          More detailed function headers
 ;                          Added Serial Interface related Attribute/Value Constants
@@ -98,7 +100,7 @@ Global Const $VI_NULL = 0
 Global Const $VI_TRUE = 1
 Global Const $VI_FALSE = 0
 
-;- VISA GPIB BUS control macros (for __viGpibControlREN, see below) -------------
+; - VISA GPIB BUS control macros (for __viGpibControlREN, see below) -------------
 Global Const $VI_GPIB_REN_DEASSERT = 0
 Global Const $VI_GPIB_REN_ASSERT = 1
 Global Const $VI_GPIB_REN_DEASSERT_GTL = 2
@@ -107,8 +109,7 @@ Global Const $VI_GPIB_REN_ASSERT_LLO = 4
 Global Const $VI_GPIB_REN_ASSERT_ADDRESS_LLO = 5
 Global Const $VI_GPIB_REN_ADDRESS_GTL = 6
 
-
-;- VISA interface ATTRIBUTE NAMES ----------------------------------------------
+; - VISA interface ATTRIBUTE NAMES ----------------------------------------------
 ; General Attributes
 Global Const $VI_ATTR_TMO_VALUE = 0x3FFF001A
 
@@ -124,8 +125,8 @@ Global Const $VI_ATTR_TERMCHAR = 0x3FFF0018
 Global Const $VI_ATTR_TERMCHAR_EN = 0x3FFF0038
 Global Const $VI_ATTR_SEND_END_EN = 0x3FFF0016
 
-;- VISA interface ATTRIBUTE VALUES ---------------------------------------------
-;* TIMEOUT VALUES:
+; - VISA interface ATTRIBUTE VALUES ---------------------------------------------
+; * TIMEOUT VALUES:
 Global Const $VI_TMO_IMMEDIATE = 0
 Global Const $VI_TMO_INFINITE = 0xFFFFFFF
 
@@ -147,183 +148,26 @@ Global Const $VI_ASRL_FLOW_DTR_DSR = 4
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_viClose
-;_viExecCommand
-;_viFindGpib
-;_viGpibBusReset
-;_viGTL
-;_viInteractiveControl
-;_viOpen
-;_viSetAttribute
-;_viSetTimeout
+; _viClose
+; _viExecCommand
+; _viFindGpib
+; _viGpibBusReset
+; _viGTL
+; _viInteractiveControl
+; _viOpen
+; _viSetAttribute
+; _viSetTimeout
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__viOpenDefaultRM
-;__viPrintf
-;__viQueryf
-;__viGpibControlREN
+; __viOpenDefaultRM
+; __viPrintf
+; __viQueryf
+; __viGpibControlREN
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: MAIN FUNCTION - Send a Command/Query to an Instrument/Device
-; Syntax.........: _viExecCommand($h_session, $s_command, $i_timeout_ms = -1)
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
-;                              * STRING -> A VISA DESCRIPTOR is a string which
-;                                specifies the resource with which to establish a
-;                                communication session. An example descriptor is
-;                                "GPIB::20::0". This function supports all valid
-;                                VISA descriptors, including GPIB, TCP, VXI and
-;                                Serial Interface instruments. A detailed explanation
-;                                of VISA descriptors is shown in the Notes section
-;                                of this function.
-;                                As a SHORTCUT you can use a STRING containing
-;                                the address number (e.g. "20") of a GPIB
-;                                instrument instead of typing the full descriptor
-;                                (in that case, "GPIB::20::0")
-;                              * INTEGER -> A VISA session handle is an integer
-;                                value returned by _viOpen (see below).
-;                                It is recommended that instead you use _viOpen
-;                                and VISA session handles instead of descriptors
-;                                if you plan to communicate repeteadly with an
-;                                Instrument or Device, as otherwise each time that
-;                                you contact the instrument you would incur the
-;                                overhead of opening and closing the communication
-;                                link.
-;                                Once you are done using the instrument you must
-;                                remember to close the link with _viClose (see below)
-;                   $s_command - Command/Query to execute.
-;                                A query MUST contain a QUESTION MARK (?)
-;                                When the command is a QUERY the function will
-;                                automatically wait for the instrument's answer
-;                                (or until the operation times out)
-;                   $i_timeout_ms - The operation timeout in MILISECONDS
-;                                This is mostly important for QUERIES only
-;                                This is an OPTIONAL PARAMETER.
-;                                If it is not specified the last set timeout will
-;                                be used. If it was never set before the default
-;                                timeout (which depends on the VISA implementation)
-;                                will be used. Timeouts can also be set separatelly
-;                                with the _viSetTimeout function (see below)
-;                   $s_mode - Control the mode in which the VISA viPrintf is called
-;                                This is an OPTIONAL PARAMETER.
-;                                Check the __viPrintf help for more info on
-;                                this OPTIONAL PARAMETER (whose default value is @LF)
-;                                This is normally NOT necessary and should only be set
-;                                if your GPIB card or instrument require it.
-; Return values .: The return value depends on whether the command is a QUERY
-;                   or not and in whether the operation was successful or not.
-;
-;                   * Command, NON QUERY:
-;                     On Success - Returns ZERO
-;                     On Failure - Returns -1 if the VISA DLL could not be open
-;                                  or a NON ZERO value representing the VISA
-;                                  error code (see the VISA programmer's guide)
-;                   * QUERY:
-;                     On Success - Returns the answer of the instrument to the QUERY
-;                     On Failure - Returns -1 if the VISA DLL could not be open
-;                                  Returns -3 if the VISA DLL returned an unexpected
-;                                  number of results
-;                                  or returns a NON ZERO value representing the VISA
-;                                  error code (see the VISA programmer's guide)
-;
-;                   This function always sets @error to 1 in case of error
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Example .......:
-;                 - Simple communication examples:
-;                   Get instrument ID:
-;                     $s_idn = _viExecCommand("GPIB::20::0","*IDN?")
-;                   This is the same as:
-;                     $s_idn = _viExecCommand("20","*IDN?") -> Note that "20" is a STRING
-;
-;                 - More efficient way to communicate many times
-;                   You must use _viOpen and _viClose
-;                   In this example we measure a POWER 100 times:
-;                     $h_session = _viOpen("GPIB::1::0") ; or $h_session = _viOpen("1")
-;                     For $n = 0 To 99
-;                       $power_array[$n] = _viExecCommand($h_session,"POWER?")
-;                     Next
-;                     _viClose($h_session)
-;
-;                   A more complex example, using 2 instruments, a signal generator
-;                   and a spectrum analyzer, to measure the average power error of
-;                   the generator:
-;
-;                     $h_spec_analyzer = _viOpen("GPIB::1::0") ; or $h_session = _viOpen("1")
-;                     $h_signal_gen = _viOpen("GPIB::12::0") ; or $h_session = _viOpen("1")
-;                     $average_power_error = 0
-;                     For $ideal_power = -100 To -10 ; dBM
-;                       _viExecCommand($h_signal_gen,"SOURCE:POWER " & $ideal_power & "dBm")
-;                       $current_power_error = Abs($ideal_power - _viExecCommand($h_spec_analyzer,"POWER?"))
-;                       $average_power_error = $average_power_error + $current_power_error
-;                     Next
-;                     $average_power_error = $average_power_error / 91
-;                     _viClose($h_spec_analyzer)
-;                     _viClose($h_signal_gen)
-;
-; Notes .........:
-;                 The following is a description of the MOST COMMON VISA DESCRIPTORS
-;                 Note that there are some more types. For more info please
-;                 refer to a VISA programmer's guide (available at www.ni.com)
-;                 Optional segments are shown in square brackets ([]).
-;                 Required segments that must be filled in are denoted by angle
-;                 brackets (<>).
-;
-;                 Interface   Syntax
-;                 ------------------------------------------------------------
-;                 GPIB INSTR      GPIB[board]::primary address
-;                                 [::secondary address] [::INSTR]
-;                 GPIB INTFC      GPIB[board]::INTFC
-;                 TCPIP SOCKET    TCPIP[board]::host address::port::SOCKET
-;                 Serial INSTR    ASRL[board][::INSTR]
-;                 PXI INSTR       PXI[board]::device[::function][::INSTR]
-;                 VXI INSTR       VXI[board]::VXI logical address[::INSTR]
-;                 GPIB-VXI INSTR  GPIB-VXI[board]::VXI logical address[::INSTR]
-;                 TCPIP INSTR     TCPIP[board]::host address[::LAN device name]
-;                                 [::INSTR]
-;
-;                 The GPIB keyword is used for GPIB instruments.
-;                 The TCPIP keyword is used for TCP/IP communication.
-;                 The ASRL keyword is used for serial instruments.
-;                 The PXI keyword is used for PXI instruments.
-;                 The VXI keyword is used for VXI instruments via either embedded
-;                 or MXIbus controllers.
-;                 The GPIB-VXI keyword is used for VXI instruments via a GPIB-VXI
-;                 controller.
-;
-;                 The default values for optional parameters are shown below.
-;
-;                 Optional Segment          Default Value
-;                 ---------------------------------------
-;                 board                     0
-;                 secondary address         none
-;                 LAN device name           inst0
-;
-;
-;                 Example Resource Strings:
-;                 --------------------------------------------------------------
-;                 GPIB::1::0::INSTR     A GPIB device at primary address 1 and
-;                                       secondary address 0 in GPIB interface 0.
-;
-;                 GPIB2::INTFC          Interface or raw resource for GPIB
-;                                       interface 2.
-;
-;                 TCPIP0::1.2.3.4::999::SOCKET    Raw TCP/IP access to port 999
-;                                                 at the specified IP address.
-;
-;                 ASRL1::INSTR          A serial device attached to interface
-;                                       ASRL1.  VXI::MEMACC Board-level register
-;                                       access to the VXI interface.
-;
-;                 PXI::15::INSTR        PXI device number 15 on bus 0.
-;
-;                 VXI0::1::INSTR        A VXI device at logical address 1 in VXI
-;                                       interface VXI0.
-;
-;                 GPIB-VXI::9::INSTR    A VXI device at logical address 9 in a
-;                                       GPIB-VXI controlled system.
-;
 ; ===============================================================================================================================
 Func _viExecCommand($h_session, $s_command, $i_timeout_ms = -1, $s_mode = @LF)
 	If StringInStr($s_command, "?") = 0 Then
@@ -336,32 +180,7 @@ Func _viExecCommand($h_session, $s_command, $i_timeout_ms = -1, $s_mode = @LF)
 EndFunc   ;==>_viExecCommand
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Opens a VISA connection to an Instrument/Device
-; Syntax.........: _viOpen($s_visa_address, $s_visa_secondary_address = 0)
-; Parameters ....: $s_visa_address - A VISA resource descriptor STRING (see the
-;                   NOTES of _viExecCommand above for more info)
-;                   As as shortcut you can also directly pass a GPIB address as
-;                   an integer
-;                   $s_visa_secondary_address - Some GPIB instruments have
-;                   secondary addresses. This parameter is ZERO by default, which
-;                   means NO SECONDARY ADDRESS.
-;                   Only use this optional parameter if the primary address is
-;                   passed as an integer
-; Return values .: On Success - Returns a (POSITIVE) VISA Instrument Handle
-;                   On Failure - Returns -1 and SETS @error to 1
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: For simple usage there is no need to use this function, as
-;                   _viExecCommand automatically opens/closes a VISA connection
-;                   if you pass it a VISA resource descriptor (see the NOTES of
-;                   _viExecCommand above for more info)
-;
-;                   However, if you want to repeteadly send commands/queries to
-;                   a device, you should call this function followed by using the
-;                   returned instrument handle instead of the VISA descriptor
-;
-;                   Do not forget to use _viClose when you are done, though
-;
 ; ===============================================================================================================================
 Func _viOpen($s_visa_address, $s_visa_secondary_address = 0)
 	Local $h_session = -1 ; The session handle by default is invalid (-1)
@@ -408,26 +227,7 @@ Func _viOpen($s_visa_address, $s_visa_secondary_address = 0)
 EndFunc   ;==>_viOpen
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Closes a VISA connection to an Instrument/Device
-; Syntax.........: _viClose($h_session)
-; Parameters ....: $h_session - A VISA session handle (as returned by _viOpen)
-; Return values .: On Success - Returns 0
-;                   On Failure - Returns -1 if the VISA DLL could not be open
-;                                or a NON ZERO value representing the VISA
-;                                error code (see the VISA programmer's guide)
-
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: For simple usage there is no need to use this function, as
-;                   _viExecCommand automatically opens/closes a VISA connection
-;                   if you pass it a VISA resource descriptor (see the NOTES of
-;                   _viExecCommand above for more info)
-;
-;                   However, if you want to repeteadly send commands/queries to
-;                   a device, you should use _viOpen followed by using the
-;                   returned instrument handle instead of the VISA descriptor
-;                   and then calling this function
-;
 ; ===============================================================================================================================
 Func _viClose($h_session)
 	;- Close INSTRUMENT Connection
@@ -446,36 +246,7 @@ Func _viClose($h_session)
 EndFunc   ;==>_viClose
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Find all the DEVICES found in the GPIB bus
-; Syntax.........: _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_results = 0)
-; Parameters ....: $a_descriptor_list (ByRef) - RETURNS an array of the VISA resource
-;                   descriptors (see the NOTES of _viExecCommand above for more
-;                   info) of the instruments that were found in the GPIB bus
-;                   $a_idn_list (ByRef) - RETURNS an array of the IDNs (i.e names)
-;                   of the instruments that were found in the GPIB bus
-;                   $f_show_search_results - If 1 a message box showing the
-;                   results of the search will be shown
-;                   The default is 0, which means that the results are not shown
-; Return values .: On Success - The number of instruments found (0 or more)
-;                   On Failure - Returns a NEGATIVE value and SETS @error to 1
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Example .......:
-;  ; This example performs a search on the GPIB bus and shows the results in a MsgBox
-;  Dim $a_descriptor_list[1], $a_idn_list[1]
-;  _viFindGpib($a_descriptor_list, $a_idn_list, 1)
-;
-; Notes .........: For simple usage there is no need to use this function, as
-;                   _viExecCommand automatically opens/closes a VISA connection
-;                   if you pass it a VISA resource descriptor (see the NOTES of
-;                   _viExecCommand above for more info)
-;
-;                   However, if you want to repeteadly send commands/queries to
-;                   a device, you should call this function followed by using the
-;                   returned instrument handle instead of the VISA descriptor
-;
-;                   Do not forget to use _viClose when you are done, though
-;
 ; ===============================================================================================================================
 Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_results = 0)
 	;- Make sure that there is a Resource Manager open (Note: this will NOT open it twice!)
@@ -560,7 +331,7 @@ EndFunc   ;==>_viFindGpib
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Open the VISA Resource Manager
-; Syntax.........: __viOpenDefaultRM()
+; Syntax.........: __viOpenDefaultRM ( )
 ; Parameters ....: None
 ; Return values .: On Success - The Default Resource Manager Handle (also stored
 ;                   in the $VISA_DEFAULT_RM global)
@@ -609,7 +380,7 @@ EndFunc   ;==>__viOpenDefaultRM
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Send a COMMAND (NOT a QUERY) to an Instrument/Device
-; Syntax.........: __viPrintf($h_session, $s_command, $i_timeout_ms = -1)
+; Syntax.........: __viPrintf ( $h_session, $s_command [, $i_timeout_ms = -1] )
 ; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
 ;                                Look at the _viExecCommand function for more
 ;                                details
@@ -725,7 +496,7 @@ EndFunc   ;==>__viPrintf
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Send a QUERY (a Command that returns an answer) to an Instrument/Device
-; Syntax.........: __viQueryf($h_session, $s_query, $i_timeout_ms = -1)
+; Syntax.........: __viQueryf ( $h_session, $s_query [, $i_timeout_ms = -1] )
 ; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
 ;                                Look at the _viExecCommand function for more
 ;                                details
@@ -819,34 +590,7 @@ Func __viQueryf($h_session, $s_query, $i_timeout_ms = -1)
 EndFunc   ;==>__viQueryf
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Sets the VISA timeout in MILISECONDS (uses _viSetAttribute)
-; Syntax.........: _viSetTimeout($h_session, $i_timeout_ms)
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session
-;                   handle (INTEGER). Look the explanation in _viExecCommand
-;                   (you can find it above)
-;                   $i_timeout_ms - The timeout IN MILISECONDS for VISA operations
-;                   (mainly for GPIB queries)
-;                   If you set it to 0 the tiemouts are DISABLED
-;                   If you set it to "INF" the VISA operations will NEVER timeout.
-;                   Be careful with this as it could easly hung your program if
-;                   your instrument does not respond to one of your queries
-;                   Depending on the bus type (GPIB, TCP, etc) the timeout might
-;                   not be set to the exact value that you request. Instead the
-;                   closest valid timeout bigger than the one that you requested
-;                   will be used.
-; Return values .: On Success - Returns 0
-;                   On Failure - Returns -1 if the VISA DLL could not be open
-;                                or a NON ZERO value representing the VISA
-;                                error code (see the VISA programmer's guide)
-;                   This function always sets @error to 1 in case of error
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: You can avoid directly calling this function most of the time,
-;                   as _viExecCommand accepts a timeout (in ms) as its 3rd argument.
-;                   If you do not pass this 3rd argument then the previous timeout
-;                   will be used (or the default timeout, which depends on the
-;                   VISA driver, if it was never set before)
-;
 ; ===============================================================================================================================
 Func _viSetTimeout($h_session, $i_timeout_ms)
 	If String($i_timeout_ms) = "INF" Then
@@ -856,95 +600,7 @@ Func _viSetTimeout($h_session, $i_timeout_ms)
 EndFunc   ;==>_viSetTimeout
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: VISA attribute set (GENERIC)
-;                   Called by _viSetTimeout, this function can ALSO be used to
-;                   set many other VISA specific attributes, like the Serial
-;                   Interface Attributes.
-;                   Read the VISA documentation for more information
-; Syntax.........: _viSetAttribute($h_session, $i_attribute, $i_value)
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session
-;                   handle (INTEGER). Look the explanation in _viExecCommand
-;                   (you can find it above)
-;                   $i_attribute - The index of the attribute that must be changed
-;                   Attributes are defined in the VISA library. This AutoIt
-;                   implementation only defines a CONSTANT for the TIMEOUT
-;                   attribute ($VI_ATTR_TMO_VALUE) but you can pass any other
-;                   index if you want to.
-;                   $i_value - The value of the attribute. It must be an integer
-;                   and the possible values depend on the attribute type
-; Return values .: On Success - Returns 0
-;                   On Failure - Returns -1 if the VISA DLL could not be open
-;                                or a NON ZERO value representing the VISA
-;                                error code (see the VISA programmer's guide)
-;                   This function always sets @error to 1 in case of error
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........:
-;                   This is a list of the currently pre-defined attributes and
-;                   values. Remember that you can use any other valid
-;                   attribute/value by passing the corresponding integer index
-;                   (as defined in the VISA programmer's guide) to this function.
-;
-;                   * Attribute: $VI_ATTR_TMO_VALUE -> Set Timeout
-;                   * Values:
-;                             A timeout in MILLISECONDS or
-;                             $VI_TMO_IMMEDIATE (or 0) for "Return immediatly"
-;                             VI_TMO_INFINITE (or "INF") for "No timeout"
-;
-;                   * Attribute: $VI_ATTR_TERMCHAR -> Set Termination Character
-;                   * Values:
-;                             The ASCII code number of the terminator character
-;                             which is used for VISA messages.
-;                             - Typical values are:
-;                                0x0A: Linefeed or newline ("\n")
-;                                0x0C: Form feed ("\f")
-;                                0x0D: Carriage return ("\r")
-;
-;                   * Attribute: $VI_ATTR_TERMCHAR_EN -> Set Termination Character
-;                   * Values:
-;                             For many instruments this attribute has no effect.
-;                             For those who take it into account:
-;                             $VI_FALSE: Wait for the TIMEOUT before returning from
-;                                        a viRead operation
-;                             $VI_TRUE: Allow read operations to terminate as soon
-;                                       as the "VI_ATTR_TERMCHAR" character is received
-;                                       during a viRead.
-;                             which is used for VISA messages (e.g. 10)
-;                             $VI_TMO_IMMEDIATE (or 0) for "Return immediatly"
-;                             VI_TMO_INFINITE (or "INF") for "No timeout"
-;                   * Default Value: $VI_FALSE. Note that many instruments ignore this.
-;
-;                   * Attribute: $VI_ATTR_ASRL_BAUD
-;                   * Values:
-;                             Any valid baudrate (9600, 115200, etc)
-;
-;                   * Attribute: $VI_ATTR_ASRL_DATA_BITS
-;                   * Values:
-;                             From 5 to 8
-;
-;                   * Attribute: $VI_ATTR_ASRL_PARITY
-;                   * Values:
-;                             $VI_ASRL_PAR_NONE
-;                             $VI_ASRL_PAR_ODD
-;                             $VI_ASRL_PAR_EVEN
-;                             $VI_ASRL_PAR_MARK
-;                             $VI_ASRL_PAR_SPACE
-;
-;                   * Attribute: $VI_ATTR_ASRL_STOP_BITS
-;                   * Values:
-;                             $VI_ASRL_STOP_ONE
-;                             $VI_ASRL_STOP_ONE5
-;                             $VI_ASRL_STOP_TWO
-;
-;                   * Attribute: $VI_ATTR_ASRL_FLOW_CNTRL
-;                   * Values:
-;                             $VI_ASRL_FLOW_NONE
-;                             $VI_ASRL_FLOW_XON_XOFF
-;                             $VI_ASRL_FLOW_RTS_CTS
-;                             $VI_ASRL_FLOW_DTR_DSR
-
-
-;
 ; ===============================================================================================================================
 Func _viSetAttribute($h_session, $i_attribute, $i_value)
 	Local $f_close_session_before_return = 0 ; By default do not close the session at the end
@@ -978,47 +634,14 @@ Func _viSetAttribute($h_session, $i_attribute, $i_value)
 EndFunc   ;==>_viSetAttribute
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Go To Local mode (uses _viGpibControlREN)
-;                   Instruments that accept this command will exit the "Remote
-;                   Control mode" and go to "Local mode"
-;                   If the instrument is already in "Local mode" this is simply
-;                   ignored.
-;                   Normally, if an instrument does not support this command it
-;                   will simply stay in the "Remote Control mode"
-; Syntax.........: _viGTL($h_session)
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session
-;                   handle (INTEGER). Look the explanation in _viExecCommand
-;                   (you can find it above)
-; Return values .: On Success - Returns 0
-;                   On Failure - Returns -1 if the VISA DLL could not be open
-;                                or a NON ZERO value representing the VISA
-;                                error code (see the VISA programmer's guide)
-;                   This function always sets @error to 1 in case of error
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: None
-;
 ; ===============================================================================================================================
 Func _viGTL($h_session)
 	Return __viGpibControlREN($h_session, $VI_GPIB_REN_ADDRESS_GTL)
 EndFunc   ;==>_viGTL
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: GPIB BUS "reset" (uses _viGpibControlREN)
-;                   Use this function when the GPIB BUS gets stuck for some reason.
-;                   You might be lucky and resolve the problem by calling this
-;                   function
-; Syntax.........: _viGpibBusReset()
-; Parameters ....: None
-; Return values .: On Success - Returns 0
-;                   On Failure - Returns -1 if the VISA DLL could not be open
-;                                or a NON ZERO value representing the VISA
-;                                error code (see the VISA programmer's guide)
-;                   This function always sets @error to 1 in case of error
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: None
-;
 ; ===============================================================================================================================
 Func _viGpibBusReset()
 	Return __viGpibControlREN("GPIB0::INTFC", $VI_GPIB_REN_DEASSERT)
@@ -1027,7 +650,7 @@ EndFunc   ;==>_viGpibBusReset
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Control the VISA REN bus line
-; Syntax.........: __viGpibControlREN ($h_session, $i_mode)
+; Syntax.........: __viGpibControlREN ( $h_session, $i_mode )
 ; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session
 ;                   handle (INTEGER). Look the explanation in _viExecCommand
 ;                   (you can find it above)
@@ -1076,30 +699,7 @@ Func __viGpibControlREN($h_session, $i_mode)
 EndFunc   ;==>__viGpibControlREN
 
 ; #FUNCTION# ====================================================================================================================
-;
-; Description ...: Interactive VISA control.
-;                   This function lets you easily test your SCPI commands
-;                   interactively.
-;                   It also lets you save these commands into a file
-;                   Simply answer the questions (Device Descriptor, SCPI command
-;                   and timeout).
-;                   * If you click Cancel on the 1st question the interactive
-;                     control ends.
-;                   * If you click Cancel to the other queries, you will go back
-;                     to the Device Descriptor question.
-; Syntax.........: _viInteractiveControl($s_command_save_filename = "")
-; Parameters ....: $s_command_save_filename - This is an OPTIONAL PARAMETER
-;                     The name of the file in which the SCPI commands issued
-;                     during the interactive session will be saved.
-;                     If no filename is passed the funcion asks the user if and
-;                     where does the user want to save the issued commands.
-; Return values .: The list of AutoIt3 VISA commands that were executed by the tool.
-;                   This is the same list that is saved into the file if the a
-;                   filename is passed to the function.
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
-; Notes .........: Type "FIND" in the Device Descriptor query to perform a GPIB
-;                   search
-;
 ; ===============================================================================================================================
 Func _viInteractiveControl($s_command_save_filename = "")
 	;- Define variables, set their default values
@@ -1184,7 +784,7 @@ Func _viInteractiveControl($s_command_save_filename = "")
 					"Do you want to RESET the GPIB bus before continuing?")
 			If $s_answer = 6 Then ; Yes
 				_viGpibBusReset()
-				MsgBox(0, "VISA", "The GPIB bus was RESET!")
+				MsgBox($MB_SYSTEMMODAL, "VISA", "The GPIB bus was RESET!")
 			EndIf
 		EndIf
 	WEnd

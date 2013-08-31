@@ -9,43 +9,24 @@
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_WinAPI_GetLastError
-;_WinAPI_SetLastError
+; _WinAPI_GetLastError
+; _WinAPI_SetLastError
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_GetLastError
-; Description ...: Returns the calling thread's lasterror code value
-; Syntax.........: _WinAPI_GetLastError()
-; Parameters ....:
-; Return values .: Success      - Last error code
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinAPI_GetLastErrorMessage
-; Link ..........: @@MsdnLink@@ GetLastError
-; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_GetLastError($curErr = @error, $curExt = @extended)
+Func _WinAPI_GetLastError($iError = @error, $iExtended = @extended)
 	Local $aResult = DllCall("kernel32.dll", "dword", "GetLastError")
-	Return SetError($curErr, $curExt, $aResult[0])
+	Return SetError($iError, $iExtended, $aResult[0])
 EndFunc   ;==>_WinAPI_GetLastError
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_SetLastError
-; Description ...: Sets the last-error code for the calling thread
-; Syntax.........: _WinAPI_SetLastError($iErrCode)
-; Parameters ....: $iErrCode    - The last error code for the thread
-; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: The last error code is kept in thread local storage so that multiple threads do  not  overwrite  each  other's
-;                  values.
-; Related .......:
-; Link ..........: @@MsdnLink@@ SetLastError
-; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_SetLastError($iErrCode, $curErr = @error, $curExt = @extended)
-	DllCall("kernel32.dll", "none", "SetLastError", "dword", $iErrCode)
-	Return SetError($curErr, $curExt)
+Func _WinAPI_SetLastError($iErrorCode, $iError = @error, $iExtended = @extended)
+	DllCall("kernel32.dll", "none", "SetLastError", "dword", $iErrorCode)
+	Return SetError($iError, $iExtended, Null)
 EndFunc   ;==>_WinAPI_SetLastError

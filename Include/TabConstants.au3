@@ -8,27 +8,6 @@
 ; Author(s) .....: Valik, Gary Frost, ...
 ; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
-Global Const $TCS_BOTTOM = 0x00000002 ; Tabs appear at the bottom of the control
-Global Const $TCS_BUTTONS = 0x00000100 ; Tabs appear as buttons, and no border is drawn around the display area
-Global Const $TCS_FIXEDWIDTH = 0x00000400 ; All tabs are the same width
-Global Const $TCS_FLATBUTTONS = 0x00000008 ; Selected tabs appear as being indented into the background
-Global Const $TCS_FOCUSNEVER = 0x00008000 ; The tab control does not receive the input focus when clicked
-Global Const $TCS_FOCUSONBUTTONDOWN = 0x00001000 ; The tab control receives the input focus when clicked
-Global Const $TCS_FORCEICONLEFT = 0x00000010 ; Icons are aligned with the left edge of each fixed-width tab
-Global Const $TCS_FORCELABELLEFT = 0x00000020 ; Labels are aligned with the left edge of each fixed-width tab
-Global Const $TCS_HOTTRACK = 0x00000040 ; Items under the pointer are automatically highlighted
-Global Const $TCS_MULTILINE = 0x00000200 ; Multiple rows of tabs are displayed if necessary
-Global Const $TCS_MULTISELECT = 0x00000004 ; Multiple tabs can be selected with the CTRL key when clicking
-Global Const $TCS_OWNERDRAWFIXED = 0x00002000 ; The parent window is responsible for drawing tabs
-Global Const $TCS_RAGGEDRIGHT = 0x00000800 ; Rows of tabs will not be stretched to fill the control width
-Global Const $TCS_RIGHT = 0x00000002 ; Tabs appear vertically on the right side of controls
-Global Const $TCS_RIGHTJUSTIFY = 0x00000000 ; The width of each tab is increased to fill the control width
-Global Const $TCS_SCROLLOPPOSITE = 0x00000001 ; Unneeded tabs scroll to the opposite side of the control
-Global Const $TCS_SINGLELINE = 0x00000000 ; Only one row of tabs is displayed
-Global Const $TCS_TABS = 0x00000000 ; Tabs appear as tabs, and a border is drawn around the display area
-Global Const $TCS_TOOLTIPS = 0x00004000 ; The tab control has a ToolTip control associated with
-Global Const $TCS_VERTICAL = 0x00000080 ; Tabs appear at the left side of the control
 ; ===============================================================================================================================
 
 ; #EXTSTYLES# ===================================================================================================================
@@ -56,11 +35,31 @@ Global Const $TCIS_HIGHLIGHTED = 0x00000002
 ; Error checking
 Global Const $TC_ERR = -1
 
+; Styles
+Global Const $TCS_BOTTOM = 0x00000002 ; Tabs appear at the bottom of the control
+Global Const $TCS_BUTTONS = 0x00000100 ; Tabs appear as buttons, and no border is drawn around the display area
+Global Const $TCS_FIXEDWIDTH = 0x00000400 ; All tabs are the same width
+Global Const $TCS_FLATBUTTONS = 0x00000008 ; Selected tabs appear as being indented into the background
+Global Const $TCS_FOCUSNEVER = 0x00008000 ; The tab control does not receive the input focus when clicked
+Global Const $TCS_FOCUSONBUTTONDOWN = 0x00001000 ; The tab control receives the input focus when clicked
+Global Const $TCS_FORCEICONLEFT = 0x00000010 ; Icons are aligned with the left edge of each fixed-width tab
+Global Const $TCS_FORCELABELLEFT = 0x00000020 ; Labels are aligned with the left edge of each fixed-width tab
+Global Const $TCS_HOTTRACK = 0x00000040 ; Items under the pointer are automatically highlighted
+Global Const $TCS_MULTILINE = 0x00000200 ; Multiple rows of tabs are displayed if necessary
+Global Const $TCS_MULTISELECT = 0x00000004 ; Multiple tabs can be selected with the CTRL key when clicking
+Global Const $TCS_OWNERDRAWFIXED = 0x00002000 ; The parent window is responsible for drawing tabs
+Global Const $TCS_RAGGEDRIGHT = 0x00000800 ; Rows of tabs will not be stretched to fill the control width
+Global Const $TCS_RIGHT = 0x00000002 ; Tabs appear vertically on the right side of controls
+Global Const $TCS_RIGHTJUSTIFY = 0x00000000 ; The width of each tab is increased to fill the control width
+Global Const $TCS_SCROLLOPPOSITE = 0x00000001 ; Unneeded tabs scroll to the opposite side of the control
+Global Const $TCS_SINGLELINE = 0x00000000 ; Only one row of tabs is displayed
+Global Const $TCS_TABS = 0x00000000 ; Tabs appear as tabs, and a border is drawn around the display area
+Global Const $TCS_TOOLTIPS = 0x00004000 ; The tab control has a ToolTip control associated with
+Global Const $TCS_VERTICAL = 0x00000080 ; Tabs appear at the left side of the control
+
 ; Control default styles
 Global Const $GUI_SS_DEFAULT_TAB = 0
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
 ; Messages to send to Tab control
 Global Const $TCM_FIRST = 0x1300
 Global Const $TCCM_FIRST = 0X2000
@@ -98,9 +97,8 @@ Global Const $TCM_SETPADDING = ($TCM_FIRST + 43)
 Global Const $TCM_SETTOOLTIPS = ($TCM_FIRST + 46)
 Global Const $TCCM_SETUNICODEFORMAT = ($TCCM_FIRST + 5)
 Global Const $TCM_SETUNICODEFORMAT = $TCCM_SETUNICODEFORMAT
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $TCN_FIRST = -550
 Global Const $TCN_FOCUSCHANGE = ($TCN_FIRST - 4)
 Global Const $TCN_GETOBJECT = ($TCN_FIRST - 3)
@@ -108,4 +106,3 @@ Global Const $TCN_KEYDOWN = ($TCN_FIRST - 0)
 Global Const $TCN_SELCHANGE = ($TCN_FIRST - 1)
 Global Const $TCN_SELCHANGING = ($TCN_FIRST - 2)
 ; ===============================================================================================================================
-

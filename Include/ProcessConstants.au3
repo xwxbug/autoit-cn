@@ -20,6 +20,7 @@ Global Const $PROCESS_CREATE_PROCESS = 0x00000080
 Global Const $PROCESS_SET_QUOTA = 0x00000100
 Global Const $PROCESS_SET_INFORMATION = 0x00000200
 Global Const $PROCESS_QUERY_INFORMATION = 0x00000400
+Global Const $PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 Global Const $PROCESS_SUSPEND_RESUME = 0x00000800
 Global Const $PROCESS_ALL_ACCESS = 0x001F0FFF
 ; ===============================================================================================================================

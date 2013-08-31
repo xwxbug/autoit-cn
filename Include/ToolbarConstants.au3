@@ -30,9 +30,8 @@ Global Const $TBSTATE_INDETERMINATE = 0x00000010 ; The button is grayed
 Global Const $TBSTATE_WRAP = 0x00000020 ; The button is followed by a line break
 Global Const $TBSTATE_ELLIPSES = 0x00000040 ; The button's text is cut off and an ellipsis is displayed
 Global Const $TBSTATE_MARKED = 0x00000080 ; The button is marked
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
+; Messages
 Global Const $__TOOLBARCONSTANTS_WM_USER = 0X400
 Global Const $TB_ENABLEBUTTON = $__TOOLBARCONSTANTS_WM_USER + 1
 Global Const $TB_CHECKBUTTON = $__TOOLBARCONSTANTS_WM_USER + 2
@@ -127,9 +126,8 @@ Global Const $TB_SETCOLORSCHEME = 0x2000 + 2
 Global Const $TB_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $TB_GETUNICODEFORMAT = 0x2000 + 6
 Global Const $TB_SETWINDOWTHEME = 0x2000 + 11
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $TBN_FIRST = -700
 Global Const $TBN_GETBUTTONINFOA = $TBN_FIRST - 0 ; Retrieves toolbar customization information
 Global Const $TBN_BEGINDRAG = $TBN_FIRST - 1 ; The user has begun dragging a button in a toolbar
@@ -166,9 +164,8 @@ Global Const $HICF_MOUSE = 0x1 ;The change in the hot item resulted from a mouse
 Global Const $HICF_OTHER = 0x0 ;The change in the hot item resulted from an event that could not be determined. This will most often be due to a change in focus or the TB_SETHOTITEM message
 Global Const $HICF_RESELECT = 0x40 ;The change in the hot item resulted from the user entering the shortcut key for an item that was already hot
 Global Const $HICF_TOGGLEDROPDOWN = 0x100 ;Version 5.80. Causes the button to switch states
-; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
+; Styles
 Global Const $BTNS_BUTTON = 0x00000000 ; Standard button
 Global Const $BTNS_SEP = 0x00000001 ; Creates a separator
 Global Const $BTNS_CHECK = 0x00000002 ; Toggles between the pressed and nonpressed
@@ -187,9 +184,8 @@ Global Const $TBSTYLE_LIST = 0x00001000 ; Creates a flat toolbar with button tex
 Global Const $TBSTYLE_CUSTOMERASE = 0x00002000 ; Sends $NM_CUSTOMDRAW messages when processing $WM_ERASEBKGND messages
 Global Const $TBSTYLE_REGISTERDROP = 0x00004000 ; Sends $TBN_GETOBJECT messages to request drop target objects
 Global Const $TBSTYLE_TRANSPARENT = 0x00008000 ; Creates a transparent toolbar
-; ===============================================================================================================================
 
-; #EXTSTYLES# ===================================================================================================================
+; ExStyles
 Global Const $TBSTYLE_EX_DRAWDDARROWS = 0x00000001 ; Allows buttons to have a separate dropdown arrow
 Global Const $TBSTYLE_EX_MIXEDBUTTONS = 0x00000008 ; Allows mixing buttons with text and images
 Global Const $TBSTYLE_EX_HIDECLIPPEDBUTTONS = 0x00000010 ; Hides partially clipped buttons

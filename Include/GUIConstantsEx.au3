@@ -50,12 +50,10 @@ Global Const $GUI_DEFBUTTON = 512
 Global Const $GUI_EXPAND = 1024
 Global Const $GUI_ONTOP = 2048
 
-
 ; Font
 Global Const $GUI_FONTITALIC = 2
 Global Const $GUI_FONTUNDER = 4
 Global Const $GUI_FONTSTRIKE = 8
-
 
 ; Resizing
 Global Const $GUI_DOCKAUTO = 0x0001

@@ -1,160 +1,138 @@
 #include-once
+
 #include "SendMessage.au3"
 #include "WinAPIError.au3"
-
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Debug
 ; AutoIt Version : 3.2.3++
 ; Language ......: English
 ; Description ...: Functions to help script debugging.
-; Author(s) .....: Nutster, Jpm, Valik, guinness
+; Author(s) .....: Nutster, Jpm, Valik, guinness, water
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $__gsReportWindowText_Debug = "Debug Window hidden text"
 ; ===============================================================================================================================
 
-; #VARIABLE# ===================================================================================================================
+; #VARIABLE# ====================================================================================================================
 Global $__gsReportTitle_Debug = "AutoIt Debug Report"
 Global $__giReportType_Debug = 0
 Global $__gbReportWindowWaitClose_Debug = True, $__gbReportWindowClosed_Debug = True
 Global $__ghReportEdit_Debug = 0
 Global $__ghReportNotepadEdit_Debug = 0
 Global $__gsReportCallBack_Debug
+Global $__gbReportTimeStamp_Debug = False
+Global $__gbComErrorExit_Debug = False, $__gsComError_Debug = ""
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_Assert
-;_DebugBugReportEnv
-;_DebugOut
-;_DebugReport
-;_DebugReportEx
-;_DebugReportVar
-;_DebugSetup
+; _Assert
+; _DebugBugReportEnv
+; _DebugCOMError
+; _DebugOut
+; _DebugReport
+; _DebugReportEx
+; _DebugReportVar
+; _DebugSetup
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__Debug_DataFormat
-;__Debug_DataType
-;__Debug_ReportClose
-;__Debug_ReportWrite
-;__Debug_ReportWindowCreate
-;__Debug_ReportWindowWrite
-;__Debug_ReportWindowWaitClose
+; __Debug_COMErrorHandler
+; __Debug_DataFormat
+; __Debug_DataType
+; __Debug_ReportClose
+; __Debug_ReportWrite
+; __Debug_ReportWindowCreate
+; __Debug_ReportWindowWrite
+; __Debug_ReportWindowWaitClose
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _Assert
-; Description ...: Display a message if assertion fails.
-; Syntax.........:  _Assert($bCondition, $sMsg, $bExit = True, $nCode = 0x7FFFFFFF, $sLine = @ScriptLineNumber)
-; Parameters ....: $sCondition - IN - The condition that must evaluate to true.
-;                  $bExit - IN/OPTIONAL - If true, the script is aborted.
-;                  $nCode - IN/OPTIONAL - The exit code to use if the script is aborted.
-;                  $sLine - IN/OPTIONAL - Displays the line number where the assertion failed.  If this value is not
-;                                         changed, then the default value will show the correct line.
-; Return values .: The result of the condition (Only valid when not exiting).
 ; Author ........: Valik
 ; Modified.......: jpm
-; Remarks .......: @error and @extended are not destroyed on return.
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _Assert($sCondition, $bExit = True, $nCode = 0x7FFFFFFF, $sLine = @ScriptLineNumber, Const $curerr = @error, Const $curext = @extended)
 	Local $bCondition = Execute($sCondition)
 	If Not $bCondition Then
-		MsgBox(16 + 262144, "Autoit Assert", "Assertion Failed (Line " & $sLine & "): " & @CRLF & @CRLF & $sCondition)
+		MsgBox(16 + 262144, "AutoIt Assert", "Assertion Failed (Line " & $sLine & "): " & @CRLF & @CRLF & $sCondition)
 		If $bExit Then Exit $nCode
 	EndIf
 	Return SetError($curerr, $curext, $bCondition)
 EndFunc   ;==>_Assert
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugBugReportEnv
-; Description ...: Outputs a string containing information for Bug report submission.
-; Syntax.........: _DebugBugReportEnv()
-; Parameters ....:
-; Return values .: Returns a string containing all information needed to submit.
-; Author ........: Jean-Paul Mesnage (jpm)
+; Author ........: jpm
 ; Modified.......:
-; Remarks .......: @error and @extended are not destroyed on return
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugBugReportEnv(Const $curerr = @error, Const $curext = @extended)
-	Local $AutoItX64 = ""
+	Local $AutoItX64, $AdminMode, $Compiled, $OsServicePack, $MUIlang, $KBLayout, $CPUArch
 	If @AutoItX64 Then $AutoItX64 = "/X64"
-	Local $AdminMode = ""
-	If IsAdmin() Then $AdminMode = " AdminMode"
-	Local $Compiled = ""
-	If @Compiled Then $Compiled = " Compiled"
-	Local $OsServicePack = ""
+	If IsAdmin() Then $AdminMode = ", AdminMode"
+	If @Compiled Then $Compiled = ", Compiled"
 	If @OSServicePack Then $OsServicePack = "/" & StringReplace(@OSServicePack, "Service Pack ", "SP")
-	Local $MUIlang = ""
-	If @OSLang <> @MUILang Then $MUIlang = " MUILang:" & @MUILang
-	Local $KBLayout = ""
-	If @OSLang <> StringRight(@KBLayout, 4) Then $KBLayout = " Keyboard:" & @KBLayout
-	Local $CPUArch = ""
-	If @OSArch <> @CPUArch Then $CPUArch = " CPUArch:" & @CPUArch
-	Return SetError($curerr, $curext, "AutoIt:" & @AutoItVersion & $AutoItX64 & $AdminMode & $Compiled & _
-			"   (Os:" & @OSVersion & $OsServicePack & "/" & @OSArch & _
-			"   OSLang:" & @OSLang & $MUIlang & $KBLayout & $CPUArch & ")")
+	If @OSLang <> @MUILang Then $MUIlang = ", MUILang: " & @MUILang
+	If @OSLang <> StringRight(@KBLayout, 4) Then $KBLayout = ", Keyboard: " & @KBLayout
+	If @OSArch <> @CPUArch Then $CPUArch = ", CPUArch: " & @CPUArch
+	Return SetError($curerr, $curext, "AutoIt: " & @AutoItVersion & $AutoItX64 & $AdminMode & $Compiled & _
+			", OS: " & @OSVersion & $OsServicePack & "/" & @OSArch & _
+			", OSLang: " & @OSLang & $MUIlang & $KBLayout & $CPUArch & _
+			", Script: " & @ScriptFullPath)
 EndFunc   ;==>_DebugBugReportEnv
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugOut
-; Description ...: Outputs a string to the debugging session setup by _DebugSetup.
-; Syntax.........: _DebugOut(Const $sOutput)
-; Parameters ....: $sOutput = The string (or other printable value) to be output to the debugging session.
-;                  $bActivate = Ignored, kept for backward compatibility.
-; Return values .: Success - Returns 1.
-;                  Failure - Returns 0 and Sets @Error:
-;                  |0 - No error.
-;                  |1 - $sOutput is an incompatible type.
-;                  |3 - _DebugSetup() did not run properly.  Make sure _DebugSetup() ran properly before calling this function.
-; Author ........: David Nuttall (Nutster)
-; Modified.......: Jean-Paul Mesnage (jpm)
-; Remarks .......: Before calling this function, _DebugSetup must be called first to create the debug session.
-; Related .......: _DebugSetup
-; Link ..........:
-; Example .......: Yes
+; Author ........: water
+; Modified ......: jpm
+; ===============================================================================================================================
+Func _DebugCOMError($iComDebug = Default, $bExit = False)
+	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError(3, 0, 0)
+	If $iComDebug = Default Then $iComDebug = 1
+	If Not IsInt($iComDebug) Or $iComDebug < -1 Or $iComDebug > 1 Then Return SetError(1, 0, 0)
+	Switch $iComDebug
+		Case -1
+			Return SetError(IsObj($__gsComError_Debug), $__gbComErrorExit_Debug, 1)
+		Case 0
+			If $__gsComError_Debug = "" Then SetError(0, 3, 1) ; COM error handler already disabled
+			$__gsComError_Debug = ""
+			$__gbComErrorExit_Debug = False
+			Return 1
+		Case Else
+			; A COM error handler will be initialized only if one does not exist
+			$__gbComErrorExit_Debug = $bExit
+			If ObjEvent("AutoIt.Error") = "" Then
+				$__gsComError_Debug = ObjEvent("AutoIt.Error", "__Debug_COMErrorHandler") ; Creates a custom error handler
+				If @error <> 0 Then Return SetError(4, @error, 0)
+				Return SetError(0, 1, 1)
+			ElseIf ObjEvent("AutoIt.Error") = "__Debug_COMErrorHandler" Then
+				Return SetError(0, 2, 1) ; COM error handler already set by a previous call to this function
+			Else
+				Return SetError(2, 0, 0) ; COM error handler already set to another function
+			EndIf
+	EndSwitch
+EndFunc   ;==>_DebugCOMError
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Nutster
+; Modified.......: jpm
 ; ===============================================================================================================================
 Func _DebugOut(Const $sOutput, Const $bActivate = False, Const $curerr = @error, Const $curext = @extended)
 	#forceref $bActivate
 	If IsNumber($sOutput) = 0 And IsString($sOutput) = 0 And IsBool($sOutput) = 0 Then Return SetError(1, 0, 0) ; $sOutput can not be printed
 
-;~ 	If WinExists($g_hWndDbg) = 0 Then Return SetError(4, 0, 0) ; The Notepad window no longer exists
 	If _DebugReport($sOutput) = 0 Then Return SetError(3, 0, 0) ; _DebugSetup() as not been called.
 
 	Return SetError($curerr, $curext, 1) ; Return @error and @extended as before calling _DebugOut()
 EndFunc   ;==>_DebugOut
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugSetup
-; Description ...: Setup up a debug session using a specific reporting type.
-; Syntax.........: _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, Const $vReportType = 1, $sReportCallBack = "")
-; Parameters ....: $sTitle           - Title to be displayed on the report window.  Default value is "AutoIt Debug Report".
-;                  $bBugReportInfos  - Display BugReport infos.  Default value is False.
-;                  $vReportType      - 1 Report Log Window (Default).
-;                                      2 ConsoleWrite.
-;                                      3 MsgBox.
-;                                      4 FileWrite into $sReportCallBack defines the filename.
-;                                      5 Report Notepad Window.
-;                                      any string value = name of specific report function to be used.
-;                  $sLogFile         - Name of the file  if $vReportType = 4
-; Return values .: Report type and set @error if already registered
 ; Author ........: jpm
 ; Modified.......: guinness
-; Remarks .......: If a specific reporting function is registered then on AutoIt exit it is called without parameters.
-; Related .......: _DebugOut, _DebugReport, _DebugReportEx
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
-Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vReportType = 1, $sLogFile = "")
+Func _DebugSetup(Const $sTitle = Default, $bBugReportInfos = Default, $vReportType = Default, $sLogFile = Default, $bTimeStamp = False)
 	If $__giReportType_Debug Then Return SetError(1, 0, $__giReportType_Debug) ; already registered
-
+	If $bBugReportInfos = Default Then $bBugReportInfos = False
+	If $vReportType = Default Then $vReportType = 1
+	If $sLogFile = Default Then $sLogFile = ""
 	Switch $vReportType
 		Case 1
 			; Report Log window
@@ -181,6 +159,7 @@ Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vRepo
 
 	If Not ($sTitle = Default) Then $__gsReportTitle_Debug = $sTitle
 	$__giReportType_Debug = $vReportType
+	$__gbReportTimeStamp_Debug = $bTimeStamp
 
 	OnAutoItExitRegister("__Debug_ReportClose")
 
@@ -190,22 +169,8 @@ Func _DebugSetup(Const $sTitle = Default, Const $bBugReportInfos = False, $vRepo
 EndFunc   ;==>_DebugSetup
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugReport
-; Description ...: Writes to debugging session
-; Syntax.........: _DebugReport($sData [,$bLastError = False [,$bExit = False]])
-; Parameters ....: $sData      - Data to be reported
-;                  $bLastError - True if GetLastErrorMessage() must be append to the data being reported
-;                  $bExit      - True if the script must be terminated
-; Return values .: Success : 1.
-;                  Failure : 0.
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......: If no _DebugSetup() have been issued the function always returns.
-;                  @error of the caller is preserved.
-;                  @extended can be set to Windows API GetlastError() if  $bLastError = True. Otherwise it is preserved.
-; Related .......: _DebugSetup
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReport($sData, $bLastError = False, $bExit = False, $curerr = @error, $curext = @extended)
 	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
@@ -218,27 +183,8 @@ Func _DebugReport($sData, $bLastError = False, $bExit = False, $curerr = @error,
 EndFunc   ;==>_DebugReport
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugReportEx
-; Description ...: Writes to debugging session a formatted message
-; Syntax.........: _DebugReportEx($sData [,$bLastError = False [,$bExit = False]])
-; Parameters ....: $sData      - Data to be reported as "DLL|FUNCTION". See remarks.
-;                  $bLastError - True if GetLastErrorMessage() must be append to the data being reported
-;                  $bExit      - True if the script must be terminated
-; Return values .: Success : 1.
-;                  Failure : 0.
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......: According to @error value the message will be formatted as follow:
-;                              0 - report "Bad return from FUNCTION in DLL".
-;                              1 - report "unable to open a dll"
-;                              3 - report "unable to find FUNCTION in DLL".
-;                  If $sData is does not contain a "|" or @error not as specified above the reported message will not be formated.
-;                  If no _DebugSetup() have been issued the function always returns.
-;                  @error of the caller is preserved.
-;                  @extended can be set to Windows API GetlastError() if  $bLastError = True. Otherwise it is preserved.
-; Related .......: _DebugSetup
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReportEx($sData, $bLastError = False, $bExit = False, $curerr = @error, $curext = @extended)
 	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
@@ -271,20 +217,8 @@ Func _DebugReportEx($sData, $bLastError = False, $bExit = False, $curerr = @erro
 EndFunc   ;==>_DebugReportEx
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _DebugReportVar
-; Description ...: Writes to debugging session the content of a variable
-; Syntax.........: _DebugReportVar($sVar [,$bErrExt = False])
-; Parameters ....: $sVarname - string representing name of the variable or a comment
-;                  $sVar     - the variable to be reported
-;                  $bErrExt  - True if @error and @extended must be also displayed
-; Return values .:
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......: If no _DebugSetup() have been issued the function always returns.
-;                  @error of the caller is preserved.
-; Related .......: _DebugSetup
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @ScriptLineNumber, $curerr = @error, $curext = @extended)
 	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
@@ -330,10 +264,37 @@ Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @Scr
 	Return SetError($curerr, $curext)
 EndFunc   ;==>_DebugReportVar
 
+; #INTERNAL_USE_ONLY#============================================================================================================
+; Name ..........: __Debug_COMErrorHandler
+; Description ...: Called when a COM error occurs and writes the error message with _DebugOut().
+; Syntax.........: __Debug_COMErrorHandler ( $oCOMError )
+; Parameters ....: $oCOMError - Error object
+; Return values .: None
+; Author ........: water
+; Modified ......: jpm
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func __Debug_COMErrorHandler($oCOMError)
+	Local $sError = "@@ DEBUG COM Error encountered in " & @ScriptName & " (" & $oCOMError.Scriptline & ") :" & @CRLF & _
+			@TAB & "Number        " & @TAB & "= 0x" & Hex($oCOMError.Number, 8) & " (" & $oCOMError.Number & ")" & @CRLF & _
+			@TAB & "WinDescription" & @TAB & "= " & StringStripWS($oCOMError.WinDescription, 2) & @CRLF & _
+			@TAB & "Description   " & @TAB & "= " & StringStripWS($oCOMError.Description, 2) & @CRLF & _
+			@TAB & "Source        " & @TAB & "= " & $oCOMError.Source & @CRLF & _
+			@TAB & "HelpFile      " & @TAB & "= " & $oCOMError.HelpFile & @CRLF & _
+			@TAB & "HelpContext   " & @TAB & "= " & $oCOMError.HelpContext & @CRLF & _
+			@TAB & "LastDllError  " & @TAB & "= " & $oCOMError.LastDllError & @CRLF & _
+			@TAB & "Retcode       " & @TAB & "= 0x" & Hex($oCOMError.retcode)
+
+	_DebugReport($sError, False, $__gbComErrorExit_Debug)
+EndFunc   ;==>__Debug_COMErrorHandler
+
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_DataFormat
 ; Description ...: Returns a formatted data
-; Syntax.........: __Debug_DataFormat($vData)
+; Syntax.........: __Debug_DataFormat ( $vData )
 ; Parameters ....: $vData - a data to be formatted
 ; Return values .: the data truncated if needed or the Datatype for not editable as Dllstruct, Obj or Array
 ; Author ........: jpm
@@ -368,7 +329,7 @@ EndFunc   ;==>__Debug_DataFormat
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_DataType
 ; Description ...: Truncate a data
-; Syntax.........: __Debug_DataType($vData)
+; Syntax.........: __Debug_DataType ( $vData )
 ; Parameters ....: $vData - a data
 ; Return values .: the data truncated if needed
 ; Author ........: jpm
@@ -398,7 +359,7 @@ EndFunc   ;==>__Debug_DataType
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportClose
 ; Description ...: Close the debug session
-; Syntax.........: __Debug_ReportClose()
+; Syntax.........: __Debug_ReportClose ( )
 ; Parameters ....:
 ; Return values .:
 ; Author ........: jpm
@@ -423,7 +384,7 @@ EndFunc   ;==>__Debug_ReportClose
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportWindowCreate
 ; Description ...: Create an report log window
-; Syntax.........: __Debug_ReportWindowCreate()
+; Syntax.........: __Debug_ReportWindowCreate ( )
 ; Parameters ....:
 ; Return values .: 0 if already created
 ; Author ........: jpm
@@ -482,7 +443,7 @@ EndFunc   ;==>__Debug_ReportWindowCreate
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportWindowWrite
 ; Description ...: Append text to the report log window
-; Syntax.........: __Debug_ReportWindowWrite($sData)
+; Syntax.........: __Debug_ReportWindowWrite ( $sData )
 ; Parameters ....: $sData text to be append to the window
 ; Return values .:
 ; Author ........: jpm
@@ -509,7 +470,7 @@ EndFunc   ;==>__Debug_ReportWindowWrite
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportWindowWaitClose
 ; Description ...: Wait the closing of the report log window
-; Syntax.........: __Debug_ReportWindowWaitClose()
+; Syntax.........: __Debug_ReportWindowWaitClose ( )
 ; Parameters ....:
 ; Return values .:
 ; Author ........: jpm
@@ -542,7 +503,7 @@ EndFunc   ;==>__Debug_ReportWindowWaitClose
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportNotepadCreate
 ; Description ...: Create an report log window
-; Syntax.........: __Debug_ReportNotepadCreate()
+; Syntax.........: __Debug_ReportNotepadCreate ( )
 ; Parameters ....:
 ; Return values .: 0 if already created
 ; Author ........: jpm
@@ -579,7 +540,7 @@ EndFunc   ;==>__Debug_ReportNotepadCreate
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportNotepadWrite
 ; Description ...: Append text to the report notepad window
-; Syntax.........: __Debug_ReportNotepadWrite($sData)
+; Syntax.........: __Debug_ReportNotepadWrite ( $sData )
 ; Parameters ....: $sData text to be append to the window
 ; Return values .:
 ; Author ........: jpm
@@ -600,7 +561,7 @@ EndFunc   ;==>__Debug_ReportNotepadWrite
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Debug_ReportWrite
 ; Description ...: Write on Report
-; Syntax.........: __Debug_ReportWrite($sData, $bLastError [, $curext = @extended])
+; Syntax.........: __Debug_ReportWrite ( $sData [, $bLastError [, $curext = @extended]} )
 ; Parameters ....:
 ; Return values .:
 ; Author ........: jpm
@@ -612,6 +573,7 @@ EndFunc   ;==>__Debug_ReportNotepadWrite
 ; ===============================================================================================================================
 Func __Debug_ReportWrite($sData, $bLastError = False, $curext = @extended)
 	Local $sError = @CRLF
+	If $__gbReportTimeStamp_Debug And ($sData <> "") Then $sData = @YEAR & "/" & @MON & "/" & @MDAY & " " & @HOUR & ":" & @MIN & ":" & @SEC & " " & $sData
 	If $bLastError Then
 		$curext = _WinAPI_GetLastError()
 

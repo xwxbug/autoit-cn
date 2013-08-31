@@ -19,23 +19,28 @@ Global Const $__MISCCONSTANT_CC_FULLOPEN = 0x0002
 Global Const $__MISCCONSTANT_CC_RGBINIT = 0x0001
 ; ===============================================================================================================================
 
+; #NO_DOC_FUNCTION# =============================================================================================================
+; Not documented - function(s) no longer needed, will be worked out of the file at a later date
+;
+; _Iif
+; ===============================================================================================================================
+
 ; #CURRENT# =====================================================================================================================
-;_ChooseColor
-;_ChooseFont
-;_ClipPutFile
-;_Iif
-;_MouseTrap
-;_Singleton
-;_IsPressed
-;_VersionCompare
+; _ChooseColor
+; _ChooseFont
+; _ClipPutFile
+; _MouseTrap
+; _Singleton
+; _IsPressed
+; _VersionCompare
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagCHOOSECOLOR
-;$tagCHOOSEFONT
-;__MISC_GetDC
-;__MISC_GetDeviceCaps
-;__MISC_ReleaseDC
+; $tagCHOOSECOLOR
+; $tagCHOOSEFONT
+; __MISC_GetDC
+; __MISC_GetDeviceCaps
+; __MISC_ReleaseDC
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -378,10 +383,10 @@ Func _ClipPutFile($sFile, $sSeparator = "|")
 	Return True
 EndFunc   ;==>_ClipPutFile
 
-; #FUNCTION# ====================================================================================================================
+; #NO_DOC_FUNCTION# ====================================================================================================================
 ; Name...........: _Iif
 ; Description ...: Perform a boolean test within an expression.
-; Syntax.........: _Iif($fTest, $vTrueVal, $vFalseVal)
+; Syntax.........: _Iif ($fTest, $vTrueVal, $vFalseVal )
 ; Parameters ....: $fTest     - Boolean test.
 ;                  $vTrueVal  - Value to return if $fTest is true.
 ;                  $vFalseVal - Value to return if $fTest is false.
@@ -395,11 +400,7 @@ EndFunc   ;==>_ClipPutFile
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _Iif($fTest, $vTrueVal, $vFalseVal)
-	If $fTest Then
-		Return $vTrueVal
-	Else
-		Return $vFalseVal
-	EndIf
+	Return $fTest ? $vTrueVal : $vFalseVal
 EndFunc   ;==>_Iif
 
 ; #FUNCTION# ====================================================================================================================
@@ -420,12 +421,16 @@ EndFunc   ;==>_Iif
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _MouseTrap($iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0)
-	Local $aResult
-	If @NumParams == 0 Then
-		$aResult = DllCall("user32.dll", "bool", "ClipCursor", "ptr", 0)
-		If @error Or Not $aResult[0] Then Return SetError(1, _WinAPI_GetLastError(), False)
+	Local $aReturn = 0
+	If $iLeft = Default Then $iLeft = 0
+	If $iTop = Default Then $iTop = 0
+	If $iRight = Default Then $iRight = 0
+	If $iBottom = Default Then $iBottom = 0
+	If @NumParams = 0 Then
+		$aReturn = DllCall("user32.dll", "bool", "ClipCursor", "ptr", 0)
+		If @error Or Not $aReturn[0] Then Return SetError(1, _WinAPI_GetLastError(), False)
 	Else
-		If @NumParams == 2 Then
+		If @NumParams = 2 Then
 			$iRight = $iLeft + 1
 			$iBottom = $iTop + 1
 		EndIf
@@ -434,8 +439,8 @@ Func _MouseTrap($iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0)
 		DllStructSetData($tRect, "Top", $iTop)
 		DllStructSetData($tRect, "Right", $iRight)
 		DllStructSetData($tRect, "Bottom", $iBottom)
-		$aResult = DllCall("user32.dll", "bool", "ClipCursor", "struct*", $tRect)
-		If @error Or Not $aResult[0] Then Return SetError(2, _WinAPI_GetLastError(), False)
+		$aReturn = DllCall("user32.dll", "bool", "ClipCursor", "struct*", $tRect)
+		If @error Or Not $aReturn[0] Then Return SetError(2, _WinAPI_GetLastError(), False)
 	EndIf
 	Return True
 EndFunc   ;==>_MouseTrap
@@ -664,33 +669,29 @@ EndFunc   ;==>_IsPressed
 ; ===============================================================================================================================
 Func _VersionCompare($sVersion1, $sVersion2)
 	If $sVersion1 = $sVersion2 Then Return 0
-	Local $sep = "."
-	If StringInStr($sVersion1, $sep) = 0 Then $sep = ","
-	Local $aVersion1 = StringSplit($sVersion1, $sep)
-	Local $aVersion2 = StringSplit($sVersion2, $sep)
+	Local $aVersion1 = StringSplit($sVersion1, ".,"), _
+			$aVersion2 = StringSplit($sVersion2, ".,")
 	If UBound($aVersion1) <> UBound($aVersion2) Or UBound($aVersion1) = 0 Then
-		; Compare as strings
-		SetExtended(1)
+		; Compare as Strings
 		If $sVersion1 > $sVersion2 Then
-			Return 1
+			Return SetExtended(1, 1) ; @extended set to 1 for string comparison.
 		ElseIf $sVersion1 < $sVersion2 Then
-			Return -1
+			Return SetExtended(1, -1) ; @extended set to 1 for string comparison.
 		EndIf
 	Else
 		For $i = 1 To UBound($aVersion1) - 1
 			; Compare this segment as numbers
 			If StringIsDigit($aVersion1[$i]) And StringIsDigit($aVersion2[$i]) Then
 				If Number($aVersion1[$i]) > Number($aVersion2[$i]) Then
-					Return 1
+					Return SetExtended(2, 1) ; @extended set to 2 for number comparison.
 				ElseIf Number($aVersion1[$i]) < Number($aVersion2[$i]) Then
-					Return -1
+					Return SetExtended(2, -1) ; @extended set to 2 for number comparison.
 				EndIf
 			Else ; Compare the segment as strings
-				SetExtended(1)
 				If $aVersion1[$i] > $aVersion2[$i] Then
-					Return 1
+					Return SetExtended(1, 1) ; @extended set to 1 for string comparison.
 				ElseIf $aVersion1[$i] < $aVersion2[$i] Then
-					Return -1
+					Return SetExtended(1, -1) ; @extended set to 1 for string comparison.
 				EndIf
 			EndIf
 		Next
@@ -702,7 +703,7 @@ EndFunc   ;==>_VersionCompare
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __MISC_GetDC
 ; Description ...: Retrieves a handle of a display device context for the client area a window
-; Syntax.........: __MISC_GetDC($hWnd)
+; Syntax.........: __MISC_GetDC ( $hWnd )
 ; Parameters ....: $hWnd        - Handle of window
 ; Return values .: Success      - The device context for the given window's client area
 ;                  Failure      - 0
@@ -722,7 +723,7 @@ EndFunc   ;==>__MISC_GetDC
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __MISC_GetDeviceCaps
 ; Description ...: Retrieves device specific information about a specified device
-; Syntax.........: __MISC_GetDeviceCaps($hDC, $iIndex)
+; Syntax.........: __MISC_GetDeviceCaps ( $hDC, $iIndex )
 ; Parameters ....: $hDC         - Identifies the device context
 ;                  $iIndex      - Specifies the item to return
 ; Return values .: Success      - The value of the desired item
@@ -742,7 +743,7 @@ EndFunc   ;==>__MISC_GetDeviceCaps
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __MISC_ReleaseDC
 ; Description ...: Releases a device context
-; Syntax.........: __MISC_ReleaseDC($hWnd, $hDC)
+; Syntax.........: __MISC_ReleaseDC ( $hWnd, $hDC )
 ; Parameters ....: $hWnd        - Handle of window
 ;                  $hDC         - Identifies the device context to be released
 ; Return values .: Success      - True
@@ -760,4 +761,3 @@ Func __MISC_ReleaseDC($hWnd, $hDC)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0] <> 0
 EndFunc   ;==>__MISC_ReleaseDC
-

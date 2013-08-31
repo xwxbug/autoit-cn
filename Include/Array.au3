@@ -6,48 +6,44 @@
 ; Language ......: English
 ; Description ...: Functions for manipulating arrays.
 ; Author(s) .....: JdeB, Erik Pilsits, Ultima, Dale (Klaatu) Thompson, Cephas,randallc, Gary Frost, GEOSoft,
-;                  Helias Gerassimou(hgeras), Brian Keene, SolidSnake, gcriaco, LazyCoder, Tylo, David Nuttall,
-;                  Adam Moore (redndahead), SmOke_N, litlmike, Valik
-; ===============================================================================================================================
-
-; #NO_DOC_FUNCTION# =============================================================================================================
-; Not documented - function(s) no longer needed, will be worked out of the file at a later date
-;
-;_ArrayCreate
+;                  Helias Gerassimou(hgeras), Brian Keene, Michael Michta, gcriaco, LazyCoder, Tylo, David Nuttall,
+;                  Adam Moore (redndahead), SmOke_N, litlmike, Valik, Melba23
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_ArrayAdd
-;_ArrayBinarySearch
-;_ArrayCombinations
-;_ArrayConcatenate
-;_ArrayDelete
-;_ArrayDisplay
-;_ArrayFindAll
-;_ArrayInsert
-;_ArrayMax
-;_ArrayMaxIndex
-;_ArrayMin
-;_ArrayMinIndex
-;_ArrayPermute
-;_ArrayPop
-;_ArrayPush
-;_ArrayReverse
-;_ArraySearch
-;_ArraySort
-;_ArraySwap
-;_ArrayToClip
-;_ArrayToString
-;_ArrayTrim
-;_ArrayUnique
+; _ArrayAdd
+; _ArrayBinarySearch
+; _ArrayCombinations
+; _ArrayConcatenate
+; _ArrayDelete
+; _ArrayDisplay
+; _ArrayFindAll
+; _ArrayInsert
+; _ArrayMax
+; _ArrayMaxIndex
+; _ArrayMin
+; _ArrayMinIndex
+; _ArrayPermute
+; _ArrayPop
+; _ArrayPush
+; _ArrayReverse
+; _ArraySearch
+; _ArraySort
+; _ArraySwap
+; _ArrayToClip
+; _ArrayToString
+; _ArrayTranspose
+; _ArrayTrim
+; _ArrayUnique
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__ArrayQuickSort1D
-;__ArrayQuickSort2D
-;__Array_ExeterInternal
-;__Array_Combinations
-;__Array_GetNext
+; __Array_Combinations
+; __Array_ExeterInternal
+; __Array_GetNext
+; __ArrayDualPivotSort
+; __ArrayQuickSort1D
+; __ArrayQuickSort2D
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
@@ -93,7 +89,7 @@ EndFunc   ;==>_ArrayAdd
 ;                  |4 - $iStart is greater than $iEnd
 ;                  |5 - $avArray is not a 1 dimensional array
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
-; Modified.......: Ultima - added $iEnd as parameter, code cleanup
+; Modified.......: Ultima - added $iEnd as parameter, code cleanup; Melba23 - added support for empty arrays
 ; Remarks .......: When performing a binary search on an array of items, the contents MUST be sorted before the search is done.
 ;                  Otherwise undefined results will be returned.
 ; Related .......: _ArrayFindAll, _ArraySearch
@@ -105,6 +101,7 @@ Func _ArrayBinarySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(5, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
+	If $iUBound = -1 Then Return SetError(6, 0, -1)
 
 	; Bounds checking
 	If $iEnd < 1 Or $iEnd > $iUBound Then $iEnd = $iUBound
@@ -151,8 +148,8 @@ EndFunc   ;==>_ArrayBinarySearch
 ; Related .......: _ArrayPermute
 ; Link ..........:
 ; Example .......: Yes
-; ==========================================================================================
-Func _ArrayCombinations(ByRef $avArray, $iSet, $sDelim = "")
+; ===============================================================================================================================
+Func _ArrayCombinations(Const ByRef $avArray, $iSet, $sDelim = "")
 
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
@@ -253,7 +250,7 @@ EndFunc   ;==>_ArrayCreate
 ;                  |3 - $avArray has too many dimensions (only up to 2D supported)
 ;                  |(2 - Deprecated error code)
 ; Author ........: Cephas <cephas at clergy dot net>
-; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - array passed ByRef, Ultima - 2D arrays supported, reworked function (no longer needs temporary array; faster when deleting from end)
+; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - array passed ByRef
 ; Remarks .......: If the array has one element left (or one row for 2D arrays), it will be set to "" after _ArrayDelete() is used on it.
 ;+
 ;                  If the $ilement is greater than the array size then the last element is destroyed.
@@ -263,14 +260,7 @@ EndFunc   ;==>_ArrayCreate
 ; ===============================================================================================================================
 Func _ArrayDelete(ByRef $avArray, $iElement)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-
 	Local $iUBound = UBound($avArray, 1) - 1
-
-	If Not $iUBound Then
-		$avArray = ""
-		Return 0
-	EndIf
-
 	; Bounds checking
 	If $iElement < 0 Then $iElement = 0
 	If $iElement > $iUBound Then $iElement = $iUBound
@@ -313,14 +303,14 @@ EndFunc   ;==>_ArrayDelete
 ;                  |1 - $avArray is not an array
 ;                  |2 - $avArray has too many dimensions (only up to 2D supported)
 ; Author ........: randallc, Ultima
-; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm
+; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm, Melba23
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sSeparator = Default, $sReplace = Default, $sHeader = Default)
-	If (Not IsArray($avArray)) Or (Not UBound($avArray, 1)) Then Return SetError(1, 0, 0)
+	If (Not IsArray($avArray)) Then Return SetError(1, 0, 0)
 
 	; Default values
 	If $sTitle = Default Then $sTitle = "列表视图(ListView)显示数组"
@@ -373,6 +363,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 		For $i = 0 To $iSubMax
 			$sHeader &= $sSeparator & "Col " & $i
 		Next
+	ElseIf $sDataSeparatorChar <> $sSeparator Then
+		$sHeader = StringReplace($sHeader, $sDataSeparatorChar, $sSeparator)
 	EndIf
 
 	; Convert array into text for listview
@@ -423,6 +415,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 	Local Const $_ARRAYCONSTANT_WS_MAXIMIZEBOX = 0x00010000
 	Local Const $_ARRAYCONSTANT_WS_MINIMIZEBOX = 0x00020000
 	Local Const $_ARRAYCONSTANT_WS_SIZEBOX = 0x00040000
+	Local Const $_ARRAYCONSTANT_WM_SETREDRAW = 11
 
 	; Set interface up
 	Local $iWidth = 640, $iHeight = 480
@@ -436,10 +429,12 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE, $_ARRAYCONSTANT_LVS_EX_FULLROWSELECT, $_ARRAYCONSTANT_LVS_EX_FULLROWSELECT)
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE, $_ARRAYCONSTANT_WS_EX_CLIENTEDGE, $_ARRAYCONSTANT_WS_EX_CLIENTEDGE)
 
+	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_WM_SETREDRAW, 0, 0)
 	; Fill listview
 	For $i = 0 To $iUBound
 		GUICtrlCreateListViewItem($avArrayText[$i], $hListView)
 	Next
+	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_WM_SETREDRAW, 1, 0)
 
 	; adjust window width
 	$iWidth = 0
@@ -543,7 +538,7 @@ EndFunc   ;==>_ArrayFindAll
 ;                  Failure - 0, sets @error
 ;                  |1 - $avArray is not an array
 ;                  |2 - $avArray is not a 1 dimensional array
-; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
+; Author ........: Jos van der Zande <jdeb at autoitscript dot com>: Ultima - code cleanup; Melba23 - element position check
 ; Modified.......: Ultima - code cleanup
 ; Remarks .......:
 ; Related .......: _ArrayAdd, _ArrayDelete, _ArrayPop, _ArrayPush
@@ -553,6 +548,9 @@ EndFunc   ;==>_ArrayFindAll
 Func _ArrayInsert(ByRef $avArray, $iElement, $vValue = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+
+	; Check element in array bounds + 1
+	If $iElement > UBound($avArray) Then Return SetError(3, 0, 0)
 
 	; Add 1 to the array
 	Local $iUBound = UBound($avArray) + 1
@@ -609,15 +607,16 @@ EndFunc   ;==>_ArrayMax
 ;                  |2 - $iStart is greater than $iEnd
 ;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
-; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic, Ultima - added $iEnd parameter, code cleanup, optimization
+; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic
 ; Remarks .......:
 ; Related .......: _ArrayMax, _ArrayMin, _ArrayMinIndex
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayMaxIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
-	If Not IsArray($avArray) Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, -1)
+	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
 	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, -1)
+	If Not UBound($avArray) Then Return SetError(4, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
 
@@ -683,7 +682,7 @@ EndFunc   ;==>_ArrayMin
 ;                  |2 - $iStart is greater than $iEnd
 ;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
-; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic, Ultima - added $iEnd parameter, code cleanup, optimization
+; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic
 ; Remarks .......:
 ; Related .......: _ArrayMax, _ArrayMaxIndex, _ArrayMin
 ; Link ..........:
@@ -692,6 +691,7 @@ EndFunc   ;==>_ArrayMin
 Func _ArrayMinIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
 	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, -1)
+	If Not UBound($avArray) Then Return SetError(4, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
 
@@ -733,7 +733,7 @@ EndFunc   ;==>_ArrayMinIndex
 ; Remarks .......: The input array must be 0-based, i.e. no counter in $array[0].  Based on the algorithm by Alexander Bogomolny.
 ;+
 ;                  http://www.bearcave.com/random_hacks/permute.html
-; Related .......: _ArrayCombinations
+; Modified.......: Melba23 - added support for empty arrays
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
@@ -742,15 +742,19 @@ Func _ArrayPermute(ByRef $avArray, $sDelim = "")
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
 	Local $iSize = UBound($avArray), $iFactorial = 1, $aIdx[$iSize], $aResult[1], $iCount = 1
 
-	For $i = 0 To $iSize - 1
-		$aIdx[$i] = $i
-	Next
-	For $i = $iSize To 1 Step -1
-		$iFactorial *= $i
-	Next
-	ReDim $aResult[$iFactorial + 1]
-	$aResult[0] = $iFactorial
-	__Array_ExeterInternal($avArray, 0, $iSize, $sDelim, $aIdx, $aResult, $iCount)
+	If UBound($avArray) Then
+		For $i = 0 To $iSize - 1
+			$aIdx[$i] = $i
+		Next
+		For $i = $iSize To 1 Step -1
+			$iFactorial *= $i
+		Next
+		ReDim $aResult[$iFactorial + 1]
+		$aResult[0] = $iFactorial
+		__Array_ExeterInternal($avArray, 0, $iSize, $sDelim, $aIdx, $aResult, $iCount)
+	Else
+		$aResult[0] = 0
+	EndIf
 	Return $aResult
 EndFunc   ;==>_ArrayPermute
 
@@ -764,7 +768,7 @@ EndFunc   ;==>_ArrayPermute
 ;                  |1 - The Input Must be an Array
 ;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
-; Modified.......: Ultima - code cleanup
+; Modified.......: Ultima - code cleanup; Melba23 - added support for empty arrays
 ; Remarks .......: If the array has one element left, it will be set to "" after _ArrayPop() is used on it.
 ; Related .......: _ArrayAdd, _ArrayDelete, _ArrayInsert, _ArrayPush
 ; Link ..........:
@@ -774,12 +778,12 @@ Func _ArrayPop(ByRef $avArray)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, "")
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, "")
 
-	Local $iUBound = UBound($avArray) - 1, $sLastVal = $avArray[$iUBound]
+	Local $iUBound = UBound($avArray) - 1
+	If $iUBound = -1 Then Return SetError(3, 0, "")
+	Local $sLastVal = $avArray[$iUBound]
 
 	; Remove last item
-	If Not $iUBound Then
-		$avArray = ""
-	Else
+	If $iUBound > -1 Then
 		ReDim $avArray[$iUBound]
 	EndIf
 
@@ -836,16 +840,19 @@ Func _ArrayPush(ByRef $avArray, $vValue, $iDirection = 0)
 			Next
 		EndIf
 	Else
-		If $iDirection Then ; slide right, add to front
-			For $i = $iUBound To 1 Step -1
-				$avArray[$i] = $avArray[$i - 1]
-			Next
-			$avArray[0] = $vValue
-		Else ; slide left, add to end
-			For $i = 0 To $iUBound - 1
-				$avArray[$i] = $avArray[$i + 1]
-			Next
-			$avArray[$iUBound] = $vValue
+		; Check for empty array
+		If $iUBound > -1 Then
+			If $iDirection Then ; slide right, add to front
+				For $i = $iUBound To 1 Step -1
+					$avArray[$i] = $avArray[$i - 1]
+				Next
+				$avArray[0] = $vValue
+			Else ; slide left, add to end
+				For $i = 0 To $iUBound - 1
+					$avArray[$i] = $avArray[$i + 1]
+				Next
+				$avArray[$iUBound] = $vValue
+			EndIf
 		EndIf
 	EndIf
 
@@ -865,7 +872,7 @@ EndFunc   ;==>_ArrayPush
 ;                  |2 - $iStart is greater than $iEnd
 ;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Brian Keene
-; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> -  added $iStart parameter and logic, Tylo - added $iEnd parameter and rewrote it for speed, Ultima - code cleanup, minor optimization
+; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> -  added $iStart parameter and logic; Tylo - added $iEnd parameter and rewrote it for speed
 ; Remarks .......:
 ; Related .......: _ArraySwap
 ; Link ..........:
@@ -874,6 +881,7 @@ EndFunc   ;==>_ArrayPush
 Func _ArrayReverse(ByRef $avArray, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, 0)
+	If Not UBound($avArray) Then Return SetError(4, 0, 0)
 
 	Local $vTmp, $iUBound = UBound($avArray) - 1
 
@@ -914,8 +922,8 @@ EndFunc   ;==>_ArrayReverse
 ;                  |4 - $iStart is greater than $iEnd
 ;                  |6 - $vValue was not found in array
 ;                  |7 - $avArray has too many dimensions
-; Author ........: SolidSnake <MetalGX91 at GMail dot com>
-; Modified.......: gcriaco <gcriaco at gmail dot com>, Ultima - 2D arrays supported, directional search, code cleanup, optimization
+; Author ........: Michael Michta <MetalGX91 at GMail dot com>
+; Modified.......: gcriaco <gcriaco at gmail dot com>; Ultima - 2D arrays supported, directional search, code cleanup, optimization; Melba23 - added support for empty arrays; BrunoJ - Added compare option 3 to use a regex pattern.
 ; Remarks .......: This function might be slower than _ArrayBinarySearch() but is useful when the array's order can't be altered.
 ; Related .......: _ArrayBinarySearch, _ArrayFindAll
 ; Link ..........:
@@ -926,6 +934,7 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 	If UBound($avArray, 0) > 2 Or UBound($avArray, 0) < 1 Then Return SetError(2, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
+	If $iUBound = -1 Then Return SetError(3, 0, -1)
 
 	; Bounds checking
 	If $iEnd < 1 Or $iEnd > $iUBound Then $iEnd = $iUBound
@@ -965,7 +974,11 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 				EndIf
 			Else
 				For $i = $iStart To $iEnd Step $iStep
-					If StringInStr($avArray[$i], $vValue, $iCase) > 0 Then Return $i
+					If $iCompare = 3 Then
+						If StringRegExp($avArray[$i], $vValue) Then Return $i
+					Else
+						If StringInStr($avArray[$i], $vValue, $iCase) > 0 Then Return $i
+					EndIf
 				Next
 			EndIf
 		Case 2 ; 2D array search
@@ -993,7 +1006,11 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 					EndIf
 				Else
 					For $i = $iStart To $iEnd Step $iStep
-						If StringInStr($avArray[$i][$j], $vValue, $iCase) > 0 Then Return $i
+						If $iCompare = 3 Then
+							If StringRegExp($avArray[$i][$j], $vValue) Then Return $i
+						Else
+							If StringInStr($avArray[$i][$j], $vValue, $iCase) > 0 Then Return $i
+						EndIf
 					Next
 				EndIf
 			Next
@@ -1020,28 +1037,40 @@ EndFunc   ;==>_ArraySearch
 ;                  |3 - $iSubItem is greater than subitem count
 ;                  |4 - $avArray has too many dimensions
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
-; Modified.......: LazyCoder - added $iSubItem option, Tylo - implemented stable QuickSort algo, Jos van der Zande - changed logic to correctly Sort arrays with mixed Values and Strings, Ultima - major optimization, code cleanup, removed $i_Dim parameter
+; Modified.......: LazyCoder - added $iSubItem option; Tylo - implemented stable QuickSort algo; Jos van der Zande - changed logic to correctly Sort arrays with mixed Values and Strings; Melba23 - implemented stable pivot algo
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func _ArraySort(ByRef $avArray, $iDescending = 0, $iStart = 0, $iEnd = 0, $iSubItem = 0)
+Func _ArraySort(ByRef $avArray, $iDescending = 0, $iStart = 0, $iEnd = 0, $iSubItem = 0, $iPivot = 0)
+
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 
 	Local $iUBound = UBound($avArray) - 1
+	If $iUBound = -1 Then Return SetError(5, 0, 0)
 
 	; Bounds checking
-	If $iEnd < 1 Or $iEnd > $iUBound Then $iEnd = $iUBound
-	If $iStart < 0 Then $iStart = 0
+	If $iEnd = Default Then $iEnd = 0
+	If $iEnd < 1 Or $iEnd > $iUBound Or $iEnd = Default Then $iEnd = $iUBound
+	If $iStart < 0 Or $iStart = Default Then $iStart = 0
 	If $iStart > $iEnd Then Return SetError(2, 0, 0)
+
+	If $iDescending = Default Then $iDescending = 0
+	If $iPivot = Default Then $iPivot = 0
+	If $iSubItem = Default Then $iSubItem = 0
 
 	; Sort
 	Switch UBound($avArray, 0)
 		Case 1
-			__ArrayQuickSort1D($avArray, $iStart, $iEnd)
+			If $iPivot Then ; Switch algorithms as required
+				__ArrayDualPivotSort($avArray, $iStart, $iEnd)
+			Else
+				__ArrayQuickSort1D($avArray, $iStart, $iEnd)
+			EndIf
 			If $iDescending Then _ArrayReverse($avArray, $iStart, $iEnd)
 		Case 2
+			If $iPivot Then Return SetError(6, 0, 0) ; Error if 2D array and $iPivot
 			Local $iSubMax = UBound($avArray, 2) - 1
 			If $iSubItem > $iSubMax Then Return SetError(3, 0, 0)
 
@@ -1062,7 +1091,7 @@ EndFunc   ;==>_ArraySort
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __ArrayQuickSort1D
 ; Description ...: Helper function for sorting 1D arrays
-; Syntax.........: __ArrayQuickSort1D(ByRef $avArray, ByRef $iStart, ByRef $iEnd)
+; Syntax.........: __ArrayQuickSort1D ( ByRef $avArray, ByRef $iStart, ByRef $iEnd )
 ; Parameters ....: $avArray - Array to sort
 ;                  $iStart  - Index of array to start sorting at
 ;                  $iEnd    - Index of array to stop sorting at
@@ -1074,7 +1103,7 @@ EndFunc   ;==>_ArraySort
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __ArrayQuickSort1D(ByRef $avArray, ByRef $iStart, ByRef $iEnd)
+Func __ArrayQuickSort1D(ByRef $avArray, Const ByRef $iStart, Const ByRef $iEnd)
 	If $iEnd <= $iStart Then Return
 
 	Local $vTmp
@@ -1142,7 +1171,7 @@ EndFunc   ;==>__ArrayQuickSort1D
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __ArrayQuickSort2D
 ; Description ...: Helper function for sorting 2D arrays
-; Syntax.........: __ArrayQuickSort2D(ByRef $avArray, ByRef $iStep, ByRef $iStart, ByRef $iEnd, ByRef $iSubItem, ByRef $iSubMax)
+; Syntax.........: __ArrayQuickSort2D ( ByRef $avArray, ByRef $iStep, ByRef $iStart, ByRef $iEnd, ByRef $iSubItem, ByRef $iSubMax )
 ; Parameters ....: $avArray  - Array to sort
 ;                  $iStep    - Step size (should be 1 to sort ascending, -1 to sort descending!)
 ;                  $iStart   - Index of array to start sorting at
@@ -1157,7 +1186,7 @@ EndFunc   ;==>__ArrayQuickSort1D
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __ArrayQuickSort2D(ByRef $avArray, ByRef $iStep, ByRef $iStart, ByRef $iEnd, ByRef $iSubItem, ByRef $iSubMax)
+Func __ArrayQuickSort2D(ByRef $avArray, Const ByRef $iStep, Const ByRef $iStart, Const ByRef $iEnd, Const ByRef $iSubItem, Const ByRef $iSubMax)
 	If $iEnd <= $iStart Then Return
 
 	; QuickSort
@@ -1196,6 +1225,240 @@ Func __ArrayQuickSort2D(ByRef $avArray, ByRef $iStep, ByRef $iStart, ByRef $iEnd
 	__ArrayQuickSort2D($avArray, $iStep, $iStart, $R, $iSubItem, $iSubMax)
 	__ArrayQuickSort2D($avArray, $iStep, $L, $iEnd, $iSubItem, $iSubMax)
 EndFunc   ;==>__ArrayQuickSort2D
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; Name...........: __ArrayDualPivotSort
+; Description ...: Helper function for sorting 1D arrays
+; Syntax.........: __ArrayDualPivotSort ( ByRef $aArray, $iPivot_Left, $iPivot_Right [, $fLeftMost = True ] )
+; Parameters ....: $avArray  - Array to sort
+;                  $iPivot_Left  - Index of the array to start sorting at
+;                  $iPivot_Right - Index of the array to stop sorting at
+;                  $fLeftMost    - Indicates if this part is the leftmost in the range
+; Return values .: None
+; Author ........: Erik Pilsits
+; Modified.......: Melba23
+; Remarks .......: For Internal Use Only
+; Related .......:
+; Link ..........:
+; Example .......:
+; ===============================================================================================================================
+Func __ArrayDualPivotSort(ByRef $aArray, $iPivot_Left, $iPivot_Right, $fLeftMost = True)
+	If $iPivot_Left > $iPivot_Right Then Return
+	Local $iLength = $iPivot_Right - $iPivot_Left + 1
+	Local $i, $j, $k, $ai, $ak, $a1, $a2, $last
+	If $iLength < 45 Then ; Use insertion sort for small arrays - value chosen empirically
+		If $fLeftMost Then
+			$i = $iPivot_Left
+			While $i < $iPivot_Right
+				$j = $i
+				$ai = $aArray[$i + 1]
+				While $ai < $aArray[$j]
+					$aArray[$j + 1] = $aArray[$j]
+					$j -= 1
+					If $j + 1 = $iPivot_Left Then ExitLoop
+				WEnd
+				$aArray[$j + 1] = $ai
+				$i += 1
+			WEnd
+		Else
+			While 1
+				If $iPivot_Left >= $iPivot_Right Then Return 1
+				$iPivot_Left += 1
+				If $aArray[$iPivot_Left] < $aArray[$iPivot_Left - 1] Then ExitLoop
+			WEnd
+			While 1
+				$k = $iPivot_Left
+				$iPivot_Left += 1
+				If $iPivot_Left > $iPivot_Right Then ExitLoop
+				$a1 = $aArray[$k]
+				$a2 = $aArray[$iPivot_Left]
+				If $a1 < $a2 Then
+					$a2 = $a1
+					$a1 = $aArray[$iPivot_Left]
+				EndIf
+				$k -= 1
+				While $a1 < $aArray[$k]
+					$aArray[$k + 2] = $aArray[$k]
+					$k -= 1
+				WEnd
+				$aArray[$k + 2] = $a1
+				While $a2 < $aArray[$k]
+					$aArray[$k + 1] = $aArray[$k]
+					$k -= 1
+				WEnd
+				$aArray[$k + 1] = $a2
+				$iPivot_Left += 1
+			WEnd
+			$last = $aArray[$iPivot_Right]
+			$iPivot_Right -= 1
+			While $last < $aArray[$iPivot_Right]
+				$aArray[$iPivot_Right + 1] = $aArray[$iPivot_Right]
+				$iPivot_Right -= 1
+			WEnd
+			$aArray[$iPivot_Right + 1] = $last
+		EndIf
+		Return 1
+	EndIf
+	Local $iSeventh = BitShift($iLength, 3) + BitShift($iLength, 6) + 1
+	Local $e1, $e2, $e3, $e4, $e5, $t
+	$e3 = Ceiling(($iPivot_Left + $iPivot_Right) / 2)
+	$e2 = $e3 - $iSeventh
+	$e1 = $e2 - $iSeventh
+	$e4 = $e3 + $iSeventh
+	$e5 = $e4 + $iSeventh
+	If $aArray[$e2] < $aArray[$e1] Then
+		$t = $aArray[$e2]
+		$aArray[$e2] = $aArray[$e1]
+		$aArray[$e1] = $t
+	EndIf
+	If $aArray[$e3] < $aArray[$e2] Then
+		$t = $aArray[$e3]
+		$aArray[$e3] = $aArray[$e2]
+		$aArray[$e2] = $t
+		If $t < $aArray[$e1] Then
+			$aArray[$e2] = $aArray[$e1]
+			$aArray[$e1] = $t
+		EndIf
+	EndIf
+	If $aArray[$e4] < $aArray[$e3] Then
+		$t = $aArray[$e4]
+		$aArray[$e4] = $aArray[$e3]
+		$aArray[$e3] = $t
+		If $t < $aArray[$e2] Then
+			$aArray[$e3] = $aArray[$e2]
+			$aArray[$e2] = $t
+			If $t < $aArray[$e1] Then
+				$aArray[$e2] = $aArray[$e1]
+				$aArray[$e1] = $t
+			EndIf
+		EndIf
+	EndIf
+	If $aArray[$e5] < $aArray[$e4] Then
+		$t = $aArray[$e5]
+		$aArray[$e5] = $aArray[$e4]
+		$aArray[$e4] = $t
+		If $t < $aArray[$e3] Then
+			$aArray[$e4] = $aArray[$e3]
+			$aArray[$e3] = $t
+			If $t < $aArray[$e2] Then
+				$aArray[$e3] = $aArray[$e2]
+				$aArray[$e2] = $t
+				If $t < $aArray[$e1] Then
+					$aArray[$e2] = $aArray[$e1]
+					$aArray[$e1] = $t
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+	Local $iLess = $iPivot_Left
+	Local $iGreater = $iPivot_Right
+	If (($aArray[$e1] <> $aArray[$e2]) And ($aArray[$e2] <> $aArray[$e3]) And ($aArray[$e3] <> $aArray[$e4]) And ($aArray[$e4] <> $aArray[$e5])) Then
+		Local $iPivot_1 = $aArray[$e2]
+		Local $iPivot_2 = $aArray[$e4]
+		$aArray[$e2] = $aArray[$iPivot_Left]
+		$aArray[$e4] = $aArray[$iPivot_Right]
+		Do
+			$iLess += 1
+		Until $aArray[$iLess] >= $iPivot_1
+		Do
+			$iGreater -= 1
+		Until $aArray[$iGreater] <= $iPivot_2
+		$k = $iLess
+		While $k <= $iGreater
+			$ak = $aArray[$k]
+			If $ak < $iPivot_1 Then
+				$aArray[$k] = $aArray[$iLess]
+				$aArray[$iLess] = $ak
+				$iLess += 1
+			ElseIf $ak > $iPivot_2 Then
+				While $aArray[$iGreater] > $iPivot_2
+					$iGreater -= 1
+					If $iGreater + 1 = $k Then ExitLoop 2
+				WEnd
+				If $aArray[$iGreater] < $iPivot_1 Then
+					$aArray[$k] = $aArray[$iLess]
+					$aArray[$iLess] = $aArray[$iGreater]
+					$iLess += 1
+				Else
+					$aArray[$k] = $aArray[$iGreater]
+				EndIf
+				$aArray[$iGreater] = $ak
+				$iGreater -= 1
+			EndIf
+			$k += 1
+		WEnd
+		$aArray[$iPivot_Left] = $aArray[$iLess - 1]
+		$aArray[$iLess - 1] = $iPivot_1
+		$aArray[$iPivot_Right] = $aArray[$iGreater + 1]
+		$aArray[$iGreater + 1] = $iPivot_2
+		__ArrayDualPivotSort($aArray, $iPivot_Left, $iLess - 2, True)
+		__ArrayDualPivotSort($aArray, $iGreater + 2, $iPivot_Right, False)
+		If ($iLess < $e1) And ($e5 < $iGreater) Then
+			While $aArray[$iLess] = $iPivot_1
+				$iLess += 1
+			WEnd
+			While $aArray[$iGreater] = $iPivot_2
+				$iGreater -= 1
+			WEnd
+			$k = $iLess
+			While $k <= $iGreater
+				$ak = $aArray[$k]
+				If $ak = $iPivot_1 Then
+					$aArray[$k] = $aArray[$iLess]
+					$aArray[$iLess] = $ak
+					$iLess += 1
+				ElseIf $ak = $iPivot_2 Then
+					While $aArray[$iGreater] = $iPivot_2
+						$iGreater -= 1
+						If $iGreater + 1 = $k Then ExitLoop 2
+					WEnd
+					If $aArray[$iGreater] = $iPivot_1 Then
+						$aArray[$k] = $aArray[$iLess]
+						$aArray[$iLess] = $iPivot_1
+						$iLess += 1
+					Else
+						$aArray[$k] = $aArray[$iGreater]
+					EndIf
+					$aArray[$iGreater] = $ak
+					$iGreater -= 1
+				EndIf
+				$k += 1
+			WEnd
+		EndIf
+		__ArrayDualPivotSort($aArray, $iLess, $iGreater, False)
+	Else
+		Local $iPivot = $aArray[$e3]
+		$k = $iLess
+		While $k <= $iGreater
+			If $aArray[$k] = $iPivot Then
+				$k += 1
+				ContinueLoop
+			EndIf
+			$ak = $aArray[$k]
+			If $ak < $iPivot Then
+				$aArray[$k] = $aArray[$iLess]
+				$aArray[$iLess] = $ak
+				$iLess += 1
+			Else
+				While $aArray[$iGreater] > $iPivot
+					$iGreater -= 1
+				WEnd
+				If $aArray[$iGreater] < $iPivot Then
+					$aArray[$k] = $aArray[$iLess]
+					$aArray[$iLess] = $aArray[$iGreater]
+					$iLess += 1
+				Else
+					$aArray[$k] = $iPivot
+				EndIf
+				$aArray[$iGreater] = $ak
+				$iGreater -= 1
+			EndIf
+			$k += 1
+		WEnd
+		__ArrayDualPivotSort($aArray, $iPivot_Left, $iLess - 1, True)
+		__ArrayDualPivotSort($aArray, $iGreater + 1, $iPivot_Right, False)
+	EndIf
+EndFunc   ;==>__ArrayDualPivotSort
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ArraySwap
@@ -1238,7 +1501,8 @@ EndFunc   ;==>_ArraySwap
 Func _ArrayToClip(Const ByRef $avArray, $iStart = 0, $iEnd = 0)
 	Local $sResult = _ArrayToString($avArray, @CR, $iStart, $iEnd)
 	If @error Then Return SetError(@error, 0, 0)
-	Return ClipPut($sResult)
+	If ClipPut($sResult) Then Return 1
+	Return SetError(-1, 0, 0)
 EndFunc   ;==>_ArrayToClip
 
 ; #FUNCTION# ====================================================================================================================
@@ -1255,7 +1519,7 @@ EndFunc   ;==>_ArrayToClip
 ;                  |2 - $iStart is greater than $iEnd
 ;                  |3 - $avArray is not an 1 dimensional array
 ; Author ........: Brian Keene <brian_keene at yahoo dot com>, Valik - rewritten
-; Modified.......: Ultima - code cleanup
+; Modified.......: Ultima - code cleanup; Melba23 - added support for empty arrays
 ; Remarks .......:
 ; Related .......: StringSplit, _ArrayToClip
 ; Link ..........:
@@ -1264,6 +1528,7 @@ EndFunc   ;==>_ArrayToClip
 Func _ArrayToString(Const ByRef $avArray, $sDelim = "|", $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, "")
 	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, "")
+	If Not UBound($avArray) Then Return SetError(4, 0, "")
 
 	Local $sResult, $iUBound = UBound($avArray) - 1
 
@@ -1279,6 +1544,38 @@ Func _ArrayToString(Const ByRef $avArray, $sDelim = "|", $iStart = 0, $iEnd = 0)
 
 	Return StringTrimRight($sResult, StringLen($sDelim))
 EndFunc   ;==>_ArrayToString
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: jchd
+; Modified.......:
+; ===============================================================================================================================
+Func _ArrayTranspose(ByRef $avArray)
+	If UBound($avArray, 0) <> 2 Then Return SetError(1, 0, 0)
+
+	Local $vElement = 0, $iDim_1 = UBound($avArray, 1), $iDim_2 = UBound($avArray, 2), $iDim_Max = ($iDim_1 > $iDim_2) ? $iDim_1 : $iDim_2
+
+	If $iDim_Max <= 4096 Then
+		ReDim $avArray[$iDim_Max][$iDim_Max]
+		For $i = 0 To $iDim_Max - 2
+			For $j = $i + 1 To $iDim_Max - 1
+				$vElement = $avArray[$i][$j]
+				$avArray[$i][$j] = $avArray[$j][$i]
+				$avArray[$j][$i] = $vElement
+			Next
+		Next
+		ReDim $avArray[$iDim_2][$iDim_1]
+	Else
+		Local $aTemp[$iDim_2][$iDim_1]
+		For $i = 0 To $iDim_1 - 1
+			For $j = 0 To $iDim_2 - 1
+				$aTemp[$j][$i] = $avArray[$i][$j]
+			Next
+		Next
+		ReDim $avArray[$iDim_2][$iDim_1]
+		$avArray = $aTemp
+	EndIf
+	Return 1
+EndFunc   ;==>_ArrayTranspose
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _ArrayTrim
@@ -1307,6 +1604,7 @@ EndFunc   ;==>_ArrayToString
 Func _ArrayTrim(ByRef $avArray, $iTrimNum, $iDirection = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+	If Not UBound($avArray) Then Return SetError(3, 0, 0)
 
 	Local $iUBound = UBound($avArray) - 1
 
@@ -1348,7 +1646,7 @@ EndFunc   ;==>_ArrayTrim
 ;                  2 - _ArrayUnique failed for some other reason
 ;                  3 - Array dimension is invalid, should be an integer greater than 0
 ; Author ........: SmOke_N
-; Modified.......: litlmike
+; Modified.......: litlmike; Melba23 - added support for empty arrays
 ; Remarks .......: Returns an array, the first element ($array[0]) contains the number of strings returned, the remaining elements ($array[1], $array[2], etc.) contain the unique strings.
 ; Related .......: _ArrayMax, _ArrayMin
 ; Link ..........:
@@ -1359,6 +1657,7 @@ Func _ArrayUnique($aArray, $iDimension = 1, $iBase = 0, $iCase = 0, $vDelim = "|
 	;$aArray used to be ByRef, but litlmike altered it to allow for the choosing of 1 Array Dimension, without altering the original array
 	If $vDelim = "|" Then $vDelim = Chr(01) ; by SmOke_N, modified by litlmike
 	If Not IsArray($aArray) Then Return SetError(1, 0, 0) ;Check to see if it is valid array
+	If UBound($aArray) = 0 Then Return SetError(4, 0, 0) ; Check if array empty
 
 	;Checks that the given Dimension is Valid
 	If Not $iDimension > 0 Then
@@ -1410,7 +1709,7 @@ EndFunc   ;==>_ArrayUnique
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Array_ExeterInternal
 ; Description ...: Permute Function based on an algorithm from Exeter University.
-; Syntax.........: __Array_ExeterInternal(ByRef $avArray, $iStart, $iSize, $sDelim, ByRef $aIdx, ByRef $aResult)
+; Syntax.........: __Array_ExeterInternal ( ByRef $avArray, $iStart, $iSize, $sDelim, ByRef $aIdx, ByRef $aResult )
 ; Parameters ....: $avArray - The Array to get Permutations
 ;                  $iStart - Starting Point for Loop
 ;                  $iSize - End Point for Loop
@@ -1421,7 +1720,7 @@ EndFunc   ;==>_ArrayUnique
 ; Author ........: Erik Pilsits
 ; Modified.......: 07/08/2008
 ; Remarks .......: This function is used internally. Permute Function based on an algorithm from Exeter University.
-;+
+; +
 ;                   http://www.bearcave.com/random_hacks/permute.html
 ; Related .......:
 ; Link ..........:
@@ -1452,14 +1751,14 @@ EndFunc   ;==>__Array_ExeterInternal
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Array_Combinations
 ; Description ...: Creates Combination
-; Syntax.........: __Array_Combinations($iN, $iR)
+; Syntax.........: __Array_Combinations ( $iN, $iR )
 ; Parameters ....: $iN - Value passed on from UBound($avArray)
 ;                  $iR - Size of the combinations set
 ; Return values .: Integer value of the number of combinations
 ; Author ........: Erik Pilsits
 ; Modified.......: 07/08/2008
 ; Remarks .......: This function is used internally. PBased on an algorithm by Kenneth H. Rosen.
-;+
+; +
 ;                   http://www.bearcave.com/random_hacks/permute.html
 ; Related .......:
 ; Link ..........:
@@ -1478,7 +1777,7 @@ EndFunc   ;==>__Array_Combinations
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Array_GetNext
 ; Description ...: Creates Combination
-; Syntax.........: __Array_GetNext($iN, $iR, ByRef $iLeft, $iTotal, ByRef $aIdx)
+; Syntax.........: __Array_GetNext ( $iN, $iR, ByRef $iLeft, $iTotal, ByRef $aIdx )
 ; Parameters ....: $iN - Value passed on from UBound($avArray)
 ;                  $iR - Size of the combinations set
 ;                  $iLeft - Remaining number of combinations
@@ -1488,7 +1787,7 @@ EndFunc   ;==>__Array_Combinations
 ; Author ........: Erik Pilsits
 ; Modified.......: 07/08/2008
 ; Remarks .......: This function is used internally. PBased on an algorithm by Kenneth H. Rosen.
-;+
+; +
 ;                   http://www.bearcave.com/random_hacks/permute.html
 ; Related .......:
 ; Link ..........:

@@ -63,5 +63,4 @@ Global Const $CLR_YELLOW = 0x00FFFF
 Global Const $CC_ANYCOLOR = 0x0100
 Global Const $CC_FULLOPEN = 0x0002
 Global Const $CC_RGBINIT = 0x0001
-
 ; ===============================================================================================================================

@@ -9,8 +9,6 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-Global Const $ERROR_NO_TOKEN = 1008
-
 Global Const $SE_ASSIGNPRIMARYTOKEN_NAME = "SeAssignPrimaryTokenPrivilege"
 Global Const $SE_AUDIT_NAME = "SeAuditPrivilege"
 Global Const $SE_BACKUP_NAME = "SeBackupPrivilege"
@@ -18,17 +16,20 @@ Global Const $SE_CHANGE_NOTIFY_NAME = "SeChangeNotifyPrivilege"
 Global Const $SE_CREATE_GLOBAL_NAME = "SeCreateGlobalPrivilege"
 Global Const $SE_CREATE_PAGEFILE_NAME = "SeCreatePagefilePrivilege"
 Global Const $SE_CREATE_PERMANENT_NAME = "SeCreatePermanentPrivilege"
+Global Const $SE_CREATE_SYMBOLIC_LINK_NAME = 'SeCreateSymbolicLinkPrivilege'
 Global Const $SE_CREATE_TOKEN_NAME = "SeCreateTokenPrivilege"
 Global Const $SE_DEBUG_NAME = "SeDebugPrivilege"
 Global Const $SE_ENABLE_DELEGATION_NAME = "SeEnableDelegationPrivilege"
 Global Const $SE_IMPERSONATE_NAME = "SeImpersonatePrivilege"
 Global Const $SE_INC_BASE_PRIORITY_NAME = "SeIncreaseBasePriorityPrivilege"
+Global Const $SE_INC_WORKING_SET_NAME = 'SeIncreaseWorkingSetPrivilege'
 Global Const $SE_INCREASE_QUOTA_NAME = "SeIncreaseQuotaPrivilege"
 Global Const $SE_LOAD_DRIVER_NAME = "SeLoadDriverPrivilege"
 Global Const $SE_LOCK_MEMORY_NAME = "SeLockMemoryPrivilege"
 Global Const $SE_MACHINE_ACCOUNT_NAME = "SeMachineAccountPrivilege"
 Global Const $SE_MANAGE_VOLUME_NAME = "SeManageVolumePrivilege"
 Global Const $SE_PROF_SINGLE_PROCESS_NAME = "SeProfileSingleProcessPrivilege"
+Global Const $SE_RELABEL_NAME = 'SeRelabelPrivilege'
 Global Const $SE_REMOTE_SHUTDOWN_NAME = "SeRemoteShutdownPrivilege"
 Global Const $SE_RESTORE_NAME = "SeRestorePrivilege"
 Global Const $SE_SECURITY_NAME = "SeSecurityPrivilege"
@@ -39,6 +40,8 @@ Global Const $SE_SYSTEM_PROFILE_NAME = "SeSystemProfilePrivilege"
 Global Const $SE_SYSTEMTIME_NAME = "SeSystemtimePrivilege"
 Global Const $SE_TAKE_OWNERSHIP_NAME = "SeTakeOwnershipPrivilege"
 Global Const $SE_TCB_NAME = "SeTcbPrivilege"
+Global Const $SE_TIME_ZONE_NAME = 'SeTimeZonePrivilege'
+Global Const $SE_TRUSTED_CREDMAN_ACCESS_NAME = 'SeTrustedCredManAccessPrivilege'
 Global Const $SE_UNSOLICITED_INPUT_NAME = "SeUnsolicitedInputPrivilege"
 Global Const $SE_UNDOCK_NAME = "SeUndockPrivilege"
 
@@ -90,6 +93,7 @@ Global Const $READ_CONTROL = 0x00020000
 Global Const $WRITE_DAC = 0x00040000
 Global Const $WRITE_OWNER = 0x00080000
 Global Const $SYNCHRONIZE = 0x00100000
+Global Const $ACCESS_SYSTEM_SECURITY = 0x01000000
 Global Const $STANDARD_RIGHTS_REQUIRED = 0x000f0000
 Global Const $STANDARD_RIGHTS_READ = $READ_CONTROL
 Global Const $STANDARD_RIGHTS_WRITE = $READ_CONTROL
@@ -134,5 +138,4 @@ Global Const $SID_SYSTEM_MANDATORY_LEVEL = "S-1-16-16384"
 Global Const $SID_PROTECTED_PROCESS_MANDATORY_LEVEL = "S-1-16-20480"
 Global Const $SID_SECURE_PROCESS_MANDATORY_LEVEL = "S-1-16-28672"
 Global Const $SID_ALL_SERVICES = "S-1-5-80-0"
-
 ; ===============================================================================================================================

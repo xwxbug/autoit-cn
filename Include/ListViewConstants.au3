@@ -8,63 +8,6 @@
 ; Author(s) .....: Valik, Gary Frost, ...
 ; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
-Global Const $LVS_ALIGNLEFT = 0x0800 ; Items are left aligned in icon and small icon view
-Global Const $LVS_ALIGNMASK = 0x0c00 ; Determines the control's current alignment
-Global Const $LVS_ALIGNTOP = 0x0000 ; Items are aligned at the top in icon and small icon view
-Global Const $LVS_AUTOARRANGE = 0x0100 ; Icons are automatically kept arranged in icon and small icon view
-Global Const $LVS_DEFAULT = 0x0000000D ; Default control style  $LVS_SHOWSELALWAYS + $LVS_SINGLESEL + $LVS_REPORT
-Global Const $LVS_EDITLABELS = 0x0200 ; Item text can be edited in place
-Global Const $LVS_ICON = 0x0000 ; This style specifies icon view
-Global Const $LVS_LIST = 0x0003 ; This style specifies list view
-Global Const $LVS_NOCOLUMNHEADER = 0x4000 ; Column headers are not displayed in report view
-Global Const $LVS_NOLABELWRAP = 0x0080 ; Item text is displayed on a single line in icon view
-Global Const $LVS_NOSCROLL = 0x2000 ; Scrolling is disabled
-Global Const $LVS_NOSORTHEADER = 0x8000 ; Column headers do not work like buttons
-Global Const $LVS_OWNERDATA = 0x1000
-Global Const $LVS_OWNERDRAWFIXED = 0x0400 ; The owner window can paint items in report view
-Global Const $LVS_REPORT = 0x0001 ; This style specifies report view
-Global Const $LVS_SHAREIMAGELISTS = 0x0040 ; The image list will not be deleted when the control is destroyed
-Global Const $LVS_SHOWSELALWAYS = 0x0008 ; The selection is always shown
-Global Const $LVS_SINGLESEL = 0x0004 ; Only one item at a time can be selected
-Global Const $LVS_SMALLICON = 0x0002 ; This style specifies small icon view
-Global Const $LVS_SORTASCENDING = 0x0010 ; Item indexes are sorted based on item text in ascending order
-Global Const $LVS_SORTDESCENDING = 0x0020 ; Item indexes are sorted based on item text in descending order
-Global Const $LVS_TYPEMASK = 0x0003 ; Determines the control's current window style
-Global Const $LVS_TYPESTYLEMASK = 0xfc00 ; Determines the window styles
-
-; listView Extended Styles
-Global Const $LVS_EX_AUTOAUTOARRANGE = 0x01000000 ; Vista - Automatically arrange icons if no icon positions have been set (Similar to LVS_AUTOARRANGE).
-Global Const $LVS_EX_AUTOCHECKSELECT = 0x08000000 ; Vista - Automatically select check boxes on single click
-Global Const $LVS_EX_AUTOSIZECOLUMNS = 0x10000000 ; Vista - Automatically size listview columns
-Global Const $LVS_EX_BORDERSELECT = 0x00008000 ; The border color of the item changes when selected
-Global Const $LVS_EX_CHECKBOXES = 0x00000004 ; Enables check boxes for items
-Global Const $LVS_EX_COLUMNOVERFLOW = 0x80000000 ; Indicates that an overflow button should be displayed in icon/tile view if there is not enough client width to display the complete set of header items
-Global Const $LVS_EX_COLUMNSNAPPOINTS = 0x40000000 ; Vista - Snap to minimum column width when the user resizes a column
-Global Const $LVS_EX_DOUBLEBUFFER = 0x00010000 ; Paints via double-buffering, which reduces flicker
-Global Const $LVS_EX_FLATSB = 0x00000100 ; Enables flat scroll bars
-Global Const $LVS_EX_FULLROWSELECT = 0x00000020 ; When an item is selected, the item and all its subitems are highlighted
-Global Const $LVS_EX_GRIDLINES = 0x00000001 ; Displays gridlines around items and subitems
-Global Const $LVS_EX_HEADERDRAGDROP = 0x00000010 ; Enables drag-and-drop reordering of columns
-Global Const $LVS_EX_HEADERINALLVIEWS = 0x02000000 ; Vista - Show column headers in all view modes
-Global Const $LVS_EX_HIDELABELS = 0x20000 ; Hides the labels in icon and small icon view
-Global Const $LVS_EX_INFOTIP = 0x00000400 ; A message is sent to the parent before displaying an item's ToolTip
-Global Const $LVS_EX_JUSTIFYCOLUMNS = 0x00200000 ; Vista - Icons are lined up in columns that use up the whole view
-Global Const $LVS_EX_LABELTIP = 0x00004000 ; If a partially hidden label lacks ToolTip text, the label will unfold
-Global Const $LVS_EX_MULTIWORKAREAS = 0x00002000 ; The control will not autoarrange its icons until a work area is defined
-Global Const $LVS_EX_ONECLICKACTIVATE = 0x00000040 ; Sends an $LVN_ITEMACTIVATE message when the user clicks an item
-Global Const $LVS_EX_REGIONAL = 0x00000200 ; Sets the region to include only the icons and text using SetWindowRgn
-Global Const $LVS_EX_SIMPLESELECT = 0x00100000 ; Moves the state image to the top right of the large icon rendering#cs
-Global Const $LVS_EX_SNAPTOGRID = 0x00080000 ; Icons automatically snap to grid
-Global Const $LVS_EX_SUBITEMIMAGES = 0x00000002 ; Allows images to be displayed for subitems
-Global Const $LVS_EX_TRACKSELECT = 0x00000008 ; Enables hot-track selection
-Global Const $LVS_EX_TRANSPARENTBKGND = 0x00400000 ; Vista - Background is painted by the parent via WM_PRINTCLIENT
-Global Const $LVS_EX_TRANSPARENTSHADOWTEXT = 0x00800000 ; Vista - Enable shadow text on transparent backgrounds only
-Global Const $LVS_EX_TWOCLICKACTIVATE = 0x00000080 ; Sends an $LVN_ITEMACTIVATE message when the user double clicks an item
-Global Const $LVS_EX_UNDERLINECOLD = 0x00001000 ; Causes non-hot items to be displayed with underlined text
-Global Const $LVS_EX_UNDERLINEHOT = 0x00000800 ; Causes hot items to be displayed with underlined text
-; ===============================================================================================================================
-
 ; #CONSTANTS# ===================================================================================================================
 ; Group state - Vista
 Global Const $LVGS_NORMAL = 0x00000000
@@ -203,6 +146,65 @@ Global Const $LVIS_FOCUSED = 0x0001
 Global Const $LVIS_OVERLAYMASK = 0x0F00
 Global Const $LVIS_SELECTED = 0x0002
 Global Const $LVIS_STATEIMAGEMASK = 0xF000
+
+; Styles
+Global Const $LVS_ALIGNLEFT = 0x0800 ; Items are left aligned in icon and small icon view
+Global Const $LVS_ALIGNMASK = 0x0c00 ; Determines the control's current alignment
+Global Const $LVS_ALIGNTOP = 0x0000 ; Items are aligned at the top in icon and small icon view
+Global Const $LVS_AUTOARRANGE = 0x0100 ; Icons are automatically kept arranged in icon and small icon view
+Global Const $LVS_DEFAULT = 0x0000000D ; Default control style  $LVS_SHOWSELALWAYS + $LVS_SINGLESEL + $LVS_REPORT
+Global Const $LVS_EDITLABELS = 0x0200 ; Item text can be edited in place
+Global Const $LVS_ICON = 0x0000 ; This style specifies icon view
+Global Const $LVS_LIST = 0x0003 ; This style specifies list view
+Global Const $LVS_NOCOLUMNHEADER = 0x4000 ; Column headers are not displayed in report view
+Global Const $LVS_NOLABELWRAP = 0x0080 ; Item text is displayed on a single line in icon view
+Global Const $LVS_NOSCROLL = 0x2000 ; Scrolling is disabled
+Global Const $LVS_NOSORTHEADER = 0x8000 ; Column headers do not work like buttons
+Global Const $LVS_OWNERDATA = 0x1000
+Global Const $LVS_OWNERDRAWFIXED = 0x0400 ; The owner window can paint items in report view
+Global Const $LVS_REPORT = 0x0001 ; This style specifies report view
+Global Const $LVS_SHAREIMAGELISTS = 0x0040 ; The image list will not be deleted when the control is destroyed
+Global Const $LVS_SHOWSELALWAYS = 0x0008 ; The selection is always shown
+Global Const $LVS_SINGLESEL = 0x0004 ; Only one item at a time can be selected
+Global Const $LVS_SMALLICON = 0x0002 ; This style specifies small icon view
+Global Const $LVS_SORTASCENDING = 0x0010 ; Item indexes are sorted based on item text in ascending order
+Global Const $LVS_SORTDESCENDING = 0x0020 ; Item indexes are sorted based on item text in descending order
+Global Const $LVS_TYPEMASK = 0x0003 ; Determines the control's current window style
+Global Const $LVS_TYPESTYLEMASK = 0xfc00 ; Determines the window styles
+
+; listView Extended Styles
+Global Const $LVS_EX_AUTOAUTOARRANGE = 0x01000000 ; Vista - Automatically arrange icons if no icon positions have been set (Similar to LVS_AUTOARRANGE).
+Global Const $LVS_EX_AUTOCHECKSELECT = 0x08000000 ; Vista - Automatically select check boxes on single click
+Global Const $LVS_EX_AUTOSIZECOLUMNS = 0x10000000 ; Vista - Automatically size listview columns
+Global Const $LVS_EX_BORDERSELECT = 0x00008000 ; The border color of the item changes when selected
+Global Const $LVS_EX_CHECKBOXES = 0x00000004 ; Enables check boxes for items
+Global Const $LVS_EX_COLUMNOVERFLOW = 0x80000000 ; Indicates that an overflow button should be displayed in icon/tile view if there is not enough client width to display the complete set of header items
+Global Const $LVS_EX_COLUMNSNAPPOINTS = 0x40000000 ; Vista - Snap to minimum column width when the user resizes a column
+Global Const $LVS_EX_DOUBLEBUFFER = 0x00010000 ; Paints via double-buffering, which reduces flicker
+Global Const $LVS_EX_FLATSB = 0x00000100 ; Enables flat scroll bars
+Global Const $LVS_EX_FULLROWSELECT = 0x00000020 ; When an item is selected, the item and all its subitems are highlighted
+Global Const $LVS_EX_GRIDLINES = 0x00000001 ; Displays gridlines around items and subitems
+Global Const $LVS_EX_HEADERDRAGDROP = 0x00000010 ; Enables drag-and-drop reordering of columns
+Global Const $LVS_EX_HEADERINALLVIEWS = 0x02000000 ; Vista - Show column headers in all view modes
+Global Const $LVS_EX_HIDELABELS = 0x20000 ; Hides the labels in icon and small icon view
+Global Const $LVS_EX_INFOTIP = 0x00000400 ; A message is sent to the parent before displaying an item's ToolTip
+Global Const $LVS_EX_JUSTIFYCOLUMNS = 0x00200000 ; Vista - Icons are lined up in columns that use up the whole view
+Global Const $LVS_EX_LABELTIP = 0x00004000 ; If a partially hidden label lacks ToolTip text, the label will unfold
+Global Const $LVS_EX_MULTIWORKAREAS = 0x00002000 ; The control will not autoarrange its icons until a work area is defined
+Global Const $LVS_EX_ONECLICKACTIVATE = 0x00000040 ; Sends an $LVN_ITEMACTIVATE message when the user clicks an item
+Global Const $LVS_EX_REGIONAL = 0x00000200 ; Sets the region to include only the icons and text using SetWindowRgn
+Global Const $LVS_EX_SIMPLESELECT = 0x00100000 ; Moves the state image to the top right of the large icon rendering#cs
+Global Const $LVS_EX_SNAPTOGRID = 0x00080000 ; Icons automatically snap to grid
+Global Const $LVS_EX_SUBITEMIMAGES = 0x00000002 ; Allows images to be displayed for subitems
+Global Const $LVS_EX_TRACKSELECT = 0x00000008 ; Enables hot-track selection
+Global Const $LVS_EX_TRANSPARENTBKGND = 0x00400000 ; Vista - Background is painted by the parent via WM_PRINTCLIENT
+Global Const $LVS_EX_TRANSPARENTSHADOWTEXT = 0x00800000 ; Vista - Enable shadow text on transparent backgrounds only
+Global Const $LVS_EX_TWOCLICKACTIVATE = 0x00000080 ; Sends an $LVN_ITEMACTIVATE message when the user double clicks an item
+Global Const $LVS_EX_UNDERLINECOLD = 0x00001000 ; Causes non-hot items to be displayed with underlined text
+Global Const $LVS_EX_UNDERLINEHOT = 0x00000800 ; Causes hot items to be displayed with underlined text
+
+; Control default styles
+Global Const $GUI_SS_DEFAULT_LISTVIEW = BitOR($LVS_SHOWSELALWAYS, $LVS_SINGLESEL)
 ; ===============================================================================================================================
 
 ; #MESSAGES# ====================================================================================================================
@@ -389,8 +391,6 @@ Global Const $LVN_ODFINDITEM = $LVN_ODFINDITEMA
 Global Const $LVN_ODSTATECHANGED = ($LVN_FIRST - 15) ; The state of an item or range of items in a virtual control has changed
 Global Const $LVN_SETDISPINFOA = ($LVN_FIRST - 51) ; Sent to the parent when it needs to update item information
 Global Const $LVN_SETDISPINFOW = ($LVN_FIRST - 78) ; [Unicode] Sent to the parent when it needs to update item information
-; ===============================================================================================================================
-
 
 Global Const $LVNI_ABOVE = 0x0100
 Global Const $LVNI_BELOW = 0x0200
@@ -411,6 +411,4 @@ Global Const $LVSICF_NOSCROLL = 0x00000002
 Global Const $LVSIL_NORMAL = 0
 Global Const $LVSIL_SMALL = 1
 Global Const $LVSIL_STATE = 2
-
-; Control default styles
-Global Const $GUI_SS_DEFAULT_LISTVIEW = BitOR($LVS_SHOWSELALWAYS, $LVS_SINGLESEL)
+; ===============================================================================================================================

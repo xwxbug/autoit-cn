@@ -47,8 +47,7 @@ Global Const $MCHT_CALENDARWEEKNUM = 0x00020003
 Global Const $MCHT_CALENDARDATENEXT = 0x01020000
 Global Const $MCHT_CALENDARDATEPREV = 0x02020000
 
-; #STYLES# ======================================================================================================================
-; Month Calendar
+; Month Calendar Styles
 Global Const $MCS_DAYSTATE = 0x0001 ; The control sends $MCN_GETDAYSTATE notifications to request information
 Global Const $MCS_MULTISELECT = 0x0002
 Global Const $MCS_WEEKNUMBERS = 0x0004
@@ -92,15 +91,13 @@ Global Const $MCM_SETSELRANGE = ($MCM_FIRST + 6)
 Global Const $MCM_SETTODAY = ($MCM_FIRST + 12)
 Global Const $MCM_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $MCM_SIZERECTTOMIN = ($MCM_FIRST + 29)
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Month Calendar Notifications
 Global Const $MCN_FIRST = -746
 Global Const $MCN_SELCHANGE = ($MCN_FIRST - 3) ; The currently selected date or range of dates changed
 Global Const $MCN_GETDAYSTATE = ($MCN_FIRST - 1) ; Request information about how individual days should be displayed
 Global Const $MCN_SELECT = ($MCN_FIRST) ; The user makes an explicit date selection
 Global Const $MCN_VIEWCHANGE = ($MCN_FIRST - 4)
-; ===============================================================================================================================
 
 Global Const $MCSC_BACKGROUND = 0
 Global Const $MCSC_MONTHBK = 4
@@ -109,8 +106,7 @@ Global Const $MCSC_TITLEBK = 2
 Global Const $MCSC_TITLETEXT = 3
 Global Const $MCSC_TRAILINGTEXT = 5
 
-; #MESSAGES# ====================================================================================================================
-; Date Time Picker
+; Date Time Picker Messages
 Global Const $DTM_FIRST = 0x1000
 Global Const $DTM_GETSYSTEMTIME = $DTM_FIRST + 1
 Global Const $DTM_SETSYSTEMTIME = $DTM_FIRST + 2
@@ -123,10 +119,8 @@ Global Const $DTM_GETMONTHCAL = $DTM_FIRST + 8
 Global Const $DTM_SETMCFONT = $DTM_FIRST + 9
 Global Const $DTM_GETMCFONT = $DTM_FIRST + 10
 Global Const $DTM_SETFORMATW = $DTM_FIRST + 50 ; [Unicode]
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
-; Date Time Picker
+; Date Time Picker Notifications
 Global Const $DTN_FIRST = -740
 Global Const $DTN_FIRST2 = -753
 Global Const $DTN_DATETIMECHANGE = $DTN_FIRST2 - 6 ; Sent whenever a change occurs
@@ -140,8 +134,8 @@ Global Const $DTN_USERSTRINGW = $DTN_FIRST - 5 ; [Unicode] Sent when a user fini
 Global Const $DTN_WMKEYDOWNW = $DTN_FIRST - 4 ; [Unicode] Sent when the user types in a callback field
 Global Const $DTN_FORMATW = $DTN_FIRST - 3 ; [Unicode] Sent to request text to be displayed in a callback field
 Global Const $DTN_FORMATQUERYW = $DTN_FIRST - 2 ; [Unicode] Sent to retrieve the size of the callback field string
-; ===============================================================================================================================
 
 ; Control default styles
 Global Const $GUI_SS_DEFAULT_DATE = $DTS_LONGDATEFORMAT
 Global Const $GUI_SS_DEFAULT_MONTHCAL = 0
+; ===============================================================================================================================

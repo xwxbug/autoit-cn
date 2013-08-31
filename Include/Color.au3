@@ -1,48 +1,38 @@
 #include-Once
 
-; #INDEX# =========================================================================================
+; #INDEX# =======================================================================================================================
 ; Title .........: Color
 ; AutoIt Version : 3.2.3++
 ; Language ..... : English
 ; Description ...: Functions that assist with color management.
 ; Author(s) .....: Ultima, Jon, Jpm
-; =================================================================================================
+; ===============================================================================================================================
 
-; #CONSTANTS# =====================================================================================
+; #CONSTANTS# ===================================================================================================================
 Global Const $__COLORCONSTANTS_HSLMAX = 240
 Global Const $__COLORCONSTANTS_RGBMAX = 255
-; =================================================================================================
+; ===============================================================================================================================
 
-; #CURRENT# =======================================================================================
-;_ColorConvertHSLtoRGB
-;_ColorConvertRGBtoHSL
-;_ColorGetBlue
-;_ColorGetGreen
-;_ColorGetRed
-;_ColorGetCOLORREF
-;_ColorGetRGB
-;_ColorSetCOLORREF
-;_ColorSetRGB
-; =================================================================================================
+; #CURRENT# =====================================================================================================================
+; _ColorConvertHSLtoRGB
+; _ColorConvertRGBtoHSL
+; _ColorGetBlue
+; _ColorGetGreen
+; _ColorGetRed
+; _ColorGetCOLORREF
+; _ColorGetRGB
+; _ColorSetCOLORREF
+; _ColorSetRGB
+; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY#==============================================================================
 ; __ColorConvertHueToRGB
-; =================================================================================================
+; ===============================================================================================================================
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorConvertHSLtoRGB
-; Description ...: Converts HSL to RGB
-; Syntax.........: _ColorConvertHSLtoRGB($avArray)
-; Parameters ....: $avArray - An array containing HSL values in their respective positions
-; Return values .: Success - The array containing the RGB values for the inputted HSL values
-;                  Failure - 0, sets @error to 1
+; #FUNCTION# ====================================================================================================================
 ; Author ........: Ultima
 ; Modified.......:
-; Remarks .......: See: <a href="http://www.easyrgb.com/index.php?X=MATH&H=19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
-; Related .......: _ColorConvertRGBtoHSL
-; Link ..........:
-; Example .......: Yes
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorConvertHSLtoRGB($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
 
@@ -79,10 +69,10 @@ Func _ColorConvertHSLtoRGB($avArray)
 	Return $avArray
 EndFunc   ;==>_ColorConvertHSLtoRGB
 
-; #INTERNAL_USE_ONLY# =============================================================================
+; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __ColorConvertHueToRGB
 ; Description ...: Helper function for converting HSL to RGB
-; Syntax.........: __ColorConvertHueToRGB($nA, $nB, $nH)
+; Syntax.........: __ColorConvertHueToRGB ( $nA, $nB, $nH )
 ; Parameters ....: $nA - Value A
 ;                  $nB - Value B
 ;                  $nH - Hue
@@ -93,7 +83,7 @@ EndFunc   ;==>_ColorConvertHSLtoRGB
 ; Related .......: See: <a href="http://www.easyrgb.com/math.php?MATH=M19#text19">EasyRGB - Color mathematics and conversion formulas.</a>
 ; Link ..........:
 ; Example .......:
-; =================================================================================================
+; ===============================================================================================================================
 Func __ColorConvertHueToRGB($nA, $nB, $nH)
 	If $nH < 0 Then $nH += 1
 	If $nH > 1 Then $nH -= 1
@@ -104,20 +94,10 @@ Func __ColorConvertHueToRGB($nA, $nB, $nH)
 	Return $nA
 EndFunc   ;==>__ColorConvertHueToRGB
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorConvertRGBtoHSL
-; Description ...: Converts RGB to HSL
-; Syntax.........: _ColorConvertRGBtoHSL($avArray)
-; Parameters ....: $avArray - An array containing RGB values in their respective positions
-; Return values .: Success - The array containing the HSL values for the inputted RGB values
-;                  Failure - 0, sets @error to 1
+; #FUNCTION# ====================================================================================================================
 ; Author ........: Ultima
 ; Modified.......:
-; Remarks .......: See: <a href="http://www.easyrgb.com/index.php?X=MATH&H=18#text18">EasyRGB - Color mathematics and conversion formulas.</a>
-; Related .......: _ColorConvertHSLtoRGB
-; Link ..........:
-; Example .......: Yes
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorConvertRGBtoHSL($avArray)
 	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
 
@@ -172,74 +152,34 @@ Func _ColorConvertRGBtoHSL($avArray)
 	Return $avArray
 EndFunc   ;==>_ColorConvertRGBtoHSL
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorGetBlue
-; Description ...: Returns the blue component of a given color.
-; Syntax.........: _ColorGetBlue($nColor)
-; Parameters ....: $nColor - The RGB color to work with (hexadecimal code).
-; Return values .: Success - The component color in the range 0-255
-; Author ........: Jonathan Bennett <jon at hiddensoft dot com>
+; #FUNCTION# ====================================================================================================================
+; Author ........: Jonathan Bennett <jon at autoitscript dot com>
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ColorGetGreen, _ColorGetRed
-; Link ..........:
-; Example .......: Yes
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorGetBlue($nColor)
 	Return BitAND($nColor, 0xFF)
 EndFunc   ;==>_ColorGetBlue
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorGetGreen
-; Description ...: Returns the green component of a given color.
-; Syntax.........: _ColorGetGreen($nColor)
-; Parameters ....: $nColor - The RGB color to work with (hexadecimal code).
-; Return values .: Success - The component color in the range 0-255
-; Author ........: Jonathan Bennett <jon at hiddensoft dot com>
+; #FUNCTION# ====================================================================================================================
+; Author ........: Jonathan Bennett <jon at autoitscript dot com>
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ColorGetBlue, _ColorGetRed
-; Link ..........:
-; Example .......: Yes
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorGetGreen($nColor)
 	Return BitAND(BitShift($nColor, 8), 0xFF)
 EndFunc   ;==>_ColorGetGreen
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorGetRed
-; Description ...: Returns the red component of a given color.
-; Syntax.........: _ColorGetRed($nColor)
-; Parameters ....: $nColor - The RGB color to work with (hexadecimal code).
-; Return values .: Success - The component color in the range 0-255
-; Author ........: Jonathan Bennett <jon at hiddensoft dot com>
+; #FUNCTION# ====================================================================================================================
+; Author ........: Jonathan Bennett <jon at autoitscript dot com>
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ColorGetBlue, _ColorGetGreen
-; Link ..........:
-; Example .......: Yes
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorGetRed($nColor)
 	Return BitAND(BitShift($nColor, 16), 0xFF)
 EndFunc   ;==>_ColorGetRed
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorGetCOLORREF
-; Description ...: Returns an array containing RGB values in their respective positions.
-; Syntax.........: _ColorGetCOLORREF($nColor)
-; Parameters ....: $nColor - The COLORREF color to work with (hexadecimal code).
-; Return values .: Success - an array of values in the range 0-255:
-;                      [0] Red		component color
-;                      [1] Green	component color
-;                      [3] Blue		component color
-;                  Failure - set @error to 1
+; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ColorSetCOLORREF
-; Link ..........:
-; Example .......:
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorGetCOLORREF($nColor, $curExt = @extended)
 	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
@@ -249,23 +189,10 @@ Func _ColorGetCOLORREF($nColor, $curExt = @extended)
 	Return SetExtended($curExt, $aColor)
 EndFunc   ;==>_ColorGetCOLORREF
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorGetRGB
-; Description ...: Returns an array containing RGB values in their respective positions.
-; Syntax.........: _ColorGetRGB($nColor)
-; Parameters ....: $nColor - The RGB color to work with (hexadecimal code).
-; Return values .: Success - an array of values in the range 0-255:
-;                      [0] Red		component color
-;                      [1] Green	component color
-;                      [3] Blue		component color
-;                  Failure - set @error to 1
+; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ColorSetRGB, _ColorGetRed, _ColorGetGreen, _ColorGetBlue
-; Link ..........:
-; Example .......:
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorGetRGB($nColor, $curExt = @extended)
 	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
@@ -275,25 +202,10 @@ Func _ColorGetRGB($nColor, $curExt = @extended)
 	Return SetExtended($curExt, $aColor)
 EndFunc   ;==>_ColorGetRGB
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorSetCOLORREF
-; Description ...: Returns the COLORREF color to work with (COLORREF).
-; Syntax.........: _ColorSetCOLORREF($aColor)
-; Parameters ....: $aColor - an array of values in the range 0-255:
-;                      [0] Red		component color
-;                      [1] Green	component color
-;                      [2] Blue		component color
-; Return values .: Success - returns the COLORREF color to work with (hexadecimal code).
-;                  Failure - set @error to:
-;                  @error  - 1 invalid array
-;                            2 invalid color value
+; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......: @extended is preserved
-; Related .......: _ColorSetRGB
-; Link ..........:
-; Example .......:
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorSetCOLORREF($aColor, $curExt = @extended)
 	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor
@@ -306,25 +218,10 @@ Func _ColorSetCOLORREF($aColor, $curExt = @extended)
 	Return SetExtended($curExt, $nColor)
 EndFunc   ;==>_ColorSetCOLORREF
 
-; #FUNCTION# ======================================================================================
-; Name...........: _ColorSetRGB
-; Description ...: Returns the RGB color to work with (COLORREF).
-; Syntax.........: _ColorSetRGB($aColor)
-; Parameters ....: $aColor - an array of values in the range 0-255:
-;                      [0] Red		component color
-;                      [1] Green	component color
-;                      [2] Blue		component color
-; Return values .: Success - returns the RGB color to work with (hexadecimal code).
-;                  Failure - set @error to:
-;                  @error  - 1 invalid array
-;                            2 invalid color value
+; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
-; Remarks .......: @extended is preserved
-; Related .......: _ColorGetRGB
-; Link ..........:
-; Example .......:
-; =================================================================================================
+; ===============================================================================================================================
 Func _ColorSetRGB($aColor, $curExt = @extended)
 	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor

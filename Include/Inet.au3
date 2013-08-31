@@ -2,50 +2,52 @@
 
 #include "WinAPI.au3"
 #include "Date.au3"
+#include "InetConstants.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit Constants
 ; AutoIt Version : 3.0
 ; Language ......: English
 ; Description ...: Functions that assist with Internet.
-; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida
+; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida, guinness
 ; Dll ...........: wininet.dll, ws2_32.dll
 ; ===============================================================================================================================
 
-; #FUNCTION# =========================================================================================================
-; Name...........: _GetIP
-; Description ...: Retrieves the Public IP Address of a Network/Computer.
-; Syntax.........: _GetIP()
-; Parameters ....: None
-; Requirement(s).: v3.3.2.0 or higher
-; Return values .: Success - Returns Public IP Address.
-;                  Failure - Returns -1 & sets @error = 1
-; Author ........: guinness
-; Example........; Yes
-;=====================================================================================================================
-Func _GetIP()
-	Local $aReturn, $bRead, $sRead
-	$bRead = InetRead("http://checkip.dyndns.org/")
-	$sRead = BinaryToString($bRead)
-	$aReturn = StringRegExp($sRead, '(?s)(?i)<body>Current IP Address: (.*?)</body>', 3)
-	If @error = 0 Then
-		Return $aReturn[0]
-	EndIf
+; #CURRENT# =====================================================================================================================
+; _GetIP
+; _INetExplorerCapable
+; _INetGetSource
+; _INetMail
+; _INetSmtpMail
+; _TCPIpToName
+; ===============================================================================================================================
 
-	$bRead = InetRead("http://automation.whatismyip.com/n09230945.asp") ; http://forum.whatismyip.com/f14/our-automation-rules-t241/
-	$sRead = BinaryToString($bRead)
-	If @error Then
-		Return SetError(1, 0, -1)
-	EndIf
-	Return $sRead
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; __SmtpTrace
+; __SmtpSend
+; __TCPIpToName_szStringRead
+; ===============================================================================================================================
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: guinness
+; ===============================================================================================================================
+Func _GetIP()
+	Local $aGetIPURL[4] = [3, "http://checkip.dyndns.org/", "http://api.exip.org/?call=ip", "http://www.myexternalip.com/raw"], $aReturn = 0, $sReturn = ""
+	For $i = 1 To $aGetIPURL[0]
+		$sReturn = InetRead($aGetIPURL[$i])
+		If @error Or $sReturn == "" Then ContinueLoop
+		$aReturn = StringRegExp(BinaryToString($sReturn), "[\d\.]{7,15}", 3)
+		If @error = 0 Then
+			$sReturn = $aReturn[0]
+			ExitLoop
+		EndIf
+		$sReturn = ""
+	Next
+	If $sReturn == "" Then Return SetError(1, 0, -1)
+	Return $sReturn
 EndFunc   ;==>_GetIP
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _INetExplorerCapable
-; Description ...: Convert a string to IE capable line
-; Parameters ....: $s_IEString - String to convert to a capable IExplorer line
-; Return values .: On Success - Returns the converted string
-;                  On Failure - Blank String and @error = 1
 ; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>
 ; ===============================================================================================================================
 Func _INetExplorerCapable($s_IEString)
@@ -64,29 +66,16 @@ Func _INetExplorerCapable($s_IEString)
 EndFunc   ;==>_INetExplorerCapable
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _INetGetSource
-; Description ...: Gets the source from an URL without writing a temp file.
-; Parameters ....: $s_URL - The URL of the site.
-;				   $bString - If True the data is returned in string format, otherwise binary format.
-; Return values .: Success - The read string and sets @extended to the number of bytes returned.
-;                  Failure - An empty string and and sets @error to non-zero.
 ; Author ........: Wouter van Kesteren.
 ; ===============================================================================================================================
-Func _INetGetSource($s_URL, $bString = True)
-	Local $sString = InetRead($s_URL, 1)
-	Local $nError = @error, $nExtended = @extended
-	If $bString Then $sString = BinaryToString($sString)
-	Return SetError($nError, $nExtended, $sString)
+Func _INetGetSource($sURL, $fString = True)
+	Local $sString = InetRead($sURL, $INET_FORCERELOAD)
+	Local $iError = @error, $iExtended = @extended
+	If $fString = Default Or $fString Then $sString = BinaryToString($sString)
+	Return SetError($iError, $iExtended, $sString)
 EndFunc   ;==>_INetGetSource
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _INetMail
-; Description ...: Open default mail client with given Address/Subject/Body
-; Parameters ....: $s_MailTo    - Address for E-Mail
-;                  $s_Subject   - Subject <Weswolf at aol dot com>of E-Mail
-;                  $s_MailBody  - Body of E-Mail
-; Return values .: On Success - Process ID of e-mail client
-;                  On Failure - Returns 0 and sets @error to non-zero.
 ; Author ........: Wes Wolfe-Wolvereness <Weswolf at aol dot com>, modified by Emiel Wieldraaijer
 ; ===============================================================================================================================
 Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
@@ -104,26 +93,6 @@ Func _INetMail($s_MailTo, $s_MailSubject, $s_MailBody)
 EndFunc   ;==>_INetMail
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _INetSmtpMail
-; Description ...: Sends an email using SMTP over TCP IP.
-; Parameters ....: $s_SmtpServer	- SMTP server to be used for sending email
-;                  $s_FromName		- Name of sender
-;                  $s_FromAddress	- eMail address of sender
-;                  $s_ToAddress	- Address that email is to be sent to
-;                  $s_Subject		- Subject of eMail
-;				   $as_Body		- Single dimension array containing the body of eMail as strings
-;				   $s_helo			- Helo identifier (default @COMPUTERNAME) sometime needed by smtp server
-;				   $s_first		- send before Helo identifier (default @CRLF) sometime needed by smtp server
-;				   $b_trace		- trace on a splash window (default 0 = no trace)
-; Return values .: On Success - Returns 1
-;                  On Failure - 0  and sets
-;											@ERROR = 1		-	Invalid Parameters
-;											@ERROR = 2		-	Unable to start TCP
-;											@ERROR = 3		-	Unable to resolve IP
-;											@ERROR = 4		-	Unable to create socket
-;											@ERROR = 5x		-	Cannot open SMTP session
-;											@ERROR = 50x	-	Cannot send body
-;											@ERROR = 5000	-	Cannot close SMTP session
 ; Author ........: Asimzameer, Walkabout
 ; Modified.......: Jpm
 ; ===============================================================================================================================
@@ -209,7 +178,7 @@ EndFunc   ;==>_INetSmtpMail
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SmtpTrace
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SmtpTrace($str[, $timeout = 0])
+; Syntax.........: __SmtpTrace ( $str [, $timeout = 0] )
 ; Author ........: Asimzameer, Walkabout
 ; Modified.......: Jpm
 ; ===============================================================================================================================
@@ -229,7 +198,7 @@ EndFunc   ;==>__SmtpTrace
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SmtpSend
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace[, $s_IntReply=""[, $s_first=""]])
+; Syntax.........: __SmtpSend ( $v_Socket, $s_Send, $s_ReplyCode, $b_trace [, $s_IntReply="" [, $s_first=""]] )
 ; Author ........: Asimzameer, Walkabout
 ; Modified.......: Jpm
 ; ===============================================================================================================================
@@ -289,31 +258,7 @@ Func __SmtpSend($v_Socket, $s_Send, $s_ReplyCode, $b_trace, $s_IntReply = "", $s
 EndFunc   ;==>__SmtpSend
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _TCPIpToName
-; Description ...: Resolves IP adress to Hostname
-; Syntax ........:	_TCPIpToName($sIp, [[$iOption = 0], $hDll_Ws2_32 = "ws2_32.dll"]])
-; Parameters ....: $sIp - Ip Adress in dotted (v4) Format
-;				   $iOption - Optional, Default = 0
-;						0 = Return String Hostname
-;						1 = Return Array (see Notes)
-;                  $hDll_Ws2_32 - Optional, Handle to ws2_32.dll
-; Return values .: On Success - Hostname or Array (see Notes)
-;                  On Failure - ""  and Set
-;                                   @ERROR to:  1 - inet_addr DllCall Failed
-;                                               2 - inet_addr Failed
-;                                               3 - gethostbyaddr DllCall Failed
-;												4 - gethostbyaddr Failed, WSAGetLastError = @Extended
-;												5 - gethostbyaddr Failed, WSAGetLastError Failed
-;												6 - strlen/sZStringRead Failed
-;												7 - Error reading Aliases Array
 ; Author ........: Florian Fida
-; Remarks .......: A successfull WSAStartup (Done by TCPStartup) is required.
-;					if $iOption = 1 then the returned Array looks Like this:
-;						$aResult[0] = Number of elemets
-;						$aResult[1] = "Hostname"
-;						$aResult[2] = "Alias 1"
-;						$aResult[3] = "Alias 2"
-;						...
 ; ===============================================================================================================================
 Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 	Local $INADDR_NONE = 0xffffffff, $AF_INET = 2, $sSeparator = @CR
@@ -329,7 +274,7 @@ Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 	If $vptrHostent = 0 Then
 		$vaDllCall = DllCall($hDll_Ws2_32, "int", "WSAGetLastError")
 		If @error Then Return SetError(5, 0, "") ; gethostbyaddr Failed, WSAGetLastError Failed
-		Return SetError(4, $vaDllCall[0], "") ; gethostbyaddr Failed, WSAGetLastError = @Extended
+		Return SetError(4, $vaDllCall[0], "") ; gethostbyaddr Failed, WSAGetLastError = @extended
 	EndIf
 	Local $vHostent = DllStructCreate("ptr;ptr;short;short;ptr", $vptrHostent)
 	Local $sHostnames = __TCPIpToName_szStringRead(DllStructGetData($vHostent, 1))
@@ -355,7 +300,7 @@ EndFunc   ;==>_TCPIpToName
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __TCPIpToName_szStringRead
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __TCPIpToName_szStringRead($iszPtr[, $iLen = -1])
+; Syntax.........: __TCPIpToName_szStringRead ( $iszPtr [, $iLen = -1] )
 ; Author ........: Florian Fida
 ; ===============================================================================================================================
 Func __TCPIpToName_szStringRead($iszPtr, $iLen = -1)

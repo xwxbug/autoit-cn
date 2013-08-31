@@ -88,9 +88,9 @@ Global Const $TPM_VERPOSANIMATION = 0x00001000
 Global Const $TPM_VERNEGANIMATION = 0x00002000
 Global Const $TPM_NOANIMATION = 0x00004000
 Global Const $TPM_LAYOUTRTL = 0x00008000
-; ===============================================================================================================================
+Global Const $TPM_WORKAREA = 0x00010000
 
-; #System Menu Commands# ========================================================================================================
+; System Menu Commands
 Global Const $SC_SIZE = 0xF000
 Global Const $SC_MOVE = 0xF010
 Global Const $SC_MINIMIZE = 0xF020

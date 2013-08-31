@@ -20,10 +20,7 @@ Global Const $CB_OKAY = 0
 Global Const $STATE_SYSTEM_INVISIBLE = 0x8000
 Global Const $STATE_SYSTEM_PRESSED = 0x8
 
-; ===============================================================================================================================
-
-; ComboBox
-; #STYLES# ======================================================================================================================
+; ComboBox Styles
 Global Const $CBS_AUTOHSCROLL = 0x40 ; Automatically scrolls the text in an edit control to the right when the user types a character at the end of the line.
 Global Const $CBS_DISABLENOSCROLL = 0x800 ; Shows a disabled vertical scroll bar
 Global Const $CBS_DROPDOWN = 0x2 ; Similar to $CBS_SIMPLE, except that the list box is not displayed unless the user selects an icon next to the edit control
@@ -37,9 +34,8 @@ Global Const $CBS_OWNERDRAWVARIABLE = 0x20 ; Specifies that the owner of the lis
 Global Const $CBS_SIMPLE = 0x1 ; Displays the list box at all times
 Global Const $CBS_SORT = 0x100 ; Automatically sorts strings added to the list box
 Global Const $CBS_UPPERCASE = 0x2000 ; Converts to uppercase all text in both the selection field and the list
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
+; ComboBox Messages
 Global Const $CBM_FIRST = 0x1700
 Global Const $CB_ADDSTRING = 0x143
 Global Const $CB_DELETESTRING = 0x144
@@ -80,9 +76,8 @@ Global Const $CB_SETLOCALE = 0x159
 Global Const $CB_SETMINVISIBLE = 0x1701
 Global Const $CB_SETTOPINDEX = 0x15c
 Global Const $CB_SHOWDROPDOWN = 0x14F
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; ComboBox Notifications
 Global Const $CBN_CLOSEUP = 8
 Global Const $CBN_DBLCLK = 2
 Global Const $CBN_DROPDOWN = 7
@@ -94,18 +89,15 @@ Global Const $CBN_SELCHANGE = 1
 Global Const $CBN_SELENDCANCEL = 10
 Global Const $CBN_SELENDOK = 9
 Global Const $CBN_SETFOCUS = 3
-; ===============================================================================================================================
 
-; ComboBoxEx
-; #STYLES# ======================================================================================================================
+; ComboBoxEx Styles
 ; ComboBox styles supported: $CBS_DROPDOWN, $CBS_DROPDOWNLIST, $CBS_SIMPLE
 Global Const $CBES_EX_CASESENSITIVE = 0x10 ; Searches in the list will be case sensitive
 Global Const $CBES_EX_NOEDITIMAGE = 0x1 ; The edit box and the dropdown list will not display item images
 Global Const $CBES_EX_NOEDITIMAGEINDENT = 0x2 ; The edit box and the dropdown list will not display item images
 Global Const $CBES_EX_NOSIZELIMIT = 0x8 ; Allows the ComboBoxEx control to be vertically sized smaller than its contained combo box control
-; ===============================================================================================================================
 
-; #MESSAGES#=====================================================================================================================
+; ComboBoxEx Messages
 Global Const $__COMBOBOXCONSTANT_WM_USER = 0X400
 Global Const $CBEM_DELETEITEM = $CB_DELETESTRING
 Global Const $CBEM_GETCOMBOCONTROL = ($__COMBOBOXCONSTANT_WM_USER + 6)
@@ -126,9 +118,8 @@ Global Const $CBEM_SETITEMA = ($__COMBOBOXCONSTANT_WM_USER + 5)
 Global Const $CBEM_SETITEMW = ($__COMBOBOXCONSTANT_WM_USER + 12)
 Global Const $CBEM_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $CBEM_SETWINDOWTHEME = 0x2000 + 11
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; ComboBoxEx Notifications
 Global Const $CBEN_FIRST = (-800)
 Global Const $CBEN_LAST = (-830)
 Global Const $CBEN_BEGINEDIT = ($CBEN_FIRST - 4)
@@ -152,6 +143,5 @@ Global Const $CBEIF_SELECTEDIMAGE = 0x4
 Global Const $CBEIF_TEXT = 0x1
 
 ; Control default styles
-Global Const $__COMBOBOXCONSTANT_WS_VSCROLL = 0x00200000
-Global Const $GUI_SS_DEFAULT_COMBO = BitOR($CBS_DROPDOWN, $CBS_AUTOHSCROLL, $__COMBOBOXCONSTANT_WS_VSCROLL)
+Global Const $GUI_SS_DEFAULT_COMBO = 0x00200042 ; BitOR($CBS_DROPDOWN, $CBS_AUTOHSCROLL, $WS_VSCROLL)
 ; ===============================================================================================================================

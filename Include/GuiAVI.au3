@@ -3,7 +3,6 @@
 #include "AVIConstants.au3"
 #include "Memory.au3"
 #include "SendMessage.au3"
-#include "WinAPI.au3"
 #include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
@@ -36,57 +35,26 @@ Global $Debug_AVI = False
 Global $gh_AVLastWnd
 ; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
-Global Const $__AVICONSTANT_WM_USER = 0X400
-Global Const $ACM_OPENA = $__AVICONSTANT_WM_USER + 100
-Global Const $ACM_PLAY = $__AVICONSTANT_WM_USER + 101
-Global Const $ACM_STOP = $__AVICONSTANT_WM_USER + 102
-Global Const $ACM_ISPLAYING = $__AVICONSTANT_WM_USER + 104
-Global Const $ACM_OPENW = $__AVICONSTANT_WM_USER + 103
-; ===============================================================================================================================
-
-; #NOTIFICATIONS# ===============================================================================================================
-Global Const $ACN_START = 0x00000001 ; Notifies the control's parent that the AVI has started playing
-Global Const $ACN_STOP = 0x00000002 ; Notifies the control's parent that the AVI has stopped playing
-; ===============================================================================================================================
-
-; #STYLES# ======================================================================================================================
-; Global Const $ACS_CENTER              = 0x00000001    ; Centers the animation in the animation control's window
-; Global Const $ACS_TRANSPARENT         = 0x00000002    ; Creates the control with a transparent background
-; Global Const $ACS_AUTOPLAY            = 0x00000004    ; Starts playing the animation as soon as the AVI clip is opened
-; Global Const $ACS_TIMER               = 0x00000008    ; The control plays the clip without creating a thread
-; ===============================================================================================================================
-
 ; #CONSTANTS# ===================================================================================================================
 Global Const $__AVICONSTANT_ClassName = "SysAnimate32"
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_GUICtrlAVI_Close
-;_GUICtrlAVI_Create
-;_GUICtrlAVI_Destroy
-;_GUICtrlAVI_IsPlaying
-;_GUICtrlAVI_Open
-;_GUICtrlAVI_OpenEx
-;_GUICtrlAVI_Play
-;_GUICtrlAVI_Seek
-;_GUICtrlAVI_Show
-;_GUICtrlAVI_Stop
+; _GUICtrlAVI_Close
+; _GUICtrlAVI_Create
+; _GUICtrlAVI_Destroy
+; _GUICtrlAVI_IsPlaying
+; _GUICtrlAVI_Open
+; _GUICtrlAVI_OpenEx
+; _GUICtrlAVI_Play
+; _GUICtrlAVI_Seek
+; _GUICtrlAVI_Show
+; _GUICtrlAVI_Stop
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Close
-; Description ...: Closes an AVI clip
-; Syntax.........: _GUICtrlAVI_Close($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
-; Remarks .......:
-; Related .......: _GUICtrlAVI_Open
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Close($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -97,33 +65,8 @@ Func _GUICtrlAVI_Close($hWnd)
 EndFunc   ;==>_GUICtrlAVI_Close
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Create
-; Description ...: Creates an AVI control
-; Syntax.........: _GUICtrlAVI_Create($hWnd[, $sFile = ""[, $subfileid = -1[, $iX = 0[, $iY = 0[, $iWidth = 0[, $iHeight = 0[, $iStyle = 0x00000006[, $iExStyle = 0x00000000]]]]]]]])
-; Parameters ....: $hWnd        - Handle to parent or owner window
-;                  $sFile       - The filename of the video. Only .avi files are supported
-;                  $subfileid   - id of the subfile to be used.
-;                  $iX          - Horizontal position of the control
-;                  $iY          - Vertical position of the control
-;                  $iWidth      - Control width
-;                  $iHeight     - Control height
-;                  $iStyle      - Control styles:
-;                  |$ACS_CENTER      - Centers the animation in the animation control's window
-;                  |$ACS_TRANSPARENT - Creates the control with a transparent background
-;                  |$ACS_AUTOPLAY    - Starts playing the animation as soon as the AVI clip is opened
-;                  |$ACS_TIMER       - The control plays the clip without creating a thread
-;                  -
-;                  |Default: $ACS_TRANSPARENT, $ACS_AUTOPLAY
-;                  |Forced : $WS_CHILD, $WS_VISIBLE
-;                  $iExStyle    - Control external styles
-; Return values .: Success      - Handle of the animation control
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (Added params, Added Open calls "sets the avi to 1st frame")
-; Remarks .......: This function is for Advanced users and for learning how the control works.
-; Related .......: _GUICtrlAVI_Destroy
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0, $iStyle = 0x00000006, $iExStyle = 0x00000000)
 	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for 1st parameter
@@ -144,18 +87,8 @@ Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $
 EndFunc   ;==>_GUICtrlAVI_Create
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Destroy
-; Description ...: Delete the control
-; Syntax.........: _GUICtrlAVI_Destroy(ByRef $hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True, Handle is set to 0
-;                  Failure      - False
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: Restricted to only be used on AVI Control created with _GUICtrlAVI_Create
-; Related .......: _GUICtrlAVI_Create
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Destroy(ByRef $hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -183,18 +116,8 @@ Func _GUICtrlAVI_Destroy(ByRef $hWnd)
 EndFunc   ;==>_GUICtrlAVI_Destroy
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_IsPlaying
-; Description ...: Checks whether an Audio-Video Interleaved (AVI) clip is playing
-; Syntax.........: _GUICtrlAVI_IsPlaying($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Gary Frost
 ; Modified.......:
-; Remarks .......: Minimum OS: Windows Vista
-; Related .......:
-; Link ..........: @@MsdnLink@@ ACM_ISPLAYING
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_IsPlaying($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -204,19 +127,8 @@ Func _GUICtrlAVI_IsPlaying($hWnd)
 EndFunc   ;==>_GUICtrlAVI_IsPlaying
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Open
-; Description ...: Opens an AVI clip and displays its first frame in an animation control
-; Syntax.........: _GUICtrlAVI_Open($hWnd, $sFileName)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $sFileName   - Fully qualified path to the AVI file
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (Added seek "sets the avi to 1st frame")
-; Remarks .......: You can only open silent AVI clips
-; Related .......: _GUICtrlAVI_Close, _GUICtrlAVI_OpenEx
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Open($hWnd, $sFileName)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -239,20 +151,8 @@ Func _GUICtrlAVI_Open($hWnd, $sFileName)
 EndFunc   ;==>_GUICtrlAVI_Open
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_OpenEx
-; Description ...: Opens an AVI clip and displays its first frame in an animation control
-; Syntax.........: _GUICtrlAVI_OpenEx($hWnd, $sFileName, $iResourceID)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $sFileName   - Fully qualified path to resource file
-;                  $iResourceID - AVI resource identifier
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (Added seek "sets the avi to 1st frame")
-; Remarks .......: You can only open silent AVI clips
-; Related .......: _GUICtrlAVI_Open
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_OpenEx($hWnd, $sFileName, $iResourceID)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -267,23 +167,8 @@ Func _GUICtrlAVI_OpenEx($hWnd, $sFileName, $iResourceID)
 EndFunc   ;==>_GUICtrlAVI_OpenEx
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Play
-; Description ...: Plays an AVI clip in an animation control
-; Syntax.........: _GUICtrlAVI_Play($hWnd[, $iFrom = 0[, $iTo = -1[, $iRepeat = -1]]])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iFrom       - Zero based index of the frame where playing begins. The value must be less than 65,536. A value
-;                  +of 0 means begin with the first frame in the clip.
-;                  $iTo         - Zero based index of the frame where playing ends.  The value must be less than 65,536.  A value
-;                  +of -1 means end with the last frame in the clip.
-;                  $iRepeat     - Number of times to replay the AVI clip.  A value of -1 means replay the clip indefinitely.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
-; Remarks .......: The control plays the clip in the background while the thread continues executing
-; Related .......: _GUICtrlAVI_Stop, _GUICtrlAVI_Seek
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Play($hWnd, $iFrom = 0, $iTo = -1, $iRepeat = -1)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -294,19 +179,8 @@ Func _GUICtrlAVI_Play($hWnd, $iFrom = 0, $iTo = -1, $iRepeat = -1)
 EndFunc   ;==>_GUICtrlAVI_Play
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Seek
-; Description ...: Directs an AVI control to display a particular frame of an AVI clip
-; Syntax.........: _GUICtrlAVI_Seek($hWnd, $iFrame)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iFrame      - Zero based index of the frame to display
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
-; Remarks .......:
-; Related .......: _GUICtrlAVI_Play
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Seek($hWnd, $iFrame)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -317,21 +191,8 @@ Func _GUICtrlAVI_Seek($hWnd, $iFrame)
 EndFunc   ;==>_GUICtrlAVI_Seek
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Show
-; Description ...: Show/Hide the AVI control
-; Syntax.........: _GUICtrlAVI_Show($hWnd, $iState)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iState      - State of the AVI, can be the following values:
-;                 |@SW_SHOW
-;                 |@SW_HIDE
-; Return values .: True         - The control was previously visible
-;                  False        - The control was previously hidden
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Show($hWnd, $iState)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
@@ -342,18 +203,8 @@ Func _GUICtrlAVI_Show($hWnd, $iState)
 EndFunc   ;==>_GUICtrlAVI_Show
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlAVI_Stop
-; Description ...: Stops playing an AVI clip
-; Syntax.........: _GUICtrlAVI_Stop($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
-; Remarks .......:
-; Related .......: _GUICtrlAVI_Play
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Stop($hWnd)
 	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)

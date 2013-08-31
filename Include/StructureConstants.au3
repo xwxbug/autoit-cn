@@ -8,102 +8,103 @@
 ; ===============================================================================================================================
 
 ; #LISTING# =====================================================================================================================
-;$tagPOINT
-;$tagRECT
-;$tagMARGINS
-;$tagSIZE
-;$tagFILETIME
-;$tagSYSTEMTIME
-;$tagTIME_ZONE_INFORMATION
-;$tagNMHDR
-;$tagCOMBOBOXEXITEM
-;$tagNMCBEDRAGBEGIN
-;$tagNMCBEENDEDIT
-;$tagNMCOMBOBOXEX
-;$tagDTPRANGE
-;$tagNMDATETIMECHANGE
-;$tagNMDATETIMEFORMAT
-;$tagNMDATETIMEFORMATQUERY
-;$tagNMDATETIMEKEYDOWN
-;$tagNMDATETIMESTRING
-;$tagEVENTLOGRECORD
-;$tagGDIPBITMAPDATA
-;$tagGDIPENCODERPARAM
-;$tagGDIPENCODERPARAMS
-;$tagGDIPRECTF
-;$tagGDIPSTARTUPINPUT
-;$tagGDIPSTARTUPOUTPUT
-;$tagGDIPIMAGECODECINFO
-;$tagGDIPPENCODERPARAMS
-;$tagHDITEM
-;$tagNMHDDISPINFO
-;$tagNMHDFILTERBTNCLICK
-;$tagNMHEADER
-;$tagGETIPAddress
-;$tagNMIPADDRESS
-;$tagLVHITTESTINFO
-;$tagLVITEM
-;$tagNMLISTVIEW
-;$tagNMLVCUSTOMDRAW
-;$tagNMLVDISPINFO
-;$tagNMLVFINDITEM
-;$tagNMLVGETINFOTIP
-;$tagNMITEMACTIVATE
-;$tagNMLVKEYDOWN
-;$tagNMLVSCROLL
-;$tagMCHITTESTINFO
-;$tagMCMONTHRANGE
-;$tagMCRANGE
-;$tagMCSELRANGE
-;$tagNMDAYSTATE
-;$tagNMSELCHANGE
-;$tagNMOBJECTNOTIFY
-;$tagNMTCKEYDOWN
-;$tagTVITEMEX
-;$tagNMTREEVIEW
-;$tagNMTVCUSTOMDRAW
-;$tagNMTVDISPINFO
-;$tagNMTVGETINFOTIP
-;$tagTVHITTESTINFO
-;$tagNMTVKEYDOWN
-;$tagNMMOUSE
-;$tagTOKEN_PRIVILEGES
-;$tagIMAGEINFO
-;$tagMENUINFO
-;$tagMENUITEMINFO
-;$tagREBARBANDINFO
-;$tagNMREBARAUTOBREAK
-;$tagNMRBAUTOSIZE
-;$tagNMREBAR
-;$tagNMREBARCHEVRON
-;$tagNMREBARCHILDSIZE
-;$tagCOLORSCHEME
-;$tagNMTOOLBAR
-;$tagNMTBHOTITEM
-;$tagTBBUTTON
-;$tagTBBUTTONINFO
-;$tagNETRESOURCE
-;$tagOVERLAPPED
-;$tagOPENFILENAME
-;$tagBITMAPINFO
-;$tagBLENDFUNCTION
-;$tagGUID
-;$tagWINDOWPLACEMENT
-;$tagWINDOWPOS
-;$tagSCROLLINFO
-;$tagSCROLLBARINFO
-;$tagLOGFONT
-;$tagKBDLLHOOKSTRUCT
-;$tagPROCESS_INFORMATION
-;$tagSTARTUPINFO
-;$tagSECURITY_ATTRIBUTES
-;$tagWIN32_FIND_DATA
-;$tagTEXTMETRIC
+; $tagPOINT
+; $tagRECT
+; $tagMARGINS
+; $tagSIZE
+; $tagFILETIME
+; $tagSYSTEMTIME
+; $tagTIME_ZONE_INFORMATION
+; $tagNMHDR
+; $tagCOMBOBOXEXITEM
+; $tagNMCBEDRAGBEGIN
+; $tagNMCBEENDEDIT
+; $tagNMCOMBOBOXEX
+; $tagDTPRANGE
+; $tagNMDATETIMECHANGE
+; $tagNMDATETIMEFORMAT
+; $tagNMDATETIMEFORMATQUERY
+; $tagNMDATETIMEKEYDOWN
+; $tagNMDATETIMESTRING
+; $tagEVENTLOGRECORD
+; $tagGDIPBITMAPDATA
+; $tagGDIPCOLORMATRIX
+; $tagGDIPENCODERPARAM
+; $tagGDIPENCODERPARAMS
+; $tagGDIPRECTF
+; $tagGDIPSTARTUPINPUT
+; $tagGDIPSTARTUPOUTPUT
+; $tagGDIPIMAGECODECINFO
+; $tagGDIPPENCODERPARAMS
+; $tagHDITEM
+; $tagNMHDDISPINFO
+; $tagNMHDFILTERBTNCLICK
+; $tagNMHEADER
+; $tagGETIPAddress
+; $tagNMIPADDRESS
+; $tagLVFINDINFO
+; $tagLVHITTESTINFO
+; $tagLVITEM
+; $tagNMLISTVIEW
+; $tagNMLVCUSTOMDRAW
+; $tagNMLVDISPINFO
+; $tagNMLVFINDITEM
+; $tagNMLVGETINFOTIP
+; $tagNMITEMACTIVATE
+; $tagNMLVKEYDOWN
+; $tagNMLVSCROLL
+; $tagMCHITTESTINFO
+; $tagMCMONTHRANGE
+; $tagMCRANGE
+; $tagMCSELRANGE
+; $tagNMDAYSTATE
+; $tagNMSELCHANGE
+; $tagNMOBJECTNOTIFY
+; $tagNMTCKEYDOWN
+; $tagTVITEMEX
+; $tagNMTREEVIEW
+; $tagNMTVCUSTOMDRAW
+; $tagNMTVDISPINFO
+; $tagNMTVGETINFOTIP
+; $tagTVHITTESTINFO
+; $tagNMTVKEYDOWN
+; $tagNMMOUSE
+; $tagTOKEN_PRIVILEGES
+; $tagIMAGEINFO
+; $tagMENUINFO
+; $tagMENUITEMINFO
+; $tagREBARBANDINFO
+; $tagNMREBARAUTOBREAK
+; $tagNMRBAUTOSIZE
+; $tagNMREBAR
+; $tagNMREBARCHEVRON
+; $tagNMREBARCHILDSIZE
+; $tagCOLORSCHEME
+; $tagNMTOOLBAR
+; $tagNMTBHOTITEM
+; $tagTBBUTTON
+; $tagTBBUTTONINFO
+; $tagNETRESOURCE
+; $tagOVERLAPPED
+; $tagOPENFILENAME
+; $tagBITMAPINFO
+; $tagBLENDFUNCTION
+; $tagGUID
+; $tagWINDOWPLACEMENT
+; $tagWINDOWPOS
+; $tagSCROLLINFO
+; $tagSCROLLBARINFO
+; $tagLOGFONT
+; $tagKBDLLHOOKSTRUCT
+; $tagPROCESS_INFORMATION
+; $tagSTARTUPINFO
+; $tagSECURITY_ATTRIBUTES
+; $tagWIN32_FIND_DATA
+; $tagTEXTMETRIC
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagTVITEM
-;$tagLVFINDINFO
+; $tagTVITEM
 ; ===============================================================================================================================
 
 ; #STRUCTURE# ===================================================================================================================
@@ -485,6 +486,15 @@ Global Const $tagEVENTLOGRECORD = "dword Length;dword Reserved;dword RecordNumbe
 Global Const $tagGDIPBITMAPDATA = "uint Width;uint Height;int Stride;int Format;ptr Scan0;uint_ptr Reserved"
 
 ; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIPCOLORMATRIX
+; Description ...: $tagGDIPCOLORMATRIX structure
+; Fields ........: m      -  ; [5][5] matrix; [0][0] - red, [1][1] - green, [2][2] - blue; [3][3] - alpha, [4][4] - ~should~ be 1
+; Author ........: FireFox, UEZ
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIPCOLORMATRIX = "float m[25]"
+
+; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPENCODERPARAM
 ; Description ...: $tagGDIPENCODERPARAM structure
 ; Fields ........: GUID   - Indentifies the parameter category (GDI_EPG constants)
@@ -697,7 +707,7 @@ Global Const $tagNMIPADDRESS = $tagNMHDR & ";int Field;int Value"
 ; ListView Structures
 ; *******************************************************************************************************************************
 ; ===============================================================================================================================
-; #INTERNAL_USE_ONLY# ===========================================================================================================
+; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagLVFINDINFO
 ; Description ...: Contains information used when searching for a list-view item
 ; Fields ........: Flags     - Type of search to perform. This member can be set to one or more of the following values:
@@ -760,7 +770,7 @@ Global Const $tagLVHITTESTINFO = $tagPOINT & ";uint Flags;int Item;int SubItem;i
 ; Description ...: Specifies or receives the attributes of a list-view item
 ; Fields ........: Mask      - Set of flags that specify which members of this structure contain data to be set or which members
 ;                  +are being requested. This member can have one or more of the following flags set:
-;				   |$LVIF_COLFMT Microsoft Windows Vista and later. The piColFmt member is valid or must be set. If this flag is used, the cColumns member is valid or must be set.
+; 				   |$LVIF_COLFMT Microsoft Windows Vista and later. The piColFmt member is valid or must be set. If this flag is used, the cColumns member is valid or must be set.
 ;                  |$LVIF_COLUMNS     - The Columns member is valid
 ;                  |$LVIF_DI_SETITEM  - The operating system should store the requested list item information
 ;                  |$LVIF_GROUPID     - The GroupID member is valid
@@ -1295,9 +1305,9 @@ Global Const $tagTVITEM = "struct;uint Mask;handle hItem;uint State;uint StateMa
 ;                  Integral      - Height of the item
 ;                  uStateEx      - One or more (as a bitwise combination) of the following extended states.
 ;                                  Value Meaning:
-;									TVIS_EX_DISABLED Windows Vista and later. Creates a control that is drawn in grey, that the user cannot interact with.
-;									TVIS_EX_FLAT Creates a flat item—the item is virtual and is not visible in the tree; instead, its children take its place in the tree hierarchy.
-;									TVIS_EX_HWND Creates a separate HWND for the item.
+; 									TVIS_EX_DISABLED Windows Vista and later. Creates a control that is drawn in grey, that the user cannot interact with.
+; 									TVIS_EX_FLAT Creates a flat item—the item is virtual and is not visible in the tree; instead, its children take its place in the tree hierarchy.
+; 									TVIS_EX_HWND Creates a separate HWND for the item.
 ;                  hwnd          - Not used; must be NULL.
 ;                  iExpandedImage- Index of the image in the control's image list to display when the item is in the expanded state.
 ;                  iReserved     - Reserved member. Do not use.
@@ -1668,7 +1678,7 @@ Global Const $tagMENUITEMINFO = "uint Size;uint Mask;uint Type;uint State;uint I
 ;                  |The band header is the area between the edge of the band and the edge of the child window.
 ;                  |This is the area where band text and images are displayed, if they are specified.
 ;                  |If this value is specified, it will override the normal header dimensions that the control caculates for the band.
-;				   $tagRECT   - Version 6. Location of the chevron.
+; 				   $tagRECT   - Version 6. Location of the chevron.
 ;                  uChevronState - Version 6. A combination of the Object State Constants.
 ; Author ........: Gary Frost
 ; Modified ......: jpm
@@ -1676,7 +1686,7 @@ Global Const $tagMENUITEMINFO = "uint Size;uint Mask;uint Type;uint State;uint I
 ; ===============================================================================================================================
 Global Const $tagREBARBANDINFO = "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" & _
 		"int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" & _
-		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader;" & $tagRECT & ";uint uChevronState"
+		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader" & ((@OSVersion = "WIN_XP") ? "" : ";" & $tagRECT) & ";uint uChevronState"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARAUTOBREAK
@@ -2102,25 +2112,35 @@ Global Const $tagOPENFILENAME = "dword StructSize;hwnd hwndOwner;handle hInstanc
 		"ptr lpfnHook;ptr lpTemplateName;ptr pvReserved;dword dwReserved;dword FlagsEx"
 
 ; #STRUCTURE# ===================================================================================================================
-; Name...........: $tagBITMAPINFO
-; Description ...: This structure defines the dimensions and color information of a Windows-based device-independent bitmap (DIB).
-; Fields ........: Size          - The number of bytes required by the structure, minus the size of the RGBQuad data
-;                  Width         - Specifies the width of the bitmap, in pixels
-;                  Height        - Specifies the height of the bitmap, in pixels
-;                  Planes        - Specifies the number of planes for the target device. This must be set to 1
-;                  BitCount      - Specifies the number of bits-per-pixel
-;                  Compression   - Specifies the type of compression for a compressed bottom-up bitmap
-;                  SizeImage     - Specifies the size, in bytes, of the image
-;                  XPelsPerMeter - Specifies the horizontal resolution, in pixels-per-meter, of the target device for the bitmap
-;                  YPelsPerMeter - Specifies the vertical resolution, in pixels-per-meter, of the target device for the bitmap
-;                  ClrUsed       - Specifies the number of color indexes in the color table that are actually used by the bitmap
-;                  ClrImportant  - Specifies the number of color indexes that are required for displaying the bitmap
-;                  RGBQuad       - An array of tagRGBQUAD structures. The elements of the array that make up the color table.
+; Name...........: $tagBITMAPINFOHEADER
+; Description ...: This structure defines the dimensions information of a Windows-based device-independent bitmap (DIB).
+; Fields ........: biSize          - The number of bytes required by the structure
+;                  biWidth         - Specifies the width of the bitmap, in pixels
+;                  biHeight        - Specifies the height of the bitmap, in pixels
+;                  biPlanes        - Specifies the number of planes for the target device. This must be set to 1
+;                  biBitCount      - Specifies the number of bits-per-pixel
+;                  biCompression   - Specifies the type of compression for a compressed bottom-up bitmap
+;                  biSizeImage     - Specifies the size, in bytes, of the image
+;                  biXPelsPerMeter - Specifies the horizontal resolution, in pixels-per-meter, of the target device for the bitmap
+;                  biYPelsPerMeter - Specifies the vertical resolution, in pixels-per-meter, of the target device for the bitmap
+;                  biClrUsed       - Specifies the number of color indexes in the color table that are actually used by the bitmap
+;                  biClrImportant  - Specifies the number of color indexes that are required for displaying the bitmap
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagBITMAPINFO = "struct;dword Size;long Width;long Height;word Planes;word BitCount;dword Compression;dword SizeImage;" & _
-		"long XPelsPerMeter;long YPelsPerMeter;dword ClrUsed;dword ClrImportant;endstruct;dword RGBQuad"
+Global Const $tagBITMAPINFOHEADER = "struct;dword biSize;long biWidth;long biHeight;word biPlanes;word biBitCount;" & _
+		"dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant;endstruct"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagBITMAPINFO
+; Description ...: This structure defines the dimensions and color information of a Windows-based device-independent bitmap (DIB).
+; Fields ........: $tagBITMAPINFOHEADER - Contains information about dimensions of a bitmap.
+;                  biRGBQuad            - An array of tagRGBQUAD structures. The elements of the array that make up the color table.
+; Author ........: Paul Campbell (PaulIA)
+; Remarks .......: This structure should not be used for declaration as the biRGBQuad field does not have the right dimension.
+;                  Concatenation of a suitable sized array to $tagBITMAPINFOHEADER must be used.
+; ===============================================================================================================================
+Global Const $tagBITMAPINFO = $tagBITMAPINFOHEADER & ";dword biRGBQuad[1]"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagBLENDFUNCTION
@@ -2149,7 +2169,7 @@ Global Const $tagBLENDFUNCTION = "byte Op;byte Flags;byte Alpha;byte Format"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGUID = "ulong Data1;ushort Data2;ushort Data3;byte Data4[8]"
+Global Const $tagGUID = "struct;ulong Data1;ushort Data2;ushort Data3;byte Data4[8];endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagWINDOWPLACEMENT
@@ -2293,8 +2313,8 @@ Global Const $tagSCROLLBARINFO = "dword cbSize;" & $tagRECT & ";int dxyLineButto
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagLOGFONT = "long Height;long Width;long Escapement;long Orientation;long Weight;byte Italic;byte Underline;" & _
-		"byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;wchar FaceName[32]"
+Global Const $tagLOGFONT = "struct;long Height;long Width;long Escapement;long Orientation;long Weight;byte Italic;byte Underline;" & _
+		"byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;wchar FaceName[32];endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagKBDLLHOOKSTRUCT
@@ -2465,11 +2485,11 @@ Global Const $tagWIN32_FIND_DATA = "dword dwFileAttributes;dword ftCreationTime[
 ;                  tmUnderlined - Specifies an underlined font if it is nonzero.
 ;                  tmStruckOut - Specifies a strikeout font if it is nonzero.
 ;                  tmPitchAndFamily - Specifies information about the pitch, the technology, and the family of a physical font.
-;					The four low-order bits of this member specify information about the pitch and the technology of the font. A constant is defined for each of the four bits.
-;					$TMPF_FIXED_PITCH If this bit is set the font is a variable pitch font. If this bit is clear the font is a fixed pitch font. Note very carefully that those meanings are the opposite of what the constant name implies.
-;					$TMPF_VECTOR If this bit is set the font is a vector font.
-;					$TMPF_TRUETYPE If this bit is set the font is a TrueType font.
-;					$TMPF_DEVICE If this bit is set the font is a device font.
+; 					The four low-order bits of this member specify information about the pitch and the technology of the font. A constant is defined for each of the four bits.
+; 					$TMPF_FIXED_PITCH If this bit is set the font is a variable pitch font. If this bit is clear the font is a fixed pitch font. Note very carefully that those meanings are the opposite of what the constant name implies.
+; 					$TMPF_VECTOR If this bit is set the font is a vector font.
+; 					$TMPF_TRUETYPE If this bit is set the font is a TrueType font.
+; 					$TMPF_DEVICE If this bit is set the font is a device font.
 ;                  tmCharSet - Specifies the character set of the font. The character set can be one of the following values.
 ;                  |ANSI_CHARSET
 ;                  |BALTIC_CHARSET
@@ -2494,4 +2514,4 @@ Global Const $tagTEXTMETRIC = "long tmHeight;long tmAscent;long tmDescent;long t
 		"wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" & _
 		"byte tmPitchAndFamily;byte tmCharSet"
 
-; == Leave this line at the end of the file =====================================================================================
+; =============================================================================================================================== Leave this line at the end of the file =====================================================================================

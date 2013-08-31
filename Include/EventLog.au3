@@ -42,50 +42,38 @@ Global Const $__EVENTLOG_FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_EventLog__Backup
-;_EventLog__Clear
-;_EventLog__Close
-;_EventLog__Count
-;_EventLog__DeregisterSource
-;_EventLog__Full
-;_EventLog__Notify
-;_EventLog__Oldest
-;_EventLog__Open
-;_EventLog__OpenBackup
-;_EventLog__Read
-;_EventLog__RegisterSource
-;_EventLog__Report
+; _EventLog__Backup
+; _EventLog__Clear
+; _EventLog__Close
+; _EventLog__Count
+; _EventLog__DeregisterSource
+; _EventLog__Full
+; _EventLog__Notify
+; _EventLog__Oldest
+; _EventLog__Open
+; _EventLog__OpenBackup
+; _EventLog__Read
+; _EventLog__RegisterSource
+; _EventLog__Report
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__EventLog_DecodeCategory
-;__EventLog_DecodeComputer
-;__EventLog_DecodeData
-;__EventLog_DecodeDate
-;__EventLog_DecodeDesc
-;__EventLog_DecodeEventID
-;__EventLog_DecodeSource
-;__EventLog_DecodeStrings
-;__EventLog_DecodeTime
-;__EventLog_DecodeTypeStr
-;__EventLog_DecodeUserName
+; __EventLog_DecodeCategory
+; __EventLog_DecodeComputer
+; __EventLog_DecodeData
+; __EventLog_DecodeDate
+; __EventLog_DecodeDesc
+; __EventLog_DecodeEventID
+; __EventLog_DecodeSource
+; __EventLog_DecodeStrings
+; __EventLog_DecodeTime
+; __EventLog_DecodeTypeStr
+; __EventLog_DecodeUserName
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Backup
-; Description ...: Saves the event log to a backup file
-; Syntax.........: _EventLog__Backup($hEventLog, $sFileName)
-; Parameters ....: $hEventLog   - Handle to the event log
-;                  $sFileName   - The name of the backup file
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: The function does not clear the event log.  The function fails if the user does not  have  the  SE_BACKUP_NAME
-;                  privilege.
-; Related .......: _EventLog__OpenBackup
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Backup($hEventLog, $sFileName)
 	Local $aResult = DllCall("advapi32.dll", "bool", "BackupEventLogW", "handle", $hEventLog, "wstr", $sFileName)
@@ -94,20 +82,8 @@ Func _EventLog__Backup($hEventLog, $sFileName)
 EndFunc   ;==>_EventLog__Backup
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Clear
-; Description ...: Clears the event log
-; Syntax.........: _EventLog__Clear($hEventLog, $sFileName)
-; Parameters ....: $hEventLog   - Handle to the event log
-;                  $sFileName   - The name of the backup file. If the name is blank, the current event log is not backed up.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: This function fails if the event log is empty or a file already exists with the same name as sFileName.  After
-;                  this function returns, any handles that reference the cleared event log cannot be used to read the log.
-; Related .......: _EventLog__Open
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Clear($hEventLog, $sFileName)
 	Local $fTemp = False
@@ -122,18 +98,8 @@ Func _EventLog__Clear($hEventLog, $sFileName)
 EndFunc   ;==>_EventLog__Clear
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Close
-; Description ...: Closes a read handle to the event log
-; Syntax.........: _EventLog__Close($hEventLog)
-; Parameters ....: $hEventLog   - Handle to the event log
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......:
-; Related .......: _EventLog__Open, _EventLog__Notify, _EventLog__OpenBackup, _EventLog__Read, _EventLog__Report
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Close($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "CloseEventLog", "handle", $hEventLog)
@@ -142,19 +108,8 @@ Func _EventLog__Close($hEventLog)
 EndFunc   ;==>_EventLog__Close
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Count
-; Description ...: Retrieves the number of records in the event log
-; Syntax.........: _EventLog__Count($hEventLog)
-; Parameters ....: $hEventLog   - A handle to the event log
-; Return values .: Success      - Number of records in the event log
-;                  Failure      - -1
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: The oldest record in an event log is not necessarily record number 1.  To determine the record number  of  the
-;                  oldest record in an event log, use the _EventLog__Oldest function.
-; Related .......: _EventLog__Oldest, _EventLog__Full
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Count($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "GetNumberOfEventLogRecords", "handle", $hEventLog, "dword*", 0)
@@ -166,7 +121,7 @@ EndFunc   ;==>_EventLog__Count
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeCategory
 ; Description ...: Decodes an event category for an event record
-; Syntax.........: __EventLog_DecodeCategory($tEventLog)
+; Syntax.........: __EventLog_DecodeCategory ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Event category
 ; Author ........: Paul Campbell (PaulIA)
@@ -183,7 +138,7 @@ EndFunc   ;==>__EventLog_DecodeCategory
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeComputer
 ; Description ...: Decodes the computer name from an event log record
-; Syntax.........: __EventLog_DecodeComputer($tEventLog)
+; Syntax.........: __EventLog_DecodeComputer ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Computer name
 ; Author ........: Paul Campbell (PaulIA)
@@ -213,7 +168,7 @@ EndFunc   ;==>__EventLog_DecodeComputer
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeData
 ; Description ...: Decodes the event specific binary data from an event log record
-; Syntax.........: __EventLog_DecodeData($tEventLog)
+; Syntax.........: __EventLog_DecodeData ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Number of bytes in array
@@ -243,7 +198,7 @@ EndFunc   ;==>__EventLog_DecodeData
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeDate
 ; Description ...: Converts an event log time to a date string
-; Syntax.........: __EventLog_DecodeDate($iEventTime)
+; Syntax.........: __EventLog_DecodeDate ( $iEventTime )
 ; Parameters ....: $iEventTime  - Event log time to be converted
 ; Return values .: Success      - Date string in the format of mm/dd/yyyy
 ; Author ........: Paul Campbell (PaulIA)
@@ -269,7 +224,7 @@ EndFunc   ;==>__EventLog_DecodeDate
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeDesc
 ; Description ...: Decodes the description strings for an event record
-; Syntax.........: __EventLog_DecodeDesc($tEventLog)
+; Syntax.........: __EventLog_DecodeDesc ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Description
 ; Author ........: Paul Campbell (PaulIA)
@@ -312,7 +267,7 @@ EndFunc   ;==>__EventLog_DecodeDesc
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeEventID
 ; Description ...: Decodes an event ID for an event record
-; Syntax.........: __EventLog_DecodeEventID($tEventLog)
+; Syntax.........: __EventLog_DecodeEventID ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Event ID
 ; Author ........: Paul Campbell (PaulIA)
@@ -329,7 +284,7 @@ EndFunc   ;==>__EventLog_DecodeEventID
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeSource
 ; Description ...: Decodes the event source from an event log record
-; Syntax.........: __EventLog_DecodeSource($tEventLog)
+; Syntax.........: __EventLog_DecodeSource ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Source name
 ; Author ........: Paul Campbell (PaulIA)
@@ -356,7 +311,7 @@ EndFunc   ;==>__EventLog_DecodeSource
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeStrings
 ; Description ...: Decodes the insertion strings from an event log record
-; Syntax.........: __EventLog_DecodeStrings($tEventLog)
+; Syntax.........: __EventLog_DecodeStrings ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - Array with the following format:
 ;                  |[0] - Number of strings in array
@@ -391,7 +346,7 @@ EndFunc   ;==>__EventLog_DecodeStrings
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeTime
 ; Description ...: Converts an event log time to a date time
-; Syntax.........: __EventLog_DecodeTime($iEventTime)
+; Syntax.........: __EventLog_DecodeTime ( $iEventTime )
 ; Parameters ....: $iEventTime  - Event log time to be converted
 ; Return values .: Success      - Time string in the format of hh:mm:ss am/pm
 ; Author ........: Paul Campbell (PaulIA)
@@ -422,7 +377,7 @@ EndFunc   ;==>__EventLog_DecodeTime
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeTypeStr
 ; Description ...: Decodes an event type to an event string
-; Syntax.........: __EventLog_DecodeTypeStr($iEventType)
+; Syntax.........: __EventLog_DecodeTypeStr ( $iEventType )
 ; Parameters ....: $iEventType  - Event type
 ; Return values .: Success      - String indicating the event type
 ;                  Failure      - Unknown event type ID
@@ -455,7 +410,7 @@ EndFunc   ;==>__EventLog_DecodeTypeStr
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __EventLog_DecodeUserName
 ; Description ...: Decodes the user name from an event log record
-; Syntax.........: __EventLog_DecodeUserName($tEventLog)
+; Syntax.........: __EventLog_DecodeUserName ( $tEventLog )
 ; Parameters ....: $tEventLog   - tagEVENTLOGRECORD structure
 ; Return values .: Success      - User name
 ; Author ........: Paul Campbell (PaulIA)
@@ -475,18 +430,8 @@ Func __EventLog_DecodeUserName($tEventLog)
 EndFunc   ;==>__EventLog_DecodeUserName
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__DeregisterSource
-; Description ...: Closes a write handle to the event log
-; Syntax.........: _EventLog__DeregisterSource($hEventLog)
-; Parameters ....: $hEventLog   - A handle to the event log
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......:
-; Related .......: _EventLog__RegisterSource, _EventLog__Notify
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
 Func _EventLog__DeregisterSource($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "DeregisterEventSource", "handle", $hEventLog)
@@ -495,18 +440,8 @@ Func _EventLog__DeregisterSource($hEventLog)
 EndFunc   ;==>_EventLog__DeregisterSource
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Full
-; Description ...: Retrieves whether the event log is full
-; Syntax.........: _EventLog__Full($hEventLog)
-; Parameters ....: $hEventLog   - A handle to the event log
-; Return values .: True         - Event log is full
-;                  False        - Event log is not full
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......:
-; Related .......: _EventLog__Count, _EventLog__Oldest
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Full($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "GetEventLogInformation", "handle", $hEventLog, "dword", 0, "dword*", 0, "dword", 4, "dword*", 0)
@@ -515,27 +450,8 @@ Func _EventLog__Full($hEventLog)
 EndFunc   ;==>_EventLog__Full
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Notify
-; Description ...: Enables an application to receive event notifications
-; Syntax.........: _EventLog__Notify($hEventLog, $hEvent)
-; Parameters ....: $hEventLog   - A handle to the event log
-;                  $hEvent      - A handle to a manual-reset event object
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: This function does not work with remote handles. If the hEventLog parameter is the handle to an event log on a
-;                  remote computer, this function returns zero, and GetLastError returns ERROR_INVALID_HANDLE.  When an event  is
-;                  written to the log specified by hEventLog, the system uses the PulseEvent function to set the event  specified
-;                  by the hEvent parameter to the signaled state. If the thread is not waiting on the event when the system calls
-;                  PulseEvent, the thread will not receive the notification.  Therefore, you should create a separate  thread  to
-;                  wait for notifications. Note that the system calls PulseEvent no more than once every five seconds. Therefore,
-;                  even if more than one event log change occurs within a  five  second  interval,  you  will  only  receive  one
-;                  notification.  The system will continue to notify you of changes until you close the handle to the event  log.
-;                  To close the event log, use the _EventLog__Close or _EventLog__DeregisterSource function.
-; Related .......: _EventLog__Close, _EventLog__DeregisterSource
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Notify($hEventLog, $hEvent)
 	Local $aResult = DllCall("advapi32.dll", "bool", "NotifyChangeEventLog", "handle", $hEventLog, "handle", $hEvent)
@@ -544,18 +460,8 @@ Func _EventLog__Notify($hEventLog, $hEvent)
 EndFunc   ;==>_EventLog__Notify
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Oldest
-; Description ...: Retrieves the absolute record number of the oldest record in the event log
-; Syntax.........: _EventLog__Oldest($hEventLog)
-; Parameters ....: $hEventLog   - A handle to the event log
-; Return values .: Success      - Absolute record number of the oldest record in the event log
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: The oldest record in an event log is not necessarily record number 1
-; Related .......: _EventLog__Count, _EventLog__Notify
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Oldest($hEventLog)
 	Local $aResult = DllCall("advapi32.dll", "bool", "GetOldestEventLogRecord", "handle", $hEventLog, "dword*", 0)
@@ -564,20 +470,8 @@ Func _EventLog__Oldest($hEventLog)
 EndFunc   ;==>_EventLog__Oldest
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Open
-; Description ...: Opens a handle to the event log
-; Syntax.........: _EventLog__Open($sServerName, $sSourceName)
-; Parameters ....: $sServerName - The UNC name of the server on where the event log will be opened.  If blank, the  operation  is
-;                  +performed on the local computer.
-;                  $sSourceName - The name of the log
-; Return values .: Success      - The handle to the event log
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: To close the handle to the event log, use the _EventLog__Close function
-; Related .......: _EventLog__Close, _EventLog__Clear, _EventLog__Read, _EventLog__Report
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Open($sServerName, $sSourceName)
 	$gsSourceName = $sSourceName
@@ -587,20 +481,8 @@ Func _EventLog__Open($sServerName, $sSourceName)
 EndFunc   ;==>_EventLog__Open
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__OpenBackup
-; Description ...: Opens a handle to a backup event log
-; Syntax.........: _EventLog__OpenBackup($sServerName, $sFileName)
-; Parameters ....: $sServerName - The UNC name of the server on where the event log will be opened.  If blank, the  operation  is
-;                  +performed on the local computer.
-;                  $sFileName   - The name of the backup file
-; Return values .: Success      - The handle to the backup event log
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: If the backup filename specifies a remote server, $sServerName must be blank
-; Related .......: _EventLog__Close, _EventLog__Backup
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__OpenBackup($sServerName, $sFileName)
 	Local $aResult = DllCall("advapi32.dll", "handle", "OpenBackupEventLogW", "wstr", $sServerName, "wstr", $sFileName)
@@ -609,43 +491,8 @@ Func _EventLog__OpenBackup($sServerName, $sFileName)
 EndFunc   ;==>_EventLog__OpenBackup
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Read
-; Description ...: Reads an entry from the event log
-; Syntax.........: _EventLog__Read($hEventLog[, $fRead = True[, $fForward = True[, $iOffset = 0]]])
-; Parameters ....: $hEventLog   - A handle to the event log
-;                  $fRead       - If True, operation proceeds sequentially from the last call to this function using this handle.
-;                  +If False, the read will operation proceeds from the record specified by the $iOffset parameter.
-;                  $fForward    - If True, the log is read in date order. If False, the log is read in reverse date order.
-;                  $iOffset     - The number of the event record at which the read operation  should  start.  This  parameter  is
-;                  +ignored if fRead is True.
-; Return values .: Success      - Array with the following format:
-;                  |[ 0] - True on success, False on failure
-;                  |[ 1] - Number of the record
-;                  |[ 2] - Date at which this entry was submitted
-;                  |[ 3] - Time at which this entry was submitted
-;                  |[ 4] - Date at which this entry was received to be written to the log
-;                  |[ 5] - Time at which this entry was received to be written to the log
-;                  |[ 6] - Event identifier
-;                  |[ 7] - Event type. This can be one of the following values:
-;                  |  1 - Error event
-;                  |  2 - Warning event
-;                  |  4 - Information event
-;                  |  8 - Success audit event
-;                  | 16 - Failure audit event
-;                  |[ 8] - Event type string
-;                  |[ 9] - Event category
-;                  |[10] - Event source
-;                  |[11] - Computer name
-;                  |[12] - Username
-;                  |[13] - Event description
-;                  |[14] - Event data array
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: When this function returns successfully, the read position in the event log  is  adjusted  by  the  number  of
-;                  records read. Though multiple records can be read, this function returns one record at a time for sanity sake.
-; Related .......: _EventLog__Close, _EventLog__Open
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Read($hEventLog, $fRead = True, $fForward = True, $iOffset = 0)
 	Local $iReadFlags, $aEvent[15]
@@ -696,24 +543,8 @@ Func _EventLog__Read($hEventLog, $fRead = True, $fForward = True, $iOffset = 0)
 EndFunc   ;==>_EventLog__Read
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__RegisterSource
-; Description ...: Retrieves a registered handle to the specified event log
-; Syntax.........: _EventLog__RegisterSource($sServerName, $sSourceName)
-; Parameters ....: $sServerName - The UNC name of the server on where the event log will be opened.  If blank, the  operation  is
-;                  +performed on the local computer.
-;                  $sSourceName - The name of the event source whose handle is to be retrieved.  The source name must be a subkey
-;                  +of a log under the Eventlog registry key.
-; Return values .: Success      - The handle to an event log
-;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: If the source name cannot be found, the event logging service uses the Application log; it does not  create  a
-;                  new source. Events are reported for the source, however, there are  no  message  and  category  message  files
-;                  specified for looking up descriptions of the event identifiers for the source.  To close  the  handle  to  the
-;                  event log, use the DeregisterEventSource function.
-; Related .......: _EventLog__DeregisterSource
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
 Func _EventLog__RegisterSource($sServerName, $sSourceName)
 	$gsSourceName = $sSourceName
@@ -723,37 +554,8 @@ Func _EventLog__RegisterSource($sServerName, $sSourceName)
 EndFunc   ;==>_EventLog__RegisterSource
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _EventLog__Report
-; Description ...: Writes an entry at the end of the specified event log
-; Syntax.........: _EventLog__Report($hEventLog, $iType, $iCategory, $iEventID, $sUserName, $sDesc, $aData)
-; Parameters ....: $hEventLog   - A handle to the event log. As of Windows XP SP2, this cannot be a  handle to the Security log.
-;                  $iType       - Event type. This can be one of the following values:
-;                  | 0 - Success event
-;                  | 1 - Error event
-;                  | 2 - Warning event
-;                  | 4 - Information event
-;                  | 8 - Success audit event
-;                  |16 - Failue audit event
-;                  $iCategory   - The event category. This is source specific information the category can have any value.
-;                  $iEventID    - The event identifier.  The event identifier specifies the entry in the message file  associated
-;                  +with the event source.
-;                  $sUserName   - User name for the event. This can be blank to indicate that no name is required.
-;                  $sDesc       - Event description
-;                  $aData       - Data array formated as follows:
-;                  |[0] - Number of bytes in array
-;                  |[1] - Byte 1
-;                  |[2] - Byte 2
-;                  |[n] - Byte n
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
-; Remarks .......: This function is used to log an event. The entry is written to the end of the configured log  for  the  source
-;                  identified by the hEventLog parameter. This function adds the time, the entry's length, and the offsets before
-;                  storing the entry in the log.
-; Related .......: _EventLog__Close, _EventLog__Open
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _EventLog__Report($hEventLog, $iType, $iCategory, $iEventID, $sUserName, $sDesc, $aData)
 	Local $tSID = 0

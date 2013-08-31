@@ -46,9 +46,8 @@ Global Const $HHT_ABOVE = 0x00000100
 Global Const $HHT_BELOW = 0x00000200
 Global Const $HHT_TORIGHT = 0x00000400
 Global Const $HHT_TOLEFT = 0x00000800
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
+; Messages
 Global Const $HDM_FIRST = 0x1200
 Global Const $HDM_CLEARFILTER = $HDM_FIRST + 24
 Global Const $HDM_CREATEDRAGIMAGE = $HDM_FIRST + 16
@@ -79,9 +78,8 @@ Global Const $HDM_SETITEMA = $HDM_FIRST + 4
 Global Const $HDM_SETITEMW = $HDM_FIRST + 12
 Global Const $HDM_SETORDERARRAY = $HDM_FIRST + 18
 Global Const $HDM_SETUNICODEFORMAT = 0x2000 + 5
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $HDN_FIRST = -300
 Global Const $HDN_BEGINDRAG = $HDN_FIRST - 10 ; Sent when a drag operation has begun
 Global Const $HDN_BEGINTRACK = $HDN_FIRST - 6 ; Sent when the user has begun dragging a divider
@@ -105,9 +103,8 @@ Global Const $HDN_ITEMCHANGINGW = $HDN_FIRST - 20 ; [Unicode] Sent when a header
 Global Const $HDN_ITEMCLICKW = $HDN_FIRST - 22 ; [Unicode] Sent when the user clicks the control
 Global Const $HDN_ITEMDBLCLICKW = $HDN_FIRST - 23 ; [Unicode] Sent when the user double clicks the control
 Global Const $HDN_TRACKW = $HDN_FIRST - 28 ; [Unicode] Sent when the user is dragging a divider
-; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
+; Styles
 Global Const $HDS_BUTTONS = 0x00000002 ; Each item in the control looks and behaves like a push button
 Global Const $HDS_CHECKBOXES = 0x00000400 ; Allows the placing of checkboxes on header items on Vista
 Global Const $HDS_DRAGDROP = 0x00000040 ; Allows drag-and-drop reordering of header items

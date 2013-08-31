@@ -1,5 +1,6 @@
 #include-once
 
+#include "WinAPIConstants.au3"
 #include "StructureConstants.au3"
 #include "FileConstants.au3"
 #include "Security.au3"
@@ -27,358 +28,223 @@ Global Const $__WINAPICONSTANT_OUT_DEFAULT_PRECIS = 0
 Global Const $__WINAPICONSTANT_CLIP_DEFAULT_PRECIS = 0
 Global Const $__WINAPICONSTANT_DEFAULT_QUALITY = 0
 
-Global Const $__WINAPICONSTANT_FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100
-Global Const $__WINAPICONSTANT_FORMAT_MESSAGE_FROM_SYSTEM = 0x1000
-
 Global Const $__WINAPICONSTANT_LOGPIXELSX = 88
 Global Const $__WINAPICONSTANT_LOGPIXELSY = 90
-
-Global Const $HGDI_ERROR = Ptr(-1)
-Global Const $INVALID_HANDLE_VALUE = Ptr(-1)
-Global Const $CLR_INVALID = -1
-
-; FlashWindowEx Constants
-Global Const $__WINAPICONSTANT_FLASHW_CAPTION = 0x00000001
-Global Const $__WINAPICONSTANT_FLASHW_TRAY = 0x00000002
-Global Const $__WINAPICONSTANT_FLASHW_TIMER = 0x00000004
-Global Const $__WINAPICONSTANT_FLASHW_TIMERNOFG = 0x0000000C
-
-; GetWindows Constants
-Global Const $__WINAPICONSTANT_GW_HWNDNEXT = 2
-Global Const $__WINAPICONSTANT_GW_CHILD = 5
-
-; DrawIconEx Constants
-Global Const $__WINAPICONSTANT_DI_MASK = 0x0001
-Global Const $__WINAPICONSTANT_DI_IMAGE = 0x0002
-Global Const $__WINAPICONSTANT_DI_NORMAL = 0x0003
-Global Const $__WINAPICONSTANT_DI_COMPAT = 0x0004
-Global Const $__WINAPICONSTANT_DI_DEFAULTSIZE = 0x0008
-Global Const $__WINAPICONSTANT_DI_NOMIRROR = 0x0010
-
-; EnumDisplayDevice Constants
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_PRIMARY_DEVICE = 0x00000004
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_MIRRORING_DRIVER = 0x00000008
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_VGA_COMPATIBLE = 0x00000010
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_REMOVABLE = 0x00000020
-Global Const $__WINAPICONSTANT_DISPLAY_DEVICE_MODESPRUNED = 0x08000000
-
-; Stock Object Constants
-Global Const $NULL_BRUSH = 5 ; Null brush (equivalent to HOLLOW_BRUSH)
-Global Const $NULL_PEN = 8 ; NULL pen. The null pen draws nothing
-Global Const $BLACK_BRUSH = 4 ; Black brush
-Global Const $DKGRAY_BRUSH = 3 ; Dark gray brush
-Global Const $DC_BRUSH = 18 ; Windows 2000/XP: Solid color brush. The default color is white
-Global Const $GRAY_BRUSH = 2 ; Gray brush
-Global Const $HOLLOW_BRUSH = $NULL_BRUSH ; Hollow brush (equivalent to NULL_BRUSH)
-Global Const $LTGRAY_BRUSH = 1 ; Light gray brush
-Global Const $WHITE_BRUSH = 0 ; White brush
-Global Const $BLACK_PEN = 7 ; Black pen
-Global Const $DC_PEN = 19 ; Windows 2000/XP: Solid pen color. The default color is white
-Global Const $WHITE_PEN = 6 ; White pen
-Global Const $ANSI_FIXED_FONT = 11 ; Windows fixed-pitch (monospace) system font
-Global Const $ANSI_VAR_FONT = 12 ; Windows variable-pitch (proportional space) system font
-Global Const $DEVICE_DEFAULT_FONT = 14 ; Windows NT/2000/XP: Device-dependent font
-Global Const $DEFAULT_GUI_FONT = 17 ; Default font for user interface objects such as menus and dialog boxes
-Global Const $OEM_FIXED_FONT = 10 ; Original equipment manufacturer (OEM) dependent fixed-pitch (monospace) font
-Global Const $SYSTEM_FONT = 13 ; System font. By default, the system uses the system font to draw menus, dialog box controls, and text
-Global Const $SYSTEM_FIXED_FONT = 16 ; Fixed-pitch (monospace) system font. This stock object is provided only for compatibility with 16-bit Windows versions earlier than 3.0
-Global Const $DEFAULT_PALETTE = 15 ; Default palette. This palette consists of the static colors in the system palette
-
-; conversion type
-Global Const $MB_PRECOMPOSED = 0x01
-Global Const $MB_COMPOSITE = 0x02
-Global Const $MB_USEGLYPHCHARS = 0x04
-
-;translucency flags
-Global Const $ULW_ALPHA = 0x02
-Global Const $ULW_COLORKEY = 0x01
-Global Const $ULW_OPAQUE = 0x04
-
-;Window Hooks
-Global Const $WH_CALLWNDPROC = 4
-Global Const $WH_CALLWNDPROCRET = 12
-Global Const $WH_CBT = 5
-Global Const $WH_DEBUG = 9
-Global Const $WH_FOREGROUNDIDLE = 11
-Global Const $WH_GETMESSAGE = 3
-Global Const $WH_JOURNALPLAYBACK = 1
-Global Const $WH_JOURNALRECORD = 0
-Global Const $WH_KEYBOARD = 2
-Global Const $WH_KEYBOARD_LL = 13
-Global Const $WH_MOUSE = 7
-Global Const $WH_MOUSE_LL = 14
-Global Const $WH_MSGFILTER = -1
-Global Const $WH_SHELL = 10
-Global Const $WH_SYSMSGFILTER = 6
-
-;Window Placement
-Global Const $WPF_ASYNCWINDOWPLACEMENT = 0x04
-Global Const $WPF_RESTORETOMAXIMIZED = 0x02
-Global Const $WPF_SETMINPOSITION = 0x01
-
-;flags for $tagKBDLLHOOKSTRUCT
-Global Const $KF_EXTENDED = 0x0100
-Global Const $KF_ALTDOWN = 0x2000
-Global Const $KF_UP = 0x8000
-Global Const $LLKHF_EXTENDED = BitShift($KF_EXTENDED, 8)
-Global Const $LLKHF_INJECTED = 0x10
-Global Const $LLKHF_ALTDOWN = BitShift($KF_ALTDOWN, 8)
-Global Const $LLKHF_UP = BitShift($KF_UP, 8)
-
-;flags for $tagOPENFILENAME
-Global Const $OFN_ALLOWMULTISELECT = 0x00000200
-Global Const $OFN_CREATEPROMPT = 0x00002000
-Global Const $OFN_DONTADDTORECENT = 0x02000000
-Global Const $OFN_ENABLEHOOK = 0x00000020
-Global Const $OFN_ENABLEINCLUDENOTIFY = 0x00400000
-Global Const $OFN_ENABLESIZING = 0x00800000
-Global Const $OFN_ENABLETEMPLATE = 0x00000040
-Global Const $OFN_ENABLETEMPLATEHANDLE = 0x00000080
-Global Const $OFN_EXPLORER = 0x00080000
-Global Const $OFN_EXTENSIONDIFFERENT = 0x00000400
-Global Const $OFN_FILEMUSTEXIST = 0x00001000
-Global Const $OFN_FORCESHOWHIDDEN = 0x10000000
-Global Const $OFN_HIDEREADONLY = 0x00000004
-Global Const $OFN_LONGNAMES = 0x00200000
-Global Const $OFN_NOCHANGEDIR = 0x00000008
-Global Const $OFN_NODEREFERENCELINKS = 0x00100000
-Global Const $OFN_NOLONGNAMES = 0x00040000
-Global Const $OFN_NONETWORKBUTTON = 0x00020000
-Global Const $OFN_NOREADONLYRETURN = 0x00008000
-Global Const $OFN_NOTESTFILECREATE = 0x00010000
-Global Const $OFN_NOVALIDATE = 0x00000100
-Global Const $OFN_OVERWRITEPROMPT = 0x00000002
-Global Const $OFN_PATHMUSTEXIST = 0x00000800
-Global Const $OFN_READONLY = 0x00000001
-Global Const $OFN_SHAREAWARE = 0x00004000
-Global Const $OFN_SHOWHELP = 0x00000010
-Global Const $OFN_EX_NOPLACESBAR = 0x00000001
-
-;GetTextMetrics flags
-Global Const $TMPF_FIXED_PITCH = 0x01
-Global Const $TMPF_VECTOR = 0x02
-Global Const $TMPF_TRUETYPE = 0x04
-Global Const $TMPF_DEVICE = 0x08
-
-;DuplicateHandle options
-Global Const $DUPLICATE_CLOSE_SOURCE = 0x00000001
-Global Const $DUPLICATE_SAME_ACCESS = 0x00000002
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_WinAPI_AttachConsole
-;_WinAPI_AttachThreadInput
-;_WinAPI_Beep
-;_WinAPI_BitBlt
-;_WinAPI_CallNextHookEx
-;_WinAPI_CallWindowProc
-;_WinAPI_ClientToScreen
-;_WinAPI_CloseHandle
-;_WinAPI_CombineRgn
-;_WinAPI_CommDlgExtendedError
-;_WinAPI_CopyIcon
-;_WinAPI_CreateBitmap
-;_WinAPI_CreateCompatibleBitmap
-;_WinAPI_CreateCompatibleDC
-;_WinAPI_CreateEvent
-;_WinAPI_CreateFile
-;_WinAPI_CreateFont
-;_WinAPI_CreateFontIndirect
-;_WinAPI_CreatePen
-;_WinAPI_CreateProcess
-;_WinAPI_CreateRectRgn
-;_WinAPI_CreateRoundRectRgn
-;_WinAPI_CreateSolidBitmap
-;_WinAPI_CreateSolidBrush
-;_WinAPI_CreateWindowEx
-;_WinAPI_DefWindowProc
-;_WinAPI_DeleteDC
-;_WinAPI_DeleteObject
-;_WinAPI_DestroyIcon
-;_WinAPI_DestroyWindow
-;_WinAPI_DrawEdge
-;_WinAPI_DrawFrameControl
-;_WinAPI_DrawIcon
-;_WinAPI_DrawIconEx
-;_WinAPI_DrawLine
-;_WinAPI_DrawText
-;_WinAPI_DuplicateHandle
-;_WinAPI_EnableWindow
-;_WinAPI_EnumDisplayDevices
-;_WinAPI_EnumWindows
-;_WinAPI_EnumWindowsPopup
-;_WinAPI_EnumWindowsTop
-;_WinAPI_ExpandEnvironmentStrings
-;_WinAPI_ExtractIconEx
-;_WinAPI_FatalAppExit
-;_WinAPI_FillRect
-;_WinAPI_FindExecutable
-;_WinAPI_FindWindow
-;_WinAPI_FlashWindow
-;_WinAPI_FlashWindowEx
-;_WinAPI_FloatToInt
-;_WinAPI_FlushFileBuffers
-;_WinAPI_FormatMessage
-;_WinAPI_FrameRect
-;_WinAPI_FreeLibrary
-;_WinAPI_GetAncestor
-;_WinAPI_GetAsyncKeyState
-;_WinAPI_GetBkMode
-;_WinAPI_GetClassName
-;_WinAPI_GetClientHeight
-;_WinAPI_GetClientWidth
-;_WinAPI_GetClientRect
-;_WinAPI_GetCurrentProcess
-;_WinAPI_GetCurrentProcessID
-;_WinAPI_GetCurrentThread
-;_WinAPI_GetCurrentThreadId
-;_WinAPI_GetCursorInfo
-;_WinAPI_GetDC
-;_WinAPI_GetDesktopWindow
-;_WinAPI_GetDeviceCaps
-;_WinAPI_GetDIBits
-;_WinAPI_GetDlgCtrlID
-;_WinAPI_GetDlgItem
-;_WinAPI_GetFocus
-;_WinAPI_GetForegroundWindow
-;_WinAPI_GetGuiResources
-;_WinAPI_GetIconInfo
-;_WinAPI_GetFileSizeEx
-;_WinAPI_GetLastErrorMessage
-;_WinAPI_GetLayeredWindowAttributes
-;_WinAPI_GetModuleHandle
-;_WinAPI_GetMousePos
-;_WinAPI_GetMousePosX
-;_WinAPI_GetMousePosY
-;_WinAPI_GetObject
-;_WinAPI_GetOpenFileName
-;_WinAPI_GetOverlappedResult
-;_WinAPI_GetParent
-;_WinAPI_GetProcAddress
-;_WinAPI_GetProcessAffinityMask
-;_WinAPI_GetSaveFileName
-;_WinAPI_GetStockObject
-;_WinAPI_GetStdHandle
-;_WinAPI_GetSysColor
-;_WinAPI_GetSysColorBrush
-;_WinAPI_GetSystemMetrics
-;_WinAPI_GetTextExtentPoint32
-;_WinAPI_GetTextMetrics
-;_WinAPI_GetWindow
-;_WinAPI_GetWindowDC
-;_WinAPI_GetWindowHeight
-;_WinAPI_GetWindowLong
-;_WinAPI_GetWindowPlacement
-;_WinAPI_GetWindowRect
-;_WinAPI_GetWindowRgn
-;_WinAPI_GetWindowText
-;_WinAPI_GetWindowThreadProcessId
-;_WinAPI_GetWindowWidth
-;_WinAPI_GetXYFromPoint
-;_WinAPI_GlobalMemStatus
-;_WinAPI_GUIDFromString
-;_WinAPI_GUIDFromStringEx
-;_WinAPI_HiWord
-;_WinAPI_InProcess
-;_WinAPI_IntToFloat
-;_WinAPI_IsClassName
-;_WinAPI_IsWindow
-;_WinAPI_IsWindowVisible
-;_WinAPI_InvalidateRect
-;_WinAPI_LineTo
-;_WinAPI_LoadBitmap
-;_WinAPI_LoadImage
-;_WinAPI_LoadLibrary
-;_WinAPI_LoadLibraryEx
-;_WinAPI_LoadShell32Icon
-;_WinAPI_LoadString
-;_WinAPI_LocalFree
-;_WinAPI_LoWord
-;_WinAPI_MAKELANGID
-;_WinAPI_MAKELCID
-;_WinAPI_MakeLong
-;_WinAPI_MakeQWord
-;_WinAPI_MessageBeep
-;_WinAPI_Mouse_Event
-;_WinAPI_MoveTo
-;_WinAPI_MoveWindow
-;_WinAPI_MsgBox
-;_WinAPI_MulDiv
-;_WinAPI_MultiByteToWideChar
-;_WinAPI_MultiByteToWideCharEx
-;_WinAPI_OpenProcess
-;_WinAPI_PathFindOnPath
-;_WinAPI_PointFromRect
-;_WinAPI_PostMessage
-;_WinAPI_PrimaryLangId
-;_WinAPI_PtInRect
-;_WinAPI_ReadFile
-;_WinAPI_ReadProcessMemory
-;_WinAPI_RectIsEmpty
-;_WinAPI_RedrawWindow
-;_WinAPI_RegisterWindowMessage
-;_WinAPI_ReleaseCapture
-;_WinAPI_ReleaseDC
-;_WinAPI_ScreenToClient
-;_WinAPI_SelectObject
-;_WinAPI_SetBkColor
-;_WinAPI_SetBkMode
-;_WinAPI_SetCapture
-;_WinAPI_SetCursor
-;_WinAPI_SetDefaultPrinter
-;_WinAPI_SetDIBits
-;_WinAPI_SetEndOfFile
-;_WinAPI_SetEvent
-;_WinAPI_SetFilePointer
-;_WinAPI_SetFocus
-;_WinAPI_SetFont
-;_WinAPI_SetHandleInformation
-;_WinAPI_SetLayeredWindowAttributes
-;_WinAPI_SetParent
-;_WinAPI_SetProcessAffinityMask
-;_WinAPI_SetSysColors
-;_WinAPI_SetTextColor
-;_WinAPI_SetWindowLong
-;_WinAPI_SetWindowPlacement
-;_WinAPI_SetWindowPos
-;_WinAPI_SetWindowRgn
-;_WinAPI_SetWindowsHookEx
-;_WinAPI_SetWindowText
-;_WinAPI_ShowCursor
-;_WinAPI_ShowError
-;_WinAPI_ShowMsg
-;_WinAPI_ShowWindow
-;_WinAPI_StringFromGUID
-;_WinAPI_StringLenA
-;_WinAPI_StringLenW
-;_WinAPI_SubLangId
-;_WinAPI_SystemParametersInfo
-;_WinAPI_TwipsPerPixelX
-;_WinAPI_TwipsPerPixelY
-;_WinAPI_UnhookWindowsHookEx
-;_WinAPI_UpdateLayeredWindow
-;_WinAPI_UpdateWindow
-;_WinAPI_WaitForInputIdle
-;_WinAPI_WaitForMultipleObjects
-;_WinAPI_WaitForSingleObject
-;_WinAPI_WideCharToMultiByte
-;_WinAPI_WindowFromPoint
-;_WinAPI_WriteConsole
-;_WinAPI_WriteFile
-;_WinAPI_WriteProcessMemory
+; _WinAPI_AttachConsole
+; _WinAPI_AttachThreadInput
+; _WinAPI_Beep
+; _WinAPI_BitBlt
+; _WinAPI_CallNextHookEx
+; _WinAPI_CallWindowProc
+; _WinAPI_ClientToScreen
+; _WinAPI_CloseHandle
+; _WinAPI_CombineRgn
+; _WinAPI_CommDlgExtendedError
+; _WinAPI_CopyIcon
+; _WinAPI_CreateBitmap
+; _WinAPI_CreateCompatibleBitmap
+; _WinAPI_CreateCompatibleDC
+; _WinAPI_CreateEvent
+; _WinAPI_CreateFile
+; _WinAPI_CreateFont
+; _WinAPI_CreateFontIndirect
+; _WinAPI_CreatePen
+; _WinAPI_CreateProcess
+; _WinAPI_CreateRectRgn
+; _WinAPI_CreateRoundRectRgn
+; _WinAPI_CreateSolidBitmap
+; _WinAPI_CreateSolidBrush
+; _WinAPI_CreateWindowEx
+; _WinAPI_DefWindowProc
+; _WinAPI_DeleteDC
+; _WinAPI_DeleteObject
+; _WinAPI_DestroyIcon
+; _WinAPI_DestroyWindow
+; _WinAPI_DrawEdge
+; _WinAPI_DrawFrameControl
+; _WinAPI_DrawIcon
+; _WinAPI_DrawIconEx
+; _WinAPI_DrawLine
+; _WinAPI_DrawText
+; _WinAPI_DuplicateHandle
+; _WinAPI_EnableWindow
+; _WinAPI_EnumDisplayDevices
+; _WinAPI_EnumWindows
+; _WinAPI_EnumWindowsPopup
+; _WinAPI_EnumWindowsTop
+; _WinAPI_ExpandEnvironmentStrings
+; _WinAPI_ExtractIconEx
+; _WinAPI_FatalAppExit
+; _WinAPI_FillRect
+; _WinAPI_FindExecutable
+; _WinAPI_FindWindow
+; _WinAPI_FlashWindow
+; _WinAPI_FlashWindowEx
+; _WinAPI_FloatToInt
+; _WinAPI_FlushFileBuffers
+; _WinAPI_FormatMessage
+; _WinAPI_FrameRect
+; _WinAPI_FreeLibrary
+; _WinAPI_GetAncestor
+; _WinAPI_GetAsyncKeyState
+; _WinAPI_GetBkMode
+; _WinAPI_GetClassName
+; _WinAPI_GetClientHeight
+; _WinAPI_GetClientWidth
+; _WinAPI_GetClientRect
+; _WinAPI_GetCurrentProcess
+; _WinAPI_GetCurrentProcessID
+; _WinAPI_GetCurrentThread
+; _WinAPI_GetCurrentThreadId
+; _WinAPI_GetCursorInfo
+; _WinAPI_GetDC
+; _WinAPI_GetDesktopWindow
+; _WinAPI_GetDeviceCaps
+; _WinAPI_GetDIBits
+; _WinAPI_GetDlgCtrlID
+; _WinAPI_GetDlgItem
+; _WinAPI_GetFocus
+; _WinAPI_GetForegroundWindow
+; _WinAPI_GetGuiResources
+; _WinAPI_GetIconInfo
+; _WinAPI_GetFileSizeEx
+; _WinAPI_GetLastErrorMessage
+; _WinAPI_GetLayeredWindowAttributes
+; _WinAPI_GetModuleHandle
+; _WinAPI_GetMousePos
+; _WinAPI_GetMousePosX
+; _WinAPI_GetMousePosY
+; _WinAPI_GetObject
+; _WinAPI_GetOpenFileName
+; _WinAPI_GetOverlappedResult
+; _WinAPI_GetParent
+; _WinAPI_GetProcAddress
+; _WinAPI_GetProcessAffinityMask
+; _WinAPI_GetSaveFileName
+; _WinAPI_GetStockObject
+; _WinAPI_GetStdHandle
+; _WinAPI_GetSysColor
+; _WinAPI_GetSysColorBrush
+; _WinAPI_GetSystemMetrics
+; _WinAPI_GetTextExtentPoint32
+; _WinAPI_GetTextMetrics
+; _WinAPI_GetWindow
+; _WinAPI_GetWindowDC
+; _WinAPI_GetWindowHeight
+; _WinAPI_GetWindowLong
+; _WinAPI_GetWindowPlacement
+; _WinAPI_GetWindowRect
+; _WinAPI_GetWindowRgn
+; _WinAPI_GetWindowText
+; _WinAPI_GetWindowThreadProcessId
+; _WinAPI_GetWindowWidth
+; _WinAPI_GetXYFromPoint
+; _WinAPI_GlobalMemStatus
+; _WinAPI_GUIDFromString
+; _WinAPI_GUIDFromStringEx
+; _WinAPI_HiWord
+; _WinAPI_InProcess
+; _WinAPI_IntToFloat
+; _WinAPI_IsClassName
+; _WinAPI_IsWindow
+; _WinAPI_IsWindowVisible
+; _WinAPI_InvalidateRect
+; _WinAPI_LineTo
+; _WinAPI_LoadBitmap
+; _WinAPI_LoadImage
+; _WinAPI_LoadLibrary
+; _WinAPI_LoadLibraryEx
+; _WinAPI_LoadShell32Icon
+; _WinAPI_LoadString
+; _WinAPI_LocalFree
+; _WinAPI_LoWord
+; _WinAPI_MAKELANGID
+; _WinAPI_MAKELCID
+; _WinAPI_MakeLong
+; _WinAPI_MakeQWord
+; _WinAPI_MessageBeep
+; _WinAPI_Mouse_Event
+; _WinAPI_MoveTo
+; _WinAPI_MoveWindow
+; _WinAPI_MsgBox
+; _WinAPI_MulDiv
+; _WinAPI_MultiByteToWideChar
+; _WinAPI_MultiByteToWideCharEx
+; _WinAPI_OpenProcess
+; _WinAPI_PathFindOnPath
+; _WinAPI_PointFromRect
+; _WinAPI_PostMessage
+; _WinAPI_PrimaryLangId
+; _WinAPI_PtInRect
+; _WinAPI_ReadFile
+; _WinAPI_ReadProcessMemory
+; _WinAPI_RectIsEmpty
+; _WinAPI_RedrawWindow
+; _WinAPI_RegisterWindowMessage
+; _WinAPI_ReleaseCapture
+; _WinAPI_ReleaseDC
+; _WinAPI_ScreenToClient
+; _WinAPI_SelectObject
+; _WinAPI_SetBkColor
+; _WinAPI_SetBkMode
+; _WinAPI_SetCapture
+; _WinAPI_SetCursor
+; _WinAPI_SetDefaultPrinter
+; _WinAPI_SetDIBits
+; _WinAPI_SetEndOfFile
+; _WinAPI_SetEvent
+; _WinAPI_SetFilePointer
+; _WinAPI_SetFocus
+; _WinAPI_SetFont
+; _WinAPI_SetHandleInformation
+; _WinAPI_SetLayeredWindowAttributes
+; _WinAPI_SetParent
+; _WinAPI_SetProcessAffinityMask
+; _WinAPI_SetSysColors
+; _WinAPI_SetTextColor
+; _WinAPI_SetWindowLong
+; _WinAPI_SetWindowPlacement
+; _WinAPI_SetWindowPos
+; _WinAPI_SetWindowRgn
+; _WinAPI_SetWindowsHookEx
+; _WinAPI_SetWindowText
+; _WinAPI_ShowCursor
+; _WinAPI_ShowError
+; _WinAPI_ShowMsg
+; _WinAPI_ShowWindow
+; _WinAPI_StringFromGUID
+; _WinAPI_StringLenA
+; _WinAPI_StringLenW
+; _WinAPI_SubLangId
+; _WinAPI_SystemParametersInfo
+; _WinAPI_TwipsPerPixelX
+; _WinAPI_TwipsPerPixelY
+; _WinAPI_UnhookWindowsHookEx
+; _WinAPI_UpdateLayeredWindow
+; _WinAPI_UpdateWindow
+; _WinAPI_WaitForInputIdle
+; _WinAPI_WaitForMultipleObjects
+; _WinAPI_WaitForSingleObject
+; _WinAPI_WideCharToMultiByte
+; _WinAPI_WindowFromPoint
+; _WinAPI_WriteConsole
+; _WinAPI_WriteFile
+; _WinAPI_WriteProcessMemory
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagCURSORINFO
-;$tagDISPLAY_DEVICE
-;$tagFLASHWINFO
-;$tagICONINFO
-;$tagMEMORYSTATUSEX
-;__WinAPI_EnumWindowsAdd
-;__WinAPI_EnumWindowsChild
-;__WinAPI_EnumWindowsInit
-;__WinAPI_ParseFileDialogPath
+; $tagCURSORINFO
+; $tagDISPLAY_DEVICE
+; $tagFLASHWINFO
+; $tagICONINFO
+; $tagMEMORYSTATUSEX
+; __WinAPI_EnumWindowsAdd
+; __WinAPI_EnumWindowsChild
+; __WinAPI_EnumWindowsInit
+; __WinAPI_ParseFileDialogPath
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -511,6 +377,7 @@ EndFunc   ;==>_WinAPI_AttachConsole
 Func _WinAPI_AttachThreadInput($iAttach, $iAttachTo, $fAttach)
 	Local $aResult = DllCall("user32.dll", "bool", "AttachThreadInput", "dword", $iAttach, "dword", $iAttachTo, "bool", $fAttach)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_AttachThreadInput
 
@@ -533,6 +400,7 @@ EndFunc   ;==>_WinAPI_AttachThreadInput
 Func _WinAPI_Beep($iFreq = 500, $iDuration = 1000)
 	Local $aResult = DllCall("kernel32.dll", "bool", "Beep", "dword", $iFreq, "dword", $iDuration)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_Beep
 
@@ -585,9 +453,10 @@ EndFunc   ;==>_WinAPI_Beep
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_BitBlt($hDestDC, $iXDest, $iYDest, $iWidth, $iHeight, $hSrcDC, $iXSrc, $iYSrc, $iROP)
-	Local $aResult = DllCall("gdi32.dll", "bool", "BitBlt", "handle", $hDestDC, "int", $iXDest, "int", $iYDest, "int", $iWidth, "int", $iHeight, _
-			"handle", $hSrcDC, "int", $iXSrc, "int", $iYSrc, "dword", $iROP)
+	Local $aResult = DllCall("gdi32.dll", "bool", "BitBlt", "handle", $hDestDC, "int", $iXDest, "int", $iYDest, "int", $iWidth, _
+			"int", $iHeight, "handle", $hSrcDC, "int", $iXSrc, "int", $iYSrc, "dword", $iROP)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_BitBlt
 
@@ -614,6 +483,7 @@ EndFunc   ;==>_WinAPI_BitBlt
 Func _WinAPI_CallNextHookEx($hhk, $iCode, $wParam, $lParam)
 	Local $aResult = DllCall("user32.dll", "lresult", "CallNextHookEx", "handle", $hhk, "int", $iCode, "wparam", $wParam, "lparam", $lParam)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CallNextHookEx
 
@@ -645,8 +515,10 @@ EndFunc   ;==>_WinAPI_CallNextHookEx
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CallWindowProc($lpPrevWndFunc, $hWnd, $Msg, $wParam, $lParam)
-	Local $aResult = DllCall("user32.dll", "lresult", "CallWindowProc", "ptr", $lpPrevWndFunc, "hwnd", $hWnd, "uint", $Msg, "wparam", $wParam, "lparam", $lParam)
+	Local $aResult = DllCall("user32.dll", "lresult", "CallWindowProc", "ptr", $lpPrevWndFunc, "hwnd", $hWnd, "uint", $Msg, _
+			"wparam", $wParam, "lparam", $lParam)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CallWindowProc
 
@@ -658,7 +530,7 @@ EndFunc   ;==>_WinAPI_CallWindowProc
 ;                  $tPoint      - $tagPOINT structure that contains the client coordinates to be converted
 ; Return values .: Success      - $tagPOINT structure
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: The function replaces the client coordinates in the  $tagPOINT  structure  with  the  screen  coordinates.  The
 ;                  screen coordinates are relative to the upper-left corner of the screen.
 ; Related .......: _WinAPI_ScreenToClient, $tagPOINT
@@ -666,8 +538,10 @@ EndFunc   ;==>_WinAPI_CallWindowProc
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ClientToScreen($hWnd, ByRef $tPoint)
-	DllCall("user32.dll", "bool", "ClientToScreen", "hwnd", $hWnd, "struct*", $tPoint)
-	Return SetError(@error, @extended, $tPoint)
+	Local $aRet = DllCall("user32.dll", "bool", "ClientToScreen", "hwnd", $hWnd, "struct*", $tPoint)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
+	Return $tPoint
 EndFunc   ;==>_WinAPI_ClientToScreen
 
 ; #FUNCTION# ====================================================================================================================
@@ -687,6 +561,7 @@ EndFunc   ;==>_WinAPI_ClientToScreen
 Func _WinAPI_CloseHandle($hObject)
 	Local $aResult = DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hObject)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CloseHandle
 
@@ -718,8 +593,10 @@ EndFunc   ;==>_WinAPI_CloseHandle
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CombineRgn($hRgnDest, $hRgnSrc1, $hRgnSrc2, $iCombineMode)
-	Local $aResult = DllCall("gdi32.dll", "int", "CombineRgn", "handle", $hRgnDest, "handle", $hRgnSrc1, "handle", $hRgnSrc2, "int", $iCombineMode)
+	Local $aResult = DllCall("gdi32.dll", "int", "CombineRgn", "handle", $hRgnDest, "handle", $hRgnSrc1, "handle", $hRgnSrc2, _
+			"int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CombineRgn
 
@@ -731,7 +608,7 @@ EndFunc   ;==>_WinAPI_CombineRgn
 ; Return values .: Success      - error string
 ;                  Failure       - 0
 ; Author ........: Gary Frost
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: Can return general error strings for any of the common dialog box functions.
 ; Related .......: _WinAPI_GetOpenFileName, _WinAPI_GetSaveFileName
 ; Link ..........: @@MsdnLink@@ CommDlgExtendedError
@@ -755,48 +632,49 @@ Func _WinAPI_CommDlgExtendedError()
 	Local Const $FNERR_INVALIDFILENAME = 0x3002
 	Local Const $FNERR_SUBCLASSFAILURE = 0x3001
 	Local $aResult = DllCall("comdlg32.dll", "dword", "CommDlgExtendedError")
-	If @error Then Return SetError(@error, @extended, 0)
-	Switch $aResult[0]
-		Case $CDERR_DIALOGFAILURE
-			Return SetError($aResult[0], 0, "The dialog box could not be created." & @LF & _
-					"The common dialog box function's call to the DialogBox function failed." & @LF & _
-					"For example, this error occurs if the common dialog box call specifies an invalid window handle.")
-		Case $CDERR_FINDRESFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function failed to find a specified resource.")
-		Case $CDERR_INITIALIZATION
-			Return SetError($aResult[0], 0, "The common dialog box function failed during initialization." & @LF & "This error often occurs when sufficient memory is not available.")
-		Case $CDERR_LOADRESFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function failed to load a specified resource.")
-		Case $CDERR_LOADSTRFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function failed to load a specified string.")
-		Case $CDERR_LOCKRESFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function failed to lock a specified resource.")
-		Case $CDERR_MEMALLOCFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function was unable to allocate memory for internal structures.")
-		Case $CDERR_MEMLOCKFAILURE
-			Return SetError($aResult[0], 0, "The common dialog box function was unable to lock the memory associated with a handle.")
-		Case $CDERR_NOHINSTANCE
-			Return SetError($aResult[0], 0, "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
-					"but you failed to provide a corresponding instance handle.")
-		Case $CDERR_NOHOOK
-			Return SetError($aResult[0], 0, "The ENABLEHOOK flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
-					"but you failed to provide a pointer to a corresponding hook procedure.")
-		Case $CDERR_NOTEMPLATE
-			Return SetError($aResult[0], 0, "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
-					"but you failed to provide a corresponding template.")
-		Case $CDERR_REGISTERMSGFAIL
-			Return SetError($aResult[0], 0, "The RegisterWindowMessage function returned an error code when it was called by the common dialog box function.")
-		Case $CDERR_STRUCTSIZE
-			Return SetError($aResult[0], 0, "The lStructSize member of the initialization structure for the corresponding common dialog box is invalid")
-		Case $FNERR_BUFFERTOOSMALL
-			Return SetError($aResult[0], 0, "The buffer pointed to by the lpstrFile member of the OPENFILENAME structure is too small for the file name specified by the user." & @LF & _
-					"The first two bytes of the lpstrFile buffer contain an integer value specifying the size, in TCHARs, required to receive the full name.")
-		Case $FNERR_INVALIDFILENAME
-			Return SetError($aResult[0], 0, "A file name is invalid.")
-		Case $FNERR_SUBCLASSFAILURE
-			Return SetError($aResult[0], 0, "An attempt to subclass a list box failed because sufficient memory was not available.")
-	EndSwitch
-	Return Hex($aResult[0])
+	If Not @error Then
+		Switch $aResult[0]
+			Case $CDERR_DIALOGFAILURE
+				Return SetError($aResult[0], 0, "The dialog box could not be created." & @LF & _
+						"The common dialog box function's call to the DialogBox function failed." & @LF & _
+						"For example, this error occurs if the common dialog box call specifies an invalid window handle.")
+			Case $CDERR_FINDRESFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function failed to find a specified resource.")
+			Case $CDERR_INITIALIZATION
+				Return SetError($aResult[0], 0, "The common dialog box function failed during initialization." & @LF & "This error often occurs when sufficient memory is not available.")
+			Case $CDERR_LOADRESFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function failed to load a specified resource.")
+			Case $CDERR_LOADSTRFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function failed to load a specified string.")
+			Case $CDERR_LOCKRESFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function failed to lock a specified resource.")
+			Case $CDERR_MEMALLOCFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function was unable to allocate memory for internal structures.")
+			Case $CDERR_MEMLOCKFAILURE
+				Return SetError($aResult[0], 0, "The common dialog box function was unable to lock the memory associated with a handle.")
+			Case $CDERR_NOHINSTANCE
+				Return SetError($aResult[0], 0, "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
+						"but you failed to provide a corresponding instance handle.")
+			Case $CDERR_NOHOOK
+				Return SetError($aResult[0], 0, "The ENABLEHOOK flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
+						"but you failed to provide a pointer to a corresponding hook procedure.")
+			Case $CDERR_NOTEMPLATE
+				Return SetError($aResult[0], 0, "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," & @LF & _
+						"but you failed to provide a corresponding template.")
+			Case $CDERR_REGISTERMSGFAIL
+				Return SetError($aResult[0], 0, "The RegisterWindowMessage function returned an error code when it was called by the common dialog box function.")
+			Case $CDERR_STRUCTSIZE
+				Return SetError($aResult[0], 0, "The lStructSize member of the initialization structure for the corresponding common dialog box is invalid")
+			Case $FNERR_BUFFERTOOSMALL
+				Return SetError($aResult[0], 0, "The buffer pointed to by the lpstrFile member of the OPENFILENAME structure is too small for the file name specified by the user." & @LF & _
+						"The first two bytes of the lpstrFile buffer contain an integer value specifying the size, in TCHARs, required to receive the full name.")
+			Case $FNERR_INVALIDFILENAME
+				Return SetError($aResult[0], 0, "A file name is invalid.")
+			Case $FNERR_SUBCLASSFAILURE
+				Return SetError($aResult[0], 0, "An attempt to subclass a list box failed because sufficient memory was not available.")
+		EndSwitch
+	EndIf
+	Return SetError(@error, @extended, '0x' & Hex($aResult[0]))
 EndFunc   ;==>_WinAPI_CommDlgExtendedError
 
 ; #FUNCTION# ====================================================================================================================
@@ -818,6 +696,7 @@ EndFunc   ;==>_WinAPI_CommDlgExtendedError
 Func _WinAPI_CopyIcon($hIcon)
 	Local $aResult = DllCall("user32.dll", "handle", "CopyIcon", "handle", $hIcon)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CopyIcon
 
@@ -842,8 +721,10 @@ EndFunc   ;==>_WinAPI_CopyIcon
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateBitmap($iWidth, $iHeight, $iPlanes = 1, $iBitsPerPel = 1, $pBits = 0)
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreateBitmap", "int", $iWidth, "int", $iHeight, "uint", $iPlanes, "uint", $iBitsPerPel, "ptr", $pBits)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreateBitmap", "int", $iWidth, "int", $iHeight, "uint", $iPlanes, _
+			"uint", $iBitsPerPel, "ptr", $pBits)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateBitmap
 
@@ -866,6 +747,7 @@ EndFunc   ;==>_WinAPI_CreateBitmap
 Func _WinAPI_CreateCompatibleBitmap($hDC, $iWidth, $iHeight)
 	Local $aResult = DllCall("gdi32.dll", "handle", "CreateCompatibleBitmap", "handle", $hDC, "int", $iWidth, "int", $iHeight)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateCompatibleBitmap
 
@@ -887,6 +769,7 @@ EndFunc   ;==>_WinAPI_CreateCompatibleBitmap
 Func _WinAPI_CreateCompatibleDC($hDC)
 	Local $aResult = DllCall("gdi32.dll", "handle", "CreateCompatibleDC", "handle", $hDC)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateCompatibleDC
 
@@ -924,8 +807,11 @@ Func _WinAPI_CreateEvent($pAttributes = 0, $fManualReset = True, $fInitialState 
 		$sName = 0
 		$sNameType = "ptr"
 	EndIf
-	Local $aResult = DllCall("kernel32.dll", "handle", "CreateEventW", "ptr", $pAttributes, "bool", $fManualReset, "bool", $fInitialState, $sNameType, $sName)
+
+	Local $aResult = DllCall("kernel32.dll", "handle", "CreateEventW", "ptr", $pAttributes, "bool", $fManualReset, _
+			"bool", $fInitialState, $sNameType, $sName)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateEvent
 
@@ -993,8 +879,10 @@ Func _WinAPI_CreateFile($sFileName, $iCreation, $iAccess = 4, $iShare = 0, $iAtt
 	If BitAND($iAttributes, 4) <> 0 Then $iFA = BitOR($iFA, $FILE_ATTRIBUTE_READONLY)
 	If BitAND($iAttributes, 8) <> 0 Then $iFA = BitOR($iFA, $FILE_ATTRIBUTE_SYSTEM)
 
-	Local $aResult = DllCall("kernel32.dll", "handle", "CreateFileW", "wstr", $sFileName, "dword", $iDA, "dword", $iSM, "ptr", $pSecurity, "dword", $iCD, "dword", $iFA, "ptr", 0)
-	If @error Or $aResult[0] = Ptr(-1) Then Return SetError(@error, @extended, 0) ; INVALID_HANDLE_VALUE
+	Local $aResult = DllCall("kernel32.dll", "handle", "CreateFileW", "wstr", $sFileName, "dword", $iDA, "dword", $iSM, _
+			"ptr", $pSecurity, "dword", $iCD, "dword", $iFA, "ptr", 0)
+	If @error Or ($aResult[0] = $INVALID_HANDLE_VALUE) Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateFile
 
@@ -1094,10 +982,11 @@ EndFunc   ;==>_WinAPI_CreateFile
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateFont($nHeight, $nWidth, $nEscape = 0, $nOrientn = 0, $fnWeight = $__WINAPICONSTANT_FW_NORMAL, $bItalic = False, $bUnderline = False, $bStrikeout = False, $nCharset = $__WINAPICONSTANT_DEFAULT_CHARSET, $nOutputPrec = $__WINAPICONSTANT_OUT_DEFAULT_PRECIS, $nClipPrec = $__WINAPICONSTANT_CLIP_DEFAULT_PRECIS, $nQuality = $__WINAPICONSTANT_DEFAULT_QUALITY, $nPitch = 0, $szFace = 'Arial')
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreateFontW", "int", $nHeight, "int", $nWidth, "int", $nEscape, "int", $nOrientn, _
-			"int", $fnWeight, "dword", $bItalic, "dword", $bUnderline, "dword", $bStrikeout, "dword", $nCharset, "dword", $nOutputPrec, _
-			"dword", $nClipPrec, "dword", $nQuality, "dword", $nPitch, "wstr", $szFace)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreateFontW", "int", $nHeight, "int", $nWidth, "int", $nEscape, _
+			"int", $nOrientn, "int", $fnWeight, "dword", $bItalic, "dword", $bUnderline, "dword", $bStrikeout, _
+			"dword", $nCharset, "dword", $nOutputPrec, "dword", $nClipPrec, "dword", $nQuality, "dword", $nPitch, "wstr", $szFace)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateFont
 
@@ -1121,6 +1010,7 @@ EndFunc   ;==>_WinAPI_CreateFont
 Func _WinAPI_CreateFontIndirect($tLogFont)
 	Local $aResult = DllCall("gdi32.dll", "handle", "CreateFontIndirectW", "struct*", $tLogFont)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateFontIndirect
 
@@ -1156,6 +1046,7 @@ EndFunc   ;==>_WinAPI_CreateFontIndirect
 Func _WinAPI_CreatePen($iPenStyle, $iWidth, $nColor)
 	Local $aResult = DllCall("gdi32.dll", "handle", "CreatePen", "int", $iPenStyle, "int", $iWidth, "dword", $nColor)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreatePen
 
@@ -1187,7 +1078,6 @@ EndFunc   ;==>_WinAPI_CreatePen
 Func _WinAPI_CreateProcess($sAppName, $sCommand, $pSecurity, $pThread, $fInherit, $iFlags, $pEnviron, $sDir, $pStartupInfo, $pProcess)
 	Local $tCommand = 0
 	Local $sAppNameType = "wstr", $sDirType = "wstr"
-
 	If $sAppName = "" Then
 		$sAppNameType = "ptr"
 		$sAppName = 0
@@ -1201,9 +1091,12 @@ Func _WinAPI_CreateProcess($sAppName, $sCommand, $pSecurity, $pThread, $fInherit
 		$sDirType = "ptr"
 		$sDir = 0
 	EndIf
-	Local $aResult = DllCall("kernel32.dll", "bool", "CreateProcessW", $sAppNameType, $sAppName, "struct*", $tCommand, "ptr", $pSecurity, "ptr", $pThread, _
-			"bool", $fInherit, "dword", $iFlags, "ptr", $pEnviron, $sDirType, $sDir, "ptr", $pStartupInfo, "ptr", $pProcess)
+
+	Local $aResult = DllCall("kernel32.dll", "bool", "CreateProcessW", $sAppNameType, $sAppName, "struct*", $tCommand, _
+			"ptr", $pSecurity, "ptr", $pThread, "bool", $fInherit, "dword", $iFlags, "ptr", $pEnviron, $sDirType, $sDir, _
+			"ptr", $pStartupInfo, "ptr", $pProcess)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateProcess
 
@@ -1227,8 +1120,10 @@ EndFunc   ;==>_WinAPI_CreateProcess
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateRectRgn($iLeftRect, $iTopRect, $iRightRect, $iBottomRect)
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreateRectRgn", "int", $iLeftRect, "int", $iTopRect, "int", $iRightRect, "int", $iBottomRect)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreateRectRgn", "int", $iLeftRect, "int", $iTopRect, "int", $iRightRect, _
+			"int", $iBottomRect)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateRectRgn
 
@@ -1253,9 +1148,10 @@ EndFunc   ;==>_WinAPI_CreateRectRgn
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_CreateRoundRectRgn($iLeftRect, $iTopRect, $iRightRect, $iBottomRect, $iWidthEllipse, $iHeightEllipse)
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreateRoundRectRgn", "int", $iLeftRect, "int", $iTopRect, "int", $iRightRect, "int", $iBottomRect, _
-			"int", $iWidthEllipse, "int", $iHeightEllipse)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreateRoundRectRgn", "int", $iLeftRect, "int", $iTopRect, _
+			"int", $iRightRect, "int", $iBottomRect, "int", $iWidthEllipse, "int", $iHeightEllipse)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateRoundRectRgn
 
@@ -1290,8 +1186,7 @@ Func _WinAPI_CreateSolidBitmap($hWnd, $iColor, $iWidth, $iHeight, $bRGB = 1)
 		$iColor = BitOR(BitAND($iColor, 0x00FF00), BitShift(BitAND($iColor, 0x0000FF), -16), BitShift(BitAND($iColor, 0xFF0000), 16))
 	EndIf
 	Local $hBrush = _WinAPI_CreateSolidBrush($iColor)
-	_WinAPI_FillRect($hDestDC, $tRect, $hBrush)
-	If @error Then
+	If Not _WinAPI_FillRect($hDestDC, $tRect, $hBrush) Then
 		_WinAPI_DeleteObject($hBitmap)
 		$hBitmap = 0
 	EndIf
@@ -1320,6 +1215,7 @@ EndFunc   ;==>_WinAPI_CreateSolidBitmap
 Func _WinAPI_CreateSolidBrush($nColor)
 	Local $aResult = DllCall("gdi32.dll", "handle", "CreateSolidBrush", "dword", $nColor)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateSolidBrush
 
@@ -1350,9 +1246,11 @@ EndFunc   ;==>_WinAPI_CreateSolidBrush
 ; ===============================================================================================================================
 Func _WinAPI_CreateWindowEx($iExStyle, $sClass, $sName, $iStyle, $iX, $iY, $iWidth, $iHeight, $hParent, $hMenu = 0, $hInstance = 0, $pParam = 0)
 	If $hInstance = 0 Then $hInstance = _WinAPI_GetModuleHandle("")
-	Local $aResult = DllCall("user32.dll", "hwnd", "CreateWindowExW", "dword", $iExStyle, "wstr", $sClass, "wstr", $sName, "dword", $iStyle, "int", $iX, _
-			"int", $iY, "int", $iWidth, "int", $iHeight, "hwnd", $hParent, "handle", $hMenu, "handle", $hInstance, "ptr", $pParam)
+	Local $aResult = DllCall("user32.dll", "hwnd", "CreateWindowExW", "dword", $iExStyle, "wstr", $sClass, "wstr", $sName, _
+			"dword", $iStyle, "int", $iX, "int", $iY, "int", $iWidth, "int", $iHeight, "hwnd", $hParent, "handle", $hMenu, _
+			"handle", $hInstance, "ptr", $pParam)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_CreateWindowEx
 
@@ -1373,8 +1271,10 @@ EndFunc   ;==>_WinAPI_CreateWindowEx
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DefWindowProc($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $aResult = DllCall("user32.dll", "lresult", "DefWindowProc", "hwnd", $hWnd, "uint", $iMsg, "wparam", $iwParam, "lparam", $ilParam)
+	Local $aResult = DllCall("user32.dll", "lresult", "DefWindowProc", "hwnd", $hWnd, "uint", $iMsg, "wparam", $iwParam, _
+			"lparam", $ilParam)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DefWindowProc
 
@@ -1396,6 +1296,7 @@ EndFunc   ;==>_WinAPI_DefWindowProc
 Func _WinAPI_DeleteDC($hDC)
 	Local $aResult = DllCall("gdi32.dll", "bool", "DeleteDC", "handle", $hDC)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DeleteDC
 
@@ -1417,6 +1318,7 @@ EndFunc   ;==>_WinAPI_DeleteDC
 Func _WinAPI_DeleteObject($hObject)
 	Local $aResult = DllCall("gdi32.dll", "bool", "DeleteObject", "handle", $hObject)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DeleteObject
 
@@ -1437,6 +1339,7 @@ EndFunc   ;==>_WinAPI_DeleteObject
 Func _WinAPI_DestroyIcon($hIcon)
 	Local $aResult = DllCall("user32.dll", "bool", "DestroyIcon", "handle", $hIcon)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DestroyIcon
 
@@ -1457,6 +1360,7 @@ EndFunc   ;==>_WinAPI_DestroyIcon
 Func _WinAPI_DestroyWindow($hWnd)
 	Local $aResult = DllCall("user32.dll", "bool", "DestroyWindow", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DestroyWindow
 
@@ -1509,8 +1413,10 @@ EndFunc   ;==>_WinAPI_DestroyWindow
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawEdge($hDC, $ptrRect, $nEdgeType, $grfFlags)
-	Local $aResult = DllCall("user32.dll", "bool", "DrawEdge", "handle", $hDC, "ptr", $ptrRect, "uint", $nEdgeType, "uint", $grfFlags)
+	Local $aResult = DllCall("user32.dll", "bool", "DrawEdge", "handle", $hDC, "ptr", $ptrRect, "uint", $nEdgeType, _
+			"uint", $grfFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DrawEdge
 
@@ -1571,8 +1477,10 @@ EndFunc   ;==>_WinAPI_DrawEdge
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_DrawFrameControl($hDC, $ptrRect, $nType, $nState)
-	Local $aResult = DllCall("user32.dll", "bool", "DrawFrameControl", "handle", $hDC, "ptr", $ptrRect, "uint", $nType, "uint", $nState)
+	Local $aResult = DllCall("user32.dll", "bool", "DrawFrameControl", "handle", $hDC, "ptr", $ptrRect, "uint", $nType, _
+			"uint", $nState)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DrawFrameControl
 
@@ -1596,6 +1504,7 @@ EndFunc   ;==>_WinAPI_DrawFrameControl
 Func _WinAPI_DrawIcon($hDC, $iX, $iY, $hIcon)
 	Local $aResult = DllCall("user32.dll", "bool", "DrawIcon", "handle", $hDC, "int", $iX, "int", $iY, "handle", $hIcon)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DrawIcon
 
@@ -1639,25 +1548,25 @@ EndFunc   ;==>_WinAPI_DrawIcon
 ; ===============================================================================================================================
 Func _WinAPI_DrawIconEx($hDC, $iX, $iY, $hIcon, $iWidth = 0, $iHeight = 0, $iStep = 0, $hBrush = 0, $iFlags = 3)
 	Local $iOptions
-
 	Switch $iFlags
 		Case 1
-			$iOptions = $__WINAPICONSTANT_DI_MASK
+			$iOptions = $DI_MASK
 		Case 2
-			$iOptions = $__WINAPICONSTANT_DI_IMAGE
+			$iOptions = $DI_IMAGE
 		Case 3
-			$iOptions = $__WINAPICONSTANT_DI_NORMAL
+			$iOptions = $DI_NORMAL
 		Case 4
-			$iOptions = $__WINAPICONSTANT_DI_COMPAT
+			$iOptions = $DI_COMPAT
 		Case 5
-			$iOptions = $__WINAPICONSTANT_DI_DEFAULTSIZE
+			$iOptions = $DI_DEFAULTSIZE
 		Case Else
-			$iOptions = $__WINAPICONSTANT_DI_NOMIRROR
+			$iOptions = $DI_NOMIRROR
 	EndSwitch
 
-	Local $aResult = DllCall("user32.dll", "bool", "DrawIconEx", "handle", $hDC, "int", $iX, "int", $iY, "handle", $hIcon, "int", $iWidth, _
-			"int", $iHeight, "uint", $iStep, "handle", $hBrush, "uint", $iOptions)
+	Local $aResult = DllCall("user32.dll", "bool", "DrawIconEx", "handle", $hDC, "int", $iX, "int", $iY, "handle", $hIcon, _
+			"int", $iWidth, "int", $iHeight, "uint", $iStep, "handle", $hBrush, "uint", $iOptions)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DrawIconEx
 
@@ -1683,7 +1592,7 @@ Func _WinAPI_DrawLine($hDC, $iX1, $iY1, $iX2, $iY2)
 	_WinAPI_MoveTo($hDC, $iX1, $iY1)
 	If @error Then Return SetError(@error, @extended, False)
 	_WinAPI_LineTo($hDC, $iX2, $iY2)
-	If @error Then Return SetError(@error, @extended, False)
+	If @error Then Return SetError(@error + 10, @extended, False)
 	Return True
 EndFunc   ;==>_WinAPI_DrawLine
 
@@ -1740,8 +1649,10 @@ EndFunc   ;==>_WinAPI_DrawLine
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_DrawText($hDC, $sText, ByRef $tRect, $iFlags)
-	Local $aResult = DllCall("user32.dll", "int", "DrawTextW", "handle", $hDC, "wstr", $sText, "int", -1, "struct*", $tRect, "uint", $iFlags)
+	Local $aResult = DllCall("user32.dll", "int", "DrawTextW", "handle", $hDC, "wstr", $sText, "int", -1, "struct*", $tRect, _
+			"uint", $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_DrawText
 
@@ -1765,7 +1676,7 @@ EndFunc   ;==>_WinAPI_DrawText
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_DuplicateHandle($hSourceProcessHandle, $hSourceHandle, $hTargetProcessHandle, $iDesiredAccess, $fInheritHandle, $iOptions)
-	Local $aCall = DllCall("kernel32.dll", "bool", "DuplicateHandle", _
+	Local $aResult = DllCall("kernel32.dll", "bool", "DuplicateHandle", _
 			"handle", $hSourceProcessHandle, _
 			"handle", $hSourceHandle, _
 			"handle", $hTargetProcessHandle, _
@@ -1773,8 +1684,9 @@ Func _WinAPI_DuplicateHandle($hSourceProcessHandle, $hSourceHandle, $hTargetProc
 			"dword", $iDesiredAccess, _
 			"bool", $fInheritHandle, _
 			"dword", $iOptions)
-	If @error Or Not $aCall[0] Then Return SetError(1, @extended, 0)
-	Return $aCall[4]
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_WinAPI_DuplicateHandle
 
 ; #FUNCTION# ====================================================================================================================
@@ -1797,6 +1709,7 @@ EndFunc   ;==>_WinAPI_DuplicateHandle
 Func _WinAPI_EnableWindow($hWnd, $fEnable = True)
 	Local $aResult = DllCall("user32.dll", "bool", "EnableWindow", "hwnd", $hWnd, "bool", $fEnable)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_EnableWindow
 
@@ -1820,7 +1733,7 @@ EndFunc   ;==>_WinAPI_EnableWindow
 ;                  |32 - The device has more display modes than its output devices support
 ;                  |$aDevice[4] - Plug and Play identifier string (Windows 98/ME)
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ EnumDisplayDevices
@@ -1836,16 +1749,16 @@ Func _WinAPI_EnumDisplayDevices($sDevice, $iDevNum)
 	Local $tDevice = DllStructCreate($tagDISPLAY_DEVICE)
 	Local $iDevice = DllStructGetSize($tDevice)
 	DllStructSetData($tDevice, "Size", $iDevice)
-	DllCall("user32.dll", "bool", "EnumDisplayDevicesW", "struct*", $tName, "dword", $iDevNum, "struct*", $tDevice, "dword", 1)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "EnumDisplayDevicesW", "struct*", $tName, "dword", $iDevNum, "struct*", $tDevice, "dword", 1)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
 
 	Local $iN = DllStructGetData($tDevice, "Flags")
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) <> 0 Then $iFlags = BitOR($iFlags, 1)
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_PRIMARY_DEVICE) <> 0 Then $iFlags = BitOR($iFlags, 2)
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_MIRRORING_DRIVER) <> 0 Then $iFlags = BitOR($iFlags, 4)
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_VGA_COMPATIBLE) <> 0 Then $iFlags = BitOR($iFlags, 8)
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_REMOVABLE) <> 0 Then $iFlags = BitOR($iFlags, 16)
-	If BitAND($iN, $__WINAPICONSTANT_DISPLAY_DEVICE_MODESPRUNED) <> 0 Then $iFlags = BitOR($iFlags, 32)
+	If BitAND($iN, $DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) <> 0 Then $iFlags = BitOR($iFlags, 1)
+	If BitAND($iN, $DISPLAY_DEVICE_PRIMARY_DEVICE) <> 0 Then $iFlags = BitOR($iFlags, 2)
+	If BitAND($iN, $DISPLAY_DEVICE_MIRRORING_DRIVER) <> 0 Then $iFlags = BitOR($iFlags, 4)
+	If BitAND($iN, $DISPLAY_DEVICE_VGA_COMPATIBLE) <> 0 Then $iFlags = BitOR($iFlags, 8)
+	If BitAND($iN, $DISPLAY_DEVICE_REMOVABLE) <> 0 Then $iFlags = BitOR($iFlags, 16)
+	If BitAND($iN, $DISPLAY_DEVICE_MODESPRUNED) <> 0 Then $iFlags = BitOR($iFlags, 32)
 	$aDevice[0] = True
 	$aDevice[1] = DllStructGetData($tDevice, "Name")
 	$aDevice[2] = DllStructGetData($tDevice, "String")
@@ -1885,7 +1798,7 @@ EndFunc   ;==>_WinAPI_EnumWindows
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __WinAPI_EnumWindowsAdd
 ; Description ...: Adds window information to the windows enumeration list
-; Syntax.........: __WinAPI_EnumWindowsAdd($hWnd[, $sClass = ""])
+; Syntax.........: __WinAPI_EnumWindowsAdd ( $hWnd [, $sClass = ""] )
 ; Parameters ....: $hWnd        - Handle to the window
 ;                  $sClass      - Window class name
 ; Return values .:
@@ -1911,34 +1824,34 @@ EndFunc   ;==>__WinAPI_EnumWindowsAdd
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __WinAPI_EnumWindowsChild
 ; Description ...: Enumerates child windows of a specific window
-; Syntax.........: __WinAPI_EnumWindowsChild($hWnd[, $fVisible = True])
+; Syntax.........: __WinAPI_EnumWindowsChild ( $hWnd [, $fVisible = True] )
 ; Parameters ....: $hWnd        - Handle of parent window
 ;                  $fVisible    - Window selection flag:
 ;                  | True - Returns only visible windows
 ;                  |False - Returns all windows
 ; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: jpm
 ; Remarks .......: This function is used internally by the windows enumeration functions
 ; Related .......:
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
 Func __WinAPI_EnumWindowsChild($hWnd, $fVisible = True)
-	$hWnd = _WinAPI_GetWindow($hWnd, $__WINAPICONSTANT_GW_CHILD)
+	$hWnd = _WinAPI_GetWindow($hWnd, $GW_CHILD)
 	While $hWnd <> 0
 		If (Not $fVisible) Or _WinAPI_IsWindowVisible($hWnd) Then
-			__WinAPI_EnumWindowsChild($hWnd, $fVisible)
 			__WinAPI_EnumWindowsAdd($hWnd)
+			__WinAPI_EnumWindowsChild($hWnd, $fVisible)
 		EndIf
-		$hWnd = _WinAPI_GetWindow($hWnd, $__WINAPICONSTANT_GW_HWNDNEXT)
+		$hWnd = _WinAPI_GetWindow($hWnd, $GW_HWNDNEXT)
 	WEnd
 EndFunc   ;==>__WinAPI_EnumWindowsChild
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __WinAPI_EnumWindowsInit
 ; Description ...: Initializes the windows enumeration list
-; Syntax.........: __WinAPI_EnumWindowsInit()
+; Syntax.........: __WinAPI_EnumWindowsInit ( )
 ; Parameters ....:
 ; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
@@ -1974,7 +1887,7 @@ EndFunc   ;==>__WinAPI_EnumWindowsInit
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsPopup()
 	__WinAPI_EnumWindowsInit()
-	Local $hWnd = _WinAPI_GetWindow(_WinAPI_GetDesktopWindow(), $__WINAPICONSTANT_GW_CHILD)
+	Local $hWnd = _WinAPI_GetWindow(_WinAPI_GetDesktopWindow(), $GW_CHILD)
 	Local $sClass
 	While $hWnd <> 0
 		If _WinAPI_IsWindowVisible($hWnd) Then
@@ -1989,7 +1902,7 @@ Func _WinAPI_EnumWindowsPopup()
 				__WinAPI_EnumWindowsChild($hWnd)
 			EndIf
 		EndIf
-		$hWnd = _WinAPI_GetWindow($hWnd, $__WINAPICONSTANT_GW_HWNDNEXT)
+		$hWnd = _WinAPI_GetWindow($hWnd, $GW_HWNDNEXT)
 	WEnd
 	Return $__gaWinList_WinAPI
 EndFunc   ;==>_WinAPI_EnumWindowsPopup
@@ -2014,10 +1927,10 @@ EndFunc   ;==>_WinAPI_EnumWindowsPopup
 ; ===============================================================================================================================
 Func _WinAPI_EnumWindowsTop()
 	__WinAPI_EnumWindowsInit()
-	Local $hWnd = _WinAPI_GetWindow(_WinAPI_GetDesktopWindow(), $__WINAPICONSTANT_GW_CHILD)
+	Local $hWnd = _WinAPI_GetWindow(_WinAPI_GetDesktopWindow(), $GW_CHILD)
 	While $hWnd <> 0
 		If _WinAPI_IsWindowVisible($hWnd) Then __WinAPI_EnumWindowsAdd($hWnd)
-		$hWnd = _WinAPI_GetWindow($hWnd, $__WINAPICONSTANT_GW_HWNDNEXT)
+		$hWnd = _WinAPI_GetWindow($hWnd, $GW_HWNDNEXT)
 	WEnd
 	Return $__gaWinList_WinAPI
 EndFunc   ;==>_WinAPI_EnumWindowsTop
@@ -2029,7 +1942,7 @@ EndFunc   ;==>_WinAPI_EnumWindowsTop
 ; Parameters ....: $sString     - String to convert for environment variables
 ; Return values .: Success      - Converted string
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ ExpandEnvironmentStrings
@@ -2037,7 +1950,8 @@ EndFunc   ;==>_WinAPI_EnumWindowsTop
 ; ===============================================================================================================================
 Func _WinAPI_ExpandEnvironmentStrings($sString)
 	Local $aResult = DllCall("kernel32.dll", "dword", "ExpandEnvironmentStringsW", "wstr", $sString, "wstr", "", "dword", 4096)
-	If @error Then Return SetError(@error, @extended, "")
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, "")
+
 	Return $aResult[2]
 EndFunc   ;==>_WinAPI_ExpandEnvironmentStrings
 
@@ -2063,8 +1977,10 @@ EndFunc   ;==>_WinAPI_ExpandEnvironmentStrings
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ExtractIconEx($sFile, $iIndex, $pLarge, $pSmall, $iIcons)
-	Local $aResult = DllCall("shell32.dll", "uint", "ExtractIconExW", "wstr", $sFile, "int", $iIndex, "struct*", $pLarge, "struct*", $pSmall, "uint", $iIcons)
+	Local $aResult = DllCall("shell32.dll", "uint", "ExtractIconExW", "wstr", $sFile, "int", $iIndex, "struct*", $pLarge, _
+			"struct*", $pSmall, "uint", $iIcons)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ExtractIconEx
 
@@ -2116,6 +2032,7 @@ Func _WinAPI_FillRect($hDC, $ptrRect, $hBrush)
 		$aResult = DllCall("user32.dll", "int", "FillRect", "handle", $hDC, "struct*", $ptrRect, "dword_ptr", $hBrush)
 	EndIf
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FillRect
 
@@ -2128,7 +2045,7 @@ EndFunc   ;==>_WinAPI_FillRect
 ; Return values .: Success      - Full path to the executable file started when an "open" by association is run on the file
 ;                  |specified or blank if no association was found.
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ FindExecutable
@@ -2136,7 +2053,9 @@ EndFunc   ;==>_WinAPI_FillRect
 ; ===============================================================================================================================
 Func _WinAPI_FindExecutable($sFileName, $sDirectory = "")
 	Local $aResult = DllCall("shell32.dll", "INT", "FindExecutableW", "wstr", $sFileName, "wstr", $sDirectory, "wstr", "")
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Then Return SetError(@error, @extended, '')
+	If $aResult[0] <= 32 Then Return SetError(10, $aResult[0], '')
+
 	Return SetExtended($aResult[0], $aResult[3])
 EndFunc   ;==>_WinAPI_FindExecutable
 
@@ -2161,6 +2080,7 @@ EndFunc   ;==>_WinAPI_FindExecutable
 Func _WinAPI_FindWindow($sClassName, $sWindowName)
 	Local $aResult = DllCall("user32.dll", "hwnd", "FindWindowW", "wstr", $sClassName, "wstr", $sWindowName)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FindWindow
 
@@ -2187,6 +2107,7 @@ EndFunc   ;==>_WinAPI_FindWindow
 Func _WinAPI_FlashWindow($hWnd, $fInvert = True)
 	Local $aResult = DllCall("user32.dll", "bool", "FlashWindow", "hwnd", $hWnd, "bool", $fInvert)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FlashWindow
 
@@ -2220,10 +2141,10 @@ Func _WinAPI_FlashWindowEx($hWnd, $iFlags = 3, $iCount = 3, $iTimeout = 0)
 	Local $tFlash = DllStructCreate($tagFLASHWINFO)
 	Local $iFlash = DllStructGetSize($tFlash)
 	Local $iMode = 0
-	If BitAND($iFlags, 1) <> 0 Then $iMode = BitOR($iMode, $__WINAPICONSTANT_FLASHW_CAPTION)
-	If BitAND($iFlags, 2) <> 0 Then $iMode = BitOR($iMode, $__WINAPICONSTANT_FLASHW_TRAY)
-	If BitAND($iFlags, 4) <> 0 Then $iMode = BitOR($iMode, $__WINAPICONSTANT_FLASHW_TIMER)
-	If BitAND($iFlags, 8) <> 0 Then $iMode = BitOR($iMode, $__WINAPICONSTANT_FLASHW_TIMERNOFG)
+	If BitAND($iFlags, 1) <> 0 Then $iMode = BitOR($iMode, $FLASHW_CAPTION)
+	If BitAND($iFlags, 2) <> 0 Then $iMode = BitOR($iMode, $FLASHW_TRAY)
+	If BitAND($iFlags, 4) <> 0 Then $iMode = BitOR($iMode, $FLASHW_TIMER)
+	If BitAND($iFlags, 8) <> 0 Then $iMode = BitOR($iMode, $FLASHW_TIMERNOFG)
 	DllStructSetData($tFlash, "Size", $iFlash)
 	DllStructSetData($tFlash, "hWnd", $hWnd)
 	DllStructSetData($tFlash, "Flags", $iMode)
@@ -2231,6 +2152,7 @@ Func _WinAPI_FlashWindowEx($hWnd, $iFlags = 3, $iCount = 3, $iTimeout = 0)
 	DllStructSetData($tFlash, "Timeout", $iTimeout)
 	Local $aResult = DllCall("user32.dll", "bool", "FlashWindowEx", "struct*", $tFlash)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FlashWindowEx
 
@@ -2251,6 +2173,7 @@ Func _WinAPI_FloatToInt($nFloat)
 	Local $tFloat = DllStructCreate("float")
 	Local $tInt = DllStructCreate("int", DllStructGetPtr($tFloat))
 	DllStructSetData($tFloat, 1, $nFloat)
+
 	Return DllStructGetData($tInt, 1)
 EndFunc   ;==>_WinAPI_FloatToInt
 
@@ -2274,6 +2197,7 @@ EndFunc   ;==>_WinAPI_FloatToInt
 Func _WinAPI_FlushFileBuffers($hFile)
 	Local $aResult = DllCall("kernel32.dll", "bool", "FlushFileBuffers", "handle", $hFile)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FlushFileBuffers
 
@@ -2292,7 +2216,7 @@ EndFunc   ;==>_WinAPI_FlushFileBuffers
 ;                  $vArguments  - Address of array of message inserts
 ; Return values .: Success      - Number of bytes stored in message buffer
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ FormatMessage
@@ -2301,9 +2225,10 @@ EndFunc   ;==>_WinAPI_FlushFileBuffers
 Func _WinAPI_FormatMessage($iFlags, $pSource, $iMessageID, $iLanguageID, ByRef $pBuffer, $iSize, $vArguments)
 	Local $sBufferType = "struct*"
 	If IsString($pBuffer) Then $sBufferType = "wstr"
-	Local $aResult = DllCall("Kernel32.dll", "dword", "FormatMessageW", "dword", $iFlags, "ptr", $pSource, "dword", $iMessageID, "dword", $iLanguageID, _
-			$sBufferType, $pBuffer, "dword", $iSize, "ptr", $vArguments)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aResult = DllCall("Kernel32.dll", "dword", "FormatMessageW", "dword", $iFlags, "ptr", $pSource, "dword", $iMessageID, _
+			"dword", $iLanguageID, $sBufferType, $pBuffer, "dword", $iSize, "ptr", $vArguments)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, 0)
+
 	If $sBufferType = "wstr" Then $pBuffer = $aResult[5]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FormatMessage
@@ -2328,6 +2253,7 @@ EndFunc   ;==>_WinAPI_FormatMessage
 Func _WinAPI_FrameRect($hDC, $ptrRect, $hBrush)
 	Local $aResult = DllCall("user32.dll", "int", "FrameRect", "handle", $hDC, "ptr", $ptrRect, "handle", $hBrush)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FrameRect
 
@@ -2348,6 +2274,7 @@ EndFunc   ;==>_WinAPI_FrameRect
 Func _WinAPI_FreeLibrary($hModule)
 	Local $aResult = DllCall("kernel32.dll", "bool", "FreeLibrary", "handle", $hModule)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_FreeLibrary
 
@@ -2374,6 +2301,7 @@ EndFunc   ;==>_WinAPI_FreeLibrary
 Func _WinAPI_GetAncestor($hWnd, $iFlags = 1)
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetAncestor", "hwnd", $hWnd, "uint", $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetAncestor
 
@@ -2395,6 +2323,7 @@ EndFunc   ;==>_WinAPI_GetAncestor
 Func _WinAPI_GetAsyncKeyState($iKey)
 	Local $aResult = DllCall("user32.dll", "short", "GetAsyncKeyState", "int", $iKey)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetAsyncKeyState
 
@@ -2415,6 +2344,7 @@ EndFunc   ;==>_WinAPI_GetAsyncKeyState
 Func _WinAPI_GetBkMode($hDC)
 	Local $aResult = DllCall("gdi32.dll", "int", "GetBkMode", "handle", $hDC)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetBkMode
 
@@ -2425,7 +2355,7 @@ EndFunc   ;==>_WinAPI_GetBkMode
 ; Parameters ....: $hWnd        - Handle of window
 ; Return values .: Success      - The window class name
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ GetClassName
@@ -2434,7 +2364,8 @@ EndFunc   ;==>_WinAPI_GetBkMode
 Func _WinAPI_GetClassName($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $aResult = DllCall("user32.dll", "int", "GetClassNameW", "hwnd", $hWnd, "wstr", "", "int", 4096)
-	If @error Then Return SetError(@error, @extended, False)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, '')
+
 	Return SetExtended($aResult[0], $aResult[2])
 EndFunc   ;==>_WinAPI_GetClassName
 
@@ -2454,6 +2385,7 @@ EndFunc   ;==>_WinAPI_GetClassName
 Func _WinAPI_GetClientHeight($hWnd)
 	Local $tRect = _WinAPI_GetClientRect($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top")
 EndFunc   ;==>_WinAPI_GetClientHeight
 
@@ -2473,6 +2405,7 @@ EndFunc   ;==>_WinAPI_GetClientHeight
 Func _WinAPI_GetClientWidth($hWnd)
 	Local $tRect = _WinAPI_GetClientRect($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left")
 EndFunc   ;==>_WinAPI_GetClientWidth
 
@@ -2483,7 +2416,7 @@ EndFunc   ;==>_WinAPI_GetClientWidth
 ; Parameters ....: $hWnd        - Handle of window
 ; Return values .: Success      - $tagRECT structure that receives the client coordinates
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: $tagRECT
 ; Link ..........: @@MsdnLink@@ GetClientRect
@@ -2491,8 +2424,9 @@ EndFunc   ;==>_WinAPI_GetClientWidth
 ; ===============================================================================================================================
 Func _WinAPI_GetClientRect($hWnd)
 	Local $tRect = DllStructCreate($tagRECT)
-	DllCall("user32.dll", "bool", "GetClientRect", "hwnd", $hWnd, "struct*", $tRect)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "GetClientRect", "hwnd", $hWnd, "struct*", $tRect)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Return $tRect
 EndFunc   ;==>_WinAPI_GetClientRect
 
@@ -2512,6 +2446,7 @@ EndFunc   ;==>_WinAPI_GetClientRect
 Func _WinAPI_GetCurrentProcess()
 	Local $aResult = DllCall("kernel32.dll", "handle", "GetCurrentProcess")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetCurrentProcess
 
@@ -2531,6 +2466,7 @@ EndFunc   ;==>_WinAPI_GetCurrentProcess
 Func _WinAPI_GetCurrentProcessID()
 	Local $aResult = DllCall("kernel32.dll", "dword", "GetCurrentProcessId")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetCurrentProcessID
 
@@ -2551,6 +2487,7 @@ EndFunc   ;==>_WinAPI_GetCurrentProcessID
 Func _WinAPI_GetCurrentThread()
 	Local $aResult = DllCall("kernel32.dll", "handle", "GetCurrentThread")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetCurrentThread
 
@@ -2570,6 +2507,7 @@ EndFunc   ;==>_WinAPI_GetCurrentThread
 Func _WinAPI_GetCurrentThreadId()
 	Local $aResult = DllCall("kernel32.dll", "dword", "GetCurrentThreadId")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetCurrentThreadId
 
@@ -2585,7 +2523,7 @@ EndFunc   ;==>_WinAPI_GetCurrentThreadId
 ;                  |$aCursor[3] - X coordinate of the cursor
 ;                  |$aCursor[4] - Y coordinate of the cursor
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ GetCursorInfo
@@ -2595,8 +2533,9 @@ Func _WinAPI_GetCursorInfo()
 	Local $tCursor = DllStructCreate($tagCURSORINFO)
 	Local $iCursor = DllStructGetSize($tCursor)
 	DllStructSetData($tCursor, "Size", $iCursor)
-	DllCall("user32.dll", "bool", "GetCursorInfo", "struct*", $tCursor)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "GetCursorInfo", "struct*", $tCursor)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Local $aCursor[5]
 	$aCursor[0] = True
 	$aCursor[1] = DllStructGetData($tCursor, "Flags") <> 0
@@ -2623,6 +2562,7 @@ EndFunc   ;==>_WinAPI_GetCursorInfo
 Func _WinAPI_GetDC($hWnd)
 	Local $aResult = DllCall("user32.dll", "handle", "GetDC", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDC
 
@@ -2642,6 +2582,7 @@ EndFunc   ;==>_WinAPI_GetDC
 Func _WinAPI_GetDesktopWindow()
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetDesktopWindow")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDesktopWindow
 
@@ -2662,6 +2603,7 @@ EndFunc   ;==>_WinAPI_GetDesktopWindow
 Func _WinAPI_GetDeviceCaps($hDC, $iIndex)
 	Local $aResult = DllCall("gdi32.dll", "int", "GetDeviceCaps", "handle", $hDC, "int", $iIndex)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDeviceCaps
 
@@ -2692,9 +2634,10 @@ EndFunc   ;==>_WinAPI_GetDeviceCaps
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBI, $iUsage)
-	Local $aResult = DllCall("gdi32.dll", "int", "GetDIBits", "handle", $hDC, "handle", $hBmp, "uint", $iStartScan, "uint", $iScanLines, _
-			"ptr", $pBits, "ptr", $pBI, "uint", $iUsage)
+	Local $aResult = DllCall("gdi32.dll", "int", "GetDIBits", "handle", $hDC, "handle", $hBmp, "uint", $iStartScan, _
+			"uint", $iScanLines, "ptr", $pBits, "ptr", $pBI, "uint", $iUsage)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDIBits
 
@@ -2719,6 +2662,7 @@ EndFunc   ;==>_WinAPI_GetDIBits
 Func _WinAPI_GetDlgCtrlID($hWnd)
 	Local $aResult = DllCall("user32.dll", "int", "GetDlgCtrlID", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDlgCtrlID
 
@@ -2742,8 +2686,20 @@ EndFunc   ;==>_WinAPI_GetDlgCtrlID
 Func _WinAPI_GetDlgItem($hWnd, $iItemID)
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetDlgItem", "hwnd", $hWnd, "int", $iItemID)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetDlgItem
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Paul Campbell (PaulIA)
+; Modified.......: JPM
+; ===============================================================================================================================
+Func _WinAPI_GetFileSizeEx($hFile)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetFileSizeEx", "handle", $hFile, "int64*", 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, -1)
+
+	Return $aResult[2]
+EndFunc   ;==>_WinAPI_GetFileSizeEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetFocus
@@ -2762,6 +2718,7 @@ EndFunc   ;==>_WinAPI_GetDlgItem
 Func _WinAPI_GetFocus()
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetFocus")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetFocus
 
@@ -2781,6 +2738,7 @@ EndFunc   ;==>_WinAPI_GetFocus
 Func _WinAPI_GetForegroundWindow()
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetForegroundWindow")
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetForegroundWindow
 
@@ -2804,6 +2762,7 @@ Func _WinAPI_GetGuiResources($iFlag = 0, $hProcess = -1)
 	If $hProcess = -1 Then $hProcess = _WinAPI_GetCurrentProcess()
 	Local $aResult = DllCall("user32.dll", "dword", "GetGuiResources", "handle", $hProcess, "dword", $iFlag)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetGuiResources
 
@@ -2841,7 +2800,7 @@ EndFunc   ;==>_WinAPI_GetGuiResources
 ;                  |$aIcon[4] - Specifies the icon bitmask bitmap
 ;                  |$aIcon[5] - Handle to the icon color bitmap
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: This function creates bitmaps for the bitmask and color members.  You must manage  these  bitmaps  and  delete
 ;                  them when they are no longer necessary.
 ; Related .......:
@@ -2850,8 +2809,9 @@ EndFunc   ;==>_WinAPI_GetGuiResources
 ; ===============================================================================================================================
 Func _WinAPI_GetIconInfo($hIcon)
 	Local $tInfo = DllStructCreate($tagICONINFO)
-	DllCall("user32.dll", "bool", "GetIconInfo", "handle", $hIcon, "struct*", $tInfo)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "GetIconInfo", "handle", $hIcon, "struct*", $tInfo)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Local $aIcon[6]
 	$aIcon[0] = True
 	$aIcon[1] = DllStructGetData($tInfo, "Icon") <> 0
@@ -2895,10 +2855,11 @@ EndFunc   ;==>_WinAPI_GetFileSizeEx
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetLastErrorMessage()
+	Local $iLastError = _WinAPI_GetLastError()
 	Local $tBufferPtr = DllStructCreate("ptr")
 
-	Local $nCount = _WinAPI_FormatMessage(BitOR($__WINAPICONSTANT_FORMAT_MESSAGE_ALLOCATE_BUFFER, $__WINAPICONSTANT_FORMAT_MESSAGE_FROM_SYSTEM), _
-			0, _WinAPI_GetLastError(), 0, $tBufferPtr, 0, 0)
+	Local $nCount = _WinAPI_FormatMessage(BitOR($FORMAT_MESSAGE_ALLOCATE_BUFFER, $FORMAT_MESSAGE_FROM_SYSTEM), _
+			0, $iLastError, 0, $tBufferPtr, 0, 0)
 	If @error Then Return SetError(@error, 0, "")
 
 	Local $sText = ""
@@ -2925,7 +2886,7 @@ EndFunc   ;==>_WinAPI_GetLastErrorMessage
 ; Return values .: Success - Usage of LWA_ALPHA and LWA_COLORKEY (use BitAnd)
 ;                  Failure - 0, @error set to non-zero.
 ; Author ........: Prog@ndy
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: use _WinAPI_GetLastErrorMessage to get more information
 ; Related .......: _WinAPI_SetLayeredWindowAttributes, _WinAPI_GetLastError
 ; Link ..........: @@MsdnLink@@ GetLayeredWindowAttributes
@@ -2934,8 +2895,10 @@ EndFunc   ;==>_WinAPI_GetLastErrorMessage
 Func _WinAPI_GetLayeredWindowAttributes($hWnd, ByRef $i_transcolor, ByRef $Transparency, $asColorRef = False)
 	$i_transcolor = -1
 	$Transparency = -1
-	Local $aResult = DllCall("user32.dll", "bool", "GetLayeredWindowAttributes", "hwnd", $hWnd, "dword*", $i_transcolor, "byte*", $Transparency, "dword*", 0)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aResult = DllCall("user32.dll", "bool", "GetLayeredWindowAttributes", "hwnd", $hWnd, "dword*", $i_transcolor, _
+			"byte*", $Transparency, "dword*", 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, 0)
+
 	If Not $asColorRef Then
 		$aResult[2] = Int(BinaryMid($aResult[2], 3, 1) & BinaryMid($aResult[2], 2, 1) & BinaryMid($aResult[2], 1, 1))
 	EndIf
@@ -2968,8 +2931,10 @@ Func _WinAPI_GetModuleHandle($sModuleName)
 		$sModuleName = 0
 		$sModuleNameType = "ptr"
 	EndIf
+
 	Local $aResult = DllCall("kernel32.dll", "handle", "GetModuleHandleW", $sModuleNameType, $sModuleName)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetModuleHandle
 
@@ -2981,7 +2946,7 @@ EndFunc   ;==>_WinAPI_GetModuleHandle
 ;                  $hWnd        - Window handle used to convert coordinates if $fToClient is True
 ; Return values .: Success      - $tagPOINT structure with current mouse position
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: This function takes into account the current MouseCoordMode setting when  obtaining  the  mouse  position.  It
 ;                  will also convert screen to client coordinates based on the parameters passed.
 ; Related .......: $tagPOINT, _WinAPI_GetMousePosX, _WinAPI_GetMousePosY
@@ -2992,13 +2957,12 @@ Func _WinAPI_GetMousePos($fToClient = False, $hWnd = 0)
 	Local $iMode = Opt("MouseCoordMode", 1)
 	Local $aPos = MouseGetPos()
 	Opt("MouseCoordMode", $iMode)
+
 	Local $tPoint = DllStructCreate($tagPOINT)
 	DllStructSetData($tPoint, "X", $aPos[0])
 	DllStructSetData($tPoint, "Y", $aPos[1])
-	If $fToClient Then
-		_WinAPI_ScreenToClient($hWnd, $tPoint)
-		If @error Then Return SetError(@error, @extended, 0)
-	EndIf
+	If $fToClient And Not _WinAPI_ScreenToClient($hWnd, $tPoint) Then Return SetError(@error + 20, @extended, 0)
+
 	Return $tPoint
 EndFunc   ;==>_WinAPI_GetMousePos
 
@@ -3020,6 +2984,7 @@ EndFunc   ;==>_WinAPI_GetMousePos
 Func _WinAPI_GetMousePosX($fToClient = False, $hWnd = 0)
 	Local $tPoint = _WinAPI_GetMousePos($fToClient, $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tPoint, "X")
 EndFunc   ;==>_WinAPI_GetMousePosX
 
@@ -3041,6 +3006,7 @@ EndFunc   ;==>_WinAPI_GetMousePosX
 Func _WinAPI_GetMousePosY($fToClient = False, $hWnd = 0)
 	Local $tPoint = _WinAPI_GetMousePos($fToClient, $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tPoint, "Y")
 EndFunc   ;==>_WinAPI_GetMousePosY
 
@@ -3074,6 +3040,7 @@ EndFunc   ;==>_WinAPI_GetMousePosY
 Func _WinAPI_GetObject($hObject, $iSize, $pObject)
 	Local $aResult = DllCall("gdi32.dll", "int", "GetObjectW", "handle", $hObject, "int", $iSize, "ptr", $pObject)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetObject
 
@@ -3155,8 +3122,9 @@ Func _WinAPI_GetOpenFileName($sTitle = "", $sFilter = "All files (*.*)", $sInita
 	DllStructSetData($tOFN, "Flags", $iFlag)
 	DllStructSetData($tOFN, "lpstrDefExt", DllStructGetPtr($tExtn))
 	DllStructSetData($tOFN, "FlagsEx", $iFlagsEx)
-	DllCall("comdlg32.dll", "bool", "GetOpenFileNameW", "struct*", $tOFN)
-	If @error Then Return SetError(@error, @extended, $aFiles)
+	Local $aRes = DllCall("comdlg32.dll", "bool", "GetOpenFileNameW", "struct*", $tOFN)
+	If @error Or Not $aRes[0] Then Return SetError(@error + 10, @extended, $aFiles)
+
 	If BitAND($iFlags, $OFN_ALLOWMULTISELECT) = $OFN_ALLOWMULTISELECT And BitAND($iFlags, $OFN_EXPLORER) = $OFN_EXPLORER Then
 		For $x = 1 To $iPathLen
 			If DllStructGetData($tPath, "Path", $x) = Chr(0) Then
@@ -3198,15 +3166,17 @@ EndFunc   ;==>_WinAPI_GetOpenFileName
 ;                  +ERROR_IO_INCOMPLETE.
 ; Return values .: Success      - The number of bytes that were actually transferred by a read or write operation
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: $tagOVERLAPPED
 ; Link ..........: @@MsdnLink@@ GetOverlappedResult
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_GetOverlappedResult($hFile, $pOverlapped, ByRef $iBytes, $fWait = False)
-	Local $aResult = DllCall("kernel32.dll", "bool", "GetOverlappedResult", "handle", $hFile, "ptr", $pOverlapped, "dword*", 0, "bool", $fWait)
-	If @error Then Return SetError(@error, @extended, False)
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetOverlappedResult", "handle", $hFile, "ptr", $pOverlapped, "dword*", 0, _
+			"bool", $fWait)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, False)
+
 	$iBytes = $aResult[3]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetOverlappedResult
@@ -3228,6 +3198,7 @@ EndFunc   ;==>_WinAPI_GetOverlappedResult
 Func _WinAPI_GetParent($hWnd)
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetParent", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetParent
 
@@ -3240,7 +3211,7 @@ EndFunc   ;==>_WinAPI_GetParent
 ; Return values .: Success     - The address of the exported function or variable.
 ;                  Failure     - 0
 ; Author ........: trancexx
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: _WinAPI_LoadLibrary, _WinAPI_LoadLibraryEx, _WinAPI_GetModuleHandle
 ; Link ..........: @@MsdnLink@@ GetProcAddress
@@ -3249,9 +3220,10 @@ EndFunc   ;==>_WinAPI_GetParent
 Func _WinAPI_GetProcAddress($hModule, $vName)
 	Local $sType = "str"
 	If IsNumber($vName) Then $sType = "word" ; if ordinal value passed
-	Local $aCall = DllCall("kernel32.dll", "ptr", "GetProcAddress", "handle", $hModule, $sType, $vName)
-	If @error Or Not $aCall[0] Then Return SetError(1, @extended, 0)
-	Return $aCall[0]
+	Local $aResult = DllCall("kernel32.dll", "ptr", "GetProcAddress", "handle", $hModule, $sType, $vName)
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, 0)
+
+	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetProcAddress
 
 ; #FUNCTION# ====================================================================================================================
@@ -3264,7 +3236,7 @@ EndFunc   ;==>_WinAPI_GetProcAddress
 ;                  |$aMask[1] - Process affinity mask
 ;                  |$aMask[2] - System affinity mask
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......: An affinity mask is a bit mask in which each bit represents a processor on which the threads  of  the  process
 ;                  are allowed to run.  For example, if you pass a mask of 0x05, processors 1 and 3 are allowed to run.
 ; Related .......:
@@ -3273,7 +3245,8 @@ EndFunc   ;==>_WinAPI_GetProcAddress
 ; ===============================================================================================================================
 Func _WinAPI_GetProcessAffinityMask($hProcess)
 	Local $aResult = DllCall("kernel32.dll", "bool", "GetProcessAffinityMask", "handle", $hProcess, "dword_ptr*", 0, "dword_ptr*", 0)
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Local $aMask[3]
 	$aMask[0] = True
 	$aMask[1] = $aResult[2]
@@ -3357,8 +3330,9 @@ Func _WinAPI_GetSaveFileName($sTitle = "", $sFilter = "All files (*.*)", $sInita
 	DllStructSetData($tOFN, "Flags", $iFlag)
 	DllStructSetData($tOFN, "lpstrDefExt", DllStructGetPtr($tExtn))
 	DllStructSetData($tOFN, "FlagsEx", $iFlagsEx)
-	DllCall("comdlg32.dll", "bool", "GetSaveFileNameW", "struct*", $tOFN)
-	If @error Then Return SetError(@error, @extended, $aFiles)
+	Local $aRes = DllCall("comdlg32.dll", "bool", "GetSaveFileNameW", "struct*", $tOFN)
+	If @error Or Not $aRes[0] Then Return SetError(@error + 10, @extended, $aFiles)
+
 	Return __WinAPI_ParseFileDialogPath(DllStructGetData($tPath, "Path"))
 EndFunc   ;==>_WinAPI_GetSaveFileName
 
@@ -3397,6 +3371,7 @@ EndFunc   ;==>_WinAPI_GetSaveFileName
 Func _WinAPI_GetStockObject($iObject)
 	Local $aResult = DllCall("gdi32.dll", "handle", "GetStockObject", "int", $iObject)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetStockObject
 
@@ -3425,6 +3400,7 @@ Func _WinAPI_GetStdHandle($iStdHandle)
 
 	Local $aResult = DllCall("kernel32.dll", "handle", "GetStdHandle", "dword", $aHandle[$iStdHandle])
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetStdHandle
 
@@ -3489,6 +3465,7 @@ EndFunc   ;==>_WinAPI_GetStdHandle
 Func _WinAPI_GetSysColor($iIndex)
 	Local $aResult = DllCall("user32.dll", "dword", "GetSysColor", "int", $iIndex)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetSysColor
 
@@ -3509,6 +3486,7 @@ EndFunc   ;==>_WinAPI_GetSysColor
 Func _WinAPI_GetSysColorBrush($iIndex)
 	Local $aResult = DllCall("user32.dll", "handle", "GetSysColorBrush", "int", $iIndex)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetSysColorBrush
 
@@ -3529,6 +3507,7 @@ EndFunc   ;==>_WinAPI_GetSysColorBrush
 Func _WinAPI_GetSystemMetrics($iIndex)
 	Local $aResult = DllCall("user32.dll", "int", "GetSystemMetrics", "int", $iIndex)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetSystemMetrics
 
@@ -3540,7 +3519,7 @@ EndFunc   ;==>_WinAPI_GetSystemMetrics
 ;                  $sText       - String of text
 ; Return values .: Success      - $tagSIZE structure in which the dimensions of the string are to be returned
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: $tagSIZE
 ; Link ..........: @@MsdnLink@@ GetTextExtentPoint32
@@ -3549,8 +3528,9 @@ EndFunc   ;==>_WinAPI_GetSystemMetrics
 Func _WinAPI_GetTextExtentPoint32($hDC, $sText)
 	Local $tSize = DllStructCreate($tagSIZE)
 	Local $iSize = StringLen($sText)
-	DllCall("gdi32.dll", "bool", "GetTextExtentPoint32W", "handle", $hDC, "wstr", $sText, "int", $iSize, "struct*", $tSize)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("gdi32.dll", "bool", "GetTextExtentPoint32W", "handle", $hDC, "wstr", $sText, "int", $iSize, "struct*", $tSize)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Return $tSize
 EndFunc   ;==>_WinAPI_GetTextExtentPoint32
 
@@ -3562,7 +3542,7 @@ EndFunc   ;==>_WinAPI_GetTextExtentPoint32
 ; Return values..: Success - $tagTEXTMETRIC structure that contains the information about the currently selected font.
 ;                  Failure - 0 and sets the @error flag to non-zero.
 ; Author.........: Yashied
-; Modified.......:
+; Modified.......: jpm
 ; Remarks........: None
 ; Related........:
 ; Link...........: @@MsdnLink@@ GetTextMetrics
@@ -3571,8 +3551,7 @@ EndFunc   ;==>_WinAPI_GetTextExtentPoint32
 Func _WinAPI_GetTextMetrics($hDC)
 	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
 	Local $Ret = DllCall('gdi32.dll', 'bool', 'GetTextMetricsW', 'handle', $hDC, 'struct*', $tTEXTMETRIC)
-	If @error Then Return SetError(@error, @extended, 0)
-	If Not $Ret[0] Then Return SetError(-1, 0, 0)
+	If @error Or Not $Ret[0] Then Return SetError(@error + 10, @extended, 0)
 
 	Return $tTEXTMETRIC
 EndFunc   ;==>_WinAPI_GetTextMetrics
@@ -3620,6 +3599,7 @@ EndFunc   ;==>_WinAPI_GetTextMetrics
 Func _WinAPI_GetWindow($hWnd, $iCmd)
 	Local $aResult = DllCall("user32.dll", "hwnd", "GetWindow", "hwnd", $hWnd, "uint", $iCmd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetWindow
 
@@ -3644,6 +3624,7 @@ EndFunc   ;==>_WinAPI_GetWindow
 Func _WinAPI_GetWindowDC($hWnd)
 	Local $aResult = DllCall("user32.dll", "handle", "GetWindowDC", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetWindowDC
 
@@ -3663,6 +3644,7 @@ EndFunc   ;==>_WinAPI_GetWindowDC
 Func _WinAPI_GetWindowHeight($hWnd)
 	Local $tRect = _WinAPI_GetWindowRect($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top")
 EndFunc   ;==>_WinAPI_GetWindowHeight
 
@@ -3684,7 +3666,7 @@ EndFunc   ;==>_WinAPI_GetWindowHeight
 ;                  |$GWL_USERDATA   - Retrieves the 32-bit value associated with the window
 ; Return values .: Success      - The requested value
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......: Needs Constants.au3 for pre-defined constants
 ; Related .......: _WinAPI_SetWindowLong
 ; Link ..........: @@MsdnLink@@ GetWindowLongPtr
@@ -3694,11 +3676,12 @@ Func _WinAPI_GetWindowLong($hWnd, $iIndex)
 	Local $sFuncName = "GetWindowLongW"
 	If @AutoItX64 Then $sFuncName = "GetWindowLongPtrW"
 	Local $aResult = DllCall("user32.dll", "long_ptr", $sFuncName, "hwnd", $hWnd, "int", $iIndex)
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetWindowLong
 
-; #FUNCTION# ====================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetWindowPlacement
 ; Description ...: Retrieves the placement of the window for Min, Max, and normal positions
 ; Syntax.........: _WinAPI_GetWindowPlacement($hWnd)
@@ -3706,18 +3689,19 @@ EndFunc   ;==>_WinAPI_GetWindowLong
 ; Return values .: Success      - returns $tagWINDOWPLACEMENT structure with the placement coordinates
 ;                  Failure      - returns 0, @error = 1, @extended = _WinAPI_GetLastError()
 ; Author ........: PsaltyDS, with help from Siao and SmOke_N, at www.autoitscript.com/forum
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: _WinAPI_SetWindowPlacement, $tagWINDOWPLACEMENT
 ; Link ..........: @@MsdnLink@@ GetWindowPlacement
 ; Example .......: Yes
-; =============================================================================================
+; ===============================================================================================================================
 Func _WinAPI_GetWindowPlacement($hWnd)
 	; Create struct to receive data
 	Local $tWindowPlacement = DllStructCreate($tagWINDOWPLACEMENT)
 	DllStructSetData($tWindowPlacement, "length", DllStructGetSize($tWindowPlacement))
-	DllCall("user32.dll", "bool", "GetWindowPlacement", "hwnd", $hWnd, "struct*", $tWindowPlacement)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "GetWindowPlacement", "hwnd", $hWnd, "struct*", $tWindowPlacement)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Return $tWindowPlacement
 EndFunc   ;==>_WinAPI_GetWindowPlacement
 
@@ -3728,7 +3712,7 @@ EndFunc   ;==>_WinAPI_GetWindowPlacement
 ; Parameters ....: $hWnd        - Handle of the window
 ; Return values .: Success      - $tagRECT structure that receives the screen coordinates
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: $tagRECT
 ; Link ..........: @@MsdnLink@@ GetWindowRect
@@ -3736,8 +3720,9 @@ EndFunc   ;==>_WinAPI_GetWindowPlacement
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowRect($hWnd)
 	Local $tRect = DllStructCreate($tagRECT)
-	DllCall("user32.dll", "bool", "GetWindowRect", "hwnd", $hWnd, "struct*", $tRect)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall("user32.dll", "bool", "GetWindowRect", "hwnd", $hWnd, "struct*", $tRect)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Return $tRect
 EndFunc   ;==>_WinAPI_GetWindowRect
 
@@ -3767,6 +3752,7 @@ EndFunc   ;==>_WinAPI_GetWindowRect
 Func _WinAPI_GetWindowRgn($hWnd, $hRgn)
 	Local $aResult = DllCall("user32.dll", "int", "GetWindowRgn", "hwnd", $hWnd, "handle", $hRgn)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetWindowRgn
 
@@ -3777,7 +3763,7 @@ EndFunc   ;==>_WinAPI_GetWindowRgn
 ; Parameters ....: $hWnd        - Handle of the window
 ; Return values .: Success      - Windows title bar
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ GetWindowText
@@ -3785,7 +3771,8 @@ EndFunc   ;==>_WinAPI_GetWindowRgn
 ; ===============================================================================================================================
 Func _WinAPI_GetWindowText($hWnd)
 	Local $aResult = DllCall("user32.dll", "int", "GetWindowTextW", "hwnd", $hWnd, "wstr", "", "int", 4096)
-	If @error Then Return SetError(@error, @extended, "")
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, "")
+
 	Return SetExtended($aResult[0], $aResult[2])
 EndFunc   ;==>_WinAPI_GetWindowText
 
@@ -3806,6 +3793,7 @@ EndFunc   ;==>_WinAPI_GetWindowText
 Func _WinAPI_GetWindowThreadProcessId($hWnd, ByRef $iPID)
 	Local $aResult = DllCall("user32.dll", "dword", "GetWindowThreadProcessId", "hwnd", $hWnd, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	$iPID = $aResult[2]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GetWindowThreadProcessId
@@ -3826,6 +3814,7 @@ EndFunc   ;==>_WinAPI_GetWindowThreadProcessId
 Func _WinAPI_GetWindowWidth($hWnd)
 	Local $tRect = _WinAPI_GetWindowRect($hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left")
 EndFunc   ;==>_WinAPI_GetWindowWidth
 
@@ -3863,7 +3852,7 @@ EndFunc   ;==>_WinAPI_GetXYFromPoint
 ;                  |$aMem[5] - User Mem: Total
 ;                  |$aMem[6] - User Mem: Free
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......: Unlike the AutoIt MemGetStats() function, this function returns the values in bytes
 ; Related .......:
 ; Link ..........: @@MsdnLink@@ GlobalMemoryStatusEx
@@ -3871,10 +3860,10 @@ EndFunc   ;==>_WinAPI_GetXYFromPoint
 ; ===============================================================================================================================
 Func _WinAPI_GlobalMemoryStatus()
 	Local $tMem = DllStructCreate($tagMEMORYSTATUSEX)
-	Local $iMem = DllStructGetSize($tMem)
-	DllStructSetData($tMem, 1, $iMem)
-	DllCall("kernel32.dll", "none", "GlobalMemoryStatusEx", "ptr", DllStructGetPtr($tMem))
-	If @error Then Return SetError(@error, @extended, 0)
+	DllStructSetData($tMem, 1, DllStructGetSize($tMem))
+	Local $aRet = DllCall("kernel32.dll", "bool", "GlobalMemoryStatusEx", "struct*", $tMem)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+
 	Local $aMem[7]
 	$aMem[0] = DllStructGetData($tMem, 2)
 	$aMem[1] = DllStructGetData($tMem, 3)
@@ -3893,7 +3882,7 @@ EndFunc   ;==>_WinAPI_GlobalMemoryStatus
 ; Parameters ....: $sGUID       - GUID in string form
 ; Return values .: Success      - $tagGUID structure
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM, guinness
 ; Remarks .......:
 ; Related .......: _WinAPI_StringFromGUID, $tagGUID
 ; Link ..........:
@@ -3902,7 +3891,9 @@ EndFunc   ;==>_WinAPI_GlobalMemoryStatus
 Func _WinAPI_GUIDFromString($sGUID)
 	Local $tGUID = DllStructCreate($tagGUID)
 	_WinAPI_GUIDFromStringEx($sGUID, $tGUID)
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Then Return SetError(@error + 10, @extended, 0)
+	; If Not _WinAPI_GUIDFromStringEx($sGUID, $tGUID) Then Return SetError(@error + 10, @extended, 0)
+
 	Return $tGUID
 EndFunc   ;==>_WinAPI_GUIDFromString
 
@@ -3924,6 +3915,7 @@ EndFunc   ;==>_WinAPI_GUIDFromString
 Func _WinAPI_GUIDFromStringEx($sGUID, $pGUID)
 	Local $aResult = DllCall("ole32.dll", "long", "CLSIDFromString", "wstr", $sGUID, "struct*", $pGUID)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_GUIDFromStringEx
 
@@ -4000,6 +3992,7 @@ Func _WinAPI_IntToFloat($iInt)
 	Local $tInt = DllStructCreate("int")
 	Local $tFloat = DllStructCreate("float", DllStructGetPtr($tInt))
 	DllStructSetData($tInt, 1, $iInt)
+
 	Return DllStructGetData($tFloat, 1)
 EndFunc   ;==>_WinAPI_IntToFloat
 
@@ -4047,6 +4040,7 @@ EndFunc   ;==>_WinAPI_IsClassName
 Func _WinAPI_IsWindow($hWnd)
 	Local $aResult = DllCall("user32.dll", "bool", "IsWindow", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_IsWindow
 
@@ -4068,6 +4062,7 @@ EndFunc   ;==>_WinAPI_IsWindow
 Func _WinAPI_IsWindowVisible($hWnd)
 	Local $aResult = DllCall("user32.dll", "bool", "IsWindowVisible", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_IsWindowVisible
 
@@ -4093,6 +4088,7 @@ EndFunc   ;==>_WinAPI_IsWindowVisible
 Func _WinAPI_InvalidateRect($hWnd, $tRect = 0, $fErase = True)
 	Local $aResult = DllCall("user32.dll", "bool", "InvalidateRect", "hwnd", $hWnd, "struct*", $tRect, "bool", $fErase)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_InvalidateRect
 
@@ -4116,6 +4112,7 @@ EndFunc   ;==>_WinAPI_InvalidateRect
 Func _WinAPI_LineTo($hDC, $iX, $iY)
 	Local $aResult = DllCall("gdi32.dll", "bool", "LineTo", "handle", $hDC, "int", $iX, "int", $iY)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LineTo
 
@@ -4140,6 +4137,7 @@ Func _WinAPI_LoadBitmap($hInstance, $sBitmap)
 	If IsString($sBitmap) Then $sBitmapType = "wstr"
 	Local $aResult = DllCall("user32.dll", "handle", "LoadBitmapW", "handle", $hInstance, $sBitmapType, $sBitmap)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LoadBitmap
 
@@ -4203,9 +4201,10 @@ EndFunc   ;==>_WinAPI_LoadBitmap
 Func _WinAPI_LoadImage($hInstance, $sImage, $iType, $iXDesired, $iYDesired, $iLoad)
 	Local $aResult, $sImageType = "int"
 	If IsString($sImage) Then $sImageType = "wstr"
-	$aResult = DllCall("user32.dll", "handle", "LoadImageW", "handle", $hInstance, $sImageType, $sImage, "uint", $iType, "int", $iXDesired, _
-			"int", $iYDesired, "uint", $iLoad)
+	$aResult = DllCall("user32.dll", "handle", "LoadImageW", "handle", $hInstance, $sImageType, $sImage, "uint", $iType, _
+			"int", $iXDesired, "int", $iYDesired, "uint", $iLoad)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LoadImage
 
@@ -4227,6 +4226,7 @@ EndFunc   ;==>_WinAPI_LoadImage
 Func _WinAPI_LoadLibrary($sFileName)
 	Local $aResult = DllCall("kernel32.dll", "handle", "LoadLibraryW", "wstr", $sFileName)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LoadLibrary
 
@@ -4258,6 +4258,7 @@ EndFunc   ;==>_WinAPI_LoadLibrary
 Func _WinAPI_LoadLibraryEx($sFileName, $iFlags = 0)
 	Local $aResult = DllCall("kernel32.dll", "handle", "LoadLibraryExW", "wstr", $sFileName, "ptr", 0, "dword", $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LoadLibraryEx
 
@@ -4269,7 +4270,7 @@ EndFunc   ;==>_WinAPI_LoadLibraryEx
 ; Return values .: Success      - Handle to the specified icon
 ;                  Failure      - 0
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: jpm
 ; Remarks .......: When you are done with the icon, call _WinAPI_DestroyIcon to release the icon handle
 ; Related .......: _WinAPI_DestroyIcon
 ; Link ..........:
@@ -4279,7 +4280,8 @@ Func _WinAPI_LoadShell32Icon($iIconID)
 	Local $tIcons = DllStructCreate("ptr Data")
 	Local $iIcons = _WinAPI_ExtractIconEx("shell32.dll", $iIconID, 0, $tIcons, 1)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $iIcons <= 0 Then Return SetError(1, 0, 0)
+	If $iIcons <= 0 Then Return SetError(10, 0, 0)
+
 	Return DllStructGetData($tIcons, "Data")
 EndFunc   ;==>_WinAPI_LoadShell32Icon
 
@@ -4292,7 +4294,7 @@ EndFunc   ;==>_WinAPI_LoadShell32Icon
 ; Return values .: Success      - The string requested, @extended is the number of TCHARS copied
 ;                  Failure      - Empty string and @error is set
 ; Author ........: Gary Frost used correct syntax, Original concept Raik
-; Modified.......: jpm
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: _WinAPI_LoadLibraryEx, _WinAPI_FreeLibrary
 ; Link ..........: @@MsdnLink@@ LoadString
@@ -4300,7 +4302,8 @@ EndFunc   ;==>_WinAPI_LoadShell32Icon
 ; ===============================================================================================================================
 Func _WinAPI_LoadString($hInstance, $iStringId)
 	Local $aResult = DllCall("user32.dll", "int", "LoadStringW", "handle", $hInstance, "uint", $iStringId, "wstr", "", "int", 4096)
-	If @error Then Return SetError(@error, @extended, "")
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, "")
+
 	Return SetExtended($aResult[0], $aResult[3])
 EndFunc   ;==>_WinAPI_LoadString
 
@@ -4321,6 +4324,7 @@ EndFunc   ;==>_WinAPI_LoadString
 Func _WinAPI_LocalFree($hMem)
 	Local $aResult = DllCall("kernel32.dll", "handle", "LocalFree", "handle", $hMem)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_LocalFree
 
@@ -4414,6 +4418,7 @@ Func _WinAPI_MakeQWord($LoDWORD, $HiDWORD)
 	Local $tDwords = DllStructCreate("dword;dword", DllStructGetPtr($tInt64))
 	DllStructSetData($tDwords, 1, $LoDWORD)
 	DllStructSetData($tDwords, 2, $HiDWORD)
+
 	Return DllStructGetData($tInt64, 1)
 EndFunc   ;==>_WinAPI_MakeQWord
 
@@ -4460,6 +4465,7 @@ Func _WinAPI_MessageBeep($iType = 1)
 
 	Local $aResult = DllCall("user32.dll", "bool", "MessageBeep", "uint", $iSound)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_MessageBeep
 
@@ -4527,7 +4533,8 @@ EndFunc   ;==>_WinAPI_MsgBox
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_Mouse_Event($iFlags, $iX = 0, $iY = 0, $iData = 0, $iExtraInfo = 0)
-	DllCall("user32.dll", "none", "mouse_event", "dword", $iFlags, "dword", $iX, "dword", $iY, "dword", $iData, "ulong_ptr", $iExtraInfo)
+	DllCall("user32.dll", "none", "mouse_event", "dword", $iFlags, "dword", $iX, "dword", $iY, "dword", $iData, _
+			"ulong_ptr", $iExtraInfo)
 	If @error Then Return SetError(@error, @extended)
 EndFunc   ;==>_WinAPI_Mouse_Event
 
@@ -4550,6 +4557,7 @@ EndFunc   ;==>_WinAPI_Mouse_Event
 Func _WinAPI_MoveTo($hDC, $iX, $iY)
 	Local $aResult = DllCall("gdi32.dll", "bool", "MoveToEx", "handle", $hDC, "int", $iX, "int", $iY, "ptr", 0)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_MoveTo
 
@@ -4576,8 +4584,10 @@ EndFunc   ;==>_WinAPI_MoveTo
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MoveWindow($hWnd, $iX, $iY, $iWidth, $iHeight, $fRepaint = True)
-	Local $aResult = DllCall("user32.dll", "bool", "MoveWindow", "hwnd", $hWnd, "int", $iX, "int", $iY, "int", $iWidth, "int", $iHeight, "bool", $fRepaint)
+	Local $aResult = DllCall("user32.dll", "bool", "MoveWindow", "hwnd", $hWnd, "int", $iX, "int", $iY, "int", $iWidth, _
+			"int", $iHeight, "bool", $fRepaint)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_MoveWindow
 
@@ -4600,6 +4610,7 @@ EndFunc   ;==>_WinAPI_MoveWindow
 Func _WinAPI_MulDiv($iNumber, $iNumerator, $iDenominator)
 	Local $aResult = DllCall("kernel32.dll", "int", "MulDiv", "int", $iNumber, "int", $iNumerator, "int", $iDenominator)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_MulDiv
 
@@ -4619,7 +4630,7 @@ EndFunc   ;==>_WinAPI_MulDiv
 ;                  $bRetString   - Specifies if a string or a structure must be returned (default False = structure)
 ; Return values .: Success      - Structure that contains the Unicode character string
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm, Alexander Samuelsson (AdmiralAlkex)
+; Modified.......: JPM, Alexander Samuelsson (AdmiralAlkex)
 ; Remarks .......:
 ; Related .......: _WinAPI_WideCharToMultiByte, _WinAPI_MultiByteToWideCharEx
 ; Link ..........: @@MsdnLink@@ MultiByteToWideChar
@@ -4630,9 +4641,9 @@ Func _WinAPI_MultiByteToWideChar($sText, $iCodePage = 0, $iFlags = 0, $bRetStrin
 	If Not IsString($sText) Then $sTextType = "struct*"
 
 	; compute size for the output WideChar
-	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, $sTextType, $sText, _
-			"int", -1, "ptr", 0, "int", 0)
-	If @error Then Return SetError(@error, @extended, 0)
+	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, _
+			$sTextType, $sText, "int", -1, "ptr", 0, "int", 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, 0)
 
 	; allocate space for output WideChar
 	Local $iOut = $aResult[0]
@@ -4640,7 +4651,7 @@ Func _WinAPI_MultiByteToWideChar($sText, $iCodePage = 0, $iFlags = 0, $bRetStrin
 
 	$aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, $sTextType, $sText, _
 			"int", -1, "struct*", $tOut, "int", $iOut)
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 20, @extended, 0)
 
 	If $bRetString Then Return DllStructGetData($tOut, 1)
 	Return $tOut
@@ -4670,9 +4681,10 @@ EndFunc   ;==>_WinAPI_MultiByteToWideChar
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_MultiByteToWideCharEx($sText, $pText, $iCodePage = 0, $iFlags = 0)
-	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, "STR", $sText, "int", -1, _
-			"struct*", $pText, "int", (StringLen($sText) + 1) * 2)
+	Local $aResult = DllCall("kernel32.dll", "int", "MultiByteToWideChar", "uint", $iCodePage, "dword", $iFlags, "STR", $sText, _
+			"int", -1, "struct*", $pText, "int", (StringLen($sText) + 1) * 2)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_MultiByteToWideCharEx
 
@@ -4699,38 +4711,40 @@ Func _WinAPI_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
 	Local $aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
 	If @error Then Return SetError(@error, @extended, 0)
 	If $aResult[0] Then Return $aResult[0]
-	If Not $fDebugPriv Then Return 0
+	If Not $fDebugPriv Then Return SetError(100, 0, 0)
 
 	; Enable debug privileged mode
 	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Then Return SetError(@error + 10, @extended, 0)
 	_Security__SetPrivilege($hToken, "SeDebugPrivilege", True)
 	Local $iError = @error
-	Local $iLastError = @extended
+	Local $iExtended = @extended
 	Local $iRet = 0
 	If Not @error Then
 		; Attempt to open process with debug privileges
 		$aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
 		$iError = @error
-		$iLastError = @extended
+		$iExtended = @extended
 		If $aResult[0] Then $iRet = $aResult[0]
 
 		; Disable debug privileged mode
 		_Security__SetPrivilege($hToken, "SeDebugPrivilege", False)
 		If @error Then
-			$iError = @error
-			$iLastError = @extended
+			$iError = @error + 20
+			$iExtended = @extended
 		EndIf
+	Else
+		$iError = @error + 30 ; SeDebugPrivilege=True error
 	EndIf
 	_WinAPI_CloseHandle($hToken)
 
-	Return SetError($iError, $iLastError, $iRet)
+	Return SetError($iError, $iExtended, $iRet)
 EndFunc   ;==>_WinAPI_OpenProcess
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __WinAPI_ParseFileDialogPath
 ; Description ...: Returns array from the path string
-; Syntax.........: __WinAPI_ParseFileDialogPath($sPath)
+; Syntax.........: __WinAPI_ParseFileDialogPath ( $sPath )
 ; Parameters ....: $sPath       - string conataining the path and file(s)
 ; Return values .: Success      - array containing path and file(s)
 ; Author ........: Gary Frost
@@ -4759,7 +4773,7 @@ EndFunc   ;==>__WinAPI_ParseFileDialogPath
 ; Return values .: Success      - Full path of found file
 ;                  Failure      - Unchanged filename, @error=1
 ; Author ........: Daniel Miranda (danielkza)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......: $aExtraPaths can contain a list of paths to be checked before any system defaults.
 ;                  It can be an array or a string. If the former, it shall not have a count in it's first element.
 ;                  If the latter, it will be split using $szPathDelimiter as the delimiter, that defaults to @LF.
@@ -4767,7 +4781,6 @@ EndFunc   ;==>__WinAPI_ParseFileDialogPath
 ; Link ..........; @@MsdnLink@@ PathFindOnpath
 ; Example .......; Yes
 ; ===============================================================================================================================
-
 Func _WinAPI_PathFindOnPath(Const $szFile, $aExtraPaths = "", Const $szPathDelimiter = @LF)
 	Local $iExtraCount = 0
 	If IsString($aExtraPaths) Then
@@ -4797,8 +4810,7 @@ Func _WinAPI_PathFindOnPath(Const $szFile, $aExtraPaths = "", Const $szPathDelim
 	EndIf
 
 	Local $aResult = DllCall("shlwapi.dll", "bool", "PathFindOnPathW", "wstr", $szFile, "struct*", $tPathPtrs)
-	If @error Then Return SetError(@error, @extended, False)
-	If $aResult[0] = 0 Then Return SetError(1, 0, $szFile)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, $szFile)
 
 	Return $aResult[1]
 EndFunc   ;==>_WinAPI_PathFindOnPath
@@ -4852,7 +4864,8 @@ EndFunc   ;==>_WinAPI_PointFromRect
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_PostMessage($hWnd, $iMsg, $iwParam, $ilParam)
-	Local $aResult = DllCall("user32.dll", "bool", "PostMessage", "hwnd", $hWnd, "uint", $iMsg, "wparam", $iwParam, "lparam", $ilParam)
+	Local $aResult = DllCall("user32.dll", "bool", "PostMessage", "hwnd", $hWnd, "uint", $iMsg, "wparam", $iwParam, _
+			"lparam", $ilParam)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_PostMessage
@@ -4891,8 +4904,9 @@ EndFunc   ;==>_WinAPI_PrimaryLangId
 ; ===============================================================================================================================
 Func _WinAPI_PtInRect(ByRef $tRect, ByRef $tPoint)
 	Local $aResult = DllCall("user32.dll", "bool", "PtInRect", "struct*", $tRect, "struct", $tPoint)
-	If @error Then Return SetError(1, @extended, False)
-	Return Not ($aResult[0] = 0)
+	If @error Then Return SetError(@error, @extended, False)
+
+	Return $aResult[0]
 EndFunc   ;==>_WinAPI_PtInRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -4914,8 +4928,10 @@ EndFunc   ;==>_WinAPI_PtInRect
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_ReadFile($hFile, $pBuffer, $iToRead, ByRef $iRead, $pOverlapped = 0)
-	Local $aResult = DllCall("kernel32.dll", "bool", "ReadFile", "handle", $hFile, "ptr", $pBuffer, "dword", $iToRead, "dword*", 0, "ptr", $pOverlapped)
+	Local $aResult = DllCall("kernel32.dll", "bool", "ReadFile", "handle", $hFile, "ptr", $pBuffer, "dword", $iToRead, _
+			"dword*", 0, "ptr", $pOverlapped)
 	If @error Then Return SetError(@error, @extended, False)
+
 	$iRead = $aResult[4]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ReadFile
@@ -4942,6 +4958,7 @@ Func _WinAPI_ReadProcessMemory($hProcess, $pBaseAddress, $pBuffer, $iSize, ByRef
 	Local $aResult = DllCall("kernel32.dll", "bool", "ReadProcessMemory", "handle", $hProcess, _
 			"ptr", $pBaseAddress, "ptr", $pBuffer, "ulong_ptr", $iSize, "ulong_ptr*", 0)
 	If @error Then Return SetError(@error, @extended, False)
+
 	$iRead = $aResult[5]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ReadProcessMemory
@@ -5006,8 +5023,10 @@ EndFunc   ;==>_WinAPI_RectIsEmpty
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_RedrawWindow($hWnd, $tRect = 0, $hRegion = 0, $iFlags = 5)
-	Local $aResult = DllCall("user32.dll", "bool", "RedrawWindow", "hwnd", $hWnd, "struct*", $tRect, "handle", $hRegion, "uint", $iFlags)
+	Local $aResult = DllCall("user32.dll", "bool", "RedrawWindow", "hwnd", $hWnd, "struct*", $tRect, "handle", $hRegion, _
+			"uint", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_RedrawWindow
 
@@ -5030,6 +5049,7 @@ EndFunc   ;==>_WinAPI_RedrawWindow
 Func _WinAPI_RegisterWindowMessage($sMessage)
 	Local $aResult = DllCall("user32.dll", "uint", "RegisterWindowMessageW", "wstr", $sMessage)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_RegisterWindowMessage
 
@@ -5050,6 +5070,7 @@ EndFunc   ;==>_WinAPI_RegisterWindowMessage
 Func _WinAPI_ReleaseCapture()
 	Local $aResult = DllCall("user32.dll", "bool", "ReleaseCapture")
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ReleaseCapture
 
@@ -5072,6 +5093,7 @@ EndFunc   ;==>_WinAPI_ReleaseCapture
 Func _WinAPI_ReleaseDC($hWnd, $hDC)
 	Local $aResult = DllCall("user32.dll", "int", "ReleaseDC", "hwnd", $hWnd, "handle", $hDC)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ReleaseDC
 
@@ -5095,6 +5117,7 @@ EndFunc   ;==>_WinAPI_ReleaseDC
 Func _WinAPI_ScreenToClient($hWnd, ByRef $tPoint)
 	Local $aResult = DllCall("user32.dll", "bool", "ScreenToClient", "hwnd", $hWnd, "struct*", $tPoint)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ScreenToClient
 
@@ -5116,6 +5139,7 @@ EndFunc   ;==>_WinAPI_ScreenToClient
 Func _WinAPI_SelectObject($hDC, $hGDIObj)
 	Local $aResult = DllCall("gdi32.dll", "handle", "SelectObject", "handle", $hDC, "handle", $hGDIObj)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SelectObject
 
@@ -5137,6 +5161,7 @@ EndFunc   ;==>_WinAPI_SelectObject
 Func _WinAPI_SetBkColor($hDC, $iColor)
 	Local $aResult = DllCall("gdi32.dll", "INT", "SetBkColor", "handle", $hDC, "dword", $iColor)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetBkColor
 
@@ -5163,6 +5188,7 @@ EndFunc   ;==>_WinAPI_SetBkColor
 Func _WinAPI_SetBkMode($hDC, $iBkMode)
 	Local $aResult = DllCall("gdi32.dll", "int", "SetBkMode", "handle", $hDC, "int", $iBkMode)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetBkMode
 
@@ -5183,6 +5209,7 @@ EndFunc   ;==>_WinAPI_SetBkMode
 Func _WinAPI_SetCapture($hWnd)
 	Local $aResult = DllCall("user32.dll", "hwnd", "SetCapture", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetCapture
 
@@ -5203,6 +5230,7 @@ EndFunc   ;==>_WinAPI_SetCapture
 Func _WinAPI_SetCursor($hCursor)
 	Local $aResult = DllCall("user32.dll", "handle", "SetCursor", "handle", $hCursor)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetCursor
 
@@ -5226,6 +5254,7 @@ EndFunc   ;==>_WinAPI_SetCursor
 Func _WinAPI_SetDefaultPrinter($sPrinter)
 	Local $aResult = DllCall("winspool.drv", "bool", "SetDefaultPrinterW", "wstr", $sPrinter)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetDefaultPrinter
 
@@ -5260,9 +5289,10 @@ EndFunc   ;==>_WinAPI_SetDefaultPrinter
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBMI, $iColorUse = 0)
-	Local $aResult = DllCall("gdi32.dll", "int", "SetDIBits", "handle", $hDC, "handle", $hBmp, "uint", $iStartScan, "uint", $iScanLines, _
-			"ptr", $pBits, "ptr", $pBMI, "uint", $iColorUse)
+	Local $aResult = DllCall("gdi32.dll", "int", "SetDIBits", "handle", $hDC, "handle", $hBmp, "uint", $iStartScan, _
+			"uint", $iScanLines, "ptr", $pBits, "ptr", $pBMI, "uint", $iColorUse)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetDIBits
 
@@ -5286,6 +5316,7 @@ EndFunc   ;==>_WinAPI_SetDIBits
 Func _WinAPI_SetEndOfFile($hFile)
 	Local $aResult = DllCall("kernel32.dll", "bool", "SetEndOfFile", "handle", $hFile)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetEndOfFile
 
@@ -5309,6 +5340,7 @@ EndFunc   ;==>_WinAPI_SetEndOfFile
 Func _WinAPI_SetEvent($hEvent)
 	Local $aResult = DllCall("kernel32.dll", "bool", "SetEvent", "handle", $hEvent)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetEvent
 
@@ -5342,6 +5374,7 @@ EndFunc   ;==>_WinAPI_SetEvent
 Func _WinAPI_SetFilePointer($hFile, $iPos, $iMethod = 0)
 	Local $aResult = DllCall("kernel32.dll", "INT", "SetFilePointer", "handle", $hFile, "long", $iPos, "ptr", 0, "long", $iMethod)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetFilePointer
 
@@ -5363,6 +5396,7 @@ EndFunc   ;==>_WinAPI_SetFilePointer
 Func _WinAPI_SetFocus($hWnd)
 	Local $aResult = DllCall("user32.dll", "hwnd", "SetFocus", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetFocus
 
@@ -5404,6 +5438,7 @@ EndFunc   ;==>_WinAPI_SetFont
 Func _WinAPI_SetHandleInformation($hObject, $iMask, $iFlags)
 	Local $aResult = DllCall("kernel32.dll", "bool", "SetHandleInformation", "handle", $hObject, "dword", $iMask, "dword", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetHandleInformation
 
@@ -5432,8 +5467,10 @@ Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 25
 	If Not $isColorRef Then
 		$i_transcolor = Int(BinaryMid($i_transcolor, 3, 1) & BinaryMid($i_transcolor, 2, 1) & BinaryMid($i_transcolor, 1, 1))
 	EndIf
-	Local $aResult = DllCall("user32.dll", "bool", "SetLayeredWindowAttributes", "hwnd", $hWnd, "dword", $i_transcolor, "byte", $Transparency, "dword", $dwFlags)
+	Local $aResult = DllCall("user32.dll", "bool", "SetLayeredWindowAttributes", "hwnd", $hWnd, "dword", $i_transcolor, _
+			"byte", $Transparency, "dword", $dwFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetLayeredWindowAttributes
 
@@ -5456,6 +5493,7 @@ EndFunc   ;==>_WinAPI_SetLayeredWindowAttributes
 Func _WinAPI_SetParent($hWndChild, $hWndParent)
 	Local $aResult = DllCall("user32.dll", "hwnd", "SetParent", "hwnd", $hWndChild, "hwnd", $hWndParent)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetParent
 
@@ -5478,6 +5516,7 @@ EndFunc   ;==>_WinAPI_SetParent
 Func _WinAPI_SetProcessAffinityMask($hProcess, $iMask)
 	Local $aResult = DllCall("kernel32.dll", "bool", "SetProcessAffinityMask", "handle", $hProcess, "ulong_ptr", $iMask)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetProcessAffinityMask
 
@@ -5511,7 +5550,6 @@ Func _WinAPI_SetSysColors($vElements, $vColors)
 	Local $tElements = DllStructCreate("int Element[" & $iElementNum & "]")
 	Local $tColors = DllStructCreate("dword NewColor[" & $iElementNum & "]")
 
-
 	If Not $isEArray Then
 		DllStructSetData($tElements, "Element", $vElements, 1)
 	Else
@@ -5529,6 +5567,7 @@ Func _WinAPI_SetSysColors($vElements, $vColors)
 	EndIf
 	Local $aResult = DllCall("user32.dll", "bool", "SetSysColors", "int", $iElementNum, "struct*", $tElements, "struct*", $tColors)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetSysColors
 
@@ -5550,6 +5589,7 @@ EndFunc   ;==>_WinAPI_SetSysColors
 Func _WinAPI_SetTextColor($hDC, $iColor)
 	Local $aResult = DllCall("gdi32.dll", "INT", "SetTextColor", "handle", $hDC, "dword", $iColor)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetTextColor
 
@@ -5585,10 +5625,11 @@ Func _WinAPI_SetWindowLong($hWnd, $iIndex, $iValue)
 	If @AutoItX64 Then $sFuncName = "SetWindowLongPtrW"
 	Local $aResult = DllCall("user32.dll", "long_ptr", $sFuncName, "hwnd", $hWnd, "int", $iIndex, "long_ptr", $iValue)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowLong
 
-; #FUNCTION# =====================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_SetWindowPlacement
 ; Description ...: Sets the placement of the window for Min, Max, and normal positions
 ; Syntax.........: _WinAPI_SetWindowPlacement($hWnd, $pWindowPlacement)
@@ -5596,16 +5637,17 @@ EndFunc   ;==>_WinAPI_SetWindowLong
 ;                  $pWindowPlacement - pointer to $tagWINDOWPLACEMENT structure
 ; Return values .: Success      - Returns non-zero
 ;                  Failure      - Returns 0, @error = 1, @extended = _WinAPI_GetLastError()
-; Author ........: PsaltyDS at www.autoitscript.com/forum
+; Author ........: PsaltyDS
 ; Modified.......:
 ; Remarks .......:
 ; Related .......: _WinAPI_GetWindowPlacement, $tagWINDOWPLACEMENT
 ; Link ..........: @@MsdnLink@@ SetWindowPlacement
 ; Example .......: Yes
-; ===============================================================================================
+; ===============================================================================================================================
 Func _WinAPI_SetWindowPlacement($hWnd, $pWindowPlacement)
 	Local $aResult = DllCall("user32.dll", "bool", "SetWindowPlacement", "hwnd", $hWnd, "ptr", $pWindowPlacement)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowPlacement
 
@@ -5648,9 +5690,10 @@ EndFunc   ;==>_WinAPI_SetWindowPlacement
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowPos($hWnd, $hAfter, $iX, $iY, $iCX, $iCY, $iFlags)
-	Local $aResult = DllCall("user32.dll", "bool", "SetWindowPos", "hwnd", $hWnd, "hwnd", $hAfter, "int", $iX, "int", $iY, "int", $iCX, _
-			"int", $iCY, "uint", $iFlags)
+	Local $aResult = DllCall("user32.dll", "bool", "SetWindowPos", "hwnd", $hWnd, "hwnd", $hAfter, "int", $iX, "int", $iY, _
+			"int", $iCX, "int", $iCY, "uint", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowPos
 
@@ -5682,6 +5725,7 @@ EndFunc   ;==>_WinAPI_SetWindowPos
 Func _WinAPI_SetWindowRgn($hWnd, $hRgn, $bRedraw = True)
 	Local $aResult = DllCall("user32.dll", "int", "SetWindowRgn", "hwnd", $hWnd, "handle", $hRgn, "bool", $bRedraw)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowRgn
 
@@ -5723,8 +5767,10 @@ EndFunc   ;==>_WinAPI_SetWindowRgn
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_SetWindowsHookEx($idHook, $lpfn, $hmod, $dwThreadId = 0)
-	Local $aResult = DllCall("user32.dll", "handle", "SetWindowsHookEx", "int", $idHook, "ptr", $lpfn, "handle", $hmod, "dword", $dwThreadId)
+	Local $aResult = DllCall("user32.dll", "handle", "SetWindowsHookEx", "int", $idHook, "ptr", $lpfn, "handle", $hmod, _
+			"dword", $dwThreadId)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowsHookEx
 
@@ -5749,6 +5795,7 @@ EndFunc   ;==>_WinAPI_SetWindowsHookEx
 Func _WinAPI_SetWindowText($hWnd, $sText)
 	Local $aResult = DllCall("user32.dll", "bool", "SetWindowTextW", "hwnd", $hWnd, "wstr", $sText)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SetWindowText
 
@@ -5770,6 +5817,7 @@ EndFunc   ;==>_WinAPI_SetWindowText
 Func _WinAPI_ShowCursor($fShow)
 	Local $aResult = DllCall("user32.dll", "int", "ShowCursor", "bool", $fShow)
 	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ShowCursor
 
@@ -5841,6 +5889,7 @@ EndFunc   ;==>_WinAPI_ShowMsg
 Func _WinAPI_ShowWindow($hWnd, $iCmdShow = 5)
 	Local $aResult = DllCall("user32.dll", "bool", "ShowWindow", "hwnd", $hWnd, "int", $iCmdShow)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_ShowWindow
 
@@ -5851,7 +5900,7 @@ EndFunc   ;==>_WinAPI_ShowWindow
 ; Parameters ....: $pGUID       - Pointer to a $tagGUID structure
 ; Return values .: Success      - GUID in string form
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: JPM
 ; Remarks .......:
 ; Related .......: _WinAPI_GUIDFromString, _WinAPI_GUIDFromStringEx, $tagGUID
 ; Link ..........: @@MsdnLink@@ StringFromGUID2
@@ -5859,7 +5908,8 @@ EndFunc   ;==>_WinAPI_ShowWindow
 ; ===============================================================================================================================
 Func _WinAPI_StringFromGUID($pGUID)
 	Local $aResult = DllCall("ole32.dll", "int", "StringFromGUID2", "struct*", $pGUID, "wstr", "", "int", 40)
-	If @error Then Return SetError(@error, @extended, "")
+	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, "")
+
 	Return SetExtended($aResult[0], $aResult[2])
 EndFunc   ;==>_WinAPI_StringFromGUID
 
@@ -5877,10 +5927,11 @@ EndFunc   ;==>_WinAPI_StringFromGUID
 ; Link ..........: @@MsdnLink@@ lstrlenA
 ; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_StringLenA($vString)
-	Local $aCall = DllCall("kernel32.dll", "int", "lstrlenA", "struct*", $vString)
-	If @error Then Return SetError(1, @extended, 0)
-	Return $aCall[0]
+Func _WinAPI_StringLenA($tString)
+	Local $aResult = DllCall("kernel32.dll", "int", "lstrlenA", "struct*", $tString)
+	If @error Then Return SetError(@error, @extended, 0)
+
+	Return $aResult[0]
 EndFunc   ;==>_WinAPI_StringLenA
 
 ; #FUNCTION# ====================================================================================================================
@@ -5897,10 +5948,11 @@ EndFunc   ;==>_WinAPI_StringLenA
 ; Link ..........: @@MsdnLink@@ lstrlenW
 ; Example .......:
 ; ===============================================================================================================================
-Func _WinAPI_StringLenW($vString)
-	Local $aCall = DllCall("kernel32.dll", "int", "lstrlenW", "struct*", $vString)
-	If @error Then Return SetError(1, @extended, 0)
-	Return $aCall[0]
+Func _WinAPI_StringLenW(Const ByRef $tString)
+	Local $aResult = DllCall("kernel32.dll", "int", "lstrlenW", "struct*", $tString)
+	If @error Then Return SetError(@error, @extended, 0)
+
+	Return $aResult[0]
 EndFunc   ;==>_WinAPI_StringLenW
 
 ; #FUNCTION# ====================================================================================================================
@@ -5942,8 +5994,10 @@ EndFunc   ;==>_WinAPI_SubLangId
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_SystemParametersInfo($iAction, $iParam = 0, $vParam = 0, $iWinIni = 0)
-	Local $aResult = DllCall("user32.dll", "bool", "SystemParametersInfoW", "uint", $iAction, "uint", $iParam, "ptr", $vParam, "uint", $iWinIni)
+	Local $aResult = DllCall("user32.dll", "bool", "SystemParametersInfoW", "uint", $iAction, "uint", $iParam, "ptr", $vParam, _
+			"uint", $iWinIni)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_SystemParametersInfo
 
@@ -6006,6 +6060,7 @@ EndFunc   ;==>_WinAPI_TwipsPerPixelY
 Func _WinAPI_UnhookWindowsHookEx($hhk)
 	Local $aResult = DllCall("user32.dll", "bool", "UnhookWindowsHookEx", "handle", $hhk)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_UnhookWindowsHookEx
 
@@ -6040,9 +6095,10 @@ EndFunc   ;==>_WinAPI_UnhookWindowsHookEx
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_UpdateLayeredWindow($hWnd, $hDCDest, $pPTDest, $pSize, $hDCSrce, $pPTSrce, $iRGB, $pBlend, $iFlags)
-	Local $aResult = DllCall("user32.dll", "bool", "UpdateLayeredWindow", "hwnd", $hWnd, "handle", $hDCDest, "ptr", $pPTDest, "ptr", $pSize, _
-			"handle", $hDCSrce, "ptr", $pPTSrce, "dword", $iRGB, "ptr", $pBlend, "dword", $iFlags)
+	Local $aResult = DllCall("user32.dll", "bool", "UpdateLayeredWindow", "hwnd", $hWnd, "handle", $hDCDest, "ptr", $pPTDest, _
+			"ptr", $pSize, "handle", $hDCSrce, "ptr", $pPTSrce, "dword", $iRGB, "ptr", $pBlend, "dword", $iFlags)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_UpdateLayeredWindow
 
@@ -6063,6 +6119,7 @@ EndFunc   ;==>_WinAPI_UpdateLayeredWindow
 Func _WinAPI_UpdateWindow($hWnd)
 	Local $aResult = DllCall("user32.dll", "bool", "UpdateWindow", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_UpdateWindow
 
@@ -6091,6 +6148,7 @@ EndFunc   ;==>_WinAPI_UpdateWindow
 Func _WinAPI_WaitForInputIdle($hProcess, $iTimeout = -1)
 	Local $aResult = DllCall("user32.dll", "dword", "WaitForInputIdle", "handle", $hProcess, "dword", $iTimeout)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WaitForInputIdle
 
@@ -6118,6 +6176,7 @@ EndFunc   ;==>_WinAPI_WaitForInputIdle
 Func _WinAPI_WaitForMultipleObjects($iCount, $pHandles, $fWaitAll = False, $iTimeout = -1)
 	Local $aResult = DllCall("kernel32.dll", "INT", "WaitForMultipleObjects", "dword", $iCount, "ptr", $pHandles, "bool", $fWaitAll, "dword", $iTimeout)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WaitForMultipleObjects
 
@@ -6141,10 +6200,11 @@ EndFunc   ;==>_WinAPI_WaitForMultipleObjects
 Func _WinAPI_WaitForSingleObject($hHandle, $iTimeout = -1)
 	Local $aResult = DllCall("kernel32.dll", "INT", "WaitForSingleObject", "handle", $hHandle, "dword", $iTimeout)
 	If @error Then Return SetError(@error, @extended, -1)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WaitForSingleObject
 
-; #FUNCTION#====================================================================================================================
+; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_WideCharToMultiByte
 ; Description ...: Converts a Unicode string to an multibyte string
 ; Syntax.........: _WinAPI_WideCharToMultiByte($pUnicode[, $iCodePage = 0 [, $bRetString = True]])
@@ -6160,7 +6220,7 @@ EndFunc   ;==>_WinAPI_WaitForSingleObject
 ;                  $bRetString  - Flags indicating that a string or a structure will be returned (default True = string)
 ; Return values .: Success      - Converted string
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm, Alexander Samuelsson (AdmiralAlkex)
+; Modified.......: JPM, Alexander Samuelsson (AdmiralAlkex)
 ; Remarks .......:
 ; Related .......: _WinAPI_MultiByteToWideChar
 ; Link ..........: @@MsdnLink@@ WideCharToMultiByte
@@ -6171,13 +6231,13 @@ Func _WinAPI_WideCharToMultiByte($pUnicode, $iCodePage = 0, $bRetString = True)
 	If Not IsString($pUnicode) Then $sUnicodeType = "struct*"
 	Local $aResult = DllCall("kernel32.dll", "int", "WideCharToMultiByte", "uint", $iCodePage, "dword", 0, $sUnicodeType, $pUnicode, "int", -1, _
 			"ptr", 0, "int", 0, "ptr", 0, "ptr", 0)
-	If @error Then Return SetError(@error, @extended, "")
+	If @error Or Not $aResult[0] Then Return SetError(@error + 20, @extended, "")
 
 	Local $tMultiByte = DllStructCreate("char[" & $aResult[0] & "]")
 
-	$aResult = DllCall("kernel32.dll", "int", "WideCharToMultiByte", "uint", $iCodePage, "dword", 0, $sUnicodeType, $pUnicode, "int", -1, _
-			"struct*", $tMultiByte, "int", $aResult[0], "ptr", 0, "ptr", 0)
-	If @error Then Return SetError(@error, @extended, "")
+	$aResult = DllCall("kernel32.dll", "int", "WideCharToMultiByte", "uint", $iCodePage, "dword", 0, $sUnicodeType, $pUnicode, _
+			"int", -1, "struct*", $tMultiByte, "int", $aResult[0], "ptr", 0, "ptr", 0)
+	If @error Or Not $aResult[0] Then Return SetError(@error + 10, @extended, "")
 
 	If $bRetString Then Return DllStructGetData($tMultiByte, 1)
 	Return $tMultiByte
@@ -6200,7 +6260,8 @@ EndFunc   ;==>_WinAPI_WideCharToMultiByte
 ; ===============================================================================================================================
 Func _WinAPI_WindowFromPoint(ByRef $tPoint)
 	Local $aResult = DllCall("user32.dll", "hwnd", "WindowFromPoint", "struct", $tPoint)
-	If @error Then Return SetError(1, @extended, 0)
+	If @error Then Return SetError(@error, @extended, 0)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WindowFromPoint
 
@@ -6220,8 +6281,10 @@ EndFunc   ;==>_WinAPI_WindowFromPoint
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WriteConsole($hConsole, $sText)
-	Local $aResult = DllCall("kernel32.dll", "bool", "WriteConsoleW", "handle", $hConsole, "wstr", $sText, "dword", StringLen($sText), "dword*", 0, "ptr", 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "WriteConsoleW", "handle", $hConsole, "wstr", $sText, _
+			"dword", StringLen($sText), "dword*", 0, "ptr", 0)
 	If @error Then Return SetError(@error, @extended, False)
+
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WriteConsole
 
@@ -6244,8 +6307,10 @@ EndFunc   ;==>_WinAPI_WriteConsole
 ; Example .......: Yes
 ; ===============================================================================================================================
 Func _WinAPI_WriteFile($hFile, $pBuffer, $iToWrite, ByRef $iWritten, $pOverlapped = 0)
-	Local $aResult = DllCall("kernel32.dll", "bool", "WriteFile", "handle", $hFile, "ptr", $pBuffer, "dword", $iToWrite, "dword*", 0, "ptr", $pOverlapped)
+	Local $aResult = DllCall("kernel32.dll", "bool", "WriteFile", "handle", $hFile, "ptr", $pBuffer, "dword", $iToWrite, _
+			"dword*", 0, "ptr", $pOverlapped)
 	If @error Then Return SetError(@error, @extended, False)
+
 	$iWritten = $aResult[4]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WriteFile
@@ -6270,9 +6335,10 @@ EndFunc   ;==>_WinAPI_WriteFile
 ; Example .......:
 ; ===============================================================================================================================
 Func _WinAPI_WriteProcessMemory($hProcess, $pBaseAddress, $pBuffer, $iSize, ByRef $iWritten, $sBuffer = "ptr")
-	Local $aResult = DllCall("kernel32.dll", "bool", "WriteProcessMemory", "handle", $hProcess, "ptr", $pBaseAddress, $sBuffer, $pBuffer, _
-			"ulong_ptr", $iSize, "ulong_ptr*", 0)
+	Local $aResult = DllCall("kernel32.dll", "bool", "WriteProcessMemory", "handle", $hProcess, "ptr", $pBaseAddress, _
+			$sBuffer, $pBuffer, "ulong_ptr", $iSize, "ulong_ptr*", 0)
 	If @error Then Return SetError(@error, @extended, False)
+
 	$iWritten = $aResult[5]
 	Return $aResult[0]
 EndFunc   ;==>_WinAPI_WriteProcessMemory

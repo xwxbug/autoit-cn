@@ -8,7 +8,8 @@
 ; Author(s) .....: Valik, Gary Frost, ...
 ; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
+; #CONSTANT# ======================================================================================================================
+; Styles
 Global Const $PBS_MARQUEE = 0x00000008 ; The progress bar moves like a marquee
 Global Const $PBS_SMOOTH = 1
 Global Const $PBS_SMOOTHREVERSE = 0x10 ; Vista
@@ -16,9 +17,8 @@ Global Const $PBS_VERTICAL = 4
 
 ; Control default styles
 Global Const $GUI_SS_DEFAULT_PROGRESS = 0
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
+; Messages
 Global Const $__PROGRESSBARCONSTANT_WM_USER = 0X400
 Global Const $PBM_DELTAPOS = $__PROGRESSBARCONSTANT_WM_USER + 3
 Global Const $PBM_GETBARCOLOR = 0x040F ; Vista

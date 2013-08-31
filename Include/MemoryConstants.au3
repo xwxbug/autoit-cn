@@ -24,8 +24,8 @@ Global Const $GMEM_LOWER = 0x1000
 Global Const $GMEM_VALID_FLAGS = 0x7F72
 Global Const $GMEM_INVALID_HANDLE = 0x8000
 
-Global Const $GPTR = $GMEM_FIXED + $GMEM_ZEROINIT ; in fact equal $GMEM_ZEROINIT
-Global Const $GHND = $GMEM_MOVEABLE + $GMEM_ZEROINIT
+Global Const $GPTR = BitOR($GMEM_FIXED, $GMEM_ZEROINIT) ; in fact equal $GMEM_ZEROINIT
+Global Const $GHND = BitOR($GMEM_MOVEABLE, $GMEM_ZEROINIT)
 
 ; VirtualAlloc Allocation Type Constants
 
@@ -42,8 +42,11 @@ Global Const $PAGE_READWRITE = 0x00000004
 Global Const $PAGE_EXECUTE = 0x00000010
 Global Const $PAGE_EXECUTE_READ = 0x00000020
 Global Const $PAGE_EXECUTE_READWRITE = 0x00000040
+Global Const $PAGE_EXECUTE_WRITECOPY = 0x00000080
 Global Const $PAGE_GUARD = 0x00000100
 Global Const $PAGE_NOCACHE = 0x00000200
+Global Const $PAGE_WRITECOMBINE = 0x00000400
+Global Const $PAGE_WRITECOPY = 0x00000008
 
 ; VirtualFree FreeType Constants
 

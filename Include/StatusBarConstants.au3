@@ -9,18 +9,20 @@
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-;=== Status Bar Styles
+; Styles
 Global Const $SBARS_SIZEGRIP = 0x100
 Global Const $SBT_TOOLTIPS = 0x800
 Global Const $SBARS_TOOLTIPS = 0x800
-;=== uFlags
+
+; uFlags
 Global Const $SBT_SUNKEN = 0x0 ;Default
 Global Const $SBT_NOBORDERS = 0x100 ;The text is drawn without borders.
 Global Const $SBT_POPOUT = 0x200 ; The text is drawn with a border to appear higher than the plane of the window.
 Global Const $SBT_RTLREADING = 0x400 ;SB_SETTEXT, SB_SETTEXT, SB_GETTEXTLENGTH flags only: Displays text using right-to-left reading order on Hebrew or Arabic systems.
 Global Const $SBT_NOTABPARSING = 0x800 ;Tab characters are ignored.
 Global Const $SBT_OWNERDRAW = 0x1000 ;The text is drawn by the parent window.
-;=== Messages to send to Statusbar
+
+; Messages
 Global Const $__STATUSBARCONSTANT_WM_USER = 0X400
 Global Const $SB_GETBORDERS = ($__STATUSBARCONSTANT_WM_USER + 7)
 Global Const $SB_GETICON = ($__STATUSBARCONSTANT_WM_USER + 20)
@@ -51,9 +53,8 @@ Global Const $SB_SETUNICODEFORMAT = 0x2000 + 5
 Global Const $SB_SIMPLE = ($__STATUSBARCONSTANT_WM_USER + 9)
 
 Global Const $SB_SIMPLEID = 0xff
-; ===============================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $SBN_FIRST = -880
 Global Const $SBN_SIMPLEMODECHANGE = $SBN_FIRST - 0 ; Sent when the simple mode changes due to a $SB_SIMPLE message
 ; ===============================================================================================================================

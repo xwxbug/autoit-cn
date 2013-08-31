@@ -119,38 +119,38 @@ Global Const $WNNC_CRED_MANAGER = 0xFFFF0000
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_WinNet_AddConnection
-;_WinNet_AddConnection2
-;_WinNet_AddConnection3
-;_WinNet_CancelConnection
-;_WinNet_CancelConnection2
-;_WinNet_CloseEnum
-;_WinNet_ConnectionDialog
-;_WinNet_ConnectionDialog1
-;_WinNet_DisconnectDialog
-;_WinNet_DisconnectDialog1
-;_WinNet_EnumResource
-;_WinNet_GetConnection
-;_WinNet_GetConnectionPerformance
-;_WinNet_GetLastError
-;_WinNet_GetNetworkInformation
-;_WinNet_GetProviderName
-;_WinNet_GetResourceInformation
-;_WinNet_GetResourceParent
-;_WinNet_GetUniversalName
-;_WinNet_GetUser
-;_WinNet_OpenEnum
-;_WinNet_RestoreConnection
-;_WinNet_UseConnection
+; _WinNet_AddConnection
+; _WinNet_AddConnection2
+; _WinNet_AddConnection3
+; _WinNet_CancelConnection
+; _WinNet_CancelConnection2
+; _WinNet_CloseEnum
+; _WinNet_ConnectionDialog
+; _WinNet_ConnectionDialog1
+; _WinNet_DisconnectDialog
+; _WinNet_DisconnectDialog1
+; _WinNet_EnumResource
+; _WinNet_GetConnection
+; _WinNet_GetConnectionPerformance
+; _WinNet_GetLastError
+; _WinNet_GetNetworkInformation
+; _WinNet_GetProviderName
+; _WinNet_GetResourceInformation
+; _WinNet_GetResourceParent
+; _WinNet_GetUniversalName
+; _WinNet_GetUser
+; _WinNet_OpenEnum
+; _WinNet_RestoreConnection
+; _WinNet_UseConnection
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;$tagCONNECTDLGSTRUCT
-;$tagDISCDLGSTRUCT
-;$tagNETCONNECTINFOSTRUCT
-;$tagNETINFOSTRUCT
-;$tagREMOTE_NAME_INFO
-;__WinNet_NETRESOURCEToArray
+; $tagCONNECTDLGSTRUCT
+; $tagDISCDLGSTRUCT
+; $tagNETCONNECTINFOSTRUCT
+; $tagNETINFOSTRUCT
+; $tagREMOTE_NAME_INFO
+; __WinNet_NETRESOURCEToArray
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -257,25 +257,8 @@ Global Const $tagNETINFOSTRUCT = "dword Size;dword Version;dword Status;dword Ch
 Global Const $tagREMOTE_NAME_INFO = "ptr Universal;ptr Connection;ptr Remaining"
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_AddConnection
-; Description ...: Connects a local device to a network resource
-; Syntax.........: _WinNet_AddConnection($sLocalName, $sRemoteName[, $sPassword = 0])
-; Parameters ....: $sLocalName  - Name of a local device to be redirected, such as "F:" or "LPT1".  The string is  treated  in  a
-;                  +case-insensitive manner.  If 0, a connection to the network resource is made without  redirecting  the  local
-;                  +device.
-;                  $sRemoteName - Name of the network resource to connect to
-;                  $sPassword   - Password to be used to make a connection.  This parameter is usually  the  password  associated
-;                  +with the current user. If 0, the default password is used. If the string is empty, no password is used.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: This function is provided only for compatibility with 16-bit versions of Windows. Applications should call the
-;                  WNet_AddConnection2 or the WNet_AddConnection3 function.  A successful connection is persistent  meaning  that
-;                  the system automatically restores the connection during subsequent logon operations.
-; Related .......: _WinNet_AddConnection2, _WinNet_AddConnection3
-; Link ..........: @@MsdnLink@@ WNetAddConnection
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection($sLocalName, $sRemoteName, $sPassword = 0)
 	Local $tPassword = 0
@@ -290,40 +273,8 @@ Func _WinNet_AddConnection($sLocalName, $sRemoteName, $sPassword = 0)
 EndFunc   ;==>_WinNet_AddConnection
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_AddConnection2
-; Description ...: Connects a local device to a network resource
-; Syntax.........: _WinNet_AddConnection2($sLocalName, $sRemoteName[, $sUserName = 0[, $sPassword = 0[, $iType = 1[, $iOptions = 1]]]])
-; Parameters ....: $sLocalName  - Name of a local device to be redirected, such as "F:" or "LPT1".  The string is  treated  in  a
-;                  +case-insensitive manner.  If 0, a connection to the network resource is made without  redirecting  the  local
-;                  +device.
-;                  $sRemoteName - Name of the network resource to connect to
-;                  $sUsername   - User name for making the connection. If 0, the function uses the default user name.
-;                  $sPassword   - Password to be used to make a connection. If 0, the default password is used.  If the string is
-;                  +empty, no password is used.
-;                  $iType       - Specifies the type of network resource to connect to:
-;                  |0 - Any (only if $sLocalName is 0)
-;                  |1 - Disk
-;                  |2 - Print
-;                  $iOptions    - Connection options. Can be one or more of the following:
-;                  | 1 - The network resource connection should be remembered
-;                  | 2 - The operating system may interact with the user for authentication purposes
-;                  | 4 - The system not to use any default setting for user names or passwords  without  offering  the  user  the
-;                  +opportunity to supply an alternative. This flag is ignored unless bit 2 (interactive) is also set.
-;                  | 8 - Forces the redirection of a local device when making the connection
-;                  |16 - The operating system prompts the user for authentication using the command line instead of a  GUI.  This
-;                  +flag is ignored unless bit 2 (interactive) is also set.
-;                  |32 - If this bit is set, and the operating system prompts for a credential, the credential is  saved  by  the
-;                  +credential manager.  If the credential manager is disabled for the caller's logon session, or if the  network
-;                  +provider does not support saving credentials, this flag is ignored.  This flag is also ignored unless you set
-;                  +bit 5 (command line instead of GUI).
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_AddConnection, _WinNet_AddConnection3
-; Link ..........: @@MsdnLink@@ WNetAddConnection2
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection2($sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $tLocalName = DllStructCreate("wchar Text[1024]")
@@ -365,42 +316,8 @@ Func _WinNet_AddConnection2($sLocalName, $sRemoteName, $sUserName = 0, $sPasswor
 EndFunc   ;==>_WinNet_AddConnection2
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_AddConnection3
-; Description ...: Connects a local device to a network resource
-; Syntax.........: _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName[, $sUserName = 0[, $sPassword = 0[, $iType = 1[, $iOptions = 1]]]])
-; Parameters ....: $hWnd        - Handle to a window that the provider of network resources  can  use  as  an  owner  window  for
-;                  +dialogs. Use this parameter if you set bit 2 (interactive) in the Options parameter. This parameter can be 0.
-;                  $sLocalName  - Name of a local device to be redirected, such as "F:" or "LPT1".  The string is  treated  in  a
-;                  +case-insensitive manner.  If 0, a connection to the network resource is made without  redirecting  the  local
-;                  +device.
-;                  $sRemoteName - Name of the network resource to connect to
-;                  $sUsername   - User name for making the connection.  If 0, the function uses the default user name.
-;                  $sPassword   - Password to be used to make a connection.  If 0, the default password is used. If the string is
-;                  +empty, no password is used.
-;                  $iType       - Specifies the type of network resource to connect to:
-;                  |0 - Any (only if $sLocalName is 0)
-;                  |1 - Disk
-;                  |2 - Print
-;                  $iOptions    - Connection options. Can be one or more of the following:
-;                  | 1 - The network resource connection should be remembered
-;                  | 2 - The operating system may interact with the user for authentication purposes
-;                  | 4 - The system not to use any default setting for user names or passwords  without  offering  the  user  the
-;                  +opportunity to supply an alternative.  This flag is ignored unless bit 2 (interactive) is also set.
-;                  | 8 - Forces the redirection of a local device when making the connection
-;                  |16 - The operating system prompts the user for authentication using the command line instead of a  GUI.  This
-;                  +flag is ignored unless bit 2 (interactive) is also set.
-;                  |32 - If this bit is set, and the operating system prompts for a credential, the credential is  saved  by  the
-;                  +credential manager.  If the credential manager is disabled for the caller's logon session, or if the  network
-;                  +provider does not support saving credentials, this flag is ignored.  This flag is also ignored unless you set
-;                  +bit 5 (command line instead of GUI).
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_AddConnection, _WinNet_AddConnection2
-; Link ..........: @@MsdnLink@@ WNetAddConnection3
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $tLocalName = DllStructCreate("wchar Text[1024]")
@@ -442,24 +359,8 @@ Func _WinNet_AddConnection3($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $s
 EndFunc   ;==>_WinNet_AddConnection3
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_CancelConnection
-; Description ...: Cancels an existing network connection
-; Syntax.........: _WinNet_CancelConnection($sName[, $fForce = True])
-; Parameters ....: $sName       - Name of either the redirected local device or the remote network resource to  disconnect  from.
-;                  +When this parameter specifies a redirected local device, the  function  cancels  only  the  specified  device
-;                  +redirection.  If the parameter specifies a remote network resource, only the connections to  remote  networks
-;                  +without devices are canceled.
-;                  $fForce      - Specifies whether or not the disconnection should occur if there are open files or jobs on  the
-;                  +connection.  If this parameter is False, the function fails if there are open files or jobs.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: This function is provided for compatibility with 16-bit versions of  Windows. Other Windows-based applications
-;                  should call the WNet_CancelConnection2 function.
-; Related .......: _WinNet_CancelConnection2
-; Link ..........: @@MsdnLink@@ WNetCancelConnection
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CancelConnection($sName, $fForce = True)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetCancelConnectionW", "wstr", $sName, "bool", $fForce)
@@ -468,25 +369,8 @@ Func _WinNet_CancelConnection($sName, $fForce = True)
 EndFunc   ;==>_WinNet_CancelConnection
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_CancelConnection2
-; Description ...: Cancels an existing network connection
-; Syntax.........: _WinNet_CancelConnection2($sName[, $fUpdate = True[, $fForce = True]])
-; Parameters ....: $sName       - Name of either the redirected local device or the remote network resource to  disconnect  from.
-;                  +When this parameter specifies a redirected local device, the  function  cancels  only  the  specified  device
-;                  +redirection.  If the parameter specifies a remote network resource, only the connections to  remote  networks
-;                  +without devices are canceled.
-;                  $fUpdate     - If True, the users profile is updated with the information that the connection is no  longer  a
-;                  +persistent one.
-;                  $fForce      - Specifies whether or not the disconnection should occur if there are open files or jobs on  the
-;                  +connection.  If this parameter is False, the function fails if there are open files or jobs.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_CancelConnection
-; Link ..........: @@MsdnLink@@ WNetCancelConnection2
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CancelConnection2($sName, $fUpdate = True, $fForce = True)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetCancelConnection2W", "wstr", $sName, "dword", $fUpdate, "bool", $fForce)
@@ -495,19 +379,8 @@ Func _WinNet_CancelConnection2($sName, $fUpdate = True, $fForce = True)
 EndFunc   ;==>_WinNet_CancelConnection2
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_CloseEnum
-; Description ...: Ends a network resource enumeration started by a call to WNetOpenEnum
-; Syntax.........: _WinNet_CloseEnum($hEnum)
-; Parameters ....: $hEnum       - Handle that identifies an enumeration instance.  The handle is returned  by  the  WNet_OpenEnum
-;                  +function
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_OpenEnum
-; Link ..........: @@MsdnLink@@ WNetCloseEnum
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_CloseEnum($hEnum)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetCloseEnum", "handle", $hEnum)
@@ -516,18 +389,8 @@ Func _WinNet_CloseEnum($hEnum)
 EndFunc   ;==>_WinNet_CloseEnum
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_ConnectionDialog
-; Description ...: Starts a general browsing dialog box for connecting to network resources
-; Syntax.........: _WinNet_ConnectionDialog($hWnd)
-; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_ConnectionDialog1
-; Link ..........: @@MsdnLink@@ WNetConnectionDialog
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_ConnectionDialog($hWnd)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetConnectionDialog", "hwnd", $hWnd, "dword", $RESOURCETYPE_DISK)
@@ -536,25 +399,8 @@ Func _WinNet_ConnectionDialog($hWnd)
 EndFunc   ;==>_WinNet_ConnectionDialog
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_ConnectionDialog1
-; Description ...: Starts a general browsing dialog box for connecting to network resources
-; Syntax.........: _WinNet_ConnectionDialog1($hWnd[, $sRemoteName = ""[, $iFlags = 2]])
-; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
-;                  $sRemoteName - Name of the network resource to connect to
-;                  $iFlags      - Dialog box options. Can be one or more of the following:
-;                  | 1 - Display a read-only path instead of allowing the user to type in a path
-;                  | 2 - Enter the most recently used paths into the combination box
-;                  | 4 - Do not show the restore the connection at logon checkbox
-;                  | 8 - Restore the connection at logon
-;                  |16 - Do not restore the connection at logon
-; Return values .: Success      - The number of the connected device.  The value is 1 for A:, 2 for B:, 3 for C: and  so  on.  If
-;                  +the user made a deviceless connection, the value is –1.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_ConnectionDialog
-; Link ..........: @@MsdnLink@@ WNetConnectionDialog1
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_ConnectionDialog1($hWnd, $sRemoteName = "", $iFlags = 2)
 	Local $tRemoteName = DllStructCreate("wchar Text[1024]")
@@ -587,18 +433,8 @@ Func _WinNet_ConnectionDialog1($hWnd, $sRemoteName = "", $iFlags = 2)
 EndFunc   ;==>_WinNet_ConnectionDialog1
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_DisconnectDialog
-; Description ...: Starts a general browsing dialog box for disconnecting from network resources
-; Syntax.........: _WinNet_DisconnectDialog($hWnd)
-; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_DisconnectDialog1
-; Link ..........: @@MsdnLink@@ WNetDisconnectDialog
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_DisconnectDialog($hWnd)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetDisconnectDialog", "hwnd", $hWnd, "dword", $RESOURCETYPE_DISK)
@@ -607,26 +443,8 @@ Func _WinNet_DisconnectDialog($hWnd)
 EndFunc   ;==>_WinNet_DisconnectDialog
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_DisconnectDialog1
-; Description ...: Starts a general browsing dialog box for disconnecting from network resources
-; Syntax.........: _WinNet_DisconnectDialog1($hWnd, $sLocalName[, $sRemoteName = ""[, $iFlags = 1]])
-; Parameters ....: $hWnd        - Handle to the owner window for the dialog box
-;                  $sLocalName  - Name of a local device, such as "F:" or "LPT1"
-;                  $sRemoteName - Name of the network resource to disconnect.  This member can be 0 if $LocalName  is  specified.
-;                  +When sLocalName is  specified,  the  connection  to  the  network  resource  redirected  from  sLocalName  is
-;                  +disconnected.
-;                  $iFlags      - Flags describing the connection. Can be a combination of:
-;                  |1 - If this value is set, the specified connection is no longer a persistent one.  This flag is valid only if
-;                  +sLocalName specifies a local device.
-;                  |2 - If this value is NOT set, the system applies force when disconnecting
-; Return values .: Success      - 1
-;                  Failure      - 0 and set @error
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_DisconnectDialog
-; Link ..........: @@MsdnLink@@ WNetDisconnectDialog1
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_DisconnectDialog1($hWnd, $sLocalName, $sRemoteName = "", $iFlags = 1)
 	Local $tLocalName = DllStructCreate("wchar Text[1024]")
@@ -659,28 +477,8 @@ Func _WinNet_DisconnectDialog1($hWnd, $sLocalName, $sRemoteName = "", $iFlags = 
 EndFunc   ;==>_WinNet_DisconnectDialog1
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_EnumResource
-; Description ...: Continues an enumeration of network resources
-; Syntax.........: _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
-; Parameters ....: $hEnum       - Handle that identifies an enumeration instance.  The handle is returned by  the  _WinNet_OpenEnum
-;                  +function.
-;                  $iCount      - Number of entries requested.  If the number requested is  –1,  the  function  returns  as  many
-;                  +entries as possible. If the function succeeds, on return the variable contains the number of entries actually
-;                  +read
-;                  $pBuffer     - Pointer to the buffer that receives the enumeration results.  The results are  returned  as  an
-;                  +array of $tagNETRESOURCE structures.  The buffer must be large enough to hold the structures plus the  strings
-;                  +to which their members point.  The buffer is valid until the next call using the handle specified  by  hEnum.
-;                  +The order of $tagNETRESOURCE structures in the array is not predictable.
-;                  $iBufSize    - The size of the buffer, in bytes.  If the buffer is too small to receive even one  entry,  this
-;                  +parameter receives the required size of the buffer.
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_OpenEnum, $tagNETRESOURCE
-; Link ..........: @@MsdnLink@@ WNetEnumResource
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetEnumResourceW", "handle", $hEnum, "dword*", $iCount, "ptr", $pBuffer, "dword*", $iBufSize)
@@ -691,17 +489,8 @@ Func _WinNet_EnumResource($hEnum, ByRef $iCount, $pBuffer, ByRef $iBufSize)
 EndFunc   ;==>_WinNet_EnumResource
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetConnection
-; Description ...: Retrieves the name of the network resource associated with a local device
-; Syntax.........: _WinNet_GetConnection($sLocalName)
-; Parameters ....: $sLocalName  - The name of the local device to get the network name for
-; Return values .: Success      - The remote name used to make the connection
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetConnection
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetConnection($sLocalName)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetConnectionW", "wstr", $sLocalName, "wstr", "", "dword*", 4096)
@@ -710,30 +499,8 @@ Func _WinNet_GetConnection($sLocalName)
 EndFunc   ;==>_WinNet_GetConnection
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetConnectionPerformance
-; Description ...: Returns information about the performance of a network connection resource
-; Syntax.........: _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
-; Parameters ....: $sLocalName  - Name of a local device, such as "F:" or "LPT1", that is redirected to a network resource to  be
-;                  +queried.  If blank, the network resource is specified in sRemoteName.  If this parameter  specifies  a  local
-;                  +device sRemoteName is ignored.
-;                  $sRemoteName - Name of the network resource  to  query.  The  resource  must  currently  have  an  established
-;                  +connection.  For example, if the resource is a file on a file server, then having the file open  will  ensure
-;                  +the connection.
-; Return values .: Success      - Array with the following format:
-;                  |$aInfo[0] - Connection description. Can be one of more of the following:
-;                  | 1 - The information returned applies to the performance of the network card
-;                  | 2 - The connection is not being routed
-;                  | 4 - The connection is over a medium that is typically slow
-;                  | 8 - Some of the information returned is calculated dynamically
-;                  |$aInfo[1] - Speed of the media to the network resource, in 100 bps
-;                  |$aInfo[2] - One-way delay time introduced when sending information
-;                  |$aInfo[3] - Size of data that an application should use when making a single request to the resource
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ MultinetGetConnectionPerformance
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
 
@@ -761,19 +528,8 @@ Func _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
 EndFunc   ;==>_WinNet_GetConnectionPerformance
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetLastError
-; Description ...: Retrieves the most recent extended error
-; Syntax.........: _WinNet_GetLastError(ByRef $iError, ByRef $sError, ByRef $sName)
-; Parameters ....: $iError      - On return, contains the most recent extended error code
-;                  $sError      - On return, contains the most recent extended error code message
-;                  $sName       - On return, the network provider that raised the error
-; Return values .: Success      - The most recent error message
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetLastError
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetLastError(ByRef $iError, ByRef $sError, ByRef $sName)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetLastErrorW", "dword*", $iError, "wstr", "", "dword", 1024, "wstr", "", "dword", 1024)
@@ -785,28 +541,8 @@ Func _WinNet_GetLastError(ByRef $iError, ByRef $sError, ByRef $sName)
 EndFunc   ;==>_WinNet_GetLastError
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetNetworkInformation
-; Description ...: Returns extended information about a specific network provider
-; Syntax.........: _WinNet_GetNetworkInformation($sName)
-; Parameters ....: $sName       - The network provider for which information is required
-; Return values .: Success      - Array with the following format:
-;                  |$aInfo[0] - Version number of the network provider software
-;                  |$aInfo[1] - Current status of the network provider software:
-;                  | 0 - The network is running
-;                  | 1 - The network is unavailable
-;                  | 2 - The network is not currently able to service requests
-;                  |$aInfo[2] - Instance handle for the network provider
-;                  |$aInfo[3] - High word of the network type unique to the running network
-;                  |$aInfo[4] - Set of bit flags indicating the valid print numbers for redirecting local printer  devices,  with
-;                  +the low-order bit corresponding to LPT1.
-;                  |$aInfo[5] - Set of bit flags indicating the valid local disk devices that can be used  for  redirecting  disk
-;                  +drives, with the low-order bit corresponding to A:.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetNetworkInformationA
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetNetworkInformation($sName)
 	Local $tInfo = DllStructCreate($tagNETINFOSTRUCT)
@@ -825,17 +561,8 @@ Func _WinNet_GetNetworkInformation($sName)
 EndFunc   ;==>_WinNet_GetNetworkInformation
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetProviderName
-; Description ...: Obtains the provider name for a specific type of network
-; Syntax.........: _WinNet_GetProviderName($iType)
-; Parameters ....: $iType       - Network type that is unique to the network
-; Return values .: Success      - Network provider name
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetProviderName
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetProviderName($iType)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetProviderNameW", "dword", $iType, "wstr", "", "dword*", 4096)
@@ -844,51 +571,8 @@ Func _WinNet_GetProviderName($iType)
 EndFunc   ;==>_WinNet_GetProviderName
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetResourceInformation
-; Description ...: Identifies the network provider that owns the resource
-; Syntax.........: _WinNet_GetResourceInformation($sRemoteName[, $sProvider = ""[, $iType = 0]])
-; Parameters ....: $sRemoteName - The remote path name of the resource
-;                  $sProvider   - The name of the provider that owns the resource.  This member can be blank if the provider name
-;                  +is unknown.
-;                  $iType       - Type of resource. This member can be 0 if it is not known.
-; Return values .: Success      - Array with the following format:
-;                  |$aResource[0] - Scope of enumeration:
-;                  | 0 - Connected
-;                  | 1 - All resources
-;                  | 2 - Remembered
-;                  |$aResource[1] - Type of resource:
-;                  | 0 - Disk
-;                  | 1 - Print
-;                  | 2 - Unknown
-;                  |$aResource[2] - Display option:
-;                  | 0 - Generic
-;                  | 1 - Domain
-;                  | 2 - Server
-;                  | 3 - Share
-;                  | 4 - File
-;                  | 5 - Group
-;                  | 6 - Network
-;                  | 7 - Root
-;                  | 8 - Admin Share
-;                  | 9 - Directory
-;                  |10 - Tree
-;                  |11 - NDS Container
-;                  |$aResource[3] - Resource usage. Can be one or more of the following:
-;                  | 1 - The resource is a connectable resource
-;                  | 2 - The resource is a container resource
-;                  | 4 - The resource is attached
-;                  | 8 - Thre resource is reserved
-;                  |$aResource[4] - Local name
-;                  |$aResource[5] - Remote name
-;                  |$aResource[6] - Comment supplied by the network provider
-;                  |$aResource[7] - The name of the provider that owns the resource
-;                  |$aResource[8] - The part of the resource that is accessed through system functions
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetResourceInformation
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetResourceInformation($sRemoteName, $sProvider = "", $iType = 0)
 	Local $iRemote = StringLen($sRemoteName) + 1
@@ -920,49 +604,8 @@ Func _WinNet_GetResourceInformation($sRemoteName, $sProvider = "", $iType = 0)
 EndFunc   ;==>_WinNet_GetResourceInformation
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetResourceParent
-; Description ...: Returns the parent of a network resource in the network browse hierarchy
-; Syntax.........: _WinNet_GetResourceParent($sRemoteName, $sProvider[, $iType = 0])
-; Parameters ....: $sRemoteName - The remote path name of the resource
-;                  $sProvider   - The name of the provider that owns the resource
-;                  $iType       - Type of resource. This member can be 0 if it is not known.
-; Return values .: Success      - Array with the following format:
-;                  |$aResource[0] - Scope of enumeration:
-;                  | 0 - Connected
-;                  | 1 - All resources
-;                  | 2 - Remembered
-;                  |$aResource[1] - Type of resource:
-;                  | 0 - Disk
-;                  | 1 - Print
-;                  | 2 - Unknown
-;                  |$aResource[2] - Display option:
-;                  | 0 - Generic
-;                  | 1 - Domain
-;                  | 2 - Server
-;                  | 3 - Share
-;                  | 4 - File
-;                  | 5 - Group
-;                  | 6 - Network
-;                  | 7 - Root
-;                  | 8 - Admin Share
-;                  | 9 - Directory
-;                  |10 - Tree
-;                  |11 - NDS Container
-;                  |$aResource[3] - Resource usage. Can be one or more of the following:
-;                  | 1 - The resource is a connectable resource
-;                  | 2 - The resource is a container resource
-;                  | 4 - The resource is attached
-;                  | 8 - Thre resource is reserved
-;                  |$aResource[4] - Local name
-;                  |$aResource[5] - Remote name
-;                  |$aResource[6] - Comment supplied by the network provider
-;                  |$aResource[7] - The name of the provider that owns the resource
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetResourceParent
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetResourceParent($sRemoteName, $sProvider, $iType = 0)
 	Local $iRemote = StringLen($sRemoteName) + 1
@@ -989,20 +632,8 @@ Func _WinNet_GetResourceParent($sRemoteName, $sProvider, $iType = 0)
 EndFunc   ;==>_WinNet_GetResourceParent
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetUniversalName
-; Description ...: Converts drived based path to universal form
-; Syntax.........: _WinNet_GetUniversalName($sLocalPath)
-; Parameters ....: $sLocalPath  - Drive based path for a network resource
-; Return values .: Success      - Array with the following format:
-;                  |$aPath[0] - UNC name string that identifies a network resource
-;                  |$aPath[1] - Name of the network connection
-;                  |$aPath[2] - Remaining path string
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetUniversalName
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetUniversalName($sLocalPath)
 	Local $iLocal = StringLen($sLocalPath) + 1
@@ -1028,19 +659,8 @@ Func _WinNet_GetUniversalName($sLocalPath)
 EndFunc   ;==>_WinNet_GetUniversalName
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_GetUser
-; Description ...: Retrieves the default user name, or the user name used to establish a connection
-; Syntax.........: _WinNet_GetUser($sName)
-; Parameters ....: $sName       - Either the name of a local device that has been redirected to a network resource, or the remote
-;                  +name of a network resource to which a connection has been made without redirecting a local device.  If blank,
-;                  +the system returns the name of the current user for the process.
-; Return values .: Success      - User name
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetGetUser
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_GetUser($sName)
 	Local $aResult = DllCall("mpr.dll", "dword", "WNetGetUserW", "wstr", $sName, "wstr", "", "dword*", 4096)
@@ -1051,7 +671,7 @@ EndFunc   ;==>_WinNet_GetUser
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __WinNet_NETRESOURCEToArray
 ; Description ...: Returns an array from a $tagNETRESOURCE structure
-; Syntax.........: __WinNet_NETRESOURCEToArray($pResource)
+; Syntax.........: __WinNet_NETRESOURCEToArray ( $pResource )
 ; Parameters ....: $pResource   - Pointer to a $tagNETRESOURCE structure
 ; Return values .: Success      - Array with the following format:
 ;                  |$aResource[0] - Scope of enumeration:
@@ -1144,34 +764,8 @@ Func __WinNet_NETRESOURCEToArray($pResource)
 EndFunc   ;==>__WinNet_NETRESOURCEToArray
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_OpenEnum
-; Description ...: Starts an enumeration of network resources or existing connections
-; Syntax.........: _WinNet_OpenEnum($iScope, $iType, $iUsage, $pResource, ByRef $hEnum)
-; Parameters ....: $iScope      - Scope of the enumeration:
-;                  |0 - Enumerate all currently connected resources
-;                  |1 - Enumerate all resources on the network
-;                  |2 - Enumerate all remembered (persistent) connections
-;                  |3 - Enumerate only resources in the network context of the caller
-;                  $iType       - Resource types:
-;                  |0 - All resources
-;                  |1 - Disk resources
-;                  |2 - Print resources
-;                  $iUsage      - Resource usage types:
-;                  |0 - All resources
-;                  |1 - All connectable resources
-;                  |2 - All container resources
-;                  |4 - Forces the function to fail if the user is not authenticated
-;                  $pResource   - Pointer to a $tagNETRESOURCE structure that specifies the container to enumerate.  If iScope  is
-;                  +not 1, this must be 0. If 0, the root of the network is assumed.
-;                  $hEnum       - On return, a handle that can be used in calls to WNet_EnumResource
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _WinNet_EnumResource, _WinNet_CloseEnum, $tagNETRESOURCE
-; Link ..........: @@MsdnLink@@ WNetOpenEnum
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_OpenEnum($iScope, $iType, $iUsage, $pResource, ByRef $hEnum)
 	Switch $iScope
@@ -1198,22 +792,8 @@ Func _WinNet_OpenEnum($iScope, $iType, $iUsage, $pResource, ByRef $hEnum)
 EndFunc   ;==>_WinNet_OpenEnum
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_RestoreConnection
-; Description ...: Restores the connection to a network resource
-; Syntax.........: _WinNet_RestoreConnection([$sDevice = ""[, $hWnd = 0[, $fUseUI = True]]])
-; Parameters ....: $sDevice     - The local name of the drive to connect to, such as "Z:".  If blank, the function reconnects all
-;                  +persistent drives stored in the registry for the current user.
-;                  $hWnd        - Handle to the parent window that the function uses to display the user interface  that  prompts
-;                  +the user for a name and password when making the network connection. If 0, there is no owner window.
-;                  $fUseUI      - If True, display a username/password prompt to the caller
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetRestoreConnection
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_RestoreConnection($sDevice = "", $hWnd = 0, $fUseUI = True)
 	Local $tDevice = 0
@@ -1227,46 +807,8 @@ Func _WinNet_RestoreConnection($sDevice = "", $hWnd = 0, $fUseUI = True)
 EndFunc   ;==>_WinNet_RestoreConnection
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinNet_UseConnection
-; Description ...: Connects a local device to a network resource
-; Syntax.........: _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName[, $sUserName = 0[, $sPassword = 0[, $iType = 1[, $iOptions = 1]]]])
-; Parameters ....: $hWnd        - Handle to a window that the provider of network resources  can  use  as  an  owner  window  for
-;                  +dialogs. Use this parameter if you set bit 2 (interactive) in the Options parameter. This parameter can be 0.
-;                  $sLocalName  - Name of a local device to be redirected, such as "F:" or "LPT1".  The string is  treated  in  a
-;                  +case-insensitive manner.  If 0, a connection to the network resource is made without  redirecting  the  local
-;                  +device.
-;                  $sRemoteName - Name of the network resource to connect to
-;                  $sUsername   - User name for making the connection.  If 0, the  function uses the default user name.
-;                  $sPassword   - Password to be used to make a connection. If 0, the default password is used.  If the string is
-;                  +empty, no password is used.
-;                  $iType       - Specifies the type of network resource to connect to:
-;                  |0 - Any (only if $sLocalName is blank)
-;                  |1 - Disk
-;                  |2 - Print
-;                  $iOptions    - Connection options. Can be one or more of the following:
-;                  | 1 - The network resource connection should be remembered
-;                  | 2 - The operating system may interact with the user for authentication purposes
-;                  | 4 - The system does not use any default setting for user names or passwords without offering  the  user  the
-;                  +opportunity to supply an alternative.  This flag is ignored unless bit 2 (interactive) is also set.
-;                  | 8 - Forces the redirection of a local device when making the connection
-;                  |16 - The operating system prompts the user for authentication using the command line instead of a  GUI.  This
-;                  +flag is ignored unless bit 2 (interactive) is also set.
-;                  |32 - If this bit is set, and the operating system prompts for a credential, the credential is  saved  by  the
-;                  +credential manager.  If the credential manager is disabled for the caller's logon session, or if the  network
-;                  +provider does not support saving credentials, this flag is ignored.  This flag is also ignored unless you set
-;                  +bit 5 (command line instead of GUI).
-; Return values .: Success      - Array with the following format:
-;                  |$aInfo[0] - If True, the connection was made using a local device redirection
-;                  |$aInfo[1] - If sLocalName specifies a local device, this is the local device name.  If  sLocalName  does  not
-;                  +specify a device and the network requires a local device redirection, or if bit 4 (force redirection) is set,
-;                  +this buffer receives the name of the redirected local device.  Otherwise, the name copied into the buffer  is
-;                  +that of a remote resource.
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ WNetUseConnection
-; Example .......:
 ; ===============================================================================================================================
 Func _WinNet_UseConnection($hWnd, $sLocalName, $sRemoteName, $sUserName = 0, $sPassword = 0, $iType = 1, $iOptions = 1)
 	Local $iLocalName = StringLen($sLocalName) + 1

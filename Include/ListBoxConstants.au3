@@ -8,7 +8,8 @@
 ; Author(s) .....: Valik, Gary Frost, ...
 ; ===============================================================================================================================
 
-; #STYLES# ======================================================================================================================
+; #CONSTANTS# ===================================================================================================================
+; Styles
 Global Const $LBS_NOTIFY = 0x00000001 ; Notifies whenever the user clicks or double clicks a string
 Global Const $LBS_SORT = 0x00000002 ; Sorts strings in the list box alphabetically
 Global Const $LBS_NOREDRAW = 0x00000004 ; Specifies that the appearance is not updated when changes are made
@@ -26,16 +27,17 @@ Global Const $LBS_NODATA = 0x00002000 ; Specifies a no-data list box
 Global Const $LBS_NOSEL = 0x00004000 ; Specifies that items that can be viewed but not selected
 Global Const $LBS_COMBOBOX = 0x00008000 ; Notifies a list box that it is part of a combo box
 Global Const $LBS_STANDARD = 0x00000003 ; Standard list box style
-; ===============================================================================================================================
 
-; #ERRORS# ======================================================================================================================
+; Control default styles
+Global Const $GUI_SS_DEFAULT_LIST = 0x00a00003 ; BitOR($LBS_SORT, $WS_BORDER, $S_VSCROLL, $LBS_NOTIFY)
+
+; Errors
 Global Const $LB_ERR = -1
 Global Const $LB_ERRATTRIBUTE = -3
 Global Const $LB_ERRREQUIRED = -4
 Global Const $LB_ERRSPACE = -2
-; ===============================================================================================================================
 
-; #MESSAGES# ====================================================================================================================
+; Messages
 Global Const $LB_ADDSTRING = 0x0180
 Global Const $LB_INSERTSTRING = 0x0181
 Global Const $LB_DELETESTRING = 0x0182
@@ -78,9 +80,8 @@ Global Const $LB_INITSTORAGE = 0x01A8
 Global Const $LB_ITEMFROMPOINT = 0x01A9
 Global Const $LB_MULTIPLEADDSTRING = 0x01B1
 Global Const $LB_GETLISTBOXINFO = 0x01B2
-; ================================================================================================================================
 
-; #NOTIFICATIONS# ===============================================================================================================
+; Notifications
 Global Const $LBN_ERRSPACE = 0xFFFFFFFE ; Sent when a list box cannot allocate enough memory for a request
 Global Const $LBN_SELCHANGE = 0x00000001 ; Sent when the selection in a list box is about to change
 Global Const $LBN_DBLCLK = 0x00000002 ; Sent when the user double clicks a string in a list box
@@ -88,8 +89,3 @@ Global Const $LBN_SELCANCEL = 0x00000003 ; Sent when the user cancels the select
 Global Const $LBN_SETFOCUS = 0x00000004 ; Sent when a list box receives the keyboard focus
 Global Const $LBN_KILLFOCUS = 0x00000005 ; Sent when a list box loses the keyboard focus
 ; ===============================================================================================================================
-
-; Control default styles
-Global Const $__LISTBOXCONSTANT_WS_BORDER = 0x00800000
-Global Const $__LISTBOXCONSTANT_WS_VSCROLL = 0x00200000
-Global Const $GUI_SS_DEFAULT_LIST = BitOR($LBS_SORT, $__LISTBOXCONSTANT_WS_BORDER, $__LISTBOXCONSTANT_WS_VSCROLL, $LBS_NOTIFY)

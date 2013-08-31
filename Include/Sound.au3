@@ -1,5 +1,6 @@
 #include-once
 
+#include "FileConstants.au3"
 #include "File.au3"		; Using: _PathSplit
 
 ; #INDEX# =======================================================================================================================
@@ -16,42 +17,30 @@ Global Const $__SOUNDCONSTANT_SNDID_MARKER = 0x49442d2d
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_SoundOpen
-;_SoundClose
-;_SoundPlay
-;_SoundStop
-;_SoundPause
-;_SoundResume
-;_SoundLength
-;_SoundSeek
-;_SoundStatus
-;_SoundPos
+; _SoundOpen
+; _SoundClose
+; _SoundPlay
+; _SoundStop
+; _SoundPause
+; _SoundResume
+; _SoundLength
+; _SoundSeek
+; _SoundStatus
+; _SoundPos
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY#============================================================================================================
-;__SoundChkSndID
-;__SoundMciSendString
-;__SoundReadTLENFromMP3
-;__SoundReadXingFromMP3
-;__SoundTicksToTime
-;__SoundTimeToTicks
+; __SoundChkSndID
+; __SoundMciSendString
+; __SoundReadTLENFromMP3
+; __SoundReadXingFromMP3
+; __SoundTicksToTime
+; __SoundTimeToTicks
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundOpen
-; Description ...: Opens a sound file for use with other _Sound functions
-; Syntax.........: _SoundOpen($sFile)
-; Parameters ....: $sFile - The sound file
-; Return values..: Success      - 3-element array (used as Sound ID)
-;                  Failure      - 0 and Sets @error to:
-;                  @error     1 - Open failed - @extended holds MCI error code
-;                             2 - File does not exist
 ; Author ........: RazerM, Melba23, some code by Simucal, PsaltyDS
 ; Modified.......:
-; Remarks .......:
-; Related .......: _SoundClose, _SoundLength, _SoundPause, _SoundPlay, , _SoundResume, _SoundStatus, _SoundStop
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundOpen($sFile)
 	;check for file
@@ -107,7 +96,7 @@ Func _SoundOpen($sFile)
 	If $fTryNextMethod Then
 		$fTryNextMethod = False
 		If $szExt = ".mp3" Then
-			Local $hFile = FileOpen(FileGetShortName($sSndDirName & $sSndFileName), 4)
+			Local $hFile = FileOpen(FileGetShortName($sSndDirName & $sSndFileName), $FO_READ)
 			$sTag = FileRead($hFile, 5156)
 			FileClose($hFile)
 			$sTrackLength = __SoundReadXingFromMP3($sTag)
@@ -168,20 +157,8 @@ Func _SoundOpen($sFile)
 EndFunc   ;==>_SoundOpen
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundClose
-; Description ...: Closes a sound
-; Syntax.........: _SoundClose($aSndID)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen()
-; Return values..: Success      - 1
-;                  Failure      - 0 and set @error
-;                  @error     1 - Close failed
-;                             3 - Invalid Sound ID
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundClose($aSndID)
 	If Not IsArray($aSndID) Or Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid sound ID
@@ -192,22 +169,8 @@ Func _SoundClose($aSndID)
 EndFunc   ;==>_SoundClose
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundPlay
-; Description ...: Plays a sound from the current position (beginning is the default)
-; Syntax.........:_SoundPlay($aSndID[, $iWait = 0])
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file
-;				   $iWait - If set to 1 the script will wait for the sound to finish before continuing
-; Return values..: Success      - 1
-;                  Failure      - 0 and set @error
-;                  @error     1 - Play failed
-;                             2 - Invalid $iWait parameter
-;                             3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......: _SoundPause, _SoundStop, _SoundSeek, _SoundOpen, _SoundResume
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundPlay($aSndID, $iWait = 0)
 	;validate $iWait
@@ -228,20 +191,8 @@ Func _SoundPlay($aSndID, $iWait = 0)
 EndFunc   ;==>_SoundPlay
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundStop
-; Description ...: Stops the sound
-; Syntax.........: _SoundStop(ByRef $aSndID)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file (must be a variable)
-; Return values..: Success    - 1
-;                  Failure    - 0 and set @error
-;                  @error   1 - Stop failed
-;                           3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundStop(ByRef $aSndID)
 	; create temp variable so file name variable is not changed ByRef
@@ -262,20 +213,8 @@ Func _SoundStop(ByRef $aSndID)
 EndFunc   ;==>_SoundStop
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundPause
-; Description ...: Pauses the sound
-; Syntax.........: _SoundPause($aSndID)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file
-; Return values..: Success      - 1
-;                  Failure      - 0 and sets @error
-;                  @error     1 - Pause failed
-;                             3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......: _SoundResume, _SoundOpen, _SoundPlay
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundPause($aSndID)
 	If Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid Sound ID or file name
@@ -288,20 +227,8 @@ Func _SoundPause($aSndID)
 EndFunc   ;==>_SoundPause
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundResume
-; Description ...: Resumes the sound after being paused
-; Syntax.........: _SoundResume($aSndID)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file
-; Return values..: Success      - 1
-;                  Failure      - 0 and set @error
-;                  @error     1 - Resume failed
-;                             3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundResume($aSndID)
 	If Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid Sound ID or file name
@@ -314,21 +241,8 @@ Func _SoundResume($aSndID)
 EndFunc   ;==>_SoundResume
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundLength
-; Description ...: Returns the length of the sound in the format hh:mm:ss
-; Syntax.........: _SoundLength($aSndID[, $iMode = 1])
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file,
-;				   $iMode = 1 - hh:mm:ss, $iMode = 2 - milliseconds
-; Return values .: Success      - Length of the sound
-;                  Failure      - 0 and set @error
-;                  @error     1 - Invalid $iMode parameter
-;                             3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......: jpm
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundLength($aSndID, $iMode = 1)
 	;validate $iMode
@@ -366,20 +280,8 @@ Func _SoundLength($aSndID, $iMode = 1)
 EndFunc   ;==>_SoundLength
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundSeek
-; Description ...: Seeks the sound to a specified time
-; Syntax.........:  _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() (must NOT be a file), $iHour, $iMin, $iSec
-; Return values..: Success      - 1
-;                  Failure      - 0 and set @error
-;                  @error     1 - Seek failed
-;                             3 - Invalid Sound ID
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 	If Not IsArray($aSndID) Or Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid Sound ID
@@ -405,19 +307,8 @@ Func _SoundSeek(ByRef $aSndID, $iHour, $iMin, $iSec)
 EndFunc   ;==>_SoundSeek
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundStatus
-; Description ...: All devices can return the "not ready", "paused", "playing", and "stopped" values.
-; Syntax.........: _SoundStatus($aSndID)
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file
-; Return values..: Success      - Sound status
-;                  Failure      - 0 and set @error
-;                  @error     3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......: Some devices can return the additional "open", "parked", "recording", and "seeking" values.(MSDN)
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundStatus($aSndID)
 	If Not __SoundChkSndID($aSndID) Then Return SetError(3, 0, 0) ; invalid Sound ID or file name
@@ -427,21 +318,8 @@ Func _SoundStatus($aSndID)
 EndFunc   ;==>_SoundStatus
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _SoundPos
-; Description ...: Returns the current position of the song
-; Syntax.........: _SoundPos($aSndID[, $iMode = 1])
-; Parameters ....: $aSndID - Sound ID returned by _SoundOpen() or sound file,
-;				   $iMode = 1 - hh:mm:ss, $iMode = 2 - milliseconds
-; Return values..: Success      - Current position
-;                  Failure      - 0 and set @error
-;                  @error     1 - Invalid $iMode
-;                  |3 - Invalid Sound ID or file name
 ; Author ........: RazerM, Melba23
 ; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _SoundPos($aSndID, $iMode = 1)
 	;validate $iMode
@@ -474,7 +352,7 @@ EndFunc   ;==>_SoundPos
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SoundChkSndID
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SoundChkSndID(ByRef $aSndID, $bInit=False, $iPos=Default)
+; Syntax.........: __SoundChkSndID ( ByRef $aSndID )
 ; Author ........: jpm
 ; Modified.......: Melba23
 ; Remarks .......:
@@ -497,7 +375,7 @@ EndFunc   ;==>__SoundChkSndID
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SoundMciSendString
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SoundMciSendString($string[, $iLen = 0])
+; Syntax.........: __SoundMciSendString ( $string [, $iLen = 0] )
 ; Author ........: RazerM, Melba23
 ; Modified.......:
 ; Related .......:
@@ -514,7 +392,7 @@ EndFunc   ;==>__SoundMciSendString
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SoundReadTLENFromMP3
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SoundReadTLENFromMP3($sTag)
+; Syntax.........: __SoundReadTLENFromMP3 ( $sTag )
 ; Parameters ....: $sTag - >= 1024 bytes from 'read raw' mode.
 ; Return values .: Success      - Sound length (hh:mm:ss)
 ;                  Failure      - 0 and @error = 1
@@ -553,7 +431,7 @@ EndFunc   ;==>__SoundReadTLENFromMP3
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SoundReadXingFromMP3
-; Syntax.........: __SoundReadXingFromMP3($sTag)
+; Syntax.........: __SoundReadXingFromMP3 ( $sTag )
 ; Parameters ....: $sTag - first 5156 bytes from 'read raw' mode.
 ; Return values .: Success      - Sound length (hh:mm:ss)
 ;                  Failure      - 0 and @error = 1
@@ -645,14 +523,14 @@ EndFunc   ;==>__SoundReadXingFromMP3
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _TicksToTime
 ; Description ...: Converts the specified tick amount to hours, minutes and seconds.
-; Syntax.........: _TicksToTime($iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs)
+; Syntax.........: _TicksToTime ( $iTicks, ByRef $iHours, ByRef $iMins, ByRef $iSecs )
 ; Parameters ....: $iTicks - Tick amount.
 ;                  $iHours - Variable to store the hours.
 ;                  $iMins - Variable to store the minutes.
 ;                  $iSecs - Variable to store the seconds.
 ; Return values .: Success - 1
 ;                  Failure - 0
-;                  @Error - 0 - No error.
+;                  @error - 0 - No error.
 ;                  |1 - $iTicks isn't an integer.
 ; Author ........: Marc <mrd at gmx de>
 ; Modified.......:
@@ -682,13 +560,13 @@ EndFunc   ;==>__SoundTicksToTime
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: _TimeToTicks
 ; Description ...: Converts the specified hours, minutes, and seconds to ticks.
-; Syntax.........: _TimeToTicks([$iHours = @HOUR[, $iMins = @MIN[, $iSecs = @SEC]]])
+; Syntax.........: _TimeToTicks ( [$iHours = @HOUR [, $iMins = @MIN [, $iSecs = @SEC]]] )
 ; Parameters ....: $iHours - The hours.
 ;                  $iMins - The minutes.
 ;                  $iSecs - The seconds.
 ; Return values .: Success - Returns the number of ticks.
 ;                  Failure - 0
-;                  @Error - 0 - No error.
+;                  @error - 0 - No error.
 ;                  |1 - The specified hours, minutes, or seconds are not valid.
 ; Author ........: Marc <mrd at gmx de>
 ; Modified.......: SlimShady: added the default time and made parameters optional

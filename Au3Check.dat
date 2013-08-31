@@ -87,7 +87,7 @@ $CmdLineRaw
 !DriveGetFileSystem 1 1
 !DriveGetLabel 1 1
 !DriveGetSerial 1 1
-!DriveGetType 1 1
+!DriveGetType 1 2
 !DriveMapAdd 2 5
 !DriveMapDel 1 1
 !DriveMapGet 1 1
@@ -126,6 +126,7 @@ $CmdLineRaw
 !FileOpenDialog 3 6
 !FileRead 1 2
 !FileReadLine 1 2
+!FileReadToArray 1 1
 !FileRecycle 1 1
 !FileRecycleEmpty 0 1
 !FileSaveDialog 3 6
@@ -268,8 +269,6 @@ $CmdLineRaw
 !PixelChecksum 4 7
 !PixelGetColor 2 3
 !PixelSearch 5 8
-!PluginClose 1 1
-!PluginOpen 1 1
 !ProcessClose 1 1
 !ProcessExists 1 1
 !ProcessGetStats 0 2
@@ -336,6 +335,7 @@ $CmdLineRaw
 !StringRegExp 2 4
 !StringRegExpReplace 3 4
 !StringReplace 3 5
+!StringReverse 1 2
 !StringRight 2 2
 !StringSplit 2 3
 !StringStripCR 1 1

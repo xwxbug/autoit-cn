@@ -16,6 +16,7 @@ Global Const $_UDF_GlobalID_MAX_WIN = 16
 Global Const $_UDF_STARTID = 10000
 Global Const $_UDF_GlobalID_MAX_IDS = 55535
 
+Global Const $__UDFGUICONSTANT_WS_TABSTOP = 0x00010000
 Global Const $__UDFGUICONSTANT_WS_VISIBLE = 0x10000000
 Global Const $__UDFGUICONSTANT_WS_CHILD = 0x40000000
 ; ===============================================================================================================================
@@ -25,10 +26,10 @@ Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_U
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-;__UDF_GetNextGlobalID
-;__UDF_FreeGlobalID
-;__UDF_DebugPrint
-;__UDF_ValidateClassName
+; __UDF_GetNextGlobalID
+; __UDF_FreeGlobalID
+; __UDF_DebugPrint
+; __UDF_ValidateClassName
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

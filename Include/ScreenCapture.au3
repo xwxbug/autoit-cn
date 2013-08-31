@@ -27,43 +27,22 @@ Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
-;_ScreenCapture_Capture
-;_ScreenCapture_CaptureWnd
-;_ScreenCapture_SaveImage
-;_ScreenCapture_SetBMPFormat
-;_ScreenCapture_SetJPGQuality
-;_ScreenCapture_SetTIFColorDepth
-;_ScreenCapture_SetTIFCompression
+; _ScreenCapture_Capture
+; _ScreenCapture_CaptureWnd
+; _ScreenCapture_SaveImage
+; _ScreenCapture_SetBMPFormat
+; _ScreenCapture_SetJPGQuality
+; _ScreenCapture_SetTIFColorDepth
+; _ScreenCapture_SetTIFCompression
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_Capture
-; Description ...: Captures a region of the screen
-; Syntax.........: _ScreenCapture_Capture([$sFileName = ""[, $iLeft = 0[, $iTop = 0[, $iRight = -1[, $iBottom = -1[, $fCursor = True]]]]]])
-; Parameters ....: $sFileName   - Full path and extension of the image file
-;                  $iLeft       - X coordinate of the upper left corner of the rectangle
-;                  $iTop        - Y coordinate of the upper left corner of the rectangle
-;                  $iRight      - X coordinate of the lower right corner of the rectangle.  If this is  -1,  the  current  screen
-;                  +width will be used.
-;                  $iBottom     - Y coordinate of the lower right corner of the rectangle.  If this is  -1,  the  current  screen
-;                  +height will be used.
-;                  $fCursor     - If True the cursor will be captured with the image
-; Return values .: See remarks
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: If FileName is not blank this function will capture the screen and save it to file. If FileName is blank, this
-;                  function will capture the screen and return a HBITMAP handle to the bitmap image.  In this case, after you are
-;                  finished with the bitmap you must call _WinAPI_DeleteObject to delete the bitmap handle.
-;+
-;                  Requires GDI+: GDI+ requires a redistributable for applications  that
-;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
-; Related .......: _WinAPI_DeleteObject, _ScreenCapture_SaveImage
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
-	If $iRight = -1 Then $iRight = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CXSCREEN)
-	If $iBottom = -1 Then $iBottom = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CYSCREEN)
+	If $iRight = -1 Then $iRight = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CXSCREEN) - 1
+	If $iBottom = -1 Then $iBottom = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CYSCREEN) - 1
 	If $iRight < $iLeft Then Return SetError(-1, 0, 0)
 	If $iBottom < $iTop Then Return SetError(-2, 0, 0)
 
@@ -97,30 +76,8 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 EndFunc   ;==>_ScreenCapture_Capture
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_CaptureWnd
-; Description ...: Captures a screen shot of a specified window or controlID
-; Syntax.........: _ScreenCapture_CaptureWnd($sFileName, $hWnd[, $iLeft = 0[, $iTop = 0[, $iRight = -1[, $iBottom = -1[, $fCursor = True]]]]])
-; Parameters ....: $sFileName   - Full path and extension of the image file
-;                  $hWnd        - Handle to the window to be captured
-;                  $iLeft       - X coordinate of the upper left corner of the client rectangle
-;                  $iTop        - Y coordinate of the upper left corner of the client rectangle
-;                  $iRight      - X coordinate of the lower right corner of the rectangle
-;                  $iBottom     - Y coordinate of the lower right corner of the rectangle
-;                  $fCursor     - If True the cursor will be captured with the image
-; Return values .: See remarks
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: jpm based on Kafu
-; Remarks .......: If FileName is not blank this function will capture the screen and save it to file. If FileName is blank, this
-;                  function will capture the screen and return a HBITMAP handle to the bitmap image.  In this case, after you are
-;                  finished with the bitmap you must call _WinAPI_DeleteObject to delete the bitmap handle.  All coordinates are  in
-;                  client coordinate mode.
-;+
-;                  Requires GDI+: GDI+ requires a redistributable for applications  that
-;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
-; Related .......: _WinAPI_DeleteObject
-; Link ..........:
-; Example .......: Yes
-; Credits .......: Thanks to SmOke_N for his suggestion for capturing part of the client window
 ; ===============================================================================================================================
 Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
 	If Not IsHWnd($hWnd) Then $hWnd = WinGetHandle($hWnd)
@@ -148,24 +105,8 @@ Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight
 EndFunc   ;==>_ScreenCapture_CaptureWnd
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_SaveImage
-; Description ...: Saves an image to file
-; Syntax.........: _ScreenCapture_SaveImage($sFileName, $hBitmap[, $fFreeBmp = True])
-; Parameters ....: $sFileName   - Full path and extension of the bitmap file to be saved
-;                  $hBitmap     - HBITMAP handle
-;                  $fFreeBmp    - If True, hBitmap will be freed on a successful save
-; Return values .: Success      - True
-;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: This function saves a bitmap to file, converting it to the image format specified by the file name  extension.
-;                  For Windows XP, the valid extensions are BMP, GIF, JPEG, PNG and TIF.
-;+
-;                  Requires GDI+: GDI+ requires a redistributable for applications  that
-;                  run on the Microsoft Windows NT 4.0 SP6, Windows 2000, Windows 98, and Windows Me operating systems.
-; Related .......: _ScreenCapture_Capture
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
 	_GDIPlus_Startup()
@@ -210,22 +151,8 @@ Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
 EndFunc   ;==>_ScreenCapture_SaveImage
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_SetBMPFormat
-; Description ...: Sets the bit format that will be used for BMP screen captures
-; Syntax.........: _ScreenCapture_SetBMPFormat($iFormat)
-; Parameters ....: $iFormat     - Image bits per pixel (bpp) setting:
-;                  |0 = 16 bpp; 5 bits for each RGB component
-;                  |1 = 16 bpp; 5 bits for red, 6 bits for green and 5 bits blue
-;                  |2 = 24 bpp; 8 bits for each RGB component
-;                  |3 = 32 bpp; 8 bits for each RGB component. No alpha component.
-;                  |4 = 32 bpp; 8 bits for each RGB and alpha component
-; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: If not explicitly set, BMP screen captures default to 24 bpp
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ScreenCapture_SetBMPFormat($iFormat)
 	Switch $iFormat
@@ -245,17 +172,8 @@ Func _ScreenCapture_SetBMPFormat($iFormat)
 EndFunc   ;==>_ScreenCapture_SetBMPFormat
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_SetJPGQuality
-; Description ...: Sets the quality level that will be used for JPEG screen captures
-; Syntax.........: _ScreenCapture_SetJPGQuality($iQuality)
-; Parameters ....: $iQuality    - The quality level of the image. Must be in the range of 0 to 100.
-; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: If not explicitly set, JPEG screen captures default to a quality level of 100
-; Related .......:
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetJPGQuality($iQuality)
 	If $iQuality < 0 Then $iQuality = 0
@@ -264,20 +182,8 @@ Func _ScreenCapture_SetJPGQuality($iQuality)
 EndFunc   ;==>_ScreenCapture_SetJPGQuality
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_SetTIFColorDepth
-; Description ...: Sets the color depth used for TIFF screen captures
-; Syntax.........: _ScreenCapture_SetTIFColorDepth($iDepth)
-; Parameters ....: $iDepth      - Image color depth:
-;                  | 0 - Default encoder color depth
-;                  |24 - 24 bit
-;                  |32 - 32 bit
-; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: If not explicitly set, TIFF screen captures default to 24 bits
-; Related .......: _ScreenCapture_SetTIFCompression
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFColorDepth($iDepth)
 	Switch $iDepth
@@ -291,20 +197,8 @@ Func _ScreenCapture_SetTIFColorDepth($iDepth)
 EndFunc   ;==>_ScreenCapture_SetTIFColorDepth
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ScreenCapture_SetTIFCompression
-; Description ...: Sets the compression used for TIFF screen captures
-; Syntax.........: _ScreenCapture_SetTIFCompression($iCompress)
-; Parameters ....: $iCompress   - Image compression type:
-;                  |0 - Default encoder compression
-;                  |1 - No compression
-;                  |2 - LZW compression
-; Return values .:
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
-; Remarks .......: If not explicitly set, TIF screen captures default to LZW compression
-; Related .......: _ScreenCapture_SetTIFColorDepth
-; Link ..........:
-; Example .......:
 ; ===============================================================================================================================
 Func _ScreenCapture_SetTIFCompression($iCompress)
 	Switch $iCompress

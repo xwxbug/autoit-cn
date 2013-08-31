@@ -37,6 +37,7 @@ Global Const $LOGPIXELSY = 90
 
 ; Font Char sets
 Global Const $ANSI_CHARSET = 0
+Global Const $ARABIC_CHARSET = 178
 Global Const $BALTIC_CHARSET = 186
 Global Const $CHINESEBIG5_CHARSET = 136
 Global Const $DEFAULT_CHARSET = 1
@@ -44,11 +45,14 @@ Global Const $EASTEUROPE_CHARSET = 238
 Global Const $GB2312_CHARSET = 134
 Global Const $GREEK_CHARSET = 161
 Global Const $HANGEUL_CHARSET = 129
+Global Const $HEBREW_CHARSET = 177
+Global Const $JOHAB_CHARSET = 130
 Global Const $MAC_CHARSET = 77
 Global Const $OEM_CHARSET = 255
 Global Const $RUSSIAN_CHARSET = 204
 Global Const $SHIFTJIS_CHARSET = 128
 Global Const $SYMBOL_CHARSET = 2
+Global Const $THAI_CHARSET = 222
 Global Const $TURKISH_CHARSET = 162
 Global Const $VIETNAMESE_CHARSET = 163
 
@@ -67,9 +71,11 @@ Global Const $OUT_TT_PRECIS = 4
 ; Font clipping precision
 Global Const $CLIP_CHARACTER_PRECIS = 1
 Global Const $CLIP_DEFAULT_PRECIS = 0
+Global Const $CLIP_DFA_DISABLE = 0x0030
 Global Const $CLIP_EMBEDDED = 128
 Global Const $CLIP_LH_ANGLES = 16
 Global Const $CLIP_MASK = 0xF
+Global Const $CLIP_DFA_OVERRIDE = 0x0040
 Global Const $CLIP_STROKE_PRECIS = 2
 Global Const $CLIP_TT_ALWAYS = 32
 
@@ -79,6 +85,7 @@ Global Const $DEFAULT_QUALITY = 0
 Global Const $DRAFT_QUALITY = 1
 Global Const $NONANTIALIASED_QUALITY = 3
 Global Const $PROOF_QUALITY = 2
+Global Const $CLEARTYPE_QUALITY = 5
 
 ; pitch and family of the font
 Global Const $DEFAULT_PITCH = 0
@@ -91,4 +98,8 @@ Global Const $FF_MODERN = 48
 Global Const $FF_ROMAN = 16
 Global Const $FF_SCRIPT = 64
 Global Const $FF_SWISS = 32
+
+Global Const $FS_REGULAR = 0x00
+Global Const $FS_BOLD = 0x01
+Global Const $FS_ITALIC = 0x02
 ; ===============================================================================================================================

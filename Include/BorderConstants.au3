@@ -38,5 +38,4 @@ Global Const $BF_DIAGONAL_ENDBOTTOMLEFT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_LE
 Global Const $BF_DIAGONAL_ENDBOTTOMRIGHT = BitOR($BF_DIAGONAL, $BF_BOTTOM, $BF_RIGHT)
 Global Const $BF_DIAGONAL_ENDTOPLEFT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_LEFT)
 Global Const $BF_DIAGONAL_ENDTOPRIGHT = BitOR($BF_DIAGONAL, $BF_TOP, $BF_RIGHT)
-
 ; ===============================================================================================================================
