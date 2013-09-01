@@ -2823,25 +2823,6 @@ Func _WinAPI_GetIconInfo($hIcon)
 EndFunc   ;==>_WinAPI_GetIconInfo
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _WinAPI_GetFileSizeEx
-; Description ...: Retrieves the size of the specified file
-; Syntax.........: _WinAPI_GetFileSizeEx($hFile)
-; Parameters ....: $hFile       - Handle to the file whose size is to be returned
-; Return values .: Success      - File size
-; Author ........: Paul Campbell (PaulIA)
-; Modified.......: jpm
-; Remarks .......:
-; Related .......: _WinAPI_CloseHandle, _WinAPI_CreateFile, _WinAPI_FlushFileBuffers, _WinAPI_ReadFile, _WinAPI_SetEndOfFile, _WinAPI_SetFilePointer, _WinAPI_WriteFile
-; Link ..........: @@MsdnLink@@ GetFileSizeEx
-; Example .......:
-; ===============================================================================================================================
-Func _WinAPI_GetFileSizeEx($hFile)
-	Local $aResult = DllCall("kernel32.dll", "bool", "GetFileSizeEx", "handle", $hFile, "int64*", 0)
-	If @error Then Return SetError(@error, @extended, 0)
-	Return $aResult[2]
-EndFunc   ;==>_WinAPI_GetFileSizeEx
-
-; #FUNCTION# ====================================================================================================================
 ; Name...........: _WinAPI_GetLastErrorMessage
 ; Description ...: Returns the calling threads last error message
 ; Syntax.........: _WinAPI_GetLastErrorMessage()
