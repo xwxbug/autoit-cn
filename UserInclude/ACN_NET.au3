@@ -238,11 +238,21 @@ Func _NetworkAdapterInfo()
 	If IsObj($colItems) Then
 		For $objItem In $colItems
 			$NetworkAdapterName = $objItem.Description
-			$NetworkAdapterGateway = $objItem.DefaultIPGateway(0)
+			FOR $Element IN $objItem.DefaultIPGateway
+				$NetworkAdapterGateway= $Element
+				ExitLoop
+			NEXT
 			$NetworkAdapterHostName = $objItem.DNSHostName
 			$NetworkAdapterIPaddress = $objItem.IPAddress(0)
-			$NetworkAdapterDNS1 = $objItem.DNSServerSearchOrder(0)
-			$NetworkAdapterDNS2 = $objItem.DNSServerSearchOrder(1)
+			$NetworkAdapterDNS1=''
+			FOR $Element IN $objItem.DNSServerSearchOrder
+				If $NetworkAdapterDNS1='' Then
+					$NetworkAdapterDNS1= $Element
+				Else
+					$NetworkAdapterDNS2= $Element
+					ExitLoop
+				EndIf
+			NEXT
 			$NetworkAdapterSubnet = $objItem.IPSubnet(0)
 			$NetworkAdapterMAC = $objItem.MACAddress
 			$NetworkAdapterID += 1
