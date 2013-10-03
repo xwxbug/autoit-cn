@@ -109,8 +109,6 @@ Global Const $__COMBOBOXEXCONSTANT_WM_SIZE = 0x05
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_AddDir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $cb_gui = GUICreate("combo gui")
 	Local $combo = GUICtrlCreateCombo("", 240, 40, 120, 120)
 	Local $iRet = GUICtrlSendMsg($combo, $CB_DIR, $iAttributes, $sFile)
@@ -142,8 +140,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_AddString
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_BeginUpdate($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $__COMBOBOXCONSTANT_WM_SETREDRAW, False) = 0
 EndFunc   ;==>_GUICtrlComboBoxEx_BeginUpdate
 
@@ -192,8 +188,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_CreateSolidBitMap
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_DeleteString($hWnd, $iIndex)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CBEM_DELETEITEM, $iIndex)
 EndFunc   ;==>_GUICtrlComboBoxEx_DeleteString
 
@@ -202,7 +196,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_DeleteString
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_Destroy(ByRef $hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -227,8 +220,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_Destroy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_EndUpdate($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $__COMBOBOXCONSTANT_WM_SETREDRAW, True) = 0
 EndFunc   ;==>_GUICtrlComboBoxEx_EndUpdate
 
@@ -237,8 +228,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_EndUpdate
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_FindStringExact($hWnd, $sText, $iIndex = -1)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CB_FINDSTRINGEXACT, $iIndex, $sText, 0, "wparam", "wstr")
 EndFunc   ;==>_GUICtrlComboBoxEx_FindStringExact
 
@@ -256,8 +245,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetComboBoxInfo
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetComboControl($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return HWnd(_SendMessage($hWnd, $CBEM_GETCOMBOCONTROL))
 EndFunc   ;==>_GUICtrlComboBoxEx_GetComboControl
 
@@ -266,8 +253,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetComboControl
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetCount($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CB_GETCOUNT)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetCount
 
@@ -276,8 +261,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetCount
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetCurSel($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CB_GETCURSEL)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetCurSel
 
@@ -286,8 +269,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetCurSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetDroppedControlRect($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $tRECT = _GUICtrlComboBox_GetDroppedControlRectEx($hWnd)
 	Local $aRect[4]
 	$aRect[0] = DllStructGetData($tRECT, "Left")
@@ -303,8 +284,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedControlRect
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetDroppedControlRectEx($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $tRECT = DllStructCreate($tagRECT)
 	_SendMessage($hWnd, $CB_GETDROPPEDCONTROLRECT, 0, $tRECT, 0, "wparam", "struct*")
 	Return $tRECT
@@ -315,8 +294,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedControlRectEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetDroppedState($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CB_GETDROPPEDSTATE) <> 0
 EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedState
 
@@ -325,8 +302,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedState
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetDroppedWidth($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_GetDroppedWidth($hCombo)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedWidth
@@ -336,8 +311,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetDroppedWidth
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetEditControl($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return HWnd(_SendMessage($hWnd, $CBEM_GETEDITCONTROL))
 EndFunc   ;==>_GUICtrlComboBoxEx_GetEditControl
 
@@ -346,10 +319,10 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetEditControl
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetEditSel($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
-	Return _GUICtrlComboBox_GetEditSel($hCombo)
+	Local $aResult = _GUICtrlComboBox_GetEditSel($hCombo)
+
+	Return SetError(@error, @extended, $aResult)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetEditSel
 
 ; #FUNCTION# ====================================================================================================================
@@ -357,8 +330,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetEditSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetEditText($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hComboBox = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_GetEditText($hComboBox)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetEditText
@@ -368,8 +339,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetEditText
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetExtendedStyle($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CBEM_GETEXTENDEDSTYLE)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetExtendedStyle
 
@@ -386,8 +355,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetExtendedUI
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetImageList($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return Ptr(_SendMessage($hWnd, $CBEM_GETIMAGELIST))
 EndFunc   ;==>_GUICtrlComboBoxEx_GetImageList
 
@@ -418,8 +385,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetItemEx($hWnd, ByRef $tItem)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
 	Local $iRet
@@ -588,8 +553,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetLocaleSubLang
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetMinVisible($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_GetMinVisible($hCombo)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetMinVisible
@@ -599,8 +562,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetMinVisible
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetTopIndex($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_GetTopIndex($hCombo)
 EndFunc   ;==>_GUICtrlComboBoxEx_GetTopIndex
@@ -610,8 +571,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetTopIndex
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetUnicode($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CBEM_GETUNICODEFORMAT) <> 0
 EndFunc   ;==>_GUICtrlComboBoxEx_GetUnicode
 
@@ -630,8 +589,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetUnicode
 ; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_HasEditChanged($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $tInfo
 	If _GUICtrlComboBoxEx_GetComboBoxInfo($hWnd, $tInfo) Then
 		Local $hEdit = DllStructGetData($tInfo, "hEdit")
@@ -646,8 +603,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_HasEditChanged
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_InitStorage($hWnd, $iNum, $iBytes)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_InitStorage($hCombo, $iNum, $iBytes)
 EndFunc   ;==>_GUICtrlComboBoxEx_InitStorage
@@ -657,8 +612,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_InitStorage
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, $iSelecteImage = -1, $iOverlayImage = -1, $iIndent = -1, $iParam = -1)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $iBuffer = 0, $iMask, $iRet
 	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
@@ -716,8 +669,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_InsertString
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_LimitText($hWnd, $iLimit = 0)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	_SendMessage($hWnd, $CB_LIMITTEXT, $iLimit)
 EndFunc   ;==>_GUICtrlComboBoxEx_LimitText
 
@@ -735,8 +686,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_ReplaceEditSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_ResetContent($hWnd)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	_SendMessage($hWnd, $CB_RESETCONTENT)
 EndFunc   ;==>_GUICtrlComboBoxEx_ResetContent
 
@@ -745,8 +694,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_ResetContent
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetCurSel($hWnd, $iIndex = -1)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $CB_SETCURSEL, $iIndex)
 EndFunc   ;==>_GUICtrlComboBoxEx_SetCurSel
 
@@ -764,8 +711,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetDroppedWidth
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetEditSel($hWnd, $iStart, $iStop)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_SetEditSel($hCombo, $iStart, $iStop)
 EndFunc   ;==>_GUICtrlComboBoxEx_SetEditSel
@@ -775,8 +720,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetEditSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetEditText($hWnd, $sText)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hComboBox = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	_GUICtrlComboBox_SetEditSel($hComboBox, 0, -1)
 	_GUICtrlComboBox_ReplaceEditSel($hComboBox, $sText)
@@ -787,8 +730,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetEditText
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetExtendedStyle($hWnd, $iExStyle, $iExMask = 0)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $iRet = _SendMessage($hWnd, $CBEM_SETEXTENDEDSTYLE, $iExMask, $iExStyle)
 	_WinAPI_InvalidateRect($hWnd)
 	Return $iRet
@@ -799,8 +740,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedStyle
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetExtendedUI($hWnd, $fExtended = False)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hComboBox = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _SendMessage($hComboBox, $CB_SETEXTENDEDUI, $fExtended) = 0
 EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedUI
@@ -810,8 +749,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedUI
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetImageList($hWnd, $hHandle)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hResult = _SendMessage($hWnd, $CBEM_SETIMAGELIST, 0, $hHandle, 0, "wparam", "handle", "handle")
 	_SendMessage($hWnd, $__COMBOBOXEXCONSTANT_WM_SIZE)
 	Return $hResult
@@ -850,8 +787,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetItemEx($hWnd, ByRef $tItem)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $iItem = DllStructGetSize($tItem)
 	Local $iBuffer = DllStructGetData($tItem, "TextMax")
 	If $iBuffer = 0 Then $iBuffer = 1
@@ -941,8 +876,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetItemSelectedImage
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetMinVisible($hWnd, $iMinimum)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_SetMinVisible($hCombo, $iMinimum)
 EndFunc   ;==>_GUICtrlComboBoxEx_SetMinVisible
@@ -952,8 +885,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetMinVisible
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetTopIndex($hWnd, $iIndex)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $hCombo = _GUICtrlComboBoxEx_GetComboControl($hWnd)
 	Return _GUICtrlComboBox_SetTopIndex($hCombo, $iIndex)
 EndFunc   ;==>_GUICtrlComboBoxEx_SetTopIndex
@@ -963,8 +894,6 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetTopIndex
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_SetUnicode($hWnd, $fUnicode = True)
-	If $Debug_CB Then __UDF_ValidateClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName)
-
 	Local $iUnicode = _SendMessage($hWnd, $CBEM_SETUNICODEFORMAT, $fUnicode) <> 0
 	Return $iUnicode <> $fUnicode
 EndFunc   ;==>_GUICtrlComboBoxEx_SetUnicode

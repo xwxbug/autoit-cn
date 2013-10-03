@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; AutoIt 3.1.1.x beta version
 ;
 ; COM Test File
@@ -12,10 +14,9 @@ Local $g_oErrObj = ObjEvent("AutoIt.Error", "MyErrFunc")
 ; Open Winnt object on local machine, this might take a few seconds time.
 Local $objContainer = ObjGet("WinNT://" & @ComputerName)
 If @error Then
-	MsgBox(0, "AutoItCOM Test", "Failed to open WinNT://. Error code: " & Hex(@error, 8))
+	MsgBox($MB_SYSTEMMODAL, "AutoItCOM Test", "Failed to open WinNT://. Error code: " & Hex(@error, 8))
 	Exit
 EndIf
-
 
 Local $strUser = "CBrooke"
 Local $clsUser = $objContainer.Create("User", $strUser)
@@ -23,14 +24,13 @@ Local $clsUser = $objContainer.Create("User", $strUser)
 ; This will only succeed on computers where local user passwords are allowed to be empty.
 $clsUser.SetInfo()
 
-
 ; The line below should throw an Error after a short timeout,
 ; because "domain" and "MyGroup" do not exist.
 
 Local $objGroup = ObjGet("WinNT://domain/MyGroup, group")
 
 If @error Then
-	MsgBox(0, "", "error opening object $objGroup, error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "", "error opening object $objGroup, error code: " & @error)
 	Exit
 Else
 	$objGroup.Add($clsUser.ADsPath)
@@ -39,14 +39,12 @@ EndIf
 
 Exit
 
-
-;----------------
+; ----------------
 
 Func MyErrFunc($oerrobj)
-
 	Local $hexnum = Hex($oerrobj.number, 8)
 
-	MsgBox(0, "", "We intercepted a COM Error!!" & @CRLF & @CRLF & _
+	MsgBox($MB_SYSTEMMODAL, "", "We intercepted a COM Error!!" & @CRLF & @CRLF & _
 			"err.description is: " & $oerrobj.description & @CRLF & _
 			"err.windescription is: " & $oerrobj.windescription & @CRLF & _
 			"err.lastdllerror is: " & $oerrobj.lastdllerror & @CRLF & _

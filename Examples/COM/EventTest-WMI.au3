@@ -7,12 +7,13 @@
 ; See also: http://msdn.microsoft.com/library/en-us/wmisdk/wmi/making_an_asynchronous_call_with_vbscript.asp
 
 #include "GUIConstants.au3"
+#include <Constants.au3>
 
 ; WMI Requires a separate Sink Event Handler
 Global $oWMISink = ObjCreate("WbemScripting.SWbemSink")
 
 If @error Then
-	MsgBox(0, "", "Error opening oWMISink. Error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "", "Error opening oWMISink. Error code: " & @error)
 	Exit
 EndIf
 
@@ -20,10 +21,9 @@ EndIf
 Local $SinkObject = ObjEvent($oWMISink, "MYSINK_")
 
 If @error Then
-	MsgBox(0, "", "Error initializing Events. Error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "", "Error initializing Events. Error code: " & @error)
 	Exit
 EndIf
-
 
 ; Make a simple GUI to output events
 GUICreate("WMI Event Test", 640, 480)
@@ -36,8 +36,6 @@ Local $oWMI = ObjGet("winmgmts:root\cimv2")
 ; Execute our asynchronous query
 $oWMI.ExecQueryAsync($oWMISink, "SELECT Name FROM Win32_Process")
 
-
-
 ; Loop until user closes window
 Local $msg
 While 1
@@ -48,8 +46,7 @@ GUIDelete()
 
 Exit
 
-
-;---My Event Functions---
+; ---My Event Functions---
 
 Func MYSINK_Cancel()
 	; WMI Wants us to cancel the event
@@ -57,19 +54,14 @@ Func MYSINK_Cancel()
 	GUICtrlSetData($GUIEdit, @CRLF & "Cancel was requested." & @CRLF, "append")
 EndFunc   ;==>MYSINK_Cancel
 
-
 Func MYSINK_OnProgress()
-
 EndFunc   ;==>MYSINK_OnProgress
-
 
 Func MYSINK_OnObjectReady($objObject, $objAsyncContext)
 	#forceref $objAsyncContext
 
 	GUICtrlSetData($GUIEdit, "Active Process name is: " & $objObject.Name & @CRLF, "append")
-
 EndFunc   ;==>MYSINK_OnObjectReady
-
 
 Func MYSINK_OnCompleted($iHResult, $objErrorObject, $objAsyncContext)
 	#forceref $iHResult, $objErrorObject, $objAsyncContext

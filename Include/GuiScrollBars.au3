@@ -242,7 +242,6 @@ Func _GUIScrollBars_GetScrollRange($hWnd, $nBar)
 	$Min_Max[0] = $aResult[3]
 	$Min_Max[1] = $aResult[4]
 	Return SetExtended($aResult[0], $Min_Max)
-
 EndFunc   ;==>_GUIScrollBars_GetScrollRange
 
 ; #FUNCTION# ====================================================================================================================
@@ -326,7 +325,6 @@ Func _GUIScrollBars_Init($hWnd, $iHMax = -1, $ivMax = -1)
 	DllStructSetData($tSCROLLINFO, "nMax", 2 + $aSB_WindowInfo[$index][1] / $xChar)
 	DllStructSetData($tSCROLLINFO, "nPage", $xClient / $xChar)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_HORZ, $tSCROLLINFO)
-
 EndFunc   ;==>_GUIScrollBars_Init
 
 ; #FUNCTION# ====================================================================================================================

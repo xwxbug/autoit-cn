@@ -1,12 +1,12 @@
+#include <Constants.au3>
+
 ; AutoItCOM 3.1.1
 ;
 ; Test File
 ;
 ; Tests the SearchFiles() function of Microsoft Excel
 
-
 Func SearchFiles($strFileSpec, $Subdirs = 0)
-
 	Local $strFileList = ""
 
 	Local $oXlApp = ObjCreate("Excel.Application")
@@ -14,7 +14,7 @@ Func SearchFiles($strFileSpec, $Subdirs = 0)
 	Local $fsoFileSearch = $oXlApp.FileSearch
 
 	If @error Then
-		MsgBox(0, "SearchFiles", "Error opening FileSearch Object")
+		MsgBox($MB_SYSTEMMODAL, "SearchFiles", "Error opening FileSearch Object")
 	Else
 		With $fsoFileSearch
 			.NewSearch
@@ -40,11 +40,8 @@ Func SearchFiles($strFileSpec, $Subdirs = 0)
 	Return $strFileList
 EndFunc   ;==>SearchFiles
 
-
-
 ; Example usage:
 
 Local $Result = SearchFiles(@WindowsDir & "\*.txt", 0)
 
-MsgBox(0, "FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.txt' resulted in:" & @CRLF & @CRLF & $Result)
-
+MsgBox($MB_SYSTEMMODAL, "FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.txt' resulted in:" & @CRLF & @CRLF & $Result)

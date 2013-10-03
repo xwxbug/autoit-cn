@@ -20,7 +20,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $Debug_RE = False
+
 Global $_GRE_sRTFClassName, $h_GUICtrlRTF_lib, $_GRE_Version, $_GRE_TwipsPeSpaceUnit = 1440 ; inches
 Global $_GRE_CF_RTF, $_GRE_CF_RETEXTOBJ
 Global $_GRC_StreamFromFileCallback = DllCallbackRegister("__GCR_StreamFromFileCallback", "dword", "long_ptr;ptr;long;ptr")
@@ -758,20 +758,8 @@ Global Const $tagMSGFILTER = "align 4;" & $tagNMHDR & ";uint msg;wparam wParam;l
 Global Const $tagENLINK = "align 4;" & $tagNMHDR & ";uint msg;wparam wParam;lparam lParam;" & $tagCHARRANGE
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_AppendText
-; Description....: Appends text at the end of the client area
-; Syntax ........: _GUICtrlRichEdit_AppendText($hWnd, $sText)
-; Parameters.....: hWnd		- Handle to the control
-;                  $sText    - Text to be appended
-; Return values..: Succcess - True
-;                  |Failure - False, and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net))
 ; Modified ......: Prog@ndy, Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_InsertText, _GUICtrlRichEdit_ReplaceText, _GUICtrlRichEdit_SetText
-; Link ..........: @@MsdnLink@@ EM_SETTEXTEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_AppendText($hWnd, $sText)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -793,30 +781,8 @@ Func _GUICtrlRichEdit_AppendText($hWnd, $sText)
 EndFunc   ;==>_GUICtrlRichEdit_AppendText
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_AutoDetectURL
-; Description....: Enables or disables automatic detection of URLS
-; Syntax ........: _GUICtrlRichEdit_AutoDetectURL($hWnd, $fState)
-; Parameters.....: hWnd		- Handle to the control
-;                  $fState - True to detect URLs in text, False not to
-; Return values..: Succcess - True
-;                  |Failure - False, and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fState is neither True nor False
-;                  |700 - internal error, e.g. insufficient memory
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If enabled, any modified text is scanned for text that matches the format of a URL. It recognizes strings
-;                  starting with the following as URLs: http:, file:, mailto:, ftp:, https:, gopher:, nntp:, prospero:,
-;                  telnet:, news:, wais:. When a URL is detected, Windows sets the link attribute for all characters in the
-;                  URL string, and highlights the string.
-;+
-;                  When automatic URL detection is on and a URL is detected, Windows removes the link attribute of all
-;                  characters that are not URLs.
-;+
-;                  For notification to happen, call _GUICtrlRichEdit_SetEventMask with $ENM_LINK
-; Related .......: _GUICtrlRichEdit_SetEventMask
-; Link ..........: @@MsdnLink@@ EM_AUTOURLDETECT, @@MsdnLink@@ EN_LINK notification
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_AutoDetectURL($hWnd, $fState)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -827,20 +793,8 @@ Func _GUICtrlRichEdit_AutoDetectURL($hWnd, $fState)
 EndFunc   ;==>_GUICtrlRichEdit_AutoDetectURL
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_CanPaste
-; Description....: Can the contents of the clipboard be pasted into the control?
-; Syntax ........: _GUICtrlRichEdit_CanPaste($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Succcess - True or False
-;                  Failure - False and sets @error
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: Data in two clipboard formats can be pasted: RTF and RTF with Objects.
-;                  This function determines whether data in either format is on the clipboard.
-; Related .......: _GUICtrlRichEdit_Paste
-; Link ..........: @@MsdnLink@@ EM_CANPASTE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanPaste($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -850,20 +804,8 @@ Func _GUICtrlRichEdit_CanPaste($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_CanPaste
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_CanPasteSpecial
-; Description....: Can the contents of the clipboard be pasted into the control in both formats?
-; Syntax ........: _GUICtrlRichEdit_CanPasteSpecial($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Succcess - True or False
-;                  Failure - False and sets @error
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Data in two clipboard formats can be pasted: RTF and RTF with Objects.
-;                  This function determines whether data in both formats is on the clipboard.
-; Related .......: _GUICtrlRichEdit_PasteSpecial
-; Link ..........: @@MsdnLink@@ EM_CANPASTE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanPasteSpecial($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -873,19 +815,8 @@ Func _GUICtrlRichEdit_CanPasteSpecial($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_CanPasteSpecial
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_CanRedo
-; Description....: Can an undone action be redone?
-; Syntax ........: _GUICtrlRichEdit_CanRedo($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Succcess - True or False
-;                  |Failure - False and sets @error
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Redo
-; Link ..........: @@MsdnLink@@ EM_CANREDO
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanRedo($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -894,20 +825,8 @@ Func _GUICtrlRichEdit_CanRedo($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_CanRedo
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_CanUndo
-; Description....: Can an action be undone?
-; Syntax ........: _GUICtrlRichEdit_CanUndo($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Succcess - True - there are action(s) in the undo queue
-;                  Failure - False and may set @error
-;                  |0 - there are no actions in the undo queue
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Undo
-; Link ..........: @@MsdnLink@@ EM_CANUNDO
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_CanUndo($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -916,30 +835,8 @@ Func _GUICtrlRichEdit_CanUndo($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_CanUndo
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_ChangeFontSize
-; Description....: Increment or decrement font size(s) of selected text
-; Syntax ........: _GUICtrlRichEdit_ChangeFontSize($hWnd, $iIncrement)
-; Parameters.....: $hWnd		 - Handle to the control
-;                  $iIncrement - Positive to increase, negative to decrease
-; Return values..: Succcess - True - Font sizes were changed
-;                  Failure - False and may set @error
-;                  |101  - $hWnd is not a handle
-;                  |102  - $iIncrement is not a number
-;                  |-1 - no text selected
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: If there are several font sizes in the selected text, all are incremented/decremented
-;+
-;                  For $iIncrement positive, font sizes are rounded up; for $iIncrement negative, they are rounded down.
-;+
-;                  Rich Edit first adds $iIncrement to the existing font size. It then rounds up (or down) as follows:
-;                  <= 12 points: 1 e.g. 7 + 1 => 8 points, 14 - 3 => 10 points
-;                  12.05 to 28 points: 20 + 2.25 => 24 points
-;                  28.05 to 80 points: rounded to next of 28, 36, 48, 72 or 80, e.g. 28 + 1 => 36 points, 80 - 1 => 72 points
-;                  > 80 points: 10, e.g. 80 + 1 => 90
-; Related .......: _GUICtrlRichEdit_SetFont
-; Link ..........: @@MsdnLink@@ EM_SETFONTSIZE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ChangeFontSize($hWnd, $iIncrement)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -950,19 +847,8 @@ Func _GUICtrlRichEdit_ChangeFontSize($hWnd, $iIncrement)
 EndFunc   ;==>_GUICtrlRichEdit_ChangeFontSize
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Copy
-; Description....: Copy text to clipboard
-; Syntax ........: _GUICtrlRichEdit_Copy($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Paste
-; Link ..........: @@MsdnLink@@ WM_COPY
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Copy($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -972,47 +858,8 @@ Func _GUICtrlRichEdit_Copy($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Copy
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_Create
-; Description ...: Create a Edit control
-; Syntax.........: _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop[, $iWidth = 150[, $iHeight = 150[, $iStyle = -1[, $iExStyle = -1]]]])
-; Parameters ....: $hWnd        - Handle to parent or owner window
-;                  $sText       - Text to be displayed in the control
-;                  $iLeft       - Horizontal position of the control
-;                  $iTop        - Vertical position of the control
-;                  $iWidth      - Control width
-;                  $iHeight     - Control height
-;                  $iStyle      - Control styles:
-;                  |$ES_AUTOHSCROLL - Automatically scrolls text to the right by 10 characters when the user types a character at the end of the line.
-;                  |$ES_AUTOVSCROLL - Automatically scrolls text up one page when the user presses the ENTER key on the last line.
-;                  |$WS_HSCROLL     - Control has horizontal scroll bar
-;                  |$WS_VSCROLL     - Control has vertical scroll bar
-;                  |$ES_CENTER      - Centers text in a edit control.
-;                  |$ES_LEFT        - Aligns text with the left margin.
-;                  |$ES_MULTILINE   - Generates a multi-line control (Default)
-;                  |$ES_NOHIDESEL   - The selected text is inverted, even if the control does not have the focus.
-;                  |$ES_NUMBER      - Allows only digits to be entered into the edit control.
-;                  |$ES_READONLY    - Prevents the user from typing or editing text in the edit control.
-;                  |$ES_RIGHT       - Right-aligns text edit control.
-;                  |$ES_WANTRETURN  - Specifies that a carriage return be inserted when the user presses the ENTER key. (Default)
-;                  |$ES_PASSWORD    - Displays an asterisk (*) for each character that is typed into the edit control
-;                  -
-;                  |Default: 0
-;                  |Forced : WS_CHILD, $WS_VISIBLE, $WS_TABSTOP unless $ES_READONLY
-;                  $iExStyle    - Control extended style. These correspond to the standard $WS_EX_ constants.
-; Return values .: Success      - Handle to the Rich Edit control
-;                  Failure      - 0 and sets @error:
-;                  |103 - $iLeft is neither a positive number nor zero
-;                  |104 - $iTop is is neither a positive number nor zero
-;                  |105 - $iWidth is neither a positive number nor -1
-;                  |106 - $iHeight is neither a positive number nor -1
-;                  |107 - $iStyle is is neither a positive number nor zero nor -1
-;                  |108 - $iExStyle is is neither a positive number nor zero nor -1
 ; Author ........: Gary Frost
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Destroy
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop, $iWidth = 150, $iHeight = 150, $iStyle = -1, $iExStyle = -1)
 	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for _GUICtrlRichEdit_Create 1st parameter
@@ -1049,19 +896,8 @@ Func _GUICtrlRichEdit_Create($hWnd, $sText, $iLeft, $iTop, $iWidth = 150, $iHeig
 EndFunc   ;==>_GUICtrlRichEdit_Create
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Cut
-; Description....: Cut text to clipboard
-; Syntax ........: _GUICtrlRichEdit_Cut($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Copy, _GUICtrlRichEdit_Paste
-; Link ..........: @@MsdnLink@@ WM_CUT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Cut($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -1071,19 +907,8 @@ Func _GUICtrlRichEdit_Cut($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Cut
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Deselect
-; Description....: Deselects text, leaving none selected
-; Syntax ........: _GUICtrlRichEdit_Deselect($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Leaves the insertion point at the anchor point of the selection
-; Related .......: _GUICtrlRichEdit_SetSel, _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_IsTextSelected
-; Link ..........: @@MsdnLink@@ EM_SETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Deselect($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -1093,22 +918,10 @@ Func _GUICtrlRichEdit_Deselect($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Deselect
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_Destroy
-; Description ...: Delete the Rich Edit control
-; Syntax.........: _GUICtrlRichEdit_Destroy(ByRef $hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True, Handle is set to 0
-;                  Failure      - False and sets @error:
-;                  |1 - attempt to destroy a control belonging to another application
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: Only be used on Rich Edit controls created with _GUICtrlRichEdit_Create
-; Related .......: _GUICtrlRichEdit_Create
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Destroy(ByRef $hWnd)
-	If $Debug_RE Then __UDF_ValidateClassName($hWnd, $_GRE_sRTFClassName)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -1133,19 +946,8 @@ Func _GUICtrlRichEdit_Destroy(ByRef $hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Destroy
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_EmptyUndoBuffer
-; Description ...: Resets the undo flag of the control
-; Syntax.........: _GUICtrlRichEdit_EmptyUndoBuffer($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True
-;                  Failure      - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Undo, _GUICtrlRichEdit_Redo
-; Link ..........: @@MsdnLink@@ EM_SETEMPTYUNDOBUFFER
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_EmptyUndoBuffer($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -1155,35 +957,8 @@ Func _GUICtrlRichEdit_EmptyUndoBuffer($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_EmptyUndoBuffer
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_FindText
-; Description ...: Search for a text starting at insertion point or at anchor point of selection
-; Syntax ........: _GUICtrlRichEdit_FindText($hWnd, $sText[, $fForward = True[, $fMatchCase = False[, $fWholeWord = False[, $iBehavior = 0]]]])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $s_Text      - Text to find
-;                  $fForward    - Search direction (Optional)
-;                  !Default: forward
-;                  |(Win 95: search is always forward)
-;                  $fMatchCase  - Search is case-sensitive (Optional)
-;                  |Default: case-insensitive
-;                  $fWholeWord  - Search only for text as a whole word (Optional)
-;                  |Default: partial or full word
-;                  $behavior    - Any BitOr combination of $FR_MATCHALEFHAMZA, $FR_MATCHDIAC and $FR_MATCHKASHIDA
-;                  |Default: 0
-; Return Values. : Success - If found, inter-character position before start of matching text, else -1
-;                  Failure - -1 and sets @error
-;                  |101  - $hWnd is not a handle
-;                  |102  - $sText = ""
-;                  |103  - $fForward is neither True nor False
-;                  |104  - $fMatchCase is neither True nor False
-;                  |105  - $fWholeWord is neither True nor False
-;                  |1061 - $iBehavior is not a number
-;                  |1062 - $iBehavior is invalid
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_FindTextInRange
-; Link ..........: @@MsdnLink@@ EM_FINDTEXT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_FindText($hWnd, $sText, $fForward = True, $fMatchCase = False, $fWholeWord = False, $iBehavior = 0)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, -1)
@@ -1221,42 +996,8 @@ Func _GUICtrlRichEdit_FindText($hWnd, $sText, $fForward = True, $fMatchCase = Fa
 EndFunc   ;==>_GUICtrlRichEdit_FindText
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_FindTextInRange
-; Description ...: Search for a text in a range of inter-character positions
-; Syntax ........: _GUICtrlRichEdit_FindTextInRange($hWnd, $sText[, $iStart = 0[, $iEnd = -1[, $fMatchCase = False[, $fwholeWord = False[, $iBehavior = 0]]]]])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $s_Text      - Text to find
-;                  $iStart      - Starting inter-character position of search (Optional)
-;                  |Default: beginning of control
-;                  $iEnd        - Ending inter-character position of search (Optional)
-;                  |Default: end of control
-;                  $fMatchCase  - Search is case-sensitive (Optional)
-;                  |Default: case-insensitive
-;                  $fWholeWord  - Search only for text as a whole word (Optional)
-;                  |Default: partial or full word
-;                  $behavior    - Any BitOr combination of $FR_MATCHALEFHAMZA, $FR_MATCHDIAC and $FR_MATCHKASHIDA
-;                  |Default: 0
-; Return Values. : Success - an array[2] containing values
-;                  |If target string found, range of inter-character positions containing the matching text, e.g. [45,52]
-;                  |If not found, [-1,-1]
-;                  Failure - 0 and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |102  - $sText = ""
-;                  |103  - $iStart is neither a positive number nor zero nor -1
-;                  |104  - $iEnd is neither a positive number nor zero nor -1
-;                  |105  - $fMatchCase must be True or False
-;                  |106  - $fwholeWord must be True or False
-;                  |1071 - $iBehavior is not a number
-;                  |1072 - $iBehavior is invalid
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm
-; Remarks:         The inter-character position at the beginning of the control is 0.
-;                  The default character range, 0 to -1, searches the whole text downwwards.
-;                  Setting $iEnd to -1 searches down to the end of the control
-;                  Setting $iStart to -1 searches up to the start of the control
-; Related .......: _GUICtrlRichEdit_FindText
-; Link ..........: @@MsdnLink@@ EM_FINDTEXTEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_FindTextInRange($hWnd, $sText, $iStart = 0, $iEnd = -1, $fMatchCase = False, $fWholeWord = False, $iBehavior = 0)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1294,40 +1035,8 @@ Func _GUICtrlRichEdit_FindTextInRange($hWnd, $sText, $iStart = 0, $iEnd = -1, $f
 EndFunc   ;==>_GUICtrlRichEdit_FindTextInRange
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetCharAttributes
-; Description....: Returns attributes of selected text
-; Syntax ........: _GUICtrlRichEdit_GetCharAttributes($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success -  a string consisting of three-character groups. Each group consists of:
-;                  |   first and second character: any of:
-;                  |      bo - bolded
-;                  |      di - disabled - characters displayed with a shadow [nd]
-;                  |      em - embossed [nd]
-;                  |      hi - hidden, i.e. not displayed
-;                  |      im - imprinted [nd]
-;                  |      it - italcized
-;                  |      li - EN_LINK messages are sent when mouse is over text with this attribute
-;                  |      ou - outlined [nd]
-;                  |      pr - EN_PROTECT sent when user attempts to modify
-;                  |      re - marked as revised [nd]
-;                  |      sh - shadowed [nd]
-;                  |      sm - small capital letters [nd]
-;                  |      st - struck out
-;                  |      sb - subscript [nd]
-;                  |      sp - superscript [nd]
-;                  |      un - underlined
-;                  |   third character: + for on, ~ for mixed
-;                  Failure - "" and sets @error
-;                  |101 - $hWnd is not a handle
-;                  |-1  - no text is selected
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm
-; Remarks .......: Some attributes do not display in a Rich Edit control; they are marked with [nd] above.
-;+
-;                  Returns "" if no attributes are on
-; Related .......: _GUICtrlRichEdit_SetCharAttributes
-; Link ..........: @@MsdnLink@@ EM_GETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharAttributes($hWnd)
 	Local Const $av[17][3] = [ _
@@ -1379,19 +1088,8 @@ Func _GUICtrlRichEdit_GetCharAttributes($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharAttributes
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetCharBkColor
-; Description ...: Retrieves the background color of the selected text or, if none selected, of the character to the right of the insertion point
-; Syntax ........: _GUICtrlRichEdit_GetCharBkColor($hWnd)
-; Parameters ....: $hWnd 			- Handle to control
-; Return Values. : Success -	COLORREF value an @extended set to 1 if the color is the same throught the selection
-;                  Failure - sets @error to:
-;                  |101 - $hWnd is not a handle
 ; Authors........: grham
 ; Modified ......: Chris Haslam (c.haslam), jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetCharBkColor
-; Link ..........: @@MsdnLink@@ EM_GETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharBkColor($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1410,19 +1108,8 @@ Func _GUICtrlRichEdit_GetCharBkColor($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharBkColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetCharColor
-; Description ...: Retrieves the color of the selected text or, if none selected, of the character to the right of the insertion point
-; Syntax ........: _GUICtrlRichEdit_GetCharColor($hWnd)
-; Parameters ....: $hWnd 			- Handle to control
-; Return Values. : Success -	COLORREF value an @extended set to 1 if the color is the same throught the selection
-;                  Failure - sets @error to:
-;                  |101 - $hWnd is not a handle
 ; Authors........: grham
 ; Modified ......: Chris Haslam (c.haslam), jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetCharColor
-; Link ..........: @@MsdnLink@@ EM_GETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharColor($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1441,25 +1128,8 @@ Func _GUICtrlRichEdit_GetCharColor($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........:  _GUICtrlRichEdit_GetCharPosFromXY
-; Description ...:  Gets inter-character position closest to a specified point in the client area
-; Syntax.........: _GUICtrlRichEdit_GetCharPosFromXY($hWnd, $iX, $iY)
-; Parameters ....: $hWnd        - Handle to the control
-;                  |$iX         - horizontal screen coordinate relative to left side of control
-;                  |$iY         - vertical screen coordinate relative to top of control
-; Return values .: Success      - one-based character index of the character nearest the specified point
-;                  |(index of last character in the control if the specified point is beyond text)
-;                  Failure      -  0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iX is not a number
-;                  |103 - $iY is not a number
-;                  |-1 - ($iX,$iY) outside client area
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Prog@ndy, Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetXYFromCharPos
-; Link ..........: @@MsdnLink@@ EM_CHARFROMPOS
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosFromXY($hWnd, $iX, $iY)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1477,21 +1147,8 @@ Func _GUICtrlRichEdit_GetCharPosFromXY($hWnd, $iX, $iY)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharPosFromXY
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........:  _GUICtrlRichEdit_GetCharPosOfNextWord
-; Description ...:  Gets inter-character position before the next word
-; Syntax.........: _GUICtrlRichEdit_GetCharPosOfNextWord($hWnd, $iCpStart)
-; Parameters ....: $hWnd      - Handle to the control
-;                  |$iCPStart - inter-character position to start from
-; Return values .: Success      - inter-character position before next word
-;                  Failure      -  0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iCpStart is not a number
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: "Word" is defined broadly; it includes punctuation, parentheses and hyphens.
-; Related .......: _GUICtrlRichEdit_GetCharPosofPreviousWord
-; Link ..........: @@MsdnLink@@ EM_FINDWORDBREAK
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosOfNextWord($hWnd, $iCpStart)
 	; WB_RIGHT, WB_LEFT, WB_RIGHTBREAK, WB_LEFTBREAK and WB_ISDELIMITER don't work properly or at all
@@ -1502,21 +1159,8 @@ Func _GUICtrlRichEdit_GetCharPosOfNextWord($hWnd, $iCpStart)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharPosOfNextWord
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........:  _GUICtrlRichEdit_GetCharPosOfPreviousWord
-; Description ...:  Gets inter-character position before the Previous word
-; Syntax.........: _GUICtrlRichEdit_GetCharPosOfPreviousWord($hWnd, $iCpStart)
-; Parameters ....: $hWnd      - Handle to the control
-;                  |$iCPStart - inter-character position to start from
-; Return values .: Success      - inter-character position before Previous word
-;                  Failure      -  0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iCpStart is not a number
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: "Word" is defined broadly; it includes punctuation, parentheses and hyphens.
-; Related .......: _GUICtrlRichEdit_GetCharPosofNextWord
-; Link ..........: @@MsdnLink@@ EM_FINDWORDBREAK
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharPosOfPreviousWord($hWnd, $iCpStart)
 	; WB_RIGHT, WB_LEFT, WB_RIGHTBREAK, WB_LEFTBREAK and WB_ISDELIMITER don't work properly or at all
@@ -1527,30 +1171,8 @@ Func _GUICtrlRichEdit_GetCharPosOfPreviousWord($hWnd, $iCpStart)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharPosOfPreviousWord
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........:  _GUICtrlRichEdit_GetCharWordBreakInfo
-; Description ...:  Gets inter-character position before the Previous word
-; Syntax.........: _GUICtrlRichEdit_GetCharWordBreakInfo($hWnd, $iCp)
-; Parameters ....: $hWnd - Handle to the control
-;                  |$iCP - inter-character position to left of character of interest
-; Return values .: Success      - string consisting of comma-separated values:
-;                  |value 1 - word-break flag(s):
-;                  |  c - line may be broken after this character
-;                  |  d - character is an end-of-word delimiter. Lines may be broken after delimiters
-;                  |  w - character is white-space. (Trailing white-spaces are not included in line length.)
-;                  |value 2 - character class: a number
-;                  Failure      -  "" and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iCp is not a number
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: Lines may be broken at delimiters or between characters od different classes.
-;+
-;                  Character classes are defined in word-break procedures. The classes in the default
-;                  procedure are: 0 = alphanumeric character, 1 = other printing character (except hyphen),
-;                  2 = space, 3 = tab, 4 = hyphen or end-of-paragraph.
-; Related .......: _GUICtrlRichEdit_GetCharPosofNextWord
-; Link ..........: @@MsdnLink@@ EM_FINDWORDBREAK
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetCharWordBreakInfo($hWnd, $iCp)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -1567,19 +1189,8 @@ Func _GUICtrlRichEdit_GetCharWordBreakInfo($hWnd, $iCp)
 EndFunc   ;==>_GUICtrlRichEdit_GetCharWordBreakInfo
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetBkColor
-; Description....: Gets the background color of the control
-; Syntax ........: _GUICtrlRichEdit_GetBkColor($hWnd)
-; Parameters ....: $hWnd 			- Handle to control
-; Return Values. : Success -	COLORREF value
-;                  Failure - sets @error to:
-;                  |101 - $hWnd is not a handle
 ; Authors........: jpm
 ; Modified ......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetBkColor
-; Link ..........: @@MsdnLink@@ EM_SETBKGNDCOLOR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetBkColor($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1590,32 +1201,8 @@ Func _GUICtrlRichEdit_GetBkColor($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetBkColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetText
-; Description ...: Get all of the text in the control
-; Syntax ........: _GUICtrlRichEdit_GetText($hWnd[, $fCrToCrLf = False[, $iCodePage = 0[, $sReplChar = ""]]])
-; Parameters ....: $hWnd 			- Handle to control
-;                  $fCrToCrLf - Convert each CR to a CrLf (Optional)
-;                  |True - do it
-;                  | don't (Default)
-;                  $iCodePage - code page used in translation (Optional)
-;                  |Default: use system default
-;                  |CP_ACP for ANSI, 1200 for Unicode
-;                  $sReplaChar - Character used if $iCodePage is not 1200 and a wide character cannot be represented in
-;                  +specified code page (Optional)
-; Return Values. : Success -	the text
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fCrToCrLf must be True or False
-;                  |103 - $iCodePage is not a number
-;                  |700 - internal error
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam), jpm, Prog@ndy
-; Remarks .......: On success, if $sReplChar set, @extended contains whether this character was used
-;+
-;                  Call _GUICtrlRichEdit_IsModified() to determine whether the text has changed
-; Related .......: _GUICtrlRichEdit_SetText, _GUICtrlRichEdit_AppendText, _GUICtrlRichEdit_InsertText, _GUICtrlRichEdit_IsModified
-; Link ..........: @@MsdnLink@@ EM_GETTEXTEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplChar = "")
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -1655,27 +1242,8 @@ Func _GUICtrlRichEdit_GetText($hWnd, $fCrToCrLf = False, $iCodePage = 0, $sReplC
 EndFunc   ;==>_GUICtrlRichEdit_GetText
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetTextLength
-; Description ...: Get the length of the whole text in the control
-; Syntax ........: _GUICtrlRichEdit_GetTextLength($hWnd[, $fExact = True[, $fChars = False]])
-; Parameters ....: $hWnd 			- Handle to control
-;                  $fExact -   = True Return the exact length (Optional)
-;                  |       -  = False return at least the number of characters in the control (faster)
-;                  |Default: exact length
-;                  $fChars - = True - return length in characters
-;                  |          = False - return length in bytes
-;                  |Default: bytes
-; Return Values. : Success -	length, in bytes or characters
-;                  Failure - 0 and sets @error to:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fExact must be True or False
-;                  |103 - $fChars must be True or False
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETTEXTLENGTHEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextLength($hWnd, $fExact = True, $fChars = False)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1692,20 +1260,8 @@ Func _GUICtrlRichEdit_GetTextLength($hWnd, $fExact = True, $fChars = False)
 EndFunc   ;==>_GUICtrlRichEdit_GetTextLength
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetZoom
-; Description ...: Gets the zoom level of the control
-; Syntax.........: _GUICtrlRichEdit_GetZoom($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - zoom level, in percent
-;                  Failure  - 0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |700 - internal error
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetZoom
-; Link ..........: @@MsdnLink@@ EM_GETZOOM
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetZoom($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1723,25 +1279,8 @@ Func _GUICtrlRichEdit_GetZoom($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetZoom
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetFirstCharPosOnLine
-; Description ...: Retrieves the inter-character position preceding the first character of a line
-; Syntax ........: _GUICtrlRichEdit_GetFirstCharPosOnLine($h_RichEdit[, $iLine = -1])
-; Parameters ....: $hWnd 			- Handle to control
-;                  $iLine - Line number (Optional)
-;                  |Default: current line
-; Return Values. : Success - Character position of the first character of the line
-;                  Failure - 0  and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1021 - $iLine is neither positive nor -1
-;                  |1022 - $iLine greater than number of lines of text
 ; Authors........: Gary Frost (custompcs at charter dot net)
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: A control that contains no text has one line.
-;+
-;                  The first line is line 1. The first character position in the client area is 0.
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETLINEINDEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetFirstCharPosOnLine($hWnd, $iLine = -1)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1754,38 +1293,8 @@ Func _GUICtrlRichEdit_GetFirstCharPosOnLine($hWnd, $iLine = -1)
 EndFunc   ;==>_GUICtrlRichEdit_GetFirstCharPosOnLine
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetFont
-; Description ...: Gets the font attributes of a selection or, if no selection, at the insertion point
-; Syntax.........: _GUICtrlRichEdit_GetFont($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - an array containing values:
-;                  |[0] - point size
-;                  |   0 if sizes are mixed in selection
-;                  |[1] - the name of the font
-;                  |   "" if fonts are mixed in selection
-;                  |[2] - the character set
-;                  |   $ANSI_CHARSET        - 0
-;                  |   $BALTIC_CHARSET      - 186
-;                  |   $CHINESEBIG5_CHARSET - 136
-;                  |   $EASTEUROPE_CHARSET  - 238
-;                  |   $GB2312_CHARSET      - 134
-;                  |   $GREEK_CHARSET       - 161
-;                  |   $HANGEUL_CHARSET     - 129
-;                  |   $MAC_CHARSET         - 77
-;                  |   $OEM_CHARSET         - 255
-;                  |   $RUSSIAN_CHARSET     - 204
-;                  |   $SHIFTJIS_CHARSET    - 128
-;                  |   $SYMBOL_CHARSET      - 2
-;                  |   $TURKISH_CHARSET     - 162
-;                  |   $VIETNAMESE_CHARSET  - 163
-;                  Failure - sets @error
-;                  |101 - $hWnd is not a handle
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......: jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetFont
-; Link ..........: @@MsdnLink@@ EM_GETCHARFORMAT, @@MsdnLink@@ LOGFONT, http://www.hep.wisc.edu/~pinghc/books/apirefeng/l/logfont.html
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetFont($hWnd)
 	; MSDN does not give a mask (CFM) for bPitchAndFamily so it appears that there is no way of knowing when it is valid => omitted here
@@ -1815,23 +1324,8 @@ Func _GUICtrlRichEdit_GetFont($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetFont
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetRECT
-; Description ...: Retrieves the formatting rectangle of a control
-; Syntax.........: _GUICtrlRichEdit_GetRECT($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - an array consisting of x and y coordinates - [<left>, <top>, <right>, <bottom>]
-;                  Failure - sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam), jpm
-; Remarks .......: The formatting rectangle is the area in which text is drawn, part of which may not be visible.
-;+
-;                  All returned values are in dialog units referenced to the control
-;+
-;                  Per MSDN, the values returned by this function may not be exactly what may be set by _GUICtrlRichEdit_SetRECT
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETRECT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetRECT($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1847,23 +1341,8 @@ Func _GUICtrlRichEdit_GetRECT($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetRECT
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetLineCount
-; Description ...: Retrieves the number of lines in a multi-line edit control
-; Syntax ........: _GUICtrlRichEdit_GetLineCount($hWnd)
-; Parameters ....: $hWnd 			- Handle to control
-; Return Values. : Success - Total number of text lines
-;                  Failure - 0  and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Gary Frost (custompcs at charter dot net)
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: A control that contains no text has one line
-;+
-;                  Lines that are not currently visible are included in the count
-;+
-;                  If Wordwrap is enabled, the number of lines can change when the dimensions of the editing window change.
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETLINECOUNT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineCount($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1872,27 +1351,8 @@ Func _GUICtrlRichEdit_GetLineCount($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetLineCount
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetLineLength
-; Description ...: Retrieves the length of a line
-; Syntax ........: _GUICtrlRichEdit_GetLineLength($hWnd, $iLine)
-; Parameters ....: $hWnd 			- Handle to control
-;                  $iLine - line number
-;                  |Special value: -1 - return number of unselected characters on lines containing selected characters
-; Return Values..: Success - Multi-line control - Length of the line (in characters)
-;                  |Single-line control - number of characters in the control
-;                  Failure - 0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iLine is neither positive nor -1
-;                  |1022 - $iLine is greater than number of characters in the control
 ; Authors........: Gary Frost (custompcs at charter dot net)
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: A control that contains no text has one line
-;                  The first inter-character position in a control is 0.
-;+
-;                  The result does not include carriage-return characters at the end of the line.
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETLINELENGTH
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineLength($hWnd, $iLine)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1904,27 +1364,8 @@ Func _GUICtrlRichEdit_GetLineLength($hWnd, $iLine)
 EndFunc   ;==>_GUICtrlRichEdit_GetLineLength
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetLineNumberFromCharPos
-; Description ...: Retrieves the line number on which an inter-character position is found
-; Syntax ........: _GUICtrlRichEdit_GetLineNumberFromCharPos($hWnd, $iCharPos)
-; Parameters ....: $hWnd 			- Handle to control
-;                  $iCharPos - Inter-character position
-; Return Values..: Success - Line number (one-based)
-;                  Failure - 0 and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iCharPos is not a positive number
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: A control that contains no text has one line
-;                  The first inter-character position in a control is 0.
-;+
-;                  The first line is line 1.
-;+
-;                  If $iCharPos is negative or more than the number of characters in the control,
-;                  returns the number of lines in the control
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_EXLINEFROMCHAR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetLineNumberFromCharPos($hWnd, $iCharPos)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -1934,23 +1375,8 @@ Func _GUICtrlRichEdit_GetLineNumberFromCharPos($hWnd, $iCharPos)
 EndFunc   ;==>_GUICtrlRichEdit_GetLineNumberFromCharPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetNextRedo
-; Description ...: Retrieves the name or type ID of the next possible redo action
-; Syntax.........: _GUICtrlRichEdit_GetNextRedo($hWnd, $fName = True)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $fName       - True (return name, default) or False (return ID number)
-; Return values .: Success - depends on value of $fName:
-;                  |If $fName is True: "Unknown", "Typing", "Delete", "Drag and drop", "Cut" or "Paste"
-;                  |If $Name is False: the corresponding number (0 to 5)
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fName is neither True nor False
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: Note that EM_GETREDONAME does not distinguish between Unknown and redo queue empty
-; Related .......: _GUICtrlRichEdit_Redo, _GUICtrlRichEdit_Undo
-; Link ..........: @@MsdnLink@@ EM_GETREDONAME
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNextRedo($hWnd, $fName = True)
 	Local Const $as[6] = ["Unknown", "Typing", "Delete", "Drag and drop", "Cut", "Paste"]
@@ -1966,23 +1392,8 @@ Func _GUICtrlRichEdit_GetNextRedo($hWnd, $fName = True)
 EndFunc   ;==>_GUICtrlRichEdit_GetNextRedo
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetNextUndo
-; Description ...: Retrieves the name or type ID of the next possible Undo action
-; Syntax.........: _GUICtrlRichEdit_GetNextUndo($hWnd, $fName = True)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $fName       - True (return name, default) or False (return ID number)
-; Return values .: Success - depends on value of $fName:
-;                  |If $fName is True: "Unknown", "Typing", "Delete", "Drag and drop", "Cut" or "Paste"
-;                  |If $Name is False: the corresponding number (0 to 5)
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fName is neither True nor False
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: Note that EM_GETUndoNAME does not distinguish between Unknown and Undo queue empty
-; Related .......: _GUICtrlRichEdit_Undo, _GUICtrlRichEdit_Undo
-; Link ..........: @@MsdnLink@@ EM_GETUndoNAME
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNextUndo($hWnd, $fName = True)
 	Local Const $as[6] = ["Unknown", "Typing", "Delete", "Drag and drop", "Cut", "Paste"]
@@ -1998,19 +1409,8 @@ Func _GUICtrlRichEdit_GetNextUndo($hWnd, $fName = True)
 EndFunc   ;==>_GUICtrlRichEdit_GetNextUndo
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetNumberOfFirstVisibleLine
-; Description ...: Gets number of the first line which is visible in the control
-; Syntax.........: _GUICtrlRichEdit_GetNumberOfFirstVisibleLine($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - line number (one-based)
-;                  0 - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
-; Remarks .......: The first line is numbered 1
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_GETFIRSTVISIBLELINE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetNumberOfFirstVisibleLine($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2018,30 +1418,8 @@ Func _GUICtrlRichEdit_GetNumberOfFirstVisibleLine($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetNumberOfFirstVisibleLine
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaAlignment
-; Description....: Gets the alignment of selected paragraph(s), or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaAlignment($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - a string consisting of a value, a semicolon (;), and a scope character:
-;                  |alignment:
-;                  |   l - aligned with the left margin.
-;                  |   r - aligned with the right margin.
-;                  |   c - centered between margins
-;                  |   j - justified between margins
-;                  |   f - justified between margins
-;                  |   w - justified between margins by only expanding spaces
-;                  |scope:
-;                  |   a - all (or only) selected paragraphs have this alignment
-;                  |   f - the first selected paragraph has this alignment, but other(s) don't
-;                  |   c - the current paragraph has this alignment
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: In Richedit 2.0, justify does not display
-; Related .......: _GUICtrlRichEdit_SetParaAlignment
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaAlignment($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -2071,37 +1449,8 @@ Func _GUICtrlRichEdit_GetParaAlignment($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaAlignment
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaAttributes
-; Description....: Gets the attributes of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_SetParaAtttributes($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - a string consisting of values separated by semicolons (;}.
-;                  |Values 1 to 10: a group consisting of:
-;                  |   Characters 1 to 3 - attribute
-;                  |      fpg  -  force this/these paragraphs on to new page(s) (Initially off)
-;                  |      hyp  -  automatic hypthenation (Initially on)
-;                  |      kpt  -  keep this/these paragraph(s) together on a page (Initially off}
-;                  |      kpn  -  keep this/these paragraph(s) and the next together on a page (Initially off)
-;                  |      pwo  -  prevent widows and orphans, i.e. avoid a single line of this/these paragraph(s)
-;                  +on a page (Initially off)
-;                  |      r2l  -  display text using right-to-left reading order (Initially off)
-;                  |      sbs  -  display paragraphs side by side (Initially off)
-;                  |      sln  -  suppress line numbers in documents or sections with line numbers (Initially off)
-;                  |      tbl  -  paragraph(s) is/are table row(s) (Initially off)
-;                  |   Character 4 - state:
-;                  |      +  -  attribute is on
-;                  |      -  -  attribute is off
-;                  |Value 11 - scope:
-;                  |   f - the first selected paragraph has these attributes
-;                  |   c - the current paragraph has these attributes
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetParaAttributes
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaAttributes($hWnd)
 	; dwMask is always BitOR of all PFMs
@@ -2141,62 +1490,8 @@ Func _GUICtrlRichEdit_GetParaAttributes($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaAttributes
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaBorder
-; Description....: Gets the border settings of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaBorder($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success -  settings of first selected paragraph - a string consisting of values separated by semicolons (:):
-;                  Value 1 - one or more of:
-;                  |   l - left border
-;                  |   r - right border
-;                  |   t - top border
-;                  |   b - bottom border
-;                  |   i - inside border
-;                  |   o - outside border
-;                  |   or empty - no border
-;                  |Value 2 -  line style - one of:
-;                  |   none - no line
-;                  |   .75   -  3/4 point
-;                  |   1.5   -  1 1/2 points
-;                  |   2.25  -  2 1/4 points
-;                  |   3     -  3 points
-;                  |   4.5   -  4 1/2 points
-;                  |   6     -  6 points
-;                  |   .75d  -  1/2 points, double
-;                  |   1.5d  -  1 1/2 points, double
-;                  |   2.25d -  2 1/4 points, double
-;                  |   .75g  -  3/4 point grey
-;                  |   .75gd - 3/4 point grey dashed
-;                  |Value 3 - one of:
-;                  |   aut   - autocolor
-;                  |   blk   - black
-;                  |   blu   - blue
-;                  |   cyn   - cyan
-;                  |   grn   - green
-;                  |   mag   - magenta
-;                  |   red   - red
-;                  |   yel   - yellow
-;                  |   whi   - white
-;                  |   dbl   - dark blue
-;                  |   dgn   - dark green
-;                  |   dmg   - dark magenta
-;                  |   drd   - dark red
-;                  |   dyl   - dark yellow
-;                  |   dgy   - dark grey
-;                  |   lgy   - light grey
-;                  |Value 4 - space between the border and the text (in space units)
-;                  |Value 5 - scope:
-;                  |   a - all (or only) selected paragraphs have these settings
-;                  |   f - the first selected paragraph has these settings, but other(s) don't
-;                  |   c - the current paragraph has these settings
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Borders do not show in Rich Edit, but borders created here will show in Word
-; Related .......: _GUICtrlRichEdit_SetParaBorder
-; Link ..........: @@MsdnLink@@ EM_GETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaBorder($hWnd)
 	Local Const $avLocs[6][2] = [["l", 1],["r", 2],["t", 4],["b", 8],["i", 16],["o", 32]]
@@ -2233,27 +1528,8 @@ Func _GUICtrlRichEdit_GetParaBorder($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaBorder
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaIndents
-; Description....: Gets the border indent settings of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaIndents($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success -  settings - a string consisting of values separated by semicolons (:):
-;                  |Value 1 - Left - indentation of left side of the body of the paragraph (of lines after the first) (in space units)
-;                  |Value 2 - Right - indentation of  right side of the paragraph (in space units)
-;                  |Value 3 - FirstLine - indentation of the first line relative to other lines (in space units)
-;                  |Value 4 - scope:
-;                  |   a - all (or only) selected paragraphs have these settings
-;                  |   f - the first selected paragraph has these settings, but other(s) don't
-;                  |   c - the current paragraph has these settings
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Postive values of $iLeft, $iRight and $iFirstLine indent towards the center of the paragraph
-;+To set "space units", call _GUICtrlRichEdit_SetSpaceUnits. Initially inches
-; Related .......: _GUICtrlRichEdit_SetParaIndents, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_GETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaIndents($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -2278,31 +1554,8 @@ Func _GUICtrlRichEdit_GetParaIndents($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaIndents
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaNumbering
-; Description....: Gets the numbering style of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_SetParaNumbering($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - values separated by semicolons (;):
-;                  |value 1 - a string showing the style and starting "number"
-;                  +e.g. "." (bullet), "1)","(b)", "C.", "iv", "V)"
-;                  |   Trailing spaces indicate the minimum spaces between the number and the paragraph
-;                  |   Special cases:
-;                  |      "=" - This paragraph is an unnumbered paragraph within the preceding list element
-;                  |       "" - removed the numbering from the selected paragraph(s)
-;                  |value 2 - If Roman numbers, "Roman" else ""
-;                  |value 3 - space between number/bullet and paragraph (in space units)
-;                  |Value 4 - scope:
-;                  |   a - all (or only) selected paragraphs have these settings
-;                  |   f - the first selected paragraph has these settings, but other(s) don't
-;                  |   c - the current paragraph has these settings
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-; Related .......: _GUICtrlRichEdit_SetParaNumbering, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_GETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaNumbering($hWnd)
 	Local Const $avRoman[7][2] = [[1000, "m"],[500, "d"],[100, "c"],[50, "l"],[10, "x"],[5, "v"],[1, "i"]]
@@ -2378,55 +1631,8 @@ Func _GUICtrlRichEdit_GetParaNumbering($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaNumbering
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaShading
-; Description....: Gets the shading settings of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaShading($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success -  settings of first selected paragraph - a string consisting of values separated by semicolons (:):
-;                  |value 1 - Weight - percent of foreground color, the rest being background color
-;                  |value 2 - style  - a string containing one of the following:
-;                  |   non - none
-;                  |   dhz - dark horizontal
-;                  |   dvt - dark vertical
-;                  |   ddd - dark down diagonal
-;                  |   dud - dark up diagonal
-;                  |   dgr - dark grid
-;                  |   dtr - dark trellis
-;                  |   lhz - light horizontal
-;                  |   lvt - light vertical
-;                  |   ldd - light down diagonal
-;                  |   lud - light up diagonal
-;                  |   lgr - light grid
-;                  |   ltr - light trellis
-;                  |value 3 - Foreground color - one of the following:
-;                  |   "blk"   - black
-;                  |   "blu"   - blue
-;                  |   "cyn"   - cyan
-;                  |   "grn"   - green
-;                  |   "mag"   - magenta
-;                  |   "red"   - red
-;                  |   "yel"   - yellow
-;                  |   "whi"   - white
-;                  |   "dbl"   - dark blue
-;                  |   "dgn"   - dark green
-;                  |   "dmg"   - dark magenta
-;                  |   "drd"   - dark red
-;                  |   "dyl"   - dark yellow
-;                  |   "dgy"   - dark grey
-;                  |   "lgy"   - light grey
-;                  |value 4 - Background color - same values as for Foreground color
-;                  |Value 5 - scope:
-;                  |   a - all (or only) selected paragraphs have these settings
-;                  |   f - the first selected paragraph has these settings, but other(s) don't
-;                  |   c - the current paragraph has these settings
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Shading does not show in Rich Edit, but shading created here will show in Word
-; Related .......: _GUICtrlRichEdit_SetParaShading
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaShading($hWnd)
 	Local Const $asStyles[13] = ["non", "dhz", "dvt", "ddd", "dud", "dgr", "dtr", "lhz", "lrt", "ldd", "lud", _
@@ -2457,30 +1663,8 @@ Func _GUICtrlRichEdit_GetParaShading($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaShading
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaSpacing
-; Description....: Gets the spacing settings of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaSpacing($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - a string consisting of the settings separated by semicolons (;):
-;                  |value 1 - inter-line spacing:
-;                  |   either a number - in space units
-;                  |   or "<number> lines" - in lines
-;                  |Value 2 - scope of value 1:
-;                  |   a - all (or only) selected paragraph(s) have the above setting
-;                  |   f - the first selected paragraph has this setting, but other(s) don't
-;                  |   c - the current paragraph has this setting
-;                  |value 3 - spacing before paragraphs (in space units)
-;                  |value 4 - scope of value 3 - see above
-;                  |value 5 - spacing after paragraphs (in space units)
-;                  |value 6 - scope of value 5 - see above
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-; Related .......: _GUICtrlRichEdit_SetParaSpacing, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaSpacing($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -2518,40 +1702,8 @@ Func _GUICtrlRichEdit_GetParaSpacing($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaSpacing
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetParaTabStops
-; Description....: Gets the tabstops of (first) selected paragraph or (if no selection) of the current paragraph
-; Syntax ........: _GUICtrlRichEdit_GetParaTabStops($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - A string consisting of values separated by ; (semicolons).
-;                  |value 1 - number of tabstops
-;                  |values 2 to <value 1> + 1 - description of a tabstop:
-;                  | absolute position of a tab stop (in space units)
-;                  | kind of tab
-;                  |   l - left tab
-;                  |   c - center tab
-;                  |   r - decimal tab
-;                  |   b - bar tab (a vertical bar, as in Word)
-;                  | kind of dot leader
-;                  |   . - dotted leader
-;                  |   - - dashed leader
-;                  |   _ - underline leader
-;                  |   = - double line leader
-;                  |   t - thick-line leader
-;                  |   a space - no leader
-;                  |Value <value 1> + 2 - scope:
-;                  |   a - all (or only) selected paragraphs have these settings
-;                  |   f - the first selected paragraph has these settings, but other(s) don't
-;                  |   c - the current paragraph has these settings
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnits. Initially inches
-;+
-;                  To enter a tab into a control, press Ctrl_Tab
-; Related .......:  _GUICtrlRichEdit_SetParaTabStops, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_GETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetParaTabStops($hWnd)
 	Local Const $asKind[5] = ["l", "c", "r", "d", "b"], $asLeader[6] = [" ", ".", "-", "_", "t", "="]
@@ -2579,20 +1731,8 @@ Func _GUICtrlRichEdit_GetParaTabStops($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetParaTabStops
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetPasswordChar
-; Description ...: Gets the password character that a rich edit control displays when the user enters text
-; Syntax.........: _GUICtrlRichEdit_GetPasswordChar($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - The character to be displayed in place of any characters typed by the user
-;                  |Special case: 0 - there is no password character, so the control displays the characters typed by the user
-;                  Failure - 0 and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Gary Frost
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_SetPasswordChar
-; Link ..........: @@MsdnLink@@ EM_GETPASSWORDCHAR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetPasswordChar($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2602,19 +1742,8 @@ Func _GUICtrlRichEdit_GetPasswordChar($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetPasswordChar
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetScrollPos
-; Description ...: Gets the Scrolling position of the control
-; Syntax.........: _GUICtrlRichEdit_GetScrollPos($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - an array containing [x, y]
-;                  Failure - sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: unknown
 ; Modified.......: Chris Haslam (c.haslam), jpm
-; Remarks .......: The scrolling position is the upper left corner of the control
-; Related .......: _GUICtrlRichEdit_SetScrollPos
-; Link ..........: @@MsdnLink@@ EM_GETSCROLLPOS
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetScrollPos($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2628,20 +1757,8 @@ Func _GUICtrlRichEdit_GetScrollPos($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetScrollPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetSel
-; Description ...: Gets the low and high inter-character positions of a selection
-; Syntax.........: _GUICtrlRichEdit_GetSel($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - an array in the format [<low>, <high>]
-;                  Failure - sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam), jpm
-; Remarks .......: The first character of the text is after inter-character position 0.
-;                  If high = low, no text is selected
-; Related .......: _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_GetSelAA
-; Link ..........: @@MsdnLink@@ EM_EXGETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSel($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2655,20 +1772,8 @@ Func _GUICtrlRichEdit_GetSel($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetSel
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetSelAA
-; Description ...: Gets the anchor and active inter-character positions of a selection, in that order
-; Syntax.........: _GUICtrlRichEdit_GetSelAA($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - an array in the format [<anchor>, <active>]
-;                  Failure - sets @error:
-;                  |-1  - no text is selected
-;                  |101 - $hWnd is not a handle
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam), jpm
-; Remarks .......: The first character of the text is after inter-character position 0.
-; Related .......: _GUICtrlRichEdit_SetSel
-; Link ..........: @@MsdnLink@@ EM_EXGETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSelAA($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2695,20 +1800,8 @@ Func _GUICtrlRichEdit_GetSelAA($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetSelAA
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetSelText
-; Description ...: Retrieves the currently selected text
-; Syntax.........: _GUICtrlRichEdit_GetSelText($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success - the selected text
-;                  Failure - False and sets @error:
-;                  |-1  - no text is selected
-;                  |101 - $hWnd is not a handle
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetSel
-; Link ..........: @@MsdnLink@@ EM_EXGETSELTEXT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSelText($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2721,17 +1814,8 @@ Func _GUICtrlRichEdit_GetSelText($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetSelText
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetSpaceUnit
-; Description ...: Gets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions
-; Syntax.........: _GUICtrlRichEdit_GetSpaceUnit()
-; Parameters ....: none
-; Return values .: Success - "in", "cm", "mm", "pt" (points), or "tw" (twips, 1/1440 inches, 1/567 centimetres)
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: Initially, space is measured in inches
-; Related .......: _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetSpaceUnit()
 	Switch $_GRE_TwipsPeSpaceUnit
@@ -2749,23 +1833,8 @@ Func _GUICtrlRichEdit_GetSpaceUnit()
 EndFunc   ;==>_GUICtrlRichEdit_GetSpaceUnit
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetTextInLine
-; Description....: Gets a line of text
-; Syntax ........: _GUICtrlRichEdit_GetTextInLine($hWnd, $iLine)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iLine    - Line number
-; Return values..: Success - the text
-;                  |Failure - False, and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |1021 - $iLine is not a positive number
-;                  |1022 - $iLine exceeds number of lines in control
-;                  |700  - internal error
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net))
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: The first line in a control  is 1
-; Related .......: _GUICtrlRichEdit_GetSel
-; Link ..........: @@MsdnLink@@ EM_GETLINE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextInLine($hWnd, $iLine)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2784,25 +1853,8 @@ Func _GUICtrlRichEdit_GetTextInLine($hWnd, $iLine)
 EndFunc   ;==>_GUICtrlRichEdit_GetTextInLine
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_GetTextInRange
-; Description....: Gets the text from from one inter-character position to another
-; Syntax ........: _GUICtrlRichEdit_GetTextRange($hWnd, $iStart, $iEnd)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iStart    - Inter-character position before the text
-;                  $iEnd       - Inter-character position after the text
-;                  |Special value: -1 - end of text
-; Return values..: Success - the text
-;                  |Failure - False, and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |102 - $iStart is neither positive nor zero
-;                  |1031 - $iEnd is neither positive nor zero nor -1
-;                  |1032 - $iStart < $iEnd and $iEnd <> -1
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net))
 ; Modified ......: Prog@ndy, Chris Haslam (c.haslam)
-; Remarks .......: The first character position in the control is 0
-; Related .......: _GUICtrlRichEdit_GetTextinLine
-; Link ..........: @@MsdnLink@@ EM_GETTEXTRANGE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetTextInRange($hWnd, $iStart, $iEnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2821,46 +1873,16 @@ Func _GUICtrlRichEdit_GetTextInRange($hWnd, $iStart, $iEnd)
 EndFunc   ;==>_GUICtrlRichEdit_GetTextInRange
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetVersion
-; Description ...: Retrieves the version of Rich Edit
-; Syntax.........: _GUICtrlRichEdit_GetVersion()
-; Parameters ....: none
-; Return values .: Version of Rich Edit
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: The versions of Rich Edit included in versions of Windows are:
-;                  3.0 - Windows 2000, XP
-;                  3.1 - Windows Vista
-;                  4.0 - Windows XP SP1
-;                  4.1 - Windows Vista
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetVersion()
 	Return $_GRE_Version
 EndFunc   ;==>_GUICtrlRichEdit_GetVersion
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GetXYFromCharPos
-; Description ...: Retrieves the XY coordinates of an inter-character position
-; Syntax.........: _GUICtrlRichEdit_GetXYFromCharPos($hWnd, $iCharPos)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iCharPos    - Inter-character position
-; Return values .: Success _ an array [<x>, <y>] - coordinates of the inter-character position, relative to the top-left corner of the client area
-;                  Failure - sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1021 - $iCharPos is neither a positive number nor zero
-;                  |1022 - $iCharPos exceeds the number of characters in the control
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......: jpm
-; Remarks .......: The first inter-character position is numbered 0
-;+
-;                  With a multi-line control, coordinates are returned even for inter-character positions
-;                  that are not visible.
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_POSFROMCHAR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetXYFromCharPos($hWnd, $iCharPos)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -2876,24 +1898,8 @@ Func _GUICtrlRichEdit_GetXYFromCharPos($hWnd, $iCharPos)
 EndFunc   ;==>_GUICtrlRichEdit_GetXYFromCharPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_GotoCharPos
-; Description ...: Moves the insertion point to an inter-character position
-; Syntax.........: _GUICtrlRichEdit_GotoCharPos($hWnd, $iCharPos)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iCharPos  the inter-character position
-;                  |Special value: -1 - end of text
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iCharPos is neither a positive number nor zero nor -1
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: The first character of the text in a control is at character position 1
-;+
-;                  Cancels text selection (if any)
-; Related .......: _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_Deselect, _GUICtrlRichEdit_IsTextSelected, _GUICtrlRichEdit_SetSel
-; Link ..........: @@MsdnLink@@ EM_EXSETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GotoCharPos($hWnd, $iCharPos)
 	_GUICtrlRichEdit_SetSel($hWnd, $iCharPos, $iCharPos)
@@ -2902,23 +1908,8 @@ Func _GUICtrlRichEdit_GotoCharPos($hWnd, $iCharPos)
 EndFunc   ;==>_GUICtrlRichEdit_GotoCharPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_HideSelection
-; Description ...: Hides (or shows) a selection
-; Syntax.........: _GUICtrlRichEdit_HideSelection($hWnd[, $fHide = True])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $fHide - = True - hide
-;                  | = False - show
-;                  | Default: hide
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fHide must be True or False
 ; Author ........: Prog@ndy
 ; Modified.......: Chris Haslam (c.haslam), jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_SetSel
-; Link ..........: @@MsdnLink@@ EM_HIDESELECTION
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_HideSelection($hWnd, $fHide = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2929,22 +1920,8 @@ Func _GUICtrlRichEdit_HideSelection($hWnd, $fHide = True)
 EndFunc   ;==>_GUICtrlRichEdit_HideSelection
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_InsertText
-; Description....: Inserts text at insertion point or anchor point of selection
-; Syntax ........: _GUICtrlRichEdit_InsertText($hWnd, $sText)
-; Parameters.....: hWnd		- Handle to the control
-;                  $sText    - Text to be inserted
-; Return values..: Succcess - True
-;                  Failure - False, and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $sText = ""
-;                  |103 - Cannot be set
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net)
 ; Modified ......: Prog@ndy, Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_AppendText, _GUICtrlRichEdit_ReplaceText, _GUICtrlRichEdit_SetText
-; Link ..........: @@MsdnLink@@ EM_SETTEXTEX
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_InsertText($hWnd, $sText)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2966,21 +1943,8 @@ Func _GUICtrlRichEdit_InsertText($hWnd, $sText)
 EndFunc   ;==>_GUICtrlRichEdit_InsertText
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_IsModified
-; Description ...: Retrieves the state of a rich edit control's modification flag
-; Syntax.........: _GUICtrlRichEdit_IsModified($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      - True or False
-;                  Failure - Sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: The system automatically sets the modification flag to False when the control is created.
-;                  If the control's text is changed, either by the user or programmatically, the system sets the flag to True
-;                  Call _GUICtrlRichEdit_SetModified to set or clear the flag
-; Related .......: _GUICtrlRichEdit_SetModified
-; Link ..........: @@MsdnLink@@ EM_GETMODIFY
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_IsModified($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -2989,19 +1953,8 @@ Func _GUICtrlRichEdit_IsModified($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_IsModified
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_IsTextSelected
-; Description....: Is text selected?
-; Syntax ........: _GUICtrlRichEdit_IsTextSelected($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Succcess - True or False
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_SetSel
-; Link ..........: @@MsdnLink@@ EM_EXGETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_IsTextSelected($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3012,19 +1965,8 @@ Func _GUICtrlRichEdit_IsTextSelected($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_IsTextSelected
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Paste
-; Description....: Paste RTF or RTF with Objects from clipboard
-; Syntax ........: _GUICtrlRichEdit_Paste($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: Pastes with objects if available, else without
-; Related .......: _GUICtrlRichEdit_CanPaste, _GUICtrlRichEdit_PasteSpecial, _GUICtrlRichEdit_Cut, _GUICtrlRichEdit_Copy
-; Link ..........: @@MsdnLink@@ WM_PASTE
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Paste($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3034,20 +1976,8 @@ Func _GUICtrlRichEdit_Paste($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Paste
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_PasteSpecial
-; Description....: Paste RTF or RTF and Objects from clipboard
-; Syntax ........: _GUICtrlRichEdit_PasteSpecial($hWnd, $fAndObjects = True)
-; Parameters.....: hWnd		- Handle to the control
-;                  $fAndObjects - Paste objects as well as RTF - True (default) or False
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_CanPasteSpecial, _GUICtrlRichEdit_Paste, _GUICtrlRichEdit_Cut, _GUICtrlRichEdit_Copy
-; Link ..........: @@MsdnLink@@ WM_PASTESPECIAL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_PasteSpecial($hWnd, $fAndObjects = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3058,19 +1988,8 @@ Func _GUICtrlRichEdit_PasteSpecial($hWnd, $fAndObjects = True)
 EndFunc   ;==>_GUICtrlRichEdit_PasteSpecial
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_PauseRedraw
-; Description....: Pauses redrawing of the control
-; Syntax ........: _GUICtrlRichEdit_PauseRedraw($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: unknown
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_ResumeRedraw
-; Link ..........: @@MsdnLink@@ WM_SETREDRAW
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_PauseRedraw($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3079,19 +1998,8 @@ Func _GUICtrlRichEdit_PauseRedraw($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_PauseRedraw
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Redo
-; Description....: Redoes last undone action
-; Syntax ........: _GUICtrlRichEdit_Redo($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_Undo, _GUICtrlRichEdit_CanRedo, _GUICtrlRichEdit_GetNextRedo
-; Link ..........: @@MsdnLink@@ EM_REDO
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Redo($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3100,23 +2008,8 @@ Func _GUICtrlRichEdit_Redo($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_Redo
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_ReplaceText
-; Description....: Replaces selected text
-; Syntax ........: _GUICtrlRichEdit_ReplaceText($hWnd, $sText[, $fCanUndo = True])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sText     - Replacement text
-;                  $fCanUndo  - Can operation can be undone? True (Default) or False
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |103 - $fCanUndo must be True or False
-;                  |-1  - no text is selected
 ; Authors........: Gary Frost (gafrost)
 ; Modified ......: Chris Haslam (c.haslam), jpm
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_InsertText, _GUICtrlRichEdit_SetText, _GUICtrlRichEdit_Undo
-; Link ..........: @@MsdnLink@@ EM_REPLACESEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ReplaceText($hWnd, $sText, $fCanUndo = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3139,19 +2032,8 @@ Func _GUICtrlRichEdit_ReplaceText($hWnd, $sText, $fCanUndo = True)
 EndFunc   ;==>_GUICtrlRichEdit_ReplaceText
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_ResumeRedraw
-; Description....: Resumes redrawing of the control
-; Syntax ........: _GUICtrlRichEdit_ResumeRedraw($hWnd)
-; Parameters.....: hWnd		- Handle to the control
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: unknown
 ; Modified ......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_PauseRedraw
-; Link ..........: @@MsdnLink@@ WM_SETREDRAW
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ResumeRedraw($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3161,27 +2043,8 @@ Func _GUICtrlRichEdit_ResumeRedraw($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_ResumeRedraw
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_ScrollLineOrPage
-; Description ...: Scrolls the text down or up a line or a page
-; Syntax.........: _GUICtrlRichEdit_ScrollLineOrPage($hWnd, $sAction)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $sAction     - one of the following:
-;                  |"ld" - line down
-;                  |"lu" - line up
-;                  |"pd" - page down
-;                  |"pu" - page up
-; Return values .: Success      -  the number of lines actually scrolled (positive if down)
-;                  Failure      -  0 and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |1021 - $sAction is not two characters
-;                  |1022 - first character must be l or p
-;                  |1023 - second character must be d or u
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: This function is well behaved: it never scrolls such that lines beyond the last one are shown.
-; Related .......: _GUICtrlRichEdit_ScrollLines, _GUICtrlRichEdit_ScrollToCaret
-; Link ..........: @@MsdnLink@@ EM_SCROLL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollLineOrPage($hWnd, $sAction)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
@@ -3210,26 +2073,8 @@ Func _GUICtrlRichEdit_ScrollLineOrPage($hWnd, $sAction)
 EndFunc   ;==>_GUICtrlRichEdit_ScrollLineOrPage
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_ScrollLines
-; Description ...: Scrolls the text down or up a number of lines
-; Syntax.........: _GUICtrlRichEdit_ScrollLines($hWnd, $iQlines)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iQlines     - number of lines to scroll
-; Return values .: Success      -  True
-;                  Failure      -  False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iQlines is not numeric
-;                  |700 - attempt to scroll a single-line control
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: To scroll down, set $iQlines to a positive value; to scroll up, a negative value.
-;+
-;                  _GUICtrlRichEdit_ScrollLines is well behaved: if $iQlines is more than the number of lines below
-;                  the current line, it scrolls to show only the last line; if $iQlines is negative and specifies
-;                  a line before the first one, it scrolls to show the first line at the top of the control window.
-; Related .......: _GUICtrlRichEdit_ScrollLineOrPage, _GUICtrlRichEdit_ScrollToCaret
-; Link ..........: @@MsdnLink@@ EM_LINESCROLL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollLines($hWnd, $iQlines)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3241,19 +2086,8 @@ Func _GUICtrlRichEdit_ScrollLines($hWnd, $iQlines)
 EndFunc   ;==>_GUICtrlRichEdit_ScrollLines
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_ScrollToCaret
-; Description ...: Scrolls to show line on which caret (insertion point) is
-; Syntax.........: _GUICtrlRichEdit_ScrollToCaret($hWnd)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: Success      -  True
-;                  Failure      -  False and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_ScrollLineOrPage, _GUICtrlRichEdit_ScrollLines
-; Link ..........: @@MsdnLink@@ EM_SCROLLCARET
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_ScrollToCaret($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3263,51 +2097,8 @@ Func _GUICtrlRichEdit_ScrollToCaret($hWnd)
 EndFunc   ;==>_GUICtrlRichEdit_ScrollToCaret
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetCharAttributes
-; Description....: Turns an attribute on or off for selected text or, if none selected, for text inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetCharAttributes($hWnd, $sStatesAndEffects[, $fWord = False])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sStatesAndAtts -  a string consisting of three character groups: + (or -) for the state, and a two-letter abbreviation for the attribute
-;                  |   first character: + for on, - for off
-;                  |   second and third character: any of:
-;                  |      bo - bold
-;                  |      di - disable - displays characters with a shadow [nd]
-;                  |      em - emboss [nd]
-;                  |      hi - hide, i.e. don't display
-;                  |      im - imprint [nd]
-;                  |      it - italcize
-;                  |      li - send EN_LINK messages when mouse is over text with this attribute
-;                  |      ou - outline [nd]
-;                  |      pr - send EN_PROTECT when user attempts to modify
-;                  |      re - mark as revised [nd]
-;                  |      sh - shadow [nd]
-;                  |      sm - small capital letters [nd]
-;                  |      st - strike out
-;                  |      sb - subscript [nd]
-;                  |      sp - superscript [nd]
-;                  |      un - underline
-;                  $fWord - (Optional)
-;                  | True
-;                  |   If text is selected, apply the attribute to whole words in the selected text
-;                  |   If not:
-;                  |      If the insertion point is in a word, or at the end of it, apply the attribute to the word
-;                  |      If not, apply the attribute to text inserted at the insertion point
-;                  | False (Default)
-;                  |   If text is selected, apply the attribute to the selected text
-;                  |   If not, apply the attribute to text inserted at the insertion point
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |103  - $fWord must be True or False
-;                  |1021 - length of $sStatesAndAtts is not  multiple of 3
-;                  |1022 - first character of group not + or -. The character is in @extended
-;                  |1023 - an abbreviation for an attribute is invalid. It is in @extended
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm
-; Remarks .......: Some attributes do not display; they are marked with [nd] above.
-; Related .......: _GUICtrlRichEdit_GetCharAttributes
-; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetCharAttributes($hWnd, $sStatesAndAtts, $fWord = False)
 	Local Const $av[17][3] = [ _
@@ -3357,23 +2148,8 @@ Func _GUICtrlRichEdit_SetCharAttributes($hWnd, $sStatesAndAtts, $fWord = False)
 EndFunc   ;==>_GUICtrlRichEdit_SetCharAttributes
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetCharBkColor
-; Description....: Sets the background color of selected text or, if none selected, sets the background color of text inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetCharBkColor($hWnd[, $iColor])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iColor - one of the following: (Optional)
-;                  |a number - a COLORREF value
-;                  |Default keyword - the system color (default)
-; Return values..: Success - True
-;                  Failure - False and sets @error
-;                  |101  - $hWnd is not a handle
-;                  |1022 - $iColor is invalid
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: jpm, guinness
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetCharBkColor
-; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetCharBkColor($hWnd, $iBkColor = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3398,23 +2174,8 @@ Func _GUICtrlRichEdit_SetCharBkColor($hWnd, $iBkColor = Default)
 EndFunc   ;==>_GUICtrlRichEdit_SetCharBkColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetCharColor
-; Description....: Sets the color of selected text or, if none selected, sets the background color of text inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetCharColor($hWnd[, $iColor])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iColor - one of the following: (Optional)
-;                  |a number - a COLORREF value
-;                  |Default keyword - the system color (default)
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1022 - $iColor is invalid
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: Jpm, guinness
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetCharColor
-; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetCharColor($hWnd, $iColor = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3439,23 +2200,8 @@ Func _GUICtrlRichEdit_SetCharColor($hWnd, $iColor = Default)
 EndFunc   ;==>_GUICtrlRichEdit_SetCharColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetBkColor
-; Description....: Sets the background color of the control
-; Syntax ........: _GUICtrlRichEdit_SetBkColor($hWnd, $vColor = "sys")
-; Parameters.....: $hWnd		- Handle to the control
-;                  $vColor - one of the following: (Optional)
-;                  |a number - a COLORREF value
-;                  |Default keyword - the system color (default)
-; Return values..: Success - True
-;                  Failure - False and sets @error
-;                  |101 - $hWnd is not a handle
-;                  |1022 - $vColor: value not 0 to 100
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: Jpm, guinness
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_SETBKGNDCOLOR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetBkColor($hWnd, $iBngColor = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3473,29 +2219,8 @@ Func _GUICtrlRichEdit_SetBkColor($hWnd, $iBngColor = Default)
 EndFunc   ;==>_GUICtrlRichEdit_SetBkColor
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetLimitOnText
-; Description....: Change number of characters that can be typed, pasted or streamed in as Rich Text Format
-; Syntax ........: _GUICtrlRichEdit_SetLimitOnText($hWnd, $iNewLimit)
-; Parameters.....: hWnd		- Handle to the control
-;                  $iNewLimit - new limit
-;                  Special value: 0 - 65,535 characters
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iNewLimit is neither a positive number nor zero
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: This function sets the limit on the number of characters a user can type in or paste into a control.
-;+
-;                  It also limits the number of characters of RTF text that can be streamed in using
-;                  _GUICtrlRichEdit_StreamFromFile and _GUICtrlRichEdit_StreamFromVar.
-;+
-;                  It does not limit the amount of plain text that can be streamed in.
-;+
-;                  The initial limit is 32,767 characters.
-; Related .......: _GUICtrlRichEdit_StreamToFile, _GUICtrlRichEdit_StreamToVar
-; Link ..........: @@MsdnLink@@ EM_EXLIMITTEXT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetLimitOnText($hWnd, $iNewLimit)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3507,29 +2232,8 @@ Func _GUICtrlRichEdit_SetLimitOnText($hWnd, $iNewLimit)
 EndFunc   ;==>_GUICtrlRichEdit_SetLimitOnText
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetTabStops
-; Description ...: Sets tab stops for the control
-; Syntax.........: _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops[, $fRedraw = True])
-; Parameters ....: $hWnd - handle of control
-;                  $VTabStops - tab stop(s) to set in space units:
-;                  |If a string, semicolon-separated tab stop positions
-;                  |If numeric: set a tab stop every <n> space units
-;                  $fRedraw - whether to redraw the control - True (default) or False
-; Return values .: Success - True
-;                : Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |103  - $fRedraw must be True or False
-;                  |1021 - $vTabStops is neither a string nor a number
-;                  |1022 - $vTabStops is a string but a tab stop in it is not a positive number
-;                  |1023 - $vTabStops is an empty string
-;                  |1024 - $vTabStops is a number but it is zero or negative
 ; Author ........: KIP
 ; Modified.......: Chris Haslam (c.haslam), guinness
-; Remarks .......: Space units are initially inches
-;                   To enter a tab into a control, press Ctrl_Tab
-; Related .......: _GUICtrlRichEdit_SetParaTabStops, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETTABSTOPS
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops, $fRedraw = True)
 	; Should take tabstops in space units (like EM_SETPARAFORMAT PFM_TABSTOPS, but how to convert inches, etc.
@@ -3571,24 +2275,8 @@ Func _GUICtrlRichEdit_SetTabStops($hWnd, $vTabStops, $fRedraw = True)
 EndFunc   ;==>_GUICtrlRichEdit_SetTabStops
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetZoom
-; Description....: Sets zoom level of the control
-; Syntax ........: _GUICtrlRichEdit_SetZoom($hWnd, $iPercent)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iPercent - percentage zoom
-;                  |values: 100 and 200 to 6400
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |1021 - $iPercent is not a positive number
-;                  |1022 - $iPercent neither 100 nor in the range 200 to 6400
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: MSDN claims that EM_SETZOOM works from 1.56% (1/64) to 6400$ (64/1) but testing shows that
-;                  it only works reliably for the values shown above
-; Related .......: _GUICtrlRichEdit_GetZoom
-; Link ..........: @@MsdnLink@@ EM_SETZOOM
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetZoom($hWnd, $iPercent)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3609,45 +2297,8 @@ Func _GUICtrlRichEdit_SetZoom($hWnd, $iPercent)
 EndFunc   ;==>_GUICtrlRichEdit_SetZoom
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetEventMask
-; Description....: Specifies which notification messages are sent to the parent window
-; Syntax ........: _GUICtrlRichEdit_SetEventMask($hWnd, $iFlags)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iEventMask - BitOr combination of :
-;                  |$ENM_CHANGE - Sends $EN_CHANGE  notifications (user may have altered text)
-;                  |$ENM_CORRECTTEXT - Sends $EN_CORRECTTEXT notifications (parent window can cancel correction of text)
-;                  |$ENM_DRAGDROPDONE - Sends $EN_DRAGDROPDONE notifications (drag and drop operation completed)
-;                  |$ENM_DROPFILES - Sends $EN_DROPFILES notifications (user is attempting to drop files into the control)
-;                  |$ENM_KEYEVENTS - Sends $EN_MSGFILTER notifications for keyboard events
-;                  |$ENM_LINK - Sends $EN_LINK notifications when the mouse pointer is over text having the link character
-;                  +attribute set and when user clicks the mouse [2.0+]
-;                  |$ENM_MOUSEEVENTS - Sends $EN_MSGFILTER notifications for mouse events to parent window
-;                  |$ENM_OBJECTPOSITIONS - Sends $EN_OBJECTPOSITIONS notifications when the control reads in objects
-;                  |$ENM_PROTECTED - Sends $EN_PROTECTED notifications when the user attempts to change characters having
-;                  +the protected attribute set
-;                  |$ENM_REQUESTRESIZE - Sends $EN_REQUESTRESIZE notifications that the control's contents are either smaller or
-;                  +larger than the control's window size
-;                  |$ENM_SCROLL - Sends $EN_HSCROLL and $EN_VSCROLL notifications when the user clicks the horizontal/vertical
-;                  +scroll bar
-;                  |$ENM_SCROLLEVENTS - Sends EN_MSGFILTER notifications for mouse wheel events
-;                  |$ENM_SELCHANGE - Sends EN_SELCHANGE notifications when the current selection changes
-;                  |$ENM_UPDATE - Sends EN_UPDATE notifications when a control is about to redraw itself
-;                  |or
-;                  |$ENM_NONE - Disables sending of notification messages to the parent window
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iEventMask is not a number
 ; Authors........: Yoan Roblet (Arcker)
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: The number in parentheses indicate which versions mask settings apply to.
-;+
-;                  $ENM_IMECHANGE only applies to Asian-language versions of Windows
-;+
-;                  $EN_UPDATE notifications are always sent except for when 4.0 is emulating 1.0
-; Related .......: _GUICtrlRichEdit_SetCharAttributes, _GUICtrlRichEdit_GetCharAttributes
-; Link ..........: @@MsdnLink@@ EM_SETEVENTMASK
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetEventMask($hWnd, $iEventMask)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3658,42 +2309,8 @@ Func _GUICtrlRichEdit_SetEventMask($hWnd, $iEventMask)
 EndFunc   ;==>_GUICtrlRichEdit_SetEventMask
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetFont
-; Description ...: Sets the font attributes of selected text or, if none selected, sets those of text inserted at the insertion point
-; Syntax.........: _GUICtrlRichEdit_SetFont($hWnd,  $iPoints = Default[, $sName = Default[, $iCharset = Default[, $iLcid = Default]]])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iPoints - point size (Optional)
-;                  $sName - the name of the font face, e.g. "Courier" not "Courier Bold" (Optional)
-;                  $iCharSet -  the character set (Optional) - one of:
-;                  |$ANSI_CHARSET        - 0
-;                  |$BALTIC_CHARSET      - 186
-;                  |$CHINESEBIG5_CHARSET - 136
-;                  |$DEFAULT_CHARSET     - 1
-;                  |$EASTEUROPE_CHARSET  - 238
-;                  |$GB2312_CHARSET      - 134
-;                  |$GREEK_CHARSET       - 161
-;                  |$HANGEUL_CHARSET     - 129
-;                  |$MAC_CHARSET         - 77
-;                  |$OEM_CHARSET         - 255
-;                  |$RUSSIAN_CHARSET     - 204
-;                  |$SHIFTJIS_CHARSET    - 128
-;                  |$SYMBOL_CHARSET      - 2
-;                  |$TURKISH_CHARSET     - 162
-;                  |$VIETNAMESE_CHARSET  - 163
-;                  $iLcid - see http://www.microsoft.com/globaldev/reference/lcid-all.mspx (Optional)
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iPoints is not a positive number
-;                  |103 - $sName is not alphabetic
-;                  |104 - $iCharset is not a number
-;                  |105 - $iLcid is not a number
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: If a parameter is omitted (or is Default), the value is unchanged
-; Related .......: _GUICtrlRichEdit_GetFont
-; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT, @@MsdnLink@@ LOGFONT, http://www.hep.wisc.edu/~pinghc/books/apirefeng/l/logfont.html
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetFont($hWnd, $iPoints = Default, $sName = Default, $iCharset = Default, $iLcid = Default)
 	; MSDN does not give a mask (CFM) for bPitchAndFamily so it appears that it cannot be set => omitted here
@@ -3738,31 +2355,8 @@ Func _GUICtrlRichEdit_SetFont($hWnd, $iPoints = Default, $sName = Default, $iCha
 EndFunc   ;==>_GUICtrlRichEdit_SetFont
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetRECT
-; Description ...: Sets the formatting rectangle of a control
-; Syntax.........: _GUICtrlRichEdit_SetRECT($hWnd [,$iLeft = Default [, $iTop = Default [, $iRight = Default [, $iBottom = Default [, $bRedraw = True]]]]]])
-; Parameters ....: $hWnd    - Handle to the control
-;                  $iLeft   - Left position in dialog units
-;                  $iTop    - Top position in dialog units
-;                  $iRight  - Right position in dialog units
-;                  $iBottom - Bottom position in dialog unit
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1021 - $iLeft is not a positive number
-;                  |1022 - $iTop is not a positive number
-;                  |1023 - $iRight is not a positive number
-;                  |1024 - $iBottom is not a positive number
-;                  |1025 - $iLeft >= $iRight
-;                  |1026 - $iTop >= $iBottom
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......: jpm, guinness
-; Remarks .......: The formatting rectangle is the area in which text is drawn, part of which may not be visible.
-;                  Parameters default = no change to previous values
-;                  If only $hWnd defined, formatting is reset as at creation time.
-; Related .......: _GUICtrlRichEdit_GetRECT
-; Link ..........: @@MsdnLink@@ EM_SETRECT
-; Example .......:
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight = Default, $iBottom = Default, $bRedraw = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3807,25 +2401,8 @@ Func _GUICtrlRichEdit_SetRECT($hWnd, $iLeft = Default, $iTop = Default, $iRight 
 EndFunc   ;==>_GUICtrlRichEdit_SetRECT
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetModified
-; Description ...: Sets or clears the modification flag
-; Syntax.........: _GUICtrlRichEdit_SetModified($hWnd, $fState = True)
-; Parameters ....: $hWnd        - Handle to the control
-;                  $fState   - Specifies the new value for the modification flag:
-;                  | True       - Indicates that the text has been modified (default)
-;                  |False       - Indicates it has not been modified.
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fState must be True or False
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......: The system automatically sets the modification flag to False when the control is created.
-;                  If the control's text is changed, either by the user or programmatically, the system sets the flag to True
-;                  Call _GUICtrlRichEdit_IsModified to retrieve the current state of the flag.
-; Related .......: _GUICtrlRichEdit_IsModified
-; Link ..........: @@MsdnLink@@ EM_SETMODIFY
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetModified($hWnd, $fState = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3836,26 +2413,8 @@ Func _GUICtrlRichEdit_SetModified($hWnd, $fState = True)
 EndFunc   ;==>_GUICtrlRichEdit_SetModified
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaAlignment
-; Description....: Sets alignment of paragraph(s) in the current selection or, if no selection, of paragraphs inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaAlignment($hWnd, $iAlignment)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sAlignment - values:
-;                  |"l" - align with the left margin.
-;                  |"r" - align with the right margin.
-;                  |"c" - center between margins
-;                  |"j" - justify between margins
-;                  |"f" - justify between margins by only expanding spaces
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - invalid $sAlignment
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......: guinness
-; Remarks .......: In Richedit 2.0, justify does not display
-; Related .......: _GUICtrlRichEdit_GetParaAlignment
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaAlignment($hWnd, $sAlignment)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -3883,38 +2442,8 @@ Func _GUICtrlRichEdit_SetParaAlignment($hWnd, $sAlignment)
 EndFunc   ;==>_GUICtrlRichEdit_SetParaAlignment
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaAttributes
-; Description....: Sets attributes of paragraph(s) in the current selection or, if no selection, of paragraphs inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sStatesAndAtts -  a string consisting of groups separated by semicolons (;}.
-;                  + Each group consists of:
-;                  |First character - state:
-;                  |   +  -  turn attribute on
-;                  |   -  -  turn attribute off
-;                  Characters 2 to 4 - attribute
-;                  |   "fpg"  -  force this/these paragraphs on to new page(s) (Initially off)
-;                  |   "hyp"  -  automatic hypthenation (Initially on)
-;                  |   "kpt"  -  keep this/these paragraph(s) together on a page (Initially off}
-;                  |   "kpn"  -  keep this/these paragraph(s) and the next together on a page (Initially off)
-;                  |   "pwo"  -  prevent widows and orphans, i.e. avoid a single line of this/these paragraphs
-;                  +on a page (Initially off)
-;                  |   "r2l"  -  display text using right-to-left reading order (Initially off)
-;                  |   "row"  -  paragraph(s) is/are table row(s) (Initially off)
-;                  |   "sbs"  -  display paragraphs side by side (Initially off)
-;                  |   "sln"  -  suppress line numbers in documents or sections with line numbers (Initially off)
-; Return values..: Success - True
-;                  Failure - False and sets @error
-;                  |101  - $hWnd is not a handle
-;                  |1021 - a state character in $sStatesAndAtts is invalid. It is in @extended
-;                  |1022 - an attribute abbreviation in $sStatesAndAtts is invalid. It is in @extended
-;                  |1023 - length of $sStatesAndAtts is invalid
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Displays results in Word but not in Rich Edit
-; Related .......: _GUICtrlRichEdit_GetParaAttributes
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
 	Local Enum $kAbbrev = 0, $kMask, $kEffect, $kInverted
@@ -3968,69 +2497,8 @@ Func _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
 EndFunc   ;==>_GUICtrlRichEdit_SetParaAttributes
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaBorder
-; Description....: Sets the border  of paragraph(s) in the current selection or, if no selection, of paragraphs inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaBorder($hWnd[, $sLocation[, $vLineStyle[, $sColor[, $iSpace]]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sLocation (Optional) - a string consisting of any logical combination of:
-;                  |   l - left border
-;                  |   r - right border
-;                  |   t - top border
-;                  |   b - bottom border
-;                  |   i - inside border
-;                  |   o - outside border
-;                  |or  ""  - no border  (initial value)
-;                  $vLineStyle {Optional) - line style - one of:
-;                  |   "none" - no line  (initial value)
-;                  |   .75    -  3/4 point
-;                  |   1.5    -  1 1/2 points
-;                  |   2.25   -  2 1/4 points
-;                  |   3      -  3 points
-;                  |   4.5    -  4 1/2 points
-;                  |   6      -  6 points
-;                  |   ".75d" -  1/2 points, double
-;                  |   "1.5d" -  1 1/2 points, double
-;                  |   "2.25d" - 2 1/4 points, double
-;                  |   ".75g"  - 3/4 point grey
-;                  |   ".75gd" - 3/4 point grey dashed
-;                  $sColor {Optional) - one of:
-;                  |   "aut"   - autocolor
-;                  |   "blk"   - black  (initial value)
-;                  |   "blu"   - blue
-;                  |   "cyn"   - cyan
-;                  |   "grn"   - green
-;                  |   "mag"   - magenta
-;                  |   "red"   - red
-;                  |   "yel"   - yellow
-;                  |   "whi"   - white
-;                  |   "dbl"   - dark blue
-;                  |   "dgn"   - dark green
-;                  |   "dmg"   - dark magenta
-;                  |   "drd"   - dark red
-;                  |   "dyl"   - dark yellow
-;                  |   "dgy"   - dark grey
-;                  |   "lgy"   - light grey
-;                  $iSpace (Optional) - space between the border and the text (in space units) ( (initial value): 0)
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - value of $sLocation is invalid
-;                  |103 - value of $ivLineStyle is invalid
-;                  |104 - value of $sColor is invalid
-;                  |105 - $iSpace is neither a positive number nor zero
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-;+
-;                  If text is selected, the defaults are the values of the first paragraph with text selected.
-;                  If none is selected, the defaults are the values of the current paragraph.
-;+
-;                  To remove a border, call with two parameters: ($hWnd, "")
-;+
-;                  Borders do not show in Rich Edit, but ones created here should show in Word
-; Related .......: _GUICtrlRichEdit_GetParaBorder, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = Default, $sColor = Default, $iSpace = Default)
 	; wBorderWidth doesn't appear to work
@@ -4098,37 +2566,8 @@ Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = D
 EndFunc   ;==>_GUICtrlRichEdit_SetParaBorder
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaIndents
-; Description....: Sets indents of paragraph(s) in the current selection or, if no selection, of paragraphs inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaIndents($hWnd, $vLeft[ = Default, $iRight[ = Default, $iFirstLine[ = Default]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $vLeft - indentation of left side of the body of the paragraph (in space units) (Optional)
-;                  | absolute - a number
-;                  | relative to previous - a string - "+<number>" or "-<number>"
-;                  $iRght - indentation of  right side of the paragraph (in space units) (Optional)
-;                  $iFirstLine - indentation of the first line relative to other lines (in space units) (Optional)
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |103 - $iRight is not a number
-;                  |104 - $iFirstLine is not a number
-;                  |1021 - $vLeft is neither a number nor a string consisting of a number
-;                  |1022 - $vLeft would start body of paragrpah to left of client area
-;                  |700 - Operation failed
-;                  |200 - First line would be outdented beyond the client area
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Postive values of $iLeft, $iRight and $iFirstLine indent towards the center of the paragraph
-;+
-;                  All three values are initially zero.
-;+
-;                  To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-;+
-;                  If text is selected, the defaults are the values of the first paragraph with text selected.
-;                  If none is selected, the defaults are the values of the current paragraph.
-; Related .......: _GUICtrlRichEdit_GetParaIndents, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaIndents($hWnd, $vLeft = Default, $iRight = Default, $iFirstLine = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4161,32 +2600,8 @@ Func _GUICtrlRichEdit_SetParaIndents($hWnd, $vLeft = Default, $iRight = Default,
 EndFunc   ;==>_GUICtrlRichEdit_SetParaIndents
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaNumbering
-; Description....: Sets numbering of paragraph(s) in the current selection or, if no selection, of paragraph(s) inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaNumbering($hWnd, $sStyle, $iTextToNbrSpace = Default,$fForceRoman=False)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sStyle - a string specifying style and starting "number": e.g. "." (bullet), "1)","(b)", "C.", "iv", "V)"
-;                  |   This is the "numbering" that will display for the first paragraph.
-;                  |   Trailing spaces indicate the minimum spaces between the number and the paragraph unless iTextToNbrSpace is entered
-;                  |   Special cases:
-;                  |      "=" - This paragraph is an unnumbered paragraph within the preceding list element
-;                  |       "" - removed the numbering from the selected paragraph(s)
-;                  $iTextToNbrSpace - space between number/bullet and paragraph (in space units) (Optional)
-;                  |Default: number of trailing spaces times point size
-;                  $fForceRoman - (Optional)
-;                   |True - i, v, x ... in $sStyle is Roman numeral 1, 5, 10 ...
-;                  |False - i, v, x ... in $sStyle is letter i, v, x ... {Default)
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |103 - $iTextToNbrSpace is not a postive number
-;                  |104 - $fForceRoman must be True or False
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-; Related .......: _GUICtrlRichEdit_GetParaNumbering, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaNumbering($hWnd, $sStyle, $iTextToNbrSpace = Default, $fForceRoman = False)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4219,60 +2634,8 @@ Func _GUICtrlRichEdit_SetParaNumbering($hWnd, $sStyle, $iTextToNbrSpace = Defaul
 EndFunc   ;==>_GUICtrlRichEdit_SetParaNumbering
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaShading
-; Description....: Sets the shading of paragraph(s) in the current selection or, if no selection, of paragraphs inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight[ = Default, $sStyle[ = Default, $sForeColor[ = Default, $sBackColor[ = Default]]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iWeight (Optional) - percent of foreground color, the rest being background color
-;                  $sStyle {Optional) - shading style - a string containing one of the following:
-;                  |   non - none
-;                  |   dhz - dark horizontal
-;                  |   dvt - dark vertical
-;                  |   ddd - dark down diagonal
-;                  |   dud - dark up diagonal
-;                  |   dgr - dark grid
-;                  |   dtr - dark trellis
-;                  |   lhz - light horizontal
-;                  |   lvt - light vertical
-;                  |   ldd - light down diagonal
-;                  |   lud - light up diagonal
-;                  |   lgr - light grid
-;                  |   ltr - light trellis
-;                  $sForeColour (Optional) - one of the following:
-;                  |   "blk"   - black  (initial value)
-;                  |   "blu"   - blue
-;                  |   "cyn"   - cyan
-;                  |   "grn"   - green
-;                  |   "mag"   - magenta
-;                  |   "red"   - red
-;                  |   "yel"   - yellow
-;                  |   "whi"   - white
-;                  |   "dbl"   - dark blue
-;                  |   "dgn"   - dark green
-;                  |   "dmg"   - dark magenta
-;                  |   "drd"   - dark red
-;                  |   "dyl"   - dark yellow
-;                  |   "dgy"   - dark grey
-;                  |   "lgy"   - light grey
-;                  $sBackColor (Optional) - same values as for $sForeColor
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |103  -  value of $sStyle is invalid
-;                  |104  -  value of $sForeColor is invalid
-;                  |105  -  value of $sBackColor is invalid
-;                  |1021 - $iWeight is not a positive number
-;                  |1022 -  value of $iWeight is invalid
-;                  |700  -  operation failed
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If text is selected, the defaults are the values of the first paragraph with text selected.
-;                  If none is selected, the defaults are the values of the current paragraph.
-;+
-;                  Shading does not show in Rich Edit, but shading created here will show in Word
-; Related .......: _GUICtrlRichEdit_GetParaShading
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight = Default, $sStyle = Default, $sForeColor = Default, $sBackColor = Default)
 	Local $iS = 0 ; perhaps a BUG (jpm) only referenced
@@ -4335,30 +2698,8 @@ Func _GUICtrlRichEdit_SetParaShading($hWnd, $iWeight = Default, $sStyle = Defaul
 EndFunc   ;==>_GUICtrlRichEdit_SetParaShading
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaSpacing
-; Description....: Sets paragraph spacing of paragraphs having selected text or, if none selected, sets it for text inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaSpacing($hWnd, [$vInter=Default[, $iBefore=Default[, $iAfter=Default]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $vInter - spacing between lines: (Optional)
-;                  |either: a number - in space units
-;                  |or: "<number> lines" - in lines
-;                  $iBefore - spacing before paragraph(s) (in space units) (Optional)
-;                  $iAfter  - spacing after paragraph(s) (in space units) (Optional)
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |103  - $iBefore is neither a positive number nor zero
-;                  |104  - $iAfter is neither a positive number nor zero
-;                  |1021 - $vInter is invalid
-;                  |1022 - Only 1, 1.5 and 2 line spacing can be set via "<n> lines"
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: Only settings which are not defaulted are set
-;+
-;                  To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-; Related .......: _GUICtrlRichEdit_GetParaSpacing, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETPARAFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaSpacing($hWnd, $vInter = Default, $iBefore = Default, $iAfter = Default)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4414,42 +2755,8 @@ Func _GUICtrlRichEdit_SetParaSpacing($hWnd, $vInter = Default, $iBefore = Defaul
 EndFunc   ;==>_GUICtrlRichEdit_SetParaSpacing
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetParaTabStops
-; Description....: Sets tab stops  of paragraphs having selected text or, if none selected, sets it for text inserted at the insertion point
-; Syntax ........: _GUICtrlRichEdit_SetParaTabStops($hWnd, $sTabStops)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sTabStops - A string consisting of groups separated by ; (semicolon). Format of a group:
-;                  | absolute position of a tab stop (in space units)
-;                  | kind of tab
-;                  |   l - left tab
-;                  |   c - center tab
-;                  |   r - decimal tab
-;                  |   b - bar tab
-;                  | kind of dot leader
-;                  |   . - dotted leader
-;                  |   - - dashed leader
-;                  |   _ - underline leader
-;                  |   = - double line leader
-;                  |   t - thick-line leader
-;                  |   a space - no leader
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1021 - absolute position of a tab stop missing or invalid
-;                  |1022 - kind of tab missing or invalid
-;                  |1023 - kind of tab leader missing or invalid
-;                  |1024 - attempt to set too many tab stops
-;                  |   @extended contains the tab number (ref 1) in $sTabStops where the error occurred.
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To reset the tab stops, do _GUICtrlRichEdit_SetParaTabStops($hWnd, "")
-;+
-;                  To set "space units", call _GUICtrlRichEdit_SetSpaceUnit. Initially inches
-;+
-;                  To enter a tab into a control, press Ctrl_Tab
-; Related .......: _GUICtrlRichEdit_GetParaTabStops, _GUICtrlRichEdit_SetSpaceUnit
-; Link ..........: @@MsdnLink@@ EM_SETCHARFORMAT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetParaTabStops($hWnd, $sTabStops)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4493,22 +2800,8 @@ Func _GUICtrlRichEdit_SetParaTabStops($hWnd, $sTabStops)
 EndFunc   ;==>_GUICtrlRichEdit_SetParaTabStops
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetPasswordChar
-; Description ...: Sets the characters to be displayed instead of those typed, or causes typed characters to show
-; Syntax.........: _GUICtrlRichEdit_SetPasswordChar($hWnd[, $cDisplayChar = "0"])
-; Parameters ....: $hWnd         - Handle to the control
-;                  $cDisplayChar - The character to be displayed in place of the characters typed by the user.
-;                  |Special value: "" - characters typed are displayed
-; Return values .: Succcess - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $cDisplayChar is not a character
 ; Author ........: Gary Frost
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......: _GUICtrlRichEdit_GetPasswordChar
-; Link ..........: @@MsdnLink@@ EM_SETPASSWORDCHAR
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetPasswordChar($hWnd, $cDisplayChar)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4523,24 +2816,8 @@ Func _GUICtrlRichEdit_SetPasswordChar($hWnd, $cDisplayChar)
 EndFunc   ;==>_GUICtrlRichEdit_SetPasswordChar
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetReadOnly
-; Description ...: Sets or removes the read-only state
-; Syntax.........: _GUICtrlRichEdit_SetReadOnly($hWnd[, $fState = True])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $fState   - one of the following values:
-;                  |True       - Sets control to read-only (default)
-;                  |False      - Sets control to read-write
-; Return values .: Success      - True
-;                  Failure      - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $fState is neither true nor false
-;                  |700 - operation failed
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......: Chris Haslam (c.haslam)
-; Remarks .......:
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_SETREADONLY
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetReadOnly($hWnd, $fState = True)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4552,23 +2829,8 @@ Func _GUICtrlRichEdit_SetReadOnly($hWnd, $fState = True)
 EndFunc   ;==>_GUICtrlRichEdit_SetReadOnly
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetScrollPos
-; Description....: Scrolls the display such that ($ix,$iY) is in the upper left corner of the control
-; Syntax ........: _GUICtrlRichEdit_SetScrollPos($hWnd, $iX, $iY)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iX - x coorindate (in pixels)
-;                  $iY - y coorindate (in pixels)
-; Return values..: Success - True
-;                  Failure - False and sets @error
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iX is neither a positive number nor zero
-;                  |103 - $iY is neither a positive number nor zero
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: Never scrolls the text completely off the view rectangle
-; Related .......:
-; Link ..........: @@MsdnLink@@ EM_SETSCROLLPOS
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetScrollPos($hWnd, $iX, $iY)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4582,28 +2844,8 @@ Func _GUICtrlRichEdit_SetScrollPos($hWnd, $iX, $iY)
 EndFunc   ;==>_GUICtrlRichEdit_SetScrollPos
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetSel
-; Description ...: Sets the low and high character position of a selection
-; Syntax.........: _GUICtrlRichEdit_SetSel($hWnd, $iAnchor, $iActive[, $fHideSel = False])
-; Parameters ....: $hWnd        - Handle to the control
-;                  $iAnchor -  the character position of the first character to select
-;                  |Special value: -1 - end of text
-;                  $iActive -  the character position of the last character to select
-;                  |Special value: -1 - end of text
-; Return values .: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iAnchor is neither a positive number nor zero nor -1
-;                  |103 - $iActive is neither a positive number nor zero nor -1
-;                  |104 - $fHideSel must be True or False
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......: jpm
-; Remarks .......: The first character of the text in a control is at character position 1
-;+
-;                  $iActive can be less than $iAnchor
-; Related .......: _GUICtrlRichEdit_GetSel, _GUICtrlRichEdit_Deselect, _GUICtrlRichEdit_IsTextSelected, _GUICtrlRichEdit_GotoCharPos
-; Link ..........: @@MsdnLink@@ EM_EXSETSEL
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetSel($hWnd, $iAnchor, $iActive, $fHideSel = False)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4617,18 +2859,8 @@ Func _GUICtrlRichEdit_SetSel($hWnd, $iAnchor, $iActive, $fHideSel = False)
 EndFunc   ;==>_GUICtrlRichEdit_SetSel
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _GUICtrlRichEdit_SetSpaceUnit
-; Description ...: Sets the unit of measure of horizontal and vertical space used in parameters of various _GUICtrlRichEdit functions
-; Syntax.........: _GUICtrlRichEdit_SetSpaceUnit()
-; Parameters ....: $sUnit - "in", "cm", "mm", "pt" (points), or "tw" (twips, 1/1440 inches, 1/567 centimetres
-; Return values .: Success - True
-;                  Failure - False and sets @error to 1
 ; Author ........: Chris Haslam (c.haslam)
 ; Modified.......:
-; Remarks .......: Initially, space is measured in inches
-; Related .......: _GUICtrlRichEdit_GetSpaceUnit
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetSpaceUnit($sUnit)
 	Switch StringLower($sUnit)
@@ -4649,22 +2881,8 @@ Func _GUICtrlRichEdit_SetSpaceUnit($sUnit)
 EndFunc   ;==>_GUICtrlRichEdit_SetSpaceUnit
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetText
-; Description....: Sets the text of a control
-; Syntax ........: _GUICtrlRichEdit_SetText($hWnd, $sText)
-; Parameters.....: hWnd		- Handle to the control
-;                  $sText         - Plain or RTF text to put into the control
-; Return values..: Succcess - True
-;                  |Failure - False, and sets @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Gary Frost (gafrost (custompcs@charter.net))
 ; Modified ......: Prog@ndy, Chris Haslam (c.haslam)
-; Remarks .......: Sets all of the text
-;                  |Text can be plain or RTF text
-;                  |Keeps the undo stack
-; Related .......: _GUICtrlRichEdit_GetText, _GUICtrlRichEdit_AppendText, _GUICtrlRichEdit_InsertText, _GUICtrlRichEdit_ReplaceText, _GUICtrlRichEdit_EmptyUndoBuffer
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetText($hWnd, $sText)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4685,23 +2903,8 @@ Func _GUICtrlRichEdit_SetText($hWnd, $sText)
 EndFunc   ;==>_GUICtrlRichEdit_SetText
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_SetUndoLimit
-; Description....: Sets the maximum number of actions that can stored in the undo queue
-; Syntax ........: _GUICtrlRichEdit_SetUndoLimit($hWnd, $iLimit)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $iLimit - the maximum number of actions that can be stored in the undo queue
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |102 - $iLimit is neither a positive number nor zero
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: To disable the Undo feature, set $iLimit to zero
-;+
-;                  The initial value of $iLimit is 100.
-; Related .......: _GUICtrlRichEdit_Undo, _GUICtrlRichEdit_CanRedo, _GUICtrlRichEdit_CanUndo, _GUICtrlRichEdit_GetNextRedo, _GUICtrlRichEdit_Redo
-; Link ..........: @@MsdnLink@@ EM_SETUNDOLIMIT
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_SetUndoLimit($hWnd, $iLimit)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4711,25 +2914,8 @@ Func _GUICtrlRichEdit_SetUndoLimit($hWnd, $iLimit)
 EndFunc   ;==>_GUICtrlRichEdit_SetUndoLimit
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_StreamFromFile
-; Description....: Sets text in a control from a file
-; Syntax ........: _GUICtrlRichEdit_StreamFromFile($hWnd, $sFilespec)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sFileSpec - file specification
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1021 - unable to open $sFilespec
-;                  |1022 - file is empty
-;                  |700  - attempt to stream in too many characters
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If text is selected, replaces selection, else replaces all text in the control
-;+
-;                  Call _GUICtrlRichEdit_SetLimitonText to increase the number of characters the control can contain
-; Related .......: _GUICtrlRichEdit_SetLimitOnText, _GUICtrlRichEdit_StreamFromVar, _GUICtrlRichEdit_StreamToFile
-; Link ..........: @@MsdnLink@@ EM_STREAMIN
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamFromFile($hWnd, $sFilespec)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4759,23 +2945,8 @@ Func _GUICtrlRichEdit_StreamFromFile($hWnd, $sFilespec)
 EndFunc   ;==>_GUICtrlRichEdit_StreamFromFile
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_StreamFromVar
-; Description....: Sets text in a control from a variable
-; Syntax ........: _GUICtrlRichEdit_StreamFromVar($hWnd, $sVar)
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sVar - a string
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |700 - attempt to stream in too many characters
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If text is selected, replaces selection, else replaces all text in the control
-;+
-;                  Call _GUICtrlRichEdit_SetLimitonText to increase the number of characters the control can contain
-; Related .......: _GUICtrlRichEdit_SetLimitOnText, _GUICtrlRichEdit_StreamFromFile, _GUICtrlRichEdit_StreamToVar
-; Link ..........: @@MsdnLink@@ EM_STREAMIN
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamFromVar($hWnd, $sVar)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4796,37 +2967,8 @@ Func _GUICtrlRichEdit_StreamFromVar($hWnd, $sVar)
 EndFunc   ;==>_GUICtrlRichEdit_StreamFromVar
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_StreamToFile
-; Description....: Writes contens of a control to a file
-; Syntax ........: _GUICtrlRichEdit_StreamToFile($hWnd, $sFilespec[, $fIncludeCOM=True[, $iOpts=0[, $iCodePage = 0]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $sFileSpec - file specification
-;                  $fIncludeCOM - (Optional)
-;                  |True (default):
-;                  |    If writing to a .rtf file, includes any COM objects (space consuming)
-;                  |    If writing to any other file, writes a text represntation of COM objects
-;                  |False: Writes spaces instead of COM objects
-;                  $iOpts - additional options: (Optional) (default: 0)
-;                  |$SFF_PLAINTRTF - write only rich text keywords common to all languages
-;                  |$SF_UNICODE    - write Unicode
-;                  $iCodePage - Generate UTF-8 and text using this code page (Optional)
-;                  |Default: do not
-; Return values..: Success - True
-;                  Failure - False and sets @error:
-;                  |101  - $hWnd is not a handle
-;                  |102  - Can't create $sFilespec
-;                  |1041 - $SFF_PLAINRTF is invalid for a text file
-;                  |1042 - $opts: invalid option
-;                  |1043 - $SF_UNICODE is only valid for a text file
-;                  |700  - internal error
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If text is selected, writes only the selection, else writes all text in the control
-;+
-;                  If the extension in $sFileSpec is .rtf, RTF is written, else text
-; Related .......: _GUICtrlRichEdit_SetLimitOnText, _GUICtrlRichEdit_StreamFromVar, _GUICtrlRichEdit_StreamToFile
-; Link ..........: @@MsdnLink@@ EM_STREAMIN
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamToFile($hWnd, $sFilespec, $fIncludeCOM = True, $iOpts = 0, $iCodePage = 0)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)
@@ -4864,40 +3006,8 @@ Func _GUICtrlRichEdit_StreamToFile($hWnd, $sFilespec, $fIncludeCOM = True, $iOpt
 EndFunc   ;==>_GUICtrlRichEdit_StreamToFile
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_StreamToVar
-; Description....: Writes contents of a control to a variable
-; Syntax ........: _GUICtrlRichEdit_StreamToVar($hWnd, $fRtf = True[, $fIncludeCOM=True[, $iOpts=0[, $iCodePage = 0]]])
-; Parameters.....: $hWnd		- Handle to the control
-;                  $fRtf - (Optional)
-;                  |True  - write Rich Text Format (RTF) (Default)
-;                  |False - write only text
-;                  $fIncludeCOM - (Optional)
-;                  |True (default):
-;                  |    If writing RTF, include any COM objects (space consuming)
-;                  |    If writing only text, write a text represntation of COM objects
-;                  |False: Write spaces instead of COM objects
-;                  $iOpts - additional options:
-;                  |$SFF_PLAINTRTF - write only rich text keywords common to all languages
-;                  |$SF_UNICODE    - write Unicode
-;                  $iCodePage - Generate UTF-8 and text using this code page (Optional)
-;                  |Default: do not
-; Return values..: Success - the RTF or text
-;                  Failure - "" and sets @error:
-;                  |101 - $hWnd is not a handle
-;                  |1041 - $SFF_PLAINRTF is invalid for a text file
-;                  |1042 - $opts: invalid option
-;                  |1043 - $SF_UNICODE is only valid for a text file
-;                  |700  - internal error
 ; Authors........: Chris Haslam (c.haslam)
 ; Modified ......:
-; Remarks .......: If text is selected, writes only the selection, else writes all text in the control
-;+
-;                  If the extension in $sFileSpec is .rtf, RTF is written, else text
-;+
-;                  Call _GUICtrlRichEdit_IsModified() to determine whether the text has changed
-; Related .......: _GUICtrlRichEdit_SetLimitOnText, _GUICtrlRichEdit_StreamFromVar, _GUICtrlRichEdit_StreamToFile, _GUICtrlRichEdit_IsModified
-; Link ..........: @@MsdnLink@@ EM_STREAMIN
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_StreamToVar($hWnd, $fRtf = True, $fIncludeCOM = True, $iOpts = 0, $iCodePage = 0)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, "")
@@ -4932,19 +3042,8 @@ Func _GUICtrlRichEdit_StreamToVar($hWnd, $fRtf = True, $fIncludeCOM = True, $iOp
 EndFunc   ;==>_GUICtrlRichEdit_StreamToVar
 
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: _GUICtrlRichEdit_Undo
-; Description....: Undoes the last edit control operation in the control's undo queue
-; Syntax ........: _GUICtrlRichEdit_Undo($hWnd)
-; Parameters.....: $hWnd		- Handle to the control
-; Return values..: Success - True - undo operation succeeded
-;                  Failure - False - undo operation failed. May set @error:
-;                  |101 - $hWnd is not a handle
 ; Authors........: Prog@ndy
 ; Modified ......: Chris Haslam (c.haslam)
-; Remarks .......: For a single-line edit control, the return value is always True
-; Related .......: _GUICtrlRichEdit_CanUndo, _GUICtrlRichEdit_GetNextUndo, _GUICtrlRichEdit_Redo
-; Link ..........: @@MsdnLink@@ EM_UNDO
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_Undo($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, False)

@@ -18,7 +18,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_ghHDRLastWnd
-Global $Debug_HDR = False
+
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -120,8 +120,6 @@ Global Const $tagHDTEXTFILTER = "ptr Text;int TextMax"
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_AddItem($hWnd, $sText, $iWidth = 50, $iAlign = 0, $iImage = -1, $fOnRight = False)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _GUICtrlHeader_InsertItem($hWnd, _GUICtrlHeader_GetItemCount($hWnd), $sText, $iWidth, $iAlign, $iImage, $fOnRight)
 EndFunc   ;==>_GUICtrlHeader_AddItem
 
@@ -130,8 +128,6 @@ EndFunc   ;==>_GUICtrlHeader_AddItem
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_ClearFilter($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_CLEARFILTER, $iIndex) <> 0
 EndFunc   ;==>_GUICtrlHeader_ClearFilter
 
@@ -140,8 +136,6 @@ EndFunc   ;==>_GUICtrlHeader_ClearFilter
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_ClearFilterAll($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_CLEARFILTER, -1) <> 0
 EndFunc   ;==>_GUICtrlHeader_ClearFilterAll
 
@@ -150,7 +144,6 @@ EndFunc   ;==>_GUICtrlHeader_ClearFilterAll
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlHeader_Create($hWnd, $iStyle = 0x00000046)
-
 	$iStyle = BitOR($iStyle, $__UDFGUICONSTANT_WS_CHILD, $__UDFGUICONSTANT_WS_VISIBLE)
 
 	Local $nCtrlID = __UDF_GetNextGlobalID($hWnd)
@@ -172,8 +165,6 @@ EndFunc   ;==>_GUICtrlHeader_Create
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_CreateDragImage($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return Ptr(_SendMessage($hWnd, $HDM_CREATEDRAGIMAGE, $iIndex))
 EndFunc   ;==>_GUICtrlHeader_CreateDragImage
 
@@ -182,8 +173,6 @@ EndFunc   ;==>_GUICtrlHeader_CreateDragImage
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_DeleteItem($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_DELETEITEM, $iIndex) <> 0
 EndFunc   ;==>_GUICtrlHeader_DeleteItem
 
@@ -192,7 +181,6 @@ EndFunc   ;==>_GUICtrlHeader_DeleteItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_Destroy(ByRef $hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__HEADERCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -221,8 +209,6 @@ EndFunc   ;==>_GUICtrlHeader_Destroy
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_EditFilter($hWnd, $iIndex, $fDiscard = True)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_EDITFILTER, $iIndex, $fDiscard) <> 0
 EndFunc   ;==>_GUICtrlHeader_EditFilter
 
@@ -231,8 +217,6 @@ EndFunc   ;==>_GUICtrlHeader_EditFilter
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetBitmapMargin($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_GETBITMAPMARGIN)
 EndFunc   ;==>_GUICtrlHeader_GetBitmapMargin
 
@@ -241,8 +225,6 @@ EndFunc   ;==>_GUICtrlHeader_GetBitmapMargin
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetImageList($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return Ptr(_SendMessage($hWnd, $HDM_GETIMAGELIST))
 EndFunc   ;==>_GUICtrlHeader_GetImageList
 
@@ -251,8 +233,6 @@ EndFunc   ;==>_GUICtrlHeader_GetImageList
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItem($hWnd, $iIndex, ByRef $tItem)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
 	Local $iRet
@@ -279,8 +259,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemAlign($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Switch BitAND(_GUICtrlHeader_GetItemFormat($hWnd, $iIndex), $HDF_JUSTIFYMASK)
 		Case $HDF_LEFT
 			Return 0
@@ -298,8 +276,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemAlign
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemBitmap($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_BITMAP)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -311,8 +287,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemBitmap
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemCount($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_GETITEMCOUNT)
 EndFunc   ;==>_GUICtrlHeader_GetItemCount
 
@@ -321,8 +295,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemCount
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemDisplay($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $iRet = 0
 
 	Local $iFormat = _GUICtrlHeader_GetItemFormat($hWnd, $iIndex)
@@ -338,8 +310,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemDisplay
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemFlags($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $iRet = 0
 
 	Local $iFormat = _GUICtrlHeader_GetItemFormat($hWnd, $iIndex)
@@ -355,8 +325,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemFlags
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemFormat($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_FORMAT)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -368,8 +336,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemFormat
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemImage($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_IMAGE)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -381,8 +347,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemImage
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemOrder($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_ORDER)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -394,8 +358,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemOrder
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemParam($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_PARAM)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -407,8 +369,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemParam
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemRect($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $aRect[4]
 
 	Local $tRect = _GUICtrlHeader_GetItemRectEx($hWnd, $iIndex)
@@ -424,8 +384,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemRect
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemRectEx($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tRect = DllStructCreate($tagRECT)
 	If _WinAPI_InProcess($hWnd, $_ghHDRLastWnd) Then
 		_SendMessage($hWnd, $HDM_GETITEMRECT, $iIndex, $tRect, 0, "wparam", "struct*")
@@ -446,8 +404,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemRectEx
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemText($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
 	Local $tBuffer
@@ -485,8 +441,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemText
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetItemWidth($hWnd, $iIndex)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_WIDTH)
 	_GUICtrlHeader_GetItem($hWnd, $iIndex, $tItem)
@@ -498,8 +452,6 @@ EndFunc   ;==>_GUICtrlHeader_GetItemWidth
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetOrderArray($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $iItems = _GUICtrlHeader_GetItemCount($hWnd)
 	Local $tBuffer = DllStructCreate("int[" & $iItems & "]")
 	If _WinAPI_InProcess($hWnd, $_ghHDRLastWnd) Then
@@ -526,8 +478,6 @@ EndFunc   ;==>_GUICtrlHeader_GetOrderArray
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_GetUnicodeFormat($hWnd)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_GETUNICODEFORMAT) <> 0
 EndFunc   ;==>_GUICtrlHeader_GetUnicodeFormat
 
@@ -536,8 +486,6 @@ EndFunc   ;==>_GUICtrlHeader_GetUnicodeFormat
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_HitTest($hWnd, $iX, $iY)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tTest = DllStructCreate($tagHDHITTESTINFO)
 	DllStructSetData($tTest, "X", $iX)
 	DllStructSetData($tTest, "Y", $iY)
@@ -572,8 +520,6 @@ EndFunc   ;==>_GUICtrlHeader_HitTest
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_InsertItem($hWnd, $iIndex, $sText, $iWidth = 50, $iAlign = 0, $iImage = -1, $fOnRight = False)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $aAlign[3] = [$HDF_LEFT, $HDF_RIGHT, $HDF_CENTER]
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
@@ -640,8 +586,6 @@ EndFunc   ;==>_GUICtrlHeader_InsertItem
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_Layout($hWnd, ByRef $tRect)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tLayout = DllStructCreate($tagHDLAYOUT)
 	Local $tWindowPos = DllStructCreate($tagWINDOWPOS)
 	If _WinAPI_InProcess($hWnd, $_ghHDRLastWnd) Then
@@ -670,8 +614,6 @@ EndFunc   ;==>_GUICtrlHeader_Layout
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_OrderToIndex($hWnd, $iOrder)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_ORDERTOINDEX, $iOrder)
 EndFunc   ;==>_GUICtrlHeader_OrderToIndex
 
@@ -680,8 +622,6 @@ EndFunc   ;==>_GUICtrlHeader_OrderToIndex
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetBitmapMargin($hWnd, $iWidth)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_SETBITMAPMARGIN, $iWidth)
 EndFunc   ;==>_GUICtrlHeader_SetBitmapMargin
 
@@ -690,8 +630,6 @@ EndFunc   ;==>_GUICtrlHeader_SetBitmapMargin
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetFilterChangeTimeout($hWnd, $iTimeOut)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_SETFILTERCHANGETIMEOUT, 0, $iTimeOut)
 EndFunc   ;==>_GUICtrlHeader_SetFilterChangeTimeout
 
@@ -700,8 +638,6 @@ EndFunc   ;==>_GUICtrlHeader_SetFilterChangeTimeout
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetHotDivider($hWnd, $iFlag, $iInputValue)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_SETHOTDIVIDER, $iFlag, $iInputValue)
 EndFunc   ;==>_GUICtrlHeader_SetHotDivider
 
@@ -710,8 +646,6 @@ EndFunc   ;==>_GUICtrlHeader_SetHotDivider
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetImageList($hWnd, $hImage)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_SETIMAGELIST, 0, $hImage, 0, "wparam", "handle", "handle")
 EndFunc   ;==>_GUICtrlHeader_SetImageList
 
@@ -720,8 +654,6 @@ EndFunc   ;==>_GUICtrlHeader_SetImageList
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItem($hWnd, $iIndex, ByRef $tItem)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
 	Local $iRet
@@ -747,8 +679,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemAlign($hWnd, $iIndex, $iAlign)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $aAlign[3] = [$HDF_LEFT, $HDF_RIGHT, $HDF_CENTER]
 
 	Local $iFormat = _GUICtrlHeader_GetItemFormat($hWnd, $iIndex)
@@ -762,8 +692,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemAlign
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemBitmap($hWnd, $iIndex, $hBmp)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", BitOR($HDI_FORMAT, $HDI_BITMAP))
 	DllStructSetData($tItem, "Fmt", $HDF_BITMAP)
@@ -776,8 +704,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemBitmap
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemDisplay($hWnd, $iIndex, $iDisplay)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $iFormat = BitAND(_GUICtrlHeader_GetItemFormat($hWnd, $iIndex), Not $HDF_DISPLAYMASK)
 	If BitAND($iDisplay, 1) <> 0 Then $iFormat = BitOR($iFormat, $HDF_BITMAP)
 	If BitAND($iDisplay, 2) <> 0 Then $iFormat = BitOR($iFormat, $HDF_BITMAP_ON_RIGHT)
@@ -791,8 +717,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemDisplay
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemFlags($hWnd, $iIndex, $iFlags)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $iFormat = _GUICtrlHeader_GetItemFormat($hWnd, $iIndex)
 	$iFormat = BitAND($iFormat, BitNOT($HDF_FLAGMASK))
 	If BitAND($iFlags, 1) <> 0 Then $iFormat = BitOR($iFormat, $HDF_IMAGE)
@@ -807,8 +731,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemFlags
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemFormat($hWnd, $iIndex, $iFormat)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_FORMAT)
 	DllStructSetData($tItem, "Fmt", $iFormat)
@@ -820,8 +742,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemFormat
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemImage($hWnd, $iIndex, $iImage)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_IMAGE)
 	DllStructSetData($tItem, "Image", $iImage)
@@ -833,8 +753,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemImage
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemOrder($hWnd, $iIndex, $iOrder)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_ORDER)
 	DllStructSetData($tItem, "Order", $iOrder)
@@ -846,8 +764,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemOrder
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemParam($hWnd, $iIndex, $iParam)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_PARAM)
 	DllStructSetData($tItem, "Param", $iParam)
@@ -859,8 +775,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemParam
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemText($hWnd, $iIndex, $sText)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlHeader_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer, $pBuffer
@@ -913,8 +827,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemText
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetItemWidth($hWnd, $iIndex, $iWidth)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tItem = DllStructCreate($tagHDITEM)
 	DllStructSetData($tItem, "Mask", $HDI_WIDTH)
 	DllStructSetData($tItem, "XY", $iWidth)
@@ -926,8 +838,6 @@ EndFunc   ;==>_GUICtrlHeader_SetItemWidth
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetOrderArray($hWnd, ByRef $aOrder)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Local $tBuffer = DllStructCreate("int[" & $aOrder[0] & "]")
 	For $iI = 1 To $aOrder[0]
 		DllStructSetData($tBuffer, 1, $aOrder[$iI], $iI)
@@ -951,7 +861,5 @@ EndFunc   ;==>_GUICtrlHeader_SetOrderArray
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlHeader_SetUnicodeFormat($hWnd, $fUnicode)
-	If $Debug_HDR Then __UDF_ValidateClassName($hWnd, $__HEADERCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $HDM_SETUNICODEFORMAT, $fUnicode)
 EndFunc   ;==>_GUICtrlHeader_SetUnicodeFormat

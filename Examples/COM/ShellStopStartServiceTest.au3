@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; AutoITCOM 3.1.1
 ;
 ; Test file
@@ -13,15 +15,14 @@
 ; Open Windows Shell object
 Local $oShell = ObjCreate("shell.application")
 
-
 If $oShell.IsServiceRunning("wuauserv") Then
 
 	$oShell.ServiceStop("wuauserv", False)
 
-	MsgBox(0, "Service Stopped", "Service: automatic update services is now stopped")
+	MsgBox($MB_SYSTEMMODAL, "Service Stopped", "Service: automatic update services is now stopped")
 
 	$oShell.ServiceStart("wuauserv", False)
 
-	MsgBox(0, "Service Started", "Service: automatic update services is started again")
+	MsgBox($MB_SYSTEMMODAL, "Service Started", "Service: automatic update services is started again")
 
 EndIf

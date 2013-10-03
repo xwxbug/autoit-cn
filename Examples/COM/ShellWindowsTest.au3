@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; AutoItCOM 3.1.0
 ;
 ; Test file
@@ -15,8 +17,6 @@ If IsObj($oShellWindows) Then
 		$string = $string & $Window.LocationName & @CRLF
 	Next
 
-	MsgBox(0, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $string);
+	MsgBox($MB_SYSTEMMODAL, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $string);
 
 EndIf
-
-

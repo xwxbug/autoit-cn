@@ -17,7 +17,6 @@ GUICreate("Event Test", 640, 480)
 Local $GUIEdit = GUICtrlCreateEdit("HTTP Source Test:" & @CRLF, 10, 10, 600, 400)
 GUISetState() ;Show GUI
 
-
 Local $httpObj = ObjCreate("winhttp.winhttprequest.5.1")
 $httpObj.open("GET", $URL)
 $httpObj.send()

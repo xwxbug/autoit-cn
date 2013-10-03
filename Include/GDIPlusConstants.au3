@@ -208,4 +208,34 @@ Global Const $GDIP_PENSETLINEJOIN_MITER = 0 ; Specifies a mitered join. This pro
 Global Const $GDIP_PENSETLINEJOIN_BEVEL = 1 ; Specifies a beveled join. This produces a diagonal corner.
 Global Const $GDIP_PENSETLINEJOIN_ROUND = 2 ; Specifies a circular join. This produces a smooth, circular arc between the lines.
 Global Const $GDIP_PENSETLINEJOIN_MITERCLIPPED = 3 ; Specifies a mitered join. This produces a sharp corner or a beveled corner, depending on whether the length of the miter exceeds the miter limit.
-; ===============================================================================================================================
+
+; Fill mode constants
+Global Const $GDIP_FillModeAlternate = 0 ;Specifies that areas are filled according to the even-odd parity rule. According to this rule, you can determine
+;whether a test point is inside or outside a closed curve as follows: Draw a line from the test point to a point
+;that is distant from the curve. If that line crosses the curve an odd number of times, the test point is inside
+;the curve; otherwise, the test point is outside the curve.
+
+Global Const $GDIP_FillModeWinding = 1 ;Specifies that areas are filled according to the nonzero winding rule. According to this rule, you can determine
+;whether a test point is inside or outside a closed curve as follows: Draw a line from a test point to a point that
+;is distant from the curve. Count the number of times the curve crosses the test line from left to right, and count
+;the number of times the curve crosses the test line from right to left. If those two numbers are the same, the test
+;point is outside the curve; otherwise, the test point is inside the curve.
+
+; Quality constants
+Global Const $GDIP_QUALITYMODEINVALID = -1
+Global Const $GDIP_QUALITYMODEDEFAULT = 0
+Global Const $GDIP_QUALITYMODELOW = 1
+Global Const $GDIP_QUALITYMODEHIGH = 2
+
+; Alpha Compositing mode constants
+Global Const $GDIP_COMPOSITINGMODESOURCEOVER = 0 ; Specifies that when a color is rendered, it is blended with the background color. The blend is determined by the alpha component of the color being rendered
+Global Const $GDIP_COMPOSITINGMODESOURCECOPY = 1 ; Specifies that when a color is rendered, it overwrites the background color. This mode cannot be used along with $TextRenderingHintClearTypeGridFit
+
+; Alpha Compositing quality constants
+Global Const $GDIP_COMPOSITINGQUALITYINVALID = $GDIP_QUALITYMODEINVALID ; Invalid quality
+Global Const $GDIP_COMPOSITINGQUALITYDEFAULT = $GDIP_QUALITYMODEDEFAULT ; Gamma correction is not applied
+Global Const $GDIP_COMPOSITINGQUALITYHIGHSPEED = $GDIP_QUALITYMODELOW ; Gamma correction is not applied. High speed, low quality
+Global Const $GDIP_COMPOSITINGQUALITYHIGHQUALITY = $GDIP_QUALITYMODEHIGH ; Gamma correction is applied. Composition of high quality and speed.
+Global Const $GDIP_COMPOSITINGQUALITYGAMMACORRECTED = 3 ; Gamma correction is applied
+Global Const $GDIP_COMPOSITINGQUALITYASSUMELINEAR = 4 ; Gamma correction is not applied. Linear values are used
+;===============================================================================================================================

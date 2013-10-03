@@ -47,21 +47,8 @@
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayAdd
-; Description ...: Adds a specified value at the end of an existing array.
-; Syntax.........: _ArrayAdd(ByRef $avArray, $vValue)
-; Parameters ....: $avArray - Array to modify
-;                  $vValue  - Value to add
-; Return values .: Success - Index of last added item
-;                  Failure - -1, sets @error
-;                  |1 - $avArray is not an array
-;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
 ; Modified.......: Ultima - code cleanup
-; Remarks .......:
-; Related .......: _ArrayConcatenate, _ArrayDelete, _ArrayInsert, _ArrayPop, _ArrayPush
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayAdd(ByRef $avArray, $vValue)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
@@ -74,27 +61,8 @@ Func _ArrayAdd(ByRef $avArray, $vValue)
 EndFunc   ;==>_ArrayAdd
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayBinarySearch
-; Description ...: Uses the binary search algorithm to search through a 1-dimensional array.
-; Syntax.........: _ArrayBinarySearch(Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0]])
-; Parameters ....: $avArray - Array to search
-;                  $vValue  - Value to find
-;                  $iStart  - [optional] Index of array to start searching at
-;                  $iEnd    - [optional] Index of array to stop searching at
-; Return values .: Success - Index that value was found at
-;                  Failure - -1, sets @error to:
-;                  |1 - $avArray is not an array
-;                  |2 - $vValue outside of array's min/max values
-;                  |3 - $vValue was not found in array
-;                  |4 - $iStart is greater than $iEnd
-;                  |5 - $avArray is not a 1 dimensional array
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
 ; Modified.......: Ultima - added $iEnd as parameter, code cleanup; Melba23 - added support for empty arrays
-; Remarks .......: When performing a binary search on an array of items, the contents MUST be sorted before the search is done.
-;                  Otherwise undefined results will be returned.
-; Related .......: _ArrayFindAll, _ArraySearch
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayBinarySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
@@ -128,29 +96,10 @@ Func _ArrayBinarySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0)
 EndFunc   ;==>_ArrayBinarySearch
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayCombinations
-; Description ...: Returns an Array of the Combinations of a Set of Elements from a Selected Array
-; Syntax.........: _ArrayCombinations(ByRef $avArray, $iSet[, $sDelim = ""])
-; Parameters ....: $avArray - The Array to use
-;                  $iSet - Size of the combinations set
-;                  $sDelim - [optional] String result separator, default is "" for none
-; Return values .: Success - Returns an Array of Combinations
-;                  |Returns an array, the first element ($array[0]) contains the number of strings returned.
-;                  |The remaining elements ($array[1], $array[2], etc.) contain the Combinations.
-;                  Failure - Returns 0 and Sets @error:
-;                  |1 - The Input Must be an Array
-;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Erik Pilsits
 ; Modified.......: 07/08/2008
-; Remarks .......: The input array must be 0-based, i.e. no counter in $array[0]. Based on an algorithm by Kenneth H. Rosen.
-;+
-;                  http://www.merriampark.com/comb.htm
-; Related .......: _ArrayPermute
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayCombinations(Const ByRef $avArray, $iSet, $sDelim = "")
-
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
 
@@ -178,25 +127,8 @@ Func _ArrayCombinations(Const ByRef $avArray, $iSet, $sDelim = "")
 EndFunc   ;==>_ArrayCombinations
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayConcatenate
-; Description ...: Concatenate two arrays.
-; Syntax.........: _ArrayConcatenate(ByRef $avArrayTarget, Const ByRef $avArraySource, $iStart = 0)
-; Parameters ....: $avArrayTarget - The array to concatenate onto
-;                  $avArraySource - The array to concatenate from
-;                  $iStart - index of the first Source Array entry
-; Return values .: Success - $avArrayTarget's new size
-;                  Failure - 0, sets @error to:
-;                  |1 - $avArrayTarget is not an array
-;                  |2 - $avArraySource is not an array
-;                  |3 - $avArrayTarget is not a 1 dimensional array
-;                  |4 - $avArraySource is not a 1 dimensional array
-;                  |5 - $avArrayTarget and $avArraySource is not a 1 dimensional array
 ; Author ........: Ultima
 ; Modified.......: Partypooper - added target start index
-; Remarks .......:
-; Related .......: _ArrayAdd, _ArrayPush
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayConcatenate(ByRef $avArrayTarget, Const ByRef $avArraySource, $iStart = 0)
 	If Not IsArray($avArrayTarget) Then Return SetError(1, 0, 0)
@@ -216,47 +148,9 @@ Func _ArrayConcatenate(ByRef $avArrayTarget, Const ByRef $avArraySource, $iStart
 	Return $iUBoundTarget + $iUBoundSource
 EndFunc   ;==>_ArrayConcatenate
 
-; #NO_DOC_FUNCTION# =============================================================================================================
-; Name...........: _ArrayCreate
-; Description ...: Create a small array and quickly assign values.
-; Syntax.........: _ArrayCreate ($v_0 [,$v_1 [,... [, $v_20 ]]])
-; Parameters ....: $v_0  - The first element of the array
-;                  $v_1  - [optional] The second element of the array
-;                  ...
-;                  $v_20 - [optional] The twenty-first element of the array
-; Return values .: Success - The array with values
-; Author ........: Dale (Klaatu) Thompson, Jos van der Zande <jdeb at autoitscript dot com> - rewritten to avoid Eval() errors in Obsufcator
-; Modified.......: Ultima
-; Remarks .......: Arrays of up to 21 elements in size can be created with this function.
-; Related .......:
-; Link ..........:
-; Example .......: Yes
-; ===============================================================================================================================
-Func _ArrayCreate($v_0, $v_1 = 0, $v_2 = 0, $v_3 = 0, $v_4 = 0, $v_5 = 0, $v_6 = 0, $v_7 = 0, $v_8 = 0, $v_9 = 0, $v_10 = 0, $v_11 = 0, $v_12 = 0, $v_13 = 0, $v_14 = 0, $v_15 = 0, $v_16 = 0, $v_17 = 0, $v_18 = 0, $v_19 = 0, $v_20 = 0)
-	Local $av_Array[21] = [$v_0, $v_1, $v_2, $v_3, $v_4, $v_5, $v_6, $v_7, $v_8, $v_9, $v_10, $v_11, $v_12, $v_13, $v_14, $v_15, $v_16, $v_17, $v_18, $v_19, $v_20]
-	ReDim $av_Array[@NumParams]
-	Return $av_Array
-EndFunc   ;==>_ArrayCreate
-
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayDelete
-; Description ...: Deletes the specified element from the given array.
-; Syntax.........: _ArrayDelete(ByRef $avArray, $iElement)
-; Parameters ....: $avArray  - Array to modify
-;                  $iElement - Element to delete
-; Return values .: Success - New size of the array
-;                  Failure - 0, sets @error to:
-;                  |1 - $avArray is not an array
-;                  |3 - $avArray has too many dimensions (only up to 2D supported)
-;                  |(2 - Deprecated error code)
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - array passed ByRef
-; Remarks .......: If the array has one element left (or one row for 2D arrays), it will be set to "" after _ArrayDelete() is used on it.
-;+
-;                  If the $ilement is greater than the array size then the last element is destroyed.
-; Related .......: _ArrayAdd, _ArrayInsert, _ArrayPop, _ArrayPush
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayDelete(ByRef $avArray, $iElement)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
@@ -288,26 +182,8 @@ Func _ArrayDelete(ByRef $avArray, $iElement)
 EndFunc   ;==>_ArrayDelete
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayDisplay
-; Description ...: Displays given 1D or 2D array array in a listview.
-; Syntax.........: _ArrayDisplay(Const ByRef $avArray[, $sTitle = "Array: ListView Display"[, $iItemLimit = -1[, $iTranspose = 0[, $sSeparator = ""[, $sReplace = "|"[, $sHeader = ""]]]]]])
-; Parameters ....: $avArray    - Array to display
-;                  $sTitle     - [optional] Title to use for window
-;                  $iItemLimit - [optional] Maximum number of listview items (rows) to show
-;                  $iTranspose - [optional] If set differently than default, will transpose the array if 2D
-;                  $sSeparator - [optional] Change Opt("GUIDataSeparatorChar") on-the-fly
-;                  $sReplace   - [optional] String to replace any occurrence of $sSeparator with in each array element
-;                  $sheader     - [optional] Header column names
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $avArray has too many dimensions (only up to 2D supported)
 ; Author ........: randallc, Ultima
 ; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm, Melba23
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sSeparator = Default, $sReplace = Default, $sHeader = Default)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, 0)
@@ -491,26 +367,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 EndFunc   ;==>_ArrayDisplay
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayFindAll
-; Description ...: Find the indices of all ocurrences of a search query between two points in a 1D or 2D array using _ArraySearch().
-; Syntax.........: _ArrayFindAll(Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iSubItem = 0]]]]])
-; Parameters ....: $avArray  - The array to search
-;                  $vValue   - What to search $avArray for
-;                  $iStart   - [optional] Index of array to start searching at
-;                  $iEnd     - [optional] Index of array to stop searching at
-;                  $iCase    - [optional] If set to 1, search is case sensitive
-;                  $iCompare - [optional] 0 AutoIt variables compare (default), "string" = 0, "" = 0  or "0" = 0 match
-;                                         1 executes a partial search (StringInStr)
-;                                         2 comparison match if variables have same type and same value
-;                  $iSubItem - [optional] Sub-index to search on in 2D arrays
-; Return values .: Success - An array of all index numbers in array containing $vValue
-;                  Failure - -1, sets @error (see _ArraySearch() description for error codes)
 ; Author ........: GEOSoft, Ultima
 ; Modified.......:
-; Remarks .......:
-; Related .......: _ArrayBinarySearch, _ArraySearch
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayFindAll(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase = 0, $iCompare = 0, $iSubItem = 0)
 	$iStart = _ArraySearch($avArray, $vValue, $iStart, $iEnd, $iCase, $iCompare, 1, $iSubItem)
@@ -528,22 +386,7 @@ Func _ArrayFindAll(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase
 EndFunc   ;==>_ArrayFindAll
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayInsert
-; Description ...: Add a new value at the specified position.
-; Syntax.........: _ArrayInsert(ByRef $avArray, $iElement[, $vValue = ""])
-; Parameters ....: $avArray  - Array to modify
-;                  $iElement - Position to insert item at
-;                  $vValue   - [optional] Value of item to insert
-; Return values .: Success - New size of the array
-;                  Failure - 0, sets @error
-;                  |1 - $avArray is not an array
-;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>: Ultima - code cleanup; Melba23 - element position check
-; Modified.......: Ultima - code cleanup
-; Remarks .......:
-; Related .......: _ArrayAdd, _ArrayDelete, _ArrayPop, _ArrayPush
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayInsert(ByRef $avArray, $iElement, $vValue = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
@@ -567,23 +410,8 @@ Func _ArrayInsert(ByRef $avArray, $iElement, $vValue = "")
 EndFunc   ;==>_ArrayInsert
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayMax
-; Description ...: Returns the highest value held in an array.
-; Syntax.........: _ArrayMax(Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray      - Array to search
-;                  $iCompNumeric - [optional] Comparison method:
-;                  |0 - compare alphanumerically
-;                  |1 - compare numerically
-;                  $iStart       - [optional] Index of array to start searching at
-;                  $iEnd         - [optional] Index of array to stop searching at
-; Return values .: Success - The maximum value in the array
-;                  Failure - "", sets @error (see _ArrayMaxIndex() description for error codes)
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic, Ultima - added $iEnd parameter, code cleanup
-; Remarks .......:
-; Related .......: _ArrayMaxIndex, _ArrayMin, _ArrayMinIndex, _ArrayUnique
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayMax(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	Local $iResult = _ArrayMaxIndex($avArray, $iCompNumeric, $iStart, $iEnd)
@@ -592,26 +420,8 @@ Func _ArrayMax(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 EndFunc   ;==>_ArrayMax
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayMaxIndex
-; Description ...: Returns the index where the highest value occurs in the array.
-; Syntax.........: _ArrayMaxIndex(Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray      - Array to search
-;                  $iCompNumeric - [optional] Comparison method:
-;                  |0 - compare alphanumerically
-;                  |1 - compare numerically
-;                  $iStart       - [optional] Index of array to start searching at
-;                  $iEnd         - [optional] Index of array to stop searching at
-; Return values .: Success - The index of the maximum value in the array
-;                  Failure - -1, sets @error to:
-;                  |1 - $avArray is not an array
-;                  |2 - $iStart is greater than $iEnd
-;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic
-; Remarks .......:
-; Related .......: _ArrayMax, _ArrayMin, _ArrayMinIndex
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayMaxIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
@@ -642,23 +452,8 @@ Func _ArrayMaxIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd 
 EndFunc   ;==>_ArrayMaxIndex
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayMin
-; Description ...: Returns the lowest value held in an array.
-; Syntax.........: _ArrayMin(Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray      - Array to search
-;                  $iCompNumeric - [optional] Comparison method:
-;                  |0 - compare alphanumerically
-;                  |1 - compare numerically
-;                  $iStart       - [optional] Index of array to start searching at
-;                  $iEnd         - [optional] Index of array to stop searching at
-; Return values .: Success - The minimum value in the array
-;                  Failure - "", sets @error (see _ArrayMinIndex() description for error codes)
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic, Ultima - added $iEnd parameter, code cleanup
-; Remarks .......:
-; Related .......: _ArrayMax, _ArrayMaxIndex, _ArrayMinIndex, _ArrayUnique
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayMin(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	Local $iResult = _ArrayMinIndex($avArray, $iCompNumeric, $iStart, $iEnd)
@@ -667,26 +462,8 @@ Func _ArrayMin(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 EndFunc   ;==>_ArrayMin
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayMinIndex
-; Description ...: Returns the index where the lowest value occurs in the array.
-; Syntax.........: _ArrayMinIndex(Const ByRef $avArray[, $iCompNumeric = 0[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray      - Array to search
-;                  $iCompNumeric - [optional] Comparison method:
-;                  |0 - compare alphanumerically
-;                  |1 - compare numerically
-;                  $iStart       - [optional] Index of array to start searching at
-;                  $iEnd         - [optional] Index of array to stop searching at
-; Return values .: Success - The index of the minimum value in the array
-;                  Failure - -1, sets @error to:
-;                  |1 - $avArray is not an array
-;                  |2 - $iStart is greater than $iEnd
-;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - Added $iCompNumeric and $iStart parameters and logic
-; Remarks .......:
-; Related .......: _ArrayMax, _ArrayMaxIndex, _ArrayMin
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayMinIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
@@ -717,25 +494,8 @@ Func _ArrayMinIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd 
 EndFunc   ;==>_ArrayMinIndex
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayPermute
-; Description ...: Returns an Array of the Permutations of all Elements in an Array
-; Syntax.........: _ArrayPermute(ByRef $avArray[, $sDelim = ""])
-; Parameters ....: $avArray - The Array to get Permutations
-;                  $sDelim - [optional] String result separator, default is "" for none
-; Return values .: Success - Returns an Array of Permutations
-;                  |$array[0] contains the number of strings returned.
-;                  |The remaining elements ($array[1], $array[2] ... $array[n]) contain the Permutations.
-;                  |Failure - Returns 0 and Sets @error:
-;                  |1 - The Input Must be an Array
-;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Erik Pilsits
-; Modified.......: 07/08/2008
-; Remarks .......: The input array must be 0-based, i.e. no counter in $array[0].  Based on the algorithm by Alexander Bogomolny.
-;+
-;                  http://www.bearcave.com/random_hacks/permute.html
 ; Modified.......: Melba23 - added support for empty arrays
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayPermute(ByRef $avArray, $sDelim = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
@@ -759,20 +519,8 @@ Func _ArrayPermute(ByRef $avArray, $sDelim = "")
 EndFunc   ;==>_ArrayPermute
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayPop
-; Description ...: Returns the last element of an array, deleting that element from the array at the same time.
-; Syntax.........: _ArrayPop(ByRef $avArray)
-; Parameters ....: $avArray - Array to modify
-; Return values .: Success - The last element of the array
-;                  Failure - "", sets @error
-;                  |1 - The Input Must be an Array
-;                  |2 - $avArray is not a 1 dimensional array
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Ultima - code cleanup; Melba23 - added support for empty arrays
-; Remarks .......: If the array has one element left, it will be set to "" after _ArrayPop() is used on it.
-; Related .......: _ArrayAdd, _ArrayDelete, _ArrayInsert, _ArrayPush
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayPop(ByRef $avArray)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, "")
@@ -792,27 +540,8 @@ Func _ArrayPop(ByRef $avArray)
 EndFunc   ;==>_ArrayPop
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayPush
-; Description ...: Add new values without increasing array size by inserting at the end the new value and deleting the first one or vice versa.
-; Syntax.........: _ArrayPush(ByRef $avArray, $vValue[, $iDirection = 0])
-; Parameters ....: $avArray    - Array to modify
-;                  $vValue     - Value(s) to add (can be in an array)
-;                  $iDirection - [optional] Direction to push existing array elements:
-;                  |0 = Slide left (adding at the end)
-;                  |1 = Slide right (adding at the start)
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $vValue is an array larger than $avArray (so it can't fit)
-;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Helias Gerassimou(hgeras), Ultima - code cleanup/rewrite (major optimization), fixed support for $vValue as an array
 ; Modified.......:
-; Remarks .......: This function is used for continuous updates of data in array, where in other cases a vast size of array would be created.
-;                  It keeps all values inside the array (something like History), minus the first one or the last one depending on direction chosen.
-;                  It is similar to the push command in assembly.
-; Related .......: _ArrayAdd, _ArrayConcatenate, _ArrayDelete, _ArrayInsert, _ArrayPop
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayPush(ByRef $avArray, $vValue, $iDirection = 0)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, 0)
@@ -860,23 +589,8 @@ Func _ArrayPush(ByRef $avArray, $vValue, $iDirection = 0)
 EndFunc   ;==>_ArrayPush
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayReverse
-; Description ...: Takes the given array and reverses the order in which the elements appear in the array.
-; Syntax.........: _ArrayReverse(ByRef $avArray[, $iStart = 0[, $iEnd = 0]])
-; Parameters ....: $avArray - Array to modify
-;                  $iStart  - [optional] Index of array to start modifying at
-;                  $iEnd    - [optional] Index of array to stop modifying at
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $iStart is greater than $iEnd
-;                  |3 - $avArray is not a 1 dimensional array
 ; Author ........: Brian Keene
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> -  added $iStart parameter and logic; Tylo - added $iEnd parameter and rewrote it for speed
-; Remarks .......:
-; Related .......: _ArraySwap
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayReverse(ByRef $avArray, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
@@ -902,32 +616,8 @@ Func _ArrayReverse(ByRef $avArray, $iStart = 0, $iEnd = 0)
 EndFunc   ;==>_ArrayReverse
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArraySearch
-; Description ...: Finds an entry within a 1D or 2D array. Similar to _ArrayBinarySearch(), except that the array does not need to be sorted.
-; Syntax.........: _ArraySearch(Const ByRef $avArray, $vValue[, $iStart = 0[, $iEnd = 0[, $iCase = 0[, $iPartial = 0[, $iForward = 1[, $iSubItem = -1]]]]]])
-; Parameters ....: $avArray  - The array to search
-;                  $vValue   - What to search $avArray for
-;                  $iStart   - [optional] Index of array to start searching at
-;                  $iEnd     - [optional] Index of array to stop searching at
-;                  $iCase    - [optional] If set to 1, search is case sensitive
-;                  $iCompare - [optional] 0 AutoIt variables compare (default), "string" = 0, "" = 0  or "0" = 0 match
-;                                         1 executes a partial search (StringInStr)
-;                                         2 comparison match if variables have same type and same value
-;                  $iForward - [optional] If set to 0, searches the array from end to beginning (instead of beginning to end)
-;                  $iSubItem - [optional] Sub-index to search on in 2D arrays
-; Return values .: Success - The index that $vValue was found at
-;                  Failure - -1, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $avArray is not a 1 or 2 dimensional array
-;                  |4 - $iStart is greater than $iEnd
-;                  |6 - $vValue was not found in array
-;                  |7 - $avArray has too many dimensions
 ; Author ........: Michael Michta <MetalGX91 at GMail dot com>
 ; Modified.......: gcriaco <gcriaco at gmail dot com>; Ultima - 2D arrays supported, directional search, code cleanup, optimization; Melba23 - added support for empty arrays; BrunoJ - Added compare option 3 to use a regex pattern.
-; Remarks .......: This function might be slower than _ArrayBinarySearch() but is useful when the array's order can't be altered.
-; Related .......: _ArrayBinarySearch, _ArrayFindAll
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase = 0, $iCompare = 0, $iForward = 1, $iSubItem = -1)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
@@ -1022,29 +712,10 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 EndFunc   ;==>_ArraySearch
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArraySort
-; Description ...: Sort a 1D or 2D array on a specific index using the quicksort/insertionsort algorithms.
-; Syntax.........: _ArraySort(ByRef $avArray[, $iDescending = 0[, $iStart = 0[, $iEnd = 0[, $iSubItem = 0]]]])
-; Parameters ....: $avArray     - Array to sort
-;                  $iDescending - [optional] If set to 1, sort descendingly
-;                  $iStart      - [optional] Index of array to start sorting at
-;                  $iEnd        - [optional] Index of array to stop sorting at
-;                  $iSubItem    - [optional] Sub-index to sort on in 2D arrays
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $iStart is greater than $iEnd
-;                  |3 - $iSubItem is greater than subitem count
-;                  |4 - $avArray has too many dimensions
 ; Author ........: Jos van der Zande <jdeb at autoitscript dot com>
 ; Modified.......: LazyCoder - added $iSubItem option; Tylo - implemented stable QuickSort algo; Jos van der Zande - changed logic to correctly Sort arrays with mixed Values and Strings; Melba23 - implemented stable pivot algo
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArraySort(ByRef $avArray, $iDescending = 0, $iStart = 0, $iEnd = 0, $iSubItem = 0, $iPivot = 0)
-
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
 
 	Local $iUBound = UBound($avArray) - 1
@@ -1461,18 +1132,8 @@ Func __ArrayDualPivotSort(ByRef $aArray, $iPivot_Left, $iPivot_Right, $fLeftMost
 EndFunc   ;==>__ArrayDualPivotSort
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArraySwap
-; Description ...: Swaps two items.
-; Syntax.........: _ArraySwap(ByRef $vItem1, ByRef $vItem2)
-; Parameters ....: $vItem1 - First item to swap
-;                  $vItem2 - Second item to swap
-; Return values .: None.
 ; Author ........: David Nuttall <danuttall at rocketmail dot com>
 ; Modified.......: Ultima - minor optimization
-; Remarks .......: This function swaps the two items in place, since they're passed by reference. Regular, non-array variables can also be swapped by this function.
-; Related .......: _ArrayReverse
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArraySwap(ByRef $vItem1, ByRef $vItem2)
 	Local $vTmp = $vItem1
@@ -1481,22 +1142,8 @@ Func _ArraySwap(ByRef $vItem1, ByRef $vItem2)
 EndFunc   ;==>_ArraySwap
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayToClip
-; Description ...: Sends the contents of an array to the clipboard, each element delimited by a carriage return.
-; Syntax.........: _ArrayToClip(Const ByRef $avArray[, $iStart = 0[, $iEnd = 0]])
-; Parameters ....: $avArray - Array to copy to clipboard
-;                  $iStart  - [optional] Index of array to start copying at
-;                  $iEnd    - [optional] Index of array to stop copying at
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |-1 - ClipPut() failed
-;                  |Other - See _ArrayToString() description for error codes
 ; Author ........: Cephas <cephas at clergy dot net>
 ; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - added $iStart parameter and logic, Ultima - added $iEnd parameter, make use of _ArrayToString() instead of duplicating efforts
-; Remarks .......:
-; Related .......: _ArrayToString
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayToClip(Const ByRef $avArray, $iStart = 0, $iEnd = 0)
 	Local $sResult = _ArrayToString($avArray, @CR, $iStart, $iEnd)
@@ -1506,24 +1153,8 @@ Func _ArrayToClip(Const ByRef $avArray, $iStart = 0, $iEnd = 0)
 EndFunc   ;==>_ArrayToClip
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayToString
-; Description ...: Places the elements of an array into a single string, separated by the specified delimiter.
-; Syntax.........: _ArrayToString(Const ByRef $avArray[, $sDelim = "|"[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray - Array to combine
-;                  $sDelim  - [optional] Delimiter for combined string
-;                  $iStart  - [optional] Index of array to start combining at
-;                  $iEnd    - [optional] Index of array to stop combining at
-; Return values .: Success - string which combined selected elements separated by the delimiter string.
-;                  Failure - "", sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $iStart is greater than $iEnd
-;                  |3 - $avArray is not an 1 dimensional array
 ; Author ........: Brian Keene <brian_keene at yahoo dot com>, Valik - rewritten
 ; Modified.......: Ultima - code cleanup; Melba23 - added support for empty arrays
-; Remarks .......:
-; Related .......: StringSplit, _ArrayToClip
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayToString(Const ByRef $avArray, $sDelim = "|", $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, "")
@@ -1578,28 +1209,8 @@ Func _ArrayTranspose(ByRef $avArray)
 EndFunc   ;==>_ArrayTranspose
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayTrim
-; Description ...: Trims a certain number of characters from all elements in an array.
-; Syntax.........: _ArrayTrim(ByRef $avArray, $iTrimNum[, $iDirection = 0[, $iStart = 0[, $iEnd = 0]]])
-; Parameters ....: $avArray    - Array to modify
-;                  $iTrimNum   - Number of characters to remove
-;                  $iDirection - [optional] Direction to trim:
-;                  |0 - trim left
-;                  |1 - trim right
-;                  $iStart     - [optional] Index of array to start trimming at
-;                  $iEnd       - [optional] Index of array to stop trimming at
-; Return values .: Success - 1
-;                  Failure - 0, sets @error:
-;                  |1 - $avArray is not an array
-;                  |2 - $avArray is not an 1 dimensional array
-;                  |5 - $iStart is greater than $iEnd
-;                  |(3-4 - Deprecated error codes)
 ; Author ........: Adam Moore (redndahead)
 ; Modified.......: Ultima - code cleanup, optimization
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayTrim(ByRef $avArray, $iTrimNum, $iDirection = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
@@ -1628,29 +1239,8 @@ Func _ArrayTrim(ByRef $avArray, $iTrimNum, $iDirection = 0, $iStart = 0, $iEnd =
 EndFunc   ;==>_ArrayTrim
 
 ; #FUNCTION# ====================================================================================================================
-; Name...........: _ArrayUnique
-; Description ...: Returns the Unique Elements of a 1-dimensional array.
-; Syntax.........: _ArrayUnique($aArray[, $iDimension = 1[, $iBase = 0[, $iCase = 0[, $vDelim = "|"]]]])
-; Parameters ....: $aArray - The Array to use
-;                  $iDimension  - [optional] The Dimension of the Array to use
-;                  $iBase  - [optional] Is the Array 0-base or 1-base index.  0-base by default
-;                  $iCase  - [optional] Flag to indicate if the operations should be case sensitive.
-;                  0 = not case sensitive, using the user's locale (default)
-;                  1 = case sensitive
-;                  2 = not case sensitive, using a basic/faster comparison
-;                  $vDelim  - [optional] One or more characters to use as delimiters.  However, cannot forsee its usefullness
-; Return values .: Success - Returns a 1-dimensional array containing only the unique elements of that Dimension
-;                  Failure - Returns 0 and Sets @Error:
-;                  0 - No error.
-;                  1 - Returns 0 if parameter is not an array.
-;                  2 - _ArrayUnique failed for some other reason
-;                  3 - Array dimension is invalid, should be an integer greater than 0
 ; Author ........: SmOke_N
 ; Modified.......: litlmike; Melba23 - added support for empty arrays
-; Remarks .......: Returns an array, the first element ($array[0]) contains the number of strings returned, the remaining elements ($array[1], $array[2], etc.) contain the unique strings.
-; Related .......: _ArrayMax, _ArrayMin
-; Link ..........:
-; Example .......: Yes
 ; ===============================================================================================================================
 Func _ArrayUnique($aArray, $iDimension = 1, $iBase = 0, $iCase = 0, $vDelim = "|")
 	Local $iUboundDim
@@ -1727,7 +1317,6 @@ EndFunc   ;==>_ArrayUnique
 ; Example .......:
 ; ===============================================================================================================================
 Func __Array_ExeterInternal(ByRef $avArray, $iStart, $iSize, $sDelim, ByRef $aIdx, ByRef $aResult, ByRef $iCount)
-
 	If $iStart == $iSize - 1 Then
 		For $i = 0 To $iSize - 1
 			$aResult[$iCount] &= $avArray[$aIdx[$i]] & $sDelim

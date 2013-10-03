@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; Excel file Automation Example
 ;
 ; Based on AutoItCOM version 3.1.0
@@ -10,7 +12,7 @@
 Local $FileName = @ScriptDir & "\Worksheet.xls"
 
 If Not FileExists($FileName) Then
-	MsgBox(0, "Excel File Test", "Can't run this test, because you didn't create the Excel file " & $FileName)
+	MsgBox($MB_SYSTEMMODAL, "Excel File Test", "Can't run this test, because you didn't create the Excel file " & $FileName)
 	Exit
 EndIf
 
@@ -24,15 +26,14 @@ If IsObj($oExcelDoc) Then
 	Local $OEvent = ObjEvent("AutoIt.Error", "nothing") ; Equal to VBscript's On Error Resume Next
 
 	For $Property In $oExcelDoc.BuiltinDocumentProperties
-;~ 	  $String = $String &  $Property.Name & ":" & $Property.Value & @CRLF
+		; $String = $String &  $Property.Name & ":" & $Property.Value & @CRLF
 		$String = $String & $Property.Name & ":" & @CRLF
 	Next
 
-	MsgBox(0, "Excel File Test", "The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
+	MsgBox($MB_SYSTEMMODAL, "Excel File Test", "The document properties of " & $FileName & " are:" & @CRLF & @CRLF & $String)
 
 	$oExcelDoc.Close ; Close the Excel document
 
 Else
-	MsgBox(0, "Excel File Test", "Error: Could not open " & $FileName & " as an Excel Object.")
+	MsgBox($MB_SYSTEMMODAL, "Excel File Test", "Error: Could not open " & $FileName & " as an Excel Object.")
 EndIf
-

@@ -16,7 +16,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_ghSLastWnd
-Global $Debug_S = False
+
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -89,7 +89,6 @@ Global Const $__SLIDERCONSTANT_ClassName = "msctls_trackbar32"
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_ClearSel($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_CLEARSEL, True)
@@ -100,7 +99,6 @@ EndFunc   ;==>_GUICtrlSlider_ClearSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_ClearTics($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_CLEARTICS, True)
@@ -134,7 +132,6 @@ EndFunc   ;==>_GUICtrlSlider_Create
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_Destroy(ByRef $hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__SLIDERCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -163,7 +160,6 @@ EndFunc   ;==>_GUICtrlSlider_Destroy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetBuddy($hWnd, $fLocation)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETBUDDY, $fLocation, 0, 0, "wparam", "lparam", "hwnd")
@@ -188,7 +184,6 @@ EndFunc   ;==>_GUICtrlSlider_GetChannelRect
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetChannelRectEx($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect = DllStructCreate($tagRECT)
@@ -201,7 +196,6 @@ EndFunc   ;==>_GUICtrlSlider_GetChannelRectEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetLineSize($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETLINESIZE)
@@ -212,7 +206,6 @@ EndFunc   ;==>_GUICtrlSlider_GetLineSize
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetLogicalTics($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iArraySize = _GUICtrlSlider_GetNumTics($hWnd) - 2
@@ -232,7 +225,6 @@ EndFunc   ;==>_GUICtrlSlider_GetLogicalTics
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetNumTics($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETNUMTICS)
@@ -243,7 +235,6 @@ EndFunc   ;==>_GUICtrlSlider_GetNumTics
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetPageSize($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETPAGESIZE)
@@ -254,7 +245,6 @@ EndFunc   ;==>_GUICtrlSlider_GetPageSize
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetPos($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETPOS)
@@ -276,7 +266,6 @@ EndFunc   ;==>_GUICtrlSlider_GetRange
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetRangeMax($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETRANGEMAX)
@@ -287,7 +276,6 @@ EndFunc   ;==>_GUICtrlSlider_GetRangeMax
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetRangeMin($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETRANGEMIN)
@@ -310,7 +298,6 @@ EndFunc   ;==>_GUICtrlSlider_GetSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetSelEnd($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETSELEND)
@@ -321,7 +308,6 @@ EndFunc   ;==>_GUICtrlSlider_GetSelEnd
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetSelStart($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETSELSTART)
@@ -332,7 +318,6 @@ EndFunc   ;==>_GUICtrlSlider_GetSelStart
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbLength($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTHUMBLENGTH)
@@ -357,7 +342,6 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbRect
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetThumbRectEx($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tRect = DllStructCreate($tagRECT)
@@ -370,7 +354,6 @@ EndFunc   ;==>_GUICtrlSlider_GetThumbRectEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetTic($hWnd, $iTic)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTIC, $iTic)
@@ -381,7 +364,6 @@ EndFunc   ;==>_GUICtrlSlider_GetTic
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetTicPos($hWnd, $iTic)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTICPOS, $iTic)
@@ -392,7 +374,6 @@ EndFunc   ;==>_GUICtrlSlider_GetTicPos
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetToolTips($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETTOOLTIPS, 0, 0, 0, "wparam", "lparam", "hwnd")
@@ -403,7 +384,6 @@ EndFunc   ;==>_GUICtrlSlider_GetToolTips
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_GetUnicodeFormat($hWnd)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_GETUNICODEFORMAT) <> 0
@@ -414,7 +394,6 @@ EndFunc   ;==>_GUICtrlSlider_GetUnicodeFormat
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetBuddy($hWnd, $fLocation, $hBuddy)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	If Not IsHWnd($hBuddy) Then $hBuddy = GUICtrlGetHandle($hBuddy)
 
@@ -426,7 +405,6 @@ EndFunc   ;==>_GUICtrlSlider_SetBuddy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetLineSize($hWnd, $iLineSize)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETLINESIZE, 0, $iLineSize)
@@ -437,7 +415,6 @@ EndFunc   ;==>_GUICtrlSlider_SetLineSize
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetPageSize($hWnd, $iPageSize)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETPAGESIZE, 0, $iPageSize)
@@ -448,7 +425,6 @@ EndFunc   ;==>_GUICtrlSlider_SetPageSize
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetPos($hWnd, $iPosition)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETPOS, True, $iPosition)
@@ -459,7 +435,6 @@ EndFunc   ;==>_GUICtrlSlider_SetPos
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRange($hWnd, $iMinimum, $iMaximum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGE, True, _WinAPI_MakeLong($iMinimum, $iMaximum))
@@ -470,7 +445,6 @@ EndFunc   ;==>_GUICtrlSlider_SetRange
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRangeMax($hWnd, $iMaximum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGEMAX, True, $iMaximum)
@@ -481,7 +455,6 @@ EndFunc   ;==>_GUICtrlSlider_SetRangeMax
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetRangeMin($hWnd, $iMinimum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETRANGEMIN, True, $iMinimum)
@@ -492,7 +465,6 @@ EndFunc   ;==>_GUICtrlSlider_SetRangeMin
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSel($hWnd, $iMinimum, $iMaximum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSEL, True, _WinAPI_MakeLong($iMinimum, $iMaximum))
@@ -503,7 +475,6 @@ EndFunc   ;==>_GUICtrlSlider_SetSel
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSelEnd($hWnd, $iMaximum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSELEND, True, $iMaximum)
@@ -514,7 +485,6 @@ EndFunc   ;==>_GUICtrlSlider_SetSelEnd
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetSelStart($hWnd, $iMinimum)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETSELSTART, True, $iMinimum)
@@ -525,7 +495,6 @@ EndFunc   ;==>_GUICtrlSlider_SetSelStart
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetThumbLength($hWnd, $iLength)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTHUMBLENGTH, $iLength)
@@ -536,7 +505,6 @@ EndFunc   ;==>_GUICtrlSlider_SetThumbLength
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTic($hWnd, $iPosition)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTIC, 0, $iPosition)
@@ -547,7 +515,6 @@ EndFunc   ;==>_GUICtrlSlider_SetTic
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTicFreq($hWnd, $iFreg)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTICFREQ, $iFreg)
@@ -558,7 +525,6 @@ EndFunc   ;==>_GUICtrlSlider_SetTicFreq
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetTipSide($hWnd, $fLocation)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTIPSIDE, $fLocation)
@@ -569,7 +535,6 @@ EndFunc   ;==>_GUICtrlSlider_SetTipSide
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetToolTips($hWnd, $hWndTT)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	_SendMessage($hWnd, $TBM_SETTOOLTIPS, $hWndTT, 0, 0, "hwnd")
@@ -580,7 +545,6 @@ EndFunc   ;==>_GUICtrlSlider_SetToolTips
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlSlider_SetUnicodeFormat($hWnd, $fUnicode)
-	If $Debug_S Then __UDF_ValidateClassName($hWnd, $__SLIDERCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $TBM_SETUNICODEFORMAT, $fUnicode) <> 0

@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; Excel Automation Example
 ;
 ; Testfile For AutoIt 3.1.1.x
@@ -6,15 +8,14 @@
 Local $MyExcel = ObjCreate("Excel.Application") ; Create an Excel Object
 
 If @error Then
-	MsgBox(0, "ExcelTest", "Error creating the Excel Object. Error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "ExcelTest", "Error creating the Excel Object. Error code: " & @error)
 	Exit
 EndIf
 
 If Not IsObj($MyExcel) Then
-	MsgBox(0, "ExcelTest", "I'm sorry, but creation of the Excel object failed.")
+	MsgBox($MB_SYSTEMMODAL, "ExcelTest", "I'm sorry, but creation of the Excel object failed.")
 	Exit
 EndIf
-
 
 $MyExcel.Visible = 1 ; Let the guy show himself
 
@@ -22,7 +23,7 @@ $MyExcel.workbooks.add ; Add a new workbook
 
 ; Example: Fill some cells
 
-MsgBox(0, "", "Click 'ok' to fill some cells")
+MsgBox($MB_SYSTEMMODAL, "", "Click 'ok' to fill some cells")
 
 Local $i
 Local $j
@@ -34,7 +35,7 @@ With $MyExcel.activesheet
 		Next
 	Next
 
-	MsgBox(0, "", "Click 'ok' to clear the cells")
+	MsgBox($MB_SYSTEMMODAL, "", "Click 'ok' to clear the cells")
 	.range("A1:O15").clear
 
 EndWith
@@ -45,11 +46,10 @@ $MyExcel.activeworkbook.saved = 1 ; To prevent 'yes/no' questions from Excel
 
 $MyExcel.quit ; Get rid of him.
 
-MsgBox(0, "ExcelTest", "Is Excel gone now ?")
+MsgBox($MB_SYSTEMMODAL, "ExcelTest", "Is Excel gone now ?")
 ; Nope, only invisible,
 ; but should be still in memory.
 
 $MyExcel = "" ; Only now Excel is removed from memory.
 
 Exit
-

@@ -325,7 +325,6 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 	EndIf
 
 	Return $i_num_instr
-
 EndFunc   ;==>_viFindGpib
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

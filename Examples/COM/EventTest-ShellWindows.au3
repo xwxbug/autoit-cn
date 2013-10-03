@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; AutoIt 3.1.1.x beta
 ;
 ; COM Test file
@@ -13,9 +15,8 @@ Global $g_nComError = 0, $oMyError = ObjEvent("AutoIt.Error", "MyErrFunc") ; Cat
 
 Local $oShell = ObjCreate("shell.application")
 
-;See also: http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/reference/objects/shellwindows/shellwindows.asp
+; See also: http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/reference/objects/shellwindows/shellwindows.asp
 Local $oShellWindows = $oShell.windows ; Get the collection of open shell Windows
-
 
 If IsObj($oShellWindows) Then
 
@@ -39,39 +40,36 @@ If IsObj($oShellWindows) Then
 
 		If @error Then ; Failed to initialize event handler
 
-			MsgBox(0, "COM Test", "Error trying to hook Eventhandler on Window. Error number: " & Hex(@error, 8))
+			MsgBox($MB_SYSTEMMODAL, "COM Test", "Error trying to hook Eventhandler on Window. Error number: " & Hex(@error, 8))
 			$MyWindow = ""
 			$oShellWindows = ""
 			Exit
 
 		EndIf
-		MsgBox(0, "COM Test", "Successfully received Events from a shell Window !");
+		MsgBox($MB_SYSTEMMODAL, "COM Test", "Successfully received Events from a shell Window !");
 	EndIf
 
 Else
 
-	MsgBox(0, "", "you have no open shell window with the name " & $WindowName)
+	MsgBox($MB_SYSTEMMODAL, "", "you have no open shell window with the name " & $WindowName)
 
 EndIf
 
 Exit
 
-;-------------------
-;Shell Window Events
-;-------------------
+; -------------------
+; Shell Window Events
+; -------------------
 
 Func MyEvent_aa() ; Dummy
-
 EndFunc   ;==>MyEvent_aa
 
-
-;----------------
+; ----------------
 
 Func MyErrFunc()
-
 	Local $HexNumber = Hex($oMyError.number, 8)
 
-	MsgBox(0, "", "We intercepted a COM Error !" & @CRLF & @CRLF & _
+	MsgBox($MB_SYSTEMMODAL, "", "We intercepted a COM Error !" & @CRLF & @CRLF & _
 			"err.description is: " & @TAB & $oMyError.description & @CRLF & _
 			"err.windescription:" & @TAB & $oMyError.windescription & @CRLF & _
 			"err.number is: " & @TAB & $HexNumber & @CRLF & _
@@ -84,4 +82,3 @@ Func MyErrFunc()
 
 	$g_nComError = $oMyError.number ; to check for after this function returns
 EndFunc   ;==>MyErrFunc
-

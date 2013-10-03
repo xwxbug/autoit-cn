@@ -197,7 +197,6 @@ Global Enum Step * 2 _; NotificationMethod
 ; Modified ......: jpm
 ; ===============================================================================================================================
 Func _IECreate($s_Url = "about:blank", $f_tryAttach = 0, $f_visible = 1, $f_wait = 1, $f_takeFocus = 1)
-
 	If Not $f_visible Then $f_takeFocus = 0 ; Force takeFocus to 0 for hidden window
 
 	If $f_tryAttach Then
@@ -244,7 +243,6 @@ EndFunc   ;==>_IECreate
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
 Func _IECreateEmbedded()
-
 	Local $o_object = ObjCreate("Shell.Explorer.2")
 
 	If Not IsObj($o_object) Then
@@ -1294,7 +1292,6 @@ Func _IEFormElementCheckBoxSelect(ByRef $o_object, $s_string, $s_name = "", $f_s
 			__IEConsoleWriteError("Error", "_IEFormElementCheckBoxSelect", "$_IEStatus_InvalidValue", "Invalid $f_select value")
 			Return SetError($_IEStatus_InvalidValue, 3, 0)
 	EndSwitch
-
 EndFunc   ;==>_IEFormElementCheckBoxSelect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1384,7 +1381,6 @@ Func _IEFormElementRadioSelect(ByRef $o_object, $s_string, $s_name, $f_select = 
 			__IEConsoleWriteError("Error", "_IEFormElementRadioSelect", "$_IEStatus_InvalidValue", "$f_select value invalid")
 			Return SetError($_IEStatus_InvalidValue, 4, 0)
 	EndSwitch
-
 EndFunc   ;==>_IEFormElementRadioSelect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1696,7 +1692,6 @@ Func _IEDocInsertText(ByRef $o_object, $s_string, $s_where = "beforeend")
 		Return SetError($_IEStatus_ComError, @error, 0)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, 1)
-
 EndFunc   ;==>_IEDocInsertText
 
 ; #FUNCTION# ====================================================================================================================
@@ -1733,7 +1728,6 @@ Func _IEDocInsertHTML(ByRef $o_object, $s_string, $s_where = "beforeend")
 		Return SetError($_IEStatus_ComError, @error, 0)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, 1)
-
 EndFunc   ;==>_IEDocInsertHTML
 
 ; #FUNCTION# ====================================================================================================================
@@ -2046,7 +2040,6 @@ Func _IEAction(ByRef $o_object, $s_action)
 		Return SetError($_IEStatus_ComError, @error, 0)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, 1)
-
 EndFunc   ;==>_IEAction
 
 ; #FUNCTION# ====================================================================================================================
@@ -3083,7 +3076,6 @@ Func __IEIsObjType(ByRef $o_object, $s_type)
 	Else
 		Return SetError($ErrorStatus, 1, 0)
 	EndIf
-
 EndFunc   ;==>__IEIsObjType
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -3270,7 +3262,6 @@ EndFunc   ;==>__IEBstrToString
 ; Remarks .......: http://msdn2.microsoft.com/en-us/library/ms536471(vs.85).aspx
 ; ===============================================================================================================================
 Func __IECreateNewIE($s_title, $s_head = "", $s_body = "")
-
 	Local $s_Temp = __IETempFile("", "~IE~", ".htm")
 	If @error Then
 		__IEConsoleWriteError("Error", "_IECreateHTA", "", "Error creating temporary file in @TempDir or @ScriptDir")

@@ -38,6 +38,7 @@ Then?4
 To?4
 True?4
 Until?4
+Volatile?4
 WEnd?4
 While?4
 With?4
@@ -47,13 +48,14 @@ With?4
 #cs?2
 #include?2
 #include-once?2
-#NoAutoIt3Execute?2
 #NoTrayIcon?2
 #OnAutoItStartRegister?2
 #RequireAdmin?2
 #endregion?1
 #forcedef?1
 #forceref?1
+#ignorefunc?1
+#pragma?1
 #region?1
 @AppDataCommonDir?3
 @AppDataDir?3
@@ -99,6 +101,7 @@ With?4
 @IPAddress4?3
 @KBLayout?3
 @LF?3
+@LocalAppDataDir?3
 @LogonDNSDomain?3
 @LogonDomain?3
 @LogonServer?3

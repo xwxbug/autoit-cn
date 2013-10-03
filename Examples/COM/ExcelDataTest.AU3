@@ -1,16 +1,17 @@
+#include <Constants.au3>
+
 ; ExcelDataTest.AU3
 ;
 ; Retrieves information from an Excel sheet
 ; Modifies the data
 ; Returns the modified data in back in the sheet
 
-
 Local $FileName = "C:\temp\test.xls" ; Change this to the path/name of your Excel sheet
 $FileName = @ScriptDir & "\Worksheet.xls"
 Local $CellRange = "A1:E3" ; Change this to the range of cells you want to modify
 
 If Not FileExists($FileName) Then ; Just a check to be sure..
-	MsgBox(0, "Excel Data Test", "Error: Can't find file " & $FileName)
+	MsgBox($MB_SYSTEMMODAL, "Excel Data Test", "Error: Can't find file " & $FileName)
 	Exit
 EndIf
 
@@ -26,7 +27,7 @@ If (Not @error) And IsObj($oExcelDoc) Then ; Check again If everything went well
 
 	If IsArray($aArray) And UBound($aArray, 0) > 0 Then ; Check If we retrieved any data
 
-		MsgBox(0, "Excel Data Test", "Debugging information for retrieved cells:" & @CRLF & _
+		MsgBox($MB_SYSTEMMODAL, "Excel Data Test", "Debugging information for retrieved cells:" & @CRLF & _
 				"Number of dimensions: " & UBound($aArray, 0) & @CRLF & _
 				"Size of first dimension: " & UBound($aArray, 1) & @CRLF & _
 				"Size of second dimension: " & UBound($aArray, 2))
@@ -41,8 +42,7 @@ If (Not @error) And IsObj($oExcelDoc) Then ; Check again If everything went well
 				$string = $string & "(" & $x & "," & $y & ")=" & $aArray[$x][$y] & @CRLF
 			Next
 		Next
-		MsgBox(0, "Excel Data Test", "Debug information: Read Cell contents: " & @CRLF & $string)
-
+		MsgBox($MB_SYSTEMMODAL, "Excel Data Test", "Debug information: Read Cell contents: " & @CRLF & $string)
 
 		; Now we modify the data
 		$aArray[0][0] = "This is cell A1"
@@ -54,13 +54,13 @@ If (Not @error) And IsObj($oExcelDoc) Then ; Check again If everything went well
 		$oExcelDoc.Save ; Save the workbook
 
 	Else
-		MsgBox(0, "Excel Data Test", "Error: Could Not retrieve data from cell range: " & $CellRange)
+		MsgBox($MB_SYSTEMMODAL, "Excel Data Test", "Error: Could Not retrieve data from cell range: " & $CellRange)
 	EndIf
 
 	$oExcelDoc.saved = 1 ; Prevent questions from excel to save the file
 	$oExcelDoc.close ; Get rid of Excel.
 Else
-	MsgBox(0, "Excel Data Test", "Error: Could Not open " & $FileName & " as an Excel Object.")
+	MsgBox($MB_SYSTEMMODAL, "Excel Data Test", "Error: Could Not open " & $FileName & " as an Excel Object.")
 EndIf
 
 $oExcelDoc = 0

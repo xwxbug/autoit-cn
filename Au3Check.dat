@@ -63,7 +63,7 @@ $CmdLineRaw
 !ControlSend 4 5
 !ControlSetText 4 5
 !ControlShow 3 3
-!ControlTreeView 4 6
+!ControlTreeView 4 5
 !Cos 1 1
 !Dec 1 2
 !DirCopy 2 3

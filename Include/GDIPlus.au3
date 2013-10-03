@@ -105,6 +105,7 @@ Global $giGDIPToken = 0
 ; _GDIPlus_GraphicsDrawEllipseF
 ; _GDIPlus_GraphicsDrawImage
 ; _GDIPlus_GraphicsDrawImageF
+; _GDIPlus_GraphicsDrawImagePointsRect
 ; _GDIPlus_GraphicsDrawImageRect
 ; _GDIPlus_GraphicsDrawImageRectF
 ; _GDIPlus_GraphicsDrawImageRectRect
@@ -133,6 +134,8 @@ Global $giGDIPToken = 0
 ; _GDIPlus_GraphicsFillRect
 ; _GDIPlus_GraphicsFillRectF
 ; _GDIPlus_GraphicsFillRegion
+; _GDIPlus_GraphicsGetCompositingMode
+; _GDIPlus_GraphicsGetCompositingQuality
 ; _GDIPlus_GraphicsGetDC
 ; _GDIPlus_GraphicsGetInterpolationMode
 ; _GDIPlus_GraphicsGetSmoothingMode
@@ -147,6 +150,8 @@ Global $giGDIPToken = 0
 ; _GDIPlus_GraphicsSetClipPath
 ; _GDIPlus_GraphicsSetClipRect
 ; _GDIPlus_GraphicsSetClipRegion
+; _GDIPlus_GraphicsSetCompositingMode
+; _GDIPlus_GraphicsSetCompositingQuality
 ; _GDIPlus_GraphicsSetInterpolationMode
 ; _GDIPlus_GraphicsSetPixelOffsetMode
 ; _GDIPlus_GraphicsSetSmoothingMode
@@ -170,28 +175,42 @@ Global $giGDIPToken = 0
 ; _GDIPlus_ImageGetWidth
 ; _GDIPlus_ImageLoadFromFile
 ; _GDIPlus_ImageLoadFromStream
+; _GDIPlus_ImageRotateFlip
 ; _GDIPlus_ImageSaveToFile
 ; _GDIPlus_ImageSaveToFileEx
 ; _GDIPlus_ImageSaveToStream
+; _GDIPlus_ImageScale
+; _GDIPlus_ImageResize
 ; _GDIPlus_LineBrushCreate
+; _GDIPlus_LineBrushCreateFromRect
+; _GDIPlus_LineBrushCreateFromRectWithAngle
 ; _GDIPlus_LineBrushGetColors
+; _GDIPlus_LineBrushGetRect
+; _GDIPlus_LineBrushMultiplyTransform
+; _GDIPlus_LineBrushResetTransform
 ; _GDIPlus_LineBrushSetBlend
 ; _GDIPlus_LineBrushSetColors
 ; _GDIPlus_LineBrushSetGammaCorrection
+; _GDIPlus_LineBrushSetLinearBlend
 ; _GDIPlus_LineBrushSetPresetBlend
 ; _GDIPlus_LineBrushSetSigmaBlend
+; _GDIPlus_LineBrushSetTransform
 ; _GDIPlus_MatrixCreate
+; _GDIPlus_MatrixClone
 ; _GDIPlus_MatrixDispose
 ; _GDIPlus_MatrixGetElements
 ; _GDIPlus_MatrixInvert
+; _GDIPlus_MatrixMultiply
 ; _GDIPlus_MatrixRotate
 ; _GDIPlus_MatrixScale
 ; _GDIPlus_MatrixSetElements
+; _GDIPlus_MatrixShear
 ; _GDIPlus_MatrixTransformPoints
 ; _GDIPlus_MatrixTranslate
 ; _GDIPlus_ParamAdd
 ; _GDIPlus_ParamInit
 ; _GDIPlus_PathAddArc
+; _GDIPlus_PathAddBezier
 ; _GDIPlus_PathAddClosedCurve
 ; _GDIPlus_PathAddClosedCurve2
 ; _GDIPlus_PathAddCurve
@@ -211,6 +230,7 @@ Global $giGDIPToken = 0
 ; _GDIPlus_PathBrushGetPointCount
 ; _GDIPlus_PathBrushGetRect
 ; _GDIPlus_PathBrushGetWrapMode
+; _GDIPlus_PathBrushMultiplyTransform
 ; _GDIPlus_PathBrushResetTransform
 ; _GDIPlus_PathBrushSetBlend
 ; _GDIPlus_PathBrushSetCenterColor
@@ -232,6 +252,7 @@ Global $giGDIPToken = 0
 ; _GDIPlus_PathFlatten
 ; _GDIPlus_PathGetData
 ; _GDIPlus_PathGetFillMode
+; _GDIPlus_PathGetLastPoint
 ; _GDIPlus_PathGetPointCount
 ; _GDIPlus_PathGetPoints
 ; _GDIPlus_PathGetWorldBounds
@@ -240,11 +261,14 @@ Global $giGDIPToken = 0
 ; _GDIPlus_PathIterCreate
 ; _GDIPlus_PathIterDispose
 ; _GDIPlus_PathIterGetSubpathCount
+; _GDIPlus_PathIterNextMarkerPath
 ; _GDIPlus_PathIterNextSubpathPath
 ; _GDIPlus_PathIterRewind
 ; _GDIPlus_PathReset
 ; _GDIPlus_PathReverse
 ; _GDIPlus_PathSetFillMode
+; _GDIPlus_PathSetMarker
+; _GDIPlus_PathStartFigure
 ; _GDIPlus_PathTransform
 ; _GDIPlus_PathWarp
 ; _GDIPlus_PathWiden
@@ -266,6 +290,7 @@ Global $giGDIPToken = 0
 ; _GDIPlus_PenSetDashStyle
 ; _GDIPlus_PenSetEndCap
 ; _GDIPlus_PenSetLineJoin
+; _GDIPlus_PenSetStartCap
 ; _GDIPlus_PenSetWidth
 ; _GDIPlus_RectFCreate
 ; _GDIPlus_RegionClone
@@ -286,6 +311,7 @@ Global $giGDIPToken = 0
 ; _GDIPlus_StringFormatDispose
 ; _GDIPlus_StringFormatGetMeasurableCharacterRangeCount
 ; _GDIPlus_StringFormatSetAlign
+; _GDIPlus_StringFormatSetLineAlign
 ; _GDIPlus_StringFormatSetMeasurableCharacterRanges
 ; _GDIPlus_TextureCreate
 ; _GDIPlus_TextureCreate2
@@ -308,7 +334,9 @@ Global $giGDIPToken = 0
 Func _GDIPlus_ArrowCapCreate($fHeight, $fWidth, $bFilled = True)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateAdjustableArrowCap", "float", $fHeight, "float", $fWidth, "bool", $bFilled, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_ArrowCapCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -318,7 +346,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapCreate
 Func _GDIPlus_ArrowCapDispose($hCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteCustomLineCap", "handle", $hCap)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -328,7 +358,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapDispose
 Func _GDIPlus_ArrowCapGetFillState($hArrowCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetAdjustableArrowCapFillState", "handle", $hArrowCap, "bool*", 0)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapGetFillState
 
 ; #FUNCTION# ====================================================================================================================
@@ -338,7 +370,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetFillState
 Func _GDIPlus_ArrowCapGetHeight($hArrowCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetAdjustableArrowCapHeight", "handle", $hArrowCap, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ArrowCapGetHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -348,7 +382,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetHeight
 Func _GDIPlus_ArrowCapGetMiddleInset($hArrowCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetAdjustableArrowCapMiddleInset", "handle", $hArrowCap, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ArrowCapGetMiddleInset
 
 ; #FUNCTION# ====================================================================================================================
@@ -358,7 +394,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetMiddleInset
 Func _GDIPlus_ArrowCapGetWidth($hArrowCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetAdjustableArrowCapWidth", "handle", $hArrowCap, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ArrowCapGetWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -368,7 +406,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapGetWidth
 Func _GDIPlus_ArrowCapSetFillState($hArrowCap, $bFilled = True)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetAdjustableArrowCapFillState", "handle", $hArrowCap, "bool", $bFilled)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapSetFillState
 
 ; #FUNCTION# ====================================================================================================================
@@ -378,7 +418,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetFillState
 Func _GDIPlus_ArrowCapSetHeight($hArrowCap, $fHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetAdjustableArrowCapHeight", "handle", $hArrowCap, "float", $fHeight)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapSetHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -388,7 +430,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetHeight
 Func _GDIPlus_ArrowCapSetMiddleInset($hArrowCap, $fInset)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetAdjustableArrowCapMiddleInset", "handle", $hArrowCap, "float", $fInset)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapSetMiddleInset
 
 ; #FUNCTION# ====================================================================================================================
@@ -398,7 +442,9 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetMiddleInset
 Func _GDIPlus_ArrowCapSetWidth($hArrowCap, $fWidth)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetAdjustableArrowCapWidth", "handle", $hArrowCap, "float", $fWidth)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ArrowCapSetWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -409,7 +455,9 @@ Func _GDIPlus_BitmapCloneArea($hBmp, $iLeft, $iTop, $iWidth, $iHeight, $iFormat 
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneBitmapAreaI", "int", $iLeft, "int", $iTop, "int", $iWidth, "int", $iHeight, _
 			"int", $iFormat, "handle", $hBmp, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[7])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[7]
 EndFunc   ;==>_GDIPlus_BitmapCloneArea
 
 ; #FUNCTION# ====================================================================================================================
@@ -419,7 +467,9 @@ EndFunc   ;==>_GDIPlus_BitmapCloneArea
 Func _GDIPlus_BitmapCreateFromFile($sFileName)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromFile", "wstr", $sFileName, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromFile
 
 ; #FUNCTION# ====================================================================================================================
@@ -430,7 +480,9 @@ Func _GDIPlus_BitmapCreateFromGraphics($iWidth, $iHeight, $hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromGraphics", "int", $iWidth, "int", $iHeight, "handle", $hGraphics, _
 			"ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromGraphics
 
 ; #FUNCTION# ====================================================================================================================
@@ -440,7 +492,9 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromGraphics
 Func _GDIPlus_BitmapCreateFromHBITMAP($hBmp, $hPal = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromHBITMAP", "handle", $hBmp, "handle", $hPal, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromHBITMAP
 
 ;==================================================================================================================================
@@ -449,7 +503,7 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromHBITMAP
 ;===================================================================================================================================
 Func _GDIPlus_BitmapCreateFromMemory($bImage, $hHBITMAP = False)
 	If Not IsBinary($bImage) Then Return SetError(1, 0, 0)
-	Local $aResult
+	Local $aResult = 0
 	Local Const $memBitmap = Binary($bImage) ;load image saved in variable (memory) and convert it to binary
 	Local Const $iLen = BinaryLen($memBitmap) ;get binary length of the image
 	Local Const $GMEM_MOVEABLE = 0x0002
@@ -458,20 +512,15 @@ Func _GDIPlus_BitmapCreateFromMemory($bImage, $hHBITMAP = False)
 	Local Const $hData = $aResult[0]
 	$aResult = DllCall("kernel32.dll", "ptr", "GlobalLock", "handle", $hData)
 	If @error Then Return SetError(5, 0, 0)
-	Local Const $pData = $aResult[0] ;translate the handle into a pointer
-	Local $tMem = DllStructCreate("byte[" & $iLen & "]", $pData) ;create struct
+	Local $tMem = DllStructCreate("byte[" & $iLen & "]", $aResult[0]) ;create struct
 	DllStructSetData($tMem, 1, $memBitmap) ;fill struct with image data
 	DllCall("kernel32.dll", "bool", "GlobalUnlock", "handle", $hData) ;decrements the lock count associated with a memory object that was allocated with GMEM_MOVEABLE
 	If @error Then Return SetError(6, 0, 0)
-	Local Const $hStream = _WinAPI_CreateStreamOnHGlobal($pData) ;creates a stream object that uses an HGLOBAL memory handle to store the stream contents
+	Local Const $hStream = _WinAPI_CreateStreamOnHGlobal($hData) ;creates a stream object that uses an HGLOBAL memory handle to store the stream contents
 	If @error Then Return SetError(2, 0, 0)
 	Local Const $hBitmap = _GDIPlus_BitmapCreateFromStream($hStream) ;creates a Bitmap object based on an IStream COM interface
 	If @error Then Return SetError(3, 0, 0)
-	Local $tVARIANT = DllStructCreate("word vt;word r1;word r2;word r3;ptr data; ptr")
-	DllCall("oleaut32.dll", "long", "DispCallFunc", "ptr", $hStream, "dword", 8 + 8 * @AutoItX64, _
-			"dword", 4, "dword", 23, "dword", 0, "ptr", 0, "ptr", 0, "struct*", $tVARIANT) ;release memory from $hStream to avoid memory leak
-	$tMem = 0
-	$tVARIANT = 0
+	DllCall("oleaut32.dll", "long", "DispCallFunc", "ptr", $hStream, "ulong_ptr", 8 * (1 + @AutoItX64), "uint", 4, "ushort", 23, "uint", 0, "ptr", 0, "ptr", 0, "str", "") ;release memory from $hStream to avoid memory leak
 	If $hHBITMAP Then
 		Local Const $hHBmp = __GDIPlus_BitmapCreateDIBFromBitmap($hBitmap) ;supports GDI transparent color format
 		_GDIPlus_BitmapDispose($hBitmap)
@@ -485,11 +534,13 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromMemory
 ; Modified.......: UEZ
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCreateFromResource($hInst, $vResourceName)
-	Local $sType = "int", $aResult
+	Local $sType = "int"
 	If IsString($vResourceName) Then $sType = "wstr"
-	$aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromResource", "handle", $hInst, $sType, $vResourceName, "handle*", 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromResource", "handle", $hInst, $sType, $vResourceName, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromResource
 
 ; #FUNCTION# ====================================================================================================================
@@ -499,6 +550,8 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromResource
 Func _GDIPlus_BitmapCreateFromScan0($iWidth, $iHeight, $iStride = 0, $iPixelFormat = $GDIP_PXF32ARGB, $pScan0 = 0)
 	Local $aResult = DllCall($ghGDIPDll, "uint", "GdipCreateBitmapFromScan0", "int", $iWidth, "int", $iHeight, "int", $iStride, "int", $iPixelFormat, "ptr", $pScan0, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
 	Return $aResult[6]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromScan0
 
@@ -509,7 +562,9 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromScan0
 Func _GDIPlus_BitmapCreateFromStream($pStream)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateBitmapFromStream", "ptr", $pStream, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BitmapCreateFromStream
 
 ; #FUNCTION# ====================================================================================================================
@@ -519,7 +574,9 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromStream
 Func _GDIPlus_BitmapCreateHBITMAPFromBitmap($hBitmap, $iARGB = 0xFF000000)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateHBITMAPFromBitmap", "handle", $hBitmap, "ptr*", 0, "dword", $iARGB)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BitmapCreateHBITMAPFromBitmap
 
 ; #FUNCTION# ====================================================================================================================
@@ -529,7 +586,9 @@ EndFunc   ;==>_GDIPlus_BitmapCreateHBITMAPFromBitmap
 Func _GDIPlus_BitmapDispose($hBitmap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDisposeImage", "handle", $hBitmap)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_BitmapDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -539,7 +598,9 @@ EndFunc   ;==>_GDIPlus_BitmapDispose
 Func _GDIPlus_BitmapGetPixel($hBitmap, $iX, $iY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipBitmapGetPixel", "handle", $hBitmap, "int", $iX, "int", $iY, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_BitmapGetPixel
 
 ; #FUNCTION# ====================================================================================================================
@@ -560,7 +621,9 @@ Func _GDIPlus_BitmapLockBits($hBitmap, $iLeft, $iTop, $iWidth, $iHeight, $iFlags
 	DllStructSetData($tRect, "Bottom", $iHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipBitmapLockBits", "handle", $hBitmap, "struct*", $tRect, "uint", $iFlags, "int", $iFormat, "struct*", $tData)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $tData)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $tData
 EndFunc   ;==>_GDIPlus_BitmapLockBits
 
 ; #FUNCTION# ====================================================================================================================
@@ -570,7 +633,9 @@ EndFunc   ;==>_GDIPlus_BitmapLockBits
 Func _GDIPlus_BitmapSetPixel($hBitmap, $iX, $iY, $iARGB)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipBitmapSetPixel", "handle", $hBitmap, "int", $iX, "int", $iY, "uint", $iARGB)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_BitmapSetPixel
 
 ; #FUNCTION# ====================================================================================================================
@@ -580,7 +645,9 @@ EndFunc   ;==>_GDIPlus_BitmapSetPixel
 Func _GDIPlus_BitmapUnlockBits($hBitmap, $tBitmapData)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipBitmapUnlockBits", "handle", $hBitmap, "struct*", $tBitmapData)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_BitmapUnlockBits
 
 ; #FUNCTION# ====================================================================================================================
@@ -590,7 +657,9 @@ EndFunc   ;==>_GDIPlus_BitmapUnlockBits
 Func _GDIPlus_BrushClone($hBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneBrush", "handle", $hBrush, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BrushClone
 
 ; #FUNCTION# ====================================================================================================================
@@ -600,7 +669,9 @@ EndFunc   ;==>_GDIPlus_BrushClone
 Func _GDIPlus_BrushCreateSolid($iARGB = 0xFF000000)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateSolidFill", "int", $iARGB, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BrushCreateSolid
 
 ; #FUNCTION# ====================================================================================================================
@@ -610,7 +681,9 @@ EndFunc   ;==>_GDIPlus_BrushCreateSolid
 Func _GDIPlus_BrushDispose($hBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteBrush", "handle", $hBrush)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_BrushDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -620,7 +693,9 @@ EndFunc   ;==>_GDIPlus_BrushDispose
 Func _GDIPlus_BrushGetSolidColor($hBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetSolidFillColor", "handle", $hBrush, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BrushGetSolidColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -630,7 +705,9 @@ EndFunc   ;==>_GDIPlus_BrushGetSolidColor
 Func _GDIPlus_BrushGetType($hBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetBrushType", "handle", $hBrush, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BrushGetType
 
 ; #FUNCTION# ====================================================================================================================
@@ -639,8 +716,10 @@ EndFunc   ;==>_GDIPlus_BrushGetType
 ; ===============================================================================================================================
 Func _GDIPlus_BrushSetSolidColor($hBrush, $iARGB = 0xFF000000)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetSolidFillColor", "handle", $hBrush, "dword", $iARGB)
-	If @error Then Return SetError(@error, @extended, 0)
-	Return $aResult[0] = 0
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_BrushSetSolidColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -738,6 +817,8 @@ EndFunc   ;==>_GDIPlus_ColorMatrixCreateTranslate
 Func _GDIPlus_CustomLineCapCreate($hPathFill, $hPathStroke, $iLineCap = 0, $inBaseInset = 0)
 	Local $aResult = DllCall($ghGDIPDll, "uint", "GdipCreateCustomLineCap", "handle", $hPathFill, "handle", $hPathStroke, "int", $iLineCap, "float", $inBaseInset, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
 	Return $aResult[5]
 EndFunc   ;==>_GDIPlus_CustomLineCapCreate
 
@@ -748,7 +829,9 @@ EndFunc   ;==>_GDIPlus_CustomLineCapCreate
 Func _GDIPlus_CustomLineCapDispose($hCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteCustomLineCap", "handle", $hCap)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_CustomLineCapDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -761,7 +844,7 @@ Func _GDIPlus_Decoders()
 	Local $tBuffer = DllStructCreate("byte[" & $iSize & "]")
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageDecoders", "uint", $iCount, "uint", $iSize, "struct*", $tBuffer)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $aResult[0] <> 0 Then Return SetError($aResult[0], 0, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
 
 	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $tCodec, $aInfo[$iCount + 1][14]
@@ -803,7 +886,9 @@ EndFunc   ;==>_GDIPlus_DecodersGetCount
 Func _GDIPlus_DecodersGetSize()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageDecodersSize", "uint*", 0, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_DecodersGetSize
 
 ; #FUNCTION# ====================================================================================================================
@@ -820,7 +905,9 @@ Func _GDIPlus_DrawImagePoints($hGraphic, $hImage, $nULX, $nULY, $nURX, $nURY, $n
 	DllStructSetData($tPoint, "Y3", $nLLY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImagePoints", "handle", $hGraphic, "handle", $hImage, "struct*", $tPoint, "int", $count)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_DrawImagePoints
 
 ; #FUNCTION# ====================================================================================================================
@@ -833,7 +920,7 @@ Func _GDIPlus_Encoders()
 	Local $tBuffer = DllStructCreate("byte[" & $iSize & "]")
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageEncoders", "uint", $iCount, "uint", $iSize, "struct*", $tBuffer)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $aResult[0] <> 0 Then Return SetError($aResult[0], 0, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
 
 	Local $pBuffer = DllStructGetPtr($tBuffer)
 	Local $tCodec, $aInfo[$iCount + 1][14]
@@ -877,7 +964,9 @@ EndFunc   ;==>_GDIPlus_EncodersGetCLSID
 Func _GDIPlus_EncodersGetCount()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageEncodersSize", "uint*", 0, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[1])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[1]
 EndFunc   ;==>_GDIPlus_EncodersGetCount
 
 ; #FUNCTION# ====================================================================================================================
@@ -891,7 +980,9 @@ Func _GDIPlus_EncodersGetParamList($hImage, $sEncoder)
 	Local $tBuffer = DllStructCreate("dword Count;byte Params[" & $iSize - 4 & "]")
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetEncoderParameterList", "handle", $hImage, "struct*", $tGUID, "uint", $iSize, "struct*", $tBuffer)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $tBuffer)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $tBuffer
 EndFunc   ;==>_GDIPlus_EncodersGetParamList
 
 ; #FUNCTION# ====================================================================================================================
@@ -902,7 +993,9 @@ Func _GDIPlus_EncodersGetParamListSize($hImage, $sEncoder)
 	Local $tGUID = _WinAPI_GUIDFromString($sEncoder)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetEncoderParameterListSize", "handle", $hImage, "struct*", $tGUID, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_EncodersGetParamListSize
 
 ; #FUNCTION# ====================================================================================================================
@@ -912,7 +1005,9 @@ EndFunc   ;==>_GDIPlus_EncodersGetParamListSize
 Func _GDIPlus_EncodersGetSize()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageEncodersSize", "uint*", 0, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_EncodersGetSize
 
 ; #FUNCTION# ====================================================================================================================
@@ -922,7 +1017,9 @@ EndFunc   ;==>_GDIPlus_EncodersGetSize
 Func _GDIPlus_FontCreate($hFamily, $fSize, $iStyle = 0, $iUnit = 3)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateFont", "handle", $hFamily, "float", $fSize, "int", $iStyle, "int", $iUnit, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[5])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[5]
 EndFunc   ;==>_GDIPlus_FontCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -932,7 +1029,9 @@ EndFunc   ;==>_GDIPlus_FontCreate
 Func _GDIPlus_FontDispose($hFont)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteFont", "handle", $hFont)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_FontDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -942,7 +1041,9 @@ EndFunc   ;==>_GDIPlus_FontDispose
 Func _GDIPlus_FontFamilyCreate($sFamily)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateFontFamilyFromName", "wstr", $sFamily, "ptr", 0, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontFamilyCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -952,7 +1053,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyCreate
 Func _GDIPlus_FontFamilyDispose($hFamily)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteFontFamily", "handle", $hFamily)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_FontFamilyDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -962,7 +1065,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyDispose
 Func _GDIPlus_FontFamilyGetCellAscent($hFontFamily, $iStyle = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetCellAscent", "handle", $hFontFamily, "int", $iStyle, "short*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontFamilyGetCellAscent
 
 ; #FUNCTION# ====================================================================================================================
@@ -972,7 +1077,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyGetCellAscent
 Func _GDIPlus_FontFamilyGetCellDescent($hFontFamily, $iStyle = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetCellDescent", "handle", $hFontFamily, "int", $iStyle, "short*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontFamilyGetCellDescent
 
 ; #FUNCTION# ====================================================================================================================
@@ -982,7 +1089,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyGetCellDescent
 Func _GDIPlus_FontFamilyGetEmHeight($hFontFamily, $iStyle = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetEmHeight", "handle", $hFontFamily, "int", $iStyle, "short*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontFamilyGetEmHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -992,7 +1101,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyGetEmHeight
 Func _GDIPlus_FontFamilyGetLineSpacing($hFontFamily, $iStyle = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetLineSpacing", "handle", $hFontFamily, "int", $iStyle, "short*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontFamilyGetLineSpacing
 
 ; #FUNCTION# ====================================================================================================================
@@ -1002,7 +1113,9 @@ EndFunc   ;==>_GDIPlus_FontFamilyGetLineSpacing
 Func _GDIPlus_FontGetHeight($hFont, $hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetFontHeight", "handle", $hFont, "handle", $hGraphics, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_FontGetHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -1012,7 +1125,9 @@ EndFunc   ;==>_GDIPlus_FontGetHeight
 Func _GDIPlus_GraphicsClear($hGraphics, $iARGB = 0xFF000000)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGraphicsClear", "handle", $hGraphics, "dword", $iARGB)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsClear
 
 ; #FUNCTION# ====================================================================================================================
@@ -1022,7 +1137,9 @@ EndFunc   ;==>_GDIPlus_GraphicsClear
 Func _GDIPlus_GraphicsCreateFromHDC($hDC)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateFromHDC", "handle", $hDC, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_GraphicsCreateFromHDC
 
 ; #FUNCTION# ====================================================================================================================
@@ -1032,7 +1149,9 @@ EndFunc   ;==>_GDIPlus_GraphicsCreateFromHDC
 Func _GDIPlus_GraphicsCreateFromHWND($hWnd)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateFromHWND", "hwnd", $hWnd, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_GraphicsCreateFromHWND
 
 ; #FUNCTION# ====================================================================================================================
@@ -1042,7 +1161,9 @@ EndFunc   ;==>_GDIPlus_GraphicsCreateFromHWND
 Func _GDIPlus_GraphicsDispose($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteGraphics", "handle", $hGraphics)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -1056,7 +1177,9 @@ Func _GDIPlus_GraphicsDrawArc($hGraphics, $iX, $iY, $iWidth, $iHeight, $fStartAn
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawArc
 
 ; #FUNCTION# ====================================================================================================================
@@ -1070,7 +1193,9 @@ Func _GDIPlus_GraphicsDrawArcF($hGraphics, $fX, $fY, $fWidth, $fHeight, $fStartA
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawArcF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1084,7 +1209,9 @@ Func _GDIPlus_GraphicsDrawBezier($hGraphics, $iX1, $iY1, $iX2, $iY2, $iX3, $iY3,
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawBezier
 
 ; #FUNCTION# ====================================================================================================================
@@ -1098,7 +1225,9 @@ Func _GDIPlus_GraphicsDrawBezierF($hGraphics, $fX1, $fY1, $fX2, $fY2, $fX3, $fY3
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawBezierF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1118,7 +1247,9 @@ Func _GDIPlus_GraphicsDrawClosedCurve($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawClosedCurve
 
 ; #FUNCTION# ====================================================================================================================
@@ -1139,7 +1270,9 @@ Func _GDIPlus_GraphicsDrawClosedCurve2($hGraphics, $aPoints, $fTension, $hPen = 
 	$iTmpExt = @extended
 	__GDIPlus_PenDefDispose()
 	If $iTmpErr Then Return SetError($iTmpErr, $iTmpExt, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawClosedCurve2
 
 ; #FUNCTION# ====================================================================================================================
@@ -1158,7 +1291,9 @@ Func _GDIPlus_GraphicsDrawClosedCurveF($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawClosedCurveF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1178,7 +1313,9 @@ Func _GDIPlus_GraphicsDrawCurve($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawCurve
 
 ; #FUNCTION# ====================================================================================================================
@@ -1199,7 +1336,9 @@ Func _GDIPlus_GraphicsDrawCurve2($hGraphics, $aPoints, $nTension, $hPen = 0)
 	$iTmpExt = @extended
 	__GDIPlus_PenDefDispose()
 	If $iTmpErr Then Return SetError($iTmpErr, $iTmpExt, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawCurve2
 
 ; #FUNCTION# ====================================================================================================================
@@ -1218,7 +1357,9 @@ Func _GDIPlus_GraphicsDrawCurveF($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawCurveF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1232,7 +1373,9 @@ Func _GDIPlus_GraphicsDrawEllipse($hGraphics, $iX, $iY, $iWidth, $iHeight, $hPen
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawEllipse
 
 ; #FUNCTION# ====================================================================================================================
@@ -1246,7 +1389,9 @@ Func _GDIPlus_GraphicsDrawEllipseF($hGraphics, $fX, $fY, $fWidth, $fHeight, $hPe
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawEllipseF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1256,7 +1401,9 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawEllipseF
 Func _GDIPlus_GraphicsDrawImage($hGraphics, $hImage, $iX, $iY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImageI", "handle", $hGraphics, "handle", $hImage, "int", $iX, "int", $iY)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImage
 
 ; #FUNCTION# ====================================================================================================================
@@ -1266,8 +1413,29 @@ EndFunc   ;==>_GDIPlus_GraphicsDrawImage
 Func _GDIPlus_GraphicsDrawImageF($hGraphics, $hImage, $fX, $fY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImage", "handle", $hGraphics, "handle", $hImage, "float", $fX, "float", $fY)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageF
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_GraphicsDrawImagePointsRect($hGraphics, $hImage, $fULX, $fULY, $fURX, $fURY, $fLLX, $fLLY, $fSrcX, $fSrcY, $fSrcWidth, $fSrcHeight, $hImageAttributes = 0, $iUnit = 2)
+	Local $tPoints = DllStructCreate("float X; float Y; float X2; float Y2; float X3; float Y3;")
+	DllStructSetData($tPoints, "X", $fULX)
+	DllStructSetData($tPoints, "Y", $fULY)
+	DllStructSetData($tPoints, "X2", $fURX)
+	DllStructSetData($tPoints, "Y2", $fURY)
+	DllStructSetData($tPoints, "X3", $fLLX)
+	DllStructSetData($tPoints, "Y3", $fLLY)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImagePointsRect", "handle", $hGraphics, "handle", $hImage, "struct*", $tPoints, "int", 3, "float", $fSrcX, "float", $fSrcY, "float", $fSrcWidth, "float", $fSrcHeight, "int", $iUnit, "handle", $hImageAttributes, "ptr", 0, "ptr", 0)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_GraphicsDrawImagePointsRect
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: smashly
@@ -1277,7 +1445,9 @@ Func _GDIPlus_GraphicsDrawImageRect($hGraphics, $hImage, $iX, $iY, $iW, $iH)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImageRectI", "handle", $hGraphics, "handle", $hImage, "int", $iX, "int", $iY, _
 			"int", $iW, "int", $iH)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1288,7 +1458,9 @@ Func _GDIPlus_GraphicsDrawImageRectF($hGraphics, $hImage, $fX, $fY, $fW, $fH)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImageRect", "handle", $hGraphics, "handle", $hImage, "float", $fX, "float", $fY, _
 			"float", $fW, "float", $fH)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1300,7 +1472,9 @@ Func _GDIPlus_GraphicsDrawImageRectRect($hGraphics, $hImage, $iSrcX, $iSrcY, $iS
 			"int", $iDstY, "int", $iDstWidth, "int", $iDstHeight, "int", $iSrcX, "int", $iSrcY, "int", $iSrcWidth, _
 			"int", $iSrcHeight, "int", $iUnit, "int", $hAttributes, "int", 0, "int", 0)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRect
 
 
@@ -1314,7 +1488,9 @@ Func _GDIPlus_GraphicsDrawImageRectRectF($hGraphics, $hImage, $fSrcX, $fSrcY, $f
 			"float", $fSrcX, "float", $fSrcY, "float", $fSrcWidth, "float", $fSrcHeight, _
 			"int", $iUnit, "int", $hAttributes, "int", 0, "int", 0)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawImageRectRectF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1328,7 +1504,9 @@ Func _GDIPlus_GraphicsDrawLine($hGraphics, $iX1, $iY1, $iX2, $iY2, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawLine
 
 ; #FUNCTION# ====================================================================================================================
@@ -1342,7 +1520,9 @@ Func _GDIPlus_GraphicsDrawLineF($hGraphics, $fX1, $fY1, $fX2, $fY2, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawLineF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1355,7 +1535,9 @@ Func _GDIPlus_GraphicsDrawPath($hGraphics, $hPath, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -1369,7 +1551,9 @@ Func _GDIPlus_GraphicsDrawPie($hGraphics, $iX, $iY, $iWidth, $iHeight, $fStartAn
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawPie
 
 ; #FUNCTION# ====================================================================================================================
@@ -1383,7 +1567,9 @@ Func _GDIPlus_GraphicsDrawPieF($hGraphics, $fX, $fY, $fWidth, $fHeight, $fStartA
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawPieF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1403,7 +1589,9 @@ Func _GDIPlus_GraphicsDrawPolygon($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawPolygon
 
 ; #FUNCTION# ====================================================================================================================
@@ -1423,7 +1611,9 @@ Func _GDIPlus_GraphicsDrawPolygonF($hGraphics, $aPoints, $hPen = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawPolygonF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1437,7 +1627,9 @@ Func _GDIPlus_GraphicsDrawRect($hGraphics, $iX, $iY, $iWidth, $iHeight, $hPen = 
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1451,7 +1643,9 @@ Func _GDIPlus_GraphicsDrawRectF($hGraphics, $fX, $fY, $fWidth, $fHeight, $hPen =
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawRectF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1482,7 +1676,9 @@ Func _GDIPlus_GraphicsDrawStringEx($hGraphics, $sString, $hFont, $tLayout, $hFor
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawString", "handle", $hGraphics, "wstr", $sString, "int", -1, "handle", $hFont, _
 			"struct*", $tLayout, "handle", $hFormat, "handle", $hBrush)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsDrawStringEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -1502,7 +1698,9 @@ Func _GDIPlus_GraphicsFillClosedCurve($hGraphics, $aPoints, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillClosedCurve
 
 ; #FUNCTION# ====================================================================================================================
@@ -1523,7 +1721,9 @@ Func _GDIPlus_GraphicsFillClosedCurve2($hGraphics, $aPoints, $nTension, $hBrush 
 	$iTmpExt = @extended
 	__GDIPlus_BrushDefDispose()
 	If $iTmpErr Then Return SetError($iTmpErr, $iTmpExt, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillClosedCurve2
 
 ; #FUNCTION# ====================================================================================================================
@@ -1543,7 +1743,9 @@ Func _GDIPlus_GraphicsFillClosedCurveF($hGraphics, $aPoints, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillClosedCurveF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1557,7 +1759,9 @@ Func _GDIPlus_GraphicsFillEllipse($hGraphics, $iX, $iY, $iWidth, $iHeight, $hBru
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillEllipse
 
 ; #FUNCTION# ====================================================================================================================
@@ -1571,7 +1775,9 @@ Func _GDIPlus_GraphicsFillEllipseF($hGraphics, $fX, $fY, $fWidth, $fHeight, $hBr
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillEllipseF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1584,7 +1790,9 @@ Func _GDIPlus_GraphicsFillPath($hGraphics, $hPath, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -1598,7 +1806,9 @@ Func _GDIPlus_GraphicsFillPie($hGraphics, $iX, $iY, $iWidth, $iHeight, $fStartAn
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillPie
 
 ; #FUNCTION# ====================================================================================================================
@@ -1612,7 +1822,9 @@ Func _GDIPlus_GraphicsFillPieF($hGraphics, $fX, $fY, $fWidth, $fHeight, $fStartA
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillPieF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1633,7 +1845,9 @@ Func _GDIPlus_GraphicsFillPolygon($hGraphics, $aPoints, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillPolygon
 
 ; #FUNCTION# ====================================================================================================================
@@ -1653,7 +1867,9 @@ Func _GDIPlus_GraphicsFillPolygonF($hGraphics, $aPoints, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillPolygonF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1667,7 +1883,9 @@ Func _GDIPlus_GraphicsFillRect($hGraphics, $iX, $iY, $iWidth, $iHeight, $hBrush 
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1681,7 +1899,9 @@ Func _GDIPlus_GraphicsFillRectF($hGraphics, $fX, $fY, $fWidth, $fHeight, $hBrush
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillRectF
 
 ; #FUNCTION# ====================================================================================================================
@@ -1694,8 +1914,30 @@ Func _GDIPlus_GraphicsFillRegion($hGraphics, $hRegion, $hBrush = 0)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_BrushDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsFillRegion
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_GraphicsGetCompositingMode($hGraphics)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetCompositingMode", "handle", $hGraphics, "int*", 0)
+	If @error Then Return SetError(@error, @extended, -1)
+	Return SetExtended($aResult[0], $aResult[2])
+EndFunc   ;==>_GDIPlus_GraphicsGetCompositingMode
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_GraphicsGetCompositingQuality($hGraphics)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetCompositingQuality", "handle", $hGraphics, "int*", 0)
+	If @error Then Return SetError(@error, @extended, -1)
+	Return SetExtended($aResult[0], $aResult[2])
+EndFunc   ;==>_GDIPlus_GraphicsGetCompositingQuality
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -1703,8 +1945,10 @@ EndFunc   ;==>_GDIPlus_GraphicsFillRegion
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsGetDC($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetDC", "handle", $hGraphics, "ptr*", 0)
-	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], $aResult[2])
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_GraphicsGetDC
 
 ; #FUNCTION# ====================================================================================================================
@@ -1714,7 +1958,8 @@ EndFunc   ;==>_GDIPlus_GraphicsGetDC
 Func _GDIPlus_GraphicsGetInterpolationMode($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetInterpolationMode", "handle", $hGraphics, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_GraphicsGetInterpolationMode
 
@@ -1725,15 +1970,17 @@ EndFunc   ;==>_GDIPlus_GraphicsGetInterpolationMode
 Func _GDIPlus_GraphicsGetSmoothingMode($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetSmoothingMode", "handle", $hGraphics, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Switch $aResult[2]
 		Case $GDIP_SMOOTHINGMODE_NONE
-			Return SetExtended($aResult[0], 0)
+			Return 0
 		Case $GDIP_SMOOTHINGMODE_HIGHQUALITY, $GDIP_SMOOTHINGMODE_ANTIALIAS8X4
-			Return SetExtended($aResult[0], 1)
+			Return 1
 		Case $GDIP_SMOOTHINGMODE_ANTIALIAS8X8
-			Return SetExtended($aResult[0], 2)
+			Return 2
 		Case Else
-			Return SetExtended($aResult[0], 0)
+			Return 0
 	EndSwitch
 EndFunc   ;==>_GDIPlus_GraphicsGetSmoothingMode
 
@@ -1744,7 +1991,9 @@ EndFunc   ;==>_GDIPlus_GraphicsGetSmoothingMode
 Func _GDIPlus_GraphicsGetTransform($hGraphics, $hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetWorldTransform", "handle", $hGraphics, "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsGetTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1768,7 +2017,7 @@ Func _GDIPlus_GraphicsMeasureCharacterRanges($hGraphics, $sString, $hFont, $tLay
 		For $iI = 1 To $iCount
 			_GDIPlus_RegionDispose($aRegions[$iI])
 		Next
-		Return SetError($tmpError, $tmpExtended, False)
+		Return SetError($tmpError + 10, $tmpExtended, 0)
 	EndIf
 
 	Return $aRegions
@@ -1783,12 +2032,13 @@ Func _GDIPlus_GraphicsMeasureString($hGraphics, $sString, $hFont, $tLayout, $hFo
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipMeasureString", "handle", $hGraphics, "wstr", $sString, "int", -1, "handle", $hFont, _
 			"struct*", $tLayout, "handle", $hFormat, "struct*", $tRectF, "int*", 0, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
 
 	Local $aInfo[3]
 	$aInfo[0] = $tRectF
 	$aInfo[1] = $aResult[8]
 	$aInfo[2] = $aResult[9]
-	Return SetExtended($aResult[0], $aInfo)
+	Return $aInfo
 EndFunc   ;==>_GDIPlus_GraphicsMeasureString
 
 ; #FUNCTION# ====================================================================================================================
@@ -1797,8 +2047,10 @@ EndFunc   ;==>_GDIPlus_GraphicsMeasureString
 ; ===============================================================================================================================
 Func _GDIPlus_GraphicsReleaseDC($hGraphics, $hDC)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipReleaseDC", "handle", $hGraphics, "handle", $hDC)
-	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], $aResult[2])
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_GraphicsReleaseDC
 
 ; #FUNCTION# ====================================================================================================================
@@ -1808,7 +2060,9 @@ EndFunc   ;==>_GDIPlus_GraphicsReleaseDC
 Func _GDIPlus_GraphicsResetClip($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipResetClip", "handle", $hGraphics)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsResetClip
 
 ; #FUNCTION# ====================================================================================================================
@@ -1818,7 +2072,9 @@ EndFunc   ;==>_GDIPlus_GraphicsResetClip
 Func _GDIPlus_GraphicsResetTransform($hGraphics)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipResetWorldTransform", "handle", $hGraphics)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsResetTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1828,7 +2084,9 @@ EndFunc   ;==>_GDIPlus_GraphicsResetTransform
 Func _GDIPlus_GraphicsRotateTransform($hGraphics, $fAngle, $iOrder = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipRotateWorldTransform", "handle", $hGraphics, "float", $fAngle, "int", $iOrder)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsRotateTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1838,7 +2096,9 @@ EndFunc   ;==>_GDIPlus_GraphicsRotateTransform
 Func _GDIPlus_GraphicsScaleTransform($hGraphics, $fScaleX, $fScaleY, $iOrder = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipScaleWorldTransform", "handle", $hGraphics, "float", $fScaleX, "float", $fScaleY, "int", $iOrder)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsScaleTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1848,7 +2108,9 @@ EndFunc   ;==>_GDIPlus_GraphicsScaleTransform
 Func _GDIPlus_GraphicsSetClipPath($hGraphics, $hPath, $iCombineMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetClipPath", "handle", $hGraphics, "handle", $hPath, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetClipPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -1858,7 +2120,9 @@ EndFunc   ;==>_GDIPlus_GraphicsSetClipPath
 Func _GDIPlus_GraphicsSetClipRect($hGraphics, $fX, $fY, $fWidth, $fHeight, $iCombineMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetClipRect", "handle", $hGraphics, "float", $fX, "float", $fY, "float", $fWidth, "float", $fHeight, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetClipRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -1868,8 +2132,34 @@ EndFunc   ;==>_GDIPlus_GraphicsSetClipRect
 Func _GDIPlus_GraphicsSetClipRegion($hGraphics, $hRegion, $iCombineMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetClipRegion", "handle", $hGraphics, "handle", $hRegion, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetClipRegion
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_GraphicsSetCompositingMode($hGraphics, $iCompositionMode)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetCompositingMode", "handle", $hGraphics, "int", $iCompositionMode)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_GraphicsSetCompositingMode
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_GraphicsSetCompositingQuality($hGraphics, $iCompositionQuality)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetCompositingQuality", "handle", $hGraphics, "int", $iCompositionQuality)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_GraphicsSetCompositingQuality
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -1878,7 +2168,9 @@ EndFunc   ;==>_GDIPlus_GraphicsSetClipRegion
 Func _GDIPlus_GraphicsSetInterpolationMode($hGraphics, $iInterpolationMode)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetInterpolationMode", "handle", $hGraphics, "int", $iInterpolationMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetInterpolationMode
 
 ; #FUNCTION# ====================================================================================================================
@@ -1888,7 +2180,9 @@ EndFunc   ;==>_GDIPlus_GraphicsSetInterpolationMode
 Func _GDIPlus_GraphicsSetPixelOffsetMode($hGraphics, $iPixelOffsetMode)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPixelOffsetMode", "handle", $hGraphics, "int", $iPixelOffsetMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetPixelOffsetMode
 
 ; #FUNCTION# ====================================================================================================================
@@ -1899,7 +2193,9 @@ Func _GDIPlus_GraphicsSetSmoothingMode($hGraphics, $iSmooth)
 	If $iSmooth < $GDIP_SMOOTHINGMODE_DEFAULT Or $iSmooth > $GDIP_SMOOTHINGMODE_ANTIALIAS8X8 Then $iSmooth = $GDIP_SMOOTHINGMODE_DEFAULT
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetSmoothingMode", "handle", $hGraphics, "int", $iSmooth)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetSmoothingMode
 
 ; #FUNCTION# ====================================================================================================================
@@ -1909,7 +2205,9 @@ EndFunc   ;==>_GDIPlus_GraphicsSetSmoothingMode
 Func _GDIPlus_GraphicsSetTextRenderingHint($hGraphics, $iTextRenderingHint)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetTextRenderingHint", "handle", $hGraphics, "int", $iTextRenderingHint)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetTextRenderingHint
 
 ; #FUNCTION# ====================================================================================================================
@@ -1919,7 +2217,9 @@ EndFunc   ;==>_GDIPlus_GraphicsSetTextRenderingHint
 Func _GDIPlus_GraphicsSetTransform($hGraphics, $hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetWorldTransform", "handle", $hGraphics, "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsSetTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1936,13 +2236,15 @@ Func _GDIPlus_GraphicsTransformPoints($hGraphics, ByRef $aPoints, $iCoordSpaceTo
 
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTransformPoints", "handle", $hGraphics, "int", $iCoordSpaceTo, "int", $iCoordSpaceFrom, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
 
 	For $iI = 1 To $iCount
 		$aPoints[$iI][0] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 1)
 		$aPoints[$iI][1] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 2)
 	Next
 
-	Return $aResult[0] = 0
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsTransformPoints
 
 ; #FUNCTION# ====================================================================================================================
@@ -1952,7 +2254,9 @@ EndFunc   ;==>_GDIPlus_GraphicsTransformPoints
 Func _GDIPlus_GraphicsTranslateTransform($hGraphics, $fDX, $fDY, $iOrder = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTranslateWorldTransform", "handle", $hGraphics, "float", $fDX, "float", $fDY, "int", $iOrder)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_GraphicsTranslateTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -1962,7 +2266,9 @@ EndFunc   ;==>_GDIPlus_GraphicsTranslateTransform
 Func _GDIPlus_ImageAttributesCreate()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateImageAttributes", "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[1])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[1]
 EndFunc   ;==>_GDIPlus_ImageAttributesCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1972,7 +2278,9 @@ EndFunc   ;==>_GDIPlus_ImageAttributesCreate
 Func _GDIPlus_ImageAttributesDispose($hImageAttributes)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDisposeImageAttributes", "handle", $hImageAttributes)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageAttributesDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -1982,17 +2290,21 @@ EndFunc   ;==>_GDIPlus_ImageAttributesDispose
 Func _GDIPlus_ImageAttributesSetColorKeys($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $iARGBLow = 0, $iARGBHigh = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetImageAttributesColorKeys", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "uint", $iARGBLow, "uint", $iARGBHigh)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageAttributesSetColorKeys
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
 ; Modified.......: UEZ
 ; ===============================================================================================================================
-Func _GDIPlus_ImageAttributesSetColorMatrix($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $pClrMatrix = 0, $pGrayMatrix = 0, $iColorMatrixFlags = 0)
-	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetImageAttributesColorMatrix", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "ptr", $pClrMatrix, "ptr", $pGrayMatrix, "int", $iColorMatrixFlags)
+Func _GDIPlus_ImageAttributesSetColorMatrix($hImageAttributes, $iColorAdjustType = 0, $fEnable = False, $tClrMatrix = 0, $tGrayMatrix = 0, $iColorMatrixFlags = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetImageAttributesColorMatrix", "handle", $hImageAttributes, "int", $iColorAdjustType, "int", $fEnable, "struct*", $tClrMatrix, "struct*", $tGrayMatrix, "int", $iColorMatrixFlags)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageAttributesSetColorMatrix
 
 ; #FUNCTION# ====================================================================================================================
@@ -2002,7 +2314,9 @@ EndFunc   ;==>_GDIPlus_ImageAttributesSetColorMatrix
 Func _GDIPlus_ImageDispose($hImage)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDisposeImage", "handle", $hImage)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -2027,10 +2341,11 @@ Func _GDIPlus_ImageGetFlags($hImage)
 			["Alpha values", $GDIP_IMAGEFLAGS_HASALPHA], _
 			["Scalable", $GDIP_IMAGEFLAGS_SCALABLE]]
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageFlags", "handle", $hImage, "long*", 0)
-	If @error Then Return SetError(@error, 2, $aFlag)
+	If @error Then Return SetError(@error, @extended, $aFlag)
+	If $aResult[0] Then Return SetError(11, $aResult[0], $aFlag)
 	If $aResult[2] = $GDIP_IMAGEFLAGS_NONE Then
 		$aFlag[1] = "No pixel data"
-		Return SetError($aResult[0], 3, $aFlag)
+		Return SetError(12, 3, $aFlag)
 	EndIf
 	$aFlag[0] = $aResult[2]
 	For $i = 0 To 12
@@ -2040,7 +2355,7 @@ Func _GDIPlus_ImageGetFlags($hImage)
 			$aFlag[1] &= $aImageFlags[$i][0]
 		EndIf
 	Next
-	Return SetExtended($aResult[0], $aFlag)
+	Return $aFlag
 EndFunc   ;==>_GDIPlus_ImageGetFlags
 
 ; #FUNCTION# ====================================================================================================================
@@ -2050,7 +2365,9 @@ EndFunc   ;==>_GDIPlus_ImageGetFlags
 Func _GDIPlus_ImageGetGraphicsContext($hImage)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageGraphicsContext", "handle", $hImage, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageGetGraphicsContext
 
 ; #FUNCTION# ====================================================================================================================
@@ -2060,7 +2377,9 @@ EndFunc   ;==>_GDIPlus_ImageGetGraphicsContext
 Func _GDIPlus_ImageGetHeight($hImage)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageHeight", "handle", $hImage, "uint*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageGetHeight
 
 ; #FUNCTION# ====================================================================================================================
@@ -2068,10 +2387,12 @@ EndFunc   ;==>_GDIPlus_ImageGetHeight
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GDIPlus_ImageGetHorizontalResolution($hImage)
-	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 1, 0)
+	If ($hImage = -1) Or (Not $hImage) Then Return SetError(11, 1, 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageHorizontalResolution", "handle", $hImage, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], Round($aResult[2]))
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return Round($aResult[2])
 EndFunc   ;==>_GDIPlus_ImageGetHorizontalResolution
 
 ; #FUNCTION# ====================================================================================================================
@@ -2098,14 +2419,16 @@ Func _GDIPlus_ImageGetPixelFormat($hImage)
 			["64 Bpp PARGB", $GDIP_PXF64PARGB]]
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImagePixelFormat", "handle", $hImage, "int*", 0)
 	If @error Then Return SetError(@error, @extended, $aFormat)
+	If $aResult[0] Then Return SetError(11, $aResult[0], $aFormat)
+
 	For $i = 0 To 13
 		If $aPixelFormat[$i][1] = $aResult[2] Then
 			$aFormat[0] = $aPixelFormat[$i][1]
 			$aFormat[1] = $aPixelFormat[$i][0]
-			Return SetExtended($aResult[0], $aFormat)
+			Return $aFormat
 		EndIf
 	Next
-	Return SetExtended($aResult[0], $aFormat)
+	Return SetError(12, 0, $aFormat)
 EndFunc   ;==>_GDIPlus_ImageGetPixelFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -2130,17 +2453,18 @@ Func _GDIPlus_ImageGetRawFormat($hImage)
 	Local $tStruct = DllStructCreate("byte[16]")
 	Local $aResult1 = DllCall($ghGDIPDll, "int", "GdipGetImageRawFormat", "handle", $hImage, "struct*", $tStruct)
 	If @error Then Return SetError(@error, @extended, $aGuid)
-	If (Not IsArray($aResult1)) Then Return SetError(1, 3, $aGuid)
+	If $aResult1[0] Then Return SetError(11, $aResult1[0], $aGuid)
 	Local $sResult2 = _WinAPI_StringFromGUID($aResult1[2])
-	If @error Then Return SetError(@error, 4, $aGuid)
+	If @error Then Return SetError(@error + 20, @extended, $aGuid)
+	If $sResult2[0] Then Return SetError(12, $sResult2[0], $aGuid)
 	For $i = 0 To 10
 		If $aImageType[$i][1] == $sResult2 Then
 			$aGuid[0] = $aImageType[$i][1]
 			$aGuid[1] = $aImageType[$i][0]
-			Return SetExtended($aResult1[0], $aGuid)
+			Return $aGuid
 		EndIf
 	Next
-	Return SetError(-1, 5, $aGuid)
+	Return SetError(13, 0, $aGuid)
 EndFunc   ;==>_GDIPlus_ImageGetRawFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -2151,7 +2475,9 @@ Func _GDIPlus_ImageGetType($hImage)
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 0, -1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageType", "handle", $hImage, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageGetType
 
 ; #FUNCTION# ====================================================================================================================
@@ -2162,7 +2488,9 @@ Func _GDIPlus_ImageGetVerticalResolution($hImage)
 	If ($hImage = -1) Or (Not $hImage) Then Return SetError(10, 0, 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageVerticalResolution", "handle", $hImage, "float*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], Round($aResult[2]))
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return Round($aResult[2])
 EndFunc   ;==>_GDIPlus_ImageGetVerticalResolution
 
 ; #FUNCTION# ====================================================================================================================
@@ -2172,7 +2500,9 @@ EndFunc   ;==>_GDIPlus_ImageGetVerticalResolution
 Func _GDIPlus_ImageGetWidth($hImage)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetImageWidth", "handle", $hImage, "uint*", -1)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageGetWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -2182,7 +2512,9 @@ EndFunc   ;==>_GDIPlus_ImageGetWidth
 Func _GDIPlus_ImageLoadFromFile($sFileName)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipLoadImageFromFile", "wstr", $sFileName, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageLoadFromFile
 
 ; #FUNCTION# ====================================================================================================================
@@ -2192,8 +2524,22 @@ EndFunc   ;==>_GDIPlus_ImageLoadFromFile
 Func _GDIPlus_ImageLoadFromStream($pStream)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipLoadImageFromStream", "ptr", $pStream, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_ImageLoadFromStream
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: UEZ
+; ===============================================================================================================================
+Func _GDIPlus_ImageRotateFlip($hImage, $iRotateFlipType)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipImageRotateFlip", "handle", $hImage, "int", $iRotateFlipType)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_ImageRotateFlip
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -2214,7 +2560,9 @@ Func _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sEncoder, $pParams = 0)
 	Local $tGUID = _WinAPI_GUIDFromString($sEncoder)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSaveImageToFile", "handle", $hImage, "wstr", $sFileName, "struct*", $tGUID, "struct*", $pParams)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageSaveToFileEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -2224,8 +2572,72 @@ EndFunc   ;==>_GDIPlus_ImageSaveToFileEx
 Func _GDIPlus_ImageSaveToStream($hImage, $pStream, $pEncoder, $pParams = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSaveImageToStream", "handle", $hImage, "ptr", $pStream, "ptr", $pEncoder, "ptr", $pParams)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_ImageSaveToStream
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: UEZ
+; Modified ......:
+; ===============================================================================================================================
+Func _GDIPlus_ImageScale($hImage, $iScaleW, $iScaleH, $iInterpolationMode = $GDIP_INTERPOLATIONMODE_HIGHQUALITYBICUBIC)
+	If $iScaleW = 1.0 And $iScaleH = 1.0 Then Return $hImage
+	Local $iWidth = _GDIPlus_ImageGetWidth($hImage) * $iScaleW
+	If @error Then Return SetError(1, 0, 0)
+	Local $iHeight = _GDIPlus_ImageGetHeight($hImage) * $iScaleH
+	If @error Then Return SetError(2, 0, 0)
+	Local $hBitmap = _GDIPlus_BitmapCreateFromScan0($iWidth, $iHeight)
+	If @error Then Return SetError(3, 0, 0)
+	Local $hBmpCtxt = _GDIPlus_ImageGetGraphicsContext($hBitmap)
+	If @error Then
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(4, 0, 0)
+	EndIf
+	_GDIPlus_GraphicsSetInterpolationMode($hBmpCtxt, $iInterpolationMode)
+	If @error Then
+		_GDIPlus_GraphicsDispose($hBmpCtxt)
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(5, 0, 0)
+	EndIf
+	_GDIPlus_GraphicsDrawImageRect($hBmpCtxt, $hImage, 0, 0, $iWidth, $iHeight)
+	If @error Then
+		_GDIPlus_GraphicsDispose($hBmpCtxt)
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(6, 0, 0)
+	EndIf
+	_GDIPlus_GraphicsDispose($hBmpCtxt)
+	Return $hBitmap
+EndFunc   ;==>_GDIPlus_ImageScale
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: UEZ
+; Modified ......:
+; ===============================================================================================================================
+Func _GDIPlus_ImageResize($hImage, $iNewWidth, $iNewHeight, $iInterpolationMode = $GDIP_INTERPOLATIONMODE_HIGHQUALITYBICUBIC)
+	If _GDIPlus_ImageGetWidth($hImage) = $iNewWidth And _GDIPlus_ImageGetHeight($hImage) = $iNewHeight Then Return $hImage
+	Local $hBitmap = _GDIPlus_BitmapCreateFromScan0($iNewWidth, $iNewHeight)
+	If @error Then Return SetError(1, 0, 0)
+	Local $hBmpCtxt = _GDIPlus_ImageGetGraphicsContext($hBitmap)
+	If @error Then
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(2, @extended, 0)
+	EndIf
+	_GDIPlus_GraphicsSetInterpolationMode($hBmpCtxt, $iInterpolationMode)
+	If @error Then
+		_GDIPlus_GraphicsDispose($hBmpCtxt)
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(3, @extended, 0)
+	EndIf
+	_GDIPlus_GraphicsDrawImageRect($hBmpCtxt, $hImage, 0, 0, $iNewWidth, $iNewHeight)
+	If @error Then
+		_GDIPlus_GraphicsDispose($hBmpCtxt)
+		_GDIPlus_BitmapDispose($hBitmap)
+		Return SetError(4, @extended, 0)
+	EndIf
+	_GDIPlus_GraphicsDispose($hBmpCtxt)
+	Return $hBitmap
+EndFunc   ;==>_GDIPlus_ImageResize
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2241,8 +2653,30 @@ Func _GDIPlus_LineBrushCreate($nX1, $nY1, $nX2, $nY2, $iARGBClr1, $iARGBClr2, $i
 	DllStructSetData($tPointF2, 2, $nY2)
 	$aResult = DllCall($ghGDIPDll, "int", "GdipCreateLineBrush", "struct*", $tPointF1, "struct*", $tPointF2, "uint", $iARGBClr1, "uint", $iARGBClr2, "int", $iWrapMode, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[6])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[6]
 EndFunc   ;==>_GDIPlus_LineBrushCreate
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushCreateFromRect($tRectF, $iARGBClr1, $iARGBClr2, $iGradientMode = 0, $iWrapMode = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateLineBrushFromRect", "struct*", $tRectF, "uint", $iARGBClr1, "uint", $iARGBClr2, "int", $iGradientMode, "int", $iWrapMode, "handle*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aResult[6])
+EndFunc   ;==>_GDIPlus_LineBrushCreateFromRect
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushCreateFromRectWithAngle($tRectF, $iARGBClr1, $iARGBClr2, $fAngle, $bIsAngleScalable = True, $iWrapMode = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateLineBrushFromRectWithAngle", "struct*", $tRectF, "uint", $iARGBClr1, "uint", $iARGBClr2, "float", $fAngle, "int", $bIsAngleScalable, "int", $iWrapMode, "handle*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aResult[7])
+EndFunc   ;==>_GDIPlus_LineBrushCreateFromRectWithAngle
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2252,11 +2686,53 @@ Func _GDIPlus_LineBrushGetColors($hLineGradientBrush)
 	Local $tARGBs, $aARGBs[2], $aResult
 	$tARGBs = DllStructCreate("uint;uint")
 	$aResult = DllCall($ghGDIPDll, "uint", "GdipGetLineColors", "handle", $hLineGradientBrush, "struct*", $tARGBs)
-	If @error Or $aResult[0] Then Return SetError(@error, @extended, -1)
+	If @error Then Return SetError(@error, @extended, -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	$aARGBs[0] = DllStructGetData($tARGBs, 1)
 	$aARGBs[1] = DllStructGetData($tARGBs, 2)
 	Return $aARGBs
 EndFunc   ;==>_GDIPlus_LineBrushGetColors
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushGetRect($hLineGradientBrush)
+	Local $tRectF = DllStructCreate($tagGDIPRECTF)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetLineRect", "handle", $hLineGradientBrush, "struct*", $tRectF)
+	If @error Then Return SetError(@error, @extended, -1)
+	If $aResult[0] Then Return SetExtended($aResult[0], -1)
+	Local $aRectF[4]
+	For $iI = 1 To 4
+		$aRectF[$iI - 1] = DllStructGetData($tRectF, $iI)
+	Next
+	Return $aRectF
+EndFunc   ;==>_GDIPlus_LineBrushGetRect
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushMultiplyTransform($hLineGradientBrush, $hMatrix, $iOrder = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipMultiplyLineTransform", "handle", $hLineGradientBrush, "handle", $hMatrix, "int", $iOrder)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_LineBrushMultiplyTransform
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushResetTransform($hLineGradientBrush)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipResetLineTransform", "handle", $hLineGradientBrush)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_LineBrushResetTransform
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2273,7 +2749,9 @@ Func _GDIPlus_LineBrushSetBlend($hLineGradientBrush, $aBlends)
 	Next
 	$aResult = DllCall($ghGDIPDll, "int", "GdipSetLineBlend", "handle", $hLineGradientBrush, "struct*", $tFactors, "struct*", $tPositions, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_LineBrushSetBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2283,7 +2761,9 @@ EndFunc   ;==>_GDIPlus_LineBrushSetBlend
 Func _GDIPlus_LineBrushSetColors($hLineGradientBrush, $iARGBStart, $iARGBEnd)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetLineColors", "handle", $hLineGradientBrush, "uint", $iARGBStart, "uint", $iARGBEnd)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_LineBrushSetColors
 
 ; #FUNCTION# ====================================================================================================================
@@ -2293,8 +2773,22 @@ EndFunc   ;==>_GDIPlus_LineBrushSetColors
 Func _GDIPlus_LineBrushSetGammaCorrection($hLineGradientBrush, $fUseGammaCorrection = True)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetLineGammaCorrection", "handle", $hLineGradientBrush, "int", $fUseGammaCorrection)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_LineBrushSetGammaCorrection
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushSetLinearBlend($hLineGradientBrush, $fFocus, $fScale = 1)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetLineLinearBlend", "handle", $hLineGradientBrush, "float", $fFocus, "float", $fScale)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_LineBrushSetLinearBlend
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2311,7 +2805,9 @@ Func _GDIPlus_LineBrushSetPresetBlend($hLineGradientBrush, $aInterpolations)
 	Next
 	$aResult = DllCall($ghGDIPDll, "int", "GdipSetLinePresetBlend", "handle", $hLineGradientBrush, "struct*", $tColors, "struct*", $tPositions, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_LineBrushSetPresetBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2321,8 +2817,22 @@ EndFunc   ;==>_GDIPlus_LineBrushSetPresetBlend
 Func _GDIPlus_LineBrushSetSigmaBlend($hLineGradientBrush, $fFocus, $fScale = 1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetLineSigmaBlend", "handle", $hLineGradientBrush, "float", $fFocus, "float", $fScale)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_LineBrushSetSigmaBlend
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_LineBrushSetTransform($hLineGradientBrush, $hMatrix)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetLineTransform", "handle", $hLineGradientBrush, "handle", $hMatrix)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_LineBrushSetTransform
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -2331,8 +2841,20 @@ EndFunc   ;==>_GDIPlus_LineBrushSetSigmaBlend
 Func _GDIPlus_MatrixCreate()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateMatrix", "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[1])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[1]
 EndFunc   ;==>_GDIPlus_MatrixCreate
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_MatrixClone($hMatrix)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneMatrix", "handle", $hMatrix, "int*", 0)
+	If @error Then Return SetError(@error, @extended, 0)
+	Return SetExtended($aResult[0], $aResult[2])
+EndFunc   ;==>_GDIPlus_MatrixClone
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -2341,7 +2863,9 @@ EndFunc   ;==>_GDIPlus_MatrixCreate
 Func _GDIPlus_MatrixDispose($hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteMatrix", "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -2352,7 +2876,7 @@ Func _GDIPlus_MatrixGetElements($hMatrix)
 	Local $tElements = DllStructCreate("float[6]")
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetMatrixElements", "handle", $hMatrix, "struct*", $tElements)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
 
 	Local $aElements[6]
 	For $iI = 1 To 6
@@ -2368,8 +2892,22 @@ EndFunc   ;==>_GDIPlus_MatrixGetElements
 Func _GDIPlus_MatrixInvert($hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipInvertMatrix", "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixInvert
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_MatrixMultiply($hMatrix1, $hMatrix2, $iOrder = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipMultiplyMatrix", "handle", $hMatrix1, "handle", $hMatrix2, "int", $iOrder)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_MatrixMultiply
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -2378,7 +2916,9 @@ EndFunc   ;==>_GDIPlus_MatrixInvert
 Func _GDIPlus_MatrixRotate($hMatrix, $fAngle, $bAppend = False)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipRotateMatrix", "handle", $hMatrix, "float", $fAngle, "int", $bAppend)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixRotate
 
 ; #FUNCTION# ====================================================================================================================
@@ -2388,7 +2928,9 @@ EndFunc   ;==>_GDIPlus_MatrixRotate
 Func _GDIPlus_MatrixScale($hMatrix, $fScaleX, $fScaleY, $bOrder = False)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipScaleMatrix", "handle", $hMatrix, "float", $fScaleX, "float", $fScaleY, "int", $bOrder)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixScale
 
 ; #FUNCTION# ====================================================================================================================
@@ -2399,8 +2941,22 @@ Func _GDIPlus_MatrixSetElements($hMatrix, $nM11 = 1, $nM12 = 0, $nM21 = 0, $nM22
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetMatrixElements", "handle", $hMatrix, "float", $nM11, "float", $nM12, _
 			"float", $nM21, "float", $nM22, "float", $nDX, "float", $nDY)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixSetElements
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_MatrixShear($hMatrix, $fShearX, $fShearY, $iOrder = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipShearMatrix", "handle", $hMatrix, "float", $fShearX, "float", $fShearY, "int", $iOrder)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_MatrixShear
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2416,13 +2972,15 @@ Func _GDIPlus_MatrixTransformPoints($hMatrix, ByRef $aPoints)
 
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTransformMatrixPoints", "handle", $hMatrix, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
 
 	For $iI = 1 To $iCount
 		$aPoints[$iI][0] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 1)
 		$aPoints[$iI][1] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 2)
 	Next
 
-	Return $aResult[0] = 0
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixTransformPoints
 
 ; #FUNCTION# ====================================================================================================================
@@ -2432,7 +2990,9 @@ EndFunc   ;==>_GDIPlus_MatrixTransformPoints
 Func _GDIPlus_MatrixTranslate($hMatrix, $fOffsetX, $fOffsetY, $bAppend = False)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTranslateMatrix", "handle", $hMatrix, "float", $fOffsetX, "float", $fOffsetY, "int", $bAppend)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_MatrixTranslate
 
 ; #FUNCTION# ====================================================================================================================
@@ -2465,8 +3025,22 @@ Func _GDIPlus_PathAddArc($hPath, $fX, $fY, $fWidth, $fHeight, $fStartAngle, $fSw
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathArc", "handle", $hPath, "float", $fX, "float", $fY, _
 			"float", $fWidth, "float", $fHeight, "float", $fStartAngle, "float", $fSweepAngle)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddArc
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PathAddBezier($hPath, $fX1, $fY1, $fX2, $fY2, $fX3, $fY3, $fX4, $fY4)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathBezier", "handle", $hPath, "float", $fX1, "float", $fY1, "float", $fX2, "float", $fY2, "float", $fX3, "float", $fY3, "float", $fX4, "float", $fY4)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_PathAddBezier
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2481,7 +3055,9 @@ Func _GDIPlus_PathAddClosedCurve($hPath, $aPoints)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathClosedCurve", "handle", $hPath, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddClosedCurve
 
 ; #FUNCTION# ====================================================================================================================
@@ -2497,7 +3073,9 @@ Func _GDIPlus_PathAddClosedCurve2($hPath, $aPoints, $fTension = 0.5)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathClosedCurve2", "handle", $hPath, "struct*", $tPoints, "int", $iCount, "float", $fTension)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddClosedCurve2
 
 ; #FUNCTION# ====================================================================================================================
@@ -2513,7 +3091,9 @@ Func _GDIPlus_PathAddCurve($hPath, $aPoints)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathCurve", "handle", $hPath, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddCurve
 
 ; #FUNCTION# ====================================================================================================================
@@ -2529,7 +3109,9 @@ Func _GDIPlus_PathAddCurve2($hPath, $aPoints, $fTension = 0.5)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathCurve2", "handle", $hPath, "struct*", $tPoints, "int", $iCount, "float", $fTension)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddCurve2
 
 ; #FUNCTION# ====================================================================================================================
@@ -2545,7 +3127,9 @@ Func _GDIPlus_PathAddCurve3($hPath, $aPoints, $iOffset, $iNumOfSegments, $fTensi
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathCurve3", "handle", $hPath, "struct*", $tPoints, "int", $iCount, "int", $iOffset, "int", $iNumOfSegments, "float", $fTension)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddCurve3
 
 ; #FUNCTION# ====================================================================================================================
@@ -2555,7 +3139,9 @@ EndFunc   ;==>_GDIPlus_PathAddCurve3
 Func _GDIPlus_PathAddEllipse($hPath, $fX, $fY, $fWidth, $fHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathEllipse", "handle", $hPath, "float", $fX, "float", $fY, "float", $fWidth, "float", $fHeight)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddEllipse
 
 ; #FUNCTION# ====================================================================================================================
@@ -2565,7 +3151,9 @@ EndFunc   ;==>_GDIPlus_PathAddEllipse
 Func _GDIPlus_PathAddLine($hPath, $fX1, $fY1, $fX2, $fY2)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathLine", "handle", $hPath, "float", $fX1, "float", $fY1, "float", $fX2, "float", $fY2)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddLine
 
 ; #FUNCTION# ====================================================================================================================
@@ -2575,7 +3163,9 @@ EndFunc   ;==>_GDIPlus_PathAddLine
 Func _GDIPlus_PathAddPath($hPath1, $hPath2, $bConnect = True)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathPath", "handle", $hPath1, "handle", $hPath2, "int", $bConnect)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -2586,7 +3176,9 @@ Func _GDIPlus_PathAddPie($hPath, $fX, $fY, $fWidth, $fHeight, $fStartAngle, $fSw
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathPie", "handle", $hPath, "float", $fX, "float", $fY, _
 			"float", $fWidth, "float", $fHeight, "float", $fStartAngle, "float", $fSweepAngle)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddPie
 
 ; #FUNCTION# ====================================================================================================================
@@ -2602,7 +3194,9 @@ Func _GDIPlus_PathAddPolygon($hPath, $aPoints)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathPolygon", "handle", $hPath, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddPolygon
 
 ; #FUNCTION# ====================================================================================================================
@@ -2612,7 +3206,9 @@ EndFunc   ;==>_GDIPlus_PathAddPolygon
 Func _GDIPlus_PathAddRectangle($hPath, $fX, $fY, $fWidth, $fHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathRectangle", "handle", $hPath, "float", $fX, "float", $fY, "float", $fWidth, "float", $fHeight)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddRectangle
 
 ; #FUNCTION# ====================================================================================================================
@@ -2623,7 +3219,9 @@ Func _GDIPlus_PathAddString($hPath, $sString, $tLayout, $hFamily, $iStyle = 0, $
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipAddPathString", "handle", $hPath, "wstr", $sString, "int", -1, _
 			"handle", $hFamily, "int", $iStyle, "float", $fSize, "struct*", $tLayout, "handle", $hFormat)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathAddString
 
 ; #FUNCTION# ====================================================================================================================
@@ -2639,7 +3237,9 @@ Func _GDIPlus_PathBrushCreate($aPoints, $iWrapMode = 0)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePathGradient", "struct*", $tPoints, "int", $iCount, "int", $iWrapMode, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_PathBrushCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -2649,7 +3249,9 @@ EndFunc   ;==>_GDIPlus_PathBrushCreate
 Func _GDIPlus_PathBrushCreateFromPath($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePathGradientFromPath", "handle", $hPath, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathBrushCreateFromPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -2660,7 +3262,7 @@ Func _GDIPlus_PathBrushGetCenterPoint($hPathGradientBrush)
 	Local $tPointF = DllStructCreate("float;float")
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathGradientCenterPoint", "handle", $hPathGradientBrush, "struct*", $tPointF)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
 	Local $aPointF[2]
 	$aPointF[0] = DllStructGetData($tPointF, 1)
 	$aPointF[1] = DllStructGetData($tPointF, 2)
@@ -2674,7 +3276,7 @@ EndFunc   ;==>_GDIPlus_PathBrushGetCenterPoint
 Func _GDIPlus_PathBrushGetFocusScales($hPathGradientBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathGradientFocusScales", "handle", $hPathGradientBrush, "float*", 0, "float*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
 
 	Local $aScales[2]
 	$aScales[0] = $aResult[2]
@@ -2689,8 +3291,9 @@ EndFunc   ;==>_GDIPlus_PathBrushGetFocusScales
 Func _GDIPlus_PathBrushGetPointCount($hPathGradientBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathGradientPointCount", "handle", $hPathGradientBrush, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathBrushGetPointCount
 
 ; #FUNCTION# ====================================================================================================================
@@ -2701,7 +3304,7 @@ Func _GDIPlus_PathBrushGetRect($hPathGradientBrush)
 	Local $tRectF = DllStructCreate($tagGDIPRECTF)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathGradientRect", "handle", $hPathGradientBrush, "struct*", $tRectF)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
 
 	Local $aRectF[4]
 	For $iI = 1 To 4
@@ -2717,9 +3320,22 @@ EndFunc   ;==>_GDIPlus_PathBrushGetRect
 Func _GDIPlus_PathBrushGetWrapMode($hPathGradientBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathGradientWrapMode", "handle", $hPathGradientBrush, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathBrushGetWrapMode
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PathBrushMultiplyTransform($hPathGradientBrush, $hMatrix, $iOrder = 0)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipMultiplyPathGradientTransform", "handle", $hPathGradientBrush, "handle", $hMatrix, "int", $iOrder)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_PathBrushMultiplyTransform
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2728,7 +3344,9 @@ EndFunc   ;==>_GDIPlus_PathBrushGetWrapMode
 Func _GDIPlus_PathBrushResetTransform($hPathGradientBrush)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipResetPathGradientTransform", "handle", $hPathGradientBrush)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushResetTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -2745,7 +3363,9 @@ Func _GDIPlus_PathBrushSetBlend($hPathGradientBrush, $aBlends)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientBlend", "handle", $hPathGradientBrush, "struct*", $tFactors, "struct*", $tPositions, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2755,7 +3375,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetBlend
 Func _GDIPlus_PathBrushSetCenterColor($hPathGradientBrush, $iARGB)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientCenterColor", "handle", $hPathGradientBrush, "uint", $iARGB)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetCenterColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -2768,7 +3390,9 @@ Func _GDIPlus_PathBrushSetCenterPoint($hPathGradientBrush, $fX, $fY)
 	DllStructSetData($tPointF, 2, $fY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientCenterPoint", "handle", $hPathGradientBrush, "struct*", $tPointF)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetCenterPoint
 
 ; #FUNCTION# ====================================================================================================================
@@ -2778,7 +3402,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetCenterPoint
 Func _GDIPlus_PathBrushSetFocusScales($hPathGradientBrush, $fScaleX, $fScaleY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientFocusScales", "handle", $hPathGradientBrush, "float", $fScaleX, "float", $fScaleY)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetFocusScales
 
 ; #FUNCTION# ====================================================================================================================
@@ -2788,7 +3414,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetFocusScales
 Func _GDIPlus_PathBrushSetGammaCorrection($hPathGradientBrush, $bUseGammaCorrection)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientGammaCorrection", "handle", $hPathGradientBrush, "int", $bUseGammaCorrection)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetGammaCorrection
 
 ; #FUNCTION# ====================================================================================================================
@@ -2798,7 +3426,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetGammaCorrection
 Func _GDIPlus_PathBrushSetLinearBlend($hPathGradientBrush, $fFocus, $fScale = 1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientLinearBlend", "handle", $hPathGradientBrush, "float", $fFocus, "float", $fScale)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetLinearBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2815,7 +3445,9 @@ Func _GDIPlus_PathBrushSetPresetBlend($hPathGradientBrush, $aInterpolations)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientPresetBlend", "handle", $hPathGradientBrush, "struct*", $tColors, "struct*", $tPositions, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetPresetBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2825,7 +3457,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetPresetBlend
 Func _GDIPlus_PathBrushSetSigmaBlend($hPathGradientBrush, $fFocus, $fScale = 1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientSigmaBlend", "handle", $hPathGradientBrush, "float", $fFocus, "float", $fScale)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetSigmaBlend
 
 ; #FUNCTION# ====================================================================================================================
@@ -2835,7 +3469,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetSigmaBlend
 Func _GDIPlus_PathBrushSetSurroundColor($hPathGradientBrush, $iARGB)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientSurroundColorsWithCount", "handle", $hPathGradientBrush, "uint*", $iARGB, "int*", 1)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetSurroundColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -2851,8 +3487,10 @@ Func _GDIPlus_PathBrushSetSurroundColorsWithCount($hPathGradientBrush, $aColors)
 		DllStructSetData($tColors, 1, $aColors[$iI], $iI)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientSurroundColorsWithCount", "handle", $hPathGradientBrush, "struct*", $tColors, "int*", $iCount)
-	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], $aResult[3])
+	If @error Then Return SetError(@error, @extended, 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_PathBrushSetSurroundColorsWithCount
 
 ; #FUNCTION# ====================================================================================================================
@@ -2862,7 +3500,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetSurroundColorsWithCount
 Func _GDIPlus_PathBrushSetTransform($hPathGradientBrush, $hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientTransform", "handle", $hPathGradientBrush, "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -2872,7 +3512,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetTransform
 Func _GDIPlus_PathBrushSetWrapMode($hPathGradientBrush, $iWrapMode)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathGradientWrapMode", "handle", $hPathGradientBrush, "int", $iWrapMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathBrushSetWrapMode
 
 ; #FUNCTION# ====================================================================================================================
@@ -2882,7 +3524,9 @@ EndFunc   ;==>_GDIPlus_PathBrushSetWrapMode
 Func _GDIPlus_PathClone($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipClonePath", "handle", $hPath, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathClone
 
 ; #FUNCTION# ====================================================================================================================
@@ -2892,7 +3536,9 @@ EndFunc   ;==>_GDIPlus_PathClone
 Func _GDIPlus_PathCloseFigure($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipClosePathFigure", "handle", $hPath)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathCloseFigure
 
 ; #FUNCTION# ====================================================================================================================
@@ -2902,7 +3548,9 @@ EndFunc   ;==>_GDIPlus_PathCloseFigure
 Func _GDIPlus_PathCreate($iFillMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePath", "int", $iFillMode, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -2920,7 +3568,9 @@ Func _GDIPlus_PathCreate2($aPathData, $iFillMode = 0)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePath2", "struct*", $tPoints, "struct*", $tTypes, "int", $iCount, "int", $iFillMode, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[5])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[5]
 EndFunc   ;==>_GDIPlus_PathCreate2
 
 ; #FUNCTION# ====================================================================================================================
@@ -2930,7 +3580,9 @@ EndFunc   ;==>_GDIPlus_PathCreate2
 Func _GDIPlus_PathDispose($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeletePath", "handle", $hPath)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -2940,7 +3592,9 @@ EndFunc   ;==>_GDIPlus_PathDispose
 Func _GDIPlus_PathFlatten($hPath, $fFlatness = 0.25, $hMatrix = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipFlattenPath", "handle", $hPath, "handle", $hMatrix, "float", $fFlatness)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathFlatten
 
 ; #FUNCTION# ====================================================================================================================
@@ -2977,8 +3631,25 @@ EndFunc   ;==>_GDIPlus_PathGetData
 Func _GDIPlus_PathGetFillMode($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathFillMode", "handle", $hPath, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathGetFillMode
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PathGetLastPoint($hPath)
+	Local $tPointF = DllStructCreate("float;float")
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathLastPoint", "handle", $hPath, "struct*", $tPointF)
+	If @error Then Return SetError(@error, @extended, -1)
+	If $aResult[0] Then Return SetExtended($aResult[0], -1)
+	Local $aPointF[2]
+	$aPointF[0] = DllStructGetData($tPointF, 1)
+	$aPointF[1] = DllStructGetData($tPointF, 2)
+	Return $aPointF
+EndFunc   ;==>_GDIPlus_PathGetLastPoint
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -2987,7 +3658,9 @@ EndFunc   ;==>_GDIPlus_PathGetFillMode
 Func _GDIPlus_PathGetPointCount($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPointCount", "handle", $hPath, "int*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathGetPointCount
 
 ; #FUNCTION# ====================================================================================================================
@@ -3002,7 +3675,8 @@ Func _GDIPlus_PathGetPoints($hPath)
 	$tPoints = DllStructCreate("float[" & $iCount * 2 & "]")
 	$aResult = DllCall($ghGDIPDll, "int", "GdipGetPathPoints", "handle", $hPath, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Local $aPoints[$iCount + 1][2]
 	$aPoints[0][0] = $iCount
 	For $iI = 1 To $iCount
@@ -3020,7 +3694,8 @@ Func _GDIPlus_PathGetWorldBounds($hPath, $hMatrix = 0, $hPen = 0)
 	Local $tRectF = DllStructCreate($tagGDIPRECTF)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPathWorldBounds", "handle", $hPath, "struct*", $tRectF, "handle", $hMatrix, "handle", $hPen)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Local $aRectF[4]
 	For $iI = 1 To 4
 		$aRectF[$iI - 1] = DllStructGetData($tRectF, $iI)
@@ -3038,7 +3713,8 @@ Func _GDIPlus_PathIsOutlineVisiblePoint($hPath, $fX, $fY, $hPen = 0, $hGraphics 
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[6] <> 0
 EndFunc   ;==>_GDIPlus_PathIsOutlineVisiblePoint
 
@@ -3049,7 +3725,8 @@ EndFunc   ;==>_GDIPlus_PathIsOutlineVisiblePoint
 Func _GDIPlus_PathIsVisiblePoint($hPath, $fX, $fY, $hGraphics = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipIsVisiblePathPoint", "handle", $hPath, "float", $fX, "float", $fY, "handle", $hGraphics, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[5] <> 0
 EndFunc   ;==>_GDIPlus_PathIsVisiblePoint
 
@@ -3060,7 +3737,9 @@ EndFunc   ;==>_GDIPlus_PathIsVisiblePoint
 Func _GDIPlus_PathIterCreate($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePathIter", "handle*", 0, "handle", $hPath)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[1])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[1]
 EndFunc   ;==>_GDIPlus_PathIterCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3070,7 +3749,9 @@ EndFunc   ;==>_GDIPlus_PathIterCreate
 Func _GDIPlus_PathIterDispose($hPathIter)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeletePathIter", "handle", $hPathIter)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathIterDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -3080,9 +3761,21 @@ EndFunc   ;==>_GDIPlus_PathIterDispose
 Func _GDIPlus_PathIterGetSubpathCount($hPathIter)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipPathIterGetSubpathCount", "handle", $hPathIter, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PathIterGetSubpathCount
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PathIterNextMarkerPath($hPathIter, $hPath)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipPathIterNextMarkerPath", "handle", $hPathIter, "int*", 0, "handle", $hPath)
+	If @error Then Return SetError(@error, @extended, -1)
+	If $aResult[0] Then Return SetExtended($aResult[0], -1)
+	Return $aResult[2]
+EndFunc   ;==>_GDIPlus_PathIterNextMarkerPath
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -3091,7 +3784,7 @@ EndFunc   ;==>_GDIPlus_PathIterGetSubpathCount
 Func _GDIPlus_PathIterNextSubpathPath($hPathIter, $hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipPathIterNextSubpathPath", "handle", $hPathIter, "int*", 0, "handle", $hPath, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
 
 	Local $aReturn[2]
 	$aReturn[0] = $aResult[2]
@@ -3106,7 +3799,9 @@ EndFunc   ;==>_GDIPlus_PathIterNextSubpathPath
 Func _GDIPlus_PathIterRewind($hPathIter)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipPathIterRewind", "handle", $hPathIter)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathIterRewind
 
 ; #FUNCTION# ====================================================================================================================
@@ -3116,7 +3811,9 @@ EndFunc   ;==>_GDIPlus_PathIterRewind
 Func _GDIPlus_PathReset($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipResetPath", "handle", $hPath)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathReset
 
 ; #FUNCTION# ====================================================================================================================
@@ -3126,7 +3823,9 @@ EndFunc   ;==>_GDIPlus_PathReset
 Func _GDIPlus_PathReverse($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipReversePath", "handle", $hPath)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathReverse
 
 ; #FUNCTION# ====================================================================================================================
@@ -3136,8 +3835,45 @@ EndFunc   ;==>_GDIPlus_PathReverse
 Func _GDIPlus_PathSetFillMode($hPath, $iFillMode)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathFillMode", "handle", $hPath, "int", $iFillMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathSetFillMode
+
+; #FUNCTION# ====================================================================================================================
+; Name...........: _GDIPlus_PathSetMarker
+; Description ...: Designates the last point in a path as a marker point
+; Syntax.........: _GDIPlus_PathSetMarker($hPath)
+; Parameters ....: $hPath       - Pointer to a GraphicsPath object
+; Return values .: Success      - True
+;                  Failure      - False
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; Remarks .......: A path can have markers that divide the path into sections. You can use a GraphicsPathIterator object to
+;                  +isolate one or more of those sections
+; Related .......: _GDIPlus_PathIterNextMarkerPath
+; Link ..........; @@MsdnLink@@ GdipSetPathMarker
+; Example .......; No
+; ===============================================================================================================================
+Func _GDIPlus_PathSetMarker($hPath)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPathMarker", "handle", $hPath)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_PathSetMarker
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PathStartFigure($hPath)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipStartPathFigure", "handle", $hPath)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_PathStartFigure
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -3146,7 +3882,9 @@ EndFunc   ;==>_GDIPlus_PathSetFillMode
 Func _GDIPlus_PathTransform($hPath, $hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTransformPath", "handle", $hPath, "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -3155,7 +3893,7 @@ EndFunc   ;==>_GDIPlus_PathTransform
 ; ===============================================================================================================================
 Func _GDIPlus_PathWarp($hPath, $hMatrix, $aPoints, $fX, $fY, $fWidth, $fHeight, $iWarpMode = 0, $fFlatness = 0.25)
 	Local $iCount = $aPoints[0][0]
-	If $iCount <> 3 And $iCount <> 4 Then Return SetError(1, 0, False)
+	If $iCount <> 3 And $iCount <> 4 Then Return SetError(11, 0, False)
 
 	Local $tPoints = DllStructCreate("float[" & $iCount * 2 & "]")
 	For $iI = 1 To $iCount
@@ -3166,7 +3904,9 @@ Func _GDIPlus_PathWarp($hPath, $hMatrix, $aPoints, $fX, $fY, $fWidth, $fHeight, 
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipWarpPath", "handle", $hPath, "handle", $hMatrix, "struct*", $tPoints, "int", $iCount, _
 			"float", $fX, "float", $fY, "float", $fWidth, "float", $fHeight, "int", $iWarpMode, "float", $fFlatness)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathWarp
 
 ; #FUNCTION# ====================================================================================================================
@@ -3179,7 +3919,9 @@ Func _GDIPlus_PathWiden($hPath, $hPen, $hMatrix = 0, $fFlatness = 0.25)
 	Local $tmpError = @error, $tmpExtended = @extended
 	__GDIPlus_PenDefDispose()
 	If $tmpError Then Return SetError($tmpError, $tmpExtended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathWiden
 
 ; #FUNCTION# ====================================================================================================================
@@ -3189,7 +3931,9 @@ EndFunc   ;==>_GDIPlus_PathWiden
 Func _GDIPlus_PathWindingModeOutline($hPath, $hMatrix = 0, $fFlatness = 0.25)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipWindingModeOutline", "handle", $hPath, "handle", $hMatrix, "float", $fFlatness)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PathWindingModeOutline
 
 ; #FUNCTION# ====================================================================================================================
@@ -3199,7 +3943,9 @@ EndFunc   ;==>_GDIPlus_PathWindingModeOutline
 Func _GDIPlus_PenCreate($iARGB = 0xFF000000, $fWidth = 1, $iUnit = 2)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePen1", "dword", $iARGB, "float", $fWidth, "int", $iUnit, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_PenCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3209,7 +3955,9 @@ EndFunc   ;==>_GDIPlus_PenCreate
 Func _GDIPlus_PenCreate2($hBrush, $fWidth = 1, $iUnit = 2)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreatePen2", "handle", $hBrush, "float", $fWidth, "int", $iUnit, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[4])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[4]
 EndFunc   ;==>_GDIPlus_PenCreate2
 
 ; #FUNCTION# ====================================================================================================================
@@ -3219,7 +3967,9 @@ EndFunc   ;==>_GDIPlus_PenCreate2
 Func _GDIPlus_PenDispose($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeletePen", "handle", $hPen)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -3229,7 +3979,9 @@ EndFunc   ;==>_GDIPlus_PenDispose
 Func _GDIPlus_PenGetAlignment($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenMode", "handle", $hPen, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetAlignment
 
 ; #FUNCTION# ====================================================================================================================
@@ -3239,7 +3991,9 @@ EndFunc   ;==>_GDIPlus_PenGetAlignment
 Func _GDIPlus_PenGetColor($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenColor", "handle", $hPen, "dword*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -3249,7 +4003,9 @@ EndFunc   ;==>_GDIPlus_PenGetColor
 Func _GDIPlus_PenGetCustomEndCap($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenCustomEndCap", "handle", $hPen, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetCustomEndCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3259,7 +4015,9 @@ EndFunc   ;==>_GDIPlus_PenGetCustomEndCap
 Func _GDIPlus_PenGetDashCap($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenDashCap197819", "handle", $hPen, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetDashCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3269,7 +4027,9 @@ EndFunc   ;==>_GDIPlus_PenGetDashCap
 Func _GDIPlus_PenGetDashStyle($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenDashStyle", "handle", $hPen, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetDashStyle
 
 ; #FUNCTION# ====================================================================================================================
@@ -3279,7 +4039,9 @@ EndFunc   ;==>_GDIPlus_PenGetDashStyle
 Func _GDIPlus_PenGetEndCap($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenEndCap", "handle", $hPen, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetEndCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3289,7 +4051,9 @@ EndFunc   ;==>_GDIPlus_PenGetEndCap
 Func _GDIPlus_PenGetWidth($hPen)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetPenWidth", "handle", $hPen, "float*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_PenGetWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -3299,7 +4063,9 @@ EndFunc   ;==>_GDIPlus_PenGetWidth
 Func _GDIPlus_PenSetAlignment($hPen, $iAlignment = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenMode", "handle", $hPen, "int", $iAlignment)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetAlignment
 
 ; #FUNCTION# ====================================================================================================================
@@ -3309,7 +4075,9 @@ EndFunc   ;==>_GDIPlus_PenSetAlignment
 Func _GDIPlus_PenSetColor($hPen, $iARGB)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenColor", "handle", $hPen, "dword", $iARGB)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetColor
 
 ; #FUNCTION# ====================================================================================================================
@@ -3319,7 +4087,9 @@ EndFunc   ;==>_GDIPlus_PenSetColor
 Func _GDIPlus_PenSetCustomEndCap($hPen, $hEndCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenCustomEndCap", "handle", $hPen, "handle", $hEndCap)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetCustomEndCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3329,7 +4099,9 @@ EndFunc   ;==>_GDIPlus_PenSetCustomEndCap
 Func _GDIPlus_PenSetDashCap($hPen, $iDash = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenDashCap197819", "handle", $hPen, "int", $iDash)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetDashCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3339,7 +4111,9 @@ EndFunc   ;==>_GDIPlus_PenSetDashCap
 Func _GDIPlus_PenSetDashStyle($hPen, $iStyle = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenDashStyle", "handle", $hPen, "int", $iStyle)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetDashStyle
 
 ; #FUNCTION# ====================================================================================================================
@@ -3349,7 +4123,9 @@ EndFunc   ;==>_GDIPlus_PenSetDashStyle
 Func _GDIPlus_PenSetEndCap($hPen, $iEndCap)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenEndCap", "handle", $hPen, "int", $iEndCap)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetEndCap
 
 ; #FUNCTION# ====================================================================================================================
@@ -3359,8 +4135,22 @@ EndFunc   ;==>_GDIPlus_PenSetEndCap
 Func _GDIPlus_PenSetLineJoin($hPen, $iLineJoin)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenLineJoin", "handle", $hPen, "int", $iLineJoin)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetLineJoin
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_PenSetStartCap($hPen, $iLineCap)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenStartCap", "handle", $hPen, "int", $iLineCap)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_PenSetStartCap
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
@@ -3369,7 +4159,9 @@ EndFunc   ;==>_GDIPlus_PenSetLineJoin
 Func _GDIPlus_PenSetWidth($hPen, $fWidth)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetPenWidth", "handle", $hPen, "float", $fWidth)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_PenSetWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -3392,7 +4184,9 @@ EndFunc   ;==>_GDIPlus_RectFCreate
 Func _GDIPlus_RegionClone($hRegion)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneRegion", "handle", $hRegion, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_RegionClone
 
 ; #FUNCTION# ====================================================================================================================
@@ -3402,7 +4196,9 @@ EndFunc   ;==>_GDIPlus_RegionClone
 Func _GDIPlus_RegionCombinePath($hRegion, $hPath, $iCombineMode = 2)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCombineRegionPath", "handle", $hRegion, "handle", $hPath, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionCombinePath
 
 ; #FUNCTION# ====================================================================================================================
@@ -3413,7 +4209,9 @@ Func _GDIPlus_RegionCombineRect($hRegion, $fX, $fY, $fWidth, $fHeight, $iCombine
 	Local $tRectF = _GDIPlus_RectFCreate($fX, $fY, $fWidth, $fHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCombineRegionRect", "handle", $hRegion, "struct*", $tRectF, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionCombineRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -3423,7 +4221,9 @@ EndFunc   ;==>_GDIPlus_RegionCombineRect
 Func _GDIPlus_RegionCombineRegion($hRegionDst, $hRegionSrc, $iCombineMode = 2)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCombineRegionRegion", "handle", $hRegionDst, "handle", $hRegionSrc, "int", $iCombineMode)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionCombineRegion
 
 ; #FUNCTION# ====================================================================================================================
@@ -3433,7 +4233,9 @@ EndFunc   ;==>_GDIPlus_RegionCombineRegion
 Func _GDIPlus_RegionCreate()
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateRegion", "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[1])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[1]
 EndFunc   ;==>_GDIPlus_RegionCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3443,7 +4245,9 @@ EndFunc   ;==>_GDIPlus_RegionCreate
 Func _GDIPlus_RegionCreateFromPath($hPath)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateRegionPath", "handle", $hPath, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_RegionCreateFromPath
 
 ; #FUNCTION# ====================================================================================================================
@@ -3454,7 +4258,9 @@ Func _GDIPlus_RegionCreateFromRect($fX, $fY, $fWidth, $fHeight)
 	Local $tRectF = _GDIPlus_RectFCreate($fX, $fY, $fWidth, $fHeight)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateRegionRect", "struct*", $tRectF, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[2])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_RegionCreateFromRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -3464,7 +4270,9 @@ EndFunc   ;==>_GDIPlus_RegionCreateFromRect
 Func _GDIPlus_RegionDispose($hRegion)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteRegion", "handle", $hRegion)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -3475,7 +4283,8 @@ Func _GDIPlus_RegionGetBounds($hRegion, $hGraphics)
 	Local $tRectF = DllStructCreate($tagGDIPRECTF)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetRegionBounds", "handle", $hRegion, "handle", $hGraphics, "struct*", $tRectF)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Local $aBounds[4]
 	For $iI = 1 To 4
 		$aBounds[$iI - 1] = DllStructGetData($tRectF, $iI)
@@ -3490,7 +4299,9 @@ EndFunc   ;==>_GDIPlus_RegionGetBounds
 Func _GDIPlus_RegionGetHRgn($hRegion, $hGraphics = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetRegionHRgn", "handle", $hRegion, "handle", $hGraphics, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_RegionGetHRgn
 
 ; #FUNCTION# ====================================================================================================================
@@ -3500,7 +4311,9 @@ EndFunc   ;==>_GDIPlus_RegionGetHRgn
 Func _GDIPlus_RegionTransform($hRegion, $hMatrix)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTransformRegion", "handle", $hRegion, "handle", $hMatrix)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionTransform
 
 ; #FUNCTION# ====================================================================================================================
@@ -3510,7 +4323,9 @@ EndFunc   ;==>_GDIPlus_RegionTransform
 Func _GDIPlus_RegionTranslate($hRegion, $fDX, $fDY)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTranslateRegion", "handle", $hRegion, "float", $fDX, "float", $fDY)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_RegionTranslate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3547,8 +4362,10 @@ Func _GDIPlus_Startup()
 	DllStructSetData($tInput, "Version", 1)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdiplusStartup", "struct*", $tToken, "struct*", $tInput, "ptr", 0)
 	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
 	$giGDIPToken = DllStructGetData($tToken, "Data")
-	Return $aResult[0] = 0
+	Return True
 EndFunc   ;==>_GDIPlus_Startup
 
 ; #FUNCTION# ====================================================================================================================
@@ -3558,7 +4375,9 @@ EndFunc   ;==>_GDIPlus_Startup
 Func _GDIPlus_StringFormatCreate($iFormat = 0, $iLangID = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateStringFormat", "int", $iFormat, "word", $iLangID, "ptr*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_StringFormatCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3568,7 +4387,9 @@ EndFunc   ;==>_GDIPlus_StringFormatCreate
 Func _GDIPlus_StringFormatDispose($hFormat)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipDeleteStringFormat", "handle", $hFormat)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_StringFormatDispose
 
 ; #FUNCTION# ====================================================================================================================
@@ -3578,7 +4399,8 @@ EndFunc   ;==>_GDIPlus_StringFormatDispose
 Func _GDIPlus_StringFormatGetMeasurableCharacterRangeCount($hStringFormat)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipGetStringFormatMeasurableCharacterRangeCount", "handle", $hStringFormat, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	If $aResult[0] Then Return SetError($aResult[0], $aResult[0], -1)
+	If $aResult[0] Then Return SetError(10, $aResult[0], -1)
+
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_StringFormatGetMeasurableCharacterRangeCount
 
@@ -3589,8 +4411,22 @@ EndFunc   ;==>_GDIPlus_StringFormatGetMeasurableCharacterRangeCount
 Func _GDIPlus_StringFormatSetAlign($hStringFormat, $iFlag)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetStringFormatAlign", "handle", $hStringFormat, "int", $iFlag)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return $aResult[0] = 0
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_StringFormatSetAlign
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Authenticity
+; Modified.......: Eukalyptus
+; ===============================================================================================================================
+Func _GDIPlus_StringFormatSetLineAlign($hStringFormat, $iStringAlign)
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetStringFormatLineAlign", "handle", $hStringFormat, "int", $iStringAlign)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
+EndFunc   ;==>_GDIPlus_StringFormatSetLineAlign
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Authenticity
@@ -3605,7 +4441,9 @@ Func _GDIPlus_StringFormatSetMeasurableCharacterRanges($hStringFormat, $aRanges)
 	Next
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipSetStringFormatMeasurableCharacterRanges", "handle", $hStringFormat, "int", $iCount, "struct*", $tCharacterRanges)
 	If @error Then Return SetError(@error, @extended, False)
-	Return SetExtended($aResult[0], $aResult[0] = 0)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
+	Return True
 EndFunc   ;==>_GDIPlus_StringFormatSetMeasurableCharacterRanges
 
 ; #FUNCTION# ====================================================================================================================
@@ -3615,7 +4453,9 @@ EndFunc   ;==>_GDIPlus_StringFormatSetMeasurableCharacterRanges
 Func _GDIPlus_TextureCreate($hImage, $iWrapMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateTexture", "handle", $hImage, "int", $iWrapMode, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[3])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[3]
 EndFunc   ;==>_GDIPlus_TextureCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -3625,7 +4465,9 @@ EndFunc   ;==>_GDIPlus_TextureCreate
 Func _GDIPlus_TextureCreate2($hImage, $fX, $fY, $fWidth, $fHeight, $iWrapMode = 0)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCreateTexture2", "handle", $hImage, "int", $iWrapMode, "float", $fX, "float", $fY, "float", $fWidth, "float", $fHeight, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	Return SetExtended($aResult[0], $aResult[7])
+	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
+
+	Return $aResult[7]
 EndFunc   ;==>_GDIPlus_TextureCreate2
 
 ; #FUNCTION# ====================================================================================================================
@@ -3639,13 +4481,13 @@ Func _GDIPlus11_Startup()
 	$sGDIPDLL = @ScriptDir & "\gdiplus.dll"
 	If FileExists($sGDIPDLL) And @OSBuild < 6000 Then
 		$sVer = FileGetVersion($sGDIPDLL)
-		If $sVer < "6.0" Then Return SetError(10, 0, 0) ;For XP you need a GDIPlus.dll v1.1 in the script directory, refer to: http://www.winsxs.org/?OtherTech/thread-13-1-1
+		If $sVer < "6.0" Then Return SetError(14, 0, False) ;For XP you need a GDIPlus.dll v1.1 in the script directory, refer to: http://www.winsxs.org/?OtherTech/thread-13-1-1
 	Else
 		Switch @OSBuild
 			Case 0 To 2599
-				Return SetError(1, 0, 0)
+				Return SetError(11, 0, False)
 			Case 2600 To 4999
-				Return SetError(2, 0, 0)
+				Return SetError(12, 0, False)
 			Case 5000 To 7599
 				$sGDIPDLL = @WindowsDir & "\winsxs\x86_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.6000.16386_none_8df21b8362744ace\gdiplus.dll"
 			Case Else
@@ -3653,14 +4495,16 @@ Func _GDIPlus11_Startup()
 		EndSwitch
 	EndIf
 	$ghGDIPDll = DllOpen($sGDIPDLL)
-	If @error Then Return SetError(3, 0, 0)
+	If @error Then Return SetError(13, 0, False)
 	$tInput = DllStructCreate($tagGDIPSTARTUPINPUT)
 	$tToken = DllStructCreate("int Data")
 	DllStructSetData($tInput, "Version", 1)
 	$aResult = DllCall($ghGDIPDll, "int", "GdiplusStartup", "struct*", $tToken, "struct*", $tInput, "ptr", 0)
-	If @error Then Return SetError(4, @extended, 0)
+	If @error Then Return SetError(@error, @extended, False)
+	If $aResult[0] Then Return SetError(10, $aResult[0], False)
+
 	$giGDIPToken = DllStructGetData($tToken, "Data")
-	Return $aResult[0] = 0
+	Return True
 EndFunc   ;==>_GDIPlus11_Startup
 
 

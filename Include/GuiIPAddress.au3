@@ -18,7 +18,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_ip_ghIPLastWnd
-Global $Debug_IP = False
+
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -94,8 +94,6 @@ EndFunc   ;==>_GUICtrlIpAddress_Create
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_ClearAddress($hWnd)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	_SendMessage($hWnd, $IPM_CLEARADDRESS)
 EndFunc   ;==>_GUICtrlIpAddress_ClearAddress
 
@@ -104,7 +102,6 @@ EndFunc   ;==>_GUICtrlIpAddress_ClearAddress
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Destroy($hWnd)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__IPADDRESSCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -129,8 +126,6 @@ EndFunc   ;==>_GUICtrlIpAddress_Destroy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Get($hWnd)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	Local $tIP = _GUICtrlIpAddress_GetEx($hWnd)
 
 	If @error Then Return SetError(2, 2, "")
@@ -159,8 +154,6 @@ EndFunc   ;==>_GUICtrlIpAddress_GetArray
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_GetEx($hWnd)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	Local $tIP = DllStructCreate($tagGETIPAddress)
 	If @error Then Return SetError(1, 1, "")
 	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
@@ -181,8 +174,6 @@ EndFunc   ;==>_GUICtrlIpAddress_GetEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_IsBlank($hWnd)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	Return _SendMessage($hWnd, $IPM_ISBLANK) <> 0
 EndFunc   ;==>_GUICtrlIpAddress_IsBlank
 
@@ -191,8 +182,6 @@ EndFunc   ;==>_GUICtrlIpAddress_IsBlank
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_Set($hWnd, $sAddress)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	Local $aAddress = StringSplit($sAddress, ".")
 	If $aAddress[0] = 4 Then
 		Local $tIP = DllStructCreate($tagGETIPAddress)
@@ -208,8 +197,6 @@ EndFunc   ;==>_GUICtrlIpAddress_Set
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetArray($hWnd, $aAddress)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	If UBound($aAddress) = 4 Then
 		Local $tIP = DllStructCreate($tagGETIPAddress)
 		For $x = 0 To 3
@@ -224,8 +211,6 @@ EndFunc   ;==>_GUICtrlIpAddress_SetArray
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetEx($hWnd, $tIP)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $tIP)
-
 	_SendMessage($hWnd, $IPM_SETADDRESS, 0, _
 			_WinAPI_MakeLong(BitOR(DllStructGetData($tIP, "Field4"), 0x100 * DllStructGetData($tIP, "Field3")), _
 			BitOR(DllStructGetData($tIP, "Field2"), 0x100 * DllStructGetData($tIP, "Field1"))))
@@ -236,8 +221,6 @@ EndFunc   ;==>_GUICtrlIpAddress_SetEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetFocus($hWnd, $iIndex)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	_SendMessage($hWnd, $IPM_SETFOCUS, $iIndex)
 EndFunc   ;==>_GUICtrlIpAddress_SetFocus
 
@@ -246,8 +229,6 @@ EndFunc   ;==>_GUICtrlIpAddress_SetFocus
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iFontWeight = 400, $fFontItalic = False)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	Local $lngDC = _WinAPI_GetDC(0)
 	Local $lfHeight = Round(($iFontSize * _WinAPI_GetDeviceCaps($lngDC, $__IPADDRESSCONSTANT_LOGPIXELSX)) / 72, 0)
 	_WinAPI_ReleaseDC(0, $lngDC)
@@ -263,7 +244,6 @@ Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iF
 
 	Local $font = _WinAPI_CreateFontIndirect($tfont)
 	_WinAPI_SetFont($hWnd, $font)
-
 EndFunc   ;==>_GUICtrlIpAddress_SetFont
 
 ; #FUNCTION# ====================================================================================================================
@@ -271,8 +251,6 @@ EndFunc   ;==>_GUICtrlIpAddress_SetFont
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_SetRange($hWnd, $iIndex, $iLowRange = 0, $iHighRange = 255)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	If ($iLowRange < 0 Or $iLowRange > $iHighRange) Or $iHighRange > 255 Or ($iIndex < 0 Or $iIndex > 3) Then Return SetError(-1, -1, False)
 
 	Return _SendMessage($hWnd, $IPM_SETRANGE, $iIndex, BitOR($iLowRange, 0x100 * $iHighRange)) <> 0
@@ -283,8 +261,6 @@ EndFunc   ;==>_GUICtrlIpAddress_SetRange
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlIpAddress_ShowHide($hWnd, $iState)
-	If $Debug_IP Then __UDF_ValidateClassName($hWnd, $__IPADDRESSCONSTANT_ClassName)
-
 	If $iState <> @SW_HIDE And $iState <> @SW_SHOW Then Return SetError(1, 1, 0)
 	Return _WinAPI_ShowWindow($hWnd, $iState) <> 0
 EndFunc   ;==>_GUICtrlIpAddress_ShowHide

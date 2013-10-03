@@ -1,3 +1,5 @@
+#include <Constants.au3>
+
 ; Regular Expression test using VBScript.RegExp object
 ;
 ; Requirements:
@@ -6,9 +8,7 @@
 ;
 ; Source: http://msdn.microsoft.com/library/en-us/script56/html/vsobjregexp.asp
 
-
 Func RegExpTest($patrn, $strng)
-
 	Local $Retstr = ""
 
 	Local $regEx = ObjCreate("VBScript.RegExp") ; Create a regular expression.
@@ -29,6 +29,4 @@ Func RegExpTest($patrn, $strng)
 	Return $Retstr
 EndFunc   ;==>RegExpTest
 
-
-
-MsgBox(0, "Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))
+MsgBox($MB_SYSTEMMODAL, "Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))

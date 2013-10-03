@@ -1686,7 +1686,7 @@ Global Const $tagMENUITEMINFO = "uint Size;uint Mask;uint Type;uint State;uint I
 ; ===============================================================================================================================
 Global Const $tagREBARBANDINFO = "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" & _
 		"int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" & _
-		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader" & ((@OSVersion = "WIN_XP") ? "" : ";" & $tagRECT) & ";uint uChevronState"
+		"uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader" & ((@OSVersion = "WIN_XP") ? "" : ";" & $tagRECT & ";uint uChevronState")
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagNMREBARAUTOBREAK

@@ -1166,7 +1166,6 @@ Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
 	EndIf
 
 	Return Int((_DateToDayOfWeekISO($iYear, 1, 1) - 1 < 4) + 4 * ($iMonth - 1) + (2 * ($iMonth - 1) + ($iDay - 1) + $iDow0101 - $idow + 6) * 36 / 256)
-
 EndFunc   ;==>_WeekNumberISO
 
 ; #NO_DOC_FUNCTION# =============================================================================================================

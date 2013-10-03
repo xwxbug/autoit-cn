@@ -20,7 +20,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_ghTabLastWnd
-Global $Debug_TAB = False
+
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -161,8 +161,6 @@ Global Const $tagTCHITTESTINFO = $tagPOINT & ";uint Flags"
 ; Example .......:
 ; ===============================================================================================================================
 Func __GUICtrlTab_AdjustRect($hWnd, ByRef $tRect, $fLarger = False)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_ghTabLastWnd) Then
 			_SendMessage($hWnd, $TCM_ADJUSTRECT, $fLarger, $tRect, 0, "wparam", "struct*")
@@ -216,8 +214,6 @@ EndFunc   ;==>_GUICtrlTab_ActivateTab
 ; Modified.......: Gary Frost (gafrost), PsaltyDS
 ; ===============================================================================================================================
 Func _GUICtrlTab_ClickTab($hWnd, $iIndex, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iX, $iY
@@ -270,8 +266,6 @@ EndFunc   ;==>_GUICtrlTab_Create
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_DeleteAllItems($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_DELETEALLITEMS) <> 0
 	Else
@@ -284,8 +278,6 @@ EndFunc   ;==>_GUICtrlTab_DeleteAllItems
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_DeleteItem($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_DELETEITEM, $iIndex) <> 0
 	Else
@@ -298,8 +290,6 @@ EndFunc   ;==>_GUICtrlTab_DeleteItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_DeselectAll($hWnd, $fExclude = True)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $TCM_DESELECTALL, $fExclude)
 	Else
@@ -312,7 +302,6 @@ EndFunc   ;==>_GUICtrlTab_DeselectAll
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_Destroy(ByRef $hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__TABCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -360,8 +349,6 @@ EndFunc   ;==>_GUICtrlTab_FindTab
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetCurFocus($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETCURFOCUS)
 	Else
@@ -374,8 +361,6 @@ EndFunc   ;==>_GUICtrlTab_GetCurFocus
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetCurSel($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETCURSEL)
 	Else
@@ -412,8 +397,6 @@ EndFunc   ;==>_GUICtrlTab_GetDisplayRectEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetExtendedStyle($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETEXTENDEDSTYLE)
 	Else
@@ -426,8 +409,6 @@ EndFunc   ;==>_GUICtrlTab_GetExtendedStyle
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetImageList($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return Ptr(_SendMessage($hWnd, $TCM_GETIMAGELIST))
 	Else
@@ -440,7 +421,6 @@ EndFunc   ;==>_GUICtrlTab_GetImageList
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetItem($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 	Local $fUnicode = _GUICtrlTab_GetUnicodeFormat($hWnd)
 
@@ -485,8 +465,6 @@ EndFunc   ;==>_GUICtrlTab_GetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetItemCount($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETITEMCOUNT)
 	Else
@@ -532,8 +510,6 @@ EndFunc   ;==>_GUICtrlTab_GetItemRect
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetItemRectEx($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	Local $tRect = DllStructCreate($tagRECT)
 	If IsHWnd($hWnd) Then
 		If _WinAPI_InProcess($hWnd, $_ghTabLastWnd) Then
@@ -575,8 +551,6 @@ EndFunc   ;==>_GUICtrlTab_GetItemText
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetRowCount($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETROWCOUNT)
 	Else
@@ -589,8 +563,6 @@ EndFunc   ;==>_GUICtrlTab_GetRowCount
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetToolTips($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return HWnd(_SendMessage($hWnd, $TCM_GETTOOLTIPS))
 	Else
@@ -603,8 +575,6 @@ EndFunc   ;==>_GUICtrlTab_GetToolTips
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_GetUnicodeFormat($hWnd)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_GETUNICODEFORMAT) <> 0
 	Else
@@ -617,8 +587,6 @@ EndFunc   ;==>_GUICtrlTab_GetUnicodeFormat
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_HighlightItem($hWnd, $iIndex, $fHighlight = True)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_HIGHLIGHTITEM, $iIndex, $fHighlight) <> 0
 	Else
@@ -631,8 +599,6 @@ EndFunc   ;==>_GUICtrlTab_HighlightItem
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_HitTest($hWnd, $iX, $iY)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	Local $aHit[2] = [-1, 1]
 
 	Local $tHit = DllStructCreate($tagTCHITTESTINFO)
@@ -662,8 +628,6 @@ EndFunc   ;==>_GUICtrlTab_HitTest
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_InsertItem($hWnd, $iIndex, $sText, $iImage = -1, $iParam = 0)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	Local $fUnicode = _GUICtrlTab_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer = StringLen($sText) + 1
@@ -718,8 +682,6 @@ EndFunc   ;==>_GUICtrlTab_InsertItem
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_RemoveImage($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $TCM_REMOVEIMAGE, $iIndex)
 		_WinAPI_InvalidateRect($hWnd)
@@ -733,8 +695,6 @@ EndFunc   ;==>_GUICtrlTab_RemoveImage
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetCurFocus($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $TCM_SETCURFOCUS, $iIndex)
 	Else
@@ -747,8 +707,6 @@ EndFunc   ;==>_GUICtrlTab_SetCurFocus
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetCurSel($hWnd, $iIndex)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETCURSEL, $iIndex)
 	Else
@@ -761,8 +719,6 @@ EndFunc   ;==>_GUICtrlTab_SetCurSel
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetExtendedStyle($hWnd, $iStyle)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETEXTENDEDSTYLE, 0, $iStyle)
 	Else
@@ -775,8 +731,6 @@ EndFunc   ;==>_GUICtrlTab_SetExtendedStyle
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetImageList($hWnd, $hImage)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETIMAGELIST, 0, $hImage, 0, "wparam", "handle", "handle")
 	Else
@@ -789,7 +743,6 @@ EndFunc   ;==>_GUICtrlTab_SetImageList
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetItem($hWnd, $iIndex, $sText = -1, $iState = -1, $iImage = -1, $iParam = -1)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $tItem = DllStructCreate($tagTCITEM)
@@ -858,8 +811,6 @@ EndFunc   ;==>_GUICtrlTab_SetItemParam
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetItemSize($hWnd, $iWidth, $iHeight)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETITEMSIZE, 0, _WinAPI_MakeLong($iWidth, $iHeight))
 	Else
@@ -888,8 +839,6 @@ EndFunc   ;==>_GUICtrlTab_SetItemText
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetMinTabWidth($hWnd, $iMinWidth)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETMINTABWIDTH, 0, $iMinWidth)
 	Else
@@ -902,8 +851,6 @@ EndFunc   ;==>_GUICtrlTab_SetMinTabWidth
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetPadding($hWnd, $iHorz, $iVert)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $TCM_SETPADDING, 0, _WinAPI_MakeLong($iHorz, $iVert))
 	Else
@@ -916,8 +863,6 @@ EndFunc   ;==>_GUICtrlTab_SetPadding
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetToolTips($hWnd, $hToolTip)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		_SendMessage($hWnd, $TCM_SETTOOLTIPS, $hToolTip, 0, 0, "hwnd")
 	Else
@@ -930,8 +875,6 @@ EndFunc   ;==>_GUICtrlTab_SetToolTips
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlTab_SetUnicodeFormat($hWnd, $fUnicode)
-	If $Debug_TAB Then __UDF_ValidateClassName($hWnd, $__TABCONSTANT_ClassName)
-
 	If IsHWnd($hWnd) Then
 		Return _SendMessage($hWnd, $TCM_SETUNICODEFORMAT, $fUnicode) <> 0
 	Else

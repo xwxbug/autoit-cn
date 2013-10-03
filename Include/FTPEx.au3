@@ -153,7 +153,6 @@ Func _FTP_Close($l_InternetSession)
 	If $__gbCallback_Set = True Then DllCallbackFree($__ghCallback_FTP)
 
 	Return $ai_InternetCloseHandle[0]
-
 EndFunc   ;==>_FTP_Close
 
 ; #FUNCTION# ====================================================================================================================
@@ -166,7 +165,6 @@ Func _FTP_Command($l_FTPSession, $s_FTPCommand, $l_Flags = $FTP_TRANSFER_TYPE_AS
 	If @error Or $ai_FTPCommand[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return SetError(0, $ai_FTPCommand[6], $ai_FTPCommand[0])
-
 EndFunc   ;==>_FTP_Command
 
 ; #FUNCTION# ====================================================================================================================
@@ -180,7 +178,6 @@ Func _FTP_Connect($l_InternetSession, $s_ServerName, $s_Username, $s_Password, $
 	If @error Or $ai_InternetConnect[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_InternetConnect[0]
-
 EndFunc   ;==>_FTP_Connect
 
 ; #FUNCTION# ====================================================================================================================
@@ -257,7 +254,6 @@ Func _FTP_DirCreate($l_FTPSession, $s_Remote)
 	If @error Or $ai_FTPMakeDir[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPMakeDir[0]
-
 EndFunc   ;==>_FTP_DirCreate
 
 ; #FUNCTION# ====================================================================================================================
@@ -270,7 +266,6 @@ Func _FTP_DirDelete($l_FTPSession, $s_Remote)
 	If @error Or $ai_FTPDelDir[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPDelDir[0]
-
 EndFunc   ;==>_FTP_DirDelete
 
 ; #FUNCTION# ====================================================================================================================
@@ -283,7 +278,6 @@ Func _FTP_DirGetCurrent($l_FTPSession)
 	If @error Or $ai_FTPGetCurrentDir[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPGetCurrentDir[2]
-
 EndFunc   ;==>_FTP_DirGetCurrent
 
 ; #FUNCTION# ====================================================================================================================
@@ -291,7 +285,6 @@ EndFunc   ;==>_FTP_DirGetCurrent
 ; Modified.......:
 ; ===============================================================================================================================
 Func _FTP_DirPutContents($l_InternetSession, $s_LocalFolder, $s_RemoteFolder, $b_RecursivePut, $l_Context = 0)
-
 	If StringRight($s_LocalFolder, 1) == "\" Then $s_LocalFolder = StringTrimRight($s_LocalFolder, 1)
 	; Shows the filenames of all files in the current directory.
 	Local $search = FileFindFirstFile($s_LocalFolder & "\*.*")
@@ -328,7 +321,6 @@ Func _FTP_DirSetCurrent($l_FTPSession, $s_Remote)
 	If @error Or $ai_FTPSetCurrentDir[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPSetCurrentDir[0]
-
 EndFunc   ;==>_FTP_DirSetCurrent
 
 ; #FUNCTION# ====================================================================================================================
@@ -341,7 +333,6 @@ Func _FTP_FileClose($l_InternetSession)
 	If @error Or $ai_InternetCloseHandle[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_InternetCloseHandle[0]
-
 EndFunc   ;==>_FTP_FileClose
 
 ; #FUNCTION# ====================================================================================================================
@@ -354,7 +345,6 @@ Func _FTP_FileDelete($l_FTPSession, $s_RemoteFile)
 	If @error Or $ai_FTPPutFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPPutFile[0]
-
 EndFunc   ;==>_FTP_FileDelete
 
 ; #FUNCTION# ====================================================================================================================
@@ -367,7 +357,6 @@ Func _FTP_FileGet($l_FTPSession, $s_RemoteFile, $s_LocalFile, $fFailIfExists = F
 	If @error Or $ai_FTPGetFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPGetFile[0]
-
 EndFunc   ;==>_FTP_FileGet
 
 ; #FUNCTION# ====================================================================================================================
@@ -392,7 +381,6 @@ Func _FTP_FileGetSize($l_FTPSession, $s_FileName)
 	; No need to test @error.
 
 	Return _WinAPI_MakeQWord($ai_FTPGetFileSize[0], $ai_FTPGetFileSize[2])
-
 EndFunc   ;==>_FTP_FileGetSize
 
 ; #FUNCTION# ====================================================================================================================
@@ -405,7 +393,6 @@ Func _FTP_FileOpen($hConnect, $lpszFileName, $dwAccess = $GENERIC_READ, $dwFlags
 	If @error Or $ai_ftpopenfile[0] == 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_ftpopenfile[0]
-
 EndFunc   ;==>_FTP_FileOpen
 
 ; #FUNCTION# ====================================================================================================================
@@ -418,7 +405,6 @@ Func _FTP_FilePut($l_FTPSession, $s_LocalFile, $s_RemoteFile, $l_Flags = 0, $l_C
 	If @error Or $ai_FTPPutFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPPutFile[0]
-
 EndFunc   ;==>_FTP_FilePut
 
 ; #FUNCTION# ====================================================================================================================
@@ -447,7 +433,6 @@ Func _FTP_FileRead($h_File, $dwNumberOfBytesToRead)
 	EndIf
 
 	Return SetError(0, $lpdwNumberOfBytesRead, $s_FileRead)
-
 EndFunc   ;==>_FTP_FileRead
 
 ; #FUNCTION# ====================================================================================================================
@@ -460,7 +445,6 @@ Func _FTP_FileRename($l_FTPSession, $s_Existing, $s_New)
 	If @error Or $ai_FTPRenameFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_FTPRenameFile[0]
-
 EndFunc   ;==>_FTP_FileRename
 
 ; #FUNCTION# ====================================================================================================================
@@ -486,7 +470,6 @@ Func _FTP_FindFileClose($h_Handle)
 	If @error Or $ai_FTPPutFile[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), "")
 
 	Return $ai_FTPPutFile[0]
-
 EndFunc   ;==>_FTP_FindFileClose
 
 ; #FUNCTION# ====================================================================================================================
@@ -522,7 +505,6 @@ Func _FTP_FindFileFirst($l_FTPSession, $s_RemotePath, ByRef $h_Handle, $l_Flags 
 	$a_FTPFileList[11] = DllStructGetData($l_DllStruct, "cAlternateFileName")
 
 	Return $a_FTPFileList
-
 EndFunc   ;==>_FTP_FindFileFirst
 
 ; #FUNCTION# ====================================================================================================================
@@ -530,7 +512,6 @@ EndFunc   ;==>_FTP_FindFileFirst
 ; Modified.......: Prog@ndy, jpm
 ; ===============================================================================================================================
 Func _FTP_FindFileNext($h_Handle)
-
 	Local $l_DllStruct = DllStructCreate($tagWIN32_FIND_DATA)
 
 	Local $a_FTPFileList[1]
@@ -554,7 +535,6 @@ Func _FTP_FindFileNext($h_Handle)
 	$a_FTPFileList[11] = DllStructGetData($l_DllStruct, "cAlternateFileName")
 
 	Return $a_FTPFileList
-
 EndFunc   ;==>_FTP_FindFileNext
 
 ; #FUNCTION# ====================================================================================================================
@@ -616,7 +596,6 @@ Func _FTP_Open($s_Agent, $l_AccessType = $INTERNET_OPEN_TYPE_DIRECT, $s_ProxyNam
 	If @error Or $ai_InternetOpen[0] = 0 Then Return SetError(-1, _WinAPI_GetLastError(), 0)
 
 	Return $ai_InternetOpen[0]
-
 EndFunc   ;==>_FTP_Open
 
 ; #FUNCTION# ====================================================================================================================

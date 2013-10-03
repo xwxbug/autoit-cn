@@ -31,7 +31,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $Debug_AVI = False
+
 Global $gh_AVLastWnd
 ; ===============================================================================================================================
 
@@ -57,7 +57,6 @@ Global Const $__AVICONSTANT_ClassName = "SysAnimate32"
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Close($hWnd)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet = _SendMessage($hWnd, $ACM_OPENA)
@@ -91,7 +90,6 @@ EndFunc   ;==>_GUICtrlAVI_Create
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Destroy(ByRef $hWnd)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__AVICONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -120,7 +118,6 @@ EndFunc   ;==>_GUICtrlAVI_Destroy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlAVI_IsPlaying($hWnd)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Return _SendMessage($hWnd, $ACM_ISPLAYING) <> 0
@@ -131,7 +128,6 @@ EndFunc   ;==>_GUICtrlAVI_IsPlaying
 ; Modified.......: Gary Frost (Added seek "sets the avi to 1st frame")
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Open($hWnd, $sFileName)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet
@@ -155,7 +151,6 @@ EndFunc   ;==>_GUICtrlAVI_Open
 ; Modified.......: Gary Frost (Added seek "sets the avi to 1st frame")
 ; ===============================================================================================================================
 Func _GUICtrlAVI_OpenEx($hWnd, $sFileName, $iResourceID)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $hInst = _WinAPI_LoadLibrary($sFileName)
@@ -171,7 +166,6 @@ EndFunc   ;==>_GUICtrlAVI_OpenEx
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Play($hWnd, $iFrom = 0, $iTo = -1, $iRepeat = -1)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet = _SendMessage($hWnd, $ACM_PLAY, $iRepeat, _WinAPI_MakeLong($iFrom, $iTo))
@@ -183,7 +177,6 @@ EndFunc   ;==>_GUICtrlAVI_Play
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Seek($hWnd, $iFrame)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet = _SendMessage($hWnd, $ACM_PLAY, 1, _WinAPI_MakeLong($iFrame, $iFrame))
@@ -195,7 +188,6 @@ EndFunc   ;==>_GUICtrlAVI_Seek
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Show($hWnd, $iState)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	If $iState <> @SW_HIDE And $iState <> @SW_SHOW Then Return SetError(1, 1, 0)
@@ -207,7 +199,6 @@ EndFunc   ;==>_GUICtrlAVI_Show
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlAVI_Stop($hWnd)
-	If $Debug_AVI Then __UDF_ValidateClassName($hWnd, $__AVICONSTANT_ClassName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet = _SendMessage($hWnd, $ACM_STOP)

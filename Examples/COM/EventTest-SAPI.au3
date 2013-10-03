@@ -6,13 +6,14 @@
 ;
 ; NOTE: To be able to run this example, you must first
 ;       download and install the Microsoft SAPI SDK 5.1
-;		http://www.microsoft.com/speech/download/sdk51/
+; http://www.microsoft.com/speech/download/sdk51/
 ;
 ; See also: http://www.microsoft.com/speech/techinfo/apioverview/
 ;
 ; And..READ the documentation carefully! Speech recognition is very complex stuff !
 
 #include "GUIConstants.au3"
+#include <Constants.au3>
 
 ; Create a simple GUI for our output
 GUICreate("Event Speech API Test", 640, 480)
@@ -21,11 +22,9 @@ GUISetState() ;Show GUI
 
 Local $RecoContext = ObjCreate("SAPI.SpSharedRecoContext")
 If @error Then
-	MsgBox(0, "", "Error opening the 'SAPI.SpSharedRecoContext' object. Error number: " & Hex(@error, 8))
+	MsgBox($MB_SYSTEMMODAL, "", "Error opening the 'SAPI.SpSharedRecoContext' object. Error number: " & Hex(@error, 8))
 	Exit
 EndIf
-
-
 
 ; Initialize our Event Handler
 ; Note: The default outgoing event interface will be: _ISpeechRecoContextEvents
@@ -71,10 +70,7 @@ GUIDelete()
 
 Exit
 
-
-
-
-;--------------------
+; --------------------
 ; SAPI Event functions
 
 Func MYEvent_StartStream($StreamNumber, $StreamPosition)
@@ -83,9 +79,7 @@ Func MYEvent_StartStream($StreamNumber, $StreamPosition)
 	;     StreamPosition As Variant
 
 	GUICtrlSetData($GUIEdit, "StartStream(): StreamNumber is:" & $StreamNumber & @CRLF, "append")
-
 EndFunc   ;==>MYEvent_StartStream
-
 
 Func MYEvent_Hypothesis($StreamNumber, $StreamPosition, $Result)
 	#forceref $StreamNumber, $StreamPosition
@@ -94,9 +88,7 @@ Func MYEvent_Hypothesis($StreamNumber, $StreamPosition, $Result)
 	;     Result As ISpeechRecoResult
 
 	GUICtrlSetData($GUIEdit, "Hypothesis(): Hypothized text is: " & $Result.PhraseInfo.GetText & @CRLF, "append")
-
 EndFunc   ;==>MYEvent_Hypothesis
-
 
 Func MYEvent_Interference($StreamNumber, $StreamPosition, $Interference)
 	#forceref $StreamPosition, $Interference
@@ -105,9 +97,7 @@ Func MYEvent_Interference($StreamNumber, $StreamPosition, $Interference)
 	;     Interference As SpeechInterference
 
 	GUICtrlSetData($GUIEdit, "Interference(): StreamNumber is:" & $StreamNumber & @CRLF, "append")
-
 EndFunc   ;==>MYEvent_Interference
-
 
 Func MYEvent_Recognition($StreamNumber, $StreamPosition, $RecognitionType, $Result)
 	#forceref $StreamNumber, $StreamPosition, $RecognitionType
@@ -117,10 +107,7 @@ Func MYEvent_Recognition($StreamNumber, $StreamPosition, $RecognitionType, $Resu
 	;    Result As ISpeechRecoResult
 
 	GUICtrlSetData($GUIEdit, "Recognition(): Recognized text is: " & $Result.PhraseInfo.GetText & @CRLF, "append")
-
 EndFunc   ;==>MYEvent_Recognition
-
-
 
 ; SAPI has MANY more Events, but we won't use these here
 
@@ -130,7 +117,6 @@ Func MYEvent_SoundEnd($StreamNumber, $StreamPosition)
 	;     StreamPosition As Variant
 
 	;GUICtrlSetData ( $GUIEdit, "SoundEnd(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
-
 EndFunc   ;==>MYEvent_SoundEnd
 
 Func MYEvent_EndStream($StreamNumber, $StreamPosition, $StreamReleased)
@@ -141,9 +127,7 @@ Func MYEvent_EndStream($StreamNumber, $StreamPosition, $StreamReleased)
 
 	; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
 	; GUICtrlSetData ( $GUIEdit, "EndStream(): StreamReleased is:" & $StreamReleased & @CRLF  , "append" )
-
 EndFunc   ;==>MYEvent_EndStream
-
 
 Func MYEvent_SoundStart($StreamNumber, $StreamPosition)
 	#forceref $StreamNumber, $StreamPosition
@@ -152,9 +136,7 @@ Func MYEvent_SoundStart($StreamNumber, $StreamPosition)
 
 	;GUICtrlSetData ( $GUIEdit, "SoundStart(), StreamNumber is: " & $StreamNumber & @CRLF  , "append" )
 	;GUICtrlSetData ( $GUIEdit, "SoundStart(): StreamPosition is:" & $StreamPosition & @CRLF  , "append" )
-
 EndFunc   ;==>MYEvent_SoundStart
-
 
 Func MYEvent_PhraseStart($StreamNumber, $StreamPosition)
 	#forceref $StreamNumber, $StreamPosition
@@ -162,6 +144,4 @@ Func MYEvent_PhraseStart($StreamNumber, $StreamPosition)
 	;     StreamPosition As Variant
 
 	;GUICtrlSetData ( $GUIEdit, "PhraseStart(): StreamNumber is:" & $StreamNumber & @CRLF  , "append" )
-
 EndFunc   ;==>MYEvent_PhraseStart
-

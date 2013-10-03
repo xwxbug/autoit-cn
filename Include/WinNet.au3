@@ -503,7 +503,6 @@ EndFunc   ;==>_WinNet_GetConnection
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinNet_GetConnectionPerformance($sLocalName, $sRemoteName)
-
 	Local $tLocalName = DllStructCreate("wchar Text[4096]")
 	DllStructSetData($tLocalName, "Text", $sLocalName)
 

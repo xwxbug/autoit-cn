@@ -548,31 +548,25 @@ EndFunc   ;==>_FilePrint
 ; Modified ......: Jpm - fixed empty line at the end, Gary Fixed file contains only 1 line, guinness - Optional flag to return the array count.
 ; ===============================================================================================================================
 Func _FileReadToArray($sFilePath, ByRef $aArray, $iFlag = 1)
-	Local $iError = 0, $iReturn = 1 ; By default there is no error and a return of 1.
 	If $iFlag Or $iFlag = Default Then
 		Local $hFileOpen = FileOpen($sFilePath, $FO_READ)
 		If $hFileOpen = -1 Then Return SetError(1, 0, 0)
 		Local $sFileRead = FileRead($hFileOpen)
 		FileClose($hFileOpen)
 
-		$aArray = StringRegExp(@LF & $sFileRead & @LF, "([^\r\n]*)(?:\r\n|\n|\r)(?:[\r\n]$)?", 3)
-		If @error Then
-			If StringLen($sFileRead) Then
-				Local $aReturn[2] = [1, $sFileRead]
-				$aArray = $aReturn
-			Else
-				$iReturn = 0 ; Set the return to 0.
-				$iError = 2 ; Set @error to 2.
-			EndIf
+		If StringLen($sFileRead) Then
+			$aArray = StringRegExp(@CRLF & $sFileRead, "([^\r\n]*)(?:\r\n|\n|\r|$)", 3)
+			$aArray[0] = UBound($aArray) - 2
+			ReDim $aArray[UBound($aArray) - 1]
 		Else
-			$aArray[0] = UBound($aArray) - 1
+			Return SetError(2, 0, 0)
 		EndIf
 	Else
 		$aArray = FileReadToArray($sFilePath)
-		$iError = @error
-		If $iError Then $iReturn = 0
+		If @error Then Return SetError(@error, 0, 0)
 	EndIf
-	Return SetError($iError, 0, $iReturn)
+
+	Return 1
 EndFunc   ;==>_FileReadToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -680,7 +674,7 @@ Func _FileWriteToLine($sFilePath, $iLine, $sText, $iOverWrite = 0)
 	If FileExists($sFilePath) = 0 Then Return SetError(2, 0, 0)
 
 	Local $sFileRead = FileRead($sFilePath)
-	Local $aArray = StringRegExp(@CRLF & $sFileRead & @CRLF, "([^\r\n]*)(?:\r\n|\n|\r)(?:[\r\n]$)?", 3)
+	Local $aArray = StringRegExp(@CRLF & $sFileRead & @CRLF, "(*BSR_ANYCRLF)([^\R]*)(?:\R)(?:\R$)?", 3)
 	$aArray[0] = UBound($aArray) - 1
 	If ($aArray[0] + 1) < $iLine Then Return SetError(1, 0, 0)
 
@@ -872,7 +866,11 @@ Func _PathSplit($sFilePath, ByRef $sDrive, ByRef $sDir, ByRef $sFileName, ByRef 
 		$aArray[0] = $sFilePath
 	EndIf
 	$sDrive = $aArray[1]
-	$sDir = StringRegExpReplace($aArray[2], "\h*[\/\\]+\h*", StringLeft($aArray[2], 1) == "/" ? "\/" : "\\") ; StringRegExpReplace($aArray[2], "[\/\\]+\h*", "\" & ((StringLeft($aArray[2], 1) == "/") ? "/" : "\"))
+	If StringLeft($aArray[2], 1) == "/" Then
+		$sDir = StringRegExpReplace($aArray[2], "\h*[\/\\]+\h*", "\/")
+	Else
+		$sDir = StringRegExpReplace($aArray[2], "\h*[\/\\]+\h*", "\\")
+	EndIf
 	$sFileName = $aArray[3]
 	$sExtension = $aArray[4]
 	Return $aArray

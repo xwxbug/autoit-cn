@@ -19,7 +19,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_DTP_ghDTLastWnd
-Global $Debug_DTP = False
+
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -62,7 +62,6 @@ EndFunc   ;==>_GUICtrlDTP_Create
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_Destroy(ByRef $hWnd)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	If Not _WinAPI_IsClassName($hWnd, $__DTPCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
 	Local $Destroyed = 0
@@ -91,7 +90,6 @@ EndFunc   ;==>_GUICtrlDTP_Destroy
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCColor($hWnd, $iIndex)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $DTM_GETMCCOLOR, $iIndex)
 EndFunc   ;==>_GUICtrlDTP_GetMCColor
 
@@ -100,7 +98,6 @@ EndFunc   ;==>_GUICtrlDTP_GetMCColor
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMCFont($hWnd)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return Ptr(_SendMessage($hWnd, $DTM_GETMCFONT))
 EndFunc   ;==>_GUICtrlDTP_GetMCFont
 
@@ -109,7 +106,6 @@ EndFunc   ;==>_GUICtrlDTP_GetMCFont
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetMonthCal($hWnd)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return HWnd(_SendMessage($hWnd, $DTM_GETMONTHCAL))
 EndFunc   ;==>_GUICtrlDTP_GetMonthCal
 
@@ -143,8 +139,6 @@ EndFunc   ;==>_GUICtrlDTP_GetRange
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetRangeEx($hWnd)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-
 	Local $tRange = DllStructCreate($tagDTPRANGE)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
@@ -184,8 +178,6 @@ EndFunc   ;==>_GUICtrlDTP_GetSystemTime
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_GetSystemTimeEx($hWnd)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-
 	Local $tDate = DllStructCreate($tagSYSTEMTIME)
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
@@ -206,8 +198,6 @@ EndFunc   ;==>_GUICtrlDTP_GetSystemTimeEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetFormat($hWnd, $sFormat)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-
 	Local $iRet
 	If _WinAPI_InProcess($hWnd, $_DTP_ghDTLastWnd) Then
 		$iRet = _SendMessage($hWnd, $DTM_SETFORMATW, 0, $sFormat, 0, "wparam", "wstr")
@@ -227,7 +217,6 @@ EndFunc   ;==>_GUICtrlDTP_SetFormat
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCColor($hWnd, $iIndex, $iColor)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Return _SendMessage($hWnd, $DTM_SETMCCOLOR, $iIndex, $iColor)
 EndFunc   ;==>_GUICtrlDTP_SetMCColor
 
@@ -236,7 +225,6 @@ EndFunc   ;==>_GUICtrlDTP_SetMCColor
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetMCFont($hWnd, $hFont, $fRedraw = True)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	_SendMessage($hWnd, $DTM_SETMCFONT, $hFont, $fRedraw, 0, "handle")
 EndFunc   ;==>_GUICtrlDTP_SetMCFont
 
@@ -245,7 +233,6 @@ EndFunc   ;==>_GUICtrlDTP_SetMCFont
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRange($hWnd, ByRef $aRange)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $tRange = DllStructCreate($tagDTPRANGE)
 	DllStructSetData($tRange, "MinValid", $aRange[0])
 	DllStructSetData($tRange, "MinYear", $aRange[1])
@@ -269,8 +256,6 @@ EndFunc   ;==>_GUICtrlDTP_SetRange
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetRangeEx($hWnd, ByRef $tRange)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-
 	Local $iFlags = 0, $iRet
 	If DllStructGetData($tRange, "MinValid") Then $iFlags = BitOR($iFlags, $GDTR_MIN)
 	If DllStructGetData($tRange, "MaxValid") Then $iFlags = BitOR($iFlags, $GDTR_MAX)
@@ -292,8 +277,6 @@ EndFunc   ;==>_GUICtrlDTP_SetRangeEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTime($hWnd, ByRef $aDate)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
-
 	Local $tDate = DllStructCreate($tagSYSTEMTIME)
 	DllStructSetData($tDate, "Year", $aDate[1])
 	DllStructSetData($tDate, "Month", $aDate[2])
@@ -309,7 +292,6 @@ EndFunc   ;==>_GUICtrlDTP_SetSystemTime
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlDTP_SetSystemTimeEx($hWnd, ByRef $tDate, $fFlag = False)
-	If $Debug_DTP Then __UDF_ValidateClassName($hWnd, $__DTPCONSTANT_ClassName)
 	Local $iFlag, $iRet
 
 	If $fFlag Then
