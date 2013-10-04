@@ -1,8 +1,10 @@
+#include <Constants.au3>
+
 ;
 ; AutoIt Version: 3.0
 ; Language:       English
 ; Platform:       Win9x/NT
-; Author:         Jonathan Bennett (jon@hiddensoft.com)
+; Author:         Jonathan Bennett (jon at autoitscript dot com)
 ;
 ; Script Function:
 ;   Demo of using multiple lines in a message box
@@ -13,4 +15,4 @@
 ;~ @LF=换行
 ;~ @CRLF=回车+换行
 
-MsgBox(0, "AutoIt 例子", "这是第一行" & @CRLF & "这是第二行" & @CRLF & "这是第三行")
+MsgBox($MB_SYSTEMMODAL, "AutoIt 例子", "这是第一行" & @CRLF & "这是第二行" & @CRLF & "这是第三行")

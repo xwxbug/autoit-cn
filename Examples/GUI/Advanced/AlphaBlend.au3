@@ -35,8 +35,8 @@ $hGUI2 = GUICreate("Test", 250, 250, -1, -1, -1, $WS_EX_LAYERED, $hGUI1)
 ; Load layered image
 _GDIPlus_Startup()
 $hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Button.png")
-;~ $hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Torus.png")
-SetBitMap($hGUI2, $hImage, 255)
+; $hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Torus.png")
+SetBitmap($hGUI2, $hImage, 255)
 GUISetState()
 
 ; Register notification messages
@@ -56,7 +56,7 @@ _GDIPlus_Shutdown()
 ; ===============================================================================================================================
 Func WM_HSCROLL($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam, $ilParam
-	SetBitMap($hGUI2, $hImage, GUICtrlRead($iSlider))
+	SetBitmap($hGUI2, $hImage, GUICtrlRead($iSlider))
 EndFunc   ;==>WM_HSCROLL
 
 ; ===============================================================================================================================

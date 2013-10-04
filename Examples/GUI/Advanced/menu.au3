@@ -1,4 +1,5 @@
 #include <GUIConstantsEx.au3>
+#include <Constants.au3>
 
 _Main()
 
@@ -27,7 +28,6 @@ $cancelbutton = GUICtrlCreateButton ("取消",180,130,70,20)
 	While 1
 		$msg = GUIGetMsg()
 
-
 		Select
 			Case $msg = $GUI_EVENT_CLOSE Or $msg = $cancelbutton
 				ExitLoop
@@ -40,10 +40,10 @@ $cancelbutton = GUICtrlCreateButton ("取消",180,130,70,20)
 				ExitLoop
 
 			Case $msg = $okbutton
-			MsgBox(0, "单击","您单击了[确定]按钮!")
+			MsgBox($MB_SYSTEMMODAL, "单击","您单击了[确定]按钮!")
 
 			Case $msg = $aboutitem
-			MsgBox(0,"关于","GUI 菜单测试")
+			MsgBox($MB_SYSTEMMODAL,"关于","GUI 菜单测试")
 		EndSelect
 	WEnd
 

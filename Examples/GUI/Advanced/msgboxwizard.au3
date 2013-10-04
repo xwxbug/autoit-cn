@@ -1,4 +1,4 @@
-;===============================================================================
+; ===============================================================================
 ;
 ; Program Name:     MsgBoxWizard()
 ; Description:      Generate the MessageBox function code according to the user
@@ -7,13 +7,13 @@
 ; Return Value(s):  None
 ; Author(s):        Giuseppe Criaco <gcriaco@quipo.it>
 ;
-;===============================================================================
+; ===============================================================================
 ;
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <EditConstants.au3>
 
-Global $iFlag, $Button, $msgbox, $asMsgText
+Global $iFlag, $Button, $MsgBox, $asMsgText
 Global $optWarning, $optInfo, $optCritical, $optQuestion
 Global $optNoIcon, $optApplication, $optSysModal, $optTaskModal, $optOK
 Global $optOkCancel, $optYesNo, $optYesNoCancel, $optAbortRetryIgnore
@@ -170,10 +170,10 @@ GUICtrlSetTip(-1, "退出程序")
 				Select
 					Case $Button = $optOK
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
+							$MsgBox = "MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -184,7 +184,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optOkCancel
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -192,7 +192,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 2 ;Cancel" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -204,7 +204,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optYesNo
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -212,7 +212,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 7 ;No" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -224,7 +224,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optYesNoCancel
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -233,7 +233,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 2 ;Cancel" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -246,7 +246,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optAbortRetryIgnore
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -255,7 +255,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 5 ;Ignore" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -268,7 +268,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optRetryCancel
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -276,7 +276,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 2 ;Cancel" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -288,7 +288,7 @@ GUICtrlSetTip(-1, "退出程序")
 
 					Case $Button = $optCancelRetryContinue
 						If GUICtrlRead($Timeout) = "" Then
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -297,7 +297,7 @@ GUICtrlSetTip(-1, "退出程序")
 									"   Case $iMsgBoxAnswer = 11 ;Continue" & @CRLF & @CRLF & _
 									"EndSelect"
 						Else
-							$msgbox = "Dim $iMsgBoxAnswer" & @CRLF & _
+							$MsgBox = "Dim $iMsgBoxAnswer" & @CRLF & _
 									"$iMsgBoxAnswer = MsgBox(" & _SetFlag($iFlag) & "," & Chr(34) & GUICtrlRead($TITLE) & Chr(34) & "," _
 									 & Chr(34) & $sText & Chr(34) & "," & GUICtrlRead($Timeout) & ")" & @CRLF & _
 									"Select" & @CRLF & _
@@ -309,13 +309,13 @@ GUICtrlSetTip(-1, "退出程序")
 						EndIf
 				EndSelect
 
-				ClipPut($msgbox)
+				ClipPut($MsgBox)
 		EndSelect
 
 	WEnd
 EndFunc   ;==>_Main
 
-;===============================================================================
+; ===============================================================================
 ;
 ; Function Name:    _SetFlag()
 ; Description:      Set the flag that indicates the type of message box and the
@@ -326,7 +326,7 @@ EndFunc   ;==>_Main
 ;                   None
 ; Author(s):        Giuseppe Criaco <gcriaco@quipo.it>
 ;
-;===============================================================================
+; ===============================================================================
 ;
 
 Func _SetFlag($iFlag)

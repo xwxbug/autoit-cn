@@ -1,4 +1,5 @@
 #include <GUIConstantsEx.au3>
+#include <Constants.au3>
 
 GUICreate("一个简单的上下文菜单!",300,200)
 
@@ -13,5 +14,5 @@ GUISetState()
 While 1
 	Local $msg = GUIGetMsg()
 	If $msg = $exititem Or $msg = $GUI_EVENT_CLOSE Or $msg = -1 Then ExitLoop
-	If $msg = $aboutitem Then MsgBox(0,"关于","一个简单的上下文菜单!")
+	If $msg = $aboutitem Then MsgBox($MB_SYSTEMMODAL,"关于","一个简单的上下文菜单!")
 WEnd
