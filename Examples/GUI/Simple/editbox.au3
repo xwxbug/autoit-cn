@@ -1,6 +1,6 @@
-;====================================================
-;================= Example of a GUI =================
-;====================================================
+; ====================================================
+; ================= Example of a GUI =================
+; ====================================================
 ; AutoIt version: 3.0.103
 ; Language:       English
 ; Author:         "SlimShady"
@@ -14,7 +14,6 @@
 _Main()
 
 Func _Main()
-
 	;Initialize variables
 	Local $GUIWidth = 300, $GUIHeight = 250
 	Local $Edit_1, $OK_Btn, $Cancel_Btn, $msg
@@ -22,13 +21,13 @@ Func _Main()
 	#forceref $Edit_1
 
 	;Create window
-GUICreate("新 GUI", $GUIWidth, $GUIHeight)
+	GUICreate("新 GUI", $GUIWidth, $GUIHeight)
 
 	;Create an edit box with no text in it
 	$Edit_1 = GUICtrlCreateEdit("", 10, 10, 280, 190)
 
 	;Create an "OK" button
-$OK_Btn = GUICtrlCreateButton("确定", 75, 210, 70, 25)
+	$OK_Btn = GUICtrlCreateButton("确定", 75, 210, 70, 25)
 
 	;Create a "CANCEL" button
 	$Cancel_Btn = GUICtrlCreateButton("取消", 165, 210, 70, 25)

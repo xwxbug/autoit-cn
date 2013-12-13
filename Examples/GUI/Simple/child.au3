@@ -1,6 +1,6 @@
-;====================================================
-;============= Example of a child window ============
-;====================================================
+; ====================================================
+; ============= Example of a child window ============
+; ====================================================
 ; AutoIt version: 3.0.103
 ; Language:       English
 ; Author:         "SlimShady"
@@ -11,24 +11,22 @@
 
 #include <GUIConstantsEx.au3>
 
-
 _Main()
 
 Func _Main()
-
 	;Initialize variables
 	Local $GUIWidth = 250, $GUIHeight = 250
 	Local $ParentWin, $ParentWin_Pos, $ChildWin, $msg
 
 	;Create main/parent window
-$ParentWin = GUICreate("父窗体", $GUIWidth, $GUIHeight)
+	$ParentWin = GUICreate("父窗体", $GUIWidth, $GUIHeight)
 	;Save the position of the parent window
 	$ParentWin_Pos = WinGetPos($ParentWin, "")
 	;Show the parent window/Make the parent window visible
 	GUISetState(@SW_SHOW)
 
 	;Create child window and add the parameter to make it the child of the parent window
-$ChildWin = GUICreate("子窗体", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, $ParentWin_Pos[1] + 100, -1, -1, $ParentWin)
+	$ChildWin = GUICreate("子窗体", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, $ParentWin_Pos[1] + 100, -1, -1, $ParentWin)
 	;Show the child window/Make the child window visible
 	GUISetState(@SW_SHOW)
 
@@ -47,14 +45,14 @@ $ChildWin = GUICreate("子窗体", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, 
 			Case $msg[0] = $GUI_EVENT_CLOSE
 				;Check if user clicked on the close button of the child window
 				If $msg[1] = $ChildWin Then
-            MsgBox(64, "测试", "您关闭了子窗体.")
+					MsgBox(64, "测试", "您关闭了子窗体.")
 					;Switch to the child window
 					GUISwitch($ChildWin)
 					;Destroy the child GUI including the controls
 					GUIDelete()
 					;Check if user clicked on the close button of the parent window
 				ElseIf $msg[1] = $ParentWin Then
-            MsgBox(64, "测试", "您关闭了父窗体.")
+					MsgBox(64, "测试", "您关闭了父窗体.")
 					;Switch to the parent window
 					GUISwitch($ParentWin)
 					;Destroy the parent GUI including the controls

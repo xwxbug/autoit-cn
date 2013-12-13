@@ -1,99 +1,88 @@
 #include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
 #include <TreeViewConstants.au3>
+#include <WindowsConstants.au3>
 
-_Main()
+Example()
 
-Func _Main()
-	Local $maintree, $aboutitem, $generalitem, $toolsitem, $effectitem, $styleitem
-	Local $cmditem, $miscitem, $descgroup, $effectsgroup, $effectstree
-	Local $effect1, $effect2, $effect3, $effect4, $effect5
-	Local $stylesgroup, $stylestree, $style1, $style2, $style3, $style4, $style5
-	Local $aboutlabel, $cancelbutton, $msg
+Func Example()
+	Local $hGUI = GUICreate("GUI 之多个 treeviews", 340, 200, -1, -1, BitOR($WS_MINIMIZEBOX, $WS_MAXIMIZEBOX, $WS_GROUP, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU))
 
-	#forceref $cmditem, $miscitem, $effect2, $effect4, $effect5, $style1, $style2, $style3
+	Local $iTreeView = GUICtrlCreateTreeView(10, 10, 120, 150)
+	Local $iAboutItem = GUICtrlCreateTreeViewItem("关于", $iTreeView)
+	Local $iGeneralItem = GUICtrlCreateTreeViewItem("常规", $iTreeView)
+	Local $iToolsItem = GUICtrlCreateTreeViewItem("工具", $iTreeView)
+	Local $iEffectItem = GUICtrlCreateTreeViewItem("效果", $iGeneralItem)
+	Local $iStyleItem = GUICtrlCreateTreeViewItem("样式", $iGeneralItem)
+	GUICtrlCreateTreeViewItem("命令行", $iToolsItem)
+	GUICtrlCreateTreeViewItem("其它", $iToolsItem)
 
-GUICreate("GUI 之 treeviews",340,200,-1,-1,BitOR($WS_MINIMIZEBOX,$WS_MAXIMIZEBOX,$WS_GROUP,$WS_CAPTION,$WS_POPUP,$WS_SYSMENU))
-
-	$maintree = GUICtrlCreateTreeView(10, 10, 120, 150)
-$aboutitem = GUICtrlCreateTreeViewItem ("关于",$maintree)
-$generalitem = GUICtrlCreateTreeViewItem ("常规",$maintree)
-$toolsitem = GUICtrlCreateTreeViewItem ("工具",$maintree)
-$effectitem = GUICtrlCreateTreeViewItem ("效果",$generalitem)
-$styleitem = GUICtrlCreateTreeViewItem ("样式",$generalitem)
-$cmditem = GUICtrlCreateTreeViewItem ("命令行",$toolsitem)
-$miscitem = GUICtrlCreateTreeViewItem ("其它",$toolsitem)
-
-$descgroup = GUICtrlCreateGroup ("详细信息",140,105,180,55)
+	Local $iDescriptionGroup = GUICtrlCreateGroup("详细信息", 140, 105, 180, 55)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-$effectsgroup = GUICtrlCreateGroup ("效果",140,5,180,95)
+	Local $iEffectsGroup = GUICtrlCreateGroup("效果", 140, 5, 180, 95)
 	GUICtrlSetState(-1, $GUI_HIDE)
-	$effectstree = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
+	Local $iEffectsTreeView = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
 	GUICtrlSetState(-1, $GUI_HIDE)
-$effect1 = GUICtrlCreateTreeViewItem ("效果 1",$effectstree)
-$effect2 = GUICtrlCreateTreeViewItem ("效果 2",$effectstree)
-$effect3 = GUICtrlCreateTreeViewItem ("效果 3",$effectstree)
-$effect4 = GUICtrlCreateTreeViewItem ("效果 4",$effectstree)
-$effect5 = GUICtrlCreateTreeViewItem ("效果 5",$effectstree)
+	Local $iEffect1 = GUICtrlCreateTreeViewItem("效果 1", $iEffectsTreeView)
+	GUICtrlCreateTreeViewItem("效果 2", $iEffectsTreeView)
+	Local $iEffect3 = GUICtrlCreateTreeViewItem("效果 3", $iEffectsTreeView)
+	GUICtrlCreateTreeViewItem("效果 4", $iEffectsTreeView)
+	GUICtrlCreateTreeViewItem("效果 5", $iEffectsTreeView)
 
-$stylesgroup = GUICtrlCreateGroup ("样式",140,5,180,95)
+	Local $iStylesGroup = GUICtrlCreateGroup("样式", 140, 5, 180, 95)
 	GUICtrlSetState(-1, $GUI_HIDE)
-	$stylestree = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
+	Local $iStylesTreeView = GUICtrlCreateTreeView(150, 20, 160, 70, BitOR($TVS_CHECKBOXES, $TVS_DISABLEDRAGDROP), $WS_EX_CLIENTEDGE)
 	GUICtrlSetState(-1, $GUI_HIDE)
-$style1 = GUICtrlCreateTreeViewItem ("样式 1",$stylestree)
-$style2 = GUICtrlCreateTreeViewItem ("样式 2",$stylestree)
-$style3 = GUICtrlCreateTreeViewItem ("样式 3",$stylestree)
-$style4 = GUICtrlCreateTreeViewItem ("样式 4",$stylestree)
-$style5 = GUICtrlCreateTreeViewItem ("样式 5",$stylestree)
+	GUICtrlCreateTreeViewItem("样式 1", $iStylesTreeView)
+	GUICtrlCreateTreeViewItem("样式 2", $iStylesTreeView)
+	GUICtrlCreateTreeViewItem("样式 3", $iStylesTreeView)
+	Local $iStyle4 = GUICtrlCreateTreeViewItem("样式 4", $iStylesTreeView)
+	Local $iStyle5 = GUICtrlCreateTreeViewItem("样式 5", $iStylesTreeView)
 
-$aboutlabel = GUICtrlCreateLabel ("这只是一个treeview演示.",160,80,160,20)
+	Local $iAboutLabel = GUICtrlCreateLabel("这只是一个treeview演示.", 160, 80, 160, 20)
 
-$cancelbutton = GUICtrlCreateButton ("取消",130,170,70,20)
-	GUISetState()
+	Local $iCancelButton = GUICtrlCreateButton("取消", 130, 170, 85, 25)
+	GUISetState(@SW_SHOW, $hGUI)
 
-	GUICtrlSetState($effect1, $GUI_CHECKED)
-	GUICtrlSetState($effect3, $GUI_CHECKED)
-	GUICtrlSetState($style4, $GUI_CHECKED)
-	GUICtrlSetState($style5, $GUI_CHECKED)
+	GUICtrlSetState($iEffect1, $GUI_CHECKED)
+	GUICtrlSetState($iEffect3, $GUI_CHECKED)
+	GUICtrlSetState($iStyle4, $GUI_CHECKED)
+	GUICtrlSetState($iStyle5, $GUI_CHECKED)
 
 	While 1
-		$msg = GUIGetMsg()
-		Select
-			Case $msg = -3 Or $msg = -1 Or $msg = $cancelbutton
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE, $iCancelButton
 				ExitLoop
-			Case $msg = $aboutitem
-				GUICtrlSetState($descgroup, $GUI_HIDE)
-				GUICtrlSetState($effectstree, $GUI_HIDE)
-				GUICtrlSetState($effectsgroup, $GUI_HIDE)
-				GUICtrlSetState($stylestree, $GUI_HIDE)
-				GUICtrlSetState($stylesgroup, $GUI_HIDE)
-				GUICtrlSetState($aboutlabel, $GUI_SHOW)
 
-			Case $msg = $effectitem
-				GUICtrlSetState($stylestree, $GUI_HIDE)
-				GUICtrlSetState($stylesgroup, $GUI_HIDE)
-				GUICtrlSetState($aboutlabel, $GUI_HIDE)
-				GUICtrlSetState($effectsgroup, $GUI_SHOW)
-				GUICtrlSetState($descgroup, $GUI_SHOW)
-				GUICtrlSetState($effectstree, $GUI_SHOW)
-				GUICtrlSetBkColor($effectstree, 0xD0F0F0)
-				;GUIctrlSetState...($effectstree,$GUI_SHOW)
+			Case $iAboutItem
+				GUICtrlSetState($iDescriptionGroup, $GUI_HIDE)
+				GUICtrlSetState($iEffectsTreeView, $GUI_HIDE)
+				GUICtrlSetState($iEffectsGroup, $GUI_HIDE)
+				GUICtrlSetState($iStylesTreeView, $GUI_HIDE)
+				GUICtrlSetState($iStylesGroup, $GUI_HIDE)
+				GUICtrlSetState($iAboutLabel, $GUI_SHOW)
 
-			Case $msg = $styleitem
-				GUICtrlSetState($effectstree, $GUI_HIDE)
-				GUICtrlSetState($effectsgroup, $GUI_HIDE)
-				GUICtrlSetState($aboutlabel, $GUI_HIDE)
-				GUICtrlSetState($stylesgroup, $GUI_SHOW)
-				GUICtrlSetState($descgroup, $GUI_SHOW)
-				;GUIctrlSetState.($stylestree,$GUI_SHOW)
-				GUICtrlSetState($stylestree, $GUI_SHOW)
-				GUICtrlSetColor($stylestree, 0xD00000)
-				GUICtrlSetBkColor($stylestree, 0xD0FFD0)
+			Case $iEffectItem
+				GUICtrlSetState($iStylesTreeView, $GUI_HIDE)
+				GUICtrlSetState($iStylesGroup, $GUI_HIDE)
+				GUICtrlSetState($iAboutLabel, $GUI_HIDE)
+				GUICtrlSetState($iEffectsGroup, $GUI_SHOW)
+				GUICtrlSetState($iDescriptionGroup, $GUI_SHOW)
+				GUICtrlSetState($iEffectsTreeView, $GUI_SHOW)
+				GUICtrlSetBkColor($iEffectsTreeView, 0xD0F0F0)
 
-		EndSelect
+			Case $iStyleItem
+				GUICtrlSetState($iEffectsTreeView, $GUI_HIDE)
+				GUICtrlSetState($iEffectsGroup, $GUI_HIDE)
+				GUICtrlSetState($iAboutLabel, $GUI_HIDE)
+				GUICtrlSetState($iStylesGroup, $GUI_SHOW)
+				GUICtrlSetState($iDescriptionGroup, $GUI_SHOW)
+				GUICtrlSetState($iStylesTreeView, $GUI_SHOW)
+				GUICtrlSetColor($iStylesTreeView, 0xD00000)
+				GUICtrlSetBkColor($iStylesTreeView, 0xD0FFD0)
+
+		EndSwitch
 	WEnd
-
-	GUIDelete()
+	GUIDelete($hGUI)
 	Exit
-EndFunc   ;==>_Main
+EndFunc   ;==>Example
