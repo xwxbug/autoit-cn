@@ -553,7 +553,7 @@ EndFunc   ;==>_FTP_GetLastResponseInfo
 ; Author ........: Beast, Prog@ndy
 ; Modified.......:
 ; ===============================================================================================================================
-Func _FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $l_Context = 0)
+Func _FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = $INTERNET_FLAG_NO_CACHE_WRITE, $l_Context = 0)
 	Local $aArray[1]
 	$aArray[0] = 0
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, $aArray)
@@ -565,7 +565,7 @@ EndFunc   ;==>_FTP_ListToArray
 ; Author ........: Prog@ndy
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _FTP_ListToArray2D($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $l_Context = 0)
+Func _FTP_ListToArray2D($l_FTPSession, $Return_Type = 0, $l_Flags = $INTERNET_FLAG_NO_CACHE_WRITE, $l_Context = 0)
 	Local $aArray[1][1]
 	$aArray[0][0] = 0
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, $aArray)
@@ -577,7 +577,7 @@ EndFunc   ;==>_FTP_ListToArray2D
 ; Author ........: Beast, Prog@ndy
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _FTP_ListToArrayEx($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $b_Fmt = 1, $l_Context = 0)
+Func _FTP_ListToArrayEx($l_FTPSession, $Return_Type = 0, $l_Flags = $INTERNET_FLAG_NO_CACHE_WRITE, $b_Fmt = 1, $l_Context = 0)
 	Local $aArray[1][1]
 	$aArray[0][0] = 0
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, $aArray)
@@ -802,7 +802,7 @@ EndFunc   ;==>_FTP_SetStatusCallback
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __FTP_ListToArray($l_FTPSession, $Return_Type = 0, $l_Flags = 0, $bFmt = 1, $ArrayCount = 6, $l_Context = 0)
+Func __FTP_ListToArray($l_FTPSession, $Return_Type, $l_Flags, $bFmt, $ArrayCount, $l_Context)
 	If $ArrayCount = 1 Then
 		Local $FileArray[1], $DirectoryArray[1]
 		$FileArray[0] = 0

@@ -674,7 +674,7 @@ Func _FileWriteToLine($sFilePath, $iLine, $sText, $iOverWrite = 0)
 	If FileExists($sFilePath) = 0 Then Return SetError(2, 0, 0)
 
 	Local $sFileRead = FileRead($sFilePath)
-	Local $aArray = StringRegExp(@CRLF & $sFileRead & @CRLF, "(*BSR_ANYCRLF)([^\R]*)(?:\R)(?:\R$)?", 3)
+	Local $aArray = StringRegExp(@CRLF & $sFileRead & @CRLF, "([^\r\n]*)(?:\r\n|\n|\r)(?:[\r\n]$)?", 3)
 	$aArray[0] = UBound($aArray) - 1
 	If ($aArray[0] + 1) < $iLine Then Return SetError(1, 0, 0)
 

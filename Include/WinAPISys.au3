@@ -336,7 +336,7 @@ Func _WinAPI_ChangeWindowMessageFilterEx($hWnd, $iMsg, $iAction)
 	If $hWnd And ($__WINVER > 0x0600) Then
 		Local Const $tagCHANGEFILTERSTRUCT = 'dword cbSize; dword ExtStatus'
 		$tCFS = DllStructCreate($tagCHANGEFILTERSTRUCT)
-		DllStructSetData($tCFS, 1, 4)
+		DllStructSetData($tCFS, 1, DllStructGetSize($tCFS))
 		$Ret = DllCall('user32.dll', 'bool', 'ChangeWindowMessageFilterEx', 'hwnd', $hWnd, 'uint', $iMsg, 'dword', $iAction, _
 				'struct*', $tCFS)
 	Else

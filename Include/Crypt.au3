@@ -47,6 +47,9 @@ Global Const $CALG_MD2 = 0x00008001
 Global Const $CALG_MD4 = 0x00008002
 Global Const $CALG_MD5 = 0x00008003
 Global Const $CALG_SHA1 = 0x00008004
+; Global Const $CALG_SHA_256 = 0x0000800c
+; Global Const $CALG_SHA_384 = 0x0000800d
+; Global Const $CALG_SHA_512 = 0x0000800e
 Global Const $CALG_3DES = 0x00006603
 Global Const $CALG_AES_128 = 0x0000660e
 Global Const $CALG_AES_192 = 0x0000660f
@@ -68,9 +71,8 @@ Func _Crypt_Startup()
 		Local $hAdvapi32 = DllOpen("Advapi32.dll")
 		If $hAdvapi32 = -1 Then Return SetError(1, 0, False)
 		__Crypt_DllHandleSet($hAdvapi32)
-		Local $aRet
 		Local $iProviderID = $PROV_RSA_AES
-		$aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptAcquireContext", "handle*", 0, "ptr", 0, "ptr", 0, "dword", $iProviderID, "dword", $CRYPT_VERIFYCONTEXT)
+		Local $aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptAcquireContext", "handle*", 0, "ptr", 0, "ptr", 0, "dword", $iProviderID, "dword", $CRYPT_VERIFYCONTEXT)
 		If @error Or Not $aRet[0] Then
 			Local $iError = @error + 10, $iExtended = @extended
 			DllClose(__Crypt_DllHandle())
@@ -101,11 +103,10 @@ EndFunc   ;==>_Crypt_Shutdown
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_DeriveKey($vPassword, $iALG_ID, $iHash_ALG_ID = $CALG_MD5)
-	Local $aRet
-	Local $hCryptHash = 0
-	Local $hBuff
-	Local $iError = 0, $iExtended = 0
-	Local $vReturn
+	Local $aRet = 0, _
+			$hBuff = 0, $hCryptHash = 0, _
+			$iError = 0, $iExtended = 0, _
+			$vReturn = 0
 
 	_Crypt_Startup()
 	Do
@@ -149,7 +150,7 @@ EndFunc   ;==>_Crypt_DeriveKey
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_DestroyKey($hCryptKey)
-	;_Crypt_Startup()
+	; _Crypt_Startup()
 	Local $aRet = DllCall(__Crypt_DllHandle(), "bool", "CryptDestroyKey", "handle", $hCryptKey)
 	Local $iError = @error, $iExtended = @extended
 	_Crypt_Shutdown()
@@ -165,11 +166,12 @@ EndFunc   ;==>_Crypt_DestroyKey
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_EncryptData($vData, $vCryptKey, $iALG_ID, $fFinal = True)
-	Local $hBuff
-	Local $iError = 0, $iExtended = 0
-	Local $vReturn
-	Local $ReqBuffSize
-	Local $aRet
+	Local $ReqBuffSize = 0, _
+			$aRet = 0, _
+			$hBuff = 0, _
+			$iError = 0, $iExtended = 0, _
+			$vReturn = 0
+
 	_Crypt_Startup()
 
 	Do
@@ -217,12 +219,11 @@ EndFunc   ;==>_Crypt_EncryptData
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_DecryptData($vData, $vCryptKey, $iALG_ID, $fFinal = True)
-	Local $hBuff
-	Local $iError = 0, $iExtended = 0
-	Local $vReturn
-	Local $hTempStruct
-	Local $iPlainTextSize
-	Local $aRet
+	Local $aRet = 0, _
+			$hBuff = 0, $hTempStruct = 0, _
+			$iError = 0, $iExtended = 0, $iPlainTextSize = 0, _
+			$vReturn = 0
+
 	_Crypt_Startup()
 
 	Do
@@ -262,11 +263,10 @@ EndFunc   ;==>_Crypt_DecryptData
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_HashData($vData, $iALG_ID, $fFinal = True, $hCryptHash = 0)
-	Local $iError = 0, $iExtended = 0
-	Local $vReturn = 0
-	Local $iHashSize = 0
-	Local $aRet
-	Local $hBuff = 0
+	Local $aRet = 0, _
+			$hBuff = 0, _
+			$iError = 0, $iExtended = 0, $iHashSize = 0, _
+			$vReturn = 0
 
 	_Crypt_Startup()
 	Do
@@ -331,10 +331,11 @@ EndFunc   ;==>_Crypt_HashData
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_HashFile($sFile, $iALG_ID)
-	Local $hFile
-	Local $iError = 0, $iExtended = 0, $vReturn
-	Local $hHashObject = 0
-	Local $bTempData
+	Local $bTempData = 0, _
+			$hFile = 0, $hHashObject = 0, _
+			$iError = 0, $iExtended = 0, _
+			$vReturn = 0
+
 	_Crypt_Startup()
 
 	Do
@@ -379,11 +380,10 @@ EndFunc   ;==>_Crypt_HashFile
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_EncryptFile($sSourceFile, $sDestinationFile, $vCryptKey, $iALG_ID)
-	Local $hInFile, $hOutFile
-	Local $iError = 0, $iExtended = 0, $vReturn = True
-	Local $bTempData
-	Local $iFileSize = FileGetSize($sSourceFile)
-	Local $iRead = 0
+	Local $bTempData = 0, _
+			$hInFile = 0, $hOutFile = 0, _
+			$iError = 0, $iExtended = 0, $iFileSize = FileGetSize($sSourceFile), $iRead = 0, _
+			$vReturn = True
 
 	_Crypt_Startup()
 
@@ -449,11 +449,10 @@ EndFunc   ;==>_Crypt_EncryptFile
 ; Modified ......:
 ; ===============================================================================================================================
 Func _Crypt_DecryptFile($sSourceFile, $sDestinationFile, $vCryptKey, $iALG_ID)
-	Local $hInFile, $hOutFile
-	Local $iError = 0, $iExtended = 0, $vReturn = True
-	Local $bTempData
-	Local $iFileSize = FileGetSize($sSourceFile)
-	Local $iRead = 0
+	Local $bTempData = 0, _
+			$hInFile = 0, $hOutFile = 0, _
+			$iError = 0, $iExtended = 0, $iFileSize = FileGetSize($sSourceFile), $iRead = 0, _
+			$vReturn = True
 
 	_Crypt_Startup()
 

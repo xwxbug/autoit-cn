@@ -6,6 +6,7 @@
 #include "WinAPI.au3"
 #include "SendMessage.au3"
 #include "UDFGlobalID.au3"
+#include "ToolTipConstants.au3" ; for _GUICtrlEdit_ShowBalloonTip()
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit
@@ -133,7 +134,7 @@ Global Const $__EDITCONSTANT_SB_SCROLLCARET = 4
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
-; $tagEDITBALLOONTIP
+; $__tagEDITBALLOONTIP
 ; __GUICtrlEdit_FindText
 ; ===============================================================================================================================
 
@@ -151,7 +152,7 @@ Global Const $__EDITCONSTANT_SB_SCROLLCARET = 4
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......: For use with Edit control (minimum O.S. Win XP)
 ; ===============================================================================================================================
-Global Const $tagEDITBALLOONTIP = "dword Size;ptr Title;ptr Text;int Icon"
+Global Const $__tagEDITBALLOONTIP = "dword Size;ptr Title;ptr Text;int Icon"
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
@@ -1037,7 +1038,7 @@ Func _GUICtrlEdit_ShowBalloonTip($hWnd, $sTitle, $sText, $iIcon)
 
 	Local $tTitle = _WinAPI_MultiByteToWideChar($sTitle)
 	Local $tText = _WinAPI_MultiByteToWideChar($sText)
-	Local $tTT = DllStructCreate($tagEDITBALLOONTIP)
+	Local $tTT = DllStructCreate($__tagEDITBALLOONTIP)
 	DllStructSetData($tTT, "Size", DllStructGetSize($tTT))
 	DllStructSetData($tTT, "Title", DllStructGetPtr($tTitle))
 	DllStructSetData($tTT, "Text", DllStructGetPtr($tText))

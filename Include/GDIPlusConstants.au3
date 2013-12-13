@@ -238,4 +238,139 @@ Global Const $GDIP_COMPOSITINGQUALITYHIGHSPEED = $GDIP_QUALITYMODELOW ; Gamma co
 Global Const $GDIP_COMPOSITINGQUALITYHIGHQUALITY = $GDIP_QUALITYMODEHIGH ; Gamma correction is applied. Composition of high quality and speed.
 Global Const $GDIP_COMPOSITINGQUALITYGAMMACORRECTED = 3 ; Gamma correction is applied
 Global Const $GDIP_COMPOSITINGQUALITYASSUMELINEAR = 4 ; Gamma correction is not applied. Linear values are used
+
+; Various hatch styles
+Global Const $GDIP_HATCHSTYLE_HORIZONTAL = 0
+Global Const $GDIP_HATCHSTYLE_VERTICAL = 1
+Global Const $GDIP_HATCHSTYLE_FORWARDDIAGONAL = 2
+Global Const $GDIP_HATCHSTYLE_BACKWARDDIAGONAL = 3
+Global Const $GDIP_HATCHSTYLE_CROSS = 4
+Global Const $GDIP_HATCHSTYLE_DIAGONALCROSS = 5
+Global Const $GDIP_HATCHSTYLE_05PERCENT = 6
+Global Const $GDIP_HATCHSTYLE_10PERCENT = 7
+Global Const $GDIP_HATCHSTYLE_20PERCENT = 8
+Global Const $GDIP_HATCHSTYLE_25PERCENT = 9
+Global Const $GDIP_HATCHSTYLE_30PERCENT = 10
+Global Const $GDIP_HATCHSTYLE_40PERCENT = 11
+Global Const $GDIP_HATCHSTYLE_50PERCENT = 12
+Global Const $GDIP_HATCHSTYLE_60PERCENT = 13
+Global Const $GDIP_HATCHSTYLE_70PERCENT = 14
+Global Const $GDIP_HATCHSTYLE_75PERCENT = 15
+Global Const $GDIP_HATCHSTYLE_80PERCENT = 16
+Global Const $GDIP_HATCHSTYLE_90PERCENT = 17
+Global Const $GDIP_HATCHSTYLE_LIGHTDOWNWARDDIAGONAL = 18
+Global Const $GDIP_HATCHSTYLE_LIGHTUPWARDDIAGONAL = 19
+Global Const $GDIP_HATCHSTYLE_DARKDOWNWARDDIAGONAL = 20
+Global Const $GDIP_HATCHSTYLE_DARKUPWARDDIAGONAL = 21
+Global Const $GDIP_HATCHSTYLE_WIDEDOWNWARDDIAGONAL = 22
+Global Const $GDIP_HATCHSTYLE_WIDEUPWARDDIAGONAL = 23
+Global Const $GDIP_HATCHSTYLE_LIGHTVERTICAL = 24
+Global Const $GDIP_HATCHSTYLE_LIGHTHORIZONTAL = 25
+Global Const $GDIP_HATCHSTYLE_NARROWVERTICAL = 26
+Global Const $GDIP_HATCHSTYLE_NARROWHORIZONTAL = 27
+Global Const $GDIP_HATCHSTYLE_DARKVERTICAL = 28
+Global Const $GDIP_HATCHSTYLE_DARKHORIZONTAL = 29
+Global Const $GDIP_HATCHSTYLE_DASHEDDOWNWARDDIAGONAL = 30
+Global Const $GDIP_HATCHSTYLE_DASHEDUPWARDDIAGONAL = 31
+Global Const $GDIP_HATCHSTYLE_DASHEDHORIZONTAL = 32
+Global Const $GDIP_HATCHSTYLE_DASHEDVERTICAL = 33
+Global Const $GDIP_HATCHSTYLE_SMALLCONFETTI = 34
+Global Const $GDIP_HATCHSTYLE_LARGECONFETTI = 35
+Global Const $GDIP_HATCHSTYLE_ZIGZAG = 36
+Global Const $GDIP_HATCHSTYLE_WAVE = 37
+Global Const $GDIP_HATCHSTYLE_DIAGONALBRICK = 38
+Global Const $GDIP_HATCHSTYLE_HORIZONTALBRICK = 39
+Global Const $GDIP_HATCHSTYLE_WEAVE = 40
+Global Const $GDIP_HATCHSTYLE_PLAID = 41
+Global Const $GDIP_HATCHSTYLE_DIVOT = 42
+Global Const $GDIP_HATCHSTYLE_DOTTEDGRID = 43
+Global Const $GDIP_HATCHSTYLE_DOTTEDDIAMOND = 44
+Global Const $GDIP_HATCHSTYLE_SHINGLE = 45
+Global Const $GDIP_HATCHSTYLE_TRELLIS = 46
+Global Const $GDIP_HATCHSTYLE_SPHERE = 47
+Global Const $GDIP_HATCHSTYLE_SMALLGRID = 48
+Global Const $GDIP_HATCHSTYLE_SMALLCHECKERBOARD = 49
+Global Const $GDIP_HATCHSTYLE_LARGECHECKERBOARD = 50
+Global Const $GDIP_HATCHSTYLE_OUTLINEDDIAMOND = 51
+Global Const $GDIP_HATCHSTYLE_SOLIDDIAMOND = 52
+Global Const $GDIP_HATCHSTYLE_TOTAL = 53
+Global Const $GDIP_HATCHSTYLE_LARGEGRID = $GDIP_HATCHSTYLE_CROSS
+Global Const $GDIP_HATCHSTYLE_MIN = $GDIP_HATCHSTYLE_HORIZONTAL
+Global Const $GDIP_HATCHSTYLE_MAX = $GDIP_HATCHSTYLE_TOTAL - 1
+
+; GDIPlus V1.1 constants
+;GDI+ effect GUIDs
+Global Const $GDIP_BlurEffectGuid = '{633C80A4-1843-482b-9EF2-BE2834C5FDD4}'
+Global Const $GDIP_SharpenEffectGuid = '{63CBF3EE-C526-402c-8F71-62C540BF5142}'
+Global Const $GDIP_ColorMatrixEffectGuid = '{718F2615-7933-40e3-A511-5F68FE14DD74}'
+Global Const $GDIP_ColorLUTEffectGuid = '{A7CE72A9-0F7F-40d7-B3CC-D0C02D5C3212}'
+Global Const $GDIP_BrightnessContrastEffectGuid = '{D3A1DBE1-8EC4-4c17-9F4C-EA97AD1C343D}'
+Global Const $GDIP_HueSaturationLightnessEffectGuid = '{8B2DD6C3-EB07-4d87-A5F0-7108E26A9C5F}'
+Global Const $GDIP_LevelsEffectGuid = '{99C354EC-2A31-4f3a-8C34-17A803B33A25}'
+Global Const $GDIP_TintEffectGuid = '{1077AF00-2848-4441-9489-44AD4C2D7A2C}'
+Global Const $GDIP_ColorBalanceEffectGuid = '{537E597D-251E-48da-9664-29CA496B70F8}'
+Global Const $GDIP_RedEyeCorrectionEffectGuid = '{74D29D05-69A4-4266-9549-3CC52836B632}'
+Global Const $GDIP_ColorCurveEffectGuid = '{DD6A0022-58E4-4a67-9D9B-D48EB881A53D}'
+
+Global Const $GDIP_AdjustExposure = 0 ;[-255..255]
+Global Const $GDIP_AdjustDensity = 1 ;[-255..255]
+Global Const $GDIP_AdjustContrast = 2 ;[-100..100]
+Global Const $GDIP_AdjustHighlight = 3;[-100..100]
+Global Const $GDIP_AdjustShadow = 4;[-100..100]
+Global Const $GDIP_AdjustMidtone = 5;[-100..100]
+Global Const $GDIP_AdjustWhiteSaturation = 6;[0..255]
+Global Const $GDIP_AdjustBlackSaturation = 7;[0..255]
+
+Global Const $GDIP_CurveChannelAll = 0
+Global Const $GDIP_CurveChannelRed = 1
+Global Const $GDIP_CurveChannelGreen = 2
+Global Const $GDIP_CurveChannelBlue = 3
+
+;Color format conversion parameters
+Global Const $GDIP_PaletteTypeCustom = 0 ;Arbitrary custom palette provided by caller.
+Global Const $GDIP_PaletteTypeOptimal = 1 ;Optimal palette generated using a median-cut algorithm.
+Global Const $GDIP_PaletteTypeFixedBW = 2 ;Black and white palette.
+
+;Symmetric halftone palettes. Each of these halftone palettes will be a superset of the system palette. E.g. Halftone8 will have it's 8-color on-off primaries and the 16 system colors added. With duplicates removed, that leaves 16 colors.
+Global Const $GDIP_PaletteTypeFixedHalftone8 = 3 ;8-color, on-off primaries
+Global Const $GDIP_PaletteTypeFixedHalftone27 = 4 ;3 intensity levels of each color
+Global Const $GDIP_PaletteTypeFixedHalftone64 = 5 ;4 intensity levels of each color
+Global Const $GDIP_PaletteTypeFixedHalftone125 = 6 ;5 intensity levels of each color
+Global Const $GDIP_PaletteTypeFixedHalftone216 = 7 ;6 intensity levels of each color
+
+;Assymetric halftone palettes. These are somewhat less useful than the symmetric ones, but are included for completeness. These do not include all of the system colors.
+Global Const $GDIP_PaletteTypeFixedHalftone252 = 8 ;6-red, 7-green, 6-blue intensities
+Global Const $GDIP_PaletteTypeFixedHalftone256 = 9 ;8-red, 8-green, 4-blue intensities
+
+;PaletteFlags enumeration
+Global Const $GDIP_PaletteFlagsHasAlpha = 0x0001
+Global Const $GDIP_PaletteFlagsGrayScale = 0x0002
+Global Const $GDIP_PaletteFlagsHalftone = 0x0004
+
+;DitherType
+Global Const $GDIP_DitherTypeNone = 0
+Global Const $GDIP_DitherTypeSolid = 1 ;Solid color - picks the nearest matching color with no attempt to halftone or dither. May be used on an arbitrary palette.
+
+;Ordered dithers and spiral dithers must be used with a fixed palette. NOTE: DitherOrdered4x4 is unique in that it may apply to 16bpp conversions also.
+Global Const $GDIP_DitherTypeOrdered4x4 = 2
+Global Const $GDIP_DitherTypeOrdered8x8 = 3
+Global Const $GDIP_DitherTypeOrdered16x16 = 4
+Global Const $GDIP_DitherTypeSpiral4x4 = 5
+Global Const $GDIP_DitherTypeSpiral8x8 = 6
+Global Const $GDIP_DitherTypeDualSpiral4x4 = 7
+Global Const $GDIP_DitherTypeDualSpiral8x8 = 8
+
+;Error diffusion. May be used with any palette.
+Global Const $GDIP_DitherTypeErrorDiffusion = 9
+Global Const $GDIP_DitherTypeMax = 10
+
+;HistogramFormat
+Global Const $GDIP_HistogramFormatARGB = 0
+Global Const $GDIP_HistogramFormatPARGB = 1
+Global Const $GDIP_HistogramFormatRGB = 2
+Global Const $GDIP_HistogramFormatGray = 3
+Global Const $GDIP_HistogramFormatB = 4
+Global Const $GDIP_HistogramFormatG = 5
+Global Const $GDIP_HistogramFormatR = 6
+Global Const $GDIP_HistogramFormatA = 7
 ;===============================================================================================================================

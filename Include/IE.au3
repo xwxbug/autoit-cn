@@ -502,7 +502,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-			; ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : String($o_object.document.readyState) = ' & String($o_object.document.readyState) & @CRLF & '>Error code: ' & @error & '    Extended code: 0x' & Hex(@extended) & @CRLF) ;### Debug Console
+			; ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : String($o_object.top.document.readyState) = ' & String($o_object.top.document.readyState) & @CRLF & '>Error code: ' & @error & '    Extended code: 0x' & Hex(@extended) & @CRLF) ;### Debug Console
 			While Not (String($o_object.top.document.readyState) = "complete" Or $o_object.top.document.readyState = 4 Or $f_Abort)
 				; Trap unrecoverable COM errors
 				If @error Then
@@ -534,7 +534,7 @@ Func _IELoadWait(ByRef $o_object, $i_delay = 0, $i_timeout = -1)
 				EndIf
 				Sleep(100)
 			WEnd
-			; ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : String($oTemp.document.readyState) = ' & String($oTemp.document.readyState) & @CRLF & '>Error code: ' & @error & '    Extended code: 0x' & Hex(@extended) & @CRLF) ;### Debug Console
+			; ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : String($oTemp.top.document.readyState) = ' & String($oTemp.top.document.readyState) & @CRLF & '>Error code: ' & @error & '    Extended code: 0x' & Hex(@extended) & @CRLF) ;### Debug Console
 			While Not (String($oTemp.top.document.readyState) = "complete" Or $oTemp.top.document.readyState = 4 Or $f_Abort)
 				; Trap unrecoverable COM errors
 				If @error Then
@@ -2492,19 +2492,14 @@ EndFunc   ;==>_IEPropertySet
 ; Modified ......: jpm
 ; ===============================================================================================================================
 Func _IEErrorNotify($f_notify = Default)
-	Switch Number($f_notify)
-		Case Default, -1
-			Return $_IEErrorNotify
-		Case 0
-			$_IEErrorNotify = False
-			Return 1
-		Case 1
-			$_IEErrorNotify = True
-			Return 1
-		Case Else
-			__IEConsoleWriteError("Error", "_IEErrorNotify", "$_IEStatus_InvalidValue")
-			Return 0
-	EndSwitch
+	If $f_notify = Default Then Return $_IEErrorNotify
+
+	If $f_notify Then
+		$_IEErrorNotify = True
+	Else
+		$_IEErrorNotify = False
+	EndIf
+	Return 1
 EndFunc   ;==>_IEErrorNotify
 
 ; #FUNCTION# ====================================================================================================================
@@ -2517,7 +2512,7 @@ Func _IEQuit(ByRef $o_object)
 	EndIf
 	;
 	If Not __IEIsObjType($o_object, "browser") Then
-		__IEConsoleWriteError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+		__IEConsoleWriteError("Error", "_IEQuit", "$_IEStatus_InvalidObjectType")
 		Return SetError($_IEStatus_InvalidObjectType, 1, 0)
 	EndIf
 	;
@@ -3084,11 +3079,11 @@ EndFunc   ;==>__IEIsObjType
 ; Author ........: Dale Hohm
 ; Modified ......: jpm
 ; ===============================================================================================================================
-Func __IEConsoleWriteError($s_severity, $s_func, $s_message = "", $s_status = 0)
+Func __IEConsoleWriteError($s_severity, $s_func, $s_message = Default, $s_status = Default)
 	If $_IEErrorNotify Or $__IEAU3Debug Then
 		Local $sStr = "--> IE.au3 " & $IEAU3VersionInfo[5] & " " & $s_severity & " from function " & $s_func
-		If Not String($s_message) = "" Then $sStr &= ", " & $s_message
-		If Not String($s_status) = "" Then $sStr &= " (" & $s_status & ")"
+		If Not ($s_message = Default) Then $sStr &= ", " & $s_message
+		If Not ($s_status = Default) Then $sStr &= " (" & $s_status & ")"
 		ConsoleWrite($sStr & @CRLF)
 	EndIf
 	Return SetError($s_status, 0, 1) ; restore calling @error

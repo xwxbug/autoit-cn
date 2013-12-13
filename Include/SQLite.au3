@@ -189,13 +189,17 @@ Global Const $SQLITE_TYPE_NULL = 5
 	05.08.10	Added _SQLite_Startup() can download maintenance version as 3.7.0.1.
 	20.09.11	Valik Fixed SQLite library needs to support a user-defined callback for diagnostic messages instead of hard-coding ConsoleWrite().
 	06.02.12	Fixed _SQLite_Startup() download error checking.
+	08.11.13	Fixed running in X64 mode
+	08.11.13	Fixed _SQLite_Startup() parameter checking and doc
 #comments-end
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal = 0, $sPrintCallback = $g_sPrintCallback_SQLite)
+Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $iForceLocal = 0, $sPrintCallback = $g_sPrintCallback_SQLite)
+	If $sDll_Filename = Default Or $sDll_Filename = -1 Then $sDll_Filename = ""
+
 	; The $sPrintCallback parameter may look strange to assign it to $g_sPrintCallback_SQLite as
 	; a default.  This is done so that $g_sPrintCallback_SQLite can be pre-initialized with the internal
 	; callback in a single place in case that callback changes.  If the user overrides it then
@@ -205,19 +209,17 @@ Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal =
 	If $bUTF8ErrorMsg = Default Then $bUTF8ErrorMsg = False
 	$g_bUTF8ErrorMsg_SQLite = $bUTF8ErrorMsg
 
-	If $sDll_Filename = Default Or $bForceLocal Or $sDll_Filename = "" Or $sDll_Filename = -1 Then
+	If $sDll_Filename = "" Then $sDll_Filename = "sqlite3.dll"
+	If @AutoItX64 And (StringInStr($sDll_Filename, "_x64") = 0) Then $sDll_Filename = StringReplace($sDll_Filename, ".dll", "_x64.dll")
+
+	Local $iExt = 0
+	If $iForceLocal < 1 Then
 		Local $bDownloadDLL = True
 		Local $vInlineVersion = Call('__SQLite_Inline_Version')
-		If $bForceLocal Then
-			If @AutoItX64 And StringInStr($sDll_Filename, "_x64") Then $sDll_Filename = StringReplace($sDll_Filename, ".dll", "_x64.dll")
-			$bDownloadDLL = ($bForceLocal < 0)
-		Else
-			If @AutoItX64 = 0 Then
-				$sDll_Filename = "sqlite3.dll"
-			Else
-				$sDll_Filename = "sqlite3_x64.dll"
-			EndIf
-			If @error Then $bDownloadDLL = False
+		If @error Then $bDownloadDLL = False ; no valid SQLite version define so invalidate download
+
+		If $iForceLocal = 0 Then
+			; check SQLite version if local file exists
 			If __SQLite_VersCmp(@ScriptDir & "\" & $sDll_Filename, $vInlineVersion) = $SQLITE_OK Then
 				$sDll_Filename = @ScriptDir & "\" & $sDll_Filename
 				$bDownloadDLL = False
@@ -232,21 +234,23 @@ Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal =
 				$bDownloadDLL = False
 			EndIf
 		EndIf
+
 		If $bDownloadDLL Then
-			If FileExists($sDll_Filename) Or $sDll_Filename = "" Then
+			If FileExists($sDll_Filename) Then
 				$sDll_Filename = _TempFile(@TempDir, "~", ".dll")
 				_ArrayAdd($__gaTempFiles_SQLite, $sDll_Filename)
 				OnAutoItExitRegister("_SQLite_Shutdown") ; in case the script exit without calling _SQLite_Shutdown()
 			Else
-				; Create in SystemDir to avoid reloading
+				; Create in SystemDir to avoid reloading: need #requireAdmin under Windows7/8
 				$sDll_Filename = @SystemDir & "\" & $sDll_Filename
 			EndIf
-			If $bForceLocal Then
+			If $iForceLocal Then
 				; download the latest version. Usely related with internal testing.
 				$vInlineVersion = ""
 			Else
 				; download the version related with the include version
 				$vInlineVersion = "_" & $vInlineVersion
+				$iExt = 1
 			EndIf
 			__SQLite_Download_SQLite3Dll($sDll_Filename, $vInlineVersion)
 		EndIf
@@ -254,10 +258,10 @@ Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $bForceLocal =
 	Local $hDll = DllOpen($sDll_Filename)
 	If $hDll = -1 Then
 		$g_hDll_SQLite = 0
-		Return SetError(1, 0, "")
+		Return SetError(1, $iExt, "")
 	Else
 		$g_hDll_SQLite = $hDll
-		Return $sDll_Filename
+		Return SetExtended($iExt, $sDll_Filename)
 	EndIf
 EndFunc   ;==>_SQLite_Startup
 
@@ -290,7 +294,7 @@ Func _SQLite_Open($sDatabase_Filename = Default, $iAccessMode = Default, $iEncod
 		$iEncoding = $SQLITE_ENCODING_UTF8
 	EndIf
 	Local $avRval = DllCall($g_hDll_SQLite, "int:cdecl", "sqlite3_open_v2", "struct*", $tFilename, _ ; UTF-8 Database filename
-			"long*", 0, _ ; OUT: SQLite db handle
+			"ptr*", 0, _ ; OUT: SQLite db handle
 			"int", $iAccessMode, _ ; database access mode
 			"ptr", 0)
 	If @error Then Return SetError(1, @error, 0) ; DllCall error
@@ -644,8 +648,8 @@ Func _SQLite_Query($hDB, $sSQL, ByRef $hQuery)
 			"ptr", $hDB, _
 			"wstr", $sSQL, _
 			"int", -1, _
-			"long*", 0, _ ; OUT: Statement handle
-			"long*", 0) ; OUT: Pointer to unused portion of zSql
+			"ptr*", 0, _ ; OUT: Statement handle
+			"ptr*", 0) ; OUT: Pointer to unused portion of zSql
 	If @error Then Return SetError(1, @error, $SQLITE_MISUSE) ; DllCall error
 	If $iRval[0] <> $SQLITE_OK Then
 		__SQLite_ReportError($hDB, "_SQLite_Query", $sSQL)
@@ -1065,10 +1069,10 @@ EndFunc   ;==>__SQLite_ConsoleWrite
 Func __SQLite_Download_SQLite3Dll(ByRef $tempfile, $version)
 	Local $URL = "http://www.autoitscript.com/autoit3/files/beta/autoit/archive/sqlite/SQLite3" & $version
 	Local $ret
-	If @AutoItX64 = 0 Then
-		$ret = InetGet($URL & ".dll", $tempfile, $INET_FORCERELOAD)
-	Else
+	If @AutoItX64 Then
 		$ret = InetGet($URL & "_x64.dll", $tempfile, $INET_FORCERELOAD)
+	Else
+		$ret = InetGet($URL & ".dll", $tempfile, $INET_FORCERELOAD)
 	EndIf
 	If @error And StringInStr($tempfile, @SystemDir) Then
 		$tempfile = _TempFile(@TempDir, "~", ".dll")
@@ -1080,7 +1084,8 @@ Func __SQLite_Download_SQLite3Dll(ByRef $tempfile, $version)
 	Local $error = @error
 	If @error Then __SQLite_Print('@@ Debug(__SQLite_Download_SQLite3Dll) : $URL = ' & $URL & @CRLF & '$tempfile = ' & $tempfile & @CRLF & '>Error: ' & $error & @CRLF)
 
-	FileSetTime($tempfile, __SQLite_Inline_Modified(), 0)
+	Local $sModifiedTime = Call('__SQLite_Inline_Modified')
+	If Not @error Then FileSetTime($tempfile, $sModifiedTime, 0) ; update filetime if defined
 	Return SetError($error, 0, $ret)
 EndFunc   ;==>__SQLite_Download_SQLite3Dll
 

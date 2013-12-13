@@ -40,7 +40,7 @@ Global Const $__SCREENCAPTURECONSTANT_SRCCOPY = 0x00CC0020
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
+Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $bCursor = True)
 	If $iRight = -1 Then $iRight = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CXSCREEN) - 1
 	If $iBottom = -1 Then $iBottom = _WinAPI_GetSystemMetrics($__SCREENCAPTURECONSTANT_SM_CYSCREEN) - 1
 	If $iRight < $iLeft Then Return SetError(-1, 0, 0)
@@ -55,7 +55,7 @@ Func _ScreenCapture_Capture($sFileName = "", $iLeft = 0, $iTop = 0, $iRight = -1
 	_WinAPI_SelectObject($hCDC, $hBMP)
 	_WinAPI_BitBlt($hCDC, 0, 0, $iW, $iH, $hDDC, $iLeft, $iTop, $__SCREENCAPTURECONSTANT_SRCCOPY)
 
-	If $fCursor Then
+	If $bCursor Then
 		Local $aCursor = _WinAPI_GetCursorInfo()
 		If $aCursor[1] Then
 			Local $hIcon = _WinAPI_CopyIcon($aCursor[2])
@@ -79,7 +79,7 @@ EndFunc   ;==>_ScreenCapture_Capture
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: jpm based on Kafu
 ; ===============================================================================================================================
-Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = True)
+Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $bCursor = True)
 	If Not IsHWnd($hWnd) Then $hWnd = WinGetHandle($hWnd)
 	Local $tRect = DllStructCreate($tagRECT)
 	; needed to get rect when Aero theme is active : Thanks Kafu, Zedna
@@ -101,14 +101,14 @@ Func _ScreenCapture_CaptureWnd($sFileName, $hWnd, $iLeft = 0, $iTop = 0, $iRight
 	If $iTop > DllStructGetData($tRect, "Bottom") Then $iTop = DllStructGetData($tRect, "Top")
 	If $iRight > DllStructGetData($tRect, "Right") Then $iRight = DllStructGetData($tRect, "Right") - 1
 	If $iBottom > DllStructGetData($tRect, "Bottom") Then $iBottom = DllStructGetData($tRect, "Bottom") - 1
-	Return _ScreenCapture_Capture($sFileName, $iLeft, $iTop, $iRight, $iBottom, $fCursor)
+	Return _ScreenCapture_Capture($sFileName, $iLeft, $iTop, $iRight, $iBottom, $bCursor)
 EndFunc   ;==>_ScreenCapture_CaptureWnd
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
+Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $bFreeBmp = True)
 	_GDIPlus_Startup()
 	If @error Then Return SetError(-1, -1, False)
 
@@ -144,7 +144,7 @@ Func _ScreenCapture_SaveImage($sFileName, $hBitmap, $fFreeBmp = True)
 
 	Local $iRet = _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, $pParams)
 	_GDIPlus_ImageDispose($hImage)
-	If $fFreeBmp Then _WinAPI_DeleteObject($hBitmap)
+	If $bFreeBmp Then _WinAPI_DeleteObject($hBitmap)
 	_GDIPlus_Shutdown()
 
 	Return SetError($iRet = False, 0, $iRet = True)

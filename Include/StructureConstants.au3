@@ -4,7 +4,7 @@
 ; Title .........: Structures_Constants
 ; AutoIt Version : 3.2.++
 ; Description ...: Constants for Windows API functions.
-; Author(s) .....: Paul Campbell (PaulIA), Gary Frost, Jpm
+; Author(s) .....: Paul Campbell (PaulIA), Gary Frost, Jpm, UEZ
 ; ===============================================================================================================================
 
 ; #LISTING# =====================================================================================================================
@@ -27,6 +27,16 @@
 ; $tagNMDATETIMEKEYDOWN
 ; $tagNMDATETIMESTRING
 ; $tagEVENTLOGRECORD
+; $tagGDIP_EFFECTPARAMS_Blur
+; $tagGDIP_EFFECTPARAMS_BrightnessContrast
+; $tagGDIP_EFFECTPARAMS_ColorBalance
+; $tagGDIP_EFFECTPARAMS_ColorCurve
+; $tagGDIP_EFFECTPARAMS_ColorLUT
+; $tagGDIP_EFFECTPARAMS_HueSaturationLightness
+; $tagGDIP_EFFECTPARAMS_Levels
+; $tagGDIP_EFFECTPARAMS_RedEyeCorrection
+; $tagGDIP_EFFECTPARAMS_Sharpen
+; $tagGDIP_EFFECTPARAMS_Tint
 ; $tagGDIPBITMAPDATA
 ; $tagGDIPCOLORMATRIX
 ; $tagGDIPENCODERPARAM
@@ -471,6 +481,127 @@ Global Const $tagEVENTLOGRECORD = "dword Length;dword Reserved;dword RecordNumbe
 ; ===============================================================================================================================
 
 ; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_Blur
+; Description ...: $tagGDIP_EFFECTPARAMS_Blur structure
+; Fields ........: Radius  - Real number that specifies the sharpening radius (the radius of the convolution kernel) in pixels.
+;                            The radius must be in the range 0.0 through 255.0
+;                  Amount  - Boolean value that specifies whether the bitmap expands by an amount equal to the blur radius.
+;                            If TRUE, the bitmap expands by an amount equal to the radius so that it can have soft edges.
+;                            If FALSE, the bitmap remains the same size and the soft edges are clipped
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_Blur = "float Radius; bool ExpandEdge"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_BrightnessContrast
+; Description ...: $tagGDIP_EFFECTPARAMS_BrightnessContrast structure
+; Fields ........: BrightnessLevel - Integer in the range -255 through 255 that specifies the brightness level.
+;                  ContrastLevel   - Integer in the range -100 through 100 that specifies the contrast level.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_BrightnessContrast = "int BrightnessLevel; int ContrastLevel"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_ColorBalance
+; Description ...: $tagGDIP_EFFECTPARAMS_ColorBalance structure
+; Fields ........: CyanRed      - Integer in the range -100 through 100 that specifies a change in the amount of red in the image.
+;                  MagentaGreen - Integer in the range -100 through 100 that specifies a change in the amount of green in the image.
+;                  YellowBlue   - Integer in the range -100 through 100 that specifies a change in the amount of blue in the image.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_ColorBalance = "int CyanRed; int MagentaGreen; int YellowBlue"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_ColorCurve
+; Description ...: $tagGDIP_EFFECTPARAMS_ColorCurve structure
+; Fields ........: Adjustment  - CurveAdjustments constant that specifies the adjustment to be applied ($GDIP_Adjust*).
+;                  Channel     - CurveChannel constant that specifies the color channel to which the adjustment applies ($GDIP_CurveChannel*).
+;                  AdjustValue - Integer that specifies the intensity of the adjustment.
+;                                The range of acceptable values depends on which adjustment is being applied (see $GDIP_Adjust* constants).
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_ColorCurve = "int Adjustment; int Channel; int AdjustValue"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_ColorLUT
+; Description ...: $tagGDIP_EFFECTPARAMS_ColorLUT structure
+; Fields ........: LutB - an array of 256 items for Blue
+;                  LutG - an array of 256 items for Green
+;                  LutR - an array of 256 items for Red
+;                  LutA - an array of 256 items for Alpha
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_ColorLUT = "byte LutB[256]; byte LutG[256]; byte LutR[256]; byte LutA[256]" ;look up tables for each color channel.
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_HueSaturationLightness
+; Description ...: $tagGDIP_EFFECTPARAMS_HueSaturationLightness structure
+; Fields ........: HueLevel        - Integer in the range -180 through 180 that specifies the change in hue.
+;                  SaturationLevel - Integer in the range -180 through 180 that specifies the change in saturation.
+;                  LightnessLevel  - Integer in the range -180 through 180 that specifies the change in lightness.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_HueSaturationLightness = "int HueLevel; int SaturationLevel; int LightnessLevel"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_Levels
+; Description ...: $tagGDIP_EFFECTPARAMS_Levels structure
+; Fields ........: Highlight - Integer in the range 0 through 100 that specifies which pixels should be lightened.
+;                  Midtone   - Integer in the range -100 through 100 that specifies how much to lighten or darken an image.
+;                  Shadow    - Integer in the range 0 through 100 that specifies which pixels should be darkened.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_Levels = "int Highlight; int Midtone; int Shadow"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_RedEyeCorrection
+; Description ...: $tagGDIP_EFFECTPARAMS_RedEyeCorrection structure
+; Fields ........: NumberOfAreas  - Integer number of areas.
+;                  Areas  - Array of  X, Y, W, H
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_RedEyeCorrection = "uint NumberOfAreas; ptr Areas"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_Sharpen
+; Description ...: $tagGDIP_EFFECTPARAMS_Sharpen structure
+; Fields ........: Radius  - Real number that specifies the sharpening radius (the radius of the convolution kernel) in pixels.
+;                            The radius must be in the range 0.0 through 255.0?
+;                  Amount  - Real number in the range 0.0 through 100.0 that specifies the amount of sharpening to be applied.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_Sharpen = "float Radius; float Amount"
+
+; #STRUCTURE# ===================================================================================================================
+; Name...........: $tagGDIP_EFFECTPARAMS_Tint
+; Description ...: $tagGDIP_EFFECTPARAMS_Tint structure
+; Fields ........: Hue    - Integer in the range -180 through 180 that specifies the hue to be strengthened or weakened.
+;                  Amount - Integer in the range -100 through 100 that specifies how much the hue (given by the hue parameter) is strengthened or weakened.
+; Author ........: UEZ
+; Modified ......: jpm
+; Remarks .......:
+; ===============================================================================================================================
+Global Const $tagGDIP_EFFECTPARAMS_Tint = "int Hue; int Amount"
+
+; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPBITMAPDATA
 ; Description ...: Bitmap Data
 ; Fields ........: Width    - Number of pixels in one scan line of the bitmap
@@ -498,24 +629,24 @@ Global Const $tagGDIPCOLORMATRIX = "float m[25]"
 ; Name...........: $tagGDIPENCODERPARAM
 ; Description ...: $tagGDIPENCODERPARAM structure
 ; Fields ........: GUID   - Indentifies the parameter category (GDI_EPG constants)
-;                  Count  - Number of values in the array pointed to by the Value member
+;                  NumberOfValues  - Number of values in the array pointed to by the Value member
 ;                  Type   - Identifies the data type of the parameters (GDI_EPT constants)
 ;                  Values - Pointer to an array of values. Each value has the type specified by the Type member.
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPENCODERPARAM = "byte GUID[16];ulong Count;ulong Type;ptr Values"
+Global Const $tagGDIPENCODERPARAM = "struct;byte GUID[16];ulong NumberOfValues;ulong Type;ptr Values;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPENCODERPARAMS
 ; Description ...: $tagGDIPENCODERPARAMS structure
 ; Fields ........: Count  - Number of $tagGDIPENCODERPARAM structures in the array
-;                  Params - Start of $tagGDIPENCODERPARAM structures
+;                  $tagGDIPENCODERPARAM - First $tagGDIPENCODERPARAM structure of the array
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified ......: jpm
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPENCODERPARAMS = "uint Count;byte Params[1]"
+Global Const $tagGDIPENCODERPARAMS = "uint Count;" & $tagGDIPENCODERPARAM
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPRECTF
@@ -527,7 +658,7 @@ Global Const $tagGDIPENCODERPARAMS = "uint Count;byte Params[1]"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagGDIPRECTF = "float X;float Y;float Width;float Height"
+Global Const $tagGDIPRECTF = "struct;float X;float Y;float Width;float Height;endstruct"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagGDIPSTARTUPINPUT
@@ -1846,7 +1977,7 @@ Global Const $tagNMTOOLBAR = $tagNMHDR & ";int iItem;" & _
 ;                  |$HICF_RESELECT    - The change in the hot item resulted from the user entering the shortcut key for an item that was already hot
 ;                  |$HICF_TOGGLEDROPDOWN - Version 5.80. Causes the button to switch states
 ; Author ........: Gary Frost
-; Remarks .......: Needs alignment for x64
+; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMTBHOTITEM = $tagNMHDR & ";int idOld;int idNew;dword dwFlags"
 
@@ -1867,7 +1998,7 @@ Global Const $tagNMTBHOTITEM = $tagNMHDR & ";int idOld;int idNew;dword dwFlags"
 ; Author ........: Paul Campbell (PaulIA)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;align;dword_ptr Param;int_ptr String"
+Global Const $tagTBBUTTON = "int Bitmap;int Command;byte State;byte Style;dword_ptr Param;int_ptr String"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTBBUTTONINFO

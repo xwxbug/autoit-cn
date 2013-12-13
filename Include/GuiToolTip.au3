@@ -22,6 +22,7 @@ Global $_TT_ghTTLastWnd
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $_TOOLTIPCONSTANTS_ClassName = "tooltips_class32"
+Global Const $_TT_ghTTDefaultStyle = BitOR($TTS_ALWAYSTIP, $TTS_NOPREFIX)
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -30,6 +31,7 @@ Global Const $_TOOLTIPCONSTANTS_ClassName = "tooltips_class32"
 ; _GUIToolTip_AdjustRect
 ; _GUIToolTip_BitsToTTF
 ; _GUIToolTip_Create
+; _GUIToolTip_Deactivate
 ; _GUIToolTip_DelTool
 ; _GUIToolTip_Destroy
 ; _GUIToolTip_EnumTools
@@ -64,9 +66,12 @@ Global Const $_TOOLTIPCONSTANTS_ClassName = "tooltips_class32"
 ; _GUIToolTip_ToolToArray
 ; _GUIToolTip_TrackActivate
 ; _GUIToolTip_TrackPosition
-; _GUIToolTip_TTFToBits
 ; _GUIToolTip_Update
 ; _GUIToolTip_UpdateTipText
+; ===============================================================================================================================
+
+; #NEW_FUNCTIONS# ===============================================================================================================
+; _GUIToolTip_Deactivate
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -172,18 +177,19 @@ Global Const $tagTTHITTESTINFO = "hwnd Tool;" & $tagPOINT & ";" & $tagTOOLINFO
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
-Func _GUIToolTip_Activate($hWnd, $fActivate = True)
-	_SendMessage($hWnd, $TTM_ACTIVATE, $fActivate)
+Func _GUIToolTip_Activate($hWnd)
+	_SendMessage($hWnd, $TTM_ACTIVATE, True)
 EndFunc   ;==>_GUIToolTip_Activate
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
-Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0, $iFlags = 8, $iParam = 0)
+Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0, $iFlags = Default, $iParam = 0)
 	Local $iBuffer, $tBuffer, $pBuffer
+	If $iFlags = Default Then $iFlags = BitOR($TTF_SUBCLASS, $TTF_IDISHWND)
 	If $sText <> -1 Then
 		$iBuffer = StringLen($sText) + 1
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
@@ -197,7 +203,7 @@ Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0,
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
-	DllStructSetData($tToolInfo, "Flags", _GUIToolTip_BitsToTTF($iFlags))
+	DllStructSetData($tToolInfo, "Flags", $iFlags)
 	DllStructSetData($tToolInfo, "hWnd", $hWnd)
 	DllStructSetData($tToolInfo, "ID", $iID)
 	DllStructSetData($tToolInfo, "Left", $iLeft)
@@ -247,39 +253,40 @@ EndFunc   ;==>_GUIToolTip_AdjustRect
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
 Func _GUIToolTip_BitsToTTF($iFlags)
-	Local $iN = 0
-
-	If BitAND($iFlags, 1) <> 0 Then $iN = BitOR($iN, $TTF_IDISHWND)
-	If BitAND($iFlags, 2) <> 0 Then $iN = BitOR($iN, $TTF_CENTERTIP)
-	If BitAND($iFlags, 4) <> 0 Then $iN = BitOR($iN, $TTF_RTLREADING)
-	If BitAND($iFlags, 8) <> 0 Then $iN = BitOR($iN, $TTF_SUBCLASS)
-	If BitAND($iFlags, 16) <> 0 Then $iN = BitOR($iN, $TTF_TRACK)
-	If BitAND($iFlags, 32) <> 0 Then $iN = BitOR($iN, $TTF_ABSOLUTE)
-	If BitAND($iFlags, 64) <> 0 Then $iN = BitOR($iN, $TTF_TRANSPARENT)
-	If BitAND($iFlags, 128) <> 0 Then $iN = BitOR($iN, $TTF_PARSELINKS)
-	Return $iN
+	Local $iN = ""
+	If BitAND($iFlags, $TTF_IDISHWND) <> 0 Then $iN &= "TTF_IDISHWND,"
+	If BitAND($iFlags, $TTF_CENTERTIP) <> 0 Then $iN &= "TTF_CENTERTIP,"
+	If BitAND($iFlags, $TTF_RTLREADING) <> 0 Then $iN &= "TTF_RTLREADING,"
+	If BitAND($iFlags, $TTF_SUBCLASS) <> 0 Then $iN &= "TTF_SUBCLASS,"
+	If BitAND($iFlags, $TTF_TRACK) <> 0 Then $iN &= "TTF_TRACK,"
+	If BitAND($iFlags, $TTF_ABSOLUTE) <> 0 Then $iN &= "TTF_ABSOLUTE,"
+	If BitAND($iFlags, $TTF_TRANSPARENT) <> 0 Then $iN &= "TTF_TRANSPARENT,"
+	If BitAND($iFlags, $TTF_PARSELINKS) <> 0 Then $iN &= "TTF_PARSELINKS,"
+	Return StringTrimRight($iN, 1)
 EndFunc   ;==>_GUIToolTip_BitsToTTF
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
-Func _GUIToolTip_Create($hWnd, $iStyle = 0x00000003)
-	;Local $nCtrlID
-
-	;$nCtrlID = _UDF_GetNextGlobalID($hWnd)
-	;If @error Then Return SetError(@error, @extended, 0)
-
-	;Return _WinAPI_CreateWindowEx(0, $_TOOLTIPCONSTANTS_ClassName, "", $iStyle, 0, 0, 0, 0, $hWnd, $nCtrlID)
+Func _GUIToolTip_Create($hWnd, $iStyle = $_TT_ghTTDefaultStyle)
 	Return _WinAPI_CreateWindowEx(0, $_TOOLTIPCONSTANTS_ClassName, "", $iStyle, 0, 0, 0, 0, $hWnd)
 EndFunc   ;==>_GUIToolTip_Create
 
 ; #FUNCTION# ====================================================================================================================
-; Author ........: Paul Campbell (PaulIA)
+; Author ........: Bob Marotte (BrewManNH)
 ; Modified.......:
+; ===============================================================================================================================
+Func _GUIToolTip_Deactivate($hWnd)
+	_SendMessage($hWnd, $TTM_ACTIVATE, False)
+EndFunc   ;==>_GUIToolTip_Deactivate
+
+; #FUNCTION# ====================================================================================================================
+; Author ........: Paul Campbell (PaulIA)
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
 Func _GUIToolTip_DelTool($hWnd, $hTool, $iID = 0)
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
@@ -342,17 +349,19 @@ EndFunc   ;==>_GUIToolTip_EnumTools
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
-Func _GUIToolTip_GetBubbleHeight($hWnd, $hTool, $iID, $iFlags = 48)
-	Return _WinAPI_HiWord(_GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, _GUIToolTip_BitsToTTF($iFlags)))
+Func _GUIToolTip_GetBubbleHeight($hWnd, $hTool, $iID, $iFlags = Default)
+	If $iFlags = Default Then $iFlags = BitOR($TTF_IDISHWND, $TTF_SUBCLASS)
+	Return _WinAPI_HiWord(_GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, $iFlags))
 EndFunc   ;==>_GUIToolTip_GetBubbleHeight
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
-Func _GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, $iFlags = 0x000000A0)
+Func _GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, $iFlags = Default)
+	If $iFlags = Default Then $iFlags = BitOR($TTF_IDISHWND, $TTF_SUBCLASS)
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
@@ -374,10 +383,11 @@ EndFunc   ;==>_GUIToolTip_GetBubbleSize
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
-Func _GUIToolTip_GetBubbleWidth($hWnd, $hTool, $iID, $iFlags = 48)
-	Return _WinAPI_LoWord(_GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, _GUIToolTip_BitsToTTF($iFlags)))
+Func _GUIToolTip_GetBubbleWidth($hWnd, $hTool, $iID, $iFlags = Default)
+	If $iFlags = Default Then $iFlags = BitOR($TTF_IDISHWND, $TTF_SUBCLASS)
+	Return _WinAPI_LoWord(_GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, $iFlags))
 EndFunc   ;==>_GUIToolTip_GetBubbleWidth
 
 ; #FUNCTION# ====================================================================================================================
@@ -404,10 +414,10 @@ EndFunc   ;==>_GUIToolTip_GetCurrentTool
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
+; Modified.......: Bob Marotte (BrewManNH)
 ; ===============================================================================================================================
 Func _GUIToolTip_GetDelayTime($hWnd, $iDuration)
-	Return _SendMessage($hWnd, $TTM_GETDELAYTIME, $iDuration + 1)
+	Return _SendMessage($hWnd, $TTM_GETDELAYTIME, $iDuration)
 EndFunc   ;==>_GUIToolTip_GetDelayTime
 
 ; #FUNCTION# ====================================================================================================================
@@ -500,9 +510,10 @@ EndFunc   ;==>_GUIToolTip_GetTipTextColor
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUIToolTip_GetTitleBitMap($hWnd)
-	Local $tBuffer = DllStructCreate("char Text[4096]")
+	Local $tBuffer = DllStructCreate("wchar Text[4096]")
 	Local $tTitle = DllStructCreate($tagTTGETTITLE)
 	Local $iTitle = DllStructGetSize($tTitle)
+    DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
 	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))
@@ -525,9 +536,10 @@ EndFunc   ;==>_GUIToolTip_GetTitleBitMap
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUIToolTip_GetTitleText($hWnd)
-	Local $tBuffer = DllStructCreate("char Text[4096]")
+	Local $tBuffer = DllStructCreate("wchar Text[4096]")
 	Local $tTitle = DllStructCreate($tagTTGETTITLE)
 	Local $iTitle = DllStructGetSize($tTitle)
+    DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
 	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))
@@ -735,13 +747,14 @@ EndFunc   ;==>_GUIToolTip_SetTitle
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIToolTip_SetToolInfo($hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0, $iFlags = 8, $iParam = 0)
+Func _GUIToolTip_SetToolInfo($hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iRight = 0, $iBottom = 0, $iFlags = Default, $iParam = 0)
+	If $iFlags = Default Then $iFlags = BitOR($TTF_SUBCLASS, $TTF_IDISHWND)
 	Local $tBuffer = DllStructCreate("wchar Text[4096]")
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 	DllStructSetData($tBuffer, "Text", $sText)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
-	DllStructSetData($tToolInfo, "Flags", _GUIToolTip_BitsToTTF($iFlags))
+	DllStructSetData($tToolInfo, "Flags", $iFlags)
 	DllStructSetData($tToolInfo, "hWnd", $hWnd)
 	DllStructSetData($tToolInfo, "ID", $iID)
 	DllStructSetData($tToolInfo, "Left", $iLeft)
@@ -796,7 +809,7 @@ EndFunc   ;==>_GUIToolTip_ToolExists
 Func _GUIToolTip_ToolToArray($hWnd, ByRef $tToolInfo, $iError)
 	Local $aTool[10]
 
-	$aTool[0] = _GUIToolTip_TTFToBits(DllStructGetData($tToolInfo, "Flags"))
+	$aTool[0] = DllStructGetData($tToolInfo, "Flags")
 	$aTool[1] = DllStructGetData($tToolInfo, "hWnd")
 	$aTool[2] = DllStructGetData($tToolInfo, "ID")
 	$aTool[3] = DllStructGetData($tToolInfo, "Left")
@@ -839,24 +852,6 @@ EndFunc   ;==>_GUIToolTip_TrackActivate
 Func _GUIToolTip_TrackPosition($hWnd, $iX, $iY)
 	_SendMessage($hWnd, $TTM_TRACKPOSITION, 0, _WinAPI_MakeLong($iX, $iY))
 EndFunc   ;==>_GUIToolTip_TrackPosition
-
-; #FUNCTION# ====================================================================================================================
-; Author ........: Paul Campbell (PaulIA)
-; Modified.......:
-; ===============================================================================================================================
-Func _GUIToolTip_TTFToBits($iFlags)
-	Local $iN = 0
-
-	If BitAND($iFlags, $TTF_IDISHWND) <> 0 Then $iN = BitOR($iN, 1)
-	If BitAND($iFlags, $TTF_CENTERTIP) <> 0 Then $iN = BitOR($iN, 2)
-	If BitAND($iFlags, $TTF_RTLREADING) <> 0 Then $iN = BitOR($iN, 4)
-	If BitAND($iFlags, $TTF_SUBCLASS) <> 0 Then $iN = BitOR($iN, 8)
-	If BitAND($iFlags, $TTF_TRACK) <> 0 Then $iN = BitOR($iN, 16)
-	If BitAND($iFlags, $TTF_ABSOLUTE) <> 0 Then $iN = BitOR($iN, 32)
-	If BitAND($iFlags, $TTF_TRANSPARENT) <> 0 Then $iN = BitOR($iN, 64)
-	If BitAND($iFlags, $TTF_PARSELINKS) <> 0 Then $iN = BitOR($iN, 128)
-	Return $iN
-EndFunc   ;==>_GUIToolTip_TTFToBits
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)

@@ -2570,54 +2570,37 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedCount
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __GUICtrlListView_GetCheckedIndices
 ; Description ...: Retrieve indices of checked item(s)
-; Syntax.........: __GUICtrlListView_GetCheckedIndices ( $hWnd [, $fArray = False] )
+; Syntax.........: __GUICtrlListView_GetCheckedIndices ( $hWnd )
 ; Parameters ....: $hWnd        - Handle to the control
-;                  $fArray      - Return string or Array
-;                  |True - Returns array
-;                  |False - Returns pipe "|" delimited string
 ; Return values .: Success      - Checked indices Based on $fArray:
 ;                  +Array       - With the following format
 ;                  |[0] - Number of Items in array (n)
 ;                  |[1] - First item index
 ;                  |[2] - Second item index
 ;                  |[n] - Last item index
-;                  |String      - With the following format
-;                  |"0|1|2|n"
 ;                  Failure      - Based on $fArray
 ;                  |Array       - With the following format
 ;                  |[0] - Number of Items in array (0)
-;                  |String      - Empty ("")
 ; Author ........: jpm
-; Modified.......:
+; Modified.......: Melba23 (based on code by benners)
 ; Remarks .......:
 ; Related .......:
 ; Link ..........:
 ; Example .......: Yes
 ; ===============================================================================================================================
-Func __GUICtrlListView_GetCheckedIndices($hWnd, $fArray = False)
-	Local $sIndices, $aIndices[1] = [0]
-	Local $iRet, $iCount = _GUICtrlListView_GetItemCount($hWnd)
-	For $iItem = 0 To $iCount - 1
-		$iRet = _GUICtrlListView_GetItemChecked($hWnd, $iItem)
-		If $iRet Then
-			If (Not $fArray) Then
-				If StringLen($sIndices) Then
-					$sIndices &= "|" & $iItem
-				Else
-					$sIndices = $iItem
-				EndIf
-			Else
-				ReDim $aIndices[UBound($aIndices) + 1]
-				$aIndices[0] = UBound($aIndices) - 1
-				$aIndices[UBound($aIndices) - 1] = $iItem
-			EndIf
-		EndIf
-	Next
-	If (Not $fArray) Then
-		Return String($sIndices)
-	Else
-		Return $aIndices
-	EndIf
+Func __GUICtrlListView_GetCheckedIndices($hWnd)
+	Local $iCount = _GUICtrlListView_GetItemCount($hWnd)
+    ; Create max size array
+    Local $aSelected[$iCount + 1] = [0]
+    For $i = 0 To $iCount - 1
+        If _GUICtrlListView_GetItemChecked($hWnd, $i) Then
+            $aSelected[0] += 1
+            $aSelected[$aSelected[0]] = $i
+        EndIf
+    Next
+    ; Remove unfilled elements
+    ReDim $aSelected[$aSelected[0] + 1]
+    Return $aSelected
 EndFunc   ;==>__GUICtrlListView_GetCheckedIndices
 
 ; #FUNCTION# ====================================================================================================================
@@ -4480,7 +4463,8 @@ EndFunc   ;==>_GUICtrlListView_SetWorkAreas
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......: guinness - Re-write of function to remove magic numbers and unnecessary use of UBound. Melba23 - Added optional paramater to reverse the $vSortSense variable.
+; Modified.......: guinness - Re-write of function to remove magic numbers and unnecessary use of UBound. Melba23 - Added optional parameter to reverse the $vSortSense variable.
+; Modified.......: Melba23 to fix checked item bug in __GUICtrlListView_GetCheckedIndices
 ; ===============================================================================================================================
 Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vSortSense, $iCol, $fToggle = True)
 	Local $iItemCount = _GUICtrlListView_GetItemCount($hWnd)
@@ -4497,7 +4481,7 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vSortSense, $iCol, $fToggle = Tru
 		Local $aListViewItems[$iItemCount][$iColumnCount + 2]
 
 		Local $aSelectedItems = StringSplit(_GUICtrlListView_GetSelectedIndices($hWnd), $vSeparatorChar)
-		Local $aCheckedItems = StringSplit(__GUICtrlListView_GetCheckedIndices($hWnd), $vSeparatorChar)
+		Local $aCheckedItems = __GUICtrlListView_GetCheckedIndices($hWnd)
 		Local $sItemText, $iFocused = -1
 		For $i = 0 To $iItemCount - 1 ; Rows
 			If $iFocused = -1 Then

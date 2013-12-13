@@ -81,4 +81,13 @@ Global Const $TTS_NOANIMATE = 0x00000010 ; Disables sliding ToolTip animation
 Global Const $TTS_NOFADE = 0x00000020 ; Disables fading ToolTip animation
 Global Const $TTS_BALLOON = 0x00000040 ; The control has the appearance of a cartoon balloon
 Global Const $TTS_CLOSE = 0x00000080 ; Displays a close box in the ToolTip corner
+
+; Duration
+Global Const $TTDT_AUTOMATIC = 0
+Global Const $TTDT_RESHOW = 1
+Global Const $TTDT_AUTOPOP = 2
+Global Const $TTDT_INITIAL = 3
+
+; HIcon
+Global Enum $TTI_NONE, $TTI_INFO, $TTI_WARNING, $TTI_ERROR, $TTI_INFO_LARGE, $TTI_WARNING_LARGE, $TTI_ERROR_LARGE
 ; ===============================================================================================================================

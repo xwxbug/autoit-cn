@@ -636,7 +636,7 @@ EndFunc   ;==>_WinAPI_CreateFontIndirect
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_CreatePen($iPenStyle, $iWidth, $nColor)
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreatePen", "int", $iPenStyle, "int", $iWidth, "dword", $nColor)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreatePen", "int", $iPenStyle, "int", $iWidth, "INT", $nColor)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Return $aResult[0]
@@ -730,7 +730,7 @@ EndFunc   ;==>_WinAPI_CreateSolidBitmap
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_CreateSolidBrush($nColor)
-	Local $aResult = DllCall("gdi32.dll", "handle", "CreateSolidBrush", "dword", $nColor)
+	Local $aResult = DllCall("gdi32.dll", "handle", "CreateSolidBrush", "INT", $nColor)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Return $aResult[0]
@@ -1548,7 +1548,7 @@ EndFunc   ;==>_WinAPI_GetLastErrorMessage
 Func _WinAPI_GetLayeredWindowAttributes($hWnd, ByRef $i_transcolor, ByRef $Transparency, $asColorRef = False)
 	$i_transcolor = -1
 	$Transparency = -1
-	Local $aResult = DllCall("user32.dll", "bool", "GetLayeredWindowAttributes", "hwnd", $hWnd, "dword*", $i_transcolor, _
+	Local $aResult = DllCall("user32.dll", "bool", "GetLayeredWindowAttributes", "hwnd", $hWnd, "INT*", $i_transcolor, _
 			"byte*", $Transparency, "dword*", 0)
 	If @error Or Not $aResult[0] Then Return SetError(@error, @extended, 0)
 
@@ -1842,7 +1842,7 @@ EndFunc   ;==>_WinAPI_GetStdHandle
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_GetSysColor($iIndex)
-	Local $aResult = DllCall("user32.dll", "dword", "GetSysColor", "int", $iIndex)
+	Local $aResult = DllCall("user32.dll", "INT", "GetSysColor", "int", $iIndex)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Return $aResult[0]
@@ -2673,7 +2673,7 @@ EndFunc   ;==>_WinAPI_SelectObject
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_SetBkColor($hDC, $iColor)
-	Local $aResult = DllCall("gdi32.dll", "INT", "SetBkColor", "handle", $hDC, "dword", $iColor)
+	Local $aResult = DllCall("gdi32.dll", "INT", "SetBkColor", "handle", $hDC, "INT", $iColor)
 	If @error Then Return SetError(@error, @extended, -1)
 
 	Return $aResult[0]
@@ -2729,7 +2729,7 @@ EndFunc   ;==>_WinAPI_SetDefaultPrinter
 ; ===============================================================================================================================
 Func _WinAPI_SetDIBits($hDC, $hBmp, $iStartScan, $iScanLines, $pBits, $pBMI, $iColorUse = 0)
 	Local $aResult = DllCall("gdi32.dll", "int", "SetDIBits", "handle", $hDC, "handle", $hBmp, "uint", $iStartScan, _
-			"uint", $iScanLines, "ptr", $pBits, "ptr", $pBMI, "uint", $iColorUse)
+			"uint", $iScanLines, "ptr", $pBits, "ptr", $pBMI, "INT", $iColorUse)
 	If @error Then Return SetError(@error, @extended, False)
 
 	Return $aResult[0]
@@ -2807,7 +2807,7 @@ Func _WinAPI_SetLayeredWindowAttributes($hWnd, $i_transcolor, $Transparency = 25
 	If Not $isColorRef Then
 		$i_transcolor = Int(BinaryMid($i_transcolor, 3, 1) & BinaryMid($i_transcolor, 2, 1) & BinaryMid($i_transcolor, 1, 1))
 	EndIf
-	Local $aResult = DllCall("user32.dll", "bool", "SetLayeredWindowAttributes", "hwnd", $hWnd, "dword", $i_transcolor, _
+	Local $aResult = DllCall("user32.dll", "bool", "SetLayeredWindowAttributes", "hwnd", $hWnd, "INT", $i_transcolor, _
 			"byte", $Transparency, "dword", $dwFlags)
 	If @error Then Return SetError(@error, @extended, False)
 
@@ -2853,7 +2853,7 @@ Func _WinAPI_SetSysColors($vElements, $vColors)
 	EndIf
 
 	Local $tElements = DllStructCreate("int Element[" & $iElementNum & "]")
-	Local $tColors = DllStructCreate("dword NewColor[" & $iElementNum & "]")
+	Local $tColors = DllStructCreate("INT NewColor[" & $iElementNum & "]")
 
 	If Not $isEArray Then
 		DllStructSetData($tElements, "Element", $vElements, 1)
@@ -2881,7 +2881,7 @@ EndFunc   ;==>_WinAPI_SetSysColors
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_SetTextColor($hDC, $iColor)
-	Local $aResult = DllCall("gdi32.dll", "INT", "SetTextColor", "handle", $hDC, "dword", $iColor)
+	Local $aResult = DllCall("gdi32.dll", "INT", "SetTextColor", "handle", $hDC, "INT", $iColor)
 	If @error Then Return SetError(@error, @extended, -1)
 
 	Return $aResult[0]

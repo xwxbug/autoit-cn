@@ -185,40 +185,38 @@ EndFunc   ;==>_ArrayDelete
 ; Author ........: randallc, Ultima
 ; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm, Melba23
 ; ===============================================================================================================================
-Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sSeparator = Default, $sReplace = Default, $sHeader = Default)
-	If (Not IsArray($avArray)) Then Return SetError(1, 0, 0)
+Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Default, $iTranspose = Default, $sUser_Separator = Default, $sReplace = Default, $sHeader = Default)
+
+	Local Const $_ARRAYCONSTANT_MB_SYSTEMMODAL = 4096
+	Local Const $_ARRAYCONSTANT_MB_ICONERROR = 16
+
+	If (Not IsArray($avArray)) Then
+		MsgBox($_ARRAYCONSTANT_MB_SYSTEMMODAL + $_ARRAYCONSTANT_MB_ICONERROR, "ArrayDisplay Error " & $sTitle, "No array variable passed to function")
+		Return SetError(1, 0, "")
+	EndIf
 
 	; Default values
 	If $sTitle = Default Then $sTitle = "列表视图(ListView)显示数组"
 	If $iItemLimit = Default Then $iItemLimit = -1
 	If $iTranspose = Default Then $iTranspose = 0
-	If $sSeparator = Default Then $sSeparator = ""
+	If $sUser_Separator = Default Then $sUser_Separator = ""
 	If $sReplace = Default Then $sReplace = "|"
 	If $sHeader = Default Then $sHeader = ""
 
 	; Dimension checking
 	Local $iDimension = UBound($avArray, 0), $iUBound = UBound($avArray, 1) - 1, $iSubMax = UBound($avArray, 2) - 1
-	If $iDimension > 2 Then Return SetError(2, 0, 0)
-
-	; Separator handling
-	If $sSeparator = "" Then $sSeparator = Chr(124)
-
-	;  Check the separator to make sure it's not used literally in the array
-	If _ArraySearch($avArray, $sSeparator, 0, 0, 0, 1) <> -1 Then
-		For $x = 1 To 255
-			If $x >= 32 And $x <= 127 Then ContinueLoop
-			Local $sFind = _ArraySearch($avArray, Chr($x), 0, 0, 0, 1)
-			If $sFind = -1 Then
-				$sSeparator = Chr($x)
-				ExitLoop
-			EndIf
-		Next
+	If $iDimension > 2 Then
+		MsgBox($_ARRAYCONSTANT_MB_SYSTEMMODAL + $_ARRAYCONSTANT_MB_ICONERROR, "ArrayDisplay Error " & $sTitle, "Larger than 2D array passed to function")
+		Return SetError(2, 0, 0)
 	EndIf
 
+	; Separator handling
+	Local $sAD_Separator = ChrW(0xF123)
+	Local $sCurr_Separator = Opt("GUIDataSeparatorChar", $sAD_Separator) ; Set separator to use in this UDF and store existing one
+	If $sUser_Separator = "" Then $sUser_Separator = $sCurr_Separator
+
 	; Declare variables
-	Local $vTmp, $iBuffer = 4094 ; AutoIt max item size
-	Local $iColLimit = 250
-	Local $iOnEventMode = Opt("GUIOnEventMode", 0), $sDataSeparatorChar = Opt("GUIDataSeparatorChar", $sSeparator)
+	Local $vTmp, $iBuffer = 4094, $iColLimit = 250
 
 	; Swap dimensions if transposing
 	If $iSubMax < 0 Then $iSubMax = 0
@@ -233,20 +231,18 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 	If $iItemLimit < 1 Then $iItemLimit = $iUBound
 	If $iUBound > $iItemLimit Then $iUBound = $iItemLimit
 
-	; Set header up
+	; Create header
 	If $sHeader = "" Then
-		$sHeader = "Row  " ; blanks added to adjust column size for big number of rows
+		$sHeader = "Row  " ; Blanks added to adjust column size for large number of rows
 		For $i = 0 To $iSubMax
-			$sHeader &= $sSeparator & "Col " & $i
+			$sHeader &= $sAD_Separator & "Col " & $i
 		Next
-	ElseIf $sDataSeparatorChar <> $sSeparator Then
-		$sHeader = StringReplace($sHeader, $sDataSeparatorChar, $sSeparator)
 	EndIf
 
 	; Convert array into text for listview
 	Local $avArrayText[$iUBound + 1]
 	For $i = 0 To $iUBound
-		$avArrayText[$i] = "[" & $i & "]"
+		$avArrayText[$i] = "#" & $i
 		For $j = 0 To $iSubMax
 			; Get current item
 			If $iDimension = 1 Then
@@ -263,13 +259,10 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 				EndIf
 			EndIf
 
-			; Add to text array
-			$vTmp = StringReplace($vTmp, $sSeparator, $sReplace, 0, 1)
-
 			; Set max buffer size
 			If StringLen($vTmp) > $iBuffer Then $vTmp = StringLeft($vTmp, $iBuffer)
 
-			$avArrayText[$i] &= $sSeparator & $vTmp
+			$avArrayText[$i] &= $sAD_Separator & $vTmp
 		Next
 	Next
 
@@ -281,6 +274,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 	Local Const $_ARRAYCONSTANT_GUI_DOCKRIGHT = 0x4
 	Local Const $_ARRAYCONSTANT_GUI_EVENT_CLOSE = -3
 	Local Const $_ARRAYCONSTANT_LVM_GETCOLUMNWIDTH = (0x1000 + 29)
+	Local Const $_ARRAYCONSTANT_LVM_SETCOLUMNWIDTH = (0x1000 + 30)
+	Local Const $_ARRAYCONSTANT_LVSCW_AUTOSIZE = -1
 	Local Const $_ARRAYCONSTANT_LVM_GETITEMCOUNT = (0x1000 + 4)
 	Local Const $_ARRAYCONSTANT_LVM_GETITEMSTATE = (0x1000 + 44)
 	Local Const $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE = (0x1000 + 54)
@@ -293,49 +288,54 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 	Local Const $_ARRAYCONSTANT_WS_SIZEBOX = 0x00040000
 	Local Const $_ARRAYCONSTANT_WM_SETREDRAW = 11
 
-	; Set interface up
+	; Create GUI
 	Local $iWidth = 640, $iHeight = 480
 	Local $hGUI = GUICreate($sTitle, $iWidth, $iHeight, Default, Default, BitOR($_ARRAYCONSTANT_WS_SIZEBOX, $_ARRAYCONSTANT_WS_MINIMIZEBOX, $_ARRAYCONSTANT_WS_MAXIMIZEBOX))
 	Local $aiGUISize = WinGetClientSize($hGUI)
 	Local $hListView = GUICtrlCreateListView($sHeader, 0, 0, $aiGUISize[0], $aiGUISize[1] - 26, $_ARRAYCONSTANT_LVS_SHOWSELALWAYS)
-	Local $hCopy = GUICtrlCreateButton("复制所选", 3, $aiGUISize[1] - 23, $aiGUISize[0] - 6, 20)
+	Local $cCopy_Data = GUICtrlCreateButton("复制所选", 20, $aiGUISize[1] - 23, ($aiGUISize[0] / 2) - 60, 20)
+	Local $cCopy_ID = GUICtrlCreateButton("Copy with Hdr/Row", ($aiGUISize[0] / 2) + 40, $aiGUISize[1] - 23, ($aiGUISize[0] / 2) - 60, 20)
 	GUICtrlSetResizing($hListView, $_ARRAYCONSTANT_GUI_DOCKBORDERS)
-	GUICtrlSetResizing($hCopy, $_ARRAYCONSTANT_GUI_DOCKLEFT + $_ARRAYCONSTANT_GUI_DOCKRIGHT + $_ARRAYCONSTANT_GUI_DOCKBOTTOM + $_ARRAYCONSTANT_GUI_DOCKHEIGHT)
+	GUICtrlSetResizing($cCopy_Data, $_ARRAYCONSTANT_GUI_DOCKLEFT + $_ARRAYCONSTANT_GUI_DOCKBOTTOM + $_ARRAYCONSTANT_GUI_DOCKHEIGHT)
+	GUICtrlSetResizing($cCopy_ID, $_ARRAYCONSTANT_GUI_DOCKRIGHT + $_ARRAYCONSTANT_GUI_DOCKBOTTOM + $_ARRAYCONSTANT_GUI_DOCKHEIGHT)
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE, $_ARRAYCONSTANT_LVS_EX_GRIDLINES, $_ARRAYCONSTANT_LVS_EX_GRIDLINES)
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE, $_ARRAYCONSTANT_LVS_EX_FULLROWSELECT, $_ARRAYCONSTANT_LVS_EX_FULLROWSELECT)
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETEXTENDEDLISTVIEWSTYLE, $_ARRAYCONSTANT_WS_EX_CLIENTEDGE, $_ARRAYCONSTANT_WS_EX_CLIENTEDGE)
-
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_WM_SETREDRAW, 0, 0)
+
 	; Fill listview
 	For $i = 0 To $iUBound
 		GUICtrlCreateListViewItem($avArrayText[$i], $hListView)
 	Next
 	GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_WM_SETREDRAW, 1, 0)
 
-	; adjust window width
-	$iWidth = 0
-	For $i = 0 To $iSubMax + 1
+	; Adjust dialog width
+	$iWidth = GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_GETCOLUMNWIDTH, 0, 0)
+	For $i = 1 To $iSubMax + 1
+		GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_SETCOLUMNWIDTH, $i, $_ARRAYCONSTANT_LVSCW_AUTOSIZE)
 		$iWidth += GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_GETCOLUMNWIDTH, $i, 0)
 	Next
 	If $iWidth < 250 Then $iWidth = 230
+	If $iWidth > @DesktopWidth Then $iWidth = @DesktopWidth - 120
+	; Allow for borders
 	$iWidth += 20
 
-	If $iWidth > @DesktopWidth Then $iWidth = @DesktopWidth - 100
-
+	; Display and resize dialog
+	GUISetState(@SW_HIDE, $hGUI)
 	WinMove($hGUI, "", (@DesktopWidth - $iWidth) / 2, Default, $iWidth)
-
-	; Show dialog
 	GUISetState(@SW_SHOW, $hGUI)
 
+	Local $iOnEventMode = Opt("GUIOnEventMode", 0), $iMsg, $sClip
+
 	While 1
-		Switch GUIGetMsg()
+
+		$iMsg = GUIGetMsg()
+		Switch $iMsg
 			Case $_ARRAYCONSTANT_GUI_EVENT_CLOSE
 				ExitLoop
-
-			Case $hCopy
-				Local $sClip = ""
-
-				; Get selected indices [ _GUICtrlListView_GetSelectedIndices($hListView, True) ]
+			Case $cCopy_ID, $cCopy_Data
+				$sClip = ""
+				; Get selected indices
 				Local $aiCurItems[1] = [0]
 				For $i = 0 To GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_GETITEMCOUNT, 0, 0)
 					If GUICtrlSendMsg($hListView, $_ARRAYCONSTANT_LVM_GETITEMSTATE, $i, 0x2) Then
@@ -344,24 +344,39 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $iItemLimit = Defaul
 						$aiCurItems[$aiCurItems[0]] = $i
 					EndIf
 				Next
-
 				; Generate clipboard text
 				If Not $aiCurItems[0] Then
 					For $sItem In $avArrayText
+						If $iMsg = $cCopy_Data Then
+							$sItem = StringRegExpReplace($sItem, "^#\d+\|(.*)$", "$1")
+						Else
+							$sItem = StringTrimLeft($sItem, 1)
+						EndIf
 						$sClip &= $sItem & @CRLF
 					Next
 				Else
+					If $iMsg = $cCopy_ID Then
+						$sClip = $sHeader & @CRLF
+					EndIf
 					For $i = 1 To UBound($aiCurItems) - 1
-						$sClip &= $avArrayText[$aiCurItems[$i]] & @CRLF
+						$sItem = $avArrayText[$aiCurItems[$i]]
+						If $iMsg = $cCopy_Data Then
+							$sItem = StringRegExpReplace($sItem, "^#\d+\|(.*)$", "$1")
+						Else
+							$sItem = StringTrimLeft($sItem, 1)
+						EndIf
+						$sClip &= $sItem & @CRLF
 					Next
 				EndIf
+				; Replace separator with required character
+				$sClip = StringReplace($sClip, $sAD_Separator, $sUser_Separator)
 				ClipPut($sClip)
 		EndSwitch
 	WEnd
 	GUIDelete($hGUI)
 
 	Opt("GUIOnEventMode", $iOnEventMode)
-	Opt("GUIDataSeparatorChar", $sDataSeparatorChar)
+	Opt("GUIDataSeparatorChar", $sCurr_Separator) ; Reset original separator
 
 	Return 1
 EndFunc   ;==>_ArrayDisplay
@@ -1240,60 +1255,56 @@ EndFunc   ;==>_ArrayTrim
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: SmOke_N
-; Modified.......: litlmike; Melba23 - added support for empty arrays
+; Modified.......: litlmike, Erik Pilsits, BrewManNH
 ; ===============================================================================================================================
-Func _ArrayUnique($aArray, $iDimension = 1, $iBase = 0, $iCase = 0, $vDelim = "|")
-	Local $iUboundDim
-	;$aArray used to be ByRef, but litlmike altered it to allow for the choosing of 1 Array Dimension, without altering the original array
-	If $vDelim = "|" Then $vDelim = Chr(01) ; by SmOke_N, modified by litlmike
-	If Not IsArray($aArray) Then Return SetError(1, 0, 0) ;Check to see if it is valid array
-	If UBound($aArray) = 0 Then Return SetError(4, 0, 0) ; Check if array empty
-
-	;Checks that the given Dimension is Valid
-	If Not $iDimension > 0 Then
-		Return SetError(3, 0, 0) ;Check to see if it is valid array dimension, Should be greater than 0
-	Else
-		;If Dimension Exists, then get the number of "Rows"
-		$iUboundDim = UBound($aArray, 1) ;Get Number of "Rows"
-		If @error Then Return SetError(3, 0, 0) ;2 = Array dimension is invalid.
-
-		;If $iDimension Exists, And the number of "Rows" is Valid:
-		If $iDimension > 1 Then ;Makes sure the Array dimension desired is more than 1-dimensional
-			Local $aArrayTmp[1] ;Declare blank array, which will hold the dimension declared by user
-			For $i = 0 To $iUboundDim - 1 ;Loop through "Rows"
-				_ArrayAdd($aArrayTmp, $aArray[$i][$iDimension - 1]) ;$iDimension-1 to match Dimension
-			Next
-			_ArrayDelete($aArrayTmp, 0) ;Get rid of 1st-element which is blank
-		Else ;Makes sure the Array dimension desired is 1-dimensional
-			;If Dimension Exists, And the number of "Rows" is Valid, and the Dimension desired is not > 1, then:
-			;For the Case that the array is 1-Dimensional
-			If UBound($aArray, 0) = 1 Then ;Makes sure the Array is only 1-Dimensional
-				Dim $aArrayTmp[1] ;Declare blank array, which will hold the dimension declared by user
-				For $i = 0 To $iUboundDim - 1
-					_ArrayAdd($aArrayTmp, $aArray[$i])
-				Next
-				_ArrayDelete($aArrayTmp, 0) ;Get rid of 1st-element which is blank
-			Else ;For the Case that the array is 2-Dimensional
-				Dim $aArrayTmp[1] ;Declare blank array, which will hold the dimension declared by user
-				For $i = 0 To $iUboundDim - 1
-					_ArrayAdd($aArrayTmp, $aArray[$i][$iDimension - 1]) ;$iDimension-1 to match Dimension
-				Next
-				_ArrayDelete($aArrayTmp, 0) ;Get rid of 1st-element which is blank
-			EndIf
+Func _ArrayUnique(Const ByRef $aArray, $iColumn = Default, $iBase = Default, $iCase = Default, $iFlags = Default)
+	If $iColumn = Default Then $iColumn = 1
+	If $iBase = Default Then $iBase = 0
+	If $iCase = Default Then $iCase = 0
+	If $iFlags = Default Then $iFlags = 1
+	; Start bounds checking
+	If UBound($aArray) = 0 Then Return SetError(1, 0, 0) ; Check if array is empty, or not an array
+	; $iBase can only be 0 or 1, if anything else, return with an error
+	If $iBase < 0 Or $iBase > 1 Or (Not IsInt($iBase)) Then Return SetError(2, 0, 0)
+	If $iCase < 0 Or $iCase > 1 Or (Not IsInt($iCase)) Then Return SetError(2, 0, 0)
+	If $iFlags < 0 Or $iFlags > 1 Or (Not IsInt($iFlags)) Then Return SetError(4, 0, 0)
+	Local $iDims = UBound($aArray, 0), $iNumColumns = UBound($aArray, 2)
+	If $iDims > 2 Then Return SetError(3, 0, 0)
+	; checks the given dimension is valid
+	If ($iColumn < 1) Or ($iNumColumns = 0 And ($iColumn - 1 > $iNumColumns)) Or ($iNumColumns > 0 And ($iColumn > $iNumColumns)) Then Return SetError(3, 0, 0)
+	; make $iColumn an array index, note this is ignored for 1D arrays
+	$iColumn -= 1
+	; create dictionary
+	Local $oD = ObjCreate("Scripting.Dictionary")
+	; compare mode for strings
+	; 0 = binary, which is case sensitive
+	; 1 = text, which is case insensitive
+	; this expression forces either 1 or 0
+	$oD.CompareMode = Number(Not $iCase)
+	Local $vElem
+	; walk the input array
+	For $i = $iBase To UBound($aArray) - 1
+		If $iDims = 1 Then
+			; 1D array
+			$vElem = $aArray[$i]
+		Else
+			; 2D array
+			$vElem = $aArray[$i][$iColumn]
 		EndIf
-	EndIf
-
-	Local $sHold ;String that holds the Unique array info
-	For $iCC = $iBase To UBound($aArrayTmp) - 1 ;Loop Through array
-		;If Not the case that the element is already in $sHold, then add it
-		If Not StringInStr($vDelim & $sHold, $vDelim & $aArrayTmp[$iCC] & $vDelim, $iCase) Then _
-				$sHold &= $aArrayTmp[$iCC] & $vDelim
+		; add key to dictionary
+		; NOTE: accessing the value (.Item property) of a key that doesn't exist creates the key :)
+		; keys are guaranteed to be unique
+		$oD.Item($vElem)
 	Next
-	If $sHold Then
-		$aArrayTmp = StringSplit(StringTrimRight($sHold, StringLen($vDelim)), $vDelim, 1) ;Split the string into an array
-		Return $aArrayTmp ;SmOke_N's version used to Return SetError(0, 0, 0)
+	;
+	; return the array of unique keys
+	If BitAND($iFlags, 1) = 1 Then
+		Local $aTemp = $oD.Keys()
+		_ArrayInsert($aTemp, 0, $oD.Count)
+		Return $aTemp
+	Else
+		Return $oD.Keys()
 	EndIf
-	Return SetError(2, 0, 0) ;If the script gets this far, it has failed
 EndFunc   ;==>_ArrayUnique
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

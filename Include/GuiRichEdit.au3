@@ -307,7 +307,7 @@ Global Const $tagBIDIOPTIONS = "uint cbSize;word wMask;word wEffects"
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCHARFORMAT = "struct;uint cbSize;dword dwMask;dword dwEffects;long yHeight;long yOffset;dword crCharColor;" & _
+Global Const $tagCHARFORMAT = "struct;uint cbSize;dword dwMask;dword dwEffects;long yHeight;long yOffset;INT crCharColor;" & _
 		"byte bCharSet;byte bPitchAndFamily;wchar szFaceName[32];endstruct"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -387,7 +387,7 @@ Global Const $tagCHARFORMAT = "struct;uint cbSize;dword dwMask;dword dwEffects;l
 ; Author ........: Gary Frost (gafrost)
 ; Remarks .......:
 ; ===============================================================================================================================
-Global Const $tagCHARFORMAT2 = $tagCHARFORMAT & ";word wWeight;short sSpacing;dword crBackColor;dword lcid;dword dwReserved;" & _
+Global Const $tagCHARFORMAT2 = $tagCHARFORMAT & ";word wWeight;short sSpacing;INT crBackColor;dword lcid;dword dwReserved;" & _
 		"short sStyle;word wKerning;byte bUnderlineType;byte bAnimation;byte bRevAuthor;byte bReserved1"
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -1298,7 +1298,7 @@ EndFunc   ;==>_GUICtrlRichEdit_GetFirstCharPosOnLine
 ; ===============================================================================================================================
 Func _GUICtrlRichEdit_GetFont($hWnd)
 	; MSDN does not give a mask (CFM) for bPitchAndFamily so it appears that there is no way of knowing when it is valid => omitted here
-	Local $aRet[3] = [0, 0, ""]
+	Local $aRet[3] = [0, "", 0]
 	;, $iLcid = 1033
 	If Not _WinAPI_IsClassName($hWnd, $_GRE_sRTFClassName) Then Return SetError(101, 0, 0)
 
@@ -3452,15 +3452,7 @@ EndFunc   ;==>__GCR_ConvertRomanToNumber
 ; Example .......:
 ; ===============================================================================================================================
 Func __GCR_SendGetCharFormatMessage($hWnd, $tCharFormat)
-	Local $fIsSel = _GUICtrlRichEdit_IsTextSelected($hWnd)
-	Local $aiAnchAct
-	If $fIsSel Then
-		$aiAnchAct = _GUICtrlRichEdit_GetSelAA($hWnd)
-		_GUICtrlRichEdit_SetSel($hWnd, $aiAnchAct[0], $aiAnchAct[0] + 1, True) ; select first char, hiding selection
-	EndIf
-	Local $iRet = _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*")
-	If $fIsSel Then _GUICtrlRichEdit_SetSel($hWnd, $aiAnchAct[0], $aiAnchAct[1])
-	Return $iRet
+	Return _SendMessage($hWnd, $EM_GETCHARFORMAT, $SCF_SELECTION, $tCharFormat, 0, "wparam", "struct*")
 EndFunc   ;==>__GCR_SendGetCharFormatMessage
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

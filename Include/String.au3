@@ -37,19 +37,23 @@ EndFunc   ;==>_HexToString
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: SmOke_N (Thanks to Valik for helping with the new StringRegExp (?s)(?i) issue)
-; Modified.......: SmOke_N - (Re-write for speed and accuracy)
+; Modified.......: SmOke_N - (Re-write for speed and accuracy), jchd, Melba23
 ; ===============================================================================================================================
-Func _StringBetween($sString, $sStart, $sEnd, $fCase = Default)
+Func _StringBetween($sString, $sStart, $sEnd, $fCase = False)
+	; Set correct case sensitivity
+	If $fCase = Default Then
+		$fCase = False
+	EndIf
 	Local $sCase = "(?is)"
-	If Not $fCase Then $sCase = "(?s)"
+	If $fCase Then
+		$sCase = "(?s)"
+	EndIf
 
 	; If you want data from beginning then replace blank start with beginning of string
-	$sStart = "\Q" & $sStart & "\E"
-	If $sStart = "\Q\E" Then $sStart = "\A"
+	$sStart = $sStart ? "\Q" & $sStart & "\E" : "\A"
 
 	; If you want data from a start to an end then replace blank with end of string
-	$sEnd = "\Q" & $sEnd & "\E"
-	If $sEnd = "\Q\E" Then $sEnd = "\z"
+	$sEnd = $sEnd ? "(?=\Q" & $sEnd & "\E)" : "\z"
 
 	Local $aReturn = StringRegExp($sString, $sCase & $sStart & "(.*?)" & $sEnd, 3)
 	If @error Then Return SetError(1, 0, 0)
@@ -213,6 +217,9 @@ Func _StringInsert($sString, $sInsertString, $iPosition)
 	; Check if the source and insert strings are strings and convert accordingly if not
 	If Not IsString($sInsertString) Then $sInsertString = String($sInsertString)
 	If Not IsString($sString) Then $sString = String($sString)
+	; Escape all "\" characters in the string to insert - otherwise they do not appear
+	$sInsertString = StringReplace($sInsertString, "\", "\\")
+	; Insert the string
 	If $iPosition >= 0 Then
 		Return StringRegExpReplace($sString, "(?s)\A(.{" & $iPosition & "})(.*)\z", "${1}" & $sInsertString & "$2") ; Insert to the left hand side
 	Else
@@ -230,11 +237,11 @@ Func _StringProper($sString)
 		$sChr = StringMid($sString, $i, 1)
 		Select
 			Case $fCapNext = True
-				If StringRegExp($sChr, '[a-zA-Z¿-ˇöúûü]') Then
+				If StringRegExp($sChr, '[a-zA-ZÅ0Ü8-Å0ã7Å0î8Å0ì4Å0ó6Å0ó0]') Then
 					$sChr = StringUpper($sChr)
 					$fCapNext = False
 				EndIf
-			Case Not StringRegExp($sChr, '[a-zA-Z¿-ˇöúûü]')
+			Case Not StringRegExp($sChr, '[a-zA-ZÅ0Ü8-Å0ã7Å0î8Å0ì4Å0ó6Å0ó0]')
 				$fCapNext = True
 			Case Else
 				$sChr = StringLower($sChr)

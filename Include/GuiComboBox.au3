@@ -445,7 +445,7 @@ EndFunc   ;==>_GUICtrlComboBox_GetEditSel
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......:
+; Modified.......: Melba23
 ; ===============================================================================================================================
 Func _GUICtrlComboBox_GetEditText($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
@@ -457,13 +457,13 @@ Func _GUICtrlComboBox_GetEditText($hWnd)
 		Local $iIndex = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_LINEINDEX, $iLine)
 		Local $iLength = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_LINELENGTH, $iIndex)
 		If $iLength = 0 Then Return ""
-		Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLength + 2 & "]")
-		DllStructSetData($tBuffer, "Len", $iLength + 2)
+		Local $tBuffer = DllStructCreate("short Len;wchar Text[" & $iLength & "]")
+		DllStructSetData($tBuffer, "Len", $iLength)
 
 		Local $iRet = _SendMessage($hEdit, $__COMBOBOXCONSTANT_EM_GETLINE, $iLine, $tBuffer, 0, "wparam", "struct*")
 		If $iRet = 0 Then Return SetError(-1, -1, "")
 
-		Local $tText = DllStructCreate("wchar Text[" & $iLength + 1 & "]", DllStructGetPtr($tBuffer))
+		Local $tText = DllStructCreate("wchar Text[" & $iLength & "]", DllStructGetPtr($tBuffer))
 		Return DllStructGetData($tText, "Text")
 	Else
 		Return SetError(-1, -1, "")
