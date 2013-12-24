@@ -943,28 +943,41 @@ EndFunc   ;==>_GUICtrlListView_CreateSolidBitMap
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......:
+; Modified.......: Melba23
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteAllItems($hWnd)
+	; Check if deletion necessary
 	If _GUICtrlListView_GetItemCount($hWnd) = 0 Then Return True
-	If Not IsHWnd($hWnd) Then ; If a ControlID is passed delete from AutoIt's internal array.
-		Local Const $WM_SETREDRAW = 0x000B
-		Local $iCtrlID = 0
-
+	Local Const $LV_WM_SETREDRAW = 0x000B
+	; Determine ListView type
+    Local $cCID = 0
+    If IsHWnd($hWnd) Then
+        ; Check if the ListView has a ControlID
+        $cCID = _WinAPI_GetDlgCtrlID($hWnd)
+    Else
+        $cCID = $hWnd
+        ; Get ListView handle
+        $hWnd = GUICtrlGetHandle($hWnd)
+    EndIf
+	; If native ListView - could be either type of item
+	If $cCID Then
 		; Disable the redrawing message
-		GUICtrlSendMsg($hWnd, $WM_SETREDRAW, False, 0)
-
+		GUICtrlSendMsg($cCID, $LV_WM_SETREDRAW, False, 0)
+		; Try deleting as native items
+		Local $iParam = 0
 		For $iIndex = _GUICtrlListView_GetItemCount($hWnd) - 1 To 0 Step -1
-			$iCtrlID = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
-			If $iCtrlID Then GUICtrlDelete($iCtrlID)
+			$iParam = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
+			; Check if LV item
+			If GUICtrlGetState($iParam) > 0 And GUICtrlGetHandle($iParam) = 0 Then
+				GUICtrlDelete($iParam)
+			EndIf
 		Next
-
 		; Enable the redrawing message
-		GUICtrlSendMsg($hWnd, $WM_SETREDRAW, True, 0)
-
+		GUICtrlSendMsg($cCID, $LV_WM_SETREDRAW, True, 0)
+		; Return if no items left
 		If _GUICtrlListView_GetItemCount($hWnd) = 0 Then Return True
-		$hWnd = GUICtrlGetHandle($hWnd)
 	EndIf
+	; Has to be UDF Listview and/or UDF items
 	Return _SendMessage($hWnd, $LVM_DELETEALLITEMS) <> 0
 EndFunc   ;==>_GUICtrlListView_DeleteAllItems
 
@@ -982,34 +995,87 @@ EndFunc   ;==>_GUICtrlListView_DeleteColumn
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......:
+; Modified.......: Melba23
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItem($hWnd, $iIndex)
-	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
-	Else
-		Local $ctrlID = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
-		If $ctrlID Then Return GUICtrlDelete($ctrlID) <> 0
-	EndIf
-	Return False
+	; Determine ListView type
+    Local $cCID = 0
+    If IsHWnd($hWnd) Then
+        ; Check if the ListView has a ControlID
+        $cCID = _WinAPI_GetDlgCtrlID($hWnd)
+    Else
+        $cCID = $hWnd
+        ; Get ListView handle
+        $hWnd = GUICtrlGetHandle($hWnd)
+    EndIf
+    ; If native ListView - could be either type of item
+    If $cCID Then
+        ; Try deleting as native item
+        Local $iParam = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
+        ; Check if LV item
+		If GUICtrlGetState($iParam) > 0 And GUICtrlGetHandle($iParam) = 0 Then
+            If GUICtrlDelete($iParam) Then
+                Return True
+            EndIf
+        EndIf
+    EndIf
+    ; Has to be UDF Listview and/or UDF item
+    Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
 EndFunc   ;==>_GUICtrlListView_DeleteItem
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......:
+; Modified.......: Melba23
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItemsSelected($hWnd)
 	Local $ItemCount = _GUICtrlListView_GetItemCount($hWnd)
-	If (_GUICtrlListView_GetSelectedCount($hWnd) == $ItemCount) Then
+	; Delete all?
+	If _GUICtrlListView_GetSelectedCount($hWnd) = $ItemCount Then
 		Return _GUICtrlListView_DeleteAllItems($hWnd)
 	Else
-		Local $items = _GUICtrlListView_GetSelectedIndices($hWnd, 1)
-		If Not IsArray($items) Then Return SetError($LV_ERR, $LV_ERR, 0)
+		Local Const $LV_WM_SETREDRAW = 0x000B
+		Local $aSelected = _GUICtrlListView_GetSelectedIndices($hWnd, True)
+		If Not IsArray($aSelected) Then Return SetError($LV_ERR, $LV_ERR, 0)
+		; Unselect all items
 		_GUICtrlListView_SetItemSelected($hWnd, -1, False)
-		For $i = $items[0] To 1 Step -1
-			If Not _GUICtrlListView_DeleteItem($hWnd, $items[$i]) Then Return False
+		; Determine ListView type
+		Local $cCID = 0, $iNative_Delete, $iUDF_Delete
+		If IsHWnd($hWnd) Then
+			; Check if the ListView has a ControlID
+			$cCID = _WinAPI_GetDlgCtrlID($hWnd)
+		Else
+			$cCID = $hWnd
+			; Get ListView handle
+			$hWnd = GUICtrlGetHandle($hWnd)
+		EndIf
+		; Disable the redrawing message
+		GUICtrlSendMsg($cCID, $LV_WM_SETREDRAW, False, 0)
+		; Loop through items
+		For $iIndex = $aSelected[0] To 1 Step -1
+			; If native ListView - could be either type of item
+			If $cCID Then
+				; Try deleting as native item
+				Local $iParam = _GUICtrlListView_GetItemParam($hWnd, $aSelected[$iIndex])
+				; Check if LV item
+				If GUICtrlGetState($iParam) > 0 And GUICtrlGetHandle($iParam) = 0 Then
+					; Delete native item
+					$iNative_Delete = GUICtrlDelete($iParam)
+					; If deletion successful move to next
+					If $iNative_Delete Then ContinueLoop
+				EndIf
+			EndIf
+			; Has to be UDF Listview and/or UDF item
+			$iUDF_Delete = _SendMessage($hWnd, $LVM_DELETEITEM, $aSelected[$iIndex])
+			; Check for failed deletion
+			If $iNative_Delete + $iUDF_Delete = 0 Then
+				; $iIndex will be > 0
+				ExitLoop
+			EndIf
 		Next
-		Return True
+		; Enable the redrawing message
+		GUICtrlSendMsg($cCID, $LV_WM_SETREDRAW, True, 0)
+		; If all deleted return True; else return False
+		Return Not $iIndex
 	EndIf
 EndFunc   ;==>_GUICtrlListView_DeleteItemsSelected
 

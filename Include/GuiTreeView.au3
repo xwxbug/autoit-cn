@@ -2482,33 +2482,29 @@ EndFunc   ;==>_GUICtrlTreeView_SetUnicodeFormat
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
-; Modified.......:
+; Modified.......: mlipok, guinness
 ; ===============================================================================================================================
 Func _GUICtrlTreeView_Sort($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $hItem, $a_tree
-	For $i = 0 To _GUICtrlTreeView_GetCount($hWnd)
-		If $i == 0 Then
-			$hItem = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_CHILD, $TVI_ROOT, 0, "wparam", "handle", "handle")
-		Else
-			$hItem = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_NEXT, $hItem, 0, "wparam", "handle", "handle")
-		EndIf
-		If IsArray($a_tree) Then
-			ReDim $a_tree[UBound($a_tree) + 1]
-		Else
-			Dim $a_tree[1]
-		EndIf
-		$a_tree[UBound($a_tree) - 1] = $hItem
-	Next
-	If IsArray($a_tree) Then
-		Local $hChild, $i_Recursive = 1
-		For $i = 0 To UBound($a_tree) - 1
-			_SendMessage($hWnd, $TVM_SORTCHILDREN, $i_Recursive, $a_tree[$i], 0, "wparam", "handle") ; sort the items in root
-			Do ; sort all the children
+	Local $iItemCount = _GUICtrlTreeView_GetCount($hWnd)
+	If $iItemCount Then
+		Local $aTreeView[$iItemCount], $hItem = 0
+		For $i = 0 To $iItemCount - 1
+			If $i Then
+				$hItem = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_NEXT, $hItem, 0, "wparam", "handle", "handle")
+			Else
+				$hItem = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_CHILD, $TVI_ROOT, 0, "wparam", "handle", "handle")
+			EndIf
+			$aTreeView[$i] = $hItem
+		Next
+		Local $hChild = 0, $iRecursive = 1
+		For $i = 0 To $iItemCount - 1
+			_SendMessage($hWnd, $TVM_SORTCHILDREN, $iRecursive, $aTreeView[$i], 0, "wparam", "handle") ; Sort the items in root
+			Do ; Sort all child items
 				$hChild = _SendMessage($hWnd, $TVM_GETNEXTITEM, $TVGN_CHILD, $hItem, 0, "wparam", "handle", "handle")
-				If $hChild > 0 Then
-					_SendMessage($hWnd, $TVM_SORTCHILDREN, $i_Recursive, $hChild, 0, "wparam", "handle")
+				If $hChild Then
+					_SendMessage($hWnd, $TVM_SORTCHILDREN, $iRecursive, $hChild, 0, "wparam", "handle")
 				EndIf
 				$hItem = $hChild
 			Until $hItem = 0x00000000

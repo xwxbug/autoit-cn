@@ -12,7 +12,7 @@
 ; Dll ...........: user32.dll, ole32.dll, oleacc.dll
 ; ===============================================================================================================================
 
-#region Header
+#Region Header
 #cs
 	Title:   Internet Explorer Automation UDF Library for AutoIt3
 	Filename:  IE.au3
@@ -61,10 +61,10 @@
 
 	===================================================
 #ce
-#endregion Header
+#EndRegion Header
 
 ; #VARIABLES# ===================================================================================================================
-#region Global Variables
+#Region Global Variables
 Global $__IELoadWaitTimeout = 300000 ; 5 Minutes
 Global $__IEAU3Debug = False
 Global $_IEErrorNotify = True
@@ -81,11 +81,11 @@ Global _; Com Error Handler Status Strings
 		$IEComErrorLastDllError, _
 		$IEComErrorComObj, _
 		$IEComErrorOutput
-#endregion Global Variables
+#EndRegion Global Variables
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
-#region Global Constants
+#Region Global Constants
 Global Const $IEAU3VersionInfo[6] = ["T", 3, 0, 1, "20130601", "T3.0-1"]
 Global Const $LSFW_LOCK = 1, $LSFW_UNLOCK = 2
 ;
@@ -112,7 +112,7 @@ Global Enum Step * 2 _; NotificationMethod
 		$_IENotifyMethod_Console = 1, _
 		$_IENotifyMethod_ToolTip, _
 		$_IENotifyMethod_MsgBox
-#endregion Global Constants
+#EndRegion Global Constants
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -191,7 +191,7 @@ Global Enum Step * 2 _; NotificationMethod
 ; __IETempFile
 ; ===============================================================================================================================
 
-#region Core functions
+#Region Core functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; Modified ......: jpm
@@ -619,9 +619,9 @@ Func _IELoadWaitTimeout($i_timeout = -1)
 	EndIf
 EndFunc   ;==>_IELoadWaitTimeout
 
-#endregion Core functions
+#EndRegion Core functions
 
-#region Frame Functions
+#Region Frame Functions
 ; Security Note on Frame functions:
 ; Note that security restriction in Internet Explorer related to cross-site scripting
 ; between frames can cause serious problems with the frame functions.  Functions that
@@ -718,9 +718,9 @@ Func _IEFrameGetObjByName(ByRef $o_object, $s_name)
 	EndIf
 EndFunc   ;==>_IEFrameGetObjByName
 
-#endregion Frame Functions
+#EndRegion Frame Functions
 
-#region Link functions
+#Region Link functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
@@ -808,9 +808,9 @@ Func _IELinkGetCollection(ByRef $o_object, $i_index = -1)
 			Return SetError($_IEStatus_NoMatch, 2, 0)
 	EndSelect
 EndFunc   ;==>_IELinkGetCollection
-#endregion Link functions
+#EndRegion Link functions
 
-#region Image functions
+#Region Image functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; Modified ......: jpm
@@ -884,9 +884,9 @@ Func _IEImgGetCollection(ByRef $o_object, $i_index = -1)
 	EndSelect
 EndFunc   ;==>_IEImgGetCollection
 
-#endregion Image functions
+#EndRegion Image functions
 
-#region Form functions
+#Region Form functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
@@ -1484,9 +1484,9 @@ Func _IEFormReset(ByRef $o_object)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEFormReset
-#endregion Form functions
+#EndRegion Form functions
 
-#region Table functions
+#Region Table functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
@@ -1564,9 +1564,9 @@ Func _IETableWriteToArray(ByRef $o_object, $f_transpose = False)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, $a_TableCells)
 EndFunc   ;==>_IETableWriteToArray
-#endregion Table functions
+#EndRegion Table functions
 
-#region Read/Write functions
+#Region Read/Write functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
@@ -1761,9 +1761,9 @@ Func _IEHeadInsertEventScript(ByRef $o_object, $s_htmlFor, $s_event, $s_script)
 	EndIf
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEHeadInsertEventScript
-#endregion Read/Write functions
+#EndRegion Read/Write functions
 
-#region Utility functions
+#Region Utility functions
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
@@ -2525,9 +2525,9 @@ Func _IEQuit(ByRef $o_object)
 	Return SetError($_IEStatus_Success, 0, 1)
 EndFunc   ;==>_IEQuit
 
-#endregion Utility functions
+#EndRegion Utility functions
 
-#region General
+#Region General
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Dale Hohm
 ; Modified ......: jpm
@@ -2914,9 +2914,9 @@ Func _IE_VersionInfo()
 	Return SetError($_IEStatus_Success, 0, $IEAU3VersionInfo)
 EndFunc   ;==>_IE_VersionInfo
 
-#endregion General
+#EndRegion General
 
-#region Internal functions
+#Region Internal functions
 ;
 ; Internal Functions with names starting with two underscores will not be documented
 ; as user functions
@@ -3032,13 +3032,15 @@ Func __IEIsObjType(ByRef $o_object, $s_type)
 
 	Switch $s_type
 		Case "browserdom"
-			Local $oTemp = $o_object.document
 			If __IEIsObjType($o_object, "documentcontainer") Then
 				$ErrorStatus = $_IEStatus_Success
 			ElseIf __IEIsObjType($o_object, "document") Then
 				$ErrorStatus = $_IEStatus_Success
-			ElseIf __IEIsObjType($oTemp, "document") Then
-				$ErrorStatus = $_IEStatus_Success
+			Else
+				Local $oTemp = $o_object.document
+				If __IEIsObjType($oTemp, "document") Then
+					$ErrorStatus = $_IEStatus_Success
+				EndIf
 			EndIf
 		Case "browser"
 			If ($s_name = "IWebBrowser2") Or ($s_name = "IWebBrowser") Or ($s_name = "WebBrowser") Then $ErrorStatus = $_IEStatus_Success
@@ -3118,9 +3120,9 @@ Func __IEComErrorUnrecoverable($i_error)
 	EndSwitch
 EndFunc   ;==>__IEComErrorUnrecoverable
 
-#endregion Internal functions
+#EndRegion Internal functions
 
-#region ProtoType Functions
+#Region ProtoType Functions
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __IENavigate
 ; Description ...: ** Unsupported version of _IENavigate (note second underscore in function name)
@@ -3338,4 +3340,4 @@ Func __IETempFile($s_DirectoryName = @TempDir, $s_FilePrefix = "~", $s_FileExten
 	Return $s_TempName
 EndFunc   ;==>__IETempFile
 
-#endregion ProtoType Functions
+#EndRegion ProtoType Functions
