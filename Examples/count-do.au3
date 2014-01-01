@@ -33,4 +33,4 @@ Do
 Until $iCount > 5
 
 ; Finished!
-MsgBox(0, "AutoIt 例子", "完成!")
+MsgBox($MB_SYSTEMMODAL, "AutoIt 例子", "完成!")
