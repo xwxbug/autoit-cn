@@ -4,7 +4,7 @@
 #AutoIt3Wrapper_Change2CUI?1
 #AutoIt3Wrapper_Compile_Both?1
 #AutoIt3Wrapper_Compression?1
-#AutoIt3Wrapper_cvsWrapper_Parameters?1
+#AutoIt3wrapper_EndIf?1
 #AutoIt3Wrapper_Icon?1
 #AutoIt3Wrapper_OutFile?1
 #AutoIt3Wrapper_OutFile_Type?1
@@ -13,7 +13,7 @@
 #AutoIt3Wrapper_Compile_Both?1
 #AutoIt3Wrapper_NoBuild?1
 #AutoIt3Wrapper_Res_Comment?1
-#AutoIt3Wrapper_Res_Compatibility?1
+#Autoit3Wrapper_Res_Compatibility?1
 #AutoIt3Wrapper_Res_Description?1
 #AutoIt3Wrapper_Res_Field?1
 #AutoIt3Wrapper_Res_File_Add?1
@@ -24,11 +24,12 @@
 #AutoIt3Wrapper_Res_LegalCopyright?1
 #AutoIt3Wrapper_Res_ProductVersion?1
 #AutoIt3Wrapper_Res_requestedExecutionLevel?1
+#autoit3wrapper_Res_Remove?1
 #AutoIt3Wrapper_Res_SaveSource?1
 #AutoIt3Wrapper_Run_After?1
 #AutoIt3Wrapper_Run_Au3Check?1
 #AutoIt3Wrapper_Run_Before?1
-#AutoIt3Wrapper_Run_cvsWrapper?1
+#AutoIt3Wrapper_Run_Debug?1
 #AutoIt3Wrapper_Run_Debug_Mode?1
 #AutoIt3Wrapper_Run_Obfuscator?1
 #AutoIt3Wrapper_Run_SciTE_Minimized?1
@@ -88,4 +89,6 @@
 #Obfuscator_Off?1
 #Obfuscator_On?1
 #Obfuscator_Parameters?1
+#Tidy_Off?1
+#Tidy_On?1
 #Tidy_Parameters?1
