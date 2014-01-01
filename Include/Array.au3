@@ -185,7 +185,7 @@ EndFunc   ;==>_ArrayDelete
 ; Author ........: randallc, Ultima
 ; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm, Melba23, AZJIO, UEZ
 ; ===============================================================================================================================
-Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Default, $iFlags = Default, $vUser_Separator = Default, $sHeader = Default, $iMax_ColWidth = Default, $iAlt_Color = Default, $sUser_Func = Default)
+Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Default, $iFlags = Default, $vUser_Separator = Default, $sHeader = Default, $iMax_ColWidth = Default, $iAlt_Color = Default, $hUser_Func = Default)
 
 	Local Const $_ARRAYCONSTANT_MB_SYSTEMMODAL = 4096
 	Local Const $_ARRAYCONSTANT_MB_ICONERROR = 16
@@ -193,43 +193,43 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	Local Const $_ARRAYCONSTANT_IDYES = 6
 
 	; Default values
-    If $sTitle = Default Then $sTitle = "ArrayDisplay"
-    If $sArray_Range = Default Then $sArray_Range = ""
-    If $iFlags = Default Then $iFlags = 0
-    If $vUser_Separator = Default Then $vUser_Separator = ""
-    If $sHeader = Default Then $sHeader = ""
-    If $iMax_ColWidth = Default Then $iMax_ColWidth = 350
-    If $iAlt_Color = Default Then $iAlt_Color = 0
-    If $sUser_Func = Default Then $sUser_Func = ""
+	If $sTitle = Default Then $sTitle = "ArrayDisplay"
+	If $sArray_Range = Default Then $sArray_Range = ""
+	If $iFlags = Default Then $iFlags = 0
+	If $vUser_Separator = Default Then $vUser_Separator = ""
+	If $sHeader = Default Then $sHeader = ""
+	If $iMax_ColWidth = Default Then $iMax_ColWidth = 350
+	If $iAlt_Color = Default Then $iAlt_Color = 0
+	If $hUser_Func = Default Then $hUser_Func = 0
 
 	; Check for transpose, column align and verbosity
-    Local $iTranspose = BitAND($iFlags, 1)
-    Local $iColAlign = BitAND($iFlags, 6) ; 0 = Left (default); 2 = Right; 4 = CenterLocal $iVerbose = BitAnd($iFlags, 8)
+	Local $iTranspose = BitAND($iFlags, 1)
+	Local $iColAlign = BitAND($iFlags, 6) ; 0 = Left (default); 2 = Right; 4 = CenterLocal $iVerbose = BitAnd($iFlags, 8)
 	Local $iVerbose = BitAND($iFlags, 8)
 
-    ; Check valid array
-    Local $sMsg = "", $iRet
-    If IsArray($avArray) Then
-        ; Dimension checking
-        Local $iDimension = UBound($avArray, 0), $iRowCount = UBound($avArray, 1), $iColCount = UBound($avArray, 2)
-        If $iDimension > 2 Then
-            $sMsg = "Larger than 2D array passed to function"
-            $iRet = 2
-        EndIf
-    Else
-        $sMsg = "No array variable passed to function"
-        $iRet = 1
-    EndIf
-    If $sMsg Then
-        If $iVerbose And MsgBox($_ARRAYCONSTANT_MB_SYSTEMMODAL + $_ARRAYCONSTANT_MB_ICONERROR + $_ARRAYCONSTANT_MB_YESNO, _
-                "ArrayDisplay Error: " & $sTitle, $sMsg & @CRLF & @CRLF & "Exit the script?") = $_ARRAYCONSTANT_IDYES Then
-            Exit
-        Else
-            Return SetError($iRet, 0, "")
-        EndIf
-    EndIf
+	; Check valid array
+	Local $sMsg = "", $iRet
+	If IsArray($avArray) Then
+		; Dimension checking
+		Local $iDimension = UBound($avArray, 0), $iRowCount = UBound($avArray, 1), $iColCount = UBound($avArray, 2)
+		If $iDimension > 2 Then
+			$sMsg = "Larger than 2D array passed to function"
+			$iRet = 2
+		EndIf
+	Else
+		$sMsg = "No array variable passed to function"
+		$iRet = 1
+	EndIf
+	If $sMsg Then
+		If $iVerbose And MsgBox($_ARRAYCONSTANT_MB_SYSTEMMODAL + $_ARRAYCONSTANT_MB_ICONERROR + $_ARRAYCONSTANT_MB_YESNO, _
+				"ArrayDisplay Error: " & $sTitle, $sMsg & @CRLF & @CRLF & "Exit the script?") = $_ARRAYCONSTANT_IDYES Then
+			Exit
+		Else
+			Return SetError($iRet, 0, "")
+		EndIf
+	EndIf
 
-    ; Determine copy separator
+	; Determine copy separator
 	Local $iCW_ColWidth = Number($vUser_Separator)
 
 	; Separator handling
@@ -245,23 +245,11 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	; Set original dimensions for data display
 	Local $iDataRow = $iRowCount
 	Local $iDataCol = $iColCount
-	; Swap dimensions if transposing
-	If $iTranspose Then
-		$vTmp = $iRowCount
-		$iRowCount = $iColCount
-		$iColCount = $vTmp
-	EndIf
 
 	; Set display limits for dimensions
 	Local $iItem_Start = 0, $iItem_End = $iRowCount - 1, $iSubItem_Start = 0, $iSubItem_End = $iColCount - 1, $avDimSplit, $avRangeSplit
 	; Adjust for 1D array
-	If $iDimension = 1 Then
-		If $iTranspose Then
-			$iItem_End = 0
-		Else
-			$iSubItem_End = 0
-		EndIf
-	EndIf
+	If $iDimension = 1 Then $iSubItem_End = 0
 	; Check for range set
 	If $sArray_Range Then
 		; Force trailing | if required
@@ -301,15 +289,6 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 			If $iSubItem_Start < 0 Then $iSubItem_Start = 0
 			If $iItem_End > $iRowCount - 1 Then $iItem_End = $iRowCount - 1
 			If $iSubItem_End > $iColCount - 1 Then $iSubItem_End = $iColCount - 1
-			; Swap if tranposing
-			If $iTranspose Then
-				$vTmp = $iItem_Start
-				$iItem_Start = $iSubItem_Start
-				$iSubItem_Start = $vTmp
-				$vTmp = $iItem_End
-				$iItem_End = $iSubItem_End
-				$iSubItem_End = $vTmp
-			EndIf
 		EndIf
 	EndIf
 
@@ -317,19 +296,37 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	Local $sDisplayData = "[" & $iDataRow
 	; Check if rows will be truncated
 	Local $fTruncated = False
-	If $iItem_End - $iItem_Start > $iRowLimit Then
+	If $iTranspose Then
+		If $iItem_End - $iItem_Start > $iColLimit Then
+			$fTruncated = True
+			$iItem_End = $iItem_Start + $iColLimit - 1
+		EndIf
+	Else
+		If $iItem_End - $iItem_Start > $iRowLimit Then
+			$fTruncated = True
+			$iItem_End = $iItem_Start + $iRowLimit - 1
+		EndIf
+	EndIf
+	If $fTruncated Then
 		$sDisplayData &= "*]"
-		$fTruncated = True
-		$iItem_End = $iItem_Start + $iRowLimit - 1
 	Else
 		$sDisplayData &= "]"
 	EndIf
 	If $iDimension = 2 Then
 		$sDisplayData &= " [" & $iDataCol
-		If $iSubItem_End - $iSubItem_Start > $iColLimit Then
+		If $iTranspose Then
+			If $iSubItem_End - $iSubItem_Start > $iRowLimit Then
+				$fTruncated = True
+				$iSubItem_End = $iSubItem_Start + $iRowLimit - 1
+			EndIf
+		Else
+			If $iSubItem_End - $iSubItem_Start > $iColLimit Then
+				$fTruncated = True
+				$iSubItem_End = $iSubItem_Start + $iColLimit - 1
+			EndIf
+		EndIf
+		If $fTruncated Then
 			$sDisplayData &= "*]"
-			$fTruncated = True
-			$iSubItem_End = $iSubItem_Start + $iColLimit - 1
 		Else
 			$sDisplayData &= "]"
 		EndIf
@@ -350,19 +347,26 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	Local $asHeader = StringSplit($sHeader, $sCurr_Separator, 2) ; No count element
 	$sHeader = "Row"
 	Local $iIndex = $iSubItem_Start
-	; Create custom header with available items
-	If $asHeader[0] Then
-		; Set as many as available
-		For $iIndex = $iSubItem_Start To $iSubItem_End
-			; Check custom header available
-			If $iIndex >= UBound($asHeader) Then ExitLoop
-			$sHeader &= $sAD_Separator & $asHeader[$iIndex]
+	If $iTranspose Then
+		; All default headers
+		For $j = $iItem_Start To $iItem_End
+			$sHeader &= $sAD_Separator & "Col " & $j
+		Next
+	Else
+		; Create custom header with available items
+		If $asHeader[0] Then
+			; Set as many as available
+			For $iIndex = $iSubItem_Start To $iSubItem_End
+				; Check custom header available
+				If $iIndex >= UBound($asHeader) Then ExitLoop
+				$sHeader &= $sAD_Separator & $asHeader[$iIndex]
+			Next
+		EndIf
+		; Add default headers to fill to end
+		For $j = $iIndex To $iSubItem_End
+			$sHeader &= $sAD_Separator & "Col " & $j
 		Next
 	EndIf
-	; Add default headers to fill to end
-	For $j = $iIndex To $iSubItem_End
-		$sHeader &= $sAD_Separator & "Col " & $j
-	Next
 
 	; Display splash dialog if required
 	If $iVerbose And ($iItem_End - $iItem_Start) * ($iSubItem_End - $iSubItem_Start) > 10000 Then
@@ -370,11 +374,19 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	EndIf
 
 	; Convert array into ListViewItem compatible lines
+	If $iTranspose Then
+		; Swap dimensions
+		$vTmp = $iItem_Start
+		$iItem_Start = $iSubItem_Start
+		$iSubItem_Start = $vTmp
+		$vTmp = $iItem_End
+		$iItem_End = $iSubItem_End
+		$iSubItem_End = $vTmp
+	EndIf
 	Local $avArrayText[$iItem_End - $iItem_Start + 1]
 	For $i = $iItem_Start To $iItem_End
 		$avArrayText[$i - $iItem_Start] = "[" & $i & "]"
 		For $j = $iSubItem_Start To $iSubItem_End
-			; Get current item
 			If $iDimension = 1 Then
 				If $iTranspose Then
 					$vTmp = $avArray[$j]
@@ -438,9 +450,9 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	; Create buttons
 	Local $cCopy_ID = GUICtrlCreateButton("Copy Data && Hdr/Row", 0, $aiGUISize[1] - 43, $iButtonWidth_2, 20)
 	Local $cCopy_Data = GUICtrlCreateButton("Copy Data Only", $iButtonWidth_2, $aiGUISize[1] - 43, $iButtonWidth_2, 20)
-	Local $cData_Label = GUICtrlCreateLabel($sDisplayData, 5, $aiGUISize[1] - 22, $iButtonWidth_3 - 5, 18, BitOr($_ARRAYCONSTANT_SS_CENTER, $_ARRAYCONSTANT_SS_CENTERIMAGE))
+	Local $cData_Label = GUICtrlCreateLabel($sDisplayData, 5, $aiGUISize[1] - 22, $iButtonWidth_3 - 5, 18, BitOR($_ARRAYCONSTANT_SS_CENTER, $_ARRAYCONSTANT_SS_CENTERIMAGE))
 	Local $cUser_Func = GUICtrlCreateButton("Run User Func", $iButtonWidth_3, $aiGUISize[1] - 23, $iButtonWidth_3, 20)
-	If Not $sUser_Func Then GUICtrlSetState($cUser_Func, $_ARRAYCONSTANT_GUI_DISABLE)
+	If Not IsFunc($hUser_Func) Then GUICtrlSetState($cUser_Func, $_ARRAYCONSTANT_GUI_DISABLE)
 	Local $cExit_Script = GUICtrlCreateButton("Exit Script", $iButtonWidth_3 * 2, $aiGUISize[1] - 23, $iButtonWidth_3, 20)
 	; Change label colour and create tooltip if required
 	Select
@@ -491,7 +503,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 		$iBorder += 20
 	EndIf
 	; Adjust dialog width
-	Local $iWidth = $iBorder, $iColWidth = 0, $aiColWidth[$iColCount + 2], $iMin_ColWidth = 50
+	Local $iWidth = $iBorder, $iColWidth = 0, $aiColWidth[$iSubItem_End - $iSubItem_Start + 2], $iMin_ColWidth = 55
 	; Get required column widths to fit items
 	For $i = 0 To $iSubItem_End - $iSubItem_Start + 1
 		GUICtrlSendMsg($cListView, $_ARRAYCONSTANT_LVM_SETCOLUMNWIDTH, $i, $_ARRAYCONSTANT_LVSCW_AUTOSIZE)
@@ -563,7 +575,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 				; Count selected rows
 				Local $iSel_Count = GUICtrlSendMsg($cListView, $_ARRAYCONSTANT_LVM_GETSELECTEDCOUNT, 0, 0)
 				; Display splash dialog if required
-				If $iVerbose and (Not $iSel_Count) And ($iItem_End - $iItem_Start) * ($iSubItem_End - $iSubItem_Start) > 10000 Then
+				If $iVerbose And (Not $iSel_Count) And ($iItem_End - $iItem_Start) * ($iSubItem_End - $iSubItem_Start) > 10000 Then
 					SplashTextOn("ArrayDisplay", "Copying data" & @CRLF & @CRLF & "Please be patient", 300, 100)
 				EndIf
 				; Generate clipboard text
@@ -623,7 +635,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 				Next
 				ReDim $aiSelItems[$aiSelItems[0] + 1]
 				; Pass array and selection to user function
-				Call($sUser_Func, $avArray, $aiSelItems)
+				$hUser_Func($avArray, $aiSelItems)
 				GUICtrlSetState($cListView, $_ARRAYCONSTANT_GUI_FOCUS)
 
 			Case $cExit_Script

@@ -38,7 +38,7 @@
 ;  - 1.35 - Fixed some display bugs
 ;  - 1.34 - Display Alpha release if available
 ;         - Command line parameters added /alpha to check for latest alpha
-;  - 1.33 - Added Retry/Cancel msgbox when cannot connect to receive update file
+;  - 1.33 - Added Retry/Cancel MsgBox when cannot connect to receive update file
 ;         - Added Progress bar for non-WinXP users
 ;  - 1.32 - Changed _CompareVersions again (integer comparison now)
 ;  - 1.31 - Rewrote _ClipPath again
@@ -66,7 +66,7 @@
 ;  - http://www.autoitscript.com/forum/index.ph...view=getnewpost
 ;
 ; =======================================================================
-#Include <GUIConstantsEx.au3>
+#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <StaticConstants.au3>
 
@@ -96,7 +96,7 @@ Global $lb_Mn_PreBetaSize, $lb_Mn_PreBetaPage, $a_DownButtons, $lb_Mn_DwnToTtl
 Global $lb_Mn_DwnToTxt, $pg_Mn_Progress, $bt_Mn_OpenFile, $bt_Mn_OpenFolder, $a_DownDisplay
 Global $lb_Mn_Progress, $gui_About, $lb_Ab_VisitSite, $bt_Ab_Close, $a_GMsg
 Global $i_Res, $pos, $i_ReleaseSizeKB, $i_BetaSizeKB, $i_PreBetaSizeKB, $i_DnPercent
-Global $s_DnBytes, $s_DnSize,$i_Response, $tmp, $s_DefFileName, $len
+Global $s_DnBytes, $s_DnSize, $i_Response, $tmp, $s_DefFileName, $len
 Global $i_ProgOn, $i_StatusPercent
 
 Global $i_InetGetHandle
@@ -133,8 +133,8 @@ If _StringInArray($CmdLine, '/noproxy') Then HttpSetProxy(1)
 If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or _StringInArray($CmdLine, '/prebeta') Then
 	Opt('TrayIconHide', 0)
 	_Status('更新检查中...')
-	InetGet($s_DatFile, $s_DatFile_Local, 1 )
-	If @error<>0 Then
+	InetGet($s_DatFile, $s_DatFile_Local, 1)
+	If @error <> 0 Then
 		_Status('不能连接到站点', '请检查您的网络连接')
 		Sleep(4000)
 		Exit
@@ -161,7 +161,7 @@ If _StringInArray($CmdLine, '/release') Or _StringInArray($CmdLine, '/beta') Or 
 		Until InetGetInfo($i_InetGetHandle, 2)
 		_Status('下载完成', '启动安装程序')
 		InetClose($i_InetGetHandle)
-		$i_InetGetHandle=-1
+		$i_InetGetHandle = -1
 		Sleep(1000)
 		If _StringInArray($CmdLine, '/silent') Then
 			_Start('"' & $s_DownTemp & '" /S')
@@ -302,8 +302,8 @@ EndIf
 ; Harness GUI Events
 While 1
 	$a_GMsg = GUIGetMsg(1)
-	If Not $i_DatFileLoaded And  InetGetInfo($i_InetGetHandle,2) Then
-		If InetGetInfo($i_InetGetHandle,3) = False And $b_Download_UpdateDat Then
+	If Not $i_DatFileLoaded And InetGetInfo($i_InetGetHandle, 2) Then
+		If InetGetInfo($i_InetGetHandle, 3) = False And $b_Download_UpdateDat Then
 			$i_Res = MsgBox(5 + 16 + 8192, '出错啦!', '无法连接到官方服务器.' & @LF & _
 					'请尝试下列操作:' & @LF & _
 					' - 确认电脑已经连接到因特网' & @LF & _
@@ -473,13 +473,12 @@ While 1
 			Case $a_GMsg[0] = $lb_Ab_VisitSite
 				_Start('http://www.autoitscript.com')
 			Case $a_GMsg[0] = $lb_Ab_ContactAuthor
-				_Start('http://www.autoit.net.cn')
+				_Start('http://www.autoitx.com')
 			Case $a_GMsg[0] = $GUI_EVENT_CLOSE Or $a_GMsg[0] = $bt_Ab_Close
 				GUISetState(@SW_HIDE, $gui_About)
 		EndSelect
 	EndIf
 WEnd
-
 
 ; ========================================
 ; Function Declarations
@@ -521,7 +520,6 @@ Func _DownloadFile($s_DownUrl, $s_DownName)
 	EndIf
 EndFunc   ;==>_DownloadFile
 
-
 Func _CancelDownload($i_Flag = 0)
 	If $i_DnInitiated Then
 		$i_Response = MsgBox(4 + 64 + 256 + 8192, $s_Title, '注意:您选择了取消下载.' & @LF & _
@@ -550,7 +548,6 @@ Func _CancelDownload($i_Flag = 0)
 	EndIf
 EndFunc   ;==>_CancelDownload
 
-
 Func _LoadUpdateData()
 	$s_ReleaseVer = IniRead($s_DatFile_Local, 'AutoIt', 'version', '错误读取文件')
 	$s_ReleaseFile = IniRead($s_DatFile_Local, 'AutoIt', 'setup', '')
@@ -570,11 +567,10 @@ Func _LoadUpdateData()
 	FileDelete($s_DatFile_Local)
 EndFunc   ;==>_LoadUpdateData
 
-
 ; Utility functions
 Func _Start($s_StartPath)
 	Local $s_StartStr
-	If @OSTYPE = 'WIN32_NT'  Then
+	If @OSType = 'WIN32_NT' Then
 		$s_StartStr = @ComSpec & ' /c start "" '
 	Else
 		$s_StartStr = @ComSpec & ' /c start '
@@ -582,13 +578,11 @@ Func _Start($s_StartPath)
 	Run($s_StartStr & $s_StartPath, '', @SW_HIDE)
 EndFunc   ;==>_Start
 
-
 Func _GuiCtrlGroupSetState(ByRef $a_GroupArray, $i_State)
 	For $i = 1 To $a_GroupArray[0]
 		GUICtrlSetState($a_GroupArray[$i], $i_State)
 	Next
 EndFunc   ;==>_GuiCtrlGroupSetState
-
 
 Func _ClipPath($s_Path, $i_ClipLen)
 	Local $i_Half, $s_Left, $s_Right
@@ -600,7 +594,6 @@ Func _ClipPath($s_Path, $i_ClipLen)
 	EndIf
 	Return $s_Path
 EndFunc   ;==>_ClipPath
-
 
 Func _NumSuffix($i_Num)
 	Local $s_Num
@@ -617,7 +610,6 @@ Func _NumSuffix($i_Num)
 	Return $s_Num
 EndFunc   ;==>_NumSuffix
 
-
 Func _FriendlyDate($s_Date)
 	Local $a_Months = StringSplit('1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月', ',')
 	Local $s_Year, $s_Month, $s_Day
@@ -629,7 +621,6 @@ Func _FriendlyDate($s_Date)
 	Return $s_Month & ' ' & $s_Day & ', ' & $s_Year
 EndFunc   ;==>_FriendlyDate
 
-
 Func _StringInArray($a_Array, $s_String)
 	Local $i_ArrayLen = UBound($a_Array) - 1
 	For $i = 0 To $i_ArrayLen
@@ -640,7 +631,6 @@ Func _StringInArray($a_Array, $s_String)
 	SetError(1)
 	Return 0
 EndFunc   ;==>_StringInArray
-
 
 Func _CompareVersions($s_Vers1, $s_Vers2, $i_ReturnFlag = 0)
 	Local $v_Return
@@ -689,10 +679,9 @@ Func _CompareVersions($s_Vers1, $s_Vers2, $i_ReturnFlag = 0)
 	EndIf
 EndFunc   ;==>_CompareVersions
 
-
 Func _Status($s_MainText, $s_SubText = '', $i_BytesRead = -1, $i_DownSize = -1)
 	Local $s_DownStatus
-	If @OSVersion = "WIN_XP"  Or @OSVersion = "WIN_2000"  Or @OSVersion = "WIN_2003"  Then
+	If @OSVersion = "WIN_XP" Or @OSVersion = "WIN_2003" Then
 		If $s_SubText <> '' Then
 			$s_SubText = @LF & $s_SubText
 		EndIf
@@ -718,19 +707,18 @@ Func _Status($s_MainText, $s_SubText = '', $i_BytesRead = -1, $i_DownSize = -1)
 	EndIf
 EndFunc   ;==>_Status
 
-
 Func RegRead64($sKeyname, $sValue)
-		Local $res = RegRead($sKeyname, $sValue)
-		If @error And @AutoItX64 Then
-			$sKeyname = StringReplace($sKeyname, "HKEY_LOCAL_MACHINE", "HKLM")
-			$sKeyname = StringReplace($sKeyname, "HKLM\SOFTWARE\", "HKLM\SOFTWARE\Wow6432Node\")
-			$res = RegRead($sKeyname, $sValue)
-			If @error Then
-				SetError(1)
-				Return ""
-			EndIf
+	Local $res = RegRead($sKeyname, $sValue)
+	If @error And @AutoItX64 Then
+		$sKeyname = StringReplace($sKeyname, "HKEY_LOCAL_MACHINE", "HKLM")
+		$sKeyname = StringReplace($sKeyname, "HKLM\SOFTWARE\", "HKLM\SOFTWARE\Wow6432Node\")
+		$res = RegRead($sKeyname, $sValue)
+		If @error Then
+			SetError(1)
+			Return ""
 		EndIf
+	EndIf
 
 	SetError(0)
 	Return $res
-EndFunc
+EndFunc   ;==>RegRead64

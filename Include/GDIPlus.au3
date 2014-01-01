@@ -483,7 +483,7 @@ EndFunc   ;==>_GDIPlus_ArrowCapSetWidth
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GDIPlus_BitmapCloneArea($hBmp, $nLeft, $nTop, $nWidth, $nHeight, $iFormat = 0x00021808)
-	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneBitmapAreaI", "float", $nLeft, "float", $nTop, "float", $nWidth, "float", $nHeight, _
+	Local $aResult = DllCall($ghGDIPDll, "int", "GdipCloneBitmapArea", "float", $nLeft, "float", $nTop, "float", $nWidth, "float", $nHeight, _
 			"int", $iFormat, "handle", $hBmp, "handle*", 0)
 	If @error Then Return SetError(@error, @extended, 0)
 	If $aResult[0] Then Return SetError(10, $aResult[0], 0)
@@ -1568,6 +1568,7 @@ Func _GDIPlus_GraphicsDrawString($hGraphics, $sString, $nX, $nY, $sFont = "Arial
 	Local $hFont = _GDIPlus_FontCreate($hFamily, $nSize)
 	Local $tLayout = _GDIPlus_RectFCreate($nX, $nY, 0.0, 0.0)
 	Local $aInfo = _GDIPlus_GraphicsMeasureString($hGraphics, $sString, $hFont, $tLayout, $hFormat)
+	If @error Then Return SetError(@error, @extended, 0)
 	Local $aResult = _GDIPlus_GraphicsDrawStringEx($hGraphics, $sString, $hFont, $aInfo[0], $hFormat, $hBrush)
 	Local $iError = @error, $iExtended = @extended
 	_GDIPlus_FontDispose($hFont)
