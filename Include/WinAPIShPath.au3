@@ -1,18 +1,19 @@
 #include-once
 
 #include "APIShPathConstants.au3"
+#include "StringConstants.au3"
 #include "WinAPIInternals.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIShPath.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: shell32.dll, kernel32.dll, ntdll.dll, shlwapi.dll, credui.dll, user32.dll, gdi32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_CommandLineToArgv
@@ -74,9 +75,9 @@
 ; _WinAPI_UrlHash
 ; _WinAPI_UrlIs
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -85,7 +86,7 @@
 Func _WinAPI_CommandLineToArgv($sCmd)
 	Local $Result[1] = [0]
 
-	$sCmd = StringStripWS($sCmd, 3)
+	$sCmd = StringStripWS($sCmd, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	If Not $sCmd Then
 		Return $Result
 	EndIf
@@ -157,7 +158,7 @@ Func _WinAPI_ParseUserName($sUser)
 		Case 0
 
 		Case 1315 ; ERROR_INVALID_ACCOUNT_NAME
-			If StringStripWS($sUser, 3) Then
+			If StringStripWS($sUser, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 				$Ret[2] = $sUser
 				$Ret[4] = ''
 			Else
@@ -196,7 +197,7 @@ Func _WinAPI_PathAddExtension($sPath, $sExt = '')
 	DllStructSetData($tPath, 1, $sPath)
 
 	Local $TypeOfExt = 'wstr'
-	If Not StringStripWS($sExt, 3) Then
+	If Not StringStripWS($sExt, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfExt = 'ptr'
 		$sExt = 0
 	EndIf
@@ -865,9 +866,9 @@ Func _WinAPI_UrlIs($sUrl, $iType = 0)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_UrlIs
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __US($sString, $iLength = 0)
 	If $iLength Then
@@ -884,4 +885,4 @@ Func __US($sString, $iLength = 0)
 	Return $tUS
 EndFunc   ;==>__US
 
-#endregion Internal Functions
+#EndRegion Internal Functions

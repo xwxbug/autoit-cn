@@ -1,11 +1,14 @@
 #include-once
 
+#include "AutoItConstants.au3"
+#include "MsgBoxConstants.au3"
 #include "SendMessage.au3"
+#include "StringConstants.au3"
 #include "WinAPIError.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Debug
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions to help script debugging.
 ; Author(s) .....: Nutster, Jpm, Valik, guinness, water
@@ -55,7 +58,7 @@ Global $__gbComErrorExit_Debug = False, $__gsComError_Debug = ""
 Func _Assert($sCondition, $bExit = True, $nCode = 0x7FFFFFFF, $sLine = @ScriptLineNumber, Const $curerr = @error, Const $curext = @extended)
 	Local $bCondition = Execute($sCondition)
 	If Not $bCondition Then
-		MsgBox(16 + 262144, "AutoIt Assert", "Assertion Failed (Line " & $sLine & "): " & @CRLF & @CRLF & $sCondition)
+		MsgBox($MB_SYSTEMMODAL, "AutoIt Assert", "Assertion Failed (Line " & $sLine & "): " & @CRLF & @CRLF & $sCondition)
 		If $bExit Then Exit $nCode
 	EndIf
 	Return SetError($curerr, $curext, $bCondition)
@@ -142,7 +145,7 @@ Func _DebugSetup(Const $sTitle = Default, $bBugReportInfos = Default, $vReportTy
 			$__gsReportCallBack_Debug = "ConsoleWrite("
 		Case 3
 			; Message box
-			$__gsReportCallBack_Debug = "MsgBox(266256, '" & $__gsReportTitle_Debug & "',"
+			$__gsReportCallBack_Debug = "MsgBox(4096, '" & $__gsReportTitle_Debug & "',"
 		Case 4
 			; Log file
 			$__gsReportCallBack_Debug = "FileWrite('" & $sLogFile & "',"
@@ -190,7 +193,7 @@ Func _DebugReportEx($sData, $bLastError = False, $bExit = False, $curerr = @erro
 	If $__giReportType_Debug <= 0 Or $__giReportType_Debug > 6 Then Return SetError($curerr, $curext, 0)
 
 	If IsInt($curerr) Then
-		Local $sTemp = StringSplit($sData, "|", 2)
+		Local $sTemp = StringSplit($sData, "|", $STR_ENTIRESPLIT + $STR_NOCOUNT)
 		If UBound($sTemp) > 1 Then
 			If $bExit Then
 				$sData = "<<< "
@@ -233,9 +236,9 @@ Func _DebugReportVar($varName, $vVar, $bErrExt = False, $ScriptLineNumber = @Scr
 	Local $sData = "@@ Debug(" & $ScriptLineNumber & ") : " & __Debug_DataType($vVar) & " -> " & $varName
 
 	If IsArray($vVar) Then
-		Local $nDims = UBound($vVar, 0)
-		Local $nRows = UBound($vVar, 1)
-		Local $nCols = UBound($vVar, 2)
+		Local $nDims = UBound($vVar, $UBOUND_DIMENSIONS)
+		Local $nRows = UBound($vVar, $UBOUND_ROWS)
+		Local $nCols = UBound($vVar, $UBOUND_COLUMNS)
 		For $d = 1 To $nDims
 			$sData &= "[" & UBound($vVar, $d) & "]"
 		Next
@@ -280,8 +283,8 @@ EndFunc   ;==>_DebugReportVar
 Func __Debug_COMErrorHandler($oCOMError)
 	Local $sError = "@@ DEBUG COM Error encountered in " & @ScriptName & " (" & $oCOMError.Scriptline & ") :" & @CRLF & _
 			@TAB & "Number        " & @TAB & "= 0x" & Hex($oCOMError.Number, 8) & " (" & $oCOMError.Number & ")" & @CRLF & _
-			@TAB & "WinDescription" & @TAB & "= " & StringStripWS($oCOMError.WinDescription, 2) & @CRLF & _
-			@TAB & "Description   " & @TAB & "= " & StringStripWS($oCOMError.Description, 2) & @CRLF & _
+			@TAB & "WinDescription" & @TAB & "= " & StringStripWS($oCOMError.WinDescription, $STR_STRIPTRAILING) & @CRLF & _
+			@TAB & "Description   " & @TAB & "= " & StringStripWS($oCOMError.Description, $STR_STRIPTRAILING) & @CRLF & _
 			@TAB & "Source        " & @TAB & "= " & $oCOMError.Source & @CRLF & _
 			@TAB & "HelpFile      " & @TAB & "= " & $oCOMError.HelpFile & @CRLF & _
 			@TAB & "HelpContext   " & @TAB & "= " & $oCOMError.HelpContext & @CRLF & _
@@ -345,7 +348,7 @@ Func __Debug_DataType($vData)
 		Case "DllStruct"
 			$sType &= ":" & DllStructGetSize($vData)
 		Case "Array"
-			$sType &= " " & UBound($vData, 0) & "D"
+			$sType &= " " & UBound($vData, $UBOUND_DIMENSIONS) & "D"
 		Case "String"
 			$sType &= ":" & StringLen($vData)
 		Case "Binary"
@@ -395,7 +398,7 @@ EndFunc   ;==>__Debug_ReportClose
 ; Example .......:
 ; ===============================================================================================================================
 Func __Debug_ReportWindowCreate()
-	Local $nOld = Opt("WinDetectHiddenText", True)
+	Local $nOld = Opt("WinDetectHiddenText", $OPT_MATCHSTART)
 	Local $bExists = WinExists($__gsReportTitle_Debug, $__gsReportWindowText_Debug)
 
 	If $bExists Then
@@ -482,7 +485,7 @@ EndFunc   ;==>__Debug_ReportWindowWrite
 ; ===============================================================================================================================
 Func __Debug_ReportWindowWaitClose()
 	If Not $__gbReportWindowWaitClose_Debug Then Return 0 ; use of the already opened window so no need to wait
-	Local $nOld = Opt("WinDetectHiddenText", True)
+	Local $nOld = Opt("WinDetectHiddenText", $OPT_MATCHSTART)
 	Local $hWndReportWindow = WinGetHandle($__gsReportTitle_Debug, $__gsReportWindowText_Debug)
 	Opt("WinDetectHiddenText", $nOld)
 

@@ -1,17 +1,17 @@
 #include-once
 
-#include "ListViewConstants.au3"
-#include "GuiHeader.au3"
 #include "Array.au3"
+#include "GuiHeader.au3"
+#include "ListViewConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListView
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with ListView control management.
 ;                  A ListView control is a window that displays a collection of items; each item consists of an icon and a label.
@@ -23,7 +23,6 @@
 
 ; #VARIABLES# ===================================================================================================================
 Global $_lv_ghLastWnd
-
 
 ; for use with the sort call back functions
 Global $iLListViewSortInfoSize = 11
@@ -52,55 +51,6 @@ Global Const $__LISTVIEWCONSTANT_VK_PRIOR = 0x21
 Global Const $__LISTVIEWCONSTANT_VK_RIGHT = 0x27
 Global Const $__LISTVIEWCONSTANT_VK_UP = 0x26
 ; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlListViewCopyItems                ; --> _GUICtrlListView_CopyItems
-; _GUICtrlListViewDeleteAllItems           ; --> _GUICtrlListView_DeleteAllItems
-; _GUICtrlListViewDeleteColumn             ; --> _GUICtrlListView_DeleteColumn
-; _GUICtrlListViewDeleteItem               ; --> _GUICtrlListView_DeleteItem
-; _GUICtrlListViewDeleteItemsSelected      ; --> _GUICtrlListView_DeleteItemsSelected
-; _GUICtrlListViewEnsureVisible            ; --> _GUICtrlListView_EnsureVisible
-; _GUICtrlListViewFindItem                 ; --> _GUICtrlListView_FindInText, _GUICtrlListView_FindItem, _GUICtrlListView_FindNearest, _GUICtrlListView_FindParam, _GUICtrlListView_FindText
-; _GUICtrlListViewGetBackColor             ; --> _GUICtrlListView_GetBkColor
-; _GUICtrlListViewGetCallbackMask          ; --> _GUICtrlListView_GetCallbackMask
-; _GUICtrlListViewGetCheckedState          ; --> _GUICtrlListView_GetItemChecked
-; _GUICtrlListViewGetColumnOrder           ; --> _GUICtrlListView_GetColumnOrder
-; _GUICtrlListViewGetColumnWidth           ; --> _GUICtrlListView_GetColumnWidth
-; _GUICtrlListViewGetCounterPage           ; --> _GUICtrlListView_GetCounterPage
-; _GUICtrlListViewGetCurSel                ; --> _GUICtrlListView_GetNextItem
-; _GUICtrlListViewGetExtendedListViewStyle ; --> _GUICtrlListView_GetExtendedListViewStyle
-; _GUICtrlListViewGetHeader                ; --> _GUICtrlListView_GetHeader
-; _GUICtrlListViewGetHotCursor             ; --> _GUICtrlListView_GetHotCursor
-; _GUICtrlListViewGetHotItem               ; --> _GUICtrlListView_GetHotItem
-; _GUICtrlListViewGetHoverTime             ; --> _GUICtrlListView_GetHoverTime
-; _GUICtrlListViewGetItemCount             ; --> _GUICtrlListView_GetItemCount
-; _GUICtrlListViewGetItemTextArray         ; --> _GUICtrlListView_GetItemTextArray
-; _GUICtrlListViewGetItemText              ; --> _GUICtrlListView_GetItemTextString
-; _GUICtrlListViewGetNextItem              ; --> _GUICtrlListView_GetNextItem
-; _GUICtrlListViewGetSelectedCount         ; --> _GUICtrlListView_GetSelectedCount
-; _GUICtrlListViewGetSelectedIndices       ; --> _GUICtrlListView_GetSelectedIndices
-; _GUICtrlListViewGetSubItemsCount         ; --> _GUICtrlListView_GetColumnCount
-; _GUICtrlListViewGetTopIndex              ; --> _GUICtrlListView_GetTopIndex
-; _GUICtrlListViewGetUnicodeFormat         ; --> _GUICtrlListView_GetUnicodeFormat
-; _GUICtrlListViewGetView                  ; --> _GUICtrlListView_GetView
-; _GUICtrlListViewHideColumn               ; --> _GUICtrlListView_HideColumn
-; _GUICtrlListViewInsertColumn             ; --> _GUICtrlListView_InsertColumn
-; _GUICtrlListViewInsertItem               ; --> _GUICtrlListView_InsertItem
-; _GUICtrlListViewJustifyColumn            ; --> _GUICtrlListView_JustifyColumn
-; _GUICtrlListViewScroll                   ; --> _GUICtrlListView_Scroll
-; _GUICtrlListViewSetColumnHeaderText      ; --> _GUICtrlListView_SetColumn
-; _GUICtrlListViewSetColumnWidth           ; --> _GUICtrlListView_SetColumnWidth
-; _GUICtrlListViewSetColumnOrder           ; --> _GUICtrlListView_SetColumnOrder
-; _GUICtrlListViewSetCheckState            ; --> _GUICtrlListView_SetItemChecked
-; _GUICtrlListViewSetHotItem               ; --> _GUICtrlListView_SetHotItem
-; _GUICtrlListViewSetHoverTime             ; --> _GUICtrlListView_SetHoverTime
-; _GUICtrlListViewSetItemCount             ; --> _GUICtrlListView_SetItemCount
-; _GUICtrlListViewSetItemSelState          ; --> _GUICtrlListView_SetItemSelected
-; _GUICtrlListViewSetItemText              ; --> _GUICtrlListView_SetItemText
-; _GUICtrlListViewSort                     ; --> _GUICtrlListView_SimpleSort
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Not working/documented/implimented at this time
@@ -478,7 +428,7 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 				DllStructSetData($tItem, "SubItem", 0)
 				DllStructSetData($tBuffer, "Text", $aItems[$iI][0])
 				_SendMessage($hWnd, $LVM_INSERTITEMW, 0, $tItem, 0, "wparam", "struct*")
-				For $iJ = 1 To UBound($aItems, 2) - 1
+				For $iJ = 1 To UBound($aItems, $UBOUND_COLUMNS) - 1
 					DllStructSetData($tItem, "SubItem", $iJ)
 					DllStructSetData($tBuffer, "Text", $aItems[$iI][$iJ])
 					_SendMessage($hWnd, $LVM_SETITEMW, 0, $tItem, 0, "wparam", "struct*")
@@ -502,7 +452,7 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 				Else
 					_SendMessage($hWnd, $LVM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr")
 				EndIf
-				For $iJ = 1 To UBound($aItems, 2) - 1
+				For $iJ = 1 To UBound($aItems, $UBOUND_COLUMNS) - 1
 					DllStructSetData($tItem, "SubItem", $iJ)
 					DllStructSetData($tBuffer, "Text", $aItems[$iI][$iJ])
 					_MemWrite($tMemMap, $tItem, $pMemory, $iItem)
@@ -527,7 +477,7 @@ Func _GUICtrlListView_AddArray($hWnd, ByRef $aItems)
 			Else
 				GUICtrlSendMsg($hWnd, $LVM_INSERTITEMA, 0, $pItem)
 			EndIf
-			For $iJ = 1 To UBound($aItems, 2) - 1
+			For $iJ = 1 To UBound($aItems, $UBOUND_COLUMNS) - 1
 				DllStructSetData($tItem, "SubItem", $iJ)
 				DllStructSetData($tBuffer, "Text", $aItems[$iI][$iJ])
 				If $fUnicode Then
@@ -775,10 +725,6 @@ EndFunc   ;==>_GUICtrlListView_ClickItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlListView_CopyItems($hWnd_Source, $hWnd_Destination, $fDelFlag = False)
-;~ 		__UDF_ValidateClassName($hWnd_Source, $__LISTVIEWCONSTANT_ClassName)
-;~ 		__UDF_ValidateClassName($hWnd_Destination, $__LISTVIEWCONSTANT_ClassName)
-;~ 	EndIf
-
 	Local $a_indices, $tItem = DllStructCreate($tagLVITEM), $iIndex
 	Local $cols = _GUICtrlListView_GetColumnCount($hWnd_Source)
 
@@ -885,7 +831,7 @@ Func _GUICtrlListView_Create($hWnd, $sHeaderText, $iX, $iY, $iWidth = 150, $iHei
 			Case $S_OK
 			Case $S_FALSE
 			Case $RPC_E_CHANGED_MODE
-;~ 						"-->or the thread that called CoInitializeEx currently belongs to the neutral threaded apartment.")
+				; "-->or the thread that called CoInitializeEx currently belongs to the neutral threaded apartment.")
 			Case $E_INVALIDARG
 			Case $E_OUTOFMEMORY
 			Case $E_UNEXPECTED
@@ -950,15 +896,15 @@ Func _GUICtrlListView_DeleteAllItems($hWnd)
 	If _GUICtrlListView_GetItemCount($hWnd) = 0 Then Return True
 	Local Const $LV_WM_SETREDRAW = 0x000B
 	; Determine ListView type
-    Local $cCID = 0
-    If IsHWnd($hWnd) Then
-        ; Check if the ListView has a ControlID
-        $cCID = _WinAPI_GetDlgCtrlID($hWnd)
-    Else
-        $cCID = $hWnd
-        ; Get ListView handle
-        $hWnd = GUICtrlGetHandle($hWnd)
-    EndIf
+	Local $cCID = 0
+	If IsHWnd($hWnd) Then
+		; Check if the ListView has a ControlID
+		$cCID = _WinAPI_GetDlgCtrlID($hWnd)
+	Else
+		$cCID = $hWnd
+		; Get ListView handle
+		$hWnd = GUICtrlGetHandle($hWnd)
+	EndIf
 	; If native ListView - could be either type of item
 	If $cCID Then
 		; Disable the redrawing message
@@ -999,28 +945,28 @@ EndFunc   ;==>_GUICtrlListView_DeleteColumn
 ; ===============================================================================================================================
 Func _GUICtrlListView_DeleteItem($hWnd, $iIndex)
 	; Determine ListView type
-    Local $cCID = 0
-    If IsHWnd($hWnd) Then
-        ; Check if the ListView has a ControlID
-        $cCID = _WinAPI_GetDlgCtrlID($hWnd)
-    Else
-        $cCID = $hWnd
-        ; Get ListView handle
-        $hWnd = GUICtrlGetHandle($hWnd)
-    EndIf
-    ; If native ListView - could be either type of item
-    If $cCID Then
-        ; Try deleting as native item
-        Local $iParam = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
-        ; Check if LV item
+	Local $cCID = 0
+	If IsHWnd($hWnd) Then
+		; Check if the ListView has a ControlID
+		$cCID = _WinAPI_GetDlgCtrlID($hWnd)
+	Else
+		$cCID = $hWnd
+		; Get ListView handle
+		$hWnd = GUICtrlGetHandle($hWnd)
+	EndIf
+	; If native ListView - could be either type of item
+	If $cCID Then
+		; Try deleting as native item
+		Local $iParam = _GUICtrlListView_GetItemParam($hWnd, $iIndex)
+		; Check if LV item
 		If GUICtrlGetState($iParam) > 0 And GUICtrlGetHandle($iParam) = 0 Then
-            If GUICtrlDelete($iParam) Then
-                Return True
-            EndIf
-        EndIf
-    EndIf
-    ; Has to be UDF Listview and/or UDF item
-    Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
+			If GUICtrlDelete($iParam) Then
+				Return True
+			EndIf
+		EndIf
+	EndIf
+	; Has to be UDF Listview and/or UDF item
+	Return _SendMessage($hWnd, $LVM_DELETEITEM, $iIndex) <> 0
 EndFunc   ;==>_GUICtrlListView_DeleteItem
 
 ; #FUNCTION# ====================================================================================================================
@@ -2656,17 +2602,17 @@ EndFunc   ;==>_GUICtrlListView_GetSelectedCount
 ; ===============================================================================================================================
 Func __GUICtrlListView_GetCheckedIndices($hWnd)
 	Local $iCount = _GUICtrlListView_GetItemCount($hWnd)
-    ; Create max size array
-    Local $aSelected[$iCount + 1] = [0]
-    For $i = 0 To $iCount - 1
-        If _GUICtrlListView_GetItemChecked($hWnd, $i) Then
-            $aSelected[0] += 1
-            $aSelected[$aSelected[0]] = $i
-        EndIf
-    Next
-    ; Remove unfilled elements
-    ReDim $aSelected[$aSelected[0] + 1]
-    Return $aSelected
+	; Create max size array
+	Local $aSelected[$iCount + 1] = [0]
+	For $i = 0 To $iCount - 1
+		If _GUICtrlListView_GetItemChecked($hWnd, $i) Then
+			$aSelected[0] += 1
+			$aSelected[$aSelected[0]] = $i
+		EndIf
+	Next
+	; Remove unfilled elements
+	ReDim $aSelected[$aSelected[0] + 1]
+	Return $aSelected
 EndFunc   ;==>__GUICtrlListView_GetCheckedIndices
 
 ; #FUNCTION# ====================================================================================================================
@@ -4556,7 +4502,7 @@ Func _GUICtrlListView_SimpleSort($hWnd, ByRef $vSortSense, $iCol, $fToggle = Tru
 			_GUICtrlListView_SetItemSelected($hWnd, $i, False)
 			_GUICtrlListView_SetItemChecked($hWnd, $i, False)
 			For $j = 0 To $iColumnCount - 1 ; Columns
-				$sItemText = StringStripWS(_GUICtrlListView_GetItemText($hWnd, $i, $j), 2)
+				$sItemText = StringStripWS(_GUICtrlListView_GetItemText($hWnd, $i, $j), $STR_STRIPTRAILING)
 				If (StringIsFloat($sItemText) Or StringIsInt($sItemText)) Then
 					$aListViewItems[$i][$j] = Number($sItemText)
 				Else

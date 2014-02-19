@@ -5,7 +5,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Security
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Functions that assist with Security management.
 ; Author(s) .....: Paul Campbell (PaulIA), trancexx
 ; Dll(s) ........: advapi32.dll

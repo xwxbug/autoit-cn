@@ -5,10 +5,9 @@
 #include "WinAPI.au3"
 #include "WinAPIGdi.au3"
 
-
 ; #INDEX# =======================================================================================================================
 ; Title .........: GDIPlus
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Microsoft Windows GDI+ management.
 ;                  It enables applications to use graphics and formatted text on both the video display and the printer.
@@ -532,10 +531,10 @@ EndFunc   ;==>_GDIPlus_BitmapCreateFromHBITMAP
 ; Author ........: UEZ
 ; Modified.......: progandy
 ;===================================================================================================================================
-Func _GDIPlus_BitmapCreateFromMemory($bImage, $hHBITMAP = False)
-	If Not IsBinary($bImage) Then Return SetError(1, 0, 0)
+Func _GDIPlus_BitmapCreateFromMemory($dImage, $bHBITMAP = False)
+	If Not IsBinary($dImage) Then Return SetError(1, 0, 0)
 	Local $aResult = 0
-	Local Const $memBitmap = Binary($bImage) ;load image saved in variable (memory) and convert it to binary
+	Local Const $memBitmap = Binary($dImage) ;load image saved in variable (memory) and convert it to binary
 	Local Const $iLen = BinaryLen($memBitmap) ;get binary length of the image
 	Local Const $GMEM_MOVEABLE = 0x0002
 	$aResult = DllCall("kernel32.dll", "handle", "GlobalAlloc", "uint", $GMEM_MOVEABLE, "ulong_ptr", $iLen) ;allocates movable memory ($GMEM_MOVEABLE = 0x0002)
@@ -545,14 +544,14 @@ Func _GDIPlus_BitmapCreateFromMemory($bImage, $hHBITMAP = False)
 	If @error Then Return SetError(5, 0, 0)
 	Local $tMem = DllStructCreate("byte[" & $iLen & "]", $aResult[0]) ;create struct
 	DllStructSetData($tMem, 1, $memBitmap) ;fill struct with image data
-	DllCall("kernel32.dll", "bool", "GlobalUnlock", "handle", $hData) ;decrements the lock count associated with a memory object that was allocated with GMEM_MOVEABLE
+	DllCall("kernel32.dll", "bool", "GlobalUnlbck", "handle", $hData) ;decrements the lock count associated with a memory object that was allocated with GMEM_MOVEABLE
 	If @error Then Return SetError(6, 0, 0)
 	Local Const $hStream = _WinAPI_CreateStreamOnHGlobal($hData) ;creates a stream object that uses an HGLOBAL memory handle to store the stream contents
 	If @error Then Return SetError(2, 0, 0)
 	Local Const $hBitmap = _GDIPlus_BitmapCreateFromStream($hStream) ;creates a Bitmap object based on an IStream COM interface
 	If @error Then Return SetError(3, 0, 0)
 	DllCall("oleaut32.dll", "long", "DispCallFunc", "ptr", $hStream, "ulong_ptr", 8 * (1 + @AutoItX64), "uint", 4, "ushort", 23, "uint", 0, "ptr", 0, "ptr", 0, "str", "") ;release memory from $hStream to avoid memory leak
-	If $hHBITMAP Then
+	If $bHBITMAP Then
 		Local Const $hHBmp = __GDIPlus_BitmapCreateDIBFromBitmap($hBitmap) ;supports GDI transparent color format
 		_GDIPlus_BitmapDispose($hBitmap)
 		Return $hHBmp
@@ -2075,7 +2074,6 @@ Func _GDIPlus_GraphicsTransformPoints($hGraphics, ByRef $aPoints, $iCoordSpaceTo
 	If @error Then Return SetError(@error, @extended, False)
 	If $aResult[0] Then Return SetError(10, $aResult[0], False)
 
-
 	For $iI = 1 To $iCount
 		$aPoints[$iI][0] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 1)
 		$aPoints[$iI][1] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 2)
@@ -2414,7 +2412,8 @@ Func _GDIPlus_ImageSaveToFile($hImage, $sFileName)
 	Local $sCLSID = _GDIPlus_EncodersGetCLSID($sExt)
 	If $sCLSID = "" Then Return SetError(-1, 0, False)
 
-	Return SetError(_GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, 0), @error, @extended)
+	Local $bRet = _GDIPlus_ImageSaveToFileEx($hImage, $sFileName, $sCLSID, 0)
+	Return SetError(@error, @extended, $bRet)
 EndFunc   ;==>_GDIPlus_ImageSaveToFile
 
 ; #FUNCTION# ====================================================================================================================
@@ -2843,7 +2842,6 @@ Func _GDIPlus_MatrixTransformPoints($hMatrix, ByRef $aPoints)
 	Local $aResult = DllCall($ghGDIPDll, "int", "GdipTransformMatrixPoints", "handle", $hMatrix, "struct*", $tPoints, "int", $iCount)
 	If @error Then Return SetError(@error, @extended, False)
 	If $aResult[0] Then Return SetError(10, $aResult[0], False)
-
 
 	For $iI = 1 To $iCount
 		$aPoints[$iI][0] = DllStructGetData($tPoints, 1, ($iI - 1) * 2 + 1)
@@ -4747,7 +4745,6 @@ Func _GDIPlus_BitmapGetHistogramSize($iFormat)
 	Return $aResult[2]
 EndFunc   ;==>_GDIPlus_BitmapGetHistogramSize
 
-
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: UEZ
 ; Modified ......: jpm
@@ -5102,4 +5099,3 @@ Func _GDIPlus_PaletteInitialize($iEntries, $iPaletteType = $GDIP_PaletteTypeOpti
 
 	Return $tPalette
 EndFunc   ;==>_GDIPlus_PaletteInitialize
-

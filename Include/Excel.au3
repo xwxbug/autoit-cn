@@ -1,8 +1,10 @@
 #include-once
 
+#include "AutoItConstants.au3"
+
 ; #INDEX# =======================================================================================================================
 ; Title .........: Microsoft Excel COM UDF library for AutoIt v3
-; AutoIt Version : 3.2.3++, Excel.au3 v 1.5 (07/18/2008 @ 8:25am PST)
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions for creating, attaching to, reading from and manipulating Microsoft Excel.
 ; Author(s) .....: SEO (Locodarwin), DaLiMan, Stanley Lim, MikeOsdx, MRDev, big_daddy, PsaltyDS, litlmike, water
@@ -314,7 +316,7 @@ EndFunc   ;==>_ExcelBookClose
 ; ===============================================================================================================================
 Func _ExcelWriteCell($oExcel, $sValue, $sRangeOrRow, $iColumn = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]") Then
 		If $sRangeOrRow < 1 Then Return SetError(2, 0, 0)
 		If $iColumn < 1 Then Return SetError(2, 1, 0)
 		$oExcel.Activesheet.Cells($sRangeOrRow, $iColumn).Value = $sValue
@@ -333,7 +335,7 @@ EndFunc   ;==>_ExcelWriteCell
 ; ===============================================================================================================================
 Func _ExcelWriteFormula($oExcel, $sFormula, $sRangeOrRow, $iColumn = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]") Then
 		If $sRangeOrRow < 1 Then Return SetError(2, 0, 0)
 		If $iColumn < 1 Then Return SetError(2, 1, 0)
 		$oExcel.Activesheet.Cells($sRangeOrRow, $iColumn).FormulaR1C1 = $sFormula
@@ -380,7 +382,7 @@ Func _ExcelWriteSheetFromArray($oExcel, ByRef $aArray, $iStartRow = 1, $iStartCo
 	If $iStartRow < 1 Then Return SetError(2, 0, 0)
 	If $iStartColumn < 1 Then Return SetError(2, 1, 0)
 	If Not IsArray($aArray) Then Return SetError(3, 0, 0)
-	Local $iDims = UBound($aArray, 0), $iLastRow = UBound($aArray, 1) - 1, $iLastColumn = UBound($aArray, 2) - 1
+	Local $iDims = UBound($aArray, $UBOUND_DIMENSIONS), $iLastRow = UBound($aArray, $UBOUND_ROWS) - 1, $iLastColumn = UBound($aArray, $UBOUND_COLUMNS) - 1
 	If $iDims <> 2 Then Return SetError(3, 1, 0)
 	If $iRowBase > $iLastRow Then Return SetError(4, 0, 0)
 	If $iColBase > $iLastColumn Then Return SetError(4, 1, 0)
@@ -403,7 +405,7 @@ EndFunc   ;==>_ExcelWriteSheetFromArray
 ; ===============================================================================================================================
 Func _ExcelHyperlinkInsert($oExcel, $sLinkText, $sAddress, $sScreenTip, $sRangeOrRow, $iColumn = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]") Then
 		If $sRangeOrRow < 1 Then Return SetError(2, 0, 0)
 		If $iColumn < 1 Then Return SetError(2, 1, 0)
 		$oExcel.ActiveSheet.Cells($sRangeOrRow, $iColumn).Select()
@@ -423,7 +425,7 @@ EndFunc   ;==>_ExcelHyperlinkInsert
 ; ===============================================================================================================================
 Func _ExcelNumberFormat($oExcel, $sFormat, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]") Then
 		If $sRangeOrRowStart < 1 Then Return SetError(2, 0, 0)
 		If $iColStart < 1 Then Return SetError(2, 1, 0)
 		If $iRowEnd < $sRangeOrRowStart Then Return SetError(3, 0, 0)
@@ -447,7 +449,7 @@ Func _ExcelReadCell($oExcel, $sRangeOrRow, $iColumn = 1, $iReturn = 1)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
 	If $iReturn < 1 Or $iReturn > 3 Then Return SetError(4, 0, 0)
 	Local $Value
-	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRow, "[A-Z,a-z]") Then
 		If $sRangeOrRow < 1 Then Return SetError(2, 0, 0)
 		If $iColumn < 1 Then Return SetError(2, 1, 0)
 		If $iReturn = 1 Then
@@ -751,7 +753,7 @@ EndFunc   ;==>_ExcelSheetMove
 ; ===============================================================================================================================
 Func _ExcelHorizontalAlignSet($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1, $sHorizAlign = "left")
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]") Then
 		If $sRangeOrRowStart < 1 Then Return SetError(2, 0, 0)
 		If $iColStart < 1 Then Return SetError(2, 1, 0)
 		If $iRowEnd < $sRangeOrRowStart Then Return SetError(3, 0, 0)
@@ -785,7 +787,7 @@ EndFunc   ;==>_ExcelHorizontalAlignSet
 ; ===============================================================================================================================
 Func _ExcelFontSetProperties($oExcel, $sRangeOrRowStart, $iColStart = 1, $iRowEnd = 1, $iColEnd = 1, $fBold = False, $fItalic = False, $fUnderline = False)
 	If Not IsObj($oExcel) Then Return SetError(1, 0, 0)
-	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]", 0) Then
+	If Not StringRegExp($sRangeOrRowStart, "[A-Z,a-z]") Then
 		If $sRangeOrRowStart < 1 Then Return SetError(2, 0, 0)
 		If $iColStart < 1 Then Return SetError(2, 1, 0)
 		If $iRowEnd < $sRangeOrRowStart Then Return SetError(3, 0, 0)

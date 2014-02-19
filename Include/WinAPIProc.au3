@@ -1,20 +1,20 @@
 #include-once
 
 #include "APIProcConstants.au3"
-#include "WinAPIShPath.au3"
 #include "WinAPICom.au3"
 #include "WinAPIInternals.au3"
+#include "WinAPIShPath.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIProc.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: advapi32.dll, kernel32.dll, psapi.dll, ntdll.dll, shell32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagIO_COUNTERS = 'struct;uint64 ReadOperationCount;uint64 WriteOperationCount;uint64 OtherOperationCount;uint64 ReadTransferCount;uint64 WriteTransferCount;uint64 OtherTransferCount;endstruct'
@@ -31,9 +31,9 @@ Global Const $tagJOBOBJECT_SECURITY_LIMIT_INFORMATION = 'dword SecurityLimitFlag
 Global Const $tagMODULEINFO = 'ptr BaseOfDll;dword SizeOfImage;ptr EntryPoint'
 Global Const $tagPROCESSENTRY32 = 'dword Size;dword Usage;dword ProcessID;ulong_ptr DefaultHeapID;dword ModuleID;dword Threads;dword ParentProcessID;long PriClassBase;dword Flags;wchar ExeFile[260]'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_AdjustTokenPrivileges
@@ -91,9 +91,9 @@ Global Const $tagPROCESSENTRY32 = 'dword Size;dword Usage;dword ProcessID;ulong_
 ; _WinAPI_TerminateProcess
 ; _WinAPI_UserHandleGrantAccess
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -127,7 +127,7 @@ Func _WinAPI_AdjustTokenPrivileges($hToken, $aPrivileges, $iAttributes, ByRef $a
 			$Prev[0][0] = $aPrivileges
 			$Prev[0][1] = $iAttributes
 		Else
-			If Not UBound($aPrivileges, 2) Then
+			If Not UBound($aPrivileges, $UBOUND_COLUMNS) Then
 				$Count = UBound($aPrivileges)
 				Dim $Prev[$Count][2]
 				For $i = 0 To $Count - 1
@@ -199,7 +199,7 @@ EndFunc   ;==>_WinAPI_AssignProcessToJobObject
 ; ===============================================================================================================================
 Func _WinAPI_CreateJobObject($sName = '', $tSecurity = 0)
 	Local $TypeOfName = 'wstr'
-	If Not StringStripWS($sName, 3) Then
+	If Not StringStripWS($sName, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfName = 'ptr'
 		$sName = 0
 	EndIf
@@ -229,15 +229,15 @@ EndFunc   ;==>_WinAPI_CreateMutex
 ; ===============================================================================================================================
 Func _WinAPI_CreateProcessWithToken($sApp, $sCmd, $iFlags, $pStartupInfo, $pProcessInfo, $hToken, $iLogon = 0, $pEnvironment = 0, $sDir = '')
 	Local $TypeOfApp = 'wstr', $TypeOfCmd = 'wstr', $TypeOfDir = 'wstr'
-	If Not StringStripWS($sApp, 3) Then
+	If Not StringStripWS($sApp, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfApp = 'ptr'
 		$sApp = 0
 	EndIf
-	If Not StringStripWS($sCmd, 3) Then
+	If Not StringStripWS($sCmd, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfCmd = 'ptr'
 		$sCmd = 0
 	EndIf
-	If Not StringStripWS($sDir, 3) Then
+	If Not StringStripWS($sDir, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDir = 'ptr'
 		$sDir = 0
 	EndIf
@@ -682,7 +682,7 @@ Func _WinAPI_GetProcessCommandLine($PID = 0)
 	DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hProcess)
 	If $Error Then Return SetError($Error, 0, '')
 
-	Return StringStripWS(_WinAPI_PathGetArgs(_WinAPI_GetString(DllStructGetPtr($tCMD, 1))), 3)
+	Return StringStripWS(_WinAPI_PathGetArgs(_WinAPI_GetString(DllStructGetPtr($tCMD, 1))), $STR_STRIPLEADING + $STR_STRIPTRAILING)
 EndFunc   ;==>_WinAPI_GetProcessCommandLine
 
 ; #FUNCTION# ====================================================================================================================
@@ -1228,4 +1228,4 @@ Func _WinAPI_UserHandleGrantAccess($hObject, $hJob, $fGrant)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_UserHandleGrantAccess
 
-#endregion Public Functions
+#EndRegion Public Functions

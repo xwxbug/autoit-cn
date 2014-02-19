@@ -1,23 +1,24 @@
 #include-once
 
 #include "APIDiagConstants.au3"
+#include "StringConstants.au3"
 #include "WinAPI.au3"
 #include "WinAPIFiles.au3"
+#include "WinAPIInternals.au3"
 #include "WinAPIProc.au3"
 #include "WinAPIShellEx.au3"
 #include "WinAPITheme.au3"
-#include "WinAPIInternals.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIDiag.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: dbghelp.dll, kernel32.dll, connect.dll, sensapi.dll, ntdll.dll, advapi32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 Global $__hFRDlg = 0, $__hFRDll = 0
@@ -25,9 +26,9 @@ Global $__hFRDlg = 0, $__hFRDll = 0
 
 ; #CONSTANTS# ===================================================================================================================
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_DisplayStruct
@@ -45,19 +46,19 @@ Global $__hFRDlg = 0, $__hFRDll = 0
 ; _WinAPI_UniqueHardwareID
 ; _WinAPI_UnregisterApplicationRestart
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $iSubItem = 0, $iFlags = 0, $fTop = 1, $hParent = 0)
-	If Not StringStripWS($sTitle, 3) Then
+	If Not StringStripWS($sTitle, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$sTitle = 'Structure: ListView Display'
 	EndIf
-	$sStruct = StringRegExpReplace(StringStripWS($sStruct, 7), ';+\Z', '')
+	$sStruct = StringRegExpReplace(StringStripWS($sStruct, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES), ';+\Z', '')
 	Local $pData
 	If IsDllStruct($tStruct) Then
 		$pData = DllStructGetPtr($tStruct)
@@ -74,7 +75,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 	Local $iData = DllStructGetSize($tData)
 	If (Not BitAND($iFlags, 512)) And (_WinAPI_IsBadReadPtr($pData, $iData)) Then
 		If Not BitAND($iFlags, 256) Then
-			MsgBox(0x00040010, $sTitle, 'The memory range allocated to a given structure could not be read.' & _
+			MsgBox($MB_SYSTEMMODAL, $sTitle, 'The memory range allocated to a given structure could not be read.' & _
 					@CRLF & @CRLF & Ptr($pData) & ' - ' & Ptr($pData + $iData - 1) & _
 					@CRLF & @CRLF & 'Press OK to exit.')
 			Exit -1073741819
@@ -144,7 +145,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 			['WPARAM', __Iif(@AutoItX64, 8, 4)]]
 
 	For $i = 1 To $aData[0]
-		$aItem = StringSplit(StringStripWS($aData[$i], 3), ' ')
+		$aItem = StringSplit(StringStripWS($aData[$i], $STR_STRIPLEADING + $STR_STRIPTRAILING), ' ')
 		Switch $aItem[1]
 			Case 'ALIGN', 'STRUCT', 'ENDSTRUCT'
 				ContinueLoop
@@ -181,7 +182,7 @@ Func _WinAPI_DisplayStruct($tStruct, $sStruct = '', $sTitle = '', $iItem = 0, $i
 			$Sel[0] = $Count
 		EndIf
 		Local $Offset = Number(DllStructGetPtr($tData, $Count) - $pData)
-		$Index = StringRegExp($aItem[$Index], '\[(\d+)\]', 3)
+		$Index = StringRegExp($aItem[$Index], '\[(\d+)\]', $STR_REGEXPARRAYGLOBALMATCH)
 		Local $iSize
 		Do
 			ReDim $aItem[3]
@@ -560,7 +561,7 @@ Func _WinAPI_ShowLastError($sText = '', $fAbort = 0, $iLanguage = 0, $curErr = @
 			ExitLoop
 		EndIf
 	WEnd
-	If StringStripWS($sText, 3) Then
+	If StringStripWS($sText, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$sText &= @CRLF & @CRLF
 	Else
 		$sText = ''
@@ -596,7 +597,7 @@ Func _WinAPI_UniqueHardwareID($iFlags = 0)
 		$Hw &= $Property.Vendor
 		$Hw &= $Property.Version
 	Next
-	$Hw = StringStripWS($Hw, 8)
+	$Hw = StringStripWS($Hw, $STR_STRIPALL)
 	If Not $Hw Then Return SetError(3, 0, '')
 
 	Local $Text
@@ -614,7 +615,7 @@ Func _WinAPI_UniqueHardwareID($iFlags = 0)
 			$Text &= $Property.SMBIOSMinorVersion
 			;			$Text &= $Property.Version
 		Next
-		$Text = StringStripWS($Text, 8)
+		$Text = StringStripWS($Text, $STR_STRIPALL)
 		If $Text Then
 			$Result += 0x0001
 			$Hw &= $Text
@@ -635,7 +636,7 @@ Func _WinAPI_UniqueHardwareID($iFlags = 0)
 			$Text &= $Property.Revision
 			$Text &= $Property.Version
 		Next
-		$Text = StringStripWS($Text, 8)
+		$Text = StringStripWS($Text, $STR_STRIPALL)
 		If $Text Then
 			$Result += 0x0002
 			$Hw &= $Text
@@ -654,7 +655,7 @@ Func _WinAPI_UniqueHardwareID($iFlags = 0)
 
 			EndSwitch
 		Next
-		$Text = StringStripWS($Text, 8)
+		$Text = StringStripWS($Text, $STR_STRIPALL)
 		If $Text Then
 			$Result += 0x0004
 			$Hw &= $Text
@@ -678,9 +679,9 @@ Func _WinAPI_UnregisterApplicationRestart()
 	Return 1
 EndFunc   ;==>_WinAPI_UnregisterApplicationRestart
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __DlgSubclassProc($hWnd, $iMsg, $wParam, $lParam, $ID, $pData)
 	#forceref $ID
@@ -743,7 +744,7 @@ Func __EnumDllProcA($hLibrary, $sMask, $iFlags)
 		Dim $__Enum[501][2] = [[0]]
 		Local $hEnumProc = DllCallbackRegister('__EnumSymbolsProcA', 'int', 'ptr;ulong;lparam')
 		Local $pEnumProc = DllCallbackGetPtr($hEnumProc)
-		If Not StringStripWS($sMask, 3) Then
+		If Not StringStripWS($sMask, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$TypeOfMask = 'ptr'
 			$sMask = 0
 		EndIf
@@ -803,7 +804,7 @@ Func __EnumDllProcW($hLibrary, $sMask, $iFlags)
 		Dim $__Enum[501][2] = [[0]]
 		Local $hEnumProc = DllCallbackRegister('__EnumSymbolsProcW', 'int', 'ptr;ulong;lparam')
 		Local $pEnumProc = DllCallbackGetPtr($hEnumProc)
-		If Not StringStripWS($sMask, 3) Then
+		If Not StringStripWS($sMask, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$TypeOfMask = 'ptr'
 			$sMask = 0
 		EndIf
@@ -938,9 +939,9 @@ Func __Ver($sPath)
 	If Not $sPath Then Return SetError(@error + 20, @extended, 0)
 	Local $Ver = FileGetVersion($sPath)
 	If @error Then Return SetError(1, 0, 0)
-	$Ver = StringSplit($Ver, '.', 2)
+	$Ver = StringSplit($Ver, '.', $STR_NOCOUNT)
 	If UBound($Ver) < 2 Then Return SetError(2, 0, 0)
 	Return BitOR(BitShift(Number($Ver[0]), -8), Number($Ver[1]))
 EndFunc   ;==>__Ver
 
-#endregion Internal Functions
+#EndRegion Internal Functions

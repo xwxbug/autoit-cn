@@ -8,7 +8,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: SQLite
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist access to an SQLite database.
 ; Author(s) .....: Fida Florian (piccaso), jchd, jpm
@@ -24,7 +24,7 @@
 Global $g_hDll_SQLite = 0
 Global $g_hDB_SQLite = 0
 Global $g_bUTF8ErrorMsg_SQLite = False
-Global $g_sPrintCallback_SQLite = "__SQLite_ConsoleWrite"
+Global $g_hPrintCallback_SQLite = __SQLite_ConsoleWrite
 Global $__gbSafeModeState_SQLite = True ; Safemode State (boolean)
 Global $__ghDBs_SQLite[1] = [''] ; Array of known $hDB handles
 Global $__ghQuerys_SQLite[1] = [''] ; Array of known $hQuery handles
@@ -191,20 +191,22 @@ Global Const $SQLITE_TYPE_NULL = 5
 	06.02.12	Fixed _SQLite_Startup() download error checking.
 	08.11.13	Fixed running in X64 mode
 	08.11.13	Fixed _SQLite_Startup() parameter checking and doc
+	30.12.13	Changed Now using first class objects instead of Call().
 #comments-end
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: piccaso (Fida Florian)
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $iForceLocal = 0, $sPrintCallback = $g_sPrintCallback_SQLite)
+Func _SQLite_Startup($sDll_Filename = "", $bUTF8ErrorMsg = False, $iForceLocal = 0, $hPrintCallback = $g_hPrintCallback_SQLite)
 	If $sDll_Filename = Default Or $sDll_Filename = -1 Then $sDll_Filename = ""
 
-	; The $sPrintCallback parameter may look strange to assign it to $g_sPrintCallback_SQLite as
-	; a default.  This is done so that $g_sPrintCallback_SQLite can be pre-initialized with the internal
+	; The $hPrintCallback parameter may look strange to assign it to $g_hPrintCallback_SQLite as
+	; a default.  This is done so that $g_hPrintCallback_SQLite can be pre-initialized with the internal
 	; callback in a single place in case that callback changes.  If the user overrides it then
 	; that value becomes the new default.  An empty string will suppress any display.
-	$g_sPrintCallback_SQLite = $sPrintCallback
+	If $hPrintCallback = Default Then $hPrintCallback = __SQLite_ConsoleWrite
+	$g_hPrintCallback_SQLite = $hPrintCallback
 
 	If $bUTF8ErrorMsg = Default Then $bUTF8ErrorMsg = False
 	$g_bUTF8ErrorMsg_SQLite = $bUTF8ErrorMsg
@@ -473,13 +475,13 @@ EndFunc   ;==>_SQLite_ErrMsg
 ; Modified.......: jchd
 ; ===============================================================================================================================
 Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $fReturn = False)
-	If Not IsArray($aResult) Or UBound($aResult, 0) <> 2 Or $iCellWidth < 0 Then Return SetError(1, 0, "")
+	If Not IsArray($aResult) Or UBound($aResult, $UBOUND_DIMENSIONS) <> 2 Or $iCellWidth < 0 Then Return SetError(1, 0, "")
 	Local $aiCellWidth
 	If $iCellWidth = 0 Or $iCellWidth = Default Then
 		Local $iCellWidthMax
-		Dim $aiCellWidth[UBound($aResult, 2)]
-		For $iRow = 0 To UBound($aResult, 1) - 1
-			For $iCol = 0 To UBound($aResult, 2) - 1
+		Dim $aiCellWidth[UBound($aResult, $UBOUND_COLUMNS)]
+		For $iRow = 0 To UBound($aResult, $UBOUND_ROWS) - 1
+			For $iCol = 0 To UBound($aResult, $UBOUND_COLUMNS) - 1
 				$iCellWidthMax = StringLen($aResult[$iRow][$iCol])
 				If $iCellWidthMax > $aiCellWidth[$iCol] Then
 					$aiCellWidth[$iCol] = $iCellWidthMax
@@ -488,8 +490,8 @@ Func _SQLite_Display2DResult($aResult, $iCellWidth = 0, $fReturn = False)
 		Next
 	EndIf
 	Local $sOut = "", $iCellWidthUsed
-	For $iRow = 0 To UBound($aResult, 1) - 1
-		For $iCol = 0 To UBound($aResult, 2) - 1
+	For $iRow = 0 To UBound($aResult, $UBOUND_ROWS) - 1
+		For $iCol = 0 To UBound($aResult, $UBOUND_COLUMNS) - 1
 			If $iCellWidth = 0 Then
 				$iCellWidthUsed = $aiCellWidth[$iCol]
 			Else
@@ -817,7 +819,7 @@ Func _SQLite_SQLiteExe($sDatabaseFile, $sInput, ByRef $sOutput, $sSQLiteExeFilen
 		EndIf
 	EndIf
 	If Not FileExists($sDatabaseFile) Then
-		Local $hNewFile = FileOpen($sDatabaseFile, $FO_OVERWRITE + $FD_PROMPTCREATENEW)
+		Local $hNewFile = FileOpen($sDatabaseFile, $FO_OVERWRITE + $FO_CREATEPATH)
 		If $hNewFile = -1 Then
 			Return SetError(1, 0, $SQLITE_CANTOPEN) ; Can't Create new Database
 		EndIf
@@ -914,10 +916,10 @@ EndFunc   ;==>_SQLite_FastEncode
 Func _SQLite_FastEscape($sString)
 	If IsNumber($sString) Then $sString = String($sString) ; don't raise error if passing a numeric parameter
 	If Not IsString($sString) Then Return SetError(1, 0, "")
-	Return ("'" & StringReplace($sString, "'", "''", 0, 1) & "'")
+	Return ("'" & StringReplace($sString, "'", "''", 0, $STR_CASESENSE) & "'")
 EndFunc   ;==>_SQLite_FastEscape
 
-#region		SQLite.au3 Internal Functions
+#Region		SQLite.au3 Internal Functions
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __xxx
 ; Author ........: piccaso (Fida Florian)
@@ -1099,15 +1101,15 @@ EndFunc   ;==>__SQLite_Download_SQLite3Dll
 ; ===============================================================================================================================
 Func __SQLite_Print($sText)
 	; Don't do anything if there is no callback registered.
-	If $g_sPrintCallback_SQLite Then
+	If IsFunc($g_hPrintCallback_SQLite) Then
 		If $g_bUTF8ErrorMsg_SQLite Then
 			; can be used when sending to application such SciTE configured with output.code.page=65001
 			Local $tStr8 = __SQLite_StringToUtf8Struct($sText)
-			Call($g_sPrintCallback_SQLite, DllStructGetData($tStr8, 1))
+			$g_hPrintCallback_SQLite(DllStructGetData($tStr8, 1))
 		Else
-			Call($g_sPrintCallback_SQLite, $sText)
+			$g_hPrintCallback_SQLite($sText)
 		EndIf
 	EndIf
 EndFunc   ;==>__SQLite_Print
 
-#endregion		SQLite.au3 Internal Functions
+#EndRegion		SQLite.au3 Internal Functions

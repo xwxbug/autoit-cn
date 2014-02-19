@@ -1,9 +1,12 @@
 #include-once
 
-#include <WordConstants.au3>
+#include "AutoItConstants.au3"
+#include "StringConstants.au3"
+#include "WordConstants.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Microsoft Word Function Library (MS Word 2003 and later)
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: A collection of functions for accessing and manipulating Microsoft Word documents
 ; Author(s) .....: Bob Anthony, rewritten by water
@@ -85,7 +88,7 @@ Func _Word_DocAdd($oAppl, $iDocumentType = Default, $sDocumentTemplate = Default
 	If $sDocumentTemplate = Default Then $sDocumentTemplate = ""
 	If $bNewTemplate = Default Then $bNewTemplate = False
 	If Not IsObj($oAppl) Then Return SetError(1, 0, 0)
-	If StringStripWS($sDocumentTemplate, 3) <> "" And FileExists($sDocumentTemplate) <> 1 Then Return SetError(2, 0, 0)
+	If StringStripWS($sDocumentTemplate, $STR_STRIPLEADING + $STR_STRIPTRAILING) <> "" And FileExists($sDocumentTemplate) <> 1 Then Return SetError(2, 0, 0)
 	Local $oDoc = $oAppl.Documents.Add($sDocumentTemplate, $bNewTemplate, $iDocumentType)
 	If @error Or Not IsObj($oDoc) Then Return SetError(3, @error, 0)
 	Return $oDoc
@@ -100,7 +103,7 @@ Func _Word_DocAttach($oAppl, $sString, $sMode = Default, $iCase = Default)
 	If $sMode = Default Then $sMode = "FilePath"
 	If $iCase = Default Then $iCase = 0
 	If Not IsObj($oAppl) Then Return SetError(1, 0, 0)
-	If StringStripWS($sString, 3) = "" Then Return SetError(2, 0, 0)
+	If StringStripWS($sString, $STR_STRIPLEADING + $STR_STRIPTRAILING) = "" Then Return SetError(2, 0, 0)
 	If $sMode <> "filepath" And $sMode <> "filename" And $sMode <> "text" Then Return SetError(3, 0, 0)
 	For $oDoc In $oAppl.Documents
 		Select
@@ -484,7 +487,7 @@ Func _Word_DocTableRead($oDoc, $vTable, $iIndexBase = Default, $sSeparator = Def
 	If @error Then Return SetError(4, @extended, "")
 	Local $sData = $oRange.Text
 	$oDoc.Undo(1) ; Undo the ConvertToText function so the table remains unchanged in the document
-	$asLines = StringSplit($sData, @CR, 2)
+	$asLines = StringSplit($sData, @CR, $STR_NOCOUNT)
 	For $iIndex1 = 0 To $iTableRows - 1
 		$asColumns = StringSplit($asLines[$iIndex1], $sSeparator)
 		For $iIndex2 = 1 To $asColumns[0]
@@ -494,8 +497,8 @@ Func _Word_DocTableRead($oDoc, $vTable, $iIndexBase = Default, $sSeparator = Def
 		Next
 	Next
 	If $iIndexBase Then
-		$asResult[0][0] = UBound($asResult, 1) - 1
-		If UBound($asResult, 2) > 1 Then $asResult[0][1] = UBound($asResult, 2)
+		$asResult[0][0] = UBound($asResult, $UBOUND_ROWS) - 1
+		If UBound($asResult, $UBOUND_COLUMNS) > 1 Then $asResult[0][1] = UBound($asResult, $UBOUND_COLUMNS)
 	EndIf
 	Return $asResult
 EndFunc   ;==>_Word_DocTableRead
@@ -508,16 +511,16 @@ Func _Word_DocTableWrite($oRange, ByRef $asArray, $iIndexBase = Default, $sSepar
 	If $iIndexBase = Default Then $iIndexBase = 1
 	If $sSeparator = Default Then $sSeparator = @TAB
 	If Not IsObj($oRange) Then Return SetError(1, 0, 0)
-	If Not IsArray($asArray) Or UBound($asArray, 0) > 2 Then Return SetError(2, 0, 0)
+	If Not IsArray($asArray) Or UBound($asArray, $UBOUND_DIMENSIONS) > 2 Then Return SetError(2, 0, 0)
 	Local $sData, $iUBound1, $iUBound2, $oTable
-	$iUBound1 = UBound($asArray, 1)
-	If UBound($asArray, 0) = 1 Then
+	$iUBound1 = UBound($asArray, $UBOUND_ROWS)
+	If UBound($asArray, $UBOUND_DIMENSIONS) = 1 Then
 		For $iIndex1 = $iIndexBase To $iUBound1 - 1
 			$sData = $sData & $asArray[$iIndex1]
 			If $iIndex1 <> $iUBound1 Then $sData = $sData & @CRLF
 		Next
 	Else
-		$iUBound2 = UBound($asArray, 2)
+		$iUBound2 = UBound($asArray, $UBOUND_COLUMNS)
 		For $iIndex1 = $iIndexBase To $iUBound1 - 1
 			For $iIndex2 = 0 To $iUBound2 - 1
 				$sData = $sData & $asArray[$iIndex1][$iIndex2]

@@ -1,15 +1,15 @@
 #include-once
 
-#include "RebarConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
+#include "RebarConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Rebar
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Rebar control management.
 ;                  Rebar controls act as containers for child windows. An application assigns child windows,

@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Visa
-; AutoIt Version : 3.0
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: VISA (GPIB & TCP) library for AutoIt.
 ;                  Functions that allow controlling instruments (e.g. oscilloscopes,
@@ -205,20 +205,17 @@ Func _viOpen($s_visa_address, $s_visa_secondary_address = 0)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not open VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not open VISA instrument/resource: " & $s_visa_address)
 		Return SetError(1, 0, -2)
 
 	EndIf
 	; Make sure that the DllCall returned enough values
 	If UBound($a_results) < 6 Then
-		;MsgBox(16,"VISA error","Call to viOpen did not return the right number of values")
 		Return SetError(1, 0, -3)
 	EndIf
 
 	$h_session = $a_results[5]
 	If $h_session <= 0 Then
 		; viOpen did not return a valid handle
-		;MsgBox(16,"VISA error","viOpen did not return a valid handle")
 		Return SetError(1, 0, -4)
 	EndIf
 
@@ -238,7 +235,6 @@ Func _viClose($h_session)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not close VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not close VISA instrument/resource: " & $h_session)
 		Return SetError(1, 0, $errStatus)
 	EndIf
 
@@ -262,12 +258,10 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not perform GPIB FIND operation
-		;MsgBox(16,"VISA error","Could not perform GPIB FIND operation")
 		Return SetError(1, 0, -2)
 	EndIf
 	; Make sure that the DllCall returned enough values
 	If UBound($a_results) < 5 Then
-		;MsgBox(16,"VISA error","Call to viFindRsrc did not return the right number of values")
 		Return SetError(1, 0, -3)
 	EndIf
 
@@ -277,7 +271,7 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 	Local $s_first_descriptor = $a_results[5] ; The descriptor of the first instrument found
 	If $i_num_instr < 1 Then ; No insturments were found
 		If $f_show_search_results = 1 Then
-			MsgBox(64, "GPIB search results", "NO INSTRUMENTS FOUND in the GPIB bus")
+			MsgBox($MB_SYSTEMMODAL, "GPIB search results", "NO INSTRUMENTS FOUND in the GPIB bus")
 		EndIf
 
 		Return $i_num_instr
@@ -303,12 +297,10 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 		$errStatus = $a_results[0]
 		If $errStatus <> 0 Then
 			; Could not perform GPIB FIND NEXT operation
-			;MsgBox(16,"VISA error","Could not perform GPIB FIND NEXT operation")
 			Return SetError(1, 0, -2)
 		EndIf
 		; Make sure that the DllCall returned enough values
 		If UBound($a_results) < 3 Then
-			;MsgBox(16,"VISA error","Call to viFindNext did not return the right number of values")
 			Return SetError(1, 0, -3)
 		EndIf
 		$a_descriptor_list[$n] = $a_results[2]
@@ -321,7 +313,7 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 		For $n = 0 To $i_num_instr - 1
 			$s_search_results = $s_search_results & $a_descriptor_list[$n] & " - " & $a_idn_list[$n] & @CR
 		Next
-		MsgBox(64, "GPIB search results", $s_search_results)
+		MsgBox($MB_SYSTEMMODAL, "GPIB search results", $s_search_results)
 	EndIf
 
 	Return $i_num_instr
@@ -359,7 +351,6 @@ Func __viOpenDefaultRM()
 		Local $errStatus = $a_results[0]
 		If $errStatus <> 0 Then
 			; Could not create VISA Resource Manager
-			;MsgBox(16,"VISA error","Could not create VISA Resource Manager")
 			Return SetError(1, 0, -2)
 		EndIf
 		; Everything went fine => Set the Resource Manager global
@@ -483,7 +474,6 @@ Func __viPrintf($h_session, $s_command, $i_timeout_ms = -1, $s_option = @LF)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not send command to VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not send command to VISA instrument/resource: " & $h_session)
 		Return SetError(1, 0, $errStatus)
 	EndIf
 
@@ -570,13 +560,11 @@ Func __viQueryf($h_session, $s_query, $i_timeout_ms = -1)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not query VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not query VISA instrument/resource: " & $h_session)
 		Return SetError(1, 0, $errStatus)
 	EndIf
 	; Make sure that the DllCall returned enough values
 	If UBound($a_results) < 5 Then
 		; Call to viQuery did not return the right number of values
-		;MsgBox(16,"VISA error","Call to viQuery did not return the right number of values")
 		Return SetError(1, 0, -3)
 	EndIf
 	$s_answer = $a_results[4]
@@ -621,7 +609,6 @@ Func _viSetAttribute($h_session, $i_attribute, $i_value)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not set attribute of VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not set attribute of VISA instrument/resource: " & $h_session)
 		Return SetError(1, 0, $errStatus)
 	EndIf
 
@@ -686,7 +673,6 @@ Func __viGpibControlREN($h_session, $i_mode)
 	Local $errStatus = $a_results[0]
 	If $errStatus <> 0 Then
 		; Could not send to Local VISA instrument/resource
-		;MsgBox(16,"VISA error","Could not send to Local VISA instrument/resource: " & $h_session)
 		Return SetError(1, 0, $errStatus)
 	EndIf
 
@@ -767,16 +753,16 @@ Func _viInteractiveControl($s_command_save_filename = "")
 		If IsString($s_answer) Then
 			;- The command was a query and the instrument answered it
 			; Show the query results
-			MsgBox(64, "Query results", "[" & $s_vi_id & "] " & $s_command & " -> " & $s_answer)
+			MsgBox($MB_SYSTEMMODAL, "Query results", "[" & $s_vi_id & "] " & $s_command & " -> " & $s_answer)
 		ElseIf $s_answer = 0 Then
 			;- The command was not a query but it was exuced successfully
-			MsgBox(64, "Command result", "The command:" & @CR & @CR & _
+			MsgBox($MB_SYSTEMMODAL, "Command result", "The command:" & @CR & @CR & _
 					"         '" & $s_command & "'" & @CR & @CR & _
 					"was SUCCESSFULLY executed on the device: " & @CR & @CR & _
 					"         '" & $s_vi_id & "'")
 		ElseIf $s_answer < 0 Then
 			;- There was an error -> Show an error message
-			$s_answer = MsgBox(16 + 4, "VISA Error", _
+			$s_answer = MsgBox($MB_SYSTEMMODAL, "VISA Error", _
 					"There was a VISA error when executing the command:" & @CR & @CR & _
 					"'" & $s_command & "'" & @CR & @CR & "on the Device '" & $s_vi_id & "'" & _
 					@CR & @CR & _

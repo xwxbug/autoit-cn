@@ -2,14 +2,14 @@
 
 #include "DateTimeConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Date_Time_Picker
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Functions that assist with date and time picker (DTP) control management.
 ;                  A date and time picker (DTP) control provides a simple and intuitive interface through which to exchange date
 ;                  and time information with a user.  For example, with a DTP control you can ask the user to enter a date and

@@ -5,14 +5,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPITheme.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: uxtheme.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 ; ===============================================================================================================================
@@ -20,9 +20,9 @@
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagDTTOPTS = 'dword Size;dword Flags;dword clrText;dword clrBorder;dword clrShadow;int TextShadowType;' & $tagPOINT & ';int BorderSize;int FontPropId;int ColorPropId;int StateId;int ApplyOverlay;int GlowSize;ptr DrawTextCallback;lparam lParam'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_BeginBufferedPaint
@@ -80,9 +80,9 @@ Global Const $tagDTTOPTS = 'dword Size;dword Flags;dword clrText;dword clrBorder
 ; _WinAPI_SetThemeAppProperties
 ; _WinAPI_SetWindowTheme
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -793,4 +793,4 @@ Func _WinAPI_SetWindowTheme($hWnd, $sName = 0, $sList = 0)
 	Return 1
 EndFunc   ;==>_WinAPI_SetWindowTheme
 
-#endregion Public Functions
+#EndRegion Public Functions

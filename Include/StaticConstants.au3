@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Static_Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm#Label">GUI control Label/Static styles</a> and Pic, Icon constants.
 ; Author(s) .....: Valik, Gary Frost, ...

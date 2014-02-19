@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Crypt
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions for encrypting and hashing data.
 ; Author(s) .....: Andreas Karlsson (monoceres)
@@ -404,7 +404,7 @@ Func _Crypt_EncryptFile($sSourceFile, $sDestinationFile, $vCryptKey, $iALG_ID)
 			$vReturn = False
 			ExitLoop
 		EndIf
-		$hOutFile = FileOpen($sDestinationFile, $FO_OVERWRITE + $FD_PROMPTCREATENEW + $FO_BINARY)
+		$hOutFile = FileOpen($sDestinationFile, $FO_OVERWRITE + $FO_CREATEPATH + $FO_BINARY)
 		If @error Then
 			$iError = 3
 			$vReturn = False
@@ -473,7 +473,7 @@ Func _Crypt_DecryptFile($sSourceFile, $sDestinationFile, $vCryptKey, $iALG_ID)
 			$vReturn = False
 			ExitLoop
 		EndIf
-		$hOutFile = FileOpen($sDestinationFile, $FO_OVERWRITE + $FD_PROMPTCREATENEW + $FO_BINARY)
+		$hOutFile = FileOpen($sDestinationFile, $FO_OVERWRITE + $FO_CREATEPATH + $FO_BINARY)
 		If @error Then
 			$iError = 3
 			$vReturn = False

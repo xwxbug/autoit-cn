@@ -1,8 +1,13 @@
 #include-Once
 
+#include "AutoItConstants.au3"
+#include "MsgBoxConstants.au3"
+#include "SendMessage.au3"
+#include "StringConstants.au3"
+
 ; #INDEX# =======================================================================================================================
 ; Title .........: Array
-; AutoIt Version : 3.2.10++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions for manipulating arrays.
 ; Author(s) .....: JdeB, Erik Pilsits, Ultima, Dale (Klaatu) Thompson, Cephas,randallc, Gary Frost, GEOSoft,
@@ -52,7 +57,7 @@
 ; ===============================================================================================================================
 Func _ArrayAdd(ByRef $avArray, $vValue)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, -1)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, -1)
 
 	Local $iUBound = UBound($avArray)
 	ReDim $avArray[$iUBound + 1]
@@ -66,7 +71,7 @@ EndFunc   ;==>_ArrayAdd
 ; ===============================================================================================================================
 Func _ArrayBinarySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
-	If UBound($avArray, 0) <> 1 Then Return SetError(5, 0, -1)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(5, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
 	If $iUBound = -1 Then Return SetError(6, 0, -1)
@@ -101,7 +106,7 @@ EndFunc   ;==>_ArrayBinarySearch
 ; ===============================================================================================================================
 Func _ArrayCombinations(Const ByRef $avArray, $iSet, $sDelim = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, 0)
 
 	Local $iN = UBound($avArray)
 	Local $iR = $iSet
@@ -133,11 +138,11 @@ EndFunc   ;==>_ArrayCombinations
 Func _ArrayConcatenate(ByRef $avArrayTarget, Const ByRef $avArraySource, $iStart = 0)
 	If Not IsArray($avArrayTarget) Then Return SetError(1, 0, 0)
 	If Not IsArray($avArraySource) Then Return SetError(2, 0, 0)
-	If UBound($avArrayTarget, 0) <> 1 Then
-		If UBound($avArraySource, 0) <> 1 Then Return SetError(5, 0, 0)
+	If UBound($avArrayTarget, $UBOUND_DIMENSIONS) <> 1 Then
+		If UBound($avArraySource, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(5, 0, 0)
 		Return SetError(3, 0, 0)
 	EndIf
-	If UBound($avArraySource, 0) <> 1 Then Return SetError(4, 0, 0)
+	If UBound($avArraySource, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(4, 0, 0)
 
 	Local $iUBoundTarget = UBound($avArrayTarget) - $iStart, $iUBoundSource = UBound($avArraySource)
 	ReDim $avArrayTarget[$iUBoundTarget + $iUBoundSource]
@@ -150,32 +155,36 @@ EndFunc   ;==>_ArrayConcatenate
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Cephas <cephas at clergy dot net>
-; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - array passed ByRef
+; Modified.......: Jos van der Zande <jdeb at autoitscript dot com> - array passed ByRef, jaberwocky6669
 ; ===============================================================================================================================
-Func _ArrayDelete(ByRef $avArray, $iElement)
-	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	Local $iUBound = UBound($avArray, 1) - 1
+Func _ArrayDelete(ByRef $avArray, Const $iElement)
+	If Not IsArray($avArray) Then Return SetError(1, 0, False)
+	Local Const $iUBound = UBound($avArray) - 1
+
 	; Bounds checking
-	If $iElement < 0 Then $iElement = 0
-	If $iElement > $iUBound Then $iElement = $iUBound
+	If $iElement < 0 Then Return SetError(2, 0, False)
+	If $iElement > $iUBound Then SetError(3, 0, False)
 
 	; Move items after $iElement up by 1
-	Switch UBound($avArray, 0)
+	Switch UBound($avArray, $UBOUND_DIMENSIONS)
 		Case 1
 			For $i = $iElement To $iUBound - 1
 				$avArray[$i] = $avArray[$i + 1]
 			Next
 			ReDim $avArray[$iUBound]
+
 		Case 2
-			Local $iSubMax = UBound($avArray, 2) - 1
+			Local Const $iSubMax = UBound($avArray, $UBOUND_COLUMNS) - 1
 			For $i = $iElement To $iUBound - 1
 				For $j = 0 To $iSubMax
 					$avArray[$i][$j] = $avArray[$i + 1][$j]
 				Next
 			Next
 			ReDim $avArray[$iUBound][$iSubMax + 1]
+
 		Case Else
-			Return SetError(3, 0, 0)
+			Return SetError(4, 0, False)
+
 	EndSwitch
 
 	Return $iUBound
@@ -186,12 +195,6 @@ EndFunc   ;==>_ArrayDelete
 ; Modified.......: Gary Frost (gafrost), Ultima, Zedna, jpm, Melba23, AZJIO, UEZ
 ; ===============================================================================================================================
 Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Default, $iFlags = Default, $vUser_Separator = Default, $sHeader = Default, $iMax_ColWidth = Default, $iAlt_Color = Default, $hUser_Func = Default)
-
-	Local Const $_ARRAYCONSTANT_MB_SYSTEMMODAL = 4096
-	Local Const $_ARRAYCONSTANT_MB_ICONERROR = 16
-	Local Const $_ARRAYCONSTANT_MB_YESNO = 4
-	Local Const $_ARRAYCONSTANT_IDYES = 6
-
 	; Default values
 	If $sTitle = Default Then $sTitle = "ArrayDisplay"
 	If $sArray_Range = Default Then $sArray_Range = ""
@@ -211,7 +214,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	Local $sMsg = "", $iRet
 	If IsArray($avArray) Then
 		; Dimension checking
-		Local $iDimension = UBound($avArray, 0), $iRowCount = UBound($avArray, 1), $iColCount = UBound($avArray, 2)
+		Local $iDimension = UBound($avArray, $UBOUND_DIMENSIONS), $iRowCount = UBound($avArray, $UBOUND_ROWS), $iColCount = UBound($avArray, $UBOUND_COLUMNS)
 		If $iDimension > 2 Then
 			$sMsg = "Larger than 2D array passed to function"
 			$iRet = 2
@@ -221,8 +224,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 		$iRet = 1
 	EndIf
 	If $sMsg Then
-		If $iVerbose And MsgBox($_ARRAYCONSTANT_MB_SYSTEMMODAL + $_ARRAYCONSTANT_MB_ICONERROR + $_ARRAYCONSTANT_MB_YESNO, _
-				"ArrayDisplay Error: " & $sTitle, $sMsg & @CRLF & @CRLF & "Exit the script?") = $_ARRAYCONSTANT_IDYES Then
+		If $iVerbose And MsgBox($MB_SYSTEMMODAL + $MB_ICONERROR + $MB_YESNO, _
+				"ArrayDisplay Error: " & $sTitle, $sMsg & @CRLF & @CRLF & "Exit the script?") = $IDYES Then
 			Exit
 		Else
 			Return SetError($iRet, 0, "")
@@ -344,7 +347,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	EndIf
 
 	; Split custom header on separator
-	Local $asHeader = StringSplit($sHeader, $sCurr_Separator, 2) ; No count element
+	Local $asHeader = StringSplit($sHeader, $sCurr_Separator, $STR_NOCOUNT) ; No count element
 	$sHeader = "Row"
 	Local $iIndex = $iSubItem_Start
 	If $iTranspose Then
@@ -374,6 +377,7 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	EndIf
 
 	; Convert array into ListViewItem compatible lines
+	Local $iBuffer = 4094 ; Max characters a ListView will display (Windows limitation)
 	If $iTranspose Then
 		; Swap dimensions
 		$vTmp = $iItem_Start
@@ -400,6 +404,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 					$vTmp = $avArray[$i][$j]
 				EndIf
 			EndIf
+			; Truncate if required so ListView will display
+			If StringLen($vTmp) > $iBuffer Then $vTmp = StringLeft($vTmp, $iBuffer)
 			$avArrayText[$i - $iItem_Start] &= $sAD_Separator & $vTmp
 		Next
 	Next
@@ -541,8 +547,9 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 	EndIf
 
 	; Get row height
-	Local $tRect = DllStructCreate("struct; long Left;long Top;long Right;long Bottom; endstruct")
-	DllCall("user32.dll", "struct*", "SendMessageW", "hwnd", GUICtrlGetHandle($cListView), "uint", $_ARRAYCONSTANT_LVM_GETITEMRECT, "wparam", 0, "struct*", $tRect)
+	Local $tRect = DllStructCreate("struct; long Left;long Top;long Right;long Bottom; endstruct") ; $tagRECT
+	_SendMessage(GUICtrlGetHandle($cListView), $_ARRAYCONSTANT_LVM_GETITEMRECT, 0, $tRect, 9, "wparam", "struct*", "struct*")
+	; DllCall("user32.dll", "struct*", "SendMessageW", "hwnd", GUICtrlGetHandle($cListView), "uint", $_ARRAYCONSTANT_LVM_GETITEMRECT, "wparam", 0, "struct*", $tRect)
 	; Set required GUI height
 	Local $aiWin_Pos = WinGetPos($hGUI)
 	Local $aiLV_Pos = ControlGetPos($hGUI, "", $cListView)
@@ -639,6 +646,8 @@ Func _ArrayDisplay(Const ByRef $avArray, $sTitle = Default, $sArray_Range = Defa
 				GUICtrlSetState($cListView, $_ARRAYCONSTANT_GUI_FOCUS)
 
 			Case $cExit_Script
+				; Clear up
+				GUIDelete($hGUI)
 				Exit
 		EndSwitch
 	WEnd
@@ -676,7 +685,7 @@ EndFunc   ;==>_ArrayFindAll
 ; ===============================================================================================================================
 Func _ArrayInsert(ByRef $avArray, $iElement, $vValue = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, 0)
 
 	; Check element in array bounds + 1
 	If $iElement > UBound($avArray) Then Return SetError(3, 0, 0)
@@ -711,7 +720,7 @@ EndFunc   ;==>_ArrayMax
 ; ===============================================================================================================================
 Func _ArrayMaxIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
-	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, -1)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(3, 0, -1)
 	If Not UBound($avArray) Then Return SetError(4, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
@@ -753,7 +762,7 @@ EndFunc   ;==>_ArrayMin
 ; ===============================================================================================================================
 Func _ArrayMinIndex(Const ByRef $avArray, $iCompNumeric = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
-	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, -1)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(3, 0, -1)
 	If Not UBound($avArray) Then Return SetError(4, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
@@ -785,7 +794,7 @@ EndFunc   ;==>_ArrayMinIndex
 ; ===============================================================================================================================
 Func _ArrayPermute(ByRef $avArray, $sDelim = "")
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, 0)
 	Local $iSize = UBound($avArray), $iFactorial = 1, $aIdx[$iSize], $aResult[1], $iCount = 1
 
 	If UBound($avArray) Then
@@ -810,7 +819,7 @@ EndFunc   ;==>_ArrayPermute
 ; ===============================================================================================================================
 Func _ArrayPop(ByRef $avArray)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, "")
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, "")
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, "")
 
 	Local $iUBound = UBound($avArray) - 1
 	If $iUBound = -1 Then Return SetError(3, 0, "")
@@ -831,7 +840,7 @@ EndFunc   ;==>_ArrayPop
 ; ===============================================================================================================================
 Func _ArrayPush(ByRef $avArray, $vValue, $iDirection = 0)
 	If (Not IsArray($avArray)) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(3, 0, 0)
 	Local $iUBound = UBound($avArray) - 1
 
 	If IsArray($vValue) Then ; $vValue is an array
@@ -880,7 +889,7 @@ EndFunc   ;==>_ArrayPush
 ; ===============================================================================================================================
 Func _ArrayReverse(ByRef $avArray, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(3, 0, 0)
 	If Not UBound($avArray) Then Return SetError(4, 0, 0)
 
 	Local $vTmp, $iUBound = UBound($avArray) - 1
@@ -907,7 +916,7 @@ EndFunc   ;==>_ArrayReverse
 ; ===============================================================================================================================
 Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase = 0, $iCompare = 0, $iForward = 1, $iSubItem = -1)
 	If Not IsArray($avArray) Then Return SetError(1, 0, -1)
-	If UBound($avArray, 0) > 2 Or UBound($avArray, 0) < 1 Then Return SetError(2, 0, -1)
+	If UBound($avArray, $UBOUND_DIMENSIONS) > 2 Or UBound($avArray, $UBOUND_DIMENSIONS) < 1 Then Return SetError(2, 0, -1)
 
 	Local $iUBound = UBound($avArray) - 1
 	If $iUBound = -1 Then Return SetError(3, 0, -1)
@@ -934,7 +943,7 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 	EndIf
 
 	; Search
-	Switch UBound($avArray, 0)
+	Switch UBound($avArray, $UBOUND_DIMENSIONS)
 		Case 1 ; 1D array search
 			If Not $iCompare Then
 				If Not $iCase Then
@@ -958,7 +967,7 @@ Func _ArraySearch(Const ByRef $avArray, $vValue, $iStart = 0, $iEnd = 0, $iCase 
 				Next
 			EndIf
 		Case 2 ; 2D array search
-			Local $iUBoundSub = UBound($avArray, 2) - 1
+			Local $iUBoundSub = UBound($avArray, $UBOUND_COLUMNS) - 1
 			If $iSubItem > $iUBoundSub Then $iSubItem = $iUBoundSub
 			If $iSubItem < 0 Then
 				; will search for all Col
@@ -1018,7 +1027,7 @@ Func _ArraySort(ByRef $avArray, $iDescending = 0, $iStart = 0, $iEnd = 0, $iSubI
 	If $iSubItem = Default Then $iSubItem = 0
 
 	; Sort
-	Switch UBound($avArray, 0)
+	Switch UBound($avArray, $UBOUND_DIMENSIONS)
 		Case 1
 			If $iPivot Then ; Switch algorithms as required
 				__ArrayDualPivotSort($avArray, $iStart, $iEnd)
@@ -1028,7 +1037,7 @@ Func _ArraySort(ByRef $avArray, $iDescending = 0, $iStart = 0, $iEnd = 0, $iSubI
 			If $iDescending Then _ArrayReverse($avArray, $iStart, $iEnd)
 		Case 2
 			If $iPivot Then Return SetError(6, 0, 0) ; Error if 2D array and $iPivot
-			Local $iSubMax = UBound($avArray, 2) - 1
+			Local $iSubMax = UBound($avArray, $UBOUND_COLUMNS) - 1
 			If $iSubItem > $iSubMax Then Return SetError(3, 0, 0)
 
 			If $iDescending Then
@@ -1444,7 +1453,7 @@ EndFunc   ;==>_ArrayToClip
 ; ===============================================================================================================================
 Func _ArrayToString(Const ByRef $avArray, $sDelim = "|", $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, "")
-	If UBound($avArray, 0) <> 1 Then Return SetError(3, 0, "")
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(3, 0, "")
 	If Not UBound($avArray) Then Return SetError(4, 0, "")
 
 	Local $sResult, $iUBound = UBound($avArray) - 1
@@ -1467,9 +1476,9 @@ EndFunc   ;==>_ArrayToString
 ; Modified.......:
 ; ===============================================================================================================================
 Func _ArrayTranspose(ByRef $avArray)
-	If UBound($avArray, 0) <> 2 Then Return SetError(1, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 2 Then Return SetError(1, 0, 0)
 
-	Local $vElement = 0, $iDim_1 = UBound($avArray, 1), $iDim_2 = UBound($avArray, 2), $iDim_Max = ($iDim_1 > $iDim_2) ? $iDim_1 : $iDim_2
+	Local $vElement = 0, $iDim_1 = UBound($avArray, $UBOUND_ROWS), $iDim_2 = UBound($avArray, $UBOUND_COLUMNS), $iDim_Max = ($iDim_1 > $iDim_2) ? $iDim_1 : $iDim_2
 
 	If $iDim_Max <= 4096 Then
 		ReDim $avArray[$iDim_Max][$iDim_Max]
@@ -1500,7 +1509,7 @@ EndFunc   ;==>_ArrayTranspose
 ; ===============================================================================================================================
 Func _ArrayTrim(ByRef $avArray, $iTrimNum, $iDirection = 0, $iStart = 0, $iEnd = 0)
 	If Not IsArray($avArray) Then Return SetError(1, 0, 0)
-	If UBound($avArray, 0) <> 1 Then Return SetError(2, 0, 0)
+	If UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(2, 0, 0)
 	If Not UBound($avArray) Then Return SetError(3, 0, 0)
 
 	Local $iUBound = UBound($avArray) - 1
@@ -1539,20 +1548,20 @@ Func _ArrayUnique(Const ByRef $aArray, $iColumn = Default, $iBase = Default, $iC
 	If $iBase < 0 Or $iBase > 1 Or (Not IsInt($iBase)) Then Return SetError(2, 0, 0)
 	If $iCase < 0 Or $iCase > 1 Or (Not IsInt($iCase)) Then Return SetError(2, 0, 0)
 	If $iFlags < 0 Or $iFlags > 1 Or (Not IsInt($iFlags)) Then Return SetError(4, 0, 0)
-	Local $iDims = UBound($aArray, 0), $iNumColumns = UBound($aArray, 2)
+	Local $iDims = UBound($aArray, $UBOUND_DIMENSIONS), $iNumColumns = UBound($aArray, $UBOUND_COLUMNS)
 	If $iDims > 2 Then Return SetError(3, 0, 0)
 	; checks the given dimension is valid
 	If ($iColumn < 1) Or ($iNumColumns = 0 And ($iColumn - 1 > $iNumColumns)) Or ($iNumColumns > 0 And ($iColumn > $iNumColumns)) Then Return SetError(3, 0, 0)
 	; make $iColumn an array index, note this is ignored for 1D arrays
 	$iColumn -= 1
 	; create dictionary
-	Local $oD = ObjCreate("Scripting.Dictionary")
+	Local $oDictionary = ObjCreate("Scripting.Dictionary")
 	; compare mode for strings
 	; 0 = binary, which is case sensitive
 	; 1 = text, which is case insensitive
 	; this expression forces either 1 or 0
-	$oD.CompareMode = Number(Not $iCase)
-	Local $vElem
+	$oDictionary.CompareMode = Number(Not $iCase)
+	Local $vElem = 0
 	; walk the input array
 	For $i = $iBase To UBound($aArray) - 1
 		If $iDims = 1 Then
@@ -1565,16 +1574,16 @@ Func _ArrayUnique(Const ByRef $aArray, $iColumn = Default, $iBase = Default, $iC
 		; add key to dictionary
 		; NOTE: accessing the value (.Item property) of a key that doesn't exist creates the key :)
 		; keys are guaranteed to be unique
-		$oD.Item($vElem)
+		$oDictionary.Item($vElem)
 	Next
 	;
 	; return the array of unique keys
 	If BitAND($iFlags, 1) = 1 Then
-		Local $aTemp = $oD.Keys()
-		_ArrayInsert($aTemp, 0, $oD.Count)
+		Local $aTemp = $oDictionary.Keys()
+		_ArrayInsert($aTemp, 0, $oDictionary.Count)
 		Return $aTemp
 	Else
-		Return $oD.Keys()
+		Return $oDictionary.Keys()
 	EndIf
 EndFunc   ;==>_ArrayUnique
 

@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: GDIPlus_Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Constants for GDI+
 ; Author(s) .....: Valik, Gary Frost, UEZ
@@ -122,7 +122,7 @@ Global Const $GDIP_PXF16ARGB1555 = 0x00061007 ; 16 bpp; 1 bit for alpha and 5 bi
 Global Const $GDIP_PXF24RGB = 0x00021808 ; 24 bpp; 8 bits for each RGB
 Global Const $GDIP_PXF32RGB = 0x00022009 ; 32 bpp; 8 bits for each RGB. No alpha.
 Global Const $GDIP_PXF32ARGB = 0x0026200A ; 32 bpp; 8 bits for each RGB and alpha
-Global Const $GDIP_PXF32PARGB = 0x000D200B ; 32 bpp; 8 bits for each RGB and alpha, pre-mulitiplied
+Global Const $GDIP_PXF32PARGB = 0x000D200B ; 32 bpp; 8 bits for each RGB and alpha, pre-multiplied
 Global Const $GDIP_PXF48RGB = 0x0010300C ; 48 bpp; 16 bits for each RGB
 Global Const $GDIP_PXF64ARGB = 0x0034400D ; 64 bpp; 16 bits for each RGB and alpha
 Global Const $GDIP_PXF64PARGB = 0x001C400E ; 64 bpp; 16 bits for each RGB and alpha, pre-multiplied

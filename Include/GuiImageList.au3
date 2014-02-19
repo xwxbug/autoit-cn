@@ -1,13 +1,13 @@
 #include-once
 
-#include "ImageListConstants.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "ColorConstants.au3"
+#include "ImageListConstants.au3"
+#include "StructureConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ImageList
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Functions that assist with ImageList control management.
 ;                  An image list is a collection of images of the same size, each of which can be referred to by its index. Image
 ;                  lists are used to efficiently manage large sets of icons or bitmaps. All images in an image list are contained

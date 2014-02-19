@@ -1,15 +1,15 @@
 #include-once
 
-#include "ToolbarConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
+#include "ToolbarConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Toolbar
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Toolbar control management.
 ;                  A toolbar is a control window that contains one or more buttons.  Each button, when clicked by a user, sends a

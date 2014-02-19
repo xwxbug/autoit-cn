@@ -1,11 +1,11 @@
 #include-once
 
-#include "WinAPI.au3"
 #include "StructureConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WindowsNetworking
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Windows Networking management.
 ;                  The Windows Networking (WNet) functions allow you to implement networking  capabilities  in  your  application

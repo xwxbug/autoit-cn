@@ -7,14 +7,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIGdi.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: gdi32.dll, user32.dll, comctl32.dll, shlwapi.dll, gdiplus.dll, ole32.dll, kernel32.dll, dwmapi.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagBITMAP = 'struct;long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits;endstruct'
@@ -40,9 +40,9 @@ Global Const $tagRGNDATAHEADER = 'struct;dword Size;dword Type;dword Count;dword
 ; Global Const $tagRGNDATA = $tagRGNDATAHEADER ; & $tagRECT[n] & ';'
 Global Const $tagXFORM = 'float eM11;float eM12;float eM21;float eM22;float eDx;float eDy'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_AbortPath
@@ -274,9 +274,9 @@ Global Const $tagXFORM = 'float eM11;float eM12;float eM21;float eM22;float eDx;
 ; _WinAPI_WidenPath
 ; _WinAPI_WindowFromDC
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -780,7 +780,7 @@ EndFunc   ;==>_WinAPI_CopyBitmap
 ; ===============================================================================================================================
 Func _WinAPI_CopyEnhMetaFile($hEmf, $sFile = '')
 	Local $TypeOfFile = 'wstr'
-	If Not StringStripWS($sFile, 3) Then
+	If Not StringStripWS($sFile, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfFile = 'ptr'
 		$sFile = 0
 	EndIf
@@ -1220,18 +1220,18 @@ EndFunc   ;==>_WinAPI_CreateEmptyIcon
 ; ===============================================================================================================================
 Func _WinAPI_CreateEnhMetaFile($hDC = 0, $tRECT = 0, $fPixels = 0, $sFile = '', $sDescription = '')
 	Local $TypeOfFile = 'wstr'
-	If Not StringStripWS($sFile, 3) Then
+	If Not StringStripWS($sFile, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfFile = 'ptr'
 		$sFile = 0
 	EndIf
 
-	Local $tData = 0, $aData = StringSplit($sDescription, '|', 2)
+	Local $tData = 0, $aData = StringSplit($sDescription, '|', $STR_NOCOUNT)
 	If UBound($aData) < 2 Then
 		ReDim $aData[2]
 		$aData[1] = ''
 	EndIf
 	For $i = 0 To 1
-		$aData[$i] = StringStripWS($aData[$i], 3)
+		$aData[$i] = StringStripWS($aData[$i], $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	Next
 	If ($aData[0]) Or ($aData[1]) Then
 		$tData = _WinAPI_ArrayToStruct($aData)
@@ -1815,7 +1815,7 @@ EndFunc   ;==>_WinAPI_EnumDisplayMonitors
 ; ===============================================================================================================================
 Func _WinAPI_EnumDisplaySettings($sDevice, $iMode)
 	Local $TypeOfDevice = 'wstr'
-	If Not StringStripWS($sDevice, 3) Then
+	If Not StringStripWS($sDevice, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDevice = 'ptr'
 		$sDevice = 0
 	EndIf
@@ -2776,7 +2776,7 @@ EndFunc   ;==>_WinAPI_GetWorldTransform
 ; ===============================================================================================================================
 Func _WinAPI_GradientFill($hDC, Const ByRef $aVertex, $iStart = 0, $iEnd = -1, $fRotate = 0)
 	If __CheckErrorArrayBounds($aVertex, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
-	If UBound($aVertex, 2) < 3 Then Return SetError(13, 0, 0)
+	If UBound($aVertex, $UBOUND_COLUMNS) < 3 Then Return SetError(13, 0, 0)
 
 	Local $Point = $iEnd - $iStart + 1
 	If $Point > 3 Then
@@ -3095,7 +3095,7 @@ EndFunc   ;==>_WinAPI_OffsetClipRgn
 ; ===============================================================================================================================
 Func _WinAPI_OffsetPoints(ByRef $aPoint, $iXOffset, $iYOffset, $iStart = 0, $iEnd = -1)
 	If __CheckErrorArrayBounds($aPoint, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
-	If UBound($aPoint, 2) < 2 Then Return SetError(13, 0, 0)
+	If UBound($aPoint, $UBOUND_COLUMNS) < 2 Then Return SetError(13, 0, 0)
 
 	For $i = $iStart To $iEnd
 		$aPoint[$i][0] += $iXOffset
@@ -3208,7 +3208,7 @@ EndFunc   ;==>_WinAPI_PlayEnhMetaFile
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_PlgBlt($hDestDC, Const ByRef $aPoint, $hSrcDC, $iXSrc, $iYSrc, $iWidth, $iHeight, $hMask = 0, $iXMask = 0, $iYMask = 0)
-	If (UBound($aPoint) < 3) Or (UBound($aPoint, 2) < 2) Then Return SetError(12, 0, False)
+	If (UBound($aPoint) < 3) Or (UBound($aPoint, $UBOUND_COLUMNS) < 2) Then Return SetError(12, 0, False)
 
 	Local $tPoints = DllStructCreate('long[2];long[2];long[2]')
 	For $i = 0 To 2
@@ -3296,7 +3296,7 @@ EndFunc   ;==>_WinAPI_PolyBezierTo
 ; ===============================================================================================================================
 Func _WinAPI_PolyDraw($hDC, Const ByRef $aPoint, $iStart = 0, $iEnd = -1)
 	If __CheckErrorArrayBounds($aPoint, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
-	If UBound($aPoint, 2) < 3 Then Return SetError(13, 0, False)
+	If UBound($aPoint, $UBOUND_COLUMNS) < 3 Then Return SetError(13, 0, False)
 
 	Local $Point = $iEnd - $iStart + 1
 	Local $Struct = ''
@@ -3549,7 +3549,7 @@ EndFunc   ;==>_WinAPI_RGB
 ; ===============================================================================================================================
 Func _WinAPI_RotatePoints(ByRef $aPoint, $iXC, $iYC, $iAngle, $iStart = 0, $iEnd = -1)
 	If __CheckErrorArrayBounds($aPoint, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
-	If UBound($aPoint, 2) < 2 Then Return SetError(13, 0, 0)
+	If UBound($aPoint, $UBOUND_COLUMNS) < 2 Then Return SetError(13, 0, 0)
 
 	Local $Cos = Cos(ATan(1) / 45 * $iAngle)
 	Local $Sin = Sin(ATan(1) / 45 * $iAngle)
@@ -4036,7 +4036,7 @@ EndFunc   ;==>_WinAPI_SetDCPenColor
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_SetDeviceGammaRamp($hDC, Const ByRef $aRamp)
-	If (UBound($aRamp, 0) <> 2) Or (UBound($aRamp, 1) <> 256) Or (UBound($aRamp, 2) <> 3) Then
+	If (UBound($aRamp, $UBOUND_DIMENSIONS) <> 2) Or (UBound($aRamp, $UBOUND_ROWS) <> 256) Or (UBound($aRamp, $UBOUND_COLUMNS) <> 3) Then
 		Return SetError(12, 0, 0)
 	EndIf
 
@@ -4454,9 +4454,9 @@ Func _WinAPI_WindowFromDC($hDC)
 
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_WindowFromDC
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Embedded DLL Functions
+#Region Embedded DLL Functions
 
 Func __AlphaProc()
 	Static $pProc = 0
@@ -4564,9 +4564,9 @@ Func __XORProc()
 	Return $pProc
 EndFunc   ;==>__XORProc
 
-#endregion Embedded DLL Functions
+#EndRegion Embedded DLL Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __EnumDisplayMonitorsProc($hMonitor, $hDC, $pRECT, $lParam)
 	#forceref $hDC, $lParam
@@ -4638,4 +4638,4 @@ Func __EnumFontStylesProc($pELFEX, $pNTMEX, $iFontType, $pFN)
 		Return 1
 	EndIf
 EndFunc   ;==>__EnumFontStylesProc
-#endregion Internal Functions
+#EndRegion Internal Functions

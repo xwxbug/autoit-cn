@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit_Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm#Edit">GUI control Edit/Input styles</a> and much more constants.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -105,14 +105,14 @@ Global Const $EN_VSCROLL = 0x602
 ; Edit Balloon Tool Tip Icons
 ; move in ToolTipConstants.au3
 
-;~ Global Const $TTI_NONE = 0
-;~ Global Const $TTI_INFO = 1
-;~ Global Const $TTI_WARNING = 2
-;~ Global Const $TTI_ERROR = 3
-;~ ; Vista Edit Balloon Tool Tip Icons
-;~ Global Const $TTI_INFO_LARGE = 4
-;~ Global Const $TTI_WARNING_LARGE = 5
-;~ Global Const $TTI_ERROR_LARGE = 6
+; Global Const $TTI_NONE = 0
+; Global Const $TTI_INFO = 1
+; Global Const $TTI_WARNING = 2
+; Global Const $TTI_ERROR = 3
+; Vista Edit Balloon Tool Tip Icons
+; Global Const $TTI_INFO_LARGE = 4
+; Global Const $TTI_WARNING_LARGE = 5
+; Global Const $TTI_ERROR_LARGE = 6
 
 ; Control default styles
 Global Const $GUI_SS_DEFAULT_EDIT = 0x003010c0 ; BitOR($ES_WANTRETURN, $WS_VSCROLL, $WS_HSCROLL, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL)

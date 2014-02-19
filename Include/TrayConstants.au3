@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Constants to be included in an AutoIt v3 script.
 ; Author(s) .....: JLandes, Nutster, CyberSlug, Holger, ...

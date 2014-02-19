@@ -1,18 +1,19 @@
 #include-once
 
 #include "APILocaleConstants.au3"
+#include "StringConstants.au3"
 #include "WinAPIInternals.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPILocale.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: kernel32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 ; ===============================================================================================================================
@@ -20,9 +21,9 @@
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagNUMBERFMT = 'uint NumDigits;uint LeadingZero;uint Grouping;ptr DecimalSep;ptr ThousandSep;uint NegativeOrder' ; & ';wchar DecimalSepChars[n];wchar ThousandSepChars[n]'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_CompareString
@@ -51,9 +52,9 @@ Global Const $tagNUMBERFMT = 'uint NumDigits;uint LeadingZero;uint Grouping;ptr 
 ; _WinAPI_SetThreadUILanguage
 ; _WinAPI_SetUserGeoID
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -161,7 +162,7 @@ Func _WinAPI_GetDateFormat($LCID = 0, $tSYSTEMTIME = 0, $iFlags = 0, $sFormat = 
 	If Not $LCID Then $LCID = 0x0400
 
 	Local $TypeOfFormat = 'wstr'
-	If Not StringStripWS($sFormat, 3) Then
+	If Not StringStripWS($sFormat, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfFormat = 'ptr'
 		$sFormat = 0
 	EndIf
@@ -190,7 +191,7 @@ Func _WinAPI_GetDurationFormat($LCID, $iDuration, $sFormat = '')
 		$Val = $iDuration
 	EndIf
 	Local $TypeOfFormat = 'wstr'
-	If Not StringStripWS($sFormat, 3) Then
+	If Not StringStripWS($sFormat, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfFormat = 'ptr'
 		$sFormat = 0
 	EndIf
@@ -305,7 +306,7 @@ Func _WinAPI_GetTimeFormat($LCID = 0, $tSYSTEMTIME = 0, $iFlags = 0, $sFormat = 
 	If Not $LCID Then $LCID = 0x0400
 
 	Local $TypeOfFormat = 'wstr'
-	If Not StringStripWS($sFormat, 3) Then
+	If Not StringStripWS($sFormat, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfFormat = 'ptr'
 		$sFormat = 0
 	EndIf
@@ -421,9 +422,9 @@ Func _WinAPI_SetUserGeoID($GEOID)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_SetUserGeoID
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __EnumGeoIDProc($ID)
 	__Inc($__Enum)
@@ -446,4 +447,4 @@ Func __EnumUILanguagesProc($pLanguage, $ID)
 	Return 1
 EndFunc   ;==>__EnumUILanguagesProc
 
-#endregion Internal Functions
+#EndRegion Internal Functions

@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListBox_Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm#List">GUI control ListBox styles</a> and much more constants.
 ; Author(s) .....: Valik, Gary Frost, ...

@@ -2,14 +2,14 @@
 
 #include "IPAddressConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: IPAddress
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with IPAddress control management.
 ; Author(s) .....: Gary Frost (gafrost)
@@ -26,22 +26,6 @@ Global Const $__IPADDRESSCONSTANT_ClassName = "SysIPAddress32"
 Global Const $__IPADDRESSCONSTANT_DEFAULT_GUI_FONT = 17
 Global Const $__IPADDRESSCONSTANT_LOGPIXELSX = 88
 Global Const $__IPADDRESSCONSTANT_PROOF_QUALITY = 2
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlIpAddressCreate                  ; --> _GUICtrlIpAddress_Create
-; _GUICtrlIpAddressClear                   ; --> _GUICtrlIpAddress_ClearAddress
-; _GUICtrlIpAddressDelete                  ; --> _GUICtrlIpAddress_Destroy
-; _GUICtrlIpAddressGet                     ; --> _GUICtrlIpAddress_Get
-; _GUICtrlIpAddressIsBlank                 ; --> _GUICtrlIpAddress_IsBlank
-; _GUICtrlIpAddressSet                     ; --> _GUICtrlIpAddress_Set
-; _GUICtrlIpAddressSetFocus                ; --> _GUICtrlIpAddress_SetFocus
-; _GUICtrlIpAddressSetFont                 ; --> _GUICtrlIpAddress_SetFont
-; _GUICtrlIpAddressSetRange                ; --> _GUICtrlIpAddress_SetRange
-; _GUICtrlIpAddressShowHide                ; --> _GUICtrlIpAddress_ShowHide
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

@@ -2,19 +2,19 @@
 
 #include "APIFilesConstants.au3"
 #include "FileConstants.au3"
-#include "WinAPIShPath.au3"
 #include "WinAPIMisc.au3"
+#include "WinAPIShPath.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIFiles.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: kernel32.dll, advapi32.dll, ntdll.dll, shlwapi.dll, comdlg32.dll, userenv.dll, ntshrui.dll, ole32.dll, sfc.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 Global $__iHeapSize = 8388608
@@ -28,9 +28,9 @@ Global Const $tagFILE_ID_DESCRIPTOR = 'dword Size;uint Type;' & $tagGUID
 Global Const $tagWIN32_FIND_STREAM_DATA = 'int64 StreamSize;wchar StreamName[296]'
 Global Const $tagWIN32_STREAM_ID = 'dword StreamId;dword StreamAttributes;int64 Size;dword StreamNameSize;wchar StreamName[1]'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_BackupRead
@@ -135,9 +135,9 @@ Global Const $tagWIN32_STREAM_ID = 'dword StreamId;dword StreamAttributes;int64 
 ; _WinAPI_UnmapViewOfFile
 ; _WinAPI_Wow64EnableWow64FsRedirection
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -274,7 +274,7 @@ EndFunc   ;==>_WinAPI_CreateFileEx
 ; ===============================================================================================================================
 Func _WinAPI_CreateFileMapping($hFile, $iSize = 0, $sName = '', $iProtect = 0x0004, $tSecurity = 0)
 	Local $TypeOfName = 'wstr'
-	If Not StringStripWS($sName, 3) Then
+	If Not StringStripWS($sName, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfName = 'ptr'
 		$sName = 0
 	EndIf
@@ -355,7 +355,7 @@ EndFunc   ;==>_WinAPI_DecryptFile
 ; ===============================================================================================================================
 Func _WinAPI_DefineDosDevice($sDevice, $iFlags, $sPath = '')
 	Local $TypeOfPath = 'wstr'
-	If Not StringStripWS($sPath, 3) Then
+	If Not StringStripWS($sPath, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfPath = 'ptr'
 		$sPath = 0
 	EndIf
@@ -995,7 +995,7 @@ EndFunc   ;==>_WinAPI_GetDriveNumber
 ; ===============================================================================================================================
 Func _WinAPI_GetDriveType($sDrive = '')
 	Local $TypeOfDrive = 'str'
-	If Not StringStripWS($sDrive, 3) Then
+	If Not StringStripWS($sDrive, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDrive = 'ptr'
 		$sDrive = 0
 	EndIf
@@ -1293,7 +1293,7 @@ EndFunc   ;==>_WinAPI_GetTempFileName
 ; ===============================================================================================================================
 Func _WinAPI_GetVolumeInformation($sRoot = '')
 	Local $TypeOfRoot = 'wstr'
-	If Not StringStripWS($sRoot, 3) Then
+	If Not StringStripWS($sRoot, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfRoot = 'ptr'
 		$sRoot = 0
 	EndIf
@@ -1486,7 +1486,7 @@ EndFunc   ;==>_WinAPI_MapViewOfFile
 ; ===============================================================================================================================
 Func _WinAPI_MoveFileEx($sExistingFile, $sNewFile, $iFlags = 0, $pProgressProc = 0, $pData = 0)
 	Local $TypeOfNewFile = 'wstr'
-	If Not StringStripWS($sNewFile, 3) Then
+	If Not StringStripWS($sNewFile, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfNewFile = 'ptr'
 		$sNewFile = 0
 	EndIf
@@ -1572,7 +1572,7 @@ EndFunc   ;==>_WinAPI_PathIsDirectoryEmpty
 ; ===============================================================================================================================
 Func _WinAPI_QueryDosDevice($sDevice)
 	Local $TypeOfDevice = 'wstr'
-	If Not StringStripWS($sDevice, 3) Then
+	If Not StringStripWS($sDevice, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDevice = 'ptr'
 		$sDevice = 0
 	EndIf
@@ -1641,7 +1641,7 @@ EndFunc   ;==>_WinAPI_ReOpenFile
 ; ===============================================================================================================================
 Func _WinAPI_ReplaceFile($sReplacedFile, $sReplacementFile, $sBackupFile = '', $iFlags = 0)
 	Local $TypeOfBackupFile = 'wstr'
-	If Not StringStripWS($sBackupFile, 3) Then
+	If Not StringStripWS($sBackupFile, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfBackupFile = 'ptr'
 		$sBackupFile = 0
 	EndIf
@@ -1660,7 +1660,7 @@ EndFunc   ;==>_WinAPI_ReplaceFile
 ; ===============================================================================================================================
 Func _WinAPI_SearchPath($sFile, $sPath = '')
 	Local $TypeOfPath = 'wstr'
-	If Not StringStripWS($sPath, 3) Then
+	If Not StringStripWS($sPath, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfPath = 'ptr'
 		$sPath = 0
 	EndIf
@@ -1836,9 +1836,9 @@ Func _WinAPI_Wow64EnableWow64FsRedirection($fEnable)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_Wow64EnableWow64FsRedirection
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __WinAPI_MakeQWord($LoDWORD, $HiDWORD)
 	Local $tInt64 = DllStructCreate("uint64")
@@ -1849,4 +1849,4 @@ Func __WinAPI_MakeQWord($LoDWORD, $HiDWORD)
 	Return DllStructGetData($tInt64, 1)
 EndFunc   ;==>__WinAPI_MakeQWord
 
-#endregion Internal Functions
+#EndRegion Internal Functions

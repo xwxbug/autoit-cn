@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: SendMessage
-; AutoIt Version : 3.1.1++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist SendMessage calls.
 ; Author(s) .....: Valik, Gary Frost

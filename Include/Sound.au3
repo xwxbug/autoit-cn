@@ -2,10 +2,11 @@
 
 #include "FileConstants.au3"
 #include "File.au3"		; Using: _PathSplit
+#include "StringConstants.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Sound
-; AutoIt Version : 3.2 ++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Sound management.
 ; Author(s) .....: RazerM, Melba23, Simucal, PsaltyDS
@@ -76,7 +77,7 @@ Func _SoundOpen($sFile)
 			Local $oShellDirFile = $oShellDir.Parsename($sSndFileName)
 			If IsObj($oShellDirFile) Then
 				Local $sRaw = $oShellDir.GetDetailsOf($oShellDirFile, -1)
-				Local $aInfo = StringRegExp($sRaw, ": ([0-9]{2}:[0-9]{2}:[0-9]{2})", 3)
+				Local $aInfo = StringRegExp($sRaw, ": ([0-9]{2}:[0-9]{2}:[0-9]{2})", $STR_REGEXPARRAYGLOBALMATCH)
 				If Not IsArray($aInfo) Then
 					$fTryNextMethod = True
 				Else

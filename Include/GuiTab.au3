@@ -1,14 +1,14 @@
 #include-once
 
-#include "TabConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
 #include "SendMessage.au3"
+#include "TabConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Tab_Control
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Tab control management.
 ;                  A tab control is analogous to the dividers in a notebook or the labels in a  file  cabinet.  By  using  a  tab
@@ -28,27 +28,6 @@ Global Const $__TABCONSTANT_ClassName = "SysTabControl32"
 Global Const $__TABCONSTANT_WS_CLIPSIBLINGS = 0x04000000
 Global Const $__TABCONSTANT_WM_NOTIFY = 0x004E
 Global Const $__TABCONSTANT_DEFAULT_GUI_FONT = 17
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlTabDeleteAllItems             ; --> _GUICtrlTab_DeleteAllItems
-; _GUICtrlTabDeleteItem                 ; --> _GUICtrlTab_DeleteItem
-; _GUICtrlTabDeselectAll                ; --> _GUICtrlTab_DeselectAll
-; _GUICtrlTabGetCurFocus                ; --> _GUICtrlTab_GetCurFocus
-; _GUICtrlTabGetCurSel                  ; --> _GUICtrlTab_GetCurSel
-; _GUICtrlTabGetExtendedStyle           ; --> _GUICtrlTab_GetExtendedStyle
-; _GUICtrlTabGetItemCount               ; --> _GUICtrlTab_GetItemCount
-; _GUICtrlTabGetItemRECT                ; --> _GUICtrlTab_GetItemRect
-; _GUICtrlTabGetRowCount                ; --> _GUICtrlTab_GetRowCount
-; _GUICtrlTabGetUnicodeFormat           ; --> _GUICtrlTab_GetUnicodeFormat
-; _GUICtrlTabHighlightItem              ; --> _GUICtrlTab_HighlightItem
-; _GUICtrlTabSetCurFocus                ; --> _GUICtrlTab_SetCurFocus
-; _GUICtrlTabSetCurSel                  ; --> _GUICtrlTab_SetCurSel
-; _GUICtrlTabSetMinTabWidth             ; --> _GUICtrlTab_SetMinTabWidth
-; _GUICtrlTabSetUnicodeFormat           ; --> _GUICtrlTab_SetUnicodeFormat
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

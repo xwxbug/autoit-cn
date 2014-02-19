@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: File_Constants
-; AutoIt Version : 3.3
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Constants to be included in an AutoIt v3 script when using File functions.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -81,4 +81,31 @@ Global Const $GENERIC_EXECUTE = 0x20000000
 Global Const $GENERIC_WRITE = 0x40000000
 Global Const $GENERIC_READ = 0x80000000
 Global Const $GENERIC_READWRITE = BitOR($GENERIC_READ, $GENERIC_WRITE)
+
+; Indicates _FileReadToArray modes
+Global Const $FRTA_NOCOUNT = 0
+Global Const $FRTA_COUNT = 1
+Global Const $FRTA_INTARRAYS = 2
+Global Const $FRTA_ENTIRESPLIT = 4
+
+; Indicates _FileListToArray modes
+Global Const $FLTA_FILESFOLDERS = 0
+Global Const $FLTA_FILES = 1
+Global Const $FLTA_FOLDERS = 2
+
+; Indicates _FileListToArrayRec modes
+Global Const $FLTAR_FILESFOLDERS = 0
+Global Const $FLTAR_FILES = 1
+Global Const $FLTAR_FOLDERS = 2
+Global Const $FLTAR_NOHIDDEN = 4
+Global Const $FLTAR_NOSYSTEM = 8
+Global Const $FLTAR_NOLINK = 16
+Global Const $FLTAR_NORECUR = 0
+Global Const $FLTAR_RECUR = 1
+Global Const $FLTAR_NOSORT = 0
+Global Const $FLTAR_SORT = 1
+Global Const $FLTAR_FASTSORT = 2
+Global Const $FLTAR_NOPATH = 0
+Global Const $FLTAR_RELPATH = 1
+Global Const $FLTAR_FULLPATH = 2
 ; ===============================================================================================================================

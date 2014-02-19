@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Dir_Constants
-; AutoIt Version : 3.3
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Constants to be included in an AutoIt v3 script when using Dir functions.
 ; Author(s) .....: Valik, Gary Frost, ...

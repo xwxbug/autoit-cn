@@ -3,14 +3,14 @@
 #include "EditConstants.au3"
 #include "GuiStatusBar.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
 #include "SendMessage.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 #include "ToolTipConstants.au3" ; for _GUICtrlEdit_ShowBalloonTip()
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Edit control management.
 ;                  An edit control is a rectangular control window typically used in a dialog box to permit the user to enter
@@ -45,32 +45,6 @@ Global Const $__EDITCONSTANT_SB_LINEDOWN = 1
 Global Const $__EDITCONSTANT_SB_PAGEDOWN = 3
 Global Const $__EDITCONSTANT_SB_PAGEUP = 2
 Global Const $__EDITCONSTANT_SB_SCROLLCARET = 4
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlEditCanUndo                      ; --> _GUICtrlEdit_CanUndo
-; _GUICtrlEditEmptyUndoBuffer              ; --> _GUICtrlEdit_EmptyUndoBuffer
-; _GuiCtrlEditFind                         ; --> _GUICtrlEdit_Find
-; _GuiCtrlEditFindText                     ; --> __GUICtrlEdit_FindText
-; _GUICtrlEditGetFirstVisibleLine          ; --> _GUICtrlEdit_GetFirstVisibleLine
-; _GUICtrlEditGetLine                      ; --> _GUICtrlEdit_GetLine
-; _GUICtrlEditGetLineCount                 ; --> _GUICtrlEdit_GetLineCount
-; _GUICtrlEditGetModify                    ; --> _GUICtrlEdit_GetModify
-; _GUICtrlEditGetRECT                      ; --> _GUICtrlEdit_GetRECT
-; _GUICtrlEditGetSel                       ; --> _GUICtrlEdit_GetSel
-; _GUICtrlEditLineFromChar                 ; --> _GUICtrlEdit_LineFromChar
-; _GUICtrlEditLineIndex                    ; --> _GUICtrlEdit_LineIndex
-; _GUICtrlEditLineLength                   ; --> _GUICtrlEdit_LineLength
-; _GUICtrlEditLineScroll                   ; --> _GUICtrlEdit_LineScroll
-; _GUICtrlEditReplaceSel                   ; --> _GUICtrlEdit_ReplaceSel
-; _GUICtrlEditScroll                       ; --> _GUICtrlEdit_Scroll
-; _GUICtrlEditSetModify                    ; --> _GUICtrlEdit_SetModify
-; _GUICtrlEditSetRECT                      ; --> _GUICtrlEdit_SetRECT
-; _GUICtrlEditSetSel                       ; --> _GUICtrlEdit_SetSel
-; _GUICtrlEditUndo                         ; --> _GUICtrlEdit_Undo
 ; ===============================================================================================================================
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -448,7 +422,7 @@ Func __GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, B
 			EndIf
 		ElseIf $iWhole And Not $iPos Then ; no more to find
 			$iOccurance = 0
-			MsgBox(48, "Find", "Reached End of document, Can not find the string '" & $sFind & "'")
+			MsgBox($MB_SYSTEMMODAL, "Find", "Reached End of document, Can not find the string '" & $sFind & "'")
 		ElseIf Not $iWhole Then
 			If Not $iPos Then ; wrap around search and select
 				$iOccurance = 1
@@ -457,7 +431,7 @@ Func __GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, B
 				$iPos = StringInStr($sText, $sFind, $iCase, $iOccurance)
 				If Not $iPos Then ; no more to find
 					$iOccurance = 0
-					MsgBox(48, "Find", "Reached End of document, Can not find the string  '" & $sFind & "'")
+					MsgBox($MB_SYSTEMMODAL, "Find", "Reached End of document, Can not find the string  '" & $sFind & "'")
 				Else ; found it
 					_GUICtrlEdit_SetSel($hWnd, $iPos - 1, ($iPos + StringLen($sFind)) - 1)
 					_GUICtrlEdit_Scroll($hWnd, $__EDITCONSTANT_SB_SCROLLCARET)

@@ -1,12 +1,13 @@
 #include-once
 
-#include "WinAPI.au3"
 #include "Date.au3"
 #include "InetConstants.au3"
+#include "StringConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit Constants
-; AutoIt Version : 3.0
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Internet.
 ; Author(s) .....: Larry, Ezzetabi, Jarvis Stubblefield, Wes Wolfe-Wolvereness, Wouter, Walkabout, Florian Fida, guinness
@@ -29,20 +30,34 @@
 ; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
-; Author ........: guinness
+; Author ........: guinness, Mat
 ; ===============================================================================================================================
 Func _GetIP()
-	Local $aGetIPURL[4] = [3, "http://checkip.dyndns.org/", "http://api.exip.org/?call=ip", "http://www.myexternalip.com/raw"], $aReturn = 0, $sReturn = ""
-	For $i = 1 To $aGetIPURL[0]
+	Local Const $GETIP_TIMER = 5000 ; Constant for how many milliseconds between each check.
+	Local Static $hTimer = 0 ; Create a static variable to store the timer handle.
+	Local Static $sLastIP = 0 ; Create a static variable to store the last IP.
+
+	If TimerDiff($hTimer) < $GETIP_TIMER Then
+		Return SetExtended(1, $sLastIP) ; Return the last IP instead and set @extended to 1.
+	EndIf
+
+	Local $aGetIPURL[] = ["http://checkip.dyndns.org/", "http://api.exip.org/?call=ip", "http://www.myexternalip.com/raw"], _
+			$aReturn = 0, _
+			$sReturn = ""
+
+	For $i = 0 To UBound($aGetIPURL) - 1
 		$sReturn = InetRead($aGetIPURL[$i])
 		If @error Or $sReturn == "" Then ContinueLoop
-		$aReturn = StringRegExp(BinaryToString($sReturn), "[\d\.]{7,15}", 3)
+		$aReturn = StringRegExp(BinaryToString($sReturn), "[\d\.]{7,15}", $STR_REGEXPARRAYGLOBALMATCH)
 		If @error = 0 Then
 			$sReturn = $aReturn[0]
 			ExitLoop
 		EndIf
 		$sReturn = ""
 	Next
+
+	$hTimer = TimerInit() ; Create a new timer handle.
+	$sLastIP = $sReturn ; Store this IP.
 	If $sReturn == "" Then Return SetError(1, 0, -1)
 	Return $sReturn
 EndFunc   ;==>_GetIP
@@ -103,11 +118,11 @@ Func _INetSmtpMail($s_SmtpServer, $s_FromName, $s_FromAddress, $s_ToAddress, $s_
 	If TCPStartup() = 0 Then Return SetError(2, 0, 0)
 
 	Local $s_IPAddress, $i_Count
-	StringRegExp($s_SmtpServer, "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)")
-	If @extended Then
-		$s_IPAddress = $s_SmtpServer
-	Else
+	StringRegExp($s_SmtpServer, "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+	If @error Then
 		$s_IPAddress = TCPNameToIP($s_SmtpServer)
+	Else
+		$s_IPAddress = $s_SmtpServer
 	EndIf
 	If $s_IPAddress = "" Then
 		TCPShutdown()
@@ -291,7 +306,7 @@ Func _TCPIpToName($sIp, $iOption = Default, $hDll_Ws2_32 = Default)
 				ExitLoop
 			EndIf
 		Next
-		Return StringSplit(StringStripWS($sHostnames, 2), @CR)
+		Return StringSplit(StringStripWS($sHostnames, $STR_STRIPTRAILING), @CR)
 	Else
 		Return $sHostnames
 	EndIf

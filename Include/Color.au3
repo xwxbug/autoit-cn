@@ -1,8 +1,10 @@
 #include-Once
 
+#include "AutoItConstants.au3"
+
 ; #INDEX# =======================================================================================================================
 ; Title .........: Color
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.10.0
 ; Language ..... : English
 ; Description ...: Functions that assist with color management.
 ; Author(s) .....: Ultima, Jon, Jpm
@@ -34,7 +36,7 @@ Global Const $__COLORCONSTANTS_RGBMAX = 255
 ; Modified.......:
 ; ===============================================================================================================================
 Func _ColorConvertHSLtoRGB($avArray)
-	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
+	If UBound($avArray) <> 3 Or UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(1, 0, 0)
 
 	Local $nR, $nG, $nB
 	Local $nH = Number($avArray[0]) / $__COLORCONSTANTS_HSLMAX
@@ -99,7 +101,7 @@ EndFunc   ;==>__ColorConvertHueToRGB
 ; Modified.......:
 ; ===============================================================================================================================
 Func _ColorConvertRGBtoHSL($avArray)
-	If UBound($avArray) <> 3 Or UBound($avArray, 0) <> 1 Then Return SetError(1, 0, 0)
+	If UBound($avArray) <> 3 Or UBound($avArray, $UBOUND_DIMENSIONS) <> 1 Then Return SetError(1, 0, 0)
 
 	Local $nH, $nS, $nL
 	Local $nR = Number($avArray[0]) / $__COLORCONSTANTS_RGBMAX

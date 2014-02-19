@@ -1,18 +1,19 @@
 #include-once
 
 #include "APIDlgConstants.au3"
+#include "StringConstants.au3"
 #include "WinAPIShellEx.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIDlg.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: shell32.dll, comdlg32.dll, credui.dll, shlwapi.dll, user32.dll, kernel32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 Global $__pFRBuffer = 0, $__iFRBufferSize = 16385
@@ -26,9 +27,9 @@ Global Const $tagPRINTDLG = __Iif(@AutoItX64, '', 'align 2;') & 'dword Size;hwnd
 Global Const $tagPRINTDLGEX = 'dword Size;hwnd hOwner;handle hDevMode;handle hDevNames;handle hDC;dword Flags;dword Flags2;dword ExclusionFlags;dword NumPageRanges;dword MaxPageRanges;ptr PageRanges;dword MinPage;dword MaxPage;dword Copies;handle hInstance;ptr PrintTemplateName;lparam lParam;dword NumPropertyPages;ptr hPropertyPages;dword StartPage;dword ResultAction'
 Global Const $tagPRINTPAGERANGE = 'dword FromPage;dword ToPage'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_BrowseForFolderDlg
@@ -56,9 +57,9 @@ Global Const $tagPRINTPAGERANGE = 'dword FromPage;dword ToPage'
 ; _WinAPI_ShellUserAuthenticationDlg
 ; _WinAPI_ShellUserAuthenticationDlgEx
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -69,7 +70,7 @@ Func _WinAPI_BrowseForFolderDlg($sRoot = '', $sText = '', $iFlags = 0, $pBrowseP
 	Local $tBROWSEINFO = DllStructCreate($tagBROWSEINFO & ';wchar[' & (StringLen($sText) + 1) & '];wchar[260]')
 	Local $PIDL = 0, $Result = ''
 
-	If StringStripWS($sRoot, 3) Then
+	If StringStripWS($sRoot, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		Local $Path = _WinAPI_PathSearchAndQualify($sRoot, 1)
 		If @error Then
 			$Path = $sRoot
@@ -182,7 +183,7 @@ EndFunc   ;==>_WinAPI_FlushFRBuffer
 Func _WinAPI_FormatDriveDlg($sDrive, $iOption = 0, $hParent = 0)
 	If Not IsString($sDrive) Then Return SetError(10, 0, 0)
 
-	$sDrive = StringLeft(StringUpper(StringStripWS($sDrive, 1)), 1)
+	$sDrive = StringLeft(StringUpper(StringStripWS($sDrive, $STR_STRIPLEADING)), 1)
 	If Not $sDrive Then Return SetError(11, 0, 0)
 
 	$sDrive = Asc($sDrive) - 65
@@ -227,7 +228,7 @@ Func _WinAPI_GetConnectedDlg($iDlg, $iFlags = 0, $hParent = 0)
 	EndIf
 
 	Local $Ret = DllCall('connect.dll', 'long', $iDlg, 'hwnd', $hParent, 'dword', 0, 'dword', 0, 'dword', 0, 'handle', 0, _
-			'wstr', StringStripWS($Str, 2))
+			'wstr', StringStripWS($Str, $STR_STRIPTRAILING))
 	If @error Then Return SetError(@error, @extended, 0)
 	If Not ($Ret[0] = 0 Or $Ret[0] = 1) Then Return SetError(10, $Ret[0], 0) ; not S_OK nor S_FALSE
 
@@ -441,7 +442,7 @@ EndFunc   ;==>_WinAPI_ShellOpenWithDlg
 ; ===============================================================================================================================
 Func _WinAPI_ShellStartNetConnectionDlg($sRemote = '', $iFlags = 0, $hParent = 0)
 	Local $TypeOfRemote = 'wstr'
-	If Not StringStripWS($sRemote, 3) Then
+	If Not StringStripWS($sRemote, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfRemote = 'ptr'
 		$sRemote = 0
 	EndIf
@@ -533,9 +534,9 @@ Func _WinAPI_ShellUserAuthenticationDlgEx($sCaption, $sMessage, $sUser, $sPasswo
 	Return $Result
 EndFunc   ;==>_WinAPI_ShellUserAuthenticationDlgEx
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDefExt, $iFlags, $iFlagsEx, $pOFNProc, $pData, $hParent)
 	Local $tBuffer = DllStructCreate('wchar[32768]')
@@ -549,8 +550,8 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	Local $aFilters[$aData[0] * 2]
 	Local $Count = 0
 	For $i = 1 To $aData[0]
-		$aFilters[$Count + 0] = StringStripWS($aData[$i], 3)
-		$aFilters[$Count + 1] = StringStripWS(StringRegExpReplace($aData[$i], '.*\((.*)\)', '\1'), 8)
+		$aFilters[$Count + 0] = StringStripWS($aData[$i], $STR_STRIPLEADING + $STR_STRIPTRAILING)
+		$aFilters[$Count + 1] = StringStripWS(StringRegExpReplace($aData[$i], '.*\((.*)\)', '\1'), $STR_STRIPALL)
 		If $aFilters[$Count + 1] Then
 			$Count += 2
 		EndIf
@@ -565,7 +566,7 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	DllStructSetData($tOFN, 5, 0)
 	DllStructSetData($tOFN, 6, 0)
 	DllStructSetData($tOFN, 7, $iDefFilter)
-	$sDefFile = StringStripWS($sDefFile, 3)
+	$sDefFile = StringStripWS($sDefFile, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	If $sDefFile Then
 		DllStructSetData($tBuffer, 1, $sDefFile)
 	EndIf
@@ -573,13 +574,13 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	DllStructSetData($tOFN, 9, 32768)
 	DllStructSetData($tOFN, 10, 0)
 	DllStructSetData($tOFN, 11, 0)
-	$sInitDir = StringStripWS($sInitDir, 3)
+	$sInitDir = StringStripWS($sInitDir, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	If $sInitDir Then
 		$tInitDir = DllStructCreate('wchar[' & (StringLen($sInitDir) + 1) & ']')
 	EndIf
 	DllStructSetData($tInitDir, 1, $sInitDir)
 	DllStructSetData($tOFN, 12, DllStructGetPtr($tInitDir))
-	$sTitle = StringStripWS($sTitle, 3)
+	$sTitle = StringStripWS($sTitle, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	If $sTitle Then
 		$tTitle = DllStructCreate('wchar[' & (StringLen($sTitle) + 1) & ']')
 	EndIf
@@ -588,7 +589,7 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	DllStructSetData($tOFN, 14, $iFlags)
 	DllStructSetData($tOFN, 15, 0)
 	DllStructSetData($tOFN, 16, 0)
-	$sDefExt = StringStripWS($sDefExt, 3)
+	$sDefExt = StringStripWS($sDefExt, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 	If $sDefExt Then
 		$tDefExt = DllStructCreate('wchar[' & (StringLen($tDefExt) + 1) & ']')
 	EndIf
@@ -640,4 +641,4 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	Return $aData
 EndFunc   ;==>__OFNDlg
 
-#endregion Internal Functions
+#EndRegion Internal Functions

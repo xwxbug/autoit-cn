@@ -1,18 +1,20 @@
 #include-once
 
+#include "AutoItConstants.au3"
+#include "MsgBoxConstants.au3"
 #include "StructureConstants.au3"
 #include "WinAPIError.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIxxx.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: kernel32.dll, ntdll.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 Global $__Enum, $__Ext = 0
@@ -26,7 +28,9 @@ Global Const $__WINVER = __WINVER()
 Global Const $__UDFVER = 0x0308
 ; ===============================================================================================================================
 
-#region Functions list
+#EndRegion Global Variables and Constants
+
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; Doc in WinAPIMisc
@@ -76,9 +80,9 @@ Global Const $__UDFVER = 0x0308
 ; __WINVER()
 ; ===============================================================================================================================
 
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -340,11 +344,11 @@ Func _WinAPI_ZeroMemory($pMemory, $iLength)
 	Return 1
 EndFunc   ;==>_WinAPI_ZeroMemory
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Internal Functions
+#Region Internal Functions
 
-Func __CheckErrorArrayBounds(Const ByRef $aData, ByRef $iStart, ByRef $iEnd, $nDim = 1, $iDim = 0)
+Func __CheckErrorArrayBounds(Const ByRef $aData, ByRef $iStart, ByRef $iEnd, $nDim = 1, $iDim = $UBOUND_DIMENSIONS)
 	; Bounds checking
 	If Not IsArray($aData) Then Return SetError(1, 0, 1)
 	If UBound($aData, $iDim) <> $nDim Then Return SetError(2, 0, 1)
@@ -393,7 +397,7 @@ Func __EnumWindowsProc($hWnd, $fVisible)
 EndFunc   ;==>__EnumWindowsProc
 
 Func __FatalExit($iCode, $sText = '')
-	If $sText Then MsgBox(0x00040010, 'AutoIt', $sText)
+	If $sText Then MsgBox($MB_SYSTEMMODAL, 'AutoIt', $sText)
 	_WinAPI_FatalExit($iCode)
 EndFunc   ;==>__FatalExit
 
@@ -535,16 +539,16 @@ EndFunc   ;==>__HeapValidate
 
 Func __Inc(ByRef $aData, $iIncrement = 100)
 	Select
-		Case UBound($aData, 2)
+		Case UBound($aData, $UBOUND_COLUMNS)
 			If $iIncrement < 0 Then
-				ReDim $aData[$aData[0][0] + 1][UBound($aData, 2)]
+				ReDim $aData[$aData[0][0] + 1][UBound($aData, $UBOUND_COLUMNS)]
 			Else
 				$aData[0][0] += 1
 				If $aData[0][0] > UBound($aData) - 1 Then
-					ReDim $aData[$aData[0][0] + $iIncrement][UBound($aData, 2)]
+					ReDim $aData[$aData[0][0] + $iIncrement][UBound($aData, $UBOUND_COLUMNS)]
 				EndIf
 			EndIf
-		Case UBound($aData, 1)
+		Case UBound($aData, $UBOUND_ROWS)
 			If $iIncrement < 0 Then
 				ReDim $aData[$aData[0] + 1]
 			Else
@@ -575,11 +579,7 @@ EndFunc   ;==>__Inc
 ; Example .......: No
 ; ===============================================================================================================================
 Func __Iif($fTest, $vTrue, $vFalse)
-	If $fTest Then
-		Return $vTrue
-	Else
-		Return $vFalse
-	EndIf
+	Return $fTest ? $vTrue : $vFalse
 EndFunc   ;==>__Iif
 
 Func __Init($bData)
@@ -626,4 +626,4 @@ Func __WINVER()
 	Return BitOR(BitShift(DllStructGetData($tOSVI, 2), -8), DllStructGetData($tOSVI, 3))
 EndFunc   ;==>__WINVER
 
-#endregion Internal Functions
+#EndRegion Internal Functions

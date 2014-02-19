@@ -1,17 +1,16 @@
 #include-once
 
+#include "Clipboard.au3"
 #include "EditConstants.au3"
 #include "FileConstants.au3"
 #include "RichEditConstants.au3"
-#include "StructureConstants.au3"
-#include "Clipboard.au3"
-#include "Misc.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Rich Edit
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Programmer-friendly Rich Edit control
 ; Author(s) .....: GaryFrost, grham, Prog@ndy, KIP, c.haslam
@@ -67,31 +66,6 @@ Global Const $__RICHEDITCONSTANT_COLOR_WINDOWTEXT = 8
 Global Const $_GCR_S_OK = 0
 Global Const $_GCR_E_NOTIMPL = 0x80004001
 Global Const $_GCR_E_INVALIDARG = 0x80070057
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS# ===============================================================================================================
-; Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; _GUICtrlRichEdit_FindTextInRange       returns as an array[2]
-; _GUICtrlRichEdit_GetCharBkColor        returning an integer
-; _GUICtrlRichEdit_GetCharColor          returning an integer
-; _GUICtrlRichEdit_GetCtrlBkColor        _GUICtrlRichEdit_GetBkColor returning an integer
-; _GUICtrlRichEdit_GetCtrlText           _GUICtrlRichEdit_GetText
-; _GUICtrlRichEdit_GetCtrlTextLength     _GUICtrlRichEdit_GetTextLength
-; _GUICtrlRichEdit_GetCtrlZoom           _GUICtrlRichEdit_GetZoom
-; _GUICtrlRichEdit_GetFont               returns as an array[3]
-; _GUICtrlRichEdit_GetFormattingRect     _GUICtrlRichEdit_GetRECT returning an array
-; _GUICtrlRichEdit_GetSel                returns as an array[2]
-; _GUICtrlRichEdit_GetSelAA              returns as an array[2]
-; _GUICtrlRichEdit_GetScrollPos          returns as an array[2]
-; _GUICtrlRichEdit_GetXYFromCharPos      returns as an array[2]
-; _GUICtrlRichEdit_SetCharBkColor        "sys" -> Default
-; _GUICtrlRichEdit_SetCharColor          "sys" -> Default
-; _GUICtrlRichEdit_SetCtrlBkColor        _GUICtrlRichEdit_SetBkColor "sys" -> Default
-; _GUICtrlRichEdit_SetCtrlLimitOnText    _GUICtrlRichEdit_SetLimitOnText
-; _GUICtrlRichEdit_SetCtrlTabStops       _GUICtrlRichEdit_SetTabStops
-; _GUICtrlRichEdit_SetCtrlZoom           _GUICtrlRichEdit_SetZoom
-; _GUICtrlRichEdit_SetFormattingRect     _GUICtrlRichEdit_SetRECT
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -256,7 +230,7 @@ Global Const $tagEDITSTREAM = "align 4;dword_ptr dwCookie;dword dwError;ptr pfnC
 ; Fields ........: cbSize    - Specifies the size, in bytes, of the structure
 ;                  wMask     - A set of mask bits that determine which of the wEffects flags will be set to 1 or 0 by the rich edit control. This approach eliminates the need to read the effects flags before changing them.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOM_DEFPARADIR       - Default paragraph direction¡ªimplies alignment (obsolete).
+;                  |  $BOM_DEFPARADIR       - Default paragraph direction—implies alignment (obsolete).
 ;                  |  $BOM_PLAINTEXT        - Use plain text layout (obsolete).
 ;                  |  $BOM_NEUTRALOVERRIDE  - Override neutral layout.
 ;                  |  $BOM_CONTEXTREADING   - Context reading order.
@@ -264,7 +238,7 @@ Global Const $tagEDITSTREAM = "align 4;dword_ptr dwCookie;dword dwError;ptr pfnC
 ;                  |  $BOM_LEGACYBIDICLASS  - Treatment of plus, minus, and slash characters in right-to-left (LTR) or bidirectional text.
 ;                  wEffects  - A set of flags that indicate the desired or current state of the effects flags. Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
 ;                  |Obsolete bits are valid only for the bidirectional version of Rich Edit 1.0.
-;                  |  $BOE_RTLDIR           - Default paragraph direction¡ªimplies alignment (obsolete).
+;                  |  $BOE_RTLDIR           - Default paragraph direction—implies alignment (obsolete).
 ;                  |  $BOE_PLAINTEXT        - Uses plain text layout (obsolete).
 ;                  |  $BOE_NEUTRALOVERRIDE  - Overrides neutral layout.
 ;                  |  $BOE_CONTEXTREADING   - Context reading order.
@@ -1062,7 +1036,7 @@ Func _GUICtrlRichEdit_GetCharAttributes($hWnd)
 	Local $iEffects = DllStructGetData($tCharFormat, 3)
 
 	Local $sStatesAndAtts = "", $sState, $fM, $fE
-	For $i = 0 To UBound($av, 1) - 1
+	For $i = 0 To UBound($av, $UBOUND_ROWS) - 1
 		$fM = BitAND($iMask, $av[$i][1]) = $av[$i][1]
 		$fE = BitAND($iEffects, $av[$i][2]) = $av[$i][2]
 		If $fSel Then
@@ -1476,7 +1450,7 @@ Func _GUICtrlRichEdit_GetParaAttributes($hWnd)
 	Local $iEffects = DllStructGetData($tParaFormat, "wEffects")
 
 	Local $sStatesAndAtts = "", $sState
-	For $i = 0 To UBound($av, 1) - 1
+	For $i = 0 To UBound($av, $UBOUND_ROWS) - 1
 		$sStatesAndAtts &= $av[$i][$kAbbrev]
 		If BitAND($iEffects, $av[$i][$kEffect]) = $av[$i][$kEffect] Then
 			$sState = ($av[$i][$kInverted] ? "-" : "+")
@@ -1510,7 +1484,7 @@ Func _GUICtrlRichEdit_GetParaBorder($hWnd)
 	Local $iBorders = DllStructGetData($tParaFormat, 24)
 
 	Local $sRet = ""
-	For $i = 0 To UBound($avLocs, 1) - 1
+	For $i = 0 To UBound($avLocs, $UBOUND_ROWS) - 1
 		If BitAND($iBorders, $avLocs[$i][1]) Then $sRet &= $avLocs[$i][0]
 	Next
 	$sRet &= ";"
@@ -1586,7 +1560,7 @@ Func _GUICtrlRichEdit_GetParaNumbering($hWnd)
 		Case 4
 			$sRet = Chr(Asc("a") + $iStart - 1)
 		Case 5, 6 ; lower case Roman
-			For $i = 0 To UBound($avRoman, 1) - 2 Step 2
+			For $i = 0 To UBound($avRoman, $UBOUND_ROWS) - 2 Step 2
 				For $j = $i To $i + 1
 					While $iStart >= $avRoman[$j][0]
 						$sRet &= $avRoman[$j][1]
@@ -2464,10 +2438,10 @@ Func _GUICtrlRichEdit_SetParaAttributes($hWnd, $sStatesAndAtts)
 	If Mod(StringLen($sStatesAndAtts) + 1, 5) <> 0 Then Return SetError(1023, 0, False)
 	Local $as = StringSplit($sStatesAndAtts, ";")
 	Local $iMask = 0, $iEffects = 0, $s, $n
-	For $i = 1 To UBound($as, 1) - 1
+	For $i = 1 To UBound($as, $UBOUND_ROWS) - 1
 		$s = StringMid($as[$i], 2)
 		$n = -1
-		For $j = 0 To UBound($av, 1) - 1
+		For $j = 0 To UBound($av, $UBOUND_ROWS) - 1
 			If $av[$j][$kAbbrev] = $s Then
 				$n = $j
 				ExitLoop
@@ -2528,7 +2502,7 @@ Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = D
 		For $i = 1 To StringLen($sLocation)
 			$s = StringMid($sLocation, $i, 1)
 			$n = -1
-			For $j = 0 To UBound($avLocs, 1) - 1
+			For $j = 0 To UBound($avLocs, $UBOUND_ROWS) - 1
 				If $avLocs[$j][0] = $s Then
 					$n = $j
 					ExitLoop
@@ -2538,7 +2512,7 @@ Func _GUICtrlRichEdit_SetParaBorder($hWnd, $sLocation = Default, $vLineStyle = D
 			$iLoc = BitOR($iLoc, $avLocs[$n][1])
 		Next
 		$n = -1
-		For $i = 0 To UBound($avLS, 1) - 1
+		For $i = 0 To UBound($avLS, $UBOUND_ROWS) - 1
 			If $vLineStyle = $avLS[$i] Then
 				$n = $i
 				ExitLoop
@@ -2710,7 +2684,7 @@ Func _GUICtrlRichEdit_SetParaSpacing($hWnd, $vInter = Default, $iBefore = Defaul
 	DllStructSetData($tParaFormat, "cbSize", DllStructGetSize($tParaFormat))
 	Local $iMask = 0
 	If $vInter <> Default Then
-		$vInter = StringStripWS($vInter, 8) ; strip all spaces
+		$vInter = StringStripWS($vInter, $STR_STRIPALL) ; strip all spaces
 		Local $iP = StringInStr($vInter, "line", 2) ; case-insensitive, faster
 		If $iP <> 0 Then
 			$vInter = StringLeft($vInter, $iP - 1)
@@ -3308,7 +3282,7 @@ Func __GCR_ParseParaNumberingStyle($sIn, $fForceRoman, ByRef $iPFM, ByRef $iWNum
 		$iWNumbering = 0
 		$iPFM = $PFM_NUMBERING
 	Else
-		Local $s = StringStripWS($sIn, 2) ; trialing whitespace
+		Local $s = StringStripWS($sIn, $STR_STRIPTRAILING) ; trialing whitespace
 		$iQspaces = StringLen($sIn) - StringLen($s)
 		$sIn = $s
 		$iPFM = $PFM_NUMBERINGTAB

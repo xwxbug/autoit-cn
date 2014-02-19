@@ -2,14 +2,14 @@
 
 #include "DateTimeConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: MonthCalendar
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with MonthCalendar control management.
 ;                  A month calendar control implements a calendar-like user  interface.  This  provides  the  user  with  a  very
@@ -26,23 +26,7 @@ Global $_mc_ghMCLastWnd
 ; #CONSTANTS# ===================================================================================================================
 Global Const $__MONTHCALCONSTANT_ClassName = "SysMonthCal32"
 Global Const $__MONTHCALCONSTANT_SWP_NOZORDER = 0x0004
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions functions will no longer work
-; _GUICtrlMonthCalGet1stDOW              ; --> _GUICtrlMonthCal_GetFirstDOWStr
-; _GUICtrlMonthCalGetColor               ; --> _GUICtrlMonthCal_GetColorArray
-; _GUICtrlMonthCalGetMaxSelCount         ; --> _GUICtrlMonthCal_GetMaxSelCount
-; _GUICtrlMonthCalGetMaxTodayWidth       ; --> _GUICtrlMonthCal_GetMaxTodayWidth
-; _GUICtrlMonthCalGetMinReqRECT          ; --> _GUICtrlMonthCal_GetMinReqRectArray
-; _GUICtrlMonthCalGetDelta               ; --> _GUICtrlMonthCal_GetMonthDelta
-; _GUICtrlMonthCalSetColor               ; --> _GUICtrlMonthCal_SetColor
-; _GUICtrlMonthCalSet1stDOW              ; --> _GUICtrlMonthCal_SetFirstDOW
-; _GUICtrlMonthCalSetMaxSelCount         ; --> _GUICtrlMonthCal_SetMaxSelCount
-; _GUICtrlMonthCalSetDelta               ; --> _GUICtrlMonthCal_SetMonthDelta
-; ===============================================================================================================================
+; ===============================================================================================================================$aArray[$i]
 
 ; #CURRENT# =====================================================================================================================
 ; _GUICtrlMonthCal_Create

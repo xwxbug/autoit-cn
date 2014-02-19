@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: UDF Global ID
-; AutoIt Version : 3.2.3++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Global ID Generation for UDFs.
 ; Author(s) .....: Gary Frost
@@ -28,8 +28,6 @@ Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_U
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; __UDF_GetNextGlobalID
 ; __UDF_FreeGlobalID
-; __UDF_DebugPrint
-; __UDF_ValidateClassName
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -57,7 +55,7 @@ Func __UDF_GetNextGlobalID($hWnd)
 		If $_UDF_GlobalIDs_Used[$iIndex][0] <> 0 Then
 			; window no longer exist, free up the slot and reset the control id counter
 			If Not WinExists($_UDF_GlobalIDs_Used[$iIndex][0]) Then
-				For $x = 0 To UBound($_UDF_GlobalIDs_Used, 2) - 1
+				For $x = 0 To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
 					$_UDF_GlobalIDs_Used[$iIndex][$x] = 0
 				Next
 				$_UDF_GlobalIDs_Used[$iIndex][1] = $_UDF_STARTID
@@ -92,7 +90,7 @@ Func __UDF_GetNextGlobalID($hWnd)
 	; used all control ids
 	If $_UDF_GlobalIDs_Used[$iUsedIndex][1] = $_UDF_STARTID + $_UDF_GlobalID_MAX_IDS Then
 		; check if control has been deleted, if so use that index in array
-		For $iIDIndex = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, 2) - 1
+		For $iIDIndex = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
 			If $_UDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = 0 Then
 				$nCtrlID = ($iIDIndex - $_UDF_GlobalIDs_OFFSET) + 10000
 				$_UDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = $nCtrlID
@@ -129,7 +127,7 @@ Func __UDF_FreeGlobalID($hWnd, $iGlobalID)
 
 	For $iIndex = 0 To $_UDF_GlobalID_MAX_WIN - 1
 		If $_UDF_GlobalIDs_Used[$iIndex][0] = $hWnd Then
-			For $x = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, 2) - 1
+			For $x = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
 				If $_UDF_GlobalIDs_Used[$iIndex][$x] = $iGlobalID Then
 					; free up control id
 					$_UDF_GlobalIDs_Used[$iIndex][$x] = 0
@@ -143,48 +141,3 @@ Func __UDF_FreeGlobalID($hWnd, $iGlobalID)
 	; $hWnd wasn't found in the used list
 	Return SetError(-2, 0, False)
 EndFunc   ;==>__UDF_FreeGlobalID
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: __UDF_DebugPrint; Description ...: Used for debugging when creating examples
-; Syntax.........: __UDF_DebugPrint($hWnd[, $iLine = @ScriptLineNumber])
-; Parameters ....: $sText       - String to printed to console
-;                  $iLine       - Line number function was called from
-; Return values .: None
-; Author ........: Gary Frost (gafrost)
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........:
-; Example .......:
-; ===============================================================================================================================
-Func __UDF_DebugPrint($sText, $iLine = @ScriptLineNumber, $err = @error, $ext = @extended)
-	ConsoleWrite( _
-			"!===========================================================" & @CRLF & _
-			"+======================================================" & @CRLF & _
-			"-->Line(" & StringFormat("%04d", $iLine) & "):" & @TAB & $sText & @CRLF & _
-			"+======================================================" & @CRLF)
-	Return SetError($err, $ext, 1)
-EndFunc   ;==>__UDF_DebugPrint
-
-; #INTERNAL_USE_ONLY# ===========================================================================================================
-; Name...........: __UDF_ValidateClassName
-; Description ...: Used for debugging when creating examples
-; Syntax.........: __UDF_ValidateClassName($hWnd, $sType)
-; Parameters ....: $hWnd        - Handle to the control
-; Return values .: None
-; Author ........: Gary Frost
-; Modified.......:
-; Remarks .......: For Internal Use Only
-; Related .......:
-; Link ..........:
-; Example .......:
-; ===============================================================================================================================
-Func __UDF_ValidateClassName($hWnd, $sClassNames)
-	__UDF_DebugPrint("This is for debugging only, set the debug variable to false before submitting")
-	If _WinAPI_IsClassName($hWnd, $sClassNames) Then Return True
-	Local $sSeparator = Opt("GUIDataSeparatorChar")
-	$sClassNames = StringReplace($sClassNames, $sSeparator, ",")
-
-	__UDF_DebugPrint("Invalid Class Type(s):" & @LF & @TAB & "Expecting Type(s): " & $sClassNames & @LF & @TAB & "Received Type : " & _WinAPI_GetClassName($hWnd))
-	Exit
-EndFunc   ;==>__UDF_ValidateClassName

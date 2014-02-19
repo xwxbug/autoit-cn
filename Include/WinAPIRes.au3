@@ -7,14 +7,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIRes.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: kernel32.dll, user32.dll, shell32.dll, version.dll, shlwapi.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 Global $__Val
@@ -23,9 +23,9 @@ Global $__Val
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagVS_FIXEDFILEINFO = 'dword Signature;dword StrucVersion;dword FileVersionMS;dword FileVersionLS;dword ProductVersionMS;dword ProductVersionLS;dword FileFlagsMask;dword FileFlags;dword FileOS;dword FileType;dword FileSubtype;dword FileDateMS;dword FileDateLS'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_AddIconTransparency
@@ -71,9 +71,9 @@ Global Const $tagVS_FIXEDFILEINFO = 'dword Signature;dword StrucVersion;dword Fi
 ; _WinAPI_VerQueryValue
 ; _WinAPI_VerQueryValueEx
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -246,7 +246,7 @@ Func _WinAPI_EnumResourceLanguages($hModule, $sType, $sName)
 	Local $Library = 0, $TypeOfType = 'int', $TypeOfName = 'int'
 
 	If IsString($hModule) Then
-		If StringStripWS($hModule, 3) Then
+		If StringStripWS($hModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$hModule = _WinAPI_LoadLibraryEx($hModule, 0x00000003)
 			If Not $hModule Then Return SetError(1, 0, 0)
 			$Library = 1
@@ -285,7 +285,7 @@ Func _WinAPI_EnumResourceNames($hModule, $sType)
 	Local $Ret, $hEnumProc, $Library = 0, $TypeOfType = 'int'
 
 	If IsString($hModule) Then
-		If StringStripWS($hModule, 3) Then
+		If StringStripWS($hModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$hModule = _WinAPI_LoadLibraryEx($hModule, 0x00000003)
 			If Not $hModule Then Return SetError(1, 0, 0)
 			$Library = 1
@@ -320,7 +320,7 @@ EndFunc   ;==>_WinAPI_EnumResourceNames
 Func _WinAPI_EnumResourceTypes($hModule)
 	Local $Library = 0
 	If IsString($hModule) Then
-		If StringStripWS($hModule, 3) Then
+		If StringStripWS($hModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$hModule = _WinAPI_LoadLibraryEx($hModule, 0x00000003)
 			If Not $hModule Then Return SetError(1, 0, 0)
 			$Library = 1
@@ -620,7 +620,7 @@ EndFunc   ;==>_WinAPI_LoadResource
 Func _WinAPI_LoadStringEx($hModule, $ID, $iLanguage = 0x0400)
 	Local $Library = 0
 	If IsString($hModule) Then
-		If StringStripWS($hModule, 3) Then
+		If StringStripWS($hModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$hModule = _WinAPI_LoadLibraryEx($hModule, 0x00000003)
 			If Not $hModule Then Return SetError(@error + 20, @extended, '')
 			$Library = 1
@@ -782,7 +782,7 @@ Func _WinAPI_VerQueryValue($pData, $sValues = '')
 	If Not $sValues Then
 		$sValues = 'Comments|CompanyName|FileDescription|FileVersion|InternalName|LegalCopyright|LegalTrademarks|OriginalFilename|ProductName|ProductVersion|PrivateBuild|SpecialBuild'
 	EndIf
-	$sValues = StringSplit($sValues, '|', 2)
+	$sValues = StringSplit($sValues, '|', $STR_NOCOUNT)
 	Local $Ret = DllCall('version.dll', 'bool', 'VerQueryValueW', 'ptr', $pData, 'wstr', '\VarFileInfo\Translation', 'ptr*', 0, _
 			'uint*', 0)
 	If @error Or Not $Ret[0] Or Not $Ret[4] Then Return SetError(@error + 10, 0, 0)
@@ -823,7 +823,7 @@ Func _WinAPI_VerQueryValueEx($hModule, $sValues = '', $iLanguage = 0x0400)
 	If Not IsArray($__Val) Then Return SetError(1, 0, 0)
 	Local $Library = 0
 	If IsString($hModule) Then
-		If StringStripWS($hModule, 3) Then
+		If StringStripWS($hModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$hModule = _WinAPI_LoadLibraryEx($hModule, 0x00000003)
 			If Not $hModule Then
 				Return SetError(@error + 10, @extended, 0)
@@ -864,9 +864,9 @@ Func _WinAPI_VerQueryValueEx($hModule, $sValues = '', $iLanguage = 0x0400)
 	Return $__Enum
 EndFunc   ;==>_WinAPI_VerQueryValueEx
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Embedded DLL Functions
+#Region Embedded DLL Functions
 
 Func __TransparencyProc()
 	Static $pProc = 0
@@ -906,9 +906,9 @@ Func __TransparencyProc()
 	Return $pProc
 EndFunc   ;==>__TransparencyProc
 
-#endregion Embedded DLL Functions
+#EndRegion Embedded DLL Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __EnumResLanguagesProc($hModule, $iType, $iName, $iLanguage, $lParam)
 	#forceref $hModule, $iType, $iName, $lParam
@@ -1013,4 +1013,4 @@ Func __ResLoad($hInstance, $sType, $sName, $iLanguage)
 	Return SetExtended($iSize, $pData)
 EndFunc   ;==>__ResLoad
 
-#endregion Internal Functions
+#EndRegion Internal Functions

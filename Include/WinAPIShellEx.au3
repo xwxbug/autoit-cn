@@ -6,14 +6,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIShellEx.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: user32.dll, comctl32.dll, userenv.dll, shlwapi.dll, shell32.dll, ole32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 ; ===============================================================================================================================
@@ -28,9 +28,9 @@ Global Const $tagSHFILEOPSTRUCT = 'hwnd hWnd;uint Func;ptr From;ptr To;dword Fla
 Global Const $tagSHFOLDERCUSTOMSETTINGS = 'dword Size;dword Mask;ptr GUID;ptr WebViewTemplate;dword SizeWVT;ptr WebViewTemplateVersion;ptr InfoTip;dword SizeIT;ptr CLSID;dword Flags;ptr IconFile;dword SizeIF;int IconIndex;ptr Logo;dword SizeL'
 Global Const $tagSHSTOCKICONINFO = 'dword Size;ptr hIcon;int SysImageIndex;int iIcon;wchar Path[260]'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_DefSubclassProc
@@ -78,9 +78,9 @@ Global Const $tagSHSTOCKICONINFO = 'dword Size;ptr hIcon;int SysImageIndex;int i
 ; _WinAPI_ShellSetSettings
 ; _WinAPI_ShellUpdateImage
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -192,7 +192,7 @@ EndFunc   ;==>_WinAPI_SetWindowSubclass
 ; ===============================================================================================================================
 Func _WinAPI_ShellAddToRecentDocs($sFile)
 	Local $TypeOfFile = 'wstr'
-	If StringStripWS($sFile, 3) Then
+	If StringStripWS($sFile, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$sFile = _WinAPI_PathSearchAndQualify($sFile, 1)
 		If Not $sFile Then
 			Return SetError(1, 0, 0)
@@ -247,7 +247,7 @@ Func _WinAPI_ShellChangeNotifyRegister($hWnd, $iMsg, $iEvents, $iSources, $aPath
 	Local $Path = $aPaths, $Struct = ''
 
 	If IsArray($aPaths) Then
-		If UBound($aPaths, 2) Then Return SetError(1, 0, 0)
+		If UBound($aPaths, $UBOUND_COLUMNS) Then Return SetError(1, 0, 0)
 	Else
 		Dim $aPaths[1] = [$Path]
 	EndIf
@@ -306,15 +306,15 @@ EndFunc   ;==>_WinAPI_ShellEmptyRecycleBin
 ; ===============================================================================================================================
 Func _WinAPI_ShellExecute($sFile, $sArgs = '', $sDir = '', $sVerb = '', $iShow = 1, $hParent = 0)
 	Local $TypeOfArgs = 'wstr', $TypeOfDir = 'wstr', $TypeOfVerb = 'wstr'
-	If Not StringStripWS($sArgs, 3) Then
+	If Not StringStripWS($sArgs, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfArgs = 'ptr'
 		$sArgs = 0
 	EndIf
-	If Not StringStripWS($sDir, 3) Then
+	If Not StringStripWS($sDir, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDir = 'ptr'
 		$sDir = 0
 	EndIf
-	If Not StringStripWS($sVerb, 3) Then
+	If Not StringStripWS($sVerb, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfVerb = 'ptr'
 		$sVerb = 0
 	EndIf
@@ -435,7 +435,7 @@ EndFunc   ;==>_WinAPI_ShellGetFileInfo
 ; ===============================================================================================================================
 Func _WinAPI_ShellGetIconOverlayIndex($sIcon, $iIndex)
 	Local $TypeOfIcon = 'wstr'
-	If Not StringStripWS($sIcon, 3) Then
+	If Not StringStripWS($sIcon, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfIcon = 'ptr'
 		$sIcon = 0
 	EndIf
@@ -663,7 +663,7 @@ EndFunc   ;==>_WinAPI_ShellNotifyIconGetRect
 ; ===============================================================================================================================
 Func _WinAPI_ShellObjectProperties($sPath, $iType = 2, $sProperty = '', $hParent = 0)
 	Local $TypeOfProperty = 'wstr'
-	If Not StringStripWS($sProperty, 3) Then
+	If Not StringStripWS($sProperty, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfProperty = 'ptr'
 		$sProperty = 0
 	EndIf
@@ -864,4 +864,4 @@ Func _WinAPI_ShellUpdateImage($sIcon, $iIndex, $iImage, $iFlags = 0)
 	Return 1
 EndFunc   ;==>_WinAPI_ShellUpdateImage
 
-#endregion Public Functions
+#EndRegion Public Functions

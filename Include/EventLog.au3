@@ -1,13 +1,13 @@
 #include-once
 
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "Date.au3"
 #include "Security.au3"
+#include "StructureConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Event_Log
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist Windows System logs.
 ; Description ...: When an error occurs, the system administrator or support technicians must determine what  caused  the  error,
@@ -261,7 +261,7 @@ Func __EventLog_DecodeDesc($tEventLog)
 			$sDesc = StringReplace($sDesc, "%" & $iI, $aStrings[$iI])
 		Next
 	EndIf
-	Return StringStripWS($sDesc, 3)
+	Return StringStripWS($sDesc, $STR_STRIPLEADING + $STR_STRIPTRAILING)
 EndFunc   ;==>__EventLog_DecodeDesc
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

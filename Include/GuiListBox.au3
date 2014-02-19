@@ -1,14 +1,14 @@
 #include-once
 
-#include "ListBoxConstants.au3"
 #include "DirConstants.au3"
-#include "WinAPI.au3"
+#include "ListBoxConstants.au3"
 #include "SendMessage.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListBox
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with ListBox control management.
 ; Author(s) .....: Paul Campbell (PaulIA)
@@ -25,46 +25,6 @@ Global Const $__LISTBOXCONSTANT_ClassNames = $__LISTBOXCONSTANT_ClassName & "|TL
 Global Const $__LISTBOXCONSTANT_DEFAULT_GUI_FONT = 17
 Global Const $__LISTBOXCONSTANT_WM_SETREDRAW = 0x000B
 Global Const $__LISTBOXCONSTANT_WM_GETFONT = 0x0031
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlListAddDir                       ; --> _GUICtrlListBox_Dir
-; _GUICtrlListAddItem                      ; --> _GUICtrlListBox_AddString
-; _GUICtrlListClear                        ; --> _GUICtrlListBox_ResetContent
-; _GUICtrlListCount                        ; --> _GUICtrlListBox_GetCount
-; _GUICtrlListDeleteItem                   ; --> _GUICtrlListBox_DeleteString
-; _GUICtrlListFindString                   ; --> _GUICtrlListBox_FindString
-; _GUICtrlListGetAnchorIndex               ; --> _GUICtrlListBox_GetAnchorIndex
-; _GUICtrlListGetCaretIndex                ; --> _GUICtrlListBox_GetCaretIndex
-; _GUICtrlListGetHorizontalExtent          ; --> _GUICtrlListBox_GetHorizontalExtent
-; _GUICtrlListGetInfo                      ; --> _GUICtrlListBox_GetListBoxInfo
-; _GUICtrlListBoxGetItemRect               ; --> _GUICtrlListBox_GetItemRect
-; _GUICtrlListGetLocale                    ; --> _GUICtrlListBox_GetLocale
-; _GUICtrlListGetSelCount                  ; --> _GUICtrlListBox_GetSelCount
-; _GUICtrlListGetSelItems                  ; --> _GUICtrlListBox_GetSelItems
-; _GUICtrlListGetSelItemsText              ; --> _GUICtrlListBox_GetSelItemsText
-; _GUICtrlListGetSelState                  ; --> _GUICtrlListBox_GetSel
-; _GUICtrlListGetText                      ; --> _GUICtrlListBox_GetText
-; _GUICtrlListGetTextLen                   ; --> _GUICtrlListBox_GetTextLen
-; _GUICtrlListGetTopIndex                  ; --> _GUICtrlListBox_GetTopIndex
-; _GUICtrlListInsertItem                   ; --> _GUICtrlListBox_InsertString
-; _GUICtrlListReplaceString                ; --> _GUICtrlListBox_ReplaceString
-; _GUICtrlListSelectedIndex                ; --> _GUICtrlListBox_GetCurSel
-; _GUICtrlListSelectIndex                  ; --> _GUICtrlListBox_SetCurSel
-; _GUICtrlListSelectString                 ; --> _GUICtrlListBox_SelectString
-; _GUICtrlListSelItemRange                 ; --> _GUICtrlListBox_SelItemRange
-; _GUICtrlListSelItemRangeEx               ; --> _GUICtrlListBox_SelItemRangeEx
-; _GUICtrlListSetAnchorIndex               ; --> _GUICtrlListBox_SetAnchorIndex
-; _GUICtrlListSetCaretIndex                ; --> _GUICtrlListBox_SetCaretIndex
-; _GUICtrlListSetHorizontalExtent          ; --> _GUICtrlListBox_SetHorizontalExtent
-; _GUICtrlListSetLocale                    ; --> _GUICtrlListBox_SetLocale
-; _GUICtrlListSetSel                       ; --> _GUICtrlListBox_SetSel
-; _GUICtrlListSetTopIndex                  ; --> _GUICtrlListBox_SetTopIndex
-; _GUICtrlListSort                         ; --> _GUICtrlListBox_Sort
-; _GUICtrlListSwapString                   ; --> _GUICtrlListBox_SwapString
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

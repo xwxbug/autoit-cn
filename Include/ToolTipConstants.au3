@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ToolTip_Constants
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Constants for ToolTip functions.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -81,6 +81,7 @@ Global Const $TTS_NOANIMATE = 0x00000010 ; Disables sliding ToolTip animation
 Global Const $TTS_NOFADE = 0x00000020 ; Disables fading ToolTip animation
 Global Const $TTS_BALLOON = 0x00000040 ; The control has the appearance of a cartoon balloon
 Global Const $TTS_CLOSE = 0x00000080 ; Displays a close box in the ToolTip corner
+Global Const $TTS_USEVISUALSTYLE = 0x00000100 ; need $TTF_PARSELINKS style
 
 ; Duration
 Global Const $TTDT_AUTOMATIC = 0

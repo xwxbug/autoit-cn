@@ -1,11 +1,11 @@
 #include-once
 
-#include "WinAPI.au3"
 #include "StructureConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Network_Share
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Network Share.
 ;                  The network share functions control shared resources.  A shared resource is a local resource on a server  (for

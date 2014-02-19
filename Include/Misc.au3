@@ -6,7 +6,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Misc
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Common Dialogs.
 ; Author(s) .....: Gary Frost, Florian Fida (Piccaso), Dale (Klaatu) Thompson, Valik, ezzetabi, Jon, Paul Campbell (PaulIA)
@@ -17,12 +17,6 @@
 Global Const $__MISCCONSTANT_CC_ANYCOLOR = 0x0100
 Global Const $__MISCCONSTANT_CC_FULLOPEN = 0x0002
 Global Const $__MISCCONSTANT_CC_RGBINIT = 0x0001
-; ===============================================================================================================================
-
-; #NO_DOC_FUNCTION# =============================================================================================================
-; Not documented - function(s) no longer needed, will be worked out of the file at a later date
-;
-; _Iif
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -319,26 +313,6 @@ Func _ClipPutFile($sFile, $sSeparator = "|")
 	If $iError Then Return SetError($iError, $iLastError, False)
 	Return True
 EndFunc   ;==>_ClipPutFile
-
-; #NO_DOC_FUNCTION# ====================================================================================================================
-; Name...........: _Iif
-; Description ...: Perform a boolean test within an expression.
-; Syntax.........: _Iif ($fTest, $vTrueVal, $vFalseVal )
-; Parameters ....: $fTest     - Boolean test.
-;                  $vTrueVal  - Value to return if $fTest is true.
-;                  $vFalseVal - Value to return if $fTest is false.
-; Return values .: True         - $vTrueVal
-;                  False        - $vFalseVal
-; Author ........: Dale (Klaatu) Thompson
-; Modified.......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: Yes
-; ===============================================================================================================================
-Func _Iif($fTest, $vTrueVal, $vFalseVal)
-	Return $fTest ? $vTrueVal : $vFalseVal
-EndFunc   ;==>_Iif
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)

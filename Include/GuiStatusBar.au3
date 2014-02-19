@@ -1,14 +1,14 @@
 #include-once
 
-#include "StatusBarConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
 #include "SendMessage.au3"
+#include "StatusBarConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: StatusBar
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with StatusBar control management.
 ;                  A status bar is a horizontal window at the bottom of a parent window in which an application can display
@@ -27,34 +27,6 @@ Global $__ghSBLastWnd
 Global Const $__STATUSBARCONSTANT_ClassName = "msctls_statusbar32"
 Global Const $__STATUSBARCONSTANT_WM_SIZE = 0x05
 Global Const $__STATUSBARCONSTANT_CLR_DEFAULT = 0xFF000000
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlStatusBarCreate                ; --> _GUICtrlStatusBar_Create
-; _GUICtrlStatusBarCreateProgress        ; --> for backward compatibilty only (won't be documented)
-; _GUICtrlStatusBarDelete                ; --> _GUICtrlStatusBar_Destroy
-; _GUICtrlStatusBarGetBorders            ; --> _GUICtrlStatusBar_GetBorders
-; _GUICtrlStatusBarGetIcon               ; --> _GUICtrlStatusBar_GetIcon
-; _GUICtrlStatusBarGetParts              ; --> _GUICtrlStatusBar_GetCount
-; _GUICtrlStatusBarGetRect               ; --> _GUICtrlStatusBar_GetRect
-; _GUICtrlStatusBarGetText               ; --> _GUICtrlStatusBar_GetText
-; _GUICtrlStatusBarGetTextLength         ; --> _GUICtrlStatusBar_GetTextLength
-; _GUICtrlStatusBarGetTip                ; --> _GUICtrlStatusBar_GetTipText
-; _GUICtrlStatusBarGetUnicode            ; --> _GUICtrlStatusBar_GetUnicodeFormat
-; _GUICtrlStatusBarIsSimple              ; --> _GUICtrlStatusBar_IsSimple
-; _GUICtrlStatusBarResize                ; --> _GUICtrlStatusBar_Resize
-; _GUICtrlStatusBarSetBKColor            ; --> _GUICtrlStatusBar_SetBkColor
-; _GUICtrlStatusBarSetIcon               ; --> _GUICtrlStatusBar_SetIcon
-; _GUICtrlStatusBarSetMinHeight          ; --> _GUICtrlStatusBar_SetMinHeight
-; _GUICtrlStatusBarSetParts              ; --> _GUICtrlStatusBar_SetParts
-; _GUICtrlStatusBarSetSimple             ; --> _GUICtrlStatusBar_SetSimple
-; _GUICtrlStatusBarSetText               ; --> _GUICtrlStatusBar_SetText
-; _GUICtrlStatusBarSetTip                ; --> _GUICtrlStatusBar_SetTipText
-; _GUICtrlStatusBarSetUnicode            ; --> _GUICtrlStatusBar_SetUnicodeFormat
-; _GUICtrlStatusBarShowHide              ; --> _GUICtrlStatusBar_ShowHide
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

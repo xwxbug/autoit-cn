@@ -1,16 +1,16 @@
 #include-once
 
-#include "TreeViewConstants.au3"
 #include "GuiImageList.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
+#include "TreeViewConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: TreeView
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with TreeView control management.
 ;                  A TreeView control is a window that displays a hierarchical list of items, such as the headings in a document,
@@ -35,34 +35,6 @@ Global Const $__TREEVIEWCONSTANT_ClassName = "SysTreeView32"
 Global Const $__TREEVIEWCONSTANT_WM_SETREDRAW = 0x000B
 Global Const $__TREEVIEWCONSTANT_DEFAULT_GUI_FONT = 17
 ; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlTreeViewDeleteAllItems           ; --> _GUICtrlTreeView_DeleteAll
-; _GUICtrlTreeViewDeleteItem               ; --> _GUICtrlTreeView_Delete
-; _GUICtrlTreeViewExpand                   ; --> _GUICtrlTreeView_Expand
-; _GUICtrlTreeViewGetBkColor               ; --> _GUICtrlTreeView_GetBkColor
-; _GUICtrlTreeViewGetCount                 ; --> _GUICtrlTreeView_GetCount
-; _GUICtrlTreeViewGetIndent                ; --> _GUICtrlTreeView_GetIndent
-; _GUICtrlTreeViewGetLineColor             ; --> _GUICtrlTreeView_GetLineColor
-; _GUICtrlTreeViewGetParentHandle          ; --> _GUICtrlTreeView_GetParentHandle
-; _GUICtrlTreeViewGetParentID              ; --> _GUICtrlTreeView_GetParentParam
-; _GUICtrlTreeViewGetState                 ; --> _GUICtrlTreeView_GetState
-; _GUICtrlTreeViewGetText                  ; --> _GUICtrlTreeView_GetText
-; _GUICtrlTreeViewGetTextColor             ; --> _GUICtrlTreeView_GetTextColor
-; _GUICtrlTreeViewGetTree                  ; --> _GUICtrlTreeView_GetTree
-; _GUICtrlTreeViewInsertItem               ; --> _GUICtrlTreeView_InsertItem
-; _GUICtrlTreeViewSelectItem               ; --> _GUICtrlTreeView_SelectItem
-; _GUICtrlTreeViewSetBkColor               ; --> _GUICtrlTreeView_SetBkColor
-; _GUICtrlTreeViewSetIcon                  ; --> _GUICtrlTreeView_SetIcon
-; _GUICtrlTreeViewSetIndent                ; --> _GUICtrlTreeView_SetIndent
-; _GUICtrlTreeViewSetLineColor             ; --> _GUICtrlTreeView_SetLineColor
-; _GUICtrlTreeViewSetState                 ; --> _GUICtrlTreeView_SetState
-; _GUICtrlTreeViewSetText                  ; --> _GUICtrlTreeView_SetText
-; _GUICtrlTreeViewSetTextColor             ; --> _GUICtrlTreeView_SetTextColor
-; _GUICtrlTreeViewSort                     ; --> _GUICtrlTreeView_Sort
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Not working/documented/implrmented at this time
@@ -749,7 +721,7 @@ Func _GUICtrlTreeView_FindItemEx($hWnd, $sPath, $hStart = 0)
 	Local $aParts = StringSplit($sPath, $sDelimiter)
 	If $hStart = 0 Then $hStart = _GUICtrlTreeView_GetFirstItem($hWnd)
 	While ($iIndex <= $aParts[0]) And ($hStart <> 0x00000000)
-		If StringStripWS(_GUICtrlTreeView_GetText($hWnd, $hStart), 3) = StringStripWS($aParts[$iIndex], 3) Then
+		If StringStripWS(_GUICtrlTreeView_GetText($hWnd, $hStart), $STR_STRIPLEADING + $STR_STRIPTRAILING) = StringStripWS($aParts[$iIndex], $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			If $iIndex = $aParts[0] Then Return $hStart
 			$iIndex += 1
 			__GUICtrlTreeView_ExpandItem($hWnd, $TVE_EXPAND, $hStart)

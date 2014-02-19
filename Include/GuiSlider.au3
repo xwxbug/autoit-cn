@@ -1,14 +1,14 @@
 #include-once
 
-#include "SliderConstants.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "SliderConstants.au3"
+#include "StructureConstants.au3"
 #include "UDFGlobalID.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Slider
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Slider Control "Trackbar" management.
 ; Author(s) .....: Gary Frost (gafrost)
@@ -21,23 +21,6 @@ Global $_ghSLastWnd
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $__SLIDERCONSTANT_ClassName = "msctls_trackbar32"
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                      ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work
-; _GUICtrlSliderClearTics                  ; --> _GUICtrlSlider_ClearTics
-; _GUICtrlSliderGetLineSize                ; --> _GUICtrlSlider_GetLineSize
-; _GUICtrlSliderGetNumTics                 ; --> _GUICtrlSlider_GetNumTics
-; _GUICtrlSliderGetPageSize                ; --> _GUICtrlSlider_GetPageSize
-; _GUICtrlSliderGetPos                     ; --> _GUICtrlSlider_GetPos
-; _GUICtrlSliderGetRangeMax                ; --> _GUICtrlSlider_GetRangeMax
-; _GUICtrlSliderGetRangeMin                ; --> _GUICtrlSlider_GetRangeMin
-; _GUICtrlSliderSetLineSize                ; --> _GUICtrlSlider_SetLineSize
-; _GUICtrlSliderSetPageSize                ; --> _GUICtrlSlider_SetPageSize
-; _GUICtrlSliderSetPos                     ; --> _GUICtrlSlider_SetPos
-; _GUICtrlSliderSetTicFreq                 ; --> _GUICtrlSlider_SetTicFreq
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

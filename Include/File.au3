@@ -3,10 +3,11 @@
 #include "Array.au3"
 #include "FileConstants.au3"
 #include "StringConstants.au3"
+#include "WinAPIFiles.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: File
-; AutoIt Version : 3.2
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with files and directories.
 ; Author(s) .....: Brian Keene, Michael Michta, erifash, Jon, JdeB, Jeremy Landes, MrCreatoR, cdkid, Valik, Erik Pilsits, Kurt, Dale, guinness, DXRW4E, Melba23
@@ -47,7 +48,7 @@ Func _FileCountLines($sFilePath)
 
 	Local $sFileRead = StringStripWS(FileRead($hFileOpen), $STR_STRIPTRAILING)
 	FileClose($hFileOpen)
-	Return UBound(StringRegExp($sFileRead, "(*BSR_ANYCRLF)\R", 3)) + 1 - Int($sFileRead = "")
+	Return UBound(StringRegExp($sFileRead, "\R", $STR_REGEXPARRAYGLOBALMATCH)) + 1 - Int($sFileRead = "")
 EndFunc   ;==>_FileCountLines
 
 ; #FUNCTION# ====================================================================================================================
@@ -388,7 +389,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 					$asReturnList[0] += $asFolderMatchList[0]
 					; Resize and add file match array
 					ReDim $asFolderMatchList[$asFolderMatchList[0] + 1]
-					_ArrayConcatenate($asReturnList, $asFolderMatchList)
+					_ArrayConcatenate($asReturnList, $asFolderMatchList, 1)
 					; Simple sort final list
 					__ArrayDualPivotSort($asReturnList, 1, $asReturnList[0])
 				Else
@@ -481,7 +482,7 @@ Func __FLTAR_AddFileLists(ByRef $asTarget, $asSource_1, $asSource_2, $iSort = 0)
 	; Simple sort file match array if required
 	If $iSort = 1 Then __ArrayDualPivotSort($asSource_2, 1, $asSource_2[0])
 	; Add file match array
-	_ArrayConcatenate($asTarget, $asSource_2)
+	_ArrayConcatenate($asTarget, $asSource_2, 1)
 EndFunc   ;==>__FLTAR_AddFileLists
 
 ; #INTERNAL_USE_ONLY#============================================================================================================
@@ -526,7 +527,7 @@ Func __FLTAR_ListToMask(ByRef $sMask, $sList)
 	; Check for invalid characters within list
 	If StringRegExp($sList, "\\|/|:|\<|\>|\|") Then Return 0
 	; Strip WS and insert | for ;
-	$sList = StringReplace(StringStripWS(StringRegExpReplace($sList, "\s*;\s*", ";"), 3), ";", "|")
+	$sList = StringReplace(StringStripWS(StringRegExpReplace($sList, "\s*;\s*", ";"), $STR_STRIPLEADING + $STR_STRIPTRAILING), ";", "|")
 	; Convert to SRE pattern
 	$sList = StringReplace(StringReplace(StringRegExpReplace($sList, "[][$^.{}()+\-]", "\\$0"), "?", "."), "*", ".*?")
 	; Add prefix and suffix
@@ -546,27 +547,94 @@ EndFunc   ;==>_FilePrint
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Jonathan Bennett <jon at autoitscript dot com>, Valik - Support Windows Unix and Mac line separator
 ; Modified ......: Jpm - fixed empty line at the end, Gary Fixed file contains only 1 line, guinness - Optional flag to return the array count.
+;                : Melba23 - Read to 1D/2D arrays and return array
 ; ===============================================================================================================================
-Func _FileReadToArray($sFilePath, ByRef $aArray, $iFlag = 1)
-	If $iFlag Or $iFlag = Default Then
-		Local $hFileOpen = FileOpen($sFilePath, $FO_READ)
-		If $hFileOpen = -1 Then Return SetError(1, 0, 0)
-		Local $sFileRead = FileRead($hFileOpen)
-		FileClose($hFileOpen)
+Func _FileReadToArray($sFilePath, $iFlags = $FRTA_COUNT, $sDelimiter = "")
+	If $iFlags = Default Then $iFlags = $FRTA_COUNT
+	If $sDelimiter = Default Then $sDelimiter = ""
 
-		If StringLen($sFileRead) Then
-			$aArray = StringRegExp(@CRLF & $sFileRead, "([^\r\n]*)(?:\r\n|\n|\r|$)", 3)
-			$aArray[0] = UBound($aArray) - 2
-			ReDim $aArray[UBound($aArray) - 1]
-		Else
-			Return SetError(2, 0, 0)
-		EndIf
-	Else
-		$aArray = FileReadToArray($sFilePath)
-		If @error Then Return SetError(@error, 0, 0)
+	; Set "array of arrays" flag
+	Local $fExpand = True
+	If BitAND($iFlags, $FRTA_INTARRAYS) Then
+		$fExpand = False
+		$iFlags -= 2
+	EndIf
+	; Set delimiter flag
+	Local $iEntire = $STR_CHRSPLIT
+	If BitAND($iFlags, $FRTA_ENTIRESPLIT) Then
+		$iEntire = $STR_ENTIRESPLIT
+		$iFlags -= 4
+	EndIf
+	; Set row count and split count flags
+	Local $iNoCount = 0
+	If $iFlags <> 1 Then
+		$iFlags = 0
+		$iNoCount = $STR_NOCOUNT
 	EndIf
 
-	Return 1
+	; Read file into an array
+	Local $aLines = FileReadToArray($sFilePath)
+	If @error Then Return SetError(@error, 0, 0)
+	; If 1D with no count return array directly
+	If Not $iFlags And Not $sDelimiter Then Return $aLines
+	; Declare variables
+	Local $aArray, $aSplit_2
+	; Get first dimension and add count if required
+	Local $iDim_1 = UBound($aLines) + $iFlags
+	; Check delimiter
+	If $sDelimiter Then
+		; Check type of return array
+		If $fExpand Then ; All lines have same number of fields
+			Local $iFields
+			; Count fields in first line
+			Local $iDim_2 = UBound(StringSplit($aLines[0], $sDelimiter, $iEntire + $STR_NOCOUNT))
+			; Size array
+			Local $aArray[$iDim_1][$iDim_2]
+			; Loop through the lines
+			For $i = 0 To $iDim_1 - $iFlags - 1
+				; Split each line as required
+				$aSplit_2 = StringSplit($aLines[$i], $sDelimiter, $iEntire + $STR_NOCOUNT)
+				; Count the items
+				$iFields = UBound($aSplit_2)
+				If $iFields <> $iDim_2 Then
+					; Return error
+					Return SetError(3, 0, 0)
+				EndIf
+				; Fill this line of the array
+				For $j = 0 To $iFields - 1
+					$aArray[$i + $iFlags][$j] = $aSplit_2[$j]
+				Next
+			Next
+			; Check at least 2 columns
+			If $iDim_2 < 2 Then Return SetError(4, 0, 0)
+			; Set dimension count
+			If $iFlags Then
+				$aArray[0][0] = $iDim_1 - $iFlags
+				$aArray[0][1] = $iDim_2
+			EndIf
+		Else ; Create "array of arrays"
+			; Size array
+			Local $aArray[$iDim_1]
+			; Loop through the lines
+			For $i = 0 To $iDim_1 - $iFlags - 1
+				; Split each line as required
+				$aArray[$i + $iFlags] = StringSplit($aLines[$i], $sDelimiter, $iEntire + $iNoCount)
+			Next
+			; Set dimension count
+			If $iFlags Then
+				$aArray[0] = $iDim_1 - $iFlags
+			EndIf
+		EndIf
+	Else ; 1D
+		; Declare array of correct size and set count
+		Local $aArray[UBound($aLines) + 1] = [UBound($aArray) - 1]
+		; Copy data
+		For $i = 0 To UBound($aLines) - 1
+			$aArray[$i + 1] = $aLines[$i]
+		Next
+	EndIf
+	; Return the array
+	Return $aArray
 EndFunc   ;==>_FileReadToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -578,7 +646,7 @@ Func _FileWriteFromArray($sFilePath, Const ByRef $aArray, $iBase = Default, $iUB
 	If Not IsArray($aArray) Then Return SetError(2, 0, 0)
 
 	; Check the number of dimensions
-	Local $iDims = UBound($aArray, 0)
+	Local $iDims = UBound($aArray, $UBOUND_DIMENSIONS)
 	If $iDims > 2 Then Return SetError(4, 0, 0)
 
 	; Determine last entry of the array
@@ -607,7 +675,7 @@ Func _FileWriteFromArray($sFilePath, Const ByRef $aArray, $iBase = Default, $iUB
 			Next
 		Case 2
 			Local $sTemp
-			Local $iCols = UBound($aArray, 2)
+			Local $iCols = UBound($aArray, $UBOUND_COLUMNS)
 			For $i = $iBase To $iUBound
 				$sTemp = $aArray[$i][0]
 				For $j = 1 To $iCols - 1
@@ -673,156 +741,55 @@ Func _FileWriteToLine($sFilePath, $iLine, $sText, $iOverWrite = 0)
 	If $iOverWrite <> 0 And $iOverWrite <> 1 Then Return SetError(5, 0, 0)
 	If FileExists($sFilePath) = 0 Then Return SetError(2, 0, 0)
 
-	Local $sFileRead = FileRead($sFilePath)
-	Local $aArray = StringRegExp(@CRLF & $sFileRead & @CRLF, "([^\r\n]*)(?:\r\n|\n|\r)(?:[\r\n]$)?", 3)
-	$aArray[0] = UBound($aArray) - 1
-	If ($aArray[0] + 1) < $iLine Then Return SetError(1, 0, 0)
+	Local $aArray = FileReadToArray($sFilePath)
+	Local $iUBound = UBound($aArray) - 1
+	If ($iUBound + 1) < $iLine Then Return SetError(1, 0, 0)
 
 	Local $hFileOpen = FileOpen($sFilePath, FileGetEncoding($sFilePath) + $FO_OVERWRITE)
 	If $hFileOpen = -1 Then Return SetError(3, 0, 0)
 
-	$sFileRead = ""
-	For $i = 1 To $aArray[0]
+	Local $sData = ""
+	$iLine -= 1 ; Now the array is 0-based, so reduce the line number by 1.
+	For $i = 0 To $iUBound
 		If $i = $iLine Then
 			If $iOverWrite Then
-				If $sText <> '' Then $sFileRead &= $sText & @CRLF
+				If $sText Then $sData &= $sText & @CRLF
 			Else
-				$sFileRead &= $sText & @CRLF & $aArray[$i] & @CRLF
+				$sData &= $sText & @CRLF & $aArray[$i] & @CRLF
 			EndIf
-		ElseIf $i < $aArray[0] Then
-			$sFileRead &= $aArray[$i] & @CRLF
-		ElseIf $i = $aArray[0] Then
-			$sFileRead &= $aArray[$i]
+		ElseIf $i < $iUBound Then
+			$sData &= $aArray[$i] & @CRLF
+		ElseIf $i = $iUBound Then
+			$sData &= $aArray[$i]
 		EndIf
 	Next
 
-	FileWrite($hFileOpen, $sFileRead)
+	FileWrite($hFileOpen, $sData)
 	FileClose($hFileOpen)
 	Return 1
 EndFunc   ;==>_FileWriteToLine
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Valik (Original function and modification to rewrite), tittoproject (Rewrite)
-; Modified.......:
+; Modified.......: guinness - Re-wrote using WinAPI.
 ; ===============================================================================================================================
 Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
-	If Not $sRelativePath Or $sRelativePath = "." Then Return $sBasePath
-
-	; Normalize slash direction.
-	Local $sFullPath = StringReplace($sRelativePath, "/", "\") ; Holds the full path (later, minus the root)
-	Local Const $sFullPathConst = $sFullPath ; Holds a constant version of the full path.
-	Local $sPath ; Holds the root drive/server
-	Local $bRootOnly = StringLeft($sFullPath, 1) = "\" And StringMid($sFullPath, 2, 1) <> "\"
-
-	If $sBasePath = Default Then $sBasePath = @WorkingDir
-
-	; Check for UNC paths or local drives.  We run this twice at most.  The
-	; first time, we check if the relative path is absolute.  If it's not, then
-	; we use the base path which should be absolute.
-	For $i = 1 To 2
-		$sPath = StringLeft($sFullPath, 2)
-		If $sPath = "\\" Then
-			$sFullPath = StringTrimLeft($sFullPath, 2)
-			Local $nServerLen = StringInStr($sFullPath, "\") - 1
-			$sPath = "\\" & StringLeft($sFullPath, $nServerLen)
-			$sFullPath = StringTrimLeft($sFullPath, $nServerLen)
-			ExitLoop
-		ElseIf StringRight($sPath, 1) = ":" Then
-			$sFullPath = StringTrimLeft($sFullPath, 2)
-			ExitLoop
-		Else
-			$sFullPath = $sBasePath & "\" & $sFullPath
-		EndIf
-	Next
-
-	; If this happens, we've found a funky path and don't know what to do
-	; except for get out as fast as possible.  We've also screwed up our
-	; variables so we definitely need to quit.
-	; If $i = 3 Then Return ""
-
-	; A path with a drive but no slash (e.g. C:Path\To\File) has the following
-	; behavior.  If the relative drive is the same as the $BasePath drive then
-	; insert the base path.  If the drives differ then just insert a leading
-	; slash to make the path valid.
-	If StringLeft($sFullPath, 1) <> "\" Then
-		If StringLeft($sFullPathConst, 2) = StringLeft($sBasePath, 2) Then
-			$sFullPath = $sBasePath & "\" & $sFullPath
-		Else
-			$sFullPath = "\" & $sFullPath
-		EndIf
-	EndIf
-
-	; Build an array of the path parts we want to use.
-	Local $aTemp = StringSplit($sFullPath, "\")
-	Local $aPathParts[$aTemp[0]], $j = 0
-	For $i = 2 To $aTemp[0]
-		If $aTemp[$i] = ".." Then
-			If $j Then $j -= 1
-		ElseIf Not ($aTemp[$i] = "" And $i <> $aTemp[0]) And $aTemp[$i] <> "." Then
-			$aPathParts[$j] = $aTemp[$i]
-			$j += 1
-		EndIf
-	Next
-
-	; Here we re-build the path from the parts above.  We skip the
-	; loop if we are only returning the root.
-	$sFullPath = $sPath
-	If Not $bRootOnly Then
-		For $i = 0 To $j - 1
-			$sFullPath &= "\" & $aPathParts[$i]
-		Next
-	Else
-		$sFullPath &= $sFullPathConst
-		; If we detect more relative parts, remove them by calling ourself recursively.
-		If StringInStr($sFullPath, "..") Then $sFullPath = _PathFull($sFullPath)
-	EndIf
-
-	; Clean up the path.
-	Do
-		$sFullPath = StringReplace($sFullPath, ".\", "\")
-	Until @extended = 0
-	Return $sFullPath
+	Local $fSetWorkingDir = Not ($sBasePath = @WorkingDir), $sWorkingDir = @WorkingDir
+	If $fSetWorkingDir Then FileChangeDir($sBasePath) ; Change the working directory of the current process to the base path as _WinAPI_GetFullPathName() merges the name of the current drive and directory with the specified file name.
+	$sRelativePath = _WinAPI_GetFullPathName($sRelativePath)
+	If $fSetWorkingDir Then FileChangeDir($sWorkingDir) ; Reset the working directory to the previous path.
+	Return $sRelativePath
 EndFunc   ;==>_PathFull
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Erik Pilsits
-; Modified.......:
+; Modified.......: guinness - Re-wrote using WinAPI.
 ; ===============================================================================================================================
 Func _PathGetRelative($sFrom, $sTo)
-	If StringRight($sFrom, 1) <> "\" Then $sFrom &= "\" ; add missing trailing \ to $sFrom path
-	If StringRight($sTo, 1) <> "\" Then $sTo &= "\" ; add trailing \ to $sTo
-	If $sFrom = $sTo Then Return SetError(1, 0, StringTrimRight($sTo, 1)) ; $sFrom equals $sTo
-	Local $asFrom = StringSplit($sFrom, "\")
-	Local $asTo = StringSplit($sTo, "\")
-	If $asFrom[1] <> $asTo[1] Then Return SetError(2, 0, StringTrimRight($sTo, 1)) ; drives are different, rel path not possible
-	; create rel path
-	Local $i = 2
-	Local $iDiff = 1
-	While 1
-		If $asFrom[$i] <> $asTo[$i] Then
-			$iDiff = $i
-			ExitLoop
-		EndIf
-		$i += 1
-	WEnd
-	$i = 1
-	Local $sRelPath = ""
-	For $j = 1 To $asTo[0]
-		If $i >= $iDiff Then
-			$sRelPath &= "\" & $asTo[$i]
-		EndIf
-		$i += 1
-	Next
-	$sRelPath = StringTrimLeft($sRelPath, 1)
-	$i = 1
-	For $j = 1 To $asFrom[0]
-		If $i > $iDiff Then
-			$sRelPath = "..\" & $sRelPath
-		EndIf
-		$i += 1
-	Next
-	If StringRight($sRelPath, 1) == "\" Then $sRelPath = StringTrimRight($sRelPath, 1) ; remove trailing \
-	Return $sRelPath
+	If _WinAPI_PathRemoveBackslash($sTo) = _WinAPI_PathRemoveBackslash($sFrom) Then Return SetError(1, 0, $sTo) ; If both source and destination are same, return destination and set @error to non-zero.
+	Local $sRelativePath = _WinAPI_PathRelativePathTo($sFrom, 1, $sTo, 1) ; Retrieve the relative path.
+	If @error Or Not $sRelativePath Then Return SetError(2, 0, $sTo)
+	Return $sRelativePath
 EndFunc   ;==>_PathGetRelative
 
 ; #FUNCTION# ====================================================================================================================
@@ -860,7 +827,7 @@ EndFunc   ;==>_PathMake
 ; Modified.......: DXRW4E - Re-wrote to use a regular expression; guinness - Update syntax and structure.
 ; ===============================================================================================================================
 Func _PathSplit($sFilePath, ByRef $sDrive, ByRef $sDir, ByRef $sFileName, ByRef $sExtension)
-	Local $aArray = StringRegExp($sFilePath, "^\h*((?:\\\\\?\\)*(\\\\[^\?\/\\]+|[A-Za-z]:)?(.*[\/\\]\h*)?((?:[^\.\/\\]|(?(?=\.[^\/\\]*\.)\.))*)?([^\/\\]*))$", 1)
+	Local $aArray = StringRegExp($sFilePath, "^\h*((?:\\\\\?\\)*(\\\\[^\?\/\\]+|[A-Za-z]:)?(.*[\/\\]\h*)?((?:[^\.\/\\]|(?(?=\.[^\/\\]*\.)\.))*)?([^\/\\]*))$", $STR_REGEXPARRAYMATCH)
 	If @error Then ; This error should never happen.
 		ReDim $aArray[5]
 		$aArray[0] = $sFilePath

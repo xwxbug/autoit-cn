@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Process
-; AutoIt Version : 3.0
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with Process management.
 ; Author(s) .....: Erifash, Wouter, Matthew Tucker, Jeremy Landes, Valik

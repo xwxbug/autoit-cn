@@ -1,15 +1,18 @@
 #include-once
 
-#include "WinAPIConstants.au3"
-#include "StructureConstants.au3"
+#include "AutoItConstants.au3"
 #include "FileConstants.au3"
+#include "MsgBoxConstants.au3"
 #include "Security.au3"
 #include "SendMessage.au3"
+#include "StringConstants.au3"
+#include "StructureConstants.au3"
+#include "WinAPIConstants.au3"
 #include "WinAPIError.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Windows API
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Windows API calls that have been translated to AutoIt functions.
 ; Author(s) .....: Paul Campbell (PaulIA), gafrost, Siao, Zedna, arcker, Prog@ndy, PsaltyDS, Raik, jpm
 ; Dll ...........: kernel32.dll, user32.dll, gdi32.dll, comdlg32.dll, shell32.dll, ole32.dll, winspool.drv
@@ -1647,8 +1650,8 @@ Func _WinAPI_GetOpenFileName($sTitle = "", $sFilter = "All files (*.*)", $sInita
 	For $i = 1 To $asFLines[0]
 		$iStart = StringInStr($asFLines[$i], "(", 0, 1)
 		$iFinal = StringInStr($asFLines[$i], ")", 0, -1)
-		$asFilter[$i * 2 - 1] = StringStripWS(StringLeft($asFLines[$i], $iStart - 1), 3)
-		$asFilter[$i * 2] = StringStripWS(StringTrimRight(StringTrimLeft($asFLines[$i], $iStart), StringLen($asFLines[$i]) - $iFinal + 1), 3)
+		$asFilter[$i * 2 - 1] = StringStripWS(StringLeft($asFLines[$i], $iStart - 1), $STR_STRIPLEADING + $STR_STRIPTRAILING)
+		$asFilter[$i * 2] = StringStripWS(StringTrimRight(StringTrimLeft($asFLines[$i], $iStart), StringLen($asFLines[$i]) - $iFinal + 1), $STR_STRIPLEADING + $STR_STRIPTRAILING)
 		$stFilter &= "wchar[" & StringLen($asFilter[$i * 2 - 1]) + 1 & "];wchar[" & StringLen($asFilter[$i * 2]) + 1 & "];"
 	Next
 
@@ -1775,8 +1778,8 @@ Func _WinAPI_GetSaveFileName($sTitle = "", $sFilter = "All files (*.*)", $sInita
 	For $i = 1 To $asFLines[0]
 		$iStart = StringInStr($asFLines[$i], "(", 0, 1)
 		$iFinal = StringInStr($asFLines[$i], ")", 0, -1)
-		$asFilter[$i * 2 - 1] = StringStripWS(StringLeft($asFLines[$i], $iStart - 1), 3)
-		$asFilter[$i * 2] = StringStripWS(StringTrimRight(StringTrimLeft($asFLines[$i], $iStart), StringLen($asFLines[$i]) - $iFinal + 1), 3)
+		$asFilter[$i * 2 - 1] = StringStripWS(StringLeft($asFLines[$i], $iStart - 1), $STR_STRIPLEADING + $STR_STRIPTRAILING)
+		$asFilter[$i * 2] = StringStripWS(StringTrimRight(StringTrimLeft($asFLines[$i], $iStart), StringLen($asFLines[$i]) - $iFinal + 1), $STR_STRIPLEADING + $STR_STRIPTRAILING)
 		$stFilter &= "wchar[" & StringLen($asFilter[$i * 2 - 1]) + 1 & "];wchar[" & StringLen($asFilter[$i * 2]) + 1 & "];"
 	Next
 
@@ -2487,8 +2490,8 @@ Func _WinAPI_PathFindOnPath(Const $szFile, $aExtraPaths = "", Const $szPathDelim
 	Local $iExtraCount = 0
 	If IsString($aExtraPaths) Then
 		If StringLen($aExtraPaths) Then
-			$aExtraPaths = StringSplit($aExtraPaths, $szPathDelimiter, 1 + 2)
-			$iExtraCount = UBound($aExtraPaths, 1)
+			$aExtraPaths = StringSplit($aExtraPaths, $szPathDelimiter, $STR_ENTIRESPLIT + $STR_NOCOUNT)
+			$iExtraCount = UBound($aExtraPaths, $UBOUND_ROWS)
 		EndIf
 	ElseIf IsArray($aExtraPaths) Then
 		$iExtraCount = UBound($aExtraPaths)
@@ -2974,7 +2977,7 @@ EndFunc   ;==>_WinAPI_ShowCursor
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowError($sText, $fExit = True)
-	_WinAPI_MsgBox(266256, "Error", $sText)
+	_WinAPI_MsgBox($MB_SYSTEMMODAL, "Error", $sText)
 	If $fExit Then Exit
 EndFunc   ;==>_WinAPI_ShowError
 
@@ -2983,7 +2986,7 @@ EndFunc   ;==>_WinAPI_ShowError
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_ShowMsg($sText)
-	_WinAPI_MsgBox(64 + 4096, "Information", $sText)
+	_WinAPI_MsgBox($MB_SYSTEMMODAL, "Information", $sText)
 EndFunc   ;==>_WinAPI_ShowMsg
 
 ; #FUNCTION# ====================================================================================================================

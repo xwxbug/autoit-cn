@@ -1,14 +1,14 @@
 #include-once
 
-#include "ToolTipConstants.au3"
 #include "Memory.au3"
-#include "WinAPI.au3"
-#include "StructureConstants.au3"
 #include "SendMessage.au3"
+#include "StructureConstants.au3"
+#include "ToolTipConstants.au3"
+#include "WinAPI.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ToolTip
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Functions that assist with ToolTip control management.
 ;                  ToolTip controls are pop-up windows that display text.  The text usually describes a tool, which is  either  a
 ;                  window, such as a child window or control, or an application-defined rectangular area within a window's client
@@ -513,7 +513,7 @@ Func _GUIToolTip_GetTitleBitMap($hWnd)
 	Local $tBuffer = DllStructCreate("wchar Text[4096]")
 	Local $tTitle = DllStructCreate($tagTTGETTITLE)
 	Local $iTitle = DllStructGetSize($tTitle)
-    DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
+	DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
 	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))
@@ -539,7 +539,7 @@ Func _GUIToolTip_GetTitleText($hWnd)
 	Local $tBuffer = DllStructCreate("wchar Text[4096]")
 	Local $tTitle = DllStructCreate($tagTTGETTITLE)
 	Local $iTitle = DllStructGetSize($tTitle)
-    DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
+	DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
 	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))

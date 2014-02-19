@@ -2,9 +2,9 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: String_Constants
-; AutoIt Version : 3.3
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
-; Description ...: Constants to be included in an AutoIt v3 script when using Inet functions.
+; Description ...: Constants to be included in an AutoIt v3 script when using String functions.
 ; Author(s) .....: guinness, jpm
 ; ===============================================================================================================================
 
@@ -26,4 +26,15 @@ Global Const $STR_STRIPALL = 8 ; Strip all spaces (over-rides all other flags)
 Global Const $STR_CHRSPLIT = 0 ; Each character in the delimiter string will mark the split
 Global Const $STR_ENTIRESPLIT = 1 ; Entire delimiter marks the split
 Global Const $STR_NOCOUNT = 2 ; Disable the return count
+
+; StringRegExp Constants
+Global Const $STR_REGEXPMATCH = 0 ; Return 1 if match.
+Global Const $STR_REGEXPARRAYMATCH = 1 ; Return array of matches.
+Global Const $STR_REGEXPARRAYFULLMATCH = 2 ; Return array of matches including the full match (Perl / PHP style).
+Global Const $STR_REGEXPARRAYGLOBALMATCH = 3 ; Return array of global matches.
+Global Const $STR_REGEXPARRAYGLOBALFULLMATCH = 4 ; Return an array of arrays containing global matches including the full match (Perl / PHP style).Global Const $STR_REGEXPMATCH = 0 ; Each character in the delimiter string will mark the split
+
+; StringBetween Constants
+Global Const $STR_ENDISSTART = 0  ; End acts as next start when end = start
+Global Const $STR_ENDNOTSTART = 1 ; End does not act as new start when end = start
 ; ===============================================================================================================================

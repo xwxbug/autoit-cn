@@ -1,27 +1,28 @@
 #include-once
 
 #include "APIMiscConstants.au3"
+#include "StringConstants.au3"
 #include "WinAPIInternals.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIMisc.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: winmm.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_ArrayToStruct
@@ -62,9 +63,9 @@
 ; _WinAPI_UnionStruct
 ; _WinAPI_WordToShort
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -86,7 +87,7 @@ Func _WinAPI_CopyStruct($tStruct, $sStruct = '')
 	If Not $Size Then Return SetError(1, 0, 0)
 
 	Local $tResult
-	If Not StringStripWS($sStruct, 7) Then
+	If Not StringStripWS($sStruct, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) Then
 		$tResult = DllStructCreate('byte[' & $Size & ']')
 	Else
 		$tResult = DllStructCreate($sStruct)
@@ -343,7 +344,7 @@ Func _WinAPI_StrFromTimeInterval($iTime, $iDigits = 7)
 			'int', $iDigits)
 	If @error Or Not $Ret[0] Then Return SetError(@error + 10, @extended, '')
 
-	Return StringStripWS($Ret[1], 3)
+	Return StringStripWS($Ret[1], $STR_STRIPLEADING + $STR_STRIPTRAILING)
 EndFunc   ;==>_WinAPI_StrFromTimeInterval
 
 ; #FUNCTION# ====================================================================================================================
@@ -401,7 +402,7 @@ Func _WinAPI_UnionStruct($tStruct1, $tStruct2, $sStruct = '')
 	If Not $Size[0] Or Not $Size[1] Then Return SetError(1, 0, 0)
 
 	Local $tResult
-	If Not StringStripWS($sStruct, 7) Then
+	If Not StringStripWS($sStruct, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) Then
 		$tResult = DllStructCreate('byte[' & ($Size[0] + $Size[1]) & ']')
 	Else
 		$tResult = DllStructCreate($sStruct)
@@ -429,4 +430,4 @@ Func _WinAPI_WordToShort($iValue)
 	Return BitAND($iValue, 0x00007FFF)
 EndFunc   ;==>_WinAPI_WordToShort
 
-#endregion Public Functions
+#EndRegion Public Functions

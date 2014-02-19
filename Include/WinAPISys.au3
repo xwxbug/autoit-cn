@@ -6,14 +6,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPISys.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: user32.dll, ntdll.dll, shell32.dll, psapi.dll, kernel32.dll, comctl32.dll, powrprof.dll, ole32.dll, gdi32.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagOSVERSIONINFOEX = $tagOSVERSIONINFO & ';ushort ServicePackMajor;ushort ServicePackMinor;ushort SuiteMask;byte ProductType;byte Reserved'
@@ -38,9 +38,9 @@ Global Const $tagWINDOWINFO = 'dword Size;dword rWindow[4];dword rClient[4];dwor
 Global Const $tagWNDCLASS = 'uint Size;uint Style;ptr hWndProc;int ClsExtra;int WndExtra;ptr hInstance;ptr hIcon;ptr hCursor;ptr hBackground;ptr MenuName;ptr ClassName;ptr hIconSm'
 Global Const $tagWNDCLASSEX = 'uint Size;uint Style;ptr hWndProc;int ClsExtra;int WndExtra;ptr hInstance;ptr hIcon;ptr hCursor;ptr hBackground;ptr MenuName;ptr ClassName;ptr hIconSm'
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_ActivateKeyboardLayout
@@ -201,9 +201,9 @@ Global Const $tagWNDCLASSEX = 'uint Size;uint Style;ptr hWndProc;int ClsExtra;in
 ; _WinAPI_UpdateLayeredWindowIndirect
 ; _WinAPI_ZeroMemory
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -1140,7 +1140,7 @@ EndFunc   ;==>_WinAPI_GetMessageExtraInfo
 Func _WinAPI_GetModuleHandleEx($sModule, $iFlags = 0)
 	Local $TypeOfModule = 'ptr'
 	If IsString($sModule) Then
-		If StringStripWS($sModule, 3) Then
+		If StringStripWS($sModule, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 			$TypeOfModule = 'wstr'
 		Else
 			$sModule = 0
@@ -2445,13 +2445,13 @@ Func _WinAPI_UpdateLayeredWindowIndirect($hWnd, $tULWINFO)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_UpdateLayeredWindowIndirect
 
-#endregion Public Functions
+#EndRegion Public Functions
 
-#region Embedded DLL Functions
+#Region Embedded DLL Functions
 
-#endregion Embedded DLL Functions
+#EndRegion Embedded DLL Functions
 
-#region Internal Functions
+#Region Internal Functions
 
 Func __EnumDefaultProc($pData, $lParam)
 	#forceref $lParam
@@ -2477,4 +2477,4 @@ Func __EnumPageFilesProc($iSize, $pInfo, $pFile)
 	Return 1
 EndFunc   ;==>__EnumPageFilesProc
 
-#endregion Internal Functions
+#EndRegion Internal Functions

@@ -1,29 +1,30 @@
 #include-once
 
 #include "APIRegConstants.au3"
+#include "StringConstants.au3"
 #include "StructureConstants.au3"
 #include "WinAPICom.au3"
 #include "WinAPIInternals.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.8.1++
+; AutoIt Version : 3.3.10.0
 ; Description ...: Additional variables, constants and functions for the WinAPIReg.au3
 ; Author(s) .....: Yashied, jpm
 ; Dll(s) ........: comctl32.dll, shlwapi.dll, ntdll.dll, advapi32.dll, sfc.dll
 ; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
-#region Global Variables and Constants
+#Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
 ; ===============================================================================================================================
-#endregion Global Variables and Constants
+#EndRegion Global Variables and Constants
 
-#region Functions list
+#Region Functions list
 
 ; #CURRENT# =====================================================================================================================
 ; _WinAPI_AddMRUString
@@ -65,9 +66,9 @@
 ; _WinAPI_RegSetValue
 ; _WinAPI_SfcIsKeyProtected
 ; ===============================================================================================================================
-#endregion Functions list
+#EndRegion Functions list
 
-#region Public Functions
+#Region Public Functions
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
@@ -104,7 +105,7 @@ EndFunc   ;==>_WinAPI_AssocGetPerceivedType
 ; ===============================================================================================================================
 Func _WinAPI_AssocQueryString($sAssoc, $iType, $iFlags = 0, $sExtra = '')
 	Local $TypeOfExtra = 'wstr'
-	If Not StringStripWS($sExtra, 3) Then
+	If Not StringStripWS($sExtra, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfExtra = 'ptr'
 		$sExtra = 0
 	EndIf
@@ -429,7 +430,7 @@ EndFunc   ;==>_WinAPI_RegFlushKey
 ; ===============================================================================================================================
 Func _WinAPI_RegLoadMUIString($hKey, $sValueName, $sDirectory = '')
 	Local $TypeOfDirectory = 'wstr'
-	If Not StringStripWS($sDirectory, 3) Then
+	If Not StringStripWS($sDirectory, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
 		$TypeOfDirectory = 'ptr'
 		$sDirectory = 0
 	EndIf
@@ -511,7 +512,7 @@ EndFunc   ;==>_WinAPI_RegQueryLastWriteTime
 Func _WinAPI_RegQueryMultipleValues($hKey, ByRef $aValent, ByRef $pBuffer, $iStart = 0, $iEnd = -1)
 	$pBuffer = 0
 	If __CheckErrorArrayBounds($aValent, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
-	If UBound($aValent, 2) < 4 Then Return SetError(13, 0, 0)
+	If UBound($aValent, $UBOUND_COLUMNS) < 4 Then Return SetError(13, 0, 0)
 
 	Local $Values = $iEnd - $iStart + 1
 	Local $Struct = ''
@@ -652,4 +653,4 @@ Func _WinAPI_SfcIsKeyProtected($hKey, $sSubKey = 0, $iFlag = 0)
 	Return $Ret[0]
 EndFunc   ;==>_WinAPI_SfcIsKeyProtected
 
-#endregion Public Functions
+#EndRegion Public Functions

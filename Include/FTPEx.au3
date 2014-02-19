@@ -1,13 +1,13 @@
 #include-once
 
-#include "WinAPIError.au3"
+#include "Date.au3"
 #include "FileConstants.au3"
 #include "StructureConstants.au3"
-#include "Date.au3"
+#include "WinAPIError.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: FTP
-; AutoIt Version : 3.3.7.20++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: Functions that assist with FTP.
 ; Author(s) .....: Wouter, Prog@ndy, jpm, Beege
@@ -68,40 +68,6 @@ Global Const $INTERNET_STATUS_RESPONSE_RECEIVED = 41
 Global Const $INTERNET_STATUS_STATE_CHANGE = 200
 Global Const $INTERNET_STATUS_RESOLVING_NAME = 10
 Global Const $INTERNET_STATUS_NAME_RESOLVED = 11
-; ===============================================================================================================================
-
-; #OLD_FUNCTIONS#================================================================================================================
-; Old Function/Name                     ; --> New Function/Name/Replacement(s)
-;
-; deprecated functions will no longer work, no parameter change just renaming unless stated
-; _FTP_DownloadProgress					; --> _FTP_ProgressDownload
-; _FTP_UploadProgress					; --> _FTP_ProgressUpload
-; _FTPClose								; --> _FTP_Close
-; _FTPCloseFile							; --> _FTP_FileClose
-; _FTPCommand							; --> _FTP_Command
-; _FTPConnect							; --> _FTP_Connect
-; _FTPDelDir								; --> _FTP_DirDelete
-; _FTPDelFile							; --> _FTP_FileDelete
-; _FTPFileFindClose						; --> _FTP_FindFileClose		; $l_DllStruct suppression
-; _FTPFileFindFirst						; --> _FTP_FindFileFirst		; $l_DllStruct suppression
-; _FTPFileFindNext						; --> _FTP_FindFileNext			; $l_DllStruct suppression
-; _FTPFileSizeLoHi						; --> _FTP_FileSizeLoHi
-; _FTPFilesListto2DArray					; --> _FTP_ListToArray2D
-; _FTPFilesListtoArray					; --> _FTP_ListToArray
-; _FTPFilesListtoArrayEx					; --> _FTP_ListToArrayEx		; $b_Fmt added
-; _FTPFileTimeLoHi						; --> _WinAPI_MakeQWord			; parameter inversion
-; _FTPFileTimeLoHiToStr					; --> _FTP_FileTimeLoHiToStr	; new optional parameter for type of format
-; _FTPGetCurrentDir						; --> _FTP_DirGetCurrent
-; _FTPGetFile							; --> _FTP_FileGet
-; _FTPGetFileSize						; --> _FTP_FileGetSize
-; _FTPMakeDir							; --> _FTP_DirCreate
-; _FTPOpen								; --> _FTP_Open
-; _FTPOpenFile							; --> _FTP_FileOpen
-; _FTPPutFile							; --> _FTP_FilePut
-; _FTPPutFolderContents					; --> _FTP_DirPutContents
-; _FTPReadFile							; --> _FTP_FileRead
-; _FTPRenameFile							; --> _FTP_FileRename
-; _FtpSetCurrentDir						; --> _FTP_DirSetCurrent
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -602,7 +568,7 @@ EndFunc   ;==>_FTP_Open
 ; Author ........: limette, Prog@ndy
 ; Modified.......: jchd
 ; ===============================================================================================================================
-Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionToCall = "")
+Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $hFunctionCall = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
 
 	Local $fhandle = FileOpen($s_LocalFile, $FO_OVERWRITE + $FO_BINARY)
@@ -614,7 +580,7 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 	Local $ai_FTPGetFileSize = DllCall($__ghWinInet_FTP, 'dword', 'FtpGetFileSize', 'handle', $ai_ftpopenfile[0], 'dword*', 0)
 	If @error Then Return SetError(-2, _WinAPI_GetLastError(), 0)
 
-	If $FunctionToCall = "" Then ProgressOn("FTP Download", "Downloading " & $s_LocalFile)
+	If Not IsFunc($hFunctionCall) Then ProgressOn("FTP Download", "Downloading " & $s_LocalFile)
 
 	Local $glen = _WinAPI_MakeQWord($ai_FTPGetFileSize[0], $ai_FTPGetFileSize[2]) ;FileGetSize($s_RemoteFile)
 	Local Const $ChunkSize = 256 * 1024
@@ -637,7 +603,7 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 			$ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $ai_ftpopenfile[0])
 			; No need to test @error.
 			FileClose($fhandle)
-			If $FunctionToCall = "" Then ProgressOff()
+			If Not IsFunc($hFunctionCall) Then ProgressOff()
 			Return SetError(-4, $lasterror, 0)
 		EndIf
 		$ret = FileWrite($fhandle, BinaryMid(DllStructGetData($buffer, 1), 1, $ai_FTPread[4]))
@@ -647,22 +613,22 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 			; No need to test @error.
 			FileClose($fhandle)
 			FileDelete($s_LocalFile)
-			If $FunctionToCall = "" Then ProgressOff()
+			If Not IsFunc($hFunctionCall) Then ProgressOff()
 			Return SetError(-7, $lasterror, 0)
 		EndIf
 		$done += $ai_FTPread[4]
 
-		If $FunctionToCall = "" Then
+		If Not IsFunc($hFunctionCall) Then
 			ProgressSet(($done / $glen) * 100)
 		Else
-			$ret = Call($FunctionToCall, ($done / $glen) * 100)
+			$ret = $hFunctionCall(($done / $glen) * 100)
 			If $ret <= 0 Then
 				$lasterror = @error
 				$ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $ai_ftpopenfile[0])
 				; No need to test @error.
 				FileClose($fhandle)
 				FileDelete($s_LocalFile)
-				If $FunctionToCall = "" Then ProgressOff()
+				If Not IsFunc($hFunctionCall) Then ProgressOff()
 				Return SetError(-6, $lasterror, $ret)
 			EndIf
 		EndIf
@@ -671,7 +637,7 @@ Func _FTP_ProgressDownload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $Function
 
 	FileClose($fhandle)
 
-	If $FunctionToCall = "" Then ProgressOff()
+	If Not IsFunc($hFunctionCall) Then ProgressOff()
 
 	$ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $ai_ftpopenfile[0])
 	If @error Or $ai_InternetCloseHandle[0] = 0 Then
@@ -685,7 +651,7 @@ EndFunc   ;==>_FTP_ProgressDownload
 ; Author ........: limette, Prog@ndy
 ; Modified.......: jchd
 ; ===============================================================================================================================
-Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionToCall = "")
+Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $hFunctionCall = 0)
 	If $__ghWinInet_FTP = -1 Then Return SetError(-2, 0, 0)
 
 	Local $fhandle = FileOpen($s_LocalFile, $FO_BINARY)
@@ -694,7 +660,7 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 	Local $ai_ftpopenfile = DllCall($__ghWinInet_FTP, 'handle', 'FtpOpenFileW', 'handle', $l_FTPSession, 'wstr', $s_RemoteFile, 'dword', $GENERIC_WRITE, 'dword', $FTP_TRANSFER_TYPE_BINARY, 'dword_ptr', 0)
 	If @error Or $ai_ftpopenfile[0] = 0 Then Return SetError(-3, _WinAPI_GetLastError(), 0)
 
-	If $FunctionToCall = "" Then ProgressOn("FTP Upload", "Uploading " & $s_LocalFile)
+	If Not IsFunc($hFunctionCall) Then ProgressOn("FTP Upload", "Uploading " & $s_LocalFile)
 
 	Local $glen = FileGetSize($s_LocalFile)
 	Local Const $ChunkSize = 256 * 1024
@@ -719,15 +685,15 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 			; No need to test @error.
 			FileClose($fhandle)
 
-			If $FunctionToCall = "" Then ProgressOff()
+			If Not IsFunc($hFunctionCall) Then ProgressOff()
 			Return SetError(-4, $lasterror, 0)
 		EndIf
 		$done += $x
 
-		If $FunctionToCall = "" Then
+		If Not IsFunc($hFunctionCall) Then
 			ProgressSet(($done / $glen) * 100)
 		Else
-			$ret = Call($FunctionToCall, ($done / $glen) * 100)
+			$ret = $hFunctionCall(($done / $glen) * 100)
 			If $ret <= 0 Then
 				$lasterror = @error
 				$ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $ai_ftpopenfile[0])
@@ -735,7 +701,7 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 				DllCall($__ghWinInet_FTP, 'bool', 'FtpDeleteFileW', 'handle', $l_FTPSession, 'wstr', $s_RemoteFile)
 				; No need to test @error.
 				FileClose($fhandle)
-				If $FunctionToCall = "" Then ProgressOff()
+				If Not IsFunc($hFunctionCall) Then ProgressOff()
 				Return SetError(-6, $lasterror, $ret)
 			EndIf
 		EndIf
@@ -744,7 +710,7 @@ Func _FTP_ProgressUpload($l_FTPSession, $s_LocalFile, $s_RemoteFile, $FunctionTo
 
 	FileClose($fhandle)
 
-	If $FunctionToCall = "" Then ProgressOff()
+	If Not IsFunc($hFunctionCall) Then ProgressOff()
 
 	$ai_InternetCloseHandle = DllCall($__ghWinInet_FTP, 'bool', 'InternetCloseHandle', 'handle', $ai_ftpopenfile[0])
 	; No need to test @error.

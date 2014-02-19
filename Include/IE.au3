@@ -1,11 +1,12 @@
 #include-once
 
-#include "WinAPIError.au3"
+#include "AutoItConstants.au3"
 #include "FileConstants.au3"
+#include "WinAPIError.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Internet Explorer Automation UDF Library for AutoIt3
-; AutoIt Version : 3.3.9++
+; AutoIt Version : 3.3.10.0
 ; Language ......: English
 ; Description ...: A collection of functions for creating, attaching to, reading from and manipulating Internet Explorer.
 ; Author(s) .....: DaleHohm, big_daddy, jpm
@@ -293,7 +294,7 @@ Func _IEAttach($s_string, $s_mode = "Title", $i_instance = 1)
 	EndIf
 
 	If $s_mode = "embedded" Or $s_mode = "dialogbox" Then
-		Local $iWinTitleMatchMode = Opt("WinTitleMatchMode", 2)
+		Local $iWinTitleMatchMode = Opt("WinTitleMatchMode", $OPT_MATCHANY)
 		If $s_mode = "dialogbox" And $i_instance > 1 Then
 			If IsHWnd($s_string) Then
 				$i_instance = 1
@@ -1554,7 +1555,7 @@ Func _IETableWriteToArray(ByRef $o_object, $f_transpose = False)
 		$row = $row + 1
 	Next
 	If $f_transpose Then
-		Local $i_d1 = UBound($a_TableCells, 1), $i_d2 = UBound($a_TableCells, 2), $aTmp[$i_d2][$i_d1]
+		Local $i_d1 = UBound($a_TableCells, $UBOUND_ROWS), $i_d2 = UBound($a_TableCells, $UBOUND_COLUMNS), $aTmp[$i_d2][$i_d1]
 		For $i = 0 To $i_d2 - 1
 			For $j = 0 To $i_d1 - 1
 				$aTmp[$i][$j] = $a_TableCells[$j][$i]
@@ -1773,12 +1774,11 @@ Func _IEDocGetObj(ByRef $o_object)
 		Return SetError($_IEStatus_InvalidDataType, 1, 0)
 	EndIf
 	;
-	Switch __IEIsObjType($o_object, "document")
-		Case True
-			Return SetError($_IEStatus_Success, 0, $o_object)
-		Case False
-			Return SetError($_IEStatus_Success, 0, $o_object.document)
-	EndSwitch
+	If __IEIsObjType($o_object, "document") Then
+		Return SetError($_IEStatus_Success, 0, $o_object)
+	EndIf
+
+	Return SetError($_IEStatus_Success, 0, $o_object.document)
 EndFunc   ;==>_IEDocGetObj
 
 ; #FUNCTION# ====================================================================================================================
@@ -2506,6 +2506,8 @@ EndFunc   ;==>_IEErrorNotify
 ; Author ........: Dale Hohm
 ; ===============================================================================================================================
 Func _IEQuit(ByRef $o_object)
+	Local $Name_IEQuit = String(ObjName($o_object))
+	ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : $Name_IEQuit = ' & $Name_IEQuit & @CRLF & '>Error code: ' & @error & '    Extended code: 0x' & Hex(@extended) & @CRLF) ;### Debug Console
 	If Not IsObj($o_object) Then
 		__IEConsoleWriteError("Error", "_IEQuit", "$_IEStatus_InvalidDataType")
 		Return SetError($_IEStatus_InvalidDataType, 1, 0)
@@ -2629,7 +2631,7 @@ Func _IE_Example($s_module = "basic")
 			$s_html &= '<!DOCTYPE html>' & @CR
 			$s_html &= '<html>' & @CR
 			$s_html &= '<head>' & @CR
-			$s_html &= '<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">' & @CR
+			$s_html &= '<meta content="text/html; charset=utf-8" http-equiv="content-type">' & @CR
 			$s_html &= '<title>_IE_Example("table")</title>' & @CR
 			$s_html &= '<style>body {font-family: Arial}</style>' & @CR
 			$s_html &= '</head>' & @CR
@@ -3019,7 +3021,9 @@ EndFunc   ;==>__IESendMessageTimeout
 ; Author ........: Dale Hohm
 ; Modified ......: jpm
 ; ===============================================================================================================================
-Func __IEIsObjType(ByRef $o_object, $s_type)
+Func __IEIsObjType(ByRef $o_object, $s_type, $ScriptLineNumber = @ScriptLineNumber)
+	Local $Name_IEIsObjType = String(ObjName($o_object))
+	ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : $Name_IEIsObjType = ' & $Name_IEIsObjType & @CRLF & '>Error code: ' & @error & '    $ScriptLineNumber = ' & $ScriptLineNumber & @CRLF) ;### Debug Console
 	If Not IsObj($o_object) Then
 		Return SetError($_IEStatus_InvalidDataType, 1, 0)
 	EndIf
