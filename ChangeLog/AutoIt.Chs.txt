@@ -22,6 +22,9 @@ AutoIt:
 [H][!]更新: 更新UPX到3.09版,只是修复bug.
 [H][!]更新: ACNWrapper 兼容性更新.
 
+SciTe:
+[H][!]更新: 更新SciTe到3.4.4.0版.
+
 3.3.9.5 (Beta)
 AutoIt:
 [H][!]更新: MPRESS 更新到2.19版.
