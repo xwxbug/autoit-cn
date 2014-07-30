@@ -1,7 +1,6 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoITCOM 3.1.0
-;
+; COM Test file
 ;
 ; Testing ByRef variables on COM function calls
 ;
@@ -9,16 +8,16 @@
 
 Const $HKEY_CURRENT_USER = 0x80000001
 
-Local $strComputer = @ComputerName
+Local $sComputer = @ComputerName
 
-Local $objReg = ObjGet("winmgmts:\\" & $strComputer & "\root\default:StdRegProv")
-Local $strKeyPath = "SOFTWARE\Microsoft\Internet Explorer\Main"
-Local $ValueName = "Start Page"
-Local $strvalue = ""
-Local $return = $objReg.GetStringValue($HKEY_CURRENT_USER, $strKeyPath, $ValueName, $strvalue)
+Local $oReg = ObjGet("winmgmts:\\" & $sComputer & "\root\default:StdRegProv")
+Local $sKeyPath = "SOFTWARE\Microsoft\Internet Explorer\Main"
+Local $sValueName = "Start Page"
+Local $sValue = ""
+Local $sReturn = $oReg.GetStringValue($HKEY_CURRENT_USER, $sKeyPath, $sValueName, $sValue)
 
-If $strvalue = "" Then
+If $sValue = "" Then
 	MsgBox($MB_SYSTEMMODAL, "WMIGetStringTest", "The value of your IE start page is either Null or could not be found in the registry.")
 Else
-	MsgBox($MB_SYSTEMMODAL, "WMIGetStringTest", "Your Internet Explorer start page is: " & @CRLF & $strvalue)
+	MsgBox($MB_SYSTEMMODAL, "WMIGetStringTest", "Your Internet Explorer start page is: " & @CRLF & $sValue)
 EndIf

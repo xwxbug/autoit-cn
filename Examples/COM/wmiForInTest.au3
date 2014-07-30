@@ -1,12 +1,16 @@
 #include <Constants.au3>
-
+;
 ; WMI example to enumerate services
+;
 
-Local $ObjWMI = ObjGet("winmgmts://" & @ComputerName)
+MsgBox($MB_SYSTEMMODAL, "Enumerated list of services", "Services on this computer: " & @CRLF & ServicesList())
 
-Local $string = ""
-For $item In $ObjWMI.ExecQuery("select * from win32_service")
-	$string = $string & $item.name & @TAB
-Next
+Func ServicesList()
+	Local $oWMI = ObjGet("winmgmts://" & @ComputerName)
 
-MsgBox($MB_SYSTEMMODAL, "", "Services on this computer: " & @CRLF & $string)
+	Local $sServiceList = ""
+	For $oItem In $oWMI.ExecQuery("select * from win32_service")
+		$sServiceList &= $oItem.name & @TAB
+	Next
+	Return $sServiceList
+EndFunc   ;==>ServicesList

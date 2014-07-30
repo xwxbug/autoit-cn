@@ -1,24 +1,22 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoIt V3.1.1++
-;
-; Test File
+; COM Test File
 ;
 ; Scripting.FileSystemObject example
 
 ; This example returns file information for AutoIt.exe
 
-Local $objFS = ObjCreate("Scripting.FileSystemObject")
+Local $oFS = ObjCreate("Scripting.FileSystemObject")
 
-Local $strPath = @AutoItExe
+Local $sPath = @AutoItExe
 
-Local $objFile = $objFS.GetFile($strPath)
+Local $oFile = $oFS.GetFile($sPath)
 
-With $objFile
+With $oFile
 
-	MsgBox($MB_SYSTEMMODAL, $strPath, _
+	MsgBox($MB_SYSTEMMODAL, $sPath, _
 			@AutoItExe & " " & @CRLF & _
-			"File Version: " & $objFS.GetFileVersion($strPath) & @CRLF & _
+			"File Version: " & $oFS.GetFileVersion($sPath) & @CRLF & _
 			"File Size: " & Round((.Size / 1024), 2) & " KB" & @CRLF & _
 			"Date Created: " & .DateCreated & @CRLF & _
 			"Date Last Modified: " & .DateLastModified)

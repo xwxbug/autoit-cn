@@ -16,10 +16,10 @@
 ; ************************
 ; * Global State Variables
 ; ************************
-Global $g_strCurrentNamespace = "\root\CIMV2"
+Global $g_sCurrentNamespace = "\root\CIMV2"
 Global $g_iCurrentNamespaceIndex = 0
-Global $g_strWMISource = "localhost"
-Global $g_strOutputFormat = "Dialog"
+Global $g_sWMISource = "localhost"
+Global $g_sOutputFormat = "Dialog"
 
 ; ************************
 ; * Main GUI
@@ -27,32 +27,32 @@ Global $g_strOutputFormat = "Dialog"
 
 GUICreate("AutoIt Scriptomatic Tool", 684, 561, (@DesktopWidth - 684) / 2, (@DesktopHeight - 561) / 2, $WS_OVERLAPPEDWINDOW + $WS_VISIBLE + $WS_CLIPSIBLINGS)
 
-Global $GUI_AST_MainGroup = GUICtrlCreateGroup("", 10, 10, 660, 530)
-Global $GUI_WMI_NamespaceLabel = GUICtrlCreateLabel("WMI Namespace", 20, 30, 150, 20)
-Global $GUI_WMI_Namespace = GUICtrlCreateCombo("WMI_Namespaces", 20, 50, 280, 21)
-Global $GUI_WMI_ClassLabel = GUICtrlCreateLabel("WMI Class", 320, 30, 140, 20)
-Global $GUI_WMI_Classes = GUICtrlCreateCombo("WMI_Classes", 320, 50, 340, 21)
-Global $GUI_AST_Web = GUICtrlCreateButton("Lookup on WWW", 560, 27, 100, 20)
-Global $GUI_AST_ButtonGroup = GUICtrlCreateGroup("", 10, 80, 660, 50)
-Global $GUI_AST_Run = GUICtrlCreateButton("Run", 20, 100, 50, 20)
-Global $GUI_AST_CIMv2 = GUICtrlCreateButton("CIMv2", 80, 100, 50, 20)
-Global $GUI_AST_WMISource = GUICtrlCreateButton("WMISource", 140, 100, 70, 20)
-Global $GUI_AST_Open = GUICtrlCreateButton("Open", 220, 100, 60, 20)
-Global $GUI_AST_Save = GUICtrlCreateButton("Save", 290, 100, 60, 20)
-Global $GUI_AST_Quit = GUICtrlCreateButton("Quit", 360, 100, 60, 20)
-Global $GUI_AST_OptionGroup = GUICtrlCreateGroup("Output", 430, 80, 240, 50)
-Global $GUI_AST_RadioDialog = GUICtrlCreateRadio("Dialog", 440, 100, 50, 20)
-Global $GUI_AST_RadioText = GUICtrlCreateRadio("Text", 510, 100, 50, 20)
-Global $GUI_AST_RadioHTML = GUICtrlCreateRadio("HTML", 570, 100, 50, 20)
-Global $GUI_AST_ScriptCode = GUICtrlCreateEdit("One moment...", 20, 140, 640, 390)
+GUICtrlCreateGroup("", 10, 10, 660, 530)
+Global $g_idWMI_NamespaceLabel = GUICtrlCreateLabel("WMI Namespace", 20, 30, 150, 20)
+Global $g_idWMI_Namespace = GUICtrlCreateCombo("WMI_Namespaces", 20, 50, 280, 21)
+GUICtrlCreateLabel("WMI Class", 320, 30, 140, 20)
+Global $g_idWMI_Classes = GUICtrlCreateCombo("WMI_Classes", 320, 50, 340, 21)
+Global $g_idAST_Web = GUICtrlCreateButton("Lookup on WWW", 560, 27, 100, 20)
+GUICtrlCreateGroup("", 10, 80, 660, 50)
+Global $g_idAST_Run = GUICtrlCreateButton("Run", 20, 100, 50, 20)
+Global $idAST_CIMv2 = GUICtrlCreateButton("CIMv2", 80, 100, 50, 20)
+Global $idAST_WMISource = GUICtrlCreateButton("WMISource", 140, 100, 70, 20)
+Global $idAST_Open = GUICtrlCreateButton("Open", 220, 100, 60, 20)
+Global $g_idAST_Save = GUICtrlCreateButton("Save", 290, 100, 60, 20)
+Local $idAST_Quit = GUICtrlCreateButton("Quit", 360, 100, 60, 20)
+GUICtrlCreateGroup("Output", 430, 80, 240, 50)
+Global $g_idAST_RadioDialog = GUICtrlCreateRadio("Dialog", 440, 100, 50, 20)
+Global $g_idAST_RadioText = GUICtrlCreateRadio("Text", 510, 100, 50, 20)
+Global $g_idAST_RadioHTML = GUICtrlCreateRadio("HTML", 570, 100, 50, 20)
+Global $g_idAST_ScriptCode = GUICtrlCreateEdit("One moment...", 20, 140, 640, 390)
 
 GUISetState()
 
 ; Initial GUI Settings
-GUICtrlSetState($GUI_AST_Web, $GUI_DISABLE)
-GUICtrlSetState($GUI_AST_Run, $GUI_DISABLE)
-GUICtrlSetState($GUI_AST_Save, $GUI_DISABLE)
-GUICtrlSetState($GUI_AST_RadioDialog, $GUI_CHECKED)
+GUICtrlSetState($g_idAST_Web, $GUI_DISABLE)
+GUICtrlSetState($g_idAST_Run, $GUI_DISABLE)
+GUICtrlSetState($g_idAST_Save, $GUI_DISABLE)
+GUICtrlSetState($g_idAST_RadioDialog, $GUI_CHECKED)
 
 ; Fill the WMI_Namespaces Combobox
 LoadWMINamespaces()
@@ -60,33 +60,33 @@ LoadWMINamespaces()
 ; Fill the WMI_Classes Combobox
 HandleNamespaceChange()
 
-Local $msg
+Local $iMsg
 While 1
-	$msg = GUIGetMsg()
+	$iMsg = GUIGetMsg()
 	Select
-		Case $msg = $GUI_EVENT_CLOSE
+		Case $iMsg = $GUI_EVENT_CLOSE
 			ExitLoop
-		Case $msg = $GUI_AST_Quit
+		Case $iMsg = $idAST_Quit
 			ExitLoop
-		Case $msg = $GUI_WMI_Namespace
+		Case $iMsg = $g_idWMI_Namespace
 			HandleNamespaceChange()
-		Case $msg = $GUI_WMI_Classes
+		Case $iMsg = $g_idWMI_Classes
 			ComposeCode()
-		Case $msg = $GUI_AST_Web
+		Case $iMsg = $g_idAST_Web
 			LookupWeb()
-		Case $msg = $GUI_AST_Run
+		Case $iMsg = $g_idAST_Run
 			RunScript()
-		Case $msg = $GUI_AST_Save
+		Case $iMsg = $g_idAST_Save
 			SaveScript()
-		Case $msg = $GUI_AST_Open
+		Case $iMsg = $idAST_Open
 			OpenScript()
-		Case $msg = $GUI_AST_CIMv2
+		Case $iMsg = $idAST_CIMv2
 			SetNamespaceToCIMV2()
-		Case $msg = $GUI_AST_WMISource
+		Case $iMsg = $idAST_WMISource
 			SetWMIRepository()
-		Case $msg = $GUI_AST_RadioDialog Or _
-				$msg = $GUI_AST_RadioText Or _
-				$msg = $GUI_AST_RadioHTML
+		Case $iMsg = $g_idAST_RadioDialog Or _
+				$iMsg = $g_idAST_RadioText Or _
+				$iMsg = $g_idAST_RadioHTML
 			HandleOutputChange()
 	EndSelect
 WEnd
@@ -99,45 +99,45 @@ Exit
 ; * LoadWMINamespaces
 ; ********************************************************************
 Func LoadWMINamespaces()
-	Local $strCsvListOfNamespaces = ""
-	Local $strNameSpacesCombo = ""
+	Local $sCsvListOfNamespaces = ""
+	Local $sNamespacesCombo = ""
 
-	Local $strWaitNamespaces = "Please wait, Loading WMI Namespaces"
-	GUICtrlSetData($GUI_WMI_Namespace, $strWaitNamespaces, $strWaitNamespaces)
+	Local $sWaitNamespaces = "Please wait, Loading WMI Namespaces"
+	GUICtrlSetData($g_idWMI_Namespace, $sWaitNamespaces, $sWaitNamespaces)
 
-	EnumNamespaces("root", $strCsvListOfNamespaces)
+	EnumNamespaces("root", $sCsvListOfNamespaces)
 
-	Local $arrNamespaces = StringSplit($strCsvListOfNamespaces, ",")
+	Local $aNamespaces = StringSplit($sCsvListOfNamespaces, ",")
 
-	For $strNamespace In $arrNamespaces
-		$strNameSpacesCombo = $strNameSpacesCombo & "|" & $strNamespace
+	For $sNamespace In $aNamespaces
+		$sNamespacesCombo = $sNamespacesCombo & "|" & $sNamespace
 	Next
 
-	GUICtrlSetData($GUI_WMI_Namespace, $strNameSpacesCombo, "ROOT\CIMV2")
+	GUICtrlSetData($g_idWMI_Namespace, $sNamespacesCombo, "ROOT\CIMV2")
 EndFunc   ;==>LoadWMINamespaces
 
 ; ********************************************************************
 ; * EnumNamespaces
 ; ********************************************************************
-Func EnumNamespaces($strNamespace, ByRef $tmpCsvListOfNamespaces)
-	If $tmpCsvListOfNamespaces = "" Then
-		$tmpCsvListOfNamespaces = $strNamespace
+Func EnumNamespaces($sNamespace, ByRef $sTmpCsvListOfNamespaces)
+	If $sTmpCsvListOfNamespaces = "" Then
+		$sTmpCsvListOfNamespaces = $sNamespace
 	Else
-		$tmpCsvListOfNamespaces = $tmpCsvListOfNamespaces & "," & $strNamespace
+		$sTmpCsvListOfNamespaces = $sTmpCsvListOfNamespaces & "," & $sNamespace
 	EndIf
 
-	; Local $strComputer = $g_strWMISource
-	Local $objWMIService = ObjGet("winmgmts:\\" & $g_strWMISource & "\" & $strNamespace)
+	; Local $sComputer = $g_sWMISource
+	Local $oWMIService = ObjGet("winmgmts:\\" & $g_sWMISource & "\" & $sNamespace)
 
 	If Not @error Then
 
-		Local $colNameSpaces = $objWMIService.InstancesOf("__NAMESPACE")
+		Local $oColNameSpaces = $oWMIService.InstancesOf("__NAMESPACE")
 
-		For $objNameSpace In $colNameSpaces
-			EnumNamespaces($strNamespace & "\" & $objNameSpace.Name, $tmpCsvListOfNamespaces)
+		For $oNameSpace In $oColNameSpaces
+			EnumNamespaces($sNamespace & "\" & $oNameSpace.Name, $sTmpCsvListOfNamespaces)
 		Next
 	Else
-		$tmpCsvListOfNamespaces = ""
+		$sTmpCsvListOfNamespaces = ""
 	EndIf
 EndFunc   ;==>EnumNamespaces
 
@@ -148,26 +148,26 @@ Func HandleNamespaceChange()
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 	; Clear the WMI classes pulldown location.
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-	Local $strSelectedNamespace = GUICtrlRead($GUI_WMI_Namespace)
+	Local $sSelectedNamespace = GUICtrlRead($g_idWMI_Namespace)
 
 	; Disable the namespace combobox until class load has been completed
-	GUICtrlSetState($GUI_WMI_Namespace, $GUI_DISABLE)
+	GUICtrlSetState($g_idWMI_Namespace, $GUI_DISABLE)
 
-	Local $strWMIWaitMsg = "Please wait, trying to load WMI Classes in namespace " & $strSelectedNamespace
-	GUICtrlSetData($GUI_WMI_Classes, $strWMIWaitMsg, $strWMIWaitMsg)
-	GUICtrlSetData($GUI_AST_ScriptCode, "One moment...", "")
+	Local $sWMIWaitMsg = "Please wait, trying to load WMI Classes in namespace " & $sSelectedNamespace
+	GUICtrlSetData($g_idWMI_Classes, $sWMIWaitMsg, $sWMIWaitMsg)
+	GUICtrlSetData($g_idAST_ScriptCode, "One moment...", "")
 
 	LoadWMIClasses()
-	$g_strCurrentNamespace = "\" & $strSelectedNamespace
+	$g_sCurrentNamespace = "\" & $sSelectedNamespace
 
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 	; Clear the code textarea and disable run and save.
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-	GUICtrlSetData($GUI_AST_ScriptCode, "", "")
+	GUICtrlSetData($g_idAST_ScriptCode, "", "")
 
-	GUICtrlSetState($GUI_WMI_Namespace, $GUI_ENABLE)
-	GUICtrlSetState($GUI_AST_Run, $GUI_DISABLE)
-	GUICtrlSetState($GUI_AST_Save, $GUI_DISABLE)
+	GUICtrlSetState($g_idWMI_Namespace, $GUI_ENABLE)
+	GUICtrlSetState($g_idAST_Run, $GUI_DISABLE)
+	GUICtrlSetState($g_idAST_Save, $GUI_DISABLE)
 EndFunc   ;==>HandleNamespaceChange
 
 ; ********************************************************************
@@ -183,69 +183,69 @@ Func LoadWMIClasses()
 	Const $SORT_KEYS = 1
 	; Const $SORT_ITEMS = 2
 
-	Local $objClassDictionary = ObjCreate("Scripting.Dictionary")
-	Local $objQualifierDictionary = ObjCreate("Scripting.Dictionary")
+	Local $oClassDictionary = ObjCreate("Scripting.Dictionary")
+	Local $oQualifierDictionary = ObjCreate("Scripting.Dictionary")
 
-	Local $strComputer = "."
-	Local $objWMIService = ObjGet("winmgmts:\\" & $strComputer & $g_strCurrentNamespace)
+	Local $sComputer = "."
+	Local $oWMIService = ObjGet("winmgmts:\\" & $sComputer & $g_sCurrentNamespace)
 
 	If Not @error Then
 
-		For $objClass In $objWMIService.SubclassesOf()
+		For $oClass In $oWMIService.SubclassesOf()
 
-			For $objQualifier In $objClass.Qualifiers_() ; Dummy (), because it ends with an underscore !
-				$objQualifierDictionary.Add(StringLower($objQualifier.Name), "")
+			For $objQualifier In $oClass.Qualifiers_() ; Dummy (), because it ends with an underscore !
+				$oQualifierDictionary.Add(StringLower($objQualifier.Name), "")
 			Next
 
-			If $objQualifierDictionary.Exists("dynamic") Then
+			If $oQualifierDictionary.Exists("dynamic") Then
 
-				;$TempVar = $objClass.Path_.Class
-				;$objClassDictionary.Add($TempVar, "")	; Can't use object in arguments ?!!
+				;$TempVar = $oClass.Path_.Class
+				;$oClassDictionary.Add($TempVar, "")	; Can't use object in arguments ?!!
 
-				$objClassDictionary.Add($objClass.Path_.Class, "")
+				$oClassDictionary.Add($oClass.Path_.Class, "")
 
 			EndIf
 
-			$objQualifierDictionary.RemoveAll
+			$oQualifierDictionary.RemoveAll
 
 		Next
 
-		$objQualifierDictionary = ""
+		$oQualifierDictionary = ""
 
 		;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; If the current namespace contains dynamic classes...
 		;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-		If $objClassDictionary.Count Then
+		If $oClassDictionary.Count Then
 
 			;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 			; Sort the dictionary.
 			;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-			SortDictionary($objClassDictionary, $SORT_KEYS)
+			SortDictionary($oClassDictionary, $SORT_KEYS)
 
 			;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 			; Populate the WMI classes pulldown with the sorted dictionary.
 			;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-			Local $strClassesCombo = "|Select a WMI class"
+			Local $sClassesCombo = "|Select a WMI class"
 
-			For $strWMIClass In $objClassDictionary ;  method .Keys is not an object ??
-				$strClassesCombo = $strClassesCombo & "|" & $strWMIClass
+			For $strWMIClass In $oClassDictionary ;  method .Keys is not an object ??
+				$sClassesCombo = $sClassesCombo & "|" & $strWMIClass
 			Next
 
-			GUICtrlSetData($GUI_WMI_Classes, $strClassesCombo, "Select a WMI class")
+			GUICtrlSetData($g_idWMI_Classes, $sClassesCombo, "Select a WMI class")
 
 		EndIf
 	EndIf
 
-	If @error Or $objClassDictionary.Count = 0 Then
+	If @error Or $oClassDictionary.Count = 0 Then
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; And If the current namespace doesn't contain dynamic classes.
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-		GUICtrlSetData($GUI_WMI_Classes, "|No dynamic classes found in current namespace.|Select a different namespace", "")
+		GUICtrlSetData($g_idWMI_Classes, "|No dynamic classes found in current namespace.|Select a different namespace", "")
 
 	EndIf
 
-	$objClassDictionary = ""
+	$oClassDictionary = ""
 EndFunc   ;==>LoadWMIClasses
 
 ; ********************************************************************
@@ -254,23 +254,23 @@ EndFunc   ;==>LoadWMIClasses
 ; * Shell sort based on:
 ; * http://support.microsoft.com/support/kb/articles/q246/0/67.asp
 ; ********************************************************************
-Func SortDictionary(ByRef $objDict, $intSort)
-	Const $dictKey = 1
-	Const $dictItem = 2
+Func SortDictionary(ByRef $oDict, $iSort)
+	Const $iDictKey = 1
+	Const $iDictItem = 2
 
-	Local $strDict[1][3]
+	Local $asDict[1][3]
 
-	Local $intCount = $objDict.Count
+	Local $iCount = $oDict.Count
 
-	If $intCount > 1 Then
+	If $iCount > 1 Then
 
-		ReDim $strDict[$intCount][3]
+		ReDim $asDict[$iCount][3]
 
 		Local $i = 0
-		For $objKey In $objDict
+		For $oKey In $oDict
 
-			$strDict[$i][$dictKey] = String($objKey)
-			$strDict[$i][$dictItem] = String($objDict($objKey))
+			$asDict[$i][$iDictKey] = String($oKey)
+			$asDict[$i][$iDictItem] = String($oDict($oKey))
 
 			$i = $i + 1
 		Next
@@ -278,15 +278,15 @@ Func SortDictionary(ByRef $objDict, $intSort)
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; Perform a shell sort of the 2D string array
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-		For $i = 0 To ($intCount - 2)
-			For $j = $i To ($intCount - 1)
-				If $strDict[$i][$intSort] > $strDict[$j][$intSort] Then
-					Local $strKey = $strDict[$i][$dictKey]
-					Local $strItem = $strDict[$i][$dictItem]
-					$strDict[$i][$dictKey] = $strDict[$j][$dictKey]
-					$strDict[$i][$dictItem] = $strDict[$j][$dictItem]
-					$strDict[$j][$dictKey] = $strKey
-					$strDict[$j][$dictItem] = $strItem
+		For $i = 0 To ($iCount - 2)
+			For $j = $i To ($iCount - 1)
+				If $asDict[$i][$iSort] > $asDict[$j][$iSort] Then
+					Local $sKey = $asDict[$i][$iDictKey]
+					Local $sItem = $asDict[$i][$iDictItem]
+					$asDict[$i][$iDictKey] = $asDict[$j][$iDictKey]
+					$asDict[$i][$iDictItem] = $asDict[$j][$iDictItem]
+					$asDict[$j][$iDictKey] = $sKey
+					$asDict[$j][$iDictItem] = $sItem
 				EndIf
 			Next
 		Next
@@ -294,13 +294,13 @@ Func SortDictionary(ByRef $objDict, $intSort)
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; Erase the contents of the dictionary object
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-		$objDict.RemoveAll
+		$oDict.RemoveAll
 
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; Repopulate the dictionary with the sorted information
 		;''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-		For $i = 0 To ($intCount - 1)
-			$objDict.Add($strDict[$i][$dictKey], $strDict[$i][$dictItem])
+		For $i = 0 To ($iCount - 1)
+			$oDict.Add($asDict[$i][$iDictKey], $asDict[$i][$iDictItem])
 		Next
 
 	EndIf
@@ -310,118 +310,118 @@ EndFunc   ;==>SortDictionary
 ; * ComposeCode
 ; ********************************************************************
 Func ComposeCode()
-	Local $objClass = ""
+	Local $oClass = ""
 
-	Local $strSelectedClass = GUICtrlRead($GUI_WMI_Classes)
+	Local $sSelectedClass = GUICtrlRead($g_idWMI_Classes)
 	; Check If a valid class has been selected
-	If $strSelectedClass <> "Select a WMI class" Then
+	If $sSelectedClass <> "Select a WMI class" Then
 
 		Local $bHasDates = False ; Flag: output has date fields
-		Local $strHeaderStart = Chr(34)
-		Local $strRowStart = Chr(34)
-		Local $strColumnSeparator = ": "
-		Local $strRowEnd = " & @CRLF"
+		Local $sHeaderStart = Chr(34)
+		Local $sRowStart = Chr(34)
+		Local $sColumnSeparator = ": "
+		Local $sRowEnd = " & @CRLF"
 
-		Local $strComputerCommand = "$strComputer = " & Chr(34) & $g_strWMISource & Chr(34)
+		Local $sComputerCommand = "$sComputer = " & Chr(34) & $g_sWMISource & Chr(34)
 
-		Local $objWMIService = ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & @ComputerName & $g_strCurrentNamespace)
-		$objClass = $objWMIService.Get($strSelectedClass)
+		Local $oWMIService = ObjGet("winmgmts:{impersonationLevel=impersonate}!\\" & @ComputerName & $g_sCurrentNamespace)
+		$oClass = $oWMIService.Get($sSelectedClass)
 
-		If IsObj($objClass) Then
+		If IsObj($oClass) Then
 
-			Local $strScriptCode = ""
-			$strScriptCode = $strScriptCode & "; Generated by AutoIt Scriptomatic" & @CRLF & @CRLF
-			$strScriptCode = $strScriptCode & "$wbemFlagReturnImmediately = 0x10" & @CRLF
-			$strScriptCode = $strScriptCode & "$wbemFlagForwardOnly = 0x20" & @CRLF
-			$strScriptCode = $strScriptCode & '$colItems = ""' & @CRLF
-			$strScriptCode = $strScriptCode & $strComputerCommand & @CRLF & @CRLF
-			$strScriptCode = $strScriptCode & '$Output=""' & @CRLF
+			Local $sScriptCode = ""
+			$sScriptCode = $sScriptCode & "; Generated by AutoIt Scriptomatic" & @CRLF & @CRLF
+			$sScriptCode = $sScriptCode & "$wbemFlagReturnImmediately = 0x10" & @CRLF
+			$sScriptCode = $sScriptCode & "$wbemFlagForwardOnly = 0x20" & @CRLF
+			$sScriptCode = $sScriptCode & '$colItems = ""' & @CRLF
+			$sScriptCode = $sScriptCode & $sComputerCommand & @CRLF & @CRLF
+			$sScriptCode = $sScriptCode & '$Output=""' & @CRLF
 
-			If $g_strOutputFormat = "HTML" Then
-				$strScriptCode = $strScriptCode & "$Output = $Output & '<html><head><title>Scriptomatic HTML Output</title></head><body> " & _
+			If $g_sOutputFormat = "HTML" Then
+				$sScriptCode = $sScriptCode & "$Output = $Output & '<html><head><title>Scriptomatic HTML Output</title></head><body> " & _
 						"<style>table {font-size: 10pt; font-family: arial;} th {background-color: buttonface; font-decoration: bold;} " & _
 						"</style><table BORDER=" & Chr(34) & "1" & Chr(34) & "><tr><th>Property</th><th>Value</th></tr>'" & @CRLF
-				$strRowStart = Chr(34) & "<tr><td>"
-				$strHeaderStart = "'<tr bgcolor=" & Chr(34) & "yellow" & Chr(34) & "><td>' & " & Chr(34)
-				$strColumnSeparator = "</td><td>&nbsp;"
-				$strRowEnd = " & " & Chr(34) & "</td></tr>" & Chr(34) & " & @CRLF"
+				$sRowStart = Chr(34) & "<tr><td>"
+				$sHeaderStart = "'<tr bgcolor=" & Chr(34) & "yellow" & Chr(34) & "><td>' & " & Chr(34)
+				$sColumnSeparator = "</td><td>&nbsp;"
+				$sRowEnd = " & " & Chr(34) & "</td></tr>" & Chr(34) & " & @CRLF"
 			EndIf
 
-			$strScriptCode = $strScriptCode & "$Output = $Output & " & $strHeaderStart & "Computer" & $strColumnSeparator & Chr(34) & " & $strComputer " & $strRowEnd & @CRLF
+			$sScriptCode = $sScriptCode & "$Output = $Output & " & $sHeaderStart & "Computer" & $sColumnSeparator & Chr(34) & " & $sComputer " & $sRowEnd & @CRLF
 
-			If $g_strOutputFormat = "Dialog" Then
-				$strScriptCode = $strScriptCode & "$Output = $Output & " & Chr(34) & "==========================================" & Chr(34) & $strRowEnd & @CRLF
+			If $g_sOutputFormat = "Dialog" Then
+				$sScriptCode = $sScriptCode & "$Output = $Output & " & Chr(34) & "==========================================" & Chr(34) & $sRowEnd & @CRLF
 			EndIf
 
-			$strScriptCode = $strScriptCode & "$objWMIService = ObjGet(" & Chr(34) & "winmgmts:\\" & Chr(34) & " & $strComputer & " & Chr(34) & $g_strCurrentNamespace & Chr(34) & ")" & @CRLF
-			$strScriptCode = $strScriptCode & "$colItems = $objWMIService.ExecQuery(" & Chr(34) & "SELECT * FROM " & $strSelectedClass & Chr(34) & ", " & Chr(34) & "WQL" & Chr(34) & ", _" & @CRLF
-			$strScriptCode = $strScriptCode & "                                          $wbemFlagReturnImmediately + $wbemFlagForwardOnly)" & @CRLF & @CRLF
-			$strScriptCode = $strScriptCode & "If IsObj($colItems) Then" & @CRLF
-			$strScriptCode = $strScriptCode & "   For $objItem In $colItems" & @CRLF
+			$sScriptCode = $sScriptCode & "$oWMIService = ObjGet(" & Chr(34) & "winmgmts:\\" & Chr(34) & " & $sComputer & " & Chr(34) & $g_sCurrentNamespace & Chr(34) & ")" & @CRLF
+			$sScriptCode = $sScriptCode & "$colItems = $oWMIService.ExecQuery(" & Chr(34) & "SELECT * FROM " & $sSelectedClass & Chr(34) & ", " & Chr(34) & "WQL" & Chr(34) & ", _" & @CRLF
+			$sScriptCode = $sScriptCode & "                                          $wbemFlagReturnImmediately + $wbemFlagForwardOnly)" & @CRLF & @CRLF
+			$sScriptCode = $sScriptCode & "If IsObj($colItems) Then" & @CRLF
+			$sScriptCode = $sScriptCode & "   For $objItem In $colItems" & @CRLF
 
-			For $objProperty In $objClass.Properties_() ; Must use (), because method ends with an underscore
+			For $oProperty In $oClass.Properties_() ; Must use (), because method ends with an underscore
 
-				If $objProperty.IsArray = True Then
-					$strScriptCode = $strScriptCode & "      $str" & $objProperty.Name & " = $objItem." & $objProperty.Name & "(0)" & @CRLF
-					$strScriptCode = $strScriptCode & "      $Output = $Output & " & $strRowStart & $objProperty.Name & $strColumnSeparator & Chr(34) & " & $str" & $objProperty.Name & $strRowEnd & @CRLF
-				ElseIf $objProperty.CIMTYPE = 101 Then
+				If $oProperty.IsArray = True Then
+					$sScriptCode = $sScriptCode & "      $str" & $oProperty.Name & " = $objItem." & $oProperty.Name & "(0)" & @CRLF
+					$sScriptCode = $sScriptCode & "      $Output = $Output & " & $sRowStart & $oProperty.Name & $sColumnSeparator & Chr(34) & " & $str" & $oProperty.Name & $sRowEnd & @CRLF
+				ElseIf $oProperty.CIMTYPE = 101 Then
 					$bHasDates = True
-					$strScriptCode = $strScriptCode & "      $Output = $Output & " & $strRowStart & $objProperty.Name & $strColumnSeparator & Chr(34) & " & WMIDateStringToDate($objItem." & $objProperty.Name & ")" & $strRowEnd & @CRLF
+					$sScriptCode = $sScriptCode & "      $Output = $Output & " & $sRowStart & $oProperty.Name & $sColumnSeparator & Chr(34) & " & WMIDateStringToDate($objItem." & $oProperty.Name & ")" & $sRowEnd & @CRLF
 				Else
-					$strScriptCode = $strScriptCode & "      $Output = $Output & " & $strRowStart & $objProperty.Name & $strColumnSeparator & Chr(34) & " & $objItem." & $objProperty.Name & $strRowEnd & @CRLF
+					$sScriptCode = $sScriptCode & "      $Output = $Output & " & $sRowStart & $oProperty.Name & $sColumnSeparator & Chr(34) & " & $objItem." & $oProperty.Name & $sRowEnd & @CRLF
 				EndIf
 			Next
 
-			If $g_strOutputFormat = "Dialog" Then
-				$strScriptCode = $strScriptCode & '      If MsgBox(1,"WMI Output",$Output) = 2 Then ExitLoop' & @CRLF
-				$strScriptCode = $strScriptCode & '      $Output=""' & @CRLF
+			If $g_sOutputFormat = "Dialog" Then
+				$sScriptCode = $sScriptCode & '      If MsgBox(1,"WMI Output",$Output) = 2 Then ExitLoop' & @CRLF
+				$sScriptCode = $sScriptCode & '      $Output=""' & @CRLF
 			EndIf
-			$strScriptCode = $strScriptCode & "   Next" & @CRLF
+			$sScriptCode = $sScriptCode & "   Next" & @CRLF
 
-			If $g_strOutputFormat = "Text" Then
-				$strScriptCode = $strScriptCode & '   ConsoleWrite($Output)' & @CRLF
-				$strScriptCode = $strScriptCode & '   FileWrite(@TempDir & "\' & $strSelectedClass & '.TXT", $Output )' & @CRLF
-				$strScriptCode = $strScriptCode & '   Run(@ComSpec & " /c start " & @TempDir & "\' & $strSelectedClass & '.TXT" )' & @CRLF
-			ElseIf $g_strOutputFormat = "HTML" Then
-				$strScriptCode = $strScriptCode & '   FileWrite(@TempDir & "\' & $strSelectedClass & '.HTML", $Output )' & @CRLF
-				$strScriptCode = $strScriptCode & '   Run(@ComSpec & " /c start " & @TempDir & "\' & $strSelectedClass & '.HTML" )' & @CRLF
+			If $g_sOutputFormat = "Text" Then
+				$sScriptCode = $sScriptCode & '   ConsoleWrite($Output)' & @CRLF
+				$sScriptCode = $sScriptCode & '   FileWrite(@TempDir & "\' & $sSelectedClass & '.TXT", $Output )' & @CRLF
+				$sScriptCode = $sScriptCode & '   Run(@ComSpec & " /c start " & @TempDir & "\' & $sSelectedClass & '.TXT" )' & @CRLF
+			ElseIf $g_sOutputFormat = "HTML" Then
+				$sScriptCode = $sScriptCode & '   FileWrite(@TempDir & "\' & $sSelectedClass & '.HTML", $Output )' & @CRLF
+				$sScriptCode = $sScriptCode & '   Run(@ComSpec & " /c start " & @TempDir & "\' & $sSelectedClass & '.HTML" )' & @CRLF
 			EndIf
 
-			$strScriptCode = $strScriptCode & "Else" & @CRLF
-			$strScriptCode = $strScriptCode & '   MsgBox(0,"WMI Output","No WMI Objects Found for class: " & ' & Chr(34) & $strSelectedClass & Chr(34) & ' )' & @CRLF
+			$sScriptCode = $sScriptCode & "Else" & @CRLF
+			$sScriptCode = $sScriptCode & '   MsgBox(0,"WMI Output","No WMI Objects Found for class: " & ' & Chr(34) & $sSelectedClass & Chr(34) & ' )' & @CRLF
 
-			$strScriptCode = $strScriptCode & "EndIf" & @CRLF
-			$strScriptCode = $strScriptCode & @CRLF & @CRLF
+			$sScriptCode = $sScriptCode & "EndIf" & @CRLF
+			$sScriptCode = $sScriptCode & @CRLF & @CRLF
 
 			If $bHasDates Then
-				$strScriptCode = $strScriptCode & "Func WMIDateStringToDate($dtmDate)" & @CRLF
-				$strScriptCode = $strScriptCode & @CRLF
-				$strScriptCode = $strScriptCode & Chr(9) & "Return (StringMid($dtmDate, 5, 2) & ""/"" & _" & @CRLF
-				$strScriptCode = $strScriptCode & Chr(9) & "StringMid($dtmDate, 7, 2) & ""/"" & StringLeft($dtmDate, 4) _" & @CRLF
-				$strScriptCode = $strScriptCode & Chr(9) & "& "" "" & StringMid($dtmDate, 9, 2) & "":"" & StringMid($dtmDate, 11, 2) & "":"" & StringMid($dtmDate,13, 2))" & @CRLF
-				$strScriptCode = $strScriptCode & "EndFunc"
+				$sScriptCode = $sScriptCode & "Func WMIDateStringToDate($dtmDate)" & @CRLF
+				$sScriptCode = $sScriptCode & @CRLF
+				$sScriptCode = $sScriptCode & Chr(9) & "Return (StringMid($dtmDate, 5, 2) & ""/"" & _" & @CRLF
+				$sScriptCode = $sScriptCode & Chr(9) & "StringMid($dtmDate, 7, 2) & ""/"" & StringLeft($dtmDate, 4) _" & @CRLF
+				$sScriptCode = $sScriptCode & Chr(9) & "& "" "" & StringMid($dtmDate, 9, 2) & "":"" & StringMid($dtmDate, 11, 2) & "":"" & StringMid($dtmDate,13, 2))" & @CRLF
+				$sScriptCode = $sScriptCode & "EndFunc"
 			EndIf
 		Else
-			$strScriptCode = "Error: No Class properties found for " & $g_strCurrentNamespace & "\" & $strSelectedClass
+			$sScriptCode = "Error: No Class properties found for " & $g_sCurrentNamespace & "\" & $sSelectedClass
 		EndIf
 
-		GUICtrlSetData($GUI_AST_ScriptCode, $strScriptCode)
+		GUICtrlSetData($g_idAST_ScriptCode, $sScriptCode)
 
 		;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 		; Once the code is successfully composed and put into the
 		; textarea, ensure that the run and save buttons are enabled.
 		;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-		GUICtrlSetState($GUI_AST_Run, $GUI_ENABLE)
-		GUICtrlSetState($GUI_AST_Save, $GUI_ENABLE)
+		GUICtrlSetState($g_idAST_Run, $GUI_ENABLE)
+		GUICtrlSetState($g_idAST_Save, $GUI_ENABLE)
 
 		; Enable Web lookup button
-		GUICtrlSetState($GUI_AST_Web, $GUI_ENABLE)
+		GUICtrlSetState($g_idAST_Web, $GUI_ENABLE)
 	Else
 		; Disable Web, Run and Save buttons, because no valid code has been generated
-		GUICtrlSetState($GUI_AST_Web, $GUI_DISABLE)
-		GUICtrlSetState($GUI_AST_Run, $GUI_DISABLE)
-		GUICtrlSetState($GUI_AST_Save, $GUI_DISABLE)
+		GUICtrlSetState($g_idAST_Web, $GUI_DISABLE)
+		GUICtrlSetState($g_idAST_Run, $GUI_DISABLE)
+		GUICtrlSetState($g_idAST_Save, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ComposeCode
 
@@ -433,32 +433,32 @@ Func RunScript()
 	; Create a temporary script file named "temp_script.au3".
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-	Local $strTmpName = @TempDir & "\temp_script.au3"
+	Local $sTmpName = @TempDir & "\temp_script.au3"
 
-	If FileExists($strTmpName) Then FileDelete($strTmpName)
+	If FileExists($sTmpName) Then FileDelete($sTmpName)
 
-	FileWrite($strTmpName, GUICtrlRead($GUI_AST_ScriptCode))
+	FileWrite($sTmpName, GUICtrlRead($g_idAST_ScriptCode))
 
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 	; Start constructing the command line that will run the script...
 	;'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-	Local $strCmdLine = @AutoItExe & " " & $strTmpName
+	Local $sCmdLine = @AutoItExe & " " & $sTmpName
 
-	RunWait($strCmdLine)
+	RunWait($sCmdLine)
 
-	FileDelete($strTmpName)
+	FileDelete($sTmpName)
 EndFunc   ;==>RunScript
 
 ; ********************************************************************
 ; * SaveScript
 ; ********************************************************************
 Func SaveScript()
-	Local $strTmpName = FileSaveDialog("Save Script", @DesktopDir, "AutoIt3 Scripts (*.au3)", 16, GUICtrlRead($GUI_WMI_Classes))
+	Local $sTmpName = FileSaveDialog("Save Script", @DesktopDir, "AutoIt3 Scripts (*.au3)", 16, GUICtrlRead($g_idWMI_Classes))
 
-	If Not @error And $strTmpName <> "" Then
-		If StringRight($strTmpName, 4) <> ".AU3" Then $strTmpName = $strTmpName & ".AU3"
-		If FileExists($strTmpName) Then FileDelete($strTmpName)
-		FileWrite($strTmpName, GUICtrlRead($GUI_AST_ScriptCode))
+	If Not @error And $sTmpName <> "" Then
+		If StringRight($sTmpName, 4) <> ".AU3" Then $sTmpName = $sTmpName & ".AU3"
+		If FileExists($sTmpName) Then FileDelete($sTmpName)
+		FileWrite($sTmpName, GUICtrlRead($g_idAST_ScriptCode))
 	EndIf
 EndFunc   ;==>SaveScript
 
@@ -467,11 +467,11 @@ EndFunc   ;==>SaveScript
 ; ********************************************************************
 
 Func OpenScript()
-	Local $strTmpName = FileOpenDialog("Open Script", @DesktopDir, "AutoIt3 Scripts (*.au3)")
+	Local $sTmpName = FileOpenDialog("Open Script", @DesktopDir, "AutoIt3 Scripts (*.au3)")
 
-	If Not @error And $strTmpName <> "" Then
-		If FileExists($strTmpName) Then
-			GUICtrlSetData($GUI_AST_ScriptCode, FileRead($strTmpName, FileGetSize($strTmpName)))
+	If Not @error And $sTmpName <> "" Then
+		If FileExists($sTmpName) Then
+			GUICtrlSetData($g_idAST_ScriptCode, FileRead($sTmpName, FileGetSize($sTmpName)))
 		EndIf
 	EndIf
 EndFunc   ;==>OpenScript
@@ -480,8 +480,8 @@ EndFunc   ;==>OpenScript
 ; * SetNamespaceToCIMV2
 ; ****************************************************************************
 Func SetNamespaceToCIMV2()
-	If StringUpper(GUICtrlRead($GUI_WMI_Namespace)) <> "ROOT\CIMV2" Then
-		GUICtrlSetData($GUI_WMI_Namespace, "ROOT\CIMV2", "ROOT\CIMV2")
+	If StringUpper(GUICtrlRead($g_idWMI_Namespace)) <> "ROOT\CIMV2" Then
+		GUICtrlSetData($g_idWMI_Namespace, "ROOT\CIMV2", "ROOT\CIMV2")
 		HandleNamespaceChange()
 	EndIf
 EndFunc   ;==>SetNamespaceToCIMV2
@@ -490,13 +490,13 @@ EndFunc   ;==>SetNamespaceToCIMV2
 ; * SetWMIRepository
 ; ****************************************************************************
 Func SetWMIRepository()
-	Local $strWMISourceName = InputBox("Set WMI Repository Source", _
+	Local $sWMISourceName = InputBox("Set WMI Repository Source", _
 			"Please enter the computer whose WMI repository you want to read from: ", _
-			$g_strWMISource)
-	If $strWMISourceName <> "" Then
+			$g_sWMISource)
+	If $sWMISourceName <> "" Then
 
-		$g_strWMISource = StringStripWS($strWMISourceName, 1 + 2)
-		;target_computers.Value = $g_strWMISource
+		$g_sWMISource = StringStripWS($sWMISourceName, 1 + 2)
+		;target_computers.Value = $g_sWMISource
 		LoadWMINamespaces()
 	EndIf
 EndFunc   ;==>SetWMIRepository
@@ -505,12 +505,12 @@ EndFunc   ;==>SetWMIRepository
 ; * HandleOutputChange
 ; ****************************************************************************
 Func HandleOutputChange()
-	Local $ChosenFormat = $g_strOutputFormat
-	If GUICtrlRead($GUI_AST_RadioDialog) = $GUI_CHECKED Then $ChosenFormat = "Dialog"
-	If GUICtrlRead($GUI_AST_RadioText) = $GUI_CHECKED Then $ChosenFormat = "Text"
-	If GUICtrlRead($GUI_AST_RadioHTML) = $GUI_CHECKED Then $ChosenFormat = "HTML"
-	If $ChosenFormat <> $g_strOutputFormat Then
-		$g_strOutputFormat = $ChosenFormat
+	Local $sChosenFormat = $g_sOutputFormat
+	If GUICtrlRead($g_idAST_RadioDialog) = $GUI_CHECKED Then $sChosenFormat = "Dialog"
+	If GUICtrlRead($g_idAST_RadioText) = $GUI_CHECKED Then $sChosenFormat = "Text"
+	If GUICtrlRead($g_idAST_RadioHTML) = $GUI_CHECKED Then $sChosenFormat = "HTML"
+	If $sChosenFormat <> $g_sOutputFormat Then
+		$g_sOutputFormat = $sChosenFormat
 		ComposeCode()
 	EndIf
 EndFunc   ;==>HandleOutputChange
@@ -519,10 +519,10 @@ EndFunc   ;==>HandleOutputChange
 ; * LookupWeb
 ; ****************************************************************************
 Func LookupWeb()
-	Local $strSelectedClass = GUICtrlRead($GUI_WMI_Classes)
+	Local $sSelectedClass = GUICtrlRead($g_idWMI_Classes)
 
 	; Check If a valid class has been selected
-	If $strSelectedClass <> "Select a WMI class" Then
-		Run(@ComSpec & " /c start http://msdn.microsoft.com/library/en-us/wmisdk/wmi/" & $strSelectedClass & ".asp?frame=true", "", @SW_HIDE)
+	If $sSelectedClass <> "Select a WMI class" Then
+		Run(@ComSpec & " /c start http://msdn.microsoft.com/library/en-us/wmisdk/wmi/" & $sSelectedClass & ".asp?frame=true", "", @SW_HIDE)
 	EndIf
 EndFunc   ;==>LookupWeb

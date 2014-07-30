@@ -7,25 +7,22 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Additional variables, constants and functions for the WinAPIxxx.au3
 ; Author(s) .....: Yashied, jpm
-; Dll(s) ........: kernel32.dll, ntdll.dll
-; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
 #Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
-Global $__Enum, $__Ext = 0
-Global $__hHeap = 0, $__iRGBMode = 1
+Global $__g_vEnum, $__g_vExt = 0
+Global $__g_hHeap = 0, $__g_iRGBMode = 1
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
 Global Const $tagOSVERSIONINFO = 'struct;dword OSVersionInfoSize;dword MajorVersion;dword MinorVersion;dword BuildNumber;dword PlatformId;wchar CSDVersion[128];endstruct'
 
 Global Const $__WINVER = __WINVER()
-Global Const $__UDFVER = 0x0308
 ; ===============================================================================================================================
 
 #EndRegion Global Variables and Constants
@@ -91,18 +88,18 @@ Global Const $__UDFVER = 0x0308
 Func _WinAPI_ArrayToStruct(Const ByRef $aData, $iStart = 0, $iEnd = -1)
 	If __CheckErrorArrayBounds($aData, $iStart, $iEnd) Then Return SetError(@error + 10, @extended, 0)
 
-	Local $Struct = ''
+	Local $tagStruct = ''
 	For $i = $iStart To $iEnd
-		$Struct &= 'wchar[' & (StringLen($aData[$i]) + 1) & '];'
+		$tagStruct &= 'wchar[' & (StringLen($aData[$i]) + 1) & '];'
 	Next
-	Local $tData = DllStructCreate($Struct & 'wchar[1]')
+	Local $tData = DllStructCreate($tagStruct & 'wchar[1]')
 
-	Local $Count = 1
+	Local $iCount = 1
 	For $i = $iStart To $iEnd
-		DllStructSetData($tData, $Count, $aData[$i])
-		$Count += 1
+		DllStructSetData($tData, $iCount, $aData[$i])
+		$iCount += 1
 	Next
-	DllStructSetData($tData, $Count, ChrW(0))
+	DllStructSetData($tData, $iCount, ChrW(0))
 	Return $tData
 EndFunc   ;==>_WinAPI_ArrayToStruct
 
@@ -189,8 +186,8 @@ EndFunc   ;==>_WinAPI_FatalExit
 Func _WinAPI_GetBitmapDimension($hBitmap)
 	Local Const $tagBITMAP = 'struct;long bmType;long bmWidth;long bmHeight;long bmWidthBytes;ushort bmPlanes;ushort bmBitsPixel;ptr bmBits;endstruct'
 	Local $tObj = DllStructCreate($tagBITMAP)
-	Local $Ret = DllCall('gdi32.dll', 'int', 'GetObject', 'handle', $hBitmap, 'int', DllStructGetSize($tObj), 'struct*', $tObj)
-	If @error Or Not $Ret[0] Then Return SetError(@error + 10, @extended, 0)
+	Local $aRet = DllCall('gdi32.dll', 'int', 'GetObject', 'handle', $hBitmap, 'int', DllStructGetSize($tObj), 'struct*', $tObj)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
 
 	Return _WinAPI_CreateSize(DllStructGetData($tObj, 'bmWidth'), DllStructGetData($tObj, 'bmHeight'))
 EndFunc   ;==>_WinAPI_GetBitmapDimension
@@ -199,14 +196,14 @@ EndFunc   ;==>_WinAPI_GetBitmapDimension
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_GetString($pString, $fUnicode = 1)
-	Local $Length = _WinAPI_StrLen($pString, $fUnicode)
-	If @error Or Not $Length Then Return SetError(@error + 10, @extended, '')
+Func _WinAPI_GetString($pString, $bUnicode = True)
+	Local $iLength = _WinAPI_StrLen($pString, $bUnicode)
+	If @error Or Not $iLength Then Return SetError(@error + 10, @extended, '')
 
-	Local $tString = DllStructCreate(__Iif($fUnicode, 'wchar', 'char') & '[' & ($Length + 1) & ']', $pString)
+	Local $tString = DllStructCreate(__Iif($bUnicode, 'wchar', 'char') & '[' & ($iLength + 1) & ']', $pString)
 	If @error Then Return SetError(@error, @extended, '')
 
-	Return SetExtended($Length, DllStructGetData($tString, 1))
+	Return SetExtended($iLength, DllStructGetData($tString, 1))
 EndFunc   ;==>_WinAPI_GetString
 
 ; #FUNCTION# ====================================================================================================================
@@ -214,10 +211,10 @@ EndFunc   ;==>_WinAPI_GetString
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_IsBadReadPtr($pAddress, $iLength)
-	Local $Ret = DllCall('kernel32.dll', 'bool', 'IsBadReadPtr', 'ptr', $pAddress, 'uint_ptr', $iLength)
+	Local $aRet = DllCall('kernel32.dll', 'bool', 'IsBadReadPtr', 'ptr', $pAddress, 'uint_ptr', $iLength)
 	If @error Then Return SetError(@error, @extended, False)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_IsBadReadPtr
 
 ; #FUNCTION# ====================================================================================================================
@@ -225,27 +222,27 @@ EndFunc   ;==>_WinAPI_IsBadReadPtr
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_IsBadWritePtr($pAddress, $iLength)
-	Local $Ret = DllCall('kernel32.dll', 'bool', 'IsBadWritePtr', 'ptr', $pAddress, 'uint_ptr', $iLength)
+	Local $aRet = DllCall('kernel32.dll', 'bool', 'IsBadWritePtr', 'ptr', $pAddress, 'uint_ptr', $iLength)
 	If @error Then Return SetError(@error, @extended, False)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_IsBadWritePtr
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_IsWow64Process($PID = 0)
-	If Not $PID Then $PID = @AutoItPID
+Func _WinAPI_IsWow64Process($iPID = 0)
+	If Not $iPID Then $iPID = @AutoItPID
 
 	Local $hProcess = DllCall('kernel32.dll', 'handle', 'OpenProcess', 'dword', __Iif($__WINVER < 0x0600, 0x00000400, 0x00001000), _
-			'bool', 0, 'dword', $PID)
+			'bool', 0, 'dword', $iPID)
 	If @error Or Not $hProcess[0] Then Return SetError(@error + 20, @extended, False)
 
-	Local $Ret = DllCall('kernel32.dll', 'bool', 'IsWow64Process', 'handle', $hProcess[0], 'bool*', 0)
-	If __CheckErrorCloseHandle($Ret, $hProcess[0]) Then Return SetError(@error, @extended, False)
+	Local $aRet = DllCall('kernel32.dll', 'bool', 'IsWow64Process', 'handle', $hProcess[0], 'bool*', 0)
+	If __CheckErrorCloseHandle($aRet, $hProcess[0]) Then Return SetError(@error, @extended, False)
 
-	Return $Ret[2]
+	Return $aRet[2]
 EndFunc   ;==>_WinAPI_IsWow64Process
 
 ; #FUNCTION# ====================================================================================================================
@@ -267,24 +264,24 @@ EndFunc   ;==>_WinAPI_MoveMemory
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_PathIsDirectory($sPath)
-	Local $Ret = DllCall('shlwapi.dll', 'bool', 'PathIsDirectoryW', 'wstr', $sPath)
+	Local $aRet = DllCall('shlwapi.dll', 'bool', 'PathIsDirectoryW', 'wstr', $sPath)
 	If @error Then Return SetError(@error, @extended, False)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_PathIsDirectory
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_StrLen($pString, $fUnicode = 1)
+Func _WinAPI_StrLen($pString, $bUnicode = True)
 	Local $W = ''
-	If $fUnicode Then $W = 'W'
+	If $bUnicode Then $W = 'W'
 
-	Local $Ret = DllCall('kernel32.dll', 'int', 'lstrlen' & $W, 'ptr', $pString)
+	Local $aRet = DllCall('kernel32.dll', 'int', 'lstrlen' & $W, 'ptr', $pString)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_StrLen
 
 ; #FUNCTION# ====================================================================================================================
@@ -292,34 +289,34 @@ EndFunc   ;==>_WinAPI_StrLen
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_StructToArray(ByRef $tStruct, $iItems = 0)
-	Local $Size = 2 * Floor(DllStructGetSize($tStruct) / 2)
+	Local $iSize = 2 * Floor(DllStructGetSize($tStruct) / 2)
 	Local $pStruct = DllStructGetPtr($tStruct)
 
-	If Not $Size Or Not $pStruct Then Return SetError(1, 0, 0)
+	If Not $iSize Or Not $pStruct Then Return SetError(1, 0, 0)
 
-	Local $tData, $Length, $Offset = 0
-	Local $Result[101] = [0]
+	Local $tData, $iLength, $iOffset = 0
+	Local $aResult[101] = [0]
 
 	While 1
-		$Length = _WinAPI_StrLen($pStruct + $Offset)
-		If Not $Length Then
+		$iLength = _WinAPI_StrLen($pStruct + $iOffset)
+		If Not $iLength Then
 			ExitLoop
 		EndIf
-		If 2 * (1 + $Length) + $Offset > $Size Then Return SetError(3, 0, 0)
-		$tData = DllStructCreate('wchar[' & (1 + $Length) & ']', $pStruct + $Offset)
+		If 2 * (1 + $iLength) + $iOffset > $iSize Then Return SetError(3, 0, 0)
+		$tData = DllStructCreate('wchar[' & (1 + $iLength) & ']', $pStruct + $iOffset)
 		If @error Then Return SetError(@error + 10, 0, 0)
-		__Inc($Result)
-		$Result[$Result[0]] = DllStructGetData($tData, 1)
-		If $Result[0] = $iItems Then
+		__Inc($aResult)
+		$aResult[$aResult[0]] = DllStructGetData($tData, 1)
+		If $aResult[0] = $iItems Then
 			ExitLoop
 		EndIf
-		$Offset += 2 * (1 + $Length)
-		If $Offset >= $Size Then Return SetError(3, 0, 0)
+		$iOffset += 2 * (1 + $iLength)
+		If $iOffset >= $iSize Then Return SetError(3, 0, 0)
 	WEnd
-	If Not $Result[0] Then Return SetError(2, 0, 0)
+	If Not $aResult[0] Then Return SetError(2, 0, 0)
 
-	__Inc($Result, -1)
-	Return $Result
+	__Inc($aResult, -1)
+	Return $aResult
 EndFunc   ;==>_WinAPI_StructToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -363,36 +360,36 @@ Func __CheckErrorArrayBounds(Const ByRef $aData, ByRef $iStart, ByRef $iEnd, $nD
 	Return 0
 EndFunc   ;==>__CheckErrorArrayBounds
 
-Func __CheckErrorCloseHandle($aRet, $hFile, $bLastError = 0, $curErr = @error, $curExt = @extended)
-	If Not $curErr And Not $aRet[0] Then $curErr = 10
+Func __CheckErrorCloseHandle($aRet, $hFile, $bLastError = 0, $iCurErr = @error, $iCurExt = @extended)
+	If Not $iCurErr And Not $aRet[0] Then $iCurErr = 10
 	Local $iLastError = _WinAPI_GetLastError()
 	DllCall("kernel32.dll", "bool", "CloseHandle", "handle", $hFile)
-	If $curErr Then _WinAPI_SetLastError($iLastError)
-	If $bLastError Then $curExt = $iLastError
-	Return SetError($curErr, $curExt, $curErr)
+	If $iCurErr Then _WinAPI_SetLastError($iLastError)
+	If $bLastError Then $iCurExt = $iLastError
+	Return SetError($iCurErr, $iCurExt, $iCurErr)
 EndFunc   ;==>__CheckErrorCloseHandle
 
-Func __DLL($sPath, $fPin = 0)
-	Local $Ret = DllCall('kernel32.dll', 'bool', 'GetModuleHandleExW', 'dword', __Iif($fPin, 0x0001, 0x0002), "wstr", $sPath, 'ptr*', 0)
-	If Not $Ret[3] Then
+Func __DLL($sPath, $bPin = False)
+	Local $aRet = DllCall('kernel32.dll', 'bool', 'GetModuleHandleExW', 'dword', __Iif($bPin, 0x0001, 0x0002), "wstr", $sPath, 'ptr*', 0)
+	If Not $aRet[3] Then
 		Local $aResult = DllCall("kernel32.dll", "handle", "LoadLibraryW", "wstr", $sPath)
 		If Not $aResult[0] Then Return 0
 	EndIf
 	Return 1
 EndFunc   ;==>__DLL
 
-Func __EnumWindowsProc($hWnd, $fVisible)
+Func __EnumWindowsProc($hWnd, $bVisible)
 	Local $aResult
-	If ($fVisible) Then
+	If $bVisible Then
 		$aResult = DllCall("user32.dll", "bool", "IsWindowVisible", "hwnd", $hWnd)
 		If Not $aResult[0] Then
 			Return 1
 		EndIf
 	EndIf
-	__Inc($__Enum)
-	$__Enum[$__Enum[0][0]][0] = $hWnd
+	__Inc($__g_vEnum)
+	$__g_vEnum[$__g_vEnum[0][0]][0] = $hWnd
 	$aResult = DllCall("user32.dll", "int", "GetClassNameW", "hwnd", $hWnd, "wstr", "", "int", 4096)
-	$__Enum[$__Enum[0][0]][1] = $aResult[2]
+	$__g_vEnum[$__g_vEnum[0][0]][1] = $aResult[2]
 	Return 1
 EndFunc   ;==>__EnumWindowsProc
 
@@ -404,9 +401,9 @@ EndFunc   ;==>__FatalExit
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __HeapAlloc
 ; Description ...:
-; Syntax ........: __HeapAlloc($iSize[, $fAbort = 0])
+; Syntax ........: __HeapAlloc($iSize[, $bAbort = False])
 ; Parameters ....: $iSize               - An integer value.
-;                  $fAbort              - [optional] Abort the script if error. Default is 0.
+;                  $bAbort              - [optional] Abort the script if error. Default is False.
 ; Return values .: Success - a pointer to the allocated memory block
 ;                  Failure - Set the @error flag to 30+
 ; Author ........: Yashied
@@ -416,28 +413,28 @@ EndFunc   ;==>__FatalExit
 ; Link ..........: @@MsdnLink@@ HeapAlloc
 ; Example .......:
 ; ===============================================================================================================================
-Func __HeapAlloc($iSize, $fAbort = 0)
-	Local $Ret
-	If Not $__hHeap Then
-		$Ret = DllCall('kernel32.dll', 'handle', 'HeapCreate', 'dword', 0, 'ulong_ptr', 0, 'ulong_ptr', 0)
-		If @error Or Not $Ret[0] Then __FatalExit(1, 'Error allocating memory.')
-		$__hHeap = $Ret[0]
+Func __HeapAlloc($iSize, $bAbort = False)
+	Local $aRet
+	If Not $__g_hHeap Then
+		$aRet = DllCall('kernel32.dll', 'handle', 'HeapCreate', 'dword', 0, 'ulong_ptr', 0, 'ulong_ptr', 0)
+		If @error Or Not $aRet[0] Then __FatalExit(1, 'Error allocating memory.')
+		$__g_hHeap = $aRet[0]
 	EndIf
 
-	$Ret = DllCall('kernel32.dll', 'ptr', 'HeapAlloc', 'handle', $__hHeap, 'dword', 0x00000008, 'ulong_ptr', $iSize) ; HEAP_ZERO_MEMORY
-	If @error Or Not $Ret[0] Then
-		If $fAbort Then __FatalExit(1, 'Error allocating memory.')
+	$aRet = DllCall('kernel32.dll', 'ptr', 'HeapAlloc', 'handle', $__g_hHeap, 'dword', 0x00000008, 'ulong_ptr', $iSize) ; HEAP_ZERO_MEMORY
+	If @error Or Not $aRet[0] Then
+		If $bAbort Then __FatalExit(1, 'Error allocating memory.')
 		Return SetError(@error + 30, @extended, 0)
 	EndIf
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>__HeapAlloc
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __HeapFree
 ; Description ...:
-; Syntax ........: __HeapFree(Byref $pMemory[, $fCheck = 0])
+; Syntax ........: __HeapFree(Byref $pMemory[, $bCheck = False])
 ; Parameters ....: $pMemory             - [in/out] A pointer value.
-;                  $fCheck              - [optional] Check valid pointer. Default is 0  (see remarks).
+;                  $bCheck              - [optional] Check valid pointer. Default is False (see remarks).
 ; Return values .: Success - 1.
 ;                  Failure - Set the @error flag to 1 to 9 or 40+
 ; Author ........: Yashied
@@ -447,24 +444,24 @@ EndFunc   ;==>__HeapAlloc
 ; Link ..........: @@MsdnLink@@ HeapFree
 ; Example .......: No
 ; ===============================================================================================================================
-Func __HeapFree(ByRef $pMemory, $fCheck = 0, $curErr = @error, $curExt = @extended)
-	If $fCheck And (Not __HeapValidate($pMemory)) Then Return SetError(@error, @extended, 0)
+Func __HeapFree(ByRef $pMemory, $bCheck = False, $iCurErr = @error, $iCurExt = @extended)
+	If $bCheck And (Not __HeapValidate($pMemory)) Then Return SetError(@error, @extended, 0)
 
-	Local $Ret = DllCall('kernel32.dll', 'int', 'HeapFree', 'ptr', $__hHeap, 'dword', 0, 'ptr', $pMemory)
-	If @error Or Not $Ret[0] Then Return SetError(@error + 40, @extended, 0)
+	Local $aRet = DllCall('kernel32.dll', 'int', 'HeapFree', 'ptr', $__g_hHeap, 'dword', 0, 'ptr', $pMemory)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 40, @extended, 0)
 
 	$pMemory = 0
-	Return SetError($curErr, $curExt, 1)
+	Return SetError($iCurErr, $iCurExt, 1)
 EndFunc   ;==>__HeapFree
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __HeapReAlloc
 ; Description ...:
-; Syntax ........: __HeapReAlloc($pMemory, $iSize[, $fAmount = 0[, $fAbort = 0]])
+; Syntax ........: __HeapReAlloc($pMemory, $iSize[, $bAmount = 0[, $bAbort = 0]])
 ; Parameters ....: $pMemory             - A pointer value.
 ;                  $iSize               - An integer value.
-;                  $fAmount             - [optional] A boolean value. Default is 0.
-;                  $fAbort              - [optional] A boolean value. Default is 0.
+;                  $bAmount             - [optional] A boolean value. Default is False.
+;                  $bAbort              - [optional] A boolean value. Default is False.
 ; Return values .: Success -  a pointer to the allocated memory bloc
 ;                  Failure - 0 and sets the @error flag to 1 to 20+ or 30+ if no previous allocation
 ; Author ........: Yashied
@@ -474,31 +471,31 @@ EndFunc   ;==>__HeapFree
 ; Link ..........: @@MsdnLink@@ HeapReAlloc
 ; Example .......: No
 ; ===============================================================================================================================
-Func __HeapReAlloc($pMemory, $iSize, $fAmount = 0, $fAbort = 0)
-	Local $Ret
+Func __HeapReAlloc($pMemory, $iSize, $bAmount = False, $bAbort = False)
+	Local $aRet, $pRet
 	If __HeapValidate($pMemory) Then
-		If $fAmount And (__HeapSize($pMemory) >= $iSize) Then Return SetExtended(1, Ptr($pMemory))
+		If $bAmount And (__HeapSize($pMemory) >= $iSize) Then Return SetExtended(1, Ptr($pMemory))
 
-		$Ret = DllCall('kernel32.dll', 'ptr', 'HeapReAlloc', 'handle', $__hHeap, 'dword', 0x00000008, 'ptr', $pMemory, _
+		$aRet = DllCall('kernel32.dll', 'ptr', 'HeapReAlloc', 'handle', $__g_hHeap, 'dword', 0x00000008, 'ptr', $pMemory, _
 				'ulong_ptr', $iSize) ; HEAP_ZERO_MEMORY
-		If @error Or Not $Ret[0] Then
-			If $fAbort Then __FatalExit(1, 'Error allocating memory.')
+		If @error Or Not $aRet[0] Then
+			If $bAbort Then __FatalExit(1, 'Error allocating memory.')
 			Return SetError(@error + 20, @extended, Ptr($pMemory))
 		EndIf
-		$Ret = $Ret[0]
+		$pRet = $aRet[0]
 	Else
-		$Ret = __HeapAlloc($iSize, $fAbort)
+		$pRet = __HeapAlloc($iSize, $bAbort)
 		If @error Then Return SetError(@error, @extended, 0)
 	EndIf
-	Return $Ret
+	Return $pRet
 EndFunc   ;==>__HeapReAlloc
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __HeapSize
 ; Description ...:
-; Syntax ........: __HeapSize($pMemory[, $fCheck = 0])
+; Syntax ........: __HeapSize($pMemory[, $bCheck = False])
 ; Parameters ....: $pMemory             - A pointer value.
-;                  $fCheck              - [optional] A boolean value. Default is 0.
+;                  $bCheck              - [optional] A boolean value. Default is False.
 ; Return values .: Success - the requested size of the allocated memory block, in bytes.
 ;                  Failure - 0 and sets the @error flag to 1 to 9 or 50+
 ; Modified ......: jpm
@@ -507,12 +504,12 @@ EndFunc   ;==>__HeapReAlloc
 ; Link ..........: @@MsdnLink@@ HeapSize
 ; Example .......:
 ; ===============================================================================================================================
-Func __HeapSize($pMemory, $fCheck = 0)
-	If $fCheck And (Not __HeapValidate($pMemory)) Then Return SetError(@error, @extended, 0)
+Func __HeapSize($pMemory, $bCheck = False)
+	If $bCheck And (Not __HeapValidate($pMemory)) Then Return SetError(@error, @extended, 0)
 
-	Local $Ret = DllCall('kernel32.dll', 'ulong_ptr', 'HeapSize', 'handle', $__hHeap, 'dword', 0, 'ptr', $pMemory)
-	If @error Or ($Ret[0] = Ptr(-1)) Then Return SetError(@error + 50, @extended, 0)
-	Return $Ret[0]
+	Local $aRet = DllCall('kernel32.dll', 'ulong_ptr', 'HeapSize', 'handle', $__g_hHeap, 'dword', 0, 'ptr', $pMemory)
+	If @error Or ($aRet[0] = Ptr(-1)) Then Return SetError(@error + 50, @extended, 0)
+	Return $aRet[0]
 EndFunc   ;==>__HeapSize
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -530,11 +527,11 @@ EndFunc   ;==>__HeapSize
 ; Example .......:
 ; ===============================================================================================================================
 Func __HeapValidate($pMemory)
-	If (Not $__hHeap) Or (Not Ptr($pMemory)) Then Return SetError(9, 0, False)
+	If (Not $__g_hHeap) Or (Not Ptr($pMemory)) Then Return SetError(9, 0, False)
 
-	Local $Ret = DllCall('kernel32.dll', 'int', 'HeapValidate', 'handle', $__hHeap, 'dword', 0, 'ptr', $pMemory)
+	Local $aRet = DllCall('kernel32.dll', 'int', 'HeapValidate', 'handle', $__g_hHeap, 'dword', 0, 'ptr', $pMemory)
 	If @error Then Return SetError(@error, @extended, False)
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>__HeapValidate
 
 Func __Inc(ByRef $aData, $iIncrement = 100)
@@ -566,11 +563,11 @@ EndFunc   ;==>__Inc
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name ..........: __Iif
 ; Description ...:
-; Syntax ........: __Iif($fTest, $iTrue, $iFalse)
-; Parameters ....: $fTest               - A boolean value.
+; Syntax ........: __Iif($bTest, $iTrue, $iFalse)
+; Parameters ....: $bTest               - A boolean value.
 ;                  $vTrue               - An integer value.
 ;                  $vFalse              - An integer value.
-; Return values .: depending $fTest : $vTrue if True  Or $vFalse is False
+; Return values .: depending $bTest : $vTrue if True  Or $vFalse is False
 ; Author ........: Yashied
 ; Modified ......: Jpm
 ; Remarks .......: For Internal Use Only
@@ -578,21 +575,21 @@ EndFunc   ;==>__Inc
 ; Link ..........:
 ; Example .......: No
 ; ===============================================================================================================================
-Func __Iif($fTest, $vTrue, $vFalse)
-	Return $fTest ? $vTrue : $vFalse
+Func __Iif($bTest, $vTrue, $vFalse)
+	Return $bTest ? $vTrue : $vFalse
 EndFunc   ;==>__Iif
 
-Func __Init($bData)
-	Local $Length = BinaryLen($bData)
-	Local $Ret = DllCall('kernel32.dll', 'ptr', 'VirtualAlloc', 'ptr', 0, 'ulong_ptr', $Length, 'dword', 0x00001000, 'dword', 0x00000040)
-	If @error Or Not $Ret[0] Then __FatalExit(1, 'Error allocating memory.')
-	Local $tData = DllStructCreate('byte[' & $Length & "]", $Ret[0])
-	DllStructSetData($tData, 1, $bData)
-	Return $Ret[0]
+Func __Init($dData)
+	Local $iLength = BinaryLen($dData)
+	Local $aRet = DllCall('kernel32.dll', 'ptr', 'VirtualAlloc', 'ptr', 0, 'ulong_ptr', $iLength, 'dword', 0x00001000, 'dword', 0x00000040)
+	If @error Or Not $aRet[0] Then __FatalExit(1, 'Error allocating memory.')
+	Local $tData = DllStructCreate('byte[' & $iLength & "]", $aRet[0])
+	DllStructSetData($tData, 1, $dData)
+	Return $aRet[0]
 EndFunc   ;==>__Init
 
 Func __RGB($iColor)
-	If $__iRGBMode Then
+	If $__g_iRGBMode Then
 		$iColor = _WinAPI_SwitchColor($iColor)
 	EndIf
 	Return $iColor
@@ -621,8 +618,8 @@ Func __WINVER()
 	Local $tOSVI = DllStructCreate($tagOSVERSIONINFO)
 	DllStructSetData($tOSVI, 1, DllStructGetSize($tOSVI))
 
-	Local $Ret = DllCall('kernel32.dll', 'bool', 'GetVersionExW', 'struct*', $tOSVI)
-	If @error Or Not $Ret[0] Then Return SetError(@error, @extended, 0)
+	Local $aRet = DllCall('kernel32.dll', 'bool', 'GetVersionExW', 'struct*', $tOSVI)
+	If @error Or Not $aRet[0] Then Return SetError(@error, @extended, 0)
 	Return BitOR(BitShift(DllStructGetData($tOSVI, 2), -8), DllStructGetData($tOSVI, 3))
 EndFunc   ;==>__WINVER
 

@@ -2,13 +2,15 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Menu_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants for Menu functions.
 ; Author(s) .....: Valik, Gary Frost, ...
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
+Global Const $MF_UNHILITE = 0x0
+Global Const $MF_ENABLED = 0x0
 Global Const $MF_UNCHECKED = 0x0
 Global Const $MF_STRING = 0x0
 Global Const $MF_GRAYED = 0x00000001
@@ -33,8 +35,12 @@ Global Const $MFS_GRAYED = 0x00000003
 Global Const $MFS_DISABLED = $MFS_GRAYED
 Global Const $MFS_CHECKED = $MF_CHECKED
 Global Const $MFS_HILITE = $MF_HILITE
+Global Const $MFS_ENABLED = $MF_ENABLED
+Global Const $MFS_UNCHECKED = $MF_UNCHECKED
+Global Const $MFS_UNHILITE = $MF_UNHILITE
 Global Const $MFS_DEFAULT = $MF_DEFAULT
 
+Global Const $MFT_STRING = $MF_STRING
 Global Const $MFT_BITMAP = $MF_BITMAP
 Global Const $MFT_MENUBARBREAK = $MF_MENUBARBREAK
 Global Const $MFT_MENUBREAK = $MF_MENUBREAK

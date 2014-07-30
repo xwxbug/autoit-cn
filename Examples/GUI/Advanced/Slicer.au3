@@ -1,7 +1,7 @@
 #include <GDIPlus.au3>
+#include <GuiConstantsEx.au3>
 #include <ScreenCapture.au3>
 #include <WinAPI.au3>
-#include <GuiConstantsEx.au3>
 
 ; ===============================================================================================================================
 ; Description ...: Shows how to slice up an image and then put it back together
@@ -10,33 +10,33 @@
 ; ===============================================================================================================================
 
 ; ===============================================================================================================================
-; Global variables
+; Local variables
 ; ===============================================================================================================================
-Global $iI, $hBitmap, $hGraphic, $hGUI, $hImage, $aSlice[4]
+Local $aSlice[4]
 
 ; ===============================================================================================================================
 ; Main
 ; ===============================================================================================================================
 
 ; Capture screen region
-$hBitmap = _ScreenCapture_Capture("", 0, 0, 400, 400)
+Local $hBitmap = _ScreenCapture_Capture("", 0, 0, 400, 400)
 
 ; Create GUI
-$hGUI = GUICreate("Slicer", 400, 400)
+Local $hGUI = GUICreate("Slicer", 400, 400)
 GUISetState()
 
 ; Initialize GDI+ library
 _GDIPlus_Startup()
 
 ; Slice up screen capture into 4 equal parts
-$hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
+Local $hImage = _GDIPlus_BitmapCreateFromHBITMAP($hBitmap)
 $aSlice[0] = _GDIPlus_BitmapCloneArea($hImage, 0, 0, 200, 200)
 $aSlice[1] = _GDIPlus_BitmapCloneArea($hImage, 200, 0, 200, 200)
 $aSlice[2] = _GDIPlus_BitmapCloneArea($hImage, 0, 200, 200, 200)
 $aSlice[3] = _GDIPlus_BitmapCloneArea($hImage, 200, 200, 200, 200)
 
 ; Show each slice
-$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
+Local $hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 For $iI = 0 To 3
 	_GDIPlus_GraphicsDrawImage($hGraphic, $aSlice[$iI], 100, 100)
 	Sleep(2000)

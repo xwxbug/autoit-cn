@@ -10,7 +10,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Edit
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with Edit control management.
 ;                  An edit control is a rectangular control window typically used in a dialog box to permit the user to enter
@@ -18,7 +18,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_ghEditLastWnd
+Global $__g_hEditLastWnd
 
 ; ===============================================================================================================================
 
@@ -212,12 +212,12 @@ EndFunc   ;==>_GUICtrlEdit_Create
 Func _GUICtrlEdit_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__EDITCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
+	Local $iDestroyed = 0
 	If IsHWnd($hWnd) Then
-		If _WinAPI_InProcess($hWnd, $_ghEditLastWnd) Then
+		If _WinAPI_InProcess($hWnd, $__g_hEditLastWnd) Then
 			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 			Local $hParent = _WinAPI_GetParent($hWnd)
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 			If Not $iRet Then
 				; can check for errors here if needed, for debug
@@ -227,10 +227,10 @@ Func _GUICtrlEdit_Destroy(ByRef $hWnd)
 			Return SetError(1, 1, False)
 		EndIf
 	Else
-		$Destroyed = GUICtrlDelete($hWnd)
+		$iDestroyed = GUICtrlDelete($hWnd)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlEdit_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -257,49 +257,49 @@ EndFunc   ;==>_GUICtrlEdit_EndUpdate
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_FmtLines($hWnd, $fSoftBreak = False)
+Func _GUICtrlEdit_FmtLines($hWnd, $bSoftBreak = False)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $EM_FMTLINES, $fSoftBreak)
+	Return _SendMessage($hWnd, $EM_FMTLINES, $bSoftBreak)
 EndFunc   ;==>_GUICtrlEdit_FmtLines
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_Find($hWnd, $fReplace = False)
+Func _GUICtrlEdit_Find($hWnd, $bReplace = False)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iPos = 0, $iCase, $iOccurance = 0, $iReplacements = 0
 	Local $aPartsRightEdge[3] = [125, 225, -1]
-	Local $oldMode = Opt("GUIOnEventMode", 0)
+	Local $iOldMode = Opt("GUIOnEventMode", 0)
 
 	Local $aSel = _GUICtrlEdit_GetSel($hWnd)
 	Local $sText = _GUICtrlEdit_GetText($hWnd)
 
-	Local $guiSearch = GUICreate("Find", 349, 177, -1, -1, BitOR($__UDFGUICONSTANT_WS_CHILD, $__EDITCONSTANT_WS_MINIMIZEBOX, $__EDITCONSTANT_WS_CAPTION, $__EDITCONSTANT_WS_POPUP, $__EDITCONSTANT_WS_SYSMENU))
-	Local $StatusBar1 = _GUICtrlStatusBar_Create($guiSearch, $aPartsRightEdge)
-	_GUICtrlStatusBar_SetText($StatusBar1, "Find: ")
+	Local $hGuiSearch = GUICreate("Find", 349, 177, -1, -1, BitOR($__UDFGUICONSTANT_WS_CHILD, $__EDITCONSTANT_WS_MINIMIZEBOX, $__EDITCONSTANT_WS_CAPTION, $__EDITCONSTANT_WS_POPUP, $__EDITCONSTANT_WS_SYSMENU))
+	Local $idStatusBar1 = _GUICtrlStatusBar_Create($hGuiSearch, $aPartsRightEdge)
+	_GUICtrlStatusBar_SetText($idStatusBar1, "Find: ")
 
-	GUISetIcon(@SystemDir & "\shell32.dll", 22, $guiSearch)
+	GUISetIcon(@SystemDir & "\shell32.dll", 22, $hGuiSearch)
 	GUICtrlCreateLabel("Find what:", 9, 10, 53, 16, $__EDITCONSTANT_SS_CENTER)
-	Local $inputSearch = GUICtrlCreateInput("", 80, 8, 257, 21)
-	Local $lblReplace = GUICtrlCreateLabel("Replace with:", 9, 42, 69, 17, $__EDITCONSTANT_SS_CENTER)
-	Local $inputReplace = GUICtrlCreateInput("", 80, 40, 257, 21)
-	Local $chkWholeOnly = GUICtrlCreateCheckbox("Match whole word only", 9, 72, 145, 17)
-	Local $chkMatchCase = GUICtrlCreateCheckbox("Match case", 9, 96, 145, 17)
-	Local $btnFindNext = GUICtrlCreateButton("Find Next", 168, 72, 161, 21, 0)
-	Local $btnReplace = GUICtrlCreateButton("Replace", 168, 96, 161, 21, 0)
-	Local $btnClose = GUICtrlCreateButton("Close", 104, 130, 161, 21, 0)
+	Local $idInputSearch = GUICtrlCreateInput("", 80, 8, 257, 21)
+	Local $idLblReplace = GUICtrlCreateLabel("Replace with:", 9, 42, 69, 17, $__EDITCONSTANT_SS_CENTER)
+	Local $idInputReplace = GUICtrlCreateInput("", 80, 40, 257, 21)
+	Local $idChkWholeOnly = GUICtrlCreateCheckbox("Match whole word only", 9, 72, 145, 17)
+	Local $idChkMatchCase = GUICtrlCreateCheckbox("Match case", 9, 96, 145, 17)
+	Local $idBtnFindNext = GUICtrlCreateButton("Find Next", 168, 72, 161, 21, 0)
+	Local $idBtnReplace = GUICtrlCreateButton("Replace", 168, 96, 161, 21, 0)
+	Local $idBtnClose = GUICtrlCreateButton("Close", 104, 130, 161, 21, 0)
 	If (IsArray($aSel) And $aSel <> $EC_ERR) Then
-		GUICtrlSetData($inputSearch, StringMid($sText, $aSel[0] + 1, $aSel[1] - $aSel[0]))
+		GUICtrlSetData($idInputSearch, StringMid($sText, $aSel[0] + 1, $aSel[1] - $aSel[0]))
 		If $aSel[0] <> $aSel[1] Then ; text was selected when function was invoked
 			$iPos = $aSel[0]
-			If BitAND(GUICtrlRead($chkMatchCase), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iCase = 1
+			If BitAND(GUICtrlRead($idChkMatchCase), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iCase = 1
 			$iOccurance = 1
 			Local $iTPose
 			While 1 ; set the current occurance so search starts from here
-				$iTPose = StringInStr($sText, GUICtrlRead($inputSearch), $iCase, $iOccurance)
+				$iTPose = StringInStr($sText, GUICtrlRead($idInputSearch), $iCase, $iOccurance)
 				If Not $iTPose Then ; this should never happen, but just in case
 					$iOccurance = 0
 					ExitLoop
@@ -309,68 +309,68 @@ Func _GUICtrlEdit_Find($hWnd, $fReplace = False)
 				$iOccurance += 1
 			WEnd
 		EndIf
-		_GUICtrlStatusBar_SetText($StatusBar1, "Find: " & GUICtrlRead($inputSearch))
+		_GUICtrlStatusBar_SetText($idStatusBar1, "Find: " & GUICtrlRead($idInputSearch))
 	EndIf
 
-	If $fReplace = False Then
-		GUICtrlSetState($lblReplace, $__EDITCONSTANT_GUI_HIDE)
-		GUICtrlSetState($inputReplace, $__EDITCONSTANT_GUI_HIDE)
-		GUICtrlSetState($btnReplace, $__EDITCONSTANT_GUI_HIDE)
+	If $bReplace = False Then
+		GUICtrlSetState($idLblReplace, $__EDITCONSTANT_GUI_HIDE)
+		GUICtrlSetState($idInputReplace, $__EDITCONSTANT_GUI_HIDE)
+		GUICtrlSetState($idBtnReplace, $__EDITCONSTANT_GUI_HIDE)
 	Else
-		_GUICtrlStatusBar_SetText($StatusBar1, "Replacements: " & $iReplacements, 1)
-		_GUICtrlStatusBar_SetText($StatusBar1, "With: ", 2)
+		_GUICtrlStatusBar_SetText($idStatusBar1, "Replacements: " & $iReplacements, 1)
+		_GUICtrlStatusBar_SetText($idStatusBar1, "With: ", 2)
 	EndIf
 	GUISetState(@SW_SHOW)
 
-	Local $msgFind
+	Local $iMsgFind
 	While 1
-		$msgFind = GUIGetMsg()
+		$iMsgFind = GUIGetMsg()
 		Select
-			Case $msgFind = $__EDITCONSTANT_GUI_EVENT_CLOSE Or $msgFind = $btnClose
+			Case $iMsgFind = $__EDITCONSTANT_GUI_EVENT_CLOSE Or $iMsgFind = $idBtnClose
 				ExitLoop
-			Case $msgFind = $btnFindNext
-				GUICtrlSetState($btnFindNext, $__EDITCONSTANT_GUI_DISABLE)
-				GUICtrlSetCursor($btnFindNext, 15)
+			Case $iMsgFind = $idBtnFindNext
+				GUICtrlSetState($idBtnFindNext, $__EDITCONSTANT_GUI_DISABLE)
+				GUICtrlSetCursor($idBtnFindNext, 15)
 				Sleep(100)
-				_GUICtrlStatusBar_SetText($StatusBar1, "Find: " & GUICtrlRead($inputSearch))
-				If $fReplace = True Then
-					_GUICtrlStatusBar_SetText($StatusBar1, "Find: " & GUICtrlRead($inputSearch))
-					_GUICtrlStatusBar_SetText($StatusBar1, "With: " & GUICtrlRead($inputReplace), 2)
+				_GUICtrlStatusBar_SetText($idStatusBar1, "Find: " & GUICtrlRead($idInputSearch))
+				If $bReplace = True Then
+					_GUICtrlStatusBar_SetText($idStatusBar1, "Find: " & GUICtrlRead($idInputSearch))
+					_GUICtrlStatusBar_SetText($idStatusBar1, "With: " & GUICtrlRead($idInputReplace), 2)
 				EndIf
-				__GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, $iPos, $iOccurance, $iReplacements)
+				__GUICtrlEdit_FindText($hWnd, $idInputSearch, $idChkMatchCase, $idChkWholeOnly, $iPos, $iOccurance, $iReplacements)
 				Sleep(100)
-				GUICtrlSetState($btnFindNext, $__EDITCONSTANT_GUI_ENABLE)
-				GUICtrlSetCursor($btnFindNext, 2)
-			Case $msgFind = $btnReplace
-				GUICtrlSetState($btnReplace, $__EDITCONSTANT_GUI_DISABLE)
-				GUICtrlSetCursor($btnReplace, 15)
+				GUICtrlSetState($idBtnFindNext, $__EDITCONSTANT_GUI_ENABLE)
+				GUICtrlSetCursor($idBtnFindNext, 2)
+			Case $iMsgFind = $idBtnReplace
+				GUICtrlSetState($idBtnReplace, $__EDITCONSTANT_GUI_DISABLE)
+				GUICtrlSetCursor($idBtnReplace, 15)
 				Sleep(100)
-				_GUICtrlStatusBar_SetText($StatusBar1, "Find: " & GUICtrlRead($inputSearch))
-				_GUICtrlStatusBar_SetText($StatusBar1, "With: " & GUICtrlRead($inputReplace), 2)
+				_GUICtrlStatusBar_SetText($idStatusBar1, "Find: " & GUICtrlRead($idInputSearch))
+				_GUICtrlStatusBar_SetText($idStatusBar1, "With: " & GUICtrlRead($idInputReplace), 2)
 				If $iPos Then
-					_GUICtrlEdit_ReplaceSel($hWnd, GUICtrlRead($inputReplace))
+					_GUICtrlEdit_ReplaceSel($hWnd, GUICtrlRead($idInputReplace))
 					$iReplacements += 1
 					$iOccurance -= 1
-					_GUICtrlStatusBar_SetText($StatusBar1, "Replacements: " & $iReplacements, 1)
+					_GUICtrlStatusBar_SetText($idStatusBar1, "Replacements: " & $iReplacements, 1)
 				EndIf
-				__GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, $iPos, $iOccurance, $iReplacements)
+				__GUICtrlEdit_FindText($hWnd, $idInputSearch, $idChkMatchCase, $idChkWholeOnly, $iPos, $iOccurance, $iReplacements)
 				Sleep(100)
-				GUICtrlSetState($btnReplace, $__EDITCONSTANT_GUI_ENABLE)
-				GUICtrlSetCursor($btnReplace, 2)
+				GUICtrlSetState($idBtnReplace, $__EDITCONSTANT_GUI_ENABLE)
+				GUICtrlSetCursor($idBtnReplace, 2)
 		EndSelect
 	WEnd
-	GUIDelete($guiSearch)
-	Opt("GUIOnEventMode", $oldMode)
+	GUIDelete($hGuiSearch)
+	Opt("GUIOnEventMode", $iOldMode)
 EndFunc   ;==>_GUICtrlEdit_Find
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __GUICtrlEdit_FindText
 ; Description ...:
-; Syntax.........: __GUICtrlEdit_FindText ( $hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, ByRef $iPos, ByRef $iOccurance, ByRef $iReplacements )
+; Syntax.........: __GUICtrlEdit_FindText ( $hWnd, $idInputSearch, $idChkMatchCase, $idChkWholeOnly, ByRef $iPos, ByRef $iOccurance, ByRef $iReplacements )
 ; Parameters ....: $hWnd          - Handle to the control
-;                  $inputSearch   - controlID
-;                  $chkMatchCase  - controlID
-;                  $chkWholeOnly  - controlID
+;                  $idInputSearch   - controlID
+;                  $idChkMatchCase  - controlID
+;                  $idChkWholeOnly  - controlID
 ;                  $iPos          - position of text found
 ;                  $iOccurance    - occurance to find
 ;                  $iReplacements - # of occurances replaced
@@ -382,40 +382,40 @@ EndFunc   ;==>_GUICtrlEdit_Find
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, ByRef $iPos, ByRef $iOccurance, ByRef $iReplacements)
+Func __GUICtrlEdit_FindText($hWnd, $idInputSearch, $idChkMatchCase, $idChkWholeOnly, ByRef $iPos, ByRef $iOccurance, ByRef $iReplacements)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iCase = 0, $iWhole = 0
-	Local $fExact = False
-	Local $sFind = GUICtrlRead($inputSearch)
+	Local $bExact = False
+	Local $sFind = GUICtrlRead($idInputSearch)
 
 	Local $sText = _GUICtrlEdit_GetText($hWnd)
 
-	If BitAND(GUICtrlRead($chkMatchCase), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iCase = 1
-	If BitAND(GUICtrlRead($chkWholeOnly), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iWhole = 1
+	If BitAND(GUICtrlRead($idChkMatchCase), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iCase = 1
+	If BitAND(GUICtrlRead($idChkWholeOnly), $__EDITCONSTANT_GUI_CHECKED) = $__EDITCONSTANT_GUI_CHECKED Then $iWhole = 1
 	If $sFind <> "" Then
 		$iOccurance += 1
 		$iPos = StringInStr($sText, $sFind, $iCase, $iOccurance)
 		If $iWhole And $iPos Then
-			Local $c_compare2 = StringMid($sText, $iPos + StringLen($sFind), 1)
+			Local $s_Compare2 = StringMid($sText, $iPos + StringLen($sFind), 1)
 			If $iPos = 1 Then
 				If ($iPos + StringLen($sFind)) - 1 = StringLen($sText) Or _
-						($c_compare2 = " " Or $c_compare2 = @LF Or $c_compare2 = @CR Or _
-						$c_compare2 = @CRLF Or $c_compare2 = @TAB) Then $fExact = True
+						($s_Compare2 = " " Or $s_Compare2 = @LF Or $s_Compare2 = @CR Or _
+						$s_Compare2 = @CRLF Or $s_Compare2 = @TAB) Then $bExact = True
 			Else
-				Local $c_compare1 = StringMid($sText, $iPos - 1, 1)
+				Local $s_Compare1 = StringMid($sText, $iPos - 1, 1)
 				If ($iPos + StringLen($sFind)) - 1 = StringLen($sText) Then
-					If ($c_compare1 = " " Or $c_compare1 = @LF Or $c_compare1 = @CR Or _
-							$c_compare1 = @CRLF Or $c_compare1 = @TAB) Then $fExact = True
+					If ($s_Compare1 = " " Or $s_Compare1 = @LF Or $s_Compare1 = @CR Or _
+							$s_Compare1 = @CRLF Or $s_Compare1 = @TAB) Then $bExact = True
 				Else
-					If ($c_compare1 = " " Or $c_compare1 = @LF Or $c_compare1 = @CR Or _
-							$c_compare1 = @CRLF Or $c_compare1 = @TAB) And _
-							($c_compare2 = " " Or $c_compare2 = @LF Or $c_compare2 = @CR Or _
-							$c_compare2 = @CRLF Or $c_compare2 = @TAB) Then $fExact = True
+					If ($s_Compare1 = " " Or $s_Compare1 = @LF Or $s_Compare1 = @CR Or _
+							$s_Compare1 = @CRLF Or $s_Compare1 = @TAB) And _
+							($s_Compare2 = " " Or $s_Compare2 = @LF Or $s_Compare2 = @CR Or _
+							$s_Compare2 = @CRLF Or $s_Compare2 = @TAB) Then $bExact = True
 				EndIf
 			EndIf
-			If $fExact = False Then ; found word, but as part of another word, so search again
-				__GUICtrlEdit_FindText($hWnd, $inputSearch, $chkMatchCase, $chkWholeOnly, $iPos, $iOccurance, $iReplacements)
+			If $bExact = False Then ; found word, but as part of another word, so search again
+				__GUICtrlEdit_FindText($hWnd, $idInputSearch, $idChkMatchCase, $idChkWholeOnly, $iPos, $iOccurance, $iReplacements)
 			Else ; found it
 				_GUICtrlEdit_SetSel($hWnd, $iPos - 1, ($iPos + StringLen($sFind)) - 1)
 				_GUICtrlEdit_Scroll($hWnd, $__EDITCONSTANT_SB_SCROLLCARET)
@@ -586,11 +586,11 @@ Func _GUICtrlEdit_GetRECT($hWnd)
 
 	Local $aRect[4]
 
-	Local $tRect = _GUICtrlEdit_GetRECTEx($hWnd)
-	$aRect[0] = DllStructGetData($tRect, "Left")
-	$aRect[1] = DllStructGetData($tRect, "Top")
-	$aRect[2] = DllStructGetData($tRect, "Right")
-	$aRect[3] = DllStructGetData($tRect, "Bottom")
+	Local $tRECT = _GUICtrlEdit_GetRECTEx($hWnd)
+	$aRect[0] = DllStructGetData($tRECT, "Left")
+	$aRect[1] = DllStructGetData($tRECT, "Top")
+	$aRect[2] = DllStructGetData($tRECT, "Right")
+	$aRect[3] = DllStructGetData($tRECT, "Bottom")
 	Return $aRect
 EndFunc   ;==>_GUICtrlEdit_GetRECT
 
@@ -601,9 +601,9 @@ EndFunc   ;==>_GUICtrlEdit_GetRECT
 Func _GUICtrlEdit_GetRECTEx($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $tRect = DllStructCreate($tagRECT)
-	_SendMessage($hWnd, $EM_GETRECT, 0, $tRect, 0, "wparam", "struct*")
-	Return $tRect
+	Local $tRECT = DllStructCreate($tagRECT)
+	_SendMessage($hWnd, $EM_GETRECT, 0, $tRECT, 0, "wparam", "struct*")
+	Return $tRECT
 EndFunc   ;==>_GUICtrlEdit_GetRECTEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -614,11 +614,11 @@ Func _GUICtrlEdit_GetSel($hWnd)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $aSel[2]
-	Local $wparam = DllStructCreate("uint Start")
-	Local $lparam = DllStructCreate("uint End")
-	_SendMessage($hWnd, $EM_GETSEL, $wparam, $lparam, 0, "struct*", "struct*")
-	$aSel[0] = DllStructGetData($wparam, "Start")
-	$aSel[1] = DllStructGetData($lparam, "End")
+	Local $tStart = DllStructCreate("uint Start")
+	Local $tEnd = DllStructCreate("uint End")
+	_SendMessage($hWnd, $EM_GETSEL, $tStart, $tEnd, 0, "struct*", "struct*")
+	$aSel[0] = DllStructGetData($tStart, "Start")
+	$aSel[1] = DllStructGetData($tEnd, "End")
 	Return $aSel
 EndFunc   ;==>_GUICtrlEdit_GetSel
 
@@ -736,8 +736,8 @@ EndFunc   ;==>_GUICtrlEdit_LineIndex
 Func _GUICtrlEdit_LineLength($hWnd, $iIndex = -1)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $CharIndex = _GUICtrlEdit_LineIndex($hWnd, $iIndex)
-	Return _SendMessage($hWnd, $EM_LINELENGTH, $CharIndex)
+	Local $iCharIndex = _GUICtrlEdit_LineIndex($hWnd, $iIndex)
+	Return _SendMessage($hWnd, $EM_LINELENGTH, $iCharIndex)
 EndFunc   ;==>_GUICtrlEdit_LineLength
 
 ; #FUNCTION# ====================================================================================================================
@@ -768,10 +768,10 @@ EndFunc   ;==>_GUICtrlEdit_PosFromChar
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_ReplaceSel($hWnd, $sText, $fUndo = True)
+Func _GUICtrlEdit_ReplaceSel($hWnd, $sText, $bUndo = True)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	_SendMessage($hWnd, $EM_REPLACESEL, $fUndo, $sText, 0, "wparam", "wstr")
+	_SendMessage($hWnd, $EM_REPLACESEL, $bUndo, $sText, 0, "wparam", "wstr")
 EndFunc   ;==>_GUICtrlEdit_ReplaceSel
 
 ; #FUNCTION# ====================================================================================================================
@@ -862,23 +862,23 @@ EndFunc   ;==>_GUICtrlEdit_SetMargins
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_SetModify($hWnd, $fModified)
+Func _GUICtrlEdit_SetModify($hWnd, $bModified)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	_SendMessage($hWnd, $EM_SETMODIFY, $fModified)
+	_SendMessage($hWnd, $EM_SETMODIFY, $bModified)
 EndFunc   ;==>_GUICtrlEdit_SetModify
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_SetPasswordChar($hWnd, $cDisplayChar = "0")
+Func _GUICtrlEdit_SetPasswordChar($hWnd, $sDisplayChar = "0")
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
-	$cDisplayChar = StringLeft($cDisplayChar, 1)
-	If Asc($cDisplayChar) = 48 Then
+	$sDisplayChar = StringLeft($sDisplayChar, 1)
+	If Asc($sDisplayChar) = 48 Then
 		_SendMessage($hWnd, $EM_SETPASSWORDCHAR)
 	Else
-		_SendMessage($hWnd, $EM_SETPASSWORDCHAR, Asc($cDisplayChar))
+		_SendMessage($hWnd, $EM_SETPASSWORDCHAR, Asc($sDisplayChar))
 	EndIf
 EndFunc   ;==>_GUICtrlEdit_SetPasswordChar
 
@@ -886,10 +886,10 @@ EndFunc   ;==>_GUICtrlEdit_SetPasswordChar
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_SetReadOnly($hWnd, $fReadOnly)
+Func _GUICtrlEdit_SetReadOnly($hWnd, $bReadOnly)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $EM_SETREADONLY, $fReadOnly) <> 0
+	Return _SendMessage($hWnd, $EM_SETREADONLY, $bReadOnly) <> 0
 EndFunc   ;==>_GUICtrlEdit_SetReadOnly
 
 ; #FUNCTION# ====================================================================================================================
@@ -897,22 +897,22 @@ EndFunc   ;==>_GUICtrlEdit_SetReadOnly
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlEdit_SetRECT($hWnd, $aRect)
-	Local $tRect = DllStructCreate($tagRECT)
-	DllStructSetData($tRect, "Left", $aRect[0])
-	DllStructSetData($tRect, "Top", $aRect[1])
-	DllStructSetData($tRect, "Right", $aRect[2])
-	DllStructSetData($tRect, "Bottom", $aRect[3])
-	_GUICtrlEdit_SetRECTEx($hWnd, $tRect)
+	Local $tRECT = DllStructCreate($tagRECT)
+	DllStructSetData($tRECT, "Left", $aRect[0])
+	DllStructSetData($tRECT, "Top", $aRect[1])
+	DllStructSetData($tRECT, "Right", $aRect[2])
+	DllStructSetData($tRECT, "Bottom", $aRect[3])
+	_GUICtrlEdit_SetRECTEx($hWnd, $tRECT)
 EndFunc   ;==>_GUICtrlEdit_SetRECT
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_SetRECTEx($hWnd, $tRect)
+Func _GUICtrlEdit_SetRECTEx($hWnd, $tRECT)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	_SendMessage($hWnd, $EM_SETRECT, 0, $tRect, 0, "wparam", "struct*")
+	_SendMessage($hWnd, $EM_SETRECT, 0, $tRECT, 0, "wparam", "struct*")
 EndFunc   ;==>_GUICtrlEdit_SetRECTEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -920,22 +920,22 @@ EndFunc   ;==>_GUICtrlEdit_SetRECTEx
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlEdit_SetRECTNP($hWnd, $aRect)
-	Local $tRect = DllStructCreate($tagRECT)
-	DllStructSetData($tRect, "Left", $aRect[0])
-	DllStructSetData($tRect, "Top", $aRect[1])
-	DllStructSetData($tRect, "Right", $aRect[2])
-	DllStructSetData($tRect, "Bottom", $aRect[3])
-	_GUICtrlEdit_SetRectNPEx($hWnd, $tRect)
+	Local $tRECT = DllStructCreate($tagRECT)
+	DllStructSetData($tRECT, "Left", $aRect[0])
+	DllStructSetData($tRECT, "Top", $aRect[1])
+	DllStructSetData($tRECT, "Right", $aRect[2])
+	DllStructSetData($tRECT, "Bottom", $aRect[3])
+	_GUICtrlEdit_SetRectNPEx($hWnd, $tRECT)
 EndFunc   ;==>_GUICtrlEdit_SetRECTNP
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlEdit_SetRectNPEx($hWnd, $tRect)
+Func _GUICtrlEdit_SetRectNPEx($hWnd, $tRECT)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	_SendMessage($hWnd, $EM_SETRECTNP, 0, $tRect, 0, "wparam", "struct*")
+	_SendMessage($hWnd, $EM_SETRECTNP, 0, $tRECT, 0, "wparam", "struct*")
 EndFunc   ;==>_GUICtrlEdit_SetRectNPEx
 
 ; #FUNCTION# ====================================================================================================================

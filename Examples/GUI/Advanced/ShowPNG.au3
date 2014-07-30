@@ -7,21 +7,16 @@
 ; Notes .........:
 ; ===============================================================================================================================
 
-; ===============================================================================================================================
-; Global variables
-; ===============================================================================================================================
-Global $hGUI, $hImage, $hGraphic
-
 ; Create GUI
-$hGUI = GUICreate("Show PNG", 240, 240)
+Local $hGUI = GUICreate("Show PNG", 240, 240)
 GUISetState()
 
 ; Load PNG image
 _GDIPlus_Startup()
-$hImage = _GDIPlus_ImageLoadFromFile("..\Torus.png")
+Local $hImage = _GDIPlus_ImageLoadFromFile("..\Torus.png")
 
 ; Draw PNG image
-$hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
+Local $hGraphic = _GDIPlus_GraphicsCreateFromHWND($hGUI)
 _GDIPlus_GraphicsDrawImage($hGraphic, $hImage, 0, 0)
 
 ; Loop until user exits

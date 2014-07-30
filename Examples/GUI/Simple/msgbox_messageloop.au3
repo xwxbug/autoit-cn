@@ -1,34 +1,34 @@
 ; A simple custom messagebox that uses the MessageLoop mode
 
-#include <GUIConstantsEx.au3>
 #include <Constants.au3>
+#include <GUIConstantsEx.au3>
 
 _Main()
 
 Func _Main()
-	Local $YesID, $NoID, $ExitID, $msg
+	Local $idYes, $idNo, $idExit, $iMsg
 
-GUICreate("自定义 MsgBox", 210, 80)
+	GUICreate("自定义 MsgBox", 210, 80)
 
 	GUICtrlCreateLabel("请单击一个按钮!", 10, 10)
-$YesID  = GUICtrlCreateButton("是", 10, 50, 50, 20)
-$NoID   = GUICtrlCreateButton("否", 80, 50, 50, 20)
-$ExitID = GUICtrlCreateButton("退出", 150, 50, 50, 20)
+	$idYes = GUICtrlCreateButton("是", 10, 50, 50, 20)
+	$idNo = GUICtrlCreateButton("否", 80, 50, 50, 20)
+	$idExit = GUICtrlCreateButton("退出", 150, 50, 50, 20)
 
 	GUISetState() ; display the GUI
 
 	Do
-		$msg = GUIGetMsg()
+		$iMsg = GUIGetMsg()
 
 		Select
-			Case $msg = $YesID
+			Case $iMsg = $idYes
 			MsgBox($MB_SYSTEMMODAL,"您单击了:", "是")
-			Case $msg = $NoID
+			Case $iMsg = $idNo
 			MsgBox($MB_SYSTEMMODAL,"您单击了:", "否")
-			Case $msg = $ExitID
+			Case $iMsg = $idExit
 			MsgBox($MB_SYSTEMMODAL,"您单击了:", "退出")
-			Case $msg = $GUI_EVENT_CLOSE
+			Case $iMsg = $GUI_EVENT_CLOSE
 			MsgBox($MB_SYSTEMMODAL,"您单击了:", "关闭")
 		EndSelect
-	Until $msg = $GUI_EVENT_CLOSE Or $msg = $ExitID
+	Until $iMsg = $GUI_EVENT_CLOSE Or $iMsg = $idExit
 EndFunc   ;==>_Main

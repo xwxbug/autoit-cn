@@ -4,11 +4,14 @@
 ; AutoIt version: 3.0.103
 ; Language:       English
 ; Author:         "Wolvereness"
+; Modified:       jpm
 ;
 ; ----------------------------------------------------------------------------
 ; Script Start
 ; ----------------------------------------------------------------------------
 
+#include <ComboConstants.au3>
+#include <Crypt.au3>
 #include <EditConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <String.au3>
@@ -17,75 +20,77 @@
 _Main()
 
 Func _Main()
-	Local $WinMain, $EditText, $InputLevel, $InputPass, $UpDownLevel
-	Local $EncryptButton, $DecryptButton, $string
-	#forceref $UpDownLevel
-	; ~
-$WinMain = GUICreate('加密工具', 400, 400)
 	; Creates window
-	; ~
-	$EditText = GUICtrlCreateEdit('', 5, 5, 380, 350)
+	GUICreate('加密工具', 400, 400)
+
 	; Creates main edit
-	; ~
-	$InputPass = GUICtrlCreateInput('', 5, 360, 100, 20, BitOR($ES_CENTER, $ES_PASSWORD))
+	Local $idEditText = GUICtrlCreateEdit('', 5, 5, 380, 350)
+
 	; Creates the password box with blured/centered input
-	; ~
-	$InputLevel = GUICtrlCreateInput(1, 110, 360, 50, 20, BitOR($ES_CENTER, $ES_NUMBER))
-	$UpDownLevel = GUICtrlSetLimit(GUICtrlCreateUpdown($InputLevel), 10, 1)
-	; These two make the level input with the Up|Down ability
-	; ~
-	$EncryptButton = GUICtrlCreateButton('加密', 170, 360, 105, 35)
-	$DecryptButton = GUICtrlCreateButton('解密', 285, 360, 105, 35)
+	Local $idInputPass = GUICtrlCreateInput('', 5, 360, 100, 20, BitOR($ES_CENTER, $ES_PASSWORD))
+
+	; Cretae the combo to select the crypting algorithm
+	Local $idCombo = GUICtrlCreateCombo("", 110, 360, 90, 20, $CBS_DROPDOWNLIST)
+	GUICtrlSetData($idCombo, "3DES|AES (128bit)|AES (192bit)|AES (256bit)|DES|RC2|RC4", "RC4")
+
 	; Encryption/Decryption buttons
-	; ~
+	Local $idEncryptButton = GUICtrlCreateButton('加密', 210, 360, 85, 35)
+	Local $idDecryptButton = GUICtrlCreateButton('解密', 300, 360, 85, 35)
+
+	; Simple text labels so you know what is what
 	GUICtrlCreateLabel('密码', 5, 385)
 	GUICtrlCreateLabel('等级',110,385)
-	; Simple text labels so you know what is what
-	; ~
-	GUISetState()
+
 	; Shows window
-	; ~
+	GUISetState()
+
+	Local $iAlgorithm = $CALG_RC4
+	Local $dEncrypted
 
 	While 1
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
-			Case $EncryptButton
+
+			Case $idCombo ; Check when the combobox is selected and retrieve the correct algorithm.
+				Switch GUICtrlRead($idCombo) ; Read the combobox selection.
+					Case "3DES"
+						$iAlgorithm = $CALG_3DES
+
+					Case "AES (128bit)"
+						$iAlgorithm = $CALG_AES_128
+
+					Case "AES (192bit)"
+						$iAlgorithm = $CALG_AES_192
+
+					Case "AES (256bit)"
+						$iAlgorithm = $CALG_AES_256
+
+					Case "DES"
+						$iAlgorithm = $CALG_DES
+
+					Case "RC2"
+						$iAlgorithm = $CALG_RC2
+
+					Case "RC4"
+						$iAlgorithm = $CALG_RC4
+
+				EndSwitch
+
+			Case $idEncryptButton
 				; When you press Encrypt
-				; ~
-				GUISetState(@SW_DISABLE, $WinMain)
-				; Stops you from changing anything
-				; ~
-				$string = GUICtrlRead($EditText)
-				; Saves the editbox for later
-				; ~
-      				GUICtrlSetData($EditText,'请等待加密/解密完成!')
-				; Friendly message
-				; ~
-				GUICtrlSetData($EditText, _StringEncrypt(1, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))
+
 				; Calls the encryption. Sets the data of editbox with the encrypted string
-				; ~
-				GUISetState(@SW_ENABLE, $WinMain)
-				; This turns the window back on
-				; ~
-			Case $DecryptButton
+				$dEncrypted = _Crypt_EncryptData(GUICtrlRead($idEditText), GUICtrlRead($idInputPass), $iAlgorithm) ; Encrypt the text with the new cryptographic key.
+				GUICtrlSetData($idEditText, $dEncrypted)
+
+			Case $idDecryptButton
 				; When you press Decrypt
-				; ~
-				GUISetState(@SW_DISABLE, $WinMain)
-				; Stops you from changing anything
-				; ~
-				$string = GUICtrlRead($EditText)
-				; Saves the editbox for later
-				; ~
-      				GUICtrlSetData($EditText,'请等待加密/解密完成!')
-				; Friendly message
-				; ~
-				GUICtrlSetData($EditText, _StringEncrypt(0, $string, GUICtrlRead($InputPass), GUICtrlRead($InputLevel)))
+
 				; Calls the encryption. Sets the data of editbox with the encrypted string
-				; ~
-				GUISetState(@SW_ENABLE, $WinMain)
-				; This turns the window back on
-				; ~
+				$dEncrypted = _Crypt_DecryptData(GUICtrlRead($idEditText), GUICtrlRead($idInputPass), $iAlgorithm) ; Decrypt the data using the generic password string. The return value is a binary string.
+				GUICtrlSetData($idEditText, BinaryToString($dEncrypted))
+
 		EndSwitch
 	WEnd
 EndFunc   ;==>_Main

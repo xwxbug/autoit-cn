@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Windows_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm">GUI control Windows styles</a> and much more constants.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -657,7 +657,7 @@ Global Const $DT_WORD_ELLIPSIS = 0x40000
 Global Const $RDW_ERASE = 0x0004 ; Causes the window to receive a WM_ERASEBKGND message when the window is repainted
 Global Const $RDW_FRAME = 0x0400 ; Causes any part of the nonclient area of the window that intersects the update region to receive a WM_NCPAINT message
 Global Const $RDW_INTERNALPAINT = 0x0002 ; Causes a WM_PAINT message to be posted to the window regardless of whether any portion of the window is invalid
-Global Const $RDW_INVALIDATE = 0x0001 ; Invalidates DllStructGetData($tRect or $hRegion, "") If both are 0, the entire window is invalidated
+Global Const $RDW_INVALIDATE = 0x0001 ; Invalidates DllStructGetData($tRECT or $hRegion, "") If both are 0, the entire window is invalidated
 Global Const $RDW_NOERASE = 0x0020 ; Suppresses any pending WM_ERASEBKGND messages
 Global Const $RDW_NOFRAME = 0x0800 ; Suppresses any pending WM_NCPAINT messages
 Global Const $RDW_NOINTERNALPAINT = 0x0010 ; Suppresses any pending internal WM_PAINT messages

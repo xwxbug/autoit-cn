@@ -8,30 +8,36 @@
 ; and
 ; http://msdn.microsoft.com/library/en-us/winhttp/http/winhttprequest.asp
 
-Local $URL = "http://www.AutoItScript.com"
+#include <GUIConstantsEX.au3>
 
-#include "GUIConstants.au3"
-
-; Create a simple GUI for our output
-GUICreate("Event Test", 640, 480)
-Local $GUIEdit = GUICtrlCreateEdit("HTTP Source Test:" & @CRLF, 10, 10, 600, 400)
-GUISetState() ;Show GUI
-
-Local $httpObj = ObjCreate("winhttp.winhttprequest.5.1")
-$httpObj.open("GET", $URL)
-$httpObj.send()
-
-Local $HTMLSource = $httpObj.Responsetext
-
-GUICtrlSetData($GUIEdit, "The HTML source of " & $URL & " is:" & @CRLF & @CRLF & StringAddCR($HTMLSource), "append")
-
-; Waiting for user to close the window
-Local $msg
-While 1
-	$msg = GUIGetMsg()
-	If $msg = $GUI_EVENT_CLOSE Then ExitLoop
-WEnd
-
-GUIDelete()
-
+Example()
 Exit
+
+Func Example()
+
+	Local $sURL = "http://www.AutoItScript.com"
+
+	; Create a simple GUI for output
+	GUICreate("Event Test", 640, 480)
+	Local $idGUIEdit = GUICtrlCreateEdit("HTTP Source Test:" & @CRLF, 10, 10, 600, 400)
+	GUISetState() ; Show GUI
+
+	; Downloading content from $sURL website using "winhttp.winhttprequest.5.1" object
+	Local $oHttpObj = ObjCreate("winhttp.winhttprequest.5.1")
+	$oHttpObj.open("GET", $sURL)
+	$oHttpObj.send()
+	Local $sHTMLSource = $oHttpObj.Responsetext
+
+	; Filling Edit controls, data retrieved from the web
+	GUICtrlSetData($idGUIEdit, "The HTML source of " & $sURL & " is:" & @CRLF & @CRLF & StringAddCR($sHTMLSource), "append")
+
+	; Waiting for user to close the window
+	Local $iMsg
+	While 1
+		$iMsg = GUIGetMsg()
+		If $iMsg = $GUI_EVENT_CLOSE Then ExitLoop
+	WEnd
+
+	GUIDelete()
+
+EndFunc   ;==>Example

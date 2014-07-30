@@ -15,27 +15,27 @@
 _Main()
 
 Func _Main()
-	Local $Label_1, $Combo_2, $button1, $msg, $data
+	Local $idLabel_1, $idCombo_2, $idButton1, $iMsg, $sData
 
 	; Create the GUI window and controls
 	GUICreate("MyGUI", 191, 157, (@DesktopWidth - 191) / 2, (@DesktopHeight - 157) / 2)
-	$Label_1 = GUICtrlCreateLabel("Label1", 30, 40, 131, 21, 0x1000)
-	$Combo_2 = GUICtrlCreateCombo("", 30, 60, 130, 21)
-	GUICtrlSetData($Combo_2, "Item1|Item2|Item3|Item4|Item5")
-	$button1 = GUICtrlCreateButton("Set Label", 30, 90, 130, 20)
+	$idLabel_1 = GUICtrlCreateLabel("Label1", 30, 40, 131, 21, 0x1000)
+	$idCombo_2 = GUICtrlCreateCombo("", 30, 60, 130, 21)
+	GUICtrlSetData($idCombo_2, "Item1|Item2|Item3|Item4|Item5")
+	$idButton1 = GUICtrlCreateButton("Set Label", 30, 90, 130, 20)
 
 	; Run the GUI until it is closed
 	GUISetState()
 	While 1
-		$msg = GUIGetMsg()
+		$iMsg = GUIGetMsg()
 		Select
-			Case $msg = $GUI_EVENT_CLOSE
+			Case $iMsg = $GUI_EVENT_CLOSE
 				ExitLoop
 				;When button is pressed, label text is changed
 				;to combobox value
-			Case $msg = $button1
-				$data = GUICtrlRead($Combo_2)
-				GUICtrlSetData($Label_1, $data)
+			Case $iMsg = $idButton1
+				$sData = GUICtrlRead($idCombo_2)
+				GUICtrlSetData($idLabel_1, $sData)
 		EndSelect
 	WEnd
 	Exit

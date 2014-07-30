@@ -1,47 +1,46 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoItCOM 3.1.1
-;
-; Test File
+; COM Test file
 ;
 ; Tests the SearchFiles() function of Microsoft Excel
 
-Func SearchFiles($strFileSpec, $Subdirs = 0)
-	Local $strFileList = ""
+; Example usage:
+
+Local $sResult = SearchFiles("*.ini", 0)
+
+MsgBox($MB_SYSTEMMODAL, "FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.ini' resulted in:" & @CRLF & @CRLF & $sResult)
+
+Func SearchFiles($sFileSpec, $iSubdirs = 0)
+	Local $sFileList = ""
 
 	Local $oXlApp = ObjCreate("Excel.Application")
 
-	Local $fsoFileSearch = $oXlApp.FileSearch
+	Local $oFileSearch = $oXlApp.FileSearch
 
 	If @error Then
 		MsgBox($MB_SYSTEMMODAL, "SearchFiles", "Error opening FileSearch Object")
 	Else
-		With $fsoFileSearch
+		With $oFileSearch
 			.NewSearch
-			.LookIn = "c:\"
-			.FileName = $strFileSpec
-			.SearchSubFolders = $Subdirs
+			.LookIn = @WindowsDir
+			.FileName = $sFileSpec
+			.SearchSubFolders = $iSubdirs
 
-			Local $Number = .Execute()
-			If $Number > 0 Then
+			Local $iNumber = .Execute()
+			If $iNumber > 0 Then
 				For $i = 1 To .FoundFiles.Count
-					$strFileList = $strFileList & .FoundFiles($i) & @CRLF
+					$sFileList = $sFileList & .FoundFiles($i) & @CRLF
 				Next
 			EndIf
 		EndWith
 	EndIf
 
-	$fsoFileSearch = ""
+	; CleanUp - destroying object
+	$oFileSearch = ""
 
+	; CleanUp - exiting and destroying object
 	$oXlApp.quit
-
 	$oXlApp = ""
 
-	Return $strFileList
+	Return $sFileList
 EndFunc   ;==>SearchFiles
-
-; Example usage:
-
-Local $Result = SearchFiles(@WindowsDir & "\*.txt", 0)
-
-MsgBox($MB_SYSTEMMODAL, "FileSearch Object test", "SearchFiles on '" & @WindowsDir & "\*.txt' resulted in:" & @CRLF & @CRLF & $Result)

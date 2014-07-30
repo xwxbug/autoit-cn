@@ -5,7 +5,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ScrollBar
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with ScrollBar management.
 ;                  A scroll bar consists of a shaded shaft with an arrow button at each end and a scroll box (sometimes called a thumb)
@@ -16,12 +16,11 @@
 ;                  in the window. If most of the object is visible, the scroll box occupies most of the scroll bar shaft. Similarly,
 ;                  if only a small portion of the object is visible, the scroll box occupies a small part of the scroll bar shaft.
 ; Author(s) .....: Gary Frost
-; Dll(s) ........: user32.dll, gdi32.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
 ; 0 = hwnd;1 = xClientMax;2 cxChar;3 = cyChar;4 cxClient;5 = cyClient,6 = iHMax;7 = iVMax
-Global $aSB_WindowInfo[1][8]
+Global $__g_aSB_WindowInfo[1][8]
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -144,9 +143,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollBarXYThumbBottom
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfo($hWnd, $fnBar, ByRef $tSCROLLINFO)
+Func _GUIScrollBars_GetScrollInfo($hWnd, $iBar, ByRef $tSCROLLINFO)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, False)
-	Local $aResult = DllCall("user32.dll", "bool", "GetScrollInfo", "hwnd", $hWnd, "int", $fnBar, "struct*", $tSCROLLINFO)
+	Local $aResult = DllCall("user32.dll", "bool", "GetScrollInfo", "hwnd", $hWnd, "int", $iBar, "struct*", $tSCROLLINFO)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUIScrollBars_GetScrollInfo
@@ -155,12 +154,12 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfo
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, 0)
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
 	DllStructSetData($tSCROLLINFO, "cbSize", DllStructGetSize($tSCROLLINFO))
 	DllStructSetData($tSCROLLINFO, "fMask", $SIF_ALL)
-	If Not _GUIScrollBars_GetScrollInfo($hWnd, $fnBar, $tSCROLLINFO) Then Return SetError(@error, @extended, 0)
+	If Not _GUIScrollBars_GetScrollInfo($hWnd, $iBar, $tSCROLLINFO) Then Return SetError(@error, @extended, 0)
 	Return $tSCROLLINFO
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoEx
 
@@ -168,9 +167,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoEx
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoPage($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoPage($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return DllStructGetData($tSCROLLINFO, "nPage")
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoPage
@@ -179,9 +178,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoPage
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoPos($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoPos($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return DllStructGetData($tSCROLLINFO, "nPos")
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoPos
@@ -190,9 +189,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoPos
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoMin($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoMin($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return DllStructGetData($tSCROLLINFO, "nMin")
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoMin
@@ -201,9 +200,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoMin
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoMax($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoMax($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return DllStructGetData($tSCROLLINFO, "nMax")
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoMax
@@ -212,9 +211,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoMax
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollInfoTrackPos($hWnd, $fnBar)
+Func _GUIScrollBars_GetScrollInfoTrackPos($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return DllStructGetData($tSCROLLINFO, "nTrackPos")
 EndFunc   ;==>_GUIScrollBars_GetScrollInfoTrackPos
@@ -223,9 +222,9 @@ EndFunc   ;==>_GUIScrollBars_GetScrollInfoTrackPos
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollPos($hWnd, $nBar)
+Func _GUIScrollBars_GetScrollPos($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $aResult = DllCall("user32.dll", "int", "GetScrollPos", "hwnd", $hWnd, "int", $nBar)
+	Local $aResult = DllCall("user32.dll", "int", "GetScrollPos", "hwnd", $hWnd, "int", $iBar)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return $aResult[0]
 EndFunc   ;==>_GUIScrollBars_GetScrollPos
@@ -234,96 +233,96 @@ EndFunc   ;==>_GUIScrollBars_GetScrollPos
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_GetScrollRange($hWnd, $nBar)
+Func _GUIScrollBars_GetScrollRange($hWnd, $iBar)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
-	Local $aResult = DllCall("user32.dll", "bool", "GetScrollRange", "hwnd", $hWnd, "int", $nBar, "int*", 0, "int*", 0)
+	Local $aResult = DllCall("user32.dll", "bool", "GetScrollRange", "hwnd", $hWnd, "int", $iBar, "int*", 0, "int*", 0)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $Min_Max[2]
-	$Min_Max[0] = $aResult[3]
-	$Min_Max[1] = $aResult[4]
-	Return SetExtended($aResult[0], $Min_Max)
+	Local $aMin_Max[2]
+	$aMin_Max[0] = $aResult[3]
+	$aMin_Max[1] = $aResult[4]
+	Return SetExtended($aResult[0], $aMin_Max)
 EndFunc   ;==>_GUIScrollBars_GetScrollRange
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_Init($hWnd, $iHMax = -1, $ivMax = -1)
+Func _GUIScrollBars_Init($hWnd, $iMaxH = -1, $iMaxV = -1)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, 0)
-	If $aSB_WindowInfo[0][0] <> 0 Then ReDim $aSB_WindowInfo[UBound($aSB_WindowInfo) + 1][8]
+	If $__g_aSB_WindowInfo[0][0] <> 0 Then ReDim $__g_aSB_WindowInfo[UBound($__g_aSB_WindowInfo) + 1][8]
 
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
-	Local $tRect = DllStructCreate($tagRECT)
+	Local $tRECT = DllStructCreate($tagRECT)
 
-	Local $index = UBound($aSB_WindowInfo) - 1
+	Local $iIndex = UBound($__g_aSB_WindowInfo) - 1
 	Local $iError, $iExtended
 
-	$aSB_WindowInfo[$index][0] = $hWnd
-	$aSB_WindowInfo[$index][1] = $iHMax
-	$aSB_WindowInfo[$index][6] = $iHMax
-	$aSB_WindowInfo[$index][7] = $ivMax
-	If $ivMax = -1 Then $aSB_WindowInfo[$index][7] = 27
+	$__g_aSB_WindowInfo[$iIndex][0] = $hWnd
+	$__g_aSB_WindowInfo[$iIndex][1] = $iMaxH
+	$__g_aSB_WindowInfo[$iIndex][6] = $iMaxH
+	$__g_aSB_WindowInfo[$iIndex][7] = $iMaxV
+	If $iMaxV = -1 Then $__g_aSB_WindowInfo[$iIndex][7] = 27
 
-	Local $hdc = DllCall("user32.dll", "handle", "GetDC", "hwnd", $hWnd)
+	Local $hDC = DllCall("user32.dll", "handle", "GetDC", "hwnd", $hWnd)
 	If @error Then Return SetError(@error, @extended)
-	$hdc = $hdc[0]
+	$hDC = $hDC[0]
 
 	Local $tTEXTMETRIC = DllStructCreate($tagTEXTMETRIC)
 
 	DllStructSetData($tSCROLLINFO, "cbSize", DllStructGetSize($tSCROLLINFO))
 
-	DllCall("gdi32.dll", "bool", "GetTextMetricsW", "handle", $hdc, "struct*", $tTEXTMETRIC)
+	DllCall("gdi32.dll", "bool", "GetTextMetricsW", "handle", $hDC, "struct*", $tTEXTMETRIC)
 	If @error Then
 		$iError = @error
 		$iExtended = @extended
 	EndIf
 
-	DllCall("user32.dll", "int", "ReleaseDC", "hwnd", $hWnd, "handle", $hdc)
+	DllCall("user32.dll", "int", "ReleaseDC", "hwnd", $hWnd, "handle", $hDC)
 	; Skip @error test as the results don't matter.
 
 	; Test previous error from GetTextMetrics call.
 	If $iError Then Return SetError($iError, $iExtended)
 
-	Local $xUpper, $xChar = DllStructGetData($tTEXTMETRIC, "tmAveCharWidth")
+	Local $iUpperX, $iXAmount = DllStructGetData($tTEXTMETRIC, "tmAveCharWidth")
 	If BitAND(DllStructGetData($tTEXTMETRIC, "tmPitchAndFamily"), 1) Then
-		$xUpper = 3 * $xChar / 2
+		$iUpperX = 3 * $iXAmount / 2
 	Else
-		$xUpper = 2 * $xChar / 2
+		$iUpperX = 2 * $iXAmount / 2
 	EndIf
 
-	Local $yChar = DllStructGetData($tTEXTMETRIC, "tmHeight") + DllStructGetData($tTEXTMETRIC, "tmExternalLeading")
+	Local $iYAmount = DllStructGetData($tTEXTMETRIC, "tmHeight") + DllStructGetData($tTEXTMETRIC, "tmExternalLeading")
 
-	If $iHMax = -1 Then $aSB_WindowInfo[$index][1] = 48 * $xChar + 12 * $xUpper
-	$aSB_WindowInfo[$index][2] = $xChar
-	$aSB_WindowInfo[$index][3] = $yChar
+	If $iMaxH = -1 Then $__g_aSB_WindowInfo[$iIndex][1] = 48 * $iXAmount + 12 * $iUpperX
+	$__g_aSB_WindowInfo[$iIndex][2] = $iXAmount
+	$__g_aSB_WindowInfo[$iIndex][3] = $iYAmount
 
 	_GUIScrollBars_ShowScrollBar($hWnd, $SB_HORZ, False)
 	_GUIScrollBars_ShowScrollBar($hWnd, $SB_VERT, False)
 	_GUIScrollBars_ShowScrollBar($hWnd, $SB_HORZ)
 	_GUIScrollBars_ShowScrollBar($hWnd, $SB_VERT)
 
-	DllCall("user32.dll", "bool", "GetClientRect", "hwnd", $hWnd, "struct*", $tRect)
+	DllCall("user32.dll", "bool", "GetClientRect", "hwnd", $hWnd, "struct*", $tRECT)
 	If @error Then Return SetError(@error, @extended)
 
-	Local $xClient = DllStructGetData($tRect, "Right") - DllStructGetData($tRect, "Left")
-	Local $yClient = DllStructGetData($tRect, "Bottom") - DllStructGetData($tRect, "Top")
-	$aSB_WindowInfo[$index][4] = $xClient
-	$aSB_WindowInfo[$index][5] = $yClient
+	Local $iClientX = DllStructGetData($tRECT, "Right") - DllStructGetData($tRECT, "Left")
+	Local $iClientY = DllStructGetData($tRECT, "Bottom") - DllStructGetData($tRECT, "Top")
+	$__g_aSB_WindowInfo[$iIndex][4] = $iClientX
+	$__g_aSB_WindowInfo[$iIndex][5] = $iClientY
 
 	$tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
 
 	; Set the vertical scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
-	DllStructSetData($tSCROLLINFO, "nMax", $aSB_WindowInfo[$index][7])
-	DllStructSetData($tSCROLLINFO, "nPage", $yClient / $yChar)
+	DllStructSetData($tSCROLLINFO, "nMax", $__g_aSB_WindowInfo[$iIndex][7])
+	DllStructSetData($tSCROLLINFO, "nPage", $iClientY / $iYAmount)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_VERT, $tSCROLLINFO)
 
 	; Set the horizontal scrolling range and page size
 	DllStructSetData($tSCROLLINFO, "fMask", BitOR($SIF_RANGE, $SIF_PAGE))
 	DllStructSetData($tSCROLLINFO, "nMin", 0)
-	DllStructSetData($tSCROLLINFO, "nMax", 2 + $aSB_WindowInfo[$index][1] / $xChar)
-	DllStructSetData($tSCROLLINFO, "nPage", $xClient / $xChar)
+	DllStructSetData($tSCROLLINFO, "nMax", 2 + $__g_aSB_WindowInfo[$iIndex][1] / $iXAmount)
+	DllStructSetData($tSCROLLINFO, "nPage", $iClientX / $iXAmount)
 	_GUIScrollBars_SetScrollInfo($hWnd, $SB_HORZ, $tSCROLLINFO)
 EndFunc   ;==>_GUIScrollBars_Init
 
@@ -342,10 +341,10 @@ EndFunc   ;==>_GUIScrollBars_ScrollWindow
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollInfo($hWnd, $fnBar, $tSCROLLINFO, $fRedraw = True)
+Func _GUIScrollBars_SetScrollInfo($hWnd, $iBar, $tSCROLLINFO, $bRedraw = True)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
 	DllStructSetData($tSCROLLINFO, "cbSize", DllStructGetSize($tSCROLLINFO))
-	Local $aResult = DllCall("user32.dll", "int", "SetScrollInfo", "hwnd", $hWnd, "int", $fnBar, "struct*", $tSCROLLINFO, "bool", $fRedraw)
+	Local $aResult = DllCall("user32.dll", "int", "SetScrollInfo", "hwnd", $hWnd, "int", $iBar, "struct*", $tSCROLLINFO, "bool", $bRedraw)
 	If @error Then Return SetError(@error, @extended, -1)
 	Return $aResult[0]
 EndFunc   ;==>_GUIScrollBars_SetScrollInfo
@@ -354,14 +353,14 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfo
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollInfoMin($hWnd, $fnBar, $nMin)
+Func _GUIScrollBars_SetScrollInfoMin($hWnd, $iBar, $nMin)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, False)
-	Local $aRange = _GUIScrollBars_GetScrollRange($hWnd, $fnBar)
-	_GUIScrollBars_SetScrollRange($hWnd, $fnBar, $nMin, $aRange[1])
-	Local $aRange_check = _GUIScrollBars_GetScrollRange($hWnd, $fnBar)
+	Local $aRange = _GUIScrollBars_GetScrollRange($hWnd, $iBar)
+	_GUIScrollBars_SetScrollRange($hWnd, $iBar, $nMin, $aRange[1])
+	Local $aRange_check = _GUIScrollBars_GetScrollRange($hWnd, $iBar)
 	; invalid range check if invalid reset to previous values
 	If $aRange[1] <> $aRange_check[1] Or $nMin <> $aRange_check[0] Then
-		_GUIScrollBars_SetScrollRange($hWnd, $fnBar, $aRange[0], $aRange[1])
+		_GUIScrollBars_SetScrollRange($hWnd, $iBar, $aRange[0], $aRange[1])
 		Return False
 	EndIf
 	Return True
@@ -371,14 +370,14 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoMin
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollInfoMax($hWnd, $fnBar, $nMax)
+Func _GUIScrollBars_SetScrollInfoMax($hWnd, $iBar, $nMax)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, False)
-	Local $aRange = _GUIScrollBars_GetScrollRange($hWnd, $fnBar)
-	_GUIScrollBars_SetScrollRange($hWnd, $fnBar, $aRange[0], $nMax)
-	Local $aRange_check = _GUIScrollBars_GetScrollRange($hWnd, $fnBar)
+	Local $aRange = _GUIScrollBars_GetScrollRange($hWnd, $iBar)
+	_GUIScrollBars_SetScrollRange($hWnd, $iBar, $aRange[0], $nMax)
+	Local $aRange_check = _GUIScrollBars_GetScrollRange($hWnd, $iBar)
 	; invalid range check if invalid reset to previous values
 	If $aRange[0] <> $aRange_check[0] Or $nMax <> $aRange_check[1] Then
-		_GUIScrollBars_SetScrollRange($hWnd, $fnBar, $aRange[0], $aRange[1])
+		_GUIScrollBars_SetScrollRange($hWnd, $iBar, $aRange[0], $aRange[1])
 		Return False
 	EndIf
 	Return True
@@ -388,45 +387,45 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoMax
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollInfoPage($hWnd, $fnBar, $nPage)
+Func _GUIScrollBars_SetScrollInfoPage($hWnd, $iBar, $nPage)
 	If Not IsHWnd($hWnd) Then Return SetError(-2, -1, -1)
 	Local $tSCROLLINFO = DllStructCreate($tagSCROLLINFO)
 	DllStructSetData($tSCROLLINFO, "fMask", $SIF_PAGE)
 	DllStructSetData($tSCROLLINFO, "nPage", $nPage)
-	Return _GUIScrollBars_SetScrollInfo($hWnd, $fnBar, $tSCROLLINFO)
+	Return _GUIScrollBars_SetScrollInfo($hWnd, $iBar, $tSCROLLINFO)
 EndFunc   ;==>_GUIScrollBars_SetScrollInfoPage
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollInfoPos($hWnd, $fnBar, $nPos)
-	Local $index = -1, $yChar, $xChar
+Func _GUIScrollBars_SetScrollInfoPos($hWnd, $iBar, $iPos)
+	Local $iIndex = -1, $iYAmount, $iXAmount
 
-	For $x = 0 To UBound($aSB_WindowInfo) - 1
-		If $aSB_WindowInfo[$x][0] = $hWnd Then
-			$index = $x
-			$xChar = $aSB_WindowInfo[$index][2]
-			$yChar = $aSB_WindowInfo[$index][3]
+	For $x = 0 To UBound($__g_aSB_WindowInfo) - 1
+		If $__g_aSB_WindowInfo[$x][0] = $hWnd Then
+			$iIndex = $x
+			$iXAmount = $__g_aSB_WindowInfo[$iIndex][2]
+			$iYAmount = $__g_aSB_WindowInfo[$iIndex][3]
 			ExitLoop
 		EndIf
 	Next
-	If $index = -1 Then Return 0
+	If $iIndex = -1 Then Return 0
 
 	; Save the position for comparison later on
-	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $fnBar)
-	Local $xyPos = DllStructGetData($tSCROLLINFO, "nPos")
+	Local $tSCROLLINFO = _GUIScrollBars_GetScrollInfoEx($hWnd, $iBar)
+	Local $iPosXY = DllStructGetData($tSCROLLINFO, "nPos")
 
 	DllStructSetData($tSCROLLINFO, "fMask", $SIF_POS)
-	DllStructSetData($tSCROLLINFO, "nPos", $nPos)
-	_GUIScrollBars_SetScrollInfo($hWnd, $fnBar, $tSCROLLINFO)
-	_GUIScrollBars_GetScrollInfo($hWnd, $fnBar, $tSCROLLINFO)
+	DllStructSetData($tSCROLLINFO, "nPos", $iPos)
+	_GUIScrollBars_SetScrollInfo($hWnd, $iBar, $tSCROLLINFO)
+	_GUIScrollBars_GetScrollInfo($hWnd, $iBar, $tSCROLLINFO)
 	;// If the position has changed, scroll the window and update it
-	$nPos = DllStructGetData($tSCROLLINFO, "nPos")
-	If $fnBar = $SB_HORZ Then
-		If ($nPos <> $xyPos) Then _GUIScrollBars_ScrollWindow($hWnd, $xChar * ($xyPos - $nPos), 0)
+	$iPos = DllStructGetData($tSCROLLINFO, "nPos")
+	If $iBar = $SB_HORZ Then
+		If ($iPos <> $iPosXY) Then _GUIScrollBars_ScrollWindow($hWnd, $iXAmount * ($iPosXY - $iPos), 0)
 	Else
-		If ($nPos <> $xyPos) Then _GUIScrollBars_ScrollWindow($hWnd, 0, $yChar * ($xyPos - $nPos))
+		If ($iPos <> $iPosXY) Then _GUIScrollBars_ScrollWindow($hWnd, 0, $iYAmount * ($iPosXY - $iPos))
 	EndIf
 EndFunc   ;==>_GUIScrollBars_SetScrollInfoPos
 
@@ -434,8 +433,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollInfoPos
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_SetScrollRange($hWnd, $nBar, $nMinPos, $nMaxPos)
-	Local $aResult = DllCall("user32.dll", "bool", "SetScrollRange", "hwnd", $hWnd, "int", $nBar, "int", $nMinPos, "int", $nMaxPos, "bool", True)
+Func _GUIScrollBars_SetScrollRange($hWnd, $iBar, $nMinPos, $nMaxPos)
+	Local $aResult = DllCall("user32.dll", "bool", "SetScrollRange", "hwnd", $hWnd, "int", $iBar, "int", $nMinPos, "int", $nMaxPos, "bool", True)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUIScrollBars_SetScrollRange
@@ -444,8 +443,8 @@ EndFunc   ;==>_GUIScrollBars_SetScrollRange
 ; Author ........: Gary Frost
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIScrollBars_ShowScrollBar($hWnd, $nBar, $fShow = True)
-	Local $aResult = DllCall("user32.dll", "bool", "ShowScrollBar", "hwnd", $hWnd, "int", $nBar, "bool", $fShow)
+Func _GUIScrollBars_ShowScrollBar($hWnd, $iBar, $bShow = True)
+	Local $aResult = DllCall("user32.dll", "bool", "ShowScrollBar", "hwnd", $hWnd, "int", $iBar, "bool", $bShow)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0]
 EndFunc   ;==>_GUIScrollBars_ShowScrollBar

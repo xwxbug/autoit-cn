@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: UDF Global ID
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Global ID Generation for UDFs.
 ; Author(s) .....: Gary Frost
@@ -22,7 +22,7 @@ Global Const $__UDFGUICONSTANT_WS_CHILD = 0x40000000
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_UDF_GlobalIDs_OFFSET + 1] ; [index][0] = HWND, [index][1] = NEXT ID
+Global $__g_aUDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_UDF_GlobalIDs_OFFSET + 1] ; [index][0] = HWND, [index][1] = NEXT ID
 ; ===============================================================================================================================
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -45,28 +45,28 @@ Global $_UDF_GlobalIDs_Used[$_UDF_GlobalID_MAX_WIN][$_UDF_GlobalID_MAX_IDS + $_U
 ; Example .......:
 ; ===============================================================================================================================
 Func __UDF_GetNextGlobalID($hWnd)
-	Local $nCtrlID, $iUsedIndex = -1, $fAllUsed = True
+	Local $nCtrlID, $iUsedIndex = -1, $bAllUsed = True
 
 	; check if window still exists
 	If Not WinExists($hWnd) Then Return SetError(-1, -1, 0)
 
 	; check that all slots still hold valid window handles
 	For $iIndex = 0 To $_UDF_GlobalID_MAX_WIN - 1
-		If $_UDF_GlobalIDs_Used[$iIndex][0] <> 0 Then
+		If $__g_aUDF_GlobalIDs_Used[$iIndex][0] <> 0 Then
 			; window no longer exist, free up the slot and reset the control id counter
-			If Not WinExists($_UDF_GlobalIDs_Used[$iIndex][0]) Then
-				For $x = 0 To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
-					$_UDF_GlobalIDs_Used[$iIndex][$x] = 0
+			If Not WinExists($__g_aUDF_GlobalIDs_Used[$iIndex][0]) Then
+				For $x = 0 To UBound($__g_aUDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
+					$__g_aUDF_GlobalIDs_Used[$iIndex][$x] = 0
 				Next
-				$_UDF_GlobalIDs_Used[$iIndex][1] = $_UDF_STARTID
-				$fAllUsed = False
+				$__g_aUDF_GlobalIDs_Used[$iIndex][1] = $_UDF_STARTID
+				$bAllUsed = False
 			EndIf
 		EndIf
 	Next
 
 	; check if window has been used before with this function
 	For $iIndex = 0 To $_UDF_GlobalID_MAX_WIN - 1
-		If $_UDF_GlobalIDs_Used[$iIndex][0] = $hWnd Then
+		If $__g_aUDF_GlobalIDs_Used[$iIndex][0] = $hWnd Then
 			$iUsedIndex = $iIndex
 			ExitLoop ; $hWnd has been used before
 		EndIf
@@ -75,25 +75,25 @@ Func __UDF_GetNextGlobalID($hWnd)
 	; window hasn't been used before, get 1st un-used index
 	If $iUsedIndex = -1 Then
 		For $iIndex = 0 To $_UDF_GlobalID_MAX_WIN - 1
-			If $_UDF_GlobalIDs_Used[$iIndex][0] = 0 Then
-				$_UDF_GlobalIDs_Used[$iIndex][0] = $hWnd
-				$_UDF_GlobalIDs_Used[$iIndex][1] = $_UDF_STARTID
-				$fAllUsed = False
+			If $__g_aUDF_GlobalIDs_Used[$iIndex][0] = 0 Then
+				$__g_aUDF_GlobalIDs_Used[$iIndex][0] = $hWnd
+				$__g_aUDF_GlobalIDs_Used[$iIndex][1] = $_UDF_STARTID
+				$bAllUsed = False
 				$iUsedIndex = $iIndex
 				ExitLoop
 			EndIf
 		Next
 	EndIf
 
-	If $iUsedIndex = -1 And $fAllUsed Then Return SetError(16, 0, 0) ; used up all 16 window slots
+	If $iUsedIndex = -1 And $bAllUsed Then Return SetError(16, 0, 0) ; used up all 16 window slots
 
 	; used all control ids
-	If $_UDF_GlobalIDs_Used[$iUsedIndex][1] = $_UDF_STARTID + $_UDF_GlobalID_MAX_IDS Then
+	If $__g_aUDF_GlobalIDs_Used[$iUsedIndex][1] = $_UDF_STARTID + $_UDF_GlobalID_MAX_IDS Then
 		; check if control has been deleted, if so use that index in array
-		For $iIDIndex = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
-			If $_UDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = 0 Then
+		For $iIDIndex = $_UDF_GlobalIDs_OFFSET To UBound($__g_aUDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
+			If $__g_aUDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = 0 Then
 				$nCtrlID = ($iIDIndex - $_UDF_GlobalIDs_OFFSET) + 10000
-				$_UDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = $nCtrlID
+				$__g_aUDF_GlobalIDs_Used[$iUsedIndex][$iIDIndex] = $nCtrlID
 				Return $nCtrlID
 			EndIf
 		Next
@@ -101,9 +101,9 @@ Func __UDF_GetNextGlobalID($hWnd)
 	EndIf
 
 	; new control id
-	$nCtrlID = $_UDF_GlobalIDs_Used[$iUsedIndex][1]
-	$_UDF_GlobalIDs_Used[$iUsedIndex][1] += 1
-	$_UDF_GlobalIDs_Used[$iUsedIndex][($nCtrlID - 10000) + $_UDF_GlobalIDs_OFFSET] = $nCtrlID
+	$nCtrlID = $__g_aUDF_GlobalIDs_Used[$iUsedIndex][1]
+	$__g_aUDF_GlobalIDs_Used[$iUsedIndex][1] += 1
+	$__g_aUDF_GlobalIDs_Used[$iUsedIndex][($nCtrlID - 10000) + $_UDF_GlobalIDs_OFFSET] = $nCtrlID
 	Return $nCtrlID
 EndFunc   ;==>__UDF_GetNextGlobalID
 
@@ -126,11 +126,11 @@ Func __UDF_FreeGlobalID($hWnd, $iGlobalID)
 	If $iGlobalID - $_UDF_STARTID < 0 Or $iGlobalID - $_UDF_STARTID > $_UDF_GlobalID_MAX_IDS Then Return SetError(-1, 0, False)
 
 	For $iIndex = 0 To $_UDF_GlobalID_MAX_WIN - 1
-		If $_UDF_GlobalIDs_Used[$iIndex][0] = $hWnd Then
-			For $x = $_UDF_GlobalIDs_OFFSET To UBound($_UDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
-				If $_UDF_GlobalIDs_Used[$iIndex][$x] = $iGlobalID Then
+		If $__g_aUDF_GlobalIDs_Used[$iIndex][0] = $hWnd Then
+			For $x = $_UDF_GlobalIDs_OFFSET To UBound($__g_aUDF_GlobalIDs_Used, $UBOUND_COLUMNS) - 1
+				If $__g_aUDF_GlobalIDs_Used[$iIndex][$x] = $iGlobalID Then
 					; free up control id
-					$_UDF_GlobalIDs_Used[$iIndex][$x] = 0
+					$__g_aUDF_GlobalIDs_Used[$iIndex][$x] = 0
 					Return True
 				EndIf
 			Next

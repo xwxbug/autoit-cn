@@ -15,23 +15,23 @@ _Main()
 
 Func _Main()
 	;Initialize variables
-	Local $GUIWidth = 250, $GUIHeight = 250
-	Local $ParentWin, $ParentWin_Pos, $ChildWin, $msg
+	Local $iGUIWidth = 250, $iGUIHeight = 250
+	Local $hParentWin, $aParentWin_Pos, $hChildWin, $aMsg
 
 	;Create main/parent window
-	$ParentWin = GUICreate("父窗体", $GUIWidth, $GUIHeight)
+	$hParentWin = GUICreate("父窗体", $iGUIWidth, $iGUIHeight)
 	;Save the position of the parent window
-	$ParentWin_Pos = WinGetPos($ParentWin, "")
+	$aParentWin_Pos = WinGetPos($hParentWin, "")
 	;Show the parent window/Make the parent window visible
 	GUISetState(@SW_SHOW)
 
 	;Create child window and add the parameter to make it the child of the parent window
-	$ChildWin = GUICreate("子窗体", $GUIWidth, $GUIHeight, $ParentWin_Pos[0] + 100, $ParentWin_Pos[1] + 100, -1, -1, $ParentWin)
+	$hChildWin = GUICreate("子窗体", $iGUIWidth, $iGUIHeight, $aParentWin_Pos[0] + 100, $aParentWin_Pos[1] + 100, -1, -1, $hParentWin)
 	;Show the child window/Make the child window visible
 	GUISetState(@SW_SHOW)
 
 	;Switch to the parent window
-	GUISwitch($ParentWin)
+	GUISwitch($hParentWin)
 
 	;Loop until:
 	;- user presses Esc when focused to the parent window
@@ -39,22 +39,22 @@ Func _Main()
 	;- user clicks the close button of the parent window
 	While 1
 		;After every loop check if the user clicked something in the GUI windows
-		$msg = GUIGetMsg(1)
+		$aMsg = GUIGetMsg(1)
 		Select
 			;Check if user clicked on a close button of any of the 2 windows
-			Case $msg[0] = $GUI_EVENT_CLOSE
+			Case $aMsg[0] = $GUI_EVENT_CLOSE
 				;Check if user clicked on the close button of the child window
-				If $msg[1] = $ChildWin Then
+				If $aMsg[1] = $hChildWin Then
 					MsgBox(64, "测试", "您关闭了子窗体.")
 					;Switch to the child window
-					GUISwitch($ChildWin)
+					GUISwitch($hChildWin)
 					;Destroy the child GUI including the controls
 					GUIDelete()
 					;Check if user clicked on the close button of the parent window
-				ElseIf $msg[1] = $ParentWin Then
+				ElseIf $aMsg[1] = $hParentWin Then
 					MsgBox(64, "测试", "您关闭了父窗体.")
 					;Switch to the parent window
-					GUISwitch($ParentWin)
+					GUISwitch($hParentWin)
 					;Destroy the parent GUI including the controls
 					GUIDelete()
 					;Exit the script

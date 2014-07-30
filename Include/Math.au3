@@ -2,10 +2,10 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Mathematical calculations
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with mathematical calculations.
-; Author(s) .....: Valik, Gary Frost, ...
+; Author(s) .....: Valik, Gary Frost, guinness ...
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -20,20 +20,17 @@
 ; Author ........: Erifash <erifash at gmail dot com>
 ; ===============================================================================================================================
 Func _Degree($iRadians)
-	If IsNumber($iRadians) Then Return $iRadians * 57.2957795130823
-	Return SetError(1, 0, "")
+	Return IsNumber($iRadians) ? $iRadians * 57.2957795130823 : SetError(1, 0, "")
 EndFunc   ;==>_Degree
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........:  Wes Wolfe-Wolvereness <Weswolf at aol dot com>
 ; ===============================================================================================================================
 Func _MathCheckDiv($iNum1, $iNum2 = 2)
-	If Number($iNum1) = 0 Or Number($iNum2) = 0 Or Int($iNum1) <> $iNum1 Or Int($iNum2) <> $iNum2 Then
+	If Not Number($iNum1) Or Not Number($iNum2) Or Int($iNum1) <> $iNum1 Or Int($iNum2) <> $iNum2 Then
 		Return SetError(1, 0, -1)
-	ElseIf Int($iNum1 / $iNum2) <> $iNum1 / $iNum2 Then
-		Return 1
 	Else
-		Return 2
+		Return (Int($iNum1 / $iNum2) <> $iNum1 / $iNum2) ? 1 : 2
 	EndIf
 EndFunc   ;==>_MathCheckDiv
 
@@ -63,6 +60,5 @@ EndFunc   ;==>_Min
 ; Author ........: Erifash <erifash at gmail dot com>
 ; ===============================================================================================================================
 Func _Radian($iDegrees)
-	If Number($iDegrees) Then Return $iDegrees / 57.2957795130823
-	Return SetError(1, 0, "")
+	Return Number($iDegrees) ? $iDegrees / 57.2957795130823 : SetError(1, 0, "")
 EndFunc   ;==>_Radian

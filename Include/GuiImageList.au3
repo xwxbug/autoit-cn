@@ -7,14 +7,13 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ImageList
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Functions that assist with ImageList control management.
 ;                  An image list is a collection of images of the same size, each of which can be referred to by its index. Image
 ;                  lists are used to efficiently manage large sets of icons or bitmaps. All images in an image list are contained
 ;                  in a single, wide bitmap in screen device format.  An image list can also include  a  monochrome  bitmap  that
 ;                  contains masks used to draw images transparently (icon style).
 ; Author(s)......: Paul Campbell (PaulIA)
-; Dll(s) ........: comctl32.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -108,9 +107,9 @@ EndFunc   ;==>_GUIImageList_AddBitmap
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIImageList_AddIcon($hWnd, $sFile, $iIndex = 0, $fLarge = False)
+Func _GUIImageList_AddIcon($hWnd, $sFile, $iIndex = 0, $bLarge = False)
 	Local $iRet, $tIcon = DllStructCreate("handle Handle")
-	If $fLarge Then
+	If $bLarge Then
 		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, $tIcon, 0, 1)
 	Else
 		$iRet = _WinAPI_ExtractIconEx($sFile, $iIndex, 0, $tIcon, 1)
@@ -204,7 +203,7 @@ EndFunc   ;==>_GUIImageList_DragLeave
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUIImageList_DragMove($iX, $iY)
-	Local $aResult = DllCall("comCtl32.dll", "bool", "ImageList_DragMove", "int", $iX, "int", $iY)
+	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_DragMove", "int", $iX, "int", $iY)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0] <> 0
 EndFunc   ;==>_GUIImageList_DragMove
@@ -212,8 +211,8 @@ EndFunc   ;==>_GUIImageList_DragMove
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Name...........: _GUIImageList_DragShowNolock
 ; Description ...: Shows or hides the image being dragged
-; Syntax.........: _GUIImageList_DragShowNolock ( $fShow )
-; Parameters ....: $fShow       - Show or hide the image being dragged
+; Syntax.........: _GUIImageList_DragShowNolock ( $bShow )
+; Parameters ....: $bShow       - Show or hide the image being dragged
 ;                  | True       - Show
 ;                  |False       - Hide
 ; Return values .: Success      - True
@@ -225,8 +224,8 @@ EndFunc   ;==>_GUIImageList_DragMove
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _GUIImageList_DragShowNolock($fShow)
-	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_DragShowNolock", "bool", $fShow)
+Func _GUIImageList_DragShowNolock($bShow)
+	Local $aResult = DllCall("comctl32.dll", "bool", "ImageList_DragShowNolock", "bool", $bShow)
 	If @error Then Return SetError(@error, @extended, False)
 	Return $aResult[0] <> 0
 EndFunc   ;==>_GUIImageList_DragShowNolock
@@ -381,7 +380,7 @@ EndFunc   ;==>_GUIImageList_GetImageInfoEx
 ; #NO_DOC_FUNCTION# =============================================================================================================
 ; Name...........: _GUIImageList_Merge
 ; Description ...: Creates a new image by combining two existing images
-; Syntax.........: _GUIImageList_Merge ( $hWnd1, $iIndex1, $hwnd2, $iIndex2, $iDX, $IDY )
+; Syntax.........: _GUIImageList_Merge ( $hWnd1, $iIndex1, $hWnd2, $iIndex2, $iDX, $IDY )
 ; Parameters ....: $hWnd1       - Handle to the 1st image control
 ;                  $iIndex1     - Zero based of the first existing image
 ;                  $hWnd2       - Handle to the 2nd image control
@@ -399,9 +398,9 @@ EndFunc   ;==>_GUIImageList_GetImageInfoEx
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func _GUIImageList_Merge($hWnd1, $iIndex1, $hwnd2, $iIndex2, $iDX, $iDY)
+Func _GUIImageList_Merge($hWnd1, $iIndex1, $hWnd2, $iIndex2, $iDX, $iDY)
 	Local $aResult = DllCall("comctl32.dll", "handle", "ImageList_Merge", "handle", $hWnd1, "int", $iIndex1, _
-			"handle", $hwnd2, "int", $iIndex2, "int", $iDX, "int", $iDY)
+			"handle", $hWnd2, "int", $iIndex2, "int", $iDX, "int", $iDY)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
 EndFunc   ;==>_GUIImageList_Merge

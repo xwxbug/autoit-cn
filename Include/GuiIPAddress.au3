@@ -9,15 +9,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: IPAddress
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with IPAddress control management.
 ; Author(s) .....: Gary Frost (gafrost)
-; Dll(s) ........: comctl32.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_ip_ghIPLastWnd
+Global $__g_hIPLastWnd
 
 ; ===============================================================================================================================
 
@@ -88,11 +87,11 @@ EndFunc   ;==>_GUICtrlIpAddress_ClearAddress
 Func _GUICtrlIpAddress_Destroy($hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__IPADDRESSCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
-	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
+	Local $iDestroyed = 0
+	If _WinAPI_InProcess($hWnd, $__g_hIPLastWnd) Then
 		Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 		Local $hParent = _WinAPI_GetParent($hWnd)
-		$Destroyed = _WinAPI_DestroyWindow($hWnd)
+		$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 		Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 		If Not $iRet Then
 			; can check for errors here if needed, for debug
@@ -101,8 +100,8 @@ Func _GUICtrlIpAddress_Destroy($hWnd)
 		; Not Allowed to Delete Other Applications IPAddress Control(s)
 		Return SetError(1, 1, False)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlIpAddress_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -140,7 +139,7 @@ EndFunc   ;==>_GUICtrlIpAddress_GetArray
 Func _GUICtrlIpAddress_GetEx($hWnd)
 	Local $tIP = DllStructCreate($tagGETIPAddress)
 	If @error Then Return SetError(1, 1, "")
-	If _WinAPI_InProcess($hWnd, $_ip_ghIPLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hIPLastWnd) Then
 		_SendMessage($hWnd, $IPM_GETADDRESS, 0, $tIP, 0, "wparam", "struct*")
 	Else
 		Local $iIP = DllStructGetSize($tIP)
@@ -212,22 +211,22 @@ EndFunc   ;==>_GUICtrlIpAddress_SetFocus
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iFontWeight = 400, $fFontItalic = False)
-	Local $lngDC = _WinAPI_GetDC(0)
-	Local $lfHeight = Round(($iFontSize * _WinAPI_GetDeviceCaps($lngDC, $__IPADDRESSCONSTANT_LOGPIXELSX)) / 72, 0)
-	_WinAPI_ReleaseDC(0, $lngDC)
+Func _GUICtrlIpAddress_SetFont($hWnd, $sFaceName = "Arial", $iFontSize = 12, $iFontWeight = 400, $bFontItalic = False)
+	Local $hDC = _WinAPI_GetDC(0)
+	Local $iHeight = Round(($iFontSize * _WinAPI_GetDeviceCaps($hDC, $__IPADDRESSCONSTANT_LOGPIXELSX)) / 72, 0)
+	_WinAPI_ReleaseDC(0, $hDC)
 
-	Local $tfont = DllStructCreate($tagLOGFONT)
-	DllStructSetData($tfont, "Height", $lfHeight)
-	DllStructSetData($tfont, "Weight", $iFontWeight)
-	DllStructSetData($tfont, "Italic", $fFontItalic)
-	DllStructSetData($tfont, "Underline", False) ; font underline
-	DllStructSetData($tfont, "Strikeout", False) ; font strikethru
-	DllStructSetData($tfont, "Quality", $__IPADDRESSCONSTANT_PROOF_QUALITY)
-	DllStructSetData($tfont, "FaceName", $sFaceName)
+	Local $tFont = DllStructCreate($tagLOGFONT)
+	DllStructSetData($tFont, "Height", $iHeight)
+	DllStructSetData($tFont, "Weight", $iFontWeight)
+	DllStructSetData($tFont, "Italic", $bFontItalic)
+	DllStructSetData($tFont, "Underline", False) ; font underline
+	DllStructSetData($tFont, "Strikeout", False) ; font strikethru
+	DllStructSetData($tFont, "Quality", $__IPADDRESSCONSTANT_PROOF_QUALITY)
+	DllStructSetData($tFont, "FaceName", $sFaceName)
 
-	Local $font = _WinAPI_CreateFontIndirect($tfont)
-	_WinAPI_SetFont($hWnd, $font)
+	Local $hFont = _WinAPI_CreateFontIndirect($tFont)
+	_WinAPI_SetFont($hWnd, $hFont)
 EndFunc   ;==>_GUICtrlIpAddress_SetFont
 
 ; #FUNCTION# ====================================================================================================================

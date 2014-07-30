@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: GDIPlus_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants for GDI+
 ; Author(s) .....: Valik, Gary Frost, UEZ
@@ -22,7 +22,7 @@ Global Const $GDIP_DASHSTYLEDASHDOT = 3 ; An alternating dash-dot line
 Global Const $GDIP_DASHSTYLEDASHDOTDOT = 4 ; An alternating dash-dot-dot line
 Global Const $GDIP_DASHSTYLECUSTOM = 5 ; A a user-defined, custom dashed line
 
-; Enocder Parameter GUIDs
+; Encoder Parameter GUIDs
 Global Const $GDIP_EPGCHROMINANCETABLE = '{F2E455DC-09B3-4316-8260-676ADA32481C}'
 Global Const $GDIP_EPGCOLORDEPTH = '{66087055-AD66-4C7C-9A18-38A2310B8337}'
 Global Const $GDIP_EPGCOMPRESSION = '{E09D739D-CCD4-44EE-8EBA-3FBF8BE4FC58}'
@@ -122,10 +122,10 @@ Global Const $GDIP_PXF16ARGB1555 = 0x00061007 ; 16 bpp; 1 bit for alpha and 5 bi
 Global Const $GDIP_PXF24RGB = 0x00021808 ; 24 bpp; 8 bits for each RGB
 Global Const $GDIP_PXF32RGB = 0x00022009 ; 32 bpp; 8 bits for each RGB. No alpha.
 Global Const $GDIP_PXF32ARGB = 0x0026200A ; 32 bpp; 8 bits for each RGB and alpha
-Global Const $GDIP_PXF32PARGB = 0x000D200B ; 32 bpp; 8 bits for each RGB and alpha, pre-multiplied
+Global Const $GDIP_PXF32PARGB = 0x000E200B ; 32 bpp; 8 bits for each RGB and alpha, pre-mulitiplied
 Global Const $GDIP_PXF48RGB = 0x0010300C ; 48 bpp; 16 bits for each RGB
 Global Const $GDIP_PXF64ARGB = 0x0034400D ; 64 bpp; 16 bits for each RGB and alpha
-Global Const $GDIP_PXF64PARGB = 0x001C400E ; 64 bpp; 16 bits for each RGB and alpha, pre-multiplied
+Global Const $GDIP_PXF64PARGB = 0x001A400E ; 64 bpp; 16 bits for each RGB and alpha, pre-multiplied
 
 ; ImageFormat constants (Globally Unique Identifier (GUID))
 Global Const $GDIP_IMAGEFORMAT_UNDEFINED = "{B96B3CA9-0728-11D3-9D7B-0000F81EF32E}" ; Windows GDI+ is unable to determine the format.
@@ -355,13 +355,14 @@ Global Const $GDIP_DitherTypeSolid = 1 ;Solid color - picks the nearest matching
 Global Const $GDIP_DitherTypeOrdered4x4 = 2
 Global Const $GDIP_DitherTypeOrdered8x8 = 3
 Global Const $GDIP_DitherTypeOrdered16x16 = 4
-Global Const $GDIP_DitherTypeSpiral4x4 = 5
-Global Const $GDIP_DitherTypeSpiral8x8 = 6
-Global Const $GDIP_DitherTypeDualSpiral4x4 = 7
-Global Const $GDIP_DitherTypeDualSpiral8x8 = 8
+Global Const $GDIP_DitherTypeOrdered91x91 = 5
+Global Const $GDIP_DitherTypeSpiral4x4 = 6
+Global Const $GDIP_DitherTypeSpiral8x8 = 7
+Global Const $GDIP_DitherTypeDualSpiral4x4 = 8
+Global Const $GDIP_DitherTypeDualSpiral8x8 = 9
 
 ;Error diffusion. May be used with any palette.
-Global Const $GDIP_DitherTypeErrorDiffusion = 9
+Global Const $GDIP_DitherTypeErrorDiffusion = 10
 Global Const $GDIP_DitherTypeMax = 10
 
 ;HistogramFormat
@@ -373,4 +374,29 @@ Global Const $GDIP_HistogramFormatB = 4
 Global Const $GDIP_HistogramFormatG = 5
 Global Const $GDIP_HistogramFormatR = 6
 Global Const $GDIP_HistogramFormatA = 7
+
+;TextRenderingHint constants
+Global Const $GDIP_TextRenderingHintSystemDefault = 0
+Global Const $GDIP_TextRenderingHintSingleBitPerPixelGridFit = 1
+Global Const $GDIP_TextRenderingHintSingleBitPerPixel = 2
+Global Const $GDIP_TextRenderingHintAntialiasGridFit = 3
+Global Const $GDIP_TextRenderingHintAntialias = 4
+Global Const $GDIP_TextRenderingHintClearTypeGridFit = 5
+
+;RotateFlipType constants
+Global Const $GDIP_RotateNoneFlipNone = 0
+Global Const $GDIP_Rotate90FlipNone = 1
+Global Const $GDIP_Rotate180FlipNone = 2
+Global Const $GDIP_Rotate270FlipNone = 3
+Global Const $GDIP_RotateNoneFlipX = 4
+Global Const $GDIP_Rotate90FlipX = 5
+Global Const $GDIP_Rotate180FlipX = 6
+Global Const $GDIP_Rotate270FlipX = 7
+Global Const $GDIP_RotateNoneFlipY = $GDIP_Rotate180FlipX
+Global Const $GDIP_Rotate90FlipY = $GDIP_Rotate270FlipX
+Global Const $GDIP_Rotate180FlipY = $GDIP_RotateNoneFlipX
+Global Const $GDIP_Rotate270FlipY = $GDIP_Rotate90FlipX
+Global Const $GDIP_RotateNoneFlipXY = $GDIP_Rotate180FlipNone
+Global Const $GDIP_Rotate90FlipXY = $GDIP_Rotate270FlipNone
+Global Const $GDIP_Rotate270FlipXY = $GDIP_Rotate90FlipNone
 ;===============================================================================================================================

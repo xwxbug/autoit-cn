@@ -1,24 +1,24 @@
-#include <GUIConstantsEx.au3>
 #include <ButtonConstants.au3>
+#include <GUIConstantsEx.au3>
 
 _Main()
 
 Func _Main()
-	Local $button1, $button2, $button3, $button4
-	Local $button5, $buttonclose
+	Local $idButton1, $idButton2, $idButton3, $idButton4
+	Local $idButton5, $idButtonclose
 
-GUICreate("图形按钮",240,180)
-	$button1 = GUICtrlCreateButton("1", 0, 0, 40, 40, $BS_ICON)
+	GUICreate("图形按钮",240,180)
+	$idButton1 = GUICtrlCreateButton("1", 0, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 5)
-	$button2 = GUICtrlCreateButton("2", 40, 00, 40, 40, $BS_ICON)
+	$idButton2 = GUICtrlCreateButton("2", 40, 00, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 7)
-	$button3 = GUICtrlCreateButton("3", 80, 00, 40, 40, $BS_ICON)
+	$idButton3 = GUICtrlCreateButton("3", 80, 00, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 22)
-	$button4 = GUICtrlCreateButton("4", 120, 0, 40, 40, $BS_ICON)
+	$idButton4 = GUICtrlCreateButton("4", 120, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 23)
-	$button5 = GUICtrlCreateButton("5", 160, 0, 40, 40, $BS_ICON)
+	$idButton5 = GUICtrlCreateButton("5", 160, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 32)
-$buttonclose = GUICtrlCreateButton ("关闭", 200,0,40,40,$BS_ICON)
+	$idButtonclose = GUICtrlCreateButton("关闭", 200, 0, 40, 40, $BS_ICON)
 	GUICtrlSetImage(-1, "shell32.dll", 28)
 	GUISetState()
 
@@ -27,17 +27,17 @@ $buttonclose = GUICtrlCreateButton ("关闭", 200,0,40,40,$BS_ICON)
 		Switch GUIGetMsg()
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
-			Case $button1
+			Case $idButton1
 				;
-			Case $button2
+			Case $idButton2
 				;
-			Case $button3
+			Case $idButton3
 				;
-			Case $button4
+			Case $idButton4
 				;
-			Case $button5
+			Case $idButton5
 				;
-			Case $buttonclose
+			Case $idButtonclose
 				ExitLoop
 			Case Else
 		EndSwitch

@@ -6,7 +6,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Sound
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with Sound management.
 ; Author(s) .....: RazerM, Melba23, Simucal, PsaltyDS
@@ -52,16 +52,16 @@ Func _SoundOpen($sFile)
 		$aSndID[0] &= Chr(Random(97, 122, 1))
 	Next
 
-	Local $szDrive, $szDir, $szFName, $szExt
-	_PathSplit($sFile, $szDrive, $szDir, $szFName, $szExt)
+	Local $sDrive, $sDir, $sFName, $sExt
+	_PathSplit($sFile, $sDrive, $sDir, $sFName, $sExt)
 
 	Local $sSndDirName
-	If $szDrive = "" Then
+	If $sDrive = "" Then
 		$sSndDirName = @WorkingDir & "\"
 	Else
-		$sSndDirName = $szDrive & $szDir
+		$sSndDirName = $sDrive & $sDir
 	EndIf
-	Local $sSndFileName = $szFName & $szExt
+	Local $sSndFileName = $sFName & $sExt
 
 	Local $sSndDirShortName = FileGetShortName($sSndDirName, 1)
 
@@ -69,7 +69,7 @@ Func _SoundOpen($sFile)
 	__SoundMciSendString("open """ & $sFile & """ alias " & $aSndID[0])
 	If @error Then Return SetError(1, @error, 0) ; open failed
 
-	Local $sTrackLength, $fTryNextMethod = False
+	Local $sTrackLength, $bTryNextMethod = False
 	Local $oShell = ObjCreate("shell.application")
 	If IsObj($oShell) Then
 		Local $oShellDir = $oShell.NameSpace($sSndDirShortName)
@@ -79,46 +79,46 @@ Func _SoundOpen($sFile)
 				Local $sRaw = $oShellDir.GetDetailsOf($oShellDirFile, -1)
 				Local $aInfo = StringRegExp($sRaw, ": ([0-9]{2}:[0-9]{2}:[0-9]{2})", $STR_REGEXPARRAYGLOBALMATCH)
 				If Not IsArray($aInfo) Then
-					$fTryNextMethod = True
+					$bTryNextMethod = True
 				Else
 					$sTrackLength = $aInfo[0]
 				EndIf
 			Else
-				$fTryNextMethod = True
+				$bTryNextMethod = True
 			EndIf
 		Else
-			$fTryNextMethod = True
+			$bTryNextMethod = True
 		EndIf
 	Else
-		$fTryNextMethod = True
+		$bTryNextMethod = True
 	EndIf
 
 	Local $sTag
-	If $fTryNextMethod Then
-		$fTryNextMethod = False
-		If $szExt = ".mp3" Then
+	If $bTryNextMethod Then
+		$bTryNextMethod = False
+		If $sExt = ".mp3" Then
 			Local $hFile = FileOpen(FileGetShortName($sSndDirName & $sSndFileName), $FO_READ)
 			$sTag = FileRead($hFile, 5156)
 			FileClose($hFile)
 			$sTrackLength = __SoundReadXingFromMP3($sTag)
-			If @error Then $fTryNextMethod = True
+			If @error Then $bTryNextMethod = True
 		Else
-			$fTryNextMethod = True
+			$bTryNextMethod = True
 		EndIf
 	EndIf
 
-	If $fTryNextMethod Then
-		$fTryNextMethod = False
-		If $szExt = ".mp3" Then
+	If $bTryNextMethod Then
+		$bTryNextMethod = False
+		If $sExt = ".mp3" Then
 			$sTrackLength = __SoundReadTLENFromMP3($sTag)
-			If @error Then $fTryNextMethod = True
+			If @error Then $bTryNextMethod = True
 		Else
-			$fTryNextMethod = True
+			$bTryNextMethod = True
 		EndIf
 	EndIf
 
-	If $fTryNextMethod Then
-		$fTryNextMethod = False
+	If $bTryNextMethod Then
+		$bTryNextMethod = False
 		;tell mci to use time in milliseconds
 		__SoundMciSendString("set " & $aSndID[0] & " time format miliseconds")
 		;receive length of sound
@@ -376,18 +376,18 @@ EndFunc   ;==>__SoundChkSndID
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __SoundMciSendString
 ; Description ...: Used internally within this file, not for general use
-; Syntax.........: __SoundMciSendString ( $string [, $iLen = 0] )
+; Syntax.........: __SoundMciSendString ( $sString [, $iLen = 0] )
 ; Author ........: RazerM, Melba23
 ; Modified.......:
 ; Related .......:
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __SoundMciSendString($string, $iLen = 0)
-	Local $iRet = DllCall("winmm.dll", "dword", "mciSendStringW", "wstr", $string, "wstr", "", "uint", $iLen, "ptr", 0)
+Func __SoundMciSendString($sString, $iLen = 0)
+	Local $aRet = DllCall("winmm.dll", "dword", "mciSendStringW", "wstr", $sString, "wstr", "", "uint", $iLen, "ptr", 0)
 	If @error Then Return SetError(@error, @extended, "")
-	If $iRet[0] Then Return SetError(10, $iRet[0], $iRet[2])
-	Return $iRet[2]
+	If $aRet[0] Then Return SetError(10, $aRet[0], $aRet[2])
+	Return $aRet[2]
 EndFunc   ;==>__SoundMciSendString
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

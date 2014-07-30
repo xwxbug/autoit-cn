@@ -7,12 +7,11 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Memory
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Functions that assist with Memory management.
 ;                  The memory manager implements virtual memory, provides a core set of services such  as  memory  mapped  files,
 ;                  copy-on-write memory, large memory support, and underlying support for the cache manager.
 ; Author(s) .....: Paul Campbell (PaulIA)
-; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -138,7 +137,7 @@ EndFunc   ;==>_MemGlobalUnlock
 ; Example .......:
 ; ===============================================================================================================================
 Func _MemInit($hWnd, $iSize, ByRef $tMemMap)
-	Local $aResult = DllCall("User32.dll", "dword", "GetWindowThreadProcessId", "hwnd", $hWnd, "dword*", 0)
+	Local $aResult = DllCall("user32.dll", "dword", "GetWindowThreadProcessId", "hwnd", $hWnd, "dword*", 0)
 	If @error Then Return SetError(@error + 10, @extended, 0)
 	Local $iProcessID = $aResult[2]
 	If $iProcessID = 0 Then Return SetError(1, 0, 0) ; Invalid window handle
@@ -260,11 +259,11 @@ EndFunc   ;==>_MemVirtualFreeEx
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __Mem_OpenProcess
 ; Description ...: Returns a handle of an existing process object
-; Syntax.........: _WinAPI_OpenProcess ( $iAccess, $fInherit, $iProcessID [, $fDebugPriv = False] )
+; Syntax.........: _WinAPI_OpenProcess ( $iAccess, $bInherit, $iProcessID [, $bDebugPriv = False] )
 ; Parameters ....: $iAccess     - Specifies the access to the process object
-;                  $fInherit    - Specifies whether the returned handle can be inherited
+;                  $bInherit    - Specifies whether the returned handle can be inherited
 ;                  $iProcessID  - Specifies the process identifier of the process to open
-;                  $fDebugPriv  - Certain system processes can not be opened unless you have the  debug  security  privilege.  If
+;                  $bDebugPriv  - Certain system processes can not be opened unless you have the  debug  security  privilege.  If
 ;                  +True, this function will attempt to open the process with debug priviliges if the process can not  be  opened
 ;                  +with standard access privileges.
 ; Return values .: Success      - Process handle to the object
@@ -275,12 +274,12 @@ EndFunc   ;==>_MemVirtualFreeEx
 ; Link ..........: @@MsdnLink@@ OpenProcess
 ; Example .......:
 ; ===============================================================================================================================
-Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
+Func __Mem_OpenProcess($iAccess, $bInherit, $iProcessID, $bDebugPriv = False)
 	; Attempt to open process with standard security priviliges
-	Local $aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
+	Local $aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $bInherit, "dword", $iProcessID)
 	If @error Then Return SetError(@error + 10, @extended, 0)
 	If $aResult[0] Then Return $aResult[0]
-	If Not $fDebugPriv Then Return 0
+	If Not $bDebugPriv Then Return 0
 
 	; Enable debug privileged mode
 	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
@@ -291,7 +290,7 @@ Func __Mem_OpenProcess($iAccess, $fInherit, $iProcessID, $fDebugPriv = False)
 	Local $iRet = 0
 	If Not @error Then
 		; Attempt to open process with debug privileges
-		$aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $fInherit, "dword", $iProcessID)
+		$aResult = DllCall("kernel32.dll", "handle", "OpenProcess", "dword", $iAccess, "bool", $bInherit, "dword", $iProcessID)
 		$iError = @error
 		$iLastError = @extended
 		If $aResult[0] Then $iRet = $aResult[0]

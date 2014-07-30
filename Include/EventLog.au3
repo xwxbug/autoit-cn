@@ -7,7 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Event_Log
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist Windows System logs.
 ; Description ...: When an error occurs, the system administrator or support technicians must determine what  caused  the  error,
@@ -21,7 +21,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $gsSourceName
+Global $__g_sSourceName_Event
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -86,14 +86,14 @@ EndFunc   ;==>_EventLog__Backup
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _EventLog__Clear($hEventLog, $sFileName)
-	Local $fTemp = False
+	Local $bTemp = False
 	If StringLen($sFileName) = 0 Then
 		$sFileName = @TempDir & "\_EventLog_tempbackup.bak"
-		$fTemp = True
+		$bTemp = True
 	EndIf
 	Local $aResult = DllCall("advapi32.dll", "bool", "ClearEventLogW", "handle", $hEventLog, "wstr", $sFileName)
 	If @error Then Return SetError(@error, @extended, False)
-	If $fTemp Then FileDelete($sFileName)
+	If $bTemp Then FileDelete($sFileName)
 	Return $aResult[0] <> 0
 EndFunc   ;==>_EventLog__Clear
 
@@ -238,7 +238,7 @@ Func __EventLog_DecodeDesc($tEventLog)
 	Local $aStrings = __EventLog_DecodeStrings($tEventLog)
 	Local $sSource = __EventLog_DecodeSource($tEventLog)
 	Local $iEventID = DllStructGetData($tEventLog, "EventID")
-	Local $sKey = "HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\" & $gsSourceName & "\" & $sSource
+	Local $sKey = "HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\" & $__g_sSourceName_Event & "\" & $sSource
 	Local $aMsgDLL = StringSplit(_WinAPI_ExpandEnvironmentStrings(RegRead($sKey, "EventMessageFile")), ";")
 
 	Local $iFlags = BitOR($__EVENTLOG_FORMAT_MESSAGE_FROM_HMODULE, $__EVENTLOG_FORMAT_MESSAGE_IGNORE_INSERTS)
@@ -474,7 +474,7 @@ EndFunc   ;==>_EventLog__Oldest
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _EventLog__Open($sServerName, $sSourceName)
-	$gsSourceName = $sSourceName
+	$__g_sSourceName_Event = $sSourceName
 	Local $aResult = DllCall("advapi32.dll", "handle", "OpenEventLogW", "wstr", $sServerName, "wstr", $sSourceName)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]
@@ -494,16 +494,16 @@ EndFunc   ;==>_EventLog__OpenBackup
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
-Func _EventLog__Read($hEventLog, $fRead = True, $fForward = True, $iOffset = 0)
+Func _EventLog__Read($hEventLog, $bRead = True, $bForward = True, $iOffset = 0)
 	Local $iReadFlags, $aEvent[15]
 	$aEvent[0] = False; in cas of error
 
-	If $fRead Then
+	If $bRead Then
 		$iReadFlags = $EVENTLOG_SEQUENTIAL_READ
 	Else
 		$iReadFlags = $EVENTLOG_SEEK_READ
 	EndIf
-	If $fForward Then
+	If $bForward Then
 		$iReadFlags = BitOR($iReadFlags, $EVENTLOG_FORWARDS_READ)
 	Else
 		$iReadFlags = BitOR($iReadFlags, $EVENTLOG_BACKWARDS_READ)
@@ -547,7 +547,7 @@ EndFunc   ;==>_EventLog__Read
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _EventLog__RegisterSource($sServerName, $sSourceName)
-	$gsSourceName = $sSourceName
+	$__g_sSourceName_Event = $sSourceName
 	Local $aResult = DllCall("advapi32.dll", "handle", "RegisterEventSourceW", "wstr", $sServerName, "wstr", $sSourceName)
 	If @error Then Return SetError(@error, @extended, 0)
 	Return $aResult[0]

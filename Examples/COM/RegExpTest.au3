@@ -1,32 +1,30 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; Regular Expression test using VBScript.RegExp object
+; COM test file
 ;
-; Requirements:
-; AutoItCOM    Version 3.1.0
-; VBscript.DLL version 5.0 or higher.
+; Regular Expression test using VBScript.RegExp object
 ;
 ; Source: http://msdn.microsoft.com/library/en-us/script56/html/vsobjregexp.asp
 
-Func RegExpTest($patrn, $strng)
-	Local $Retstr = ""
+MsgBox($MB_SYSTEMMODAL, "Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))
 
-	Local $regEx = ObjCreate("VBScript.RegExp") ; Create a regular expression.
+Func RegExpTest($sPatrn, $s)
+	Local $sRet = ""
 
-	$regEx.Pattern = $patrn ; Set pattern.
-	$regEx.IgnoreCase = 1 ; Set case insensitivity: True.
-	$regEx.Global = 1 ; Set global applicability: True.
-	Local $Matches = $regEx.Execute($strng) ; Execute search.
+	Local $oRegEx = ObjCreate("VBScript.RegExp") ; Create a regular expression.
 
-	For $Match In $Matches ; Iterate Matches collection.
-		$Retstr = $Retstr & "Match found at position "
-		$Retstr = $Retstr & $Match.FirstIndex & ". Match Value is '"
-		$Retstr = $Retstr & $Match.Value & "'." & @CRLF
+	$oRegEx.Pattern = $sPatrn ; Set pattern.
+	$oRegEx.IgnoreCase = 1 ; Set case insensitivity: True.
+	$oRegEx.Global = 1 ; Set global applicability: True.
+	Local $oMatches = $oRegEx.Execute($s) ; Execute search.
+
+	For $oMatch In $oMatches ; Iterate Matches collection.
+		$sRet = $sRet & "Match found at position "
+		$sRet = $sRet & $oMatch.FirstIndex & ". Match Value is '"
+		$sRet = $sRet & $oMatch.Value & "'." & @CRLF
 	Next
 
-	$regEx = ""
+	$oRegEx = ""
 
-	Return $Retstr
+	Return $sRet
 EndFunc   ;==>RegExpTest
-
-MsgBox($MB_SYSTEMMODAL, "Test RegExp", RegExpTest("is.", "IS1 is2 IS3 is4"))

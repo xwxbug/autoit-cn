@@ -8,7 +8,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ToolTip
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Functions that assist with ToolTip control management.
 ;                  ToolTip controls are pop-up windows that display text.  The text usually describes a tool, which is  either  a
 ;                  window, such as a child window or control, or an application-defined rectangular area within a window's client
@@ -17,7 +17,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_TT_ghTTLastWnd
+Global $__g_hTTLastWnd
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -212,7 +212,7 @@ Func _GUIToolTip_AddTool($hTool, $hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0,
 	DllStructSetData($tToolInfo, "Bottom", $iBottom)
 	DllStructSetData($tToolInfo, "Param", $iParam)
 	Local $iRet
-	If _WinAPI_InProcess($hTool, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hTool, $__g_hTTLastWnd) Then
 		DllStructSetData($tToolInfo, "Text", $pBuffer)
 		$iRet = _SendMessage($hTool, $TTM_ADDTOOLW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
@@ -236,19 +236,19 @@ EndFunc   ;==>_GUIToolTip_AddTool
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIToolTip_AdjustRect($hWnd, ByRef $tRect, $fLarger = True)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		_SendMessage($hWnd, $TTM_ADJUSTRECT, $fLarger, $tRect, 0, "wparam", "struct*")
+Func _GUIToolTip_AdjustRect($hWnd, ByRef $tRECT, $bLarger = True)
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		_SendMessage($hWnd, $TTM_ADJUSTRECT, $bLarger, $tRECT, 0, "wparam", "struct*")
 	Else
-		Local $iRect = DllStructGetSize($tRect)
+		Local $iRect = DllStructGetSize($tRECT)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
-		_MemWrite($tMemMap, $tRect)
-		_SendMessage($hWnd, $TTM_ADJUSTRECT, $fLarger, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
+		_MemWrite($tMemMap, $tRECT)
+		_SendMessage($hWnd, $TTM_ADJUSTRECT, $bLarger, $pMemory, 0, "wparam", "ptr")
+		_MemRead($tMemMap, $pMemory, $tRECT, $iRect)
 		_MemFree($tMemMap)
 	EndIf
-	Return $tRect
+	Return $tRECT
 EndFunc   ;==>_GUIToolTip_AdjustRect
 
 ; #FUNCTION# ====================================================================================================================
@@ -294,7 +294,7 @@ Func _GUIToolTip_DelTool($hWnd, $hTool, $iID = 0)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "ID", $iID)
 	DllStructSetData($tToolInfo, "hWnd", $hTool)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		_SendMessage($hWnd, $TTM_DELTOOLW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -312,17 +312,17 @@ EndFunc   ;==>_GUIToolTip_DelTool
 Func _GUIToolTip_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $_TOOLTIPCONSTANTS_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
+	Local $iDestroyed = 0
 	If IsHWnd($hWnd) Then
-		If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+		If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+			$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 		Else
 			; Not Allowed to Destroy Other Applications Control(s)
 			Return SetError(1, 1, False)
 		EndIf
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUIToolTip_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -333,18 +333,18 @@ Func _GUIToolTip_EnumTools($hWnd, $iIndex)
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
-	Local $fResult
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		$fResult = _SendMessage($hWnd, $TTM_ENUMTOOLSW, $iIndex, $tToolInfo, 0, "wparam", "struct*")
+	Local $bResult
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		$bResult = _SendMessage($hWnd, $TTM_ENUMTOOLSW, $iIndex, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iToolInfo, $tMemMap)
 		_MemWrite($tMemMap, $tToolInfo, $pMemory, $iToolInfo)
-		$fResult = _SendMessage($hWnd, $TTM_ENUMTOOLSW, $iIndex, $pMemory, 0, "wparam", "ptr")
+		$bResult = _SendMessage($hWnd, $TTM_ENUMTOOLSW, $iIndex, $pMemory, 0, "wparam", "ptr")
 		_MemRead($tMemMap, $pMemory, $tToolInfo, $iToolInfo)
 		_MemFree($tMemMap)
 	EndIf
-	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $fResult = True)
+	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $bResult = True)
 EndFunc   ;==>_GUIToolTip_EnumTools
 
 ; #FUNCTION# ====================================================================================================================
@@ -369,7 +369,7 @@ Func _GUIToolTip_GetBubbleSize($hWnd, $hTool, $iID, $iFlags = Default)
 	DllStructSetData($tToolInfo, "ID", $iID)
 	DllStructSetData($tToolInfo, "Flags", $iFlags)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TTM_GETBUBBLESIZE, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -398,18 +398,18 @@ Func _GUIToolTip_GetCurrentTool($hWnd)
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
-	Local $fResult
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		$fResult = _SendMessage($hWnd, $TTM_GETCURRENTTOOLW, 0, $tToolInfo, 0, "wparam", "struct*")
+	Local $bResult
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		$bResult = _SendMessage($hWnd, $TTM_GETCURRENTTOOLW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iToolInfo, $tMemMap)
 		_MemWrite($tMemMap, $tToolInfo, $pMemory, $iToolInfo)
-		$fResult = _SendMessage($hWnd, $TTM_GETCURRENTTOOLW, 0, $pMemory, 0, "wparam", "ptr")
+		$bResult = _SendMessage($hWnd, $TTM_GETCURRENTTOOLW, 0, $pMemory, 0, "wparam", "ptr")
 		_MemRead($tMemMap, $pMemory, $tToolInfo, $iToolInfo)
 		_MemFree($tMemMap)
 	EndIf
-	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $fResult = True)
+	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $bResult = True)
 EndFunc   ;==>_GUIToolTip_GetCurrentTool
 
 ; #FUNCTION# ====================================================================================================================
@@ -427,11 +427,11 @@ EndFunc   ;==>_GUIToolTip_GetDelayTime
 Func _GUIToolTip_GetMargin($hWnd)
 	Local $aMargin[4]
 
-	Local $tRect = _GUIToolTip_GetMarginEx($hWnd)
-	$aMargin[0] = DllStructGetData($tRect, "Left")
-	$aMargin[1] = DllStructGetData($tRect, "Top")
-	$aMargin[2] = DllStructGetData($tRect, "Right")
-	$aMargin[3] = DllStructGetData($tRect, "Bottom")
+	Local $tRECT = _GUIToolTip_GetMarginEx($hWnd)
+	$aMargin[0] = DllStructGetData($tRECT, "Left")
+	$aMargin[1] = DllStructGetData($tRECT, "Top")
+	$aMargin[2] = DllStructGetData($tRECT, "Right")
+	$aMargin[3] = DllStructGetData($tRECT, "Bottom")
 	Return $aMargin
 EndFunc   ;==>_GUIToolTip_GetMargin
 
@@ -440,18 +440,18 @@ EndFunc   ;==>_GUIToolTip_GetMargin
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUIToolTip_GetMarginEx($hWnd)
-	Local $tRect = DllStructCreate($tagRECT)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		_SendMessage($hWnd, $TTM_GETMARGIN, 0, $tRect, 0, "wparam", "struct*")
+	Local $tRECT = DllStructCreate($tagRECT)
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		_SendMessage($hWnd, $TTM_GETMARGIN, 0, $tRECT, 0, "wparam", "struct*")
 	Else
-		Local $iRect = DllStructGetSize($tRect)
+		Local $iRect = DllStructGetSize($tRECT)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 		_SendMessage($hWnd, $TTM_GETMARGIN, 0, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRECT, $iRect)
 		_MemFree($tMemMap)
 	EndIf
-	Return $tRect
+	Return $tRECT
 EndFunc   ;==>_GUIToolTip_GetMarginEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -473,7 +473,7 @@ Func _GUIToolTip_GetText($hWnd, $hTool, $iID)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "hWnd", $hTool)
 	DllStructSetData($tToolInfo, "ID", $iID)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		DllStructSetData($tToolInfo, "Text", DllStructGetPtr($tBuffer))
 		_SendMessage($hWnd, $TTM_GETTEXTW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
@@ -515,7 +515,7 @@ Func _GUIToolTip_GetTitleBitMap($hWnd)
 	Local $iTitle = DllStructGetSize($tTitle)
 	DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))
 		_SendMessage($hWnd, $TTM_GETTITLE, 0, $tTitle, 0, "wparam", "struct*")
 	Else
@@ -541,7 +541,7 @@ Func _GUIToolTip_GetTitleText($hWnd)
 	Local $iTitle = DllStructGetSize($tTitle)
 	DllStructSetData($tTitle, "TitleMax", DllStructGetSize($tBuffer))
 	DllStructSetData($tTitle, "Size", $iTitle)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		DllStructSetData($tTitle, "Title", DllStructGetPtr($tBuffer))
 		_SendMessage($hWnd, $TTM_GETTITLE, 0, $tTitle, 0, "wparam", "struct*")
 	Else
@@ -575,18 +575,18 @@ Func _GUIToolTip_GetToolInfo($hWnd, $hTool, $iID)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "hWnd", $hTool)
 	DllStructSetData($tToolInfo, "ID", $iID)
-	Local $fResult
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		$fResult = _SendMessage($hWnd, $TTM_GETTOOLINFOW, 0, $tToolInfo, 0, "wparam", "struct*")
+	Local $bResult
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		$bResult = _SendMessage($hWnd, $TTM_GETTOOLINFOW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iToolInfo, $tMemMap)
 		_MemWrite($tMemMap, $tToolInfo, $pMemory, $iToolInfo)
-		$fResult = _SendMessage($hWnd, $TTM_GETTOOLINFOW, 0, $pMemory, 0, "wparam", "ptr")
+		$bResult = _SendMessage($hWnd, $TTM_GETTOOLINFOW, 0, $pMemory, 0, "wparam", "ptr")
 		_MemRead($tMemMap, $pMemory, $tToolInfo, $iToolInfo)
 		_MemFree($tMemMap)
 	EndIf
-	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $fResult = True)
+	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $bResult = True)
 EndFunc   ;==>_GUIToolTip_GetToolInfo
 
 ; #FUNCTION# ====================================================================================================================
@@ -601,15 +601,15 @@ Func _GUIToolTip_HitTest($hWnd, $hTool, $iX, $iY)
 	DllStructSetData($tHitTest, "X", $iX)
 	DllStructSetData($tHitTest, "Y", $iY)
 	DllStructSetData($tHitTest, "Size", $iToolInfo)
-	Local $fResult
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		$fResult = _SendMessage($hWnd, $TTM_HITTESTW, 0, $tHitTest, 0, "wparam", "struct*")
+	Local $bResult
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		$bResult = _SendMessage($hWnd, $TTM_HITTESTW, 0, $tHitTest, 0, "wparam", "struct*")
 	Else
 		Local $iHitTest = DllStructGetSize($tHitTest)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iHitTest, $tMemMap)
 		_MemWrite($tMemMap, $tHitTest, $pMemory, $iHitTest)
-		$fResult = _SendMessage($hWnd, $TTM_HITTESTW, 0, $pMemory, 0, "wparam", "ptr")
+		$bResult = _SendMessage($hWnd, $TTM_HITTESTW, 0, $pMemory, 0, "wparam", "ptr")
 		_MemRead($tMemMap, $pMemory, $tHitTest, $iHitTest)
 		_MemFree($tMemMap)
 	EndIf
@@ -623,7 +623,7 @@ Func _GUIToolTip_HitTest($hWnd, $hTool, $iX, $iY)
 	DllStructSetData($tToolInfo, "Bottom", DllStructGetData($tHitTest, "Bottom"))
 	DllStructSetData($tToolInfo, "hInst", DllStructGetData($tHitTest, "hInst"))
 	DllStructSetData($tToolInfo, "Param", DllStructGetData($tHitTest, "Param"))
-	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $fResult = True)
+	Return _GUIToolTip_ToolToArray($hWnd, $tToolInfo, $bResult = True)
 EndFunc   ;==>_GUIToolTip_HitTest
 
 ; #FUNCTION# ====================================================================================================================
@@ -640,7 +640,7 @@ Func _GUIToolTip_NewToolRect($hWnd, $hTool, $iID, $iLeft, $iTop, $iRight, $iBott
 	DllStructSetData($tToolInfo, "Top", $iTop)
 	DllStructSetData($tToolInfo, "Right", $iRight)
 	DllStructSetData($tToolInfo, "Bottom", $iBottom)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		_SendMessage($hWnd, $TTM_NEWTOOLRECTW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -680,18 +680,18 @@ EndFunc   ;==>_GUIToolTip_SetDelayTime
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUIToolTip_SetMargin($hWnd, $iLeft, $iTop, $iRight, $iBottom)
-	Local $tRect = DllStructCreate($tagRECT)
-	DllStructSetData($tRect, "Left", $iLeft)
-	DllStructSetData($tRect, "Top", $iTop)
-	DllStructSetData($tRect, "Right", $iRight)
-	DllStructSetData($tRect, "Bottom", $iBottom)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		_SendMessage($hWnd, $TTM_SETMARGIN, 0, $tRect, 0, "wparam", "struct*")
+	Local $tRECT = DllStructCreate($tagRECT)
+	DllStructSetData($tRECT, "Left", $iLeft)
+	DllStructSetData($tRECT, "Top", $iTop)
+	DllStructSetData($tRECT, "Right", $iRight)
+	DllStructSetData($tRECT, "Bottom", $iBottom)
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		_SendMessage($hWnd, $TTM_SETMARGIN, 0, $tRECT, 0, "wparam", "struct*")
 	Else
-		Local $iRect = DllStructGetSize($tRect)
+		Local $iRect = DllStructGetSize($tRECT)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
-		_MemWrite($tMemMap, $tRect)
+		_MemWrite($tMemMap, $tRECT)
 		_SendMessage($hWnd, $TTM_SETMARGIN, 0, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
@@ -731,7 +731,7 @@ Func _GUIToolTip_SetTitle($hWnd, $sTitle, $iIcon = 0)
 	$iBuffer *= 2
 	DllStructSetData($tBuffer, "Text", $sTitle)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TTM_SETTITLEW, $iIcon, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -762,7 +762,7 @@ Func _GUIToolTip_SetToolInfo($hWnd, $sText, $iID = 0, $iLeft = 0, $iTop = 0, $iR
 	DllStructSetData($tToolInfo, "Right", $iRight)
 	DllStructSetData($tToolInfo, "Bottom", $iBottom)
 	DllStructSetData($tToolInfo, "Param", $iParam)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		DllStructSetData($tToolInfo, "Text", DllStructGetPtr($tBuffer))
 		_SendMessage($hWnd, $TTM_SETTOOLINFOW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else
@@ -783,7 +783,7 @@ EndFunc   ;==>_GUIToolTip_SetToolInfo
 ; ===============================================================================================================================
 Func _GUIToolTip_SetWindowTheme($hWnd, $sStyle)
 	Local $tBuffer = _WinAPI_MultiByteToWideChar($sStyle)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		_SendMessage($hWnd, $TTM_SETWINDOWTHEME, 0, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -826,21 +826,21 @@ EndFunc   ;==>_GUIToolTip_ToolToArray
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUIToolTip_TrackActivate($hWnd, $fActivate = True, $hTool = 0, $iID = 0)
+Func _GUIToolTip_TrackActivate($hWnd, $bActivate = True, $hTool = 0, $iID = 0)
 	Local $tToolInfo = DllStructCreate($tagTOOLINFO)
 	Local $iToolInfo = DllStructGetSize($tToolInfo)
 
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "hWnd", $hTool)
 	DllStructSetData($tToolInfo, "ID", $iID)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
-		_SendMessage($hWnd, $TTM_TRACKACTIVATE, $fActivate, $tToolInfo, 0, "wparam", "struct*")
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
+		_SendMessage($hWnd, $TTM_TRACKACTIVATE, $bActivate, $tToolInfo, 0, "wparam", "struct*")
 	Else
 		$iToolInfo = DllStructGetSize($tToolInfo)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iToolInfo, $tMemMap)
 		_MemWrite($tMemMap, $tToolInfo)
-		_SendMessage($hWnd, $TTM_TRACKACTIVATE, $fActivate, $pMemory, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TTM_TRACKACTIVATE, $bActivate, $pMemory, 0, "wparam", "ptr")
 		_MemFree($tMemMap)
 	EndIf
 EndFunc   ;==>_GUIToolTip_TrackActivate
@@ -875,7 +875,7 @@ Func _GUIToolTip_UpdateTipText($hWnd, $hTool, $iID, $sText)
 	DllStructSetData($tToolInfo, "Size", $iToolInfo)
 	DllStructSetData($tToolInfo, "hWnd", $hTool)
 	DllStructSetData($tToolInfo, "ID", $iID)
-	If _WinAPI_InProcess($hWnd, $_TT_ghTTLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTTLastWnd) Then
 		DllStructSetData($tToolInfo, "Text", DllStructGetPtr($tBuffer))
 		_SendMessage($hWnd, $TTM_UPDATETIPTEXTW, 0, $tToolInfo, 0, "wparam", "struct*")
 	Else

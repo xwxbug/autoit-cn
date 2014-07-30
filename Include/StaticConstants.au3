@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Static_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm#Label">GUI control Label/Static styles</a> and Pic, Icon constants.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -23,9 +23,11 @@ Global Const $SS_WHITEFRAME = 0x9
 Global Const $SS_SIMPLE = 0xB
 Global Const $SS_LEFTNOWORDWRAP = 0xC
 Global Const $SS_BITMAP = 0xE
+Global Const $SS_ENHMETAFILE = 0xF
 Global Const $SS_ETCHEDHORZ = 0x10
 Global Const $SS_ETCHEDVERT = 0x11
 Global Const $SS_ETCHEDFRAME = 0x12
+Global Const $SS_REALSIZECONTROL = 0x40
 Global Const $SS_NOPREFIX = 0x0080
 Global Const $SS_NOTIFY = 0x0100
 Global Const $SS_CENTERIMAGE = 0x0200
@@ -37,4 +39,10 @@ Global Const $GUI_SS_DEFAULT_LABEL = 0
 Global Const $GUI_SS_DEFAULT_GRAPHIC = 0
 Global Const $GUI_SS_DEFAULT_ICON = $SS_NOTIFY
 Global Const $GUI_SS_DEFAULT_PIC = $SS_NOTIFY
+
+; Messages
+Global Const $STM_SETICON = 0x0170
+Global Const $STM_GETICON = 0x0171
+Global Const $STM_SETIMAGE = 0x0172
+Global Const $STM_GETIMAGE = 0x0173
 ; ===============================================================================================================================

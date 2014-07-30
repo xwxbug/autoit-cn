@@ -1,8 +1,8 @@
+#include <GuiConstantsEx.au3>
 #include <NamedPipes.au3>
+#include <StaticConstants.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-#include <StaticConstants.au3>
-#include <GuiConstantsEx.au3>
 
 ; ===============================================================================================================================
 ; Description ...: This is the client side of the pipe demo
@@ -23,7 +23,7 @@ Global Const $ERROR_MORE_DATA = 234
 ; Global variables
 ; ===============================================================================================================================
 
-Global $iEdit, $iMemo, $iSend, $iServer, $hPipe
+Global $g_idEdit, $g_idMemo, $g_idSend, $g_idServer, $g_hPipe
 
 ; ===============================================================================================================================
 ; Main
@@ -38,12 +38,12 @@ MsgLoop()
 Func CreateGUI()
 	Local $hGUI = GUICreate("Pipe Client", 500, 400, -1, -1, $WS_SIZEBOX)
 	GUICtrlCreateLabel("Server:", 2, 14, 52, 20, $SS_RIGHT)
-	$iServer = GUICtrlCreateEdit("<local>", 56, 10, 200, 20, $SS_LEFT)
+	$g_idServer = GUICtrlCreateEdit("<local>", 56, 10, 200, 20, $SS_LEFT)
 	GUICtrlCreateLabel("Command:", 2, 36, 52, 20, $SS_RIGHT)
-	$iEdit = GUICtrlCreateEdit($DEFCMD, 56, 32, 370, 20, $SS_LEFT)
-	$iSend = GUICtrlCreateButton("Send", 430, 32, 60, 20)
-	$iMemo = GUICtrlCreateEdit("", 0, 62, _WinAPI_GetClientWidth($hGUI), 332)
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
+	$g_idEdit = GUICtrlCreateEdit($DEFCMD, 56, 32, 370, 20, $SS_LEFT)
+	$g_idSend = GUICtrlCreateButton("Send", 430, 32, 60, 20)
+	$g_idMemo = GUICtrlCreateEdit("", 0, 62, _WinAPI_GetClientWidth($hGUI), 332)
+	GUICtrlSetFont($g_idMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 EndFunc   ;==>CreateGUI
 
@@ -52,14 +52,14 @@ EndFunc   ;==>CreateGUI
 ; ===============================================================================================================================
 Func LogError($sMessage)
 	$sMessage &= " (" & _WinAPI_GetLastErrorMessage() & ")"
-	GUICtrlSetData($iMemo, GUICtrlRead($iMemo) & $sMessage & @CRLF)
+	GUICtrlSetData($g_idMemo, GUICtrlRead($g_idMemo) & $sMessage & @CRLF)
 EndFunc   ;==>LogError
 
 ; ===============================================================================================================================
 ; Logs a message to the display
 ; ===============================================================================================================================
 Func LogMsg($sMessage)
-	GUICtrlSetData($iMemo, GUICtrlRead($iMemo) & $sMessage & @CRLF)
+	GUICtrlSetData($g_idMemo, GUICtrlRead($g_idMemo) & $sMessage & @CRLF)
 EndFunc   ;==>LogMsg
 
 ; ===============================================================================================================================
@@ -68,7 +68,7 @@ EndFunc   ;==>LogMsg
 Func MsgLoop()
 	While True
 		Switch GUIGetMsg()
-			Case $iSend
+			Case $g_idSend
 				SendCmd()
 			Case $GUI_EVENT_CLOSE
 				Exit
@@ -82,11 +82,11 @@ EndFunc   ;==>MsgLoop
 Func OpenPipe()
 	Local $sName, $sPipe
 	; Get pipe handle
-	$sName = GUICtrlRead($iServer)
+	$sName = GUICtrlRead($g_idServer)
 	If $sName = "<local>" Then $sName = "."
 	$sPipe = StringReplace($PIPE_NAME, "$", $sName)
-	$hPipe = _WinAPI_CreateFile($sPipe, 2, 6)
-	If $hPipe <> -1 Then Return True
+	$g_hPipe = _WinAPI_CreateFile($sPipe, 2, 6)
+	If $g_hPipe <> -1 Then Return True
 	LogError("OpenPipe failed")
 	Return False
 EndFunc   ;==>OpenPipe
@@ -99,12 +99,12 @@ Func ReadMsg()
 
 	$tBuffer = DllStructCreate("char Text[4096]")
 	$pBuffer = DllStructGetPtr($tBuffer)
-	GUICtrlSetData($iMemo, "")
+	GUICtrlSetData($g_idMemo, "")
 	While 1
-		$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, 0)
+		$bSuccess = _WinAPI_ReadFile($g_hPipe, $pBuffer, $BUFSIZE, $iRead, 0)
 		If $iRead = 0 Then ExitLoop
 		If Not $bSuccess Or (_WinAPI_GetLastError() = $ERROR_MORE_DATA) Then ExitLoop
-		GUICtrlSetData($iMemo, StringLeft(DllStructGetData($tBuffer, "Text"), $iRead), 1)
+		GUICtrlSetData($g_idMemo, StringLeft(DllStructGetData($tBuffer, "Text"), $iRead), 1)
 	WEnd
 EndFunc   ;==>ReadMsg
 
@@ -114,9 +114,9 @@ EndFunc   ;==>ReadMsg
 Func SendCmd()
 	If OpenPipe() Then
 		SetReadMode()
-		WriteMsg(GUICtrlRead($iEdit))
+		WriteMsg(GUICtrlRead($g_idEdit))
 		ReadMsg()
-		_WinAPI_CloseHandle($hPipe)
+		_WinAPI_CloseHandle($g_hPipe)
 	EndIf
 EndFunc   ;==>SendCmd
 
@@ -124,7 +124,7 @@ EndFunc   ;==>SendCmd
 ; This function sets the pipe read mode
 ; ===============================================================================================================================
 Func SetReadMode()
-	If Not _NamedPipes_SetNamedPipeHandleState($hPipe, 1, 0, 0, 0) Then
+	If Not _NamedPipes_SetNamedPipeHandleState($g_hPipe, 1, 0, 0, 0) Then
 		LogError("SetReadMode: _NamedPipes_SetNamedPipeHandleState failed")
 	EndIf
 EndFunc   ;==>SetReadMode
@@ -139,7 +139,7 @@ Func WriteMsg($sMessage)
 	$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	$pBuffer = DllStructGetPtr($tBuffer)
 	DllStructSetData($tBuffer, "Text", $sMessage)
-	If Not _WinAPI_WriteFile($hPipe, $pBuffer, $iBuffer, $iWritten, 0) Then
+	If Not _WinAPI_WriteFile($g_hPipe, $pBuffer, $iBuffer, $iWritten, 0) Then
 		LogError("WriteMsg: _WinAPI_WriteFile failed")
 	EndIf
 EndFunc   ;==>WriteMsg

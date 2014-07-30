@@ -15,22 +15,22 @@ _Main()
 
 Func _Main()
 	;Initialize variables
-	Local $GUIWidth = 300, $GUIHeight = 250
-	Local $Edit_1, $OK_Btn, $Cancel_Btn, $msg
+	Local $iGUIWidth = 300, $iGUIHeight = 250
+	Local $idEdit_1, $idOK_Btn, $idCancel_Btn, $iMsg
 
-	#forceref $Edit_1
+	#forceref $idEdit_1
 
 	;Create window
-	GUICreate("新 GUI", $GUIWidth, $GUIHeight)
+	GUICreate("新 GUI", $iGUIWidth, $iGUIHeight)
 
 	;Create an edit box with no text in it
-	$Edit_1 = GUICtrlCreateEdit("", 10, 10, 280, 190)
+	$idEdit_1 = GUICtrlCreateEdit("", 10, 10, 280, 190)
 
 	;Create an "OK" button
-	$OK_Btn = GUICtrlCreateButton("确定", 75, 210, 70, 25)
+	$idOK_Btn = GUICtrlCreateButton("确定", 75, 210, 70, 25)
 
 	;Create a "CANCEL" button
-	$Cancel_Btn = GUICtrlCreateButton("取消", 165, 210, 70, 25)
+	$idCancel_Btn = GUICtrlCreateButton("取消", 165, 210, 70, 25)
 
 	;Show window/Make the window visible
 	GUISetState(@SW_SHOW)
@@ -41,24 +41,24 @@ Func _Main()
 	;- user clicks the close button
 	While 1
 		;After every loop check if the user clicked something in the GUI window
-		$msg = GUIGetMsg()
+		$iMsg = GUIGetMsg()
 
 		Select
 
 			;Check if user clicked on the close button
-			Case $msg = $GUI_EVENT_CLOSE
+			Case $iMsg = $GUI_EVENT_CLOSE
 				;Destroy the GUI including the controls
 				GUIDelete()
 				;Exit the script
 				Exit
 
 				;Check if user clicked on the "OK" button
-			Case $msg = $OK_Btn
-         MsgBox(64, "新 GUI", "您单击了[确定]按钮!")
+			Case $iMsg = $idOK_Btn
+				  MsgBox(64, "新 GUI", "您单击了[确定]按钮!")
 
 				;Check if user clicked on the "CANCEL" button
-			Case $msg = $Cancel_Btn
-         MsgBox(64, "新 GUI", "您单击了取消按钮!")
+			Case $iMsg = $idCancel_Btn
+				MsgBox(64, "新 GUI", "您单击了取消按钮!")
 
 		EndSelect
 

@@ -1,8 +1,6 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoItCOM 3.1.0
-;
-; Test file
+; COM Test file
 ;
 ; Counting the number of open shell windows
 
@@ -11,12 +9,14 @@ Local $oShellWindows = $oShell.windows ; Get the collection of open shell Window
 
 If IsObj($oShellWindows) Then
 
-	Local $string = "" ; String for displaying purposes
+	; String for displaying purposes
+	Local $s = ""
 
-	For $Window In $oShellWindows ; Count all existing shell windows
-		$string = $string & $Window.LocationName & @CRLF
+	; Count all existing shell windows
+	For $oWindow In $oShellWindows
+		$s &= $oWindow.LocationName & @CRLF
 	Next
 
-	MsgBox($MB_SYSTEMMODAL, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $string);
+	MsgBox($MB_SYSTEMMODAL, "Shell Windows", "You have the following shell windows:" & @CRLF & @CRLF & $s);
 
 EndIf

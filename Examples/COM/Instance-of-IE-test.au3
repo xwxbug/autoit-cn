@@ -1,4 +1,4 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
 ; An example how to obtain a running instance of the Internet Explorer
 ;
@@ -8,14 +8,14 @@
 
 ; First we activate an example instance of the internet explorer.
 
-$URL = "http://www.autoitscript.com"
-Run(@ComSpec & " /c start iexplore.exe " & $URL)
+Local $sURL = "http://www.autoitscript.com/site"
+Run(@ComSpec & " /c start iexplore.exe " & $sURL)
 Sleep(4000) ; Give IE some time to load
 
 ; Internet Explorer is partly integrated in shell.application
 
-$oShell = ObjCreate("shell.application") ; Get the Windows Shell Object
-$oShellWindows = $oShell.windows ; Get the collection of open shell Windows
+Local $oShell = ObjCreate("shell.application") ; Get the Windows Shell Object
+Local $oShellWindows = $oShell.windows ; Get the collection of open shell Windows
 
 If Not IsObj($oShellWindows) Then
 	MsgBox($MB_SYSTEMMODAL, "Error", "Failed to obtain shell windows. Error: " & @error)
@@ -24,19 +24,19 @@ EndIf
 
 ; Now we search through all open Shell Windows and locate our internet page
 
-$MyIExplorer = ""
+Local $vMyIExplorer = ""
 
-For $Window In $oShellWindows ; Count all existing shell windows
+For $oWindow In $oShellWindows ; Count all existing shell windows
 
 	; Note: Internet Explorer appends a slash to the URL in it's window name
-	If $Window.LocationURL = $URL & "/" Then
-		$MyIExplorer = $Window
+	If $oWindow.LocationURL = $sURL & "/" Then
+		$vMyIExplorer = $oWindow
 		ExitLoop
 	EndIf
 
 Next
 
-If Not IsObj($MyIExplorer) Then
+If Not IsObj($vMyIExplorer) Then
 	MsgBox($MB_SYSTEMMODAL, "Error", "Could not find a running instance of the internet explorer")
 	Exit
 EndIf
@@ -47,12 +47,12 @@ EndIf
 MsgBox($MB_SYSTEMMODAL, "OK", "Found the running instance of the Internet Explorer" & @CRLF & _
 		"Press 'OK' to navigate to www.google.com")
 
-$NewURL = "http://www.google.com/"
-$MyIExplorer.Navigate($NewURL)
+Local $sNewURL = "http://www.google.com/"
+$vMyIExplorer.Navigate($sNewURL)
 
 Sleep(3000) ; Give it the time to load the web page
 
 MsgBox($MB_SYSTEMMODAL, "Quit", "Press 'OK' to quit IE")
 
-$MyIExplorer.Quit ; Quit IE
-$MyIExplorer = 0 ; Release from memory
+$vMyIExplorer.Quit ; Quit IE
+$vMyIExplorer = 0 ; Release from memory

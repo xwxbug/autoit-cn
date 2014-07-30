@@ -1,24 +1,35 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoItCOM 3.1.0
-;
-; Test File
+; COM Test File
 ;
 ; Use WMI to collect logical drive information
 
-Local $objcol = ObjGet("winmgmts:")
+Example()
+Exit
 
-Local $instance = $objcol.instancesof("Win32_LogicalDisk")
+Func Example()
+	Local $oCol = ObjGet("winmgmts:")
 
-If @error Then
-	MsgBox($MB_SYSTEMMODAL, "", "error getting object. Error code: " & @error)
-	Exit
-EndIf
+	If Not IsObj($oCol) Then
+		Return -1
+	Else
+		Local $oInstance = $oCol.instancesof("Win32_LogicalDisk")
 
-Local $string = "size:" & @TAB & "driveletter:" & @CRLF
+		If @error Then
+			MsgBox($MB_SYSTEMMODAL, "", "error getting object. Error code: " & @error)
+			Return -2
+		EndIf
 
-For $Drive In $instance
-	$string = $string & $Drive.size & @TAB & $Drive.deviceid & @CRLF
-Next
+		Local $s = "driveletter:" & @TAB & @TAB & "size:" & @CRLF
 
-MsgBox($MB_SYSTEMMODAL, "Drive test", "Drive information: " & @CRLF & $string)
+		For $oDrive In $oInstance
+			$s &= $oDrive.deviceid & @TAB & @TAB & $oDrive.size & @CRLF
+		Next
+
+		MsgBox($MB_SYSTEMMODAL, "Drive test", "Drive information: " & @CRLF & $s)
+
+		; CleanUp
+		$oInstance = ''
+		$oCol = ''
+	EndIf
+EndFunc   ;==>Example

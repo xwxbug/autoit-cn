@@ -1,7 +1,7 @@
 #include <GDIPlus.au3>
+#include <GuiConstantsEx.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-#include <GuiConstantsEx.au3>
 
 ; ===============================================================================================================================
 ; Description ...: Shows how to create an alpha blended form
@@ -18,25 +18,25 @@ Global Const $AC_SRC_ALPHA = 1
 ; ===============================================================================================================================
 ; Global variables
 ; ===============================================================================================================================
-Global $hGUI1, $hGUI2, $iLabel1, $iLabel2, $iSlider, $hImage
+Global $g_hGUI2, $g_idSlider, $g_hImage
 
 ; Create GUI
-$hGUI1 = GUICreate("Alpha Blend", 400, 100)
-$iLabel1 = GUICtrlCreateLabel("Adjust slider to change opacity level: (0-255)", 84, 10, 380, 20)
-$iSlider = GUICtrlCreateSlider(10, 32, 380, 40)
-$iLabel2 = GUICtrlCreateLabel("Drag the layered window around your desktop", 80, 74, 380, 20)
-GUICtrlSetLimit($iSlider, 255, 0)
-GUICtrlSetData($iSlider, 255)
+Local $hGUI1 = GUICreate("Alpha Blend", 400, 100)
+Local $idLabel1 = GUICtrlCreateLabel("Adjust slider to change opacity level: (0-255)", 84, 10, 380, 20)
+$g_idSlider = GUICtrlCreateSlider(10, 32, 380, 40)
+Local $idLabel2 = GUICtrlCreateLabel("Drag the layered window around your desktop", 80, 74, 380, 20)
+GUICtrlSetLimit($g_idSlider, 255, 0)
+GUICtrlSetData($g_idSlider, 255)
 GUISetState()
 
 ; Create layered child window
-$hGUI2 = GUICreate("Test", 250, 250, -1, -1, -1, $WS_EX_LAYERED, $hGUI1)
+$g_hGUI2 = GUICreate("Test", 250, 250, -1, -1, -1, $WS_EX_LAYERED, $hGUI1)
 
 ; Load layered image
 _GDIPlus_Startup()
-$hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Button.png")
+$g_hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Button.png")
 ; $hImage = _GDIPlus_ImageLoadFromFile(@ScriptDir & "\Images\Torus.png")
-SetBitmap($hGUI2, $hImage, 255)
+SetBitmap($g_hGUI2, $g_hImage, 255)
 GUISetState()
 
 ; Register notification messages
@@ -48,7 +48,7 @@ Do
 Until GUIGetMsg() = $GUI_EVENT_CLOSE
 
 ; Release resources
-_GDIPlus_ImageDispose($hImage)
+_GDIPlus_ImageDispose($g_hImage)
 _GDIPlus_Shutdown()
 
 ; ===============================================================================================================================
@@ -56,7 +56,7 @@ _GDIPlus_Shutdown()
 ; ===============================================================================================================================
 Func WM_HSCROLL($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam, $ilParam
-	SetBitmap($hGUI2, $hImage, GUICtrlRead($iSlider))
+	SetBitmap($g_hGUI2, $g_hImage, GUICtrlRead($g_idSlider))
 EndFunc   ;==>WM_HSCROLL
 
 ; ===============================================================================================================================
@@ -64,7 +64,7 @@ EndFunc   ;==>WM_HSCROLL
 ; ===============================================================================================================================
 Func WM_NCHITTEST($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $hWnd, $iMsg, $iwParam, $ilParam
-	If ($hWnd = $hGUI2) And ($iMsg = $WM_NCHITTEST) Then Return $HTCAPTION
+	If ($hWnd = $g_hGUI2) And ($iMsg = $WM_NCHITTEST) Then Return $HTCAPTION
 EndFunc   ;==>WM_NCHITTEST
 
 ; ===============================================================================================================================

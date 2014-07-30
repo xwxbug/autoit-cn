@@ -8,11 +8,6 @@
 ; ===============================================================================================================================
 
 ; ===============================================================================================================================
-; Global variables
-; ===============================================================================================================================
-Global $hBitmap, $hImage, $sCLSID, $tData, $tParams
-
-; ===============================================================================================================================
 ; Main
 ; ===============================================================================================================================
 
@@ -23,15 +18,15 @@ _ScreenCapture_Capture(@MyDocumentsDir & '\AutoItImage.jpg')
 _GDIPlus_Startup()
 
 ; Load image
-$hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & '\AutoItImage.jpg')
+Local $hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & '\AutoItImage.jpg')
 
 ; Get JPG encoder CLSID
-$sCLSID = _GDIPlus_EncodersGetCLSID("JPG")
+Local $sCLSID = _GDIPlus_EncodersGetCLSID("JPG")
 
 ; Set up parameters for 90 degree rotation
-$tData = DllStructCreate("int Data")
+Local $tData = DllStructCreate("int Data")
 DllStructSetData($tData, "Data", $GDIP_EVTTRANSFORMROTATE90)
-$tParams = _GDIPlus_ParamInit(1)
+Local $tParams = _GDIPlus_ParamInit(1)
 _GDIPlus_ParamAdd($tParams, $GDIP_EPGTRANSFORMATION, 1, $GDIP_EPTLONG, DllStructGetPtr($tData, "Data"))
 
 ; Save image with rotation

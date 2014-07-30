@@ -8,14 +8,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ListBox
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with ListBox control management.
 ; Author(s) .....: Paul Campbell (PaulIA)
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_lb_ghLastWnd
+Global $__g_hLBLastWnd
 
 ; ===============================================================================================================================
 
@@ -127,16 +127,16 @@ EndFunc   ;==>_GUICtrlListBox_BeginUpdate
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
-Func _GUICtrlListBox_ClickItem($hWnd, $iIndex, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 0)
+Func _GUICtrlListBox_ClickItem($hWnd, $iIndex, $sButton = "left", $bMove = False, $iClicks = 1, $iSpeed = 0)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Local $tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
-	Local $tPoint = _WinAPI_PointFromRect($tRect)
+	Local $tRECT = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
+	Local $tPoint = _WinAPI_PointFromRect($tRECT)
 	$tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
 	Local $iX, $iY
 	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
 	Local $iMode = Opt("MouseCoordMode", 1)
-	If Not $fMove Then
+	If Not $bMove Then
 		Local $aPos = MouseGetPos()
 		_WinAPI_ShowCursor(False)
 		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
@@ -198,12 +198,12 @@ EndFunc   ;==>_GUICtrlListBox_DeleteString
 Func _GUICtrlListBox_Destroy(ByRef $hWnd)
 	;If Not _WinAPI_IsClassName($hWnd, $__LISTBOXCONSTANT_ClassNames) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
+	Local $iDestroyed = 0
 	If IsHWnd($hWnd) Then
-		If _WinAPI_InProcess($hWnd, $_lb_ghLastWnd) Then
+		If _WinAPI_InProcess($hWnd, $__g_hLBLastWnd) Then
 			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 			Local $hParent = _WinAPI_GetParent($hWnd)
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 			If Not $iRet Then
 				; can check for errors here if needed, for debug
@@ -213,31 +213,31 @@ Func _GUICtrlListBox_Destroy(ByRef $hWnd)
 			Return SetError(1, 1, False)
 		EndIf
 	Else
-		$Destroyed = GUICtrlDelete($hWnd)
+		$iDestroyed = GUICtrlDelete($hWnd)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlListBox_Destroy
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost), CyberSlug
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlListBox_Dir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
+Func _GUICtrlListBox_Dir($hWnd, $sFile, $iAttributes = 0, $bBrackets = True)
 	If Not IsString($sFile) Then $sFile = String($sFile)
 
-	If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And Not $fBrackets Then
+	If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And Not $bBrackets Then
 		Local $sText
-		Local $gui_no_brackets = GUICreate("no brackets")
-		Local $list_no_brackets = GUICtrlCreateList("", 240, 40, 120, 120)
-		Local $v_ret = GUICtrlSendMsg($list_no_brackets, $LB_DIR, $iAttributes, $sFile)
-		For $i = 0 To _GUICtrlListBox_GetCount($list_no_brackets) - 1
-			$sText = _GUICtrlListBox_GetText($list_no_brackets, $i)
+		Local $hGui_no_brackets = GUICreate("no brackets")
+		Local $idList_no_brackets = GUICtrlCreateList("", 240, 40, 120, 120)
+		Local $iRet = GUICtrlSendMsg($idList_no_brackets, $LB_DIR, $iAttributes, $sFile)
+		For $i = 0 To _GUICtrlListBox_GetCount($idList_no_brackets) - 1
+			$sText = _GUICtrlListBox_GetText($idList_no_brackets, $i)
 			$sText = StringReplace(StringReplace(StringReplace($sText, "[", ""), "]", ":"), "-", "")
 			_GUICtrlListBox_InsertString($hWnd, $sText)
 		Next
-		GUIDelete($gui_no_brackets)
-		Return $v_ret
+		GUIDelete($hGui_no_brackets)
+		Return $iRet
 	Else
 		If IsHWnd($hWnd) Then
 			Return _SendMessage($hWnd, $LB_DIR, $iAttributes, $sFile, 0, "wparam", "wstr")
@@ -261,17 +261,17 @@ EndFunc   ;==>_GUICtrlListBox_EndUpdate
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlListBox_FindString($hWnd, $sText, $fExact = False)
+Func _GUICtrlListBox_FindString($hWnd, $sText, $bExact = False)
 	If Not IsString($sText) Then $sText = String($sText)
 
 	If IsHWnd($hWnd) Then
-		If ($fExact) Then
+		If ($bExact) Then
 			Return _SendMessage($hWnd, $LB_FINDSTRINGEXACT, -1, $sText, 0, "wparam", "wstr")
 		Else
 			Return _SendMessage($hWnd, $LB_FINDSTRING, -1, $sText, 0, "wparam", "wstr")
 		EndIf
 	Else
-		If ($fExact) Then
+		If ($bExact) Then
 			Return GUICtrlSendMsg($hWnd, $LB_FINDSTRINGEXACT, -1, $sText)
 		Else
 			Return GUICtrlSendMsg($hWnd, $LB_FINDSTRING, -1, $sText)
@@ -283,7 +283,7 @@ EndFunc   ;==>_GUICtrlListBox_FindString
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlListBox_FindInText($hWnd, $sText, $iStart = -1, $fWrapOK = True)
+Func _GUICtrlListBox_FindInText($hWnd, $sText, $iStart = -1, $bWrapOK = True)
 	Local $sList
 
 	Local $iCount = _GUICtrlListBox_GetCount($hWnd)
@@ -292,7 +292,7 @@ Func _GUICtrlListBox_FindInText($hWnd, $sText, $iStart = -1, $fWrapOK = True)
 		If StringInStr($sList, $sText) Then Return $iI
 	Next
 
-	If ($iStart = -1) Or Not $fWrapOK Then Return -1
+	If ($iStart = -1) Or Not $bWrapOK Then Return -1
 	For $iI = 0 To $iStart - 1
 		$sList = _GUICtrlListBox_GetText($hWnd, $iI)
 		If StringInStr($sList, $sText) Then Return $iI
@@ -392,11 +392,11 @@ EndFunc   ;==>_GUICtrlListBox_GetItemHeight
 Func _GUICtrlListBox_GetItemRect($hWnd, $iIndex)
 	Local $aRect[4]
 
-	Local $tRect = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
-	$aRect[0] = DllStructGetData($tRect, "Left")
-	$aRect[1] = DllStructGetData($tRect, "Top")
-	$aRect[2] = DllStructGetData($tRect, "Right")
-	$aRect[3] = DllStructGetData($tRect, "Bottom")
+	Local $tRECT = _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
+	$aRect[0] = DllStructGetData($tRECT, "Left")
+	$aRect[1] = DllStructGetData($tRECT, "Top")
+	$aRect[2] = DllStructGetData($tRECT, "Right")
+	$aRect[3] = DllStructGetData($tRECT, "Bottom")
 	Return $aRect
 EndFunc   ;==>_GUICtrlListBox_GetItemRect
 
@@ -405,13 +405,13 @@ EndFunc   ;==>_GUICtrlListBox_GetItemRect
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
 Func _GUICtrlListBox_GetItemRectEx($hWnd, $iIndex)
-	Local $tRect = DllStructCreate($tagRECT)
+	Local $tRECT = DllStructCreate($tagRECT)
 	If IsHWnd($hWnd) Then
-		_SendMessage($hWnd, $LB_GETITEMRECT, $iIndex, $tRect, 0, "wparam", "struct*")
+		_SendMessage($hWnd, $LB_GETITEMRECT, $iIndex, $tRECT, 0, "wparam", "struct*")
 	Else
-		GUICtrlSendMsg($hWnd, $LB_GETITEMRECT, $iIndex, DllStructGetPtr($tRect))
+		GUICtrlSendMsg($hWnd, $LB_GETITEMRECT, $iIndex, DllStructGetPtr($tRECT))
 	EndIf
-	Return $tRect
+	Return $tRECT
 EndFunc   ;==>_GUICtrlListBox_GetItemRectEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -653,11 +653,11 @@ EndFunc   ;==>_GUICtrlListBox_SelectString
 ; Author ........: Gary Frost (gafrost), CyberSlug
 ; Modified.......: Gary Frost (gafrost, re-written
 ; ===============================================================================================================================
-Func _GUICtrlListBox_SelItemRange($hWnd, $iFirst, $iLast, $fSelect = True)
+Func _GUICtrlListBox_SelItemRange($hWnd, $iFirst, $iLast, $bSelect = True)
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_SELITEMRANGE, $fSelect, _WinAPI_MakeLong($iFirst, $iLast)) = 0
+		Return _SendMessage($hWnd, $LB_SELITEMRANGE, $bSelect, _WinAPI_MakeLong($iFirst, $iLast)) = 0
 	Else
-		Return GUICtrlSendMsg($hWnd, $LB_SELITEMRANGE, $fSelect, _WinAPI_MakeLong($iFirst, $iLast)) = 0
+		Return GUICtrlSendMsg($hWnd, $LB_SELITEMRANGE, $bSelect, _WinAPI_MakeLong($iFirst, $iLast)) = 0
 	EndIf
 EndFunc   ;==>_GUICtrlListBox_SelItemRange
 
@@ -689,11 +689,11 @@ EndFunc   ;==>_GUICtrlListBox_SetAnchorIndex
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlListBox_SetCaretIndex($hWnd, $iIndex, $fPartial = False)
+Func _GUICtrlListBox_SetCaretIndex($hWnd, $iIndex, $bPartial = False)
 	If IsHWnd($hWnd) Then
-		Return _SendMessage($hWnd, $LB_SETCARETINDEX, $iIndex, $fPartial) = 0
+		Return _SendMessage($hWnd, $LB_SETCARETINDEX, $iIndex, $bPartial) = 0
 	Else
-		Return GUICtrlSendMsg($hWnd, $LB_SETCARETINDEX, $iIndex, $fPartial) = 0
+		Return GUICtrlSendMsg($hWnd, $LB_SETCARETINDEX, $iIndex, $bPartial) = 0
 	EndIf
 EndFunc   ;==>_GUICtrlListBox_SetCaretIndex
 
@@ -778,52 +778,52 @@ EndFunc   ;==>_GUICtrlListBox_SetLocale
 ; Author ........: Gary Frost (gafrost), CyberSlug
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlListBox_SetSel($hWnd, $iIndex = -1, $fSelect = -1)
-	Local $i_ret = True
+Func _GUICtrlListBox_SetSel($hWnd, $iIndex = -1, $iSelect = -1)
+	Local $i_Ret = 1
 	If IsHWnd($hWnd) Then
 		If $iIndex == -1 Then ; toggle all
 			For $iIndex = 0 To _GUICtrlListBox_GetCount($hWnd) - 1
-				$i_ret = _GUICtrlListBox_GetSel($hWnd, $iIndex)
-				If ($i_ret == $LB_ERR) Then Return SetError($LB_ERR, $LB_ERR, False)
-				If ($i_ret > 0) Then ;If Selected Then
-					$i_ret = _SendMessage($hWnd, $LB_SETSEL, False, $iIndex) <> -1
+				$i_Ret = _GUICtrlListBox_GetSel($hWnd, $iIndex)
+				If ($i_Ret == $LB_ERR) Then Return SetError($LB_ERR, $LB_ERR, False)
+				If ($i_Ret > 0) Then ;If Selected Then
+					$i_Ret = _SendMessage($hWnd, $LB_SETSEL, False, $iIndex) <> -1
 				Else
-					$i_ret = _SendMessage($hWnd, $LB_SETSEL, True, $iIndex) <> -1
+					$i_Ret = _SendMessage($hWnd, $LB_SETSEL, True, $iIndex) <> -1
 				EndIf
-				If ($i_ret == False) Then Return SetError($LB_ERR, $LB_ERR, False)
+				If ($i_Ret == False) Then Return SetError($LB_ERR, $LB_ERR, False)
 			Next
-		ElseIf $fSelect == -1 Then ; toggle state of index
+		ElseIf $iSelect == -1 Then ; toggle state of index
 			If _GUICtrlListBox_GetSel($hWnd, $iIndex) Then ;If Selected Then
 				Return _SendMessage($hWnd, $LB_SETSEL, False, $iIndex) <> -1
 			Else
 				Return _SendMessage($hWnd, $LB_SETSEL, True, $iIndex) <> -1
 			EndIf
 		Else ; set state according to flag
-			Return _SendMessage($hWnd, $LB_SETSEL, $fSelect, $iIndex) <> -1
+			Return _SendMessage($hWnd, $LB_SETSEL, $iSelect, $iIndex) <> -1
 		EndIf
 	Else
 		If $iIndex == -1 Then ; toggle all
 			For $iIndex = 0 To _GUICtrlListBox_GetCount($hWnd) - 1
-				$i_ret = _GUICtrlListBox_GetSel($hWnd, $iIndex)
-				If ($i_ret == $LB_ERR) Then Return SetError($LB_ERR, $LB_ERR, False)
-				If ($i_ret > 0) Then ;If Selected Then
-					$i_ret = GUICtrlSendMsg($hWnd, $LB_SETSEL, False, $iIndex) <> -1
+				$i_Ret = _GUICtrlListBox_GetSel($hWnd, $iIndex)
+				If ($i_Ret == $LB_ERR) Then Return SetError($LB_ERR, $LB_ERR, False)
+				If ($i_Ret > 0) Then ;If Selected Then
+					$i_Ret = GUICtrlSendMsg($hWnd, $LB_SETSEL, False, $iIndex) <> -1
 				Else
-					$i_ret = GUICtrlSendMsg($hWnd, $LB_SETSEL, True, $iIndex) <> -1
+					$i_Ret = GUICtrlSendMsg($hWnd, $LB_SETSEL, True, $iIndex) <> -1
 				EndIf
-				If ($i_ret == False) Then Return SetError($LB_ERR, $LB_ERR, False)
+				If ($i_Ret == 0) Then Return SetError($LB_ERR, $LB_ERR, False)
 			Next
-		ElseIf $fSelect == -1 Then ; toggle state of index
+		ElseIf $iSelect == -1 Then ; toggle state of index
 			If _GUICtrlListBox_GetSel($hWnd, $iIndex) Then ;If Selected Then
 				Return GUICtrlSendMsg($hWnd, $LB_SETSEL, False, $iIndex) <> -1
 			Else
 				Return GUICtrlSendMsg($hWnd, $LB_SETSEL, True, $iIndex) <> -1
 			EndIf
 		Else ; set state according to flag
-			Return GUICtrlSendMsg($hWnd, $LB_SETSEL, $fSelect, $iIndex) <> -1
+			Return GUICtrlSendMsg($hWnd, $LB_SETSEL, $iSelect, $iIndex) <> -1
 		EndIf
 	EndIf
-	Return $i_ret
+	Return $i_Ret <> 0
 EndFunc   ;==>_GUICtrlListBox_SetSel
 
 ; #FUNCTION# ====================================================================================================================
@@ -860,10 +860,10 @@ EndFunc   ;==>_GUICtrlListBox_SetTopIndex
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlListBox_Sort($hWnd)
-	Local $bak = _GUICtrlListBox_GetText($hWnd, 0)
-	If ($bak == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
+	Local $sBak = _GUICtrlListBox_GetText($hWnd, 0)
+	If ($sBak == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
 	If (_GUICtrlListBox_DeleteString($hWnd, 0) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
-	Return _GUICtrlListBox_AddString($hWnd, $bak) <> -1
+	Return _GUICtrlListBox_AddString($hWnd, $sBak) <> -1
 EndFunc   ;==>_GUICtrlListBox_Sort
 
 ; #FUNCTION# ====================================================================================================================
@@ -871,13 +871,13 @@ EndFunc   ;==>_GUICtrlListBox_Sort
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlListBox_SwapString($hWnd, $iIndexA, $iIndexB)
-	Local $itemA = _GUICtrlListBox_GetText($hWnd, $iIndexA)
-	Local $itemB = _GUICtrlListBox_GetText($hWnd, $iIndexB)
+	Local $sItemA = _GUICtrlListBox_GetText($hWnd, $iIndexA)
+	Local $sItemB = _GUICtrlListBox_GetText($hWnd, $iIndexB)
 	If (_GUICtrlListBox_DeleteString($hWnd, $iIndexA) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
-	If (_GUICtrlListBox_InsertString($hWnd, $itemB, $iIndexA) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
+	If (_GUICtrlListBox_InsertString($hWnd, $sItemB, $iIndexA) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
 
 	If (_GUICtrlListBox_DeleteString($hWnd, $iIndexB) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
-	If (_GUICtrlListBox_InsertString($hWnd, $itemA, $iIndexB) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
+	If (_GUICtrlListBox_InsertString($hWnd, $sItemA, $iIndexB) == -1) Then Return SetError($LB_ERR, $LB_ERR, False)
 	Return True
 EndFunc   ;==>_GUICtrlListBox_SwapString
 
@@ -904,8 +904,8 @@ Func _GUICtrlListBox_UpdateHScroll($hWnd)
 		_WinAPI_ReleaseDC($hWnd, $hDC)
 	Else
 		$hFont = GUICtrlSendMsg($hWnd, $__LISTBOXCONSTANT_WM_GETFONT, 0, 0)
-		Local $t_hwnd = GUICtrlGetHandle($hWnd)
-		$hDC = _WinAPI_GetDC($t_hwnd)
+		Local $hWnd_t = GUICtrlGetHandle($hWnd)
+		$hDC = _WinAPI_GetDC($hWnd_t)
 		_WinAPI_SelectObject($hDC, $hFont)
 		For $iI = 0 To _GUICtrlListBox_GetCount($hWnd) - 1
 			$sText = _GUICtrlListBox_GetText($hWnd, $iI)
@@ -916,6 +916,6 @@ Func _GUICtrlListBox_UpdateHScroll($hWnd)
 		Next
 		_GUICtrlListBox_SetHorizontalExtent($hWnd, $iMax)
 		_WinAPI_SelectObject($hDC, $hFont)
-		_WinAPI_ReleaseDC($t_hwnd, $hDC)
+		_WinAPI_ReleaseDC($hWnd_t, $hDC)
 	EndIf
 EndFunc   ;==>_GUICtrlListBox_UpdateHScroll

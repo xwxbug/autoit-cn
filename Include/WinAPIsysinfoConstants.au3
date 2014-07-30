@@ -2,11 +2,10 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: API Constants UDF Library for AutoIt3
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants for _WinAPI_SystemParametersInfo().
 ; Author(s) .....: Yashied, Jpm
-; Requirements...: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================

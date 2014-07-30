@@ -9,7 +9,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Toolbar
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with Toolbar control management.
 ;                  A toolbar is a control window that contains one or more buttons.  Each button, when clicked by a user, sends a
@@ -20,7 +20,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $gh_TBLastWnd
+Global $__g_hTBLastWnd
 
 ; ===============================================================================================================================
 
@@ -211,7 +211,7 @@ Func _GUICtrlToolbar_AddBitmap($hWnd, $iButtons, $hInst, $iID)
 	DllStructSetData($tBitmap, "hInst", $hInst)
 	DllStructSetData($tBitmap, "ID", $iID)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_ADDBITMAP, $iButtons, $tBitmap, 0, "wparam", "struct*")
 	Else
 		Local $iBitmap = DllStructGetSize($tBitmap)
@@ -229,7 +229,7 @@ EndFunc   ;==>_GUICtrlToolbar_AddBitmap
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_AddButton($hWnd, $iID, $iImage, $iString = 0, $iStyle = 0, $iState = 4, $iParam = 0)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $tButton = DllStructCreate($tagTBBUTTON)
 	DllStructSetData($tButton, "Bitmap", $iImage)
@@ -239,14 +239,14 @@ Func _GUICtrlToolbar_AddButton($hWnd, $iID, $iImage, $iString = 0, $iStyle = 0, 
 	DllStructSetData($tButton, "Param", $iParam)
 	DllStructSetData($tButton, "String", $iString)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSW, 1, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton, $tMemMap)
 		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSW, 1, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_ADDBUTTONSA, 1, $pMemory, 0, "wparam", "ptr")
@@ -270,11 +270,11 @@ EndFunc   ;==>_GUICtrlToolbar_AddButtonSep
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_AddString($hWnd, $sString)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer = StringLen($sString) + 2
 	Local $tBuffer
-	If $fUnicode Then
+	If $bUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 		$iBuffer *= 2
 	Else
@@ -282,13 +282,13 @@ Func _GUICtrlToolbar_AddString($hWnd, $sString)
 	EndIf
 	DllStructSetData($tBuffer, "Text", $sString)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_ADDSTRINGW, 0, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
 		_MemWrite($tMemMap, $tBuffer, $pMemory, $iBuffer)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_ADDSTRINGW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_ADDSTRINGA, 0, $pMemory, 0, "wparam", "ptr")
@@ -348,31 +348,31 @@ EndFunc   ;==>__GUICtrlToolbar_ButtonStructSize
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_CheckButton($hWnd, $iCommandID, $fCheck = True)
-	Return _SendMessage($hWnd, $TB_CHECKBUTTON, $iCommandID, $fCheck) <> 0
+Func _GUICtrlToolbar_CheckButton($hWnd, $iCommandID, $bCheck = True)
+	Return _SendMessage($hWnd, $TB_CHECKBUTTON, $iCommandID, $bCheck) <> 0
 EndFunc   ;==>_GUICtrlToolbar_CheckButton
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_ClickAccel($hWnd, $cAccel, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
-	Local $iID = _GUICtrlToolbar_MapAccelerator($hWnd, $cAccel)
-	_GUICtrlToolbar_ClickButton($hWnd, $iID, $sButton, $fMove, $iClicks, $iSpeed)
+Func _GUICtrlToolbar_ClickAccel($hWnd, $sAccelKey, $sButton = "left", $bMove = False, $iClicks = 1, $iSpeed = 1)
+	Local $iID = _GUICtrlToolbar_MapAccelerator($hWnd, $sAccelKey)
+	_GUICtrlToolbar_ClickButton($hWnd, $iID, $sButton, $bMove, $iClicks, $iSpeed)
 EndFunc   ;==>_GUICtrlToolbar_ClickAccel
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_ClickButton($hWnd, $iCommandID, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
-	Local $tRect = _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
-	Local $tPoint = _WinAPI_PointFromRect($tRect)
+Func _GUICtrlToolbar_ClickButton($hWnd, $iCommandID, $sButton = "left", $bMove = False, $iClicks = 1, $iSpeed = 1)
+	Local $tRECT = _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
+	Local $tPoint = _WinAPI_PointFromRect($tRECT)
 	$tPoint = _WinAPI_ClientToScreen($hWnd, $tPoint)
 	Local $iX, $iY
 	_WinAPI_GetXYFromPoint($tPoint, $iX, $iY)
 	Local $iMode = Opt("MouseCoordMode", 1)
-	If Not $fMove Then
+	If Not $bMove Then
 		Local $aPos = MouseGetPos()
 		_WinAPI_ShowCursor(False)
 		MouseClick($sButton, $iX, $iY, $iClicks, $iSpeed)
@@ -388,9 +388,9 @@ EndFunc   ;==>_GUICtrlToolbar_ClickButton
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_ClickIndex($hWnd, $iIndex, $sButton = "left", $fMove = False, $iClicks = 1, $iSpeed = 1)
+Func _GUICtrlToolbar_ClickIndex($hWnd, $iIndex, $sButton = "left", $bMove = False, $iClicks = 1, $iSpeed = 1)
 	Local $iCommandID = _GUICtrlToolbar_IndexToCommand($hWnd, $iIndex)
-	_GUICtrlToolbar_ClickButton($hWnd, $iCommandID, $sButton, $fMove, $iClicks, $iSpeed)
+	_GUICtrlToolbar_ClickButton($hWnd, $iCommandID, $sButton, $bMove, $iClicks, $iSpeed)
 EndFunc   ;==>_GUICtrlToolbar_ClickIndex
 
 ; #FUNCTION# ====================================================================================================================
@@ -441,11 +441,11 @@ EndFunc   ;==>_GUICtrlToolbar_DeleteButton
 Func _GUICtrlToolbar_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__TOOLBARCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	Local $iDestroyed = 0
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 		Local $hParent = _WinAPI_GetParent($hWnd)
-		$Destroyed = _WinAPI_DestroyWindow($hWnd)
+		$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 		Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 		If Not $iRet Then
 			; can check for errors here if needed, for debug
@@ -454,16 +454,16 @@ Func _GUICtrlToolbar_Destroy(ByRef $hWnd)
 		; Not Allowed to Destroy Other Applications Control(s)
 		Return SetError(1, 1, False)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlToolbar_Destroy
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_EnableButton($hWnd, $iCommandID, $fEnable = True)
-	Return _SendMessage($hWnd, $TB_ENABLEBUTTON, $iCommandID, $fEnable) <> 0
+Func _GUICtrlToolbar_EnableButton($hWnd, $iCommandID, $bEnable = True)
+	Return _SendMessage($hWnd, $TB_ENABLEBUTTON, $iCommandID, $bEnable) <> 0
 EndFunc   ;==>_GUICtrlToolbar_EnableButton
 
 ; #FUNCTION# ====================================================================================================================
@@ -535,7 +535,7 @@ EndFunc   ;==>_GUICtrlToolbar_GetButtonInfo
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_GetButtonInfoEx($hWnd, $iCommandID)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $tButton = DllStructCreate($tagTBBUTTONINFO)
 	Local $iButton = DllStructGetSize($tButton)
@@ -543,13 +543,13 @@ Func _GUICtrlToolbar_GetButtonInfoEx($hWnd, $iCommandID)
 	DllStructSetData($tButton, "Size", $iButton)
 	DllStructSetData($tButton, "Mask", $iMask)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOW, $iCommandID, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iButton, $tMemMap)
 		_MemWrite($tMemMap, $tButton, $pMemory, $iButton)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOW, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONINFOA, $iCommandID, $pMemory, 0, "wparam", "ptr")
@@ -576,11 +576,11 @@ EndFunc   ;==>_GUICtrlToolbar_GetButtonParam
 Func _GUICtrlToolbar_GetButtonRect($hWnd, $iCommandID)
 	Local $aRect[4]
 
-	Local $tRect = _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
-	$aRect[0] = DllStructGetData($tRect, "Left")
-	$aRect[1] = DllStructGetData($tRect, "Top")
-	$aRect[2] = DllStructGetData($tRect, "Right")
-	$aRect[3] = DllStructGetData($tRect, "Bottom")
+	Local $tRECT = _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
+	$aRect[0] = DllStructGetData($tRECT, "Left")
+	$aRect[1] = DllStructGetData($tRECT, "Top")
+	$aRect[2] = DllStructGetData($tRECT, "Right")
+	$aRect[3] = DllStructGetData($tRECT, "Bottom")
 	Return $aRect
 EndFunc   ;==>_GUICtrlToolbar_GetButtonRect
 
@@ -589,18 +589,18 @@ EndFunc   ;==>_GUICtrlToolbar_GetButtonRect
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_GetButtonRectEx($hWnd, $iCommandID)
-	Local $tRect = DllStructCreate($tagRECT)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $tRect, 0, "wparam", "struct*")
+	Local $tRECT = DllStructCreate($tagRECT)
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
+		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $tRECT, 0, "wparam", "struct*")
 	Else
-		Local $iRect = DllStructGetSize($tRect)
+		Local $iRect = DllStructGetSize($tRECT)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
 		_SendMessage($hWnd, $TB_GETRECT, $iCommandID, $pMemory, 0, "wparam", "ptr")
-		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
+		_MemRead($tMemMap, $pMemory, $tRECT, $iRect)
 		_MemFree($tMemMap)
 	EndIf
-	Return $tRect
+	Return $tRECT
 EndFunc   ;==>_GUICtrlToolbar_GetButtonRectEx
 
 ; #FUNCTION# ====================================================================================================================
@@ -638,10 +638,10 @@ EndFunc   ;==>_GUICtrlToolbar_GetButtonStyle
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_GetButtonText($hWnd, $iCommandID)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer
-	If $fUnicode Then
+	If $bUnicode Then
 		$iBuffer = _SendMessage($hWnd, $TB_GETBUTTONTEXTW, $iCommandID)
 	Else
 		$iBuffer = _SendMessage($hWnd, $TB_GETBUTTONTEXTA, $iCommandID)
@@ -651,19 +651,19 @@ Func _GUICtrlToolbar_GetButtonText($hWnd, $iCommandID)
 	If $iBuffer <= -1 Then Return SetError(False, -1, "")
 	$iBuffer += 1
 	Local $tBuffer
-	If $fUnicode Then
+	If $bUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTW, $iCommandID, $tBuffer, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTW, $iCommandID, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETBUTTONTEXTA, $iCommandID, $pMemory, 0, "wparam", "ptr")
@@ -684,7 +684,7 @@ Func _GUICtrlToolbar_GetColorScheme($hWnd)
 	Local $tColor = DllStructCreate($tagCOLORSCHEME)
 	Local $iColor = DllStructGetSize($tColor)
 	DllStructSetData($tColor, "Size", $iColor)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETCOLORSCHEME, 0, $tColor, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -746,7 +746,7 @@ Func _GUICtrlToolbar_GetInsertMark($hWnd)
 	Local $aMark[2], $iRet
 
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETINSERTMARK, 0, $tMark, 0, "wparam", "struct*")
 	Else
 		Local $iMark = DllStructGetSize($tMark)
@@ -777,7 +777,7 @@ Func _GUICtrlToolbar_GetMaxSize($hWnd)
 	Local $aSize[2], $iRet
 
 	Local $tSize = DllStructCreate($tagSIZE)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETMAXSIZE, 0, $tSize, 0, "wparam", "struct*")
 	Else
 		Local $iSize = DllStructGetSize($tSize)
@@ -804,7 +804,7 @@ Func _GUICtrlToolbar_GetMetrics($hWnd)
 	Local $iMask = BitOR($TBMF_PAD, $TBMF_BUTTONSPACING)
 	DllStructSetData($tMetrics, "Size", $iMetrics)
 	DllStructSetData($tMetrics, "Mask", $iMask)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_GETMETRICS, 0, $tMetrics, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -846,10 +846,10 @@ EndFunc   ;==>_GUICtrlToolbar_GetRows
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_GetString($hWnd, $iIndex)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $iBuffer
-	If $fUnicode Then
+	If $bUnicode Then
 		$iBuffer = _SendMessage($hWnd, $TB_GETSTRINGW, _WinAPI_MakeLong(0, $iIndex), 0, 0, "long") + 1
 	Else
 		$iBuffer = _SendMessage($hWnd, $TB_GETSTRINGA, _WinAPI_MakeLong(0, $iIndex), 0, 0, "long") + 1
@@ -858,19 +858,19 @@ Func _GUICtrlToolbar_GetString($hWnd, $iIndex)
 	If $iBuffer = 0 Then Return SetError(-1, 0, "")
 	If $iBuffer = 1 Then Return ""
 	Local $tBuffer
-	If $fUnicode Then
+	If $bUnicode Then
 		$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 		$iBuffer *= 2
 	Else
 		$tBuffer = DllStructCreate("char Text[" & $iBuffer & "]")
 	EndIf
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_GETSTRINGW, _WinAPI_MakeLong($iBuffer, $iIndex), $tBuffer, 0, "long", "struct*")
 	Else
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iBuffer, $tMemMap)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_GETSTRINGW, _WinAPI_MakeLong($iBuffer, $iIndex), $pMemory, 0, "long", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_GETSTRINGA, _WinAPI_MakeLong($iBuffer, $iIndex), $pMemory, 0, "long", "ptr")
@@ -981,16 +981,16 @@ EndFunc   ;==>_GUICtrlToolbar_GetUnicodeFormat
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_HideButton($hWnd, $iCommandID, $fHide = True)
-	Return _SendMessage($hWnd, $TB_HIDEBUTTON, $iCommandID, $fHide) <> 0
+Func _GUICtrlToolbar_HideButton($hWnd, $iCommandID, $bHide = True)
+	Return _SendMessage($hWnd, $TB_HIDEBUTTON, $iCommandID, $bHide) <> 0
 EndFunc   ;==>_GUICtrlToolbar_HideButton
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_HighlightButton($hWnd, $iCommandID, $fHighlight = True)
-	Return _SendMessage($hWnd, $TB_MARKBUTTON, $iCommandID, $fHighlight) <> 0
+Func _GUICtrlToolbar_HighlightButton($hWnd, $iCommandID, $bHighlight = True)
+	Return _SendMessage($hWnd, $TB_MARKBUTTON, $iCommandID, $bHighlight) <> 0
 EndFunc   ;==>_GUICtrlToolbar_HighlightButton
 
 ; #FUNCTION# ====================================================================================================================
@@ -1002,7 +1002,7 @@ Func _GUICtrlToolbar_HitTest($hWnd, $iX, $iY)
 	DllStructSetData($tPoint, "X", $iX)
 	DllStructSetData($tPoint, "Y", $iY)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_HITTEST, 0, $tPoint, 0, "wparam", "struct*")
 	Else
 		Local $iPoint = DllStructGetSize($tPoint)
@@ -1021,7 +1021,7 @@ EndFunc   ;==>_GUICtrlToolbar_HitTest
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_IndexToCommand($hWnd, $iIndex)
 	Local $tButton = DllStructCreate($tagTBBUTTON)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_GETBUTTON, $iIndex, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
@@ -1040,14 +1040,14 @@ EndFunc   ;==>_GUICtrlToolbar_IndexToCommand
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $iStyle = 0, $iState = 4, $iParam = 0)
-	Local $fUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
+	Local $bUnicode = _GUICtrlToolbar_GetUnicodeFormat($hWnd)
 
 	Local $tBuffer, $iRet
 
 	Local $tButton = DllStructCreate($tagTBBUTTON)
 	Local $iBuffer = StringLen($sText) + 1
 	If $iBuffer > 1 Then
-		If $fUnicode Then
+		If $bUnicode Then
 			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 			$iBuffer *= 2
 		Else
@@ -1061,7 +1061,7 @@ Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $i
 	DllStructSetData($tButton, "State", $iState)
 	DllStructSetData($tButton, "Style", $iStyle)
 	DllStructSetData($tButton, "Param", $iParam)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONW, $iIndex, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iButton = DllStructGetSize($tButton)
@@ -1073,7 +1073,7 @@ Func _GUICtrlToolbar_InsertButton($hWnd, $iIndex, $iID, $iImage, $sText = "", $i
 			DllStructSetData($tButton, "String", $pText)
 			_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
 		EndIf
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONW, $iIndex, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $TB_INSERTBUTTONA, $iIndex, $pMemory, 0, "wparam", "ptr")
@@ -1094,7 +1094,7 @@ Func _GUICtrlToolbar_InsertMarkHitTest($hWnd, $iX, $iY)
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
 	DllStructSetData($tPoint, "X", $iX)
 	DllStructSetData($tPoint, "Y", $iY)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_INSERTMARKHITTEST, $tPoint, $tMark, 0, "struct*", "struct*")
 	Else
 		Local $iPoint = DllStructGetSize($tPoint)
@@ -1183,15 +1183,15 @@ EndFunc   ;==>_GUICtrlToolbar_LoadImages
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_MapAccelerator($hWnd, $cAccel)
+Func _GUICtrlToolbar_MapAccelerator($hWnd, $sAccelKey)
 	Local $tCommand = DllStructCreate("int Data")
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($cAccel), $tCommand, 0, "wparam", "struct*")
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
+		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($sAccelKey), $tCommand, 0, "wparam", "struct*")
 	Else
 		Local $iCommand = DllStructGetSize($tCommand)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iCommand, $tMemMap)
-		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($cAccel), $pMemory, 0, "wparam", "ptr")
+		_SendMessage($hWnd, $TB_MAPACCELERATORW, Asc($sAccelKey), $pMemory, 0, "wparam", "ptr")
 		_MemRead($tMemMap, $pMemory, $tCommand, $iCommand)
 		_MemFree($tMemMap)
 	EndIf
@@ -1210,16 +1210,16 @@ EndFunc   ;==>_GUICtrlToolbar_MoveButton
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_PressButton($hWnd, $iCommandID, $fPress = True)
-	Return _SendMessage($hWnd, $TB_PRESSBUTTON, $iCommandID, $fPress) <> 0
+Func _GUICtrlToolbar_PressButton($hWnd, $iCommandID, $bPress = True)
+	Return _SendMessage($hWnd, $TB_PRESSBUTTON, $iCommandID, $bPress) <> 0
 EndFunc   ;==>_GUICtrlToolbar_PressButton
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetAnchorHighlight($hWnd, $fAnchor)
-	Return _SendMessage($hWnd, $TB_SETANCHORHIGHLIGHT, $fAnchor)
+Func _GUICtrlToolbar_SetAnchorHighlight($hWnd, $bAnchor)
+	Return _SendMessage($hWnd, $TB_SETANCHORHIGHLIGHT, $bAnchor)
 EndFunc   ;==>_GUICtrlToolbar_SetAnchorHighlight
 
 ; #FUNCTION# ====================================================================================================================
@@ -1278,7 +1278,7 @@ Func _GUICtrlToolbar_SetButtonInfoEx($hWnd, $iCommandID, $tButton)
 	Local $iButton = DllStructGetSize($tButton)
 	DllStructSetData($tButton, "Size", $iButton)
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		$iRet = _SendMessage($hWnd, $TB_SETBUTTONINFOW, $iCommandID, $tButton, 0, "wparam", "struct*")
 	Else
 		Local $iBuffer = DllStructGetData($tButton, "TextMax")
@@ -1376,7 +1376,7 @@ Func _GUICtrlToolbar_SetColorScheme($hWnd, $iHighlight, $iShadow)
 	DllStructSetData($tColor, "Size", $iColor)
 	DllStructSetData($tColor, "BtnHighlight", $iHighlight)
 	DllStructSetData($tColor, "BtnShadow", $iShadow)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_SETCOLORSCHEME, 0, $tColor, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -1447,8 +1447,8 @@ EndFunc   ;==>_GUICtrlToolbar_SetIndent
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetIndeterminate($hWnd, $iCommandID, $fState = True)
-	Return _SendMessage($hWnd, $TB_INDETERMINATE, $iCommandID, $fState) <> 0
+Func _GUICtrlToolbar_SetIndeterminate($hWnd, $iCommandID, $bState = True)
+	Return _SendMessage($hWnd, $TB_INDETERMINATE, $iCommandID, $bState) <> 0
 EndFunc   ;==>_GUICtrlToolbar_SetIndeterminate
 
 ; #FUNCTION# ====================================================================================================================
@@ -1459,7 +1459,7 @@ Func _GUICtrlToolbar_SetInsertMark($hWnd, $iButton, $iFlags = 0)
 	Local $tMark = DllStructCreate($tagTBINSERTMARK)
 	DllStructSetData($tMark, "Button", $iButton)
 	DllStructSetData($tMark, "Flags", $iFlags)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_SETINSERTMARK, 0, $tMark, 0, "wparam", "struct*")
 	Else
 		Local $iMark = DllStructGetSize($tMark)
@@ -1501,7 +1501,7 @@ Func _GUICtrlToolbar_SetMetrics($hWnd, $iXPad, $iYPad, $iXSpacing, $iYSpacing)
 	DllStructSetData($tMetrics, "YPad", $iYPad)
 	DllStructSetData($tMetrics, "XSpacing", $iXSpacing)
 	DllStructSetData($tMetrics, "YSpacing", $iYSpacing)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_SETMETRICS, 0, $tMetrics, 0, "wparam", "struct*")
 	Else
 		Local $tMemMap
@@ -1532,23 +1532,23 @@ EndFunc   ;==>_GUICtrlToolbar_SetParent
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetRows($hWnd, $iRows, $fLarger = True)
-	Local $tRect = DllStructCreate($tagRECT)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
-		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $fLarger), $tRect, 0, "long", "struct*")
+Func _GUICtrlToolbar_SetRows($hWnd, $iRows, $bLarger = True)
+	Local $tRECT = DllStructCreate($tagRECT)
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
+		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $bLarger), $tRECT, 0, "long", "struct*")
 	Else
-		Local $iRect = DllStructGetSize($tRect)
+		Local $iRect = DllStructGetSize($tRECT)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iRect, $tMemMap)
-		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $fLarger), $pMemory, 0, "long", "ptr")
-		_MemRead($tMemMap, $pMemory, $tRect, $iRect)
+		_SendMessage($hWnd, $TB_SETROWS, _WinAPI_MakeLong($iRows, $bLarger), $pMemory, 0, "long", "ptr")
+		_MemRead($tMemMap, $pMemory, $tRECT, $iRect)
 		_MemFree($tMemMap)
 	EndIf
 	Local $aRect[4]
-	$aRect[0] = DllStructGetData($tRect, "Left")
-	$aRect[1] = DllStructGetData($tRect, "Top")
-	$aRect[2] = DllStructGetData($tRect, "Right")
-	$aRect[3] = DllStructGetData($tRect, "Bottom")
+	$aRect[0] = DllStructGetData($tRECT, "Left")
+	$aRect[1] = DllStructGetData($tRECT, "Top")
+	$aRect[2] = DllStructGetData($tRECT, "Right")
+	$aRect[3] = DllStructGetData($tRECT, "Bottom")
 	Return $aRect
 EndFunc   ;==>_GUICtrlToolbar_SetRows
 
@@ -1565,25 +1565,25 @@ EndFunc   ;==>_GUICtrlToolbar_SetStyle
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleAltDrag($hWnd, $fState = True)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_ALTDRAG, $fState)
+Func _GUICtrlToolbar_SetStyleAltDrag($hWnd, $bState = True)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_ALTDRAG, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleAltDrag
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleCustomErase($hWnd, $fState = True)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_CUSTOMERASE, $fState)
+Func _GUICtrlToolbar_SetStyleCustomErase($hWnd, $bState = True)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_CUSTOMERASE, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleCustomErase
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ; Name...........: __GUICtrlToolbar_SetStyleEx
 ; Description ...: Changes a style for the toolbar
-; Syntax.........: __GUICtrlToolbar_SetStyleEx ( $hWnd, $iStyle, $fStyle )
+; Syntax.........: __GUICtrlToolbar_SetStyleEx ( $hWnd, $iStyle, $bStyle )
 ; Parameters ....: $hWnd        - Handle to the control
 ;                  $iStyle      - Style to be changed
-;                  $fStyle      - True to set, false to unset
+;                  $bStyle      - True to set, false to unset
 ; Return values .: Success      - True
 ;                  Failure      - False
 ; Author ........: Paul Campbell (PaulIA)
@@ -1593,9 +1593,9 @@ EndFunc   ;==>_GUICtrlToolbar_SetStyleCustomErase
 ; Link ..........:
 ; Example .......:
 ; ===============================================================================================================================
-Func __GUICtrlToolbar_SetStyleEx($hWnd, $iStyle, $fStyle)
+Func __GUICtrlToolbar_SetStyleEx($hWnd, $iStyle, $bStyle)
 	Local $iN = _GUICtrlToolbar_GetStyle($hWnd)
-	If $fStyle Then
+	If $bStyle Then
 		$iN = BitOR($iN, $iStyle)
 	Else
 		$iN = BitAND($iN, BitNOT($iStyle))
@@ -1607,48 +1607,48 @@ EndFunc   ;==>__GUICtrlToolbar_SetStyleEx
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleFlat($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_FLAT, $fState)
+Func _GUICtrlToolbar_SetStyleFlat($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_FLAT, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleFlat
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleList($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_LIST, $fState)
+Func _GUICtrlToolbar_SetStyleList($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_LIST, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleList
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleRegisterDrop($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_REGISTERDROP, $fState)
+Func _GUICtrlToolbar_SetStyleRegisterDrop($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_REGISTERDROP, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleRegisterDrop
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleToolTips($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_TOOLTIPS, $fState)
+Func _GUICtrlToolbar_SetStyleToolTips($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_TOOLTIPS, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleToolTips
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleTransparent($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_TRANSPARENT, $fState)
+Func _GUICtrlToolbar_SetStyleTransparent($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_TRANSPARENT, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleTransparent
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetStyleWrapable($hWnd, $fState)
-	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_WRAPABLE, $fState)
+Func _GUICtrlToolbar_SetStyleWrapable($hWnd, $bState)
+	Return __GUICtrlToolbar_SetStyleEx($hWnd, $TBSTYLE_WRAPABLE, $bState)
 EndFunc   ;==>_GUICtrlToolbar_SetStyleWrapable
 
 ; #FUNCTION# ====================================================================================================================
@@ -1663,8 +1663,8 @@ EndFunc   ;==>_GUICtrlToolbar_SetToolTips
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlToolbar_SetUnicodeFormat($hWnd, $fUnicode = False)
-	Return _SendMessage($hWnd, $TB_SETUNICODEFORMAT, $fUnicode)
+Func _GUICtrlToolbar_SetUnicodeFormat($hWnd, $bUnicode = False)
+	Return _SendMessage($hWnd, $TB_SETUNICODEFORMAT, $bUnicode)
 EndFunc   ;==>_GUICtrlToolbar_SetUnicodeFormat
 
 ; #FUNCTION# ====================================================================================================================
@@ -1673,7 +1673,7 @@ EndFunc   ;==>_GUICtrlToolbar_SetUnicodeFormat
 ; ===============================================================================================================================
 Func _GUICtrlToolbar_SetWindowTheme($hWnd, $sTheme)
 	Local $tTheme = _WinAPI_MultiByteToWideChar($sTheme)
-	If _WinAPI_InProcess($hWnd, $gh_TBLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hTBLastWnd) Then
 		_SendMessage($hWnd, $TB_SETWINDOWTHEME, 0, $tTheme, 0, "wparam", "struct*")
 	Else
 		Local $iTheme = DllStructGetSize($tTheme)

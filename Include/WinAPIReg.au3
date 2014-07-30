@@ -8,11 +8,9 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Additional variables, constants and functions for the WinAPIReg.au3
 ; Author(s) .....: Yashied, jpm
-; Dll(s) ........: comctl32.dll, shlwapi.dll, ntdll.dll, advapi32.dll, sfc.dll
-; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
 #Region Global Variables and Constants
@@ -75,11 +73,11 @@
 ; Modified.......: JPM
 ; ===============================================================================================================================
 Func _WinAPI_AddMRUString($hMRU, $sStr)
-	Local $Ret = DllCall('comctl32.dll', 'int', 'AddMRUStringW', 'handle', $hMRU, 'wstr', $sStr)
+	Local $aRet = DllCall('comctl32.dll', 'int', 'AddMRUStringW', 'handle', $hMRU, 'wstr', $sStr)
 	If @error Then Return SetError(@error, @extended, -1)
-	; If $Ret[0] = -1 Then Return SetError(1000, 0, 0)
+	; If $aRet[0] = -1 Then Return SetError(1000, 0, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_AddMRUString
 
 ; #FUNCTION# ====================================================================================================================
@@ -87,16 +85,16 @@ EndFunc   ;==>_WinAPI_AddMRUString
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_AssocGetPerceivedType($sExt)
-	Local $Ret = DllCall('shlwapi.dll', 'long', 'AssocGetPerceivedType', 'wstr', $sExt, 'int*', 0, 'dword*', 0, 'ptr*', 0)
+	Local $aRet = DllCall('shlwapi.dll', 'long', 'AssocGetPerceivedType', 'wstr', $sExt, 'int*', 0, 'dword*', 0, 'ptr*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Local $Result[3]
-	$Result[0] = $Ret[2]
-	$Result[1] = $Ret[3]
-	$Result[2] = _WinAPI_GetString($Ret[4])
-	_WinAPI_CoTaskMemFree($Ret[4])
-	Return $Result
+	Local $aResult[3]
+	$aResult[0] = $aRet[2]
+	$aResult[1] = $aRet[3]
+	$aResult[2] = _WinAPI_GetString($aRet[4])
+	_WinAPI_CoTaskMemFree($aRet[4])
+	Return $aResult
 EndFunc   ;==>_WinAPI_AssocGetPerceivedType
 
 ; #FUNCTION# ====================================================================================================================
@@ -104,18 +102,18 @@ EndFunc   ;==>_WinAPI_AssocGetPerceivedType
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_AssocQueryString($sAssoc, $iType, $iFlags = 0, $sExtra = '')
-	Local $TypeOfExtra = 'wstr'
+	Local $sTypeOfExtra = 'wstr'
 	If Not StringStripWS($sExtra, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
-		$TypeOfExtra = 'ptr'
+		$sTypeOfExtra = 'ptr'
 		$sExtra = 0
 	EndIf
 
-	Local $Ret = DllCall('shlwapi.dll', 'long', 'AssocQueryStringW', 'dword', $iFlags, 'dword', $iType, 'wstr', $sAssoc, _
-			$TypeOfExtra, $sExtra, 'wstr', '', 'dword*', 4096)
+	Local $aRet = DllCall('shlwapi.dll', 'long', 'AssocQueryStringW', 'dword', $iFlags, 'dword', $iType, 'wstr', $sAssoc, _
+			$sTypeOfExtra, $sExtra, 'wstr', '', 'dword*', 4096)
 	If @error Then Return SetError(@error, @extended, '')
-	If $Ret[0] Then Return SetError(10, $Ret[0], '')
+	If $aRet[0] Then Return SetError(10, $aRet[0], '')
 
-	Return $Ret[5]
+	Return $aRet[5]
 EndFunc   ;==>_WinAPI_AssocQueryString
 
 ; #FUNCTION# ====================================================================================================================
@@ -133,11 +131,11 @@ Func _WinAPI_CreateMRUList($hKey, $sSubKey, $iMax = 26)
 	DllStructSetData($tMRUINFO, 6, 0)
 	DllStructSetData($tMRUINFO, 7, $sSubKey)
 
-	Local $Ret = DllCall('comctl32.dll', 'int', 'CreateMRUListW', 'struct*', $tMRUINFO)
+	Local $aRet = DllCall('comctl32.dll', 'int', 'CreateMRUListW', 'struct*', $tMRUINFO)
 	If @error Then Return SetError(@error, @extended, 0)
-	; If Not $Ret[0] Then Return SetError(1000, 0, 0)
+	; If Not $aRet[0] Then Return SetError(1000, 0, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_CreateMRUList
 
 ; #FUNCTION# ====================================================================================================================
@@ -145,8 +143,8 @@ EndFunc   ;==>_WinAPI_CreateMRUList
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_DllInstall($sPath)
-	Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s ' & $sPath)
-	If @error Or $Ret Then Return SetError(@error + ($Ret + 100), @extended, 0)
+	Local $iRet = RunWait(@SystemDir & '\regsvr32.exe /s ' & $sPath)
+	If @error Or $iRet Then Return SetError(@error + ($iRet + 100), @extended, 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_DllInstall
@@ -156,8 +154,8 @@ EndFunc   ;==>_WinAPI_DllInstall
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_DllUninstall($sPath)
-	Local $Ret = RunWait(@SystemDir & '\regsvr32.exe /s /u ' & $sPath)
-	If @error Or $Ret Then Return SetError(@error + ($Ret + 100), @extended, 0)
+	Local $iRet = RunWait(@SystemDir & '\regsvr32.exe /s /u ' & $sPath)
+	If @error Or $iRet Then Return SetError(@error + ($iRet + 100), @extended, 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_DllUninstall
@@ -167,16 +165,16 @@ EndFunc   ;==>_WinAPI_DllUninstall
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_EnumMRUList($hMRU, $iItem)
-	Local $Ret = DllCall('comctl32.dll', 'int', 'EnumMRUListW', 'handle', $hMRU, 'int', $iItem, 'wstr', '', 'uint', 4096)
-	If @error Or ($Ret[0] = -1) Then Return SetError(@error + 10, @extended, 0)
+	Local $aRet = DllCall('comctl32.dll', 'int', 'EnumMRUListW', 'handle', $hMRU, 'int', $iItem, 'wstr', '', 'uint', 4096)
+	If @error Or ($aRet[0] = -1) Then Return SetError(@error + 10, @extended, 0)
 
 	If $iItem < 0 Then
-		Return $Ret[0]
+		Return $aRet[0]
 	Else
-		If Not $Ret[0] Then Return SetError(1, 0, 0)
+		If Not $aRet[0] Then Return SetError(1, 0, 0)
 	EndIf
 
-	Return $Ret[3]
+	Return $aRet[3]
 EndFunc   ;==>_WinAPI_EnumMRUList
 
 ; #FUNCTION# ====================================================================================================================
@@ -184,11 +182,11 @@ EndFunc   ;==>_WinAPI_EnumMRUList
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_FreeMRUList($hMRU)
-	Local $Ret = DllCall('comctl32.dll', 'int', 'FreeMRUList', 'handle', $hMRU)
+	Local $aRet = DllCall('comctl32.dll', 'int', 'FreeMRUList', 'handle', $hMRU)
 	If @error Then Return SetError(@error, @extended, False)
-	; If $Ret[0] = -1 Then Return SetError(1000, 0, 0)
+	; If $aRet[0] = -1 Then Return SetError(1000, 0, 0)
 
-	Return ($Ret[0] <> -1)
+	Return ($aRet[0] <> -1)
 EndFunc   ;==>_WinAPI_FreeMRUList
 
 ; #FUNCTION# ====================================================================================================================
@@ -198,30 +196,30 @@ EndFunc   ;==>_WinAPI_FreeMRUList
 Func _WinAPI_GetRegKeyNameByHandle($hKey)
 	Local $tagKEY_NAME_INFORMATION = 'ulong NameLength;wchar Name[4096]'
 	Local $tKNI = DllStructCreate($tagKEY_NAME_INFORMATION)
-	Local $Ret = DllCall('ntdll.dll', 'long', 'ZwQueryKey', 'handle', $hKey, 'uint', 3, 'struct*', $tKNI, _
+	Local $aRet = DllCall('ntdll.dll', 'long', 'ZwQueryKey', 'handle', $hKey, 'uint', 3, 'struct*', $tKNI, _
 			'ulong', DllStructGetSize($tKNI), 'ulong*', 0)
 	If @error Then Return SetError(@error, @extended, '')
-	If $Ret[0] Then Return SetError(10, $Ret[0], '')
-	Local $Length = DllStructGetData($tKNI, 1)
-	If Not $Length Then Return SetError(12, 0, '')
+	If $aRet[0] Then Return SetError(10, $aRet[0], '')
+	Local $iLength = DllStructGetData($tKNI, 1)
+	If Not $iLength Then Return SetError(12, 0, '')
 
-	Return DllStructGetData(DllStructCreate('wchar[' & ($Length / 2) & ']', DllStructGetPtr($tKNI, 2)), 1)
+	Return DllStructGetData(DllStructCreate('wchar[' & ($iLength / 2) & ']', DllStructGetPtr($tKNI, 2)), 1)
 EndFunc   ;==>_WinAPI_GetRegKeyNameByHandle
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_RegCloseKey($hKey, $fFlush = 0)
-	If $fFlush Then
+Func _WinAPI_RegCloseKey($hKey, $bFlush = False)
+	If $bFlush Then
 		If Not _WinAPI_RegFlushKey($hKey) Then
 			Return SetError(@error + 10, @extended, 0)
 		EndIf
 	EndIf
 
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegCloseKey', 'handle', $hKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegCloseKey', 'handle', $hKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegCloseKey
@@ -231,11 +229,11 @@ EndFunc   ;==>_WinAPI_RegCloseKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegConnectRegistry($sComputer, $hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegConnectRegistryW', 'wstr', $sComputer, 'handle', $hKey, 'handle*', 0)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegConnectRegistryW', 'wstr', $sComputer, 'handle', $hKey, 'handle*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Return $Ret[3]
+	Return $aRet[3]
 EndFunc   ;==>_WinAPI_RegConnectRegistry
 
 ; #FUNCTION# ====================================================================================================================
@@ -243,10 +241,10 @@ EndFunc   ;==>_WinAPI_RegConnectRegistry
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegCopyTree($hSrcKey, $sSrcSubKey, $hDestKey)
-	Local $Ret = DllCall('shlwapi.dll', 'long', 'SHCopyKeyW', 'handle', $hSrcKey, 'wstr', $sSrcSubKey, 'ulong_ptr', $hDestKey, _
+	Local $aRet = DllCall('shlwapi.dll', 'long', 'SHCopyKeyW', 'handle', $hSrcKey, 'wstr', $sSrcSubKey, 'ulong_ptr', $hDestKey, _
 			'dword', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegCopyTree
@@ -256,9 +254,9 @@ EndFunc   ;==>_WinAPI_RegCopyTree
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegCopyTreeEx($hSrcKey, $sSrcSubKey, $hDestKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegCopyTreeW', 'handle', $hSrcKey, 'wstr', $sSrcSubKey, 'ulong_ptr', $hDestKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegCopyTreeW', 'handle', $hSrcKey, 'wstr', $sSrcSubKey, 'ulong_ptr', $hDestKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegCopyTreeEx
@@ -268,12 +266,12 @@ EndFunc   ;==>_WinAPI_RegCopyTreeEx
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegCreateKey($hKey, $sSubKey = '', $iAccess = 0x000F003F, $iOptions = 0, $tSecurity = 0)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegCreateKeyExW', 'handle', $hKey, 'wstr', $sSubKey, 'dword', 0, 'ptr', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegCreateKeyExW', 'handle', $hKey, 'wstr', $sSubKey, 'dword', 0, 'ptr', 0, _
 			'dword', $iOptions, 'dword', $iAccess, 'struct*', $tSecurity, 'ulong_ptr*', 0, 'dword*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Return SetExtended(Number($Ret[9] = 1), $Ret[8])
+	Return SetExtended(Number($aRet[9] = 1), $aRet[8])
 EndFunc   ;==>_WinAPI_RegCreateKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -281,9 +279,9 @@ EndFunc   ;==>_WinAPI_RegCreateKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDeleteEmptyKey($hKey, $sSubKey = '')
-	Local $Ret = DllCall('shlwapi.dll', 'long', 'SHDeleteEmptyKeyW', 'handle', $hKey, 'wstr', $sSubKey)
+	Local $aRet = DllCall('shlwapi.dll', 'long', 'SHDeleteEmptyKeyW', 'handle', $hKey, 'wstr', $sSubKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteEmptyKey
@@ -293,9 +291,9 @@ EndFunc   ;==>_WinAPI_RegDeleteEmptyKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDeleteKey($hKey, $sSubKey = '')
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDeleteKeyW', 'handle', $hKey, 'wstr', $sSubKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegDeleteKeyW', 'handle', $hKey, 'wstr', $sSubKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteKey
@@ -305,9 +303,9 @@ EndFunc   ;==>_WinAPI_RegDeleteKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDeleteKeyValue($hKey, $sSubKey, $sValueName)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDeleteKeyValueW', 'handle', $hKey, 'wstr', $sSubKey, 'wstr', $sValueName)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegDeleteKeyValueW', 'handle', $hKey, 'wstr', $sSubKey, 'wstr', $sValueName)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteKeyValue
@@ -317,9 +315,9 @@ EndFunc   ;==>_WinAPI_RegDeleteKeyValue
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDeleteTree($hKey, $sSubKey = '')
-	Local $Ret = DllCall('shlwapi.dll', 'long', 'SHDeleteKeyW', 'ulong_ptr', $hKey, 'wstr', $sSubKey)
+	Local $aRet = DllCall('shlwapi.dll', 'long', 'SHDeleteKeyW', 'ulong_ptr', $hKey, 'wstr', $sSubKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteTree
@@ -332,9 +330,9 @@ Func _WinAPI_RegDeleteTreeEx($hKey, $sSubKey = 0)
 	Local $sSubKeyType = 'wstr'
 	If Not IsString($sSubKey) Then $sSubKeyType = 'ptr'
 
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDeleteTreeW', 'handle', $hKey, $sSubKeyType, $sSubKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegDeleteTreeW', 'handle', $hKey, $sSubKeyType, $sSubKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteTreeEx
@@ -344,9 +342,9 @@ EndFunc   ;==>_WinAPI_RegDeleteTreeEx
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDeleteValue($hKey, $sValueName)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDeleteValueW', 'handle', $hKey, 'wstr', $sValueName)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegDeleteValueW', 'handle', $hKey, 'wstr', $sValueName)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDeleteValue
@@ -356,9 +354,9 @@ EndFunc   ;==>_WinAPI_RegDeleteValue
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDisableReflectionKey($hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegDisableReflectionKey', 'handle', $hKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegDisableReflectionKey', 'handle', $hKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegDisableReflectionKey
@@ -368,10 +366,10 @@ EndFunc   ;==>_WinAPI_RegDisableReflectionKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegDuplicateHKey($hKey)
-	Local $Ret = DllCall('shlwapi.dll', 'handle', 'SHRegDuplicateHKey', 'handle', $hKey)
+	Local $aRet = DllCall('shlwapi.dll', 'handle', 'SHRegDuplicateHKey', 'handle', $hKey)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_RegDuplicateHKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -379,9 +377,9 @@ EndFunc   ;==>_WinAPI_RegDuplicateHKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegEnableReflectionKey($hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegEnableReflectionKey', 'handle', $hKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegEnableReflectionKey', 'handle', $hKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegEnableReflectionKey
@@ -391,12 +389,12 @@ EndFunc   ;==>_WinAPI_RegEnableReflectionKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegEnumKey($hKey, $iIndex)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegEnumKeyExW', 'ulong_ptr', $hKey, 'dword', $iIndex, 'wstr', '', _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegEnumKeyExW', 'ulong_ptr', $hKey, 'dword', $iIndex, 'wstr', '', _
 			'dword*', 256, 'dword', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0)
 	If @error Then Return SetError(@error, @extended, '')
-	If $Ret[0] Then Return SetError(10, $Ret[0], '')
+	If $aRet[0] Then Return SetError(10, $aRet[0], '')
 
-	Return $Ret[3]
+	Return $aRet[3]
 EndFunc   ;==>_WinAPI_RegEnumKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -404,12 +402,12 @@ EndFunc   ;==>_WinAPI_RegEnumKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegEnumValue($hKey, $iIndex)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegEnumValueW', 'handle', $hKey, 'dword', $iIndex, 'wstr', '', _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegEnumValueW', 'handle', $hKey, 'dword', $iIndex, 'wstr', '', _
 			'dword*', 16384, 'dword', 0, 'dword*', 0, 'ptr', 0, 'ptr', 0)
 	If @error Then Return SetError(@error, @extended, '')
-	If $Ret[0] Then Return SetError(10, $Ret[0], '')
+	If $aRet[0] Then Return SetError(10, $aRet[0], '')
 
-	Return SetExtended($Ret[6], $Ret[3])
+	Return SetExtended($aRet[6], $aRet[3])
 EndFunc   ;==>_WinAPI_RegEnumValue
 
 ; #FUNCTION# ====================================================================================================================
@@ -417,9 +415,9 @@ EndFunc   ;==>_WinAPI_RegEnumValue
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegFlushKey($hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegFlushKey', 'handle', $hKey)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegFlushKey', 'handle', $hKey)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegFlushKey
@@ -429,29 +427,29 @@ EndFunc   ;==>_WinAPI_RegFlushKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegLoadMUIString($hKey, $sValueName, $sDirectory = '')
-	Local $TypeOfDirectory = 'wstr'
+	Local $sTypeOfDirectory = 'wstr'
 	If Not StringStripWS($sDirectory, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
-		$TypeOfDirectory = 'ptr'
+		$sTypeOfDirectory = 'ptr'
 		$sDirectory = 0
 	EndIf
 
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegLoadMUIStringW', 'handle', $hKey, 'wstr', $sValueName, 'wstr', '', _
-			'dword', 16384, 'dword*', 0, 'dword', 0, $TypeOfDirectory, $sDirectory)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegLoadMUIStringW', 'handle', $hKey, 'wstr', $sValueName, 'wstr', '', _
+			'dword', 16384, 'dword*', 0, 'dword', 0, $sTypeOfDirectory, $sDirectory)
 	If @error Then Return SetError(@error, @extended, '')
-	If $Ret[0] Then Return SetError(10, $Ret[0], '')
+	If $aRet[0] Then Return SetError(10, $aRet[0], '')
 
-	Return $Ret[3]
+	Return $aRet[3]
 EndFunc   ;==>_WinAPI_RegLoadMUIString
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_RegNotifyChangeKeyValue($hKey, $iFilter, $fSubtree = 0, $fAsync = 0, $hEvent = 0)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegNotifyChangeKeyValue', 'handle', $hKey, 'bool', $fSubtree, _
-			'dword', $iFilter, 'handle', $hEvent, 'bool', $fAsync)
+Func _WinAPI_RegNotifyChangeKeyValue($hKey, $iFilter, $bSubtree = False, $bAsync = False, $hEvent = 0)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegNotifyChangeKeyValue', 'handle', $hKey, 'bool', $bSubtree, _
+			'dword', $iFilter, 'handle', $hEvent, 'bool', $bAsync)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegNotifyChangeKeyValue
@@ -464,12 +462,12 @@ Func _WinAPI_RegOpenKey($hKey, $sSubKey = '', $iAccess = 0x000F003F)
 	Local $sSubKeyType = 'wstr'
 	If Not IsString($sSubKey) Then $sSubKeyType = 'ptr'
 
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegOpenKeyExW', 'handle', $hKey, $sSubKeyType, $sSubKey, 'dword', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegOpenKeyExW', 'handle', $hKey, $sSubKeyType, $sSubKey, 'dword', 0, _
 			'dword', $iAccess, 'ulong_ptr*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Return $Ret[5]
+	Return $aRet[5]
 EndFunc   ;==>_WinAPI_RegOpenKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -477,18 +475,18 @@ EndFunc   ;==>_WinAPI_RegOpenKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegQueryInfoKey($hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegQueryInfoKeyW', 'handle', $hKey, 'ptr', 0, 'ptr', 0, 'ptr', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegQueryInfoKeyW', 'handle', $hKey, 'ptr', 0, 'ptr', 0, 'ptr', 0, _
 			'dword*', 0, 'dword*', 0, 'ptr', 0, 'dword*', 0, 'dword*', 0, 'dword*', 0, 'ptr', 0, 'ptr', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Local $Result[5]
-	$Result[0] = $Ret[5]
-	$Result[1] = $Ret[6]
-	$Result[2] = $Ret[8]
-	$Result[3] = $Ret[9]
-	$Result[4] = $Ret[10]
-	Return $Result
+	Local $aResult[5]
+	$aResult[0] = $aRet[5]
+	$aResult[1] = $aRet[6]
+	$aResult[2] = $aRet[8]
+	$aResult[3] = $aRet[9]
+	$aResult[4] = $aRet[10]
+	Return $aResult
 EndFunc   ;==>_WinAPI_RegQueryInfoKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -497,10 +495,10 @@ EndFunc   ;==>_WinAPI_RegQueryInfoKey
 ; ===============================================================================================================================
 Func _WinAPI_RegQueryLastWriteTime($hKey)
 	Local $tFILETIME = DllStructCreate($tagFILETIME)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegQueryInfoKeyW', 'handle', $hKey, 'ptr', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegQueryInfoKeyW', 'handle', $hKey, 'ptr', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0, _
 			'ptr', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0, 'ptr', 0, 'struct*', $tFILETIME)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return $tFILETIME
 EndFunc   ;==>_WinAPI_RegQueryLastWriteTime
@@ -514,46 +512,46 @@ Func _WinAPI_RegQueryMultipleValues($hKey, ByRef $aValent, ByRef $pBuffer, $iSta
 	If __CheckErrorArrayBounds($aValent, $iStart, $iEnd, 2) Then Return SetError(@error + 10, @extended, 0)
 	If UBound($aValent, $UBOUND_COLUMNS) < 4 Then Return SetError(13, 0, 0)
 
-	Local $Values = $iEnd - $iStart + 1
-	Local $Struct = ''
-	For $i = 1 To $Values
-		$Struct &= 'ptr;dword;ptr;dword;'
+	Local $iValues = $iEnd - $iStart + 1
+	Local $tagStruct = ''
+	For $i = 1 To $iValues
+		$tagStruct &= 'ptr;dword;ptr;dword;'
 	Next
-	Local $tValent = DllStructCreate($Struct)
+	Local $tValent = DllStructCreate($tagStruct)
 
-	Local $Item[$Values], $Count = 0
+	Local $aItem[$iValues], $iCount = 0
 	For $i = $iStart To $iEnd
-		$Item[$Count] = DllStructCreate('wchar[' & (StringLen($aValent[$i][0]) + 1) & ']')
-		DllStructSetData($tValent, 4 * $Count + 1, DllStructGetPtr($Item[$Count]))
-		DllStructSetData($Item[$Count], 1, $aValent[$i][0])
-		$Count += 1
+		$aItem[$iCount] = DllStructCreate('wchar[' & (StringLen($aValent[$i][0]) + 1) & ']')
+		DllStructSetData($tValent, 4 * $iCount + 1, DllStructGetPtr($aItem[$iCount]))
+		DllStructSetData($aItem[$iCount], 1, $aValent[$i][0])
+		$iCount += 1
 	Next
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegQueryMultipleValuesW', 'handle', $hKey, 'struct*', $tValent, 'dword', $Values, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegQueryMultipleValuesW', 'handle', $hKey, 'struct*', $tValent, 'dword', $iValues, _
 			'ptr', 0, 'dword*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] <> 234 Then Return SetError(10, $Ret[0], 0) ; not ERROR_MORE_DATA
-	$pBuffer = __HeapAlloc($Ret[5])
+	If $aRet[0] <> 234 Then Return SetError(10, $aRet[0], 0) ; not ERROR_MORE_DATA
+	$pBuffer = __HeapAlloc($aRet[5])
 	If @error Then Return SetError(@error + 100, @extended, 0)
-	$Ret = DllCall('advapi32.dll', 'long', 'RegQueryMultipleValuesW', 'handle', $hKey, 'struct*', $tValent, 'dword', $Values, _
-			'ptr', $pBuffer, 'dword*', $Ret[5])
-	If @error Or $Ret[0] Then
-		Local $Error = @error
+	$aRet = DllCall('advapi32.dll', 'long', 'RegQueryMultipleValuesW', 'handle', $hKey, 'struct*', $tValent, 'dword', $iValues, _
+			'ptr', $pBuffer, 'dword*', $aRet[5])
+	If @error Or $aRet[0] Then
+		Local $iError = @error
 		__HeapFree($pBuffer)
-		If IsArray($Ret) Then
-			Return SetError(20, $Ret[0], 0)
+		If IsArray($aRet) Then
+			Return SetError(20, $aRet[0], 0)
 		Else
-			Return SetError($Error + 20, @extended, 0) ; should not occur as previously called
+			Return SetError($iError + 20, @extended, 0) ; should not occur as previously called
 		EndIf
 	EndIf
 
-	$Count = 0
+	$iCount = 0
 	For $i = $iStart To $iEnd
 		For $j = 1 To 3
-			$aValent[$i][$j] = DllStructGetData($tValent, 4 * $Count + $j + 1)
+			$aValent[$i][$j] = DllStructGetData($tValent, 4 * $iCount + $j + 1)
 		Next
-		$Count += 1
+		$iCount += 1
 	Next
-	Return $Ret[5]
+	Return $aRet[5]
 EndFunc   ;==>_WinAPI_RegQueryMultipleValues
 
 ; #FUNCTION# ====================================================================================================================
@@ -561,11 +559,11 @@ EndFunc   ;==>_WinAPI_RegQueryMultipleValues
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegQueryReflectionKey($hKey)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegQueryReflectionKey', 'handle', $hKey, 'bool*', 0)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegQueryReflectionKey', 'handle', $hKey, 'bool*', 0)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Return $Ret[2]
+	Return $aRet[2]
 EndFunc   ;==>_WinAPI_RegQueryReflectionKey
 
 ; #FUNCTION# ====================================================================================================================
@@ -573,12 +571,12 @@ EndFunc   ;==>_WinAPI_RegQueryReflectionKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegQueryValue($hKey, $sValueName, ByRef $tValueData)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegQueryValueExW', 'handle', $hKey, 'wstr', $sValueName, 'dword', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegQueryValueExW', 'handle', $hKey, 'wstr', $sValueName, 'dword', 0, _
 			'dword*', 0, 'struct*', $tValueData, 'dword*', DllStructGetSize($tValueData))
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Return SetExtended($Ret[4], $Ret[6])
+	Return SetExtended($aRet[4], $aRet[6])
 EndFunc   ;==>_WinAPI_RegQueryValue
 
 ; #FUNCTION# ====================================================================================================================
@@ -586,9 +584,9 @@ EndFunc   ;==>_WinAPI_RegQueryValue
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegRestoreKey($hKey, $sFile)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegRestoreKeyW', 'handle', $hKey, 'wstr', $sFile, 'dword', 8)
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegRestoreKeyW', 'handle', $hKey, 'wstr', $sFile, 'dword', 8)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegRestoreKey
@@ -597,16 +595,16 @@ EndFunc   ;==>_WinAPI_RegRestoreKey
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_RegSaveKey($hKey, $sFile, $fReplace = 0, $tSecurity = 0)
-	Local $Ret
+Func _WinAPI_RegSaveKey($hKey, $sFile, $bReplace = False, $tSecurity = 0)
+	Local $aRet
 	While 1
-		$Ret = DllCall('advapi32.dll', 'long', 'RegSaveKeyW', 'handle', $hKey, 'wstr', $sFile, 'struct*', $tSecurity)
+		$aRet = DllCall('advapi32.dll', 'long', 'RegSaveKeyW', 'handle', $hKey, 'wstr', $sFile, 'struct*', $tSecurity)
 		If @error Then Return SetError(@error, @extended, 0)
-		Switch $Ret[0]
+		Switch $aRet[0]
 			Case 0
 				ExitLoop
 			Case 183 ; ERROR_ALREADY_EXISTS
-				If $fReplace Then
+				If $bReplace Then
 					; If Not _WinAPI_DeleteFile($sFile) Then
 					If Not FileDelete($sFile) Then
 						Return SetError(20, _WinAPI_GetLastError(), 0)
@@ -617,7 +615,7 @@ Func _WinAPI_RegSaveKey($hKey, $sFile, $fReplace = 0, $tSecurity = 0)
 					ContinueCase
 				EndIf
 			Case Else
-				Return SetError(10, $Ret[0], 0)
+				Return SetError(10, $aRet[0], 0)
 		EndSwitch
 	WEnd
 
@@ -629,10 +627,10 @@ EndFunc   ;==>_WinAPI_RegSaveKey
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RegSetValue($hKey, $sValueName, $iType, $tValueData, $iBytes)
-	Local $Ret = DllCall('advapi32.dll', 'long', 'RegSetValueExW', 'handle', $hKey, 'wstr', $sValueName, 'dword', 0, _
+	Local $aRet = DllCall('advapi32.dll', 'long', 'RegSetValueExW', 'handle', $hKey, 'wstr', $sValueName, 'dword', 0, _
 			'dword', $iType, 'struct*', $tValueData, 'dword', $iBytes)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_RegSetValue
@@ -647,10 +645,10 @@ Func _WinAPI_SfcIsKeyProtected($hKey, $sSubKey = 0, $iFlag = 0)
 	Local $sSubKeyType = 'wstr'
 	If Not IsString($sSubKey) Then $sSubKeyType = 'ptr'
 
-	Local $Ret = DllCall('sfc.dll', 'int', 'SfcIsKeyProtected', 'handle', $hKey, $sSubKeyType, $sSubKey, 'dword', $iFlag)
+	Local $aRet = DllCall('sfc.dll', 'int', 'SfcIsKeyProtected', 'handle', $hKey, $sSubKeyType, $sSubKey, 'dword', $iFlag)
 	If @error Then Return SetError(@error, @extended, False)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_SfcIsKeyProtected
 
 #EndRegion Public Functions

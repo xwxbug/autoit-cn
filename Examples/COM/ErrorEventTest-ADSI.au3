@@ -1,57 +1,55 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoIt 3.1.1.x beta version
-;
-; COM Test File
+; COM Test file
 ;
 ; Error Event test using Winnt ADSI
 ;
 ; This will cause an ErrorEvent on most computers.
 
 ; Initialize my Error function
-Local $g_oErrObj = ObjEvent("AutoIt.Error", "MyErrFunc")
+Local $oErrObj = ObjEvent("AutoIt.Error", "MyErrFunc")
 
 ; Open Winnt object on local machine, this might take a few seconds time.
-Local $objContainer = ObjGet("WinNT://" & @ComputerName)
+Local $oContainer = ObjGet("WinNT://" & @ComputerName)
 If @error Then
 	MsgBox($MB_SYSTEMMODAL, "AutoItCOM Test", "Failed to open WinNT://. Error code: " & Hex(@error, 8))
 	Exit
 EndIf
 
-Local $strUser = "CBrooke"
-Local $clsUser = $objContainer.Create("User", $strUser)
+Local $sUser = "CBrooke"
+Local $oUser = $oContainer.Create("User", $sUser)
 
 ; This will only succeed on computers where local user passwords are allowed to be empty.
-$clsUser.SetInfo()
+$oUser.SetInfo()
 
 ; The line below should throw an Error after a short timeout,
 ; because "domain" and "MyGroup" do not exist.
 
-Local $objGroup = ObjGet("WinNT://domain/MyGroup, group")
+Local $oGroup = ObjGet("WinNT://domain/MyGroup, group")
 
 If @error Then
-	MsgBox($MB_SYSTEMMODAL, "", "error opening object $objGroup, error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "", "error opening object $oGroup, error code: " & @error)
 	Exit
 Else
-	$objGroup.Add($clsUser.ADsPath)
-	$objGroup.SetInfo()
+	$oGroup.Add($oUser.ADsPath)
+	$oGroup.SetInfo()
 EndIf
 
 Exit
 
 ; ----------------
 
-Func MyErrFunc($oerrobj)
-	Local $hexnum = Hex($oerrobj.number, 8)
+Func MyErrFunc($oErrObj)
+	Local $sHexnum = Hex($oErrObj.number, 8)
 
 	MsgBox($MB_SYSTEMMODAL, "", "We intercepted a COM Error!!" & @CRLF & @CRLF & _
-			"err.description is: " & $oerrobj.description & @CRLF & _
-			"err.windescription is: " & $oerrobj.windescription & @CRLF & _
-			"err.lastdllerror is: " & $oerrobj.lastdllerror & @CRLF & _
-			"err.scriptline is: " & $oerrobj.scriptline & @CRLF & _
-			"err.number is: " & $hexnum & @CRLF & _
-			"err.source is: " & $oerrobj.source & @CRLF & _
-			"err.helpfile is: " & $oerrobj.helpfile & @CRLF & _
-			"err.helpcontext is: " & $oerrobj.helpcontext _
+			"err.description is: " & $oErrObj.description & @CRLF & _
+			"err.windescription is: " & $oErrObj.windescription & @CRLF & _
+			"err.lastdllerror is: " & $oErrObj.lastdllerror & @CRLF & _
+			"err.scriptline is: " & $oErrObj.scriptline & @CRLF & _
+			"err.number is: " & $sHexnum & @CRLF & _
+			"err.source is: " & $oErrObj.source & @CRLF & _
+			"err.helpfile is: " & $oErrObj.helpfile & @CRLF & _
+			"err.helpcontext is: " & $oErrObj.helpcontext _
 			)
 EndFunc   ;==>MyErrFunc

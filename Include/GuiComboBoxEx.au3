@@ -7,7 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ComboBoxEx
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with ComboBoxEx control management.
 ;                  ComboBoxEx Controls are an extension of the combo box control that provides native support for item images.
@@ -16,7 +16,7 @@
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_ghCBExLastWnd
+Global $__g_hCBExLastWnd
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -108,22 +108,22 @@ Global Const $__COMBOBOXEXCONSTANT_WM_SIZE = 0x05
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBoxEx_AddDir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
-	Local $cb_gui = GUICreate("combo gui")
-	Local $combo = GUICtrlCreateCombo("", 240, 40, 120, 120)
-	Local $iRet = GUICtrlSendMsg($combo, $CB_DIR, $iAttributes, $sFile)
+Func _GUICtrlComboBoxEx_AddDir($hWnd, $sFile, $iAttributes = 0, $bBrackets = True)
+	Local $hGui = GUICreate("combo gui")
+	Local $idCombo = GUICtrlCreateCombo("", 240, 40, 120, 120)
+	Local $iRet = GUICtrlSendMsg($idCombo, $CB_DIR, $iAttributes, $sFile)
 	If $iRet = -1 Then
-		GUIDelete($cb_gui)
+		GUIDelete($hGui)
 		Return SetError(-1, -1, -1)
 	EndIf
 	Local $sText
-	For $i = 0 To _GUICtrlComboBox_GetCount($combo) - 1
-		_GUICtrlComboBox_GetLBText($combo, $i, $sText)
+	For $i = 0 To _GUICtrlComboBox_GetCount($idCombo) - 1
+		_GUICtrlComboBox_GetLBText($idCombo, $i, $sText)
 		If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And _
-				Not $fBrackets Then $sText = StringReplace(StringReplace(StringReplace($sText, "[", ""), "]", ":"), "-", "")
+				Not $bBrackets Then $sText = StringReplace(StringReplace(StringReplace($sText, "[", ""), "]", ":"), "-", "")
 		_GUICtrlComboBoxEx_InsertString($hWnd, $sText)
 	Next
-	GUIDelete($cb_gui)
+	GUIDelete($hGui)
 	Return $iRet
 EndFunc   ;==>_GUICtrlComboBoxEx_AddDir
 
@@ -198,11 +198,11 @@ EndFunc   ;==>_GUICtrlComboBoxEx_DeleteString
 Func _GUICtrlComboBoxEx_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXEXCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
-	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Then
+	Local $iDestroyed = 0
+	If _WinAPI_InProcess($hWnd, $__g_hCBExLastWnd) Then
 		Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 		Local $hParent = _WinAPI_GetParent($hWnd)
-		$Destroyed = _WinAPI_DestroyWindow($hWnd)
+		$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 		Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 		If Not $iRet Then
 			; can check for errors here if needed, for debug
@@ -211,8 +211,8 @@ Func _GUICtrlComboBoxEx_Destroy(ByRef $hWnd)
 		; Not Allowed to Destroy Other Applications Control(s)
 		Return SetError(1, 1, False)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlComboBoxEx_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -385,17 +385,17 @@ EndFunc   ;==>_GUICtrlComboBoxEx_GetItem
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_GetItemEx($hWnd, ByRef $tItem)
-	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
+	Local $bUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hCBExLastWnd) Then
 		$iRet = _SendMessage($hWnd, $CBEM_GETITEMW, 0, $tItem, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tItem)
 		Local $tMemMap
 		Local $pMemory = _MemInit($hWnd, $iItem, $tMemMap)
 		_MemWrite($tMemMap, $tItem)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $CBEM_GETITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $CBEM_GETITEMA, 0, $pMemory, 0, "wparam", "ptr")
@@ -613,14 +613,14 @@ EndFunc   ;==>_GUICtrlComboBoxEx_InitStorage
 ; ===============================================================================================================================
 Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, $iSelecteImage = -1, $iOverlayImage = -1, $iIndent = -1, $iParam = -1)
 	Local $iBuffer = 0, $iMask, $iRet
-	Local $fUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
+	Local $bUnicode = _GUICtrlComboBoxEx_GetUnicode($hWnd)
 
 	Local $tItem = DllStructCreate($tagCOMBOBOXEXITEM)
 	If $sText <> -1 Then
 		$iMask = BitOR($CBEIF_TEXT, $CBEIF_LPARAM)
 		$iBuffer = StringLen($sText) + 1
 		Local $tBuffer
-		If $fUnicode Then
+		If $bUnicode Then
 			$tBuffer = DllStructCreate("wchar Text[" & $iBuffer & "]")
 			$iBuffer *= 2
 		Else
@@ -644,7 +644,7 @@ Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, 
 	DllStructSetData($tItem, "OverlayImage", $iOverlayImage)
 	DllStructSetData($tItem, "Indent", $iIndent)
 	DllStructSetData($tItem, "Param", $iParam)
-	If _WinAPI_InProcess($hWnd, $_ghCBExLastWnd) Or ($sText = -1) Then
+	If _WinAPI_InProcess($hWnd, $__g_hCBExLastWnd) Or ($sText = -1) Then
 		$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMW, 0, $tItem, 0, "wparam", "struct*")
 	Else
 		Local $iItem = DllStructGetSize($tItem)
@@ -654,7 +654,7 @@ Func _GUICtrlComboBoxEx_InsertString($hWnd, $sText, $iIndex = -1, $iImage = -1, 
 		DllStructSetData($tItem, "Text", $pText)
 		_MemWrite($tMemMap, $tItem, $pMemory, $iItem)
 		_MemWrite($tMemMap, $tBuffer, $pText, $iBuffer)
-		If $fUnicode Then
+		If $bUnicode Then
 			$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMW, 0, $pMemory, 0, "wparam", "ptr")
 		Else
 			$iRet = _SendMessage($hWnd, $CBEM_INSERTITEMA, 0, $pMemory, 0, "wparam", "ptr")
@@ -739,9 +739,9 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedStyle
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBoxEx_SetExtendedUI($hWnd, $fExtended = False)
+Func _GUICtrlComboBoxEx_SetExtendedUI($hWnd, $bExtended = False)
 	Local $hComboBox = _GUICtrlComboBoxEx_GetComboControl($hWnd)
-	Return _SendMessage($hComboBox, $CB_SETEXTENDEDUI, $fExtended) = 0
+	Return _SendMessage($hComboBox, $CB_SETEXTENDEDUI, $bExtended) = 0
 EndFunc   ;==>_GUICtrlComboBoxEx_SetExtendedUI
 
 ; #FUNCTION# ====================================================================================================================
@@ -893,15 +893,15 @@ EndFunc   ;==>_GUICtrlComboBoxEx_SetTopIndex
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBoxEx_SetUnicode($hWnd, $fUnicode = True)
-	Local $iUnicode = _SendMessage($hWnd, $CBEM_SETUNICODEFORMAT, $fUnicode) <> 0
-	Return $iUnicode <> $fUnicode
+Func _GUICtrlComboBoxEx_SetUnicode($hWnd, $bUnicode = True)
+	Local $iUnicode = _SendMessage($hWnd, $CBEM_SETUNICODEFORMAT, $bUnicode) <> 0
+	Return $iUnicode <> $bUnicode
 EndFunc   ;==>_GUICtrlComboBoxEx_SetUnicode
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBoxEx_ShowDropDown($hWnd, $fShow = False)
-	_GUICtrlComboBox_ShowDropDown($hWnd, $fShow)
+Func _GUICtrlComboBoxEx_ShowDropDown($hWnd, $bShow = False)
+	_GUICtrlComboBox_ShowDropDown($hWnd, $bShow)
 EndFunc   ;==>_GUICtrlComboBoxEx_ShowDropDown

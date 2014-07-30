@@ -1,30 +1,36 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoIt 3.1.1.x beta version
-;
 ; COM Test file
 ;
 ; Test usage of AutoItX from within AutoItCOM
 
-Local $oAutoIt = ObjCreate("AutoItX3.Control")
-If @error Then
-	MsgBox($MB_SYSTEMMODAL, "AutoItX Test", "Failed to open AutoItX. Error code: " & Hex(@error, 8))
-	Exit
-EndIf
+Example("I am copied to the clipboard")
+Exit
 
-$oAutoIt.ClipPut("I am copied to the clipboard")
+Func Example($sExampleText)
 
-Local $text = $oAutoIt.ClipGet()
+	Local $oAutoIt = ObjCreate("AutoItX3.Control")
+	If @error Then
+		MsgBox($MB_SYSTEMMODAL, "AutoItX Test", "Failed to open AutoItX. Error code: " & Hex(@error, 8))
+		Return -1
+	EndIf
 
-MsgBox($MB_SYSTEMMODAL, "Clipboard test", "Clipboard contains: " & $text)
+	$oAutoIt.ClipPut($sExampleText)
 
-; This will create a tooltip in the upper left of the screen
+	Local $sTextFromClipboard = $oAutoIt.ClipGet()
+	Local $sTestInfo = "Clipboard contains: " & $sTextFromClipboard & @CRLF & @CRLF & "Press OK to create a tooltip in the upper left corner."
 
-MsgBox($MB_SYSTEMMODAL, "Tooltip test", "Press OK to create a tooltip in the upper left corner.")
+	MsgBox($MB_SYSTEMMODAL, "Clipboard test", $sTestInfo)
 
-$oAutoIt.ToolTip("This is a tooltip", 0, 0)
-$oAutoIt.Sleep(1000) ; Sleep to give tooltip time to display
+	; This will create a tooltip in the upper left of the screen
+	$oAutoIt.ToolTip("This is a tooltip", 0, 0)
 
-Local $var = $oAutoIt.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion", "ProgramFilesDir")
+	; Sleep to give tooltip time to display
+	$oAutoIt.Sleep(1000)
 
-MsgBox($MB_SYSTEMMODAL, "RegRead Test", "Program files are in:" & $var)
+	MsgBox($MB_SYSTEMMODAL, "End of Test", "OK")
+
+	; CleanUp - relase memory
+	$oAutoIt = ''
+
+EndFunc   ;==>Example

@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Color
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ..... : English
 ; Description ...: Functions that assist with color management.
 ; Author(s) .....: Ultima, Jon, Jpm
@@ -182,33 +182,33 @@ EndFunc   ;==>_ColorGetRed
 ; Author ........: jpm
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ColorGetCOLORREF($nColor, $curExt = @extended)
+Func _ColorGetCOLORREF($nColor, $iCurExt = @extended)
 	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
 	$aColor[2] = BitAND(BitShift($nColor, 16), 0xFF)
 	$aColor[1] = BitAND(BitShift($nColor, 8), 0xFF)
 	$aColor[0] = BitAND($nColor, 0xFF)
-	Return SetExtended($curExt, $aColor)
+	Return SetExtended($iCurExt, $aColor)
 EndFunc   ;==>_ColorGetCOLORREF
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ColorGetRGB($nColor, $curExt = @extended)
+Func _ColorGetRGB($nColor, $iCurExt = @extended)
 	If BitAND($nColor, 0xFF000000) Then Return SetError(1, 0, 0) ; invalid color value
 	Local $aColor[3]
 	$aColor[0] = BitAND(BitShift($nColor, 16), 0xFF)
 	$aColor[1] = BitAND(BitShift($nColor, 8), 0xFF)
 	$aColor[2] = BitAND($nColor, 0xFF)
-	Return SetExtended($curExt, $aColor)
+	Return SetExtended($iCurExt, $aColor)
 EndFunc   ;==>_ColorGetRGB
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ColorSetCOLORREF($aColor, $curExt = @extended)
+Func _ColorSetCOLORREF($aColor, $iCurExt = @extended)
 	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor
 	For $i = 2 To 0 Step -1
@@ -217,14 +217,14 @@ Func _ColorSetCOLORREF($aColor, $curExt = @extended)
 		If $iColor < 0 Or $iColor > 255 Then Return SetError(2, $i, -1) ; invalid color value
 		$nColor += $iColor
 	Next
-	Return SetExtended($curExt, $nColor)
+	Return SetExtended($iCurExt, $nColor)
 EndFunc   ;==>_ColorSetCOLORREF
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: jpm
 ; Modified.......:
 ; ===============================================================================================================================
-Func _ColorSetRGB($aColor, $curExt = @extended)
+Func _ColorSetRGB($aColor, $iCurExt = @extended)
 	If UBound($aColor) <> 3 Then Return SetError(1, 0, -1) ; invalid array
 	Local $nColor = 0, $iColor
 	For $i = 0 To 2
@@ -233,5 +233,5 @@ Func _ColorSetRGB($aColor, $curExt = @extended)
 		If $iColor < 0 Or $iColor > 255 Then Return SetError(2, 0, -1) ; invalid color value
 		$nColor += $iColor
 	Next
-	Return SetExtended($curExt, $nColor)
+	Return SetExtended($iCurExt, $nColor)
 EndFunc   ;==>_ColorSetRGB

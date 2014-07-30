@@ -7,7 +7,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Animation
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with AVI control management.
 ;                  An animation control is a window that displays an Audio-Video Interleaved (AVI) clip.  An AVI clip is a series
@@ -17,7 +17,7 @@
 ;                  Find dialog box of Microsoft Windows Explorer displays a moving magnifying glass as the system searches for  a
 ;                  file.
 ;
-;                  If you are using ComCtl32.dll version 6 the thread is not supported, therefore make sure that your application
+;                  If you are using comctl32.dll version 6 the thread is not supported, therefore make sure that your application
 ;                  does not block the UI or the animation  will  not  occur.  An  animation  control  can  display  an  AVI  clip
 ;                  originating from either an uncompressed AVI file or from an AVI file that  was  compressed  using  run  length
 ;                  (BI_RLE8) encoding. You can add the AVI clip to your application as an AVI resource, or the clip can accompany
@@ -32,7 +32,7 @@
 
 ; #VARIABLES# ===================================================================================================================
 
-Global $gh_AVLastWnd
+Global $__g_hAVLastWnd
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -67,7 +67,7 @@ EndFunc   ;==>_GUICtrlAVI_Close
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (Added params, Added Open calls "sets the avi to 1st frame")
 ; ===============================================================================================================================
-Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0, $iStyle = 0x00000006, $iExStyle = 0x00000000)
+Func _GUICtrlAVI_Create($hWnd, $sFile = "", $iSubfileID = -1, $iX = 0, $iY = 0, $iWidth = 0, $iHeight = 0, $iStyle = 0x00000006, $iExStyle = 0x00000000)
 	If Not IsHWnd($hWnd) Then Return SetError(1, 0, 0) ; Invalid Window handle for 1st parameter
 	If Not IsString($sFile) Then Return SetError(2, 0, 0) ; 2nd parameter not a string for _GUICtrlAVI_Create
 
@@ -77,8 +77,8 @@ Func _GUICtrlAVI_Create($hWnd, $sFile = "", $subfileid = -1, $iX = 0, $iY = 0, $
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Local $hAVI = _WinAPI_CreateWindowEx($iExStyle, $__AVICONSTANT_ClassName, "", $iStyle, $iX, $iY, $iWidth, $iHeight, $hWnd, $nCtrlID)
-	If $subfileid <> -1 And $sFile <> "" Then
-		_GUICtrlAVI_OpenEx($hAVI, $sFile, $subfileid)
+	If $iSubfileID <> -1 And $sFile <> "" Then
+		_GUICtrlAVI_OpenEx($hAVI, $sFile, $iSubfileID)
 	ElseIf $sFile <> "" Then
 		_GUICtrlAVI_Open($hAVI, $sFile)
 	EndIf
@@ -92,12 +92,12 @@ EndFunc   ;==>_GUICtrlAVI_Create
 Func _GUICtrlAVI_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__AVICONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
+	Local $iDestroyed = 0
 	If IsHWnd($hWnd) Then
-		If _WinAPI_InProcess($hWnd, $gh_AVLastWnd) Then
+		If _WinAPI_InProcess($hWnd, $__g_hAVLastWnd) Then
 			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 			Local $hParent = _WinAPI_GetParent($hWnd)
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 			If Not $iRet Then
 				; can check for errors here if needed, for debug
@@ -107,10 +107,10 @@ Func _GUICtrlAVI_Destroy(ByRef $hWnd)
 			Return SetError(1, 1, False)
 		EndIf
 	Else
-		$Destroyed = GUICtrlDelete($hWnd)
+		$iDestroyed = GUICtrlDelete($hWnd)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlAVI_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -131,7 +131,7 @@ Func _GUICtrlAVI_Open($hWnd, $sFileName)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
 	Local $iRet
-	If _WinAPI_InProcess($hWnd, $gh_AVLastWnd) Then
+	If _WinAPI_InProcess($hWnd, $__g_hAVLastWnd) Then
 		$iRet = _SendMessage($hWnd, $ACM_OPENW, 0, $sFileName, 0, "wparam", "wstr")
 	Else
 		Local $tBuffer = DllStructCreate("wchar Text[" & StringLen($sFileName) + 1 & "]")

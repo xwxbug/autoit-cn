@@ -1,48 +1,48 @@
-#include <GUIConstantsEx.au3>
 #include <Constants.au3>
+#include <GUIConstantsEx.au3>
 
 _Main()
 
 Func _Main()
-	Local $filemenu, $fileitem, $recentfilesmenu, $separator1
-	Local $exititem, $helpmenu, $aboutitem, $okbutton, $cancelbutton
-	Local $msg, $file
-	#forceref $separator1
+	Local $idFileMenu, $idFileItem, $idRecentFilesMenu, $idSeparator1
+	Local $idExitItem, $idHelpMenu, $idAboutItem, $idOkButton, $idCancelButton
+	Local $iMsg, $sFile
+	#forceref $idSeparator1
 
-GUICreate("GUI 菜单",300,200)
+	GUICreate("GUI 菜单",300,200)
 
-$filemenu = GUICtrlCreateMenu ("文件(&F)")
-$fileitem = GUICtrlCreateMenuItem ("打开(&O)...",$filemenu)
-$recentfilesmenu = GUICtrlCreateMenu ("历史文件(&R)",$filemenu)
-	$separator1 = GUICtrlCreateMenuItem("", $filemenu)
-$exititem = GUICtrlCreateMenuItem ("退出(&X)",$filemenu)
-$helpmenu = GUICtrlCreateMenu ("帮助(&H)")
-$aboutitem = GUICtrlCreateMenuItem ("关于(&A)",$helpmenu)
+	$idFileMenu = GUICtrlCreateMenu("文件(&F)")
+	$idFileItem = GUICtrlCreateMenuItem("打开(&O)...", $idFileMenu)
+	$idRecentFilesMenu = GUICtrlCreateMenu("历史文件(&R)", $idFileMenu)
+	$idSeparator1 = GUICtrlCreateMenuItem("", $idFileMenu)
+	$idExitItem = GUICtrlCreateMenuItem("退出(&X)", $idFileMenu)
+	$idHelpMenu = GUICtrlCreateMenu("帮助(&H)")
+	$idAboutItem = GUICtrlCreateMenuItem("关于(&A)", $idHelpMenu)
 
-$okbutton = GUICtrlCreateButton ("确定",50,130,70,20)
+	$idOkButton = GUICtrlCreateButton("确定", 50, 130, 70, 20)
 
-$cancelbutton = GUICtrlCreateButton ("取消",180,130,70,20)
+	$idCancelButton = GUICtrlCreateButton("取消", 180, 130, 70, 20)
 
 	GUISetState()
 
 	While 1
-		$msg = GUIGetMsg()
+		$iMsg = GUIGetMsg()
 
 		Select
-			Case $msg = $GUI_EVENT_CLOSE Or $msg = $cancelbutton
+			Case $iMsg = $GUI_EVENT_CLOSE Or $iMsg = $idCancelButton
 				ExitLoop
 
-			Case $msg = $fileitem
-			$file = FileOpenDialog("选择文件...",@TempDir,"所有文件(*.*)")
-				If @error <> 1 Then GUICtrlCreateMenuItem($file, $recentfilesmenu)
+			Case $iMsg = $idFileItem
+			$sFile = FileOpenDialog("选择文件...",@TempDir,"所有文件(*.*)")
+				If @error <> 1 Then GUICtrlCreateMenuItem($sFile, $idRecentFilesMenu)
 
-			Case $msg = $exititem
+			Case $iMsg = $idExitItem
 				ExitLoop
 
-			Case $msg = $okbutton
+			Case $iMsg = $idOkButton
 			MsgBox($MB_SYSTEMMODAL, "单击","您单击了[确定]按钮!")
 
-			Case $msg = $aboutitem
+			Case $iMsg = $idAboutItem
 			MsgBox($MB_SYSTEMMODAL,"关于","GUI 菜单测试")
 		EndSelect
 	WEnd

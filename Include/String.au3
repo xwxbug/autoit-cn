@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: String
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Functions that assist with String management.
 ; Author(s) .....: Jarvis Stubblefield, SmOke_N, Valik, Wes Wolfe-Wolvereness, WeaponX, Louis Horvath, JdeB, Jeremy Landes, Jon, jchd, BrewManNH, guinness
 ; ===============================================================================================================================
@@ -34,34 +34,31 @@ EndFunc   ;==>_HexToString
 ; Author ........: SmOke_N (Thanks to Valik for helping with the new StringRegExp (?s)(?i) issue)
 ; Modified.......: SmOke_N - (Re-write for speed and accuracy), jchd, Melba23 (added mode)
 ; ===============================================================================================================================
-Func _StringBetween($sString, $sStart, $sEnd, $iMode = $STR_ENDISSTART, $fCase = False)
+Func _StringBetween($sString, $sStart, $sEnd, $iMode = $STR_ENDISSTART, $bCase = False)
 	; Set mode
-    If $iMode <> $STR_ENDNOTSTART Then $iMode = $STR_ENDISSTART
+	If $iMode <> $STR_ENDNOTSTART Then $iMode = $STR_ENDISSTART
 
-    ; Set correct case sensitivity
-    If $fCase = Default Then
-        $fCase = False
-    EndIf
-    Local $sCase = "(?is)"
-    If $fCase Then
-        $sCase = "(?s)"
-    EndIf
+	; Set correct case sensitivity
+	If $bCase = Default Then
+		$bCase = False
+	EndIf
+	Local $sCase = $bCase ? "(?s)" : "(?is)"
 
-    ; If starting from beginning of string
-    $sStart = $sStart ? "\Q" & $sStart & "\E" : "\A"
+	; If starting from beginning of string
+	$sStart = $sStart ? "\Q" & $sStart & "\E" : "\A"
 
-    ; If ending at end of string
-    If $iMode = $STR_ENDISSTART Then
+	; If ending at end of string
+	If $iMode = $STR_ENDISSTART Then
 		; Use lookahead
 		$sEnd = $sEnd ? "(?=\Q" & $sEnd & "\E)" : "\z"
-    Else
+	Else
 		; Capture end string
 		$sEnd = $sEnd ? "\Q" & $sEnd & "\E" : "\z"
-    EndIf
+	EndIf
 
-    Local $aReturn = StringRegExp($sString, $sCase & $sStart & "(.*?)" & $sEnd, $STR_REGEXPARRAYGLOBALMATCH)
-    If @error Then Return SetError(1, 0, 0)
-    Return $aReturn
+	Local $aReturn = StringRegExp($sString, $sCase & $sStart & "(.*?)" & $sEnd, $STR_REGEXPARRAYGLOBALMATCH)
+	If @error Then Return SetError(1, 0, 0)
+	Return $aReturn
 EndFunc   ;==>_StringBetween
 
 ; #FUNCTION# ====================================================================================================================
@@ -123,17 +120,17 @@ EndFunc   ;==>_StringInsert
 ; Modified.......:
 ; ===============================================================================================================================
 Func _StringProper($sString)
-	Local $fCapNext = True, $sChr = "", $sReturn = ""
+	Local $bCapNext = True, $sChr = "", $sReturn = ""
 	For $i = 1 To StringLen($sString)
 		$sChr = StringMid($sString, $i, 1)
 		Select
-			Case $fCapNext = True
+			Case $bCapNext = True
 				If StringRegExp($sChr, '[a-zA-ZÀ-ÿšœžŸ]') Then
 					$sChr = StringUpper($sChr)
-					$fCapNext = False
+					$bCapNext = False
 				EndIf
 			Case Not StringRegExp($sChr, '[a-zA-ZÀ-ÿšœžŸ]')
-				$fCapNext = True
+				$bCapNext = True
 			Case Else
 				$sChr = StringLower($sChr)
 		EndSelect
@@ -165,17 +162,17 @@ EndFunc   ;==>_StringRepeat
 ; Modified ......:
 ; ===============================================================================================================================
 Func _StringTitleCase($sString)
-	Local $fCapNext = True, $sChr = "", $sReturn = ""
+	Local $bCapNext = True, $sChr = "", $sReturn = ""
 	For $i = 1 To StringLen($sString)
 		$sChr = StringMid($sString, $i, 1)
 		Select
-			Case $fCapNext = True
+			Case $bCapNext = True
 				If StringRegExp($sChr, "[a-zA-Z\xC0-\xFF0-9]") Then
 					$sChr = StringUpper($sChr)
-					$fCapNext = False
+					$bCapNext = False
 				EndIf
 			Case Not StringRegExp($sChr, "[a-zA-Z\xC0-\xFF'0-9]")
-				$fCapNext = True
+				$bCapNext = True
 			Case Else
 				$sChr = StringLower($sChr)
 		EndSelect

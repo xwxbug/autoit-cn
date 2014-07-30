@@ -6,11 +6,10 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Microsoft Word Function Library (MS Word 2003 and later)
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: A collection of functions for accessing and manipulating Microsoft Word documents
 ; Author(s) .....: Bob Anthony, rewritten by water
-; Dll(s) ........:
 ; Resources .....: Word 2003 Visual Basic Reference:	http://msdn.microsoft.com/en-us/library/aa272078(v=office.11).aspx
 ;                  Word 2007 Developer Reference:		http://msdn.microsoft.com/en-us/library/bb244391(v=office.12).aspx
 ;                  Word 2010 Developer Reference:		http://msdn.microsoft.com/en-us/library/ff841698.aspx
@@ -475,7 +474,7 @@ Func _Word_DocTableRead($oDoc, $vTable, $iIndexBase = Default, $sSeparator = Def
 		If @error Then Return SetError(2, @extended, "")
 	EndIf
 	; Temporarly replace tabs and paragraphs in the table
-	Local $asSeparators[2][2] = [[@TAB, "   "],[@CR, "|"]], $iTableRows, $iTableColumns
+	Local $asSeparators[2][2] = [[@TAB, "   "], [@CR, "|"]], $iTableRows, $iTableColumns
 	$vTable.Range.Find.ClearFormatting
 	If @error Then Return SetError(3, @extended, "")
 	$vTable.Range.Find.Execute($asSeparators[0][0], False, False, False, False, False, True, $WdFindStop, False, $asSeparators[0][1], $WdReplaceAll)

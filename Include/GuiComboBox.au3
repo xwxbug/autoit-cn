@@ -9,15 +9,14 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: ComboBox
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with ComboBox control management.
 ; Author(s) .....: gafrost, PaulIA, Valik
-; Dll(s) ........: User32.dll
 ; ===============================================================================================================================
 
 ; #VARIABLES# ===================================================================================================================
-Global $_ghCBLastWnd
+Global $__g_hCBLastWnd
 
 ; ===============================================================================================================================
 
@@ -128,21 +127,21 @@ Global Const $tagCOMBOBOXINFO = "dword Size;struct;long EditLeft;long EditTop;lo
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBox_AddDir($hWnd, $sFile, $iAttributes = 0, $fBrackets = True)
+Func _GUICtrlComboBox_AddDir($hWnd, $sFile, $iAttributes = 0, $bBrackets = True)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And Not $fBrackets Then
+	If BitAND($iAttributes, $DDL_DRIVES) = $DDL_DRIVES And Not $bBrackets Then
 		Local $sText
-		Local $gui_no_brackets = GUICreate("no brackets")
-		Local $combo_no_brackets = GUICtrlCreateCombo("", 240, 40, 120, 120)
-		Local $v_ret = GUICtrlSendMsg($combo_no_brackets, $CB_DIR, $iAttributes, $sFile)
-		For $i = 0 To _GUICtrlComboBox_GetCount($combo_no_brackets) - 1
-			_GUICtrlComboBox_GetLBText($combo_no_brackets, $i, $sText)
+		Local $hGui_no_brackets = GUICreate("no brackets")
+		Local $idCombo_no_brackets = GUICtrlCreateCombo("", 240, 40, 120, 120)
+		Local $iRet = GUICtrlSendMsg($idCombo_no_brackets, $CB_DIR, $iAttributes, $sFile)
+		For $i = 0 To _GUICtrlComboBox_GetCount($idCombo_no_brackets) - 1
+			_GUICtrlComboBox_GetLBText($idCombo_no_brackets, $i, $sText)
 			$sText = StringReplace(StringReplace(StringReplace($sText, "[", ""), "]", ":"), "-", "")
 			_GUICtrlComboBox_InsertString($hWnd, $sText)
 		Next
-		GUIDelete($gui_no_brackets)
-		Return $v_ret
+		GUIDelete($hGui_no_brackets)
+		Return $iRet
 	Else
 		Return _SendMessage($hWnd, $CB_DIR, $iAttributes, $sFile, 0, "wparam", "wstr")
 	EndIf
@@ -169,9 +168,9 @@ Func _GUICtrlComboBox_AutoComplete($hWnd)
 		Local $sEditText = _GUICtrlComboBox_GetEditText($hWnd)
 		If StringLen($sEditText) Then
 			Local $sInputText
-			Local $ret = _GUICtrlComboBox_FindString($hWnd, $sEditText)
-			If ($ret <> $CB_ERR) Then
-				_GUICtrlComboBox_GetLBText($hWnd, $ret, $sInputText)
+			Local $iRet = _GUICtrlComboBox_FindString($hWnd, $sEditText)
+			If ($iRet <> $CB_ERR) Then
+				_GUICtrlComboBox_GetLBText($hWnd, $iRet, $sInputText)
 				_GUICtrlComboBox_SetEditText($hWnd, $sInputText)
 				_GUICtrlComboBox_SetEditSel($hWnd, StringLen($sEditText), StringLen($sInputText))
 			EndIf
@@ -238,12 +237,12 @@ EndFunc   ;==>_GUICtrlComboBox_DeleteString
 Func _GUICtrlComboBox_Destroy(ByRef $hWnd)
 	If Not _WinAPI_IsClassName($hWnd, $__COMBOBOXCONSTANT_ClassName) Then Return SetError(2, 2, False)
 
-	Local $Destroyed = 0
+	Local $iDestroyed = 0
 	If IsHWnd($hWnd) Then
-		If _WinAPI_InProcess($hWnd, $_ghCBLastWnd) Then
+		If _WinAPI_InProcess($hWnd, $__g_hCBLastWnd) Then
 			Local $nCtrlID = _WinAPI_GetDlgCtrlID($hWnd)
 			Local $hParent = _WinAPI_GetParent($hWnd)
-			$Destroyed = _WinAPI_DestroyWindow($hWnd)
+			$iDestroyed = _WinAPI_DestroyWindow($hWnd)
 			Local $iRet = __UDF_FreeGlobalID($hParent, $nCtrlID)
 			If Not $iRet Then
 				; can check for errors here if needed, for debug
@@ -253,10 +252,10 @@ Func _GUICtrlComboBox_Destroy(ByRef $hWnd)
 			Return SetError(1, 1, False)
 		EndIf
 	Else
-		$Destroyed = GUICtrlDelete($hWnd)
+		$iDestroyed = GUICtrlDelete($hWnd)
 	EndIf
-	If $Destroyed Then $hWnd = 0
-	Return $Destroyed <> 0
+	If $iDestroyed Then $hWnd = 0
+	Return $iDestroyed <> 0
 EndFunc   ;==>_GUICtrlComboBox_Destroy
 
 ; #FUNCTION# ====================================================================================================================
@@ -365,7 +364,7 @@ Func _GUICtrlComboBox_GetDroppedControlRectEx($hWnd)
 EndFunc   ;==>_GUICtrlComboBox_GetDroppedControlRectEx
 
 ; #FUNCTION# ====================================================================================================================
-; Author ........: Gary Frost (gafro_GUICtrlComboBox_GetDroppedState
+; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
 Func _GUICtrlComboBox_GetDroppedState($hWnd)
@@ -698,10 +697,10 @@ EndFunc   ;==>_GUICtrlComboBox_SetEditText
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBox_SetExtendedUI($hWnd, $fExtended = False)
+Func _GUICtrlComboBox_SetExtendedUI($hWnd, $bExtended = False)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	Return _SendMessage($hWnd, $CB_SETEXTENDEDUI, $fExtended) = 0
+	Return _SendMessage($hWnd, $CB_SETEXTENDEDUI, $bExtended) = 0
 EndFunc   ;==>_GUICtrlComboBox_SetExtendedUI
 
 ; #FUNCTION# ====================================================================================================================
@@ -769,10 +768,10 @@ EndFunc   ;==>_GUICtrlComboBox_SetTopIndex
 ; Author ........: Gary Frost (gafrost)
 ; Modified.......:
 ; ===============================================================================================================================
-Func _GUICtrlComboBox_ShowDropDown($hWnd, $fShow = False)
+Func _GUICtrlComboBox_ShowDropDown($hWnd, $bShow = False)
 	If Not IsHWnd($hWnd) Then $hWnd = GUICtrlGetHandle($hWnd)
 
-	_SendMessage($hWnd, $CB_SHOWDROPDOWN, $fShow)
+	_SendMessage($hWnd, $CB_SHOWDROPDOWN, $bShow)
 EndFunc   ;==>_GUICtrlComboBox_ShowDropDown
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================

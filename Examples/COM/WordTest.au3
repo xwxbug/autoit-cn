@@ -1,14 +1,23 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
+; COM  test file
+;
 ; Word Automation Example
 ;
-; Based on AutoItCOM version 3.1.0
-;
-; Beta version 06-02-2005
 
-Local $objWord = ObjCreate("Word.Application")
+Example()
+Exit
 
-MsgBox($MB_SYSTEMMODAL, "WordTest", "Your Word Version is : " & $objWord.Version)
-MsgBox($MB_SYSTEMMODAL, "WordTest", "Build: " & $objWord.Build)
+Func Example()
 
-$objWord.Quit ; Get rid of Word
+	Local $oWord = ObjCreate("Word.Application")
+	If IsObj($oWord) Then
+		MsgBox($MB_SYSTEMMODAL, "WordTest", "Your Word Version is : " & $oWord.Version)
+		MsgBox($MB_SYSTEMMODAL, "WordTest", "Build: " & $oWord.Build)
+
+		$oWord.Quit ; Get rid of Word
+	Else
+		MsgBox($MB_SYSTEMMODAL, "WordTest", "Chceck if you have MS Word installed")
+	EndIf
+
+EndFunc   ;==>Example

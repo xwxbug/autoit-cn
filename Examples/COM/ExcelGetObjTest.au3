@@ -1,11 +1,8 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
+; COM Test file
+;
 ; Excel Automation Example
-;
-; Based on AutoIt version 3.1.0
-;
-;
-; Beta version 06-02-2005
 
 ; NOTE: This will open an existing instance of Excel
 

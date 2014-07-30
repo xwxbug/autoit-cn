@@ -1,14 +1,8 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoITCOM 3.1.1
-;
-; Test file
+; COM Test file
 ;
 ; Stops and starts the 'Windows Update' service
-;
-;
-; This requires Boolean support in AutoIt
-;
 ;
 ; http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/reference/objects/ishelldispatch2/ishelldispatch2.asp
 

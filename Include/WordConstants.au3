@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WordConstants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants to be included in an AutoIt script when using the Word UDF.
 ; Author(s) .....: water
@@ -58,7 +58,7 @@ Global Const $WdFindStop = 0 ; The find operation ends if the beginning or end o
 ; See: http://msdn.microsoft.com/en-us/library/bb237823%28v=office.12%29.aspx
 Global Const $WdNewBlankDocument = 0 ; Blank document
 Global Const $WdNewEmailMessage = 2 ; E-mail message
-Global Const $WdNewFrameset = 3 ; Framese
+Global Const $WdNewFrameset = 3 ; Frameset
 Global Const $WdNewWebPage = 1 ; Web page
 Global Const $WdNewXMLDocument = 4 ; XML document
 

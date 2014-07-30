@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Structures_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Constants for Windows API functions.
 ; Author(s) .....: Paul Campbell (PaulIA), Gary Frost, Jpm, UEZ
 ; ===============================================================================================================================
@@ -1575,6 +1575,21 @@ Global Const $tagNMTVDISPINFO = $tagNMHDR & ";" & $tagTVITEM
 ; Remarks .......:
 ; ===============================================================================================================================
 Global Const $tagNMTVGETINFOTIP = $tagNMHDR & ";ptr Text;int TextMax;handle hItem;lparam lParam"
+
+; #STRUCTURE# ===================================================================================================================
+; Name ..........: $tagNMTVITEMCHANGE
+; Description ...: Contains information on a treeview item change, sent with $TVN_ITEMCHANGED and $TVN_ITEMCHANGING notifications
+; Fields ........: $tagNMHDR - Contains information about a notification message
+;                  Changed   - Specifies the attribute. Changed must always have the following value:
+;                  |TVIF_STATE - The change is the state attribute.
+;                  hItem     - Handle to the changed tree-view item.
+;                  StateNew  - Flag that specifies the new item state.
+;                  StateOld  - Flag that specifies the item's previous state.
+;                  lParam    - Reserved for application specific data. For example, a value to associate with the item.
+; Author ........: Matt Diesel (Mat)
+; Remarks .......: This notification is only present on windows Vista and later.
+; ===============================================================================================================================
+Global Const $tagNMTVITEMCHANGE = $tagNMHDR & ";uint Changed;handle hItem;uint StateNew;uint StateOld;lparam lParam;"
 
 ; #STRUCTURE# ===================================================================================================================
 ; Name...........: $tagTVHITTESTINFO

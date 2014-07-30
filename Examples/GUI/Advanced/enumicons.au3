@@ -6,46 +6,46 @@
 ;
 ; ===============================================================================
 
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
 #include <ButtonConstants.au3>
+#include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
+#include <WindowsConstants.au3>
 
 ; Setting variables
-Global $ahIcons[30], $ahLabels[30]
-Global $iStartIndex = 1, $iCntRow, $iCntCol, $iCurIndex
-Global $sFilename = @SystemDir & "\shell32.dll"; Default file is "shell32.dll"
-Global $iOrdinal = -1
+Global $g_aidIcons[30], $g_aidLabels[30]
+Global $g_iStartIndex = 1
+Global $g_sFilename = @SystemDir & "\shell32.dll"; Default file is "shell32.dll"
+Global $g_iOrdinal = -1
 
-Global $hPrev
+Global $g_idPrev
 
 _Main()
 
 Func _Main()
-	Local $hGui, $hFile, $hFileSel, $hNext, $hToggle
 	Local $iMsg, $sCurFilename, $sTmpFile
 
 	; Creating GUI and controls
-	$hGui = GUICreate("Icon Selector by Ordinal value", 385, 435, @DesktopWidth / 2 - 192, _
+	Local $hGui = GUICreate("Icon Selector by Ordinal value", 385, 435, @DesktopWidth / 2 - 192, _
 			@DesktopHeight / 2 - 235, -1, $WS_EX_ACCEPTFILES)
 	GUICtrlCreateGroup("", 5, 1, 375, 40)
 	GUICtrlCreateGroup("", 5, 50, 375, 380)
-	$hFile = GUICtrlCreateInput($sFilename, 12, 15, 325, 16, -1, $WS_EX_STATICEDGE)
+	Local $idFile = GUICtrlCreateInput($g_sFilename, 12, 15, 325, 16, -1, $WS_EX_STATICEDGE)
 	GUICtrlSetState(-1, $GUI_DROPACCEPTED)
 	GUICtrlSetTip(-1, "You can drop files from shell here...")
-	$hFileSel = GUICtrlCreateButton("...", 345, 14, 26, 18)
-	$hPrev = GUICtrlCreateButton("Previous", 10, 45, 60, 24, $BS_FLAT)
+	Local $idFileSel = GUICtrlCreateButton("...", 345, 14, 26, 18)
+	$g_idPrev = GUICtrlCreateButton("Previous", 10, 45, 60, 24, $BS_FLAT)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-	$hNext = GUICtrlCreateButton("Next", 75, 45, 60, 24, $BS_FLAT)
-	$hToggle = GUICtrlCreateButton("by Name", 300, 45, 60, 24, $BS_FLAT)
+	Local $idNext = GUICtrlCreateButton("Next", 75, 45, 60, 24, $BS_FLAT)
+	Local $idToggle = GUICtrlCreateButton("by Name", 300, 45, 60, 24, $BS_FLAT)
 
 	; This code build two arrays of ID's of icons and labels for easily update
+	Local $iCurIndex
 	For $iCntRow = 0 To 4
 		For $iCntCol = 0 To 5
 			$iCurIndex = $iCntRow * 6 + $iCntCol
-			$ahIcons[$iCurIndex] = GUICtrlCreateIcon($sFilename, $iOrdinal * ($iCurIndex + 1), _
+			$g_aidIcons[$iCurIndex] = GUICtrlCreateIcon($g_sFilename, $g_iOrdinal * ($iCurIndex + 1), _
 					60 * $iCntCol + 25, 70 * $iCntRow + 80)
-			$ahLabels[$iCurIndex] = GUICtrlCreateLabel($iOrdinal * ($iCurIndex + 1), _
+			$g_aidLabels[$iCurIndex] = GUICtrlCreateLabel($g_iOrdinal * ($iCurIndex + 1), _
 					60 * $iCntCol + 11, 70 * $iCntRow + 115, 60, 20, $SS_CENTER)
 		Next
 	Next
@@ -55,32 +55,32 @@ Func _Main()
 	While 1
 		$iMsg = GUIGetMsg()
 		; Code below will check if the file is dropped (or selected)
-		$sCurFilename = GUICtrlRead($hFile)
-		If $sCurFilename <> $sFilename Then
-			$iStartIndex = 1
-			$sFilename = $sCurFilename
+		$sCurFilename = GUICtrlRead($idFile)
+		If $sCurFilename <> $g_sFilename Then
+			$g_iStartIndex = 1
+			$g_sFilename = $sCurFilename
 			_GUIUpdate()
 		EndIf
 		; Main "Select" statement that handles other events
 		Select
-			Case $iMsg = $hFileSel
+			Case $iMsg = $idFileSel
 				$sTmpFile = FileOpenDialog("Select file:", "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "Executables & dll's (*.exe;*.dll;*.ocx;*.icl)")
 				If @error Then ContinueLoop
-				GUICtrlSetData($hFile, $sTmpFile); GUI will be updated at next iteration
-			Case $iMsg = $hPrev
-				$iStartIndex = $iStartIndex - 30
+				GUICtrlSetData($idFile, $sTmpFile); GUI will be updated at next iteration
+			Case $iMsg = $g_idPrev
+				$g_iStartIndex = $g_iStartIndex - 30
 				_GUIUpdate()
-			Case $iMsg = $hNext
-				$iStartIndex = $iStartIndex + 30
+			Case $iMsg = $idNext
+				$g_iStartIndex = $g_iStartIndex + 30
 				_GUIUpdate()
-			Case $iMsg = $hToggle
-				If $iOrdinal = -1 Then
-					$iOrdinal = 1
-					GUICtrlSetData($hToggle, "by Ordinal")
+			Case $iMsg = $idToggle
+				If $g_iOrdinal = -1 Then
+					$g_iOrdinal = 1
+					GUICtrlSetData($idToggle, "by Ordinal")
 					WinSetTitle($hGui, "", "Icon Selector by Name value")
 				Else
-					$iOrdinal = -1
-					GUICtrlSetData($hToggle, "by Name")
+					$g_iOrdinal = -1
+					GUICtrlSetData($idToggle, "by Name")
 					WinSetTitle($hGui, "", "Icon Selector by Ordinal value")
 				EndIf
 				_GUIUpdate()
@@ -92,21 +92,22 @@ EndFunc   ;==>_Main
 
 ; Just updates GUI icons, labels and set state of "Previous" button
 Func _GUIUpdate()
+	Local $iCurIndex
 	For $iCntRow = 0 To 4
 		For $iCntCol = 0 To 5
 			$iCurIndex = $iCntRow * 6 + $iCntCol
-			GUICtrlSetImage($ahIcons[$iCurIndex], $sFilename, $iOrdinal * ($iCurIndex + $iStartIndex))
-			If $iOrdinal = -1 Then
-				GUICtrlSetData($ahLabels[$iCurIndex], -($iCurIndex + $iStartIndex))
+			GUICtrlSetImage($g_aidIcons[$iCurIndex], $g_sFilename, $g_iOrdinal * ($iCurIndex + $g_iStartIndex))
+			If $g_iOrdinal = -1 Then
+				GUICtrlSetData($g_aidLabels[$iCurIndex], -($iCurIndex + $g_iStartIndex))
 			Else
-				GUICtrlSetData($ahLabels[$iCurIndex], '"' & ($iCurIndex + $iStartIndex) & '"')
+				GUICtrlSetData($g_aidLabels[$iCurIndex], '"' & ($iCurIndex + $g_iStartIndex) & '"')
 			EndIf
 		Next
 	Next
 	; This is because we don't want negative values
-	If $iStartIndex = 1 Then
-		GUICtrlSetState($hPrev, $GUI_DISABLE)
+	If $g_iStartIndex = 1 Then
+		GUICtrlSetState($g_idPrev, $GUI_DISABLE)
 	Else
-		GUICtrlSetState($hPrev, $GUI_ENABLE)
+		GUICtrlSetState($g_idPrev, $GUI_ENABLE)
 	EndIf
 EndFunc   ;==>_GUIUpdate

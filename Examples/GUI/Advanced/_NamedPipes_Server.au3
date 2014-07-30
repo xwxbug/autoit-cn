@@ -1,7 +1,7 @@
+#include <GuiConstantsEx.au3>
 #include <NamedPipes.au3>
 #include <WinAPI.au3>
 #include <WindowsConstants.au3>
-#include <GuiConstantsEx.au3>
 
 ; ===============================================================================================================================
 ; Description ...: This is the server side of the pipe demo
@@ -25,7 +25,7 @@ Global Const $ERROR_PIPE_CONNECTED = 535
 ; Global variables
 ; ===============================================================================================================================
 
-Global $hEvent, $iMemo, $pOverlap, $tOverlap, $hPipe, $hReadPipe, $iState, $iToWrite
+Global $g_hEvent, $g_idMemo, $g_pOverlap, $g_tOverlap, $g_hPipe, $g_hReadPipe, $g_iState, $g_iToWrite
 
 ; ===============================================================================================================================
 ; Main
@@ -42,8 +42,8 @@ Func CreateGUI()
 	Local $hGUI
 
 	$hGUI = GUICreate("Pipe Server", 500, 400, -1, -1, $WS_SIZEBOX)
-	$iMemo = GUICtrlCreateEdit("", 0, 0, _WinAPI_GetClientWidth($hGUI), _WinAPI_GetClientHeight($hGUI))
-	GUICtrlSetFont($iMemo, 9, 400, 0, "Courier New")
+	$g_idMemo = GUICtrlCreateEdit("", 0, 0, _WinAPI_GetClientWidth($hGUI), _WinAPI_GetClientHeight($hGUI))
+	GUICtrlSetFont($g_idMemo, 9, 400, 0, "Courier New")
 	GUISetState()
 EndFunc   ;==>CreateGUI
 
@@ -52,17 +52,17 @@ EndFunc   ;==>CreateGUI
 ; ===============================================================================================================================
 Func InitPipe()
 	; Create an event object for the instance
-	$tOverlap = DllStructCreate($tagOVERLAPPED)
-	$pOverlap = DllStructGetPtr($tOverlap)
-	$hEvent = _WinAPI_CreateEvent()
-	If $hEvent = 0 Then
+	$g_tOverlap = DllStructCreate($tagOVERLAPPED)
+	$g_pOverlap = DllStructGetPtr($g_tOverlap)
+	$g_hEvent = _WinAPI_CreateEvent()
+	If $g_hEvent = 0 Then
 		LogError("InitPipe ..........: API_CreateEvent failed")
 		Return
 	EndIf
-	DllStructSetData($tOverlap, "hEvent", $hEvent)
+	DllStructSetData($g_tOverlap, "hEvent", $g_hEvent)
 
 	; Create a named pipe
-	$hPipe = _NamedPipes_CreateNamedPipe($PIPE_NAME, _ ; Pipe name
+	$g_hPipe = _NamedPipes_CreateNamedPipe($PIPE_NAME, _ ; Pipe name
 			2, _ ; The pipe is bi-directional
 			2, _ ; Overlapped mode is enabled
 			0, _ ; No security ACL flags
@@ -74,7 +74,7 @@ Func InitPipe()
 			$BUFSIZE, _ ; Input buffer size
 			$TIMEOUT, _ ; Client time out
 			0) ; Default security attributes
-	If $hPipe = -1 Then
+	If $g_hPipe = -1 Then
 		LogError("InitPipe ..........: _NamedPipes_CreateNamedPipe failed")
 	Else
 		; Connect pipe instance to client
@@ -89,7 +89,7 @@ Func MsgLoop()
 	Local $iEvent
 
 	Do
-		$iEvent = _WinAPI_WaitForSingleObject($hEvent, 0)
+		$iEvent = _WinAPI_WaitForSingleObject($g_hEvent, 0)
 		If $iEvent < 0 Then
 			LogError("MsgLoop ...........: _WinAPI_WaitForSingleObject failed")
 			Exit
@@ -97,7 +97,7 @@ Func MsgLoop()
 		If $iEvent = $WAIT_TIMEOUT Then ContinueLoop
 		Debug("MsgLoop ...........: Instance signaled")
 
-		Switch $iState
+		Switch $g_iState
 			Case 0
 				CheckConnect()
 			Case 1
@@ -117,12 +117,12 @@ Func CheckConnect()
 	Local $iBytes
 
 	; Was the operation successful?
-	If Not _WinAPI_GetOverlappedResult($hPipe, $pOverlap, $iBytes, False) Then
+	If Not _WinAPI_GetOverlappedResult($g_hPipe, $g_pOverlap, $iBytes, False) Then
 		LogError("CheckConnect ......: Connection failed")
 		ReconnectClient()
 	Else
 		LogMsg("CheckConnect ......: Connected")
-		$iState = 1
+		$g_iState = 1
 	EndIf
 EndFunc   ;==>CheckConnect
 
@@ -134,20 +134,20 @@ Func ReadRequest()
 
 	$tBuffer = DllStructCreate("char Text[" & $BUFSIZE & "]")
 	$pBuffer = DllStructGetPtr($tBuffer)
-	$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, $pOverlap)
+	$bSuccess = _WinAPI_ReadFile($g_hPipe, $pBuffer, $BUFSIZE, $iRead, $g_pOverlap)
 
 	If $bSuccess And ($iRead <> 0) Then
 		; The read operation completed successfully
 		Debug("ReadRequest .......: Read success")
 	Else
 		; Wait for read Buffer to complete
-		If Not _WinAPI_GetOverlappedResult($hPipe, $pOverlap, $iRead, True) Then
+		If Not _WinAPI_GetOverlappedResult($g_hPipe, $g_pOverlap, $iRead, True) Then
 			LogError("ReadRequest .......: _WinAPI_GetOverlappedResult failed")
 			ReconnectClient()
 			Return
 		Else
 			; Read the command from the pipe
-			$bSuccess = _WinAPI_ReadFile($hPipe, $pBuffer, $BUFSIZE, $iRead, $pOverlap)
+			$bSuccess = _WinAPI_ReadFile($g_hPipe, $pBuffer, $BUFSIZE, $iRead, $g_pOverlap)
 			If Not $bSuccess Or ($iRead = 0) Then
 				LogError("ReadRequest .......: _WinAPI_ReadFile failed")
 				ReconnectClient()
@@ -163,7 +163,7 @@ Func ReadRequest()
 	EndIf
 
 	; Relay console output back to the client
-	$iState = 3
+	$g_iState = 3
 EndFunc   ;==>ReadRequest
 
 ; ===============================================================================================================================
@@ -172,13 +172,13 @@ EndFunc   ;==>ReadRequest
 Func CheckPending()
 	Local $bSuccess, $iWritten
 
-	$bSuccess = _WinAPI_GetOverlappedResult($hPipe, $pOverlap, $iWritten, False)
-	If Not $bSuccess Or ($iWritten <> $iToWrite) Then
+	$bSuccess = _WinAPI_GetOverlappedResult($g_hPipe, $g_pOverlap, $iWritten, False)
+	If Not $bSuccess Or ($iWritten <> $g_iToWrite) Then
 		Debug("CheckPending ......: Write reconnecting")
 		ReconnectClient()
 	Else
 		Debug("CheckPending ......: Write complete")
-		$iState = 3
+		$g_iState = 3
 	EndIf
 EndFunc   ;==>CheckPending
 
@@ -191,11 +191,11 @@ Func RelayOutput()
 	$tBuffer = DllStructCreate("char Text[" & $BUFSIZE & "]")
 	$pBuffer = DllStructGetPtr($tBuffer)
 	; Read data from console pipe
-	_WinAPI_ReadFile($hReadPipe, $pBuffer, $BUFSIZE, $iRead)
+	_WinAPI_ReadFile($g_hReadPipe, $pBuffer, $BUFSIZE, $iRead)
 	If $iRead = 0 Then
 		LogMsg("RelayOutput .......: Write done")
-		_WinAPI_CloseHandle($hReadPipe)
-		_WinAPI_FlushFileBuffers($hPipe)
+		_WinAPI_CloseHandle($g_hReadPipe)
+		_WinAPI_FlushFileBuffers($g_hPipe)
 		ReconnectClient()
 		Return
 	EndIf
@@ -203,16 +203,16 @@ Func RelayOutput()
 	; Get the data and strip out the extra carriage returns
 	$sLine = StringLeft(DllStructGetData($tBuffer, "Text"), $iRead)
 	$sLine = StringReplace($sLine, @CR & @CR, @CR)
-	$iToWrite = StringLen($sLine)
+	$g_iToWrite = StringLen($sLine)
 	DllStructSetData($tBuffer, "Text", $sLine)
 	; Relay the data back to the client
-	$bSuccess = _WinAPI_WriteFile($hPipe, $pBuffer, $iToWrite, $iWritten, $pOverlap)
-	If $bSuccess And ($iWritten = $iToWrite) Then
+	$bSuccess = _WinAPI_WriteFile($g_hPipe, $pBuffer, $g_iToWrite, $iWritten, $g_pOverlap)
+	If $bSuccess And ($iWritten = $g_iToWrite) Then
 		Debug("RelayOutput .......: Write success")
 	Else
 		If Not $bSuccess And (_WinAPI_GetLastError() = $ERROR_IO_PENDING) Then
 			Debug("RelayOutput .......: Write pending")
-			$iState = 2
+			$g_iState = 2
 		Else
 			; An error occurred, disconnect from the client
 			LogError("RelayOutput .......: Write failed")
@@ -225,9 +225,9 @@ EndFunc   ;==>RelayOutput
 ; This function is called to start an overlapped connection operation
 ; ===============================================================================================================================
 Func ConnectClient()
-	$iState = 0
+	$g_iState = 0
 	; Start an overlapped connection
-	If _NamedPipes_ConnectNamedPipe($hPipe, $pOverlap) Then
+	If _NamedPipes_ConnectNamedPipe($g_hPipe, $g_pOverlap) Then
 		LogError("ConnectClient .....: ConnectNamedPipe 1 failed")
 	Else
 		Switch @error
@@ -237,8 +237,8 @@ Func ConnectClient()
 				; Client is already connected, so signal an event
 			Case $ERROR_PIPE_CONNECTED
 				LogMsg("ConnectClient .....: Connected")
-				$iState = 1
-				If Not _WinAPI_SetEvent(DllStructGetData($tOverlap, "hEvent")) Then
+				$g_iState = 1
+				If Not _WinAPI_SetEvent(DllStructGetData($g_tOverlap, "hEvent")) Then
 					LogError("ConnectClient .....: SetEvent failed")
 				EndIf
 				; Error occurred during the connection event
@@ -267,7 +267,7 @@ Func ExecuteCmd($sCmd)
 	DllStructSetData($tSecurity, "InheritHandle", True)
 
 	; Create a pipe for the child process's STDOUT
-	If Not _NamedPipes_CreatePipe($hReadPipe, $hWritePipe, $tSecurity) Then
+	If Not _NamedPipes_CreatePipe($g_hReadPipe, $hWritePipe, $tSecurity) Then
 		LogError("ExecuteCmd ........: _NamedPipes_CreatePipe failed")
 		Return False
 	EndIf
@@ -281,7 +281,7 @@ Func ExecuteCmd($sCmd)
 	DllStructSetData($tStartup, "StdError", $hWritePipe)
 	If Not _WinAPI_CreateProcess("", $sCmd, 0, 0, True, 0, 0, "", DllStructGetPtr($tStartup), DllStructGetPtr($tProcess)) Then
 		LogError("ExecuteCmd ........: _WinAPI_CreateProcess failed")
-		_WinAPI_CloseHandle($hReadPipe)
+		_WinAPI_CloseHandle($g_hReadPipe)
 		_WinAPI_CloseHandle($hWritePipe)
 		Return False
 	EndIf
@@ -307,7 +307,7 @@ EndFunc   ;==>LogError
 ; Logs a message to the display
 ; ===============================================================================================================================
 Func LogMsg($sMessage)
-	GUICtrlSetData($iMemo, $sMessage & @CRLF, 1)
+	GUICtrlSetData($g_idMemo, $sMessage & @CRLF, 1)
 EndFunc   ;==>LogMsg
 
 ; ===============================================================================================================================
@@ -315,7 +315,7 @@ EndFunc   ;==>LogMsg
 ; ===============================================================================================================================
 Func ReconnectClient()
 	; Disconnect the pipe instance
-	If Not _NamedPipes_DisconnectNamedPipe($hPipe) Then
+	If Not _NamedPipes_DisconnectNamedPipe($g_hPipe) Then
 		LogError("ReconnectClient ...: DisonnectNamedPipe failed")
 		Return
 	EndIf

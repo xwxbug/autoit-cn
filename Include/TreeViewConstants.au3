@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: TreeView_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: <a href="../appendix/GUIStyles.htm#TreeView">GUI control TreeView styles</a> and much more constants.
 ; Author(s) .....: Valik, Gary Frost, ...
@@ -186,6 +186,10 @@ Global Const $TVN_KEYDOWN = $TVN_FIRST - 12
 Global Const $TVN_GETINFOTIPA = $TVN_FIRST - 13
 Global Const $TVN_GETINFOTIPW = $TVN_FIRST - 14
 Global Const $TVN_SINGLEEXPAND = $TVN_FIRST - 15
+Global Const $TVN_ITEMCHANGINGA = $TVN_FIRST - 16
+Global Const $TVN_ITEMCHANGINGW = $TVN_FIRST - 17
+Global Const $TVN_ITEMCHANGEDA = $TVN_FIRST - 18
+Global Const $TVN_ITEMCHANGEDW = $TVN_FIRST - 19
 Global Const $TVN_SELCHANGINGW = $TVN_FIRST - 50
 Global Const $TVN_SELCHANGEDW = $TVN_FIRST - 51
 Global Const $TVN_GETDISPINFOW = $TVN_FIRST - 52

@@ -1,23 +1,20 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
+; COM Test file
+;
 ; Wscript.filesystem Example
-;
-; Based on AutoItCOM version 3.1.0
-;
-; Beta version 06-02-2005
-;
 
-Local $Folder = @TempDir ; Folder to test the size of
+Local $sFolder = @TempDir ; Folder to test the size of
 
-Local $objFSO = ObjCreate("Scripting.FileSystemObject")
+Local $oFSO = ObjCreate("Scripting.FileSystemObject")
 
 If @error Then
-	MsgBox($MB_SYSTEMMODAL, "Wscript.filesystem Test", "I'm sorry, but creation of object $objFSO failed. Error code: " & @error)
+	MsgBox($MB_SYSTEMMODAL, "Wscript.filesystem Test", "I'm sorry, but creation of object $oFSO failed. Error code: " & @error)
 	Exit
 EndIf
 
-Local $objFolder = $objFSO.GetFolder($Folder) ; Get object to the given folder
+Local $oFolder = $oFSO.GetFolder($sFolder) ; Get object to the given folder
 
-MsgBox($MB_SYSTEMMODAL, "Wscript.filesystem Test", "Your " & $Folder & " folder size is: " & Round($objFolder.Size / 1024) & " Kilobytes")
+MsgBox($MB_SYSTEMMODAL, "Wscript.filesystem Test", "Your " & $sFolder & " folder size is: " & Round($oFolder.Size / 1024) & " Kilobytes")
 
 Exit

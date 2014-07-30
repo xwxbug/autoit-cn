@@ -37,6 +37,6 @@ Func _GetLanguage()
 EndFunc   ;==>_GetLanguage
 
 Func LCIDToLocaleName($iLCID)
-	Local $aRet = DllCall("Kernel32.dll", "int", "LCIDToLocaleName", "int", $iLCID, "wstr", "", "int", 85, "dword", 0)
+	Local $aRet = DllCall("kernel32.dll", "int", "LCIDToLocaleName", "int", $iLCID, "wstr", "", "int", 85, "dword", 0)
 	Return $aRet[2]
 EndFunc   ;==>LCIDToLocaleName

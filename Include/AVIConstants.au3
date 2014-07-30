@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: AVI_Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants for <a href="../appendix/GUIStyles.htm#Avi">GUI control AVI styles</a>.
 ; Author(s) .....: Valik
@@ -20,7 +20,7 @@ Global Const $ACS_NONTRANSPARENT = 16
 Global Const $GUI_SS_DEFAULT_AVI = $ACS_TRANSPARENT
 
 ; Messages
-Global Const $__AVICONSTANT_WM_USER = 0X400
+Global Const $__AVICONSTANT_WM_USER = 0x400
 Global Const $ACM_OPENA = $__AVICONSTANT_WM_USER + 100
 Global Const $ACM_PLAY = $__AVICONSTANT_WM_USER + 101
 Global Const $ACM_STOP = $__AVICONSTANT_WM_USER + 102

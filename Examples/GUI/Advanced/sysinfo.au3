@@ -4,29 +4,29 @@
 _Main()
 
 Func _Main()
-	Local $VOL, $SERIAL, $TOTAL, $FREE
-	Local $Input_ComputerName, $Input_CurrentUserName, $Input_OperatingSystem
-	Local $Input_ServicePack, $Input_VolumeLabel, $Input_SerialNumber
-	Local $Input_TotalSpace, $Input_FreeSpace, $Input_IpAddress, $Input_StartupDirectory
-	Local $Input_WindowsDirectory, $Input_SystemFolderDirectory, $Input_DesktopDirectory
-	Local $Input_MyDocumentsDirectory, $Input_ProgramFilesDirectory, $Input_StartMenuDirectory
-	Local $Input_TemporaryFileDirectory, $Input_DesktopWidth, $Input_DesktopHeight
-	Local $Input_Date, $Input_Time, $msg
+	Local $sVOL, $sSERIAL, $sTOTAL, $sFREE
+	Local $idInput_ComputerName, $idInput_CurrentUserName, $idInput_OperatingSystem
+	Local $idInput_ServicePack, $idInput_VolumeLabel, $idInput_SerialNumber
+	Local $idInput_TotalSpace, $idInput_FreeSpace, $idInput_IpAddress, $idInput_StartupDirectory
+	Local $idInput_WindowsDirectory, $idInput_SystemFolderDirectory, $idInput_DesktopDirectory
+	Local $idInput_MyDocumentsDirectory, $idInput_ProgramFilesDirectory, $idInput_StartMenuDirectory
+	Local $idInput_TemporaryFileDirectory, $idInput_DesktopWidth, $idInput_DesktopHeight
+	Local $idInput_Date, $idInput_Time, $iMsg
 
-	#forceref $Input_ComputerName, $Input_CurrentUserName, $Input_OperatingSystem
-	#forceref $Input_ServicePack, $Input_VolumeLabel, $Input_SerialNumber
-	#forceref $Input_TotalSpace, $Input_FreeSpace, $Input_IpAddress, $Input_StartupDirectory
-	#forceref $Input_WindowsDirectory, $Input_SystemFolderDirectory, $Input_DesktopDirectory
-	#forceref $Input_MyDocumentsDirectory, $Input_ProgramFilesDirectory, $Input_StartMenuDirectory
-	#forceref $Input_TemporaryFileDirectory, $Input_DesktopWidth, $Input_DesktopHeight
-	#forceref $Input_Date, $Input_Time
+	#forceref $idInput_ComputerName, $idInput_CurrentUserName, $idInput_OperatingSystem
+	#forceref $idInput_ServicePack, $idInput_VolumeLabel, $idInput_SerialNumber
+	#forceref $idInput_TotalSpace, $idInput_FreeSpace, $idInput_IpAddress, $idInput_StartupDirectory
+	#forceref $idInput_WindowsDirectory, $idInput_SystemFolderDirectory, $idInput_DesktopDirectory
+	#forceref $idInput_MyDocumentsDirectory, $idInput_ProgramFilesDirectory, $idInput_StartMenuDirectory
+	#forceref $idInput_TemporaryFileDirectory, $idInput_DesktopWidth, $idInput_DesktopHeight
+	#forceref $idInput_Date, $idInput_Time
 
 	GUICreate("Computer Information - By : Para", 469, 639, (@DesktopWidth - 469) / 2, (@DesktopHeight - 639) / 2, $WS_OVERLAPPEDWINDOW + $WS_VISIBLE + $WS_CLIPSIBLINGS)
 
-	$VOL = DriveGetLabel("C:\")
-	$SERIAL = DriveGetSerial("C:\")
-	$TOTAL = DriveSpaceTotal("C:\")
-	$FREE = DriveSpaceFree("C:\")
+	$sVOL = DriveGetLabel("C:\")
+	$sSERIAL = DriveGetSerial("C:\")
+	$sTOTAL = DriveSpaceTotal("C:\")
+	$sFREE = DriveSpaceFree("C:\")
 
 	GUICtrlCreateLabel("Computer Name", 10, 10, 150, 20)
 	GUICtrlCreateLabel("Current User Name", 10, 40, 150, 20)
@@ -49,33 +49,33 @@ Func _Main()
 	GUICtrlCreateLabel("Desktop Height (Pixels)", 10, 550, 150, 20)
 	GUICtrlCreateLabel("Date", 10, 580, 150, 20)
 	GUICtrlCreateLabel("Time", 10, 610, 150, 20)
-	$Input_ComputerName = GUICtrlCreateInput("" & @ComputerName, 180, 10, 280, 20)
-	$Input_CurrentUserName = GUICtrlCreateInput("" & @UserName, 180, 40, 280, 20)
-	$Input_OperatingSystem = GUICtrlCreateInput("" & @OSType, 180, 70, 280, 20)
-	$Input_ServicePack = GUICtrlCreateInput("" & @OSServicePack, 180, 100, 280, 20)
-	$Input_VolumeLabel = GUICtrlCreateInput("" & $VOL, 180, 130, 280, 20)
-	$Input_SerialNumber = GUICtrlCreateInput("" & $SERIAL, 180, 160, 280, 20)
-	$Input_TotalSpace = GUICtrlCreateInput("" & $TOTAL, 180, 190, 280, 20)
-	$Input_FreeSpace = GUICtrlCreateInput("" & $FREE, 180, 220, 280, 20)
-	$Input_IpAddress = GUICtrlCreateInput("" & @IPAddress1, 180, 250, 280, 20)
-	$Input_StartupDirectory = GUICtrlCreateInput("" & @StartupDir, 180, 280, 280, 20)
-	$Input_WindowsDirectory = GUICtrlCreateInput("" & @WindowsDir, 180, 310, 280, 20)
-	$Input_SystemFolderDirectory = GUICtrlCreateInput("" & @SystemDir, 180, 340, 280, 20)
-	$Input_DesktopDirectory = GUICtrlCreateInput("" & @DesktopDir, 180, 370, 280, 20)
-	$Input_MyDocumentsDirectory = GUICtrlCreateInput("" & @MyDocumentsDir, 180, 400, 280, 20)
-	$Input_ProgramFilesDirectory = GUICtrlCreateInput("" & @ProgramFilesDir, 180, 430, 280, 20)
-	$Input_StartMenuDirectory = GUICtrlCreateInput("" & @StartMenuDir, 180, 460, 280, 20)
-	$Input_TemporaryFileDirectory = GUICtrlCreateInput("" & @TempDir, 180, 490, 280, 20)
-	$Input_DesktopWidth = GUICtrlCreateInput("" & @DesktopWidth, 180, 520, 280, 20)
-	$Input_DesktopHeight = GUICtrlCreateInput("" & @DesktopHeight, 180, 550, 280, 20)
-	$Input_Date = GUICtrlCreateInput("(MONTH)(DAY)(YEAR) " & @MON & "-" & @MDAY & "-" & @YEAR, 180, 580, 280, 20)
-	$Input_Time = GUICtrlCreateInput("(HOUR)(MIN)(SEC) " & @HOUR & ":" & @MIN & ":" & @SEC, 180, 610, 280, 20)
+	$idInput_ComputerName = GUICtrlCreateInput("" & @ComputerName, 180, 10, 280, 20)
+	$idInput_CurrentUserName = GUICtrlCreateInput("" & @UserName, 180, 40, 280, 20)
+	$idInput_OperatingSystem = GUICtrlCreateInput("" & @OSType, 180, 70, 280, 20)
+	$idInput_ServicePack = GUICtrlCreateInput("" & @OSServicePack, 180, 100, 280, 20)
+	$idInput_VolumeLabel = GUICtrlCreateInput("" & $sVOL, 180, 130, 280, 20)
+	$idInput_SerialNumber = GUICtrlCreateInput("" & $sSERIAL, 180, 160, 280, 20)
+	$idInput_TotalSpace = GUICtrlCreateInput("" & $sTOTAL, 180, 190, 280, 20)
+	$idInput_FreeSpace = GUICtrlCreateInput("" & $sFREE, 180, 220, 280, 20)
+	$idInput_IpAddress = GUICtrlCreateInput("" & @IPAddress1, 180, 250, 280, 20)
+	$idInput_StartupDirectory = GUICtrlCreateInput("" & @StartupDir, 180, 280, 280, 20)
+	$idInput_WindowsDirectory = GUICtrlCreateInput("" & @WindowsDir, 180, 310, 280, 20)
+	$idInput_SystemFolderDirectory = GUICtrlCreateInput("" & @SystemDir, 180, 340, 280, 20)
+	$idInput_DesktopDirectory = GUICtrlCreateInput("" & @DesktopDir, 180, 370, 280, 20)
+	$idInput_MyDocumentsDirectory = GUICtrlCreateInput("" & @MyDocumentsDir, 180, 400, 280, 20)
+	$idInput_ProgramFilesDirectory = GUICtrlCreateInput("" & @ProgramFilesDir, 180, 430, 280, 20)
+	$idInput_StartMenuDirectory = GUICtrlCreateInput("" & @StartMenuDir, 180, 460, 280, 20)
+	$idInput_TemporaryFileDirectory = GUICtrlCreateInput("" & @TempDir, 180, 490, 280, 20)
+	$idInput_DesktopWidth = GUICtrlCreateInput("" & @DesktopWidth, 180, 520, 280, 20)
+	$idInput_DesktopHeight = GUICtrlCreateInput("" & @DesktopHeight, 180, 550, 280, 20)
+	$idInput_Date = GUICtrlCreateInput("(MONTH)(DAY)(YEAR) " & @MON & "-" & @MDAY & "-" & @YEAR, 180, 580, 280, 20)
+	$idInput_Time = GUICtrlCreateInput("(HOUR)(MIN)(SEC) " & @HOUR & ":" & @MIN & ":" & @SEC, 180, 610, 280, 20)
 
 	GUISetState()
 	While 1
-		$msg = GUIGetMsg()
+		$iMsg = GUIGetMsg()
 		Select
-			Case $msg = $GUI_EVENT_CLOSE
+			Case $iMsg = $GUI_EVENT_CLOSE
 				ExitLoop
 			Case Else
 				;;;

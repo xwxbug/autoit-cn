@@ -9,14 +9,13 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Date
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with Date/Time management.
 ;                  There are five time formats: System, File, Local, MS-DOS and Windows.  Time related functions return  time  in
 ;                  one of these formats.  You can also use the time functions  to  convert  between  time  formats  for  ease  of
 ;                  comparison and display
 ; Author(s) .....: JdeB, jlandes, exodius, PaulIA, Tuape, SlimShady, GaryFrost, /dev/null, Marc
-; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -163,13 +162,13 @@ Func _DateAdd($sType, $iValToAdd, $sDate)
 		If $sType = "n" Then $iTimeVal = $iTimeVal + $iValToAdd * 60
 		If $sType = "s" Then $iTimeVal = $iTimeVal + $iValToAdd
 		; calculated days to add
-		Local $Day2Add = Int($iTimeVal / (24 * 60 * 60))
-		$iTimeVal = $iTimeVal - $Day2Add * 24 * 60 * 60
+		Local $iDay2Add = Int($iTimeVal / (24 * 60 * 60))
+		$iTimeVal = $iTimeVal - $iDay2Add * 24 * 60 * 60
 		If $iTimeVal < 0 Then
-			$Day2Add = $Day2Add - 1
+			$iDay2Add = $iDay2Add - 1
 			$iTimeVal = $iTimeVal + 24 * 60 * 60
 		EndIf
-		$iJulianDate = _DateToDayValue($asDatePart[1], $asDatePart[2], $asDatePart[3]) + $Day2Add
+		$iJulianDate = _DateToDayValue($asDatePart[1], $asDatePart[2], $asDatePart[3]) + $iDay2Add
 		; calculate the julian back to date
 		_DayValueToDate($iJulianDate, $asDatePart[1], $asDatePart[2], $asDatePart[3])
 		; caluculate the new time
@@ -209,7 +208,7 @@ Func _DateDayOfWeek($iDayNum, $iFormat = Default)
 	DllStructSetData($tSYSTEMTIME, "Year", BitAND($iFormat, $MONDAY_IS_NO1) ? 2007 : 2006) ; 2006 = Sunday 1st Jan or 2007 = Monday 1st Jan.
 	DllStructSetData($tSYSTEMTIME, "Month", 1)
 	DllStructSetData($tSYSTEMTIME, "Day", $iDayNum)
-	Return _WinAPI_GetDateFormat(BitAND($iFormat, $DOW_LOCALE_LONGNAME) ? $LOCALE_USER_DEFAULT : $LOCALE_INVARIANT, $tSYSTEMTIME, 0, BitAND($iFormat, $DOW_SHORTNAME) ? "ddd" : "dddd")
+	Return _WinAPI_GetDateFormat(BitAND($iFormat, $DMW_LOCALE_LONGNAME) ? $LOCALE_USER_DEFAULT : $LOCALE_INVARIANT, $tSYSTEMTIME, 0, BitAND($iFormat, $DMW_SHORTNAME) ? "ddd" : "dddd")
 EndFunc   ;==>_DateDayOfWeek
 
 ; #FUNCTION# ====================================================================================================================
@@ -342,8 +341,8 @@ Func _DateIsValid($sDate)
 
 	#cs
 		A regular expression to verify the date and time string.
-		$fIsDate = StringRegExp($sDate, '[^\d.\-/:]') = 0
-		$fIsDate = StringRegExp($sDate, '(?x)^\d{4}(?:[.\-/]\d{2}){2}   (?:     (?:T|\h)\d{2}:\d{2}     (?::\d{2})?     )?$') = 1
+		$bIsDate = StringRegExp($sDate, '[^\d.\-/:]') = 0
+		$bIsDate = StringRegExp($sDate, '(?x)^\d{4}(?:[.\-/]\d{2}){2}   (?:     (?:T|\h)\d{2}:\d{2}     (?::\d{2})?     )?$') = 1
 	#ce
 
 	_DateTimeSplit($sDate, $asDatePart, $asTimePart)
@@ -775,11 +774,11 @@ Func _DateToDayOfWeek($iYear, $iMonth, $iDay)
 	If Not _DateIsValid($iYear & "/" & $iMonth & "/" & $iDay) Then
 		Return SetError(1, 0, "")
 	EndIf
-	Local $i_aFactor = Int((14 - $iMonth) / 12)
-	Local $i_yFactor = $iYear - $i_aFactor
-	Local $i_mFactor = $iMonth + (12 * $i_aFactor) - 2
-	Local $i_dFactor = Mod($iDay + $i_yFactor + Int($i_yFactor / 4) - Int($i_yFactor / 100) + Int($i_yFactor / 400) + Int((31 * $i_mFactor) / 12), 7)
-	Return $i_dFactor + 1
+	Local $i_FactorA = Int((14 - $iMonth) / 12)
+	Local $i_FactorY = $iYear - $i_FactorA
+	Local $i_FactorM = $iMonth + (12 * $i_FactorA) - 2
+	Local $i_FactorD = Mod($iDay + $i_FactorY + Int($i_FactorY / 4) - Int($i_FactorY / 100) + Int($i_FactorY / 400) + Int((31 * $i_FactorM) / 12), 7)
+	Return $i_FactorD + 1
 EndFunc   ;==>_DateToDayOfWeek
 
 ; #FUNCTION# ====================================================================================================================
@@ -787,11 +786,11 @@ EndFunc   ;==>_DateToDayOfWeek
 ; Modified.......:
 ; ===============================================================================================================================
 Func _DateToDayOfWeekISO($iYear, $iMonth, $iDay)
-	Local $idow = _DateToDayOfWeek($iYear, $iMonth, $iDay)
+	Local $iDow = _DateToDayOfWeek($iYear, $iMonth, $iDay)
 	If @error Then
 		Return SetError(1, 0, "")
 	EndIf
-	If $idow >= 2 Then Return $idow - 1
+	If $iDow >= 2 Then Return $iDow - 1
 	Return 7
 EndFunc   ;==>_DateToDayOfWeekISO
 
@@ -808,12 +807,12 @@ Func _DateToDayValue($iYear, $iMonth, $iDay)
 		$iMonth = $iMonth + 12
 		$iYear = $iYear - 1
 	EndIf
-	Local $i_aFactor = Int($iYear / 100)
-	Local $i_bFactor = Int($i_aFactor / 4)
-	Local $i_cFactor = 2 - $i_aFactor + $i_bFactor
-	Local $i_eFactor = Int(1461 * ($iYear + 4716) / 4)
-	Local $i_fFactor = Int(153 * ($iMonth + 1) / 5)
-	Local $iJulianDate = $i_cFactor + $iDay + $i_eFactor + $i_fFactor - 1524.5
+	Local $i_FactorA = Int($iYear / 100)
+	Local $i_FactorB = Int($i_FactorA / 4)
+	Local $i_FactorC = 2 - $i_FactorA + $i_FactorB
+	Local $i_FactorE = Int(1461 * ($iYear + 4716) / 4)
+	Local $i_FactorF = Int(153 * ($iMonth + 1) / 5)
+	Local $iJulianDate = $i_FactorC + $iDay + $i_FactorE + $i_FactorF - 1524.5
 	Return $iJulianDate
 EndFunc   ;==>_DateToDayValue
 
@@ -829,7 +828,7 @@ Func _DateToMonth($iMonNum, $iFormat = Default)
 	DllStructSetData($tSYSTEMTIME, "Year", @YEAR)
 	DllStructSetData($tSYSTEMTIME, "Month", $iMonNum)
 	DllStructSetData($tSYSTEMTIME, "Day", 1)
-	Return _WinAPI_GetDateFormat(BitAND($iFormat, $DOW_LOCALE_LONGNAME) ? $LOCALE_USER_DEFAULT : $LOCALE_INVARIANT, $tSYSTEMTIME, 0, BitAND($iFormat, $DOW_SHORTNAME) ? "MMM" : "MMMM")
+	Return _WinAPI_GetDateFormat(BitAND($iFormat, $DMW_LOCALE_LONGNAME) ? $LOCALE_USER_DEFAULT : $LOCALE_INVARIANT, $tSYSTEMTIME, 0, BitAND($iFormat, $DMW_SHORTNAME) ? "MMM" : "MMMM")
 EndFunc   ;==>_DateToMonth
 
 ; #FUNCTION# ====================================================================================================================
@@ -842,26 +841,26 @@ Func _DayValueToDate($iJulianDate, ByRef $iYear, ByRef $iMonth, ByRef $iDay)
 		Return SetError(1, 0, 0)
 	EndIf
 	; calculte the date
-	Local $i_zFactor = Int($iJulianDate + 0.5)
-	Local $i_wFactor = Int(($i_zFactor - 1867216.25) / 36524.25)
-	Local $i_xFactor = Int($i_wFactor / 4)
-	Local $i_aFactor = $i_zFactor + 1 + $i_wFactor - $i_xFactor
-	Local $i_bFactor = $i_aFactor + 1524
-	Local $i_cFactor = Int(($i_bFactor - 122.1) / 365.25)
-	Local $i_dFactor = Int(365.25 * $i_cFactor)
-	Local $i_eFactor = Int(($i_bFactor - $i_dFactor) / 30.6001)
-	Local $i_fFactor = Int(30.6001 * $i_eFactor)
-	$iDay = $i_bFactor - $i_dFactor - $i_fFactor
+	Local $i_FactorZ = Int($iJulianDate + 0.5)
+	Local $i_FactorW = Int(($i_FactorZ - 1867216.25) / 36524.25)
+	Local $i_FactorX = Int($i_FactorW / 4)
+	Local $i_FactorA = $i_FactorZ + 1 + $i_FactorW - $i_FactorX
+	Local $i_FactorB = $i_FactorA + 1524
+	Local $i_FactorC = Int(($i_FactorB - 122.1) / 365.25)
+	Local $i_FactorD = Int(365.25 * $i_FactorC)
+	Local $i_FactorE = Int(($i_FactorB - $i_FactorD) / 30.6001)
+	Local $i_FactorF = Int(30.6001 * $i_FactorE)
+	$iDay = $i_FactorB - $i_FactorD - $i_FactorF
 	; (must get number less than or equal to 12)
-	If $i_eFactor - 1 < 13 Then
-		$iMonth = $i_eFactor - 1
+	If $i_FactorE - 1 < 13 Then
+		$iMonth = $i_FactorE - 1
 	Else
-		$iMonth = $i_eFactor - 13
+		$iMonth = $i_FactorE - 13
 	EndIf
 	If $iMonth < 3 Then
-		$iYear = $i_cFactor - 4715 ; (if Month is January or February)
+		$iYear = $i_FactorC - 4715 ; (if Month is January or February)
 	Else
-		$iYear = $i_cFactor - 4716 ;(otherwise)
+		$iYear = $i_FactorC - 4716 ;(otherwise)
 	EndIf
 	$iYear = StringFormat("%04d", $iYear)
 	$iMonth = StringFormat("%02d", $iMonth)
@@ -1104,13 +1103,13 @@ Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
 		Return SetError(3, 0, -1)
 	EndIf
 
-	Local $idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay) - 1;
+	Local $iDow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay) - 1;
 	Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1) - 1;
 
 	If ($iMonth = 1 And 3 < $iDow0101 And $iDow0101 < 7 - ($iDay - 1)) Then
 		;days before week 1 of the current year have the same week number as
 		;the last day of the last week of the previous year
-		$idow = $iDow0101 - 1;
+		$iDow = $iDow0101 - 1;
 		$iDow0101 = _DateToDayOfWeekISO($iYear - 1, 1, 1) - 1;
 		$iMonth = 12
 		$iDay = 31
@@ -1121,7 +1120,7 @@ Func _WeekNumberISO($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY)
 		Return 1;
 	EndIf
 
-	Return Int((_DateToDayOfWeekISO($iYear, 1, 1) - 1 < 4) + 4 * ($iMonth - 1) + (2 * ($iMonth - 1) + ($iDay - 1) + $iDow0101 - $idow + 6) * 36 / 256)
+	Return Int((_DateToDayOfWeekISO($iYear, 1, 1) - 1 < 4) + 4 * ($iMonth - 1) + (2 * ($iMonth - 1) + ($iDay - 1) + $iDow0101 - $iDow + 6) * 36 / 256)
 EndFunc   ;==>_WeekNumberISO
 
 ; #NO_DOC_FUNCTION# =============================================================================================================
@@ -1156,7 +1155,7 @@ Func _WeekNumber($iYear = @YEAR, $iMonth = @MON, $iDay = @MDAY, $iWeekStart = 1)
 	EndIf
 	;
 	Local $iStartWeek1, $iEndWeek1
-	;$idow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
+	;$iDow = _DateToDayOfWeekISO($iYear, $iMonth, $iDay);
 	Local $iDow0101 = _DateToDayOfWeekISO($iYear, 1, 1);
 	Local $iDate = $iYear & '/' & $iMonth & '/' & $iDay
 	;Calculate the Start and End date of Week 1 this year
@@ -1437,7 +1436,7 @@ Func _Date_Time_GetFileTime($hFile)
 	$aDate[0] = DllStructCreate($tagFILETIME)
 	$aDate[1] = DllStructCreate($tagFILETIME)
 	$aDate[2] = DllStructCreate($tagFILETIME)
-	Local $aResult = DllCall("Kernel32.dll", "bool", "GetFileTime", "handle", $hFile, "struct*", $aDate[0], "struct*", $aDate[1], "struct*", $aDate[2])
+	Local $aResult = DllCall("kernel32.dll", "bool", "GetFileTime", "handle", $hFile, "struct*", $aDate[0], "struct*", $aDate[1], "struct*", $aDate[2])
 	If @error Then Return SetError(@error, @extended, 0)
 	Return SetExtended($aResult[0], $aDate)
 EndFunc   ;==>_Date_Time_GetFileTime
@@ -1588,22 +1587,22 @@ EndFunc   ;==>_Date_Time_SetSystemTime
 ; Author ........: Paul Campbell (PaulIA)
 ; Modified.......: Gary Frost (gafrost)
 ; ===============================================================================================================================
-Func _Date_Time_SetSystemTimeAdjustment($iAdjustment, $fDisabled)
+Func _Date_Time_SetSystemTimeAdjustment($iAdjustment, $bDisabled)
 	; Enable system time privileged mode
 	Local $hToken = _Security__OpenThreadTokenEx(BitOR($TOKEN_ADJUST_PRIVILEGES, $TOKEN_QUERY))
 	If @error Then Return SetError(@error + 10, @extended, False)
 	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", True)
 	Local $iError = @error
 	Local $iLastError = @extended
-	Local $iRet = False
+	Local $bRet = False
 	If Not @error Then
 		; Set system time
-		Local $aResult = DllCall("kernel32.dll", "bool", "SetSystemTimeAdjustment", "dword", $iAdjustment, "bool", $fDisabled)
+		Local $aResult = DllCall("kernel32.dll", "bool", "SetSystemTimeAdjustment", "dword", $iAdjustment, "bool", $bDisabled)
 		If @error Then
 			$iError = @error
 			$iLastError = @extended
 		ElseIf $aResult[0] Then
-			$iRet = True
+			$bRet = True
 		Else
 			$iError = 20
 			$iLastError = _WinAPI_GetLastError()
@@ -1616,7 +1615,7 @@ Func _Date_Time_SetSystemTimeAdjustment($iAdjustment, $fDisabled)
 	EndIf
 	_WinAPI_CloseHandle($hToken)
 
-	Return SetError($iError, $iLastError, $iRet)
+	Return SetError($iError, $iLastError, $bRet)
 EndFunc   ;==>_Date_Time_SetSystemTimeAdjustment
 
 ; #FUNCTION# ====================================================================================================================
@@ -1641,7 +1640,7 @@ Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, 
 	_Security__SetPrivilege($hToken, "SeSystemtimePrivilege", True)
 	Local $iError = @error
 	Local $iLastError = @extended
-	Local $iRet = False
+	Local $bRet = False
 	If Not @error Then
 		; Set time zone information
 		Local $aResult = DllCall("kernel32.dll", "bool", "SetTimeZoneInformation", "struct*", $tZoneInfo)
@@ -1650,7 +1649,7 @@ Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, 
 			$iLastError = @extended
 		ElseIf $aResult[0] Then
 			$iLastError = 0
-			$iRet = True
+			$bRet = True
 		Else
 			$iError = 20
 			$iLastError = _WinAPI_GetLastError()
@@ -1662,7 +1661,7 @@ Func _Date_Time_SetTimeZoneInformation($iBias, $sStdName, $tStdDate, $iStdBias, 
 	EndIf
 	_WinAPI_CloseHandle($hToken)
 
-	Return SetError($iError, $iLastError, $iRet)
+	Return SetError($iError, $iLastError, $bRet)
 EndFunc   ;==>_Date_Time_SetTimeZoneInformation
 
 ; #FUNCTION# ====================================================================================================================

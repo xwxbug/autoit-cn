@@ -1,27 +1,37 @@
-#include <Constants.au3>
+#include <MsgBoxConstants.au3>
 
-; AutoItCOM 3.1.0
+; COM Test File
 ;
-; Test File
-;
-; Returns processor information
+; Shows processor information
 
-Local $MyCompName = @ComputerName
+Example()
 
-Local $oWMIservice = ObjGet("winmgmts:\\" & $MyCompName & "\root\cimv2")
+Func Example()
+	Local $sMyCompName = @ComputerName
 
-If @error Then
-	MsgBox($MB_SYSTEMMODAL, "", "error getting object. Error code: " & @error)
-EndIf
+	Local $oWMIservice = ObjGet("winmgmts:\\" & $sMyCompName & "\root\cimv2")
 
-Local $ColProcessors = $oWMIservice.ExecQuery("Select * from Win32_Processor")
+	If @error Then
+		MsgBox($MB_SYSTEMMODAL, "", "error getting object. Error code: " & @error)
+		Return -1
+	EndIf
 
-Local $Counter = 1
+	Local $oColProcessors = $oWMIservice.ExecQuery("Select * from Win32_Processor")
 
-For $Processor In $ColProcessors
+	If IsObj($oColProcessors) Then
+		Local $iCounter = 1
 
-	MsgBox($MB_SYSTEMMODAL, "WMI Test", "Processor " & $Counter & @CRLF & "Id: " & $Processor.processorid & @CRLF & _
-			"Maximum Clock Speed: " & $Processor.MaxClockSpeed)
-	$Counter = $Counter + 1
+		For $oProcessor In $oColProcessors
+			MsgBox($MB_SYSTEMMODAL, "WMI Test", "Processor " & $iCounter & @CRLF & "Id: " & $oProcessor.processorid & @CRLF & _
+					"Maximum Clock Speed: " & $oProcessor.MaxClockSpeed)
+			$iCounter += 1
+		Next
 
-Next
+		; CleanUp
+		$oColProcessors = ''
+	EndIf
+
+	; CleanUp
+	$oWMIservice = ''
+
+EndFunc   ;==>Example

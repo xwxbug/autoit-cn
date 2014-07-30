@@ -6,17 +6,15 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: WinAPI Extended UDF Library for AutoIt3
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Description ...: Additional variables, constants and functions for the WinAPIDlg.au3
 ; Author(s) .....: Yashied, jpm
-; Dll(s) ........: shell32.dll, comdlg32.dll, credui.dll, shlwapi.dll, user32.dll, kernel32.dll
-; Requirements ..: AutoIt v3.3 +, Developed/Tested on Windows XP Pro Service Pack 2 and Windows Vista/7
 ; ===============================================================================================================================
 
 #Region Global Variables and Constants
 
 ; #VARIABLES# ===================================================================================================================
-Global $__pFRBuffer = 0, $__iFRBufferSize = 16385
+Global $__g_pFRBuffer = 0, $__g_iFRBufferSize = 16385
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -68,21 +66,21 @@ Global Const $tagPRINTPAGERANGE = 'dword FromPage;dword ToPage'
 Func _WinAPI_BrowseForFolderDlg($sRoot = '', $sText = '', $iFlags = 0, $pBrowseProc = 0, $lParam = 0, $hParent = 0)
 	Local Const $tagBROWSEINFO = 'hwnd hwndOwner;ptr pidlRoot;ptr pszDisplayName; ptr lpszTitle;uint ulFlags;ptr lpfn;lparam lParam;int iImage'
 	Local $tBROWSEINFO = DllStructCreate($tagBROWSEINFO & ';wchar[' & (StringLen($sText) + 1) & '];wchar[260]')
-	Local $PIDL = 0, $Result = ''
+	Local $pPIDL = 0, $sResult = ''
 
 	If StringStripWS($sRoot, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
-		Local $Path = _WinAPI_PathSearchAndQualify($sRoot, 1)
+		Local $sPath = _WinAPI_PathSearchAndQualify($sRoot, 1)
 		If @error Then
-			$Path = $sRoot
+			$sPath = $sRoot
 		EndIf
-		$PIDL = _WinAPI_ShellILCreateFromPath($Path)
+		$pPIDL = _WinAPI_ShellILCreateFromPath($sPath)
 		If @error Then
 			; Nothing
 		EndIf
 	EndIf
 
 	DllStructSetData($tBROWSEINFO, 1, $hParent)
-	DllStructSetData($tBROWSEINFO, 2, $PIDL)
+	DllStructSetData($tBROWSEINFO, 2, $pPIDL)
 	DllStructSetData($tBROWSEINFO, 3, DllStructGetPtr($tBROWSEINFO, 10))
 	DllStructSetData($tBROWSEINFO, 4, DllStructGetPtr($tBROWSEINFO, 9))
 	DllStructSetData($tBROWSEINFO, 5, $iFlags)
@@ -91,18 +89,18 @@ Func _WinAPI_BrowseForFolderDlg($sRoot = '', $sText = '', $iFlags = 0, $pBrowseP
 	DllStructSetData($tBROWSEINFO, 8, 0)
 	DllStructSetData($tBROWSEINFO, 9, $sText)
 
-	Local $Ret = DllCall('shell32.dll', 'ptr', 'SHBrowseForFolderW', 'struct*', $tBROWSEINFO)
-	If @error Or Not $Ret[0] Then Return SetError(@error, @extended, '')
-	; If Not $Ret[0] Then Return SetError(1000, 0, '')
+	Local $aRet = DllCall('shell32.dll', 'ptr', 'SHBrowseForFolderW', 'struct*', $tBROWSEINFO)
+	If @error Or Not $aRet[0] Then Return SetError(@error, @extended, '')
+	; If Not $aRet[0] Then Return SetError(1000, 0, '')
 
-	$Result = _WinAPI_ShellGetPathFromIDList($Ret[0])
-	_WinAPI_CoTaskMemFree($Ret[0])
-	If $PIDL Then
-		_WinAPI_CoTaskMemFree($PIDL)
+	$sResult = _WinAPI_ShellGetPathFromIDList($aRet[0])
+	_WinAPI_CoTaskMemFree($aRet[0])
+	If $pPIDL Then
+		_WinAPI_CoTaskMemFree($pPIDL)
 	EndIf
-	If Not $Result Then Return SetError(10, 0, '')
+	If Not $sResult Then Return SetError(10, 0, '')
 
-	Return $Result
+	Return $sResult
 EndFunc   ;==>_WinAPI_BrowseForFolderDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -110,22 +108,22 @@ EndFunc   ;==>_WinAPI_BrowseForFolderDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_CommDlgExtendedErrorEx()
-	Local $Ret = DllCall('comdlg32.dll', 'dword', 'CommDlgExtendedError')
+	Local $aRet = DllCall('comdlg32.dll', 'dword', 'CommDlgExtendedError')
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_CommDlgExtendedErrorEx
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_ConfirmCredentials($sTarget, $fConfirm)
+Func _WinAPI_ConfirmCredentials($sTarget, $bConfirm)
 	If Not __DLL('credui.dll') Then Return SetError(103, 0, 0)
 
-	Local $Ret = DllCall('credui.dll', 'dword', 'CredUIConfirmCredentialsW', 'wstr', $sTarget, 'bool', $fConfirm)
+	Local $aRet = DllCall('credui.dll', 'dword', 'CredUIConfirmCredentialsW', 'wstr', $sTarget, 'bool', $bConfirm)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_ConfirmCredentials
@@ -135,35 +133,35 @@ EndFunc   ;==>_WinAPI_ConfirmCredentials
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_FindTextDlg($hOwner, $sFindWhat = '', $iFlags = 0, $pFindProc = 0, $lParam = 0)
-	$__pFRBuffer = __HeapReAlloc($__pFRBuffer, 2 * $__iFRBufferSize)
+	$__g_pFRBuffer = __HeapReAlloc($__g_pFRBuffer, 2 * $__g_iFRBufferSize)
 	If @error Then Return SetError(@error + 20, @extended, 0)
 
-	DllStructSetData(DllStructCreate('wchar[' & $__iFRBufferSize & ']', $__pFRBuffer), 1, StringLeft($sFindWhat, $__iFRBufferSize - 1))
+	DllStructSetData(DllStructCreate('wchar[' & $__g_iFRBufferSize & ']', $__g_pFRBuffer), 1, StringLeft($sFindWhat, $__g_iFRBufferSize - 1))
 	Local $tFR = DllStructCreate($tagFINDREPLACE)
 	DllStructSetData($tFR, 'Size', DllStructGetSize($tFR))
 	DllStructSetData($tFR, 'hOwner', $hOwner)
 	DllStructSetData($tFR, 'hInstance', 0)
 	DllStructSetData($tFR, 'Flags', $iFlags)
-	DllStructSetData($tFR, 'FindWhat', $__pFRBuffer)
+	DllStructSetData($tFR, 'FindWhat', $__g_pFRBuffer)
 	DllStructSetData($tFR, 'ReplaceWith', 0)
-	DllStructSetData($tFR, 'FindWhatLen', $__iFRBufferSize * 2)
+	DllStructSetData($tFR, 'FindWhatLen', $__g_iFRBufferSize * 2)
 	DllStructSetData($tFR, 'ReplaceWithLen', 0)
 	DllStructSetData($tFR, 'lParam', $lParam)
 	DllStructSetData($tFR, 'Hook', $pFindProc)
 	DllStructSetData($tFR, 'TemplateName', 0)
 
-	Local $Ret = DllCall('comdlg32.dll', 'hwnd', 'FindTextW', 'struct*', $tFR)
-	If @error Or Not $Ret[0] Then
-		Local $Error = @error + 30
-		__HeapFree($__pFRBuffer)
-		If IsArray($Ret) Then
+	Local $aRet = DllCall('comdlg32.dll', 'hwnd', 'FindTextW', 'struct*', $tFR)
+	If @error Or Not $aRet[0] Then
+		Local $iError = @error + 30
+		__HeapFree($__g_pFRBuffer)
+		If IsArray($aRet) Then
 			Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
 		Else
-			Return SetError($Error, @extended, 0)
+			Return SetError($iError, @extended, 0)
 		EndIf
 	EndIf
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_FindTextDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -171,7 +169,7 @@ EndFunc   ;==>_WinAPI_FindTextDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_FlushFRBuffer()
-	If Not __HeapFree($__pFRBuffer, 1) Then Return SetError(@error, @extended, 0)
+	If Not __HeapFree($__g_pFRBuffer, 1) Then Return SetError(@error, @extended, 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_FlushFRBuffer
@@ -189,12 +187,12 @@ Func _WinAPI_FormatDriveDlg($sDrive, $iOption = 0, $hParent = 0)
 	$sDrive = Asc($sDrive) - 65
 	If ($sDrive < 0) Or ($sDrive > 25) Then Return SetError(12, 0, 0)
 
-	Local $Ret = DllCall('shell32.dll', 'dword', 'SHFormatDrive', 'hwnd', $hParent, 'uint', $sDrive, 'uint', 0xFFFF, _
+	Local $aRet = DllCall('shell32.dll', 'dword', 'SHFormatDrive', 'hwnd', $hParent, 'uint', $sDrive, 'uint', 0xFFFF, _
 			'uint', $iOption)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] < 0 Then Return SetError($Ret[0], 0, 0)
+	If $aRet[0] < 0 Then Return SetError($aRet[0], 0, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_FormatDriveDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -215,24 +213,24 @@ Func _WinAPI_GetConnectedDlg($iDlg, $iFlags = 0, $hParent = 0)
 			Return SetError(1, 0, 0)
 	EndSwitch
 
-	Local $Str = ''
+	Local $sStr = ''
 
 	If BitAND($iFlags, 1) Then
-		$Str &= '-SkipInternetDetection '
+		$sStr &= '-SkipInternetDetection '
 	EndIf
 	If BitAND($iFlags, 2) Then
-		$Str &= '-SkipExistingConnections '
+		$sStr &= '-SkipExistingConnections '
 	EndIf
 	If BitAND($iFlags, 4) Then
-		$Str &= '-HideFinishPage '
+		$sStr &= '-HideFinishPage '
 	EndIf
 
-	Local $Ret = DllCall('connect.dll', 'long', $iDlg, 'hwnd', $hParent, 'dword', 0, 'dword', 0, 'dword', 0, 'handle', 0, _
-			'wstr', StringStripWS($Str, $STR_STRIPTRAILING))
+	Local $aRet = DllCall('connect.dll', 'long', $iDlg, 'hwnd', $hParent, 'dword', 0, 'dword', 0, 'dword', 0, 'handle', 0, _
+			'wstr', StringStripWS($sStr, $STR_STRIPTRAILING))
 	If @error Then Return SetError(@error, @extended, 0)
-	If Not ($Ret[0] = 0 Or $Ret[0] = 1) Then Return SetError(10, $Ret[0], 0) ; not S_OK nor S_FALSE
+	If Not ($aRet[0] = 0 Or $aRet[0] = 1) Then Return SetError(10, $aRet[0], 0) ; not S_OK nor S_FALSE
 
-	Return Number(Not $Ret[0])
+	Return Number(Not $aRet[0])
 EndFunc   ;==>_WinAPI_GetConnectedDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -240,7 +238,7 @@ EndFunc   ;==>_WinAPI_GetConnectedDlg
 ; Modified.......:
 ; ===============================================================================================================================
 Func _WinAPI_GetFRBuffer()
-	Return $__iFRBufferSize - 1
+	Return $__g_iFRBufferSize - 1
 EndFunc   ;==>_WinAPI_GetFRBuffer
 
 ; #FUNCTION# ====================================================================================================================
@@ -248,11 +246,11 @@ EndFunc   ;==>_WinAPI_GetFRBuffer
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_MessageBoxCheck($iType, $sTitle, $sText, $sRegVal, $iDefault = -1, $hParent = 0)
-	Local $Ret = DllCall('shlwapi.dll', 'int', 'SHMessageBoxCheckW', 'hwnd', $hParent, 'wstr', $sText, 'wstr', $sTitle, _
+	Local $aRet = DllCall('shlwapi.dll', 'int', 'SHMessageBoxCheckW', 'hwnd', $hParent, 'wstr', $sText, 'wstr', $sTitle, _
 			'uint', $iType, 'int', $iDefault, 'wstr', $sRegVal)
 	If @error Then Return SetError(@error, @extended, -1)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_MessageBoxCheck
 
 ; #FUNCTION# ====================================================================================================================
@@ -260,11 +258,11 @@ EndFunc   ;==>_WinAPI_MessageBoxCheck
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_MessageBoxIndirect($tMSGBOXPARAMS)
-	Local $Ret = DllCall('user32.dll', 'int', 'MessageBoxIndirectW', 'struct*', $tMSGBOXPARAMS)
+	Local $aRet = DllCall('user32.dll', 'int', 'MessageBoxIndirectW', 'struct*', $tMSGBOXPARAMS)
 	If @error Then Return SetError(@error, @extended, 0)
-	; If Not $Ret[0] Then Return SetError(1000, 0, 0)
+	; If Not $aRet[0] Then Return SetError(1000, 0, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_MessageBoxIndirect
 
 ; #FUNCTION# ====================================================================================================================
@@ -272,10 +270,10 @@ EndFunc   ;==>_WinAPI_MessageBoxIndirect
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_OpenFileDlg($sTitle = '', $sInitDir = '', $sFilters = '', $iDefFilter = 0, $sDefFile = '', $sDefExt = '', $iFlags = 0, $iFlagsEx = 0, $pOFNProc = 0, $pData = 0, $hParent = 0)
-	Local $Result = __OFNDlg(0, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDefExt, $iFlags, $iFlagsEx, $pOFNProc, $pData, $hParent)
+	Local $sResult = __OFNDlg(0, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDefExt, $iFlags, $iFlagsEx, $pOFNProc, $pData, $hParent)
 	If @error Then Return SetError(@error, @extended, '')
 
-	Return $Result
+	Return $sResult
 EndFunc   ;==>_WinAPI_OpenFileDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -283,11 +281,11 @@ EndFunc   ;==>_WinAPI_OpenFileDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_PageSetupDlg(ByRef $tPAGESETUPDLG)
-	Local $Ret = DllCall('comdlg32.dll', 'int', 'PageSetupDlgW', 'struct*', $tPAGESETUPDLG)
+	Local $aRet = DllCall('comdlg32.dll', 'int', 'PageSetupDlgW', 'struct*', $tPAGESETUPDLG)
 	If @error Then Return SetError(@error, @extended, 0)
-	If Not $Ret[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
+	If Not $aRet[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_PageSetupDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -295,17 +293,17 @@ EndFunc   ;==>_WinAPI_PageSetupDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_PickIconDlg($sIcon = '', $iIndex = 0, $hParent = 0)
-	Local $Ret = DllCall('shell32.dll', 'int', 'PickIconDlg', 'hwnd', $hParent, 'wstr', $sIcon, 'int', 4096, 'int*', $iIndex)
-	If @error Or Not $Ret[0] Then Return SetError(@error + 10, @extended, 0)
-	; If Not $Ret[0] Then Return SetError(1000, 0, 0)
+	Local $aRet = DllCall('shell32.dll', 'int', 'PickIconDlg', 'hwnd', $hParent, 'wstr', $sIcon, 'int', 4096, 'int*', $iIndex)
+	If @error Or Not $aRet[0] Then Return SetError(@error + 10, @extended, 0)
+	; If Not $aRet[0] Then Return SetError(1000, 0, 0)
 
-	Local $Result[2]
-	; $Result[0] = _WinAPI_ExpandEnvironmentStrings($Ret[2])
-	Local $aResult = DllCall("kernel32.dll", "dword", "ExpandEnvironmentStringsW", "wstr", $Ret[2], "wstr", "", "dword", 4096)
-	$Result[0] = $aResult[2]
+	Local $aResult[2]
+	; $aResult[0] = _WinAPI_ExpandEnvironmentStrings($aRet[2])
+	Local $aRes = DllCall("kernel32.dll", "dword", "ExpandEnvironmentStringsW", "wstr", $aRet[2], "wstr", "", "dword", 4096)
+	$aResult[0] = $aRes[2]
 
-	$Result[1] = $Ret[4]
-	Return $Result
+	$aResult[1] = $aRet[4]
+	Return $aResult
 EndFunc   ;==>_WinAPI_PickIconDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -313,11 +311,11 @@ EndFunc   ;==>_WinAPI_PickIconDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_PrintDlg(ByRef $tPRINTDLG)
-	Local $Ret = DllCall('comdlg32.dll', 'long', 'PrintDlgW', 'struct*', $tPRINTDLG)
+	Local $aRet = DllCall('comdlg32.dll', 'long', 'PrintDlgW', 'struct*', $tPRINTDLG)
 	If @error Then Return SetError(@error, @extended, 0)
-	If Not $Ret[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
+	If Not $aRet[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_PrintDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -326,9 +324,9 @@ EndFunc   ;==>_WinAPI_PrintDlg
 ; ===============================================================================================================================
 Func _WinAPI_PrintDlgEx(ByRef $tPRINTDLGEX)
 	Local $tPDEX = DllStructCreate($tagPRINTDLGEX, DllStructGetPtr($tPRINTDLGEX))
-	Local $Ret = DllCall('comdlg32.dll', 'long', 'PrintDlgExW', 'struct*', $tPDEX)
+	Local $aRet = DllCall('comdlg32.dll', 'long', 'PrintDlgExW', 'struct*', $tPDEX)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return SetExtended(DllStructGetData($tPDEX, 'ResultAction'), 1)
 EndFunc   ;==>_WinAPI_PrintDlgEx
@@ -338,11 +336,11 @@ EndFunc   ;==>_WinAPI_PrintDlgEx
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_ReplaceTextDlg($hOwner, $sFindWhat = '', $sReplaceWith = '', $iFlags = 0, $pReplaceProc = 0, $lParam = 0)
-	$__pFRBuffer = __HeapReAlloc($__pFRBuffer, 4 * $__iFRBufferSize)
+	$__g_pFRBuffer = __HeapReAlloc($__g_pFRBuffer, 4 * $__g_iFRBufferSize)
 	If @error Then Return SetError(@error + 100, @extended, 0)
-	Local $tBuff = DllStructCreate('wchar[' & $__iFRBufferSize & '];wchar[' & $__iFRBufferSize & ']', $__pFRBuffer)
-	DllStructSetData($tBuff, 1, StringLeft($sFindWhat, $__iFRBufferSize - 1))
-	DllStructSetData($tBuff, 2, StringLeft($sReplaceWith, $__iFRBufferSize - 1))
+	Local $tBuff = DllStructCreate('wchar[' & $__g_iFRBufferSize & '];wchar[' & $__g_iFRBufferSize & ']', $__g_pFRBuffer)
+	DllStructSetData($tBuff, 1, StringLeft($sFindWhat, $__g_iFRBufferSize - 1))
+	DllStructSetData($tBuff, 2, StringLeft($sReplaceWith, $__g_iFRBufferSize - 1))
 	Local $tFR = DllStructCreate($tagFINDREPLACE)
 	DllStructSetData($tFR, 'Size', DllStructGetSize($tFR))
 	DllStructSetData($tFR, 'hOwner', $hOwner)
@@ -350,24 +348,24 @@ Func _WinAPI_ReplaceTextDlg($hOwner, $sFindWhat = '', $sReplaceWith = '', $iFlag
 	DllStructSetData($tFR, 'Flags', $iFlags)
 	DllStructSetData($tFR, 'FindWhat', DllStructGetPtr($tBuff, 1))
 	DllStructSetData($tFR, 'ReplaceWith', DllStructGetPtr($tBuff, 2))
-	DllStructSetData($tFR, 'FindWhatLen', $__iFRBufferSize * 2)
-	DllStructSetData($tFR, 'ReplaceWithLen', $__iFRBufferSize * 2)
+	DllStructSetData($tFR, 'FindWhatLen', $__g_iFRBufferSize * 2)
+	DllStructSetData($tFR, 'ReplaceWithLen', $__g_iFRBufferSize * 2)
 	DllStructSetData($tFR, 'lParam', $lParam)
 	DllStructSetData($tFR, 'Hook', $pReplaceProc)
 	DllStructSetData($tFR, 'TemplateName', 0)
 
-	Local $Ret = DllCall('comdlg32.dll', 'hwnd', 'ReplaceTextW', 'struct*', $tFR)
-	If @error Or Not $Ret[0] Then
-		Local $Error = @error
-		__HeapFree($__pFRBuffer)
-		If IsArray($Ret) Then
+	Local $aRet = DllCall('comdlg32.dll', 'hwnd', 'ReplaceTextW', 'struct*', $tFR)
+	If @error Or Not $aRet[0] Then
+		Local $iError = @error
+		__HeapFree($__g_pFRBuffer)
+		If IsArray($aRet) Then
 			Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), 0)
 		Else
-			Return SetError($Error, 0, 0)
+			Return SetError($iError, 0, 0)
 		EndIf
 	EndIf
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_ReplaceTextDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -375,10 +373,10 @@ EndFunc   ;==>_WinAPI_ReplaceTextDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_RestartDlg($sText = '', $iFlags = 2, $hParent = 0)
-	Local $Ret = DllCall('shell32.dll', 'int', 'RestartDialog', 'hwnd', $hParent, 'wstr', $sText, 'int', $iFlags)
+	Local $aRet = DllCall('shell32.dll', 'int', 'RestartDialog', 'hwnd', $hParent, 'wstr', $sText, 'int', $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_RestartDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -386,10 +384,10 @@ EndFunc   ;==>_WinAPI_RestartDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_SaveFileDlg($sTitle = '', $sInitDir = '', $sFilters = '', $iDefFilter = 0, $sDefFile = '', $sDefExt = '', $iFlags = 0, $iFlagsEx = 0, $pOFNProc = 0, $pData = 0, $hParent = 0)
-	Local $Result = __OFNDlg(1, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDefExt, $iFlags, $iFlagsEx, $pOFNProc, $pData, $hParent)
+	Local $sResult = __OFNDlg(1, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDefExt, $iFlags, $iFlagsEx, $pOFNProc, $pData, $hParent)
 	If @error Then Return SetError(@error, @extended, '')
 
-	Return $Result
+	Return $sResult
 EndFunc   ;==>_WinAPI_SaveFileDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -401,7 +399,7 @@ Func _WinAPI_SetFRBuffer($iChars)
 	If $iChars < 80 Then
 		$iChars = 80
 	EndIf
-	$__iFRBufferSize = $iChars + 1
+	$__g_iFRBufferSize = $iChars + 1
 	Return 1
 EndFunc   ;==>_WinAPI_SetFRBuffer
 
@@ -410,12 +408,12 @@ EndFunc   ;==>_WinAPI_SetFRBuffer
 ; Modified.......: Jpm
 ; ===============================================================================================================================
 Func _WinAPI_ShellAboutDlg($sTitle, $sName, $sText, $hIcon = 0, $hParent = 0)
-	Local $Ret = DllCall('shell32.dll', 'int', 'ShellAboutW', 'hwnd', $hParent, 'wstr', $sTitle & '#' & $sName, 'wstr', $sText, _
+	Local $aRet = DllCall('shell32.dll', 'int', 'ShellAboutW', 'hwnd', $hParent, 'wstr', $sTitle & '#' & $sName, 'wstr', $sText, _
 			'handle', $hIcon)
 	If @error Then Return SetError(@error, @extended, False)
-	; If Not $Ret[0] Then Return SetError(1000, 0, 0)
+	; If Not $aRet[0] Then Return SetError(1000, 0, 0)
 
-	Return $Ret[0]
+	Return $aRet[0]
 EndFunc   ;==>_WinAPI_ShellAboutDlg
 
 ; #FUNCTION# ====================================================================================================================
@@ -429,9 +427,9 @@ Func _WinAPI_ShellOpenWithDlg($sFile, $iFlags = 0, $hParent = 0)
 	DllStructSetData($tOPENASINFO, 3, $iFlags)
 	DllStructSetData($tOPENASINFO, 4, $sFile)
 
-	Local $Ret = DllCall('shell32.dll', 'long', 'SHOpenWithDialog', 'hwnd', $hParent, 'struct*', $tOPENASINFO)
+	Local $aRet = DllCall('shell32.dll', 'long', 'SHOpenWithDialog', 'hwnd', $hParent, 'struct*', $tOPENASINFO)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
 	Return 1
 EndFunc   ;==>_WinAPI_ShellOpenWithDlg
@@ -441,12 +439,12 @@ EndFunc   ;==>_WinAPI_ShellOpenWithDlg
 ; Modified.......: jpm
 ; ===============================================================================================================================
 Func _WinAPI_ShellStartNetConnectionDlg($sRemote = '', $iFlags = 0, $hParent = 0)
-	Local $TypeOfRemote = 'wstr'
+	Local $sTypeOfRemote = 'wstr'
 	If Not StringStripWS($sRemote, $STR_STRIPLEADING + $STR_STRIPTRAILING) Then
-		$TypeOfRemote = 'ptr'
+		$sTypeOfRemote = 'ptr'
 		$sRemote = 0
 	EndIf
-	DllCall('shell32.dll', 'long', 'SHStartNetConnectionDialogW', 'hwnd', $hParent, $TypeOfRemote, $sRemote, 'dword', $iFlags)
+	DllCall('shell32.dll', 'long', 'SHStartNetConnectionDialogW', 'hwnd', $hParent, $sTypeOfRemote, $sRemote, 'dword', $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
 
 	Return 1
@@ -456,7 +454,7 @@ EndFunc   ;==>_WinAPI_ShellStartNetConnectionDlg
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_ShellUserAuthenticationDlg($sCaption, $sMessage, $sUser, $sPassword, $sTarget, $iFlags = 0, $iError = 0, $fSave = 0, $hBitmap = 0, $hParent = 0)
+Func _WinAPI_ShellUserAuthenticationDlg($sCaption, $sMessage, $sUser, $sPassword, $sTarget, $iFlags = 0, $iError = 0, $bSave = False, $hBitmap = 0, $hParent = 0)
 	If Not __DLL('credui.dll') Then Return SetError(103, 0, 0)
 
 	Local $tInfo = DllStructCreate('dword;hwnd;ptr;ptr;ptr;wchar[' & (StringLen($sMessage) + 1) & '];wchar[' & (StringLen($sCaption) + 1) & ']')
@@ -468,35 +466,35 @@ Func _WinAPI_ShellUserAuthenticationDlg($sCaption, $sMessage, $sUser, $sPassword
 	DllStructSetData($tInfo, 6, $sMessage)
 	DllStructSetData($tInfo, 7, $sCaption)
 
-	Local $Ret = DllCall('credui.dll', 'dword', 'CredUIPromptForCredentialsW', 'struct*', $tInfo, 'wstr', $sTarget, 'ptr', 0, _
-			'dword', $iError, 'wstr', $sUser, 'ulong', 4096, 'wstr', $sPassword, 'ulong', 4096, 'bool*', $fSave, _
+	Local $aRet = DllCall('credui.dll', 'dword', 'CredUIPromptForCredentialsW', 'struct*', $tInfo, 'wstr', $sTarget, 'ptr', 0, _
+			'dword', $iError, 'wstr', $sUser, 'ulong', 4096, 'wstr', $sPassword, 'ulong', 4096, 'bool*', $bSave, _
 			'dword', $iFlags)
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Ret[0] Then Return SetError(10, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(10, $aRet[0], 0)
 
-	Local $Result[3]
-	$Result[0] = $Ret[5]
-	$Result[1] = $Ret[7]
-	$Result[2] = $Ret[9]
-	Return $Result
+	Local $aResult[3]
+	$aResult[0] = $aRet[5]
+	$aResult[1] = $aRet[7]
+	$aResult[2] = $aRet[9]
+	Return $aResult
 EndFunc   ;==>_WinAPI_ShellUserAuthenticationDlg
 
 ; #FUNCTION# ====================================================================================================================
 ; Author.........: Yashied
 ; Modified.......: jpm
 ; ===============================================================================================================================
-Func _WinAPI_ShellUserAuthenticationDlgEx($sCaption, $sMessage, $sUser, $sPassword, $iFlags = 0, $iError = 0, $fSave = 0, $iPackage = 0, $hParent = 0)
+Func _WinAPI_ShellUserAuthenticationDlgEx($sCaption, $sMessage, $sUser, $sPassword, $iFlags = 0, $iAuthError = 0, $bSave = False, $iPackage = 0, $hParent = 0)
 	If Not __DLL('credui.dll') Then Return SetError(103, 0, 0)
 
-	Local $tBLOB = 0, $Ret
+	Local $tBLOB = 0, $aRet
 	If StringLen($sUser) Then
-		$Ret = DllCall('credui.dll', 'bool', 'CredPackAuthenticationBufferW', 'dword', 1, 'wstr', $sUser, 'wstr', $sPassword, _
+		$aRet = DllCall('credui.dll', 'bool', 'CredPackAuthenticationBufferW', 'dword', 1, 'wstr', $sUser, 'wstr', $sPassword, _
 				'ptr', 0, 'dword*', 0)
-		If @error Or Not $Ret[5] Then Return SetError(@error + 10, @extended, 0)
-		$tBLOB = DllStructCreate('byte[' & $Ret[5] & ']')
-		$Ret = DllCall('credui.dll', 'bool', 'CredPackAuthenticationBufferW', 'dword', 1, 'wstr', $sUser, 'wstr', $sPassword, _
-				'struct*', $tBLOB, 'dword*', $Ret[5])
-		If @error Or Not $Ret[0] Then Return SetError(@error + 20, @extended, 0)
+		If @error Or Not $aRet[5] Then Return SetError(@error + 10, @extended, 0)
+		$tBLOB = DllStructCreate('byte[' & $aRet[5] & ']')
+		$aRet = DllCall('credui.dll', 'bool', 'CredPackAuthenticationBufferW', 'dword', 1, 'wstr', $sUser, 'wstr', $sPassword, _
+				'struct*', $tBLOB, 'dword*', $aRet[5])
+		If @error Or Not $aRet[0] Then Return SetError(@error + 20, @extended, 0)
 	EndIf
 	Local $tInfo = DllStructCreate('dword;hwnd;ptr;ptr;ptr;wchar[' & (StringLen($sMessage) + 1) & '];wchar[' & (StringLen($sCaption) + 1) & ']')
 	DllStructSetData($tInfo, 1, DllStructGetPtr($tInfo, 6) - DllStructGetPtr($tInfo))
@@ -506,32 +504,32 @@ Func _WinAPI_ShellUserAuthenticationDlgEx($sCaption, $sMessage, $sUser, $sPasswo
 	DllStructSetData($tInfo, 5, 0)
 	DllStructSetData($tInfo, 6, $sMessage)
 	DllStructSetData($tInfo, 7, $sCaption)
-	$Ret = DllCall('credui.dll', 'dword', 'CredUIPromptForWindowsCredentialsW', 'struct*', $tInfo, 'dword', $iError, _
+	$aRet = DllCall('credui.dll', 'dword', 'CredUIPromptForWindowsCredentialsW', 'struct*', $tInfo, 'dword', $iAuthError, _
 			'ulong*', $iPackage, 'struct*', $tBLOB, 'ulong', DllStructGetSize($tBLOB), 'ptr*', 0, 'ulong*', 0, _
-			'bool*', $fSave, 'dword', $iFlags)
+			'bool*', $bSave, 'dword', $iFlags)
 	If @error Then Return SetError(@error + 30, @extended, 0)
-	If $Ret[0] Then Return SetError(30, $Ret[0], 0)
+	If $aRet[0] Then Return SetError(30, $aRet[0], 0)
 
-	Local $Result[4]
-	$Result[2] = $Ret[8]
-	$Result[3] = $Ret[3]
-	Local $pBLOB = $Ret[6]
-	Local $Size = $Ret[7]
-	$Ret = DllCall('credui.dll', 'bool', 'CredUnPackAuthenticationBufferW', 'dword', 1, 'ptr', $pBLOB, 'dword', $Size, _
+	Local $aResult[4], $iError = 0
+	$aResult[2] = $aRet[8]
+	$aResult[3] = $aRet[3]
+	Local $pBLOB = $aRet[6]
+	Local $iSize = $aRet[7]
+	$aRet = DllCall('credui.dll', 'bool', 'CredUnPackAuthenticationBufferW', 'dword', 1, 'ptr', $pBLOB, 'dword', $iSize, _
 			'wstr', '', 'dword*', 4096, 'wstr', '', 'dword*', 4096, 'wstr', '', 'dword*', 4096)
-	If Not @error And $Ret[0] Then
-		$Result[0] = $Ret[4]
-		$Result[1] = $Ret[8]
+	If Not @error And $aRet[0] Then
+		$aResult[0] = $aRet[4]
+		$aResult[1] = $aRet[8]
 	Else
-		$Result = @error + 40
+		$iError = @error + 40
 	EndIf
-	If Not _WinAPI_ZeroMemory($pBLOB, $Size) Then
+	If Not _WinAPI_ZeroMemory($pBLOB, $iSize) Then
 		; Nothing
 	EndIf
 	_WinAPI_CoTaskMemFree($pBLOB)
-	If $Result Then Return SetError($Result, 0, 0)
+	If $iError Then Return SetError($iError, 0, 0)
 
-	Return $Result
+	Return $aResult
 EndFunc   ;==>_WinAPI_ShellUserAuthenticationDlgEx
 
 #EndRegion Public Functions
@@ -548,16 +546,16 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	DllStructSetData($tOFN, 3, 0)
 	Local $aData = StringSplit($sFilters, '|')
 	Local $aFilters[$aData[0] * 2]
-	Local $Count = 0
+	Local $iCount = 0
 	For $i = 1 To $aData[0]
-		$aFilters[$Count + 0] = StringStripWS($aData[$i], $STR_STRIPLEADING + $STR_STRIPTRAILING)
-		$aFilters[$Count + 1] = StringStripWS(StringRegExpReplace($aData[$i], '.*\((.*)\)', '\1'), $STR_STRIPALL)
-		If $aFilters[$Count + 1] Then
-			$Count += 2
+		$aFilters[$iCount + 0] = StringStripWS($aData[$i], $STR_STRIPLEADING + $STR_STRIPTRAILING)
+		$aFilters[$iCount + 1] = StringStripWS(StringRegExpReplace($aData[$i], '.*\((.*)\)', '\1'), $STR_STRIPALL)
+		If $aFilters[$iCount + 1] Then
+			$iCount += 2
 		EndIf
 	Next
-	If $Count Then
-		$tFilters = _WinAPI_ArrayToStruct($aFilters, 0, $Count - 1)
+	If $iCount Then
+		$tFilters = _WinAPI_ArrayToStruct($aFilters, 0, $iCount - 1)
 		If @error Then
 			; Nothing
 		EndIf
@@ -601,17 +599,17 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	DllStructSetData($tOFN, 21, 0)
 	DllStructSetData($tOFN, 22, 0)
 	DllStructSetData($tOFN, 23, $iFlagsEx)
-	Local $Ret
+	Local $aRet
 	Switch $iDlg
 		Case 0
-			$Ret = DllCall('comdlg32.dll', 'int', 'GetOpenFileNameW', 'struct*', $tOFN)
+			$aRet = DllCall('comdlg32.dll', 'int', 'GetOpenFileNameW', 'struct*', $tOFN)
 		Case 1
-			$Ret = DllCall('comdlg32.dll', 'int', 'GetSaveFileNameW', 'struct*', $tOFN)
+			$aRet = DllCall('comdlg32.dll', 'int', 'GetSaveFileNameW', 'struct*', $tOFN)
 		Case Else
 
 	EndSwitch
 	If @error Then Return SetError(@error, @extended, '')
-	If Not $Ret[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), '')
+	If Not $aRet[0] Then Return SetError(10, _WinAPI_CommDlgExtendedErrorEx(), '')
 	If BitAND($iFlags, 0x00000200) Then
 		If BitAND($iFlags, 0x00080000) Then
 			$aData = _WinAPI_StructToArray($tBuffer)
@@ -627,9 +625,9 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 			Case 1
 
 			Case Else
-				Local $Path = $aData[1]
+				Local $sPath = $aData[1]
 				For $i = 2 To $aData[0]
-					$aData[$i - 1] = _WinAPI_PathAppend($Path, $aData[$i])
+					$aData[$i - 1] = _WinAPI_PathAppend($sPath, $aData[$i])
 				Next
 				ReDim $aData[$aData[0]]
 				$aData[0] -= 1
@@ -637,7 +635,7 @@ Func __OFNDlg($iDlg, $sTitle, $sInitDir, $sFilters, $iDefFilter, $sDefFile, $sDe
 	Else
 		$aData = DllStructGetData($tBuffer, 1)
 	EndIf
-	$__Ext = $tOFN
+	$__g_vExt = $tOFN
 	Return $aData
 EndFunc   ;==>__OFNDlg
 

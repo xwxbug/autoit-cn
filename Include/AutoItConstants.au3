@@ -2,7 +2,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Constants
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Constants to be included in an AutoIt v3 script.
 ; Author(s) .....: JLandes, Nutster, CyberSlug, Holger, ...
@@ -174,7 +174,7 @@ Global Const $SWP_NOSENDCHANGING = 0x0400
 Global Const $SWP_DEFERERASE = 0x2000
 Global Const $SWP_ASYNCWINDOWPOS = 0x4000
 
-; Keywords (returned from the IsKeyword() function
+; Keywords (returned from the IsKeyword() function)
 Global Const $KEYWORD_DEFAULT = 1
 Global Const $KEYWORD_NULL = 2
 ; ===============================================================================================================================

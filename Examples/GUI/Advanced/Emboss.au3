@@ -8,10 +8,10 @@
 ; ===============================================================================================================================
 
 ; ===============================================================================================================================
-; Global variables
+; Local variables
 ; ===============================================================================================================================
-Global $hBitmap, $hImage, $hGraphic, $hFamily, $hFont, $tLayout, $hFormat, $aInfo, $hBrush1, $hBrush2, $iWidth, $iHeight, $hPen
-Global $sString = "  Created with AutoIt  "
+Local $hBitmap, $hImage, $hGraphic, $hFamily, $hFont, $tLayout, $hFormat, $aInfo, $hBrush1, $hBrush2, $iWidth, $iHeight, $hPen
+Local $sString = "  Created with AutoIt  "
 
 ; ===============================================================================================================================
 ; Main

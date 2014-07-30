@@ -3,15 +3,13 @@
 #include "Array.au3"
 #include "FileConstants.au3"
 #include "StringConstants.au3"
-#include "WinAPIFiles.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: File
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with files and directories.
 ; Author(s) .....: Brian Keene, Michael Michta, erifash, Jon, JdeB, Jeremy Landes, MrCreatoR, cdkid, Valik, Erik Pilsits, Kurt, Dale, guinness, DXRW4E, Melba23
-; Dll(s) ........: shell32.dll
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================
@@ -56,7 +54,7 @@ EndFunc   ;==>_FileCountLines
 ; Modified.......:
 ; ===============================================================================================================================
 Func _FileCreate($sFilePath)
-	Local $hFileOpen = FileOpen($sFilePath, $FO_OVERWRITE)
+	Local $hFileOpen = FileOpen($sFilePath, BitOR($FO_OVERWRITE, $FO_CREATEPATH))
 	If $hFileOpen = -1 Then Return SetError(1, 0, 0)
 
 	Local $iFileWrite = FileWrite($hFileOpen, "")
@@ -69,13 +67,13 @@ EndFunc   ;==>_FileCreate
 ; Author ........: Michael Michta
 ; Modified.......: guinness - Added optional parameter to return the full path.
 ; ===============================================================================================================================
-Func _FileListToArray($sFilePath, $sFilter = "*", $iFlag = 0, $fReturnPath = False)
+Func _FileListToArray($sFilePath, $sFilter = "*", $iFlag = 0, $bReturnPath = False)
 	Local $sDelimiter = "|", $sFileList = "", $sFileName = "", $sFullPath = ""
 
 	; Check parameters for the Default keyword or they meet a certain criteria
 	$sFilePath = StringRegExpReplace($sFilePath, "[\\/]+$", "") & "\" ; Ensure a single trailing backslash
 	If $iFlag = Default Then $iFlag = 0
-	If $fReturnPath Then $sFullPath = $sFilePath
+	If $bReturnPath Then $sFullPath = $sFilePath
 	If $sFilter = Default Then $sFilter = "*"
 
 	; Check if the directory exists
@@ -102,12 +100,13 @@ EndFunc   ;==>_FileListToArray
 Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0, $iSort = 0, $iReturnPath = 1)
 	Local $asReturnList[100] = [0], $asFileMatchList[100] = [0], $asRootFileMatchList[100] = [0], $asFolderMatchList[100] = [0], $asFolderSearchList[100] = [1]
 	Local $sInclude_List = "*", $sExclude_List, $sExclude_List_Folder, $sInclude_File_Mask = ".+", $sExclude_File_Mask = ":", $sInclude_Folder_Mask = ".+", $sExclude_Folder_Mask = ":"
-	Local $sFolderSlash = "", $iMaxLevel, $hSearch, $fFolder, $sRetPath = "", $sCurrentPath, $sName, $iAttribs, $iHide_HS = 0, $iHide_Link = 0, $fLongPath = False
+	Local $sFolderSlash = "", $iMaxLevel, $hSearch, $bFolder, $sRetPath = "", $sCurrentPath, $sName, $bLongPath = False
+	Local $iAttribs, $iHide_HS = 0, $sHide_HS = "", $iHide_Link = 0
 	Local $asFolderFileSectionList[100][2] = [[0, 0]], $sFolderToFind, $iFileSectionStartIndex, $iFileSectionEndIndex
 
 	; Check for valid path
 	If StringLeft($sInitialPath, 4) == "\\?\" Then
-		$fLongPath = True
+		$bLongPath = True
 	EndIf
 	If Not FileExists($sInitialPath) Then Return SetError(1, 1, "")
 
@@ -130,10 +129,12 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 	; Check for H or S omitted
 	If BitAND($iReturn, 4) Then
 		$iHide_HS += 2
+		$sHide_HS &= "H"
 		$iReturn -= 4
 	EndIf
 	If BitAND($iReturn, 8) Then
 		$iHide_HS += 4
+		$sHide_HS &= "S"
 		$iReturn -= 8
 	EndIf
 
@@ -209,7 +210,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 	If Not ($iReturnPath = 0 Or $iReturnPath = 1 Or $iReturnPath = 2) Then Return SetError(1, 8, "")
 
 	; Prepare for DllCall if required
-	If $iHide_HS Or $iHide_Link Then
+	If $iHide_Link Then
 		Local $tFile_Data = DllStructCreate("struct;align 4;dword FileAttributes;uint64 CreationTime;uint64 LastAccessTime;uint64 LastWriteTime;" & _
 				"dword FileSizeHigh;dword FileSizeLow;dword Reserved0;dword Reserved1;wchar FileName[260];wchar AlternateFileName[14];endstruct")
 		Local $pFile_Data = DllStructGetPtr($tFile_Data), $hDLL = DllOpen('kernel32.dll'), $aDLL_Ret
@@ -229,7 +230,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 			Case 1 ;Relative to initial path
 				$sRetPath = StringReplace($sCurrentPath, $sInitialPath, "")
 			Case 2 ; Full path
-				If $fLongPath Then
+				If $bLongPath Then
 					$sRetPath = StringTrimLeft($sCurrentPath, 4)
 				Else
 					$sRetPath = $sCurrentPath
@@ -237,7 +238,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 		EndSwitch
 
 		; Get search handle - use code matched to required listing
-		If $iHide_HS Or $iHide_Link Then
+		If $iHide_Link Then
 			; Use DLL code
 			$aDLL_Ret = DllCall($hDLL, 'ptr', 'FindFirstFileW', 'wstr', $sCurrentPath & "*", 'ptr', $pFile_Data)
 			If @error Or Not $aDLL_Ret[0] Then
@@ -257,11 +258,12 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 		If $iReturn = 0 And $iSort And $iReturnPath Then
 			__FLTAR_AddToList($asFolderFileSectionList, $sRetPath, $asFileMatchList[0] + 1)
 		EndIf
+		Local $sAttribs = ''
 
 		; Search folder - use code matched to required listing
 		While 1
 			; Use DLL code
-			If $iHide_HS Or $iHide_Link Then
+			If $iHide_Link Then
 				; Use DLL code
 				$aDLL_Ret = DllCall($hDLL, 'int', 'FindNextFileW', 'ptr', $hSearch, 'ptr', $pFile_Data)
 				; Check for end of folder
@@ -280,27 +282,36 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 					ContinueLoop
 				EndIf
 				; Check for link attribute and skip if found
-				If $iHide_Link And BitAND($iAttribs, $iHide_Link) Then
+				If BitAND($iAttribs, $iHide_Link) Then
 					ContinueLoop
 				EndIf
 				; Set subfolder flag
-				$fFolder = 0
+				$bFolder = False
 				If BitAND($iAttribs, 16) Then
-					$fFolder = 1
+					$bFolder = True
 				EndIf
 			Else
+				; Reset folder flag
+				$bFolder = 0
 				; Use native code
-				$sName = FileFindNextFile($hSearch)
+				$sName = FileFindNextFile($hSearch, 1)
 				; Check for end of folder
 				If @error Then
 					ExitLoop
 				EndIf
-				; Set subfolder flag - @extended set in 3.3.1.1 +
-				$fFolder = @extended
+				$sAttribs = @extended
+				; Check for folder
+				If StringInStr($sAttribs, "D") Then
+					$bFolder = 1
+				EndIf
+				; Check for Hidden/System
+				If StringRegExp($sAttribs, "[" & $sHide_HS & "]") Then
+					ContinueLoop
+				EndIf
 			EndIf
 
 			; If folder then check whether to add to search list
-			If $fFolder Then
+			If $bFolder Then
 				Select
 					Case $iRecur < 0 ; Check recur depth
 						StringReplace($sCurrentPath, "\", "", 0, $STR_NOCASESENSEBASIC)
@@ -317,7 +328,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 			EndIf
 
 			If $iSort Then ; Save in relevant folders for later sorting
-				If $fFolder Then
+				If $bFolder Then
 					If StringRegExp($sName, $sInclude_Folder_Mask) And Not StringRegExp($sName, $sExclude_Folder_Mask) Then
 						__FLTAR_AddToList($asFolderMatchList, $sRetPath & $sName & $sFolderSlash)
 					EndIf
@@ -332,7 +343,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 					EndIf
 				EndIf
 			Else ; Save directly in return list
-				If $fFolder Then
+				If $bFolder Then
 					If $iReturn <> 1 And StringRegExp($sName, $sInclude_Folder_Mask) And Not StringRegExp($sName, $sExclude_Folder_Mask) Then
 						__FLTAR_AddToList($asReturnList, $sRetPath & $sName & $sFolderSlash)
 					EndIf
@@ -351,7 +362,7 @@ Func _FileListToArrayRec($sInitialPath, $sMask = "*", $iReturn = 0, $iRecur = 0,
 	WEnd
 
 	; Close the DLL if needed
-	If $iHide_HS Then
+	If $iHide_Link Then
 		DllClose($hDLL)
 	EndIf
 
@@ -547,94 +558,111 @@ EndFunc   ;==>_FilePrint
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Jonathan Bennett <jon at autoitscript dot com>, Valik - Support Windows Unix and Mac line separator
 ; Modified ......: Jpm - fixed empty line at the end, Gary Fixed file contains only 1 line, guinness - Optional flag to return the array count.
-;                : Melba23 - Read to 1D/2D arrays and return array
+;                : Melba23 - Read to 1D/2D arrays, guinness & jchd - Removed looping through 1D array with $FRTA_COUNT flag.
 ; ===============================================================================================================================
-Func _FileReadToArray($sFilePath, $iFlags = $FRTA_COUNT, $sDelimiter = "")
+Func _FileReadToArray($sFilePath, ByRef $aArray, $iFlags = $FRTA_COUNT, $sDelimiter = "")
+	; Clear the previous contents
+	$aArray = 0
+
 	If $iFlags = Default Then $iFlags = $FRTA_COUNT
 	If $sDelimiter = Default Then $sDelimiter = ""
 
 	; Set "array of arrays" flag
-	Local $fExpand = True
+	Local $bExpand = True
 	If BitAND($iFlags, $FRTA_INTARRAYS) Then
-		$fExpand = False
-		$iFlags -= 2
+		$bExpand = False
+		$iFlags -= $FRTA_INTARRAYS
 	EndIf
 	; Set delimiter flag
 	Local $iEntire = $STR_CHRSPLIT
 	If BitAND($iFlags, $FRTA_ENTIRESPLIT) Then
 		$iEntire = $STR_ENTIRESPLIT
-		$iFlags -= 4
+		$iFlags -= $FRTA_ENTIRESPLIT
 	EndIf
 	; Set row count and split count flags
 	Local $iNoCount = 0
-	If $iFlags <> 1 Then
-		$iFlags = 0
+	If $iFlags <> $FRTA_COUNT Then
+		$iFlags = $FRTA_NOCOUNT
 		$iNoCount = $STR_NOCOUNT
 	EndIf
 
-	; Read file into an array
-	Local $aLines = FileReadToArray($sFilePath)
-	If @error Then Return SetError(@error, 0, 0)
-	; If 1D with no count return array directly
-	If Not $iFlags And Not $sDelimiter Then Return $aLines
-	; Declare variables
-	Local $aArray, $aSplit_2
-	; Get first dimension and add count if required
-	Local $iDim_1 = UBound($aLines) + $iFlags
 	; Check delimiter
 	If $sDelimiter Then
+		; Read file into an array
+		Local $aLines = FileReadToArray($sFilePath)
+		If @error Then Return SetError(@error, 0, 0)
+
+		; Get first dimension and add count if required
+		Local $iDim_1 = UBound($aLines) + $iFlags
 		; Check type of return array
-		If $fExpand Then ; All lines have same number of fields
-			Local $iFields
+		If $bExpand Then ; All lines have same number of fields
 			; Count fields in first line
 			Local $iDim_2 = UBound(StringSplit($aLines[0], $sDelimiter, $iEntire + $STR_NOCOUNT))
 			; Size array
-			Local $aArray[$iDim_1][$iDim_2]
+			Local $aTemp_Array[$iDim_1][$iDim_2]
+			; Declare the variables
+			Local $iFields, _
+					$aSplit
 			; Loop through the lines
 			For $i = 0 To $iDim_1 - $iFlags - 1
 				; Split each line as required
-				$aSplit_2 = StringSplit($aLines[$i], $sDelimiter, $iEntire + $STR_NOCOUNT)
+				$aSplit = StringSplit($aLines[$i], $sDelimiter, $iEntire + $STR_NOCOUNT)
 				; Count the items
-				$iFields = UBound($aSplit_2)
+				$iFields = UBound($aSplit)
 				If $iFields <> $iDim_2 Then
 					; Return error
 					Return SetError(3, 0, 0)
 				EndIf
 				; Fill this line of the array
 				For $j = 0 To $iFields - 1
-					$aArray[$i + $iFlags][$j] = $aSplit_2[$j]
+					$aTemp_Array[$i + $iFlags][$j] = $aSplit[$j]
 				Next
 			Next
 			; Check at least 2 columns
 			If $iDim_2 < 2 Then Return SetError(4, 0, 0)
 			; Set dimension count
 			If $iFlags Then
-				$aArray[0][0] = $iDim_1 - $iFlags
-				$aArray[0][1] = $iDim_2
+				$aTemp_Array[0][0] = $iDim_1 - $iFlags
+				$aTemp_Array[0][1] = $iDim_2
 			EndIf
 		Else ; Create "array of arrays"
 			; Size array
-			Local $aArray[$iDim_1]
+			Local $aTemp_Array[$iDim_1]
 			; Loop through the lines
 			For $i = 0 To $iDim_1 - $iFlags - 1
 				; Split each line as required
-				$aArray[$i + $iFlags] = StringSplit($aLines[$i], $sDelimiter, $iEntire + $iNoCount)
+				$aTemp_Array[$i + $iFlags] = StringSplit($aLines[$i], $sDelimiter, $iEntire + $iNoCount)
 			Next
 			; Set dimension count
 			If $iFlags Then
-				$aArray[0] = $iDim_1 - $iFlags
+				$aTemp_Array[0] = $iDim_1 - $iFlags
 			EndIf
 		EndIf
+		; Return the array
+		$aArray = $aTemp_Array
 	Else ; 1D
-		; Declare array of correct size and set count
-		Local $aArray[UBound($aLines) + 1] = [UBound($aArray) - 1]
-		; Copy data
-		For $i = 0 To UBound($aLines) - 1
-			$aArray[$i + 1] = $aLines[$i]
-		Next
+		If $iFlags Then
+			Local $hFileOpen = FileOpen($sFilePath, $FO_READ)
+			If $hFileOpen = -1 Then Return SetError(1, 0, 0)
+			Local $sFileRead = FileRead($hFileOpen)
+			FileClose($hFileOpen)
+
+			If StringLen($sFileRead) Then
+				$aArray = StringRegExp(@LF & $sFileRead, "(?|(\N+)\z|(\N*)(?:\R))", 3)
+				$aArray[0] = UBound($aArray) - 1
+			Else
+				Return SetError(2, 0, 0)
+			EndIf
+		Else
+			$aArray = FileReadToArray($sFilePath)
+			If @error Then
+				$aArray = 0
+				Return SetError(@error, 0, 0)
+			EndIf
+		EndIf
+
 	EndIf
-	; Return the array
-	Return $aArray
+	Return 1
 EndFunc   ;==>_FileReadToArray
 
 ; #FUNCTION# ====================================================================================================================
@@ -674,7 +702,7 @@ Func _FileWriteFromArray($sFilePath, Const ByRef $aArray, $iBase = Default, $iUB
 				EndIf
 			Next
 		Case 2
-			Local $sTemp
+			Local $sTemp = ""
 			Local $iCols = UBound($aArray, $UBOUND_COLUMNS)
 			For $i = $iBase To $iUBound
 				$sTemp = $aArray[$i][0]
@@ -771,25 +799,126 @@ EndFunc   ;==>_FileWriteToLine
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Valik (Original function and modification to rewrite), tittoproject (Rewrite)
-; Modified.......: guinness - Re-wrote using WinAPI.
+; Modified.......:
 ; ===============================================================================================================================
 Func _PathFull($sRelativePath, $sBasePath = @WorkingDir)
-	Local $fSetWorkingDir = Not ($sBasePath = @WorkingDir), $sWorkingDir = @WorkingDir
-	If $fSetWorkingDir Then FileChangeDir($sBasePath) ; Change the working directory of the current process to the base path as _WinAPI_GetFullPathName() merges the name of the current drive and directory with the specified file name.
-	$sRelativePath = _WinAPI_GetFullPathName($sRelativePath)
-	If $fSetWorkingDir Then FileChangeDir($sWorkingDir) ; Reset the working directory to the previous path.
-	Return $sRelativePath
+	If Not $sRelativePath Or $sRelativePath = "." Then Return $sBasePath
+
+	; Normalize slash direction.
+	Local $sFullPath = StringReplace($sRelativePath, "/", "\") ; Holds the full path (later, minus the root)
+	Local Const $sFullPathConst = $sFullPath ; Holds a constant version of the full path.
+	Local $sPath ; Holds the root drive/server
+	Local $bRootOnly = StringLeft($sFullPath, 1) = "\" And StringMid($sFullPath, 2, 1) <> "\"
+
+	If $sBasePath = Default Then $sBasePath = @WorkingDir
+
+	; Check for UNC paths or local drives.  We run this twice at most.  The
+	; first time, we check if the relative path is absolute.  If it's not, then
+	; we use the base path which should be absolute.
+	For $i = 1 To 2
+		$sPath = StringLeft($sFullPath, 2)
+		If $sPath = "\\" Then
+			$sFullPath = StringTrimLeft($sFullPath, 2)
+			Local $nServerLen = StringInStr($sFullPath, "\") - 1
+			$sPath = "\\" & StringLeft($sFullPath, $nServerLen)
+			$sFullPath = StringTrimLeft($sFullPath, $nServerLen)
+			ExitLoop
+		ElseIf StringRight($sPath, 1) = ":" Then
+			$sFullPath = StringTrimLeft($sFullPath, 2)
+			ExitLoop
+		Else
+			$sFullPath = $sBasePath & "\" & $sFullPath
+		EndIf
+	Next
+
+	; If this happens, we've found a funky path and don't know what to do
+	; except for get out as fast as possible.  We've also screwed up our
+	; variables so we definitely need to quit.
+	; If $i = 3 Then Return ""
+
+	; A path with a drive but no slash (e.g. C:Path\To\File) has the following
+	; behavior.  If the relative drive is the same as the $BasePath drive then
+	; insert the base path.  If the drives differ then just insert a leading
+	; slash to make the path valid.
+	If StringLeft($sFullPath, 1) <> "\" Then
+		If StringLeft($sFullPathConst, 2) = StringLeft($sBasePath, 2) Then
+			$sFullPath = $sBasePath & "\" & $sFullPath
+		Else
+			$sFullPath = "\" & $sFullPath
+		EndIf
+	EndIf
+
+	; Build an array of the path parts we want to use.
+	Local $aTemp = StringSplit($sFullPath, "\")
+	Local $aPathParts[$aTemp[0]], $j = 0
+	For $i = 2 To $aTemp[0]
+		If $aTemp[$i] = ".." Then
+			If $j Then $j -= 1
+		ElseIf Not ($aTemp[$i] = "" And $i <> $aTemp[0]) And $aTemp[$i] <> "." Then
+			$aPathParts[$j] = $aTemp[$i]
+			$j += 1
+		EndIf
+	Next
+
+	; Here we re-build the path from the parts above.  We skip the
+	; loop if we are only returning the root.
+	$sFullPath = $sPath
+	If Not $bRootOnly Then
+		For $i = 0 To $j - 1
+			$sFullPath &= "\" & $aPathParts[$i]
+		Next
+	Else
+		$sFullPath &= $sFullPathConst
+		; If we detect more relative parts, remove them by calling ourself recursively.
+		If StringInStr($sFullPath, "..") Then $sFullPath = _PathFull($sFullPath)
+	EndIf
+
+	; Clean up the path.
+	Do
+		$sFullPath = StringReplace($sFullPath, ".\", "\")
+	Until @extended = 0
+	Return $sFullPath
 EndFunc   ;==>_PathFull
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Erik Pilsits
-; Modified.......: guinness - Re-wrote using WinAPI.
+; Modified.......:
 ; ===============================================================================================================================
 Func _PathGetRelative($sFrom, $sTo)
-	If _WinAPI_PathRemoveBackslash($sTo) = _WinAPI_PathRemoveBackslash($sFrom) Then Return SetError(1, 0, $sTo) ; If both source and destination are same, return destination and set @error to non-zero.
-	Local $sRelativePath = _WinAPI_PathRelativePathTo($sFrom, 1, $sTo, 1) ; Retrieve the relative path.
-	If @error Or Not $sRelativePath Then Return SetError(2, 0, $sTo)
-	Return $sRelativePath
+	If StringRight($sFrom, 1) <> "\" Then $sFrom &= "\" ; add missing trailing \ to $sFrom path
+	If StringRight($sTo, 1) <> "\" Then $sTo &= "\" ; add trailing \ to $sTo
+	If $sFrom = $sTo Then Return SetError(1, 0, StringTrimRight($sTo, 1)) ; $sFrom equals $sTo
+	Local $asFrom = StringSplit($sFrom, "\")
+	Local $asTo = StringSplit($sTo, "\")
+	If $asFrom[1] <> $asTo[1] Then Return SetError(2, 0, StringTrimRight($sTo, 1)) ; drives are different, rel path not possible
+	; create rel path
+	Local $i = 2
+	Local $iDiff = 1
+	While 1
+		If $asFrom[$i] <> $asTo[$i] Then
+			$iDiff = $i
+			ExitLoop
+		EndIf
+		$i += 1
+	WEnd
+	$i = 1
+	Local $sRelPath = ""
+	For $j = 1 To $asTo[0]
+		If $i >= $iDiff Then
+			$sRelPath &= "\" & $asTo[$i]
+		EndIf
+		$i += 1
+	Next
+	$sRelPath = StringTrimLeft($sRelPath, 1)
+	$i = 1
+	For $j = 1 To $asFrom[0]
+		If $i > $iDiff Then
+			$sRelPath = "..\" & $sRelPath
+		EndIf
+		$i += 1
+	Next
+	If StringRight($sRelPath, 1) == "\" Then $sRelPath = StringTrimRight($sRelPath, 1) ; remove trailing \
+	Return $sRelPath
 EndFunc   ;==>_PathGetRelative
 
 ; #FUNCTION# ====================================================================================================================

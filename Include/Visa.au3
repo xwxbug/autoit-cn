@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Visa
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: VISA (GPIB & TCP) library for AutoIt.
 ;                  Functions that allow controlling instruments (e.g. oscilloscopes,
@@ -17,7 +17,6 @@
 
 ; ------------------------------------------------------------------------------
 ;
-; Requirements:   The VISA libraries must be installed (you can check whether
 ;                 visa32.dll is in {WINDOWS}\system32)
 ;                 For GPIB communication a GPIB card (such as a National Instruments
 ;                 NI PCI-GPIB card or an Agilent 82350B PCI High-Performance GPIB card
@@ -89,7 +88,7 @@
 ; #VARIABLES# ===================================================================================================================
 ; The VISA Resource Manager is used by the _viOpen functions (see below)
 ; This is the only (non constant) Global required by this library
-Global $VISA_DEFAULT_RM = -1
+Global $__g_hVISA_DEFAULT_RM = -1
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
@@ -169,25 +168,25 @@ Global Const $VI_ASRL_FLOW_DTR_DSR = 4
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viExecCommand($h_session, $s_command, $i_timeout_ms = -1, $s_mode = @LF)
-	If StringInStr($s_command, "?") = 0 Then
+Func _viExecCommand($h_Session, $s_Command, $i_Timeout_ms = -1, $s_Mode = @LF)
+	If StringInStr($s_Command, "?") = 0 Then
 		; The Command is NOT a QUERY
-		Return __viPrintf($h_session, $s_command, $i_timeout_ms, $s_mode)
+		Return __viPrintf($h_Session, $s_Command, $i_Timeout_ms, $s_Mode)
 	Else
 		; The Command is a QUERY
-		Return __viQueryf($h_session, $s_command, $i_timeout_ms)
+		Return __viQueryf($h_Session, $s_Command, $i_Timeout_ms)
 	EndIf
 EndFunc   ;==>_viExecCommand
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viOpen($s_visa_address, $s_visa_secondary_address = 0)
-	Local $h_session = -1 ; The session handle by default is invalid (-1)
+Func _viOpen($s_Visa_address, $s_Visa_secondary_address = 0)
+	Local $h_Session = -1 ; The session handle by default is invalid (-1)
 
-	If IsNumber($s_visa_address) Or StringInStr($s_visa_address, "::") = 0 Then
+	If IsNumber($s_Visa_address) Or StringInStr($s_Visa_address, "::") = 0 Then
 		; We passed a number => Create the VISA string:
-		$s_visa_address = "GPIB0::" & $s_visa_address & "::" & $s_visa_secondary_address
+		$s_Visa_address = "GPIB0::" & $s_Visa_address & "::" & $s_Visa_secondary_address
 	EndIf
 
 	;- Do not open an instrument connection twice
@@ -199,43 +198,43 @@ Func _viOpen($s_visa_address, $s_visa_secondary_address = 0)
 	;- Open the INSTRUMENT CONNECTION
 	; errStatus = viOpen (VISA_DEFAULT_RM, "GPIB0::20::0", VI_NULL, VI_NULL, &h_session);
 	; signed int viOpen(unsigned long, char*, unsigned long, unsigned long, *unsigned long)
-	Local $a_results
-	$a_results = DllCall("visa32.dll", "long", "viOpen", "long", $VISA_DEFAULT_RM, "str", $s_visa_address, "long", $VI_NULL, "long", $VI_NULL, "long*", -1)
+	Local $a_Results
+	$a_Results = DllCall("visa32.dll", "long", "viOpen", "long", $__g_hVISA_DEFAULT_RM, "str", $s_Visa_address, "long", $VI_NULL, "long", $VI_NULL, "long*", -1)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not open VISA instrument/resource
 		Return SetError(1, 0, -2)
 
 	EndIf
 	; Make sure that the DllCall returned enough values
-	If UBound($a_results) < 6 Then
+	If UBound($a_Results) < 6 Then
 		Return SetError(1, 0, -3)
 	EndIf
 
-	$h_session = $a_results[5]
-	If $h_session <= 0 Then
+	$h_Session = $a_Results[5]
+	If $h_Session <= 0 Then
 		; viOpen did not return a valid handle
 		Return SetError(1, 0, -4)
 	EndIf
 
 	; We have a valid handle for the device
-	Return $h_session
+	Return $h_Session
 EndFunc   ;==>_viOpen
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viClose($h_session)
+Func _viClose($h_Session)
 	;- Close INSTRUMENT Connection
 	; viClose(h_session);
-	Local $a_results
-	$a_results = DllCall("visa32.dll", "int", "viClose", "int", $h_session)
+	Local $a_Results
+	$a_Results = DllCall("visa32.dll", "int", "viClose", "int", $h_Session)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not close VISA instrument/resource
-		Return SetError(1, 0, $errStatus)
+		Return SetError(1, 0, $iErrStatus)
 	EndIf
 
 	Return 0
@@ -244,47 +243,47 @@ EndFunc   ;==>_viClose
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_results = 0)
+Func _viFindGpib(ByRef $a_Descriptor_list, ByRef $a_Idn_list, $b_Show_search_results = 0)
 	;- Make sure that there is a Resource Manager open (Note: this will NOT open it twice!)
 	__viOpenDefaultRM()
 
 	; Create the GPIB instrument list and return the 1st instrument descriptor
 	; viStatus viFindRsrc (viSession, char*, *ViFindList, *ViUInt32, char*);
 	; errStatus = viFindRsrc (VISA_DEFAULT_RM, "GPIB?*INSTR", &h_current_instr, &num_matches, s_found_instr_descriptor);
-	Local $a_results = DllCall("visa32.dll", "long", "viFindRsrc", _
-			"long", $VISA_DEFAULT_RM, "str", "GPIB?*INSTR", "long*", -1, _
+	Local $a_Results = DllCall("visa32.dll", "long", "viFindRsrc", _
+			"long", $__g_hVISA_DEFAULT_RM, "str", "GPIB?*INSTR", "long*", -1, _
 			"int*", -1, "str", "")
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not perform GPIB FIND operation
 		Return SetError(1, 0, -2)
 	EndIf
 	; Make sure that the DllCall returned enough values
-	If UBound($a_results) < 5 Then
+	If UBound($a_Results) < 5 Then
 		Return SetError(1, 0, -3)
 	EndIf
 
 	; Assign the outputs of the DllCall
-	Local $h_list_pointer = $a_results[3] ; The pointer to the list of found instruments
-	Local $i_num_instr = $a_results[4] ; The number of instruments that were found
-	Local $s_first_descriptor = $a_results[5] ; The descriptor of the first instrument found
-	If $i_num_instr < 1 Then ; No insturments were found
-		If $f_show_search_results = 1 Then
+	Local $h_List_pointer = $a_Results[3] ; The pointer to the list of found instruments
+	Local $i_Num_instr = $a_Results[4] ; The number of instruments that were found
+	Local $s_First_descriptor = $a_Results[5] ; The descriptor of the first instrument found
+	If $i_Num_instr < 1 Then ; No insturments were found
+		If $b_Show_search_results = 1 Then
 			MsgBox($MB_SYSTEMMODAL, "GPIB search results", "NO INSTRUMENTS FOUND in the GPIB bus")
 		EndIf
 
-		Return $i_num_instr
+		Return $i_Num_instr
 	EndIf
 
 	; At least 1 instrument was found
-	ReDim $a_descriptor_list[$i_num_instr], $a_idn_list[$i_num_instr]
-	$a_descriptor_list[0] = $s_first_descriptor
+	ReDim $a_Descriptor_list[$i_Num_instr], $a_Idn_list[$i_Num_instr]
+	$a_Descriptor_list[0] = $s_First_descriptor
 	; Get the IDN of the 1st instrument
-	$a_idn_list[0] = _viExecCommand($s_first_descriptor, "*IDN?")
+	$a_Idn_list[0] = _viExecCommand($s_First_descriptor, "*IDN?")
 
 	; Get the IDN of all the remaining instruments
-	For $n = 1 To $i_num_instr - 1
+	For $n = 1 To $i_Num_instr - 1
 		; If more than 1 instrument was found, get the handle of the next instrument
 		; and get its IDN
 
@@ -292,31 +291,31 @@ Func _viFindGpib(ByRef $a_descriptor_list, ByRef $a_idn_list, $f_show_search_res
 		; We do this by calling "viFindNext"
 		; viFindNext (*ViFindList, char*);
 		; viFindNext (h_current_instr,s_found_instr_descriptor);
-		$a_results = DllCall("visa32.dll", "long", "viFindNext", "long", $h_list_pointer, "str", "")
+		$a_Results = DllCall("visa32.dll", "long", "viFindNext", "long", $h_List_pointer, "str", "")
 		If @error Then Return SetError(@error, @extended, -1)
-		$errStatus = $a_results[0]
-		If $errStatus <> 0 Then
+		$iErrStatus = $a_Results[0]
+		If $iErrStatus <> 0 Then
 			; Could not perform GPIB FIND NEXT operation
 			Return SetError(1, 0, -2)
 		EndIf
 		; Make sure that the DllCall returned enough values
-		If UBound($a_results) < 3 Then
+		If UBound($a_Results) < 3 Then
 			Return SetError(1, 0, -3)
 		EndIf
-		$a_descriptor_list[$n] = $a_results[2]
-		$a_idn_list[$n] = _viExecCommand($a_descriptor_list[$n], "*IDN?")
+		$a_Descriptor_list[$n] = $a_Results[2]
+		$a_Idn_list[$n] = _viExecCommand($a_Descriptor_list[$n], "*IDN?")
 	Next
 
-	If $f_show_search_results = 1 Then
+	If $b_Show_search_results = 1 Then
 		; Create the GPIB instrument list and show it in a MsgBox
-		Local $s_search_results = ""
-		For $n = 0 To $i_num_instr - 1
-			$s_search_results = $s_search_results & $a_descriptor_list[$n] & " - " & $a_idn_list[$n] & @CR
+		Local $s_Search_results = ""
+		For $n = 0 To $i_Num_instr - 1
+			$s_Search_results = $s_Search_results & $a_Descriptor_list[$n] & " - " & $a_Idn_list[$n] & @CR
 		Next
-		MsgBox($MB_SYSTEMMODAL, "GPIB search results", $s_search_results)
+		MsgBox($MB_SYSTEMMODAL, "GPIB search results", $s_Search_results)
 	EndIf
 
-	Return $i_num_instr
+	Return $i_Num_instr
 EndFunc   ;==>_viFindGpib
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
@@ -325,7 +324,7 @@ EndFunc   ;==>_viFindGpib
 ; Syntax.........: __viOpenDefaultRM ( )
 ; Parameters ....: None
 ; Return values .: On Success - The Default Resource Manager Handle (also stored
-;                   in the $VISA_DEFAULT_RM global)
+;                   in the $__g_hVISA_DEFAULT_RM global)
 ;                   On Failure - Returns -1 if the VISA DLL could not be open
 ;                                Returns -2 if there was an error opening the
 ;                                Default Resource Manager
@@ -338,48 +337,48 @@ EndFunc   ;==>_viFindGpib
 ;
 ; ===============================================================================================================================
 Func __viOpenDefaultRM()
-	Local $h_visa_rm = $VISA_DEFAULT_RM
-	If $VISA_DEFAULT_RM < 0 Then
-		; Only open the Resource Manager once (i.e. when $VISA_DEFAULT_RM is still -1)
-		$h_visa_rm = $VISA_DEFAULT_RM ; Initialize the output result with the default value (-1)
+	Local $h_Visa_rm = $__g_hVISA_DEFAULT_RM
+	If $__g_hVISA_DEFAULT_RM < 0 Then
+		; Only open the Resource Manager once (i.e. when $__g_hVISA_DEFAULT_RM is still -1)
+		$h_Visa_rm = $__g_hVISA_DEFAULT_RM ; Initialize the output result with the default value (-1)
 
 		; errStatus = viOpenDefaultRM (&VISA_DEFAULT_RM);
 		; signed int viOpenDefaultRM(*unsigned long)
-		Local $a_results
-		$a_results = DllCall("visa32.dll", "int", "viOpenDefaultRM", "int*", $VISA_DEFAULT_RM)
+		Local $a_Results
+		$a_Results = DllCall("visa32.dll", "int", "viOpenDefaultRM", "int*", $__g_hVISA_DEFAULT_RM)
 		If @error Then Return SetError(@error, @extended, -1)
-		Local $errStatus = $a_results[0]
-		If $errStatus <> 0 Then
+		Local $iErrStatus = $a_Results[0]
+		If $iErrStatus <> 0 Then
 			; Could not create VISA Resource Manager
 			Return SetError(1, 0, -2)
 		EndIf
 		; Everything went fine => Set the Resource Manager global
-		$VISA_DEFAULT_RM = $a_results[1]
-		If $VISA_DEFAULT_RM <= 0 Then
-			; There was an error, reset the $VISA_DEFAULT_RM
-			$VISA_DEFAULT_RM = -1 ; Default value
+		$__g_hVISA_DEFAULT_RM = $a_Results[1]
+		If $__g_hVISA_DEFAULT_RM <= 0 Then
+			; There was an error, reset the $__g_hVISA_DEFAULT_RM
+			$__g_hVISA_DEFAULT_RM = -1 ; Default value
 			SetError(1)
 			Return -3
 		EndIf
-		$h_visa_rm = $VISA_DEFAULT_RM
+		$h_Visa_rm = $__g_hVISA_DEFAULT_RM
 	EndIf
 
-	Return $h_visa_rm
+	Return $h_Visa_rm
 EndFunc   ;==>__viOpenDefaultRM
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Send a COMMAND (NOT a QUERY) to an Instrument/Device
-; Syntax.........: __viPrintf ( $h_session, $s_command [, $i_timeout_ms = -1] )
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
+; Syntax.........: __viPrintf ( $h_Session, $s_Command [, $i_Timeout_ms = -1] )
+; Parameters ....: $h_Session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
 ;                                Look at the _viExecCommand function for more
 ;                                details
-;                   $s_command - Command/Query to execute.
+;                   $s_Command - Command/Query to execute.
 ;                                A query MUST contain a QUESTION MARK (?)
 ;                                When the command is a QUERY the function will
 ;                                automatically wait for the instrument's answer
 ;                                (or until the operation times out)
-;                   $i_timeout_ms - The operation timeout in MILISECONDS
+;                   $i_Timeout_ms - The operation timeout in MILISECONDS
 ;                                This is mostly important for QUERIES only
 ;                                This is an OPTIONAL PARAMETER.
 ;                                If it is not specified the last set timeout will
@@ -391,7 +390,7 @@ EndFunc   ;==>__viOpenDefaultRM
 ;                                timeout might not be set to the exact value that
 ;                                you request. Instead the closest valid timeout
 ;                                bigger than the one that you requested will be used.
-;                   $s_mode - Control the mode in which the VISA viPrintf is called
+;                   $s_Option - Control the mode in which the VISA viPrintf is called
 ;                                This is an OPTIONAL PARAMETER
 ;                                The DEFAULT VALUE is @LF, which means "attach @LF mode".
 ;                                Some instruments and in particular many GPIB cards
@@ -433,21 +432,21 @@ EndFunc   ;==>__viOpenDefaultRM
 ;                   See _viExecCommand for more details
 ;
 ; ===============================================================================================================================
-Func __viPrintf($h_session, $s_command, $i_timeout_ms = -1, $s_option = @LF)
-	Local $f_close_session_before_return = 0 ; By default do not close the session at the end
-	If IsString($h_session) Then
+Func __viPrintf($h_Session, $s_Command, $i_Timeout_ms = -1, $s_Option = @LF)
+	Local $b_Close_session_before_return = 0 ; By default do not close the session at the end
+	If IsString($h_Session) Then
 		; When we pass a string, i.e. a VISA ID (like GPIB::20::0, for instance) instead
 		; of a VISA session handler, we will automatically OPEN and CLOSE the instrument
 		; session for the user.
 		; This is of course slower if you need to do more than one GPIB call but much
 		; more convenient for short tests
-		$f_close_session_before_return = 1
-		$h_session = _viOpen($h_session)
+		$b_Close_session_before_return = 1
+		$h_Session = _viOpen($h_Session)
 	EndIf
 
 	;- Set the VISA timeout if necessary
-	If $i_timeout_ms >= 0 Then
-		_viSetTimeout($h_session, $i_timeout_ms)
+	If $i_Timeout_ms >= 0 Then
+		_viSetTimeout($h_Session, $i_Timeout_ms)
 	EndIf
 
 	;- Send Command to instrument (using viPrintf VISA function)
@@ -458,43 +457,43 @@ Func __viPrintf($h_session, $s_command, $i_timeout_ms = -1, $s_option = @LF)
 	; For symmetry with the viQueryf function, and to solve compatibility issues
 	; with some instruments, call viPrintf WITHOUT protecting from escape sequences
 	; The user MUST thus be careful when passing commands containing the '/' character
-	Local $a_results
+	Local $a_Results
 	Select
-		Case $s_option = "str"
+		Case $s_Option = "str"
 			; Use the "str" mode to pass the SCPI command to the VISA interface
-			$a_results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_session, "str", "%s", "str", $s_command) ; Call viPrintf with escape sequence protection
-		Case ($s_option = @CR Or $s_option = @LF Or $s_option = @CRLF)
+			$a_Results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_Session, "str", "%s", "str", $s_Command) ; Call viPrintf with escape sequence protection
+		Case ($s_Option = @CR Or $s_Option = @LF Or $s_Option = @CRLF)
 			; Append the selected terminator to the SCPI command
-			$a_results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_session, "str", $s_command & $s_option)
+			$a_Results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_Session, "str", $s_Command & $s_Option)
 		Case Else ; In all other cases, ignore the "mode" and do not use any terminator string
-			$a_results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_session, "str", $s_command) ; Call viPrintf without escape sequence protection
+			$a_Results = DllCall("visa32.dll", "int:cdecl", "viPrintf", "int", $h_Session, "str", $s_Command) ; Call viPrintf without escape sequence protection
 	EndSelect
 
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not send command to VISA instrument/resource
-		Return SetError(1, 0, $errStatus)
+		Return SetError(1, 0, $iErrStatus)
 	EndIf
 
-	If $f_close_session_before_return = 1 Then
-		_viClose($h_session)
+	If $b_Close_session_before_return = 1 Then
+		_viClose($h_Session)
 	EndIf
 EndFunc   ;==>__viPrintf
 
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Send a QUERY (a Command that returns an answer) to an Instrument/Device
-; Syntax.........: __viQueryf ( $h_session, $s_query [, $i_timeout_ms = -1] )
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
+; Syntax.........: __viQueryf ( $h_Session, $s_Query [, $i_Timeout_ms = -1] )
+; Parameters ....: $h_Session - A VISA descriptor (STRING) OR a VISA session handle (INTEGER)
 ;                                Look at the _viExecCommand function for more
 ;                                details
-;                   $s_command - The query to execute (e.g. "*IDN?").
+;                   $s_Command - The query to execute (e.g. "*IDN?").
 ;                                A query MUST contain a QUESTION MARK (?)
 ;                                The function willautomatically wait for the
 ;                                instrument's answer (or until the operation
 ;                                times out)
-;                   $i_timeout_ms - The operation timeout in MILISECONDS
+;                   $i_Timeout_ms - The operation timeout in MILISECONDS
 ;                                This is mostly important for QUERIES only
 ;                                This is an OPTIONAL PARAMETER.
 ;                                If it is not specified the last set timeout will
@@ -533,87 +532,87 @@ EndFunc   ;==>__viPrintf
 ;                   See _viExecCommand for more details
 ;
 ; ===============================================================================================================================
-Func __viQueryf($h_session, $s_query, $i_timeout_ms = -1)
-	Local $f_close_session_before_return = 0 ; By default do not close the session at the end
-	If IsString($h_session) Then
+Func __viQueryf($h_Session, $s_Query, $i_Timeout_ms = -1)
+	Local $b_Close_session_before_return = 0 ; By default do not close the session at the end
+	If IsString($h_Session) Then
 		; When we pass a string, i.e. a VISA ID (like GPIB::20::0, for instance) instead
 		; of a VISA session handler, we will automatically OPEN and CLOSE the instrument
 		; session for the user.
 		; This is of course slower if you need to do more than one GPIB call but much
 		; more convenient for short tests
-		$f_close_session_before_return = 1
-		$h_session = _viOpen($h_session)
+		$b_Close_session_before_return = 1
+		$h_Session = _viOpen($h_Session)
 	EndIf
 
 	;- Set the VISA timeout if necessary
-	If $i_timeout_ms >= 0 Then
-		_viSetTimeout($h_session, $i_timeout_ms)
+	If $i_Timeout_ms >= 0 Then
+		_viSetTimeout($h_Session, $i_Timeout_ms)
 	EndIf
 
 	;- Send QUERY to instrument and get ANSWER
 	; errStatus = viQueryf (h_session, "*IDN?\n", "%s", s_answer);
 	; signed int viQueryf (unsigned long, char*, char*, char*);
 	;errStatus = viQueryf (h_instr, s_command, "%s", string);
-	Local $a_results, $s_answer = ""
-	$a_results = DllCall("visa32.dll", "int:cdecl", "viQueryf", "int", $h_session, "str", $s_query, "str", "%t", "str", $s_answer)
+	Local $a_Results, $s_Answer = ""
+	$a_Results = DllCall("visa32.dll", "int:cdecl", "viQueryf", "int", $h_Session, "str", $s_Query, "str", "%t", "str", $s_Answer)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not query VISA instrument/resource
-		Return SetError(1, 0, $errStatus)
+		Return SetError(1, 0, $iErrStatus)
 	EndIf
 	; Make sure that the DllCall returned enough values
-	If UBound($a_results) < 5 Then
+	If UBound($a_Results) < 5 Then
 		; Call to viQuery did not return the right number of values
 		Return SetError(1, 0, -3)
 	EndIf
-	$s_answer = $a_results[4]
+	$s_Answer = $a_Results[4]
 
-	If $f_close_session_before_return = 1 Then
-		_viClose($h_session)
+	If $b_Close_session_before_return = 1 Then
+		_viClose($h_Session)
 	EndIf
 
-	Return $s_answer
+	Return $s_Answer
 EndFunc   ;==>__viQueryf
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viSetTimeout($h_session, $i_timeout_ms)
-	If String($i_timeout_ms) = "INF" Then
-		$i_timeout_ms = $VI_TMO_INFINITE
+Func _viSetTimeout($h_Session, $i_Timeout_ms)
+	If String($i_Timeout_ms) = "INF" Then
+		$i_Timeout_ms = $VI_TMO_INFINITE
 	EndIf
-	Return _viSetAttribute($h_session, $VI_ATTR_TMO_VALUE, $i_timeout_ms)
+	Return _viSetAttribute($h_Session, $VI_ATTR_TMO_VALUE, $i_Timeout_ms)
 EndFunc   ;==>_viSetTimeout
 
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viSetAttribute($h_session, $i_attribute, $i_value)
-	Local $f_close_session_before_return = 0 ; By default do not close the session at the end
-	If IsString($h_session) Then
+Func _viSetAttribute($h_Session, $i_Attribute, $i_Value)
+	Local $b_Close_session_before_return = 0 ; By default do not close the session at the end
+	If IsString($h_Session) Then
 		; When we pass a string, i.e. a VISA ID (like GPIB::20::0, for instance) instead
 		; of a VISA session handler, we will automatically OPEN and CLOSE the instrument
 		; session for the user.
 		; This is of course slower if you need to do more than one GPIB call but much
 		; more convenient for short tests
-		$f_close_session_before_return = 1
-		$h_session = _viOpen($h_session)
+		$b_Close_session_before_return = 1
+		$h_Session = _viOpen($h_Session)
 	EndIf
 
-	; errStatus = _viSetAttribute ($h_session, $VI_ATTR_TMO_VALUE, $timeout_value);
+	; errStatus = _viSetAttribute ($h_Session, $VI_ATTR_TMO_VALUE, $timeout_value);
 	; signed int viGpibControlREN (unsigned long, int, int);
-	Local $a_results
-	$a_results = DllCall("visa32.dll", "int", "viSetAttribute", "int", $h_session, "int", $i_attribute, "int", $i_value)
+	Local $a_Results
+	$a_Results = DllCall("visa32.dll", "int", "viSetAttribute", "int", $h_Session, "int", $i_Attribute, "int", $i_Value)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not set attribute of VISA instrument/resource
-		Return SetError(1, 0, $errStatus)
+		Return SetError(1, 0, $iErrStatus)
 	EndIf
 
-	If $f_close_session_before_return = 1 Then
-		_viClose($h_session)
+	If $b_Close_session_before_return = 1 Then
+		_viClose($h_Session)
 	EndIf
 
 	Return 0
@@ -622,8 +621,8 @@ EndFunc   ;==>_viSetAttribute
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viGTL($h_session)
-	Return __viGpibControlREN($h_session, $VI_GPIB_REN_ADDRESS_GTL)
+Func _viGTL($h_Session)
+	Return __viGpibControlREN($h_Session, $VI_GPIB_REN_ADDRESS_GTL)
 EndFunc   ;==>_viGTL
 
 ; #FUNCTION# ====================================================================================================================
@@ -636,11 +635,11 @@ EndFunc   ;==>_viGpibBusReset
 ; #INTERNAL_USE_ONLY# ===========================================================================================================
 ;
 ; Description ...: Control the VISA REN bus line
-; Syntax.........: __viGpibControlREN ( $h_session, $i_mode )
-; Parameters ....: $h_session - A VISA descriptor (STRING) OR a VISA session
+; Syntax.........: __viGpibControlREN ( $h_Session, $i_Mode )
+; Parameters ....: $h_Session - A VISA descriptor (STRING) OR a VISA session
 ;                   handle (INTEGER). Look the explanation in _viExecCommand
 ;                   (you can find it above)
-;                   $i_mode - The mode into which the REN line of the GPIB bus
+;                   $i_Mode - The mode into which the REN line of the GPIB bus
 ;                   will be set.
 ;                   Modes are defined in the VISA library. Look at the top of
 ;                   this file for valid modes
@@ -653,31 +652,31 @@ EndFunc   ;==>_viGpibBusReset
 ; Notes .........: This function is used by _viGTL and _viGpibBusReset
 ;
 ; ===============================================================================================================================
-Func __viGpibControlREN($h_session, $i_mode)
-	Local $f_close_session_before_return = 0 ; By default do not close the session at the end
-	If IsString($h_session) Then
+Func __viGpibControlREN($h_Session, $i_Mode)
+	Local $b_Close_session_before_return = 0 ; By default do not close the session at the end
+	If IsString($h_Session) Then
 		; When we pass a string, i.e. a VISA ID (like GPIB::20::0, for instance) instead
 		; of a VISA session handler, we will automatically OPEN and CLOSE the instrument
 		; session for the user.
 		; This is of course slower if you need to do more than one GPIB call but much
 		; more convenient for short tests
-		$f_close_session_before_return = 1
-		$h_session = _viOpen($h_session)
+		$b_Close_session_before_return = 1
+		$h_Session = _viOpen($h_Session)
 	EndIf
 
-	; errStatus = viGpibControlREN ($h_session, VI_GPIB_REN_ASSERT);
+	; errStatus = viGpibControlREN ($h_Session, VI_GPIB_REN_ASSERT);
 	; signed int viGpibControlREN (unsigned long, int);
-	Local $a_results
-	$a_results = DllCall("visa32.dll", "int", "viGpibControlREN", "int", $h_session, "int", $i_mode)
+	Local $a_Results
+	$a_Results = DllCall("visa32.dll", "int", "viGpibControlREN", "int", $h_Session, "int", $i_Mode)
 	If @error Then Return SetError(@error, @extended, -1)
-	Local $errStatus = $a_results[0]
-	If $errStatus <> 0 Then
+	Local $iErrStatus = $a_Results[0]
+	If $iErrStatus <> 0 Then
 		; Could not send to Local VISA instrument/resource
-		Return SetError(1, 0, $errStatus)
+		Return SetError(1, 0, $iErrStatus)
 	EndIf
 
-	If $f_close_session_before_return = 1 Then
-		_viClose($h_session)
+	If $b_Close_session_before_return = 1 Then
+		_viClose($h_Session)
 	EndIf
 
 	Return 0
@@ -686,120 +685,120 @@ EndFunc   ;==>__viGpibControlREN
 ; #FUNCTION# ====================================================================================================================
 ; Author ........: Angel Ezquerra <ezquerra at gmail dot com>
 ; ===============================================================================================================================
-Func _viInteractiveControl($s_command_save_filename = "")
+Func _viInteractiveControl($s_Command_save_filename = "")
 	;- Define variables, set their default values
-	Local $s_vi_id = "FIND" ; "GPIB::1::0" ; Default values
-	Local $s_command = "*IDN?"
-	Local $i_timeout_ms = 10000 ; ms
-	Local $s_answer = ""
-	Local $a_descriptor_list[1], $a_idn_list[1] ; The results of the GPIB search
+	Local $s_Vi_id = "FIND" ; "GPIB::1::0" ; Default values
+	Local $s_Command = "*IDN?"
+	Local $i_Timeout_ms = 10000 ; ms
+	Local $s_Answer = ""
+	Local $a_Descriptor_list[1], $a_Idn_list[1] ; The results of the GPIB search
 	; The variables used to save the commands to a file
-	Local $s_empty_command_list = "#include <Visa.au3>" & @CR & @CR & "Local $s_answer" & @CR & @CR
-	Local $s_new_command = ""
-	Local $s_command_list = $s_empty_command_list
+	Local $s_Empty_command_list = "#include <Visa.au3>" & @CR & @CR & "Local $s_Answer" & @CR & @CR
+	Local $s_New_command = ""
+	Local $s_Command_list = $s_Empty_command_list
 
 	;- Loop until the user Cancles the Instrument Device Descriptor request
 	While 1
 		;- Request the Instrument Descriptor (reuse the previous descriptor)
-		$s_vi_id = InputBox("Instrument Device Descriptor", _
+		$s_Vi_id = InputBox("Instrument Device Descriptor", _
 				"- Type the Instrument Device Descriptor (e.g. 'GPIB::1::0' or 'GPIB::1::INSTR')" & _
 				@CR & @CR & _
 				"- Type FIND to perform a GPIB search" & _
 				@CR & @CR & _
-				"- Click CANCEL to STOP the VISA interactive tool", $s_vi_id, "", 500, 250)
+				"- Click CANCEL to STOP the VISA interactive tool", $s_Vi_id, "", 500, 250)
 		If @error = 1 Then
 			; The Cancel button was pushed -> Exit the loop
 			ExitLoop
 		EndIf
-		If $s_vi_id = "FIND" Then
+		If $s_Vi_id = "FIND" Then
 			; Perform a GPIB search
-			$s_command_list = $s_command_list & _
-					"Local $a_descriptor_list[1], $a_idn_list[1]" & @CR & @CR & _
-					"_viFindGpib($a_descriptor_list, $a_idn_list, 1)" & @CR & @CR
-			_viFindGpib($a_descriptor_list, $a_idn_list, 1)
-			If UBound($a_descriptor_list) >= 1 Then
+			$s_Command_list = $s_Command_list & _
+					"Local $a_Descriptor_list[1], $a_Idn_list[1]" & @CR & @CR & _
+					"_viFindGpib($a_Descriptor_list, $a_Idn_list, 1)" & @CR & @CR
+			_viFindGpib($a_Descriptor_list, $a_Idn_list, 1)
+			If UBound($a_Descriptor_list) >= 1 Then
 				; If an instrument was found, use the 1st found instrument as the default
 				; for the next query
-				$s_vi_id = $a_descriptor_list[0]
+				$s_Vi_id = $a_Descriptor_list[0]
 			EndIf
 			ContinueLoop
 		EndIf
 
 		;- Request the command that must be executed (reuse the previous command)
-		$s_answer = InputBox("SCPI command", "Type the SCPI command", $s_command)
+		$s_Answer = InputBox("SCPI command", "Type the SCPI command", $s_Command)
 		If @error = 1 Then
 			; The Cancel button was pushed -> Restart the process
 			ContinueLoop
 		EndIf
-		$s_command = $s_answer ; We got a valid command
+		$s_Command = $s_Answer ; We got a valid command
 
 		;- Request the timeout (reuse the previous timout)
-		$s_answer = InputBox("Command Timeout (ms)", _
-				"Type the command timeout (in milliseconds)", $i_timeout_ms)
+		$s_Answer = InputBox("Command Timeout (ms)", _
+				"Type the command timeout (in milliseconds)", $i_Timeout_ms)
 		If @error = 1 Then
 			; The Cancel button was pushed -> Restart the process
 			ContinueLoop
 		EndIf
-		$i_timeout_ms = 0 + $s_answer ; We got a valid timeout
+		$i_Timeout_ms = 0 + $s_Answer ; We got a valid timeout
 
 		;- Add the command to the command list
-		$s_new_command = '$s_answer = _viExecCommand("' & $s_vi_id & '", "' & _
-				$s_command & '", ' & $i_timeout_ms & ')'
-		$s_command_list = $s_command_list & $s_new_command & @CR
+		$s_New_command = '$s_Answer = _viExecCommand("' & $s_Vi_id & '", "' & _
+				$s_Command & '", ' & $i_Timeout_ms & ')'
+		$s_Command_list = $s_Command_list & $s_New_command & @CR
 
 		;- Execute the requested command
-		$s_answer = _viExecCommand($s_vi_id, $s_command, $i_timeout_ms)
+		$s_Answer = _viExecCommand($s_Vi_id, $s_Command, $i_Timeout_ms)
 
-		If IsString($s_answer) Then
+		If IsString($s_Answer) Then
 			;- The command was a query and the instrument answered it
 			; Show the query results
-			MsgBox($MB_SYSTEMMODAL, "Query results", "[" & $s_vi_id & "] " & $s_command & " -> " & $s_answer)
-		ElseIf $s_answer = 0 Then
+			MsgBox($MB_SYSTEMMODAL, "Query results", "[" & $s_Vi_id & "] " & $s_Command & " -> " & $s_Answer)
+		ElseIf $s_Answer = 0 Then
 			;- The command was not a query but it was exuced successfully
 			MsgBox($MB_SYSTEMMODAL, "Command result", "The command:" & @CR & @CR & _
-					"         '" & $s_command & "'" & @CR & @CR & _
+					"         '" & $s_Command & "'" & @CR & @CR & _
 					"was SUCCESSFULLY executed on the device: " & @CR & @CR & _
-					"         '" & $s_vi_id & "'")
-		ElseIf $s_answer < 0 Then
+					"         '" & $s_Vi_id & "'")
+		ElseIf $s_Answer < 0 Then
 			;- There was an error -> Show an error message
-			$s_answer = MsgBox($MB_SYSTEMMODAL, "VISA Error", _
+			$s_Answer = MsgBox($MB_SYSTEMMODAL, "VISA Error", _
 					"There was a VISA error when executing the command:" & @CR & @CR & _
-					"'" & $s_command & "'" & @CR & @CR & "on the Device '" & $s_vi_id & "'" & _
+					"'" & $s_Command & "'" & @CR & @CR & "on the Device '" & $s_Vi_id & "'" & _
 					@CR & @CR & _
 					"Do you want to RESET the GPIB bus before continuing?")
-			If $s_answer = 6 Then ; Yes
+			If $s_Answer = 6 Then ; Yes
 				_viGpibBusReset()
 				MsgBox($MB_SYSTEMMODAL, "VISA", "The GPIB bus was RESET!")
 			EndIf
 		EndIf
 	WEnd
 
-	If $s_command_list <> $s_empty_command_list Then
+	If $s_Command_list <> $s_Empty_command_list Then
 		; If at least one command was issued we might want to save the file
 
-		If $s_command_save_filename = "" Then
+		If $s_Command_save_filename = "" Then
 			; The user did not pass an explicit file name in which to save the commands
 			; Ask him if he wants to save the m now
-			$s_answer = MsgBox(64 + 4, "Save commands to AutoIt3 script?", _
+			$s_Answer = MsgBox(64 + 4, "Save commands to AutoIt3 script?", _
 					"Do you want to save the commands that you issued into an AutoIt3 script?")
-			If $s_answer = 6 Then ; Yes
-				$s_command_save_filename = FileSaveDialog("Save as...", @ScriptDir, _
+			If $s_Answer = 6 Then ; Yes
+				$s_Command_save_filename = FileSaveDialog("Save as...", @ScriptDir, _
 						"AutoIt3 scripts (*.au3)", 16, "visa_log.au3")
 				If @error <> 0 Then
-					$s_command_save_filename = ""
+					$s_Command_save_filename = ""
 				EndIf
 			EndIf
 		EndIf
 
-		If $s_command_save_filename <> "" Then
+		If $s_Command_save_filename <> "" Then
 			;- Save the SCPI commands into a file
-			If FileExists($s_command_save_filename) Then
+			If FileExists($s_Command_save_filename) Then
 				; Delete the save file if it already exists
-				FileDelete($s_command_save_filename)
+				FileDelete($s_Command_save_filename)
 			EndIf
-			FileWrite($s_command_save_filename, $s_command_list)
+			FileWrite($s_Command_save_filename, $s_Command_list)
 		EndIf
 	EndIf
 
-	Return $s_command_list ; Return the list of executed commands
+	Return $s_Command_list ; Return the list of executed commands
 EndFunc   ;==>_viInteractiveControl

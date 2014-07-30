@@ -4,7 +4,7 @@
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: Pipes
-; AutoIt Version : 3.3.10.0
+; AutoIt Version : 3.3.13.12
 ; Language ......: English
 ; Description ...: Functions that assist with Named Pipes.
 ;                  A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe
@@ -18,7 +18,6 @@
 ;                  processes on the same computer or between processes on different computers across a  network.  If  the  server
 ;                  service is running, all named pipes are accessible remotely.
 ; Author(s) .....: Paul Campbell (PaulIA)
-; Dll(s) ........: kernel32.dll
 ; ===============================================================================================================================
 
 ; #CONSTANTS# ===================================================================================================================
